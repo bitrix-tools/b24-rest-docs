@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: На добавление новой единицы измерения
+    href: on-crm-measure-add.md
+  - name: На изменение единицы измерения
+    href: on-crm-measure-update.md
+  - name: На удаление единицы измерения
+    href: on-crm-measure-delete.md

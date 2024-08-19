@@ -1,0 +1,17 @@
+title: Контроль времени
+href: index.md
+items:
+  - name: Список методов 
+    href: index.md
+  - name: Отправка отчёта о выявленном отсутствии 
+    href: timeman-timecontrol-report-add.md
+  - name: Получение отчёта о выявленных отсутствиях 
+    href: timeman-timecontrol-reports-get.md
+  - name: Получение пользовательских настроек 
+    href: timeman-timecontrol-reports-settings-get.md
+  - name: Получение списка пользователей 
+    href: timeman-timecontrol-reports-users-get.md
+  - name: Получение настроек инструмента контроля времени
+    href: timeman-timecontrol-settings-get.md
+  - name: Установка настроек инструмента контроля времени
+    href: timeman-timecontrol-settings-set.md

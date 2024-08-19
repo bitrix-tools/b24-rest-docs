@@ -1,0 +1,21 @@
+title: Комментарии в таймлайне
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить комментарий
+    href: crm-timeline-comment-add.md
+  - name: Обновить комментарий
+    href: crm-timeline-comment-update.md
+  - name: Получить информацию о комментарии
+    href: crm-timeline-comment-get.md
+  - name: Получить список комментариев
+    href: crm-timeline-comment-list.md
+  - name: Удалить комментарий
+    href: crm-timeline-comment-delete.md
+  - name: Получить поля комментария
+    href: crm-timeline-comment-fields.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

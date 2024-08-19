@@ -1,0 +1,15 @@
+title: События групп/проектов
+href: index.md
+items:
+  - name: На создание группы/проекта
+    href: on-sonet-group-add.md
+  - name: На изменение группы/проекта
+    href: on-sonet-group-update.md
+  - name: На удаление группы/проекта
+    href: on-sonet-group-delete.md
+  - name: На создание темы группы/проекта 
+    href: on-sonet-group-subject-add.md
+  - name: На изменение темы группы/проекта
+    href: on-sonet-group-subject-update.md
+  - name: На удаление темы группы/проекта
+    href: on-sonet-group-subject-delete.md

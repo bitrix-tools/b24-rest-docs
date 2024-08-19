@@ -1,0 +1,17 @@
+title: Контакты у сделки
+href: index.md
+items:
+  - name: О контактах сделки 
+    href: index.md
+  - name: Добавление одного контакта 
+    href: crm-deal-contact-add.md
+  - name: Добавление нескольких контактов
+    href: crm-deal-contact-items-set.md
+  - name: Просмотр полей для связи сделка-контакт
+    href: crm-deal-contact-fields.md
+  - name: Возвращение контактов, связанных со сделкой
+    href: crm-deal-contact-items-get.md
+  - name: Удаление контакта из указанной сделки
+    href: crm-deal-contact-delete.md
+  - name: Удаление набора контактов, связанных с указанной сделкой
+    href: crm-deal-contact-items-delete.md

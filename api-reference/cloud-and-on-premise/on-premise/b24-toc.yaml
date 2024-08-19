@@ -1,0 +1,11 @@
+title: Особенности коробки
+href: index.md
+items: 
+  - name: Обзор 
+    href: index.md
+  - name: Версионность коробочной версии 
+    href: versions.md
+  - name: Особенности изолированной коробки
+    href: custom-auth-provider.md
+  - name: Добавление своих методов
+    href: custom-methods.md

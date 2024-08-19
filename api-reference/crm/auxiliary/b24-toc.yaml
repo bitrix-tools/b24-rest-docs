@@ -1,0 +1,18 @@
+title: Вспомогательные объекты
+href: index.md
+items:
+  - name: Вспомогательные объекты 
+    href: index.md
+  - name: Множественные поля
+    include:
+      path: multifield/b24-toc.yaml
+      mode: link
+  - name: Перечисления
+    include:
+      path: enum/b24-toc.yaml
+      mode: link
+  - name: Ставки НДС
+    include:
+      path: vat/b24-toc.yaml
+      mode: link
+

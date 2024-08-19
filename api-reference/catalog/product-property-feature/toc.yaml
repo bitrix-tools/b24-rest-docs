@@ -1,0 +1,15 @@
+title: Параметры свойств товаров и торговых предложений
+href: index.md
+items: 
+  - name: Методы параметров свойств
+    href: index.md
+  - name: Добавление параметров свойств
+    href: catalog-product-property-feature-add.md
+  - name: Получение значений параметров
+    href: catalog-product-property-feature-get.md
+  - name: Возвращение полей значений списочных свойств
+    href: catalog-product-property-feature-get-fields.md
+  - name: Получение доступных параметров
+    href: catalog-product-property-feature-get-available-features-by-property.md
+  - name: Обновление значений параметров
+    href: catalog-product-property-feature-update.md

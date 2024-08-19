@@ -1,0 +1,15 @@
+title: Роботы бизнес-процессов
+href: index.md
+items:
+  - name: Роботы бизнес-процессов
+    href: index.md
+  - name: Регистрация нового робота
+    href: bizproc-robot-add.md
+  - name: Список зарегистрированных роботов
+    href: bizproc-robot-list.md
+  - name: Обновление полей робота 
+    href: bizproc-robot-update.md
+  - name: Удаление зарегистрированного робота
+    href: bizproc-robot-delete.md
+  - name: Роботы с отложенным возвратом результата
+    href: bizproc-robot-with-subscription.md

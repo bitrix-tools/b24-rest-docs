@@ -1,0 +1,15 @@
+title: Пользовательские поля
+href: index.md
+items: 
+  - name: Пользовательские поля
+    href: index.md
+  - name: Создание пользовательского поля для контактов
+    href: crm-contact-userfield-add.md
+  - name: Изменение существующего пользовательского поля контактов
+    href: crm-contact-userfield-update.md
+  - name: Получение пользовательского поля контактов по Id
+    href: crm-contact-userfield-get.md
+  - name: Получение списка пользовательских полей контактов
+    href: crm-contact-userfield-list.md
+  - name: Удаление пользовательского поля контактов
+    href: crm-contact-userfield-delete.md

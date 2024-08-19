@@ -1,0 +1,21 @@
+title: Документы 
+href: index.md
+items:
+  - name: Документы
+    href: index.md
+  - name: Поля документа
+    href: crm-document-generator-document-get-fields.md
+  - name: Создание нового документа
+    href: crm-document-generator-document-add.md
+  - name: Изменение документа
+    href: crm-document-generator-document-update.md
+  - name: Получение информации о документе по Id
+    href: crm-document-generator-document-get.md
+  - name: Получение списка документов
+    href: crm-document-generator-document-list.md
+  - name: Включение и выключение публичной ссылки на документ
+    href: crm-document-generator-document-enable-public-url.md
+  - name: Загрузка сформированного документа и прикрепление его к указанной сущности
+    href: crm-document-generator-document-upload.md
+  - name: Удаление документа
+    href: crm-document-generator-document-delete.md

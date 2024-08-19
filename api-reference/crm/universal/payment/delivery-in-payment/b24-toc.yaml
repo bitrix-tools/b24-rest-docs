@@ -1,0 +1,13 @@
+title: Доставки в оплатах
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить позицию доставки в оплату
+    href: crm-item-payment-delivery-add.md
+  - name: Получить список позиций доставки по конкретной оплате
+    href: crm-item-payment-delivery-list.md
+  - name: Удалить позицию доставки из оплаты
+    href: crm-item-payment-delivery-delete.md
+  - name: Перепривязать позицию доставки к другому документу
+    href: crm-item-payment-delivery-set-delivery.md

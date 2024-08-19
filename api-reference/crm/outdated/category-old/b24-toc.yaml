@@ -1,0 +1,25 @@
+title: Направления сделок (устаревшее)
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать направление сделок
+    href: crm-deal-category-add.md
+  - name: Удалить направление сделок
+    href: crm-deal-category-delete.md
+  - name: Получить направление сделок 
+    href: crm-deal-category-get.md
+  - name: Получить все поля направления сделок
+    href: crm-deal-category-fields.md
+  - name: Получить список направлений сделок по фильтру
+    href: crm-deal-category-list.md
+  - name: Обновить направление сделок
+    href: crm-deal-category-update.md
+  - name: Получить настройки общего направления
+    href: crm-deal-category-default-get.md
+  - name: Записать настройки общего направления
+    href: crm-deal-category-default-set.md
+  - name: Получить идентификатор справочника со стадиями сделок
+    href: crm-deal-category-status.md
+  - name: Получить список стадий
+    href: crm-deal-category-stage-list.md

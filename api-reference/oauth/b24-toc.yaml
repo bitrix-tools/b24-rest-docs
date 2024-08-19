@@ -1,0 +1,9 @@
+title: Oauth в Битрикс24
+href: index.md
+items: 
+  - name: Полный протокол
+    href: index.md
+  - name: Упрощенный вариант
+    href: simple-way.md
+  - name: Автоматическое продление токенов
+    href: auto-renewal.md

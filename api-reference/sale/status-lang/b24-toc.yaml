@@ -1,0 +1,15 @@
+title: Локализация статусов
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список языков для локализации
+    href: sale-status-lang-get-list-langs.md
+  - name: Добавить локализацию
+    href: sale-status-lang-add.md
+  - name: Получить список локализаций статусов
+    href: sale-status-lang-list.md
+  - name: Удалить локализацию
+    href: sale-status-lang-delete-by-filter.md
+  - name: Получить поля локализации статусов
+    href: sale-status-lang-get-fields.md

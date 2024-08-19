@@ -1,0 +1,15 @@
+title: CoPilot
+href: index.md
+items:
+  - name: AI в Битрикс24
+    href: index.md
+  - name: Регистрация сервиса
+    href: ai-engine-register.md
+  - name: Получение списка сервисов
+    href: ai-engine-list.md
+  - name: Удаление сервиса
+    href: ai-engine-unregister.md
+  - name: Промпты
+    include:
+      path: prompts/b24-toc.yaml
+      mode: link

@@ -1,0 +1,53 @@
+title: Задачи (item)
+href: index.md
+items:
+  - name: Список методов
+    href: index.md
+  - name: Просмотреть историю изменения задачи
+    href: task-log-item-list.md
+  - name: Добавить задачу
+    href: task-item-add.md
+  - name: Удалить задачу
+    href: task-item-delete.md
+  - name: Получить данные о задаче по id
+    href: task-item-get-data.md
+  - name: Получить перечень методов task.item.* с их описанием
+    href: task-item-get-manifest.md
+  - name: Получить список задач
+    href: task-item-list.md
+  - name: Изменить задачу
+    href: task-item-update.md
+  - name: Получить описание задачи
+    href: task-item-get-description.md
+  - name: Получить ссылки на прикрепленные к задаче файлы
+    href: task-item-get-files.md
+  - name: Получить список предыдущих задач
+    href: task-item-get-dependson.md
+  - name: Получение списка допустимых действий над задачей
+    href: task-item-get-allowed-actions.md
+  - name: Получить список названий действий и их допустимость
+    href: task-item-get-allowed-task-actions-as-strings.md
+  - name: Проверить, разрешено ли действие
+    href: task-item-is-action-allowed.md
+  - name: Делегировать задачу
+    href: task-item-delegate.md
+  - name: Перевести задачу в статус «выполняется»
+    href: task-item-start-execution.md
+  - name: Перевести задачу в статус «отложена»
+    href: task-item-defer.md
+  - name: Перевести задачу в статус «завершена»
+    href: task-item-complete.md
+  - name: Перевести задачу в статус «не выполняется»
+    href: task-item-renew.md
+  - name: Перевести ожидающую контроля задачу в статус «завершена»
+    href: task-item-approve.md
+  - name: Перевести ожидающую контроля задачу в статус «не выполняется»
+    href: task-item-disapprove.md
+  - name: Добавить задачу в Избранное
+    href: task-item-add-to-favourite.md
+  - name: Удалить задачу из Избранного
+    href: task-item-delete-from-favorite.md
+  - name: Загрузить файл к задаче
+    href: task-item-add-file.md
+  - name: Удалить привязку файла к задаче
+    href: task-item-delete-file.md

@@ -1,0 +1,13 @@
+title: Логотипы лог-записей журнала таймлайна
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить логотип
+    href: crm-timeline-logo-add.md
+  - name: Получить информацию о логотипе
+    href: crm-timeline-logo-get.md
+  - name: Получить список доступных логотипов
+    href: crm-timeline-logo-list.md
+  - name: Удалить логотип
+    href: crm-timeline-logo-delete.md

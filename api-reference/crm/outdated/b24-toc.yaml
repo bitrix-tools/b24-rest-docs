@@ -1,0 +1,41 @@
+title: Устаревшие REST-методы CRM
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Каталог
+    include:
+      path: catalog/b24-toc.yaml
+      mode: link
+  - name: Товарные позиции
+    include:
+      path: productrow-old/b24-toc.yaml
+      mode: link
+  - name: Единицы измерения
+    include:
+      path: measure/b24-toc.yaml
+      mode: link
+  - name: Статусы счетов
+    include:
+      path: invoice-status-old/b24-toc.yaml
+      mode: link
+  - name: Направление сделок
+    include:
+      path: category-old/b24-toc.yaml
+      mode: link
+  - name: Товары
+    include:
+      path: products/toc.yaml
+      mode: link
+  - name: Разделы товаров
+    include:
+      path: product-section/b24-toc.yaml
+      mode: link
+  - name: Лента CRM
+    include:
+      path: stream-old/b24-toc.yaml
+      mode: link
+  - name: Счета
+    include:
+      path: invoice/b24-toc.yaml
+      mode: link

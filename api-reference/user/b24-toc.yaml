@@ -1,0 +1,21 @@
+title: Методы работы с пользователями Битрикс24
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Пригласить пользователя
+    href: user-add.md
+  - name: Обновить данные пользователя
+    href: user-update.md
+  - name: Получить информацию о текущем пользователе
+    href: user-current.md
+  - name: Получить список пользователей по фильтру
+    href: user-get.md
+  - name: Поиск по персональным данным
+    href: user-search.md
+  - name: Получить поля пользователя
+    href: user-fields.md
+  - name: Пользовательские поля
+    include:
+      path: userfields/toc.yaml
+      mode: link

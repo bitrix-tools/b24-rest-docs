@@ -1,0 +1,17 @@
+title: Элементы хранилища
+href: index.md
+items:
+  - name: Список методов 
+    href: index.md
+  - name: Получение списка элементов хранилища 
+    href: entity-item-get.md
+  - name: Добавление элемента хранилища 
+    href: entity-item-add.md
+  - name: Обновление элемента хранилища 
+    href: entity-item-update.md
+  - name: Удаление элемента хранилища
+    href: entity-item-delete.md
+  - name: Свойства элементов
+    include:
+      path: properties/toc.yaml
+      mode: link

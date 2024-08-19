@@ -1,0 +1,17 @@
+title: Генератор документов 
+href: index.md
+items:
+  - name: Генератор документов
+    href: index.md
+  - name: Документы
+    include:
+      path: documents/b24-toc.yaml
+      mode: link
+  - name: Шаблоны документов
+    include:
+      path: templates/b24-toc.yaml
+      mode: link
+  - name: Нумераторы
+    include:
+      path: numerator/b24-toc.yaml
+      mode: link

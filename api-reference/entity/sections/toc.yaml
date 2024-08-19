@@ -1,0 +1,13 @@
+title: Разделы хранилища
+href: index.md
+items:
+  - name: Список методов 
+    href: index.md
+  - name: Получение списка разделов хранилища 
+    href: entity-section-get.md
+  - name: Добавление раздела хранилища 
+    href: entity-section-add.md
+  - name: Обновление раздела хранилища 
+    href: entity-section-update.md
+  - name: Удаление раздела хранилища
+    href: entity-section-delete.md

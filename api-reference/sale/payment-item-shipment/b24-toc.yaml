@@ -1,0 +1,18 @@
+title: Привязка оплат к отгрузкам
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить привязку оплаты к отгрузке
+    href: sale-payment-item-shipment-add.md
+  - name: Изменить привязку оплаты к отгрузке
+    href: sale-payment-item-shipment-update.md
+  - name: Получить привязку по Id
+    href: sale-payment-item-shipment-get.md
+  - name: Получить список привязок
+    href: sale-payment-item-shipment-list.md
+  - name: Удалить привязку
+    href: sale-payment-item-shipment-delete.md
+  - name: Получить поля привязки
+    href: sale-payment-item-shipment-get-fields.md
+

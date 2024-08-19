@@ -1,0 +1,13 @@
+title: Устаревшее
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Задачи (item)
+    include:
+      path: task-item/b24-toc.yaml
+      mode: link
+  - name: Получить список задач
+    href: task-items-get-list.md
+  - name: Добавить комментарий к задаче 
+    href: task-comment-add.md

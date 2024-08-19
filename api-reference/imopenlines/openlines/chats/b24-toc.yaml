@@ -1,0 +1,11 @@
+title: Чаты
+href: imopenlines-crm-chat-get.md
+items: 
+  - name: Получить чат для объекта CRM
+    href: imopenlines-crm-chat-get.md
+  - name: Получить Id последнего чата
+    href: imopenlines-crm-chat-get-last-id.md
+  - name: Добавить пользователя к существующему чату
+    href: imopenlines-crm-chat-user-add.md
+  - name: Удалить пользователя из чата
+    href: imopenlines-crm-chat-user-delete.md

@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: На добавление валюты
+    href: on-crm-currency-add.md
+  - name: На изменение валюты
+    href: on-crm-currency-update.md
+  - name: На удаление валюты
+    href: on-crm-currency-delete.md

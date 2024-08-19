@@ -1,0 +1,17 @@
+title: Привязка оплат к корзине
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить привязку элемента корзины к оплате
+    href: sale-payment-item-basket-add.md
+  - name: Обновить привязку элемента корзины к оплате
+    href: sale-payment-item-basket-update.md
+  - name: Получить значения всех полей  привязки элемента корзины к оплате
+    href: sale-payment-item-basket-get.md
+  - name: Получить список привязок элементов корзины к оплатам
+    href: sale-payment-item-basket-list.md
+  - name: Удалить привязку элемента корзины к оплате
+    href: sale-payment-item-basket-delete.md
+  - name: Получить доступные поля привязок элементов корзины к оплатам
+    href: sale-payment-item-basket-get-fields.md

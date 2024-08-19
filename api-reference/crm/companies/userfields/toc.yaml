@@ -1,0 +1,19 @@
+title: Список методов работы с контактами компаний
+href: index.md
+items:
+  - name: Список методов 
+    href: index.md
+  - name: Создание нового поля 
+    href: crm-company-userfield-add.md
+  - name: Удаление поля 
+    href: crm-company-userfield-delete.md
+  - name: Получение поля по идентификатору
+    href: crm-company-userfield-get.md
+  - name: Получение списка полей по фильтру
+    href: crm-company-userfield-list.md
+  - name: Обновление существующего поля
+    href: crm-company-userfield-update.md
+  - name: События
+    include:
+      path: events/toc.yaml
+      mode: link

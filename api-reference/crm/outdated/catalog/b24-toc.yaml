@@ -1,0 +1,12 @@
+title: Каталог
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить товарный каталог по идентификатору
+    href: crm-catalog-get.md
+  - name: Получить список товарных каталогов
+    href: crm-catalog-list.md
+  - name: Получить поля каталога товаров 
+    href: crm-catalog-fields.md
+

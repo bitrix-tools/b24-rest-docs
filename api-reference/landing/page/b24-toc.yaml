@@ -1,0 +1,22 @@
+title: Сущность Страница
+href: index.md
+items:
+  - name: Поля
+    href: index.md
+  - name: Дополнительные поля
+    href: additional-fields.md
+  - name: Цветовые темы
+    href: color-themes.md
+  - name: Методы
+    include:
+      path: methods/toc.yaml
+      mode: link
+  - name: Блоки
+    include:
+      path: block-methods/toc.yaml
+      mode: link
+  - name: Специальные страницы
+    include:
+      path: special-pages/toc.yaml
+      mode: link
+

@@ -1,0 +1,17 @@
+title: Воронки CRM
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить новую воронку
+    href: crm-category-add.md
+  - name: Обновить воронку
+    href: crm-category-update.md
+  - name: Получить воронку по Id
+    href: crm-category-get.md
+  - name: Получить список воронок
+    href: crm-category-list.md
+  - name: Удалить воронку
+    href: crm-category-delete.md
+  - name: Получить поля воронки
+    href: crm-category-fields.md

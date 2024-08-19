@@ -1,0 +1,15 @@
+title: Системные функции
+href: index.md
+items: 
+  - name: Обзор системных функций
+    href: index.md
+  - name: Инициализация библиотеки
+    href: bx24-init.md
+  - name: Первый запуск приложения пользователем
+    href: bx24-install.md
+  - name: Окончание работы инсталлятора
+    href: bx24-install-finish.md
+  - name: Получение данных для OAuth 2.0
+    href: bx24-get-auth.md
+  - name: Принудительное обновление ключа авторизации
+    href: bx24-refresh-auth.md

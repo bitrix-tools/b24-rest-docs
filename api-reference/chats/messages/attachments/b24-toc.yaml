@@ -1,0 +1,11 @@
+title: Вложения
+href: index.md
+items:
+  - name: Как использовать вложения
+    href: index.md
+  - name: Коллекции блоков
+    include:
+      path: block-collections/b24-toc.yaml
+      mode: link
+  - name: Конструктор, примеры
+    href: constructor.md

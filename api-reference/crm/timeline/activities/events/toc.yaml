@@ -1,0 +1,12 @@
+title: События
+href: index.md
+items:
+  - name: Список событий
+    href: index.md
+  - name: Создание дела
+    href: on-crm-activity-add.md
+  - name: Обновление дела
+    href: on-crm-activity-update.md
+  - name: Удаление дела
+    href: on-crm-activity-delete.md
+

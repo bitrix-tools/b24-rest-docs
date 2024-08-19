@@ -1,0 +1,13 @@
+title: Привязка свойства
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить привязку свойства
+    href: sale-property-relation-add.md
+  - name: Получить список привязок свойства
+    href: sale-property-relation-list.md
+  - name: Удалить привязку свойства
+    href: sale-property-relation-delete-by-filter.md
+  - name: Получить поля привязки свойства
+    href: sale-property-relation-get-fields.md

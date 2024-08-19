@@ -1,0 +1,17 @@
+title: Оплаты
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить оплату
+    href: sale-payment-add.md
+  - name: Изменить оплату
+    href: sale-payment-update.md
+  - name: Получить оплату по Id
+    href: sale-payment-get.md
+  - name: Получить список оплат
+    href: sale-payment-list.md
+  - name: Удалить оплату
+    href: sale-payment-delete.md
+  - name: Получить поля оплаты
+    href: sale-payment-get-fields.md

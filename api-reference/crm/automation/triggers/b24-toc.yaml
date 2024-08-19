@@ -1,0 +1,13 @@
+title: Триггеры приложений
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить триггер
+    href: crm-automation-trigger-add.md
+  - name: Запустить выполнение триггера
+    href: crm-automation-trigger-execute.md
+  - name: Получить список триггеров
+    href: crm-automation-trigger-list.md
+  - name: Удалить триггер
+    href: crm-automation-trigger-delete.md

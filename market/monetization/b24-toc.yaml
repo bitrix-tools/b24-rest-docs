@@ -1,0 +1,11 @@
+title: Монетизация
+href: index.md
+items: 
+  - name: Подписка Маркет Плюс
+    href: index.md
+  - name: Примеры расчетов начислений по подписке
+    href: subscription-details.md
+  - name: Встроенные покупки
+    href: in-app-purchases.md
+  - name: Бесплатные
+    href: free.md

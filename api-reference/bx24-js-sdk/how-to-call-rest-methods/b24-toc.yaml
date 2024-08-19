@@ -1,0 +1,15 @@
+title: Вызов методов REST
+href: index.md
+items: 
+  - name: Вызов методов REST
+    href: index.md
+  - name: Вызов метода
+    href: bx24-call-method.md
+  - name: Отправка пакета запросов
+    href: bx24-call-batch.md
+  - name: Интерфейс регистрации обработчика события
+    href: bx24-call-bind.md
+  - name: Интерфейс удаления обработчика события
+    href: bx24-call-unbind.md
+  - name: Обработка файлов
+    href: files.md

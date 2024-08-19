@@ -1,0 +1,29 @@
+title: Валюты
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить валюту
+    href: crm-currency-add.md
+  - name: Обновить валюту
+    href: crm-currency-update.md
+  - name: Получить валюту по id
+    href: crm-currency-get.md
+  - name: Получить список валют
+    href: crm-currency-list.md
+  - name: Удалить валюту
+    href: crm-currency-delete.md
+  - name: Получить поля валюты 
+    href: crm-currency-fields.md
+  - name: Получить символьный идентификатор базовой валюты
+    href: crm-currency-base-get.md
+  - name: Установить валюту в качестве базовой
+    href: crm-currency-base-set.md
+  - name: Локализации валюты 
+    include:
+      path: localizations/b24-toc.yaml
+      mode: link
+  - name: События 
+    include:
+      path: events/b24-toc.yaml
+      mode: link

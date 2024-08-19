@@ -1,0 +1,21 @@
+title: Товарные позиции 
+href: index.md
+items: 
+  - name: Товарные позиции
+    href: index.md
+  - name: Добавить товарную позицию
+    href: crm-item-productrow-add.md
+  - name: Обновить товарную позицию
+    href: crm-item-productrow-update.md
+  - name: Получить информацию о товарной позиции по id
+    href: crm-item-productrow-get.md
+  - name: Привязать товарную позицию к объекту CRM
+    href: crm-item-productrow-set.md
+  - name: Получить список товарных позиций
+    href: crm-item-productrow-list.md
+  - name: Получить список неоплаченных товаров
+    href: crm-item-productrow-get-available-for-payment.md
+  - name: Удалить товарную позицию
+    href: crm-item-productrow-delete.md
+  - name: Получить список полей товарных позиций
+    href: crm-item-productrow-fields.md

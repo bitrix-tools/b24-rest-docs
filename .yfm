@@ -1,0 +1,7 @@
+allowHTML: true
+
+resources:
+  style:
+    - _assets/style/b24_custom.css
+  script:
+    - _assets/b24addons.js

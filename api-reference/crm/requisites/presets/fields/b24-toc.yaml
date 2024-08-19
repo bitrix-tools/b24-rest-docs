@@ -1,0 +1,19 @@
+title: Поля шаблона реквизита
+href: index.md
+items:
+  - name: Работа с полями шаблона реквизитов
+    href: index.md
+  - name: Добавить настраиваемое поле в шаблон реквизитов 
+    href: crm-requisite-preset-field-add.md
+  - name: Изменить настраиваемое поле заданного шаблона реквизитов
+    href: crm-requisite-preset-field-update.md
+  - name: Получить поля, доступные для добавления в шаблон реквизитов
+    href: crm-requisite-preset-field-available-to-add.md
+  - name: Получить настраиваемое поле шаблона реквизитов по id
+    href: crm-requisite-preset-field-get.md
+  - name: Получить список всех настраиваемых полей заданного шаблона реквизитов
+    href: crm-requisite-preset-field-list.md
+  - name: Удалить настраиваемое поле из шаблона реквизитов
+    href: crm-requisite-preset-field-delete.md
+  - name: Получить описание настраиваемых полей шаблона реквизитов
+    href: crm-requisite-preset-field-fields.md

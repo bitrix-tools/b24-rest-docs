@@ -1,0 +1,11 @@
+title: Дубликаты
+href: crm-duplicate-find-by-comm.md
+items:
+  - name: Возвращение сущностей с совпадающими данными
+    href: crm-duplicate-find-by-comm.md
+  - name: Объединение дубликатов
+    href: crm-entity-merge-batch.md
+  - name: Настройки поиска дубликатов по любым полям 
+    include:
+      path: volatile-type/b24-toc.yaml
+      mode: link

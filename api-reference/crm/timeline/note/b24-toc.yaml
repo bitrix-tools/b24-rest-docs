@@ -1,0 +1,11 @@
+title: Заметка к записи таймлайна
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить информацию о заметке
+    href: crm-timeline-note-get.md
+  - name: Сохранить заметку
+    href: crm-timeline-note-save.md    
+  - name: Удалить заметку
+    href: crm-timeline-note-delete.md

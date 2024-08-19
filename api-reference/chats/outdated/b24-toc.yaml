@@ -1,0 +1,17 @@
+title: Устаревшее
+href: index.md
+items:
+  - name: Виджеты для старого мессенджера и открытых линий
+    href: index.md
+  - name: О приложениях для чата
+    href: chat-apps.md
+  - name: Создание приложения
+    include:
+      path: create-app/b24-toc.yaml
+      mode: link
+  - name: Контекстные приложения
+    href: context.md
+  - name: Создание иконки Приложения для чата
+    href: icon.md
+  - name: Создание IFRAME-обработчика
+    href: iframe.md

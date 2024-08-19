@@ -1,0 +1,25 @@
+title: Скрам
+href: index.md
+items:
+  - name: Список методов
+    href: index.md
+  - name: Бэклог
+    include:
+      path: backlog/b24-toc.yaml
+      mode: link
+  - name: Канбан
+    include:
+      path: kanban/b24-toc.yaml
+      mode: link
+  - name: Эпики
+    include:
+      path: epic/b24-toc.yaml
+      mode: link
+  - name: Спринты
+    include:
+      path: sprint/b24-toc.yaml
+      mode: link
+  - name: Задачи Скрама
+    include:
+      path: task/b24-toc.yaml
+      mode: link

@@ -1,0 +1,29 @@
+title: Частые кейсы и сценарии
+href: index.md
+items:
+  - name: Готовые сценарии использования REST API
+    href: index.md
+  - name: CRM
+    include:
+      path: crm/b24-toc.yaml
+      mode: link
+  - name: Онлайн-продажи
+    include:
+      path: sale/b24-toc.yaml
+      mode: link
+  - name: Бизнес-процессы
+    include:
+      path: bizproc/b24-toc.yaml
+      mode: link
+  - name: CoPilot Битрикс24
+    include:
+      path: ai/b24-toc.yaml
+      mode: link
+  - name: Чат-боты
+    include:
+      path: chat-bots/b24-toc.yaml
+      mode: link
+  - name: Телефония
+    include:
+      path: telephony/b24-toc.yaml
+      mode: link

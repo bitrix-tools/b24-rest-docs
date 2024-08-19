@@ -1,0 +1,17 @@
+title: Разделы каталога
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить секцию в торговый каталог
+    href: catalog-section-add.md
+  - name: Изменить секцию торгового каталога
+    href: catalog-section-update.md
+  - name: Получить доступ к полям секции каталога
+    href: catalog-section-get.md
+  - name: Получить список секций торгового каталога
+    href: catalog-section-list.md
+  - name: Удалить секцию торгового каталога
+    href: catalog-section-delete.md
+  - name: Получить поля секции каталога
+    href: catalog-section-get-fields.md

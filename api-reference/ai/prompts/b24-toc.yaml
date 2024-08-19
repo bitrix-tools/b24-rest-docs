@@ -1,0 +1,13 @@
+title: Промпты
+href: index.md
+items:
+  - name: О промптах для CoPilot
+    href: index.md 
+  - name: Добавление промпта
+    href: ai-prompt-register.md
+  - name: Удаление промпта
+    href: ai-prompt-unregister.md
+  - name: Маркеры в промптах
+    href: markers.md
+  - name: Условия в промптах
+    href: conditions.md

@@ -1,0 +1,9 @@
+title: Туториалы и кейсы использования REST в модуле AI
+href: index.md
+items: 
+  - name: Пример создания чат-бота
+    href: index.md
+  - name: Пример создания чат-бота для Открытых линий
+    href: open-lines-bot.md
+  - name: Пример создания канала поддержки
+    href: support-bot.md

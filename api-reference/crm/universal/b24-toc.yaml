@@ -1,0 +1,69 @@
+title: Универсальные методы CRM
+href: index.md
+items:
+  - name: Универсальные методы для основных элементов
+    href: index.md
+  - name: Универсальные методы для счетов
+    href: invoice.md
+  - name: Создать новый элемент CRM
+    href: crm-item-add.md
+  - name: Обновить элемент
+    href: crm-item-update.md
+  - name: Получить элемент по Id
+    href: crm-item-get.md
+  - name: Получить список элементов
+    href: crm-item-list.md
+  - name: Удалить элемент
+    href: crm-item-delete.md
+  - name: Получить поля элемента
+    href: crm-item-fields.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: Виджеты
+    href: widgets.md
+  - name: Товарные позиции
+    include:
+      path: product-rows/b24-toc.yaml
+      mode: link
+  - name: Свои типы объектов
+    include:
+      path: user-defined-object-types/b24-toc.yaml
+      mode: link
+  - name: Пользовательские поля
+    include:
+      path: user-defined-fields/b24-toc.yaml
+      mode: link
+  - name: Настройки пользовательских полей
+    include:
+      path: userfieldconfig/toc.yaml
+      mode: link
+  - name: Пользовательские типы полей
+    include:
+      path: user-defined-field-types/toc.yaml
+      mode: link
+  - name: Воронки CRM
+    include:
+      path: category/b24-toc.yaml
+      mode: link
+  - name: Импорт
+    include:
+      path: import/b24-toc.yaml
+      mode: link
+  - name: Связь CRM с заказами интернет-магазина
+    include:
+      path: order-entity/b24-toc.yaml
+      mode: link
+  - name: Оплаты и доставки
+    include:
+      path: payment/b24-toc.yaml
+      mode: link
+  - name:  Доставки
+    include:
+      path: delivery/b24-toc.yaml
+      mode: link
+  - name: Управление карточками элементов
+    include:
+      path: item-details-configuration/b24-toc.yaml
+      mode: link

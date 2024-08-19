@@ -1,0 +1,15 @@
+title: Методы работы с пользовательскими полями
+href: index.md
+items:
+  - name: Методы
+    href: index.md
+  - name: Добавление пользовательского поля
+    href: user-userfield-add.md
+  - name: Удаление пользовательского поля
+    href: user-userfield-delete.md
+  - name: Получение файла из пользовательского поля
+    href: user-userfield-file-get.md
+  - name: Получение списка пользовательских полей
+    href: user-userfield-list.md
+  - name: Обновление пользовательского поля
+    href: user-userfield-update.md

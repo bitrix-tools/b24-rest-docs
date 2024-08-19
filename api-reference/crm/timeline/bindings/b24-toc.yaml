@@ -1,0 +1,13 @@
+title: Управление связями записи таймлайна
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить связь записи таймлайна с элементом CRM
+    href: crm-timeline-bindings-bind.md
+  - name: Получить список связей записи в таймлайне
+    href: crm-timeline-bindings-list.md
+  - name: Удалить связь записи таймлайна с элементом CRM 
+    href: crm-timeline-bindings-unbind.md
+  - name: Получить поля связи записи в таймлайне и элементов CRM
+    href: crm-timeline-bindings-fields.md    

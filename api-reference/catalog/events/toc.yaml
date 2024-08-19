@@ -1,0 +1,43 @@
+title: События
+href: index.md
+items: 
+  - name: События
+    href: index.md
+  - name: При добавлении единицы измерения
+    href: catalog-measure-on-add.md
+  - name: При изменении единицы измерения
+    href: catalog-measure-on-update.md
+  - name: При удалении единицы измерения
+    href: catalog-measure-on-delete.md
+  - name: При добавлении цены
+    href: catalog-price-on-add.md
+  - name: При изменении цены
+    href: catalog-price-on-update.md
+  - name: При удалении цены
+    href: catalog-price-on-delete.md
+  - name: При добавлении типа цен
+    href: catalog-price-type-on-add.md
+  - name: При изменении типа цен
+    href: catalog-price-type-on-update.md
+  - name: При удалении типа цен
+    href: catalog-price-type-on-delete.md
+  - name: При добавлении товара
+    href: catalog-product-on-add.md
+  - name: При изменении товара
+    href: catalog-product-on-update.md
+  - name: При удалении товара
+    href: catalog-product-on-delete.md
+  - name: При добавлении правила округления цен
+    href: catalog-rounding-on-add.md
+  - name: При изменении правила округления цен
+    href: catalog-rounding-on-update.md
+  - name: При удалении правила округления цен
+    href: catalog-rounding-on-delete.md
+  - name: При добавлении склада
+    href: catalog-store-on-add.md
+  - name: При изменении склада
+    href: catalog-store-on-update.md
+  - name: При удалении склада
+    href: catalog-store-on-delete.md
+
+

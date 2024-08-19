@@ -1,0 +1,13 @@
+title: Дополнительные услуги
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить услугу службы доставки
+    href: sale-delivery-extra-service-add.md
+  - name: Обновить услугу службы доставки
+    href: sale-delivery-extra-service-update.md
+  - name: Получить информацию обо всех услугах конкретной службы доставки
+    href: sale-delivery-extra-service-get.md
+  - name: Удалить услугу службы доставки
+    href: sale-delivery-extra-service-delete.md

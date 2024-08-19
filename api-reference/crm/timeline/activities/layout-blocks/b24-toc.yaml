@@ -1,0 +1,11 @@
+title: Дополнительные контентные блоки
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Установить набор дополнительных контентных блоков
+    href: crm-activity-layout-blocks-set.md
+  - name: Получить набор дополнительных контентных блоков
+    href: crm-activity-layout-blocks-get.md
+  - name: Удалить набор дополнительных контентных блоков
+    href: crm-activity-layout-blocks-delete.md

@@ -1,0 +1,31 @@
+title: Диалоги
+href: imopenlines-session-open.md
+items: 
+  - name: Получить чат по символьному коду
+    href: imopenlines-session-open.md
+  - name: Начать новый диалог
+    href: imopenlines-session-start.md
+  - name: Присоединиться к диалогу
+    href: imopenlines-session-join.md
+  - name: Получить сообщения чата и диалога
+    href: imopenlines-session-history-get.md
+  - name: Забрать диалог у текущего оператора
+    href: imopenlines-session-intercept.md
+  - name: Забрать или отдать диалог по Id
+    href: imopenlines-session-mode-pin.md
+  - name: Забрать все доступные диалоги
+    href: imopenlines-session-mode-pin-all.md
+  - name: Отдать все свои диалоги
+    href: imopenlines-session-mode-unpin-all.md
+  - name: Переключить диалог в «скрытый» режим
+    href: imopenlines-session-mode-silent.md
+  - name: Поставить оценку работе сотрудника в диалоге
+    href: imopenlines-session-head-vote.md
+  - name: Начать новый диалог на основании сообщения
+    href: imopenlines-message-session-start.md
+  - name: Поставить оценку работе сотрудника в диалоге
+    href: imopenlines-crm-lead-create.md
+  - name: Получить информацию о диалоге
+    href: imopenlines-dialog-get.md
+
+    

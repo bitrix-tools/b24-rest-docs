@@ -1,0 +1,15 @@
+title: Поиск
+href: index.md
+items:
+  - name: Найти чаты по названиям
+    href: index.md
+  - name: Найти пользователей
+    href: im-search-user-list.md
+  - name: Найти подразделения
+    href: im-search-department-list.md
+  - name: Добавить поиск в историю
+    href: im-search-last-add.md
+  - name: Получить историю поиска
+    href: im-search-last-get.md
+  - name: Удалить поиск из истории
+    href: im-search-last-delete.md

@@ -1,0 +1,15 @@
+title: Пользовательские поля
+href: index.md
+items: 
+  - name: Пользовательские поля
+    href: index.md
+  - name: Добавление поля
+    href: crm-lead-userfield-add.md
+  - name: Изменение поля
+    href: crm-lead-userfield-update.md
+  - name: Получение поля по коду
+    href: crm-lead-userfield-get.md
+  - name: Получение списка полей
+    href: crm-lead-userfield-list.md
+  - name: Удаление поля
+    href: crm-lead-userfield-delete.md

@@ -1,0 +1,15 @@
+title: Нумераторы 
+href: index.md
+items:
+  - name: Нумераторы
+    href: index.md
+  - name: Добавление нового нумератора
+    href: crm-document-generator-numerator-add.md
+  - name: Изменение существующего нумератора
+    href: crm-document-generator-numerator-update.md
+  - name: Получение информацию о нумераторе по Id
+    href: crm-document-generator-numerator-get.md
+  - name: Получение списка нумераторов
+    href: crm-document-generator-numerator-list.md
+  - name: Удаление нумератора
+    href: crm-document-generator-numerator-delete.md

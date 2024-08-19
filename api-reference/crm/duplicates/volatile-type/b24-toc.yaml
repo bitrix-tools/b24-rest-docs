@@ -1,0 +1,13 @@
+title: Настройки поиска дубликатов по любым полям
+href: index.md
+items:
+  - name: Настройки поиска дубликатов по любым полям
+    href: index.md
+  - name: Список полей, доступных для использования
+    href: crm-duplicate-volatile-type-fields.md
+  - name: Список нестандартных полей, участвующих в поиске дубликатов
+    href: crm-duplicate-volatile-type-list.md
+  - name: Добавить поле в поиск дубликатов
+    href: crm-duplicate-volatile-type-register.md
+  - name: Удалить поле из поиска дубликатов
+    href: crm-duplicate-volatile-type-unregister.md

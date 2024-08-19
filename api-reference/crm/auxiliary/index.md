@@ -1,0 +1,21 @@
+# Вспомогательные объекты
+
+- [{#T}](./multifield/crm-multifield-fields.md)
+- [{#T}](./enum/crm-enum-fields.md)
+- [{#T}](./enum/crm-enum-owner-type.md)
+- [{#T}](./enum/crm-enum-get-order-owner-types.md)
+- [{#T}](./enum/crm-enum-content-type.md)
+- [{#T}](./enum/crm-enum-activity-type.md)
+- [{#T}](./enum/crm-enum-activity-direction.md)
+- [{#T}](./enum/crm-enum-activity-priority.md)
+- [{#T}](./enum/crm-enum-activity-notify-type.md)
+- [{#T}](./enum/crm-enum-address-type.md)
+- [{#T}](./enum/crm-enum-activity-status.md)
+- [{#T}](./enum/crm-enum-settings-mode.md)
+- [{#T}](./vat/crm-vat-add.md)
+- [{#T}](./vat/crm-vat-delete.md)
+- [{#T}](./vat/crm-vat-get.md)
+- [{#T}](./vat/crm-vat-fields.md)
+- [{#T}](./vat/crm-vat-list.md)
+- [{#T}](./vat/crm-vat-update.md)
+

@@ -1,0 +1,13 @@
+title: Товарные позиции в составе оплаты
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить товарную позицию
+    href: crm-item-payment-product-add.md
+  - name: Получить список товарных позиций
+    href: crm-item-payment-product-list.md
+  - name: Удалить товарную позицию
+    href: crm-item-payment-product-delete.md
+  - name: Изменить количество товара
+    href: crm-item-payment-product-set-quantity.md

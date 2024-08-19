@@ -1,0 +1,17 @@
+title: Связь между лидами и контактами 
+href: index.md
+items: 
+  - name: О связи между лидами и контактами
+    href: index.md
+  - name: Добавить привязку контакта к лиду
+    href: crm-lead-contact-add.md
+  - name: Удалить привязку контакта к лиду
+    href: crm-lead-contact-delete.md
+  - name: Получить список связанных контактов
+    href: crm-lead-contact-items-get.md
+  - name: Прикрепить список контактов к лиду
+    href: crm-lead-contact-items-set.md
+  - name: Удалить список контактов у лида
+    href: crm-lead-contact-items-delete.md
+  - name: Получить поля связи лид-контакт
+    href: crm-lead-contact-fields.md

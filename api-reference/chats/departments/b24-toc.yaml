@@ -1,0 +1,12 @@
+title: Работа с подразделениями
+href: im-department-get.md
+items:
+  - name: Получить информацию о подразделении
+    href: im-department-get.md
+  - name: Получить список пользователей, состоящих в вашем отделе
+    href: im-department-colleagues-list.md
+  - name: Получить список руководителей подразделений
+    href: im-department-managers-get.md
+  - name: Получить список сотрудников подразделения
+    href: im-department-employees-get.md
+

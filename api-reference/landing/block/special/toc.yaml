@@ -1,0 +1,16 @@
+title: Специальные блоки
+href: index.md
+items:
+  - name: Блоки-меню
+    href: index.md
+  - name: Карты в блоках
+    href: maps.md
+  - name: Навигация и заголовок
+    href: navigation.md
+  - name: Результаты поиска
+    href: search.md
+  - name: Формы поиска
+    href: search-forms.md
+  - name: Формы в блоках
+    href: crm-forms.md
+

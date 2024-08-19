@@ -1,0 +1,19 @@
+title: Торговые предложения
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить торговое предложение
+    href: catalog-product-offer-add.md
+  - name: Обновить поля торгового предложения
+    href: catalog-product-offer-update.md
+  - name: Получить значения полей торгового предложения
+    href: catalog-product-offer-get.md
+  - name: Получить список торговых предложений
+    href: catalog-product-offer-list.md
+  - name: Скачать файлы торгового предложения
+    href: catalog-product-offer-download.md
+  - name: Удалить торговое предложение
+    href: catalog-product-offer-delete.md
+  - name: Получить поля торгового предложения по фильтру
+    href: catalog-product-offer-get-fields-by-filter.md

@@ -1,0 +1,15 @@
+title: Пользовательские поля
+href: index.md
+items:
+  - name: О пользовательских полях реквизитов
+    href: index.md
+  - name: Создать новое пользовательское поле реквизита
+    href: crm-requisite-userfield-add.md
+  - name: Изменить пользовательское поле реквизита
+    href: crm-requisite-userfield-update.md
+  - name: Получить пользовательское поле по id
+    href: crm-requisite-userfield-get.md
+  - name: Получить список пользовательских полей реквизита по фильтру
+    href: crm-requisite-userfield-list.md
+  - name: Удалить пользовательское поле реквизита
+    href: crm-requisite-userfield-delete.md

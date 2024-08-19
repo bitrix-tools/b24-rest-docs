@@ -1,0 +1,9 @@
+title: Торговые платформы
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список торговых платформ
+    href: sale-trade-platform-list.md
+  - name: Получить поля торговых платформ
+    href: sale-trade-platform-get-fields.md

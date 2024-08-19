@@ -1,0 +1,25 @@
+title: Подготовка к публикации
+href: index.md
+items: 
+  - name: Как разработать приложение
+    href: index.md
+  - name: Как добавить приложение
+    href: how-to-add-app.md
+  - name: Порядок работы публикации решений в Маркете
+    href: publication-requirements.md
+  - name: FAQ
+    href: faq.md
+  - name: Общие требования к решениям
+    href: common-requirements.md
+  - name: Требования к телефониям
+    href: requirements-telephony.md
+  - name: Требования к готовым сайтам
+    href: requirements-sites.md
+  - name: Требования к "Умныем сценариям"
+    href: requirements-smart-scripts.md
+  - name: Требования к отчетам BI-Конструктора
+    href: requirements-superset.md
+  - name: Требования к отраслевым CRM
+    href: requirements-vertical-crm.md
+  - name: Чеклист перед модерацией
+    href: checklist.md

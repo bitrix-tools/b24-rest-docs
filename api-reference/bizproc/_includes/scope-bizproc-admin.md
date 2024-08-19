@@ -1,0 +1,1 @@
+**Scope**: [`bizproc`](../../scopes/permissions.md) **Права на выполнение**: `администратор`

@@ -1,0 +1,43 @@
+title: Открытые линии
+href: index.md
+items: 
+  - name: Открытые линии в Битрикс24
+    href: index.md
+  - name: Добавить новую открытую линию
+    href: imopenlines-config-add.md
+  - name: Изменить открытую линию
+    href: imopenlines-config-update.md
+  - name: Получить открытую линию по Id
+    href: imopenlines-config-get.md
+  - name: Получить список открытых линий
+    href: imopenlines-config-list-get.md
+  - name: Получить ссылку на публичную страницу открытых линий портала
+    href: imopenlines-config-path-get.md
+  - name: Подключить внешнюю открытую линию к порталу
+    href: imopenlines-network-join.md
+  - name: Отправить сообщение пользователю от имени открытой линии
+    href: imopenlines-network-message-add.md
+  - name: Удалить открытую линию
+    href: imopenlines-config-delete.md
+  - name: Чаты
+    include:
+      path: chats/b24-toc.yaml
+      mode: link
+  - name: Диалоги
+    include:
+      path: sessions/b24-toc.yaml
+      mode: link
+  - name: Операторы
+    include:
+      path: operators/b24-toc.yaml
+      mode: link
+  - name: Сообщения
+    include:
+      path: messages/b24-toc.yaml
+      mode: link
+  - name: Чат-боты
+    include:
+      path: chat-bots/b24-toc.yaml
+      mode: link
+  - name: Получить информацию о ревизиях API
+    href: imopenlines-revision-get.md

@@ -1,0 +1,17 @@
+title: Эпики
+href: index.md
+items:
+  - name: Методы для работы с эпиками
+    href: index.md
+  - name: Добавление эпика в Скрам
+    href: tasks-api-scrum-epic-add.md
+  - name: Удаление эпика
+    href: tasks-api-scrum-epic-delete.md
+  - name: Получение полей эпика по его идентификатору
+    href: tasks-api-scrum-epic-get.md
+  - name: Список доступных полей эпика
+    href: tasks-api-scrum-epic-get-fields.md
+  - name: Список эпиков
+    href: tasks-api-scrum-epic-list.md
+  - name: Изменение эпика в Скраме
+    href: tasks-api-scrum-epic-update.md

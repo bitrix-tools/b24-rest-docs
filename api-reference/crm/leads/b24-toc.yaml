@@ -1,0 +1,37 @@
+title: Лиды
+href: index.md
+items: 
+  - name: Лиды
+    href: index.md
+  - name: Поля лида
+    href: crm-lead-fields.md
+  - name: Создание нового лида
+    href: crm-lead-add.md
+  - name: Изменение лида
+    href: crm-lead-update.md
+  - name: Получение лида по Id
+    href: crm-lead-get.md
+  - name: Получение списка лидов
+    href: crm-lead-list.md
+  - name: Удаление лида
+    href: crm-lead-delete.md
+  - name: Добавление товаров в лид
+    href: crm-lead-productrows-set.md
+  - name: Получение товаров лида
+    href: crm-lead-productrows-get.md
+  - name: Связь между лидами и контактами
+    include:
+      path: management-communication/b24-toc.yaml
+      mode: link
+  - name: Пользовательские поля
+    include:
+      path: userfield/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/toc.yaml
+      mode: link
+  - name: Управление карточками лидов
+    include:
+      path: custom-form/b24-toc.yaml
+      mode: link

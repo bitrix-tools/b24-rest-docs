@@ -1,0 +1,19 @@
+title: Статусы
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Таблица статусов по умолчанию
+    href: default-status-table.md
+  - name: Создать статус
+    href: sale-status-add.md
+  - name: Обновить статус
+    href: sale-status-update.md
+  - name: Получить значения всех полей статуса по id
+    href: sale-status-get.md
+  - name: Получить список статусов
+    href: sale-status-list.md
+  - name: Удалить статус
+    href: sale-status-delete.md
+  - name: Получить доступные поля статусов
+    href: sale-status-get-fields.md

@@ -1,0 +1,21 @@
+title: Разделы товаров
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавление нового раздела товаров
+    href: crm-product-section-add.md
+  - name: Изменение раздела товаров
+    href: crm-product-section-update.md
+  - name: Получение раздела товаров по идентификатору
+    href: crm-product-section-get.md
+  - name: Список разделов товаров по фильтру
+    href: crm-product-section-list.md
+  - name: Удаление раздела товаров
+    href: crm-product-section-delete.md
+  - name: Получение полей раздела товаров 
+    href: crm-product-section-fields.md
+  - name: События 
+    include:
+      path: events/b24-toc.yaml
+      mode: link

@@ -1,0 +1,17 @@
+title: Единица измерения
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить единицу измерения
+    href: catalog-measure-add.md
+  - name: Обновить единицу измерения
+    href: catalog-measure-update.md
+  - name: Получить информацию о единице измерения по ID
+    href: catalog-measure-get.md
+  - name: Получить список единиц измерения
+    href: catalog-measure-list.md
+  - name: Удалить единицу измерения
+    href: catalog-measure-delete.md
+  - name: Получить доступные поля единиц измерения
+    href: catalog-measure-get-fields.md

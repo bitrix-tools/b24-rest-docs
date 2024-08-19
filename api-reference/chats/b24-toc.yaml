@@ -1,0 +1,61 @@
+title: Чаты
+href: index.md
+items:
+  - name: О чатах в Битрикс24
+    href: index.md
+  - name: Создать чат
+    href: im-chat-add.md
+  - name: Получить идентификатор чата
+    href: im-chat-get.md
+  - name: Получить данные о чате
+    href: im-dialog-get.md
+  - name: Изменить чат
+    include:
+      path: chat-update/b24-toc.yaml
+      mode: link
+  - name: Получить сокращенный список последних чатов
+    href: im-recent-get.md
+  - name: Получить список чатов
+    href: im-recent-list.md
+  - name: Специальные операции
+    include:
+      path: special-operations/b24-toc.yaml
+      mode: link
+  - name: Участники чата
+    include:
+      path: chat-users/b24-toc.yaml
+      mode: link
+  - name: Сообщения
+    include:
+      path: messages/b24-toc.yaml
+      mode: link
+  - name: Файлы
+    include:
+      path: files/b24-toc.yaml
+      mode: link
+  - name: Поиск
+    include:
+      path: search/b24-toc.yaml
+      mode: link
+  - name: Уведомления
+    include:
+      path: notifications/b24-toc.yaml
+      mode: link
+  - name: Получение счетчиков
+    href: im-counters-get.md
+  - name: Пользователи
+    include:
+      path: users/b24-toc.yaml
+      mode: link
+  - name: Подразделения
+    include:
+      path: departments/b24-toc.yaml
+      mode: link
+  - name: Виджеты
+    include:
+      path: widgets/b24-toc.yaml
+      mode: link
+  - name: Устаревшее
+    include:
+      path: outdated/b24-toc.yaml
+      mode: link

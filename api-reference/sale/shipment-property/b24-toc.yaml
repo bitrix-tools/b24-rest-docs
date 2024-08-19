@@ -1,0 +1,17 @@
+title: Свойства отгрузки
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить свойство отгрузки
+    href: sale-shipment-property-add.md
+  - name: Обновить свойство отгрузки
+    href: sale-shipment-property-update.md
+  - name: Получить значение свойства отгрузки
+    href: sale-shipment-property-get.md
+  - name: Получить список свойств отгрузки
+    href: sale-shipment-property-list.md
+  - name: Удалить свойство отгрузки
+    href: sale-shipment-property-delete.md
+  - name: Получить поля и настройки свойства отгрузки
+    href: sale-shipment-property-get-fields-by-type.md

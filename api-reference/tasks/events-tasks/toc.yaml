@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items:
+  - name: События
+    href: index.md
+  - name: На добавление задачи
+    href: on-task-add.md
+  - name: На изменение задачи
+    href: on-task-update.md
+  - name: На удаление задачи
+    href: on-task-delete.md

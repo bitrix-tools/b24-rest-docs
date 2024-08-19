@@ -1,0 +1,182 @@
+# Получить настройки платежной системы для конкретного счета
+
+> Название метода: **sale.paysystem.settings.invoice.get**
+>
+> Scope: [`pay_system `](../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правами на создание и редактирование счетов CRM (старая версия)
+
+Метод возвращает настройки платежной системы для конкретного счета (старая версия).
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **INVOICE_ID***
+[`integer`](../data-types.md) | Идентификатор счета старой версии. Для получения информации по счетам используется сервис [crm.invoice.*](../crm/outdated/invoice/index.md)
+||
+|| **PAY_SYSTEM_ID**
+[`sale_paysystem.ID`](../sale/data-types.md) | Идентификатор платежной системы
+||
+|| **BX_REST_HANDLER**
+[`sale_paysystem.ACTION_FILE`](../sale/data-types.md) | Символьный идентификатор REST-обработчика платежной системы
+||
+|#
+
+Обязательно передавать либо параметр `PAY_SYSTEM_ID`, либо `BX_REST_HANDLER`:
+- при передаче `PAY_SYSTEM_ID` используется платежная система с указанным идентификтором
+- при передаче `BX_REST_HANDLER` используется первая найденная платежная система с указанным обработчиков 
+
+При передаче обоих параметров приоритет имеет параметр `PAY_SYSTEM_ID`.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"INVOICE_ID":10,"PAY_SYSTEM_ID":11}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.paysystem.settings.invoice.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"INVOICE_ID":10,"PAY_SYSTEM_ID":11,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/sale.paysystem.settings.invoice.get
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod('sale.paysystem.settings.invoice.get', {
+            "INVOICE_ID": 10,
+            "PAY_SYSTEM_ID": 11
+        }, 
+        function(result) 
+        { 
+            if(result.error()) 
+            {
+                console.error(result.error()); 
+            }
+            else 
+            { 
+                console.dir(result.data()); 
+            } 
+        } 
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'sale.paysystem.settings.invoice.get',
+        [
+            'INVOICE_ID' => 10,
+            'PAY_SYSTEM_ID' => 11
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "REST_SERVICE_ID_IFRAME": "snum",
+        "REST_SERVICE_KEY_IFRAME": "skey",
+        "PS_WORK_MODE_IFRAME": "REGULAR"
+    },
+    "time": {
+        "start": 1712135335.026931,
+        "finish": 1712135335.407762,
+        "duration": 0.3808310031890869,
+        "processing": 0.0336611270904541,
+        "date_start": "2024-04-03T11:08:55+02:00",
+        "date_finish": "2024-04-03T11:08:55+02:00",
+        "operating_reset_at": 1705765533,
+        "operating": 3.3076241016387939
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md) | Корневой элемент ответа. 
+
+Ключами объекта являются коды параметров, указанные при добавлении обработчика через [sale.paysystem.handler.add](./sale-pay-system-handler-add.md) в параметре `CODES`. 
+
+Значениями объекта являются значения параметров:
+- либо заполненные пользователем вручную при создании платежной системы
+- либо указанные при добавлении платежной системы через [sale.paysystem.add](./sale-pay-system-add.md)
+||
+|| **time**
+[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": " ERROR_CHECK_FAILURE",
+    "error_description": "Pay system not found"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Статус** ||
+|| `ACCESS_DENIED` | Недостаточно прав для получения настроек | 403 ||
+|| `ERROR_CHECK_FAILURE` | Не указано значение одного из обязательных полей либо не найдена платежная система с указанным `ID` или `bx_rest_handler` (детали смотрите в описании ошибки) | 400 ||
+|| `ERROR_INTERNAL_INVOICE_NOT_FOUND` | Не найден указанный счет | 400 ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./sale-pay-system-handler-add.md)
+- [{#T}](./sale-pay-system-handler-update.md)
+- [{#T}](./sale-pay-system-handler-list.md)
+- [{#T}](./sale-pay-system-handler-delete.md)
+- [{#T}](./sale-pay-system-add.md)
+- [{#T}](./sale-pay-system-update.md)
+- [{#T}](./sale-pay-system-list.md)
+- [{#T}](./sale-pay-system-settings-get.md)
+- [{#T}](./sale-pay-system-settings-update.md)
+- [{#T}](./sale-pay-system-delete.md)
+- [{#T}](./sale-pay-system-pay-payment.md)
+- [{#T}](./sale-pay-system-pay-invoice.md)
+- [{#T}](./sale-pay-system-settings-payment-get.md)

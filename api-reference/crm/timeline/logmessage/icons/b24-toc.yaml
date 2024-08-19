@@ -1,0 +1,14 @@
+title: Иконки лог-записей журнала таймлайна 
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить иконку
+    href: crm-timeline-icon-add.md
+  - name: Получить информацию об иконке
+    href: crm-timeline-icon-get.md
+  - name: Получить список доступных иконок
+    href: crm-timeline-icon-list.md
+  - name: Удалить иконку
+    href: crm-timeline-icon-delete.md   
+    

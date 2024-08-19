@@ -1,0 +1,47 @@
+title: Сделки
+href: index.md
+items:
+  - name: О сделках в Битрикс24
+    href: index.md
+  - name: Поля сделки
+    href: crm-deal-fields.md
+  - name: Создание новой сделки
+    href: crm-deal-add.md
+  - name: Изменение сделки 
+    href: crm-deal-update.md
+  - name: Получение сделки по Id 
+    href: crm-deal-get.md
+  - name: Получение списка сделок 
+    href: crm-deal-list.md
+  - name: Удаление сделки 
+    href: crm-deal-delete.md
+  - name: Добавление товаров в сделку
+    href: crm-deal-productrows-set.md
+  - name: Получение товаров сделки
+    href: crm-deal-productrows-get.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: Рекурентные сделки
+    include:
+      path: recurring-deals/b24-toc.yaml
+      mode: link
+  - name: Пользовательские поля
+    include:
+      path: user-defined-fields/b24-toc.yaml
+      mode: link
+  - name: Контакты у сделки
+    include:
+      path: contacts/b24-toc.yaml
+      mode: link
+  - name: История движения сделки
+    href: deal-stage-history.md     
+  - name: Виджеты
+    href: widgets.md
+  - name: Воронки продаж в сделках
+    href: deal-catogories.md
+  - name: Управление карточками сделок
+    include:
+      path: custom-form/b24-toc.yaml
+      mode: link  

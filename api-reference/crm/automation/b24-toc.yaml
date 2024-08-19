@@ -1,0 +1,11 @@
+title: Автоматизация
+href: index.md
+items:
+  - name: Об автоматизации
+    href: index.md
+  - name: Активировать триггер
+    href: crm-automation-trigger.md
+  - name: Триггеры приложений
+    include:
+      path: triggers/b24-toc.yaml
+      mode: link

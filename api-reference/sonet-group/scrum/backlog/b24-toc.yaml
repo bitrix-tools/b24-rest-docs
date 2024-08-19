@@ -1,0 +1,15 @@
+title: Бэклог
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить бэклог в Скрам
+    href: tasks-api-scrum-backlog-add.md
+  - name: Изменить бэклог
+    href: tasks-api-scrum-backlog-update.md
+  - name: Получить поля бэклога по идентификатору Скрама
+    href: tasks-api-scrum-backlog-get.md
+  - name: Удалить бэклог
+    href: tasks-api-scrum-backlog-delete.md
+  - name: Получить список доступных полей бэклога
+    href: tasks-api-scrum-backlog-get-fields.md

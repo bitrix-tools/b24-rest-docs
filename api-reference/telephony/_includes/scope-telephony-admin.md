@@ -1,0 +1,1 @@
+**Scope**: [`telephony`](../../scopes/permissions.md) **Права на выполнение**: `администратор`

@@ -1,0 +1,19 @@
+title: События
+href: index.md
+items:
+  - name: События
+    href: index.md
+  - name: На добавление предложения
+    href: on-crm-quote-add.md
+  - name: На изменение предложения
+    href: on-crm-quote-update.md
+  - name: На удаление предложения
+    href: on-crm-quote-delete.md
+  - name: На добавление пользовательского поля
+    href: on-crm-quote-user-field-add.md
+  - name: На изменение пользовательского поля
+    href: on-crm-quote-user-field-update.md
+  - name: На удаление пользовательского поля
+    href: on-crm-quote-user-field-delete.md
+  - name: На изменение значений для поля списочного типа
+    href: on-crm-quote-user-field-set-enum-values.md

@@ -1,0 +1,15 @@
+title: Получить списки
+href: index.md
+items: 
+  - name: Как получить списки
+    href: index.md
+  - name: Как искать в CRM по телефону и e-mail
+    href: search-by-phone-and-email.md
+  - name: Как получить список дел на примере контакта
+    href: get-activity-list-by-contact.md
+  - name: Как получить список статусов лидов с семантикой
+    href: lead-statuses-with-semantics.md
+  - name: Как получить список статусов коммерческих предложений
+    href: quote-statuses-with-semantics.md
+  - name: Как получить воронку заданного направления
+    href: how-to-get-deal-funnels.md

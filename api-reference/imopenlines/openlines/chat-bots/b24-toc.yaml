@@ -1,0 +1,13 @@
+title: Чат-боты
+href: index.md
+items: 
+  - name: Чатботы в открытых линиях
+    href: index.md
+  - name: Отправить приветственное сообщение
+    href: imopenlines-bot-session-message-send.md
+  - name: Переключить диалог на свободного оператора
+    href: imopenlines-bot-session-operator.md
+  - name: Переключить диалог на оператора по Id
+    href: imopenlines-bot-session-transfer.md
+  - name: Завершить диалог
+    href: imopenlines-bot-session-finish.md

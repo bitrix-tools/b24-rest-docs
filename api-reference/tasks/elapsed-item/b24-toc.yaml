@@ -1,0 +1,19 @@
+title: Затраченное время
+href: index.md
+items:
+  - name: Список методов
+    href: index.md
+  - name: Добавление записи о затраченном времени
+    href: task-elapsed-item-add.md
+  - name: Изменение записи о затраченном времени
+    href: task-elapsed-item-update.md
+  - name: Получение записи о затраченном времени по идентификатору
+    href: task-elapsed-item-get.md
+  - name: Получение списка записей о затраченном времени
+    href: task-elapsed-item-get-list.md
+  - name: Удаление записи о затраченном времени 
+    href: task-elapsed-item-delete.md
+  - name: Проверка разрешения действия
+    href: task-elapsed-item-is-action-allowed.md
+  - name: Получение перечня методов и их описания 
+    href: task-elapsed-item-get-manifest.md

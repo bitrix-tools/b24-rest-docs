@@ -1,0 +1,13 @@
+title: Локализации валюты
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить локализации валюты
+    href: crm-currency-localizations-get.md
+  - name: Установить локализации для валюты
+    href: crm-currency-localizations-set.md
+  - name: Удалить локализации валюты
+    href: crm-currency-localizations-delete.md
+  - name: Получить поля локализации валюты
+    href: crm-currency-localizations-fields.md

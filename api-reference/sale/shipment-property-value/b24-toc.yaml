@@ -1,0 +1,15 @@
+title: Значения свойств отгрузки
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Обновить значения свойств отгрузки
+    href: sale-shipment-property-value-modify.md
+  - name: Получить значения свойства отгрузки по id
+    href: sale-shipment-property-value-get.md
+  - name: Получить список значений свойств отгрузки
+    href: sale-shipment-property-value-list.md
+  - name: Удалить значения свойства отгрузки
+    href: sale-shipment-propertyvalue-delete.md
+  - name: Получить доступные поля значений свойств отгрузки
+    href: sale-shipment-property-value-get-fields.md

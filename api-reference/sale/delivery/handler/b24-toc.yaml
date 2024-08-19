@@ -1,0 +1,13 @@
+title: Обработчики служб доставки
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить обработчик службы доставки
+    href: sale-delivery-handler-add.md
+  - name: Удалить обработчик службы доставки
+    href: sale-delivery-handler-delete.md
+  - name: Получить список обработчиков служб доставки
+    href: sale-delivery-handler-list.md
+  - name: Обновить обработчик службы доставки
+    href: sale-delivery-handler-update.md

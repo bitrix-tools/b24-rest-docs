@@ -1,0 +1,7 @@
+title: Лента CRM (устаревшее)
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Отправить сообщение в Ленту
+    href: crm-live-feed-message-add.md

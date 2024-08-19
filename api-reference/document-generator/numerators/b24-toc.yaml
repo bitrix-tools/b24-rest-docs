@@ -1,0 +1,13 @@
+title: Нумераторы
+href: index.md
+items: 
+  - name: Добавить нумератор
+    href: index.md
+  - name: Изменить нумератор
+    href: document-generator-numerator-update.md
+  - name: Получить нумератор по id
+    href: document-generator-numerator-get.md
+  - name: Получить список нумераторов
+    href: document-generator-numerator-list.md
+  - name: Удалить нумератор
+    href: document-generator-numerator-delete.md

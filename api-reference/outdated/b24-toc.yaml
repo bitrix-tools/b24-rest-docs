@@ -1,0 +1,9 @@
+title: Устаревшие методы
+href: index.md
+items:
+  - name: Обзор 
+    href: index.md
+  - name: RPA - роботизаци
+    include:
+      path: rpa/b24-toc.yaml
+      mode: link

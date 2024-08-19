@@ -1,0 +1,13 @@
+title: Связь CRM с заказами интернет-магазина
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить привязку заказа к объекту CRM
+    href: crm-order-entity-add.md
+  - name: Получить список привязок заказов к объектам CRM
+    href: crm-order-entity-list.md
+  - name: Удалить привязку заказа к объекту CRM
+    href: crm-order-entity-delete-by-filter.md
+  - name: Получить поля привязки заказа
+    href: crm-order-entity-get-fields.md

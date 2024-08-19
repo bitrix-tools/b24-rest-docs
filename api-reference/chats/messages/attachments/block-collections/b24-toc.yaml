@@ -1,0 +1,20 @@
+title: Работа с подразделениями
+href: index.md
+items:
+  - name: О коллекции блоков
+    href: index.md
+  - name: Блок пользователя
+    href: user.md
+  - name: Блок со ссылками
+    href: links.md
+  - name: Блок с текстом
+    href: text.md
+  - name: Блок с разделителем
+    href: delimiter.md
+  - name: Блок для построения строк и колонок
+    href: grid.md
+  - name: Блок с изображениями
+    href: images.md
+  - name: Блок с файлами
+    href: files.md
+

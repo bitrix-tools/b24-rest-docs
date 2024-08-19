@@ -1,0 +1,7 @@
+title: Туториалы и кейсы использования REST в Модуле AI
+href: index.md
+links:
+  - title: Добавление нового промпта «Анекдот»
+    description: Добавление нового промпта «Анекдот»
+    href: add-joke-prompt.md
+  

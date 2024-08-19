@@ -1,0 +1,17 @@
+title: Варианты свойств
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить вариант свойства
+    href: sale-property-variant-add.md
+  - name: Обновить поля варианта свойства
+    href: sale-property-variant-update.md
+  - name: Получить вариант значения свойства по id
+    href: sale-property-variant-get.md
+  - name: Получить список вариантов свойств
+    href: sale-property-variant-list.md
+  - name: Удалить вариант свойства
+    href: sale-property-variant-delete.md
+  - name: Получить доступные поля варианта свойства
+    href: sale-property-variant-get-fields.md

@@ -1,0 +1,6 @@
+title: Универсальные виджеты
+items: 
+  - name: Виджет в виде ссылки со слайдером 
+    href: app-url.md
+  - name: Невидимый виджет на каждой странице 
+    href: background-worker.md

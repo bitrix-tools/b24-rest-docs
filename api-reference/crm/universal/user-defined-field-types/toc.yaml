@@ -1,0 +1,13 @@
+title: Пользовательские типы полей
+href: index.md
+items: 
+  - name: О пользовательских типах полей
+    href: index.md
+  - name: Добавление типа
+    href: userfieldtype-add.md
+  - name: Получение списка типов
+    href: userfieldtype-list.md
+  - name: Изменение типа
+    href: userfieldtype-update.md
+  - name: Удаление типа
+    href: userfieldtype-delete.md

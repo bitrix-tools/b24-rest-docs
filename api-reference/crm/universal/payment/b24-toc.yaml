@@ -1,0 +1,29 @@
+title: Оплаты и доставки
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить оплату
+    href: crm-item-payment-add.md
+  - name: Изменить оплату
+    href: crm-item-payment-update.md
+  - name: Поулчить оплату по id
+    href: crm-item-payment-get.md
+  - name: Получить список оплат
+    href: crm-item-payment-list.md
+  - name: Удалить оплату
+    href: crm-item-payment-delete.md
+  - name: Изменить статус на «Оплачено»
+    href: crm-item-payment-pay.md
+  - name: Изменить статус на «Не оплачено»
+    href: crm-item-payment-unpay.md
+  - name: Сгенерировать ссылку на определенную оплату
+    href: salescenter-payment-get-public-url.md
+  - name:  Товарные позиции в составе оплаты
+    include:
+      path: products-in-payment/b24-toc.yaml
+      mode: link
+  - name:  Доставки в оплатах
+    include:
+      path: delivery-in-payment/b24-toc.yaml
+      mode: link

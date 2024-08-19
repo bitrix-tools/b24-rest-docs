@@ -1,0 +1,20 @@
+title: Услуги
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить услугу
+    href: catalog-product-service-add.md
+  - name: Обновить поля услуги
+    href: catalog-product-service-update.md
+  - name: Получить значения полей услуги 
+    href: catalog-product-service-get.md
+  - name: Получить список услуг
+    href: catalog-product-service-list.md
+  - name: Скачать файлы услуги
+    href: catalog-product-service-download.md
+  - name: Удалить услугу
+    href: catalog-product-service-delete.md
+  - name: Получить поля услуги по фильтру
+    href: catalog-product-service-get-fields-by-filter.md
+

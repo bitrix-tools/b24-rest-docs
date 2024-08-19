@@ -1,0 +1,25 @@
+title: Частые кейсы и сценарии по REST API для CRM
+href: index.md
+items: 
+  - name: Как сделать... в CRM?
+    href: index.md
+  - name: Добавить данные
+    include:
+      path: how-to-add-crm-objects/b24-toc.yaml
+      mode: link
+  - name: Редактировать данные
+    include:
+      path: how-to-edit-crm-objects/b24-toc.yaml
+      mode: link
+  - name: Получить списки
+    include:
+      path: how-to-get-lists/b24-toc.yaml
+      mode: link
+  - name: Сквозная аналитика
+    include:
+      path: how-to-use-analitycs/b24-toc.yaml
+      mode: link
+  - name: Как встроить свой функционал в CRM
+    include:
+      path: crm-widgets/b24-toc.yaml
+      mode: link

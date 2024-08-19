@@ -1,0 +1,11 @@
+title: Сквозная аналитика
+href: index.md
+items: 
+  - name: Сквозная аналитика
+    href: index.md
+  - name: Как использовать сквозную аналитику при создании лида
+    href: use-analitics-for-add-lead.md
+  - name: Как использовать сквозную аналитику при создании сделки и контакта
+    href: use-analitics-for-add-contact.md
+  - name: Как передать информацию в Сквозную аналитику
+    href: info-to-analitics.md

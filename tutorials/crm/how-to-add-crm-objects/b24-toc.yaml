@@ -1,0 +1,32 @@
+title: Добавить данные
+href: index.md
+items: 
+  - name: Как добавить лиды и другие сущности
+    href: index.md
+  - name: Добавить лид
+    href: how-to-add-lead.md
+  - name: Добавить дело в лид или сделку с учетом режимов CRM
+    href: how-to-add-objects-with-crm-mode.md
+  - name: Добавить повторный лид
+    href: how-to-add-repeat-lead.md
+  - name: Добавить контакт
+    href: how-to-add-contact.md
+  - name: Добавить контакт с реквизитами
+    href: how-to-add-contact-with-requisite.md
+  - name: Добавить компанию
+    href: how-to-add-company.md
+  - name: Добавить компанию с реквизитами
+    href: how-to-add-company-with-requisite.md
+  - name: Добавить сделку с выбором реквизитов
+    href: how-to-add-deal-with-choice-of-requisite.md
+  - name: Добавить клиенту событие календаря
+    href: how-to-add-activity-to-contact.md
+  - name: Добавить сделку с товарами, с применением скидок и налогов
+    href: how-to-product-binding.md
+  - name: Добавить товар со значениями пользовательских полей
+    href: how-to-add-product-with-custom-props.md
+  - name: Создать свой шаблон документа и документ на его основе
+    href: how-to-generate-documents.md
+  - name: Отправить e-mail клиенту от имени сотрудника
+    href: how-to-send-email.md
+    

@@ -1,0 +1,13 @@
+title: Управление карточками сделок
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получение параметров карточки 
+    href: crm-deal-details-configuration-get.md
+  - name: Сброс параметров карточки
+    href: crm-deal-details-configuration-reset.md
+  - name: Указание параметров индивидуальной карточки
+    href: crm-deal-details-configuration-set.md
+  - name: Указание общей карточки для всех пользователей
+    href: crm-deal-details-configuration-force-common-scope-for-all.md

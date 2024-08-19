@@ -1,0 +1,23 @@
+title: Кассы
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить обработчик кассы
+    href: sale-cashbox-handler-add.md
+  - name: Обновить данные обработчика кассы
+    href: sale-cashbox-handler-update.md
+  - name: Получить список доступных обработчиков касс
+    href: sale-cashbox-handler-list.md
+  - name: Удалить обработчик кассы
+    href: sale-cashbox-handler-delete.md
+  - name: Добавить кассу
+    href: sale-cashbox-add.md
+  - name: Обновить существующую кассу
+    href: sale-cashbox-update.md
+  - name: Получить список настроенных касс
+    href: sale-cashbox-list.md
+  - name: Удалить кассу
+    href: sale-cashbox-delete.md
+  - name: Сохранить результат печати чека
+    href: sale-cashbox-check-apply.md

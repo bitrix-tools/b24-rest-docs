@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: На создание нового дела типа «Комментарий»
+    href: on-Crm-Timeline-Comment-Add.md
+  - name: На обновление дела типа «Комментарий»
+    href: on-Crm-Timeline-Comment-Update.md
+  - name: На удаление дела типа «Комментарий»
+    href: on-Crm-Timeline-Comment-Delete.md

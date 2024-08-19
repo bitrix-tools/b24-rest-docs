@@ -1,0 +1,61 @@
+title: Дела
+href: index.md
+items:
+  - name: О делах
+    href: index.md
+  - name: Поля дела CRM
+    href: fields.md
+  - name: Получение списка полей дела
+    href: crm-activity-fields.md
+  - name: Добавление системного дела
+    href: crm-activity-add.md
+  - name: Добавление универсального дела
+    href: crm-activity-todo-add.md
+  - name: Добавление конфигурируемого дела
+    href: crm-activity-configurable-add.md
+  - name: Изменение системного дела
+    href: crm-activity-update.md
+  - name: Изменение конфигурируемого дела
+    href: crm-activity-configurable-update.md
+  - name: Изменение универсального дела
+    include:
+      path: todo-update/toc.yaml
+      mode: link
+  - name: Получение списка дел
+    href: crm-activity-list.md
+  - name: Получение дела по ID
+    href: crm-activity-get.md
+  - name: Получение конфигурируемого дела по ID 
+    href: crm-activity-configurable-get.md
+  - name: Получение описания коммуникации 
+    href: crm-activity-communication-fields.md
+  - name: Удаление дела 
+    href: crm-activity-delete.md 
+  - name: Привязка дел к объектам CRM
+    include:
+      path: binding/toc.yaml
+      mode: link
+  - name: Пользовательские типы дел
+    include:
+      path: types/toc.yaml
+      mode: link
+  - name: Бейджи конфигурируемых дел
+    include:
+      path: badges/toc.yaml
+      mode: link
+  - name: Структура конфигурируемого дела
+    include:
+      path: structure/b24-toc.yaml
+      mode: link
+  - name: Дополнительные контентные блоки
+    include:
+      path: layout-blocks/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/toc.yaml
+      mode: link
+  - name: Встраивание приложений
+    include:
+      path: app-embedding/toc.yaml
+      mode: link

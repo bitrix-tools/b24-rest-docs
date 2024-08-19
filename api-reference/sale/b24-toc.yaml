@@ -1,0 +1,103 @@
+title: Интернет-магазин
+href: index.md
+items: 
+  - name: Интернет-магазин
+    href: index.md
+  - name: Типы данных и структура объектов в REST API Интернет-магазина
+    href: data-types.md 
+  - name: Корзина
+    include:
+      path: basket-item/b24-toc.yaml
+      mode: link
+  - name: Свойства корзины
+    include:
+      path: basket-properties/b24-toc.yaml
+      mode: link
+  - name: Заказ
+    include:
+      path: order/b24-toc.yaml
+      mode: link
+  - name: Заказы из внешних источников
+    include:
+      path: trade-binding/b24-toc.yaml
+      mode: link
+  - name: Свойства заказа
+    include:
+      path: property/b24-toc.yaml
+      mode: link
+  - name: Группы свойств
+    include:
+      path: property-group/b24-toc.yaml
+      mode: link
+  - name: Варианты свойств
+    include:
+      path: property-variant/b24-toc.yaml
+      mode: link    
+  - name: Торговые платформы
+    include:
+      path: trade-platform/b24-toc.yaml
+      mode: link
+  - name: Оплаты
+    include:
+      path: payment/b24-toc.yaml
+      mode: link
+  - name: Типы плательщиков
+    include:
+      path: person-type/b24-toc.yaml
+      mode: link
+  - name: Соответствие физ. и юр. лицам
+    include:
+      path: business-value-person-domain/b24-toc.yaml
+      mode: link
+  - name: Отгрузки
+    include:
+      path: shipment/b24-toc.yaml
+      mode: link
+  - name: Табличная часть отгрузки
+    include:
+      path: shipment-item/b24-toc.yaml
+      mode: link
+  - name: Свойства отгрузки
+    include:
+      path: shipment-property/b24-toc.yaml
+      mode: link
+  - name: Значения свойств отгрузки
+    include:
+      path: shipment-property-value/b24-toc.yaml
+      mode: link
+  - name: Статусы
+    include:
+      path: status/b24-toc.yaml
+      mode: link
+  - name: Локализация статусов
+    include:
+      path: status-lang/b24-toc.yaml
+      mode: link
+  - name: Привязка элемента корзины к оплате
+    include:
+      path: payment-item-basket/b24-toc.yaml
+      mode: link
+  - name: Привязка оплат к отгрузкам
+    include:
+      path: payment-item-shipment/b24-toc.yaml
+      mode: link
+  - name: Привязка свойства
+    include:
+      path: property-relation/b24-toc.yaml
+      mode: link
+  - name: Значения свойства
+    include:
+      path: property-value/b24-toc.yaml
+      mode: link
+  - name: Кассы
+    include:
+      path: cashbox/b24-toc.yaml
+      mode: link
+  - name: Службы доставки
+    include:
+      path: delivery/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

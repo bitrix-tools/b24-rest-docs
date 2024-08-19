@@ -1,0 +1,12 @@
+title: Информация о пользователе
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md 
+  - name: Проверка административных прав пользователя
+    href: user-admin.md
+  - name: Проверка текущих прав
+    href: user-access.md
+  - name: Получение данных текущего пользователя
+    href: profile.md
+  

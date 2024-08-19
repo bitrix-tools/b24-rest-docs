@@ -1,0 +1,10 @@
+title: Как встраивать виджеты в CRM
+href: index.md
+items: 
+  - name: Как встраивать виджеты в CRM
+    href: index.md
+  - name: Встроить виджет в лид в виде пользовательского свойства
+    href: widget-as-field-in-lead-page.md
+  - name: Встроить виджет в карточку CRM
+    href: widget-as-detail-tab.md
+  

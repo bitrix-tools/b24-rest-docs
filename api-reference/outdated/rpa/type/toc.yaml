@@ -1,0 +1,19 @@
+title: Процессы
+href: index.md
+items: 
+  - name: Процессы
+    href: index.md
+  - name: Получение информации о процессе по его ID
+    href: rpa-type-get.md
+  - name: Получение массива процессов с их полями
+    href: rpa-type-list.md
+  - name: Создание нового процесса
+    href: rpa-type-add.md
+  - name: Обновление процесса
+    href: rpa-type-update.md
+  - name: Удаление процесса
+    href: rpa-type-delete.md
+
+
+
+

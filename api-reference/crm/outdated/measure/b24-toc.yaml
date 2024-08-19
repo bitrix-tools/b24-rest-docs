@@ -1,0 +1,21 @@
+title: Единицы измерения
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить единицу измерения
+    href: crm-measure-add.md
+  - name: Изменить единицу измерения
+    href: crm-measure-update.md
+  - name: Получить значения полей единицы измерения
+    href: crm-measure-get.md
+  - name: Получить список единиц измерения
+    href: crm-measure-list.md
+  - name: Удалить единицу измерения
+    href: crm-measure-delete.md
+  - name: Получить доступные поля единицы измерения 
+    href: crm-measure-fields.md
+  - name: События 
+    include:
+      path: events/b24-toc.yaml
+      mode: link

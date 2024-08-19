@@ -1,0 +1,17 @@
+title: Службы доставки
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить службу доставки
+    href: sale-delivery-add.md
+  - name: Обновить службу доставки
+    href: sale-delivery-update.md
+  - name: Удалить службу доставки
+    href: sale-delivery-delete.md
+  - name: Обновить настройки службы доставки
+    href: sale-delivery-config-update.md
+  - name: Получить настройки службы доставки
+    href: sale-delivery-config-get.md
+  - name: Получить список доступных служб доставки
+    href: sale-delivery-get-list.md

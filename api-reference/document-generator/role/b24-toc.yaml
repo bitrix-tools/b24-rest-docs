@@ -1,0 +1,17 @@
+title: Роли и права
+href: index.md
+items: 
+  - name: Как работают роли в генераторе документов
+    href: index.md
+  - name: Добавить роль
+    href: document-generator-role-add.md
+  - name: Изменить роль
+    href: document-generator-role-update.md
+  - name: Получить роль по id
+    href: document-generator-role-get.md
+  - name: Получить список ролей
+    href: document-generator-role-list.md
+  - name: Удалить роль
+    href: document-generator-role-delete.md
+  - name: Привязать пользователей к ролям
+    href: document-generator-role-fill-accesses.md

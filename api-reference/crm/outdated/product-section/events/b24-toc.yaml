@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: На добавление раздела
+    href: on-crm-product-section-add.md
+  - name: На изменение раздела
+    href: on-crm-product-section-update.md
+  - name: На удаление раздела
+    href: on-crm-product-section-delete.md

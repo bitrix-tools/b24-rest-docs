@@ -1,0 +1,17 @@
+title: Статусы счетов
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать новый статус счета
+    href: crm-invoice-status-add.md
+  - name: Удалить статус счета
+    href: crm-invoice-status-delete.md
+  - name: Получить статус счета по идентификатору
+    href: crm-invoice-status-get.md
+  - name: Получить все поля статуса счета
+    href: crm-invoice-status-fields.md
+  - name: Получить список статусов счета
+    href: crm-invoice-status-list.md
+  - name: Изменить статус счета
+    href: crm-invoice-status-update.md

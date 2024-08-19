@@ -1,0 +1,33 @@
+title: Реквизиты
+href: index.md
+items:
+  - name: О системе реквизитов
+    href: index.md
+  - name: Шаблоны реквизитов
+    include:
+      path: presets/b24-toc.yaml
+      mode: link
+  - name: Адреса
+    include:
+      path: addresses/b24-toc.yaml
+      mode: link
+  - name: Универсальные реквизиты
+    include:
+      path: universal/b24-toc.yaml
+      mode: link
+  - name: Банковские реквизиты
+    include:
+      path: bank-detail/b24-toc.yaml
+      mode: link
+  - name: Пользовательские поля реквизитов
+    include:
+      path: user-fields/b24-toc.yaml
+      mode: link
+  - name: Связи реквизитов с объектами CRM
+    include:
+      path: links/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

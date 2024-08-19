@@ -1,0 +1,19 @@
+title: Канбан
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать стадию канбана Скрама
+    href: tasks-api-scrum-kanban-add-stage.md
+  - name: Изменить стадию канбана Скрама
+    href: tasks-api-scrum-kanban-update-stage.md
+  - name: Добавить задачу в канбан Скрама
+    href: tasks-api-scrum-kanban-add-task.md
+  - name: Удалить стадию
+    href: tasks-api-scrum-kanban-delete-stage.md
+  - name: Удалить задачу из канбана Скрама
+    href: tasks-api-scrum-kanban-delete-task.md
+  - name: Получить список доступных полей стадии канбана
+    href: tasks-api-scrum-kanban-get-fields.md
+  - name: Получить стадию канбана по идентификатору спринта
+    href: tasks-api-scrum-kanban-get-stages.md

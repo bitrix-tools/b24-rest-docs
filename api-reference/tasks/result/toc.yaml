@@ -1,0 +1,11 @@
+title: Результат задачи
+href: index.md
+items:
+  - name: О результатах выполнения задачи
+    href: index.md
+  - name: Получение списка результатов задачи
+    href: tasks-task-result-list.md
+  - name: Добавление комментария в результат
+    href: tasks-task-result-add-from-comment.md
+  - name: Удаление комментария из результата
+    href: tasks-task-result-delete-from-comment.md

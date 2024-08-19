@@ -1,0 +1,13 @@
+title: Показ системных диалогов
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Показать диалог одиночного выбора пользователя
+    href: bx24-select-user.md
+  - name: Показать диалог множественного выбора пользователей
+    href: bx24-select-users.md
+  - name: Показать диалог выбора прав доступа
+    href: bx24-select-access.md
+  - name: Вызвать диалог выбора сущности CRM
+    href: bx24-select-crm.md

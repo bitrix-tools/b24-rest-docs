@@ -1,0 +1,31 @@
+title: Коннекторы открытых линий
+href: index.md
+items: 
+  - name: Кастомные коннекторы открытых линий
+    href: index.md
+  - name: Зарегистрировать коннектор
+    href: imconnector-register.md
+  - name: Активировать коннектор
+    href: imconnector-activate.md
+  - name: Деактивировать коннектор
+    href: imconnector-deactivate.md
+  - name: Получить статус коннектора
+    href: imconnector-status.md
+  - name: Получить список коннекторов
+    href: imconnector-list.md
+  - name: Отменить регистрацию коннектора
+    href: imconnector-unregister.md
+  - name: Отправить сообщения в Битрикс24
+    href: imconnector-send-messages.md
+  - name: Изменить отправленные сообщения
+    href: imconnector-update-messages.md
+  - name: Удалить отправленные сообщения
+    href: imconnector-delete-messages.md
+  - name: Обновить статус «доставлено»
+    href: imconnector-send-status-delivery.md
+  - name: Обновить статус «прочитано»
+    href: imconnector-send-status-reading.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

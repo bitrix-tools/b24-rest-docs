@@ -1,0 +1,29 @@
+title: События
+href: index.md
+items:
+  - name: События
+    href: index.md
+  - name: На добавление счёта
+    href: on-crm-invoice-add.md
+  - name: На удаление счёта
+    href: on-crm-invoice-delete.md
+  - name: На изменение статуса счёта
+    href: on-crm-invoice-set-status.md
+  - name: На обновление счёта
+    href: on-crm-invoice-update.md
+  - name: На добавление пользовательского поля
+    href: on-crm-invoice-user-field-add.md
+  - name: На изменение пользовательского поля
+    href: on-crm-invoice-user-field-update.md
+  - name: На удаление пользовательского поля
+    href: on-crm-invoice-user-field-delete.md
+  - name: На изменение значений для пользовательского поля списочного типа
+    href: on-crm-invoice-user-field-set-enum-values.md
+  - name: На добавление нового регулярного счета
+    href: on-crm-invoice-recurring-add.md
+  - name: На обновление регулярного счета
+    href: on-crm-invoice-recurring-update.md
+  - name: На удаление регулярного счета
+    href: on-crm-invoice-recurring-delete.md
+  - name: На выставление нового счета из регулярного
+    href: on-crm-invoice-recurring-expose.md

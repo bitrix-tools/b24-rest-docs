@@ -1,0 +1,6 @@
+title: Виджеты в профиле пользователя
+items: 
+  - name: Пункт контекстного меню в профиле 
+    href: profile-menu.md
+  - name: Пункт контекстного меню верхней кнопки профиля
+    href: profile-toolbar.md

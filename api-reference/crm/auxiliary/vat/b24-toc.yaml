@@ -1,0 +1,17 @@
+title: Ставки НДС
+href: index.md
+items:
+  - name: Ставки НДС 
+    href: index.md
+  - name: Создание новой ставки НДС
+    href: crm-vat-add.md
+  - name: Удаление ставки НДС
+    href: crm-vat-delete.md
+  - name: Получение ставки НДС
+    href: crm-vat-get.md
+  - name: Возвращение полей ставки НДС
+    href: crm-vat-fields.md
+  - name: Список ставок НДС
+    href: crm-vat-list.md
+  - name: Обновление ставки НДС
+    href: crm-vat-update.md

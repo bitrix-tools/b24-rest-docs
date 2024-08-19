@@ -1,0 +1,51 @@
+title: Дополнительные функции
+href: index.md
+items: 
+  - name: Список дополнительных функций
+    href: index.md
+  - name: Проверка администраторского доступа пользователя
+    href: bx24-is-admin.md
+  - name: Получение идентификатор языка текущего портала
+    href: bx24-get-lang.md
+  - name: Изменение размера фрейма
+    href: bx24-resize-window.md
+  - name: Подстройка размера фрейма под содержимое
+    href: bx24-fit-window.md
+  - name: Перезагрузка страницы
+    href: bx24-reload-window.md
+  - name: Установка заголовка страницы
+    href: bx24-set-title.md
+  - name: Готовность DOM-структуры документа
+    href: bx24-ready.md
+  - name: Флаг готовности DOM-структуры документа
+    href: bx24-is-ready.md
+  - name: Получение прокси-функции
+    href: bx24-proxy.md
+  - name: Закрытие окна с приложением
+    href: bx24-close-application.md
+  - name: Получение адреса портала
+    href: bx24-get-domain.md
+  - name: Открытие всплывающего окна
+    href: bx24-open-application.md
+  - name: Открытие пути в слайдере
+    href: bx24-open-path.md
+  - name: Получение ссылки на контекст
+    href: bx24-proxy-context.md
+  - name: Прокрутка родительского окна
+    href: bx24-scroll-parent-window.md
+  - name: Установка функции в качестве обработчика события
+    href: bx24-bind.md
+  - name: Отключение функции в качестве обработчика события
+    href: bx24-unbind.md
+  - name: Получение размеров фрейма
+    href: bx24-get-scroll-size.md
+  - name: Запуск javascript-файла
+    href: bx24-load-script.md
+  - name: Звонок по внутренней связи
+    href: bx24-im-call-to.md
+  - name: Звонок на телефонный номер
+    href: bx24-im-phone-to.md
+  - name: Открытие окна мессенджера
+    href: bx24-im-open-messenger.md
+  - name: Открытие окна истории
+    href: bx24-im-open-history.md

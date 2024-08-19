@@ -1,0 +1,13 @@
+title: Облако и коробка Битрикс24
+href: index.md
+items: 
+  - name: Обзор 
+    href: index.md
+  - name: Сетевые доступы
+    href: network-access.md
+  - name: Рекомендации по безопасности
+    href: security-recommendations.md
+  - name: Особенности коробки
+    include:
+      path: on-premise/b24-toc.yaml
+      mode: link

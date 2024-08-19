@@ -1,0 +1,21 @@
+title: Редактировать данные
+href: index.md
+items: 
+  - name: Редактировать данные
+    href: index.md
+  - name: Добавить картинки в поля лида
+    href: how-to-upload-images-to-lead.md
+  - name: Как сделать свою карточку редактирования лида
+    href: how-to-generate-edit-form-for-lead.md
+  - name: Как сделать свою карточку редактирования контакта
+    href: how-to-make-contact-edit-card.md
+  - name: Как сделать свою карточку редактирования компании
+    href: how-to-generate-edit-form-for-company.md
+  - name: Как сделать свою карточку редактирования сделки
+    href: how-to-generate-edit-form-for-deal.md
+  - name: Как изменить номера телефонов и e-mail на примере контакта
+    href: how-to-change-email-or-phone.md
+  - name: Как изменить даты в деле-событии
+    href: how-to-change-date-in-activity.md
+  - name: Как изменить значения пользовательских полей товара
+    href: how-to-change-product-custom-field-values.md

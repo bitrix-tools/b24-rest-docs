@@ -1,0 +1,219 @@
+blocks:
+  - type: 'header-block'
+    width: 's'
+    offset: 'default'
+    title: 'Bitrix24 REST API'
+    resetPaddings: false
+    verticalOffset: 'l'
+    description: 'Инструмент для создания интеграций, автоматизаций рабочих процессов и кастомизации пользовательских сценариев Битрикс24'
+    background:
+      light:
+        image:
+          mobile: '_images/cover.png'
+          desktop: '_images/cover.png'
+          disableCompress: true
+        color: '#E8E4FF'
+        fullWidth: false
+      dark:
+        image:
+          mobile: '_images/img_restapi_main.png'
+          desktop: '_images/img_restapi_main.png'
+          disableCompress: true
+        color: '#E8E4FF'
+        fullWidth: false
+    buttons:
+      - text: 'Начать'
+        theme: 'outlined'
+        size: 'promo'
+        url: 'about.md'
+      - text: 'GitHub'
+        theme: 'outlined'
+        size: 'promo'
+        url: 'https://github.com/bitrix-tools/b24-rest-docs/'
+
+  - type: 'extended-features-block'
+    title:
+      text: 'Быстрый старт'
+    items:
+      - title: 'С чего начать знакомство'
+        icon: './_images/img_restapi_icon_01.svg'
+        text: 'Узнайте, как устроена документация и как использовать API'
+        buttons:
+          - text: 'Узнать'
+            theme: 'outlined'
+            size: 'promo'
+            url: 'about.md'
+      - title: 'Как получить доступ'
+        icon: './_images/img_restapi_icon_02.svg'
+        text: 'Ознакомьтесь с требованиями к тарифу Битрикс24 и начните знакомство с разделом для разработчиков внутри продукта'
+        buttons:
+          - text: 'Ознакомиться'
+            theme: 'outlined'
+            size: 'promo'
+            url: 'access-to-rest-api.md'
+      - title: 'Как выполнить запрос'
+        icon: './_images/img_restapi_icon_03.svg'
+        text: 'Получите практическую инструкцию для вашего первого вызова REST API Битрикс24'
+        buttons:
+          - text: 'Попробовать'
+            theme: 'outlined'
+            size: 'promo'
+            url: 'first-rest-api-call.md'
+
+  - type: 'card-layout-block'
+    title: 'Частые кейсы и сценарии'
+    description: Если вам нужны быстрые решения для ваших практических задач, начните с <a href="/tutorials/about.html">этого раздела</a>. Дальше вы сможете адаптировать наши примеры к вашей ситуации, используя все многообразие методов REST API.
+    colSizes:
+      all: 12
+      md: 4
+      sm: 6
+    children:
+      - type: 'layout-item'
+        content:
+          title: '<a href="#">CRM</a>'
+          text: 'Как быстро связать форму на своем сайте с CRM? Как автоматически создавать сделки с товарными позициями? Как, создавая лид из своего источника, «прокинуть» в Битрикс информацию для сквозной аналитики?'
+        media:
+          image: './_images/img_restapi_banner_s_01.png'
+          disableCompress: true
+        fullScreen: true
+        border: true
+        disableCompress: true
+      - type: 'layout-item'
+        content:
+          title: '<a href="#">Онлайн-продажи</a>'
+          text: 'Как быстро сформировать заказ интернет-магазина? Как получить ссылку на оплату для передачи клиенту? Как подключить свою онлайн-кассу?'
+        media:
+          image: './_images/img_restapi_banner_s_02.png'
+          disableCompress: true
+        fullScreen: true
+        border: true
+        disableCompress: true
+      - type: 'layout-item'
+        content:
+          title: '<a href="#">Еще много всего</a>'
+          text: 'Импортировать данные, интегрировать свою телефонию, использовать товарный каталог — десятки готовых практических примеров.'
+        media:
+          image: './_images/img_restapi_banner_s_03.png'
+          disableCompress: true
+        fullScreen: true
+        border: true
+        disableCompress: true
+        links:
+          - text: 'Найти пример'
+            theme: 'normal'
+            url: '/'
+
+  - type: 'filter-block'
+    centered: true
+    title:
+      text: 'Узнайте подробности'
+    tags:
+      - id: 'one'
+        label: 'Локальные интеграции'
+      - id: 'two'
+        label: 'Битрикс24 Маркет'
+      - id: 'three'
+        label: 'Справочник API'
+    colSizes:
+      all: 12
+      xl: 12
+      md: 12
+      sm: 12
+    items:
+      - tags:
+          - 'one'
+        card:
+          type: 'layout-item'
+          media:
+            image: './_images/local-integrations.jpg'
+            disableCompress: true
+          border: true
+          content:
+            links:
+              - text: 'Посмотреть документацию'
+                url: 'local-intergations'
+                theme: 'normal'
+                arrow: true
+                color: #54BA7E
+
+      - tags:
+          - 'two'
+        card:
+          type: 'layout-item'
+          media:
+            image: './_images/market.png'
+            disableCompress: true
+          border: true
+          content:
+            links:
+              - text: 'Посмотреть документацию'
+                url: 'market'
+                theme: 'normal'
+                arrow: true
+                color: #54BA7E
+      - tags:
+          - 'three'
+        card:
+          type: 'layout-item'
+          media:
+            image: './_images/api-reference.png'
+            disableCompress: true
+          border: true
+          content:
+            links:
+              - text: 'Посмотреть документацию'
+                url: 'api-reference'
+                theme: 'normal'
+                arrow: true
+                color: #54BA7E
+
+  - type: 'card-layout-block'
+    title: 'Коммьюнити и коммуникация с Битрикс24'
+    children:
+      - type: 'background-card'
+        title: 'Улучшить документацию'
+        text: 'Мы выложили исходный код нашей документации в открытый доступ. Вы можете помочь нам стать лучше.'
+        background:
+          src: './_images/img_restapi_banner_l_01.png'
+          disableCompress: true
+        paddingBottom: 'm'
+        buttons:
+          - text: 'Подробности'
+            theme: 'raised'
+            url: '/support.md#documentation'
+        border: none
+        theme: 'light'
+      - type: 'background-card'
+        title: 'Общаться с коллегами'
+        text: 'Если не нашли ответ на свой вопрос в официальной документации, присоединяйтесь к коммьюнити разработчиков — это лучшая среда для обмена опытом.'
+        background:
+          src: './_images/img_restapi_banner_l_02.png'
+          disableCompress: true
+        paddingBottom: 'm'
+        buttons:
+          - text: 'Подробности'
+            theme: 'raised'
+            url: '/support.md#community'
+        border: none
+        theme: 'light'
+      - type: 'background-card'
+        title: 'Связаться с поддержкой'
+        text: 'Наша техническая поддержка помогает решать проблемы партнерам и клиентам. Мы всегда открыты к диалогу!'
+        background:
+          src: './_images/img_restapi_banner_l_03.png'
+          disableCompress: true
+        paddingBottom: 'm'
+        buttons:
+          - text: 'Подробности'
+            theme: 'raised'
+            url: '/support.md#support'
+        theme: 'light'
+        border: none
+
+  - type: 'icons-block'
+    size: 'm'
+    title: 'Присоединяйтесь к нам'
+    items:
+      - src: './_images/telegram.svg'
+        text: 'Битрикс24.Маркет Live!'
+        url: 'https://t.me/b24marketlive'

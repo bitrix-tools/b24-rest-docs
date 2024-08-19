@@ -1,0 +1,9 @@
+title: Товарные позиции (устаревшее)
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Получить все поля товарных позиций
+    href: crm-productrow-fields.md
+  - name: Получить список полей по фильтру
+    href: crm-productrow-list.md

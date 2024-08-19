@@ -1,0 +1,13 @@
+title: Виджеты в мессенджере
+href: index.md
+items: 
+  - name: Иконка левого меню  
+    href: index.md
+  - name: Виджет над сообщением 
+    href: textarea.md
+  - name: Виджет для сайдбара
+    href: sidebar.md
+  - name: Пункт контекстного меню сообщения
+    href: context-menu.md
+  - name: Коллекция смайлов
+    href: smile-selector.md

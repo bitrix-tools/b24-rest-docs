@@ -1,0 +1,33 @@
+title: Контакты
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Поля контакта
+    href: crm-contact-fields.md
+  - name: Создание нового контакта
+    href: crm-contact-add.md
+  - name: Изменение контакта
+    href: crm-contact-update.md
+  - name: Получение контакта по Id
+    href: crm-contact-get.md
+  - name: Получение списка контактов
+    href: crm-contact-list.md
+  - name: Удаление контакта
+    href: crm-contact-delete.md
+  - name: Компании
+    include:
+      path: company/toc.yaml
+      mode: link
+  - name: Пользовательские поля
+    include:
+      path: userfield/toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/toc.yaml
+      mode: link
+  - name: Управление карточками контактов
+    include:
+      path: custom-form/b24-toc.yaml
+      mode: link

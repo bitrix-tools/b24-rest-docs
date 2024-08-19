@@ -1,0 +1,25 @@
+title: Службы доставки
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Службы доставки
+    include:
+      path: delivery/b24-toc.yaml
+      mode: link
+  - name: Обработчики служб доставки
+    include:
+      path: handler/b24-toc.yaml
+      mode: link
+  - name: Дополнительные услуги
+    include:
+      path: extra-service/b24-toc.yaml
+      mode: link
+  - name: Транспортные заявки
+    include:
+      path: delivery-request/b24-toc.yaml
+      mode: link
+  - name: Вебхуки
+    include:
+      path: webhooks/b24-toc.yaml
+      mode: link

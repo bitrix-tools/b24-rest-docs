@@ -1,0 +1,65 @@
+title: REST API Битрикс24 и приложения для Маркет
+href: index.yaml
+items: 
+  - name: Что позволяет REST API Битрикс24
+    href: developing-with-rest-api.md
+  - name: С чего начать
+    href: about.md
+  - name: Как получить доступ к REST API 
+    href: access-to-rest-api.md
+  - name: Как выполнить свой первый запрос к API 
+    href: first-rest-api-call.md
+  - name: Как использовать примеры 
+    href: how-to-use-examples.md
+  - name: Частные кейсы и сценарии 
+    include:
+      path: tutorials/b24-toc.yaml
+      mode: link
+  - name: Лимиты REST API
+    href: limits.md
+  - name: Коды ошибок
+    href: error-codes.md       
+  - name: Что нового
+    href: whats-new.md
+  - name: Поддержка и коммьюнити для разработчиков
+    href: support.md
+  - name: Правки в документации
+    href: change-article.md
+    hidden: true
+  - name: Обратная связь
+    href: feedback.md
+  - name: Локальные интеграции и кастомизация 
+    include:
+      path: local-integrations/b24-toc.yaml
+      mode: link
+  - name: Битрикс24 Маркет
+    include:
+      path: market/b24-toc.yaml
+      mode: link
+  - name: Справочник API
+    include:
+      path: api-reference/b24-toc.yaml
+      mode: link 
+navigation:
+  logo:
+    url: 'https://apidocs.bitrix24.ru'
+    dark:
+      icon: 'https://apidocs.bitrix24.ru/_images/bitrix24logo.svg'
+    light:
+      icon: 'https://apidocs.bitrix24.ru/_images/bitrix24logo.svg'
+  header:
+    leftItems:
+      - text: 'С чего начать'
+        type: 'link'
+        url: 'https://apidocs.bitrix24.ru/about.html'
+      - text: 'Что нового'
+        type: 'link'
+        url: 'https://apidocs.bitrix24.ru/whats-new.html'     
+      - text: 'Частые кейсы'
+        type: 'link'
+        url: 'https://apidocs.bitrix24.ru/tutorials/index.html'  
+      - text: 'Поддержка'
+        type: 'link'
+        url: 'https://apidocs.bitrix24.ru/support.html'
+    rightItems:    
+      - type: controls

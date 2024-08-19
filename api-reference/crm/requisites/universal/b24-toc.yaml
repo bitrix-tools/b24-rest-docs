@@ -1,0 +1,18 @@
+title: Универсальные реквизиты
+href: index.md
+items:
+  - name: Об универсальных реквизитах
+    href: index.md
+  - name: Добавить реквизит 
+    href: crm-requisite-add.md
+  - name: Обновить реквизит
+    href: crm-requisite-update.md
+  - name: Получить реквизит по id
+    href: crm-requisite-get.md
+  - name: Получить список реквизитов по фильтру
+    href: crm-requisite-list.md
+  - name: Удалить реквизит и связанные объекты
+    href: crm-requisite-delete.md
+  - name: Получить поля реквизита
+    href: crm-requisite-fields.md
+

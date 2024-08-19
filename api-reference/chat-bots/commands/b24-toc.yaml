@@ -1,0 +1,17 @@
+title: Команды
+href: index.md
+items:
+  - name: О командах чат-ботов
+    href: index.md
+  - name: Добавить команду
+    href: imbot-command-register.md
+  - name: Изменить команду
+    href: imbot-command-update.md
+  - name: Удалить команду
+    href: imbot-command-unregister.md
+  - name: Отправить ответ на команду
+    href: imbot-command-answer.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

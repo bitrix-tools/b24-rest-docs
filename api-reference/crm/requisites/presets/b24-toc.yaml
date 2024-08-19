@@ -1,0 +1,23 @@
+title: Шаблоны реквизитов
+href: index.md
+items:
+  - name: О шаблонах
+    href: index.md
+  - name: Создать шаблон 
+    href: crm-requisite-preset-add.md
+  - name: Изменить шаблон реквизита
+    href: crm-requisite-preset-update.md
+  - name: Получить список стран для шаблона
+    href: crm-requisite-preset-countries.md
+  - name: Получить поля шаблона реквизитов по id
+    href: crm-requisite-preset-get.md
+  - name: Получить список шаблонов реквизитов по фильтру
+    href: crm-requisite-preset-list.md
+  - name: Удалить шаблон реквизита
+    href: crm-requisite-preset-delete.md
+  - name: Получить описание полей шаблона реквизитов
+    href: crm-requisite-preset-fields.md
+  - name: Поля шаблона реквизитов
+    include:
+      path: fields/b24-toc.yaml
+      mode: link

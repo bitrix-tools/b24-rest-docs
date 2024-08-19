@@ -1,0 +1,21 @@
+title: Журнал лог-записей
+href: index.md
+items:
+  - name: Журнал лог-записей
+    href: index.md
+  - name: Добавить лог-запись
+    href: crm-timeline-logmessage-add.md
+  - name: Получить информацию о лог-записи
+    href: crm-timeline-logmessage-get.md
+  - name: Получить список лог-записей таймлана
+    href: crm-timeline-logmessage-list.md
+  - name: Удалить запись
+    href: crm-timeline-logmessage-delete.md
+  - name: Иконки
+    include:
+      path: icons/b24-toc.yaml
+      mode: link
+  - name: Логотипы
+    include:
+      path: logo/b24-toc.yaml
+      mode: link

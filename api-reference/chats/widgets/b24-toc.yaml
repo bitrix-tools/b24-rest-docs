@@ -1,0 +1,17 @@
+title: Виджеты
+href: index.md
+items:
+  - name: Виджеты для нового чата
+    href: index.md
+  - name: Общая информация по всем точкам встраивания
+    href: placement-info.md
+  - name: Виджет в левом меню чата
+    href: im-navigation.md
+  - name: Виджет панели над полем ввода сообщения
+    href: im-textarea.md
+  - name: Виджет сайдбара чата
+    href: im-sidebar.md
+  - name: Виджет в виде пункта контекстного меню сообщения
+    href: im-context-menu.md
+  - name: Виджет в инструменте смайлов
+    href: im-smiles-selector.md

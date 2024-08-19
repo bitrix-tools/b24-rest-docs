@@ -1,0 +1,29 @@
+title: Папка
+href: index.md
+items:
+  - name: Список методов
+    href: index.md
+  - name: Создание дочерней папки
+    href: disk-folder-add-subfolder.md
+  - name: Копирование папки в заданную папку
+    href: disk-folder-copy-to.md
+  - name: Уничтожение папки и всех дочерних элементов 
+    href: disk-folder-delete-tree.md
+  - name: Возвращение списка файлов и папок
+    href: disk-folder-get-children.md
+  - name: Получение публичной ссылки для папки
+    href: disk-folder-get-external-link.md
+  - name: Поля папки 
+    href: disk-folder-get-fields.md
+  - name: Возвращение параметров папки
+    href: disk-folder-get.md
+  - name: Перемещение папки в корзину
+    href: disk-folder-mark-deleted.md
+  - name: Перемещение папки в заданную папку 
+    href: disk-folder-move-to.md
+  - name: Переименование папки
+    href: disk-folder-rename.md
+  - name: Восстановление папки из корзины
+    href: disk-folder-restore.md
+  - name: Загрузка файла в указанную папку 
+    href: disk-folder-upload-file.md

@@ -1,0 +1,29 @@
+title: Таймлайн и дела CRM
+href: index.md
+items:
+  - name: Таймлайн и дела CRM
+    href: index.md
+  - name: Дела
+    include:
+      path: activities/toc.yaml
+      mode: link
+  - name: Заметки к записи таймлайна
+    include:
+      path: note/b24-toc.yaml
+      mode: link
+  - name: Управление связями записи таймлайна
+    include:
+      path: bindings/b24-toc.yaml
+      mode: link      
+  - name: Комментарии
+    include:
+      path: comments/b24-toc.yaml
+      mode: link
+  - name: Журнал лог-записей
+    include:
+      path: logmessage/b24-toc.yaml
+      mode: link
+  - name: Дополнительные контентные блоки
+    include:
+      path: layout-blocks/b24-toc.yaml
+      mode: link

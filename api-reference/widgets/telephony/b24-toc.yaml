@@ -1,0 +1,9 @@
+title: Виджеты в телефонии
+href: index.md
+items: 
+  - name: Вкладка в карточке звонка
+    href: index.md
+  - name: Пункт меню в аналитике звонков 
+    href: analytics-menu.md
+  - name: WebRTC
+    href: webrtc.md

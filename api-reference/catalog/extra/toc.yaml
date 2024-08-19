@@ -1,0 +1,13 @@
+title: Наценка
+href: index.md
+items: 
+  - name: Наценка
+    href: index.md
+  - name: Ресурс наценки
+    href: resource.md
+  - name: Доступ к полям наценки
+    href: catalog-extra-get.md
+  - name: Возвращение полей наценки
+    href: catalog-extra-get-fields.md
+  - name: Список наценок
+    href: catalog-extra-list.md

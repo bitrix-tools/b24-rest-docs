@@ -1,0 +1,13 @@
+title: Дополнительные контентные блоки
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Установить набор дополнительных контентных блоков
+    href: crm-timeline-layout-blocks-set.md
+  - name: Получить набор дополнительных контентных блоков
+    href: crm-timeline-layout-blocks-get.md
+  - name: Удалить набор дополнительных контентных блоков
+    href: crm-timeline-layout-blocks-delete.md
+  - name: Пример приложения с дополнительными контентными блоками
+    href: content-blocks-test-app.md

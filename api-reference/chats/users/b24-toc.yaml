@@ -1,0 +1,16 @@
+title: Работа с пользователями
+href: im-user-get.md
+items:
+  - name: Получить данные о пользователе
+    href: im-user-get.md
+  - name: Получить данные о пользователях
+    href: im-user-list-get.md
+  - name: Получить информацию об установленном статусе пользователя
+    href: im-user-status-get.md
+  - name: Установить статус пользователя
+    href: im-user-status-set.md
+  - name: Установить автоматический статус «Отошел»
+    href: im-user-status-idle-start.md
+  - name: Отключить автоматический статус «Отошел»
+    href: im-user-status-idle-end.md
+

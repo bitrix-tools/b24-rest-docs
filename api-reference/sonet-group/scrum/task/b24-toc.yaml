@@ -1,0 +1,11 @@
+title: Задачи Скрама
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать или обновить задачу Скрама
+    href: tasks-api-scrum-task-update.md
+  - name: Получить поля задачи Скрама по id
+    href: tasks-api-scrum-task-get.md
+  - name: Получить поля задачи Скрама
+    href: tasks-api-scrum-task-get-fields.md

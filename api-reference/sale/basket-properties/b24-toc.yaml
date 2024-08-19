@@ -1,0 +1,17 @@
+title: Свойства корзины
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md 
+  - name: Добавить свойство корзины
+    href: sale-basket-properties-add.md
+  - name: Обновить свойство корзины
+    href: sale-basket-properties-update.md
+  - name: Получить значение свойства корзины
+    href: sale-basket-properties-get.md
+  - name: Получить список свойств корзины
+    href: sale-basket-properties-list.md
+  - name: Удалить свойство корзины
+    href: sale-basket-properties-delete.md
+  - name: Получить поля элементов свойств корзины
+    href: sale-basket-properties-get-fields.md

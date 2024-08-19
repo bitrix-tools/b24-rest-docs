@@ -1,0 +1,17 @@
+title: Типы плательщиков
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить новый тип
+    href: sale-person-type-add.md
+  - name: Изменить тип плательщика
+    href: sale-person-type-update.md
+  - name: Получить тип плательщика по Id
+    href: sale-person-type-get.md
+  - name: Получить список типов плательщиков
+    href: sale-person-type-list.md
+  - name: Удалить тип плательщика
+    href: sale-person-type-delete.md
+  - name: Получить поля типа плательщика
+    href: sale-person-type-get-fields.md

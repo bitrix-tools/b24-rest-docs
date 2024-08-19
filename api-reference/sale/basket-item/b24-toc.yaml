@@ -1,0 +1,23 @@
+title: Корзина
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md 
+  - name: Добавить позицию в корзину существующего заказа
+    href: sale-basket-item-add.md 
+  - name: Изменить позицию корзины существующего заказа
+    href: sale-basket-item-update.md
+  - name: Получить информацию об элементе (позиции) корзины заказа
+    href: sale-basket-item-get.md
+  - name: Получить список элементов (позиций) корзины
+    href: sale-basket-item-list.md
+  - name: Удалить элемент (позицию) корзины из заказа
+    href: sale-basket-item-delete.md
+  - name: Получить доступные поля элемента (позиции) корзины
+    href: sale-basket-item-get-fields.md 
+  - name: Добавить позицию (элемент) с товаром или услугой из модуля catalog в корзину существующего заказа
+    href: sale-basket-item-add-catalog-product.md 
+  - name: Изменить позицию корзины (товар из каталога) существующего заказа
+    href: sale-basket-item-update-catalog-product.md 
+  - name: Получить доступные поля элемента корзины (товар из каталога)
+    href: sale-basket-item-get-catalog-product-fields.md 

@@ -1,0 +1,19 @@
+title: Рекурентные сделки
+href: index.md
+items: 
+  - name: Что такое рекурентная сделка?
+    href: index.md
+  - name: Создание новой рекурентной сделки
+    href: crm-deal-recurring-add.md
+  - name: Просмотр списка полей шаблона регулярной сделки
+    href: crm-deal-recurring-fields.md
+  - name: Создание новой сделки из шаблона
+    href: crm-deal-recurring-expose.md
+  - name: Изменение существующей настройки для шаблона регулярной сделки
+    href: crm-deal-recurring-update.md
+  - name: Получение полей настройки шаблона регулярной сделки по Id
+    href: crm-deal-recurring-get.md
+  - name: Получение списка настроек шаблонов регулярных сделок
+    href: crm-deal-recurring-list.md
+  - name: Удаление существующей настройки для шаблона регулярной сделки
+    href: crm-deal-recurring-delete.md

@@ -1,0 +1,36 @@
+title: Роботизация бизнеса
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md 
+  - name: Процессы
+    include:
+      path: type/toc.yaml
+      mode: link
+  - name: Стадии
+    include:
+      path: stage/toc.yaml
+      mode: link
+  - name: Элементы
+    include:
+      path: item/toc.yaml
+      mode: link
+  - name: Задания
+    include:
+      path: task/toc.yaml
+      mode: link
+  - name: Настройки видимости полей
+    include:
+      path: fields/toc.yaml
+      mode: link
+  - name: Записи таймлайна
+    include:
+      path: timeline/toc.yaml
+      mode: link
+  - name: Комментарии
+    include:
+      path: comment/toc.yaml
+      mode: link
+
+
+

@@ -1,0 +1,17 @@
+title: Табличная часть отгрузки
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить элемент в табличную часть отгрузки
+    href: sale-shipment-item-add.md
+  - name: Изменить элемент в табличной части отгрузки
+    href: sale-shipment-item-update.md
+  - name: Получить доступ к полям элемента
+    href: sale-shipment-item-get.md
+  - name: Получить список элементов табличной части отгрузки
+    href: sale-shipment-item-list.md
+  - name: Удалить элемент коллекции
+    href: sale-shipment-item-delete.md
+  - name: Получить поля табличной части отгрузки
+    href: sale-shipment-item-get-fields.md

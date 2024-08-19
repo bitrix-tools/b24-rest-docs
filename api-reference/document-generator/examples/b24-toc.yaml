@@ -1,0 +1,17 @@
+title: Частые кейсы и сценарии
+href: index.md
+items: 
+  - name: Генерация простого документа
+    href: index.md
+  - name: Генерация документа с изображениями и печатями 
+    href: document-images-seals.md
+  - name: Генерация документа с модификаторами даты и имени 
+    href: document-date-name.md
+  - name: Генерация документа с табличными данными 
+    href: document-table-data.md
+  - name: Генерация документа со сложными таблицами
+    href: document-table-complex.md
+
+
+
+

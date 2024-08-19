@@ -1,0 +1,13 @@
+title: Соответствие физ. и юр. лицам
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md 
+  - name: Добавить элемент соответствия физ. и юр. лицам
+    href: sale-business-value-person-domain-add.md
+  - name: Получить список элементов соответствия физ. и юр. лицам
+    href: sale-business-value-person-domain-list.md
+  - name: Удалить элемент соответствия физ. и юр. лицам
+    href: sale-business-value-person-domain-delete-by-filter.md 
+  - name: Получить поля элемента соответствия физ. и юр. лицам
+    href: sale-business-value-person-domain-get-fields.md

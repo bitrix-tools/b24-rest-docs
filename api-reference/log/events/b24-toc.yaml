@@ -1,0 +1,9 @@
+title: События Ленты новостей
+href: index.md
+items:
+  - name: На добавление сообщения
+    href: index.md
+  - name: На изменение сообщения
+    href: on-live-feed-post-update.md
+  - name: На удаление сообщения
+    href: on-live-feed-post-delete.md

@@ -1,0 +1,21 @@
+title: Справочники
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создание нового элемента в справочнике
+    href: crm-status-add.md
+  - name: Удаление элемента справочника
+    href: crm-status-delete.md
+  - name: Получение элемента справочника по ID
+    href: crm-status-entity-items.md
+  - name: Получение типов справочников
+    href: crm-status-entity-types.md
+  - name: Получение полей справочника
+    href: crm-status-fields.md
+  - name: Получение элемента справочника по ID
+    href: crm-status-get.md
+  - name: Получение списка элементов по фильтру
+    href: crm-status-list.md
+  - name: Обновление элемента справочника
+    href: crm-status-update.md

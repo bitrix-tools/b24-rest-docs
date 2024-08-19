@@ -1,0 +1,15 @@
+title: Адреса реквизитов
+href: index.md
+items:
+  - name: Связи реквизитов с объектами CRM
+    href: index.md
+  - name: Зарегистрировать связь реквизитов с объектом 
+    href: crm-requisite-link-register.md
+  - name: Получить связь реквизита с объектом
+    href: crm-requisite-link-get.md
+  - name: Получить список связей реквизитов
+    href: crm-requisite-link-list.md
+  - name: Удалить связь реквизита с объектом
+    href: crm-requisite-link-unregister.md
+  - name: Получить описание полей связи реквизитов
+    href: crm-requisite-link-fields.md

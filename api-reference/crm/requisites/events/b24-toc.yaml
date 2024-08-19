@@ -1,0 +1,29 @@
+title: События
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: При регистрации адреса 
+    href: on-crm-address-register.md
+  - name: При удалении адреса
+    href: on-crm-address-unregister.md
+  - name: При добавлении реквизита
+    href: on-crm-requisite-add.md
+  - name: При изменении реквизита
+    href: on-crm-requisite-update.md
+  - name: При удалении реквизита
+    href: on-crm-requisite-delete.md
+  - name: При добавлении пользовательского поля
+    href: on-crm-requisite-user-field-add.md
+  - name: При изменении набора значений для пользовательского поля списочного типа
+    href: on-crm-requisite-user-field-set-enum-values.md
+  - name: При изменении пользовательского поля
+    href: on-crm-requisite-user-field-update.md
+  - name: При удалении пользовательского поля
+    href: on-crm-requisite-user-field-delete.md
+  - name: При добавлении банковского реквизита
+    href: on-crm-bank-detail-add.md
+  - name: При изменении банковского реквизита
+    href: on-crm-bank-detail-update.md
+  - name: При удалении банковского реквизита
+    href: on-crm-bank-detail-delete.md

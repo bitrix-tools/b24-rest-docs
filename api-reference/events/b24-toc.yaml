@@ -1,0 +1,27 @@
+title: События
+href: index.md
+items: 
+  - name: Концепция и преимущества обработки событий
+    href: index.md
+  - name: Получить список доступных событий
+    href: events.md
+  - name: Зарегистрировать обработчик 
+    href: event-bind.md
+  - name: Получить список обработчиков
+    href: event-get.md
+  - name: Отменить обработчик
+    href: event-unbind.md
+  - name: Безопасность
+    href: safe-event-handlers.md
+  - name: Офлайн-события 
+    href: offline-events.md
+  - name: Получить список офлайн-событий 
+    href: event-offline-list.md
+  - name: Получить список офлайн-событий с «очисткой»
+    href: event-offline-get.md
+  - name: Очистить очереди офлайн-событий
+    href: event-offline-clear.md
+  - name: Зарегистрировать ошибки обработки очереди
+    href: event-offline-error.md
+  - name: Событие изменения очереди
+    href: on-offline-event.md

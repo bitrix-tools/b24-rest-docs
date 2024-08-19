@@ -1,0 +1,35 @@
+title: Коммерческие предложения
+href: index.md
+items:
+  - name: Список методов
+    href: index.md
+  - name: Добавление коммерческого предложения
+    href: crm-quote-add.md
+  - name: Удаление коммерческого предложения
+    href: crm-quote-delete.md
+  - name: Получение полей коммерческого предложения 
+    href: crm-quote-fields.md
+  - name: Получение коммерческого предложения по идентификатору
+    href: crm-quote-get.md
+  - name: Список предложений по фильтру
+    href: crm-quote-list.md
+  - name: Изменение коммерческого предложения
+    href: crm-quote-update.md
+  - name: Получение товарных позиций предложения
+    href: crm-quote-product-rows-get.md
+  - name: Создание/изменение товарных позиций предложения 
+    href: crm-quote-product-rows-set.md
+  - name: Создание пользовательского поля для предложений
+    href: crm-quote-user-field-add.md
+  - name: Удаление пользовательского поля предложений
+    href: crm-quote-user-field-delete.md
+  - name: Получение пользовательских полей предложений по идентификатору
+    href: crm-quote-user-field-get.md
+  - name: Список пользовательских полей предложений по фильтру
+    href: crm-quote-user-field-list.md
+  - name: Изменение пользовательского поля предложений
+    href: crm-quote-user-field-update.md
+  - name: События 
+    include:
+      path: events/b24-toc.yaml
+      mode: link

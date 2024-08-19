@@ -1,0 +1,9 @@
+title: Производительность
+href: index.md
+items: 
+  - name: Лимиты
+    href: limits.md
+  - name: Общие рекомендации
+    href: recommendations.md
+  - name: Получение больших объемов данных
+    href: huge-data.md

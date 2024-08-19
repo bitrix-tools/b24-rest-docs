@@ -1,0 +1,13 @@
+title: События
+href: index.md
+items: 
+  - name: На получение новых сообщений
+    href: index.md
+  - name: На изменение сообщений
+    href: on-im-connector-message-update.md
+  - name: На удаление сообщений
+    href: on-im-connector-message-delete.md
+  - name: На удаление открытой линии
+    href: on-im-connector-line-delete.md
+  - name: На отключение открытой линии
+    href: on-im-connector-status-delete.md

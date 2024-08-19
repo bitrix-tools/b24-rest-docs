@@ -1,0 +1,23 @@
+title: Битрикс24 Маркет
+href: index.md
+items: 
+  - name: Обзор тиражных приложений 
+    href: index.md
+  - name: Технологическое партнерство
+    href: technology-partnership.md
+  - name: Подготовка к публикации
+    include:
+      path: preparing-to-publish/b24-toc.yaml
+      mode: link
+  - name: Монетизация
+    include:
+      path: monetization/b24-toc.yaml
+      mode: link
+  - name: Документы
+    include:
+      path: documents/b24-toc.yaml
+      mode: link
+  - name: Продвижение и аналитика
+    include:
+      path: promoting-and-analytics/b24-toc.yaml
+      mode: link

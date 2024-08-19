@@ -1,0 +1,15 @@
+title: Универсальные события объектов CRM
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: На создание объекта CRM пользовательского типа
+    href: on-crm-dynamic-item-add.md
+  - name: На обновление объекта CRM пользовательского типа
+    href: on-crm-dynamic-item-update.md
+  - name: На удаление объекта CRM пользовательского типа
+    href: on-crm-dynamic-item-delete.md
+  - name: События пользовательских типов CRM
+    include:
+      path: type/b24-toc.yaml
+      mode: link

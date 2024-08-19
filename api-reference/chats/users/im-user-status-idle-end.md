@@ -1,0 +1,84 @@
+# Отключить автоматический статус «Отошел»
+
+{% note warning "Мы еще обновляем эту страницу" %}
+
+Тут может не хватать некоторых данных — дополним в ближайшее время
+
+{% endnote %}
+
+{% if build == 'dev' %}
+
+{% note alert "TO-DO _не выгружается на prod_" %}
+
+- нужны правки под стандарт написания
+- не указаны типы параметров
+- отсутствуют примеры
+- отсутствует ответ в случае ошибки
+
+{% endnote %}
+
+{% endif %}
+
+{% note info "im.user.status.idle.end" %}
+
+**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
+
+{% endnote %}
+
+Метод `im.user.status.idle.end` отключает автоматический статус «Отошел».
+
+Без параметров.
+
+## Примеры
+
+{% list tabs %}
+
+- cURL
+
+    // пример для cURL
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'im.user.status.idle.end',
+        {},
+        function(result){
+            if(result.error())
+            {
+                console.error(result.error().ex);
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP
+
+    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
+
+    ```php
+    $result = restCommand(
+        'im.user.status.idle.start',
+        Array(),
+        $_REQUEST[
+            "auth"
+        ]
+    );    
+    ```
+
+{% endlist %}
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Ответ в случае успеха
+
+```json
+{
+    "result": true
+}
+```
+

@@ -1,0 +1,19 @@
+title: Базовые методы
+href: index.md
+items:
+  - name: Список методов 
+    href: index.md
+  - name: Завершить текущий день 
+    href: timeman-close.md
+  - name: Начать новый рабочий день 
+    href: timeman-open.md
+  - name: Приостановить текущий рабочий день 
+    href: timeman-pause.md
+  - name: Получить настройки рабочего времени 
+    href: timeman-settings.md
+  - name: Получить информацию о текущем рабочем дне
+    href: timeman-status.md
+
+
+
+

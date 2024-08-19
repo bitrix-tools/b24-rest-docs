@@ -1,0 +1,36 @@
+title: Чат-боты
+href: index.md
+items:
+  - name: Чат-боты в Битрикс24
+    href: index.md
+  - name: Частые кейсы и сценарии
+    href: tutorials.md
+  - name: Отправка команд и продление ключ_авторизации
+    href: send-command.md
+  - name: Создать чат-бота
+    href: imbot-register.md
+  - name: Изменить чат-бота
+    href: imbot-update.md
+  - name: Получить список чат-ботов
+    href: imbot-bot-list.md
+  - name: Удалить чат-бота
+    href: imbot-unregister.md
+  - name: Чаты
+    include:
+      path: chats/b24-toc.yaml
+      mode: link
+  - name: Сообщения
+    include:
+      path: messages/b24-toc.yaml
+      mode: link
+  - name: Команды
+    include:
+      path: commands/b24-toc.yaml
+      mode: link
+  - name: Получить информацию о резвизиях API
+    href: im-revision-get.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+

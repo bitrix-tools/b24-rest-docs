@@ -1,0 +1,17 @@
+title: Банковские реквизиты
+href: index.md
+items:
+  - name: О банковских реквизитах
+    href: index.md
+  - name: Создать новый банковский реквизит 
+    href: crm-requisite-bank-detail-add.md
+  - name: Изменить банковский реквизит
+    href: crm-requisite-bank-detail-update.md
+  - name: Получить банковский реквизит по id
+    href: crm-requisite-bank-detail-get.md
+  - name: Получить список банковских реквизитов по фильтру
+    href: crm-requisite-bank-detail-list.md
+  - name: Удалить банковский реквизит
+    href: crm-requisite-bank-detail-delete.md
+  - name: Получить описание полей банковских реквизитов
+    href: crm-requisite-bank-detail-fields.md

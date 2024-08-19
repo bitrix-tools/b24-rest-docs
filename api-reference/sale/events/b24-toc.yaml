@@ -1,0 +1,25 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: В конце сохранения заказа
+    href: on-sale-order-saved.md
+  - name: Перед удалением заказа
+    href: on-sale-before-order-delete.md
+  - name: После сохранения свойства заказа
+    href: on-property-value-entity-saved.md
+  - name: После сохранения оплаты
+    href: on-payment-entity-saved.md
+  - name: После сохранения отгрузки
+    href: on-shipment-entity-saved.md
+  - name: После сохранения заказа
+    href: on-order-entity-saved.md
+  - name: При удалении свойства заказа из базы
+    href: on-property-value-deleted.md
+  - name: При удалении оплаты из базы
+    href: on-payment-deleted.md
+  - name: При удалении отгрузки из базы
+    href: on-shipment-deleted.md
+  - name: При удалении заказа из базы
+    href: on-order-deleted.md

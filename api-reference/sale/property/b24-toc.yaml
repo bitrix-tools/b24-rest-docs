@@ -1,0 +1,17 @@
+title: Свойства заказа
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить свойство заказа
+    href: sale-property-add.md
+  - name: Обновить свойство заказа
+    href: sale-property-update.md
+  - name: Получить значение свойства заказа
+    href: sale-property-get.md
+  - name: Получить список свойств заказа
+    href: sale-property-list.md
+  - name: Удалить свойство заказа
+    href: sale-property-delete.md
+  - name: Получить поля и настройки свойства заказа
+    href: sale-property-get-fields-by-type.md

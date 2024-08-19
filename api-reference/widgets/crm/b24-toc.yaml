@@ -1,0 +1,26 @@
+title: Виджеты в CRM
+href: index.md
+items: 
+  - name: Пункт контекстного меню в списке элементов 
+    href: index.md
+  - name: Пункт выпадающего меню над списком элементов
+    href: list-toolbar.md
+  - name: Вкладка в детальной карточке элемента 
+    href: detail-tab.md
+  - name: Кнопка над таймлайном карточки элемента
+    href: detail-activity.md
+  - name: Пункт выпадающего меню верхней кнопки карточки элемента
+    href: detail-toolbar.md
+  - name: Пункт контекстного меню дела в карточке элемента
+    href: activity-timeline-menu.md
+  - name: Пункт выпадающего меню генератора документов
+    href: document-generator-button.md
+  - name: Пункт выпадающего меню верхней кнопки дизайнера роботов
+    href: robot-designer-toolbar.md
+  - name: Пункт выпадающего меню в туннелях продаж
+    href: funnels-toolbar.md
+  - name: Пункт левого меню CRM-аналитики
+    href: analytics-menu.md
+  - name: Пункт выпадающего меню верхней кнопки CRM-аналитики
+    href: analytics-toolbar.md
+

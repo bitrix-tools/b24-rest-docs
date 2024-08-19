@@ -1,0 +1,17 @@
+title: Свои типы объектов
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать новый пользовательский тип
+    href: crm-type-add.md
+  - name: Обновить пользовательский тип
+    href: crm-type-update.md
+  - name: Получить пользовательский тип по id
+    href: crm-type-get.md
+  - name: Получить список пользовательских типов
+    href: crm-type-list.md
+  - name: Удалить пользовательский тип
+    href: crm-type-delete.md
+  - name: Получить поля пользовательского типа
+    href: crm-type-fields.md

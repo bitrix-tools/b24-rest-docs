@@ -1,0 +1,17 @@
+title: Отгрузки
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить отгрузку
+    href: sale-shipment-add.md
+  - name: Обновить отгрузку
+    href: sale-shipment-update.md
+  - name: Получить значение полей отгрузки
+    href: sale-shipment-get.md
+  - name: Получить список отгрузок
+    href: sale-shipment-list.md
+  - name: Удалить отгрузку
+    href: sale-shipment-delete.md
+  - name: Получить доступные поля отгрузки
+    href: sale-shipment-get-fields.md

@@ -1,0 +1,21 @@
+title: Записи таймлайна
+href: index.md
+items: 
+  - name: Записи таймлайна
+    href: index.md
+  - name: Получение массива записей таймлайна для элемента
+    href: rpa-timeline-list-for-item.md
+  - name: Обновление флага прикрепления записи
+    href: rpa-timeline-update-is-fixed.md
+  - name: Создание новой записи таймлайна у элемента
+    href: rpa-timeline-add.md
+  - name: Обновление записи таймлайна
+    href: rpa-timeline-update.md
+  - name: Удаление записи таймлайна
+    href: rpa-timeline-delete.md
+
+
+
+
+
+

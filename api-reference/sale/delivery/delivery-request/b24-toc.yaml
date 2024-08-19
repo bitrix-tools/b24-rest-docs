@@ -1,0 +1,11 @@
+title: Транспортные заявки
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Обновить транспортную заявку
+    href: sale-delivery-request-update.md
+  - name: Создать оповещения по транспортной заявке
+    href: sale-delivery-request-send-message.md
+  - name: Удалить транспортную заявку
+    href: sale-delivery-request-delete.md

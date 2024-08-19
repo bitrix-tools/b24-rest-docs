@@ -1,0 +1,15 @@
+title: Значения свойства
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Изменить значение свойства
+    href: sale-property-value-modify.md
+  - name: Получить значение свойства по id
+    href: sale-property-value-get.md
+  - name: Получить список значений свойств
+    href: sale-property-value-list.md
+  - name: Удалить значение свойства
+    href: sale-property-value-delete.md
+  - name: Получить доступные поля значения свойства
+    href: sale-property-value-get-fields.md

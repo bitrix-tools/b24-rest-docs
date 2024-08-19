@@ -1,0 +1,17 @@
+title: Взаимодействие с карточкой звонка
+href: index.md
+items: 
+  - name: Взаимодействие с карточкой звонка
+    href: index.md
+  - name: Получить статус звонка 
+    href: get-status.md
+  - name: Заблокировать автозакрытие
+    href: disable-auto-close.md
+  - name: Снять блокировку автозакрытия
+    href: enable-auto-close.md
+  - name: Событие смены клиента
+    href: call-card-entity-changed.md
+  - name: Событие перед закрытием карточки
+    href: call-card-before-close.md
+  - name: Событие смены статуса звонка
+    href: call-card-call-state-changed.md

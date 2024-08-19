@@ -1,0 +1,29 @@
+title: Чаты
+href: imbot-chat-add.md
+items:
+  - name: Создать чат от лица чат-бота
+    href: imbot-chat-add.md
+  - name: Получить идентификатор чата
+    href: imbot-chat-get.md
+  - name: Получить данные о чате
+    href: imbot-dialog-get.md
+  - name: Сменить владельца чата
+    href: imbot-chat-set-owner.md
+  - name: Изменить заголовок чата
+    href: imbot-chat-update-title.md
+  - name: Изменить аватар чата
+    href: imbot-chat-update-avatar.md
+  - name: Изменить цвет чата
+    href: imbot-chat-update-color.md
+  - name: Пригласить участников чата
+    href: imbot-chat-user-add.md
+  - name: Получить список участников
+    href: imbot-chat-user-list.md
+  - name: Исключить участников из чата
+    href: imbot-chat-user-delete.md
+  - name: Выход чат-бота из указанного чата
+    href: imbot-chat-leave.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

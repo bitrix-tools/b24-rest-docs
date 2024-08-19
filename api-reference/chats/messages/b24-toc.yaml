@@ -1,0 +1,34 @@
+title: Сообщения
+href: index.md
+items:
+  - name: Форматирование
+    href: index.md
+  - name: Вложения
+    include:
+      path: attachments/b24-toc.yaml
+      mode: link
+  - name: Работа с клавиатурами
+    href: keyboards.md
+  - name: Работа с контекстным меню
+    href: menu.md
+  - name: Добавить сообщение
+    href: im-message-add.md
+  - name: Изменить отправленное сообщение
+    href: im-message-update.md
+  - name: Изменить статус «Мне нравится» у сообщения
+    href: im-message-like.md
+  - name: Создать объект на основании сообщения
+    href: im-message-share.md
+  - name: Получить список последних сообщений
+    href: im-dialog-messages-get.md
+  - name: Установить признак «прочитано» у сообщений
+    href: im-dialog-read.md
+  - name: Установить признак «не прочитано» у сообщений
+    href: im-dialog-unread.md
+  - name: Отправить признак «вам пишут...»
+    href: im-dialog-writing.md
+  - name: Удаление сообщения чат-бота
+    href: im-message-delete.md
+  - name: Использование команды бота
+    href: im-message-command.md
+

@@ -1,0 +1,9 @@
+title: Доставки
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить информацию о доставке по id
+    href: crm-item-delivery-get.md
+  - name: Получить список доставок
+    href: crm-item-delivery-list.md

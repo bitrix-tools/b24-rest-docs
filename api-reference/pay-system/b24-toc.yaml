@@ -1,0 +1,33 @@
+title: Платежные системы
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md 
+  - name: Добавить REST-обработчик платежной системы
+    href: sale-pay-system-handler-add.md 
+  - name: Обновить REST-обработчик платежной системы
+    href: sale-pay-system-handler-update.md 
+  - name: Получить список REST-обработчиков платежной системы
+    href: sale-pay-system-handler-list.md 
+  - name: Удалить REST-обработчик платежной системы
+    href: sale-pay-system-handler-delete.md 
+  - name: Добавить платежную систему
+    href: sale-pay-system-add.md 
+  - name: Изменить платежную систему
+    href: sale-pay-system-update.md 
+  - name: Получить список платежных систем
+    href: sale-pay-system-list.md 
+  - name: Получить настройки платежной системы
+    href: sale-pay-system-settings-get.md
+  - name: Обновить настройки платежной системы
+    href: sale-pay-system-settings-update.md
+  - name: Удалить платежную систему
+    href: sale-pay-system-delete.md 
+  - name: Оплатить заказ через конкретную платежную систему
+    href: sale-pay-system-pay-payment.md 
+  - name: Оплатить счет через конкретную платежную систему
+    href: sale-pay-system-pay-invoice.md 
+  - name: Получить настройки платежной системы для конкретной оплаты
+    href: sale-pay-system-settings-payment-get.md 
+  - name: Получить настройки платежной системы для конкретного счета
+    href: sale-pay-system-settings-invoice-get.md 

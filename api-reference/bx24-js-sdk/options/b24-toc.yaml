@@ -1,0 +1,13 @@
+title: Настройки приложения
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Установить настройки для пользователя
+    href: bx24-user-option-set.md
+  - name: Получить настройки пользователя
+    href: bx24-user-option-get.md
+  - name: Установить настройки для приложения
+    href: bx24-app-option-set.md
+  - name: Получить настройки приложения
+    href: bx24-app-option-get.md

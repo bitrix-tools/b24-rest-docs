@@ -1,0 +1,12 @@
+title: Файлы
+href: index.md
+items:
+  - name: Получить папку хранения файлов указанного чата
+    href: index.md
+  - name: Добавить файл в чат
+    href: im-disk-file-commit.md
+  - name: Удалить файл из папки чата
+    href: im-disk-file-delete.md
+  - name: Сохранить файл на свой диск
+    href: im-disk-file-save.md
+

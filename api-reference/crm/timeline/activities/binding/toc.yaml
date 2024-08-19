@@ -1,0 +1,12 @@
+title: Привязка дел к объектам CRM
+href: index.md
+items:
+  - name: Логика привязки дел
+    href: index.md
+  - name: Добавление привязки дела
+    href: crm-activity-binding-add.md
+  - name: Получение списка привязок дела
+    href: crm-activity-binding-list.md
+  - name: Удаление привязки дела
+    href: crm-activity-binding-delete.md
+

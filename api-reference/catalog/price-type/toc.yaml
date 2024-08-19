@@ -1,0 +1,19 @@
+title: Тип цены
+href: index.md
+items: 
+  - name: Тип цены
+    href: index.md
+  - name: Ресурс типа цены
+    href: resource.md
+  - name: Добавление типа цены
+    href: catalog-price-type-add.md
+  - name: Удаление типа цены
+    href: catalog-price-type-delete.md
+  - name: Получение полей типа цены
+    href: catalog-price-type-get.md
+  - name: Возвращение полей типа цены
+    href: catalog-price-type-get-fields.md
+  - name: Список типов цен
+    href: catalog-price-type-list.md
+  - name: Обновление полей типа цены
+    href: catalog-price-type-update.md

@@ -1,0 +1,13 @@
+title: Настройки карточки элементов
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить параметры карточки элементов
+    href: crm-item-details-configuration-get.md
+  - name: Установить параметры карточки элементов
+    href: crm-item-details-configuration-set.md
+  - name: Сбросить параметры карточки элементов
+    href: crm-item-details-configuration-reset.md
+  - name: Установить общую карточку для всех пользователей
+    href: crm-item-details-configuration-forceCommonScopeForAll.md

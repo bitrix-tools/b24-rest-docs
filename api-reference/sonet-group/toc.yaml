@@ -1,0 +1,35 @@
+title: Рабочие группы и проекты
+href: index.md
+items:
+  - name: Создание группы/проекта
+    href: sonet-group-create.md
+  - name: Изменение группы/проекта
+    href: sonet-group-update.md
+  - name: Получение группы/проекта по Id
+    href: socialnetwork-api-workgroup-get.md
+  - name: Получение списка рабочих групп
+    href: socialnetwork-api-workgroup-list.md
+  - name: Получение списка групп/проектов
+    href: sonet-group-get.md 
+  - name: Проверка доступов текущего пользователя
+    href: sonet-group-feature-access.md
+  - name: Получение списка групп текущего пользователя
+    href: sonet-group-user-groups.md
+  - name: Изменение владельца группы/проекта
+    href: sonet-group-setowner.md
+  - name: Удаление группы соцсети
+    href: sonet-group-delete.md
+  - name: Участники группы/проекта
+    include:
+      path: members/b24-toc.yaml
+      mode: link
+  - name: Виджеты
+    href: widgets.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: Скрам
+    include:
+      path: scrum/b24-toc.yaml
+      mode: link

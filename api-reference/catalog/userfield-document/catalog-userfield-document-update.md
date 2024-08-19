@@ -1,0 +1,70 @@
+# Обновление значений пользовательских полей документов складского учёта
+
+{% note warning "Мы еще обновляем эту страницу" %}
+
+Тут может не хватать некоторых данных — дополним в ближайшее время
+
+{% endnote %}
+
+{% if build == 'dev' %}
+
+{% note alert "TO-DO _не выгружается на prod_" %}
+
+- не указана обязательность параметров
+- отсутствует ответ в случае ошибки 
+- нет примеров на др. языках
+- добавить ссылку на [`userfieldconfig.list`](.)
+  
+{% endnote %}
+
+{% endif %}
+
+{% note info "catalog.userfield.document.update" %}
+
+**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
+
+{% endnote %}
+
+```http
+catalog.userfield.document.update(documentId, fields)
+```
+
+Метод обновляет значения пользовательских полей документов складского учёта.
+
+## Параметры
+
+#|
+|| **Параметр** | **Описание**  ||
+|| **documentId** 
+[`integer`](../../data-types.md) | Идентификатор документа складского учёта. | ||
+|| **fields** 
+[`object`](../../data-types.md)| Поля, которые нужно обновить, и их новые значения. Обязательно должен быть указан `documentType` – [тип документов складского учёта](../enum/catalog-enum-get-store-document-types.md). | ||
+|#
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
+
+### Пример
+
+В API используются названия полей в виде `field[ID поля в базе]` – например, `field287`. ID поля можно узнать с помощью метода [`userfieldconfig.list`](.).
+
+```js
+BX24.callMethod(
+    'catalog.userfield.document.update',
+    {
+        documentId: 64,
+        fields: {
+            'documentType': 'S',
+            'field287': 'new value'
+        }
+    },
+    function(result)
+    {
+        if(result.error())
+            console.error(result.error().ex);
+        else
+            console.log(result.data());
+    }
+);
+```
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}

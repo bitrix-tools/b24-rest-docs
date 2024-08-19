@@ -1,0 +1,15 @@
+title: Страны
+href: index.md
+items: 
+  - name: Зачем нужны страны в генераторе документов
+    href: index.md
+  - name: Добавить страну
+    href: document-generator-region-add.md
+  - name: Изменить страну
+    href: document-generator-region-update.md
+  - name: Получить страну по id
+    href: document-generator-region-get.md
+  - name: Получить список стран
+    href: document-generator-region-list.md
+  - name: Удалить страну
+    href: document-generator-region-delete.md

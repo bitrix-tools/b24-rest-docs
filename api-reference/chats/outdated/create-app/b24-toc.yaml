@@ -1,0 +1,11 @@
+title: Приложения для чата
+href: index.md
+items:
+  - name: О создании приложения
+    href: index.md
+  - name: Зарегистрировать приложение для чата
+    href: imbot-app-register.md
+  - name: Изменить данные о приложении в чате
+    href: imbot-app-update.md
+  - name: Удалить приложение для чата
+    href: imbot-app-unregister.md

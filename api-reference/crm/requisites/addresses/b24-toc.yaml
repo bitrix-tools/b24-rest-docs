@@ -1,0 +1,16 @@
+title: Адреса реквизитов
+href: index.md
+items:
+  - name: Об адресах
+    href: index.md
+  - name: Добавить адрес 
+    href: crm-address-add.md
+  - name: Изменить адрес реквизита
+    href: crm-address-update.md
+  - name: Получить список адресов по фильтру
+    href: crm-address-list.md
+  - name: Удалить адрес
+    href: crm-address-delete.md
+  - name: Получить описание полей адреса
+    href: crm-address-fields.md
+

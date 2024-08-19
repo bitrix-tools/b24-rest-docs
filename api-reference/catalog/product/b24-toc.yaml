@@ -1,0 +1,31 @@
+title: Товар
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить товар
+    href: catalog-product-add.md
+  - name: Обновить товар
+    href: catalog-product-update.md
+  - name: Получить товар по id
+    href: catalog-product-get.md
+  - name: Получить список товаров по фильтру
+    href: catalog-product-list.md
+  - name: Скачать файлы товара
+    href: catalog-product-download.md
+  - name: Удалить товар
+    href: catalog-product-delete.md
+  - name: Получить поля товара по фильтру
+    href: catalog-product-get-fields-by-filter.md
+  - name: Головные товары
+    include:
+      path: sku/b24-toc.yaml
+      mode: link
+  - name: Торговые предложения
+    include:
+      path: offer/b24-toc.yaml
+      mode: link
+  - name: Услуги
+    include:
+      path: service/b24-toc.yaml
+      mode: link

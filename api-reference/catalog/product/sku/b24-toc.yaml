@@ -1,0 +1,22 @@
+title: Головные товары
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить головной товар
+    href: catalog-product-sku-add.md
+  - name: Обновить поля головного товара
+    href: catalog-product-sku-update.md
+  - name: Получить значения полей головного товара
+    href: catalog-product-sku-get.md
+  - name: Получить список головных товаров
+    href: catalog-product-sku-list.md
+  - name: Скачать файлы головного товара
+    href: catalog-product-sku-download.md
+  - name: Удалить головной товар
+    href: catalog-product-sku-delete.md
+  - name: Получить поля головного товара по фильтру
+    href: catalog-product-sku-get-fields-by-filter.md
+
+
+

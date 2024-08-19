@@ -1,0 +1,11 @@
+title: Универсальные события пользовательских типов CRM
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: На создание пользовательского типа CRM
+    href: on-crm-type-add.md
+  - name: На обновление пользовательского типа CRM
+    href: on-crm-type-update.md
+  - name: На удаление пользовательского типа CRM
+    href: on-crm-type-delete.md

@@ -1,0 +1,18 @@
+title: Группы свойств
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать группу свойств
+    href: sale-property-group-add.md
+  - name: Обновить поля группы свойств
+    href: sale-property-group-update.md
+  - name: Получить значения всех полей группы свойств по id
+    href: sale-property-group-get.md
+  - name: Получить список групп свойств
+    href: sale-property-group-list.md
+  - name: Удалить группу свойств
+    href: sale-property-group-delete.md
+  - name: Получить доступные поля групп свойств
+    href: sale-property-group-get-fields.md
+

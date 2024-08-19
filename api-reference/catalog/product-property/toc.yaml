@@ -1,0 +1,17 @@
+title: Свойства товаров и торговых предложений
+href: index.md
+items:
+  - name: Методы свойств товаров и торговых предложений
+    href: index.md
+  - name: Добавление свойств
+    href: catalog-product-property-add.md
+  - name: Удаление свойств
+    href: catalog-product-property-delete.md
+  - name: Получение полей свойств
+    href: catalog-product-property-get.md
+  - name: Возвращение полей свойств
+    href: catalog-product-property-get-fields.md
+  - name: Список свойств
+    href: catalog-product-property-list.md
+  - name: Обновление полей свойств
+    href: catalog-product-property-update.md
