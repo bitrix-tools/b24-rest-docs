@@ -161,7 +161,7 @@ function addSearchField() {
         resultContainer.style.width = '100%'; 
         resultContainer.style.maxHeight = '500px';
         resultContainer.style.overflowY = 'auto';
-        // resultContainer.style.backgroundColor = '#fff';
+        resultContainer.style.backgroundColor = '#fff';
         resultContainer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
         resultContainer.style.zIndex = '9999';
         resultContainer.style.display = 'none';
