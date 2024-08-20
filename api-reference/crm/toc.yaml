@@ -7,8 +7,6 @@ items:
     href: data-types.md 
   - name: Частые кейсы и туториалы
     href: tutorials.md
-  - name: Типы объектов CRM 
-    href: types.md
   - name: Режим работы CRM
     href: crm-settings-mode-get.md
   - name: Универсальные методы CRM
