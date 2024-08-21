@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Работа со списками
     include:
-      path: elements/toc.yaml
+      path: lists/toc.yaml
       mode: link
   - name: Работа с элементами
     include:
