@@ -21,3 +21,5 @@ items:
     include:
       path: promoting-and-analytics/b24-toc.yaml
       mode: link
+  - name: Митапы для партнеров
+    href: meetups.md

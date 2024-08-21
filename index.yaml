@@ -131,7 +131,7 @@ blocks:
           content:
             links:
               - text: 'Посмотреть документацию'
-                url: '/local-integrations/index.html'
+                url: './local-integrations/index.md'
                 theme: 'normal'
                 arrow: true
                 color: #54BA7E
@@ -180,7 +180,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: '/change-article.html'
+            url: 'change-article.md'
         border: none
         theme: 'light'
       - type: 'background-card'
@@ -193,7 +193,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: 'https://t.me/bit24dev'
+            url: 'support.md'
         border: none
         theme: 'light'
       - type: 'background-card'
@@ -206,7 +206,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: '/support.html'
+            url: 'support.md'
         theme: 'light'
         border: none
 

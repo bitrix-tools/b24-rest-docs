@@ -1,6 +1,8 @@
 title: Дубликаты
-href: crm-duplicate-find-by-comm.md
+href: index.md
 items:
+  - name: Обзор
+    href: index.md
   - name: Возвращение сущностей с совпадающими данными
     href: crm-duplicate-find-by-comm.md
   - name: Объединение дубликатов

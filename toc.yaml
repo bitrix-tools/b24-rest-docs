@@ -21,6 +21,8 @@ items:
     href: error-codes.md       
   - name: Что нового
     href: whats-new.md
+  - name: Митапы для разработчиков
+    href: meetups.md
   - name: Поддержка и коммьюнити для разработчиков
     href: support.md
   - name: Правки в документации
