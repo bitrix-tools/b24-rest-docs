@@ -62,7 +62,7 @@ blocks:
 
   - type: 'card-layout-block'
     title: 'Частые кейсы и сценарии'
-    description: Если вам нужны быстрые решения для ваших практических задач, начните с <a href="/tutorials/about.html">этого раздела</a>. Дальше вы сможете адаптировать наши примеры к вашей ситуации, используя все многообразие методов REST API.
+    description: Если вам нужны быстрые решения для ваших практических задач, начните с <a href="/tutorials/index.html">этого раздела</a>. Дальше вы сможете адаптировать наши примеры к вашей ситуации, используя все многообразие методов REST API.
     colSizes:
       all: 12
       md: 4
@@ -70,7 +70,7 @@ blocks:
     children:
       - type: 'layout-item'
         content:
-          title: '<a href="#">CRM</a>'
+          title: '<a href="/tutorials/crm/index.html">CRM</a>'
           text: 'Как быстро связать форму на своем сайте с CRM? Как автоматически создавать сделки с товарными позициями? Как, создавая лид из своего источника, «прокинуть» в Битрикс информацию для сквозной аналитики?'
         media:
           image: './_images/img_restapi_banner_s_01.png'
@@ -80,7 +80,7 @@ blocks:
         disableCompress: true
       - type: 'layout-item'
         content:
-          title: '<a href="#">Онлайн-продажи</a>'
+          title: '<a href="/tutorials/sale/index.html">Онлайн-продажи</a>'
           text: 'Как быстро сформировать заказ интернет-магазина? Как получить ссылку на оплату для передачи клиенту? Как подключить свою онлайн-кассу?'
         media:
           image: './_images/img_restapi_banner_s_02.png'
@@ -90,7 +90,7 @@ blocks:
         disableCompress: true
       - type: 'layout-item'
         content:
-          title: '<a href="#">Еще много всего</a>'
+          title: '<a href="/tutorials/index.html">Еще много всего</a>'
           text: 'Импортировать данные, интегрировать свою телефонию, использовать товарный каталог — десятки готовых практических примеров.'
         media:
           image: './_images/img_restapi_banner_s_03.png'
@@ -131,7 +131,7 @@ blocks:
           content:
             links:
               - text: 'Посмотреть документацию'
-                url: 'local-intergations'
+                url: '/local-integrations/index.html'
                 theme: 'normal'
                 arrow: true
                 color: #54BA7E
@@ -180,7 +180,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: '/support.md#documentation'
+            url: '/change-article.html'
         border: none
         theme: 'light'
       - type: 'background-card'
@@ -193,7 +193,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: '/support.md#community'
+            url: 'https://t.me/bit24dev'
         border: none
         theme: 'light'
       - type: 'background-card'
@@ -206,7 +206,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: '/support.md#support'
+            url: '/support.html'
         theme: 'light'
         border: none
 
