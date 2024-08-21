@@ -205,7 +205,7 @@ function fillResults(data) {
             // Create the full link with title
             const titleLink = document.createElement('a');
             titleLink.textContent = item.title;
-            titleLink.href = '/dev/' + item.link;
+            titleLink.href = item.link;
             titleLink.style.textDecoration = 'none';
             titleLink.style.color = '#000';
             titleLink.style.fontSize = '16px';  

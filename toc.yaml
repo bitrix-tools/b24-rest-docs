@@ -42,24 +42,24 @@ items:
       mode: link 
 navigation:
   logo:
-    url: 'https://apidocs.bitrix24.ru'
+    url: '/'
     dark:
-      icon: 'https://apidocs.bitrix24.ru/_images/bitrix24logo.svg'
+      icon: '/_images/bitrix24logo.svg'
     light:
-      icon: 'https://apidocs.bitrix24.ru/_images/bitrix24logo.svg'
+      icon: '/_images/bitrix24logo.svg'
   header:
     leftItems:
       - text: 'С чего начать'
         type: 'link'
-        url: 'https://apidocs.bitrix24.ru/about.html'
+        url: '/about.html'
       - text: 'Что нового'
         type: 'link'
-        url: 'https://apidocs.bitrix24.ru/whats-new.html'     
+        url: '/whats-new.html'     
       - text: 'Частые кейсы'
         type: 'link'
-        url: 'https://apidocs.bitrix24.ru/tutorials/index.html'  
-      - text: 'Поддержка'
+        url: '/tutorials/index.html'  
+      - text: 'Методы API'
         type: 'link'
-        url: 'https://apidocs.bitrix24.ru/support.html'
+        url: '/api-reference/index.html'
     rightItems:    
       - type: controls
