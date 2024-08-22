@@ -140,6 +140,8 @@ function addSearchField() {
         searchInput.addEventListener('input', function() {
             clearTimeout(typingTimer); 
 
+            const resultContainer = document.querySelector('.search-results-container');
+
             const query = searchInput.value.trim();
             if (query.length > 2) {
                 typingTimer = setTimeout(function() {
