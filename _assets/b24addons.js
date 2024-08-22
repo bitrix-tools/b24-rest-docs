@@ -87,6 +87,7 @@ function closePopup() {
 function addSearchResults () {
     // Search results popup
     const resultContainer = document.createElement('div');
+    
     resultContainer.classList.add('search-results-container');
     resultContainer.style.position = 'fixed!important';
     resultContainer.style.top = '100%'; 
@@ -100,6 +101,7 @@ function addSearchResults () {
     resultContainer.style.display = 'none';
     resultContainer.style.padding = '10px';
     
+    const searchContainer = document.querySelector('.search-container');
     const higherLevelContainer = document.body;
     higherLevelContainer.appendChild(resultContainer);
     
@@ -122,6 +124,7 @@ function addSearchField() {
         searchContainer.style.flex = '0 0 auto';
         searchContainer.style.marginLeft = '20px';
         searchContainer.style.width = '500px'; 
+        searchContainer.classList.add('search-container');
 
         // Search text field
         const searchInput = document.createElement('input');
