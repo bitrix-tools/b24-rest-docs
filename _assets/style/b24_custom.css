@@ -83,3 +83,14 @@ blockquote:first-of-type {
     background: url('../../_images/loader.gif') no-repeat right center;
     background-size: 20px 20px; /* Размер loader */
 }
+
+.g-root_theme_dark .search-results-container {
+    background-color: rgb(45, 44, 51) !important;
+}
+.g-root_theme_dark .search-results-container div a {
+    color: white !important;
+}
+.g-root_theme_dark .search-results-container div div a,
+.g-root_theme_dark .search-results-container div div span {
+    color: gray !important;
+}

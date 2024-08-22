@@ -155,7 +155,7 @@ function addSearchField() {
         // Search results popup
         const resultContainer = document.createElement('div');
         resultContainer.classList.add('search-results-container');
-        resultContainer.style.position = 'absolute';
+        resultContainer.style.position = 'fixed!important';
         resultContainer.style.top = '100%'; 
         resultContainer.style.left = '0'; 
         resultContainer.style.width = '100%'; 
