@@ -18,7 +18,7 @@
 || **id***
 [`integer`](../../../data-types.md) | Целочисленный идентификатор дела типа «Комментарий» (например, `1`). Получить идентификаторы можно методом [`crm.timeline.comment.list`](./crm-timeline-comment-list.md) ||
 || **ownerTypeId**
-[`integer`](../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../data-types.md#тип-объекта-crm), к которому привязан комментарий (например, `2` для сделки) ||
+[`integer`](../../data-types.md#object_type) | [Целочисленный идентификатор типа сущности CRM](../../data-types.md#object_type), к которому привязан комментарий (например, `2` для сделки) ||
 || **ownerId**
 [`integer`](../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязан комментарий (например, `1`). Получить список идентификаторов  можно с помощью метода [`crm.timeline.bindings.list`](../bindings/crm-timeline-bindings-list.md) (поле `ENTITY_ID`) ||
 |#
@@ -150,7 +150,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-comment-add.md)
 - [{#T}](./crm-timeline-comment-update.md)

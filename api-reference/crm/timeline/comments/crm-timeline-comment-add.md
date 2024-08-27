@@ -18,7 +18,8 @@
 || **fields***
 [`object`](../../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления нового дела типа «Комментарий» в виде структуры:
 
-```js
+```json
+
 fields:
 {
     "ENTITY_ID": 'значение',
@@ -28,15 +29,17 @@ fields:
     "FILES": [
         [
             "название файла", 
-            "файл"
+            "содержимое файла"
         ],
         [
             "название файла",
-            "файл"
+            "содержимое файла"
         ],
     ]
 }
 ```
+
+Содержимое файла передается в виде base64-строки
 
 {% note warning %}
 
@@ -47,7 +50,7 @@ fields:
  ||
 |#
 
-### Параметр fields
+### Параметр fields {#parametr-fields}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -55,11 +58,13 @@ fields:
 || **Название**
 `тип` | **Описание** ||
 || **ENTITY_ID***
-[`integer`](../../../data-types.md) | `ID` элемента, к которому привязан комментарий ||
+[`integer`](../../../data-types.md) | `ID` элемента, к которому привязан комментарий.
+
+Значение можно получить методом [`crm.item.list`](../../universal/crm-item-list.md) или при создании элемента с помощью [`crm.item.add`](../../universal/crm-item-add.md) ||
 || **ENTITY_TYPE***
-[`string`](../../../data-types.md) | Тип элемента, к которому привязан комментарий. Например: `lead`, `deal`, `contact`, `company`, `order` ||
+[`string`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../../universal/user-defined-object-types/index.md) объекта CRM, к элементу которого привязан комментарий. Например: `lead`, `deal`, `contact`, `company`, `order` ||
 || **AUTHOR_ID**
-[`integer`](../../../data-types.md) | Автор ||
+[`user`](../../../data-types.md#standart-objects) | Идентификатор пользователя, добавляющего комментарий ||
 || **COMMENT***
 [`string`](../../../data-types.md) | Текст комментария ||
 || **FILES**
@@ -152,7 +157,6 @@ fields:
 
 {% endlist %}
 
-
 ## Обработка ответа
 
 HTTP-статус: **200**
@@ -208,7 +212,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-comment-update.md)
 - [{#T}](./crm-timeline-comment-get.md)

@@ -105,10 +105,10 @@ HTTP-статус: **200**
                     "height": 1
                 },
                 "authorId": 1,
-                "authorName": "Иван Михайлов",
-                "urlPreview": "https://mydomain.loc/disk/showFile/930/?&ncc=1&width=640&height=640&signature=292f450929833cd881070155e05a2c41b5bb265ea8c8c1bc2108dbcbb56f667f&ts=1718366521&filename=1.gif",
-                "urlShow": "https://mydomain.loc/disk/showFile/930/?&ncc=1&ts=1718366521&filename=1.gif",
-                "urlDownload": "https://mydomain.loc/disk/downloadFile/930/?&ncc=1&filename=1.gif"
+                "authorName": "John Dou",
+                "urlPreview": "https://my.bitrix24.com/disk/showFile/930/?&ncc=1&width=640&height=640&signature=292f450929833cd881070155e05a2c41b5bb265ea8c8c1bc2108dbcbb56f667f&ts=1718366521&filename=1.gif",
+                "urlShow": "https://my.bitrix24.com/disk/showFile/930/?&ncc=1&ts=1718366521&filename=1.gif",
+                "urlDownload": "https://my.bitrix24.com/disk/downloadFile/930/?&ncc=1&filename=1.gif"
             },
             "2": {
                 "id": 2,
@@ -121,10 +121,10 @@ HTTP-статус: **200**
                     "height": 1
                 },
                 "authorId": 1,
-                "authorName": "Иван Михайлов",
-                "urlPreview": "https://mydomain.loc/disk/showFile/931/?&ncc=1&width=640&height=640&signature=118de010a40eff06fb9d691ee9235e2ef809a17780e46927bf8b12f8dc3224db&ts=1718366521&filename=2.gif",
-                "urlShow": "https://mydomain.loc/disk/showFile/931/?&ncc=1&ts=1718366521&filename=2.gif",
-                "urlDownload": "https://mydomain/disk/downloadFile/931/?&ncc=1&filename=2.gif"
+                "authorName": "John Dou",
+                "urlPreview": "https://my.bitrix24.com/disk/showFile/931/?&ncc=1&width=640&height=640&signature=118de010a40eff06fb9d691ee9235e2ef809a17780e46927bf8b12f8dc3224db&ts=1718366521&filename=2.gif",
+                "urlShow": "https://my.bitrix24.com/disk/showFile/931/?&ncc=1&ts=1718366521&filename=2.gif",
+                "urlDownload": "https://my.bitrix24.com/disk/downloadFile/931/?&ncc=1&filename=2.gif"
             }
         }
     },
@@ -174,7 +174,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-comment-add.md)
 - [{#T}](./crm-timeline-comment-update.md)

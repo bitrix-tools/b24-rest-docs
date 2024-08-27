@@ -8,8 +8,9 @@
 
 Метод `crm.activity.list` возвращает список активностей по фильтру с учетом прав текущего пользователя.
 
-## Параметры
+## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -24,6 +25,7 @@
 Возможные значения для `field` соответствуют полям дела [crm.activity.fields](./crm-activity-fields.md).
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
@@ -35,34 +37,25 @@
   - "мол%" — ищем значения, начинающиеся с «мол»
   - "%мол" — ищем значения, заканчивающиеся на «мол»
   - "%мол%" — ищем значения, где «мол» может быть в любой позиции
-
 - `%=` — LIKE (см. описание выше)
-
 - `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
-
 - `=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
   - "мол%" — ищем значения, не начинающиеся с «мол»
   - "%мол" — ищем значения, не заканчивающиеся на «мол»
   - "%мол%" — ищем значения, где подстроки «мол» нет в любой позиции
-
 - `!%=` — NOT LIKE (см. описание выше)
-
 - `=` — равно, точное совпадение (используется по умолчанию)
 - `!=` - не равно
 - `!` — не равно
 
-||
-  || **filter[BINDINGS]** 
-  [`array`](../../data-types.md) | Дело может быть привязано к нескольким сущностям поэтому для их получения есть специальный ключ фильтра - `BINDINGS`, он принимает в себя массв объектов для которых требуется найти привязку.
-Каждый объект может состоять из ключей `OWNER_TYPE_ID` (идентификатор типа сущности) и `OWNER_ID` (идентификатор сущности), причем как одного, так и их комбинации.
-||
-|| **order** 
+|| **order**
 [`object`](../../data-types.md) | Набор пар ключ-значение для сортировки результатов вывода.
 В качестве ключей можно использовать смотрите поля дела [crm.activity.fields](./crm-activity-fields.md).
 
 Возможные значения для `order`:
+
 - `asc` — в порядке возрастания
-- `desc` — в порядке убывания 
+- `desc` — в порядке убывания
 
 По-умолчанию сортируется по увеличению поля Дата начала (`START_TIME`)
 
@@ -81,24 +74,55 @@
 
 Cм. описание [списочных методов](../../../how-to-call-rest-api/list-methods-pecularities.md).
 
-## Примеры
+{% note info "" %}
+
+Обратите внимание на особенность параметра `filter[BINDINGS]`.
+
+Дело может быть привязано к нескольким сущностям CRM. Например, звонок одновременно может быть привязан к лиду и к сделке, поэтому для получения этих сущностей в параметрах метода `crm.activity.list` есть специальный ключ фильтра - `BINDINGS`. 
+
+В нем нужно указать массив [системных](../../index.md) или [пользовательских](../../universal/user-defined-object-types/index.md) типов объектов CRM, для которых требуется найти привязку.
+
+Каждый объект может состоять из ключей `OWNER_TYPE_ID` (идентификатор типа сущности) и `OWNER_ID` (идентификатор сущности), причем как одного, так и их комбинации. Например:
+
+```json
+"BINDINGS": [
+    {"OWNER_TYPE_ID": 2},
+    {"OWNER_TYPE_ID": 3}
+]
+```
+
+{% endnote %}
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- cURL
-    
+- cURL (Webhook)
+
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["*"], "start":"50", "filter":{"PROVIDER_ID": CRM_TODO},"order":{"START_TIME": "ASC"},"auth":"**put_access_token_here**"}' \
-    https://xxx.bitrix24.com/rest/crm.activity.list.json
+    -d '{"order":{"ID":"DESC"},"filter":{"OWNER_TYPE_ID":3,"OWNER_ID":102},"select":["*","COMMUNICATIONS"]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"order":{"ID":"DESC"},"filter":{"OWNER_TYPE_ID":3,"OWNER_ID":102},"select":["*","COMMUNICATIONS"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.list
     ```
 
 - JS
 
     В примере мы получаем список дел контакта с `ID` = 102.
-    
+
     ```js
     BX24.callMethod(
         "crm.activity.list",
@@ -128,155 +152,38 @@ Cм. описание [списочных методов](../../../how-to-call-r
 - PHP
 
     ```php
-    $result = CRest::call('crm.activity.list', [
-        'SELECT' => ['*', 'COMMUNICATIONS'],
-        'FILTER' => [
-            'OWNER_TYPE_ID' => 3,
-            'OWNER_ID'      => 102
-        ],
-        'ORDER' => [
-            'ID' => 'DESC',
-        ],     
-    ]);
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.list',
+        [
+            'order' => [ 'ID' => 'DESC' ],
+            'filter' => [
+                'OWNER_TYPE_ID' => 3,
+                'OWNER_ID' => 102
+            ],
+            'select' => [ '*', 'COMMUNICATIONS' ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-## Некоторые практические примеры
+{% note tip "Частые кейсы и сценарии" %}
 
-{% list tabs %}
+- [{#T}](./crm-activity-list.md#example-bindings)
+- [{#T}](./crm-activity-list.md#example-communications)
+- [{#T}](./crm-activity-list.md#example-files)
 
-- Использование BINGINDS
+{% endnote %}
 
-    Получить поля: Идентификатор, Название, Тип собственника (Идентификатор типа сущности), Собственник (Идентификатор сущности)
-    Условие отбора: дело привязано одновременно к сделке и к контакту
-    
-    
-    ```bash
-    curl --location 'https://xxx.bitrix24.com/rest/crm.activity.list' \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "select": ["ID", "SUBJECT", "OWNER_TYPE_ID", "OWNER_ID"],
-        "filter": {
-            "BINDINGS": [
-                {"OWNER_TYPE_ID": 2},
-                {"OWNER_TYPE_ID": 3}
-            ]
-        },
-        "auth":"**put_access_token_here**",
-        "order": {
-            "ID": "asc"
-        }
-    }'
-    ```
-    
-    {% note info %}
-    
-    При использовании нескольких пар в `BINDINGS` в результатах возможно дублирование. Например в приведенном выше фрагменте дело привязанное к обоим сущностям будет выведено дважды.
-    
-    {% endnote %}
+## Обработка ответа
 
-- Получение COMMUNICATIONS
-
-    ```bash
-    curl --location 'https://xxx.bitrix24.com/rest/crm.activity.list' \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "select": ["ID", "COMMUNICATIONS"],
-        "filter": {
-            "ID": 20
-        },
-        "auth":"**put_access_token_here**"
-    }'
-    ```
-    
-    Пример результата:
-    
-    ```json
-    {
-        "result": [
-            {
-            "ID": "20",
-            "COMMUNICATIONS": [
-                {
-                    "ID": "23",
-                    "TYPE": "PHONE",
-                    "VALUE": "89152222222",
-                    "ENTITY_ID": "15",
-                    "ENTITY_TYPE_ID": "3",
-                    "ENTITY_SETTINGS": {
-                        "HONORIFIC": "1",
-                        "NAME": "Андрей ",
-                        "SECOND_NAME": "Николаев",
-                        "LAST_NAME": "",
-                        "COMPANY_TITLE": "ООО Фьюжн",
-                        "COMPANY_ID": "21"
-                    }
-                }
-            ]
-        }
-        ],
-        "total": 1,
-        "time": {
-            "start": 1724659407.69855,
-            "finish": 1724659407.723506,
-            "duration": 0.02495598793029785,
-            "processing": 0.003489971160888672,
-            "date_start": "2024-08-26T11:03:27+03:00",
-            "date_finish": "2024-08-26T11:03:27+03:00"
-        }
-    }
-    ```
-
-- Получение вложений
-
-    ```bash
-    curl --location 'https://xxx.bitrix24.com/rest/crm.activity.list' \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "select": ["ID", "STORAGE_ELEMENT_IDS"],
-        "filter": {
-            "ID": 101121
-        },
-        "auth":"**put_access_token_here**"
-    }'
-    ```
-    
-    Пример результата:
-    
-    ```json
-    {
-        "result": [
-            {
-                "ID": "101121",
-                "FILES": [
-                    {
-                        "id": 3101820,
-                        "url": "http://xxx.bitrix24.ru/bitrix/tools/crm_show_file.php?fileId=3101820&ownerTypeId=6&ownerId=101121&auth="
-                    }
-                ]
-            }
-        ],
-        "total": 1,
-        "time": {
-            "start": 1724659652.591025,
-            "finish": 1724659652.623784,
-            "duration": 0.03275895118713379,
-            "processing": 0.00624394416809082,
-            "date_start": "2024-08-26T11:07:32+03:00",
-            "date_finish": "2024-08-26T11:07:32+03:00"
-        }
-    }
-    ```
-
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
-
-{% endlist %}
-
-
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
 {
@@ -367,4 +274,324 @@ Cм. описание [списочных методов](../../../how-to-call-r
 [`double`](../../data-types.md) | Через сколько миллисекунд будет сброшен лимит на ресурсы REST API? Читайте подробности в статье [лимит на операции](../../../../limits.md) ||
 |#
 
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": "INVALID_REQUEST",
+    "error_description": "Https required"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Частные примеры
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+### Использование BINGINDS {#example-bindings}
+
+Получить поля: Идентификатор, Название, Тип собственника (Идентификатор типа сущности), Собственник (Идентификатор сущности)
+
+Условие отбора: дело привязано одновременно к сделке и к контакту
+
+{% note info %}
+
+При использовании нескольких пар в `BINDINGS` в результатах возможно дублирование. Например в результате выполнения примера кода ниже, дело привязанное к обоим сущностям, будет выведено дважды.
+
+{% endnote %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"order":{"ID":"DESC"},"filter":{"BINDINGS":[{"OWNER_TYPE_ID":2},{"OWNER_TYPE_ID":3}]},"select":["*","COMMUNICATIONS"]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"order":{"ID":"DESC"},"filter":{"BINDINGS":[{"OWNER_TYPE_ID":2},{"OWNER_TYPE_ID":3}]},"select":["*","COMMUNICATIONS"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.list
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+            "crm.activity.list",
+            {
+                order: { "ID": "DESC" },
+                filter:
+                {
+                    "BINDINGS": [
+                        {"OWNER_TYPE_ID": 2},
+                        {"OWNER_TYPE_ID": 3}
+                    ]
+                },
+                select: [ "*", "COMMUNICATIONS" ]
+            },
+            function(result)
+            {
+                if(result.error())
+                    console.error(result.error());
+                else
+                {
+                    console.dir(result.data());
+                    if(result.more())
+                        result.next();
+                }
+            }
+        );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.list',
+        [
+            'order' => ['ID' => 'DESC'],
+            'filter' => [
+                'BINDINGS' => [
+                    ['OWNER_TYPE_ID' => 2],
+                    ['OWNER_TYPE_ID' => 3]
+                ]
+            ],
+            'select' => ['*', 'COMMUNICATIONS']
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+### Получение COMMUNICATIONS {#example-communications}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"ID":"20"},"select":["*","COMMUNICATIONS"]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"ID":"20"},"select":["*","COMMUNICATIONS"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.list
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+            "crm.activity.list",
+            {
+                filter:
+                {
+                    "ID": '20'
+                },
+                select: [ "*", "COMMUNICATIONS" ]
+            },
+            function(result)
+            {
+                if(result.error())
+                    console.error(result.error());
+                else
+                {
+                    console.dir(result.data());
+                    if(result.more())
+                        result.next();
+                }
+            }
+        );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.list',
+        [
+            'filter' => [
+                'ID' => '20'
+            ],
+            'select' => ['*', 'COMMUNICATIONS']
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+#### Пример возвращаемых данных
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": [
+        {
+        "ID": "20",
+        "COMMUNICATIONS": [
+            {
+                "ID": "23",
+                "TYPE": "PHONE",
+                "VALUE": "89152222222",
+                "ENTITY_ID": "15",
+                "ENTITY_TYPE_ID": "3",
+                "ENTITY_SETTINGS": {
+                    "HONORIFIC": "1",
+                    "NAME": "Андрей ",
+                    "SECOND_NAME": "Николаев",
+                    "LAST_NAME": "",
+                    "COMPANY_TITLE": "ООО Фьюжн",
+                    "COMPANY_ID": "21"
+                }
+            }
+        ]
+    }
+    ],
+    "total": 1,
+    "time": {
+        "start": 1724659407.69855,
+        "finish": 1724659407.723506,
+        "duration": 0.02495598793029785,
+        "processing": 0.003489971160888672,
+        "date_start": "2024-08-26T11:03:27+03:00",
+        "date_finish": "2024-08-26T11:03:27+03:00"
+    }
+}
+```
+
+### Получение вложений {#example-files}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"ID":"101121"},"select":["*","STORAGE_ELEMENT_IDS"]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"ID":"101121"},"select":["*","STORAGE_ELEMENT_IDS"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.list
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+            "crm.activity.list",
+            {
+                filter:
+                {
+                    "ID": '101121'
+                },
+                select: [ "*", "STORAGE_ELEMENT_IDS" ]
+            },
+            function(result)
+            {
+                if(result.error())
+                    console.error(result.error());
+                else
+                {
+                    console.dir(result.data());
+                    if(result.more())
+                        result.next();
+                }
+            }
+        );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.list',
+        [
+            'filter' => [
+                'ID' => '101121'
+            ],
+            'select' => ['*', 'STORAGE_ELEMENT_IDS']
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+#### Пример возвращаемых данных
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": [
+        {
+            "ID": "101121",
+            "FILES": [
+                {
+                    "id": 3101820,
+                    "url": "http://xxx.bitrix24.com/bitrix/tools/crm_show_file.php?fileId=3101820&ownerTypeId=6&ownerId=101121&auth="
+                }
+            ]
+        }
+    ],
+    "total": 1,
+    "time": {
+        "start": 1724659652.591025,
+        "finish": 1724659652.623784,
+        "duration": 0.03275895118713379,
+        "processing": 0.00624394416809082,
+        "date_start": "2024-08-26T11:07:32+03:00",
+        "date_finish": "2024-08-26T11:07:32+03:00"
+    }
+}
+```

@@ -6,7 +6,7 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод получает список всех дела типа «Комментарий» элемента CRM.
+Метод получает список всех дела типа «Комментарий» указанного элемента CRM
 
 ## Параметры метода
 
@@ -17,8 +17,8 @@
 [`array`](../../../data-types.md) | Массив содержит список полей, которые необходимо выбрать (смотрите поля объекта [result](./crm-timeline-comment-fields.md#fields)). Если не передан или передан пустой массив, то результат вернет пустой массив ||
 || **filter**
 [`object`](../../../data-types.md) | Объект для фильтрации выбранных комментариев в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
- 
-Возможные значения для `field` соответствуют полям объекта [result](./crm-timeline-comment-fields.md#fields). 
+
+Возможные значения для `field` соответствуют полям объекта [result](./crm-timeline-comment-fields.md#fields).
 
 Обязательные поля: `ENTITY_ID`, `ENTITY_TYPE`.
 
@@ -32,29 +32,24 @@
 - `!@`— NOT IN (в качестве значения передаётся массив)
 - `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
 - `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищем значения, начинающиеся с «мол»
-    - `"%мол"` — ищем значения, заканчивающиеся на «мол»
-    - `"%мол%"` — ищем значения, где «мол» может быть в любой позиции
-
+  - `"мол%"` — ищем значения, начинающиеся с «мол»
+  - `"%мол"` — ищем значения, заканчивающиеся на «мол»
+  - `"%мол%"` — ищем значения, где «мол» может быть в любой позиции
 - `%=` — LIKE (см. описание выше)
-
 - `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
-
 - `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищем значения, не начинающиеся с «мол»
-    - `"%мол"` — ищем значения, не заканчивающиеся на «мол»
-    - `"%мол%"` — ищем значения, где подстроки «мол» нет в любой позиции
-
+  - `"мол%"` — ищем значения, не начинающиеся с «мол»
+  - `"%мол"` — ищем значения, не заканчивающиеся на «мол»
+  - `"%мол%"` — ищем значения, где подстроки «мол» нет в любой позиции
 - `!%=` — NOT LIKE (см. описание выше)
-
 - `=` — равно, точное совпадение (используется по умолчанию)
 - `!=` — не равно
 - `!` — не равно ||
 || **order**
 [`object`](../../../data-types.md) | Объект для сортировки выбранных комментариев в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
- 
-Возможные значения для `field` соответствуют полям объекта [result](./crm-timeline-comment-fields.md#fields). 
- 
+
+Возможные значения для `field` соответствуют полям объекта [result](./crm-timeline-comment-fields.md#fields).
+
 Возможные значения для `order`:
 
 - `asc` — в порядке возрастания
@@ -62,13 +57,13 @@
  ||
 || **start**
 [`integer`](../../../data-types.md) | Параметр используется для управления постраничной навигацией.
- 
+
 Размер страницы результатов всегда статичный: 50 записей.
- 
+
 Чтобы выбрать вторую страницу результатов необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов значение — `100` и так далее.
- 
+
 Формула расчета значения параметра `start`:
- 
+
 `start = (N-1) * 50`, где `N` — номер нужной страницы
  ||
 |#
@@ -185,10 +180,10 @@ HTTP-статус: **200**
                         "height": 1
                     },
                     "authorId": 1,
-                    "authorName": "Иван Михайлов",
-                    "urlPreview": "https://mydomain.loc/disk/showFile/930/?&ncc=1&width=640&height=640&signature=292f450929833cd881070155e05a2c41b5bb265ea8c8c1bc2108dbcbb56f667f&ts=1718366521&filename=1.gif",
-                    "urlShow": "https://mydomain.loc/disk/showFile/930/?&ncc=1&ts=1718366521&filename=1.gif",
-                    "urlDownload": "https://mydomain.loc/disk/downloadFile/930/?&ncc=1&filename=1.gif"
+                    "authorName": "John Dou",
+                    "urlPreview": "https://my.bitrix24.com/disk/showFile/930/?&ncc=1&width=640&height=640&signature=292f450929833cd881070155e05a2c41b5bb265ea8c8c1bc2108dbcbb56f667f&ts=1718366521&filename=1.gif",
+                    "urlShow": "https://my.bitrix24.com/disk/showFile/930/?&ncc=1&ts=1718366521&filename=1.gif",
+                    "urlDownload": "https://my.bitrix24.com/disk/downloadFile/930/?&ncc=1&filename=1.gif"
                 },
                 "2": {
                     "id": 2,
@@ -201,10 +196,10 @@ HTTP-статус: **200**
                         "height": 1
                     },
                     "authorId": 1,
-                    "authorName": "Иван Михайлов",
-                    "urlPreview": "https://mydomain.loc/disk/showFile/931/?&ncc=1&width=640&height=640&signature=118de010a40eff06fb9d691ee9235e2ef809a17780e46927bf8b12f8dc3224db&ts=1718366521&filename=2.gif",
-                    "urlShow": "https://mydomain.loc/disk/showFile/931/?&ncc=1&ts=1718366521&filename=2.gif",
-                    "urlDownload": "https://mydomain/disk/downloadFile/931/?&ncc=1&filename=2.gif"
+                    "authorName": "John Dou",
+                    "urlPreview": "https://my.bitrix24.com/disk/showFile/931/?&ncc=1&width=640&height=640&signature=118de010a40eff06fb9d691ee9235e2ef809a17780e46927bf8b12f8dc3224db&ts=1718366521&filename=2.gif",
+                    "urlShow": "https://my.bitrix24.com/disk/showFile/931/?&ncc=1&ts=1718366521&filename=2.gif",
+                    "urlDownload": "https://my.bitrix24.com/disk/downloadFile/931/?&ncc=1&filename=2.gif"
                 }
             },
         },
@@ -265,7 +260,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-comment-add.md)
 - [{#T}](./crm-timeline-comment-update.md)
