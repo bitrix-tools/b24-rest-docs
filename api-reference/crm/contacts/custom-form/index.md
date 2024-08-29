@@ -10,14 +10,19 @@
 
 {% endif %}
 
-> Scope: [`crm`](../../../scopes/permissions.md)
->
-> Кто может выполнять методы: любой пользователь
+Данные методы позволяют конфигурировать разделы внутри детальной карточки контактов
 
-#|
-|| **Метод** | **Описание** ||
-|| [crm.contact.details.configuration.get](./crm-contact-details-configuration-get.md) | Получает настройки карточки контактов ||
-|| [crm.contact.details.configuration.reset](./crm-contact-details-configuration-reset.md) | Сбрасывает настройки карточки контактов ||
-|| [crm.contact.details.configuration.set](./crm-contact-details-configuration-set.md) | Устанавливает настройки карточки контактов ||
-|| [crm.contact.details.configuration.forceCommonScopeForAll](./crm-contact-details-configuration-force-common-scope-for-all.md) | Позволяет принудительно установить общую карточку контактов для всех пользователей ||
-|#
+
+{% note tip "Универсальные методы" %}
+
+Для конфигурирования разделов внутри детальной карточки контактов, рекомендуем использовать методы [`crm.item.details.configuration.*`](../../universal/item-details-configuration/index.md)
+
+{% endnote %}
+
+
+## REST Методы
+
+- [{#T}](crm-contact-details-configuration-get.md)
+- [{#T}](crm-contact-details-configuration-reset.md)
+- [{#T}](crm-contact-details-configuration-set.md)
+- [{#T}](crm-contact-details-configuration-force-common-scope-for-all.md)
