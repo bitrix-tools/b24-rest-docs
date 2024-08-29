@@ -54,7 +54,7 @@
 
 В данном случае — `ONCRMCONTACTUSERFIELDDELETE`||
 || **event_handler_id**
-[`integer`](../../../data-types.md) | Идентификатор события ||
+[`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
 [`object`](../../../data-types.md) | Объект, содержащий информацию об удаленном пользовательском поле.
 

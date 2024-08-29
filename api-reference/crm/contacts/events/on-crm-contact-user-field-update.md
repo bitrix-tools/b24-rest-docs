@@ -54,7 +54,7 @@
 
 В данном случае — `ONCRMCONTACTUSERFIELDUPDATE`||
 || **event_handler_id**
-[`integer`](../../../data-types.md) | Идентификатор события ||
+[`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
 [`object`](../../../data-types.md) | Объект, содержащий информацию об измененном пользовательском поле
 
