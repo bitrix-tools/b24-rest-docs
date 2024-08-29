@@ -14,7 +14,6 @@
 
 Событие `onCrmContactUserFieldSetEnumValues` вызывается при изменении набора значений для пользовательского поля списочного типа у контактов.
 
-
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}
@@ -88,7 +87,8 @@
 
 {% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
-
 ## Продолжите изучение
 
-TODO
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
+- [{#T}](./index.md)

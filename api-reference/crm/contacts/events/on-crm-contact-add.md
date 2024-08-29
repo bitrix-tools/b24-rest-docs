@@ -82,7 +82,8 @@
 
 {% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
-
 ## Продолжите изучение
 
-TODO
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
+- [{#T}](./index.md)

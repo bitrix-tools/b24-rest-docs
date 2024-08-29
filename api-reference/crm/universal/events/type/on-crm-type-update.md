@@ -78,6 +78,8 @@
 
 ## Продолжите изучение
 
+- [{#T}](../../../../events/index.md)
+- [{#T}](../../../../events/event-bind.md)
 - [{#T}](index.md)
 - [{#T}](on-crm-type-add.md)
 - [{#T}](on-crm-type-delete.md)

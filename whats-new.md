@@ -2,6 +2,16 @@
 
 ## 2024
 
+### 29 августа, 2024
+
+- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./api-reference/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./api-reference/how-to-call-rest-api/batch.md)
+  
+- Обновлены статьи [раздела событий контактов](./api-reference/crm/contacts/events/index.md)
+- Обновлены статьи [раздела универсальных событий CRM](./api-reference/crm/universal/events/index.md)
+- Обновлены статьи [раздела событий пользовательских типов CRM](./api-reference/crm/universal/events/index.md)
+- Обновлены статьи [раздела универсальных методов управления карточками элементов](./api-reference/crm/universal/item-details-configuration/index.md)
+- Обновлены статьи [раздела управления карточками контактов](./api-reference/crm/contacts/custom-form/index.md)
+
 ### 27 августа, 2024
 
 - Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Получение списка дел](./api-reference/crm/timeline/activities/crm-activity-list.md), добавлены важные нюансы, касающиеся связей дел с объектами CRM, а также три дополнительных частных примера.
