@@ -6,12 +6,12 @@ REST API Битрикс24 - это API, к которому можно обра�
 curl -X POST \
 -H "Content-Type: application/json" \
 -d '{
-"fields": {
-"title": "New Deal",
-"typeId": "SALE",
-"stageId": "NEW"
-},
-auth=YOUR_ACCESS_TOKEN
+	"fields": {
+		"title": "New Deal",
+		"typeId": "SALE",
+		"stageId": "NEW"
+	},
+	"auth": "YOUR_ACCESS_TOKEN"
 }' \
 https://your-domain.bitrix24.com/rest/crm.deal.add.json
 ```
@@ -33,21 +33,21 @@ https://your-domain.bitrix24.com/rest/crm.deal.add.json
 curl -X POST \
 -H "Content-Type: application/json" \
 -d '{
-"fields": {
-"title": "New Deal",
-"typeId": "SALE",
-"stageId": "NEW"
-}
+	"fields": {
+		"title": "New Deal",
+		"typeId": "SALE",
+		"stageId": "NEW"
+	}
 }' \
 https://your-domain.bitrix24.com/rest/1/8g9l071eismy9q2l/crm.deal.add.json
 ```
 
 В данном примере указывается:
 
-- адрес конкретного Битрикс24 (your-domain.bitrix24.com);
-- идентификатор пользователя, создавшего вебхук (1);
-- секретный код вебхука (8g9l071eismy9q2l);
-- метод REST API, добавляющий сделку в CRM (crm.deal.add)
+- адрес конкретного Битрикс24 (`your-domain.bitrix24.com`);
+- идентификатор пользователя, создавшего вебхук (`1`);
+- секретный код вебхука (`8g9l071eismy9q2l`);
+- метод REST API, добавляющий сделку в CRM (`crm.deal.add`)
 
 Значения параметров метода (`fields`) были переданы в виде POST-запроса.
 
@@ -71,21 +71,21 @@ https://your-domain.bitrix24.com/rest/1/8g9l071eismy9q2l/crm.deal.add.json
 curl -X POST \
 -H "Content-Type: application/json" \
 -d '{
-"fields": {
-"title": "New Deal",
-"typeId": "SALE",
-"stageId": "NEW"
-},
-auth=807ca26600631fce00007a4b00000001f0f107255033363e91ab16442bd901b2571ed9
+	"fields": {
+		"title": "New Deal",
+		"typeId": "SALE",
+		"stageId": "NEW"
+	},
+	"auth": "807ca26600631fce00007a4b00000001f0f107255033363e91ab16442bd901b2571ed9"
 }' \
 https://your-domain.bitrix24.com/rest/crm.deal.add.json
 ```
 
 В данном примере указывается:
 
-- адрес конкретного Битрикс24 (your-domain.bitrix24.com);
-- метод REST API, добавляющий сделку в CRM (crm.deal.add);
-- токен авторизации, указанный в параметре `auth` (807ca26600631fce00007a4b00000001f0f107255033363e91ab16442bd901b2571ed9).
+- адрес конкретного Битрикс24 (`your-domain.bitrix24.com`);
+- метод REST API, добавляющий сделку в CRM (`crm.deal.add`);
+- токен авторизации, указанный в параметре `auth` (`807ca26600631fce00007a4b00000001f0f107255033363e91ab16442bd901b2571ed9`).
 
 Значения параметров метода (`fields`) были переданы в виде POST-запроса.
 
