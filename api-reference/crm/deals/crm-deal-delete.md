@@ -6,58 +6,136 @@
 
 {% endnote %}
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствуют примеры (на других языках)
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "crm.deal.delete" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Название метода: **crm.deal.delete**
+> 
+> Scope: [`crm`](../../scopes/permissions.md)
+> 
+> Кто может выполнять метод: любой пользователь с правом «удаления» сделок
 
 Метод `crm.deal.delete` удаляет сделку и все связанные с ней объекты
 
 Удаление сделки приведет к удалению всех связанных с ней объектов, таких как дела, история, дела Таймлайна и другие. Объекты удаляются, если они не привязаны к другим сущностям или элементам. В случае, если объекты привязаны к другим сущностям, удалится только привязка к удаляемой сделке.
 
-#|
-|| **Параметр** | **Описание** ||
-|| **id**^*^ | Идентификатор сделки. ||
-|#
+
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Пример
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id^*^**
+[`integer`](../../data-types.md) | Идентификатор сделки.
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.deal.delete",
-    { id: id },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info("Сделка с ID " + id + " успешно удалена.");
-    }
-);
-```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
-
+Можно получить с помощью методов [`crm.deal.list`](crm-deal-list.md) или [`crm.deal.add`](crm-deal-add.md) ||
+|#
 
 {% note tip "Связанные методы и темы" %}
 
 [{#T}](./recurring-deals/crm-deal-recurring-delete.md)
 
 {% endnote %}
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    todo
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    todo
+    ```
+
+- JS
+
+    ```js
+        BX24.callMethod(
+            'crm.deal.delete',
+            {
+                id: 12,
+            },
+            (result) => {
+                result.error()
+                    ? console.error(result.error())
+                    : console.info(result.data())
+                ;
+            },
+        );
+    ```
+
+- PHP
+
+    ```php
+    todo
+    ```
+
+{% endlist %}
+
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+	"result": true,
+	"time": {
+		"start": 1725019350.037109,
+		"finish": 1725019355.903999,
+		"duration": 5.86689019203186,
+		"processing": 5.262096881866455,
+		"date_start": "2024-08-30T14:02:30+02:00",
+		"date_finish": "2024-08-30T14:02:35+02:00",
+		"operating": 0
+	}
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+	"error": "",
+	"error_description": "ID is not defined or invalid."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Описание** | **Значение** ||
+|| ID is not defined or invalid. | В параметр `id` либо не передано значение, либо оно является не целым числом больше нуля ||
+|| Access denied. | У пользователя нет прав на «удаление» сделок ||
+|| Not found | Сделка с переданным `id` не существует ||
+|#
+
+{% include [системные ошибки](./../../../_includes/system-errors.md) %}
+
+
+## Продолжите изучение
+
+TODO
