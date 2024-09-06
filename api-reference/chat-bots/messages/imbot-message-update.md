@@ -96,9 +96,9 @@ $result = restCommand(
 || **MENU_OVERSIZE** | Превышен максимально допустимый размер меню (30 Кб). ||
 |#
 
-## Ссылки по теме
+## Продолжить изучение
 
-- [Как работать с набираемыми клавиатурами](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7683)
-- [Как работать с вложениями](/learning/course/index.php?COURSE_ID=93&CHAPTER_ID=07681)
-- [Форматирование сообщения](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7679)
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotmessageadd)
+- [Как работать с набираемыми клавиатурами](../../chats/messages/keyboards.md)
+- [Как работать с вложениями](../../chats/messages/attachments/index.md)
+- [Форматирование сообщения](../../chats/messages/index.md)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/index.md)
