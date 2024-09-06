@@ -105,7 +105,6 @@ function addSearchResults () {
     const higherLevelContainer = document.body;
     higherLevelContainer.appendChild(resultContainer);
     
-    resultContainer.style.position = 'absolute';
     resultContainer.style.top = `${searchContainer.getBoundingClientRect().bottom + window.scrollY}px`; 
     resultContainer.style.width = '700px'; 
     resultContainer.style.left = `${searchContainer.getBoundingClientRect().right - 700}px`; 
