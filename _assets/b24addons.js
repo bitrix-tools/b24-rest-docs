@@ -89,10 +89,10 @@ function addSearchResults () {
     const resultContainer = document.createElement('div');
     
     resultContainer.classList.add('search-results-container');
-    resultContainer.style.position = 'fixed !important';
-    resultContainer.style.top = '100%'; 
-    resultContainer.style.left = '0'; 
-    resultContainer.style.width = '100%'; 
+    resultContainer.style.setProperty('position', 'fixed', 'important');
+    // resultContainer.style.top = '100%'; 
+    // resultContainer.style.left = '0'; 
+    // resultContainer.style.width = '100%'; 
     resultContainer.style.maxHeight = '500px';
     resultContainer.style.overflowY = 'auto';
     resultContainer.style.backgroundColor = '#fff';
