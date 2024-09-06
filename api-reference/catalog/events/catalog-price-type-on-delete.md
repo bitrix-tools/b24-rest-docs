@@ -1,4 +1,4 @@
-# При удалении типа цен
+# При удалении типа цен CATALOG.PRICE.TYPE.ON.DELETE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.PRICE.TYPE.ON.DELETE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.PRICE.TYPE.ON.DELETE` срабатывает при удалении типа цен. В обработчик передаются следующие данные:
 

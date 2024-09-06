@@ -1,4 +1,4 @@
-# Изменение срока
+# Изменить срок crm.activity.todo.updateDeadline
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.todo.updateDeadline" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.todo.updateDeadline` меняет дедлайн универсального дела. Результат будет содержать `id` - идентификатор измененного дела.
 

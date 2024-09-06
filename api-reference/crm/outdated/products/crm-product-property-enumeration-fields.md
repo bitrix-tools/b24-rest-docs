@@ -1,7 +1,5 @@
-# Получить поля свойства списочного типа
+# Получить поля свойства списочного типа crm.product.property.enumeration.fields
 
-> Название метода: **crm.product.property.enumeration.fields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

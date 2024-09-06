@@ -1,4 +1,4 @@
-# Проверка прав текущего пользователя
+# Проверить права текущего пользователя sonet_group.feature.access
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,13 +19,9 @@
 
 {% endif %}
 
-{% note info "sonet_group.feature.access" %}
-
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Проверяет, имеет ли текущий пользователь право на совершение операции в группе соцсети, осуществляя вызов функции [CSocNetFeaturesPerms::CurrentUserCanPerformOperation()](http://dev.1c-bitrix.ru/api_help/socialnetwork/classes/CSocNetFeaturesPerms/currentusercanperformperation.php)
 

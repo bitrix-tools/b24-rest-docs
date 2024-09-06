@@ -1,4 +1,4 @@
-# Возобновление задачи после ее завершения
+# Возобновить задачу после ее завершения tasks.task.renew
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.renew" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.renew` возобновляет задачу после ее завершения.
 

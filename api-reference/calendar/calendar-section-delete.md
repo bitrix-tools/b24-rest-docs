@@ -1,4 +1,4 @@
-# Удаление календаря
+# Удалить календарь calendar.section.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "calendar.section.delete" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.section.delete` удаляет календарь. Здесь и в дальнейшем section будет именоваться как "календарь".
 

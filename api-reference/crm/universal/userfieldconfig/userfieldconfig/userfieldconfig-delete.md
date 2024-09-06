@@ -1,4 +1,4 @@
-# Удаление торгового каталога
+# Удалить настройки пользовательского поля userfieldconfig.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "userfieldconfig.delete" %}
-
-**Scope**: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 

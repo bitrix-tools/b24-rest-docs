@@ -1,4 +1,4 @@
-# Изменить аватарку чата
+# Изменить аватарку чата im.chat.updateAvatar
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.chat.updateAvatar" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.chat.updateAvatar` обновляет аватарку чата.
 

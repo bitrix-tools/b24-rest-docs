@@ -1,4 +1,4 @@
-# Отправка отчёта о выявленном отсутствии
+# Отправить отчет о выявленном отсутствии timeman.timecontrol.report.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.report.add" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `timeman.timecontrol.report.add` для отправки отчета о выявленном отсутствии.
 

@@ -1,4 +1,4 @@
-# При добавлении события
+# При добавлении события OnCalendarEntryAdd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "OnCalendarEntryAdd" %}
-
-**Scope**: [`calendar`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `OnCalendarEntryAdd` срабатывает при добавлении события. В обработчик передаются следующие данные:
 

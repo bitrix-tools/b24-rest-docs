@@ -3,11 +3,11 @@ href: index.md
 items: 
   - name: Работа с соглашениями
     href: index.md 
-  - name: Получение списка соглашений
+  - name: Получить список соглашений
     href: user-consent-agreement-list.md 
-  - name: Получение текста соглашения
+  - name: Получить текст соглашения
     href: user-consent-agreement-text.md 
-  - name: Сохранение полученного согласия пользователя
+  - name: Сохранить полученное согласие пользователя
     href: user-consent-consent-add.md 
 
 

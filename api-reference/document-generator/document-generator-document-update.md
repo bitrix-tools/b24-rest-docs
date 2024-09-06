@@ -1,4 +1,4 @@
-# Изменить существующий документ
+# Изменить существующий документ documentgenerator.document.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.document.update" %}
-
-**Scope**: [`documentgenerator`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.document.update` обновляет существующий документ с новыми значениями. Надо учесть, что обновление документа на удалённом шаблоне невозможно. Работает аналогично [documentgenerator.document.add()](./document-generator-document-add.md).
 

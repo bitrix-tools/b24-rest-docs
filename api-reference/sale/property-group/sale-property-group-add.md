@@ -1,7 +1,5 @@
-# Создать группу свойств
+# Создать группу свойств sale.propertygroup.add
 
-> Название метода: **sale.propertygroup.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,15 +1,15 @@
 title: Хранилища
 href: index.md
 items:
-  - name: Список методов 
+  - name: Обзор методов
     href: index.md
-  - name: Получение параметров или списка всех хранилищ 
+  - name: Получить параметры или список всех хранилищ
     href: entity-get.md
-  - name: Создание хранилища данных 
+  - name: Создать хранилище данных
     href: entity-add.md
-  - name: Обновление параметров хранилища 
+  - name: Изменить параметры хранилища
     href: entity-update.md
-  - name: Удаление хранилища
+  - name: Удалить хранилище
     href: entity-delete.md
-  - name: Получение или изменение прав доступа
+  - name: Получить или изменить права доступа
     href: entity-rights.md

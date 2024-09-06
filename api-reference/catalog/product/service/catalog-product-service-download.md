@@ -1,7 +1,5 @@
-# Скачать файлы услуги
+# Скачать файлы услуги catalog.product.service.download
 
-> Название метода: **catalog.product.service.download**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

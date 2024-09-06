@@ -1,4 +1,4 @@
-# Проверка разрешения действия
+# Проверить разрешение действия task.checklistitem.isactionallowed
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.isactionallowed" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.isactionallowed` проверяет, разрешено ли действие.
 

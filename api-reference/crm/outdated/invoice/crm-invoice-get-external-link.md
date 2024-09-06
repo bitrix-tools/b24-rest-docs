@@ -1,7 +1,5 @@
-# Получить ссылку на счет
+# Получить ссылку на счет crm.invoice.getexternallink
 
-> Название метода: **crm.invoice.getexternallink**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

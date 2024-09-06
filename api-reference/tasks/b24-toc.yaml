@@ -7,53 +7,53 @@ items:
     href: structure-connections.md
   - name: Поля задачи
     href: fields.md
-  - name: Добавление задачи
+  - name: Добавить задачу
     href: tasks-task-add.md
-  - name: Изменение задачи
+  - name: Изменить задачу
     href: tasks-task-update.md
-  - name: Получение задачи по идентификатору
+  - name: Получить задачу по идентификатору
     href: tasks-task-get.md
-  - name: Получение списка задач
+  - name: Получить список задач
     href: tasks-task-list.md
-  - name: Прикрепление файлов к задаче
+  - name: Прикрепить файлы к задаче
     href: tasks-task-files-attach.md
-  - name: Принятие задачи
+  - name: Принять задачу
     href: tasks-task-approve.md
-  - name: Перевод задачи в статус «завершена»
+  - name: Перевести задачу в статус «завершена»
     href: tasks-task-complete.md
-  - name: Получение счетчиков пользователя
+  - name: Получить счетчики пользователя
     href: tasks-task-counters-get.md
-  - name: Перевод задачи в статус «отложена»
+  - name: Перевести задачу в статус «отложена»
     href: tasks-task-defer.md
-  - name: Делегирование задачи
+  - name: Делегировать задачу
     href: tasks-task-delegate.md
-  - name: Удаление задачи
+  - name: Удалить задачу
     href: tasks-task-delete.md
-  - name: Отклонение задачи
+  - name: Отклонить задачу
     href: tasks-task-disapprove.md
-  - name: Добавление задачи в Избранное
+  - name: Добавить задачу в Избранное
     href: tasks-task-favorite-add.md
-  - name: Удаление задачи из Избранного
+  - name: Удалить задачу из Избранного
     href: tasks-task-favorite-remove.md
-  - name: Получение списка полей
+  - name: Получить список полей
     href: tasks-task-get-fields.md
-  - name: Проверка доступа к задаче
+  - name: Проверить доступ к задаче
     href: tasks-task-get-access.md
   - name: История задачи
     href: tasks-task-history-list.md
-  - name: Перевод задачи в статус «ждет выполнения»
+  - name: Перевести задачу в статус «ждет выполнения»
     href: tasks-task-pause.md
-  - name: Возобновление задачи после ее завершения
+  - name: Возобновить задачу после ее завершения
     href: tasks-task-renew.md
-  - name: Перевод задачи в статус «выполняется»
+  - name: Перевести задачу в статус «выполняется»
     href: tasks-task-start.md
-  - name: Включение наблюдения за задачей
+  - name: Включить наблюдение за задачей
     href: tasks-task-start-watch.md
-  - name: Отключение наблюдения за задачей
+  - name: Отключить наблюдение за задачей
     href: tasks-task-stop-watch.md
-  - name: Включение режима «Без звука»
+  - name: Включить режим «Без звука»
     href: tasks-task-mute.md
-  - name: Отключение режима «Без звука»
+  - name: Отключить режим «Без звука»
     href: tasks-task-unmute.md
   - name: Создать связь между задачами
     href: task-dependence-add.md

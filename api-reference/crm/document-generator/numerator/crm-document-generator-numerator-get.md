@@ -1,4 +1,4 @@
-# Получение информацию о нумераторе по Id
+# Получить информацию о нумераторе по Id crm.documentgenerator.numerator.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.numerator.get" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.numerator.get` возвращает информацию о нумераторе по его идентификатору.
 

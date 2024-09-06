@@ -1,4 +1,4 @@
-# Получить список пользователей, состоящих в вашем отделе
+# Получить список пользователей, состоящих в вашем отделе im.department.colleagues.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "im.department.colleagues.list" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.department.colleagues.list` получает список пользователей, состоящих в вашем отделе.
 

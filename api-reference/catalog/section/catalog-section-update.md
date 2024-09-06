@@ -1,7 +1,5 @@
-# Изменить секцию торгового каталога
+# Изменить секцию торгового каталога catalog.section.update
 
-> Название метода: **catalog.section.update**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

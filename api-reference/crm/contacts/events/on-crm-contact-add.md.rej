@@ -1,0 +1,16 @@
+diff a/api-reference/crm/contacts/events/on-crm-contact-add.md b/api-reference/crm/contacts/events/on-crm-contact-add.md	(ected hunks)
+@@ -17,11 +17,9 @@
+ 
+ {% endif %}
+ 
+-{% note info "onCrmContactAdd" %}
+-
+-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
+-
+-{% endnote %}
++> Scope: [`crm`](../../../scopes/permissions.md) 
++>
++> Кто может подписаться: любой пользователь
+ 
+ Событие `onCrmContactAdd` вызывается при создании контакта.
+ 

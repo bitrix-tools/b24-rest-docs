@@ -1,4 +1,4 @@
-# Создать лид на основании диалога
+# Создать лид на основании диалога imopenlines.crm.lead.create
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.crm.lead.create**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

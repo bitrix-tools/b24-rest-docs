@@ -1,7 +1,5 @@
-# Удалить логотип
+# Удалить логотип crm.timeline.logo.delete
 
-> Название метода: **crm.timeline.logo.delete**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `администратор`

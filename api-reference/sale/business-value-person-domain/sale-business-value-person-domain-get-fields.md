@@ -1,7 +1,5 @@
-# Получить поля элемента соответствия физическим и юридическим лицам
+# Получить поля элемента соответствия физическим и юридическим лицам sale.businessValuePersonDomain.getFields
 
-> Название метода: **sale.businessValuePersonDomain.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

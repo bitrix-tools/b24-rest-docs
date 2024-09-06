@@ -1,4 +1,4 @@
-# Получение списка переводов называния типов цен по фильтру
+# Получить список переводов называния типов цен по фильтру catalog.priceTypeLang.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.priceTypeLang.list" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.priceTypeLang.list(select, filter, order, start)

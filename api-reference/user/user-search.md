@@ -1,7 +1,5 @@
-# Список с поиском по персональным данным
+# Получить список пользователей с поиском по персональным данным user.search
 
-> Название метода: **user.search**
->
 > Scope: [`user`](../scopes/permissions.md), [`user_brief`](../scopes/permissions.md), [`user_basic`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

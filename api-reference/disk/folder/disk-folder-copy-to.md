@@ -1,4 +1,4 @@
-# Копирование папки в заданную папку
+# Копировать папку в заданную папку disk.folder.copyto
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.copyto" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.copyto` копирует папку в указанную папку.
 

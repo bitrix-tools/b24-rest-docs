@@ -1,7 +1,5 @@
-# Получить список привязок
+# Получить список привязок sale.paymentItemShipment.list
 
-> Название метода: **sale.paymentItemShipment.list**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

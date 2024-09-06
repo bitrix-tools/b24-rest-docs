@@ -1,4 +1,4 @@
-# Вызывается перед удалением темы рабочей группы
+# Вызывается перед удалением темы рабочей группы onSonetGroupSubjectDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "onSonetGroupSubjectDelete" %}
-
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onSonetGroupSubjectDelete` вызывается перед удалением темы рабочей группы. Прокси к событию [OnSocNetGroupSubjectDelete](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupSubjectDelete.php).
 

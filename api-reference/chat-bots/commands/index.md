@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "imbot.command.*" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Команды бывают **общими** и **локальными**.
 

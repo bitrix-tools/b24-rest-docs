@@ -1,7 +1,5 @@
-# Изменить статус счета
+# Изменить статус счета crm.invoice.status.update
 
-> Название метода: **crm.invoice.status.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

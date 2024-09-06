@@ -1,9 +1,9 @@
 title: Пользовательские поля документов складского учёта
 href: index.md
 items: 
-  - name: Пользовательские поля документов складского учёта
+  - name: Обзор методов
     href: index.md
-  - name: Возвращение списка значений полей
+  - name: Получить список значений полей
     href: catalog-userfield-document-list.md
-  - name: Обновление значений полей
+  - name: Изменить значения полей
     href: catalog-userfield-document-update.md

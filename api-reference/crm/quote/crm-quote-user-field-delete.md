@@ -1,4 +1,4 @@
-# Удаление пользовательского поля предложений
+# Удалить пользовательское поле предложений crm.quote.userfield.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.quote.userfield.delete" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.quote.userfield.delete` удаляет пользовательское поле предложений.
 

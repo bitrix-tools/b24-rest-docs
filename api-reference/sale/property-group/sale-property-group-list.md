@@ -1,7 +1,5 @@
-# Получить список групп свойств
+# Получить список групп свойств sale.propertygroup.list
 
-> Название метода: **sale.propertygroup.list**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

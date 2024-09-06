@@ -1,4 +1,4 @@
-# Перемещение страницы в другой сайт / папку
+# Переместить страницу в другой сайт / папку landing.landing.move
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.move" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.move` перемещает страницу в другой сайт и/или папку.
 

@@ -1,4 +1,4 @@
-# Забрать диалог себе
+# Забрать диалог себе imopenlines.operator.answer
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,8 +20,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.operator.answer**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

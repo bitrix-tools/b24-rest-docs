@@ -1,7 +1,5 @@
-# Удалить обработчик службы доставки
+# Удалить обработчик службы доставки sale.delivery.handler.delete
 
-> Название метода: **sale.delivery.handler.delete**
->
 > Scope: [`sale`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM

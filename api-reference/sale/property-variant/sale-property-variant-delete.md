@@ -1,7 +1,5 @@
-# Удалить вариант свойства
+# Удалить вариант свойства sale.propertyvariant.delete
 
-> Название метода: **sale.propertyvariant.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

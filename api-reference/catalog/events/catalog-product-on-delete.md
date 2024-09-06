@@ -1,4 +1,4 @@
-# При удалении товара
+# При удалении товара CATALOG.PRODUCT.ON.DELETE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.PRODUCT.ON.DELETE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.PRODUCT.ON.DELETE` срабатывает при удалении товара. В обработчик передаются следующие данные:
 

@@ -1,4 +1,4 @@
-# Получение публичной ссылки по идентификатору папки
+# Получить публичную ссылку по идентификатору папки disk.folder.getExternalLink
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.getExternalLink" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.getExternalLink`  возвращает публичную ссылку по идентификатору папки.
 

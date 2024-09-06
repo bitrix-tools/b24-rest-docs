@@ -1,0 +1,16 @@
+diff a/api-reference/crm/universal/import/index.md b/api-reference/crm/universal/import/index.md	(ected hunks)
+@@ -10,11 +10,9 @@
+ 
+ {% endif %}
+ 
+-{% note info "t" %}
+-
+-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
+-
+-{% endnote %}
++> Scope: [`crm`](../../../scopes/permissions.md)
++>
++> Кто может выполнять метод: любой пользователь с правом «импорта» элемента объекта CRM
+ 
+ Импорт через REST поддерживает все основные сущности CRM (идентификаторы типов можно найти [тут](../../types.md)):
+ 

@@ -1,4 +1,4 @@
-# Обновление значений пользовательских полей документов складского учёта
+# Изменить значения пользовательских полей документов складского учета catalog.userfield.document.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.userfield.document.update" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.userfield.document.update(documentId, fields)

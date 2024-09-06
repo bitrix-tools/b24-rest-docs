@@ -5,9 +5,9 @@ items:
     href: index.md
   - name: Отличия моделей
     href: distinction.md
-  - name: Переключение моделей
+  - name: Переключить модели
     href: landing-role-enable.md
-  - name: Определение модели прав
+  - name: Определить модели прав
     href: landing-role-is-enabled.md
   - name: Расширенная модель
     include:

@@ -1,17 +1,17 @@
 title: Участники группы/проекта
 href: index.md
 items:
-  - name: Приглашение участника
+  - name: Пригласить участника
     href: sonet-group-user-invite.md
-  - name: Отправление запроса на участие от текущего пользователя
+  - name: Отправить запрос на участие от текущего пользователя
     href: sonet-group-user-request.md
-  - name: Добавление участника без приглашения
+  - name: Добавить участника без приглашения
     href: sonet-group-user-add.md
-  - name: Изменение роли участников
+  - name: Изменить роль участников
     href: sonet-group-user-update.md
-  - name: Получение списка участников
+  - name: Получить список участников
     href: sonet-group-user-get.md
-  - name: Расширенное получение списка участников
+  - name: Получить расширенный список участников
     href: sonet-group-user-get-expanded.md
-  - name: Удаление пользователей из группы
+  - name: Удалить пользователей из группы
     href: sonet-group-user-delete.md

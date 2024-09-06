@@ -1,7 +1,5 @@
-# Получить список привязок свойства
+# Получить список привязок свойства sale.propertyRelation.list
 
-> Название метода: **sale.propertyRelation.list**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

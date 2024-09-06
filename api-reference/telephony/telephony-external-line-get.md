@@ -1,4 +1,4 @@
-# Получение списка внешних линий приложения
+# Получить список внешних линий приложения telephony.externalLine.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalLine.get" %}
-
 {% include notitle [Скоуп telephony admin](./_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalLine.get` позволяет получить список внешних линий приложения.
 

@@ -1,7 +1,5 @@
-# Получение списка допустимых действий над задачей
+# Получить список действий над задачей task.item.getallowedactions
 
-> Название метода: **task.item.getallowedactions**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

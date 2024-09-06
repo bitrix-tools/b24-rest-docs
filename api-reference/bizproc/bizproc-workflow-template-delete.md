@@ -1,4 +1,4 @@
-# Удаление шаблона бизнес-процесса
+# Удалить шаблон бизнес-процесса bizproc.workflow.template.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "bizproc.workflow.template.delete" %}
-
-{% include notitle [Скоуп bizproc админ](./_includes/scope-bizproc-admin.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Удаление шаблона Бизнес-процесса. Метод удаляет только те шаблоны, которые были созданы методом [`bizproc.workflow.template.add`](./bizproc-workflow-template-add.md), так как такие шаблоны привязываются к приложению и только их можно удалить.
 

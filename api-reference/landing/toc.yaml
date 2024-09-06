@@ -1,7 +1,7 @@
 title: Общие методы
 href: index.md
 items:
-  - name: Список методов 
+  - name: Обзор методов
     href: index.md
   - name: Работа с типами сайтов и скоупами 
     href: types.md
@@ -25,11 +25,11 @@ items:
     include:
       path: embedding/toc.yaml
       mode: link
-  - name: Партнёрские блоки
+  - name: Партнерские блоки
     include:
       path: partners-blocks/toc.yaml
       mode: link
-  - name: Партнёрские шаблоны
+  - name: Партнерские шаблоны
     include:
       path: demos/toc.yaml
       mode: link

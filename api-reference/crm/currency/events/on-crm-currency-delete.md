@@ -1,4 +1,4 @@
-# Событие на удаление валюты
+# Событие на удаление валюты onCrmCurrencyDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "onCrmCurrencyDelete" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmCurrencyDelete`, вызываемое после удаления валюты.
 

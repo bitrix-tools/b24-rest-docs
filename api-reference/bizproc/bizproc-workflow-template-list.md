@@ -1,4 +1,4 @@
-# Получение списка шаблонов
+# Получить список шаблонов bizproc.workflow.template.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "bizproc.workflow.template.list" %}
-
-{% include notitle [Скоуп bizproc все](./_includes/scope-bizproc-all.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод возвращает список шаблонов Бизнес-процессов, добавленных в Битрикс24.
 

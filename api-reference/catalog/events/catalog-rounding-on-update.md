@@ -1,4 +1,4 @@
-# При изменении правила округления цен
+# При изменении правила округления цен CATALOG.ROUNDING.ON.UPDATE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.ROUNDING.ON.UPDATE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.ROUNDING.ON.UPDATE` срабатывает при изменении правила округления цен. В обработчик передаются следующие данные:
 

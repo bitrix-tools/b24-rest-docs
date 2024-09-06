@@ -1,7 +1,5 @@
-# Добавить свойство товаров
+# Добавить свойство товаров crm.product.property.add
 
-> Название метода: **crm.product.property.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

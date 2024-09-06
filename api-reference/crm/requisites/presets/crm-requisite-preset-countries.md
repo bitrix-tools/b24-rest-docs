@@ -1,7 +1,5 @@
-# Получить список стран для шаблона
+# Получить список стран для шаблона crm.requisite.preset.countries
 
-> Название метода: **crm.requisite.preset.countries**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

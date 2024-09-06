@@ -1,4 +1,4 @@
-# Удаление стадии
+# Удалить стадию rpa.stage.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "rpa.stage.delete" %}
-
-**Scope**: [`rpa`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`rpa`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `rpa.stage.delete` удаляет стадию.
 

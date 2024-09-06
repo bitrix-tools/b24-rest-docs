@@ -1,4 +1,4 @@
-# Сменить владельца чата от лица чат-бота
+# Сменить владельца чата от лица чат-бота imbot.chat.setOwner
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.setOwner" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.setOwner` меняет владельца чата от лица чат-бота.
 

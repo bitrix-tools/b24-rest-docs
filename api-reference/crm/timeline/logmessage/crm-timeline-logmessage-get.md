@@ -1,7 +1,5 @@
-# Получить информацию о лог-записи
+# Получить информацию о лог-записи crm.timeline.logmessage.get
 
-> Название метода: **crm.timeline.logmessage.get**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

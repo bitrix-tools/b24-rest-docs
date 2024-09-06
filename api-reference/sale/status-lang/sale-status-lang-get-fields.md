@@ -1,7 +1,5 @@
-# Получить поля локализации статусов
+# Получить поля локализации статусов sale.statusLang.getFields
 
-> Название метода: **sale.statusLang.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

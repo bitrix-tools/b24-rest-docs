@@ -1,7 +1,5 @@
-# Обновить комментарий
+# Обновить комментарий crm.timeline.comment.update
 
-> Название метода: **crm.timeline.comment.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

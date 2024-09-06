@@ -16,11 +16,9 @@
 
 {% endnote %}
 
-{% note info "task.*" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 {% note warning %}
 

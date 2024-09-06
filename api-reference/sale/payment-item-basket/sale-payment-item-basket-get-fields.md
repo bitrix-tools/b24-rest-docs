@@ -1,7 +1,5 @@
-# Получить доступные поля привязок элементов корзины к оплатам
+# Получить доступные поля привязок элементов корзины к оплатам sale.paymentitembasket.getfields
 
-> Название метода: **sale.paymentitembasket.getfields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

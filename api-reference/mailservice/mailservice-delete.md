@@ -1,4 +1,4 @@
-# Удаление почтового сервиса
+# Удалить почтовый сервис mailservice.delete
 
 {% if build == 'dev' %}
 
@@ -17,11 +17,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.delete" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.delete` удаляет почтовый сервис.
 

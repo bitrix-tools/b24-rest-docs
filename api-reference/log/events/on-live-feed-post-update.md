@@ -1,4 +1,4 @@
-# На редактирование сообщения в Ленте новостей
+# На редактирование сообщения в Ленте новостей OnLiveFeedPostUpdate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "OnLiveFeedPostUpdate" %}
-
-**Scope**: [`log`](../../scopes/permissions.md)og | **Права на выполнение**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`log`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `OnLiveFeedPostUpdate` вызывается после изменения поста в Ленте новостей. Прокси к событию [OnAfterSocNetLogUpdate](.).
 

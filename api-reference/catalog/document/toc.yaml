@@ -1,37 +1,37 @@
 title: Склад
 href: index.md
 items: 
-  - name: Складской учёт
+  - name: Обзор методов
     href: index.md
-  - name: Добавление документа складского учёта
+  - name: Добавить документ складского учета
     href: catalog-document-add.md
-  - name: Отмена проведения документа
+  - name: Отменить проведение документа
     href: catalog-document-cancel.md
-  - name: Групповая отмена проведения документов
+  - name: Выполнить групповую отмену проведения документов
     href: catalog-document-cancel-list.md
-  - name: Проведние документа
+  - name: Провести документ
     href: catalog-document-conduct.md
-  - name: Групповое проведние документов
+  - name: Выполнить групповое проведение документов
     href: catalog-document-conduct-list.md
-  - name: Проведние документа (уст.)
+  - name: Провести документ (уст.)
     href: catalog-document-confirm.md    
-  - name: Удаление документа
+  - name: Удалить документ
     href: catalog-document-delete.md
-  - name: Групповое удаление документов
+  - name: Выполнить групповое удаление документов
     href: catalog-document-delete-list.md
-  - name: Возвращение списка полей документа (уст.)
+  - name: Получить список полей документа (уст.)
     href: catalog-document-fields.md
-  - name: Возвращение списка полей документа
+  - name: Получить поля документа складского учета
     href: catalog-document-get-fields.md
-  - name: Список документов
+  - name: Получить список документов
     href: catalog-document-list.md
-  - name: Режим работы складского учёта
+  - name: Получить информацию о режиме складского учета
     href: catalog-document-mode-status.md
-  - name: Отмена проведения документа (уст.)
+  - name: Отменить проведение документа (уст.)
     href: catalog-document-unconfirm.md
-  - name: Обновление документа
+  - name: Изменить документ
     href: catalog-document-update.md
-  - name: Товары документа складского учёта
+  - name: Товары документа складского учета
     include:
       path: document-element/toc.yaml
       mode: link

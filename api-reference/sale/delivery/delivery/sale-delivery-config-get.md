@@ -1,7 +1,5 @@
-# Получить настройки службы доставки
+# Получить настройки службы доставки sale.delivery.config.get
 
-> Название метода: **sale.delivery.config.get**
->
 > Scope: [`sale`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM

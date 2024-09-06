@@ -1,4 +1,4 @@
-# Обновление элемента списка
+# Изменить элемент списка lists.element.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,12 +21,9 @@
 
 {% endif %}
 
-{% note info "lists.element.update" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.element.update` обновляет элемент списка. В случае успешного обновления элемента ответ `true`, иначе *Exception*.
 

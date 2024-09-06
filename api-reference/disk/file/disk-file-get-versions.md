@@ -1,4 +1,4 @@
-# Список версий файла
+# Список версий файла disk.file.getVersions
 
 {% if build == 'dev' %}
 
@@ -21,11 +21,9 @@
 
 {% endnote %}
 
-{% note info "disk.file.getVersions" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.file.getVersions` возвращает список версий файла. Версии упорядочены по убыванию даты создания.
 

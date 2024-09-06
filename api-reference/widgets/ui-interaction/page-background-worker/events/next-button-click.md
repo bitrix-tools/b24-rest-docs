@@ -1,4 +1,4 @@
-# Нажатие на кнопку "следующий"
+# При нажатии на кнопку «следующий» BackgroundCallCard::nextButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::nextButtonClick" %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
-
-Событие `BackgroundCallCard::nextButtonClick` – нажатие на кнопку "следующий". В функцию обратного вызова ничего не передается.
+Событие `BackgroundCallCard::nextButtonClick` — нажатие на кнопку «следующий». В функцию обратного вызова ничего не передается.

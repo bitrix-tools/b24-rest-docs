@@ -1,4 +1,4 @@
-# Получить список сотрудников подразделения
+# Получить список сотрудников подразделения im.department.employees.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.department.employees.get" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.department.employees.get` получает список сотрудников в подразделении.
 

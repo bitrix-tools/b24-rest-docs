@@ -7,7 +7,7 @@ items:
     href: crm-item-payment-add.md
   - name: Изменить оплату
     href: crm-item-payment-update.md
-  - name: Поулчить оплату по id
+  - name: Получить оплату по id
     href: crm-item-payment-get.md
   - name: Получить список оплат
     href: crm-item-payment-list.md

@@ -1,4 +1,4 @@
-# Удаление связанных сущностей
+# Удалить связанные сущности landing.landing.removeEntities
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.removeEntities" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.removeEntities` удаляет связанные сущности лендинга - блоки, и картинки блоков.
 

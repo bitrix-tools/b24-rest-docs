@@ -7,14 +7,13 @@ items:
     href: fields.md
   - name: Включаемые области
     href: include-section.md
-  - name: Получение списка включаемых областей для страницы
+  - name: Получить список включаемых областей для страницы
     href: landing-template-get-landing-ref.md
-  - name: Получение списка включаемых областей для сайта
+  - name: Получить список включаемых областей для сайта
     href: landing-template-get-site-ref.md
-  - name: Получение списка шаблонов
+  - name: Получить список шаблонов
     href: landing-template-get-list.md
-  - name: Установка включаемых областей для страницы
+  - name: Установить включаемые области для страницы
     href: landing-template-set-landing-ref.md
-  - name: Установка включаемых областей для сайта
+  - name: Установить включаемые области для сайта
     href: landing-template-set-site-ref.md
-

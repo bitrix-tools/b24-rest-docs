@@ -3,13 +3,13 @@ href: index.md
 items:
   - name: О провайдерах сообщений
     href: index.md
-  - name: Регистрация провайдера
+  - name: Зарегистрировать провайдер
     href: messageservice-sender-add.md
-  - name: Получение списка провайдеров
+  - name: Получить список провайдеров
     href: messageservice-sender-list.md
-  - name: Удаление провайдера
+  - name: Удалить провайдер
     href: messageservice-sender-delete.md
-  - name: Обновление статуса доставки сообщения
+  - name: Обновить статус доставки сообщения
     href: messageservice-message-status-update.md
   - name: Пример провайдера сообщений
     href: tutorial.md

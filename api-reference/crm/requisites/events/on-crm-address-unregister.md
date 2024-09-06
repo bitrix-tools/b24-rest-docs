@@ -1,7 +1,5 @@
-# Событие при удалении адреса
+# Событие при удалении адреса onCrmAddressUnregister
 
-> Название события:: **onCrmAddressUnregister**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: `любой пользователь`

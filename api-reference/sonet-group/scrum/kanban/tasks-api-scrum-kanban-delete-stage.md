@@ -1,7 +1,5 @@
-# Удалить стадию
+# Удалить стадию tasks.api.scrum.kanban.deleteStage
 
-> Название метода: **tasks.api.scrum.kanban.deleteStage**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

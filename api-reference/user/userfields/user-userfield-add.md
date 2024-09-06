@@ -1,4 +1,4 @@
-# Добавление пользовательского поля
+# Добавить пользовательское поле user.userfield.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "user.userfield.add" %}
-
-**Scope**: [`user.userfield`](../../scopes/permissions.md) | **Права на выполнение**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`user.userfield`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод добавляет пользовательское поле.
 

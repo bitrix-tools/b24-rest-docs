@@ -1,4 +1,4 @@
-# Установка кодов доступа для роли
+# Установить коды доступа для роли landing.role.setAccessCodes
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,7 +21,7 @@
 
 {% endif %}
 
-{% note info "landing.role.setAccessCodes" %}
+{% note info "" %}
 
 **Scope**: [`landing`](../../../scopes/permissions.md) | **Права на выполнение**: `администратор`
 

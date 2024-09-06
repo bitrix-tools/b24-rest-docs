@@ -1,4 +1,4 @@
-# Проверка IP-адреса
+# Проверить IP-адрес timeman.networkrange.check
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "timeman.networkrange.check" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `timeman.networkrange.check` для проверки IP-адреса на вхождение в диапазоны сетевых адресов офисной сети.
 

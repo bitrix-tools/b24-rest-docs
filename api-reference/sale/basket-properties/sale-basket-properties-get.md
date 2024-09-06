@@ -1,7 +1,5 @@
-# Получить значение свойства корзины
+# Получить значение свойства корзины sale.basketproperties.get
 
-> Название метода: **sale.basketproperties.get**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: менеджер магазина

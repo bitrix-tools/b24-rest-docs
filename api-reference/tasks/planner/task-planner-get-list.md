@@ -1,4 +1,4 @@
-# Получение списка задач из плана на день
+# Получить список задач из плана на день task.planner.getlist
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.planner.getlist" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.planner.getlist` возвращает массив, содержащий идентификаторы задач в [плане на день](https://helpdesk.bitrix24.ru/open/17856080/).
 

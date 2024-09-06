@@ -1,4 +1,4 @@
-# Список файлов и папок в корне хранилища
+# Список файлов и папок в корне хранилища disk.storage.getchildren
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.storage.getchildren" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.getchildren` возвращает список файлов и папок, которые находятся непосредственно в корне хранилища.
 

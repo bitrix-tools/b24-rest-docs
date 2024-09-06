@@ -1,4 +1,4 @@
-# Восстановление файла из конкретной версии
+# Восстановить файл из конкретной версии disk.file.restoreFromVersion
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.file.restoreFromVersion" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.file.restoreFromVersion` восстанавливает файл из конкретной версии.
 

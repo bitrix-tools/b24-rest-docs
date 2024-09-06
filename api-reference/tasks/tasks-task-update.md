@@ -1,4 +1,4 @@
-# Изменение задачи
+# Изменить задачу tasks.task.update
 
 {% if build == 'dev' %}
 
@@ -21,11 +21,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.update" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.update` обновляет задачу.
 

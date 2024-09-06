@@ -1,7 +1,5 @@
-# Удалить привязку элемента корзины к оплате
+# Удалить привязку элемента корзины к оплате sale.paymentitembasket.delete
 
-> Название метода: **sale.paymentitembasket.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

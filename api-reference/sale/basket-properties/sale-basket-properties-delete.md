@@ -1,7 +1,5 @@
-# Удалить свойство корзины
+# Удалить свойство корзины sale.basketproperties.delete
 
-> Название метода: **sale.basketproperties.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор магазина

@@ -1,4 +1,4 @@
-# Изменение конфигурируемого дела
+# Изменить конфигурируемое дело crm.activity.configurable.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.configurable.update" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.configurable.update` вносит изменения в конфигурируемое дело. Обновление дела возможно только в контексте того [Rest приложения](https://dev.1c-bitrix.ru/docs/chm_files/app.zip), которое его создало.
 

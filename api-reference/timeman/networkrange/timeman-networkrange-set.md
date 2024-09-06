@@ -1,4 +1,4 @@
-# Установка диапазонов сетевых адресов
+# Установить диапазон сетевых адресов timeman.networkrange.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "timeman.networkrange.set" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `timeman.networkrange.set` для установки диапазонов сетевых адресов, входящих в офисную сеть.
 

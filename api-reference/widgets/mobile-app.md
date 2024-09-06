@@ -1,9 +1,7 @@
-# Встройка в мобильное приложение Битрикс24
+# Встройка в мобильное приложение Битрикс24 mobile
 
-{% note info "mobile" %}
-
-**Scope**: [`mobile`](../scopes/permissions.md)  | **Права на выполнение**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mobile`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 @[youtube](MCziK3KRg1s)

@@ -1,7 +1,5 @@
-# Обновить настройки платежной системы
+# Обновить настройки платежной системы sale.paysystem.settings.update
 
-> Название метода: **sale.paysystem.settings.update**
->
 > Scope: [`pay_system `](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)

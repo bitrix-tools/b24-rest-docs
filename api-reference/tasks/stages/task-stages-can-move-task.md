@@ -1,4 +1,4 @@
-# Проверка возможности перемещения задачи
+# Проверить возможность перемещения задачи task.stages.canmovetask
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.stages.canmovetask" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.stages.canmovetask` определяет, может ли текущий пользователь перемещать задачи в указанной сущности.
 
@@ -32,8 +30,92 @@
 
 #|
 || **Параметр** / **Тип** | **Описание** ||
-|| **entityId**
-[`unknown`](../../data-types.md) | ID сущности. ||
-|| **entityType**
-[`unknown`](../../data-types.md) | Тип сущности ( `U` — пользователь или `G` — группа). В случае `U` (Мой план), `true` вернется только в одном случае? если в `entityId` передается идентификатор текущего пользователя. ||
+|| **entityId^*^**
+[`integer`](../../data-types.md) | ID сущности. ||
+|| **entityType^*^**
+[`string`](../../data-types.md) | Тип сущности (`U` — пользователь или `G` — группа). В случае `U` (Мой план), `true` вернется только в одном случае - если в `entityId` передается идентификатор текущего пользователя. ||
 |#
+
+## Примеры
+
+{% list tabs %}
+
+- JS
+    ```js
+    const entityId = 1;
+    const entityType = 'U';
+    BX24.callMethod(
+        'task.stages.canmovetask',
+        {
+            entityId: entityId,
+            entityType: entityType
+        },
+        function(res)
+        {
+            console.log(res);
+        }
+    );
+    ```
+
+- cURL (oAuth)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "entityId": 1,
+    "entityType": "U"
+    }' \
+    https://your-domain.bitrix24.com/rest/task.stages.canmovetask
+    ```
+
+- cURL (Webhook)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "entityId": 1,
+    "entityType": "U"
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.canmovetask
+    ```
+
+- PHP
+    ```php
+    require_once('crest.php'); // подключение CRest PHP SDK
+
+    $entityId = 1;
+    $entityType = 'U';
+
+    // выполнение запроса к REST API
+    $result = CRest::call(
+        'task.stages.canmovetask',
+        [
+            'entityId' => $entityId,
+            'entityType' => $entityType
+        ]
+    );
+
+    // Обработка ответа от Битрикс24
+    if ($result['error']) {
+        echo 'Error: '.$result['error_description'];
+    } else {
+        print_r($result['result']);
+    }
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-Статус: **200**
+
+```json
+{
+"result": true
+}
+```
+
+## Обработка ошибок
+
+Метод не возвращает ошибок.

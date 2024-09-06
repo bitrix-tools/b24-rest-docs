@@ -1,0 +1,16 @@
+diff a/api-reference/crm/contacts/events/on-crm-contact-user-field-update.md b/api-reference/crm/contacts/events/on-crm-contact-user-field-update.md	(ected hunks)
+@@ -17,11 +17,9 @@
+ 
+ {% endif %}
+ 
+-{% note info "onCrmContactUserFieldUpdate" %}
+-
+-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
+-
+-{% endnote %}
++> Scope: [`crm`](../../../scopes/permissions.md) 
++>
++> Кто может подписаться: любой пользователь
+ 
+ Событие `onCrmContactUserFieldUpdate` вызывается при изменении пользовательского поля.
+ 

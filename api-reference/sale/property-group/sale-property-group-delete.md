@@ -1,7 +1,5 @@
-# Удалить группу свойств
+# Удалить группу свойств sale.propertygroup.delete
 
-> Название метода: **sale.propertygroup.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

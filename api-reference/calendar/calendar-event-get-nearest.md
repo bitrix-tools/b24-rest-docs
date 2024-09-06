@@ -1,4 +1,4 @@
-# Просмотр списка будущих событий для текущего пользователя
+# Просмотреть список будущих событий для текущего пользователя calendar.event.get.nearest
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,12 +20,9 @@
 
 {% endif %}
 
-
-{% note info "calendar.event.get.nearest" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.event.get.nearest` возвращает список будущих событий для текущего пользователя.
 

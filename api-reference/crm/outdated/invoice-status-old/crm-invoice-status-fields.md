@@ -1,7 +1,5 @@
-# Получить поля статуса счета
+# Получить поля статуса счета crm.invoice.status.fields
 
-> Название метода: **crm.invoice.status.fields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

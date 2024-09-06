@@ -1,4 +1,4 @@
-# Получение списка всех ресурсов
+# Получить список всех ресурсов calendar.resource.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "calendar.resource.list" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.resource.list` возвращает список (массив) всех ресурсов.
 

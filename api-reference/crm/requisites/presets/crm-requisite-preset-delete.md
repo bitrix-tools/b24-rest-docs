@@ -1,7 +1,5 @@
-# Удалить шаблон реквизита
+# Удалить шаблон реквизита crm.requisite.preset.delete
 
-> Название метода: **crm.requisite.preset.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

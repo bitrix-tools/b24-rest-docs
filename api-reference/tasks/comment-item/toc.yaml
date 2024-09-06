@@ -1,21 +1,21 @@
 title: Комментарии
 href: index.md
 items:
-  - name: Список методов
+  - name: Обзор методов
     href: index.md
-  - name: Получение перечня методов и их описания
+  - name: Получить перечень методов и их описаний
     href: task-comment-item-get-manifest.md
-  - name: Добавление комментария 
+  - name: Добавить комментарий
     href: task-comment-item-add.md
-  - name: Изменение комментария
+  - name: Изменить комментарий
     href: task-comment-item-update.md
-  - name: Получение комментария по идентификатору
+  - name: Получить комментарий по идентификатору
     href: task-comment-item-get.md
-  - name: Получение списка комментариев
+  - name: Получить список комментариев
     href: task-comment-item-get-list.md
-  - name: Удаление комментария
+  - name: Удалить комментарий
     href: task-comment-item-delete.md
-  - name: Проверка доступных действий над задачей
+  - name: Проверить доступные действия над задачей
     href: task-comment-item-is-action-allowed.md
   - name: События
     include:

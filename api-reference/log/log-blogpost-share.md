@@ -1,4 +1,4 @@
-# Добавление получателей в сообщение Ленты новостей
+# Добавить получателей в сообщение Ленты новостей log.blogpost.share
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "log.blogpost.share" %}
-
-{% include notitle [Скоуп log все](./_includes/scope-log-all.md) %}
-
-{% endnote %}
+> Scope: [`log`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Добавляет адресатов у сообщения Ленты новостей.
 

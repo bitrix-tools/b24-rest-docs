@@ -1,4 +1,4 @@
-# Удаление комментария из результата
+# Удалить комментарий из результата tasks.task.result.deleteFromComment
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.result.deleteFromComment" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.result.deleteFromComment` удаляет результат задачи по комментарию, из которого он был создан.
 

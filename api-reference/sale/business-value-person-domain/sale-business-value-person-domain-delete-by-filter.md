@@ -1,7 +1,5 @@
-# Удалить элемент соответствия физическим и юридическим лицам
+# Удалить элемент соответствия физическим и юридическим лицам sale.businessValuePersonDomain.deleteByFilter
 
-> Название метода: **sale.businessValuePersonDomain.deleteByFilter**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

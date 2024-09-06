@@ -1,4 +1,4 @@
-# Очистка набора контактов, связанных с указанной компанией
+# Очистить набор контактов, связанных с указанной компанией crm.company.contact.items.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.company.contact.items.delete" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.contact.items.delete` очищает набор контактов, связанных с указанной компанией.
 

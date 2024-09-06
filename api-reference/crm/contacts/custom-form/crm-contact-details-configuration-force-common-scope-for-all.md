@@ -1,4 +1,4 @@
-# Указание общей карточки для всех пользователей
+# Установить общую карточку для всех пользователей crm.contact.details.configuration.forceCommonScopeForAll
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -6,14 +6,11 @@
 
 {% endnote %}
 
-> Название метода: **crm.contact.details.configuration.forceCommonScopeForAll**
-> 
 > Scope: [`crm`](../../../scopes/permissions.md)
 > 
 > Кто может выполнять метод: Администратор
 
 Метод `crm.contact.details.configuration.forceCommonScopeForAll` позволяет принудительно установить общую карточку контактов для всех пользователей.
-
 
 ## Параметры метода
 

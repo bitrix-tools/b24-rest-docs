@@ -1,7 +1,5 @@
-# Изменить свойство товаров
+# Изменить свойство товаров crm.product.property.update
 
-> Название метода: **crm.product.property.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

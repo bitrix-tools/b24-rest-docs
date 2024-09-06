@@ -1,7 +1,5 @@
-# Создать стадию канбана Скрама
+# Создать стадию канбана Скрама tasks.api.scrum.kanban.addStage
 
-> Название метода: **tasks.api.scrum.kanban.addStage**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

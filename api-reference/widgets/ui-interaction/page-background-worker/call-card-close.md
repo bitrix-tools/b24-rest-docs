@@ -1,4 +1,4 @@
-# Закрытие карточки звонка со стороны приложения 
+# Закрыть карточку звонка со стороны приложения CallCardClose
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CallCardClose" %}
-
-{% include notitle [Скоуп telephony all](../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `CallCardClose` позволяет со стороны приложения закрыть карточку звонка.
 

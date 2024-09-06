@@ -1,7 +1,5 @@
-# После сохранения оплаты
+# После сохранения оплаты OnPaymentEntitySaved
 
-> Название события: **OnPaymentEntitySaved**
->
 > Scope: [`sale`](../../scopes/permissions.md) 
 >
 > Кто может подписаться: любой пользователь

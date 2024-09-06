@@ -1,4 +1,4 @@
-# Инициализация библиотеки
+# Инициализировать библиотеку BX24.init
 
 ```js
 BX24.init(someCallback: function): void;

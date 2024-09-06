@@ -1,11 +1,11 @@
 title: Секционные настройки свойств
 href: index.md
 items: 
-  - name: Секционные настройки свойств
+  - name: Обзор методов
     href: index.md
-  - name: Доступ к значению секционных настройк свойств
+  - name: Получить значения секционных настроек свойств
     href: catalog-product-property-section-get.md
-  - name: Список секционных настроек свойств
+  - name: Получить список секционных настроек свойств
     href: catalog-product-property-section-list.md
-  - name: Установка секционных настроек свойств
+  - name: Установить секционные настройки свойств
     href: catalog-product-property-section-set.md

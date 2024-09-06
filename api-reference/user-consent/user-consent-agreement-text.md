@@ -1,4 +1,4 @@
-# Получение текста соглашения
+# Получить текст соглашения userconsent.agreement.text
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "userconsent.agreement.text" %}
-
-**Scope**: [`userconsent`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userconsent`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `userconsent.agreement.text` позволяет получить текст соглашения.
 

@@ -1,7 +1,5 @@
-# Событие на удаление дела типа «Комментарий»
+# Событие на удаление дела типа «Комментарий» onCrmTimelineCommentDelete
 
-> Название события:: **onCrmTimelineCommentDelete**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может подписаться: `любой пользователь`

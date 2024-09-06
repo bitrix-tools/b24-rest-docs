@@ -1,4 +1,4 @@
-# На создание новой регулярной сделки
+# На создание новой регулярной сделки onCrmDealRecurringAdd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "onCrmDealRecurringAdd" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmDealRecurringAdd` вызывается при создании новой регулярной сделки.
 

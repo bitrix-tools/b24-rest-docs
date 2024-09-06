@@ -1,7 +1,5 @@
-# Изменить свойство элемента корзины
+# Изменить свойство элемента корзины sale.basketproperties.update
 
-> Название метода: **sale.basketproperties.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

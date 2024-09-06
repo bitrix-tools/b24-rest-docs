@@ -1,4 +1,4 @@
-# Выполнение заданий бизнес-процессов
+# Выполнить задания бизнес-процессов bizproc.task.complete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -35,12 +35,9 @@
 
 {% endif %}
 
-
-{% note info "bizproc.task.complete" %}
-
-{% include notitle [Скоуп bizproc все](../_includes/scope-bizproc-all.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод осуществляет выполнение указанного задания бизнес-процесса. В настоящий момент можно выполнить задания вида:
 

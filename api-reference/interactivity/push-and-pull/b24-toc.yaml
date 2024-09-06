@@ -3,11 +3,11 @@ href: index.md
 items: 
   - name: Push&Pull
     href: index.md 
-  - name: Получение информации о подключении к real-time серверам
+  - name: Организовать мгновенные коммуникации в рамках приложений
     href: pull-application-config-get.md 
-  - name: Отправка событий в RT-канал приложения
+  - name: Отправить события в RT-канал приложения
     href: pull-application-event-add.md 
-  - name: Отправка push-уведомления на мобильное устройство
+  - name: Отправить push-уведомления на мобильное устройство
     href: pull-application-push-add.md 
 
 

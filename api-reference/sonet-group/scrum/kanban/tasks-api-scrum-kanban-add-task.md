@@ -1,7 +1,5 @@
-# Добавить задачу в канбан Скрама
+# Добавить задачу в канбан Скрама tasks.api.scrum.kanban.addTask
 
-> Название метода: **tasks.api.scrum.kanban.addTask**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

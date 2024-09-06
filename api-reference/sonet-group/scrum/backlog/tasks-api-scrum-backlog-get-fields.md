@@ -1,7 +1,5 @@
-# Получить список доступных полей бэклога
+# Получить список доступных полей бэклога tasks.api.scrum.backlog.getFields
 
-> Название метода: **tasks.api.scrum.backlog.getFields**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

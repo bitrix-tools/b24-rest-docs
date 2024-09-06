@@ -1,7 +1,5 @@
-# После сохранения заказа
+# После сохранения заказа OnOrderEntitySaved
 
-> Название события: **OnOrderEntitySaved**
->
 > Scope: [`sale`](../../scopes/permissions.md) 
 >
 > Кто может подписаться: любой пользователь

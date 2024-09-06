@@ -3,9 +3,9 @@ href: index.md
 items: 
   - name: Задания
     href: index.md
-  - name: Удаление робота с именем robotName из процесса
+  - name: Удалить робота из процесса
     href: rpa-task-delete.md
-  - name: Добавление пользователя к существующему заданию
+  - name: Добавить пользователя к существующему заданию
     href: rpa-task-add-user.md
   - name: Метод выполнения задания
     href: rpa-task-do.md

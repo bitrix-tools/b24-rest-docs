@@ -1,4 +1,4 @@
-# Получение пользовательского поля задачи по идентификатору
+# Получить пользовательское поле задачи по идентификатору task.item.userfield.get
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.get" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.item.userfield.get` возвращает свойство по идентификатору.
 

@@ -1,4 +1,4 @@
-# Удалить отправленные сообщения
+# Удалить отправленные сообщения imconnector.delete.messages
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "imconnector.delete.messages" %}
-
-**Scope**: [`imopenlines`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод обновления сообщений в ОЛ.
 

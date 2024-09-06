@@ -1,7 +1,5 @@
-# Добавить услугу
+# Добавить услугу catalog.product.service.add
 
-> Название метода: **catalog.product.service.add**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

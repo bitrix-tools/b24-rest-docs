@@ -1,4 +1,4 @@
-# Проведение документа складского учёта (уст.)
+# Провести документ складского учета (уст.) catalog.document.confirm
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -24,12 +24,9 @@
 
 {% endnote %}
 
-
-{% note info "catalog.document.confirm" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ## Описание
 

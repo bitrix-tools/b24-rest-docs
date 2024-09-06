@@ -1,4 +1,4 @@
-# Пользователи, прочитавшие Важное сообщение
+# Просмотреть пользователей, прочитавших важное сообщение log.blogpost.getusers.important
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "log.blogpost.getusers.important" %}
-
-{% include notitle [Скоуп log все](./_includes/scope-log-all.md) %}
-
-{% endnote %}
+> Scope: [`log`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Отдает массив идентификаторов пользователей, прочитавших указанное важное сообщение.
 

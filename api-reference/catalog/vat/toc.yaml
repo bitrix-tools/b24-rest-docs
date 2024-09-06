@@ -1,19 +1,19 @@
 title: Ставка НДС
 href: index.md
 items: 
-  - name: Ставка НДС
+  - name: Обзор методов
     href: index.md
   - name: Ресурс ставки НДС
     href: resource.md
-  - name: Добавление ставки НДС
+  - name: Добавить ставку НДС
     href: catalog-vat-add.md
-  - name: Удаление ставки НДС
+  - name: Удалить ставку НДС
     href: catalog-vat-delete.md
-  - name: Получение полей ставки НДС
+  - name: Получить параметры ставки НДС
     href: catalog-vat-get.md
-  - name: Возвращение полей ставки НДС
+  - name: Получить поля ставки НДС
     href: catalog-vat-get-fields.md
-  - name: Список складов
+  - name: Получить список ставок НДС
     href: catalog-vat-list.md
-  - name: Обновление полей ставки НДС
+  - name: Изменить ставку НДС
     href: catalog-vat-update.md

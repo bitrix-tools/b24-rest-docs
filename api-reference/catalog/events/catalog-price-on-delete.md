@@ -1,4 +1,4 @@
-# При удалении цены
+# При удалении цены CATALOG.PRICE.ON.DELETE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.PRICE.ON.DELETE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.PRICE.ON.DELETE` срабатывает при удалении цены. В обработчик передаются следующие данные:
 

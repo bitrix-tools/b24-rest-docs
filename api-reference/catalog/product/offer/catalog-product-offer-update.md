@@ -1,7 +1,5 @@
-# Обновить поля торгового предложения
+# Обновить поля торгового предложения catalog.product.offer.update
 
-> Название метода: **catalog.product.offer.update**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,7 +1,5 @@
-# Получить список торговых предложений
+# Получить список торговых предложений catalog.product.offer.list
 
-> Название метода: **catalog.product.offer.list**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

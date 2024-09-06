@@ -1,4 +1,4 @@
-# Изменение пункта чек-листа
+# Изменить пункт чек-листа task.checklistitem.update
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.update" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.update` обновляет данные элемента чек-листа.
 

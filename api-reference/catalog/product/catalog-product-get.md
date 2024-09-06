@@ -1,7 +1,5 @@
-# Получить товар по id
+# Получить товар по идентификатору catalog.product.get
 
-> Название метода: **catalog.product.get**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -8,11 +8,9 @@
 
 Rest-методы для работы с [универсальными списками](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=48&CHAPTER_ID=04656).
 
-{% note info "lists.*" %}
-
-**Scope**: [`lists`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 {% note warning "Внимание!" %}
 

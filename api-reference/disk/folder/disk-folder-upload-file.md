@@ -1,4 +1,4 @@
-# Загрузка нового файла в указанную папку
+# Загрузить новый файл в указанную папку disk.folder.uploadfile
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.uploadfile" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.uploadfile` загружает новый файл в указанную папку.
 

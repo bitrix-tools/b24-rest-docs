@@ -3,17 +3,17 @@ href: index.md
 items: 
   - name: Элементы
     href: index.md
-  - name: Получение информации об элементе
+  - name: Получить информацию об элементе
     href: rpa-item-get.md
-  - name: Получение массива элементов процесса
+  - name: Получить массив элементов процесса
     href: rpa-item-list.md
-  - name: Создание нового элемента процесса
+  - name: Создать новый элемент процесса
     href: rpa-item-add.md
-  - name: Обновление элемента
+  - name: Изменить элемент процессса
     href: rpa-item-update.md
-  - name: Удаление элемента
+  - name: Удалить элемент
     href: rpa-item-delete.md
-  - name: Получение данных о текущих заданиях элемента
+  - name: Получить данные о текущих заданиях элемента
     href: rpa-item-get-tasks.md
 
 

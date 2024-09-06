@@ -1,4 +1,4 @@
-# На удаление сообщения
+# На удаление сообщения ONIMBOTMESSAGEDELETE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "ONIMBOTMESSAGEDELETE" %}
-
-**Scope**: [`imbot`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `ONIMBOTMESSAGEDELETE`, возникающее при удалении сообщения.
 

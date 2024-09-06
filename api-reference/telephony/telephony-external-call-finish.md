@@ -1,4 +1,4 @@
-# Завершение звонка и фиксация его в статистике
+# Завершить звонок и зафиксировать его в статистике telephony.externalcall.finish
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalcall.finish" %}
-
 {% include notitle [Скоуп telephony all](./_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalcall.finish` завершает звонок, фиксирует его в статистике, скрывает у пользователя карточку звонка.
 

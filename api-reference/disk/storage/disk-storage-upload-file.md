@@ -1,4 +1,4 @@
-# Загрузка нового файла в корень хранилища
+# Загрузить новый файл в корень хранилища disk.storage.uploadfile
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.storage.uploadfile" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.uploadfile` загружает новый файл в корне хранилища.
 

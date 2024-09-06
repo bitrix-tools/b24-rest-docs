@@ -1,4 +1,4 @@
-# При оценке качества связи
+# При оценке качества связи BackgroundCallCard::qualityMeterClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::qualityMeterClick" %}
-
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
 Событие `BackgroundCallCard::qualityMeterClick` происходит при оценке качества связи. В функцию обратного вызова передается целочисленное значение от 1 до 5.

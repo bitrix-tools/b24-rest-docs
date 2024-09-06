@@ -1,7 +1,5 @@
-# Удалить адрес
+# Удалить адрес crm.address.delete
 
-> Название метода: **crm.address.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,4 +1,4 @@
-# При добавлении секции календаря
+# При добавлении секции календаря OnCalendarSectionAdd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "OnCalendarSectionAdd" %}
-
-**Scope**: [`calendar`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `OnCalendarSectionAdd` срабатывает при добавлении секции календаря ([CALENDAR_SECTION_ID](https://dev.1c-bitrix.ru/user_help/components/content/calendar/calendar_events_list.php)). Также будет вызываться при добавлении ресурса.
 

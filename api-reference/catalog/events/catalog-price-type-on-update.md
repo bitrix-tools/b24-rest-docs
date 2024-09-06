@@ -1,4 +1,4 @@
-# При изменении типа цен
+# При изменении типа цен CATALOG.PRICE.TYPE.ON.UPDATE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.PRICE.TYPE.ON.UPDATE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.PRICE.TYPE.ON.UPDATE` срабатывает при изменении типа цен. В обработчик передаются следующие данные:
 

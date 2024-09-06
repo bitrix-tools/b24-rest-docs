@@ -1,7 +1,5 @@
-# Получить доступные поля групп свойств
+# Получить доступные поля групп свойств sale.propertygroup.getFields
 
-> Название метода: **sale.propertygroup.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

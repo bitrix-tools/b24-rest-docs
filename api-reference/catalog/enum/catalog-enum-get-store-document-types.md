@@ -1,4 +1,4 @@
-# Возвращение типов документов складского учёта, доступных для REST
+# Получить типы документов складского учета, доступных для REST catalog.enum.getRogetStoreDocumentTypesundTypes
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.enum.getRogetStoreDocumentTypesundTypes" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 

@@ -1,7 +1,5 @@
-# Получить поля торгового предложения по фильтру
+# Получить поля торгового предложения по фильтру catalog.product.offer.getFieldsByFilter
 
-> Название метода: **catalog.product.offer.getFieldsByFilter**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

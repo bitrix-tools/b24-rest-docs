@@ -3,10 +3,10 @@ href: index.md
 items:
   - name: О пользовательских типах дел
     href: index.md
-  - name: Добавление пользовательского типа дел
+  - name: Добавить пользовательский тип дел
     href: crm-activity-type-add.md
-  - name: Получение списка пользовательских типов дел
+  - name: Получить список пользовательских типов дел
     href: crm-activity-type-list.md
-  - name: Удаление пользовательского типа дел
+  - name: Удалить пользовательский тип дел
     href: crm-activity-type-delete.md
 

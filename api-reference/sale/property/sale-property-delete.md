@@ -1,7 +1,5 @@
-# Удалить свойство заказа
+# Удалить свойство заказа sale.property.delete
 
-> Название метода: **sale.property.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

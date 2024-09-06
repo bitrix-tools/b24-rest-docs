@@ -1,4 +1,4 @@
-# Пометить пункт как «выполненный»
+# Пометить пункт как «выполненный» task.checklistitem.complete
 
 {% if build == 'dev' %}
 
@@ -21,11 +21,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.complete" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.complete` отмечает элемент чек-листа как выполненный.
 

@@ -1,7 +1,5 @@
-# Получить вариант значения свойства по id
+# Получить вариант значения свойства по id sale.propertyvariant.get
 
-> Название метода: **sale.propertyvariant.get**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

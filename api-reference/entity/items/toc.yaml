@@ -1,15 +1,15 @@
 title: Элементы хранилища
 href: index.md
 items:
-  - name: Список методов 
+  - name: Обзор методов
     href: index.md
-  - name: Получение списка элементов хранилища 
+  - name: Получить список элементов хранилища
     href: entity-item-get.md
-  - name: Добавление элемента хранилища 
+  - name: Добавить элемент хранилища
     href: entity-item-add.md
-  - name: Обновление элемента хранилища 
+  - name: Обновить элемент хранилища
     href: entity-item-update.md
-  - name: Удаление элемента хранилища
+  - name: Удалить элемент хранилища
     href: entity-item-delete.md
   - name: Свойства элементов
     include:

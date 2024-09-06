@@ -1,4 +1,4 @@
-# Получение перечня методов и их описания 
+# Получить перечень методов и их описаний task.commentitem.getmanifest
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.getmanifest" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.getmanifest`возвращает список методов вида `task.commentitem.*` и их описание.
 

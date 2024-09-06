@@ -1,7 +1,5 @@
-# Получить список служб доставки
+# Получить список служб доставки sale.delivery.getlist
 
-> Название метода: **sale.delivery.getlist**
->
 > Scope: [`sale`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM

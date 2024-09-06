@@ -1,7 +1,5 @@
-# Получить поля секции каталога
+# Получить поля секции каталога catalog.section.getFields
 
-> Название метода: **catalog.section.getFields**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

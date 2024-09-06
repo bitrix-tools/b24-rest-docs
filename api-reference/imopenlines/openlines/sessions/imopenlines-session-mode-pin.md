@@ -1,4 +1,4 @@
-# Забрать или отдать диалог по Id
+# Забрать или отдать диалог по Id imopenlines.session.mode.pin
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.session.mode.pin**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

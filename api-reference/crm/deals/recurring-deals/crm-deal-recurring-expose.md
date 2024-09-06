@@ -1,4 +1,4 @@
-# Создание новой сделки из шаблона
+# Создать новую сделку из шаблона crm.deal.recurring.expose
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.recurring.expose" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.recurring.expose` создаёт новую сделку из шаблона.
 

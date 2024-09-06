@@ -1,7 +1,5 @@
-# Удалить банковский реквизит
+# Удалить банковский реквизит crm.requisite.bankdetail.delete
 
-> Название метода: **crm.requisite.bankdetail.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

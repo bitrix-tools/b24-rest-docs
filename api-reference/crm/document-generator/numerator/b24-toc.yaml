@@ -3,13 +3,13 @@ href: index.md
 items:
   - name: Нумераторы
     href: index.md
-  - name: Добавление нового нумератора
+  - name: Добавить новый нумератор
     href: crm-document-generator-numerator-add.md
-  - name: Изменение существующего нумератора
+  - name: Изменить существующий нумератор
     href: crm-document-generator-numerator-update.md
-  - name: Получение информацию о нумераторе по Id
+  - name: Получить информацию о нумераторе по Id
     href: crm-document-generator-numerator-get.md
-  - name: Получение списка нумераторов
+  - name: Получить список нумераторов
     href: crm-document-generator-numerator-list.md
-  - name: Удаление нумератора
+  - name: Удалить нумератор
     href: crm-document-generator-numerator-delete.md

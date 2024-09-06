@@ -1,4 +1,4 @@
-# Отправить сообщения в Битрикс24
+# Отправить сообщения в Битрикс24 imconnector.send.messages
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "imconnector.send.messages" %}
-
-**Scope**: [`imopenlines`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод отправки сообщений в ОЛ.
 

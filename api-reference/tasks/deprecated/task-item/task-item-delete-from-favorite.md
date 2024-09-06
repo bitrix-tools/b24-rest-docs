@@ -1,7 +1,5 @@
-# Удалить задачу из Избранного
+# Удалить задачу из Избранного task.item.deletefromfavorite
 
-> Название метода: **task.item.deletefromfavorite**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

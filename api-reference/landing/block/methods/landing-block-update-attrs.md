@@ -1,4 +1,4 @@
-# Изменение атрибутов ноды блока
+# Изменить атрибуты ноды блока landing.block.updateattrs
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.updateattrs" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.updateattrs` изменяет атрибуты ноды блока. Возвращает _true_ или ошибку.
 

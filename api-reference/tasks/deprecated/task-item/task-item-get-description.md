@@ -1,7 +1,5 @@
-# Получить описание задачи
+# Получить описание задачи task.item.getdescription
 
-> Название метода: **task.item.getdescription**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

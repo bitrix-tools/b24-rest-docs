@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "timeman.networkrange.*" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 #|
 || **Метод** | **Описание** ||

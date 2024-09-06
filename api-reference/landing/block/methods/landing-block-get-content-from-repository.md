@@ -1,4 +1,4 @@
-# Получение контента блока из репозитория
+# Получить контент блока из репозитория landing.block.getContentFromRepository
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getContentFromRepository" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getContentFromRepository` получает контент блока из репозитория «как есть» до добавления блока на какую-либо страницу.
 

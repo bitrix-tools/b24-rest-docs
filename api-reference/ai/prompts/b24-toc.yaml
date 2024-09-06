@@ -3,9 +3,9 @@ href: index.md
 items:
   - name: О промптах для CoPilot
     href: index.md 
-  - name: Добавление промпта
+  - name: Добавить промпт
     href: ai-prompt-register.md
-  - name: Удаление промпта
+  - name: Удалить промпт
     href: ai-prompt-unregister.md
   - name: Маркеры в промптах
     href: markers.md

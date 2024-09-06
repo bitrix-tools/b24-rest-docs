@@ -1,7 +1,5 @@
-# Добавить лог-запись
+# Добавить лог-запись crm.timeline.logmessage.add
 
-> Название метода: **crm.timeline.logmessage.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `администратор`

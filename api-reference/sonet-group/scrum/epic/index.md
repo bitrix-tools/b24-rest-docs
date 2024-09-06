@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "tasks.api.scrum.epic.*" %}
-
-**Scope**: [`task`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
 
 #|
 || **Метод** | **Описание** ||

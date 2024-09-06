@@ -1,4 +1,4 @@
-# Изменение сообщения Ленты новостей
+# Изменить сообщение Ленты новостей log.blogpost.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "log.blogpost.update" %}
-
-{% include notitle [Скоуп log все](./_includes/scope-log-all.md) %}
-
-{% endnote %}
+> Scope: [`log`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Изменяет сообщение Ленты новостей.
 

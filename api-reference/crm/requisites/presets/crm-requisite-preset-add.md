@@ -1,7 +1,5 @@
-# Создать шаблон
+# Создать шаблон crm.requisite.preset.add
 
-> Название метода: **crm.requisite.preset.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

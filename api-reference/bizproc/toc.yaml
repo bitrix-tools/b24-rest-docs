@@ -3,21 +3,21 @@ href: index.md
 items:
   - name: Обзор
     href: index.md
-  - name: Запуск бизнес-процесса
+  - name: Запустить бизнес-процесс
     href: bizproc-workflow-start.md
-  - name: Список бизнес-процессов
+  - name: Получить список бизнес-процессов
     href: bizproc-workflow-instances.md    
-  - name: Остановка бизнес-процесса
+  - name: Остановить бизнес-процесс
     href: bizproc-workflow-terminate.md
-  - name: Удаление активного процесса
+  - name: Удалить активный процесс
     href: bizproc-workflow-kill.md
-  - name: Добавление шаблона 
+  - name: Добавить шаблон
     href: bizproc-workflow-template-add.md
-  - name: Список шаблонов 
+  - name: Получить список шаблонов
     href: bizproc-workflow-template-list.md
-  - name: Изменение шаблона 
+  - name: Изменить шаблон
     href: bizproc-workflow-template-update.md
-  - name: Удаление шаблона 
+  - name: Удалить шаблон
     href: bizproc-workflow-template-delete.md
   - name: Задания
     include:

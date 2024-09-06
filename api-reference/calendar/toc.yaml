@@ -3,51 +3,51 @@ href: index.md
 items: 
   - name: Календарь
     href: index.md 
-  - name: Просмотр занятости пользователей из списка
+  - name: Просмотреть занятость пользователей из списка
     href: calendar-accessibility-get.md
-  - name: Добавление нового события
+  - name: Добавить новое событие
     href: calendar-event-add.md
-  - name: Удаление события
+  - name: Удалить событие
     href: calendar-event-delete.md
-  - name: Получение списка событий календаря
+  - name: Получить список событий календаря
     href: calendar-event-get.md
-  - name: Просмотр списка будущих событий для текущего пользователя
+  - name: Просмотреть список будущих событий для текущего пользователя
     href: calendar-event-get-nearest.md
-  - name: Просмотр события календаря по идентификатору
+  - name: Просмотреть события календаря по идентификатору
     href: calendar-event-get-by-id.md
-  - name: Редактирование существующего события
+  - name: Отредактировать существующее событие
     href: calendar-event-update.md
-  - name: Установка параметров события для текущего пользователя
+  - name: Установить параметры события для текущего пользователя
     href: calendar-meeting-params-set.md
-  - name: Получение статуса участия текущего пользователя в событии
+  - name: Получить статус участия текущего пользователя в событии
     href: calendar-meeting-status-get.md
-  - name: Установка статуса участия в событии для текущего пользователя
+  - name: Установить статус участия в событии для текущего пользователя
     href: calendar-meeting-status-set.md
-  - name: Добавление нового ресурса
+  - name: Добавить новый ресурс
     href: calendar-resource-add.md
-  - name: Предоставление возможности выбрать бронирования ресурсов
+  - name: Предоставить возможность выбрать бронирования ресурсов
     href: calendar-resource-booking-list.md
-  - name: Удаление ресурса
+  - name: Удалить ресурс
     href: calendar-resource-delete.md
-  - name: Получение списка всех ресурсов
+  - name: Получить список всех ресурсов
     href: calendar-resource-list.md
-  - name: Изменение ресурса
+  - name: Изменить ресурс
     href: calendar-resource-update.md
-  - name: Добавление нового календаря
+  - name: Добавить новый календарь
     href: calendar-section-add.md
-  - name: Удаление календаря
+  - name: Удалить календарь
     href: calendar-section-delete.md
-  - name: Получение списка календарей
+  - name: Получить список календарей
     href: calendar-section-get.md
-  - name: Обновление календаря
+  - name: Обновить календарь
     href: calendar-section-update.md
-  - name: Получение основных настроек календаря
+  - name: Получить основные настройки календаря
     href: calendar-settings-get.md
-  - name: Получение пользовательских настроек календаря
+  - name: Получить пользовательские настройки календаря
     href: calendar-user-settings-get.md
-  - name: Сохранение пользовательских настроек календаря
+  - name: Сохранить пользовательские настройки календаря
     href: calendar-user-settings-set.md
-  - name: Встраивание в календарь
+  - name: Встроиться в календарь
     href: calendar-grid-veiw.md
   - name: События
     include:

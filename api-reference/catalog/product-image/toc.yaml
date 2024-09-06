@@ -1,15 +1,15 @@
 title: Картинки товаров и торговых предложений
 href: index.md
 items: 
-  - name: Картинки товаров и торговых предложений
+  - name: Обзор методов
     href: index.md
-  - name: Добавление картинки в товар
+  - name: Добавить картинку в товар
     href: catalog-product-image-add.md
-  - name: Удаление картинки
+  - name: Удалить картинку
     href: catalog-product-image-delete.md
-  - name: Информация по конкретному изображению
+  - name: Получить информацию по конкретному изображению
     href: catalog-product-image-get.md
-  - name: Возвращение полей картинки
+  - name: Получить поля картинки
     href: catalog-product-image-get-fields.md
-  - name: Список картинок конкретного товара
+  - name: Получить список картинок конкретного товара
     href: catalog-product-image-list.md

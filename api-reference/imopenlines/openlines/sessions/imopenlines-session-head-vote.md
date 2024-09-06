@@ -1,4 +1,4 @@
-# Поставить оценку работе сотрудника в диалоге
+# Поставить оценку работе сотрудника в диалоге imopenlines.session.head.vote
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.session.head.vote**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

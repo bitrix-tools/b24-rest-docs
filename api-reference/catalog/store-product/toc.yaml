@@ -1,11 +1,11 @@
 title: Тип цены
 href: index.md
 items: 
-  - name: Методы работы с остатками по складам
+  - name: Обзор методов
     href: index.md
-  - name: Получение полей остатков по складам
+  - name: Получить параметры остатков по складам
     href: catalog-store-product-get.md
-  - name: Возвращение полей остатков по складам
+  - name: Получить поля остатков по складам
     href: catalog-store-product-get-fields.md
-  - name: Список остатков по складам
+  - name: Получить список остатков по складам
     href: catalog-store-product-list.md

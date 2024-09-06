@@ -1,4 +1,4 @@
-# Удаление карточки блока
+# Удалить карточку блока landing.block.removecard
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.removecard" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.removecard` удаляет карточку блока. Возвращает *_true_* или ошибку.
 

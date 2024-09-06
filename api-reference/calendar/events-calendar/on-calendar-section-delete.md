@@ -1,4 +1,4 @@
-# При удалении секции/ресурса
+# При удалении секции/ресурса OnCalendarSectionDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "OnCalendarSectionDelete" %}
-
-**Scope**: [`calendar`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `OnCalendarSectionDelete` срабатывает при удалении секции/ресурса. В обработчик передаются следующие данные:
 

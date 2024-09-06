@@ -1,7 +1,5 @@
-# Событие на удаление раздела
+# Событие на удаление раздела onCrmProductSectionDelete
 
-> Название события:: **onCrmProductSectionDelete**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь

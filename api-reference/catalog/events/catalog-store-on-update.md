@@ -1,4 +1,4 @@
-# При изменении склада
+# При изменении склада CATALOG.STORE.ON.UPDATE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.STORE.ON.UPDATE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.STORE.ON.UPDATE` срабатывает при изменении склада. В обработчик передаются следующие данные:
 

@@ -1,14 +1,13 @@
 title: Общие методы
 href: index.md
 items:
-  - name: Список методов работы с партнёрскими блоками
+  - name: Обзор методов
     href: index.md
-  - name: Получение списка блоков
+  - name: Получить список блоков
     href: landing-repo-get-list.md
-  - name: Добавление блока в репозиторий
+  - name: Добавить блок в репозиторий
     href: landing-repo-register.md
-  - name: Удаление блока
+  - name: Удалить блок
     href: landing-repo-unregister.md
-  - name: Проверка контента на опасные подстроки
+  - name: Проверить контент на опасные подстроки
     href: landing-repo-check-content.md
-

@@ -1,4 +1,4 @@
-# При изменении события
+# При изменении события OnCalendarEntryUpdate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "OnCalendarEntryUpdate" %}
-
-**Scope**: [`calendar`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `OnCalendarEntryUpdate` срабатывает при изменении события. В обработчик передаются следующие данные:
 

@@ -1,4 +1,4 @@
-# Передать диалог другому оператора или в другую линию
+# Передать диалог другому оператору или в другую линию imopenlines.operator.transfer
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,8 +20,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.operator.transfer**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

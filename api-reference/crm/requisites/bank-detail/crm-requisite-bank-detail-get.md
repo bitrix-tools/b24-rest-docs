@@ -1,7 +1,5 @@
-# Получить банковский реквизит по id
+# Получить банковский реквизит по id crm.requisite.bankdetail.get
 
-> Название метода: **crm.requisite.bankdetail.get**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

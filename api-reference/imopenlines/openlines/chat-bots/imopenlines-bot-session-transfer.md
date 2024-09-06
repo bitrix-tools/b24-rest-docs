@@ -1,4 +1,4 @@
-# Переключить диалог на оператора по Id
+# Переключить диалог на оператора по Id imopenlines.bot.session.transfer
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,8 +17,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.bot.session.transfer**
->
 > Scope: [`imopenlines, imbot`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

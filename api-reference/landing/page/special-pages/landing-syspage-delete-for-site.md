@@ -1,4 +1,4 @@
-# Удаление всех специальных страниц
+# Удалить все специальные страницы landing.syspage.deleteForSite
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.syspage.deleteForSite" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.syspage.deleteForSite` удаляет все специальные страницы сайта
 

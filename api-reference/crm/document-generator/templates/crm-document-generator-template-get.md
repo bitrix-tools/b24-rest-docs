@@ -1,4 +1,4 @@
-# Получение информации о шаблоне документа по Id
+# Получить информацию о шаблоне документа по Id crm.documentgenerator.template.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.template.get" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.template.get` возвращает информацию о шаблоне по его идентификатору.
 

@@ -1,4 +1,4 @@
-# Начать новый диалог на основании сообщения
+# Начать новый диалог на основании сообщения imopenlines.message.session.start
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.message.session.start**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

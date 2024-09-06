@@ -1,4 +1,4 @@
-# Получение набора ссылок для навигации по страницам телефонии
+# Получить набор ссылок для навигации по страницам телефонии voximplant.url.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "voximplant.url.get" %}
-
 {% include notitle [Скоуп telephony all](../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `voximplant.url.get` возвращает набор ссылок для навигации по страницам телефонии. Метод не имеет ограничений по [правам](https://helpdesk.bitrix24.ru/open/18177766/).
 

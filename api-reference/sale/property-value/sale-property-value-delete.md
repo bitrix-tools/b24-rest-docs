@@ -1,7 +1,5 @@
-# Удалить значение свойства
+# Удалить значение свойства sale.propertyvalue.delete
 
-> Название метода: **sale.propertyvalue.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

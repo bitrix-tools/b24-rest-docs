@@ -1,7 +1,5 @@
-# Удалить счет
+# Удалить счет crm.invoice.delete
 
-> Название метода: **crm.invoice.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

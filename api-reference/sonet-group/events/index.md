@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "crm.measure.*" %}
-
-**Scope**: [`sonet_group`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 #|
 || **Метод** | **Описание** ||

@@ -3,15 +3,15 @@ href: index.md
 items:
   - name: О пользовательских полях 
     href: index.md
-  - name: Добавление пользовательского поля
+  - name: Добавить пользовательское поле
     href: crm-deal-userfield-add.md
   - name: Пользовательские типы 
     href: crm-deal-user-defined-field-types.md
-  - name: Изменение существующего пользовательского поля сделок
+  - name: Изменить существующее пользовательское поле сделок
     href: crm-deal-userfield-update.md
-  - name: Получение пользовательского поля сделок по Id
+  - name: Получить пользовательское поле сделок по Id
     href: crm-deal-userfield-get.md
-  - name: Получение списка пользовательских полей сделок
+  - name: Получить список пользовательских полей сделок
     href: crm-deal-userfield-list.md
-  - name: Удаление пользовательского поля сделок
+  - name: Удалить пользовательское поле сделок
     href: crm-deal-userfield-delete.md

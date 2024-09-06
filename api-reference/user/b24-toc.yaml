@@ -11,7 +11,7 @@ items:
     href: user-current.md
   - name: Получить список пользователей по фильтру
     href: user-get.md
-  - name: Поиск по персональным данным
+  - name: Получить список пользователей с поиском по персональным данным
     href: user-search.md
   - name: Получить поля пользователя
     href: user-fields.md

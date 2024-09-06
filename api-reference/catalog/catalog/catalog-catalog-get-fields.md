@@ -1,7 +1,5 @@
-# Получить доступные поля торгового каталога
+# Получить доступные поля торгового каталога catalog.catalog.getFields
 
-> Название метода: **catalog.catalog.getFields**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

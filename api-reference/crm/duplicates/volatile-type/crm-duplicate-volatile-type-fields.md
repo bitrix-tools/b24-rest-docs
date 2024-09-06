@@ -1,4 +1,4 @@
-# Список полей, доступных для использования
+# Получить список полей, доступных для использования crm.duplicate.volatileType.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.duplicate.volatileType.fields" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.duplicate.volatileType.fields({?entityTypeId: number})

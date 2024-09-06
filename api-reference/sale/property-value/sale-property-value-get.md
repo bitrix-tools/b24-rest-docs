@@ -1,7 +1,5 @@
-# Получить значение свойства по id
+# Получить значение свойства по id sale.propertyvalue.get
 
-> Название метода: **sale.propertyvalue.get**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

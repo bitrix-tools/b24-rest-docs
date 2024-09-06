@@ -1,4 +1,4 @@
-# Проверка доступных действий над задачей
+# Проверить доступные действия над задачей task.commentitem.isactionallowed
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.isactionallowed" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.isactionallowed` проверяет, разрешено ли действие.
 

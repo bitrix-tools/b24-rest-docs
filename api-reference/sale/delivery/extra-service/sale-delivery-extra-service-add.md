@@ -1,7 +1,5 @@
-# Добавить услугу службы доставки
+# Добавить услугу службы доставки sale.delivery.extra.service.add
 
-> Название метода: **sale.delivery.extra.service.add**
->
 > Scope: [`sale, delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

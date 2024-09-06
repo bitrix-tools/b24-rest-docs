@@ -1,4 +1,4 @@
-# Получение блока по идентификатору
+# Получить блок по идентификатору landing.block.getbyid
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getbyid" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getbyid` получает блок по его идентификатору. Возвращает блок или ошибку.
 

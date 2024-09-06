@@ -1,7 +1,5 @@
-# Удалить связь записи таймлайна с элементом CRM
+# Удалить связь записи таймлайна с элементом CRM crm.timeline.bindings.unbind
 
-> Название метода: **crm.timeline.bindings.unbind**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

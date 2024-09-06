@@ -1,4 +1,4 @@
-# Получение списка пользователей
+# Получить список пользователей timeman.timecontrol.reports.users.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.reports.users.get" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `timeman.timecontrol.reports.users.get` для получения списка пользователей, относящихся к указанному подразделению.
 

@@ -1,7 +1,5 @@
-# Получить список пользователей по фильтру
+# Получить список пользователей по фильтру user.get
 
-> Название метода: **user.get**
->
 > Scope: [`user`](../scopes/permissions.md), [`user_brief`](../scopes/permissions.md), [`user_basic`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,7 +1,5 @@
-# Добавить элемент соответствия физическим и юридическим лицам
+# Добавить элемент соответствия физическим и юридическим лицам sale.businessValuePersonDomain.add
 
-> Название метода: **sale.businessValuePersonDomain.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

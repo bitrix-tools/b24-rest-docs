@@ -1,4 +1,4 @@
-# Изменение пользовательского поля предложений
+# Изменить пользовательское поле предложений crm.quote.userfield.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.quote.userfield.update" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.quote.userfield.update` обновляет существующее пользовательское поле предложений.
 

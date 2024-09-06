@@ -1,7 +1,5 @@
-# Изменить оплату
+# Изменить оплату sale.payment.update
 
-> Название метода: **sale.payment.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

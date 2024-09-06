@@ -1,7 +1,5 @@
-# Обновить товар
+# Обновить товар catalog.product.update
 
-> Название метода: **catalog.product.update**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,4 +1,4 @@
-# Добавление нового действия
+# Добавить новое действие bizproc.activity.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -25,11 +25,9 @@
 
 {% endif %}
 
-{% note info "bizproc.activity.add" %}
-
-{% include notitle [Скоуп bizproc админ](../_includes/scope-bizproc-admin.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Добавляет новое действие для использования в бизнес-процессах.
 

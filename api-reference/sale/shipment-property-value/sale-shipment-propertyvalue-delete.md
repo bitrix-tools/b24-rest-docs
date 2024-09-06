@@ -1,7 +1,5 @@
-# Удалить значения свойства отгрузки
+# Удалить значения свойства отгрузки sale.shipmentpropertyvalue.delete
 
-> Название метода: **sale.shipmentpropertyvalue.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

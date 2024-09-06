@@ -1,4 +1,4 @@
-# Поля сделки
+# Получить поля сделки crm.deal.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.fields" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.fields` возвращает описание [полей сделки](./crm-deal-add.md), в том числе [пользовательских](./user-defined-fields/crm-deal-userfield-add.md).
 

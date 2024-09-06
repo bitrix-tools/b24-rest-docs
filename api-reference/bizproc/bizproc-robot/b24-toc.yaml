@@ -3,13 +3,13 @@ href: index.md
 items:
   - name: Роботы бизнес-процессов
     href: index.md
-  - name: Регистрация нового робота
+  - name: Зарегистрировать нового робота
     href: bizproc-robot-add.md
-  - name: Список зарегистрированных роботов
+  - name: Получить список зарегистрированных роботов
     href: bizproc-robot-list.md
-  - name: Обновление полей робота 
+  - name: Обновить поля робота
     href: bizproc-robot-update.md
-  - name: Удаление зарегистрированного робота
+  - name: Удалить зарегистрированного робота
     href: bizproc-robot-delete.md
-  - name: Роботы с отложенным возвратом результата
+  - name: Роботы и действия бизнес-процессов с ожиданием результата
     href: bizproc-robot-with-subscription.md

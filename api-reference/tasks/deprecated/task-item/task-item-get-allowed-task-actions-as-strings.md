@@ -1,7 +1,5 @@
-# Получить список названий действий и их допустимость
+# Получить список названий действий и их допустимость task.item.getallowedtaskactionsasstrings
 
-> Название метода: **task.item.getallowedtaskactionsasstrings**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

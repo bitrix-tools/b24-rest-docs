@@ -1,7 +1,5 @@
-# Получить список разделов
+# Получить список разделов crm.productsection.list
 
-> Название метода: **crm.productsection.list**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

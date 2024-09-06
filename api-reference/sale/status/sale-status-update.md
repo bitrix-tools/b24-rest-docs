@@ -1,7 +1,5 @@
-# Обновить статус
+# Обновить статус sale.status.update
 
-> Название метода: **sale.status.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

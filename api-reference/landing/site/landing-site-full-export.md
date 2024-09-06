@@ -1,4 +1,4 @@
-# Экспорт сайта
+# Экспортировать сайт landing.site.fullExport
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.fullExport" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.fullExport` экспортирует сайт и всего его страницы в специальный массив, который требуется для работы метода [landing.demos.register](../demos/landing-demos-register.md).
 

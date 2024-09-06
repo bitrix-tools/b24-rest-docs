@@ -1,4 +1,4 @@
-# Добавление комментария в результат
+# Добавить комментарий в результат tasks.task.result.addFromComment
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.result.addFromComment" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.result.addFromComment` создаёт результат задачи из комментария.
 

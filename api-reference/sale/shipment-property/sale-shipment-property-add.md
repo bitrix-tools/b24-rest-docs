@@ -1,7 +1,5 @@
-# Добавить свойство отгрузки
+# Добавить свойство отгрузки sale.shipmentproperty.add
 
-> Название метода: **sale.shipmentproperty.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

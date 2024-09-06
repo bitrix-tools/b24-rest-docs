@@ -1,4 +1,4 @@
-# Запуск обратного звонка
+# Запустить обратный звонок voximplant.callback.start
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,7 @@
 
 {% endif %}
 
-{% note info "voximplant.callback.start" %}
-
 {% include notitle [Скоуп telephony all](../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `voximplant.callback.start` запускает обратный звонок. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Исходящий звонок - Выполнение - любые`.
 

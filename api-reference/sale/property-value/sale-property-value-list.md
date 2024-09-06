@@ -1,7 +1,5 @@
-# Получить список значений свойств
+# Получить список значений свойств sale.propertyvalue.list
 
-> Название метода: **sale.propertyvalue.list**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

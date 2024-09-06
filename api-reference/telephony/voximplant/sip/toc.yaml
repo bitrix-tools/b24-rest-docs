@@ -1,17 +1,17 @@
 title: Управление SIP-подключениями
 href: voximplant-sip-connector-status.md
 items: 
-  - name: Получение статуса SIP-коннектора
+  - name: Получить статус SIP-коннектора
     href: voximplant-sip-connector-status.md
-  - name: Добавление SIP-подключения
+  - name: Добавить SIP-подключение
     href: voximplant-sip-add.md
-  - name: Получение списка SIP-подключений
+  - name: Получить список SIP-подключений
     href: voximplant-sip-get.md
-  - name: Изменение SIP-подключения
+  - name: Изменить SIP-подключение
     href: voximplant-sip-update.md
-  - name: Получение статуса SIP-подключения
+  - name: Получить статус SIP-подключения
     href: voximplant-sip-status.md
-  - name: Удаление SIP-подключения
+  - name: Удалить SIP-подключение
     href: voximplant-sip-delete.md
 
 

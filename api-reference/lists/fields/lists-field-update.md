@@ -1,4 +1,4 @@
-# Обновление поля списка 
+# Изменить поле списка lists.field.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.field.update" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.field.update` позволяет обновить поле списка. В случае успешного обновления поля ответ `true`, иначе *Exception*.
 

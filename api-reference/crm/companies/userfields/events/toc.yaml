@@ -3,11 +3,11 @@ href: index.md
 items:
   - name: Список событий 
     href: index.md
-  - name: Добавление пользовательского поля 
+  - name: При добавлении пользовательского поля
     href: on-crm-company-user-field-add.md
-  - name: Удаление пользовательского поля 
+  - name: При удалении пользовательского поля
     href: on-crm-company-user-field-delete.md
-  - name: Изменение значений для поля типа Список
+  - name: При изменении значений для поля типа Список
     href: on-crm-company-user-field-set-enum-values.md
-  - name: Изменение пользовательского поля 
+  - name: При изменении пользовательского поля
     href: on-crm-company-user-field-update.md

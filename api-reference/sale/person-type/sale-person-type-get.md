@@ -1,7 +1,5 @@
-# Получить тип плательщика по Id
+# Получить тип плательщика по Id sale.persontype.get
 
-> Название метода: **sale.persontype.get**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

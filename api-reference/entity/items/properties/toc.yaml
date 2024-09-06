@@ -1,13 +1,13 @@
 title: Свойства элементов хранилища
 href: index.md
 items:
-  - name: Список методов 
+  - name: Обзор методов
     href: index.md
-  - name: Получение списка свойств
+  - name: Получить список свойств
     href: entity-item-property-get.md
-  - name: Добавление дополнительного свойства
+  - name: Добавить дополнительное свойство
     href: entity-item-property-add.md
-  - name: Обновление дополнительного свойства 
+  - name: Изменить дополнительное свойство
     href: entity-item-property-update.md
-  - name: Удаление дополнительного свойства
+  - name: Удалить дополнительное свойство
     href: entity-item-property-delete.md

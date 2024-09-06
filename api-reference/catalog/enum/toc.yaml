@@ -1,9 +1,9 @@
 title: Перечисления
 href: index.md
 items: 
-  - name: Перечисления
+  - name: Обзор методов
     href: index.md
-  - name: Типы округления
+  - name: Получить список типов округления
     href: catalog-enum-get-round-types.md
-  - name: Типы документов складского учёта
+  - name: Получить типы документов складского учета
     href: catalog-enum-get-store-document-types.md

@@ -1,4 +1,4 @@
-# По нажатию на одну из цифровых кнопок телефона
+# По нажатию на одну из цифровых кнопок телефона BackgroundCallCard::dialpadButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::dialpadButtonClick" %}
-
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
 Событие `BackgroundCallCard::dialpadButtonClick` происходит по нажатию на одну из цифровых кнопок телефона. В функцию обратного вызова передается нажатый символ.
