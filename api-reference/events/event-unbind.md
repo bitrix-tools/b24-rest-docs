@@ -27,7 +27,7 @@
 {% endnote %} 
 ||
 || **event_type**
-[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=4462) ||
+[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=04462&LESSON_PATH=8771.5380.2461.4462) ||
 |#
 
 Если какие-либо параметры не указаны, то будут удалены все обработчики события, удовлетворяющие остальным требованиям.

@@ -36,11 +36,11 @@
 || **IBLOCK_CODE/IBLOCK_ID**^*^
 [`unknown`](../../data-types.md) | Код или идентификатор инфоблока (обязательный). | ||
 || **FILTER**
-[`unknown`](../../data-types.md) | Массив полей и значений для фильтрации. Для фильтрации доступны поля из фильтра [CIBlockSection::GetList](https://dev.1c-bitrix.ru/api_help/iblock/classes/ciblocksection/getlist.php)^**^ | ||
+[`unknown`](../../data-types.md) | Массив полей и значений для фильтрации. Для фильтрации доступны поля из фильтра `CIBlockSection::GetList` | ||
 || **SELECT**
-[`unknown`](../../data-types.md) | Массив с полями для выборки. Доступные поля описаны в документации [CIBlockSection::GetList](https://dev.1c-bitrix.ru/api_help/iblock/classes/ciblocksection/getlist.php)^**^ | ||
+[`unknown`](../../data-types.md) | Массив с полями для выборки. Доступные поля описаны в документации `CIBlockSection::GetList` | ||
 || **SOCNET_GROUP_ID**^*^
-[`unknown`](../../data-types.md) | Идентификатор группы (обязательно, если список создается для группы); | ||
+[`unknown`](../../data-types.md) | Идентификатор группы (обязательно, если список создается для группы) | ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}

@@ -251,15 +251,15 @@ function b24BadTasks ($user) {
 
 - В левом меню в разделе **Приложения** (1) нажмите кнопку **Добавить приложение** (2):
 
-[![Добавление приложения](./_images/app1_sm.jpg)](https://dev.1c-bitrix.ru/bitrix/tools/imagepg.php?alt=%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F&img=/images/chat_bot/new/app1.jpg)
+![Добавление приложения](./_images/app1_sm.jpg)
 
 - Далее выберите **Другое** (3):
 
-[![Другое](./_images/app2_sm.jpg)](https://dev.1c-bitrix.ru/bitrix/tools/imagepg.php?alt=%D0%94%D1%80%D1%83%D0%B3%D0%BE%D0%B5&img=/images/chat_bot/new/app2.jpg)
+![Другое](./_images/app2_sm.jpg)
 
 - И затем сценарий **Локальное приложение** (4):
 
-[![Локальное приложение](./_images/app3_sm.jpg)](https://dev.1c-bitrix.ru/bitrix/tools/imagepg.php?alt=%D0%9B%D0%BE%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5&img=/images/chat_bot/new/app3.jpg)
+![Локальное приложение](./_images/app3_sm.jpg)
 
 - Выберите тип приложения **Серверное** и настройте его параметры:
 
@@ -270,7 +270,7 @@ function b24BadTasks ($user) {
       - `Задачи (task)` и `Задачи (расширенные права) (task_extended)` — без этих прав приложение не сможет сформировать отчет по задачам, чтобы сообщить о них через чат-бота пользователю
   - Поскольку скрипт написан таким образом, что является обработчиком всех событий, то в полях `Путь вашего обработчика` и `Путь для первоначальной установки` ссылки будут вести на один и тот же URL
 
-[![Добавление приложения](./_images/app4_sm.jpg)](https://dev.1c-bitrix.ru/bitrix/tools/imagepg.php?alt=%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F&img=/images/chat_bot/new/app4.jpg)
+![Добавление приложения](./_images/app4_sm.jpg)
 
 После этих действий в общем чате появится сообщение о том, что к порталу присоединился новый пользователь — чатбот по имени «Докладун». Можно открыть с ним чат, нажать на ссылку «Что горит?» и получить свой список просроченных задач.
 
@@ -278,6 +278,6 @@ function b24BadTasks ($user) {
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Скачать](https://dev.1c-bitrix.ru/~b24bots) c сервиса GitHub пример «ЭхоБота»
+- [Скачать](https://github.com/bitrix24com/bots) c сервиса GitHub пример «ЭхоБота»
 
 {% endnote %}

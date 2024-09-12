@@ -53,4 +53,4 @@
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
-[*ключ_виджет]: Смотрите документацию по CHAT API. [Подробнее...](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=93&CHAPTER_ID=07685&LESSON_PATH=7657.7685)
+[*ключ_виджет]: Смотрите документацию по CHAT API. [Подробнее...](../../../chats/index.md)

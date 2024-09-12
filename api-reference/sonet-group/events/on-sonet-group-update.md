@@ -22,7 +22,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `onSonetGroupUpdate` вызывается после изменения рабочей группы. Прокси к событию [OnSocNetGroupUpdate](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupUpdate.php).
+Событие `onSonetGroupUpdate` вызывается после изменения рабочей группы. Прокси к событию `OnSocNetGroupUpdate`.
 
 #|
 || **Поле** | **Описание** ||

@@ -67,7 +67,7 @@ Array
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Просмотр внешних документов по ссылке]([../../../tutorials/crm/crm-widgets/widget-as-detail-tab.md](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=266&LESSON_ID=25550&LESSON_PATH=25398.25506.25530.25550))
+- [Просмотр внешних документов по ссылке](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=266&LESSON_ID=25550&LESSON_PATH=25398.25506.25530.25550)
 
 {% endnote %}
 

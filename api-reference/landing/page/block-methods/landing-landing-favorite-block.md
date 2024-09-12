@@ -47,7 +47,7 @@
 || **meta**
 [`unknown`](../../../data-types.md) | Объект информации для сохранения блока. Содержит поля:
 - **name** – название блока;
-- **section** – массив [категорий](https://dev.1c-bitrix.ru/rest_help/landing/block/manifest.php), куда сохранить блок;
+- **section** – массив [категорий](../../block/manifest.md), куда сохранить блок;
 - **preview** – изображение блока. ||
 |#
 
