@@ -6,8 +6,6 @@
 
 {% endnote %}
 
-> Название события: **onCrmContactUserFieldUpdate**
-> 
 > Scope: [`crm`](../../../scopes/permissions.md)
 > 
 > Кто может подписаться: любой пользователь

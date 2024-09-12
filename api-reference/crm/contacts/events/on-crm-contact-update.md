@@ -6,8 +6,6 @@
 
 {% endnote %}
 
-> Название метода: **onCrmContactUpdate**
-> 
 > Scope: [`crm`](../../../scopes/permissions.md)
 > 
 > Кто может подписаться: любой пользователь
