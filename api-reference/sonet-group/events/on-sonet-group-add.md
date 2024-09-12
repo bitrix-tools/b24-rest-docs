@@ -24,7 +24,7 @@
 
 {% endnote %}
 
-Событие `onSonetGroupAdd` вызывается после добавления новой рабочей группы. Прокси к событию [OnSocNetGroupAdd](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupAdd.php).
+Событие `onSonetGroupAdd` вызывается после добавления новой рабочей группы. Прокси к событию `OnSocNetGroupAdd`.
 
 #|
 || **Поле** | **Описание** ||

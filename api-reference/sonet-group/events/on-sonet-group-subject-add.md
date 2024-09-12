@@ -24,7 +24,7 @@
 
 {% endnote %}
 
-Событие `onSonetGroupSubjectAdd` вызывается после создания темы рабочей группы. Прокси к событию [OnSocNetGroupSubjectAdd](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupSubjectAdd.php).
+Событие `onSonetGroupSubjectAdd` вызывается после создания темы рабочей группы. Прокси к событию `OnSocNetGroupSubjectAdd`.
 
 #|
 || **Поле** | **Описание** ||

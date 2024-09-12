@@ -24,7 +24,7 @@
 
 {% endnote %}
 
-Событие `onSonetGroupSubjectDelete` вызывается перед удалением темы рабочей группы. Прокси к событию [OnSocNetGroupSubjectDelete](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupSubjectDelete.php).
+Событие `onSonetGroupSubjectDelete` вызывается перед удалением темы рабочей группы. Прокси к событию `OnSocNetGroupSubjectDelete`.
 
 #|
 || **Поле** | **Описание** ||

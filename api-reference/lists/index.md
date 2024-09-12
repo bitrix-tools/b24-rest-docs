@@ -6,7 +6,7 @@
 
 {% endnote %}
 
-Rest-методы для работы с [универсальными списками](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=48&CHAPTER_ID=04656).
+Rest-методы для работы с универсальными списками.
 
 {% note info "lists.*" %}
 

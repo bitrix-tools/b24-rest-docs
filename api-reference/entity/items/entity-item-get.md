@@ -34,12 +34,9 @@
 
 #|
 || **Параметр** | **Описание** ||
-|| **ENTITY^*^**
-[`string`](../../data-types.md) | Обязательный. Строковой идентификатор хранилища. ||
-|| **SORT**
-[`unknown`](../../data-types.md) | Аналогичны параметрам *arOrder* и *arFilter* PHP-метода [CIBlockElement::GetList](http://dev.1c-bitrix.ru/api_help/iblock/classes/ciblockelement/getlist.php) (включая операции фильтра и сложную логику). ||
-|| **FILTER**
-[`unknown`](../../data-types.md) | Аналогичны параметрам *arOrder* и *arFilter* PHP-метода [CIBlockElement::GetList](http://dev.1c-bitrix.ru/api_help/iblock/classes/ciblockelement/getlist.php) (включая операции фильтра и сложную логику). ||
+|| **ENTITY^*^** | Обязательный. Строковой идентификатор хранилища. ||
+|| **SORT** | Аналогичны параметрам *arOrder* и *arFilter* PHP-метода `CIBlockElement::GetList` (включая операции фильтра и сложную логику). ||
+|| **FILTER** | Аналогичны параметрам *arOrder* и *arFilter* PHP-метода `CIBlockElement::GetList` (включая операции фильтра и сложную логику). ||
 || **START** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 

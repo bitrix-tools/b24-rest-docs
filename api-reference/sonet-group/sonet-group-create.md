@@ -27,7 +27,7 @@
 
 ## Описание
 
-Создает группу соцсети, используя метод API [CSocNetGroup::CreateGroup()](https://dev.1c-bitrix.ru/api_help/socialnetwork/classes/CSocNetGroup/CreateGroup.php), указывая владельцем группы текущего пользователя.
+Создает группу соцсети, используя метод API `CSocNetGroup::CreateGroup()`, указывая владельцем группы текущего пользователя.
 
 ## Запрос:
 

@@ -27,7 +27,7 @@
 
 ## Описание
 
-Проверяет, имеет ли текущий пользователь право на совершение операции в группе соцсети, осуществляя вызов функции [CSocNetFeaturesPerms::CurrentUserCanPerformOperation()](http://dev.1c-bitrix.ru/api_help/socialnetwork/classes/CSocNetFeaturesPerms/currentusercanperformperation.php)
+Проверяет, имеет ли текущий пользователь право на совершение операции в группе соцсети, осуществляя вызов функции `CSocNetFeaturesPerms::CurrentUserCanPerformOperation()`.
 
 ## Запрос:
 
@@ -58,7 +58,7 @@ https://mydomain.bitrix24.ru/rest/sonet_group.feature.access.json?auth=52423d4a5
 
 {% note info "Примечание" %}
 
-Коды операций и функционала смотрите в описании метода [CanPerformOperation](http://dev.1c-bitrix.ru/api_help/socialnetwork/classes/CSocNetFeaturesPerms/CanPerformOperation.php).
+Коды операций и функционала смотрите в описании метода `CanPerformOperation`.
 
 {% endnote %}
 

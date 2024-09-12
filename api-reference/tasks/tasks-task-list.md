@@ -77,7 +77,7 @@
 
 {% note info %}
 
-В коробочной версии список полей для сортировки можно получить с помощью метода [CTasks::getAvailableOrderFields()](https://dev.1c-bitrix.ru/api_help/tasks/classes/ctasks/getavailableorderfields.php).
+В коробочной версии список полей для сортировки можно получить с помощью метода `CTasks::getAvailableOrderFields()`.
 
 {% endnote %}
 

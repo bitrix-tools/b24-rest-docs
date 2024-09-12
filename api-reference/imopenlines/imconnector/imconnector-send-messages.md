@@ -63,7 +63,7 @@ array(
             'disable_crm' => 'Y' ,//отключить чат трекер (CRM трекер)
             'text', //Текст сообщения. Должен быть указан элемент text или files. 
                     //Допустимое форматирование (BB коды) описаны 
-                    //здесь: https://dev.1c-bitrix.ru/learning/course/?COURSE_ID=93&LESSON_ID=7679
+                    //здесь: https://apidocs.bitrix24.ru/api-reference/chats/messages/index.html
             'files' => array(//Массив описаний файлов, где каждый файл описывается 
                              //массивом, со ссылкой, которая доступна порталу
                 array('url' => 'Cсылка на файл'),

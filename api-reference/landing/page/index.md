@@ -52,7 +52,7 @@
 || **FOLDER_ID**
 [`unknown`](../../data-types.md) | Идентификатор папки, где содержится страница. | Да | Да ||
 || **TPL_ID**
-[`unknown`](../../data-types.md) | Идентификатор [шаблона представления](https://dev.1c-bitrix.ru/rest_help/landing/template/introduction.php). | Да | Да ||
+[`unknown`](../../data-types.md) | Идентификатор [шаблона представления](../template/index.md). | Да | Да ||
 || **TPL_CODE**
 [`unknown`](../../data-types.md) | Идентификатор шаблона партнерского решения, на основе которого был создан сайт. Например, bitrix.eshop. | Да | Нет ||
 |#

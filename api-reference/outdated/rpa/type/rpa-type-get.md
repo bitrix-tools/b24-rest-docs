@@ -60,7 +60,7 @@
 ```
 
 - `title` - название процесса
-- `image` - это идентификатор иконки из [списка](https://dev.1c-bitrix.ru/api_d7/bitrix/rpa/lib/ui/icon.php)
+- `image` - это идентификатор иконки из списка
 - `createdBy` - идентификатор пользователя, который создал процесс
 - `settings` - набор настроек процесса
-- `permissions` - набор настроек [прав доступа](https://dev.1c-bitrix.ru/api_d7/bitrix/rpa/lib/model/permissiontable.php) этого процесса
+- `permissions` - набор настроек прав доступа этого процесса
