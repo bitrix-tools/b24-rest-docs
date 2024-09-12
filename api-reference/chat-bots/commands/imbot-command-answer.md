@@ -55,7 +55,7 @@
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
 
 {% endnote %}
 
@@ -112,6 +112,6 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Как работать с набираемыми клавиатурами](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7683)
-- [Как работать с вложениями](/learning/course/index.php?COURSE_ID=93&CHAPTER_ID=07681)
-- [Форматирование сообщения](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7679)
+- [Как работать с набираемыми клавиатурами](../../chats/messages/keyboards.md)
+- [Как работать с вложениями](../../chats/messages/attachments/index.md)
+- [Форматирование сообщения](../../chats/messages/index.md)

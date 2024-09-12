@@ -73,5 +73,5 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotmessageadd)
-- [Событие на получение информации чат-ботом о включении его в чат (или личную переписку) ONIMJOINCHAT](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimjoinchat)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/index.md)
+- [Событие на получение информации чат-ботом о включении его в чат (или личную переписку) ONIMJOINCHAT](../chats/events/on-imbot-join-chat.md)

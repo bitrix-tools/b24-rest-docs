@@ -43,7 +43,7 @@
 
 - [Утверждение документа](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3771)
 - [Ознакомление с документом](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3783)
-- [Запрос доп. информации](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3782&LESSON_PATH=5442.5446.5035.7837.3782).
+- [Запрос доп. информации](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3782)
   
 Выполнить можно только своё задание (относящееся к пользователю, с чьим access-токеном выполняется метод), если оно ещё не было выполнено.
 

@@ -96,4 +96,4 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-[Как работать с вложениями](http://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=93&CHAPTER_ID=07681)
+- [{#T}](../messages/attachments/index.md)

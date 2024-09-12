@@ -58,7 +58,7 @@ $result = restCommand(
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID={SELF}&LESSON_ID=7881#onimcommandadd).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
 
 {% endnote %}
 

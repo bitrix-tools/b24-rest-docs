@@ -80,4 +80,4 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-[Rest API - События установки и обновления](/learning/course/index.php?COURSE_ID={SELF}&LESSON_ID=7891)
+[Rest API - События установки и обновления](./events/index.md)

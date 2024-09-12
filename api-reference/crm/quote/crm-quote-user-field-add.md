@@ -16,7 +16,6 @@
 - отсутствуют примеры (должно быть три примера - curl, js, php)
 - отсутствует ответ в случае ошибки
 - отсутствует ответ в случае успеха
-- сделать ссылку на [crm.userfield.fields], должна вести на страницу https://dev.1c-bitrix.ru/rest_help/crm/userfields/crm_userfield_fields.php 
 
 {% endnote %}
 

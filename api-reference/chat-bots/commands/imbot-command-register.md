@@ -63,7 +63,7 @@ Array(
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
 
 {% endnote %}
 
@@ -135,5 +135,5 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом команды ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd)
+- [Событие на получение чат-ботом команды ONIMCOMMANDADD](./events/index.md)
 

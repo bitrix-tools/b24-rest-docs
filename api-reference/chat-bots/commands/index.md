@@ -26,7 +26,7 @@
 
 {% note warning %}
 
-Обратите внимание! Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID={SELF}&LESSON_ID=7881#onimcommandadd).
+Обратите внимание! Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
 
 {% endnote %}
 
@@ -50,7 +50,7 @@
 /help
 ```
 
-Её вызов в [ЭхоБоте](https://dev.1c-bitrix.ru/~b24bots) (**bot.php**) выведет список доступных команд.
+Её вызов в [ЭхоБоте](https://github.com/bitrix24com/bots) (**bot.php**) выведет список доступных команд.
 
 ![Выбор команды](./_images/keyboard1.png)
 

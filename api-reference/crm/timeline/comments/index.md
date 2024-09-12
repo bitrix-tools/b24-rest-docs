@@ -29,6 +29,6 @@
 ## Дополнительно
 
 - [Таймлайн в элементе CRM](https://helpdesk.bitrix24.ru/open/16749348/)
-- [Тип сущности CRM](https://dev.1c-bitrix.ru/rest_help/crm/constants.php) 
+- [Тип сущности CRM](../../data-types.md#object_type) 
 
 

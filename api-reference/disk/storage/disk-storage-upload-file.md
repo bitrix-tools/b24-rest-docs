@@ -7,7 +7,6 @@
 - не указаны типы параметров
 - не указана обязательность параметров
 - отсутствует ответ в случае ошибки
-- в таблице с описанием параметров сделать ссылку на словосочетании "Обработка файлов"на страницу https://dev.1c-bitrix.ru/rest_help/js_library/rest/files.php
 
 {% endnote %}
 
@@ -32,7 +31,7 @@
 || **id**
 [`unknown`](../../data-types.md) | Идентификатор хранилища. ||
 || **fileContent**
-[`unknown`](../../data-types.md) | Аналогично 'DETAIL_PICTURE' в примере [Обработка файлов](.). ||
+[`unknown`](../../data-types.md) | Аналогично `DETAIL_PICTURE` в примере [Обработка файлов](../../bx24-js-sdk/how-to-call-rest-methods/files.md). ||
 || **data**
 [`unknown`](../../data-types.md) | Массив, описывающий файл. Обязательное поле `NAME` - имя нового файла. ||
 || **generateUniqueName**

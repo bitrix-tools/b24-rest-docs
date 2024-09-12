@@ -16,7 +16,6 @@
 - отсутствуют примеры (должно быть три примера - curl, js, php)
 - отсутствует ответ в случае ошибки
 - отсутствует ответ в случае успеха
-- сделать ссылку [crm.requisite.link.register] на страницу с методом https://dev.1c-bitrix.ru/rest_help/crm/requisite/methods/crm_requisite_link_register.php
 
 {% endnote %}
 
