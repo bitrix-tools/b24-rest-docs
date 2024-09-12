@@ -89,10 +89,10 @@ function addSearchResults () {
     const resultContainer = document.createElement('div');
     
     resultContainer.classList.add('search-results-container');
-    resultContainer.style.position = 'fixed!important';
-    resultContainer.style.top = '100%'; 
-    resultContainer.style.left = '0'; 
-    resultContainer.style.width = '100%'; 
+    resultContainer.style.setProperty('position', 'fixed', 'important');
+    // resultContainer.style.top = '100%'; 
+    // resultContainer.style.left = '0'; 
+    // resultContainer.style.width = '100%'; 
     resultContainer.style.maxHeight = '500px';
     resultContainer.style.overflowY = 'auto';
     resultContainer.style.backgroundColor = '#fff';
@@ -105,7 +105,6 @@ function addSearchResults () {
     const higherLevelContainer = document.body;
     higherLevelContainer.appendChild(resultContainer);
     
-    resultContainer.style.position = 'absolute';
     resultContainer.style.top = `${searchContainer.getBoundingClientRect().bottom + window.scrollY}px`; 
     resultContainer.style.width = '700px'; 
     resultContainer.style.left = `${searchContainer.getBoundingClientRect().right - 700}px`; 

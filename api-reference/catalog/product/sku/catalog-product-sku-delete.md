@@ -1,7 +1,5 @@
-# Удалить головной товар
+# Удалить головной товар catalog.product.sku.delete
 
-> Название метода: **catalog.product.sku.delete**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

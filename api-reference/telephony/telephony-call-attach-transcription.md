@@ -1,4 +1,4 @@
-# Добавление расшифровки записи к звонку
+# Добавить расшифровку записи к звонку telephony.call.attachTranscription
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "telephony.call.attachTranscription" %}
-
 {% include notitle [Скоуп telephony all](./_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `telephony.call.attachTranscription` добавляет расшифровку записи к звонку.
 

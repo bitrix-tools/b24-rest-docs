@@ -1,4 +1,4 @@
-# Получить Id последнего чата
+# Получить Id последнего чата imopenlines.crm.chat.getLastId
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.crm.chat.getLastId**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

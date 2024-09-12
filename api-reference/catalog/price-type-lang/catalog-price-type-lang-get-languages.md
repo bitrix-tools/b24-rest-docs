@@ -1,4 +1,4 @@
-# Возвращение доступных для перевода языков
+# Получить доступные для перевода языки catalog.priceTypeLang.getLanguages
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.priceTypeLang.getLanguages" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.priceTypeLang.getLanguages()

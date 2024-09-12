@@ -1,4 +1,4 @@
-# При добавлении товара
+# При добавлении товара CATALOG.PRODUCT.ON.ADD
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.PRODUCT.ON.ADD" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.PRODUCT.ON.ADD` срабатывает при добавлении товара. В обработчик передаются следующие данные:
 

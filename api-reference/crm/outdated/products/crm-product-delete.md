@@ -1,7 +1,5 @@
-# Удалить товар
+# Удалить товар crm.product.delete
 
-> Название метода: **crm.product.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

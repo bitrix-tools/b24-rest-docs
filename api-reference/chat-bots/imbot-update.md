@@ -1,4 +1,4 @@
-# Изменить чат-бот
+# Изменить чат-бот imbot.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -23,11 +23,9 @@
 
 {% endif %}
 
-{% note info "imbot.update" %}
-
-**Scope**: [`imbot`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.update` обновляет данные бота.
 
@@ -148,4 +146,4 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-[Rest API - События установки и обновления](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7891)
+[Rest API - События установки и обновления](./events/index.md)

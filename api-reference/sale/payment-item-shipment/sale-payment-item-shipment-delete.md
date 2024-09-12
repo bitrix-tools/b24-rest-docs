@@ -1,7 +1,5 @@
-# Удалить привязку
+# Удалить привязку sale.paymentItemShipment.delete
 
-> Название метода: **sale.paymentItemShipment.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

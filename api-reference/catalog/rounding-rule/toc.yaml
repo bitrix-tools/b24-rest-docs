@@ -1,19 +1,19 @@
 title: Правила округления цен
 href: index.md
 items: 
-  - name: Правила округления цен
+  - name: Обзор методов
     href: index.md
   - name: Ресурс правила округления цен
     href: resource.md
-  - name: Добавление правила округления цен
+  - name: Добавить правило округления цен
     href: catalog-rounding-rule-add.md
-  - name: Удаление правила округления цен
+  - name: Удалить правило округления цен
     href: catalog-rounding-rule-delete.md
-  - name: Получение полей правила округления цен
+  - name: Получить значения полей правила округления
     href: catalog-rounding-rule-get.md
-  - name: Возвращение полей правила округления цен
+  - name: Получить поля правила округления цен
     href: catalog-rounding-rule-get-fields.md
-  - name: Список правил округления цен
+  - name: Получить список правил округления
     href: catalog-rounding-rule-list.md
-  - name: Обновление полей правила округления цен
+  - name: Изменить правило округления цен
     href: catalog-rounding-rule-update.md

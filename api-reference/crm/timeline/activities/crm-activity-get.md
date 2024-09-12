@@ -1,4 +1,4 @@
-# Получения дела по id
+# Получить дело по id crm.activity.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.get" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.get` возвращает активность по идентификатору.
 

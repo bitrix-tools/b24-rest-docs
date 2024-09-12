@@ -1,4 +1,4 @@
-# Добавление страницы по шаблону
+# Добавить страницу по шаблону landing.landing.addByTemplate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.addByTemplate" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.addByTemplate` добавляет страницу по шаблону (список шаблонов, который видит пользователь перед созданием страницы). Возвращает `ID` созданной страницы или ошибку.
 

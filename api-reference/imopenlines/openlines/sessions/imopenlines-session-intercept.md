@@ -1,4 +1,4 @@
-# Забрать диалог у текущего оператора
+# Забрать диалог у текущего оператора imopenlines.session.intercept
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,8 +21,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.session.intercept**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

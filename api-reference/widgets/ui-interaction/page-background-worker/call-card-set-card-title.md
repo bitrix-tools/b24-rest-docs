@@ -1,4 +1,4 @@
-# Изменение титульника карточки звонка со стороны приложения
+# Изменить титульник карточки звонка со стороны приложения CallCardSetCardTitle
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CallCardSetCardTitle" %}
-
-{% include notitle [Скоуп telephony all](../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `CallCardSetCardTitle` позволяет изменить со стороны приложения титульник карточки звонка.
 

@@ -1,4 +1,4 @@
-# Загрузить шаблон
+# Загрузить шаблон documentgenerator.template.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.template.add" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.template.add` добавляет новый шаблон. 
 

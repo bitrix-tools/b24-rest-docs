@@ -1,4 +1,4 @@
-# Пометить пункт как «невыполненный»
+# Пометить пункт как «невыполненный» task.checklistitem.renew
 
 {% if build == 'dev' %}
 
@@ -21,11 +21,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.renew" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.renew` отмечает выполненный элемент чек-листа как вновь активный.
 

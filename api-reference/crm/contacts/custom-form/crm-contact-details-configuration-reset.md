@@ -1,4 +1,4 @@
-# Сброс параметров карточки
+# Сбросить параметры карточки crm.contact.details.configuration.reset
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -6,8 +6,6 @@
 
 {% endnote %}
 
-> Название метода: **crm.contact.details.configuration.reset**
-> 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: проверка прав при выполнении метода зависит от переданных данных:

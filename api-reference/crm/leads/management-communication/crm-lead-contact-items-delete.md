@@ -1,7 +1,5 @@
-# Удалить список контактов у лида
+# Удалить список контактов у лида crm.lead.contact.items.delete
 
-> Название метода: **crm.lead.contact.items.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

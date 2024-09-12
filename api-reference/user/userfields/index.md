@@ -6,13 +6,9 @@
 
 {% endnote %}
 
-{% note info "user.userfield" %}
-
-**Scope**: [`user.userfield`](../../scopes/permissions.md)  | **Права на выполнение**: `в зависимости от метода`
-
-{% endnote %}
-
-## Методы
+> Scope: [`user.userfield`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
 
 #|
 || **Метод** | **Описание** | **С версии** ||

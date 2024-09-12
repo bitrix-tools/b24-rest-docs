@@ -1,4 +1,4 @@
-# Уничтожение папки и всех её дочерних элементов навсегда
+# Уничтожить папку и все дочерние элементы навсегда disk.folder.deletetree
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.deletetree" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.deletetree` уничтожает папку и всё её дочерние элементы навсегда.
 

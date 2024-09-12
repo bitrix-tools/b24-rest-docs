@@ -1,7 +1,5 @@
-# Обновить REST-обработчик платежной системы
+# Обновить REST-обработчик платежной системы sale.paysystem.handler.update
 
-> Название метода: **sale.paysystem.handler.update**
->
 > Scope: [`pay_system `](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)

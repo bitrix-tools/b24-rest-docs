@@ -1,7 +1,5 @@
-# Удалить комментарий
+# Удалить комментарий crm.timeline.comment.delete
 
-> Название метода: **crm.timeline.comment.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

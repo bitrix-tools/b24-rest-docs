@@ -1,0 +1,16 @@
+diff a/api-reference/crm/universal/import/crm-item-batch-import.md b/api-reference/crm/universal/import/crm-item-batch-import.md	(ected hunks)
+@@ -1,12 +1,10 @@
+-# Групповой импорт записей
++# Импортировать группу записей crm.item.batchImport
+ 
+-> Название метода: **crm.item.batchImport**
+->
+ > Scope: [`crm`](../../../scopes/permissions.md)
+ >
+ > Кто может выполнять метод: любой пользователь с правом «импорта» элемента объекта CRM
+ 
+-Метод является универсальным методом для импорта объектов в CRM. Отличия от добавления объекта описаны подробнее [`тут`](about.md).
++Метод является универсальным методом для импорта объектов в CRM. Отличия от добавления объекта описаны подробнее [`тут`](index.md).
+ 
+ ## Параметры
+ 

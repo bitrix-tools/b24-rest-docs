@@ -1,7 +1,5 @@
-# Добавить торговый каталог
+# Добавить торговый каталог catalog.catalog.add
 
-> Название метода: **catalog.catalog.add**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

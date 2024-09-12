@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "timeman.timecontrol.*" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `в зависимости от метода`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
 
 #|
 || **Метод** | **Описание** ||

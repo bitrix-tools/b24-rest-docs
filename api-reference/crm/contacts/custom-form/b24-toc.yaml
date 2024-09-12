@@ -3,11 +3,11 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Получение параметров карточки 
+  - name: Получить параметры карточки
     href: crm-contact-details-configuration-get.md
-  - name: Сброс параметров карточки
+  - name: Сбросить параметры карточки
     href: crm-contact-details-configuration-reset.md
-  - name: Указание параметров индивидуальной карточки
+  - name: Установить параметры индивидуальной карточки
     href: crm-contact-details-configuration-set.md
-  - name: Указание общей карточки для всех пользователей
+  - name: Установить общую карточку для всех пользователей
     href: crm-contact-details-configuration-force-common-scope-for-all.md

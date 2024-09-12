@@ -1,7 +1,5 @@
-# Получить информацию о текущем пользователе
+# Получить информацию о текущем пользователе user.current
 
-> Название метода: **user.current**
->
 > Scope: [`user`](../scopes/permissions.md), [`user_brief`](../scopes/permissions.md), [`user_basic`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

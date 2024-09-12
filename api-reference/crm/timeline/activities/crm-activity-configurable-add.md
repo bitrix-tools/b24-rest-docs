@@ -1,4 +1,4 @@
-# Добавление конфигурируемого дела
+# Добавить конфигурируемое дело crm.activity.configurable.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.configurable.add" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.configurable.add` добавляет конфигурируемое дело. Вызов метода возможен только в контексте [Rest приложения](https://dev.1c-bitrix.ru/docs/chm_files/app.zip).
 

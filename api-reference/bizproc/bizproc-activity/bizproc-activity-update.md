@@ -1,4 +1,4 @@
-# Обновление полей действий
+# Обновить поля действия bizproc.activity.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,15 +19,13 @@
 - отсутствует ответ в случае ошибки
 - не прописаны ссылки на несозданные ещё страницы.
   
-  {% endnote %}
+{% endnote %}
 
 {% endif %}
 
-{% note info "bizproc.activity.update" %}
-
-{% include notitle [Скоуп bizproc админ](../_includes/scope-bizproc-admin.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод позволяет обновить поля уже добавленного действия для бизнес-процессов. Параметры метода аналогичны [bizproc.activity.add](./bizproc-activity-add.md).
 

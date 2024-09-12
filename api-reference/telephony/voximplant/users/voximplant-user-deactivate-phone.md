@@ -1,4 +1,4 @@
-# Отключение сотруднику признака наличия sip-aппарата
+# Отключить сотруднику признака наличия sip-aппарата voximplant.user.deactivatePhone
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "voximplant.user.deactivatePhone" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.user.deactivatePhone` отключает сотруднику признак наличия sip-aппарата. Метод проверяет наличие права на модификацию пользователя.
 

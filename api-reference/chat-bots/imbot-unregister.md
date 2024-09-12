@@ -1,4 +1,4 @@
-# Удалить чат-бот
+# Удалить чат-бот imbot.unregister
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -23,11 +23,9 @@
 
 {% endif %}
 
-{% note info "imbot.unregister" %}
-
-**Scope**: [`imbot`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.unregister` удаляет чат-бота из системы.
 
@@ -82,4 +80,4 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-[Rest API - События установки и обновления](/learning/course/index.php?COURSE_ID={SELF}&LESSON_ID=7891)
+[Rest API - События установки и обновления](./events/index.md)

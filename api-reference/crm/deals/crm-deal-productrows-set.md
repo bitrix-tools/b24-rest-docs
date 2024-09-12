@@ -1,4 +1,4 @@
-# Добавление товаров в сделку
+# Добавить товары в сделку crm.deal.productrows.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.productrows.set" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.productrows.set` устанавливает (создаёт или обновляет) товарные позиции сделки.
 

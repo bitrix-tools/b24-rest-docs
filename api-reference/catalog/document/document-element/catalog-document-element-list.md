@@ -1,4 +1,4 @@
-# Получение списка товаров в документах складского учёта
+# Получить список товаров в документах складского учета catalog.document.element.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.document.element.list" %}
-
-**Scope**: [`catalog`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ```
 catalog.document.element.list(order, filter, select, offset, limit, start)

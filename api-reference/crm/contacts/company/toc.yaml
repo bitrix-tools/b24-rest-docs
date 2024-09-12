@@ -1,17 +1,17 @@
 title: Компании
 href: index.md
-items: 
+items:
   - name: Компании
     href: index.md
-  - name: Поля для связи контакт-компания
+  - name: Получить поля для связи контакт-компания
     href: crm-contact-company-fields.md
-  - name: Добавление компании к указанному контакту
+  - name: Добавить компанию к указанному контакту
     href: crm-contact-company-add.md
-  - name: Удаление компании из указанного контакта
+  - name: Удалить компанию из указанного контакта
     href: crm-contact-company-delete.md
-  - name: Получение набора компаний, связанных с указанным контактом
+  - name: Получить набор компаний, связанных с указанным контактом
     href: crm-contact-company-items-get.md
-  - name: Устанавка набора компаний, связанных с указанным контактом
+  - name: Установить набор компаний, связанных с указанным контактом
     href: crm-contact-company-items-set.md
-  - name: Очищение набора компаний, связанных с указанным контактом
+  - name: Очистить набор компаний, связанных с указанным контактом
     href: crm-contact-company-items-delete.md

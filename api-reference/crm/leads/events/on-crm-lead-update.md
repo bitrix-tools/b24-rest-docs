@@ -1,4 +1,4 @@
-# На изменение лида
+# На изменение лида onCrmLeadUpdate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "onCrmLeadUpdate" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmLeadUpdate` вызывается при обновлении лида.
 

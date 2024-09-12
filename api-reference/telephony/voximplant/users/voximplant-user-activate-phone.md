@@ -1,4 +1,4 @@
-# Установка сотруднику признака наличия sip-aппарата
+# Установить сотруднику признаки наличия sip-aппарата voximplant.user.activatePhone
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "voximplant.user.activatePhone" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.user.activatePhone` устанавливает сотруднику признак наличия sip-aппарата. Метод проверяет наличие права на модификацию пользователя.
 

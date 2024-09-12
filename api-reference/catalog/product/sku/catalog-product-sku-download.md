@@ -1,7 +1,5 @@
-# Скачать файлы головного товара
+# Скачать файлы головного товара catalog.product.sku.download
 
-> Название метода: **catalog.product.sku.download**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

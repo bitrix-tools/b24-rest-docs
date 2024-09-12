@@ -1,7 +1,5 @@
-# Получить поля заказа
+# Получить поля заказа sale.order.getfields
 
-> Название метода: **sale.order.getfields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

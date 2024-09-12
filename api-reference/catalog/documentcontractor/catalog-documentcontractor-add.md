@@ -1,4 +1,4 @@
-# Добавление привязки CRM-сущности (Контакта/Компании) к документу
+# Добавить привязку CRM-сущности (Контакта/Компании) к документу catalog.documentcontractor.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "catalog.documentcontractor.add" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 

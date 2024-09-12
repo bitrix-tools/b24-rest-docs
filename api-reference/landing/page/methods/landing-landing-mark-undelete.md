@@ -1,4 +1,4 @@
-# Отметка страницы как не удалённая
+# Пометить страницу как неудаленную landing.landing.markUnDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,13 +20,11 @@
 
 {% endif %}
 
-{% note info "landing.landing.markUnDelete" %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `landing.landing.markUnDelete` помечает страницу как не удалённую.
+Метод `landing.landing.markUnDelete` помечает страницу как неудаленную.
 
 ## Параметры
 

@@ -1,4 +1,4 @@
-# Получение списка сайтов с правами для роли 
+# Получить список сайтов с правами для роли landing.role.getRights
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,7 +21,7 @@
 
 {% endif %}
 
-{% note info "landing.role.getRights" %}
+{% note info "" %}
 
 **Scope**: [`landing`](../../../scopes/permissions.md) | **Права на выполнение**: `администратор`
 

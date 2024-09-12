@@ -1,9 +1,6 @@
-# Пункт контекстного меню в списке элементов
+# Пункт контекстного меню в списке элементов CRM_XXX_LIST_MENU, CRM_DYNAMIC_XXX_LIST_MENU
 
-> Коды встройки: **CRM_XXX_LIST_MENU**, **CRM_DYNAMIC_XXX_LIST_MENU**
->
 > Scope: [`crm`](../../scopes/permissions.md)
->
 
 Вы можете добавлять свой пункт в контекстное меню таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [счета](../../crm/outdated/invoice/), [коммерческие предложения](../../crm/quote/), [дела](../../crm/timeline/activities/) и [пользовательские типы](../../crm/universal/) объектов.
 

@@ -1,4 +1,4 @@
-# При добавлении цены
+# При добавлении цены CATALOG.PRICE.ON.ADD
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.PRICE.ON.ADD" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.PRICE.ON.ADD` срабатывает при добавлении цены. В обработчик передаются следующие данные:
 

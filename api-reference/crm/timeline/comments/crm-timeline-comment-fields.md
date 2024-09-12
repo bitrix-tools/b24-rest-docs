@@ -1,7 +1,5 @@
-# Получить поля комментария
+# Получить поля комментария crm.timeline.comment.fields
 
-> Название метода: **crm.timeline.comment.fields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

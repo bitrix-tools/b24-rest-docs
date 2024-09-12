@@ -8,11 +8,9 @@
 
 Rest-методы для работы с универсальными списками.
 
-{% note info "lists.*" %}
-
-**Scope**: [`lists`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 {% note warning "Внимание!" %}
 

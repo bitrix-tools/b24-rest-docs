@@ -1,4 +1,4 @@
-# Добавление задачи
+# Добавить задачу tasks.task.add
 
 {% if build == 'dev' %}
 
@@ -21,11 +21,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.add" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.add` создает задачу. 
 

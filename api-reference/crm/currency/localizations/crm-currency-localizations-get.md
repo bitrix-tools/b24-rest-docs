@@ -1,7 +1,5 @@
-# Получить локализации валюты
+# Получить локализации валюты crm.currency.localizations.get
 
-> Название метода: **crm.currency.localizations.get**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с доступом к настройкам CRM

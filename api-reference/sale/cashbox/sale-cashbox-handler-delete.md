@@ -1,7 +1,5 @@
-# Удалить обработчик кассы
+# Удалить обработчик кассы sale.cashbox.handler.delete
 
-> Название метода: **sale.cashbox.handler.delete**
->
 > Scope: [`sale, cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)

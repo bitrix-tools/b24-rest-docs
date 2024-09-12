@@ -1,7 +1,5 @@
-# Обновить поля торгового каталога
+# Обновить поля торгового каталога catalog.catalog.update
 
-> Название метода: **catalog.catalog.update**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

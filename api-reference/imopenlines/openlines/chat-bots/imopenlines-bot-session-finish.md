@@ -1,4 +1,4 @@
-# Завершить диалог
+# Завершить диалог imopenlines.bot.session.finish
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,8 +16,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.bot.session.finish**
->
 > Scope: [`imopenlines, imbot`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,4 +1,4 @@
-# Добавить задачу в Избранное
+# Добавить задачу в Избранное task.item.addtofavorite
 
 {% if build == 'dev' %}
 
@@ -13,8 +13,6 @@
 
 {% endif %}
 
-> Название метода: **task.item.addtofavorite**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

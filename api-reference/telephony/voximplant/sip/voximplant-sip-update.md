@@ -1,4 +1,4 @@
-# Обновление существующей sip-линии
+# Изменить существующую sip-линию voximplant.sip.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "voximplant.sip.update" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.sip.update` обновляет существующую sip-линию (созданную приложением). Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 

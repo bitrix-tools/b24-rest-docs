@@ -1,7 +1,5 @@
-# Изменить бэклог
+# Изменить бэклог tasks.api.scrum.backlog.update
 
-> Название метода: **tasks.api.scrum.backlog.update**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

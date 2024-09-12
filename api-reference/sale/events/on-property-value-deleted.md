@@ -1,7 +1,5 @@
-# При удалении свойства заказа из базы
+# При удалении свойства заказа из базы OnPropertyValueDeleted
 
-> Название события: **OnPropertyValueDeleted**
->
 > Scope: [`sale`](../../scopes/permissions.md) 
 >
 > Кто может подписаться: любой пользователь

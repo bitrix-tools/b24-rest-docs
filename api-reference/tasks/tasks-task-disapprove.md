@@ -1,4 +1,4 @@
-# Отклонение задачи
+# Отклонить задачу tasks.task.disapprove
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.disapprove" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.disapprove` позволяет отклонить задачу.
 

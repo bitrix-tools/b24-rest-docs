@@ -1,4 +1,4 @@
-# Получение списка документов
+# Получить список документов crm.documentgenerator.document.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.document.list" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.document.list` возвращает список документов по фильтру.
 

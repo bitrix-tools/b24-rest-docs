@@ -1,10 +1,8 @@
 # Счета (старые)
 
-{% note info "crm.invoice.\*, crm.paysystem.\*, crm.persontype.\*" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 #|
 || **Метод** | **Описание** ||

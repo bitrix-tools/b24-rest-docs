@@ -1,7 +1,5 @@
-# Удалить оплату
+# Удалить оплату sale.payment.delete
 
-> Название метода: **sale.payment.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

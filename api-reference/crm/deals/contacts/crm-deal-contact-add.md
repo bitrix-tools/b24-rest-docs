@@ -1,4 +1,4 @@
-# Добавление контакта к сделке
+# Добавить контакт к сделке crm.deal.contact.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.contact.add" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.contact.add` добавляет контакт к указанной сделке.
 

@@ -3,11 +3,11 @@ href: index.md
 items: 
   - name: Работа с CRM-поставщиками
     href: index.md
-  - name: Добавление привязки поставщика к документу
+  - name: Добавить привязку поставщика к документу
     href: catalog-documentcontractor-add.md
-  - name: Удаление привязки к документу
+  - name: Удалить привязку к документу
     href: catalog-documentcontractor-delete.md
-  - name: Возвращение массива полей привязки
+  - name: Получить поля привязки
     href: catalog-documentcontractor-get-fields.md
-  - name: Список привязок к документам
+  - name: Получить список привязок к документам
     href: catalog-documentcontractor-list.md

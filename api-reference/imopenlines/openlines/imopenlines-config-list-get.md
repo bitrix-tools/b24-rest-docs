@@ -1,4 +1,4 @@
-# Получить список открытых линий
+# Получить список открытых линий imopenlines.config.list.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,8 +20,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.config.list.get**
->
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

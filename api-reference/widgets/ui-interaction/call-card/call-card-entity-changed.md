@@ -1,4 +1,4 @@
-# Событие смены клиента
+# Событие смены клиента CallCard::EntityChanged
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название события: **CallCard::EntityChanged**
->
 > Scope: [`telephony`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: `любой пользователь`

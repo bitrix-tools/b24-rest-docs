@@ -1,6 +1,8 @@
 title: Тиражные приложения
 href: index.md
 items: 
+  - name: Обзор 
+    href: index.md
   - name: Мастер установки 
     href: installation-master.md
   - name: Callback установки

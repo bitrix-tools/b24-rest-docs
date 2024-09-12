@@ -1,4 +1,4 @@
-# Изменение текста в центре карточки звонка со стороны приложения
+# Изменить текст в центре карточки звонка со стороны приложения CallCardSetStatusText
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CallCardSetStatusText" %}
-
-{% include notitle [Скоуп telephony all](../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `CallCardSetStatusText` позволяет со стороны приложения изменить текст в центре карточки звонка.
 

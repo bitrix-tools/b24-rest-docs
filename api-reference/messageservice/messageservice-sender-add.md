@@ -1,4 +1,4 @@
-# Регистрация SMS-провайдера или провайдера сообщений
+# Зарегистрировать SMS-провайдер или провайдер сообщений messageservice.sender.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "messageservice.sender.add" %}
-
-**Scope**: [`messageservice`](../scopes/permissions.md) | **Права на выполнение**: `администратор`
-
-{% endnote %}
+> Scope: [`messageservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод регистрирует новый провайдер сообщений
 

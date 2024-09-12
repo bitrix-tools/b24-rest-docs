@@ -1,14 +1,13 @@
 title: Общие методы
 href: index.md
 items:
-  - name: Список методов 
+  - name: Обзор методов
     href: index.md
-  - name: Создание раздела
+  - name: Создать раздел
     href: lists-section-add.md
-  - name: Удаление раздела 
+  - name: Удалить раздел
     href: lists-section-delete.md
-  - name: Возвращение списка разделов 
+  - name: Получить параметры раздела или список разделов
     href: lists-section-get.md
-  - name: Обновление раздела списка 
+  - name: Изменить раздел списка
     href: lists-section-update.md
-

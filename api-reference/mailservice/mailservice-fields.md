@@ -1,4 +1,4 @@
-# Описание полей почтового сервиса
+# Получить поля почтового сервиса mailservice.fields
 
 {% if build == 'dev' %}
 
@@ -16,11 +16,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.fields" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.fields` возвращает описание полей почтового сервиса.
 

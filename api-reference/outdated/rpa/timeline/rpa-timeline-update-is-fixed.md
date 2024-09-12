@@ -1,4 +1,4 @@
-# Обновление флага прикрепления записи
+# Обновить флаг прикрепления записи rpa.timeline.updateIsFixed
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "rpa.timeline.updateIsFixed" %}
-
-**Scope**: [`rpa`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`rpa`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `rpa.timeline.updateIsFixed` обновляет флаг прикрепления записи.
 

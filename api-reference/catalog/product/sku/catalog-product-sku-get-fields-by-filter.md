@@ -1,7 +1,5 @@
-# Получить поля головного товара по фильтру
+# Получить поля головного товара по фильтру catalog.product.sku.getFieldsByFilter
 
-> Название метода: **catalog.product.sku.getFieldsByFilter**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

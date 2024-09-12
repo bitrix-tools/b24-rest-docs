@@ -1,4 +1,4 @@
-# Удалить команду
+# Удалить команду imbot.command.unregister
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -23,11 +23,9 @@
 
 {% endif %}
 
-{% note info "imbot.command.unregister" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.command.unregister` удаляет обработку команды.
 
@@ -60,7 +58,7 @@ $result = restCommand(
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID={SELF}&LESSON_ID=7881#onimcommandadd).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
 
 {% endnote %}
 

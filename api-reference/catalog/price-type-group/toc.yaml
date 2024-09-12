@@ -1,13 +1,13 @@
 title: Привязка типов цен к группам покупателей
 href: index.md
 items:
-  - name: Методы привязки
+  - name: Обзор методов
     href: index.md
-  - name: Добавление привязки
+  - name: Добавить привязку
     href: catalog-price-type-group-add.md
-  - name: Удаление привязки
+  - name: Удалить привязку
     href: catalog-price-type-group-delete.md
-  - name: Возвращение полей привязки
+  - name: Получить поля привязки
     href: catalog-price-type-group-get-fields.md
-  - name: Список привязок
+  - name: Получить список привязок
     href: catalog-price-type-group-list.md

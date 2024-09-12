@@ -1,4 +1,4 @@
-# Выполнение заданий бизнес-процессов
+# Выполнить задания бизнес-процессов bizproc.task.complete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -35,18 +35,15 @@
 
 {% endif %}
 
-
-{% note info "bizproc.task.complete" %}
-
-{% include notitle [Скоуп bizproc все](../_includes/scope-bizproc-all.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод осуществляет выполнение указанного задания бизнес-процесса. В настоящий момент можно выполнить задания вида:
 
 - [Утверждение документа](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3771)
 - [Ознакомление с документом](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3783)
-- [Запрос доп. информации](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3782&LESSON_PATH=5442.5446.5035.7837.3782).
+- [Запрос доп. информации](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3782)
   
 Выполнить можно только своё задание (относящееся к пользователю, с чьим access-токеном выполняется метод), если оно ещё не было выполнено.
 

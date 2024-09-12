@@ -1,7 +1,5 @@
-# Добавить торговое предложение
+# Добавить торговое предложение catalog.product.offer.add
 
-> Название метода: **catalog.product.offer.add**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

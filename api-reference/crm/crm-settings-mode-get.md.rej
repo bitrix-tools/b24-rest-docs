@@ -1,0 +1,16 @@
+diff a/api-reference/crm/crm-settings-mode-get.md b/api-reference/crm/crm-settings-mode-get.md	(ected hunks)
+@@ -1,4 +1,4 @@
+-# Получение текущего режима работы CRM
++# Определить текущий режим работы CRM crm.settings.mode.get
+ 
+ {% note warning "Мы еще обновляем эту страницу" %}
+ 
+@@ -6,8 +6,6 @@
+ 
+ {% endnote %}
+ 
+-> Название метода: **crm.settings.mode.get**
+->
+ > Scope: [`crm`](../scopes/permissions.md)
+ >
+ > Кто может выполнять метод: `любой пользователь`

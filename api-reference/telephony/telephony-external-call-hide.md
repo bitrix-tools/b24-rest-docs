@@ -1,4 +1,4 @@
-# Скрытие карточки звонка у пользователя
+# Скрыть карточку звонка у пользователя telephony.externalcall.hide
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalcall.hide" %}
-
 {% include notitle [Скоуп telephony all](./_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalcall.hide` скрывает карточку звонка у пользователя.
 

@@ -1,7 +1,5 @@
-# Удалить набор дополнительных контентных блоков в деле
+# Удалить набор дополнительных контентных блоков в деле crm.activity.layout.blocks.delete
 
-> Название метода: **crm.activity.layout.blocks.delete**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: REST Приложение

@@ -1,4 +1,4 @@
-# Добавление товаров в лид
+# Добавить товары в лид crm.lead.productrows.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.lead.productrows.set" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.lead.productrows.set` устанавливает (создаёт или обновляет) товарные позиции лида.
 

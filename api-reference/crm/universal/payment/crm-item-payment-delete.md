@@ -1,7 +1,5 @@
-# Удалить оплату
+# Удалить оплату crm.item.payment.delete
 
-> Название метода: **crm.item.payment.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: требуется право на изменение заказа оплаты

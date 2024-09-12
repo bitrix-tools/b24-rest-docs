@@ -1,7 +1,5 @@
-# Скачать файлы торгового предложения
+# Скачать файлы торгового предложения catalog.product.offer.download
 
-> Название метода: **catalog.product.offer.download**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

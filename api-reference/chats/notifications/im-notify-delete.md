@@ -1,4 +1,4 @@
-# Удалить уведомления
+# Удалить уведомления im.notify.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "im.notify.delete" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.notify.delete` удаляет уведомление.
 
@@ -98,4 +96,4 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-[Как работать с вложениями](http://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=93&CHAPTER_ID=07681)
+- [{#T}](../messages/attachments/index.md)

@@ -1,4 +1,4 @@
-# Включение наблюдения за задачей
+# Включить наблюдение за задачей tasks.task.startwatch
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.startwatch" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.startwatch` позволяет наблюдать за задачей.
 

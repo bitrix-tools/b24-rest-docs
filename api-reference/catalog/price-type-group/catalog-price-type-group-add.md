@@ -1,4 +1,4 @@
-# Добавление привязки типа цен к группе покупателей
+# Добавить привязку типа цен к группе покупателей catalog.priceTypeGroup.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.priceTypeGroup.add" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 

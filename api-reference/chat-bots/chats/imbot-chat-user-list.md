@@ -1,4 +1,4 @@
-# Получить список участников
+# Получить список участников imbot.chat.user.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.user.list" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.user.list` получает список участников.
 

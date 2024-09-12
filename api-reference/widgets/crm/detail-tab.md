@@ -1,9 +1,6 @@
-# Вкладка в детальной карточке элемента CRM
+# Вкладка в детальной карточке элемента CRM CRM_XXX_DETAIL_TAB, CRM_DYNAMIC_XXX_TAB
 
-> Коды встройки: **CRM_XXX_DETAIL_TAB**, **CRM_DYNAMIC_XXX_TAB**
->
 > Scope: [`crm`](../../scopes/permissions.md)
->
 
 Вы можете добавлять свои вкладки в детальную карточку таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/) и [пользовательские типы](../../crm/universal/) объектов.
 

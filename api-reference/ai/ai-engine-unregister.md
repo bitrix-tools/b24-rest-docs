@@ -1,4 +1,4 @@
-# Удаление сервиса
+# Удалить сервис ai.engine.unregister
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "ai.engine.unregister" %}
-
-**Scope**: [`ai_admin`](../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`ai_admin`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод для удаления [engine](./ai-engine-register.md).
 

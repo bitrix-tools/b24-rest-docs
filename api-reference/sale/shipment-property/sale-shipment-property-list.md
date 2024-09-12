@@ -1,7 +1,5 @@
-# Получить список свойств отгрузки
+# Получить список свойств отгрузки sale.shipmentproperty.list
 
-> Название метода: **sale.shipmentproperty.list**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

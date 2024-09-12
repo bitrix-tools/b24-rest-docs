@@ -1,42 +1,42 @@
 title: Интерактивные блоки
 href: index.md
 items:
-  - name: Список методов
+  - name: Обзор методов
     href: index.md
-  - name: Клонирование карточки блока
+  - name: Клонировать карточку блока
     href: landing-block-clone-card.md
-  - name: Удаление карточки блока
+  - name: Удалить карточку блока
     href: landing-block-remove-card.md
-  - name: Изменение контента блока
+  - name: Изменить контент блока
     href: landing-block-update-nodes.md
-  - name: Изменение атрибутов ноды блока
+  - name: Изменить атрибуты ноды блока
     href: landing-block-update-attrs.md
-  - name: Добавление карточки с изменённым контентом
+  - name: Добавить карточку с измененным контентом
     href: landing-block-add-card.md
-  - name: Изменение символьного кода якоря
+  - name: Изменить символьный код якоря
     href: landing-block-change-anchor.md
-  - name: Изменение названия тега
+  - name: Изменить название тега
     href: landing-block-change-node-name.md
-  - name: Получение контента блока из репозитория
+  - name: Получить контент блока из репозитория
     href: landing-block-get-content-from-repository.md
-  - name: Получение контента блока
+  - name: Получить контент блока
     href: landing-block-get-content.md
-  - name: Массовое изменение карточек блока
+  - name: Выполнить массовое изменение карточек блока
     href: landing-block-update-cards.md
-  - name: Изменение стилей блока
+  - name: Изменить стили блока
     href: landing-block-update-styles.md
-  - name: Обновление контента блока
+  - name: Изменить контент блока
     href: landing-block-update-content.md
-  - name: Загрузка и привязка картинки к блоку
+  - name: Загрузить и привязать картинку к блоку
     href: landing-block-upload-file.md
-  - name: Получение списка блоков страницы
+  - name: Получить список блоков страницы
     href: landing-block-get-list.md
-  - name: Получение блока по идентификатору
+  - name: Получить блок по идентификатору
     href: landing-block-get-by-id.md
-  - name: Получение манифеста блока
+  - name: Получить манифест блока
     href: landing-block-get-manifest.md
-  - name: Получение манифеста блока из репозитория
+  - name: Получить манифест блока из репозитория
     href: landing-block-get-manifest-file.md
-  - name: Получение списка блоков из репозитория
+  - name: Получить список блоков из репозитория
     href: landing-block-get-repository.md
 

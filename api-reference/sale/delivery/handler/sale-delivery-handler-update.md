@@ -1,7 +1,5 @@
-# Обновить обработчик службы доставки
+# Обновить обработчик службы доставки sale.delivery.handler.update
 
-> Название метода: **sale.delivery.handler.update**
->
 > Scope: [`sale`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM

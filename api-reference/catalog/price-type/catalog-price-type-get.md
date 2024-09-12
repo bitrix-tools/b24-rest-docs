@@ -1,4 +1,4 @@
-# Доступ к значениям полей типа цены по ID
+# Получить значения полей типа цены catalog.priceType.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.priceType.get" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 

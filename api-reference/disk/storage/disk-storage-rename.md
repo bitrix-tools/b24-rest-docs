@@ -1,4 +1,4 @@
-# Переименование хранилища
+# Переименовать хранилище disk.storage.rename
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.storage.rename" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.rename` переименовывает хранилище. Допустимо переименование только хранилища приложения (см. [disk.storage.getforapp](./disk-storage-get-for-app.md)).
 

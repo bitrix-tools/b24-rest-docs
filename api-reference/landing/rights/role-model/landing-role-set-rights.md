@@ -1,4 +1,4 @@
-# Установка прав роли для списка сайтов
+# Установить права роли для списка сайтов landing.role.setRights
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,7 +21,7 @@
 
 {% endif %}
 
-{% note info "landing.role.setRights" %}
+{% note info "" %}
 
 **Scope**: [`landing`](../../../scopes/permissions.md) | **Права на выполнение**: `администратор`
 

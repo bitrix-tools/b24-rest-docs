@@ -9,7 +9,7 @@ items:
       mode: link
   - name: Тиражные приложения
     include:
-      path: local-apps/b24-toc.yaml
+      path: mass-market-apps/b24-toc.yaml
       mode: link
   - name: Установка отраслевых CRM
     href: vertical-crm-installation.md

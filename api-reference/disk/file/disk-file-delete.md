@@ -1,4 +1,4 @@
-# Уничтожение файла навсегда
+# Уничтожить файл навсегда disk.file.delete
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.file.delete" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.file.delete` уничтожает файл навсегда.
 

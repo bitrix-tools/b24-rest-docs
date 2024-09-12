@@ -1,7 +1,5 @@
-# Удалить локализацию
+# Удалить локализацию sale.statusLang.deleteByFilter
 
-> Название метода: **sale.statusLang.deleteByFilter**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

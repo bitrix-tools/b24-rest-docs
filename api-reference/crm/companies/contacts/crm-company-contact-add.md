@@ -1,4 +1,4 @@
-# Добавление контакта к указанной компании
+# Добавить контакт к указанной компании crm.company.contact.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.company.contact.add" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.contact.add` добавляет контакт к указанной компании.
 

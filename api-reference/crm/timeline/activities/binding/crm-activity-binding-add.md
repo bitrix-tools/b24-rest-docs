@@ -1,4 +1,4 @@
-# Добавление привязки дела
+# Добавить привязку дела crm.activity.binding.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.binding.add" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.binding.add` добавляет привязку дела. В случае успеха, метод вернет `true`.
 

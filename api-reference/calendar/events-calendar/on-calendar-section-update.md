@@ -1,4 +1,4 @@
-# При изменении секции/ресурса
+# При изменении секции/ресурса OnCalendarSectionUpdate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "OnCalendarSectionUpdate" %}
-
-**Scope**: [`calendar`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `OnCalendarSectionUpdate` срабатывает при изменении секции/ресурса. В обработчик передаются следующие данные:
 

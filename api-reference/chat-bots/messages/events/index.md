@@ -1,4 +1,4 @@
-# На новое сообщение
+# На новое сообщение ONIMBOTMESSAGEADD
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "ONIMBOTMESSAGEADD" %}
-
-**Scope**: [`imbot`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `ONIMBOTMESSAGEADD`, возникающее при отправке сообщения.
 

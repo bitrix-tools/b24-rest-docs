@@ -1,7 +1,5 @@
-# Получение перечня методов и их описания
+# Получить перечень методов и их описаний task.elapseditem.getmanifest
 
-> Название метода: **task.elapseditem.getmanifest**
->
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

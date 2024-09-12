@@ -3,11 +3,11 @@ href: index.md
 items:
   - name: AI в Битрикс24
     href: index.md
-  - name: Регистрация сервиса
+  - name: Зарегистрировать сервис
     href: ai-engine-register.md
-  - name: Получение списка сервисов
+  - name: Получить список сервисов
     href: ai-engine-list.md
-  - name: Удаление сервиса
+  - name: Удалить сервис
     href: ai-engine-unregister.md
   - name: Промпты
     include:

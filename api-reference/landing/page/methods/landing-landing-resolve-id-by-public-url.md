@@ -1,4 +1,4 @@
-# Получение идентификатора страницы по URL
+# Получить идентификатор страницы по URL landing.landing.resolveIdByPublicUrl
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.resolveIdByPublicUrl" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.resolveIdByPublicUrl` возвращает идентификатор страницы по переданному относительному URL страницы.
 

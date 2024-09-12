@@ -1,7 +1,5 @@
-# Удалить службу доставки
+# Удалить службу доставки sale.delivery.delete
 
-> Название метода: **sale.delivery.delete**
->
 > Scope: [`sale`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM

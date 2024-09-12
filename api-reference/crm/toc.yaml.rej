@@ -1,0 +1,10 @@
+diff a/api-reference/crm/toc.yaml b/api-reference/crm/toc.yaml	(ected hunks)
+@@ -9,7 +9,7 @@ items:
+     href: tutorials.md
+   - name: Типы объектов CRM 
+     href: types.md
+-  - name: Режим работы CRM
++  - name: Определить текущий режим работы CRM
+     href: crm-settings-mode-get.md
+   - name: Универсальные методы CRM
+     include:

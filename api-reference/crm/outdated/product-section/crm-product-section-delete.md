@@ -1,7 +1,5 @@
-# Удалить раздел товаров
+# Удалить раздел товаров crm.productsection.delete
 
-> Название метода: **crm.productsection.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

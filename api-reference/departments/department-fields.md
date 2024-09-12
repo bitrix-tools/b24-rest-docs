@@ -1,4 +1,4 @@
-# Получение списка названий полей подразделения
+# Получить список названий полей подразделения department.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "department.fields" %}
-
-{% include notitle [Скоуп department all](./_include/scope-department-all.md) %}
-
-{% endnote %}
+> Scope: [`department`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Получение списка названий полей подразделения. Метод не имеет параметров.
 

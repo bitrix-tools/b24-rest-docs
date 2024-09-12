@@ -1,4 +1,4 @@
-# Удаление страницы
+# Удалить страницу landing.landing.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.delete" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.delete` удаляет страницу. Возвращает *true* в случае успеха, или ошибку.
 

@@ -1,4 +1,4 @@
-# Восстановление папки из корзины
+# Восстановить папку из корзины disk.folder.restore
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.restore" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.restore` восстанавливает папку из корзины.
 

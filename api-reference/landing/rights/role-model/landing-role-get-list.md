@@ -1,4 +1,4 @@
-# Получение списка ролей
+# Получить список ролей landing.role.getList
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,7 +18,7 @@
 
 {% endif %}
 
-{% note info "landing.role.getList" %}
+{% note info "" %}
 
 **Scope**: [`landing`](../../../scopes/permissions.md) | **Права на выполнение**: `администратор`
 

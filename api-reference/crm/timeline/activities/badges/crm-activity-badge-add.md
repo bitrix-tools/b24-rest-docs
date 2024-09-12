@@ -1,4 +1,4 @@
-# Добавление бейджа
+# Добавить бейдж crm.activity.badge.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.badge.add" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.badge.add` добавляет значок. Доступ к выполнению этого метода есть только у администратора CRM.
 

@@ -3,15 +3,15 @@ href: index.md
 items: 
   - name: Записи таймлайна
     href: index.md
-  - name: Получение массива записей таймлайна для элемента
+  - name: Получить массив записей таймлайна для элемента
     href: rpa-timeline-list-for-item.md
-  - name: Обновление флага прикрепления записи
+  - name: Обновить флаг прикрепления записи
     href: rpa-timeline-update-is-fixed.md
-  - name: Создание новой записи таймлайна у элемента
+  - name: Создать новую запись таймлайна
     href: rpa-timeline-add.md
-  - name: Обновление записи таймлайна
+  - name: Обновить запись таймлайна
     href: rpa-timeline-update.md
-  - name: Удаление записи таймлайна
+  - name: Удалить запись таймлайна
     href: rpa-timeline-delete.md
 
 

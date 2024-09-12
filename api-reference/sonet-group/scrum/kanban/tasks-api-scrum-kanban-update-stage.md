@@ -1,7 +1,5 @@
-# Изменить стадию канбана Скрама
+# Изменить стадию канбана Скрама tasks.api.scrum.kanban.updateStage
 
-> Название метода: **tasks.api.scrum.kanban.updateStage**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

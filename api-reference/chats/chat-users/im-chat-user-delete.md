@@ -1,4 +1,4 @@
-# Исключить участников из чата
+# Исключить участников из чата im.chat.user.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.chat.user.delete" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.chat.user.delete` исключает участников из чата.
 

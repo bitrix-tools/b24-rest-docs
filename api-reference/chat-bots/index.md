@@ -139,7 +139,7 @@ Slash-команды позволяют быстро создавать запр
 
 ## Жизненный цикл чат-бота
 
-Чат-бот публикует свои сообщения в чат через Rest API, получает ответы и команды пользователя через [События Rest API](https://dev.1c-bitrix.ru/rest_help/rest_sum/events/events.php) (POST запрос).
+Чат-бот публикует свои сообщения в чат через Rest API, получает ответы и команды пользователя через [События Rest API](../events/index.md) (POST запрос).
 
 Схема жизни чат-бота выглядит так:
 
@@ -151,12 +151,12 @@ Slash-команды позволяют быстро создавать запр
 
 И у нас есть 6 событий, которые полностью покрывают необходимый спектр реакций:
 
-- [ONAPPINSTALL](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onappinstall) — событие на установку приложения с чат-ботом.
-- [ONAPPUPDATE](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onappupdate) — событие на обновление приложения.
-- [ONIMJOINCHAT](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimjoinchat) — событие после приглашения чат-бота «к разговору», т.е. либо при вызове его пользователем в индивидуальном чате, либо при подключении его к групповому чату.
-- [ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotmessageadd) — событие после отправки сообщения от пользователя к чат-боту (в групповом чате, при явном упоминании бота).
-- [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd) — событие после отправки команды от пользователя к чат-боту (в персональной переписке с ним, или в групповом чате (если команда глобальная, то он может не участвовать в чате)).
-- [ONIMBOTDELETE](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotdelete) — событие после удаления приложения. Событие вызывается параллельно с [OnAppUninstall](http://dev.1c-bitrix.ru/rest_help/general/events/onappuninstall.php).
+- [ONAPPINSTALL](../common/events/on-app-install.md) — событие на установку приложения с чат-ботом.
+- [ONAPPUPDATE](./events/on-app-update.md) — событие на обновление приложения.
+- [ONIMJOINCHAT](./chats/events/on-imbot-join-chat.md) — событие после приглашения чат-бота «к разговору», т.е. либо при вызове его пользователем в индивидуальном чате, либо при подключении его к групповому чату.
+- [ONIMBOTMESSAGEADD](./messages/events/index.md) — событие после отправки сообщения от пользователя к чат-боту (в групповом чате, при явном упоминании бота).
+- [ONIMCOMMANDADD](./commands/events/index.md) — событие после отправки команды от пользователя к чат-боту (в персональной переписке с ним, или в групповом чате (если команда глобальная, то он может не участвовать в чате)).
+- [ONIMBOTDELETE](./chats/events/on-imbot-delete.md) — событие после удаления приложения. Событие вызывается параллельно с [OnAppUninstall](../common/events/on-app-uninstall.md).
 
 Иными словами, мы должны написать обработчики указанных событий, чтобы реализовать простую логику:
 
@@ -166,10 +166,10 @@ Slash-команды позволяют быстро создавать запр
 
 И для этого у нас есть набор простых методов, добавленных в REST API. Нам для старта потребуются только два:
 
-- [imbot.register](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7873#imbot_register) – регистрация чат-бота.
-- [imbot.message.add](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7875#imbot_message_add) – отправка сообщения от чат-бота.
+- [imbot.register](./imbot-register.md) – регистрация чат-бота.
+- [imbot.message.add](./messages/imbot-message-add.md) – отправка сообщения от чат-бота.
 
-Очевидно, что в обработчике события [ONAPPINSTALL](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onappinstall) мы вызовем метод [imbot.register](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7873#imbot_register) для того, чтобы добавить чат-бота на текущий портал, а затем в событии [ONIMJOINCHAT](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimjoinchat) воспользуемся методом [imbot.message.add](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7875#imbot_message_add) для вывода справки о функционале чат-бота, и в обработчике [ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotmessageadd) будем отвечать пользователю при помощи того же [imbot.message.add](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7875#imbot_message_add). Ничего сложного, согласитесь?
+Очевидно, что в обработчике события [ONAPPINSTALL](../common/events/on-app-install.md) мы вызовем метод [imbot.register](./imbot-register.md) для того, чтобы добавить чат-бота на текущий портал, а затем в событии [ONIMJOINCHAT](./chats/events/on-imbot-join-chat.md) воспользуемся методом [imbot.message.add](./messages/imbot-message-add.md) для вывода справки о функционале чат-бота, и в обработчике [ONIMBOTMESSAGEADD](./messages/events/index.md) будем отвечать пользователю при помощи того же [imbot.message.add](./messages/imbot-message-add.md). Ничего сложного, согласитесь?
 
 А также вам не придется реализовывать в приложении полноценный OAuth 2.0, поскольку параметры, необходимые для авторизации, приходят в обработчики в массиве **$_REQUEST**.
 
@@ -217,4 +217,4 @@ Slash-команды позволяют быстро создавать запр
 
 Полный список чат-ботов для платформы *Битрикс24* можно увидеть в [одноименном разделе](https://www.bitrix24.ru/apps/?category=chat_bots) *Магазина приложений Битрикс24*.
 
-[*keyboard]: Клавиатура — это набор кнопок, каждая кнопка может состоять из определённых ключей. https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=93&LESSON_ID=7683
+[*keyboard]: [Клавиатура](../chats/messages/keyboards.md) — это набор кнопок, каждая кнопка может состоять из определённых ключей.

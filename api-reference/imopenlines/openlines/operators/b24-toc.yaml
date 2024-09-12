@@ -11,5 +11,5 @@ items:
     href: imopenlines-operator-skip.md
   - name: Отметить диалог в качестве «спама»
     href: imopenlines-operator-spam.md
-  - name: Передать диалог другому оператора или в другую линию
+  - name: Передать диалог другому оператору или в другую линию
     href: imopenlines-operator-transfer.md

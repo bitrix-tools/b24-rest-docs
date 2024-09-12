@@ -1,4 +1,4 @@
-# Удаление комментария с идентификатором id
+# Удалить комментарий rpa.comment.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "rpa.comment.delete" %}
-
-**Scope**: [`rpa`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`rpa`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `rpa.comment.delete` удалит комментарий с идентификатором id.
 

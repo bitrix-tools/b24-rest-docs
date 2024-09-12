@@ -1,4 +1,4 @@
-# Получить нумератор по идентификатору
+# Получить нумератор по идентификатору documentgenerator.numerator.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.numerator.get" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.numerator.get` возвращает информацию о нумераторе по его идентификатору.
 

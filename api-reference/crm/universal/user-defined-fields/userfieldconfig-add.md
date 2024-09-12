@@ -6,6 +6,14 @@
 
 {% endnote %}
 
+{% if build == 'dev' %}
+
+{% note alert "TO-DO _не выгружается на prod_" %}
+
 (пример делаем на сделке, приводим все возможные значения типов в описании параметра).
 
-*Этот файл был создан Востриковым и был в структуре. Поэтому оставлен на всякий случай. Настоящий файл userfieldconfig-add.md есть [тут](../userfieldconfig/userfieldconfig/userfieldconfig-add.md)* 
+*Этот файл был создан Востриковым и был в структуре. Поэтому оставлен на всякий случай. Настоящий файл userfieldconfig-add.md есть [тут](../userfieldconfig/userfieldconfig/userfieldconfig-add.md)*
+
+{% endnote %}
+
+{% endif %}

@@ -1,7 +1,5 @@
-# Получить список языков для локализации
+# Получить список языков для локализации sale.statusLang.getListLangs
 
-> Название метода: **sale.statusLang.getListLangs**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

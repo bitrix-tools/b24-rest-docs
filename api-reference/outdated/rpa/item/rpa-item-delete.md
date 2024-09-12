@@ -1,4 +1,4 @@
-# Удаление элемента
+# Удалить элемент rpa.item.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 {% endif %}
 
 
-{% note info "rpa.item.delete" %}
-
-**Scope**: [`rpa`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`rpa`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `rpa.item.delete` удаляет элемент.
 

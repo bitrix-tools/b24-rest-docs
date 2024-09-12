@@ -1,38 +1,38 @@
 title: Общие методы
 href: index.md
 items:
-  - name: Список методов
+  - name: Обзор методов
     href: index.md
-  - name: Добавление страницы
+  - name: Добавить страницу
     href: landing-landing-add.md
-  - name: Добавление страницы по шаблону
+  - name: Добавить страницу по шаблону
     href: landing-landing-add-by-template.md
-  - name: Копирование страницы
+  - name: Копировать страницу
     href: landing-landing-copy.md
-  - name: Удаление страницы
+  - name: Удалить страницу
     href: landing-landing-delete.md
-  - name: Получение дополнительных полей
+  - name: Получить дополнительные поля
     href: landing-landing-get-additional-fields.md
-  - name: Получение списка страниц
+  - name: Получить список страниц
     href: landing-landing-get-list.md
-  - name: Получение пути до превью страницы
+  - name: Получить путь до превью страницы
     href: landing-landing-get-preview.md
-  - name: Возвращение веб-адреса страницы
+  - name: Получить веб-адрес страницы
     href: landing-landing-get-public-url.md
-  - name: Отметка страницы как удалённая
+  - name: Пометить страницу как удаленную
     href: landing-landing-mark-delete.md
-  - name: Отметка страницы как не удалённая
+  - name: Пометить страницу как неудаленную
     href: landing-landing-mark-undelete.md
-  - name: Перемещение страницы
+  - name: Переместить страницу
     href: landing-landing-move.md
-  - name: Публикация страницы
+  - name: Опубликовать страницу
     href: landing-landing-publication.md
-  - name: Удаление связанных сущностей
+  - name: Удалить связанные сущности
     href: landing-landing-remove-entities.md
-  - name: Получение идентификатора страницы по URL
+  - name: Получить идентификатор страницы по URL
     href: landing-landing-resolve-id-by-public-url.md
-  - name: Снятие страницы с публикации
+  - name: Снять страницу с публикации
     href: landing-landing-unpublic.md
-  - name: Изменение страницы
+  - name: Изменить страницу
     href: landing-landing-update.md
 

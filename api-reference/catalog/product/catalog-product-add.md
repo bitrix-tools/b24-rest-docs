@@ -1,7 +1,5 @@
-# Добавить товар
+# Добавить товар catalog.product.add
 
-> Название метода: **catalog.product.add**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

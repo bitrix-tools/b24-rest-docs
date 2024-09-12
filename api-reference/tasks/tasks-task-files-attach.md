@@ -1,4 +1,4 @@
-# Прикрепление файлов к задаче
+# Прикрепить файлы к задаче tasks.task.files.attach
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.files.attach" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.files.attach` для прикрепления загруженного на диск файла к задаче.
 

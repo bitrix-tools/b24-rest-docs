@@ -1,4 +1,4 @@
-# При изменении товара
+# При изменении товара CATALOG.PRODUCT.ON.UPDATE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.PRODUCT.ON.UPDATE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.PRODUCT.ON.UPDATE` срабатывает при изменении товара. В обработчик передаются следующие данные:
 

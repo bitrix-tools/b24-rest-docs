@@ -1,4 +1,4 @@
-# Просмотр занятости пользователей из списка
+# Просмотреть занятость пользователей из списка calendar.accessibility.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "calendar.accessibility.get" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.accessibility.get` возвращает занятость пользователей из списка.
 

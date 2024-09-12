@@ -1,0 +1,22 @@
+diff a/api-reference/crm/timeline/activities/crm-activity-list.md b/api-reference/crm/timeline/activities/crm-activity-list.md	(ected hunks)
+@@ -1,4 +1,4 @@
+-# Получение списка дел
++# Получить список дел crm.activity.list
+ 
+ {% note warning "Мы еще обновляем эту страницу" %}
+ 
+@@ -18,11 +18,9 @@
+ 
+ {% endif %}
+ 
+-{% note info "crm.activity.list" %}
+-
+-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
+-
+-{% endnote %}
++> Scope: [`crm`](../../../scopes/permissions.md)
++>
++> Кто может выполнять метод: любой пользователь
+ 
+ Метод `crm.activity.list` возвращает список активностей по фильтру. (Для получения COMMUNICATIONS его надо явно указать в select.) Является реализацией списочного метода для активностей.
+ 

@@ -1,4 +1,4 @@
-# Получение пользовательских настроек
+# Получить пользовательские настройки timeman.timecontrol.reports.settings.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.reports.settings.get" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `timeman.timecontrol.reports.settings.get` для получения пользовательских настроек для построения интерфейса отчетов инструмента контроля времени.
 

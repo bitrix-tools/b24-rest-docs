@@ -1,7 +1,5 @@
-# Удалить торговое предложение
+# Удалить торговое предложение catalog.product.offer.delete
 
-> Название метода: **catalog.product.offer.delete**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,4 +1,4 @@
-# Отправить сообщение в открытую линию
+# Отправить сообщение в открытую линию imopenlines.crm.message.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,8 +20,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.crm.message.add**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

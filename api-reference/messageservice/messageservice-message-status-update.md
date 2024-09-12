@@ -1,4 +1,4 @@
-# Обновление статуса доставки сообщения
+# Обновить статус доставки сообщения messageservice.message.status.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "messageservice.message.status.update" %}
-
-**Scope**: [`messageservice`](../scopes/permissions.md) | **Права на выполнение**: `администратор`
-
-{% endnote %}
+> Scope: [`messageservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод позволяет задать статус доставки указанного сообщения, отправленного с помощью провайдера сообщений.
 

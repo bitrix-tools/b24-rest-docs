@@ -1,7 +1,5 @@
-# Удалить кассу
+# Удалить кассу sale.cashbox.delete
 
-> Название метода: **sale.cashbox.delete**
->
 > Scope: [`sale, cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)

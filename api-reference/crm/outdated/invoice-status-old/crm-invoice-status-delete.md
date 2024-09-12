@@ -1,7 +1,5 @@
-# Удалить статус счета
+# Удалить статус счета crm.invoice.status.delete
 
-> Название метода: **crm.invoice.status.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

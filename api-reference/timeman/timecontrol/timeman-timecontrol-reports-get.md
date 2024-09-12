@@ -1,4 +1,4 @@
-# Получение отчёта о выявленных отсутствиях
+# Получить отчет о выявленных отсутствиях timeman.timecontrol.reports.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.reports.get" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `timeman.timecontrol.reports.get` для получения отчёта о выявленных отсутствиях.
 

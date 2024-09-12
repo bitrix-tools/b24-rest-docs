@@ -1,4 +1,4 @@
-# Получить информацию о ревизиях API
+# Получить информацию о ревизиях API im.revision.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.revision.get" %}
-
-**Scope**: [`im`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.revision.get` получает информацию о ревизиях API.
 

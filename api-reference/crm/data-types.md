@@ -24,8 +24,22 @@
 || `crm_contact` | Целочисленный идентификатор контакта CRM. Получить информацию о контакте можно с помощью метода [crm.contact.get](./contacts/crm-contact-get.md). ||
 || `crm_company` | Целочисленный идентификатор компании CRM. Получить информацию о компании можно с помощью метода [crm.company.get](./companies/crm-company-get.md). ||
 || `crm_quote` | Целочисленный идентификатор коммерческого предложения CRM. Получить информацию о коммерческом предложении можно с помощью метода [crm.quote.get](./quote/crm-quote-get.md). ||
-|| [`crm_item_product_row`](#crm_item_product_row) | Целочисленный идентификатор товарной позиции объекта CRM. Получить идентификаторы товарных позиций можно с помощью метода [crm.item.productrow.list](../crm/universal/product-rows/crm-item-productrow-list.md)
- ||
+|| `crm_entity`| Целочисленный идентификатор элемента некоторого объекта CRM. Поля с таким типом явно содержат в себе информацию к какому объекту CRM они принадлежат. Например, поля вида `parentId{entityTypeId}`, содержат внутри своего названия идентификатор типа сущности CRM. Получить информацию об элементе можно с помощью метода [`crm.item.get`](universal/crm-item-get.md) передав `entityTypeId` из названия поля и `id` из его значения ||
+|| `lang_map`  | Объект формата:
+```
+{
+    lang_1: value_1,
+    lang_2: value_2,
+    ..
+    lang_n: value_n,
+}
+```
+
+где
+`lang_n` - [Идентификатор языка](#lang-ids)
+`value_n` - Значение для языка `lang_n`
+||
+|| [`crm_item_product_row`](#crm_item_product_row) | Целочисленный идентификатор товарной позиции объекта CRM. Получить идентификаторы товарных позиций можно с помощью метода [crm.item.productrow.list](../crm/universal/product-rows/crm-item-productrow-list.md) ||
 || [`crm_multifield`](#crm_multifield) | Объект, описывающий «множественное поле». Множественные поля применяются для хранения телефонов, email-адресов и другой контактной информации. В лидах, контактах и компаниях полями этого типа являются `PHONE`, `EMAIL`, `WEB` и `IM`. ||
 || [`crm_currency`](#crm_currency) | Объект, описывающий валюту ||
 || [`crm_currency_localization`](#crm_currency_localization) | Объект, описывающий локализацию валюты ||
@@ -328,14 +342,11 @@
 #|
 || **Значение**
 `тип` | **Описание** ||
-|| **CALENDAR_EVENT**
-**UF_CRM_CAL_EVENT**
+|| **CALENDAR_EVENT\|UF_CRM_CAL_EVENT**
 [`boolean`][2] | Событие в календаре ||
-|| **TASKS_TASK**
-**UF_CRM_TASK**         
+|| **TASKS_TASK\|UF_CRM_TASK**
 [`boolean`][2] | Задачи ||
-|| **TASKS_TASK_TEMPLATE**
-**UF_CRM_TASK**
+|| **TASKS_TASK_TEMPLATE\|UF_CRM_TASK**
 [`boolean`][2] | Шаблоны задач ||
 |#
 

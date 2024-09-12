@@ -1,7 +1,5 @@
-# Добавить вариант свойства
+# Добавить вариант свойства sale.propertyvariant.add
 
-> Название метода: **sale.propertyvariant.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

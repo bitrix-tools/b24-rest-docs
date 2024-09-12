@@ -1,4 +1,4 @@
-# Включение режима «Без звука»
+# Включить режим «Без звука» tasks.task.mute
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.mute" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.mute` включает режим «Без звука».
 

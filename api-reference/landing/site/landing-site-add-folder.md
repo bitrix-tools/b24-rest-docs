@@ -1,4 +1,4 @@
-# Добавление папки на сайт
+# Добавить папку на сайт landing.site.addFolder
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.site.addFolder" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.addFolder` добавляет папку в сайт.
 

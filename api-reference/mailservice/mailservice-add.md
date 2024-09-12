@@ -1,4 +1,4 @@
-# Создание нового почтового сервиса
+# Создать новый почтовый сервис mailservice.add
 
 {% if build == 'dev' %}
 
@@ -18,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.add" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.add` добавляет новый почтовый сервис.
 

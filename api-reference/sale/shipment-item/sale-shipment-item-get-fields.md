@@ -1,7 +1,5 @@
-# Получить поля табличной части отгрузки
+# Получить поля табличной части отгрузки sale.shipmentitem.getfields
 
-> Название метода: **sale.shipmentitem.getfields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

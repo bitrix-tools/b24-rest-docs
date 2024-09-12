@@ -1,7 +1,5 @@
-# Удалить связь реквизита с объектом
+# Удалить связь реквизита с объектом crm.requisite.link.unregister
 
-> Название метода: **crm.requisite.link.unregister**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

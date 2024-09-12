@@ -1,4 +1,4 @@
-# Получить список коннекторов 
+# Получить список коннекторов imconnector.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "imconnector.list" %}
-
-**Scope**: [`imopenlines`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод получает список коннекторов.
 

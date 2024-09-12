@@ -1,4 +1,4 @@
-# Изменение стилей блока
+# Изменить стили блока landing.block.updateStyles
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.updateStyles" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.updateStyles` изменяет стили блока. Возвращает _true_ или ошибку.
 

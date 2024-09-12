@@ -1,4 +1,4 @@
-# Создать заказ на доставку
+# Создать заказ на доставку CREATE_DELIVERY_REQUEST_URL
 
 Запрос отправляется на адрес указанный в `CREATE_DELIVERY_REQUEST_URL` при создании обработчика доставки в методе [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md).
 

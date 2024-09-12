@@ -5,13 +5,13 @@ items:
     href: index.md
   - name: О приложениях для чата
     href: chat-apps.md
-  - name: Создание приложения
+  - name: О создании приложения
     include:
       path: create-app/b24-toc.yaml
       mode: link
   - name: Контекстные приложения
     href: context.md
-  - name: Создание иконки Приложения для чата
+  - name: Создать иконку Приложения для чата
     href: icon.md
-  - name: Создание IFRAME-обработчика
+  - name: Созданить IFRAME-обработчик
     href: iframe.md

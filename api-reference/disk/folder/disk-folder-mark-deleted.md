@@ -1,4 +1,4 @@
-# Перемещение папки в корзину
+# Переместить папку в корзину disk.folder.markdeleted
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.markdeleted" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.markdeleted` перемещает папку в корзину.
 

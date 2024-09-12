@@ -1,4 +1,4 @@
-# При удалении события
+# При удалении события OnCalendarEntryDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "OnCalendarEntryDelete" %}
-
-**Scope**: [`calendar`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `OnCalendarEntryDelete` срабатывает при удалении события. В обработчик передаются следующие данные:
 

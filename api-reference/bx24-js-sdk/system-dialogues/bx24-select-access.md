@@ -1,4 +1,4 @@
-# Показать диалог выбора прав доступа
+# Показать диалог выбора прав доступа BX24.selectAccess
 
 ```js
 BX24.selectAccess(value: array, callback: callable): void;

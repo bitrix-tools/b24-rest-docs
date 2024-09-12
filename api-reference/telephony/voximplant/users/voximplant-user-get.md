@@ -1,4 +1,4 @@
-# Получение настроек пользователей
+# Получить настройки пользователей voximplant.user.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "voximplant.user.get" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.user.get` возвращает настройки пользователей. Метод проверяет наличие права на модификацию пользователя и запрашивает подтверждение администратора перед выполнением.
 

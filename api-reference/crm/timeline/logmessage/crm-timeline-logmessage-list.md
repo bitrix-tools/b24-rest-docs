@@ -1,7 +1,5 @@
-# Получить список лог-записей таймлана 
+# Получить список лог-записей таймлана crm.timeline.logmessage.list
 
-> Название метода: **crm.timeline.logmessage.list**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

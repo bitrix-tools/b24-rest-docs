@@ -1,4 +1,4 @@
-# Возвращение списка полей документа (уст.)
+# Получить список полей документа (уст.) catalog.document.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -25,11 +25,9 @@
 
 {% endnote %}
 
-{% note info "catalog.document.fields" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ## Описание
 

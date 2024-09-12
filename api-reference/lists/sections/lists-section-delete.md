@@ -1,4 +1,4 @@
-# Удаление раздела универсального списка
+# Удалить раздел универсального списка lists.section.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.section.delete" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.section.delete` удаляет раздел списка. В случае успешного создания раздела ответ `true`, иначе *Exception*.
 

@@ -22,11 +22,11 @@
 
 {% endnote %}
 
-#|
-|| **Метод** | **Описание** ||
-|| [crm.contact.userfield.add](./crm-contact-userfield-add.md) | Создание пользовательского поля для контактов. ||
-|| [crm.contact.userfield.update](./crm-contact-userfield-update.md) | Изменение существующего пользовательского поля контактов. ||
-|| [crm.contact.userfield.get](./crm-contact-userfield-get.md) | Получение пользовательского поля контактов по Id. ||
-|| [crm.contact.userfield.list](./crm-contact-userfield-list.md) | Получение списка пользовательских полей контактов. ||
-|| [crm.contact.userfield.delete](./crm-contact-userfield-delete.md) | Удаление пользовательского поля контактов. ||
-|#
+
+## REST методы
+
+- [{#T}](crm-contact-userfield-add.md)
+- [{#T}](crm-contact-userfield-update.md)
+- [{#T}](crm-contact-userfield-get.md)
+- [{#T}](crm-contact-userfield-list.md)
+- [{#T}](crm-contact-userfield-delete.md)

@@ -3,9 +3,9 @@ href: index.md
 items:
   - name: О событиях
     href: index.md
-  - name: Установка приложения
+  - name: На установку приложения
     href: on-app-install.md
-  - name: Обновление приложения
+  - name: На обновление приложения
     href: on-app-update.md
   - name: Пример кода обработчика для работы с событиями
     href: example-handler-code.md

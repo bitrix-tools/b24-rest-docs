@@ -1,4 +1,4 @@
-# Получение списка результатов задачи
+# Получить список результатов задачи tasks.task.result.list
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.result.list" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.result.list` позволяет просмотреть список результатов к задаче.
 

@@ -8,11 +8,9 @@
 
 Разрешение **Структура компании** (department)
 
-{% note info "" %}
-
-**Scope**: [`department`](../scopes/permissions.md)  | **Права на выполнение**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`department`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
 
 ## Методы
 

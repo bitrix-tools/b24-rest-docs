@@ -1,4 +1,4 @@
-# Загрузка и привязка картинки к блоку
+# Загрузить и привязать картинку к блоку landing.block.uploadfile
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.uploadfile" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.uploadfile` загружает картинку и привязывает ее к указанному блоку. В случае успеха возвращает пару: прямой путь до загруженного файла и id сохраненного файла. С этого момента картинка удалится только при полном удалении блока, страницы, содержащей блок, или через вызов метода [landing.landing.removeEntities](../../page/methods/landing-landing-remove-entities.md).
 

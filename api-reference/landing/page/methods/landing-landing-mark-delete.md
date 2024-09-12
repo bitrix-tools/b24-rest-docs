@@ -1,4 +1,4 @@
-# Отметка страницы как удалённая
+# Пометить страницу как удаленную landing.landing.markDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.markDelete" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.markDelete` помечает страницу как удалённую.
 

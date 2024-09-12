@@ -3,13 +3,13 @@ href: index.md
 items: 
   - name: Использование SIP и встроенной телефонии
     href: index.md
-  - name: Инициализация обратного звонка
+  - name: Запустить обратный звонок
     href: voximplant-callback-start.md
-  - name: Автозвонок с проигрыванием MP3-файла
+  - name: Осуществить автозвонок с проигрыванием MP3-файла
     href: voximplant-infocall-start-with-sound.md
-  - name: Автозвонок голосовым-роботом 
+  - name: Осуществить автозвонок голосовым роботом
     href: voximplant-infocall-start-with-text.md
-  - name: Получение списка вариантов озвучки для голосового робота
+  - name: Получить список вариантов озвучки для голосового робота
     href: voximplant-tts-voices-get.md
   - name: События
     include:
@@ -27,7 +27,7 @@ items:
     include:
       path: sip/toc.yaml
       mode: link
-  - name: Получение ссылок на ключевые страницы телефонии
+  - name: Получить ссылки на ключевые страницы телефонии
     href: voximplant-url-get.md
 
 

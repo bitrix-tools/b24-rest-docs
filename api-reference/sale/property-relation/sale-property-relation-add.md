@@ -1,7 +1,5 @@
-# Добавить привязку свойства
+# Добавить привязку свойства sale.propertyRelation.add
 
-> Название метода: **sale.propertyRelation.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

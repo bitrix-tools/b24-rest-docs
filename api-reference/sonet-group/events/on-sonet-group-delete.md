@@ -1,4 +1,4 @@
-# Вызывается в момент удаления рабочей группы
+# Вызывается в момент удаления рабочей группы onSonetGroupDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "onSonetGroupDelete" %}
-
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onSonetGroupDelete` вызывается в момент удаления рабочей группы. Прокси к событию `OnSocNetGroupDelete`.
 

@@ -1,4 +1,4 @@
-# Получение бейджа по коду
+# Получить бейдж по коду crm.activity.badge.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.badge.get" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.badge.get` вернет массив, содержащий [поля значка](./index.md), то есть информацию о значке.
 

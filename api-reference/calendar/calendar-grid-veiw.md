@@ -1,4 +1,4 @@
-# Встраивание в календарь
+# Встроиться в календарь CALENDAR_GRIDVIEW
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -118,7 +118,7 @@ BX24.placement.call('deleteEvent',
 
 ## Смотри также
 
-- [Встраивание приложений (REST)](https://dev.1c-bitrix.ru/rest_help/application_embedding/index.php).
-- [Встраивание приложений](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=7114) в курсе Маркетплейс Битрикс24.
-- [Встраивание приложений в виде пользовательских типов полей](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=8633) в учебном курсе.
-- [Добавление своих методов REST API](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=7985) в учебном курсе.
+- [{#T}](../widgets/index.md)
+- [{#T}](../../local-integrations/local-apps.md)
+- [{#T}](../widgets/user-field/index.md)
+- [Добавление своих методов REST API](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=7985) в учебном курсе

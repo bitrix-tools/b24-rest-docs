@@ -1,4 +1,4 @@
-# Доступ к значению параметра свойства товров или торговых предложений по ID
+# Получить значения параметра свойства товаров или торговых предложений catalog.productPropertyFeature.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.productPropertyFeature.get" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 

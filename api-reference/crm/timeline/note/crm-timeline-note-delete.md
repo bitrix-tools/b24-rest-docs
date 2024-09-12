@@ -1,7 +1,5 @@
-# Удалить заметку
+# Удалить заметку crm.timeline.note.delete
 
-> Название метода: **crm.timeline.note.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

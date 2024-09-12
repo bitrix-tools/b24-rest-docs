@@ -1,4 +1,4 @@
-# Список запущенных бизнес-процессов
+# Получить список запущенных бизнес-процессов bizproc.workflow.instances
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -22,11 +22,9 @@
 
 {% endif %}
 
-{% note info "bizproc.workflow.instances" %}
-
-{% include notitle [Скоуп bizproc админ](./_includes/scope-bizproc-admin.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 {% note warning "bizproc.workflow.instance.list" %}
 

@@ -1,4 +1,4 @@
-# Создание новой sip-линии с привязкой к приложению
+# Создать новую sip-линию с привязкой к приложению voximplant.sip.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "voximplant.sip.add" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.sip.add` создает новую sip-линию с привязкой к приложению. После создания данная линия становится исходящей линией по умолчанию. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 

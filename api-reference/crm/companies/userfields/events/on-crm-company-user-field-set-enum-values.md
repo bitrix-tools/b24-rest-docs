@@ -1,4 +1,4 @@
-# Изменение набора значений для поля типа Список
+# При изменении набора значений для поля типа Список onCrmCompanyUserFieldSetEnumValues
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "onCrmCompanyUserFieldSetEnumValues" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmCompanyUserFieldSetEnumValues` вызывается при изменении набора значений для пользовательского поля списочного типа.
 

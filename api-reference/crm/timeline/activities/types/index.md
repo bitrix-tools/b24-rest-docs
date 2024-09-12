@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.type.*" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 #|
 || **Метод** | **Описание** ||

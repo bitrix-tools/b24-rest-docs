@@ -1,4 +1,4 @@
-# Удалить роль
+# Удалить роль documentgenerator.role.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.role.delete" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.role.delete` удаляет роль.
 

@@ -1,4 +1,4 @@
-# Получение товарных позиций предложения
+# Получить товарные позиции предложения crm.quote.productrows.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.quote.productrows.get" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.quote.productrows.get` возвращает товарные позиции предложения.
 

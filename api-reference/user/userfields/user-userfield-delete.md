@@ -1,4 +1,4 @@
-# Удаление пользовательского поля
+# Удалить пользовательское поле user.userfield.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "user.userfield.delete" %}
-
-**Scope**: [`user.userfield`](../../scopes/permissions.md) | **Права на выполнение**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`user.userfield`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод удаляет пользовательское поле.
 

@@ -1,4 +1,4 @@
-# Получить поля контакта
+# Получить поля контакта crm.contacts.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,8 +16,6 @@
 
 {% endif %}
 
-> Название метода: **crm.contacts.fields**
->
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -621,7 +619,7 @@ HTTP-статус: **200**
 ||**COMPANY_ID**
 [`crm_company`](../data-types.md) | Основная компания контакта ||
 ||**COMPANY_IDS**
-[`crm_company`](../data-types.md) | Привязка контакта к компаниям. Множественное. В методах [crm.contact.update](./crm-contact-update.md) и [crm.contact.add](./crm-contact-add.md) используется для подачи массива компаний. В методах [crm.contact.list](./crm-contact-list.md) и [crm.contact.get](./crm-contact-get.md) поля нет и необходимо использовать [crm.contact.company.items.get](./company/crm-contact-company-items-get.md) для получения списка компаний.  ||
+[`crm_company`](../data-types.md) | Привязка контакта к компаниям. Множественное. В методах [`crm.contact.update`](./crm-contact-update.md) и [`crm.contact.add`](./crm-contact-add.md) используется для подачи массива компаний. В методах [`crm.contact.list`](./crm-contact-list.md) и [`crm.contact.get`](./crm-contact-get.md) поля нет и необходимо использовать [`crm.contact.company.items.get`](./company/crm-contact-company-items-get.md) для получения списка компаний.  ||
 ||**LEAD_ID**
 [`crm_lead`](../data-types.md) | Идентификатор лида, связанного с контактом. Только для чтения. ||
 ||**FACE_ID**
@@ -666,7 +664,7 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Идентификатор контакта во внешней системе. ||
 ||**ORIGIN_VERSION**
 [`string`](../../data-types.md) | Версия данных о контакте во внешней системе. Используется для защиты данных от случайного перетирания внешней системой. Если данные были импортированы и не изменялись во внешней системе, то такие данные могут быть редактированы в CRM без опасения, что следующая выгрузка приведет к перетиранию данных. ||
-|| | {% note tip "Устревшие поля" %}
+|| | {% note tip "Устаревшие поля" %}
 
 Поля адреса в контакте являются устаревшими и используются только в режиме совместимости. Для работы с адресом, используйте [реквизиты](../requisites/index.md).
 
@@ -693,11 +691,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
-
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
 

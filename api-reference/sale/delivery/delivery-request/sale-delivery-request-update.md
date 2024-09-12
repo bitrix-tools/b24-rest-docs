@@ -1,7 +1,5 @@
-# Обновить транспортную заявку
+# Обновить транспортную заявку sale.delivery.request.update
 
-> Название метода: **sale.delivery.request.update**
->
 > Scope: [`sale, delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

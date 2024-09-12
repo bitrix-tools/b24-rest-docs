@@ -1,4 +1,4 @@
-# Добавление стадии Канбана / Моего плана
+# Добавить стадию Канбана / Моего плана task.stages.add
 
 {% if build == 'dev' %}
 
@@ -20,41 +20,27 @@
 
 {% endnote %}
 
-> Название метода: **task.stages.add**
->
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: любой пользователь
 
-Метод  добавляет стадию Канбана / Моего плана.
+Метод `task.stages.add` добавляет стадию Канбана / Моего плана.
 
 ## Параметры метода
 
 #|
-|| **Название** `тип`  | **Описание** ||
-|| **fields***
-[`object`](../../data-types.md) | Значения полей (подробное описание приведено ниже) для добавления стадии в виде структуры:
-
-```js
-fields: {
-    TITLE: "значение",
-    COLOR: "значение",
-    AFTER_ID: "значение",
-    ENTITY_ID: "значение",
-},
-```
-
-||
+|| **Название** `тип` | **Описание** ||
+|| **fields^*^**
+[`object`](../../data-types.md) | Значения полей (подробное описание приведено ниже) для добавления стадии ||
 || **isAdmin**
-[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет. При условии, что запрашивающий является администратором портала.
-||
+[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет. При условии, что запрашивающий является администратором портала. ||
 |#
 
 ## Параметр fields
 
 #|
 || **Название** `тип` | **Описание** ||
-|| **TITLE*** [`string`](../../data-types.md) | Заголовок стадии. ||
+|| **TITLE^*^** [`string`](../../data-types.md) | Заголовок стадии. ||
 || **COLOR** [`string`](../../data-types.md) | Цвет стадии. ||
 || **AFTER_ID** [`integer`](../../data-types.md) | Идентификатор стадии, после которой надо добавить новую стадию. Если не указано или равно `0`, то добавится в начало. ||
 || **ENTITY_ID** [`integer`](../../data-types.md)| Идентификатор сущности. Может равняться `ID` группы, тогда стадия добавится в Канбан группы. При недостаточном уровне прав выводится ошибка доступа. Если равняется `0` или отсутствует, то стадия добавляется в Мой план текущего пользователя. ||
@@ -62,12 +48,9 @@ fields: {
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
-
 {% list tabs %}
 
 - JS
-  
     ```js
     BX24.callMethod(
         'task.stages.add',
@@ -90,6 +73,67 @@ fields: {
     );
     ```
 
+- cURL (oAuth)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "fields": {
+        "TITLE": "Название стадии",
+        "COLOR": "#FFAAEE",
+        "AFTER_ID": 1,
+        "ENTITY_ID": 1
+    },
+    "isAdmin": false
+    }' \
+    https://your-domain.bitrix24.com/rest/task.stages.add
+    ```
+
+- cURL (Webhook)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "fields": {
+        "TITLE": "Название стадии",
+        "COLOR": "#FFAAEE",
+        "AFTER_ID": 1,
+        "ENTITY_ID": 1
+    },
+    "isAdmin": false
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.add
+    ```
+
+- PHP
+    ```php
+    require_once('crest.php'); // подключение CRest PHP SDK
+
+    $fields = [
+        "TITLE" => "Название стадии",
+        "COLOR" => "#FFAAEE",
+        "AFTER_ID" => 1,
+        "ENTITY_ID" => 1
+    ];
+
+    // выполнение запроса к REST API
+    $result = CRest::call(
+        'task.stages.add',
+        [
+            'fields' => $fields,
+            'isAdmin' => false
+        ]
+    );
+
+    // Обработка ответа от Битрикс24
+    if ($result['error']) {
+        echo 'Error: '.$result['error_description'];
+    } else {
+        print_r($result['result']);
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -98,32 +142,18 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": 1,
-    "time":{
-        "start":1712218058.514339,
-        "finish":1712218060.34603,
-        "duration":1.831691026687622,
-        "processing":0.042268991470336914,
-        "date_start":"2024-04-04T11:07:38+03:00",
-        "date_finish":"2024-04-04T11:07:40+03:00"
-    }
+    "result": 1
 }
 ```
 
 ### Возвращаемые данные
 
 #|
-|| **Название**
-`тип` | **Описание** ||
-|| **result**
-[`int`](../../data-types.md) | Возвращает `ID` добавленной стадии. ||
-|| **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|| **Название** `тип` | **Описание** ||
+|| **result** [`integer`](../../data-types.md) | Идентификатор добавленной стадии. ||
 |#
 
 ## Обработка ошибок
-
-HTTP-статус: **400**
 
 ```json
 {
@@ -131,8 +161,6 @@ HTTP-статус: **400**
     "error_description": "Не указан заголовок стадии"
 }
 ```
-
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 

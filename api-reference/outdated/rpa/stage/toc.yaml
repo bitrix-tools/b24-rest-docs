@@ -3,15 +3,15 @@ href: index.md
 items: 
   - name: Стадии
     href: index.md
-  - name: Получение информации о стадии по её ID
+  - name: Получить информацию о стадии
     href: rpa-stage-get.md
-  - name: Получение списка стадий процесса
+  - name: Получить список стадий процесса
     href: rpa-stage-list-for-type.md
-  - name: Создание новой стадии
+  - name: Создать новую стадию
     href: rpa-stage-add.md
-  - name: Обновление стадии
+  - name: Обновить стадию
     href: rpa-stage-update.md
-  - name: Удаление стадии
+  - name: Удалить стадию
     href: rpa-stage-delete.md
 
 

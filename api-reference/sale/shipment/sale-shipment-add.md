@@ -1,7 +1,5 @@
-# Добавить отгрузку
+# Добавить отгрузку sale.shipment.add
 
-> Название метода: **sale.shipment.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

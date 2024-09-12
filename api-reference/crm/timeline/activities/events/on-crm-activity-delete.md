@@ -1,4 +1,4 @@
-# Удаление дела
+# При удалении дела onCrmActivityDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "onCrmActivityDelete" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmActivityDelete` вызывается при удалении дела.
 

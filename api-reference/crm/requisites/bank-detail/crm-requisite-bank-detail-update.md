@@ -1,7 +1,5 @@
-# Изменить банковский реквизит
+# Изменить банковский реквизит crm.requisite.bankdetail.update
 
-> Название метода: **crm.requisite.bankdetail.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

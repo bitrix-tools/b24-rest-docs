@@ -1,7 +1,5 @@
-# Получить доступные поля элемента корзины (товар из каталога)
+# Получить доступные поля элемента корзины (товар из каталога) sale.basketitem.getFieldsCatalogProduct
 
-> Название метода: **sale.basketitem.getFieldsCatalogProduct**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: менеджер магазина

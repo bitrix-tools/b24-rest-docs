@@ -1,4 +1,4 @@
-# Удаление компании
+# Удалить компанию crm.company.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.company.delete" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.delete` удаляет компанию и все связанные с ней объекты.
 

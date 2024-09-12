@@ -1,4 +1,4 @@
-# Получить список руководителей подразделений
+# Получить список руководителей подразделений im.department.managers.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.department.managers.get" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.department.managers.get` получает список руководителей подразделений.
 

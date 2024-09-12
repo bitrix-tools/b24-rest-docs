@@ -1,7 +1,5 @@
-# Добавить бэклог в Скрам
+# Добавить бэклог в Скрам tasks.api.scrum.backlog.add
 
-> Название метода: **tasks.api.scrum.backlog.add**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

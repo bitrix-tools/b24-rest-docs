@@ -3,19 +3,19 @@ href: index.md
 items:
   - name: О ленте новостей
     href: index.md
-  - name: Добавление сообщения
+  - name: Добавить сообщение
     href: log-blogpost-add.md
-  - name: Получение списка сообщений
+  - name: Получить список сообщений
     href: log-blogpost-get.md
-  - name: Изменение сообщения
+  - name: Изменить сообщение
     href: log-blogpost-update.md 
-  - name: Добавление получателей к сообщению
+  - name: Добавить получателей к сообщению
     href: log-blogpost-share.md 
-  - name: Удаление сообщения
+  - name: Удалить сообщение
     href: log-blogpost-delete.md  
-  - name: Пользователи, прочитавшие важное сообщение
+  - name: Просмотреть пользователей, прочитавших важное сообщение
     href: log-blogpost-getusers-important.md
-  - name: Добавление комментария
+  - name: Добавить комментарий
     href: log-blogcomment-add.md
   - name: События
     include:

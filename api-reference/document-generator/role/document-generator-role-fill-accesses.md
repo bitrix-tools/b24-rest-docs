@@ -1,4 +1,4 @@
-# Привязать пользователей к ролям
+# Привязать пользователей к ролям documentgenerator.role.fillaccesses
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.role.fillaccesses" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.role.fillaccesses` установит набор ролей и их привязок.
 

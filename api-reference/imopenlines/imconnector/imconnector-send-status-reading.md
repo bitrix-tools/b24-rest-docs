@@ -1,4 +1,4 @@
-# Обновить статус «прочитано»
+# Обновить статус «прочитано» imconnector.send.status.reading
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "imconnector.send.status.reading" %}
-
-**Scope**: [`imopenlines`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод подтверждения прочтения сообщения из ОЛ во внешнюю систему.
 

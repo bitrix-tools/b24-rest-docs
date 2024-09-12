@@ -1,4 +1,4 @@
-# Удаление сообщения Ленты новостей
+# Удалить сообщение Ленты новостей log.blogpost.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "log.blogpost.delete" %}
-
-{% include notitle [Скоуп log все](./_includes/scope-log-all.md) %}
-
-{% endnote %}
+> Scope: [`log`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Удаляет указанное сообщение Ленты новостей.
 

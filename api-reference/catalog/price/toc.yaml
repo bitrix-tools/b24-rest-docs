@@ -1,21 +1,21 @@
 title: Цена
 href: index.md
 items: 
-  - name: Цена
+  - name: Обзор методов
     href: index.md
   - name: Ресурс цены
     href: resource.md
-  - name: Добавление цены
+  - name: Добавить цену
     href: catalog-price-add.md
-  - name: Удаление цены
+  - name: Удалить цену
     href: catalog-price-delete.md
-  - name: Получение полей цены
+  - name: Получить значения полей цены
     href: catalog-price-get.md
-  - name: Возвращение полей цены
+  - name: Получить поля цены
     href: catalog-price-get-fields.md
-  - name: Список цен
+  - name: Получить список цен
     href: catalog-price-list.md
-  - name: Изменение элементов цен
+  - name: Изменить элементы коллекции цен
     href: catalog-price-modify.md
-  - name: Обновление полей цены
+  - name: Изменить цену
     href: catalog-price-update.md

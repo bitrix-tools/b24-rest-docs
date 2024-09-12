@@ -1,4 +1,4 @@
-# Получение списка всех доступных исходящих линий
+# Получить список всех доступных исходящих линий voximplant.line.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "voximplant.line.get" %}
-
 {% include notitle [Скоуп telephony all](../../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `voximplant.line.get` Возвращает список всех доступных исходящих линий. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 

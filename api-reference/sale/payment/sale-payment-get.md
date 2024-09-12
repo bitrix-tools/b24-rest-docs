@@ -1,7 +1,5 @@
-# Получить оплату по Id
+# Получить оплату по Id sale.payment.get
 
-> Название метода: **sale.payment.get**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

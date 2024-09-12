@@ -6,9 +6,9 @@
 
 {% endnote %}
 
-> Scope: [`sonet_group`](../../scopes/permissions.md)
+> Scope: [`sonet`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может подписаться: любой пользователь
 
 #|
 || **Метод** | **Описание** ||

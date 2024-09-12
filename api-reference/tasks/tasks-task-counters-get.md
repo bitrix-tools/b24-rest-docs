@@ -1,4 +1,4 @@
-# Получение счетчиков пользователя
+# Получить счетчики пользователя tasks.task.counters.get
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.counters.get" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.counters.get` получения счетчиков пользователя.
 

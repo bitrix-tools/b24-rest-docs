@@ -1,7 +1,5 @@
-# Получить реквизит по id
+# Получить реквизит по id crm.requisite.get
 
-> Название метода: **crm.requisite.get**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

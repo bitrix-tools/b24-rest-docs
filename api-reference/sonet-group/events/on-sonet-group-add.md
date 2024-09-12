@@ -1,4 +1,4 @@
-# На добавление новой рабочей группы
+# На добавление новой рабочей группы onSonetGroupAdd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "onSonetGroupAdd" %}
-
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onSonetGroupAdd` вызывается после добавления новой рабочей группы. Прокси к событию `OnSocNetGroupAdd`.
 

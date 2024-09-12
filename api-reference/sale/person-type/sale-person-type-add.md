@@ -1,7 +1,5 @@
-# Добавить тип плательщика
+# Добавить тип плательщика sale.persontype.add
 
-> Название метода: **sale.persontype.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,4 +1,4 @@
-# Нажатие на кнопку "уведомить администратора"
+# При нажатии на кнопку «уведомить администратора» BackgroundCallCard::notifyAdminButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::notifyAdminButtonClick" %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
-
-Событие `BackgroundCallCard::notifyAdminButtonClick` – нажатие на кнопку "уведомить администратора". В функцию обратного вызова ничего не передается.
+Событие `BackgroundCallCard::notifyAdminButtonClick` — нажатие на кнопку «уведомить администратора». В функцию обратного вызова ничего не передается.

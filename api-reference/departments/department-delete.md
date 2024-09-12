@@ -1,4 +1,4 @@
-# Удаление подразделения
+# Удалить подразделение department.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "department.delete" %}
-
-{% include notitle [Скоуп department admin](./_include/scope-department-admin.md) %}
-
-{% endnote %}
+> Scope: [`department`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правами на изменение структуры
 
 Удаляет указанное подразделение
 

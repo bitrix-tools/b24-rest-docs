@@ -1,7 +1,5 @@
-# Получить список услуг
+# Получить список услуг catalog.product.service.list
 
-> Название метода: **catalog.product.service.list**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

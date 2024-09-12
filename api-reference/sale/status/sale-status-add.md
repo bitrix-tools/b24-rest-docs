@@ -1,7 +1,5 @@
-# Создать статус
+# Создать статус sale.status.add
 
-> Название метода: **sale.status.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

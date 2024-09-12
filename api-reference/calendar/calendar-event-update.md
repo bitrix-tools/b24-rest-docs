@@ -1,4 +1,4 @@
-# Редактирование существующего события
+# Отредактировать существующее событие calendar.event.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "calendar.event.update" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.event.update` редактирует существующее событие.
 

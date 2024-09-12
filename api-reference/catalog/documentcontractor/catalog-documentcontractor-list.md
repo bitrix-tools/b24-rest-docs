@@ -1,4 +1,4 @@
-# Получение списка привязок CRM-сущностей (Контакта/Компании) к документам по фильтру
+# Получить список привязок CRM-сущностей (Контакта/Компании) к документам catalog.documentcontractor.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.documentcontractor.list" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.documentcontractor.list(select, filter, order, start)

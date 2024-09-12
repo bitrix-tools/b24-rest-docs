@@ -1,7 +1,5 @@
-# Перед удалением заказа
+# Перед удалением заказа OnSaleBeforeOrderDelete
 
-> Название события: **OnSaleBeforeOrderDelete**
->
 > Scope: [`sale`](../../scopes/permissions.md) 
 >
 > Кто может подписаться: любой пользователь

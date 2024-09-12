@@ -1,19 +1,19 @@
 title: Переводы названий типов цен
 href: index.md
 items: 
-  - name: Методы перевода названий типов цен
+  - name: Обзор методов
     href: index.md
-  - name: Добавление перевода
+  - name: Добавить перевод
     href: catalog-price-type-lang-add.md
-  - name: Удаление перевода
+  - name: Удалить перевод
     href: catalog-price-type-lang-delete.md
-  - name: Получение полей перевода
+  - name: Получить значения полей перевода
     href: catalog-price-type-lang-get.md
-  - name: Возвращение полей перевода
+  - name: Получить поля перевода
     href: catalog-price-type-lang-get-fields.md
-  - name: Возвращение доступных для перевода языков
+  - name: Получить доступные для перевода языки
     href: catalog-price-type-lang-get-languages.md
-  - name: Список переводов названий типов цен
+  - name: Получить список переводов названий типов цен
     href: catalog-price-type-lang-list.md
-  - name: Обновление перевода
+  - name: Изменить перевод
     href: catalog-price-type-lang-update.md

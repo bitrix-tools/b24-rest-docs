@@ -1,4 +1,4 @@
-# На изменение рабочей группы
+# На изменение рабочей группы onSonetGroupUpdate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "onSonetGroupUpdate" %}
-
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onSonetGroupUpdate` вызывается после изменения рабочей группы. Прокси к событию `OnSocNetGroupUpdate`.
 

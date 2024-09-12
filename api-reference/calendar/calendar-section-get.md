@@ -1,4 +1,4 @@
-# Получение списка календарей
+# Получить список календарей calendar.section.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "calendar.section.get" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.section.get` возвращает список календарей. Здесь и в дальнейшем section будет именоваться как "календарь".
 

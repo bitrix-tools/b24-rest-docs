@@ -1,4 +1,4 @@
-# Получение данных для OAuth 2.0
+# Получить данные для OAuth 2.0 BX24.getAuth
 
 ```js
 BX24.getAuth(): boolean|object;

@@ -1,4 +1,4 @@
-# На добавление пользовательского поля
+# На добавление пользовательского поля onCrmDealUserFieldAdd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "onCrmDealUserFieldAdd" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmDealUserFieldAdd` вызывается при добавлении пользовательского поля.
 

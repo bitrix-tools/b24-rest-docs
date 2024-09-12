@@ -1,4 +1,4 @@
-# Пользовательские поля задач
+# Пользовательские поля задач task.item.userfield.getfields
 
 {% if build == 'dev' %}
 
@@ -18,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.getfields" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.item.userfield.getfields` возвращает все доступные поля.
 

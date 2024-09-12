@@ -1,4 +1,4 @@
-# Удаление комментария
+# Удалить комментарий task.commentitem.delete
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.delete" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.delete`удаляет комментарий. Требуется обязательная авторизация через oauth и получение auth кода.
 

@@ -1,7 +1,5 @@
-# Создать новый банковский реквизит
+# Создать новый банковский реквизит crm.requisite.bankdetail.add
 
-> Название метода: **crm.requisite.bankdetail.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

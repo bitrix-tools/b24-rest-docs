@@ -1,4 +1,4 @@
-# Получить список ролей
+# Получить список ролей documentgenerator.role.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.role.list" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.role.list` вернёт список ролей без их прав доступа.
 

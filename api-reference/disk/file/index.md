@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "disk.file.*" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 #|
 || **Метод** | **Описание** ||

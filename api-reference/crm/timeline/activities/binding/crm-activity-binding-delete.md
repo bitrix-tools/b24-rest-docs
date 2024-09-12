@@ -1,4 +1,4 @@
-# Получение списка привязок дела
+# Получить список привязок дела crm.activity.binding.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.binding.delete" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.binding.delete` удаляет привязку. В случае успеха, метод вернет `true`.
 

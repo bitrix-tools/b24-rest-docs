@@ -1,7 +1,5 @@
-# Удалить транспортную заявку
+# Удалить транспортную заявку sale.delivery.request.delete
 
-> Название метода: **sale.delivery.request.delete**
->
 > Scope: [`sale, delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

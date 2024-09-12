@@ -3,15 +3,15 @@ href: index.md
 items:
   - name: Список методов
     href: index.md
-  - name: Создание почтового сервиса
+  - name: Создать новый почтовый сервис
     href: mailservice-add.md
-  - name: Удаление почтового сервиса
+  - name: Удалить почтовый сервис
     href: mailservice-delete.md
-  - name: Поля почтового сервиса
+  - name: Получить поля почтового сервиса
     href: mailservice-fields.md
-  - name: Возвращение параметров почтового сервиса
+  - name: Получить параметры почтового сервиса
     href: mailservice-get.md
-  - name: Получение списка почтовых сервисов
+  - name: Получить список почтовых сервисов
     href: mailservice-list.md
-  - name: Обновление параметров почтового сервиса
+  - name: Изменить параметры почтового сервиса
     href: mailservice-update.md

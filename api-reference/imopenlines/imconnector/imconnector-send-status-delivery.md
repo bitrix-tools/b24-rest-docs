@@ -1,4 +1,4 @@
-# Обновить статус «доставлено»
+# Обновить статус «доставлено» imconnector.send.status.delivery
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "imconnector.send.status.delivery" %}
-
-**Scope**: [`imopenlines`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод подтверждения доставки сообщения из ОЛ во внешнюю систему.
 

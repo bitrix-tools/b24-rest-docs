@@ -1,7 +1,5 @@
-# Получить доступные поля отгрузки
+# Получить доступные поля отгрузки sale.shipment.getfields
 
-> Название метода: **sale.shipment.getfields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

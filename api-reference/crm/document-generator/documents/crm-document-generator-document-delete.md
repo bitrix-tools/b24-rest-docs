@@ -1,4 +1,4 @@
-# Удаление документа
+# Удалить документ crm.documentgenerator.document.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.document.delete" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.document.delete` удаляет документ. 
 

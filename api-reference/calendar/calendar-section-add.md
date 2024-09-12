@@ -1,4 +1,4 @@
-# Добавление нового календаря
+# Добавить новый календарь calendar.section.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "calendar.section.add" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.section.add` добавляет новый календарь. Здесь и в дальнейшем section будет именоваться как "календарь".
 

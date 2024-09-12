@@ -1,4 +1,4 @@
-# Установка настроек инструмента контроля времени
+# Установить настройки инструмента контроля времени timeman.timecontrol.settings.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.settings.set" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `timeman.timecontrol.settings.set` для установки настроек инструмента контроля времени.
 

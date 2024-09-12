@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "landing.landing.*" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 #|
 || **Метод** | **Описание** | **С версии** ||

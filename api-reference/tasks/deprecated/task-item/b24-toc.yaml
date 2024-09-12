@@ -23,7 +23,7 @@ items:
     href: task-item-get-files.md
   - name: Получить список предыдущих задач
     href: task-item-get-dependson.md
-  - name: Получение списка допустимых действий над задачей
+  - name: Получить список действий над задачей
     href: task-item-get-allowed-actions.md
   - name: Получить список названий действий и их допустимость
     href: task-item-get-allowed-task-actions-as-strings.md

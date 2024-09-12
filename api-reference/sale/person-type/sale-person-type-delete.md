@@ -1,7 +1,5 @@
-# Удалить тип плательщика
+# Удалить тип плательщика sale.persontype.delete
 
-> Название метода: **sale.persontype.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

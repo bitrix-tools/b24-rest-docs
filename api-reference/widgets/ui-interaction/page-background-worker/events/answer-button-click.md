@@ -1,4 +1,4 @@
-# Нажатие на кнопку "ответить"
+# При нажатии на кнопку «ответить» BackgroundCallCard::answerButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::answerButtonClick" %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
-
-Событие `BackgroundCallCard::answerButtonClick` – нажатие на кнопку "ответить". В функцию обратного вызова ничего не передается.
+Событие `BackgroundCallCard::answerButtonClick` — нажатие на кнопку «ответить». В функцию обратного вызова ничего не передается.

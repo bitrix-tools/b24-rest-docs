@@ -1,4 +1,4 @@
-# В карточке обзвона при смене текущего обзваниемого
+# В карточке обзвона при смене текущего обзваниемого BackgroundCallCard::entityChanged
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::entityChanged" %}
-
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
 Событие `BackgroundCallCard::entityChanged` происходит в карточке обзвона при смене текущего обзваниемого. В функцию обратного вызова ничего не передается.

@@ -1,7 +1,5 @@
-# Получить список комментариев
+# Получить список комментариев crm.timeline.comment.list
 
-> Название метода: **crm.timeline.comment.list**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`

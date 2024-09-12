@@ -1,7 +1,5 @@
-# Получить поля типа плательщика
+# Получить поля типа плательщика sale.persontype.getFields
 
-> Название метода: **sale.persontype.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

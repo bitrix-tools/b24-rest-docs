@@ -1,4 +1,4 @@
-# При изменении единицы измерения
+# При изменении единицы измерения CATALOG.MEASURE.ON.UPDATE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.MEASURE.ON.UPDATE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.MEASURE.ON.UPDATE` срабатывает при изменении единицы измерения. В обработчик передаются следующие данные:
 

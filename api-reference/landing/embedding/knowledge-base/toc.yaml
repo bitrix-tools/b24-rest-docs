@@ -3,16 +3,15 @@ href: index.md
 items:
   - name: Места встройки Баз знаний
     href: index.md
-  - name: Встраивание в меню
+  - name: Встроить в меню
     href: landing-site-binding-to-menu.md
-  - name: Удаление из меню
+  - name: Удалить из меню
     href: landing-site-unbinding-from-menu.md
-  - name: Получение списка привязок в меню
+  - name: Получить список привязок в меню
     href: landing-site-get-menu-bindings.md
-  - name: Привязка к группе Социальной сети
+  - name: Привязать к группе Социальной сети
     href: landing-site-binding-to-group.md
-  - name: Удаление привязки к группе социальной сети
+  - name: Удалить привязку к группе Социальной сети
     href: landing-site-unbinding-from-group.md
-  - name: Получение привязок к группам
+  - name: Получить привязки к группам
     href: landing-site-get-group-bindings.md
-

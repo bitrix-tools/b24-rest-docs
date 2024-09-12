@@ -1,7 +1,5 @@
-# Удалить направление сделок
+# Удалить направление сделок crm.dealcategory.delete
 
-> Название метода: **crm.dealcategory.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

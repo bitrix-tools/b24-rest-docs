@@ -1,7 +1,5 @@
-# Изменить значение свойства
+# Изменить значение свойства sale.propertyvalue.modify
 
-> Название метода: **sale.propertyvalue.modify**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

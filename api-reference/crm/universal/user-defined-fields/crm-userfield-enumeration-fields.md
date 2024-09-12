@@ -1,4 +1,4 @@
-# Описание полей для пользовательского поля типа "enumeration" (список)
+# Получить описание полей для пользовательского поля типа «enumeration» (список) crm.userfield.enumeration.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "crm.userfield.enumeration.fields" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.userfield.enumeration.fields` возвращает описание полей для пользовательского поля типа "enumeration" (список).
 

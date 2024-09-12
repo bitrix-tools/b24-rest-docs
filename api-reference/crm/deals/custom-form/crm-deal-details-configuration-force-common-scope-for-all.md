@@ -1,4 +1,4 @@
-# Указание общей карточки для всех пользователей
+# Установить общую карточку для всех пользователей crm.deal.details.configuration.forceCommonScopeForAll
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.details.configuration.forceCommonScopeForAll" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.details.configuration.forceCommonScopeForAll` принудительно устанавливает общую карточку сделок для всех пользователей.
 

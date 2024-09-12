@@ -1,4 +1,4 @@
-# Завершить диалог другого оператора
+# Завершить диалог другого оператора imopenlines.operator.another.finish
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,8 +20,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.operator.another.finish**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

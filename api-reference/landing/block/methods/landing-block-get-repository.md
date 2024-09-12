@@ -1,4 +1,4 @@
-# Получение списка блоков из репозитория
+# Получить список блоков из репозитория landing.block.getrepository
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getrepository" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getrepository` возвращает список блоков из репозитория или ошибку.
 

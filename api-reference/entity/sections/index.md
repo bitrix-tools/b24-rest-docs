@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "entity.section.*" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 #|
 || **Метод** | **Описание** ||

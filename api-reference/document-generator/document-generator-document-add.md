@@ -1,4 +1,4 @@
-# Создание нового документа на основании шаблона
+# Создать новый документ на основании шаблона documentgenerator.document.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.document.add" %}
-
-**Scope**: [`documentgenerator`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.document.add` создает новый документ на основании шаблона. 
 

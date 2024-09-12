@@ -1,4 +1,4 @@
-# На изменение сделки
+# На изменение сделки onCrmDealUpdate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "onCrmDealUpdate" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmDealUpdate` вызывается при обновлении сделки.
 

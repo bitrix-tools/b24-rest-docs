@@ -1,4 +1,4 @@
-# Получение параметров карточки
+# Получить параметры карточки crm.company.details.configuration.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.company.details.configuration.get" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.details.configuration.get` получает настройки карточки компаний. Метод читает личные настройки карточки указанного пользователя или общие настройки, заданные для всех пользователей.
 

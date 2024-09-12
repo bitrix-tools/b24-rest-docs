@@ -1,4 +1,4 @@
-# Получение лидов, контактов и компаний с совпадающими данными
+# Получить лиды, контакты и компании с совпадающими данными crm.duplicate.findbycomm
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.duplicate.findbycomm" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.duplicate.findbycomm()

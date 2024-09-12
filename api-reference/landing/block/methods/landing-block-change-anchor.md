@@ -1,4 +1,4 @@
-# Изменение символьного кода якоря
+# Изменить символьный код якоря landing.block.changeAnchor
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.block.changeAnchor" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.changeAnchor` изменяет символьный код якоря. Штатно якорь выглядит следующим образом: `#block12345`, где 12345 – идентификатор блока.
 

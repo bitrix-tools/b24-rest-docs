@@ -1,4 +1,4 @@
-# Получение списка пользовательских полей
+# Получить список пользовательских полей task.item.userfield.getlist
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.getlist" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.item.userfield.getlist` возвращает список свойств.
 

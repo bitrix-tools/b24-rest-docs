@@ -1,7 +1,5 @@
-# Получить поля задачи Скрама
+# Получить поля задачи Скрама tasks.api.scrum.task.getFields
 
-> Название метода: **tasks.api.scrum.task.getFields**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

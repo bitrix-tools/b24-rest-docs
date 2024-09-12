@@ -1,4 +1,4 @@
-# Получение URL превью сайта
+# Получить URL превью сайта landing.site.getPreview
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.getPreview" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.getPreview` возвращает URL изображения-превью сайта (превью индексной страницы). Сайт должен быть доступен на чтение.
 

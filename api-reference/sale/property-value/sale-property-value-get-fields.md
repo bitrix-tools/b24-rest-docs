@@ -1,7 +1,5 @@
-# Получить доступные поля значения свойства
+# Получить доступные поля значения свойства sale.propertyvalue.getfields
 
-> Название метода: **sale.propertyvalue.getfields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

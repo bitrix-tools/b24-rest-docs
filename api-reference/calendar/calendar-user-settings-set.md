@@ -1,4 +1,4 @@
-# Сохранение пользовательских настроек календаря
+# Сохранить пользовательские настройки календаря calendar.user.settings.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "calendar.user.settings.set" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.user.settings.set` сохраняет пользовательские настройки календаря.
 

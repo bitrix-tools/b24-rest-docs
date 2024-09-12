@@ -1,4 +1,4 @@
-# Нажатие на кнопку "вернуться к звонку"
+# При нажатии на кнопку «вернуться к звонку» BackgroundCallCard::cancelTransferButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::cancelTransferButtonClick" %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
-
-Событие `BackgroundCallCard::cancelTransferButtonClick` – нажатие на кнопку "вернуться к звонку". В функцию обратного вызова ничего не передается.
+Событие `BackgroundCallCard::cancelTransferButtonClick` — нажатие на кнопку «вернуться к звонку». В функцию обратного вызова ничего не передается.

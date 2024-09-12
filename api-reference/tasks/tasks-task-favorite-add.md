@@ -1,4 +1,4 @@
-# Добавление задачи в Избранное
+# Добавить задачу в Избранное tasks.task.favorite.add
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.favorite.add" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.favorite.add` добавляет задачу в Избранное.
 

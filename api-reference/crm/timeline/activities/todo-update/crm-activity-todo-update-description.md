@@ -1,4 +1,4 @@
-# Изменение описания
+# Изменить описание crm.activity.todo.updateDescription
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,13 +19,11 @@
 
 {% endif %}
 
-{% note info "crm.activity.todo.updateDescription" %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `crm.activity.todo.updateDescription` меняет текст универсального дела. Результат будет содержать `id` - идентификатор измененного дела.
+Метод `crm.activity.todo.updateDescription` меняет текст универсального дела. Результат будет содержать `id` – идентификатор измененного дела.
 
 ## Параметры
 

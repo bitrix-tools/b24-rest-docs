@@ -1,4 +1,4 @@
-# По нажатию на кнопку удержания звонка
+# По нажатию на кнопку удержания звонка BackgroundCallCard::holdButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::holdButtonClick" %}
-
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
 Событие `BackgroundCallCard::holdButtonClick` происходит по нажатию на кнопку удержания звонка. В функцию обратного вызова передается булево значение: true - ожидается включение удержания, false - ожидается выключение удержания.

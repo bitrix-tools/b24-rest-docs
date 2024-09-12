@@ -1,4 +1,4 @@
-# Указание общей карточки для всех пользователей
+# Установить общую карточку для всех пользователей crm.company.details.configuration.forceCommonScopeForAll
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.company.details.configuration.forceCommonScopeForAll" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.details.configuration.forceCommonScopeForAll` позволяет принудительно установить общую карточку компаний для всех пользователей.
 

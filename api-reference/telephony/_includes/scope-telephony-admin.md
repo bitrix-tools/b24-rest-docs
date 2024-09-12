@@ -1,1 +1,3 @@
-**Scope**: [`telephony`](../../scopes/permissions.md) **Права на выполнение**: `администратор`
+> Scope: [`telephony`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор

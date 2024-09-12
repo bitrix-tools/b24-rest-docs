@@ -1,4 +1,4 @@
-# Подключить внешнюю открытую линию к порталу
+# Подключить внешнюю открытую линию к порталу imopenlines.network.join
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,8 +17,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.network.join**
->
 > Scope: [`imopenlines, imbot`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

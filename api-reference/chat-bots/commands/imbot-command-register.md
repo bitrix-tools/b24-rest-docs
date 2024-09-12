@@ -1,4 +1,4 @@
-# Добавить команду
+# Добавить команду imbot.command.register
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -23,11 +23,9 @@
 
 {% endif %}
 
-{% note info "imbot.command.register" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.command.register` регистрирует команду для обработки чат-ботом.
 
@@ -65,7 +63,7 @@ Array(
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
 
 {% endnote %}
 
@@ -137,5 +135,5 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом команды ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd)
+- [Событие на получение чат-ботом команды ONIMCOMMANDADD](./events/index.md)
 

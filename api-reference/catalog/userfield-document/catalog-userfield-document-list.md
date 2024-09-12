@@ -1,4 +1,4 @@
-# Возвращение списка значений пользовательских полей документов складского учёта
+# Получить список значений пользовательских полей документов складского учета catalog.userfield.document.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.userfield.document.list" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.userfield.document.list(select, filter, order, start)

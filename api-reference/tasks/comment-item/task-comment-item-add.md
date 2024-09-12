@@ -1,4 +1,4 @@
-# Добавление комментария 
+# Добавить комментарий task.commentitem.add
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.add" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.add`создает новый комментарий к задаче. Возвращает идентификатор добавленного комментария.
 

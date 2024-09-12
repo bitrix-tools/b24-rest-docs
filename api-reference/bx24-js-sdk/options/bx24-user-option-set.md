@@ -1,4 +1,4 @@
-# Установить настройки для пользователя
+# Установить настройки для пользователя BX24.userOption.set
 
 ```js
 BX24.userOption.set(string name, string value): void;

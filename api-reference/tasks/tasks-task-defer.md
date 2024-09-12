@@ -1,4 +1,4 @@
-# Перевод задачи в статус «отложена»
+# Перевести задачу в статус «отложена» tasks.task.defer
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.defer" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.defer` переводит задачу в статус «отложена».
 

@@ -1,4 +1,4 @@
-# Получение диапазонов сетевых адресов
+# Получить диапазон сетевых адресов timeman.networkrange.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "timeman.networkrange.get" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `timeman.networkrange.get` для получения диапазонов сетевых адресов, входящих в офисную сеть.
 

@@ -1,4 +1,4 @@
-# На удаление сообщения из Ленты новостей
+# На удаление сообщения из Ленты новостей OnLiveFeedPostDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "OnLiveFeedPostDelete" %}
-
-{% include notitle [Скоуп log все](../_includes/scope-log-all.md) %}
-
-{% endnote %}
+> Scope: [`log`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `OnLiveFeedPostDelete` вызывается после удаления поста из Ленты новостей. Прокси к событию [OnSocNetLogDelete](.).
 

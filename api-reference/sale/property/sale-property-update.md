@@ -1,7 +1,5 @@
-# Обновить свойство заказа
+# Обновить свойство заказа sale.property.update
 
-> Название метода: **sale.property.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

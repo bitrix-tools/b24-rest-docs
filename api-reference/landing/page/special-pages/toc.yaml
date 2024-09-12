@@ -3,14 +3,13 @@ href: index.md
 items:
   - name: О специальных страницах
     href: index.md
-  - name: Установка
+  - name: Установить специальную страницу
     href: landing-syspage-set.md
-  - name: Получение списка
+  - name: Получить список страниц
     href: landing-syspage-get.md
-  - name: Получение адреса
+  - name: Получить адрес специальной страницы
     href: landing-syspage-get-special-page.md
-  - name: Удаление всех упоминаний
+  - name: Удалить все упоминания
     href: landing-syspage-delete-for-landing.md
-  - name: Удаление всех специальных страниц
+  - name: Удалить все специальные страницы
     href: landing-syspage-delete-for-site.md
-
