@@ -1,7 +1,5 @@
-# Установить общую карточку для всех пользователей
+# Установить общую карточку для всех пользователей crm.item.details.configuration.forceCommonScopeForAll
 
-> Название метода: **crm.item.details.configuration.forceCommonScopeForAll**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: Администратор

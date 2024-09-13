@@ -1,4 +1,4 @@
-# Установить параметры карточки элементов
+# Установить параметры карточки элементов crm.item.details.configuration.set
 
 > Название метода: **crm.item.details.configuration.set**
 >

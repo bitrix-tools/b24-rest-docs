@@ -1,4 +1,4 @@
-# Сбросить параметры карточки элементов
+# Сбросить параметры карточки элементов crm.item.details.configuration.reset
 
 > Название метода: **crm.item.details.configuration.reset**
 >
