@@ -4,38 +4,36 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «импорта» элемента объекта CRM
 
-Метод является универсальным методом для импорта объектов в CRM. Отличия от добавления объекта описаны подробнее [`тут`](index.md).
-
-## Параметры
-
-#|
-|| **Название**
-`тип`          | **Описание** ||
-|| **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../../types.md) или [пользовательского типа](../user-defined-object-types/index.md), чей элемент мы хотим создать ||
-|| **data***
-[`array`][1] | Массив значений полей элементов. Можно рассматривать его как массив, каждый элемент которого содержит набор полей `fields`, описанный в методе [crm.item.import](crm-item-import.md). ||
-|#
-
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
-
-Метод вернет массив `items`, содержащий объекты, где каждый объект этого массива будет содержать идентификатор созданного элемента в случае успеха, либо объект сообщение об ошибке.
+Универсальный метод для импорта объектов в CRM. Отличия от добавления объекта описаны подробнее [`тут`](./index.md).
 
 Логика добавления элементов работает по аналогии с методом [crm.item.import](crm-item-import.md).
 
 {% note warning "Внимание!" %}
 
-В одном запросе допустимо импортировать максимум 20 элементов.
+В одном запросе допустимо импортировать максимум — 20 элементов
 
 {% endnote %}
+
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип`          | **Описание** ||
+|| **entityTypeId***
+[`integer`][1] | Идентификатор системного или [пользовательского типа](../user-defined-object-types/index.md), для которого нужно создать элемент ||
+|| **data***
+[`array`][1] | Массив значений полей элементов. Можно рассматривать его как массив, каждый элемент которого содержит набор полей `fields`, описанный в методе [crm.item.import](crm-item-import.md) ||
+|#
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-1. Пример импорта сделок
+1. Как импортировать сделки
 
-   {% list tabs %}
+    {% list tabs %}
 
     - cURL (Webhook)
 
@@ -93,72 +91,72 @@
         `;
       
         const deal = {
-                    title: "Новая сделка (специально для примера REST методов)",
-                    typeId: "SERVICE",
-                    categoryId: 9,
-                    stageId: "C9:UC_KN8KFI",
-                    isReccurring: "Y",
-                    probability: 50,
-                    currencyId: "RUB",
-                    isManualOpportunity: "Y",
-                    opportunity: 999.99,
-                    taxValue: 99.9,
-                    companyId: 5,
-                    contactId: 4,
-                    contactIds: [4, 5],
-                    quoteId: 7,
-                    begindate: formatDate(monthAgo),
-                    closedate: formatDate(twelveDaysInAdvance),
-                    opened: "N",
-                    comments: commentsExample,
-                    assignedById: 6,
-                    sourceId: "WEB",
-                    sourceDescription: "Тут должно быть дополнительное описание об источнике",
-                    leadId: 102,
-                    additionalInfo: "Тут должна быть дополнительная информация",
-                    observers: [2, 3],
-                    utmSource: "google",
-                    utmMedium: "CPC",
-                    ufCrm_1721244707107: 1111.1,
-                    parentId1220: [
-                        1,
-                        2,
-                    ],
-                };
+            title: "Новая сделка (специально для примера REST методов)",
+            typeId: "SERVICE",
+            categoryId: 9,
+            stageId: "C9:UC_KN8KFI",
+            isReccurring: "Y",
+            probability: 50,
+            currencyId: "RUB",
+            isManualOpportunity: "Y",
+            opportunity: 999.99,
+            taxValue: 99.9,
+            companyId: 5,
+            contactId: 4,
+            contactIds: [4, 5],
+            quoteId: 7,
+            begindate: formatDate(monthAgo),
+            closedate: formatDate(twelveDaysInAdvance),
+            opened: "N",
+            comments: commentsExample,
+            assignedById: 6,
+            sourceId: "WEB",
+            sourceDescription: "Тут должно быть дополнительное описание об источнике",
+            leadId: 102,
+            additionalInfo: "Тут должна быть дополнительная информация",
+            observers: [2, 3],
+            utmSource: "google",
+            utmMedium: "CPC",
+            ufCrm_1721244707107: 1111.1,
+            parentId1220: [
+                1,
+                2,
+            ],
+        };
 
         const secondDeal = {
-                    title: "Новая сделка (специально для примера REST методов)",
-                    typeId: "SERVICE",
-                    categoryId: 4,
-                    stageId: "C9:UC_KN8KFI",
-                    isReccurring: "Y",
-                    probability: 50,
-                    currencyId: "RUB",
-                    isManualOpportunity: "Y",
-                    opportunity: 999.99,
-                    taxValue: 99.9,
-                    companyId: 5,
-                    contactId: 4,
-                    contactIds: [4, 5],
-                    quoteId: 7,
-                    begindate: formatDate(monthAgo),
-                    closedate: formatDate(twelveDaysInAdvance),
-                    opened: "N",
-                    comments: commentsExample,
-                    assignedById: 6,
-                    sourceId: "WEB",
-                    sourceDescription: "Тут должно быть дополнительное описание об источнике",
-                    leadId: 102,
-                    additionalInfo: "Тут должна быть дополнительная информация",
-                    observers: [2, 3],
-                    utmSource: "google",
-                    utmMedium: "CPC",
-                    ufCrm_1721244707107: 1111.1,
-                    parentId1220: [
-                        1,
-                        2,
-                    ],
-                };
+            title: "Новая сделка (специально для примера REST методов)",
+            typeId: "SERVICE",
+            categoryId: 4,
+            stageId: "C9:UC_KN8KFI",
+            isReccurring: "Y",
+            probability: 50,
+            currencyId: "RUB",
+            isManualOpportunity: "Y",
+            opportunity: 999.99,
+            taxValue: 99.9,
+            companyId: 5,
+            contactId: 4,
+            contactIds: [4, 5],
+            quoteId: 7,
+            begindate: formatDate(monthAgo),
+            closedate: formatDate(twelveDaysInAdvance),
+            opened: "N",
+            comments: commentsExample,
+            assignedById: 6,
+            sourceId: "WEB",
+            sourceDescription: "Тут должно быть дополнительное описание об источнике",
+            leadId: 102,
+            additionalInfo: "Тут должна быть дополнительная информация",
+            observers: [2, 3],
+            utmSource: "google",
+            utmMedium: "CPC",
+            ufCrm_1721244707107: 1111.1,
+            parentId1220: [
+                1,
+                2,
+            ],
+        };
 
         BX24.callMethod(
             'crm.item.batchImport', 
@@ -185,70 +183,72 @@
         require_once('crest.php');
         
         $deal = [
-                    'title' => "Новая сделка (специально для примера REST методов)",
-                    'typeId' => "SERVICE",
-                    'categoryId' => 9,
-                    'stageId' => "C9:UC_KN8KFI",
-                    'isReccurring' => "Y",
-                    'probability' => 50,
-                    'currencyId' => "RUB",
-                    'isManualOpportunity' => "Y",
-                    'opportunity' => 999.99,
-                    'taxValue' => 99.9,
-                    'companyId' => 5,
-                    'contactId' => 4,
-                    'contactIds' => [4, 5],
-                    'quoteId' => 7,
-                    'begindate' => formatDate(monthAgo),
-                    'closedate' => formatDate(twelveDaysInAdvance),
-                    'opened' => "N",
-                    'comments' => $commentsExample,
-                    'assignedById' => 6,
-                    'sourceId' => "WEB",
-                    'sourceDescription' => "Тут должно быть дополнительное описание об источнике",
-                    'leadId' => 102,
-                    'additionalInfo' => "Тут должна быть дополнительная информация",
-                    'observers' => [2, 3],
-                    'utmSource' => "google",
-                    'utmMedium' => "CPC",
-                    'ufCrm_1721244707107' => 1111.1,
-                    'parentId1220' => [
-                        1,
-                        2,
-                    ];
+            'title' => "Новая сделка (специально для примера REST методов)",
+            'typeId' => "SERVICE",
+            'categoryId' => 9,
+            'stageId' => "C9:UC_KN8KFI",
+            'isReccurring' => "Y",
+            'probability' => 50,
+            'currencyId' => "RUB",
+            'isManualOpportunity' => "Y",
+            'opportunity' => 999.99,
+            'taxValue' => 99.9,
+            'companyId' => 5,
+            'contactId' => 4,
+            'contactIds' => [4, 5],
+            'quoteId' => 7,
+            'begindate' => formatDate(monthAgo),
+            'closedate' => formatDate(twelveDaysInAdvance),
+            'opened' => "N",
+            'comments' => $commentsExample,
+            'assignedById' => 6,
+            'sourceId' => "WEB",
+            'sourceDescription' => "Тут должно быть дополнительное описание об источнике",
+            'leadId' => 102,
+            'additionalInfo' => "Тут должна быть дополнительная информация",
+            'observers' => [2, 3],
+            'utmSource' => "google",
+            'utmMedium' => "CPC",
+            'ufCrm_1721244707107' => 1111.1,
+            'parentId1220' => [
+                1,
+                2,
+            ]
+        ]
+        
         $secondDeal = [
-                    'title' => "Новая сделка (специально для примера REST методов)",
-                    'typeId' => "SERVICE",
-                    'categoryId' => 4,
-                    'stageId' => "C9:UC_KN8KFI",
-                    'isReccurring' => "Y",
-                    'probability' => 50,
-                    'currencyId' => "RUB",
-                    'isManualOpportunity' => "Y",
-                    'opportunity' => 999.99,
-                    'taxValue' => 99.9,
-                    'companyId' => 5,
-                    'contactId' => 4,
-                    'contactIds' => [4, 5],
-                    'quoteId' => 7,
-                    'begindate' => formatDate(monthAgo),
-                    'closedate' => formatDate(twelveDaysInAdvance),
-                    'opened' => "N",
-                    'comments' => $commentsExample,
-                    'assignedById' => 6,
-                    'sourceId' => "WEB",
-                    'sourceDescription' => "Тут должно быть дополнительное описание об источнике",
-                    'leadId' => 102,
-                    'additionalInfo' => "Тут должна быть дополнительная информация",
-                    'observers' => [2, 3],
-                    'utmSource' => "google",
-                    'utmMedium' => "CPC",
-                    'ufCrm_1721244707107' => 1111.1,
-                    'parentId1220' => [
-                        1,
-                        2,
-                    ];
-       
+            'title' => "Новая сделка (специально для примера REST методов)",
+            'typeId' => "SERVICE",
+            'categoryId' => 4,
+            'stageId' => "C9:UC_KN8KFI",
+            'isReccurring' => "Y",
+            'probability' => 50,
+            'currencyId' => "RUB",
+            'isManualOpportunity' => "Y",
+            'opportunity' => 999.99,
+            'taxValue' => 99.9,
+            'companyId' => 5,
+            'contactId' => 4,
+            'contactIds' => [4, 5],
+            'quoteId' => 7,
+            'begindate' => formatDate(monthAgo),
+            'closedate' => formatDate(twelveDaysInAdvance),
+            'opened' => "N",
+            'comments' => $commentsExample,
+            'assignedById' => 6,
+            'sourceId' => "WEB",
+            'sourceDescription' => "Тут должно быть дополнительное описание об источнике",
+            'leadId' => 102,
+            'additionalInfo' => "Тут должна быть дополнительная информация",
+            'observers' => [2, 3],
+            'utmSource' => "google",
+            'utmMedium' => "CPC",
+            'ufCrm_1721244707107' => 1111.1,
+            'parentId1220' => [
+                1,
+                2,
+            ]
+        ]
         $result = CRest::call(
             'crm.item.batchImport',
             [
@@ -257,8 +257,7 @@
                         $deal,
                         $secondDeal,
                     ],
-                ],
-            ]
+            ],
         );
 
         echo '<PRE>';
@@ -266,14 +265,18 @@
         echo '</PRE>';
         ```
 
-   {% endlist %}
+    {% endlist %}
 
 
-2. Пример создания элемента смарт-процесса, у которого есть некоторый набор пользовательских полей
+2. Как создать элемент смарт-процесса с набором пользовательских полей
 
-   {% include [Сноска о примерах](../../_include/user-fields-for-examples-cut.md) %}
+    {% cut "Пользовательские поля, участвующие в примере" %}
 
-   {% list tabs %}
+    {% include [Набор пользовательских полей](../../_include/user-fields-for-examples-cut.md) %}
+
+    {% endcut %}
+
+    {% list tabs %}
 
     - cURL (Webhook)
 
@@ -467,37 +470,39 @@
         echo '</PRE>';
         ```
 
-   {% endlist %}
+    {% endlist %}
 
 
 ## Обработка ответа
+
+Метод вернет массив `items`, содержащий объекты, где каждый объект этого массива будет содержать идентификатор созданного элемента в случае успеха, либо объект сообщение об ошибке.
 
 HTTP-статус: **200**
 
 ```json
 {
-  "result": {
-    "items": [
-      {
-        "item": {
-          "id": 15
-        }
-      },
-      {
-        "error": "CRM_FIELD_ERROR_REQUIRED",
-        "error_description": "Поле \"Название\" обязательно для заполнения"
-      }
-    ]
-  },
-  "time": {
-    "start": 1723414961.913589,
-    "finish": 1723414964.652124,
-    "duration": 2.738534927368164,
-    "processing": 2.376383066177368,
-    "date_start": "2024-08-11T22:22:41+00:00",
-    "date_finish": "2024-08-11T22:22:44+00:00",
-    "operating": 2.3762991428375244
-  }
+    "result": {
+        "items": [
+            {
+                "item": {
+                    "id": 15
+                }
+            },
+            {
+                "error": "CRM_FIELD_ERROR_REQUIRED",
+                "error_description": "Поле \"Название\" обязательно для заполнения"
+            }
+        ]
+    },
+    "time": {
+        "start": 1723414961.913589,
+        "finish": 1723414964.652124,
+        "duration": 2.738534927368164,
+        "processing": 2.376383066177368,
+        "date_start": "2024-08-11T22:22:41+00:00",
+        "date_finish": "2024-08-11T22:22:44+00:00",
+        "operating": 2.3762991428375244
+    }
 }
 ```
 
@@ -507,11 +512,15 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа, содержит единственный ключ `item` ||
+[`object`][1] | Корневой элемент ответа.
+
+Содержит единственный ключ `item` ||
 || **items**
 [`array`][1] | Массив содержащих объекты `item` или ошибки ||
 || **item**
-[`object`][1] | Информация о созданном элементе, cодержит единственный ключ `id` ||
+[`object`][1] | Информация о созданном элементе.
+
+Содержит единственный ключ `id` ||
 || **id**
 [`int`][1] | Идентификатор созданного элемента ||
 || **time**
@@ -538,16 +547,23 @@ HTTP-статус: **401**, **400**, **403**
 || **Статус** | **Код**                           | **Описание**                                                       | **Значение**                                                                                    ||
 || `400`      | `NOT_FOUND`                       | Смарт-процесс не найден                                            | Возникает, при передаче невалидного `entityTypeId`                                              ||
 || `400`      | `ACCESS_DENIED`                   | Доступ запрещен                                                    | У пользователя нет прав на добавление элементов типа `entityTypeId`                             ||
-|| `400`      | `CRM_FIELD_ERROR_VALUE_NOT_VALID` | Неверное значение поля "`field`"                                   | Передано неправильное значения поля `field`. Для системных полей типа `createdTime` если запрос не от администратора ||
-|| `400`      | `100`                             | Expected iterable value for multiple field, but got `type` instead | В одно из множественных полей было передано значения типа `type`, хотя ожидался итерируемый тип. Так же, может возникать при некорректном запросе (некорректный JSON или заголовки запроса) ||
+|| `400`      | `CRM_FIELD_ERROR_VALUE_NOT_VALID` | Неверное значение поля "`field`"                                   | Передано неправильное значения поля `field`.
+
+Для системных полей типа `createdTime`, если запрос не от администратора ||
+|| `400`      | `100`                             | Expected iterable value for multiple field, but got `type` instead | В одно из множественных полей было передано значения типа `type`, хотя ожидался итерируемый тип. Также может возникать при некорректном запросе (некорректный JSON или заголовки запроса) ||
 || `400`      | `CREATE_DYNAMIC_ITEM_RESTRICTED`  | Вы не можете создать новый элемент из-за ограничений вашего тарифа | Ограничения тарифа не позволяют создавать элементы смарт-процессов                              ||
-|| `400`      | `MAX_IMPORT_BATCH_SIZE_EXCEEDED`  | Вы не можете импортировать больше 20 элементов                     | Возникает, при передаче более 20 элементов при импорте.                                         ||
-|| `401`      | `INVALID_CREDENTIALS`             | Неверные данные авторизации для запроса                            | Некорректный ID пользователя и/или код для в пути запроса                                       ||
+|| `400`      | `MAX_IMPORT_BATCH_SIZE_EXCEEDED`  | Вы не можете импортировать больше 20 элементов                     | Возникает, при передаче более 20 элементов при импорте                                        ||
+|| `401`      | `INVALID_CREDENTIALS`             | Неверные данные авторизации для запроса                            | Некорректный `ID` пользователя и/или код для в пути запроса                                       ||
 || `403`      | `allowed_only_intranet_user`      | Действие разрешено только интранет-пользователям                   | Пользователь не является интранет-пользователем                                                 ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./crm-item-import.md)
 
 [1]: ../../data-types.md
