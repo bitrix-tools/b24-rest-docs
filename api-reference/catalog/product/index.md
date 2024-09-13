@@ -15,6 +15,4 @@
 || [catalog.product.download](./catalog-product-download.md) | Метод скачивания файлов товара торгового каталога по переданным параметрам ||
 || [catalog.product.delete](./catalog-product-delete.md) | Метод удаляет товар торгового каталога ||
 || [catalog.product.getFieldsByFilter](./catalog-product-get-fields-by-filter.md) | Метод возвращает поля товара ||
-
-
 |#

@@ -90,10 +90,10 @@ function addSearchResults () {
     
     resultContainer.classList.add('search-results-container');
     resultContainer.style.setProperty('position', 'fixed', 'important');
-    // resultContainer.style.top = '100%'; 
-    // resultContainer.style.left = '0'; 
-    // resultContainer.style.width = '100%'; 
-    resultContainer.style.maxHeight = '500px';
+    // resultContainer.style.top = '100%';
+    // resultContainer.style.left = '0';
+    // resultContainer.style.width = '100%';
+    resultContainer.style.height = '500px';
     resultContainer.style.overflowY = 'auto';
     resultContainer.style.backgroundColor = '#fff';
     resultContainer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
@@ -105,24 +105,24 @@ function addSearchResults () {
     const higherLevelContainer = document.body;
     higherLevelContainer.appendChild(resultContainer);
     
-    resultContainer.style.top = `${searchContainer.getBoundingClientRect().bottom + window.scrollY}px`; 
-    resultContainer.style.width = '700px'; 
-    resultContainer.style.left = `${searchContainer.getBoundingClientRect().right - 700}px`; 
+    resultContainer.style.top = `${searchContainer.getBoundingClientRect().bottom + window.scrollY}px`;
+    resultContainer.style.width = '700px';
+    resultContainer.style.left = `${searchContainer.getBoundingClientRect().right - 700}px`;
 }
 
 // Creates the search bar
 function addSearchField() {
 
-	const existingSearchInput = document.querySelector('.bx-search-input');
-	const existingLogo = document.querySelector('.pc-logo__icon');
-	
-	if (!existingSearchInput && (existingLogo.width > 0)) {
+    const existingSearchInput = document.querySelector('.bx-search-input');
+    const existingLogo = document.querySelector('.pc-logo__icon');
+    
+    if (!existingSearchInput && (existingLogo.width > 0)) {
 
         const searchContainer = document.createElement('div');
         searchContainer.style.position = 'relative';
         searchContainer.style.flex = '0 0 auto';
         searchContainer.style.marginLeft = '20px';
-        searchContainer.style.width = '500px'; 
+        searchContainer.style.width = '500px';
         searchContainer.classList.add('search-container');
 
         // Search text field
@@ -133,46 +133,56 @@ function addSearchField() {
         searchInput.style.fontSize = '16px';
         searchInput.style.borderRadius = '4px';
         searchInput.style.border = '1px solid #ccc';
-        searchInput.style.width = '100%'; 
+        searchInput.style.width = '100%';
         searchInput.classList.add('bx-search-input');
         
         let typingTimer;
-        const typingDelay = 2000; 
+        const typingDelay = 800;
 
-        searchInput.addEventListener('input', function() {
-            clearTimeout(typingTimer); 
+        searchInput.addEventListener('input', function () {
+            clearTimeout(typingTimer);
 
             const resultContainer = document.querySelector('.search-results-container');
-
             const query = searchInput.value.trim();
             if (query.length > 2) {
-                typingTimer = setTimeout(function() {
+                typingTimer = setTimeout(function () {
                     performSearch(query, resultContainer);
                 }, typingDelay);
             } else {
-                resultContainer.style.display = 'none';
-                resultContainer.innerHTML = '';
+                showHint();
+            }
+        });
+
+        searchInput.addEventListener('focus', function () {
+
+            const resultContainer = document.querySelector('.search-results-container');
+
+            if (searchInput.value.trim().length === 0) {
+                showHint();
+            } else {
+                resultContainer.style.display = 'block';
             }
         });
 
         searchContainer.appendChild(searchInput);
         
         const clearButton = document.createElement('span');
-        clearButton.textContent = '×'; 
+        clearButton.textContent = '×';
         clearButton.style.position = 'absolute';
-        clearButton.style.right = '10px'; 
+        clearButton.style.right = '10px';
         clearButton.style.top = '50%';
         clearButton.style.transform = 'translateY(-50%)';
         clearButton.style.cursor = 'pointer';
-        clearButton.style.color = '#888'; 
+        clearButton.style.color = '#888';
         clearButton.style.fontSize = '20px';
-        clearButton.style.userSelect = 'none'; 
+        clearButton.style.userSelect = 'none';
         searchContainer.appendChild(clearButton);
         
         clearButton.addEventListener('click', function() {
-            searchInput.value = ''; 
-            searchInput.focus(); 
-            resultContainer.style.display = 'none'; 
+            searchInput.value = '';
+            searchInput.focus();
+            // resultContainer.style.display = 'none';
+            showHint();
         });
 
         // Add the search bar into top menu container
@@ -194,6 +204,22 @@ function addSearchField() {
                 closePopup();
             }
         });
+
+        function showHint() {
+            resultContainer = document.querySelector('.search-results-container');
+
+            // text-align: center; color: #666; width: 66.67%; margin: 0 auto;
+
+            resultContainer.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; width: 66.67%; margin: 0 auto; text-align: center;">
+                    <svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M56.6536 62.8186C52.8102 65.3422 48.2117 66.8102 43.2703 66.8102C29.7864 66.8102 18.8555 55.8793 18.8555 42.3953C18.8555 28.9114 29.7864 17.9805 43.2703 17.9805C56.7543 17.9805 67.6852 28.9114 67.6852 42.3953C67.6852 47.3367 66.2172 51.9352 63.6936 55.7786L76.3834 68.4684C77.8804 69.9654 77.8804 72.3925 76.3834 73.8895L74.7645 75.5084C73.2675 77.0054 70.8404 77.0054 69.3434 75.5084L56.6536 62.8186ZM60.7095 42.3953C60.7095 52.0267 52.9017 59.8345 43.2703 59.8345C33.6389 59.8345 25.8311 52.0267 25.8311 42.3953C25.8311 32.7639 33.6389 24.9561 43.2703 24.9561C52.9017 24.9561 60.7095 32.7639 60.7095 42.3953Z" fill="#DFE0E3"></path>
+                    </svg>
+                    <p>Начните искать нужные статьи</p>
+                </div>
+            `;
+            resultContainer.style.display = 'block';
+        }
     }
 }
 
@@ -219,8 +245,8 @@ function fillResults(data) {
             titleLink.href = item.link;
             titleLink.style.textDecoration = 'none';
             titleLink.style.color = '#000';
-            titleLink.style.fontSize = '16px';  
-            titleLink.style.display = 'block';  
+            titleLink.style.fontSize = '16px';
+            titleLink.style.display = 'block';
 
             resultItem.appendChild(titleLink);
 
@@ -241,8 +267,8 @@ function fillResults(data) {
                 breadcrumb.href = cumulativePath;
                 breadcrumb.textContent = part;
                 breadcrumb.style.textDecoration = 'none';
-                breadcrumb.style.color = '#666'; 
-                breadcrumb.style.fontSize = '12px'; 
+                breadcrumb.style.color = '#666';
+                breadcrumb.style.fontSize = '12px';
                 breadcrumb.style.marginRight = '5px';
                 
                 breadcrumbs.push(breadcrumb);
@@ -250,7 +276,7 @@ function fillResults(data) {
                 if (index < urlParts.length - 1) {
                     const separator = document.createElement('span');
                     separator.textContent = '/';
-                    separator.style.color = '#666'; 
+                    separator.style.color = '#666';
                     separator.style.marginRight = '5px';
                     breadcrumbs.push(separator);
                 }
@@ -258,7 +284,7 @@ function fillResults(data) {
 
             // Create a container for breadcrumbs
             const breadcrumbContainer = document.createElement('div');
-            breadcrumbContainer.style.marginTop = '5px'; 
+            breadcrumbContainer.style.marginTop = '5px';
             breadcrumbContainer.style.display = 'flex';
             breadcrumbContainer.style.flexWrap = 'wrap';
 
@@ -270,8 +296,20 @@ function fillResults(data) {
 
         resultContainer.style.display = 'block';
     } else {
-        resultContainer.style.display = 'none';     
+        showNoResultsMessage(resultContainer);
     }
+}
+
+function showNoResultsMessage(resultContainer) {
+    resultContainer.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; width: 66.67%; margin: 0 auto; text-align: center;">
+            <svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M56.6536 62.8186C52.8102 65.3422 48.2117 66.8102 43.2703 66.8102C29.7864 66.8102 18.8555 55.8793 18.8555 42.3953C18.8555 28.9114 29.7864 17.9805 43.2703 17.9805C56.7543 17.9805 67.6852 28.9114 67.6852 42.3953C67.6852 47.3367 66.2172 51.9352 63.6936 55.7786L76.3834 68.4684C77.8804 69.9654 77.8804 72.3925 76.3834 73.8895L74.7645 75.5084C73.2675 77.0054 70.8404 77.0054 69.3434 75.5084L56.6536 62.8186ZM60.7095 42.3953C60.7095 52.0267 52.9017 59.8345 43.2703 59.8345C33.6389 59.8345 25.8311 52.0267 25.8311 42.3953C25.8311 32.7639 33.6389 24.9561 43.2703 24.9561C52.9017 24.9561 60.7095 32.7639 60.7095 42.3953Z" fill="#DFE0E3"></path>
+            </svg>
+            <p>К сожалению, по вашему запросу мы ничего не нашли. Попробуйте переформулировать</p>
+        </div>
+    `;
+    resultContainer.style.display = 'block';
 }
 
 function performSearch(query, resultContainer) {
@@ -279,7 +317,7 @@ function performSearch(query, resultContainer) {
     const url = `https://util.1c-bitrix.ru/documentation/rest/search.php?q=${encodeURIComponent(query)}`;
     const searchInput = document.querySelector('.bx-search-input');
     
-	searchInput.classList.add('loading');
+    searchInput.classList.add('loading');
 
     fetch(url)
         .then(response => response.json())
@@ -380,6 +418,16 @@ function addB24Buttons () {
 function initB24items() {    
     addB24Buttons();
     addSearchField();
+
+    const activeItem = document.querySelector('.dc-toc__list-item_active');
+    if (activeItem)
+    {
+        const parentContent = activeItem.closest('.dc-toc__content');
+        if (parentContent)
+        {
+            parentContent.scrollTop = activeItem.offsetTop - parentContent.offsetTop;
+        }
+    }
 }
 
 initB24itemsIfReady();
