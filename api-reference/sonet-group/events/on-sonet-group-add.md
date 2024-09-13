@@ -1,4 +1,4 @@
-# На добавление новой рабочей группы
+# На добавление новой рабочей группы onSonetGroupAdd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,13 +18,11 @@
 
 {% endif %}
 
-{% note info "onSonetGroupAdd" %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-Событие `onSonetGroupAdd` вызывается после добавления новой рабочей группы. Прокси к событию [OnSocNetGroupAdd](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupAdd.php).
+Событие `onSonetGroupAdd` вызывается после добавления новой рабочей группы. Прокси к событию `OnSocNetGroupAdd`.
 
 #|
 || **Поле** | **Описание** ||

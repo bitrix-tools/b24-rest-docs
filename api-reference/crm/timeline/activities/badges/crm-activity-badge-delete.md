@@ -1,4 +1,4 @@
-# Удаление бейджа
+# Удалить бейдж crm.activity.badge.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.activity.badge.delete" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.badge.delete` удаляет значок. Доступ к выполнению этого метода есть только у администратора CRM.
 

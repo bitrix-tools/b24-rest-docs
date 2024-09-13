@@ -1,7 +1,5 @@
-# Удалить локализации валюты
+# Удалить локализации валюты crm.currency.localizations.delete
 
-> Название метода: **crm.currency.localizations.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с доступом к изменению настроек CRM

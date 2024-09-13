@@ -1,4 +1,4 @@
-# Получение счетчиков
+# Получить счетчики im.counters.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.counters.get" %}
-
-**Scope**: [`im`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.counters.get` получает счетчики.
 

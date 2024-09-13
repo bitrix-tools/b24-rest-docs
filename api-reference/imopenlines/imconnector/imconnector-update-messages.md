@@ -1,4 +1,4 @@
-# Изменить отправленные сообщения
+# Изменить отправленные сообщения imconnector.update.messages
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "imconnector.update.messages" %}
-
-**Scope**: [`imopenlines`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод обновления сообщений в ОЛ.
 
@@ -59,7 +57,7 @@ array(
             'date', //Время сообщения в формате timestamp *
             'text', //Текст сообщения. Должен быть указан элемент text или files. 
                     //Допустимое форматирование (BB коды) описаны 
-	                    //здесь: https://dev.1c-bitrix.ru/learning/course/?COURSE_ID=93&LESSON_ID=7679
+	                    //здесь: https://apidocs.bitrix24.ru/api-reference/chats/messages/index.html
             'files' => array(//Массив описаний файлов, где каждый файл описывается 
                             //массивом, со ссылкой, которая доступна порталу
                 array('url'),

@@ -1,4 +1,4 @@
-# Отправка событий в RT-канал приложения
+# Отправить события в RT-канал приложения pull.application.event.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "pull.application.event.add" %}
-
-**Scope**: [`pull`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`pull`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `pull.application.event.add` служит для отправки событий в RT-канал приложения.
 

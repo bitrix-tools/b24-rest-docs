@@ -1,4 +1,4 @@
-# Добавление карточки с изменённым контентом
+# Добавить карточку с измененным контентом landing.block.addcard
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.addcard" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.addcard` полностью повторяет работу [landing.block.clonecard](./landing-block-clone-card.md) но дает возможность вставить карточку сразу с измененным контентом.
 

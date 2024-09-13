@@ -1,4 +1,4 @@
-# Публикация папки сайта
+# Опубликовать папку сайта landing.site.publicationFolder
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.publicationFolder" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.publicationFolder` публикует папку сайта. Должны быть права на публикацию сайта папки.
 

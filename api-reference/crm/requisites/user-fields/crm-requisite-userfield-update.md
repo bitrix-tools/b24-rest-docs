@@ -1,7 +1,5 @@
-# Изменить пользовательское поле реквизита
+# Изменить пользовательское поле реквизита crm.requisite.userfield.update
 
-> Название метода: **crm.requisite.userfield.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

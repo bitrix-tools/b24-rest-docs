@@ -1,4 +1,4 @@
-# Получение контента блока
+# Получить контент блока landing.block.getcontent
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getcontent" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getcontent` получает контент блока. Возвращает массив содержимого блока - html, файлы стилей и JS. Или ошибку.
 

@@ -1,7 +1,5 @@
-# После сохранения свойства заказа
+# После сохранения свойства заказа OnPropertyValueEntitySaved
 
-> Название события: **OnPropertyValueEntitySaved**
->
 > Scope: [`sale`](../../scopes/permissions.md) 
 >
 > Кто может подписаться: любой пользователь

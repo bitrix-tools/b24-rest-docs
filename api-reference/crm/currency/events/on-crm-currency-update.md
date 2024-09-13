@@ -1,4 +1,4 @@
-# Событие на изменение валюты
+# Событие на изменение валюты onCrmCurrencyUpdate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "onCrmCurrencyUpdate" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmCurrencyUpdate`, вызываемое после обновления валюты.
 

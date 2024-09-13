@@ -1,9 +1,6 @@
-# Кнопка над таймлайном карточки элемента
+# Кнопка над таймлайном карточки элемента CRM_XXX_DETAIL_ACTIVITY, CRM_DYNAMIC_XXX_DETAIL_ACTIVITY
 
-> Коды встройки: **CRM_XXX_DETAIL_ACTIVITY**, **CRM_DYNAMIC_XXX_DETAIL_ACTIVITY**
->
 > Scope: [`crm`](../../scopes/permissions.md)
->
 
 Вы можете добавлять свой пункт в меню таймлана таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/) и [пользовательские типы](../../crm/universal/) объектов.
 

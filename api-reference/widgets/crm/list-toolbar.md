@@ -1,9 +1,6 @@
-# Пункт выпадающего меню над списком элементов
+# Пункт выпадающего меню над списком элементов CRM_XXX_LIST_TOOLBAR, CRM_DYNAMIC_XXX_LIST_TOOLBAR
 
-> Коды встройки: **CRM_XXX_LIST_TOOLBAR**, **CRM_DYNAMIC_XXX_LIST_TOOLBAR**
->
 > Scope: [`crm`](../../scopes/permissions.md)
->
 
 Вы можете добавлять свой пункт выпадающего меню над списком элементов таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [счета](../../crm/outdated/invoice/), [коммерческие предложения](../../crm/quote/) и [пользовательские типы](../../crm/universal/) объектов.
 

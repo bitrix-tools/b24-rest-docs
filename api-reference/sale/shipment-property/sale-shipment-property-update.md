@@ -1,7 +1,5 @@
-# Обновить свойство отгрузки
+# Обновить свойство отгрузки sale.shipmentproperty.update
 
-> Название метода: **sale.shipmentproperty.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

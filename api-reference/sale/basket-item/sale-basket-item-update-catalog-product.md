@@ -1,7 +1,5 @@
-# Изменить позицию корзины (товар из каталога) существующего заказа 
+# Изменить позицию корзины (товар из каталога) существующего заказа sale.basketitem.updateCatalogProduct
 
-> Название метода: **sale.basketitem.updateCatalogProduct**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

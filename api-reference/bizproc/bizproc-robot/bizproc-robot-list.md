@@ -1,4 +1,4 @@
-# Список зарегистрированных приложением роботов
+# Получить список зарегистрированных приложением роботов bizproc.robot.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "bizproc.robot.list" %}
-
-{% include notitle [Скоуп bizproc админ](../_includes/scope-bizproc-admin.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод возвращает список роботов, зарегистрированных приложением.
 

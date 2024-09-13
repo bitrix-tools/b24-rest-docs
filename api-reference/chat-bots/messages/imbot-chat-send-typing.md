@@ -1,4 +1,4 @@
-# Отправить признак «Чат-бот пишет сообщение...»
+# Отправить признак «Чат-бот пишет сообщение...» imbot.chat.sendTyping
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -22,11 +22,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.sendTyping" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.sendTyping` отправляет сообщение «Чат-бот пишет сообщение...».
 
@@ -75,5 +73,5 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotmessageadd)
-- [Событие на получение информации чат-ботом о включении его в чат (или личную переписку) ONIMJOINCHAT](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimjoinchat)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/index.md)
+- [Событие на получение информации чат-ботом о включении его в чат (или личную переписку) ONIMJOINCHAT](../chats/events/on-imbot-join-chat.md)

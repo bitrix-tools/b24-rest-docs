@@ -1,7 +1,5 @@
-# Удалить секцию торгового каталога
+# Удалить секцию торгового каталога catalog.section.delete
 
-> Название метода: **catalog.section.delete**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

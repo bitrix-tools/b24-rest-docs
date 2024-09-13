@@ -1,4 +1,4 @@
-# Нажатие на кнопку "перезвонить"
+# При нажатии на кнопку «перезвонить» BackgroundCallCard::makeCallButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::makeCallButtonClick" %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
-
-Событие `BackgroundCallCard::makeCallButtonClick` – нажатие на кнопку "перезвонить". В функцию обратного вызова ничего не передается.
+Событие `BackgroundCallCard::makeCallButtonClick` — нажатие на кнопку «перезвонить». В функцию обратного вызова ничего не передается.

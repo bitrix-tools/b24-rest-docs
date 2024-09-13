@@ -1,7 +1,5 @@
-# Зарегистрировать новый обработчик события
+# Зарегистрировать новый обработчик события event.bind
 
-> Название метода: **event.bind**
->
 > Кто может выполнять метод: любой пользователь
 
 Метод `event.bind` регистрирует новый обработчик события.
@@ -39,9 +37,9 @@
 || **auth_type**
 [`integer`](../data-types.md) | Идентификатор пользователя, под которым авторизуется обработчик события. По умолчанию будет использоваться авторизация пользователя, действия которого привели к срабатыванию события ||
 || **event_type**
-[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=4462) ||
+[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=04462&LESSON_PATH=8771.5380.2461.4462) ||
 || **auth_connector**
-[`string`](../data-types.md) |  Ключ источника. Параметр предназначен для [офлайн-событий](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=4462). Позволяет исключать ложные срабатывания событий ||
+[`string`](../data-types.md) |  Ключ источника. Параметр предназначен для [офлайн-событий](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=04462&LESSON_PATH=8771.5380.2461.4462). Позволяет исключать ложные срабатывания событий ||
 || **options**
 [`string`](../data-types.md) | Дополнительные настройки для регистрируемого события, при наличии ||
 |#

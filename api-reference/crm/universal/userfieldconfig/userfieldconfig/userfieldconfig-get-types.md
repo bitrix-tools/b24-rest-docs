@@ -1,4 +1,4 @@
-# Возвращение набора доступных типов пользовательских полей для модуля moduleId
+# Получить набор доступных типов пользовательских полей для модуля moduleId userfieldconfig.getTypes
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "userfieldconfig.getTypes" %}
-
-**Scope**: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -69,3 +67,36 @@ userfieldconfig.getTypes({moduleId: string})
 ```
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+
+
+{% if build == 'dev' %}
+
+Возможные значения:
+- `string` - Строка
+- `integer` - Целое число
+- `double` - Число
+- `boolean` - Да/Нет
+- `datetime` - Дата/Время
+- `date` - Дата
+- `money` - Деньги
+- `url` - Ссылка
+- `address` - Адрес
+- `enumeration` - Список
+- `file` - Файл
+- `employee` - Привязка к сотруднику
+- `crm_status` - Привязка к справочнику CRM
+- `iblock_section` - Привязка к разделам инф. блоков
+- `iblock_element` - Привязка к элементам инф. блоков
+- `crm` - Привязка к элементам CRM
+- `disk_file` - Файл (Диск)
+- `disk_version` - Версия файла (Диск)
+- `video` - Видео
+- `hlblock` - Привязка к элементам highload-блоков
+- `mail_message` - Письмо (email)
+- `resourcebooking` - Бронирование ресурсов
+- `string_formatted` - Шаблон
+- `vote` - Опрос
+- `url_preview` - Содержимое ссылки
+- [Пользовательские типы полей](../../../universal/user-defined-field-types/index.md)
+
+{% endif %}

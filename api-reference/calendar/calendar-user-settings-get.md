@@ -1,4 +1,4 @@
-# Получение пользовательских настроек календаря
+# Получить пользовательские настройки календаря calendar.user.settings.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "calendar.user.settings.get" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.user.settings.get` возвращает пользовательские настройки календаря.
 

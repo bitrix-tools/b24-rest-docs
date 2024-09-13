@@ -1,4 +1,4 @@
-# Создание папки в корне хранилища
+# Создать папку в корне хранилища disk.storage.addfolder
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.storage.addfolder" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.addfolder` создает папку в корне хранилища.
 

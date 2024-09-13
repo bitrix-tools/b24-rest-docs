@@ -1,4 +1,4 @@
-# Удаление элемента универсального списка
+# Удалить элемент универсального списка lists.element.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "lists.element.delete" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.element.delete` удаляет элемент списка. В случае успешного удаления элемента ответ `true`, иначе *Exception*.
 

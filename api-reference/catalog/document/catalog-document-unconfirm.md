@@ -1,4 +1,4 @@
-# Отмена проведения документа (уст.)
+# Отменить проведение документа (уст.) catalog.document.unconfirm
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -24,11 +24,9 @@
 
 {% endnote %}
 
-{% note info "catalog.document.unconfirm" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ## Описание
 

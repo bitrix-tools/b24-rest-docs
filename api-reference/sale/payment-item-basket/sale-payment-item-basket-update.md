@@ -1,7 +1,5 @@
-# Обновить привязку элемента корзины к оплате
+# Обновить привязку элемента корзины к оплате sale.paymentitembasket.update
 
-> Название метода: **sale.paymentitembasket.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

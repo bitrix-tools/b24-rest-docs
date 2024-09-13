@@ -1,4 +1,4 @@
-# Удаление блока
+# Удалить блок landing.repo.unregister
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.repo.unregister" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.repo.unregister` удаляет блок. Возвращает *true* при удалении или *false*, если блок уже удален или его не было.
 

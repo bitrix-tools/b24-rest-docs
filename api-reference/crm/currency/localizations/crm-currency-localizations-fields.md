@@ -1,7 +1,5 @@
-# Получить поля локализации валюты
+# Получить поля локализации валюты crm.currency.localizations.fields
 
-> Название метода: **crm.currency.localizations.fields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с доступом к настройкам CRM

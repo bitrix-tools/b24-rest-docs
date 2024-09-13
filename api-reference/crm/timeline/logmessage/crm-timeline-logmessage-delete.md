@@ -1,7 +1,5 @@
-# Удалить лог-запись
+# Удалить лог-запись crm.timeline.logmessage.delete
 
-> Название метода: **crm.timeline.logmessage.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `администратор`

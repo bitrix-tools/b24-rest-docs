@@ -1,7 +1,5 @@
-# Изменить тип плательщика
+# Изменить тип плательщика sale.persontype.update
 
-> Название метода: **sale.persontype.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

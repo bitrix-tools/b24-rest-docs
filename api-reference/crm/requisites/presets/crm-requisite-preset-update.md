@@ -1,7 +1,5 @@
-# Изменить шаблон реквизита
+# Изменить шаблон реквизита crm.requisite.preset.update
 
-> Название метода: **crm.requisite.preset.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

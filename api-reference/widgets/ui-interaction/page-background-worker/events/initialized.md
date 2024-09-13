@@ -1,4 +1,4 @@
-# После создания карточки звонка
+# После создания карточки звонка BackgroundCallCard::initialized
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::initialized" %}
-
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
 Событие `BackgroundCallCard::initialized` происходит после создания карточки звонка. В функцию обратного вызова будет передан номер телефона.

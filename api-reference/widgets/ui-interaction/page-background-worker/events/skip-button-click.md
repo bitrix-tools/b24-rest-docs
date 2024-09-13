@@ -1,4 +1,4 @@
-# Нажатие на кнопку "пропустить"
+# При нажатии на кнопку «пропустить» BackgroundCallCard::skipButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::skipButtonClick" %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
-
-Событие `BackgroundCallCard::skipButtonClick` – нажатие на кнопку "пропустить". В функцию обратного вызова ничего не передается.
+Событие `BackgroundCallCard::skipButtonClick` — нажатие на кнопку «пропустить». В функцию обратного вызова ничего не передается.

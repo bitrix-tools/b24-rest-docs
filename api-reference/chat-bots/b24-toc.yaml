@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Частые кейсы и сценарии
     href: tutorials.md
-  - name: Отправка команд и продление ключ_авторизации
+  - name: Как отправлять команды и продлевать ключ_авторизации
     href: send-command.md
   - name: Создать чат-бота
     href: imbot-register.md

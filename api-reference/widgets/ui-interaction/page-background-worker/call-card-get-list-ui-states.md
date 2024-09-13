@@ -1,4 +1,4 @@
-# Получение списка доступных состояний интерфейса карточки звонка
+# Получить список доступных состояний интерфейса карточки звонка CallCardGetListUiStates
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CallCardGetListUiStates" %}
-
-{% include notitle [Скоуп telephony all](../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `CallCardGetListUiStates` позволяет получить список доступных состояний интерфейса карточки звонка.
 

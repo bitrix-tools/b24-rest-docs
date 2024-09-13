@@ -1,4 +1,4 @@
-# Показ карточки звонка пользователю
+# Показать карточку звонка пользователю telephony.externalcall.show
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalcall.show" %}
-
 {% include notitle [Скоуп telephony all](./_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalcall.show` показывает карточку звонка пользователю.
 

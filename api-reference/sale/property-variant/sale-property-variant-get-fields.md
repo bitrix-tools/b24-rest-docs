@@ -1,7 +1,5 @@
-# Получить доступные поля варианта свойства
+# Получить доступные поля варианта свойства sale.propertyvariant.getFields
 
-> Название метода: **sale.propertyvariant.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,4 +1,4 @@
-# Отдать все свои диалоги
+# Отдать все свои диалоги imopenlines.session.mode.unpinAll
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,8 +17,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.session.mode.unpinAll**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,4 +1,4 @@
-# Получение списка всех sip-линий, созданных приложением
+# Получить список всех sip-линий, созданных приложением voximplant.sip.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,7 @@
 
 {% endif %}
 
-{% note info "voximplant.sip.get" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.sip.get` возвращает список всех sip-линий, созданных приложением. Списочный метод. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 

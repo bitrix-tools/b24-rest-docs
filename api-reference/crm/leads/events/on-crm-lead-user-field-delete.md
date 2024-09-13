@@ -1,4 +1,4 @@
-# На удаление пользовательского поля
+# На удаление пользовательского поля onCrmLeadUserFieldDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "onCrmLeadUserFieldDelete" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmLeadUserFieldDelete` вызывается при удалении пользовательского поля.
 

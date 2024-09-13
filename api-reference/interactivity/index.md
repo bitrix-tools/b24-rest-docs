@@ -10,4 +10,4 @@
 
 В коробке интерактивность в приложениях доступна с [версии](../cloud-and-on-premise/on-premise/versions.md) Push & Pull 18.5.500.
 
-Ознакомьтесь подробнее с интерактивностью в приложениях в видеоролике [REST API. Интерактивность в приложениях](https://vk.com/video-211967493_456239875) и в учебном курсе [REST API Битрикс24](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=266&LESSON_ID=25560).
+Ознакомьтесь подробнее с интерактивностью в приложениях в учебном курсе [REST API Битрикс24](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=266&LESSON_ID=25560).

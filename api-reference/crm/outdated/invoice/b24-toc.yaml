@@ -5,51 +5,51 @@ items:
     href: index.md
   - name: Список методов
     href: methods.md
-  - name: Добавление счета
+  - name: Добавить счет
     href: crm-invoice-add.md
-  - name: Удаление счета
+  - name: Удалить счет
     href: crm-invoice-delete.md
-  - name: Получение полей счета и входящих в него товаров
+  - name: Получить поля счета и входящих в него товаров
     href: crm-invoice-fields.md
-  - name: Получение счета по идентификатору
+  - name: Получить счет по идентификатору
     href: crm-invoice-get.md
-  - name: Список счетов
+  - name: Получить список счетов
     href: crm-invoice-list.md
-  - name: Добавление настройки для регулярного счета
+  - name: Добавить настройки для регулярного счета
     href: crm-invoice-recurring-add.md
-  - name: Удаление настройки для регулярного счета
+  - name: Удалить настройки для регулярного счета
     href: crm-invoice-recurring-delete.md
-  - name: Создание нового счета из шаблона
+  - name: Создать новый счет из шаблона
     href: crm-invoice-recurring-expose.md
-  - name: Получение полей настройки шаблона регулярного счета
+  - name: Получить поля настройки шаблона регулярного счета
     href: crm-invoice-recurring-fields.md
-  - name: Получение настройки регулярного счета по идентификатору
+  - name: Получить настройки регулярного счета по идентификатору
     href: crm-invoice-recurring-get.md
-  - name: Список настроек регулярных счетов по фильтру
+  - name: Получить список настроек регулярных счетов по фильтру
     href: crm-invoice-recurring-list.md
-  - name: Изменение настройки для регулярного счета
+  - name: Изменить настройки для регулярного счета
     href: crm-invoice-recurring-update.md
-  - name: Изменение счета
+  - name: Изменить счет
     href: crm-invoice-update.md
-  - name: Создание пользовательского поля для счетов
+  - name: Создать пользовательское поле для счетов
     href: crm-invoice-user-field-add.md
-  - name: Удаление пользовательского поля счетов
+  - name: Удалить пользовательское поле счетов
     href: crm-invoice-user-field-delete.md
-  - name: Получение пользовательского поля счетов по идентификатору
+  - name: Получить пользовательское поле счетов по идентификатору
     href: crm-invoice-user-field-get.md
-  - name: Список пользовательских полей счетов по фильтру
+  - name: Получить список пользовательских полей счетов по фильтру
     href: crm-invoice-user-field-list.md
-  - name: Изменение пользовательского поля счетов
+  - name: Изменить пользовательское поле счетов
     href: crm-invoice-user-field-update.md
-  - name: Получение полей для способов оплаты
+  - name: Получить поле для способов оплаты
     href: crm-pay-system-fields.md
-  - name: Список способов оплаты
+  - name: Получить список способов оплаты
     href: crm-pay-system-list.md
-  - name: Получение полей для типов плательщиков
+  - name: Получить поля для типов плательщиков
     href: crm-person-type-fields.md
-  - name: Список типов плательщиков
+  - name: Получить список типов плательщиков
     href: crm-person-type-list.md
-  - name: Получение ссылки на счет
+  - name: Получить ссылку на счет
     href: crm-invoice-get-external-link.md
   - name: События 
     include:

@@ -1,7 +1,5 @@
-# Получить список головных товаров
+# Получить список головных товаров catalog.product.sku.list
 
-> Название метода: **catalog.product.sku.list**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

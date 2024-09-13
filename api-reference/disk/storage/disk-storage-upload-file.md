@@ -1,4 +1,4 @@
-# Загрузка нового файла в корень хранилища
+# Загрузить новый файл в корень хранилища disk.storage.uploadfile
 
 {% if build == 'dev' %}
 
@@ -7,7 +7,6 @@
 - не указаны типы параметров
 - не указана обязательность параметров
 - отсутствует ответ в случае ошибки
-- в таблице с описанием параметров сделать ссылку на словосочетании "Обработка файлов"на страницу https://dev.1c-bitrix.ru/rest_help/js_library/rest/files.php
 
 {% endnote %}
 
@@ -19,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "disk.storage.uploadfile" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.uploadfile` загружает новый файл в корне хранилища.
 
@@ -34,7 +31,7 @@
 || **id**
 [`unknown`](../../data-types.md) | Идентификатор хранилища. ||
 || **fileContent**
-[`unknown`](../../data-types.md) | Аналогично 'DETAIL_PICTURE' в примере [Обработка файлов](.). ||
+[`unknown`](../../data-types.md) | Аналогично `DETAIL_PICTURE` в примере [Обработка файлов](../../bx24-js-sdk/how-to-call-rest-methods/files.md). ||
 || **data**
 [`unknown`](../../data-types.md) | Массив, описывающий файл. Обязательное поле `NAME` - имя нового файла. ||
 || **generateUniqueName**

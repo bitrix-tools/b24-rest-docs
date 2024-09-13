@@ -1,7 +1,5 @@
-# Добавить обработчик службы доставки
+# Добавить обработчик службы доставки sale.delivery.handler.add
 
-> Название метода: **sale.delivery.handler.add**
->
 > Scope: [`sale`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM

@@ -1,7 +1,5 @@
-# Создать свойство элемента корзины
+# Создать свойство элемента корзины sale.basketproperties.add
 
-> Название метода: **sale.basketproperties.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

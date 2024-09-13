@@ -1,4 +1,4 @@
-# Нажатие на кнопку "завершить"
+# При нажатии на кнопку «завершить» BackgroundCallCard::hangupButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::hangupButtonClick" %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
-
-Событие `BackgroundCallCard::hangupButtonClick` – нажатие на кнопку "завершить". В функцию обратного вызова ничего не передается.
+Событие `BackgroundCallCard::hangupButtonClick` — нажатие на кнопку «завершить». В функцию обратного вызова ничего не передается.

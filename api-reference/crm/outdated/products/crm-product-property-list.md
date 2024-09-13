@@ -1,7 +1,5 @@
-# Получить список свойств товаров
+# Получить список свойств товаров crm.product.property.list
 
-> Название метода: **crm.product.property.list**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,4 +1,4 @@
-# Добавление пользовательского поля задачи
+# Добавить пользовательское поле задачи task.item.userfield.add
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.add" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.item.userfield.add` создает новое свойство.
 

@@ -3,15 +3,15 @@ href: index.md
 items:
   - name: Список методов 
     href: index.md
-  - name: Добавление контакта к компании 
+  - name: Добавить контакт к компании
     href: crm-company-contact-add.md
-  - name: Удаление контакта из компании 
+  - name: Удалить контакт из компании
     href: crm-company-contact-delete.md
-  - name: Описание полей 
+  - name: Получить описание полей
     href: crm-company-contact-fields.md
-  - name: Очистка набора контактов
+  - name: Очистить набор контактов
     href: crm-company-contact-items-delete.md
-  - name: Получение набора контактов
+  - name: Получить набор контактов
     href: crm-company-contact-items-get.md
-  - name: Установка набора контактов
+  - name: Установить набор контактов
     href: crm-company-contact-items-set.md

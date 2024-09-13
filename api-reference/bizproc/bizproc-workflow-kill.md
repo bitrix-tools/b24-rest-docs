@@ -1,4 +1,4 @@
-# Удаление запущенного процесса
+# Удалить запущенный процесс bizproc.workflow.kill
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "bizproc.workflow.kill!" %}
-
-{% include notitle [Скоуп bizproc все](./_includes/scope-bizproc-all.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод удаляет запущенный бизнес-процесс.
 

@@ -1,4 +1,4 @@
-# Изменение значения пользовательского поля
+# Изменить значение пользовательского поля userfieldconfig.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "userfieldconfig.update" %}
-
-**Scope**: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 userfieldconfig.update({moduleId: string, id: number, field: {}})

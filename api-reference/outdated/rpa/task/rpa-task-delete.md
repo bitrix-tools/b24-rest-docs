@@ -1,4 +1,4 @@
-# Удаление робота с именем robotName из процесса
+# Удалить робота из процесса rpa.task.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "rpa.task.delete" %}
-
-**Scope**: [`rpa`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`rpa`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `rpa.task.delete` удалит робота с именем robotName из процесса с идентификатором typeId со стадии с идентификатором stageId.
 

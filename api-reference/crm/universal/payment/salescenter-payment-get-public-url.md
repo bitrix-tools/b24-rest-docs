@@ -1,7 +1,5 @@
-# Сгенерировать ссылку на определенную оплату
+# Сгенерировать ссылку на определенную оплату salescenter.payment.getPublicUrl
 
-> Название метода: **salescenter.payment.getPublicUrl**
->
 > Scope: [`salescenter`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,4 +1,4 @@
-# Обновление параметров почтового сервиса
+# Изменить параметры почтового сервиса mailservice.update
 
 {% if build == 'dev' %}
 
@@ -18,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.update" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.update` обновляет параметры почтового сервиса.
 

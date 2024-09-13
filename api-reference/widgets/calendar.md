@@ -1,9 +1,6 @@
-# Виджет в календаре
+# Виджет в календаре CALENDAR_GRIDVIEW
 
-> Коды встройки: **CALENDAR_GRIDVIEW**
->
 > Scope: [`calendar`](../scopes/permissions.md)
->
 
 Вы можете добавлять свой пункт в списке видов отображения календаря.
 

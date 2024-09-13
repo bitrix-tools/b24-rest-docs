@@ -1,7 +1,5 @@
-# Получить поля пользователя
+# Получить поля пользователя user.fields
 
-> Название метода: **user.fields**
->
 > Scope: [`user`](../scopes/permissions.md), [`user_brief`](../scopes/permissions.md), [`user_basic`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

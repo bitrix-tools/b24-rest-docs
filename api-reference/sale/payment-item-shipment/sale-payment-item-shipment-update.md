@@ -1,7 +1,5 @@
-# Изменить привязку оплаты к отгрузке
+# Изменить привязку оплаты к отгрузке sale.paymentItemShipment.update
 
-> Название метода: **sale.paymentItemShipment.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

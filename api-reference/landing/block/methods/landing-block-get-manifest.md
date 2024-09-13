@@ -1,4 +1,4 @@
-# Получение манифеста блока
+# Получить манифест блока landing.block.getmanifest
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getmanifest" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getmanifest` получает манифест конкретного блока, уже размещенного на странице. Возвращает манифест блока или ошибку.
 

@@ -1,4 +1,4 @@
-# Обновление стадии
+# Обновить стадию rpa.stage.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "rpa.stage.update" %}
-
-**Scope**: [`rpa`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`rpa`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `rpa.stage.update` обновит стадию с id и вернет в ответе данные, аналогичные ответу на запрос `rpa.stage.get`.
 

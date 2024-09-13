@@ -1,7 +1,5 @@
-# Обновить поля варианта свойства
+# Обновить поля варианта свойства sale.propertyvariant.update
 
-> Название метода: **sale.propertyvariant.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

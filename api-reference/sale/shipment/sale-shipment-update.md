@@ -1,7 +1,5 @@
-# Обновить отгрузку
+# Обновить отгрузку sale.shipment.update
 
-> Название метода: **sale.shipment.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,7 +1,5 @@
-# Событие на изменение раздела
+# Событие на изменение раздела onCrmProductSectionUpdate
 
-> Название события:: **onCrmProductSectionUpdate**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь

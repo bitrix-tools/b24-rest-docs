@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Работа с PHP-классом [CTaskItem](https://dev.1c-bitrix.ru/api_help/tasks/classes/ctaskitem/index.php). Вместо `item` можно также использовать его синоним `ctaskitem`.
+Работа с PHP-классом `CTaskItem`. Вместо `item` можно также использовать его синоним `ctaskitem`.
 
 ## Допустимые поля
 

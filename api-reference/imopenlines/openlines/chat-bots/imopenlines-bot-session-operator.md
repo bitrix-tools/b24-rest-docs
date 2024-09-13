@@ -1,4 +1,4 @@
-# Переключить диалог на свободного оператора
+# Переключить диалог на свободного оператора imopenlines.bot.session.operator
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,8 +16,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.bot.session.operator**
->
 > Scope: [`imopenlines, imbot`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

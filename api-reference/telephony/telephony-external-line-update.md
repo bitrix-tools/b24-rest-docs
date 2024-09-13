@@ -1,4 +1,4 @@
-# Изменение названия внешней линии
+# Изменить название внешней линии telephony.externalLine.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalLine.update" %}
-
 {% include notitle [Скоуп telephony admin](./_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalLine.update` позволяет изменить название внешней линии.
 

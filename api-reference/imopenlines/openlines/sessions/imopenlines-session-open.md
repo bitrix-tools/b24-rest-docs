@@ -1,4 +1,4 @@
-# Получить чат по символьному коду
+# Получить чат по символьному коду imopenlines.session.open
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.session.open**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

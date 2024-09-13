@@ -7,7 +7,7 @@ items:
     href: data-types.md 
   - name: Частые кейсы и туториалы
     href: tutorials.md
-  - name: Режим работы CRM
+  - name: Определить текущий режим работы CRM
     href: crm-settings-mode-get.md
   - name: Универсальные методы CRM
     include:
@@ -75,3 +75,5 @@ items:
       mode: link
   - name: Получить историю движения по стадиям
     href: crm-stage-history-list.md
+  - name: Поля основных сущностей CRM
+    href: main-entities-fields.md

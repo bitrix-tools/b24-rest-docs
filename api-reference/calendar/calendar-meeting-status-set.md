@@ -1,4 +1,4 @@
-# Установка статуса участия в событии для текущего пользователя
+# Установить статус участия в событии для текущего пользователя calendar.meeting.status.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "calendar.meeting.status.set" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.meeting.status.set` устанавливает статус участия в событии для текущего пользователя.
 

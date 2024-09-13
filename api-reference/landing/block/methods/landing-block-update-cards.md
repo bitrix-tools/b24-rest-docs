@@ -1,4 +1,4 @@
-# Массовое изменение карточек блока
+# Выполнить массовое изменение карточек блока landing.block.updateCards
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "landing.block.updateCards" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.updateCards` для массового изменения карточек блока. Вернет _true_ в случае успеха, или ошибку.
 

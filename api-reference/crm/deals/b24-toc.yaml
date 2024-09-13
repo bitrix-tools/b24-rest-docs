@@ -3,21 +3,21 @@ href: index.md
 items:
   - name: О сделках в Битрикс24
     href: index.md
-  - name: Поля сделки
+  - name: Получить поля сделки
     href: crm-deal-fields.md
-  - name: Создание новой сделки
+  - name: Создать новую сделку
     href: crm-deal-add.md
-  - name: Изменение сделки 
+  - name: Изменить сделку
     href: crm-deal-update.md
-  - name: Получение сделки по Id 
+  - name: Получить сделку по Id
     href: crm-deal-get.md
-  - name: Получение списка сделок 
+  - name: Получить список сделок
     href: crm-deal-list.md
-  - name: Удаление сделки 
+  - name: Удалить сделку
     href: crm-deal-delete.md
-  - name: Добавление товаров в сделку
+  - name: Добавить товары в сделку
     href: crm-deal-productrows-set.md
-  - name: Получение товаров сделки
+  - name: Получить товары сделки
     href: crm-deal-productrows-get.md
   - name: События
     include:

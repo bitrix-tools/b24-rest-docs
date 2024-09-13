@@ -1,7 +1,5 @@
-# Получить доступные поля единиц измерения
+# Получить доступные поля единиц измерения catalog.measure.getFields
 
-> Название метода: **catalog.measure.getFields**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,4 +1,4 @@
-# При сохранении комментария в карточке звонка
+# При сохранении комментария в карточке звонка BackgroundCallCard::addCommentButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::addCommentButtonClick" %}
-
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
 Событие `BackgroundCallCard::addCommentButtonClick` происходит при сохранении комментария в карточке звонка. В функцию обратного вызова передается текст комментария.

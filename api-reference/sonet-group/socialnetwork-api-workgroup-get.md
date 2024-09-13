@@ -1,4 +1,4 @@
-# Получение данных по рабочей группе
+# Получить данные по рабочей группе socialnetwork.api.workgroup.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,13 +20,9 @@
 
 {% endif %}
 
-{% note info "socialnetwork.api.workgroup.get" %}
-
-{% include notitle [Скоуп socialnetwork все](./_includes/scope-socialnetwork-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`socialnetwork`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод возвращает данные по рабочей группе
 

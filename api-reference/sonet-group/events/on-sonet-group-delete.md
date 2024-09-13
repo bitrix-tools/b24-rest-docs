@@ -1,4 +1,4 @@
-# Вызывается в момент удаления рабочей группы
+# Вызывается в момент удаления рабочей группы onSonetGroupDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,13 +18,11 @@
 
 {% endif %}
 
-{% note info "onSonetGroupDelete" %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-Событие `onSonetGroupDelete` вызывается в момент удаления рабочей группы. Прокси к событию [OnSocNetGroupDelete](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupDelete.php).
+Событие `onSonetGroupDelete` вызывается в момент удаления рабочей группы. Прокси к событию `OnSocNetGroupDelete`.
 
 
 #|

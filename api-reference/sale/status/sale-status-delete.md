@@ -1,7 +1,5 @@
-# Удалить статус
+# Удалить статус sale.status.delete
 
-> Название метода: **sale.status.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

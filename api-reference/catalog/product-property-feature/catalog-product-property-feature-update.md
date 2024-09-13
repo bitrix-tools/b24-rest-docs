@@ -1,4 +1,4 @@
-# Обновление значений параметров свойств товаров или торговых предложений
+# Изменить значения параметров свойств товаров или торговых предложений catalog.productPropertyFeature.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.productPropertyFeature.update" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.productPropertyFeature.update(id, fields)

@@ -1,4 +1,4 @@
-# Удалить открытую линию
+# Удалить открытую линию imopenlines.config.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.config.delete**
->
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

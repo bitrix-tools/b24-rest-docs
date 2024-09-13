@@ -1,7 +1,5 @@
-# Создать оповещения по транспортной заявке
+# Создать оповещения по транспортной заявке sale.delivery.request.sendmessage
 
-> Название метода: **sale.delivery.request.sendmessage**
->
 > Scope: [`sale, delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

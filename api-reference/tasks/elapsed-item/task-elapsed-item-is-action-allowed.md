@@ -1,7 +1,5 @@
-# Проверка разрешения действия
+# Проверить разрешение действия task.elapseditem.isactionallowed
 
-> Название метода: **task.elapseditem.isactionallowed**
->
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

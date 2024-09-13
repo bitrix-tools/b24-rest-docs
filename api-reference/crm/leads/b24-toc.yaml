@@ -3,21 +3,21 @@ href: index.md
 items: 
   - name: Лиды
     href: index.md
-  - name: Поля лида
+  - name: Получить поля лида
     href: crm-lead-fields.md
-  - name: Создание нового лида
+  - name: Создать новый лид
     href: crm-lead-add.md
-  - name: Изменение лида
+  - name: Изменить лид
     href: crm-lead-update.md
-  - name: Получение лида по Id
+  - name: Получить лид по Id
     href: crm-lead-get.md
-  - name: Получение списка лидов
+  - name: Получить список лидов
     href: crm-lead-list.md
-  - name: Удаление лида
+  - name: Удалить лид
     href: crm-lead-delete.md
-  - name: Добавление товаров в лид
+  - name: Добавить товары в лид
     href: crm-lead-productrows-set.md
-  - name: Получение товаров лида
+  - name: Получить товары лида
     href: crm-lead-productrows-get.md
   - name: Связь между лидами и контактами
     include:

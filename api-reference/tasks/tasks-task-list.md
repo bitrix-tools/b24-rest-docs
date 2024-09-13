@@ -1,4 +1,4 @@
-# Получение списка задач 
+# Получить список задач tasks.task.list
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.list" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.list` возвращает массив задач, каждая из которых содержит массив полей. В отличие от [task.item.list](./deprecated/task-item/task-item-list.md), параметры в запросе `tasks.task.list` можно указывать в любом порядке, а также можно не указывать ненужные параметры.
 
@@ -77,7 +75,7 @@
 
 {% note info %}
 
-В коробочной версии список полей для сортировки можно получить с помощью метода [CTasks::getAvailableOrderFields()](https://dev.1c-bitrix.ru/api_help/tasks/classes/ctasks/getavailableorderfields.php).
+В коробочной версии список полей для сортировки можно получить с помощью метода `CTasks::getAvailableOrderFields()`.
 
 {% endnote %}
 

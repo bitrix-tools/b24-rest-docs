@@ -1,4 +1,4 @@
-# Вызывается после создания темы рабочей группы
+# Вызывается после создания темы рабочей группы onSonetGroupSubjectAdd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,13 +18,11 @@
 
 {% endif %}
 
-{% note info "onSonetGroupSubjectAdd" %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-Событие `onSonetGroupSubjectAdd` вызывается после создания темы рабочей группы. Прокси к событию [OnSocNetGroupSubjectAdd](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupSubjectAdd.php).
+Событие `onSonetGroupSubjectAdd` вызывается после создания темы рабочей группы. Прокси к событию `OnSocNetGroupSubjectAdd`.
 
 #|
 || **Поле** | **Описание** ||

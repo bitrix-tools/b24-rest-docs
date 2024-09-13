@@ -1,4 +1,4 @@
-# При окончании разговора
+# При окончании разговора OnVoximplantCallEnd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "OnVoximplantCallEnd" %}
-
-{% include notitle [Скоуп telephony all](../../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+{% include notitle [Скоуп telephony events](../../_includes/scope-telephony-events.md) %}
 
 Событие `OnVoximplantCallEnd` вызывается при окончании разговора (запись в историю).
 

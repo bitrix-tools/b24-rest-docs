@@ -1,7 +1,5 @@
-# Удалить пользовательское поле реквизита
+# Удалить пользовательское поле реквизита crm.requisite.userfield.delete
 
-> Название метода: **crm.requisite.userfield.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

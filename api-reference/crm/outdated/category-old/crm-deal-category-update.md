@@ -1,7 +1,5 @@
-# Обновить направление сделок
+# Обновить направление сделок crm.dealcategory.update
 
-> Название метода: **crm.dealcategory.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

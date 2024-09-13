@@ -1,7 +1,5 @@
-# Получить список пользователей по фильтру
+# Получить список пользователей по фильтру user.get
 
-> Название метода: **user.get**
->
 > Scope: [`user`](../scopes/permissions.md), [`user_brief`](../scopes/permissions.md), [`user_basic`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -147,7 +145,7 @@ HTTP-статус: **200**
                 "NAME": "Вадим",
                 "LAST_NAME": "Валеев",
                 "SECOND_NAME": "",
-                "EMAIL": "v.r.valeev@bitrix.ru",
+                "EMAIL": "v.r.valeev@bitrix.com",
                 "LAST_LOGIN": "2024-07-25T13:06:54+00:00",
                 "DATE_REGISTER": "2024-07-15T00:00:00+00:00",
                 "TIME_ZONE": "",

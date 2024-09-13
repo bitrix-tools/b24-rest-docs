@@ -3,12 +3,12 @@ href: index.md
 items:
   - name: О бейджах
     href: index.md
-  - name: Добавление бейджа
+  - name: Добавить бейдж
     href: crm-activity-badge-add.md
-  - name: Получение списка бейджей
+  - name: Получить список бейджей
     href: crm-activity-badge-list.md
-  - name: Получение бейджа по коду
+  - name: Получить бейдж по коду
     href: crm-activity-badge-get.md
-  - name: Удаление бейджа
+  - name: Удалить бейдж
     href: crm-activity-badge-delete.md
 

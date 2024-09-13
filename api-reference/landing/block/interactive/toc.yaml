@@ -7,6 +7,5 @@ items:
     href: gallery.md
   - name: Слайдеры
     href: sliders.md
-  - name: Счётчики обратного отсчёта
+  - name: Счетчики обратного отсчета
     href: timer.md
-

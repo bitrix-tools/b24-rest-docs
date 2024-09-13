@@ -1,7 +1,5 @@
-# Добавить REST-обработчик платежной системы
+# Добавить REST-обработчик платежной системы sale.paysystem.handler.add
 
-> Название метода: **sale.paysystem.handler.add**
->
 > Scope: [`pay_system `](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)

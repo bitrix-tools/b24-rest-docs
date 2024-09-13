@@ -1,7 +1,5 @@
-# Обновить единицу измерения
+# Обновить единицу измерения catalog.measure.update
 
-> Название метода: **catalog.measure.update**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

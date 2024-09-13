@@ -1,4 +1,4 @@
-# Объединение дубликатов
+# Объединить дубликаты crm.entity.mergeBatch
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.entity.mergeBatch" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.entity.mergeBatch({params: {entityTypeId: number, entityIds: number[]}})

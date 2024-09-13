@@ -1,4 +1,4 @@
-# Получение списка почтовых сервисов
+# Получить список почтовых сервисов mailservice.list
 
 {% if build == 'dev' %}
 
@@ -16,11 +16,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.list" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.list` возвращает список всех почтовых сервисов.
 

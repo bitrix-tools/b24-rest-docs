@@ -1,7 +1,5 @@
-# Получить список доступных полей стадии канбана
+# Получить список доступных полей стадии канбана tasks.api.scrum.kanban.getFields
 
-> Название метода: **tasks.api.scrum.kanban.getFields**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

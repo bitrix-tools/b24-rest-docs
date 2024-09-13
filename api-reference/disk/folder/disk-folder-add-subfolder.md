@@ -1,4 +1,4 @@
-# Создание дочерней папки
+# Создать дочернюю папку disk.folder.addsubfolder
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.addsubfolder" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.addsubfolder` создает дочернюю папку.
 

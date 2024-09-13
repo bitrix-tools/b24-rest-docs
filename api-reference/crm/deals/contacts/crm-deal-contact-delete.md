@@ -1,4 +1,4 @@
-# Удаление контакта из указанной сделки
+# Удалить контакт из указанной сделки crm.deal.contact.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.contact.delete" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.contact.delete` удаляет контакт из указанной сделки.
 

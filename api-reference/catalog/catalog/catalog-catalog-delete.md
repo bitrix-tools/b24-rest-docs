@@ -1,7 +1,5 @@
-# Удалить торговый каталог
+# Удалить торговый каталог catalog.catalog.delete
 
-> Название метода: **catalog.catalog.delete**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

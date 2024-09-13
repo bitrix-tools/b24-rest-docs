@@ -1,4 +1,4 @@
-# Предоставление возможности выбрать бронирования ресурсов
+# Предоставить возможность выбрать бронирования ресурсов calendar.resource.booking.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "calendar.resource.booking.list" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `calendar.resource.booking.list` предоставляет возможность выбрать бронирования ресурсов.
 

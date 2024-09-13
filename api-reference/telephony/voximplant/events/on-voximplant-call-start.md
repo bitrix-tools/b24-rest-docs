@@ -1,4 +1,4 @@
-# При начале разговора
+# При начале разговора OnVoximplantCallStart
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "OnVoximplantCallStart" %}
-
-{% include notitle [Скоуп telephony all](../../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+{% include notitle [Скоуп telephony events](../../_includes/scope-telephony-events.md) %}
 
 Событие `OnVoximplantCallStart` вызывается при начале разговора (ответе оператора при входящем и ответе абонента при исходящем).
 

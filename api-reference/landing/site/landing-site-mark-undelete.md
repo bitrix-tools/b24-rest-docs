@@ -1,4 +1,4 @@
-# Возвращение сайта из корзины
+# Восстановить сайт из корзины landing.site.markUnDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.markUnDelete" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.markUnDelete` помечает сайт как не удаленный.
 

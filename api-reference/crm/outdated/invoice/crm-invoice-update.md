@@ -1,7 +1,5 @@
-# Изменить счет
+# Изменить счет crm.invoice.update
 
-> Название метода: **crm.invoice.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

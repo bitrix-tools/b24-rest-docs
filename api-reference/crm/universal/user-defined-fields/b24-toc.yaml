@@ -3,13 +3,13 @@ href: index.md
 items: 
   - name: Пользовательские поля в CRM 
     href: index.md
-  - name: Описание для пользовательских полей 
+  - name: Получить описание для пользовательских полей
     href: crm-userfield-fields.md
-  - name: Список типов пользовательских полей 
+  - name: Получить список типов пользовательских полей
     href: crm-userfield-types.md
-  - name: Описание полей для списка 
+  - name: Получить описание полей для списка
     href: crm-userfield-enumeration-fields.md
-  - name: Описание полей настроек
+  - name: Получить описание полей настроек
     href: crm-userfield-settings-fields.md
-  - name: Создание нового поля 
+  - name: Создать новое поля
     href: userfieldconfig-add.md

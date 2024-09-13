@@ -1,4 +1,4 @@
-# Переключение моделей
+# Переключить модели landing.role.enable
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "landing.role.enable" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Права на выполнение**: `администратор`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `landing.role.enable` осуществляет переключение между расширенной и ролевой моделями.
 

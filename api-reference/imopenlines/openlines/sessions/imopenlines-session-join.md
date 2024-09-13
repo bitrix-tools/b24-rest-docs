@@ -1,4 +1,4 @@
-# Присоединиться к диалогу
+# Присоединиться к диалогу imopenlines.session.join
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,8 +20,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.session.join**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

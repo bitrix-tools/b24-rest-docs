@@ -3,13 +3,13 @@ href: index.md
 items: 
   - name: Список событий
     href: index.md
-  - name: Установка приложения
+  - name: После успешной установки приложения
     href: on-app-install.md
-  - name: Удаление приложения
+  - name: При удалении приложения
     href: on-app-uninstall.md
-  - name: Оплата приложения
+  - name: При оплате приложения
     href: on-app-payment.md
-  - name: Подтверждение доступа к методу
+  - name: При получении разрешения на использование методов
     href: on-app-method-confirm.md
-  - name: Добавление сотрудника
+  - name: При добавлении пользователя
     href: on-user-add.md

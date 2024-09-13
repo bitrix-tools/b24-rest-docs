@@ -1,7 +1,5 @@
-# Удалить услугу службы доставки
+# Удалить услугу службы доставки sale.delivery.extra.service.delete
 
-> Название метода: **sale.delivery.extra.service.delete**
->
 > Scope: [`sale, delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,4 +1,4 @@
-# Обновление пользовательского поля
+# Обновить пользовательское поле user.userfield.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "user.userfield.update" %}
-
-**Scope**: [`user.userfield`](../../scopes/permissions.md) | **Права на выполнение**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`user.userfield`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод обновляет пользовательское поле.
 

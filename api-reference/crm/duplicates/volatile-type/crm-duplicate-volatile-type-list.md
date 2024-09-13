@@ -1,4 +1,4 @@
-# Список нестандартных полей, участвующих в поиске дубликатов
+# Получить список нестандартных полей, участвующих в поиске дубликатов crm.duplicate.volatileType.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.duplicate.volatileType.list" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.duplicate.volatileType.list()

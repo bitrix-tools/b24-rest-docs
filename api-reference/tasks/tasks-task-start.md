@@ -1,4 +1,4 @@
-# Перевод задачи в статус «выполняется»
+# Перевести задачу в статус «выполняется» tasks.task.start
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.start" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.start` переводит задачу в статус «выполняется».
 

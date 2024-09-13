@@ -1,4 +1,4 @@
-# Изменение комментария
+# Измененить комментарий task.commentitem.update
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.update" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.update` обновляет данные комментария. Требуется обязательная авторизация через oauth и получение auth кода.
 

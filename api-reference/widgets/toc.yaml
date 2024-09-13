@@ -43,19 +43,19 @@ items:
       mode: link
   - name: Встройка в мобильное приложение Битрикс24
     href: mobile-app.md
-  - name: Регистрация виджета 
+  - name: Зарегистрировать виджет
     href: placement-bind.md
-  - name: Получение информации о виджете по Id 
+  - name: Получить информацию о виджете по Id
     href: placement-get.md
-  - name: Получение списка виджетов 
+  - name: Получить список виджетов
     href: placement-list.md
-  - name: Отмена регистрации виджета 
+  - name: Отменить регистрацию виджета
     href: placement-unbind.md
-  - name: Вызов стандартных слайдеров
+  - name: Вызвать стандартные слайдеры
     href: open-path.md
-  - name: Открытие кастомного слайдера
+  - name: Открыть кастомный слайдер
     href: open-application.md
-  - name: Закрытие кастомного слайдера
+  - name: Закрыть кастомный слайдер
     href: close-application.md
   - name: Взаимодействие с UI из виджетов
     include:

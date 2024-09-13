@@ -1,4 +1,4 @@
-# Расчитать стоимости доставки
+# Расчитать стоимости доставки CALCULATE_URL
 
 Запрос отправляется на адрес указанный в `CALCULATE_URL` при создании обработчика доставки в методе [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md).
 

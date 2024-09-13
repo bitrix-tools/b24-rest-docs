@@ -1,7 +1,5 @@
-# Получить поля раздела товаров
+# Получить поля раздела товаров crm.productsection.fields
 
-> Название метода: **crm.productsection.fields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

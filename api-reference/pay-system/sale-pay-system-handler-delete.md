@@ -1,7 +1,5 @@
-# Удалить REST-обработчик платежной системы
+# Удалить REST-обработчик платежной системы sale.paysystem.handler.delete
 
-> Название метода: **sale.paysystem.handler.delete**
->
 > Scope: [`pay_system `](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)

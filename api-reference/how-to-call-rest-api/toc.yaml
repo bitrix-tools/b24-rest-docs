@@ -7,7 +7,7 @@ items:
     href: general-principles.md
   - name: Особенности списочных методов 
     href: list-methods-pecularities.md
-  - name: Пакетное выполнение запросов 
+  - name: Как выполнить пакет запросов
     href: batch.md
-  - name: Работа с файлами
+  - name: Как работать с файлами через REST API
     href: how-to-upload-files.md

@@ -1,4 +1,4 @@
-# Отправить приветственное сообщение
+# Отправить приветственное сообщение imopenlines.bot.session.message.send
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.bot.session.message.send**
->
 > Scope: [`imopenlines, imbot`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

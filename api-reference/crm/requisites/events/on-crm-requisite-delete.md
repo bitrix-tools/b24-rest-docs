@@ -1,7 +1,5 @@
-# Событие при удалении реквизита
+# Событие при удалении реквизита onCrmRequisiteDelete
 
-> Название события:: **onCrmRequisiteDelete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: `любой пользователь`

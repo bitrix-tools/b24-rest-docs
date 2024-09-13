@@ -1,4 +1,4 @@
-# Запуск javascript-файла
+# Запустить javascript-файл BX24.loadScript
 
 {% note warning "Мы еще обновляем эту страницу" %}
 

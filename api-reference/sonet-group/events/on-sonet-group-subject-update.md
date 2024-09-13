@@ -1,4 +1,4 @@
-# Вызывается после изменения темы рабочей группы
+# Вызывается после изменения темы рабочей группы onSonetGroupSubjectUpdate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,13 +18,11 @@
 
 {% endif %}
 
-{% note info "onSonetGroupSubjectUpdate" %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-Событие `onSonetGroupSubjectUpdate` вызывается после изменения темы рабочей группы. Прокси к событию [OnSocNetGroupSubjectUpdate](https://dev.1c-bitrix.ru/api_help/socialnetwork/events/OnSocNetGroupSubjectUpdate.php).
+Событие `onSonetGroupSubjectUpdate` вызывается после изменения темы рабочей группы. Прокси к событию `OnSocNetGroupSubjectUpdate`.
 
 #|
 || **Поле** | **Описание** ||

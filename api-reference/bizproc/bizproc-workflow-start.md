@@ -1,4 +1,4 @@
-# Запуск бизнес-процесса
+# Запустить бизнес-процесс bizproc.workflow.start
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -24,11 +24,9 @@
 
 {% endif %}
 
-{% note info "bizproc.workflow.start" %}
-
-{% include notitle [Скоуп bizproc все](./_includes/scope-bizproc-all.md) %}
-
-{% endnote %}
+> Scope: [`bizproc`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод запускает Бизнес-процесс.
 

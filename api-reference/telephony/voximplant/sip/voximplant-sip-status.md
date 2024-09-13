@@ -1,4 +1,4 @@
-# Получение текущего статуса sip-регистрации (только для облачных АТС)
+# Получить текущий статус sip-регистрации (только для облачных АТС) voximplant.sip.status
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,7 @@
 
 {% endif %}
 
-{% note info "voximplant.sip.status" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.sip.status` Возвращает текущий статус sip-регистрации (только для облачных АТС). Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 

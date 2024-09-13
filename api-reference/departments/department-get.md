@@ -1,4 +1,4 @@
-# Получение списка подразделений
+# Получить список подразделений department.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "department.get" %}
-
-{% include notitle [Скоуп department all](./_include/scope-department-all.md) %}
-
-{% endnote %}
+> Scope: [`department`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Получение фильтрованного списка подразделений.
 

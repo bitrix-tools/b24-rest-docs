@@ -1,7 +1,5 @@
-# Получить значения полей услуги
+# Получить значения полей услуги catalog.product.service.get
 
-> Название метода: **catalog.product.service.get**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

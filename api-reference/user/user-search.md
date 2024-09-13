@@ -1,7 +1,5 @@
-# Список с поиском по персональным данным
+# Получить список пользователей с поиском по персональным данным user.search
 
-> Название метода: **user.search**
->
 > Scope: [`user`](../scopes/permissions.md), [`user_brief`](../scopes/permissions.md), [`user_basic`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -154,7 +152,7 @@ HTTP-статус: **200**
                 "NAME": "Вадим",
                 "LAST_NAME": "Валеев",
                 "SECOND_NAME": "",
-                "EMAIL": "v.r.valeev@bitrix.ru",
+                "EMAIL": "v.r.valeev@bitrix.com",
                 "LAST_LOGIN": "2024-07-25T13:06:54+00:00",
                 "DATE_REGISTER": "2024-07-15T00:00:00+00:00",
                 "TIME_ZONE": "",

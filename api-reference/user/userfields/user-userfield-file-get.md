@@ -1,4 +1,4 @@
-# Получение файла из пользовательского поля
+# Получить файл из пользовательского поля user.userfield.file.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "user.userfield.file.get" %}
-
-**Scope**: [`user.userfield`](../../scopes/permissions.md) | **Права на выполнение**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`user.userfield`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод позволяет получить файл из пользовательского поля.
 

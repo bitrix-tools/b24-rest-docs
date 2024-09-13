@@ -1,4 +1,4 @@
-# При удалении правила округления цен
+# При удалении правила округления цен CATALOG.ROUNDING.ON.DELETE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.ROUNDING.ON.DELETE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.ROUNDING.ON.DELETE` срабатывает при удалении правила округления цен. В обработчик передаются следующие данные:
 

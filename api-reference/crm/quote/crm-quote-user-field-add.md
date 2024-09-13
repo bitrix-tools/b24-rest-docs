@@ -1,4 +1,4 @@
-# Создание пользовательского поля для предложений
+# Создать пользовательское поле для предложений crm.quote.userfield.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,17 +16,14 @@
 - отсутствуют примеры (должно быть три примера - curl, js, php)
 - отсутствует ответ в случае ошибки
 - отсутствует ответ в случае успеха
-- сделать ссылку на [crm.userfield.fields], должна вести на страницу https://dev.1c-bitrix.ru/rest_help/crm/userfields/crm_userfield_fields.php 
 
 {% endnote %}
 
 {% endif %}
 
-{% note info "crm.quote.userfield.add" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.quote.userfield.add` создаёт новое пользовательское поле для предложений.
 

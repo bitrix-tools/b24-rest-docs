@@ -1,4 +1,4 @@
-# Получение списка блоков страницы
+# Получить список блоков страницы landing.block.getlist
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getlist" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getlist` получает список блоков страницы. Возвращает массив блоков или ошибку.
 

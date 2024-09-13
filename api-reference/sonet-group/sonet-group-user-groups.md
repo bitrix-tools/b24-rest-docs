@@ -1,4 +1,4 @@
-# Получение списка групп текущего пользователя
+# Получить список групп текущего пользователя sonet_group.user.groups
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,13 +19,9 @@
 
 {% endif %}
 
-{% note info "sonet_group.user.groups" %}
-
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод возвращает массив групп соцсети текущего пользователя, осуществляя вызов `CSocNetUserToGroup::GetList()`.
 

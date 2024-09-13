@@ -1,7 +1,5 @@
-# Получить поля оплаты
+# Получить поля оплаты sale.payment.getFields
 
-> Название метода: **sale.payment.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

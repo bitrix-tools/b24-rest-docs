@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "imbot.message.*" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 {% note warning %}
 

@@ -1,4 +1,4 @@
-# Проверка доступа к задаче
+# Проверить доступ к задаче tasks.task.getaccess
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.getaccess" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.getaccess` для проверки доступа к задаче.
 

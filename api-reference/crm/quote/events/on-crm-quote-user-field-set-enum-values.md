@@ -1,4 +1,4 @@
-# Событие на изменение значений для поля списочного типа
+# Событие на изменение значений для поля списочного типа onCrmQuoteUserFieldSetEnumValues
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "onCrmQuoteUserFieldSetEnumValues" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmQuoteUserFieldSetEnumValues` вызывается при изменении набора значений для пользовательского поля списочного типа.
 

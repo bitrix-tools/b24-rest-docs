@@ -1,4 +1,4 @@
-# Создание группы соцсети
+# Создать группу соцсети sonet_group.create
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,15 +19,11 @@
 
 {% endif %}
 
-{% note info "sonet_group.create" %}
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
-
-Создает группу соцсети, используя метод API [CSocNetGroup::CreateGroup()](https://dev.1c-bitrix.ru/api_help/socialnetwork/classes/CSocNetGroup/CreateGroup.php), указывая владельцем группы текущего пользователя.
+Создает группу соцсети, используя метод API `CSocNetGroup::CreateGroup()`, указывая владельцем группы текущего пользователя.
 
 ## Запрос:
 

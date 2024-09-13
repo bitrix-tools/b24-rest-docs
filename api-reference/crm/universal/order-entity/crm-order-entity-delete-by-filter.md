@@ -1,7 +1,5 @@
-# Удалить привязку заказа к объекту CRM
+# Удалить привязку заказа к объекту CRM crm.orderentity.deleteByFilter
 
-> Название метода: **crm.orderentity.deleteByFilter**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор интернет-магазина

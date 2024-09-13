@@ -1,4 +1,4 @@
-# Создать цифровое рабочее место
+# Создать цифровое рабочее место crm.automatedsolution.add
 
 {% if build == 'dev' %}
 
@@ -10,8 +10,6 @@
 
 {% endif %}
 
-> Название метода: **crm.automatedsolution.add**
->
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователи с административным доступом к разделу CRM

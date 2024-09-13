@@ -1,4 +1,4 @@
-# Выключение микрофона оператора со стороны приложения
+# Выключить микрофон оператора со стороны приложения CallCardSetMute
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CallCardSetMute" %}
-
-{% include notitle [Скоуп telephony all](../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `CallCardSetMute` позволяет со стороны приложения выключить микрофон оператора.
 

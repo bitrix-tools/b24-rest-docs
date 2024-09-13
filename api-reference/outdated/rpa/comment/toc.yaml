@@ -1,13 +1,13 @@
 title: Комментарии
 href: index.md
 items: 
-  - name: Комментарии
+  - name: Обзор методов
     href: index.md
-  - name: Создание нового комментария в таймлайне элемента
+  - name: Создать новый комментарий в таймлайне
     href: rpa-comment-add.md
-  - name: Обновление записи таймлайна
+  - name: Изменить запись таймлайна
     href: rpa-comment-update.md
-  - name: Удаление комментария
+  - name: Удалить комментарий
     href: rpa-comment-delete.md
 
 

@@ -1,7 +1,5 @@
-# Удалить триггер
+# Удалить триггер crm.automation.trigger.delete
 
-> Название метода: **crm.automation.trigger.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор с доступом к CRM в контексте приложения 

@@ -1,7 +1,5 @@
-# Изменить товар
+# Изменить товар crm.product.update
 
-> Название метода: **crm.product.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

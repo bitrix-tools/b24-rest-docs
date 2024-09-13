@@ -1,4 +1,4 @@
-# Получение массива доступных голосов для синтеза речи
+# Получить массив доступных голосов для синтеза речи voximplant.tts.voices.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "voximplant.tts.voices.get" %}
-
 {% include notitle [Скоуп telephony all](../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `voximplant.tts.voices.get` возвращает массив доступных голосов для синтеза речи в формате ID голоса => название голоса. Метод не имеет ограничений по [правам](https://helpdesk.bitrix24.ru/open/18177766/).
 

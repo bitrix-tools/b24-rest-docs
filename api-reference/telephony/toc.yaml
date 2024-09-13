@@ -3,27 +3,27 @@ href: index.md
 items: 
   - name: О телефонии в Битрикс24
     href: index.md
-  - name: Регистрация линии/номера
+  - name: Зарегистрировать линию/номер
     href: telephony-external-line-add.md
-  - name: Изменение линии/номера
+  - name: Изменить линию/номер
     href: telephony-external-line-update.md  
-  - name: Получение списка линий/номеров
+  - name: Получить список линий/номеров
     href: telephony-external-line-get.md
-  - name: Удаление линии/номера
+  - name: Удалить линию/номер
     href: telephony-external-line-delete.md
-  - name: Поиск клиента в CRM по телефонному номеру
+  - name: Найти клиента в CRM по телефонному номеру
     href: telephony-external-call-search-crm-entities.md
-  - name: Регистрация начала звонка
+  - name: Зарегистрировать начало звонка
     href: telephony-external-call-register.md
-  - name: Открытие карточки звонка у пользователю
+  - name: Открыть карточку звонка у пользователя
     href: telephony-external-call-show.md
-  - name: Скрытие карточки звонка у пользователя
+  - name: Скрыть карточку звонка у пользователя
     href: telephony-external-call-hide.md
-  - name: Завершение звонка
+  - name: Завершить звонок
     href: telephony-external-call-finish.md
-  - name: Прикрепление записи звонка
+  - name: Прикрепить запись звонка
     href: telephony-external-call-attach-record.md
-  - name: Прикрепление транскрипции звонка
+  - name: Добавить расшифровку записи к звонку
     href: telephony-call-attach-transcription.md
   - name: События
     include:
@@ -35,7 +35,7 @@ items:
       mode: link
   - name: Виджеты
     href: widgets.md
-  - name: Получение списка звонков
+  - name: Получить список звонков
     href: voximplant-statistic-get.md
 
 

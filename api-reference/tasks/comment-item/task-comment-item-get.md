@@ -1,4 +1,4 @@
-# Получение комментария по идентификатору
+# Получить комментарий по идентификатору task.commentitem.get
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.get" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.get` возвращает комментарий к задаче по идентификатору.
 

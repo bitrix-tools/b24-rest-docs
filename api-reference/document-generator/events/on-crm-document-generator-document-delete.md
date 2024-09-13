@@ -1,4 +1,4 @@
-# На удаление документа
+# На удаление документа onCrmDocumentGeneratorDocumentDelete
 
 {% if build == 'dev' %}
 
@@ -12,11 +12,9 @@
 
 {% endif %}
 
-{% note info "onCrmDocumentGeneratorDocumentDelete" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmDocumentGeneratorDocumentDelete` – удаление документа.
 

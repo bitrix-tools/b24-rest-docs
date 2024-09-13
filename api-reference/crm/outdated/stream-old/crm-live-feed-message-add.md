@@ -1,7 +1,5 @@
-# Отправить сообщение в Ленту CRM
+# Отправить сообщение в Ленту CRM crm.livefeedmessage.add
 
-> Название метода: **crm.livefeedmessage.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

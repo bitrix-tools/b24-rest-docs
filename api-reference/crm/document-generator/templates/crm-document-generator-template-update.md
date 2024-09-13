@@ -1,4 +1,4 @@
-# Изменение существующего шаблона документа
+# Изменить существующий шаблон документа crm.documentgenerator.template.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.template.update" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.template.update` обновляет существующий шаблон. Возвращает те же данные, что и при вызове [crm.documentgenerator.template.get()](./crm-document-generator-template-get.md).
 

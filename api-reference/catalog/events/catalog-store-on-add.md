@@ -1,4 +1,4 @@
-# При добавлении склада
+# При добавлении склада CATALOG.STORE.ON.ADD
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.STORE.ON.ADD" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.STORE.ON.ADD` срабатывает при добавлении склада. В обработчик передаются следующие данные:
 

@@ -3,17 +3,17 @@ href: index.md
 items:
   - name: Список методов 
     href: index.md
-  - name: Создание новой компании 
+  - name: Создать новую компанию
     href: crm-company-add.md
-  - name: Удаление компании 
+  - name: Удалить компанию
     href: crm-company-delete.md
-  - name: Описание полей компании
+  - name: Получить описание полей компании
     href: crm-company-fields.md
-  - name: Получение информации о компании
+  - name: Получить информацию о компании
     href: crm-company-get.md
-  - name: Получение списка компаний по фильтру
+  - name: Получить список компаний по фильтру
     href: crm-company-list.md
-  - name: Обновление существующей компании
+  - name: Обновить существующую компанию
     href: crm-company-update.md
   - name: Контакты компаний
     include:

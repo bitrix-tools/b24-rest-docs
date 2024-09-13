@@ -1,4 +1,4 @@
-# Получение списка коэффициентов единиц измерения по фильтру
+# Получить список коэффициентов единиц измерения по фильтру catalog.ratio.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.ratio.list" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.ratio.list(select, filter, order, start)

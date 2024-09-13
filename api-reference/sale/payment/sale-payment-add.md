@@ -1,7 +1,5 @@
-# Добавить оплату
+# Добавить оплату sale.payment.add
 
-> Название метода: **sale.payment.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

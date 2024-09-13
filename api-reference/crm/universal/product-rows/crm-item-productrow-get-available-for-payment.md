@@ -1,7 +1,5 @@
-# Получить неоплаченные товарные позиции объекта CRM
+# Получить неоплаченные товарные позиции объекта CRM crm.item.productrow.getAvailableForPayment
 
-> Название метода: **crm.item.productrow.getAvailableForPayment**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: требуется право на чтение объекта CRM, товарные позиции которого выбираются

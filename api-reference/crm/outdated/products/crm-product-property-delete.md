@@ -1,7 +1,5 @@
-# Удалить свойство товаров
+# Удалить свойство товаров crm.product.property.delete
 
-> Название метода: **crm.product.property.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

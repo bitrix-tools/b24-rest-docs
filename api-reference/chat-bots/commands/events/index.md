@@ -1,4 +1,4 @@
-# Получение чат-ботом команды
+# На получение команды ONIMCOMMANDADD
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "ONIMCOMMANDADD" %}
-
-**Scope**: [`im`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `ONIMCOMMANDADD` на установку приложения.
 

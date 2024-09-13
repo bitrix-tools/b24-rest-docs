@@ -1,7 +1,5 @@
-# Получить перечень методов task.item.* с их описанием
+# Получить перечень методов task.item.* с их описанием task.item.getmanifest
 
-> Название метода: **task.item.getmanifest**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

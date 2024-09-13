@@ -1,7 +1,5 @@
-# Обновить настройки службы доставки
+# Обновить настройки службы доставки sale.delivery.config.update
 
-> Название метода: **sale.delivery.config.update**
->
 > Scope: [`sale`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM

@@ -1,7 +1,5 @@
-# Получить поля, доступные для добавления в шаблон реквизитов
+# Получить поля, доступные для добавления в шаблон реквизитов crm.requisite.preset.field.availabletoadd
 
-> Название метода: **crm.requisite.preset.field.availabletoadd**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,7 +1,5 @@
-# Событие при удалении пользовательского поля реквизита
+# Событие при удалении пользовательского поля реквизита onCrmRequisiteUserFieldDelete
 
-> Название события:: **onCrmRequisiteUserFieldDelete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: `любой пользователь`

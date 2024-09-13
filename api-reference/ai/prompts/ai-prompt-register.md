@@ -1,4 +1,4 @@
-# Добавление промпта
+# Добавить промпт ai.prompt.register
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "ai.prompt.register" %}
-
-**Scope**: [`ai_admin`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`ai_admin`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `ai.prompt.register` добавляет промпт.
 

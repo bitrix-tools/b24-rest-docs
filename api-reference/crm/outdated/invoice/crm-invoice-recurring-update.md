@@ -1,7 +1,5 @@
-# Изменить настройку для регулярного счета
+# Изменить настройку для регулярного счета crm.invoice.recurring.update
 
-> Название метода: **crm.invoice.recurring.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

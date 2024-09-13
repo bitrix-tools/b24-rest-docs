@@ -1,8 +1,8 @@
 title: Рабочий график
 href: index.md
 items:
-  - name: Список методов 
+  - name: Обзор методов
     href: index.md
-  - name: Получение рабочего графика 
+  - name: Получить рабочий график
     href: timeman-schedule-get.md
 

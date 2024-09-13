@@ -1,4 +1,4 @@
-# Событие смены статуса звонка
+# Событие смены статуса звонка CallCard::CallStateChanged
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,8 +18,6 @@
 
 {% endif %}
 
-> Название события: **CallCard::CallStateChanged**
->
 > Scope: [`telephony`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: `любой пользователь`

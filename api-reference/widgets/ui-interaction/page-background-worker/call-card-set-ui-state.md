@@ -1,4 +1,4 @@
-# Изменение состояния интерфейса карточки звонка со стороны приложения
+# Изменить состояние интерфейса карточки звонка со стороны приложения CallCardSetUiState
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CallCardSetUiState" %}
-
-{% include notitle [Скоуп telephony all](../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `CallCardSetUiState` позволяет со стороны приложения изменить состояние интерфейса карточки звонка.
 

@@ -1,7 +1,5 @@
-# Обновить услугу службы доставки
+# Обновить услугу службы доставки sale.delivery.extra.service.update
 
-> Название метода: **sale.delivery.extra.service.update**
->
 > Scope: [`sale, delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

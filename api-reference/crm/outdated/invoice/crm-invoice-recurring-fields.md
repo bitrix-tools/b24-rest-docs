@@ -1,7 +1,5 @@
-# Получить полня шаблона регулярного счета
+# Получить полня шаблона регулярного счета crm.invoice.recurring.fields
 
-> Название метода: **crm.invoice.recurring.fields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

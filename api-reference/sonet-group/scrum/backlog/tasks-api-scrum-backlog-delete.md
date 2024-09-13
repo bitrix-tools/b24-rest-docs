@@ -1,7 +1,5 @@
-# Удалить бэклог
+# Удалить бэклог tasks.api.scrum.backlog.delete
 
-> Название метода: **tasks.api.scrum.backlog.delete**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,7 +1,5 @@
-# Получить значения свойства отгрузки по id
+# Получить значения свойства отгрузки по id sale.shipmentpropertyvalue.get
 
-> Название метода: **sale.shipmentpropertyvalue.get**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

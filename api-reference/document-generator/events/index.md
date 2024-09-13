@@ -1,4 +1,4 @@
-# На генерацию документа
+# На генерацию документа onCrmDocumentGeneratorDocumentAdd
 
 {% if build == 'dev' %}
 
@@ -12,11 +12,9 @@
 
 {% endif %}
 
-{% note info "onCrmDocumentGeneratorDocumentAdd" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmDocumentGeneratorDocumentAdd` – создание нового документа.
 

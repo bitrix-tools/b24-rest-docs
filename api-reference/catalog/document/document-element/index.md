@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "" %}
-
-**Scope**: [`catalog `](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Методы работы со складами:
 

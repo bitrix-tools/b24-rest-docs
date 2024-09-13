@@ -1,7 +1,5 @@
-# Обновить поля услуги
+# Обновить поля услуги catalog.product.service.update
 
-> Название метода: **catalog.product.service.update**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

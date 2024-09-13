@@ -1,4 +1,4 @@
-# При удалении единицы измерения
+# При удалении единицы измерения CATALOG.MEASURE.ON.DELETE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CATALOG.MEASURE.ON.DELETE" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `CATALOG.MEASURE.ON.DELETE` срабатывает при удалении единицы измерения. В обработчик передаются следующие данные:
 

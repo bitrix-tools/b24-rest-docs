@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "Права" %}
-
-**Scope**: [`calendar`](../scopes/permissions.md) | **Кто может выполнять метод**: `в зависимости от метода`
-
-{% endnote %}
+> Scope: [`calendar`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
 
 #|
 || **Метод** | **Описание** ||

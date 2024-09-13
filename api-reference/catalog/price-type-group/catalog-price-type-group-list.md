@@ -1,4 +1,4 @@
-# Получение списка привязок типов цен к группам покупателей
+# Получить список привязок типов цен к группам покупателей catalog.priceTypeGroup.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.priceTypeGroup.list" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.priceTypeGroup.list(select, filter, order, start)

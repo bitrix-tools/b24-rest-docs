@@ -1,4 +1,4 @@
-# Удалить поле из поиска дубликатов
+# Удалить поле из поиска дубликатов crm.duplicate.volatileType.unregister
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.duplicate.volatileType.unregister" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.duplicate.volatileType.unregister({id: number})

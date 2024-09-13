@@ -1,4 +1,4 @@
-# По нажатию на кнопку выключения микрофона
+# По нажатию на кнопку выключения микрофона BackgroundCallCard::muteButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::muteButtonClick" %}
-
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
 Событие `BackgroundCallCard::muteButtonClick` происходит по нажатию на кнопку выключения микрофона. В функцию обратного вызова передается булево значение: true - ожидается выключение, false - ожидается включение.

@@ -1,4 +1,4 @@
-# Встраивание в меню
+# Встроить в меню landing.site.bindingToMenu
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.bindingToMenu" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.bindingToMenu` привязывает Базу знаний в указанное меню. К Базе знаний должен быть доступ на чтение.
 

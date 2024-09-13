@@ -1,9 +1,6 @@
-# Пункт выпадающего меню генератора документов
+# Пункт выпадающего меню генератора документов CRM_XXX_DOCUMENTGENERATOR_BUTTON
 
-> Коды встройки: **CRM_XXX_DOCUMENTGENERATOR_BUTTON**
->
 > Scope: [`intranet`](../../scopes/permissions.md)
->
 
 Вы можете добавлять свой пункт в выпадающее меню генератора документов таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [счета](../../crm/outdated/invoice/) и [коммерческие предложения](../../crm/quote/).
 

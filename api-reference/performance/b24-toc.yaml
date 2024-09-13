@@ -5,5 +5,5 @@ items:
     href: limits.md
   - name: Общие рекомендации
     href: recommendations.md
-  - name: Получение больших объемов данных
+  - name: Получить большие объемы данных
     href: huge-data.md

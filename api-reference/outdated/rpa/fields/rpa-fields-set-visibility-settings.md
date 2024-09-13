@@ -1,4 +1,4 @@
-# Изменение настроек видимости visibility полей fields для процесса с идентификатором typeId на стадии с идентификатором stageId
+# Изменить настройки видимости полей rpa.fields.setVisibilitySettings
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "rpa.fields.setVisibilitySettings" %}
-
-**Scope**: [`rpa`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`rpa`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `rpa.fields.setVisibilitySettings` изменяет настройки видимости visibility полей fields для процесса с идентификатором typeId на стадии с идентификатором stageId. Остальные настройки при этом не изменяются.
 

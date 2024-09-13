@@ -1,4 +1,4 @@
-# Удаление всех упоминаний страницы как специальной
+# Удалить все упоминания страницы как специальной landing.syspage.deleteForLanding
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.syspage.deleteForLanding" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.syspage.deleteForLanding` удаляет все упоминания страницы как специальной
 

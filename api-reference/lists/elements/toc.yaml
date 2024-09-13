@@ -1,16 +1,16 @@
 title: Общие методы
 href: index.md
 items:
-  - name: Список методов 
+  - name: Обзор методов
     href: index.md
-  - name: Создание элемента
+  - name: Создать элемент
     href: lists-element-add.md
-  - name: Удаление элемента 
+  - name: Удалить элемент
     href: lists-element-delete.md
-  - name: Возвращение списка элементов 
+  - name: Получить параметры элемента или список элементов
     href: lists-element-get.md
   - name: Получить путь к файлу
     href: lists-element-get-file-url.md
-  - name: Обновление элемента списка 
+  - name: Изменить элемент
     href: lists-element-update.md
 

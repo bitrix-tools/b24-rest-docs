@@ -1,4 +1,4 @@
-# Добавление коммерческого предложения
+# Добавить коммерческое предложение crm.quote.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,17 +16,14 @@
 - отсутствуют примеры (должно быть три примера - curl, js, php)
 - отсутствует ответ в случае ошибки
 - отсутствует ответ в случае успеха
-- сделать ссылку [crm.requisite.link.register] на страницу с методом https://dev.1c-bitrix.ru/rest_help/crm/requisite/methods/crm_requisite_link_register.php
 
 {% endnote %}
 
 {% endif %}
 
-{% note info "crm.quote.add" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.quote.add` создаёт новое коммерческое предложение. Если необходимо в предложении указать какие реквизиты покупателя/продавца (т.к. их может быть несколько у компании), то используйте метод [crm.requisite.link.register](../requisites/links/crm-requisite-link-register.md).
 

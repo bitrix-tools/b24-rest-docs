@@ -1,4 +1,4 @@
-# Возвращение параметров почтового сервиса
+# Получить параметры почтового сервиса mailservice.get
 
 {% if build == 'dev' %}
 
@@ -17,11 +17,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.get" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.get` возвращает параметры указанного почтового сервиса.
 

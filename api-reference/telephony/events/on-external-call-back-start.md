@@ -1,4 +1,4 @@
-# Когда посетитель заполняет crm-форму обратного звонка
+# Когда посетитель заполняет crm-форму обратного звонка OnExternalCallBackStart
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,7 @@
 
 {% endif %}
 
-{% note info "OnExternalCallBackStart" %}
-
-{% include notitle [Скоуп telephony all](../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+{% include notitle [Скоуп telephony events](../_includes/scope-telephony-events.md) %}
 
 Событие `OnExternalCallBackStart` вызывается, когда посетитель заполняет crm-форму обратного звонка. В настройках формы должно быть выбрано ваше приложение, как линия, через которую будет совершаться обратный звонок.
 

@@ -3,15 +3,15 @@ href: index.md
 items:
   - name: Шаблоны документов
     href: index.md
-  - name: Поля шаблона документа
+  - name: Получить поля шаблона документа
     href: crm-document-generator-template-get-fields.md
-  - name: Добавление нового шаблона
+  - name: Добавить новый шаблон
     href: crm-document-generator-template-add.md
-  - name: Изменение существующего шаблона документа
+  - name: Изменить существующий шаблон документа
     href: crm-document-generator-template-update.md
-  - name: Получение информации о шаблоне документа по Id
+  - name: Получить информацию о шаблоне документа по Id
     href: crm-document-generator-template-get.md
-  - name: Получение списка шаблонов документов
+  - name: Получить список шаблонов документов
     href: crm-document-generator-template-list.md
-  - name: Удаление шаблона документа
+  - name: Удалить шаблон документа
     href: crm-document-generator-template-delete.md

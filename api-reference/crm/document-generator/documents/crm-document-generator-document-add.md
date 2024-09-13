@@ -1,4 +1,4 @@
-# Создание нового документа
+# Создать новый документ crm.documentgenerator.document.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.document.add" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.document.add` создаёт новый документ на основании шаблона и данных из соответствующей сущности. В `values` можно передать массив дополнительных значений полей. 
 

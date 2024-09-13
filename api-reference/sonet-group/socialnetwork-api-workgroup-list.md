@@ -1,4 +1,4 @@
-# Получение списка рабочих групп
+# Получить список рабочих групп socialnetwork.api.workgroup.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,13 +20,9 @@
 
 {% endif %}
 
-{% note info "socialnetwork.api.workgroup.list" %}
-
-{% include notitle [Скоуп socialnetwork все](./_includes/scope-socialnetwork-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`socialnetwork`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод возвращает список групп
 

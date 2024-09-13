@@ -1,7 +1,5 @@
-# Удалить связь между задачами
+# Удалить связь между задачами task.dependence.delete
 
-> Название метода: **task.dependence.delete**
->
 > Scope: [`task`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
