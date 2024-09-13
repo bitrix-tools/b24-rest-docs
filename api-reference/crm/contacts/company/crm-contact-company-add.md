@@ -6,7 +6,6 @@
 
 Метод `crm.contact.company.add` добавляет компанию к указанному контакту.
 
-
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
@@ -14,13 +13,13 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id**^*^
+|| **id***
 [`integer`][1] | Идентификатор контакта.
 
-Можно получить с помощью методов [`crm.contact.list`](../crm-contact-list.md) или [`crm.contact.add`](../crm-contact-add.md)
+Можно получить с помощью методов [crm.contact.list](../crm-contact-list.md) или [crm.contact.add](../crm-contact-add.md)
 ||
-|| **fields**^*^
-[`object`][1] | Объект формата.
+|| **fields***
+[`object`][1] | Объект формата:
 
 ```
 {
@@ -31,37 +30,36 @@
 }
 ```
 
-где
+где:
 - `field_n` — название поля
 - `value_n` — значение поля
 
-Список доступных полей описан [ниже](#parametr-fields). ||
+Список доступных полей описан [ниже](#parameter-fields). ||
 |#
 
-### Параметр fields
+### Параметр fields {#parameter-fields}
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **COMPANY_ID**^*^
-[`crm_entity`][1] | Идентификатор компании, который будет привязан к контакту
+|| **COMPANY_ID***
+[`crm_entity`][2] | Идентификатор компании, который будет привязан к контакту.
 
-Можно получить с помощью метода [`crm.item.list`](../../universal/crm-item-list.md) по `entityTypeId = 4` ||
+Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 4` ||
 || **IS_PRIMARY**
-[`boolean`][1] | Является ли привязка первичной
+[`boolean`][1] | Является ли привязка первичной. Возможные значения:
+- `Y` — да
+- `N` — нет
 
-Возможные значения:
-- `Y` - Да
-- `N` - Нет
+У первого добавленного элемента `IS_PRIMARY` по умолчанию равен `Y`.
 
-* У первого добавленного элемента `IS_PRIMARY` по умолчанию равен `Y`
-* Передача `IS_PRIMARY = Y` у новой и не первой привязки, перетирает существующую первичную привязку ||
+Передача `IS_PRIMARY = Y` у новой и не первой привязки перетирает существующую первичную привязку ||
 || **SORT**
-[`integer`][1] | Индекс сортировки
+[`integer`][1] | Индекс сортировки.
 
-По умолчанию - `i + 10`, где `i` - Максимальный индекс сортировки у существующих привязок для текущего контакта или 0 если таковых нет ||
+По умолчанию `i + 10`, где `i` — максимальный индекс сортировки у существующих привязок для текущего контакта или `0`, если таких нет ||
 |#
 
 
@@ -69,54 +67,77 @@
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Пример добавления связи Контакт-Компания, где
-* Идентификатор контакта - `54`
-* Идентификатор компании - `32`
+Пример добавления связи контакт-компания, где:
+- идентификатор контакта — `54`
+- идентификатор компании — `32`
 
 {% list tabs %}
 
 - cURL (Webhook)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":54,"fields":{"COMPANY_ID":32,"IS_PRIMARY":"Y","SORT":1000}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.company.add
     ```
 
 - cURL (OAuth)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":54,"fields":{"COMPANY_ID":32,"IS_PRIMARY":"Y","SORT":1000},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.contact.company.add
     ```
 
 - JS
 
     ```js
-        BX24.callMethod(
-            'crm.contact.company.add',
-            {
-                id: 54,
-                fields: {
-                    COMPANY_ID: 32,
-                    IS_PRIMARY: "Y",
-                    SORT: 1000,
-                },
+    BX24.callMethod(
+        'crm.contact.company.add',
+        {
+            id: 54,
+            fields: {
+                COMPANY_ID: 32,
+                IS_PRIMARY: "Y",
+                SORT: 1000,
             },
-            (result) => {
-                result.error()
-                    ? console.error(result.error())
-                    : console.info(result.data())
-                ;
-            },
-        );
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
     ```
 
 - PHP
 
     ```php
-    todo
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.contact.company.add',
+        [
+            'id' => 54,
+            'fields' => [
+                'COMPANY_ID' => 32,
+                'IS_PRIMARY' => 'Y',
+                'SORT' => 1000,
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
-
 
 ## Обработка ответа
 
@@ -124,15 +145,15 @@ HTTP-статус: **200**
 
 ```json
 {
-	"result": true,
-	"time": {
-		"start": 1724068028.331234,
-		"finish": 1724068028.726591,
-		"duration": 0.3953571319580078,
-		"processing": 0.13033390045166016,
-		"date_start": "2024-08-19T13:47:08+02:00",
-		"date_finish": "2024-08-19T13:47:08+02:00"
-	}
+    "result": true,
+    "time": {
+        "start": 1724068028.331234,
+        "finish": 1724068028.726591,
+        "duration": 0.3953571319580078,
+        "processing": 0.13033390045166016,
+        "date_start": "2024-08-19T13:47:08+02:00",
+        "date_finish": "2024-08-19T13:47:08+02:00"
+    }
 }
 ```
 
@@ -142,11 +163,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`][1] | Корневой элемент ответа
-Содержит:
-
-- `true` - В случае успеха
-- `false` - В случае неудачи (Скорее всего, компания, которую вы пытаетесь добавить уже есть в привязках)
+[`boolean`][1] | Корневой элемент ответа. Содержит:
+- `true` — в случае успеха
+- `false` — в случае неудачи (скорее всего компания, которую вы пытаетесь добавить, уже есть в привязках)
 ||
 || **time**
 [`time`][1] | Информация о времени выполнения запроса ||
@@ -158,8 +177,8 @@ HTTP-статус: **400**
 
 ```json
 {
-	"error": "",
-	"error_description": "The parameter 'ownerEntityID' is invalid or not defined."
+    "error": "",
+    "error_description": "The parameter 'ownerEntityID' is invalid or not defined."
 }
 ```
 
@@ -169,20 +188,24 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | The parameter 'ownerEntityID' is invalid or not defined. | Передан `id` меньше 0 или не передан вовсе ||
-|| `-`     | The parameter 'fields' must be array. | В `fields` передан не объект ||
-|| `ACCESS_DENIED` | Access denied! | У пользователя нет прав на изменения контактов ||
-|| `-`     | Not found. | Контакт с переданным `id` не найден ||
-|| `-`     | The parameter 'fields' is not valid. | Может возникать из-за нескольких причин:
-* Если не передан обязательный параметр `fields.COMPANY_ID`
-* Если переданный `fields.COMPANY_ID` меньше или равен 0 ||
-||
+|| `-`     | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
+|| `-`     | `The parameter 'fields' must be array` | В `fields` передан не объект ||
+|| `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение контактов ||
+|| `-`     | `Not found` | Контакт с переданным `id` не найден ||
+|| `-`     | `The parameter 'fields' is not valid` | Может возникать из-за нескольких причин:
+- если не передан обязательный параметр `fields.COMPANY_ID`
+- если переданный параметр `fields.COMPANY_ID` меньше или равен 0 ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-
 ## Продолжите изучение
-TODO
+
+- [{#T}](./crm-contact-company-delete.md)
+- [{#T}](./crm-contact-company-fields.md)
+- [{#T}](./crm-contact-company-items-get.md)
+- [{#T}](./crm-contact-company-items-set.md)
+- [{#T}](./crm-contact-company-items-delete.md)
 
 [1]: ../../../data-types.md
+[2]: ../../data-types.md
