@@ -17,7 +17,7 @@ items:
     href: crm-contact-delete.md
   - name: Компании
     include:
-      path: company/toc.yaml
+      path: company/b24-toc.yaml
       mode: link
   - name: Пользовательские поля
     include:

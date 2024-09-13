@@ -6,7 +6,6 @@
 
 Метод `crm.contact.company.delete` удаляет компанию из указанного контакта.
 
-
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
@@ -14,71 +13,92 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id**^*^
-[`integer`][1] | Идентификатор контакта
+|| **id***
+[`integer`][1] | Идентификатор контакта.
 
-Можно получить с помощью методов [`crm.contact.list`](../crm-contact-list.md) или [`crm.contact.add`](../crm-contact-add.md) ||
-|| **fields**^*^
-[`object`][1] | Объект, содержащий информацию о том, какую компанию необходимо удалить из привязок
+Идентификатор можно получить с помощью методов [crm.contact.list](../crm-contact-list.md) или [crm.contact.add](../crm-contact-add.md) ||
+|| **fields***
+[`object`][1] | Объект с информацией о том, какую компанию необходимо удалить из привязок.
 
 Содержит единственный ключ `COMPANY_ID` ||
-|| **fields.COMPANY_ID**^*^
+|| **fields.COMPANY_ID***
 [`integer`][1] | Идентификатор компании, которую необходимо удалить из привязок ||
 |#
 
-{% note info "Удаление первичной привязки" %}
+{% note info "Удалить первичную привязку" %}
 
-При удалении первичной привязки, первичной станет первая доступная привязка
+Если удалить первичную привязку, то новой первичной привязкой станет первая доступная привязка.
 
 {% endnote %}
-
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Пример удаление связи контакт-компания, где
-* Идентификатор контакта - `54`
-* Идентификатор компании - `32`
+Пример удаления связи контакт-компания, где:
+- идентификатор контакта — `54`
+- идентификатор компании — `32`
 
 {% list tabs %}
 
 - cURL (Webhook)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":54,"fields":{"COMPANY_ID":32}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.company.delete
     ```
 
 - cURL (OAuth)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":54,"fields":{"COMPANY_ID":32},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.contact.company.delete
     ```
 
 - JS
 
     ```js
-        BX24.callMethod(
-            'crm.contact.company.delete',
-            {
-                id: 54,
-                fields: {
-                    COMPANY_ID: 32,
-                },
+    BX24.callMethod(
+        'crm.contact.company.delete',
+        {
+            id: 54,
+            fields: {
+                COMPANY_ID: 32,
             },
-            (result) => {
-                result.error()
-                    ? console.error(result.error())
-                    : console.info(result.data())
-                ;
-            },
-        );
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
     ```
 
 - PHP
 
     ```php
-    todo
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.contact.company.delete',
+        [
+            'id' => 54,
+            'fields' => [
+                'COMPANY_ID' => 32,
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -89,15 +109,15 @@ HTTP-статус: **200**
 
 ```json
 {
-	"result": true,
-	"time": {
-		"start": 1724072653.79827,
-		"finish": 1724072717.749956,
-		"duration": 63.95168590545654,
-		"processing": 63.63148093223572,
-		"date_start": "2024-08-19T15:04:13+02:00",
-		"date_finish": "2024-08-19T15:05:17+02:00"
-	}
+    "result": true,
+    "time": {
+        "start": 1724072653.79827,
+        "finish": 1724072717.749956,
+        "duration": 63.95168590545654,
+        "processing": 63.63148093223572,
+        "date_start": "2024-08-19T15:04:13+02:00",
+        "date_finish": "2024-08-19T15:05:17+02:00"
+    }
 }
 ```
 
@@ -107,16 +127,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`][1] | Корневой элемент ответа
-Содержит:
-
-- `true` - В случае успеха
-- `false` - В случае неудачи (Скорее всего, компания, которую вы пытаетесь удалить, не привязана к контакту)
+[`boolean`][1] | Корневой элемент ответа. Содержит:
+- `true` — в случае успеха
+- `false` — в случае неудачи (скорее всего компания, которую вы пытаетесь удалить, не привязана к контакту)
 ||
 || **time**
 [`time`][1] | Информация о времени выполнения запроса ||
 |#
-
 
 ## Обработка ошибок
 
@@ -124,8 +141,8 @@ HTTP-статус: **400**
 
 ```json
 {
-	"error": "",
-	"error_description": "The parameter 'ownerEntityID' is invalid or not defined."
+    "error": "",
+    "error_description": "The parameter 'ownerEntityID' is invalid or not defined."
 }
 ```
 
@@ -135,20 +152,23 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | The parameter 'ownerEntityID' is invalid or not defined. | Передан `id` меньше 0 ||
-|| `-`     | The parameter 'fields' must be array. | В `fields` передан не объект ||
-|| `ACCESS_DENIED` | Access denied! | У пользователя нет прав на изменения контактов ||
-|| `-`     | Not found. | Контакт с переданным `id` не найден ||
-|| `-`     | The parameter 'fields' is not valid. | Может возникать из-за нескольких причин:
-* Если не передан обязательный параметр `fields.COMPANY_ID`
-* Если переданный `fields.COMPANY_ID` меньше или равен 0 ||
-||
+|| `-`     | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше 0 ||
+|| `-`     | `The parameter 'fields' must be array` | В `fields` передан не объект ||
+|| `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменения контактов ||
+|| `-`     | `Not found` | Контакт с переданным `id` не найден ||
+|| `-`     | `The parameter 'fields' is not valid` | Может возникать из-за нескольких причин:
+- если не передан обязательный параметр `fields.COMPANY_ID`
+- если переданный параметр `fields.COMPANY_ID` меньше или равен 0 ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-
 ## Продолжите изучение
-TODO
+
+- [{#T}](./crm-contact-company-add.md)
+- [{#T}](./crm-contact-company-fields.md)
+- [{#T}](./crm-contact-company-items-get.md)
+- [{#T}](./crm-contact-company-items-set.md)
+- [{#T}](./crm-contact-company-items-delete.md)
 
 [1]: ../../../data-types.md
