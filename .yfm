@@ -4,4 +4,5 @@ resources:
   style:
     - _assets/style/b24_custom.css
   script:
-    - _assets/b24addons.js?20240906-13
+    - _assets/b24loc.js?20240910-01
+    - _assets/b24addons.js?20240910-01
