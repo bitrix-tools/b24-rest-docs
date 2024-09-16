@@ -1,21 +1,11 @@
 # Получить поля эпика по его идентификатору tasks.api.scrum.epic.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 {% if build == 'dev' %}
 
 {% note alert "TO-DO _не выгружается на prod_" %}
 
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
+- структура параметра files относится к модулю Диск, поэтому здесь не описана. Нужно сделать ссылку, когда появится описание структуры в документации
+
 {% endnote %}
 
 {% endif %}
@@ -24,19 +14,53 @@
 >
 > Кто может выполнять метод: любой пользователь, имеющий доступ к Скраму
 
-Метод `tasks.api.scrum.epic.get` возвращает значения полей эпика по его идентификатору.
+Метод получает значения полей эпика по его идентификатору `id`.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **epicId^*^**
-[`integer`](../../../data-types.md) | Идентификатор эпика. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **epicId***
+[`integer`](../../../data-types.md) | Идентификатор эпика.
+
+Получить идентификаторы эпиков можно методом [`tasks.api.scrum.epic.list`](./tasks-api-scrum-epic-list.md) ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "fields": {
+      "id": "1"
+    }
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "fields": {
+      "id": "1"
+    },
+    auth=YOUR_ACCESS_TOKEN
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.get
+    ```
 
 - JS
 
@@ -52,33 +76,6 @@
             console.log(res);
         }
     );
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "fields": {
-      "id": "1"
-    },
-    auth=YOUR_ACCESS_TOKEN
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.get
-    ```
-
-- cUrl (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "fields": {
-      "id": "1"
-    }
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.get
     ```
 
 - PHP
@@ -98,9 +95,10 @@
 
     // Обработка ответа от Битрикс24
     if ($result['error']) {
-    echo 'Error: '.$result['error_description'];
-    } else {
-    print_r($result['result']);
+        echo 'Error: '.$result['error_description'];
+    }
+    else {
+        print_r($result['result']);
     }
     ```
 
@@ -112,53 +110,49 @@ HTTP-статус: **200**
 
 ```json
 {
-  "id": 1,
-  "groupId": 143,
-  "name": "эпик",
-  "description": "",
-  "createdBy": 1,
-  "modifiedBy": 0,
-  "color": "#69dafc",
-  "files":
-  {
-    "ID": "136",
-    "ENTITY_ID": "TASKS_SCRUM_EPIC",
-    "FIELD_NAME": "UF_SCRUM_EPIC_FILES",
-    "USER_TYPE_ID": "disk_file",
-    "XML_ID": null,
-    "SORT": "100",
-    "MULTIPLE": "Y",
-    "MANDATORY": "N",
-    "SHOW_FILTER": "N",
-    "SHOW_IN_LIST": "N",
-    "EDIT_IN_LIST": "N",
-    "IS_SEARCHABLE": "N",
-    "SETTINGS":
-    {
-      "IBLOCK_ID": null,
-      "SECTION_ID": null,
-      "UF_TO_SAVE_ALLOW_EDIT": false
-    },
-    "USER_TYPE":
-    {
-      "USER_TYPE_ID": "disk_file",
-      "CLASS_NAME": "Bitrix\\Disk\\Uf\\FileUserType",
-      "DESCRIPTION": "Файл (Диск)",
-      "BASE_TYPE": "int",
-      "TAG": [
-        "DISK FILE ID",
-        "DOCUMENT ID"
-      ]
-    },
-    "VALUE": [],
-    "ENTITY_VALUE_ID": 1,
-    "CUSTOM_DATA":
-    {
-      "PHOTO_TEMPLATE": ""
-    },
-    "EDIT_FORM_LABEL": "UF_SCRUM_EPIC_FILES",
-    "TAG": "DOCUMENT ID"
-  }
+    "id": 1,
+    "groupId": 143,
+    "name": "эпик",
+    "description": "",
+    "createdBy": 1,
+    "modifiedBy": 0,
+    "color": "#69dafc",
+    "files": {
+        "ID": "136",
+        "ENTITY_ID": "TASKS_SCRUM_EPIC",
+        "FIELD_NAME": "UF_SCRUM_EPIC_FILES",
+        "USER_TYPE_ID": "disk_file",
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "Y",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "N",
+        "SHOW_IN_LIST": "N",
+        "EDIT_IN_LIST": "N",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+            "IBLOCK_ID": null,
+            "SECTION_ID": null,
+            "UF_TO_SAVE_ALLOW_EDIT": false
+        },
+        "USER_TYPE": {
+            "USER_TYPE_ID": "disk_file",
+            "CLASS_NAME": "Bitrix\\Disk\\Uf\\FileUserType",
+            "DESCRIPTION": "Файл (Диск)",
+            "BASE_TYPE": "int",
+            "TAG": [
+                "DISK FILE ID",
+                "DOCUMENT ID"
+            ]
+        },
+        "VALUE": [],
+        "ENTITY_VALUE_ID": 1,
+        "CUSTOM_DATA": {
+            "PHOTO_TEMPLATE": ""
+        },
+        "EDIT_FORM_LABEL": "UF_SCRUM_EPIC_FILES",
+        "TAG": "DOCUMENT ID"
+    }
 }
 ```
 
@@ -182,21 +176,21 @@ HTTP-статус: **200**
 || **color**
 [`string`](../../../data-types.md) | Цвет эпика в формате HEX ||
 || **files**
-[`object`](../../../data-types.md) | Объект с данными обо всех файлах, прикрепленных к спринту ||
-
+[`object`](../../../data-types.md) | Объект с данными обо всех файлах, прикрепленных к эпику ||
 |#
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
-  "error": 0,
-  "error_description": "Epic not found"
+    "error": 0,
+    "error_description": "Access denied"
 }
 ```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -208,4 +202,13 @@ HTTP-статус: **200**
 || `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | Неверный тип параметра ||
 |#
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./tasks-api-scrum-epic-add.md)
+- [{#T}](./tasks-api-scrum-epic-update.md)
+- [{#T}](./tasks-api-scrum-epic-list.md)
+- [{#T}](./tasks-api-scrum-epic-delete.md)
+- [{#T}](./tasks-api-scrum-epic-get-fields.md)

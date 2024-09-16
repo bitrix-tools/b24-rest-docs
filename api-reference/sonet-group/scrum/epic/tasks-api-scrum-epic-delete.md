@@ -1,43 +1,52 @@
 # Удалить эпик tasks.api.scrum.epic.delete
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь, имеющий доступ к Скраму
 
-Метод `tasks.api.scrum.epic.delete` удаляет эпик.
+Метод удаляет эпик.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **id^*^**
-[`integer`](../../../data-types.md) | Идентификатор эпика. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор эпика.
+
+Получить идентификаторы эпиков можно методом [`tasks.api.scrum.epic.list`](./tasks-api-scrum-epic-list.md) ||
 |#
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "id": 1
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.delete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "id": 1
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.delete
+    ```
 
 - JS
 
@@ -53,29 +62,6 @@
             console.log(res);
         }
     );
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "id": 1
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.delete
-    ```
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "id": 1
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.delete
     ```
 
 - PHP
@@ -94,7 +80,8 @@
     // Обработка ответа от Битрикс24
     if (isset($result['error'])) {
         echo 'Error: '.$result['error_description'];
-    } else {
+    }
+    else {
         print_r($result['result']);
     }
     ```
@@ -107,14 +94,16 @@
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
-  "error": 0,
-  "error_description": "Epic not found"
+    "error": 0,
+    "error_description": "Epic not found"
 }
 ```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -126,4 +115,13 @@ HTTP-статус: **200**
 || `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | Неверный тип параметра ||
 |#
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./tasks-api-scrum-epic-add.md)
+- [{#T}](./tasks-api-scrum-epic-update.md)
+- [{#T}](./tasks-api-scrum-epic-get.md)
+- [{#T}](./tasks-api-scrum-epic-list.md)
+- [{#T}](./tasks-api-scrum-epic-get-fields.md)
