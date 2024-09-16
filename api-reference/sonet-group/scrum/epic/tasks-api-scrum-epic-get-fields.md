@@ -1,37 +1,42 @@
 # Получить список доступных полей эпика tasks.api.scrum.epic.getFields
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
 Метод `tasks.api.scrum.epic.getFields` возвращает доступные поля эпика.
 
-## Параметры
-
 Без параметров.
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.getFields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    auth=YOUR_ACCESS_TOKEN
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.getFields
+    ```
+
 - JS
+
     ```js
     BX24.callMethod(
         'tasks.api.scrum.epic.getFields',
@@ -43,26 +48,8 @@
     );
     ```
 
-- cURL (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    auth=YOUR_ACCESS_TOKEN
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.getFields
-    ```
-
-- cUrl (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.getFields
-    ```
-
 - PHP
+
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
 
@@ -74,50 +61,45 @@
 
     // Обработка ответа от Битрикс24
     if ($result['error']) {
-    echo 'Error: '.$result['error_description'];
-    } else {
-    print_r($result['result']);
+        echo 'Error: '.$result['error_description'];
+    }
+    else {
+        print_r($result['result']);
     }
     ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
-  "fields":
-  {
-    "name":
+    "fields":
     {
-      "type": "string"
-    },
-    "description":
-    {
-      "type": "string"
-    },
-    "groupId":
-    {
-      "type": "integer"
-    },
-    "color":
-    {
-      "type": "string"
-    },
-    "files":
-    {
-      "type": "array"
-    },
-    "createdBy":
-    {
-      "type": "integer"
-    },
-    "modifiedBy":
-    {
-      "type": "integer"
+        "name": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "groupId": {
+            "type": "integer"
+        },
+        "color": {
+            "type": "string"
+        },
+        "files": {
+            "type": "array"
+        },
+        "createdBy": {
+            "type": "integer"
+        },
+        "modifiedBy": {
+            "type": "integer"
+        }
     }
-  }
 }
 ```
 
@@ -136,6 +118,13 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибок.
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./tasks-api-scrum-epic-add.md)
+- [{#T}](./tasks-api-scrum-epic-update.md)
+- [{#T}](./tasks-api-scrum-epic-get.md)
+- [{#T}](./tasks-api-scrum-epic-list.md)
+- [{#T}](./tasks-api-scrum-epic-delete.md)

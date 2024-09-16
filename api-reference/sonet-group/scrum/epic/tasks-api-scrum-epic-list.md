@@ -1,46 +1,31 @@
 # Получить список эпиков tasks.api.scrum.epic.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.api.scrum.epic.list` возвращает список эпиков.
+Метод возвращает список эпиков.
 
-Метод аналогичен другим методам с фильтрацией по списку.
-
-## Параметры
+## Параметры метода
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **order**
-[`array`](../../../data-types.md) | Массив для сортировки результата. Массив вида `{'поле_сортировки': 'направление сортировки' [, ...]}`. Доступные поля описаны в методе .
+[`array`](../../../data-types.md) | Массив для сортировки результата вида `{'поле_сортировки': 'направление сортировки' [, ...]}`. 
+
 Направление сортировки может принимать значения:
-- `asc` - по возрастанию;
-- `desc` - по убыванию. ||
+- `asc` — по возрастанию
+- `desc` — по убыванию
+
+Возможные значения элементов массива соответствуют полям ответа [tasks.api.scrum.epic.add](./tasks-api-scrum-epic-add.md#fields)
+||
 || **filter**
-[`array`](../../../data-types.md) | Массив вида `{'фильтруемое_поле': 'значение фильтра' [, ...]}`. Доступные поля описаны в таблице ниже.
-Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+[`array`](../../../data-types.md) | Массив вида `{'фильтруемое_поле': 'значение фильтра' [, ...]}`.
+
+Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.
+
+Возможные значения префикса:
 - `=` — равно (работает и с массивами)
 - `%` — LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
 - `>` — больше
@@ -59,13 +44,22 @@
   - `"%мол"` — ищем значения не заканчивающиеся на «мол»
   - `"%мол%"` — ищем значения, где подстроки «мол» нет в любой позиции
 - `!%=` — NOT LIKE (смотрите описание выше)
-||
 
+Возможные значения элементов массива соответствуют полям ответа [tasks.api.scrum.epic.add](./tasks-api-scrum-epic-add.md#fields)
+
+||
 || **select**
-[`array`](../../../data-types.md) | Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы. Если в массиве присутствует значение `"*"`, то будут возвращены все доступные поля.
-Значение по умолчанию - пустой массив `array()` - означает, что будут возвращены все поля основной таблицы запроса. ||
+[`array`](../../../data-types.md) | Массив полей записей, которые будут возвращены методом.
+
+Возможные значения элементов массива соответствуют полям ответа [tasks.api.scrum.epic.add](./tasks-api-scrum-epic-add.md#fields). Можно указать только те поля, которые необходимы.
+
+Если в массиве присутствует значение `"*"`, то будут возвращены все доступные поля.
+
+Значение по умолчанию — пустой массив `array()`. Это означает, что будут возвращены все поля основной таблицы запроса
+||
 || **start**
 [`integer`](../../../data-types.md) | Номер страницы вывода. Работает для https запросов.
+
 Размер страницы результатов всегда статичный: 50 записей.
 
 Чтобы выбрать вторую страницу результатов необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов значение — `100` и так далее.
@@ -75,10 +69,64 @@
 ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+        "filter": {
+            "GROUP_ID": 143,
+            ">=ID": 1,
+            "<=ID": 50,
+            "NAME": "%эпик%",
+            "!=DESCRIPTION": "old epic",
+        },
+        "order": {
+            "ID": "asc",
+            "NAME": "desc"
+        },
+        "select": ["ID", "NAME", "DESCRIPTION", "CREATED_BY", "MODIFIED_BY", "COLOR"],
+        "start": 0
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+        "filter": {
+            "GROUP_ID": 143,
+            ">=ID": 1,
+            "<=ID": 50,
+            "NAME": "%эпик%",
+            "!=DESCRIPTION": "old epic",
+            "CREATED_BY": 1,
+            "MODIFIED_BY": 3,
+            "COLOR": "#69dafc"
+        },
+        "order": {
+            "ID": "asc",
+            "NAME": "desc"
+        },
+        "select": ["ID", "NAME", "DESCRIPTION", "CREATED_BY", "MODIFIED_BY", "COLOR"],
+        "start": 0,
+        "auth": "YOUR_ACCESS_TOKEN"
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.list
+    ```
+
 - JS
+
     ```js
     const groupId = 143;
     BX24.callMethod(
@@ -108,55 +156,8 @@
     );
     ```
 
-- cURL (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-        "filter": {
-            "GROUP_ID": 143,
-            ">=ID": 1,
-            "<=ID": 50,
-            "NAME": "%эпик%",
-            "!=DESCRIPTION": "old epic",
-            "CREATED_BY": 1,
-            "MODIFIED_BY": 3,
-            "COLOR": "#69dafc"
-        },
-        "order": {
-            "ID": "asc",
-            "NAME": "desc"
-        },
-        "select": ["ID", "NAME", "DESCRIPTION", "CREATED_BY", "MODIFIED_BY", "COLOR"],
-        "start": 0,
-        "auth": "YOUR_ACCESS_TOKEN"
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.list
-    ```
-
-- cURL (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-        "filter": {
-            "GROUP_ID": 143,
-            ">=ID": 1,
-            "<=ID": 50,
-            "NAME": "%эпик%",
-            "!=DESCRIPTION": "old epic",
-        },
-        "order": {
-            "ID": "asc",
-            "NAME": "desc"
-        },
-        "select": ["ID", "NAME", "DESCRIPTION", "CREATED_BY", "MODIFIED_BY", "COLOR"],
-        "start": 0
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.list
-    ```
-
 - PHP
+
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
 
@@ -186,27 +187,13 @@
     // Обработка ответа от Битрикс24
     if ($result['error']) {
         echo 'Error: '.$result['error_description'];
-    } else {
+    }
+    else {
         print_r($result['result']);
     }
     ```
 
 {% endlist %}
-
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
-
-## Доступные поля
-
-#|
-|| **Поле** | **Тип** | **Описание** ||
-|| **ID** | Идентификатор эпика ||
-|| **GROUP_ID** | Идентификатор Скрама ||
-|| **NAME** | Имя ||
-|| **DESCRIPTION** | Описание ||
-|| **CREATED_BY** | Кем создан ||
-|| **MODIFIED_BY** | Кем изменён ||
-|| **COLOR** | Цвет ||
-|#
 
 ## Обработка ответа
 
@@ -256,18 +243,19 @@ HTTP-статус: **200**
 [`string`](../../../data-types.md) | Цвет эпика в формате HEX ||
 
 |#
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
-  "error": 0,
-  "error_description": "Could not load list"
+    "error": 0,
+    "error_description": "Could not load list"
 }
 ```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -275,3 +263,14 @@ HTTP-статус: **200**
 || **Код** | **Описание**  | **Значение** ||
 || `0` | Could not load list| Не найдено ни одного эпика с указанными фильтрами ||
 |#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./tasks-api-scrum-epic-add.md)
+- [{#T}](./tasks-api-scrum-epic-update.md)
+- [{#T}](./tasks-api-scrum-epic-get.md)
+- [{#T}](./tasks-api-scrum-epic-delete.md)
+- [{#T}](./tasks-api-scrum-epic-get-fields.md)

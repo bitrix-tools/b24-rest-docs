@@ -1,50 +1,118 @@
-# Изменить эпик в Скраме tasks.api.scrum.epic.update
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
+# Обновить эпик в Скраме tasks.api.scrum.epic.update
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь, имеющий доступ к Скраму
 
-Метод `tasks.api.scrum.epic.update` изменяет эпик в Скраме.
+Метод обновляет эпик в Скраме.
 
-Все поля эпика доступны для обновления. Необновляемые поля можно не передавать.
+## Параметры метода
 
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **id^*^**
-[`integer`](../../../data-types.md) | Идентификатор эпика. ||
-|| **fields^*^**
-[`array`](../../../data-types.md) | Поля, соответствующие доступному списку полей [tasks.api.scrum.epic.getFields](./tasks-api-scrum-epic-get-fields.md), кроме createdBy и modifiedBy.
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор эпика.
 
-В поле `files` можно передать массив значений с идентификаторами файлов, указав префикс `n` для каждого идентификатора.
+Получить идентификаторы эпиков можно методом [`tasks.api.scrum.epic.list`](./tasks-api-scrum-epic-list.md) ||
+|| **fields***
+[`array`](../../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления нового эпика в виде структуры:
 
-Если в `files` передать пустой массив, файлы удалятся. ||
+```js
+fields: {
+    name: 'значение',
+    groupId: 'значение',
+    description: 'значение',
+    color: 'значение',
+    files: [
+        'файл1',
+        'файл2',
+        ...
+    ]
+
+}
+```
+||
 |#
 
-## Пример
+### Параметр fields
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name***
+[`string`](../../../data-types.md) | Название эпика ||
+|| **description**
+[`string`](../../../data-types.md) | Описание эпика ||
+|| **groupId***
+[`integer`](../../../data-types.md) | Идентификатор группы (скрама), к которой относится эпик ||
+|| **color**
+[`string`](../../../data-types.md) | Цвет эпика ||
+|| **files**
+[`array`](../../../data-types.md) | Массив файлов, привязанных к эпику.
+
+В `files` можно передать массив значений с идентификаторами файлов, указав префикс `n` для каждого идентификатора.
+
+{% note warning "Внимание" %}
+
+Если передать пустой массив — файлы удалятся
+
+{% endnote %}
+
+||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "fields": {
+        "id": 1,
+        "fields": {
+            "name": "Updated epic name",
+            "description": "Updated description text",
+            "color": "#bbecf1",
+            "files": ["n429", "n243"]
+        }
+    },
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "fields": {
+        "id": 1,
+        "fields": {
+            "name": "Updated epic name",
+            "description": "Updated description text",
+            "color": "#bbecf1",
+            "files": ["n429", "n243"]
+        }
+    },
+    auth=YOUR_ACCESS_TOKEN
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.update
+    ```
 
 - JS
+
     ```js
     const epicId = 1;
     const name = 'Updated epic name';
@@ -69,44 +137,8 @@
     );
     ```
 
-- cUrl (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "fields": {
-        "id": 1,
-        "fields": {
-            "name": "Updated epic name",
-            "description": "Updated description text",
-            "color": "#bbecf1",
-            "files": ["n429", "n243"]
-        }
-    },
-    auth=YOUR_ACCESS_TOKEN
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.update
-    ```
-
-- cUrl (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "fields": {
-        "id": 1,
-        "fields": {
-            "name": "Updated epic name",
-            "description": "Updated description text",
-            "color": "#bbecf1",
-            "files": ["n429", "n243"]
-        }
-    },
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.update
-    ```
-
 - PHP
+
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
     $epicId = 1;
@@ -131,13 +163,15 @@
 
     // Обработка ответа от Битрикс24
     if ($result['error']) {
-    echo 'Error: '.$result['error_description'];
-    } else {
-    print_r($result['result']);
+        echo 'Error: '.$result['error_description'];
+    }
+    else {
+        print_r($result['result']);
     }
     ```
 
 {% endlist %}
+
 ## Обработка ответа
 
 HTTP-Статус: **200**
@@ -173,20 +207,20 @@ HTTP-Статус: **200**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменял эпик ||
 || **color**
 [`string`](../../../data-types.md) | Цвет эпика ||
-
 |#
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
-  "error": 0,
-  "error_description": "Epic not found"
+    "error": 0,
+    "error_description": "Epic not updated"
 }
 ```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -195,10 +229,19 @@ HTTP-статус: **200**
 || `0` | Access denied | Нет доступа для просмотра данных эпика ||
 || `0` | Epic not found | Такого эпика не существует ||
 || `0` | Epic not updated | Не удалось обновить эпик ||
-|| `0` | createdBy user not found | Пользователь в поле "создатель" не найден ||
-|| `0` | modifiedBy user not found | Пользователь в поле "последний изменивший" не найден ||
+|| `0` | createdBy user not found | Пользователь в поле «создатель» не найден ||
+|| `0` | modifiedBy user not found | Пользователь в поле «последний изменивший» не найден ||
 || `100` | Could not find value for parameter {id} | Неверно указано имя параметра или не задан параметр ||
 || `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | Неверный тип параметра ||
 |#
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./tasks-api-scrum-epic-add.md)
+- [{#T}](./tasks-api-scrum-epic-get.md)
+- [{#T}](./tasks-api-scrum-epic-list.md)
+- [{#T}](./tasks-api-scrum-epic-delete.md)
+- [{#T}](./tasks-api-scrum-epic-get-fields.md)
