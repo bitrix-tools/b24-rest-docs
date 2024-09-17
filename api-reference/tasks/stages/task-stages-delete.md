@@ -1,50 +1,58 @@
 # Удалить стадию Канбана / Моего плана task.stages.delete
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод:
+> - любой пользователь для стадий Моего плана
+> - любой пользователь с доступом к группе для стадий Канбана
 
-Метод `task.stages.delete` удаляет стадию Канбана / Моего плана. Принимает на вход `id` стадии.
+Метод удаляет стадию Канбана / Моего плана. 
 
-Стадия проверяется на достаточный уровень прав, а также на то, что в ней нет задач.
+Принимает на вход `id` стадии. Стадия проверяется на достаточный уровень прав, а также на то, что в ней нет задач.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **id^*^**
-[`integer`](../../data-types.md) | Идентификатор стадии, которую необходимо удалить. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор стадии, которую необходимо удалить ||
 || **isAdmin**
-[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет, при условии, что запрашивающий является администратором портала. ||
+[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет, при условии, что запрашивающий является администратором портала ||
 |#
 
-Возвращает `true` в случае успешного удаления стадии.
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "id": 5
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.delete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "id": 5
+    }' \
+    https://your-domain.bitrix24.com/rest/task.stages.delete
+    ```
 - JS
+
     ```js
     const stageId = 5;
     BX24.callMethod(
@@ -59,28 +67,8 @@
     );
     ```
 
-- cURL (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "id": 5
-    }' \
-    https://your-domain.bitrix24.com/rest/task.stages.delete
-    ```
-
-- cURL (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "id": 5
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.delete
-    ```
-
 - PHP
+
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
 
@@ -110,18 +98,32 @@ HTTP-Статус: **200**
 
 ```json
 {
-"result": true
+    "result": true
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result** 
+[`boolean`](../../data-types.md) | Возвращает `true` в случае успешного удаления стадии
+||
+|#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
 ```json
 {
-"error": "CANT_DELETE_FIRST",
-"error_description": "Нельзя удалить первую стадию. Передвиньте стадию, чтобы удалить"
+    "error": "CANT_DELETE_FIRST",
+    "error_description": "Нельзя удалить первую стадию. Передвиньте стадию, чтобы удалить"
 }
 ```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -132,3 +134,14 @@ HTTP-Статус: **200**
 || `IS_SYSTEM` | Стадия, установленная по умолчанию, не может быть удалена ||
 || `NOT_FOUND` | Стадия не найдена ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./task-stages-add.md)
+- [{#T}](./task-stages-update.md)
+- [{#T}](./task-stages-get.md)
+- [{#T}](./task-stages-can-move-task.md)
+- [{#T}](./task-stages-move-task.md)

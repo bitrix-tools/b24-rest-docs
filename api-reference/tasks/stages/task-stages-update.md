@@ -1,52 +1,85 @@
-# Изменить стадию Канбана / Моего плана task.stages.update
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Обновить стадию Канбана / Моего плана task.stages.update
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод:
+> - любой пользователь для стадий Моего плана
+> - любой пользователь с доступом к группе для стадий Канбана
 
-Метод `task.stages.update` обновляет стадии Канбана / Моего плана. Принимает на вход `id` стадии и массив `fields`.
-
-## Параметры
-
-#|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **id^*^**
-[`integer`](../../data-types.md) | Идентификатор стадии. ||
-|| **fields^*^**
-[`array`](../../data-types.md) | Массив для обновления, аналогичный массиву, используемому в [task.stages.add](./task-stages-add.md), за исключением поля `ENTITY_ID` — его менять нельзя. Выполняется проверка прав доступа аналогично `task.stages.add`. ||
-|| **isAdmin**
-[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет. При условии, что запрашивающий является администратором портала. ||
-|#
+Метод обновляет стадии Канбана / Моего плана.
 
 Метод также применяется для перемещения стадии с одной позиции на другую — для этого достаточно передать нужный `AFTER_ID`.
 
-Возвращает `true` в случае успеха.
+## Параметры метода
 
-## Примеры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор стадии ||
+|| **fields***
+[`array`](../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для обновления стадии Канбана / Моего плана ||
+|| **isAdmin**
+[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет. При условии, что запрашивающий является администратором портала ||
+|#
+
+### Параметр fields
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **TITLE** [`string`](../../data-types.md) | Заголовок стадии ||
+|| **COLOR** [`string`](../../data-types.md) | Цвет стадии в формате RGB ||
+|| **AFTER_ID** [`integer`](../../data-types.md) | Идентификатор стадии, после которой надо добавить новую стадию.
+
+Если не указано или равно `0`, то добавится в начало ||
+|#
+
+При обновлении стадии группы при недостаточном уровне прав выводится ошибка доступа.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "id": 5,
+    "fields": {
+        "TITLE": "Новая стадия",
+        "SORT": 200,
+        "COLOR": "FF5733"
+    }
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "id": 5,
+    "fields": {
+        "TITLE": "Новая стадия",
+        "SORT": 200,
+        "COLOR": "FF5733"
+    }
+    }' \
+    https://your-domain.bitrix24.com/rest/task.stages.update
+    ```
+
 - JS
+
     ```js
     const stageId = 5;
     const fields = {
@@ -67,38 +100,8 @@
     );
     ```
 
-- cURL (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "id": 5,
-    "fields": {
-        "TITLE": "Новая стадия",
-        "SORT": 200,
-        "COLOR": "FF5733"
-    }
-    }' \
-    https://your-domain.bitrix24.com/rest/task.stages.update
-    ```
-
-- cURL (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "id": 5,
-    "fields": {
-        "TITLE": "Новая стадия",
-        "SORT": 200,
-        "COLOR": "FF5733"
-    }
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.update
-    ```
-
 - PHP
+
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
 
@@ -134,20 +137,32 @@ HTTP-Статус: 200
 
 ```json
 {
-"result": true
+    "result": true
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result** 
+[`boolean`](../../data-types.md) | Возвращает `true` в случае успешного обновления стадии
+||
+|#
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
-"error": "ACCESS_DENIED",
-"error_description": "Вы не можете изменять стадии в этой группе"
+    "error": "ACCESS_DENIED",
+    "error_description": "Вы не можете изменять стадии в этой группе"
 }
 ```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -156,3 +171,14 @@ HTTP-статус: **200**
 || `ACCESS_DENIED` | Вы не можете изменять стадии в этой группе ||
 || `NOT_FOUND` | Стадия не найдена ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./task-stages-add.md)
+- [{#T}](./task-stages-get.md)
+- [{#T}](./task-stages-can-move-task.md)
+- [{#T}](./task-stages-move-task.md)
+- [{#T}](./task-stages-delete.md)

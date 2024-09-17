@@ -75,5 +75,5 @@ items:
       mode: link
   - name: Получить историю движения по стадиям
     href: crm-stage-history-list.md
-  - name: Поля основных сущностей CRM
+  - name: Поля основных объектов CRM
     href: main-entities-fields.md
