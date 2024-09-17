@@ -1,46 +1,63 @@
 # Проверить возможность перемещения задачи task.stages.canmovetask
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод:
+> - любой пользователь для стадий Моего плана
+> - любой пользователь с доступом к группе для стадий Канбана
 
-Метод `task.stages.canmovetask` определяет, может ли текущий пользователь перемещать задачи в указанной сущности.
+Метод проверяет, может ли текущий пользователь перемещать задачи в указанной сущности.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **entityId^*^**
-[`integer`](../../data-types.md) | ID сущности. ||
-|| **entityType^*^**
-[`string`](../../data-types.md) | Тип сущности (`U` — пользователь или `G` — группа). В случае `U` (Мой план), `true` вернется только в одном случае - если в `entityId` передается идентификатор текущего пользователя. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **entityId***
+[`integer`](../../data-types.md) | `ID` сущности ||
+|| **entityType***
+[`string`](../../data-types.md) | Тип сущности: 
+- `U` — пользователь
+- `G` — группа
+
+В случае `U` (Мой план) — значение `true` вернется только если в `entityId` передается идентификатор текущего пользователя ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "entityId": 1,
+    "entityType": "U"
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.canmovetask
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "entityId": 1,
+    "entityType": "U"
+    }' \
+    https://your-domain.bitrix24.com/rest/task.stages.canmovetask
+    ```
+
 - JS
+
     ```js
     const entityId = 1;
     const entityType = 'U';
@@ -57,30 +74,8 @@
     );
     ```
 
-- cURL (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "entityId": 1,
-    "entityType": "U"
-    }' \
-    https://your-domain.bitrix24.com/rest/task.stages.canmovetask
-    ```
-
-- cURL (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "entityId": 1,
-    "entityType": "U"
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.canmovetask
-    ```
-
 - PHP
+
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
 
@@ -112,10 +107,31 @@ HTTP-Статус: **200**
 
 ```json
 {
-"result": true
+    "result": true
 }
 ```
 
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result** 
+[`boolean`](../../data-types.md) | Возвращает значение `true`, если текущий пользователь может переместить задачу.
+
+Иначе — `false`
+||
+|#
+
 ## Обработка ошибок
 
-Метод не возвращает ошибок.
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./task-stages-add.md)
+- [{#T}](./task-stages-update.md)
+- [{#T}](./task-stages-get.md)
+- [{#T}](./task-stages-move-task.md)
+- [{#T}](./task-stages-delete.md)

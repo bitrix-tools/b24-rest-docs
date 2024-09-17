@@ -1,17 +1,17 @@
-title: Мой план
+title: Мой план и стадии Канбана
 href: index.md
 items:
   - name: Обзор методов
     href: index.md
   - name: Добавить стадию Канбана / Моего плана
     href: task-stages-add.md
+  - name: Обновить стадию Канбана / Моего плана
+    href: task-stages-update.md
+  - name: Получить список стадий Канбана / Моего плана
+    href: task-stages-get.md
   - name: Проверить возможность перемещения задачи
     href: task-stages-can-move-task.md
-  - name: Удалить стадию Канбана / Моего плана
-    href: task-stages-delete.md
-  - name: Список стадий Канбана / Моего плана
-    href: task-stages-get.md
   - name: Переместить задачу из одной стадии в другую
     href: task-stages-move-task.md
-  - name: Изменить стадию Канбана / Моего плана
-    href: task-stages-update.md
+  - name: Удалить стадию Канбана / Моего плана
+    href: task-stages-delete.md
