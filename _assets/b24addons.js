@@ -72,9 +72,21 @@ function convertToGitHubProjectLink() {
     return githubBaseUrl + path + '?plain=1';
 }
 
+function setMenuPosition () {
+    const activeItem = document.querySelector('.dc-toc__list-item_active');
+    if (activeItem)
+    {
+        const parentContent = activeItem.closest('.dc-toc__content');
+        if (parentContent)
+        {
+            parentContent.scrollTop = activeItem.offsetTop - parentContent.offsetTop;
+        }
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     initB24items();
+    setMenuPosition();
 });
 
 function closePopup() {
@@ -418,16 +430,6 @@ function addB24Buttons () {
 function initB24items() {    
     addB24Buttons();
     addSearchField();
-
-    const activeItem = document.querySelector('.dc-toc__list-item_active');
-    if (activeItem)
-    {
-        const parentContent = activeItem.closest('.dc-toc__content');
-        if (parentContent)
-        {
-            parentContent.scrollTop = activeItem.offsetTop - parentContent.offsetTop;
-        }
-    }
 }
 
 initB24itemsIfReady();
