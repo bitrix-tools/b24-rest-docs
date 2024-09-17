@@ -1,37 +1,42 @@
 # Получить список доступных полей спринта tasks.api.scrum.sprint.getFields
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
 Метод `tasks.api.scrum.sprint.getFields` возвращает доступные поля спринта.
 
-## Параметры
-
 Без параметров.
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
 {% list tabs %}
 
+- cUrl (Webhook)
+  
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.getFields
+    ```
+
+- cURL (oAuth)
+  
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    auth=YOUR_ACCESS_TOKEN
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.getFields
+    ```
+
 - JS
+  
     ```js
     BX24.callMethod(
         'tasks.api.scrum.sprint.getFields',
@@ -43,26 +48,8 @@
     );
     ```
 
-- cURL (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    auth=YOUR_ACCESS_TOKEN
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.getFields
-    ```
-
-- cUrl (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.getFields
-    ```
-
 - PHP
+  
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
 
@@ -79,6 +66,7 @@
     print_r($result['result']);
     }
     ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -87,63 +75,82 @@ HTTP-статус: **200**
 
 ```json
 {
-"result":
-{
-    "fields":
+    "result":
     {
-     "groupId":
-     {
-        "type": "integer"
-     },
-     "name":
-     {
-        "type": "string"
-     },
-     "sort":
-     {
-        "type": "integer"
-     },
-     "createdBy":
-     {
-        "type": "integer"
-     },
-     "modifiedBy":
-     {
-        "type": "integer"
-     },
-     "dateStart":
-     {
-        "type": "string"
-     },
-     "dateEnd":
-     {
-        "type": "string"
-     },
-     "status":
-     {
-        "type": "string"
-     }
+        "fields":
+        {
+            "groupId":
+            {
+                "type": "integer"
+            },
+            "name":
+            {
+                "type": "string"
+            },
+            "sort":
+            {
+                "type": "integer"
+            },
+            "createdBy":
+            {
+                "type": "integer"
+            },
+            "modifiedBy":
+            {
+                "type": "integer"
+            },
+            "dateStart":
+            {
+                "type": "string"
+            },
+            "dateEnd":
+            {
+                "type": "string"
+            },
+            "status":
+            {
+                "type": "string"
+            }
+        }
     }
-}
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
-|| **Поле** `тип` | **Описание** ||
-|| **groupId** `integer` | Идентификатор группы (скрама), к которой относится спринт ||
-|| **name** `string` | Название спринта ||
-|| **sort** `integer` | Сортировка ||
-|| **createdBy** `integer` | Кем создан спринт ||
-|| **modifiedBy** `integer` | Кем изменен спринт ||
-|| **dateStart** `string` | Дата начала спринта ||
-|| **dateEnd** `string` | Дата окончания спринта ||
-|| **status** `string` | Статус спринта ||
+|| **Название**
+`тип` | **Описание** ||
+|| **groupId** 
+[`integer`](../../../data-types.md) | Идентификатор группы (Скрама), к которой относится спринт ||
+|| **name** 
+[`string`](../../../data-types.md) | Название спринта ||
+|| **sort** 
+[`integer`](../../../data-types.md) | Сортировка ||
+|| **createdBy** 
+[`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего спринт ||
+|| **modifiedBy** 
+[`integer`](../../../data-types.md) | Идентификатор пользователя, изменившего спринт ||
+|| **dateStart** 
+[`string`](../../../data-types.md) | Дата начала спринта в формате `ISO 8601` ||
+|| **dateEnd** 
+[`string`](../../../data-types.md) | Дата окончания спринта в формате `ISO 8601` ||
+|| **status** 
+[`string`](../../../data-types.md) | Статус спринта ||
 |#
 
 ## Обработка ошибок
 
 Метод не возвращает ошибок.
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./tasks-api-scrum-sprint-add.md)
+- [{#T}](./tasks-api-scrum-sprint-update.md)
+- [{#T}](./tasks-api-scrum-sprint-start.md)
+- [{#T}](./tasks-api-scrum-sprint-complete.md)
+- [{#T}](./tasks-api-scrum-sprint-get.md)
+- [{#T}](./tasks-api-scrum-sprint-list.md)
+- [{#T}](./tasks-api-scrum-sprint-delete.md)

@@ -1,61 +1,85 @@
 # Изменить спринт tasks.api.scrum.sprint.update
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь, имеющий доступ к Скраму
 
 Метод `tasks.api.scrum.sprint.update` изменяет спринт.
 
-Все поля спринта доступны для обновления. Необновляемые поля можно не передавать.
+## Параметры метода
 
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **id^*^**
-[`integer`](../../../data-types.md) | Идентификатор спринта. ||
-|| **fields^*^**
-[`object`](../../../data-types.md) | Объект с данными спринта. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор спринта ||
+|| **fields***
+[`object`](../../../data-types.md) | Объект с данными спринта ||
 |#
 
 ### Параметр fields
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **groupId** `integer` | Идентификатор группы (скрама), к которой относится спринт. Можно получить, вызвав метод [tasks.api.scrum.sprint.get](./tasks-api-scrum-sprint-get.md) для уже существующего спринта||
-|| **name** `string` | Название спринта ||
-|| **sort** `integer` | Сортировка ||
-|| **dateStart** `string` | Дата начала спринта. Доступные форматы: 'ISO 8601', timestamp ||
-|| **dateEnd** `string` | Дата окончания спринта. Доступные форматы: 'ISO 8601', timestamp ||
-|| **status** `string` | Статус спринта. Доступные значения: 'active', 'planned', 'completed'||
+|| **Название**
+`тип` | **Описание** ||
+|| **groupId** 
+[`integer`](../../../data-types.md) | Идентификатор группы (Скрама), к которой относится спринт. 
+
+Идентификатор можно получить методом [tasks.api.scrum.sprint.get](./tasks-api-scrum-sprint-get.md) для уже существующего спринта ||
+|| **name** 
+[`string`](../../../data-types.md) | Название спринта ||
+|| **sort** 
+[`integer`](../../../data-types.md) | Сортировка ||
+|| **dateStart** 
+[`string`](../../../data-types.md) | Дата начала спринта. Доступные форматы: `ISO 8601`, `timestamp` ||
+|| **dateEnd** 
+[`string`](../../../data-types.md) | Дата окончания спринта. Доступные форматы: `ISO 8601`, `timestamp` ||
+|| **status** 
+[`string`](../../../data-types.md) | Статус спринта. Доступные значения: `active`, `planned`, `completed` ||
 |#
 
+## Примеры кода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
-
-## Примеры
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "id": 2,
+    "fields": {
+        "name": "Sprint 2",
+        "groupId": 1,
+        "dateStart": "2021-11-22T00:00:00+02:00",
+        "dateEnd": "2021-11-29T00:00:00+02:00"
+    }
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.update
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "id": 2,
+    "fields": {
+        "name": "Sprint 2",
+        "groupId": 1,
+        "dateStart": "2021-11-22T00:00:00+02:00",
+        "dateEnd": "2021-11-29T00:00:00+02:00"
+    }
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.update
+    ```
 
 - JS
 
@@ -81,41 +105,6 @@
             console.log(res);
         }
     );
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "id": 2,
-    "fields": {
-        "name": "Sprint 2",
-        "groupId": 1,
-        "dateStart": "2021-11-22T00:00:00+02:00",
-        "dateEnd": "2021-11-29T00:00:00+02:00"
-    }
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.update
-    ```
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "id": 2,
-    "fields": {
-        "name": "Sprint 2",
-        "groupId": 1,
-        "dateStart": "2021-11-22T00:00:00+02:00",
-        "dateEnd": "2021-11-29T00:00:00+02:00"
-    }
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.update
     ```
 
 - PHP
@@ -149,69 +138,95 @@
 
 ## Обработка ответа
 
-HTTP-Статус: **200**
-
-```json
-{
-"result":
-{
-    "id": 2,
-    "groupId": 1,
-    "entityType": "sprint",
-    "name": "Sprint 2",
-    "goal": "",
-    "sort": 1,
-    "createdBy": 1,
-    "modifiedBy": 1,
-    "dateStart": "2021-11-22T00:00:00+02:00",
-    "dateEnd": "2021-11-29T00:00:00+02:00",
-    "status": "planned"
-}
-}
-```
-
-## Возвращаемые данные
-
-#|
-|| **Поле** `тип` | **Описание** ||
-|| **result** `object` | Объект, содержащий данные о спринте ||
-|| **id** `integer` | Идентификатор спринта ||
-|| **groupId** `integer` | Идентификатор группы (скрама), к которой относится спринт ||
-|| **entityType** `string` | Тип сущности (в данном случае, "sprint") ||
-|| **name** `string` | Название спринта ||
-|| **goal** `string` | Цель спринта (устанавливается только в интерфейсе при запуске спринта) ||
-|| **sort** `integer` | Сортировка ||
-|| **createdBy** `integer` | Идентификатор пользователя, создавшего спринт ||
-|| **modifiedBy** `integer` | Идентификатор пользователя, изменившего спринт ||
-|| **dateStart** `string` | Дата начала спринта в формате ISO 8601 ||
-|| **dateEnd** `string` | Дата окончания спринта в формате ISO 8601 ||
-|| **status** `string` | Статус спринта ||
-|#
-
-## Обработка ошибок
-
 HTTP-статус: **200**
 
 ```json
 {
-"error": 0,
-"error_description": "Sprint not found"
+    "result":
+    {
+        "id": 2,
+        "groupId": 1,
+        "entityType": "sprint",
+        "name": "Sprint 2",
+        "goal": "",
+        "sort": 1,
+        "createdBy": 1,
+        "modifiedBy": 1,
+        "dateStart": "2021-11-22T00:00:00+02:00",
+        "dateEnd": "2021-11-29T00:00:00+02:00",
+        "status": "planned"
+    }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result** 
+[`object`](../../../data-types.md) | Объект, содержащий данные о спринте ||
+|| **id** 
+[`integer`](../../../data-types.md) | Идентификатор спринта ||
+|| **groupId** 
+[`integer`](../../../data-types.md) | Идентификатор группы (Скрама), к которой относится спринт ||
+|| **entityType** 
+[`string`](../../../data-types.md) | Тип сущности (в данном случае `sprint`) ||
+|| **name** 
+[`string`](../../../data-types.md) | Название спринта ||
+|| **goal** 
+[`string`](../../../data-types.md) | Цель спринта. Устанавливается только в интерфейсе при запуске спринта ||
+|| **sort** 
+[`integer`](../../../data-types.md) | Сортировка ||
+|| **createdBy** 
+[`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего спринт ||
+|| **modifiedBy** 
+[`integer`](../../../data-types.md) | Идентификатор пользователя, изменившего спринт ||
+|| **dateStart** 
+[`string`](../../../data-types.md) | Дата начала спринта в формате `ISO 8601` ||
+|| **dateEnd** 
+[`string`](../../../data-types.md) | Дата окончания спринта в формате `ISO 8601` ||
+|| **status** 
+[`string`](../../../data-types.md) | Статус спринта ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": 0,
+    "error_description": "Sprint not found"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access denied | Нет доступа к скраму ||
-|| `0` | Sprint not created | Не удалось создать спринт ||
-|| `0` | Incorrect dateStart format | Неверный формат времени начала спринта ||
-|| `0` | Incorrect dateEnd format | Неверный формат времени окончания спринта ||
-|| `0` | createdBy user not found | Пользователь в поле "создатель" не найден ||
-|| `0` | modifiedBy user not found | Пользователь в поле "последний изменивший" не найден ||
-|| `0` | Unable to add two active sprint | В группе не может быть двух спринтов со статусом "активен" ||
-|| `0` | Incorrect sprint status | Статус не состоит в списке доступных для установки статусов спринта ||
-|| `100` | Could not find value for parameter {fields} | Неверно указано имя параметра или не задан параметр ||
-|| `100` | Invalid value {stringValue} to match with parameter {fields}. Should be value of type array. | Неверный тип параметра ||
+|| **Код** | **Cообщение об ошибке** | **Описание** ||
+|| `0` | `Access denied` | Нет доступа к Скраму ||
+|| `0` | `Sprint not created` | Не удалось создать спринт ||
+|| `0` | `Incorrect dateStart format` | Неверный формат времени начала спринта ||
+|| `0` | `Incorrect dateEnd format` | Неверный формат времени окончания спринта ||
+|| `0` | `createdBy user not found` | Пользователь в поле «создатель» не найден ||
+|| `0` | `modifiedBy user not found` | Пользователь в поле «последний изменивший» не найден ||
+|| `0` | `Unable to add two active sprint` | В группе не может быть двух спринтов со статусом «активен» ||
+|| `0` | `Incorrect sprint status` | Статус не состоит в списке доступных для установки статусов спринта ||
+|| `100` | `Could not find value for parameter {fields}` | Неверно указано имя параметра или не задан параметр ||
+|| `100` | `Invalid value {stringValue} to match with parameter {fields}. Should be value of type array` | Неверный тип параметра ||
 |#
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./tasks-api-scrum-sprint-add.md)
+- [{#T}](./tasks-api-scrum-sprint-start.md)
+- [{#T}](./tasks-api-scrum-sprint-complete.md)
+- [{#T}](./tasks-api-scrum-sprint-get.md)
+- [{#T}](./tasks-api-scrum-sprint-list.md)
+- [{#T}](./tasks-api-scrum-sprint-delete.md)
+- [{#T}](./tasks-api-scrum-sprint-get-fields.md)
