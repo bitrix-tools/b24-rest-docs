@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 17 сентября, 2024
+
+- Добавлена документация по [Потокам](./api-reference/tasks/flow/index.md)
+
 ### 29 августа, 2024
 
 - Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./api-reference/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./api-reference/how-to-call-rest-api/batch.md)

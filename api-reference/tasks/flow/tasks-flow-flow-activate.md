@@ -1,11 +1,5 @@
 # Активировать/деактивировать поток tasks.flow.flow.activate
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: создатель или администратор потока
@@ -14,16 +8,48 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
 #|
-|| **Название** `тип` | **Описание** ||
-|| **flowId^*^** [`integer`](../../data-types.md) | Идентификатор потока, который нужно включить или выключить. Получить flowId можно при помощи метода [tasks.task.get](../tasks-task-get.md) для задачи, уже добавленной в поток, либо создать новый поток при помощи метода [tasks.flow.flow.create](./tasks-flow-flow-create.md) ||
+|| **Название**
+`тип` | **Описание** ||
+|| **flowId*** 
+[`integer`](../../data-types.md) | Идентификатор потока, который нужно включить или выключить. 
+
+Получить идентификатор можно при помощи метода [tasks.task.get](../tasks-task-get.md) для задачи, уже добавленной в поток, либо создать новый поток при помощи метода [tasks.flow.flow.create](./tasks-flow-flow-create.md) ||
 |#
 
 ## Примеры кода
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 {% list tabs %}
 
+- cURL (Webhook)
+  
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+        "flowId": 517
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.activate
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -d '{
+        "flowId": 517
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.flow.flow.activate
+    ```
+
 - JS
+
     ```js
     BX24.callMethod(
         'tasks.flow.flow.activate',
@@ -40,28 +66,8 @@
     );
     ```
 
-- cURL (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-    -d '{
-        "flowId": 517
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.activate
-    ```
-
-- cURL (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-        "flowId": 517
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.activate
-    ```
-
 - PHP
+
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
 
@@ -91,20 +97,22 @@ HTTP-статус: **200**
 
 ```json
 {
-"result": true
+    "result": true
 }
 ```
 
 ### Возвращаемые данные
 
 #|
-|| **Название** `тип` | **Описание** ||
-|| **result** [`boolean`](../../data-types.md) | Успешность операции ||
+|| **Название**
+`тип` | **Описание** ||
+|| **result** 
+[`boolean`](../../data-types.md) | Успешность операции ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
@@ -113,13 +121,24 @@ HTTP-статус: **200**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Дополнительная информация** ||
-|| `0` | Доступ запрещён или поток не найден | Возможно, тариф портала не позволяет работать с потоками, или у пользователя нет прав на выполнение операции ||
-|| `0` | Flow not found | Поток с указанным идентификатором не найден ||
-|| `0` | Unknown error | Неизвестная ошибка ||
+|| `0` | Доступ запрещен или поток не найден | Возможно, тариф портала не позволяет работать с потоками или у пользователя нет прав на выполнение операции ||
+|| `0` | `Flow not found` | Поток с указанным идентификатором не найден ||
+|| `0` | `Unknown error` | Неизвестная ошибка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./tasks-flow-flow-create.md)
+- [{#T}](./tasks-flow-flow-get.md)
+- [{#T}](./tasks-flow-flow-update.md)
+- [{#T}](./tasks-flow-flow-delete.md)
+- [{#T}](./tasks-flow-flow-is-exists.md)
+

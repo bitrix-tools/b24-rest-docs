@@ -91,6 +91,10 @@ items:
     include:
       path: planner/toc.yaml
       mode: link
+  - name: Потоки
+    include:
+      path: flow/b24-toc.yaml
+      mode: link
   - name: Устаревшее
     include:
       path: deprecated/b24-toc.yaml
