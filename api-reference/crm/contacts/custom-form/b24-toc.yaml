@@ -5,9 +5,9 @@ items:
     href: index.md
   - name: Получить параметры карточки
     href: crm-contact-details-configuration-get.md
-  - name: Сбросить параметры карточки
-    href: crm-contact-details-configuration-reset.md
   - name: Установить параметры индивидуальной карточки
     href: crm-contact-details-configuration-set.md
   - name: Установить общую карточку для всех пользователей
     href: crm-contact-details-configuration-force-common-scope-for-all.md
+  - name: Сбросить параметры карточки
+    href: crm-contact-details-configuration-reset.md
