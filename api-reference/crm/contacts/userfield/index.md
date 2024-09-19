@@ -1,32 +1,14 @@
-# Пользовательские поля
+# Обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужно вступление, соответствующее заголовку
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "Права" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-
-## REST методы
-
-- [{#T}](crm-contact-userfield-add.md)
-- [{#T}](crm-contact-userfield-update.md)
-- [{#T}](crm-contact-userfield-get.md)
-- [{#T}](crm-contact-userfield-list.md)
-- [{#T}](crm-contact-userfield-delete.md)
+#|
+|| **Метод** | **Описание** ||
+|| [crm.contact.userfield.add](./crm-contact-userfield-add.md) | Создает новое пользовательское поле для контактов ||
+|| [crm.contact.userfield.update](./crm-contact-userfield-update.md) | Обновляет существующее пользовательское поле контактов ||
+|| [crm.contact.userfield.get](./crm-contact-userfield-get.md) | Возвращает пользовательское поле контактов по идентификатору ||
+|| [crm.contact.userfield.list](./crm-contact-userfield-list.md) | Возвращает список пользовательских полей контактов по фильтру ||
+|| [crm.contact.userfield.delete](./crm-contact-userfield-delete.md) | Удаляет пользовательское поле контактов ||
+|#

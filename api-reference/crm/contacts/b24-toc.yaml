@@ -21,7 +21,7 @@ items:
       mode: link
   - name: Пользовательские поля
     include:
-      path: userfield/toc.yaml
+      path: userfield/b24-toc.yaml
       mode: link
   - name: События
     include:

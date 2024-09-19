@@ -5,6 +5,7 @@
 ### 19 сентября, 2024
 
 - Обновлена документация по работе с контактами [crm.contact.*](./api-reference/crm/contacts/index.md)
+- Обновлена документация по работе с пользовательскими полями контактов [crm.contact.userfield.*](./api-reference/crm/contacts/userfield/index.md)
 
 ### 17 сентября, 2024
 
