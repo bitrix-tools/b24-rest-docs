@@ -1,19 +1,12 @@
 # Установить параметры индивидуальной карточки crm.contact.details.configuration.set
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
 > 
-> Кто может выполнять метод: проверка прав при выполнении метода зависит от переданных данных:
->   - Любой пользователь имеет право установить свои личные настройки
->   - Пользователь имеет право устанавливать общие и чужие настройки только если он является администратором
+> Кто может выполнять метод:
+>  - Любой пользователь имеет право получать свои и общие настройки
+>  - Только администратор имеет право получать чужие настройки
 
-Метод `crm.contact.details.configuration.set` устанавливает настройки карточки контактов. Метод записывает личные настройки карточки указанного пользователя или общие настройки для всех пользователей.
-
+Метод устанавливает настройки карточки контактов: записывает личные настройки карточки указанного пользователя или общие настройки для всех пользователей.
 
 ## Параметры метода
 
@@ -26,15 +19,20 @@
 [`string`](../../../data-types.md) | Область применения настроек. 
 
 Возможные значения:
-- **P** - личные настройки,
-- **C** - общие настройки
+- **P** — личные настройки
+- **C** — общие настройки
 
-По умолчанию - `P`
+По умолчанию — `P`
 ||
 || **userId**
-[`user`](../../../data-types.md) | Идентификатор пользователя. Если не задан, то берётся текущий. Нужен только при установке личных настроек. ||
-|| **data^*^**
-[`section[]`](#section) | Список `section` описывающий конфигурацию разделов полей в карточке элемента. Структура `section` описана [ниже](#section) ||
+[`user`](../../../data-types.md) | Идентификатор пользователя. Нужен только при установке личных настроек.
+
+Если не задан — берется `id` текущего пользователя
+||
+|| **data***
+[`section[]`](#section) | Список `section` описывает конфигурацию разделов полей в карточке элемента.
+
+Структура описана [ниже](#section) ||
 |#
 
 ### section
@@ -46,16 +44,20 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **name^*^**
+|| **name***
 [`string`](../../../data-types.md) | Уникальное название раздела ||
-|| **title^*^**
-[`string`](../../../data-types.md) | Название раздела. Отображается в карточке элемента ||
-|| **type^*^**
+|| **title***
+[`string`](../../../data-types.md) | Название раздела.
+
+Отображается в карточке элемента ||
+|| **type***
 [`string`](../../../data-types.md) | Тип раздела.
 
 На данный момент доступно только значение `'section'` ||
 || **elements**
-[`section_element[]`](#section_element) | Массив `section_element`, описывающий конфигурацию полей в разделе ||
+[`section_element[]`](#section_element) | Массив `section_element` описывает конфигурацию полей в разделе.
+
+Структура описана [ниже](#section_element) ||
 |#
 
 #### section_element
@@ -67,14 +69,16 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **name^*^**
-[`string`](../../../data-types.md) | Идентификатор поля. Список доступных полей можно узнать с помощью [`crm.contact.fields`](../crm-contact-fields.md) ||
+|| **name***
+[`string`](../../../data-types.md) | Идентификатор поля.
+
+Список доступных полей можно узнать с помощью [`crm.contact.fields`](../crm-contact-fields.md) ||
 || **optionFlags**
 [`integer`](../../../data-types.md) | Нужно ли показывать поле всегда:
 - `1` — да
 - `0` — нет
 
-По умолчанию - `0` ||
+По умолчанию — `0` ||
 || **options**
 [`object`](../../../data-types.md) | Дополнительный [список опций](#options) для поля ||
 |#
@@ -92,7 +96,9 @@
 `CLIENT`
 `COMPANY`
 `CONTACT`
-`MYCOMPANY_ID` | Код страны для формата телефонного номера по умолчанию — строка из двух латинских букв. Например `"RU"` ||
+`MYCOMPANY_ID` | Код страны для формата телефонного номера по умолчанию — строка из двух латинских букв.
+
+Например `"RU"` ||
 || **isPayButtonVisible**
 [`boolean`](../../../data-types.md) | `OPPORTUNITY_WITH_CURRENCY` | Показана ли кнопка принятия оплаты.
 
@@ -100,7 +106,7 @@
 - `'true'` — показана
 - `'false'` — скрыта
 
-По умолчанию - `true` ||
+По умолчанию — `true` ||
 || **isPaymentDocumentsVisible**
 [`boolean`](../../../data-types.md) | `OPPORTUNITY_WITH_CURRENCY` | Показан ли блок «Оплата и доставка».
 
@@ -108,7 +114,7 @@
 - `'true'` — показан
 - `'false'` — скрыт
 
-По умолчанию - `true`
+По умолчанию — `true`
 ||
 |#
 
@@ -117,9 +123,9 @@
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Для пользователя с `id = 1` в контактах установить следующую конфигурацию карточки элементов
+Для пользователя с `id = 1` в контактах установить следующую конфигурацию карточки элементов:
 
-- Раздел 1 - **Личные данные**
+- Раздел 1 — **Личные данные**
     - **Имя**
         - Показывать всегда
     - **Фамилия**
@@ -131,12 +137,12 @@
         - Страна по умолчанию: **Великобритания(+44)**
     - **Адрес**
         - Показывать всегда
-        - Тип адреса по умолчанию: **Адрес регистрации** (см. [`crm.enum.addresstype`](../../auxiliary/enum/crm-enum-address-type.md))
-- Раздел 2 - **Основная информация**
+        - Тип адреса по умолчанию: **Адрес регистрации** (смотрите [`crm.enum.addresstype`](../../auxiliary/enum/crm-enum-address-type.md))
+- Раздел 2 — **Основная информация**
     - **Тип контакта**
     - **Источник**
     - **Должность**
-- Раздел 3 - **Дополнительная информация**
+- Раздел 3 — **Дополнительная информация**
     - **Фотография**
     - **Комментарий**
     - **Пользовательское поле #1**
@@ -147,93 +153,169 @@
 - cURL (Webhook)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"userId":1,"data":[{"name":"section_1","title":"Личные данные","type":"section","elements":[{"name":"NAME","optionFlags":1},{"name":"LAST_NAME","optionFlags":1},{"name":"SECOND_NAME"},{"name":"BIRTHDATE"},{"name":"PHONE","optionFlags":1,"options":{"defaultCountry":"GB"}},{"name":"ADDRESS","optionFlags":1,"options":{"defaultAddressType":4}}]},{"name":"section_2","title":"Основная информация","type":"section","elements":[{"name":"TYPE_ID"},{"name":"SOURCE_ID"},{"name":"POST"}]},{"name":"section_3","title":"Дополнительная информация","type":"section","elements":[{"name":"PHOTO"},{"name":"COMMENTS"},{"name":"UF_CRM_1720697698689"}]}]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.details.configuration.set
     ```
 
 - cURL (OAuth)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"userId":1,"data":[{"name":"section_1","title":"Личные данные","type":"section","elements":[{"name":"NAME","optionFlags":1},{"name":"LAST_NAME","optionFlags":1},{"name":"SECOND_NAME"},{"name":"BIRTHDATE"},{"name":"PHONE","optionFlags":1,"options":{"defaultCountry":"GB"}},{"name":"ADDRESS","optionFlags":1,"options":{"defaultAddressType":4}}]},{"name":"section_2","title":"Основная информация","type":"section","elements":[{"name":"TYPE_ID"},{"name":"SOURCE_ID"},{"name":"POST"}]},{"name":"section_3","title":"Дополнительная информация","type":"section","elements":[{"name":"PHOTO"},{"name":"COMMENTS"},{"name":"UF_CRM_1720697698689"}]}],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.contact.details.configuration.set
     ```
 
 - JS
 
-    ```javascript
-        BX24.callMethod(
-            'crm.contact.details.configuration.set',
-            {
-                userId: 1,
-                data: [
-                    {
-                        name: "section_1",
-                        title: "Личные данные",
-                        type: "section",
-                        elements: [
-                            {
-                                name: "NAME",
-                                optionFlags: 1,
+    ```js
+    BX24.callMethod(
+        'crm.contact.details.configuration.set',
+        {
+            userId: 1,
+            data: [
+                {
+                    name: "section_1",
+                    title: "Личные данные",
+                    type: "section",
+                    elements: [
+                        {
+                            name: "NAME",
+                            optionFlags: 1,
+                        },
+                        {
+                            name: "LAST_NAME",
+                            optionFlags: 1,
+                        },
+                        {
+                            name: "SECOND_NAME",
+                        },
+                        {
+                            name: "BIRTHDATE",
+                        },
+                        {
+                            name: "PHONE",
+                            optionFlags: 1,
+                            options: {
+                                defaultCountry: "GB",
                             },
-                            {
-                                name: "LAST_NAME",
-                                optionFlags: 1,
+                        },
+                        {
+                            name: "ADDRESS",
+                            optionFlags: 1,
+                            options: {
+                                defaultAddressType: 4,
                             },
-                            {
-                                name: "SECOND_NAME",
-                            },
-                            {
-                                name: "BIRTHDATE",
-                            },
-                            {
-                                name: "PHONE",
-                                optionFlags: 1,
-                                options: {
-                                    defaultCountry: "GB",
-                                },
-                            },
-                            {
-                                name: "ADDRESS",
-                                optionFlags: 1,
-                                options: {
-                                    defaultAddressType: 4,
-                                },
-                            },
-                        ],
-                    },
-                    {
-                        name: "section_2",
-                        title: "Основная информация",
-                        type: "section",
-                        elements: [
-                            { name: "TYPE_ID" },
-                            { name: "SOURCE_ID" },
-                            { name: "POST" },
-                        ],
-                    },
-                    {
-                        name: "section_3",
-                        title: "Дополнительная информация",
-                        type: "section",
-                        elements: [
-                            { name: "PHOTO" },
-                            { name: "COMMENTS" },
-                            { name: "UF_CRM_1720697698689" },
-                        ],
-                    },
-                ],
-            },
-            (result) => {
-                result.error()
-                    ? console.error(result.error())
-                    : console.info(result.data())
-                ;
-            },
-        );
+                        },
+                    ],
+                },
+                {
+                    name: "section_2",
+                    title: "Основная информация",
+                    type: "section",
+                    elements: [
+                        { name: "TYPE_ID" },
+                        { name: "SOURCE_ID" },
+                        { name: "POST" },
+                    ],
+                },
+                {
+                    name: "section_3",
+                    title: "Дополнительная информация",
+                    type: "section",
+                    elements: [
+                        { name: "PHOTO" },
+                        { name: "COMMENTS" },
+                        { name: "UF_CRM_1720697698689" },
+                    ],
+                },
+            ],
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
     ```
 
 - PHP
 
     ```php
-    todo
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.contact.details.configuration.set',
+        [
+            'userId' => 1,
+            'data' => [
+                [
+                    'name' => 'section_1',
+                    'title' => 'Личные данные',
+                    'type' => 'section',
+                    'elements' => [
+                        [
+                            'name' => 'NAME',
+                            'optionFlags' => 1,
+                        ],
+                        [
+                            'name' => 'LAST_NAME',
+                            'optionFlags' => 1,
+                        ],
+                        [
+                            'name' => 'SECOND_NAME',
+                        ],
+                        [
+                            'name' => 'BIRTHDATE',
+                        ],
+                        [
+                            'name' => 'PHONE',
+                            'optionFlags' => 1,
+                            'options' => [
+                                'defaultCountry' => 'GB',
+                            ],
+                        ],
+                        [
+                            'name' => 'ADDRESS',
+                            'optionFlags' => 1,
+                            'options' => [
+                                'defaultAddressType' => 4,
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'name' => 'section_2',
+                    'title' => 'Основная информация',
+                    'type' => 'section',
+                    'elements' => [
+                        ['name' => 'TYPE_ID'],
+                        ['name' => 'SOURCE_ID'],
+                        ['name' => 'POST'],
+                    ],
+                ],
+                [
+                    'name' => 'section_3',
+                    'title' => 'Дополнительная информация',
+                    'type' => 'section',
+                    'elements' => [
+                        ['name' => 'PHOTO'],
+                        ['name' => 'COMMENTS'],
+                        ['name' => 'UF_CRM_1720697698689'],
+                    ],
+                ],
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -241,11 +323,32 @@
 
 ## Обработка ответа
 
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1724677217.639681,
+        "finish": 1724677217.986853,
+        "duration": 0.3471717834472656,
+        "processing": 0.01840806007385254,
+        "date_start": "2024-08-26T15:00:17+02:00",
+        "date_finish": "2024-08-26T15:00:17+02:00",
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые значения
+
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Корневой элемент ответа. Возвращает `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа.
+
+Возвращает `true` в случае успеха ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -279,7 +382,9 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
+## Продолжите изучение 
 
-## Продолжите изучение
-
-TODO
+- [{#T}](./index.md)
+- [{#T}](./crm-contact-details-configuration-get.md)
+- [{#T}](./crm-contact-details-configuration-force-common-scope-for-all.md)
+- [{#T}](./crm-contact-details-configuration-reset.md)

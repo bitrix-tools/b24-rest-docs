@@ -1,28 +1,19 @@
 # Обзор методов
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- из файла Сергея: описание и рекомендация использовать универсальные методы
-
-{% endnote %}
-
-{% endif %}
-
-Данные методы позволяют конфигурировать разделы внутри детальной карточки контактов
-
+Данные методы позволяют конфигурировать разделы внутри детальной карточки контактов.
 
 {% note tip "Универсальные методы" %}
 
-Для конфигурирования разделов внутри детальной карточки контактов, рекомендуем использовать методы [`crm.item.details.configuration.*`](../../universal/item-details-configuration/index.md)
+Рекомендуем использовать универсальные методы [`crm.item.details.configuration.*`](../../universal/item-details-configuration/index.md) для конфигурирования разделов внутри детальной карточки контактов. 
 
 {% endnote %}
 
-
 ## REST Методы
 
-- [{#T}](crm-contact-details-configuration-get.md)
-- [{#T}](crm-contact-details-configuration-reset.md)
-- [{#T}](crm-contact-details-configuration-set.md)
-- [{#T}](crm-contact-details-configuration-force-common-scope-for-all.md)
+#|
+|| **Метод** | **Описание** ||
+|| [crm.contact.details.configuration.get](./crm-contact-details-configuration-get.md) | Получает параметры карточки контакта  ||
+|| [crm.contact.details.configuration.set](./crm-contact-details-configuration-set.md) | Устанавливает параметры индивидуальной карточки  ||
+|| [crm.contact.details.configuration.forceCommonScopeForAll](./crm-contact-details-configuration-force-common-scope-for-all.md) | Устанавливает общую карточку для всех пользователей  ||
+|| [crm.contact.details.configuration.reset](./crm-contact-details-configuration-reset.md) | Сбрасывает параметры карточки  ||
+|#

@@ -5,6 +5,11 @@
 ### 19 сентября, 2024
 
 - Обновлена документация по встраиванию в виде пользовательских типов полей [userfieldtype.*](./api-reference/widgets/user-field/index.md)
+- Обновлена документация по работе с контактами [crm.contact.*](./api-reference/crm/contacts/index.md)
+
+### 17 сентября, 2024
+
+- Добавлена документация по [Потокам](./api-reference/tasks/flow/index.md)
 
 ### 29 августа, 2024
 

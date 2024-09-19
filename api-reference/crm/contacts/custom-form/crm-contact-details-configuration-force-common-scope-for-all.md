@@ -1,40 +1,37 @@
 # Установить общую карточку для всех пользователей crm.contact.details.configuration.forceCommonScopeForAll
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
 > 
 > Кто может выполнять метод: Администратор
 
-Метод `crm.contact.details.configuration.forceCommonScopeForAll` позволяет принудительно установить общую карточку контактов для всех пользователей.
-
-## Параметры метода
+Метод позволяет принудительно установить общую карточку контактов для всех пользователей.
 
 Без параметров.
-
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
-
-Установить общую карточку для контактов у всех пользователей.
 
 {% list tabs %}
 
 - cURL (Webhook)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.details.configuration.forceCommonScopeForAll
     ```
 
 - cURL (OAuth)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.contact.details.configuration.forceCommonScopeForAll
     ```
 
 - JS
@@ -55,7 +52,16 @@
 - PHP
 
     ```php
-    todo
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.contact.details.configuration.forceCommonScopeForAll',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -67,16 +73,16 @@ HTTP-статус: **200**
 
 ```json
 {
-	"result": true,
-	"time": {
-		"start": 1724671860.18392,
-		"finish": 1724671860.843895,
-		"duration": 0.6599750518798828,
-		"processing": 0.09691596031188965,
-		"date_start": "2024-08-26T13:31:00+02:00",
-		"date_finish": "2024-08-26T13:31:00+02:00",
-		"operating": 0
-	}
+    "result": true,
+    "time": {
+        "start": 1724671860.18392,
+        "finish": 1724671860.843895,
+        "duration": 0.6599750518798828,
+        "processing": 0.09691596031188965,
+        "date_start": "2024-08-26T13:31:00+02:00",
+        "date_finish": "2024-08-26T13:31:00+02:00",
+        "operating": 0
+    }
 }
 ```
 
@@ -86,7 +92,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Корневой элемент ответа. Возвращает `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа.
+
+Возвращает `true` в случае успеха ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -98,8 +106,8 @@ HTTP-статус: **400**
 
 ```json
 {
-  "error": "",
-  "error_description": "Access denied."
+    "error": "",
+    "error_description": "Access denied."
 }
 ```
 
@@ -109,12 +117,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание**   | **Значение** ||
-|| `-`     | Access denied. | У пользователя нет административных прав ||
+|| Пустое значение | Access denied. | У пользователя нет административных прав ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
+## Продолжите изучение 
 
-## Продолжите изучение
-
-TODO
+- [{#T}](./index.md)
+- [{#T}](./crm-contact-details-configuration-get.md)
+- [{#T}](./crm-contact-details-configuration-set.md)
+- [{#T}](./crm-contact-details-configuration-reset.md)
