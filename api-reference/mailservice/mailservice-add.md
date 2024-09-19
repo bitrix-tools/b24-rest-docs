@@ -51,11 +51,11 @@ BX24.callMethod(
     "mailservice.add",
     {
         'ACTIVE': 'Y',
-        'NAME': 'Почтовый сервис Yandex',
-        'SERVER': 'imap.yandex.ru',
+        'NAME': 'Мой почтовый сервис',
+        'SERVER': 'imap.my-mail.ru',
         'PORT': '993',
         'ENCRYPTION': 'Y',
-        'LINK': 'https://mail.yandex.ru/',
+        'LINK': 'https://mail.my-mail.ru/',
         'SORT': '500'
     },
     function(result)

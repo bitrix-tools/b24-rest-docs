@@ -881,7 +881,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":2,"id":351,"fields":{"title":"REST Сделка #1","stageId":"C9:UC_NYL06U","assignedById":6,"observers":[1,2,3],"opened":"N","typeId":"SERVICE","opportunity":10000,"currencyId":"USD","additionalInfo":"Изменение сделки через REST","isManualOpportunity":"N","utmSource":"yandex","ufCrm_1721244707107":200.05,"parentId1220":[2,1]}}' \
+    -d '{"entityTypeId":2,"id":351,"fields":{"title":"REST Сделка #1","stageId":"C9:UC_NYL06U","assignedById":6,"observers":[1,2,3],"opened":"N","typeId":"SERVICE","opportunity":10000,"currencyId":"USD","additionalInfo":"Изменение сделки через REST","isManualOpportunity":"N","utmSource":"google","ufCrm_1721244707107":200.05,"parentId1220":[2,1]}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.update
     ```
 
@@ -891,7 +891,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":2,"id":351,"fields":{"title":"REST Сделка #1","stageId":"C9:UC_NYL06U","assignedById":6,"observers":[1,2,3],"opened":"N","typeId":"SERVICE","opportunity":10000,"currencyId":"USD","additionalInfo":"Изменение сделки через REST","isManualOpportunity":"N","utmSource":"yandex","ufCrm_1721244707107":200.05,"parentId1220":[2,1]},"auth":"**put_access_token_here**"}' \
+    -d '{"entityTypeId":2,"id":351,"fields":{"title":"REST Сделка #1","stageId":"C9:UC_NYL06U","assignedById":6,"observers":[1,2,3],"opened":"N","typeId":"SERVICE","opportunity":10000,"currencyId":"USD","additionalInfo":"Изменение сделки через REST","isManualOpportunity":"N","utmSource":"google","ufCrm_1721244707107":200.05,"parentId1220":[2,1]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.item.update
     ```
 
@@ -914,7 +914,7 @@
                     currencyId: "USD",
                     additionalInfo: "Изменение сделки через REST",
                     isManualOpportunity: "N",
-                    utmSource: "yandex",
+                    utmSource: "google",
                     ufCrm_1721244707107: 200.05,
                     parentId1220: [2, 1],
                 },
@@ -953,7 +953,7 @@
                 'currencyId' => "USD",
                 'additionalInfo' => "Изменение сделки через REST",
                 'isManualOpportunity' => "N",
-                'utmSource' => "yandex",
+                'utmSource' => "google",
                 'ufCrm_1721244707107' => 200.05,
                 'parentId1220' => [2, 1],
             ]
@@ -1037,7 +1037,7 @@ HTTP-статус: **200**
                 "2",
                 "1"
             ],
-            "utmSource": "yandex",
+            "utmSource": "google",
             "utmMedium": null,
             "utmCampaign": null,
             "utmContent": null,

@@ -127,12 +127,6 @@ HTTP-статус: **200**
                 "isReadOnly": false,
                 "isRequired": false,
                 "type": "integer"
-            },
-            "yandexExport": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "type": "char"
             }
         }
     },

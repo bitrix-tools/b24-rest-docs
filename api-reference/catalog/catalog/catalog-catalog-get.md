@@ -95,8 +95,7 @@ HTTP-статус: **200**
             "productIblockId": null,
             "skuPropertyId": null,
             "subscription": "N",
-            "vatId": null,
-            "yandexExport": "N"
+            "vatId": null
         }
     },
     "time": {
