@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 19 сентября, 2024
+
+- Обновлена документация по работе с контактами [crm.contact.*](./api-reference/crm/contacts/index.md)
+
 ### 17 сентября, 2024
 
 - Добавлена документация по [Потокам](./api-reference/tasks/flow/index.md)

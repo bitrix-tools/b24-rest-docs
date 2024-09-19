@@ -3,8 +3,6 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Получить поля контакта
-    href: crm-contact-fields.md
   - name: Создать новый контакт
     href: crm-contact-add.md
   - name: Изменить контакт
@@ -15,6 +13,8 @@ items:
     href: crm-contact-list.md
   - name: Удалить контакт
     href: crm-contact-delete.md
+  - name: Получить поля контакта
+    href: crm-contact-fields.md
   - name: Компании
     include:
       path: company/b24-toc.yaml
