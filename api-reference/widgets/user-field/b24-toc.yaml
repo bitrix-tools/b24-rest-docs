@@ -1,0 +1,13 @@
+title: Встраивание приложений
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Зарегистрировать новый тип пользовательских полей
+    href: userfieldtype-add.md
+  - name: Изменить настройки типа пользовательских полей
+    href: userfieldtype-update.md
+  - name: Получить список зарегистрированных типов пользовательских полей
+    href: userfieldtype-list.md
+  - name: Удалить зарегистрированный тип пользовательских полей
+    href: userfieldtype-delete.md

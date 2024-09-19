@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 19 сентября, 2024
+
+- Обновлена документация по встраиванию в виде пользовательских типов полей [userfieldtype.*](./api-reference/widgets/user-field/index.md)
+
 ### 29 августа, 2024
 
 - Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./api-reference/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./api-reference/how-to-call-rest-api/batch.md)

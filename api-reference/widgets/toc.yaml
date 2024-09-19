@@ -63,5 +63,5 @@ items:
       mode: link
   - name: Встраивание в виде пользовательских типов полей
     include:
-      path: user-field/toc.yaml
+      path: user-field/b24-toc.yaml
       mode: link
