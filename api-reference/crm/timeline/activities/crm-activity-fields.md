@@ -64,7 +64,7 @@ BX24.callMethod(
 || **COMPLETED**
 [`char`](../../../data-types.md) | Завершено | ||
 || **CREATED**
-[`datetime`](../../../data-types.md) | Создано | ||
+[`datetime`](../../../data-types.md) | Создано | Только для чтения ||
 || **DEADLINE**
 [`datetime`](../../../data-types.md) | Срок исполнения | Поле напрямую не устанавливается, значение берётся из START_TIME для звонка и встречи и из END_TIME для задачи. ||
 || **DESCRIPTION**
