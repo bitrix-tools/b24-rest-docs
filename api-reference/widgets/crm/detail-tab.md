@@ -1,4 +1,5 @@
 # Вкладка в детальной карточке элемента CRM CRM_XXX_DETAIL_TAB, CRM_DYNAMIC_XXX_DETAIL_TAB
+# Вкладка в детальной карточке элемента CRM CRM_XXX_DETAIL_TAB, CRM_DYNAMIC_XXX_DETAIL_TAB
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
@@ -17,7 +18,7 @@
 || `CRM_CONTACT_DETAIL_TAB` | Вкладка в карточке [контакта](../../crm/contacts/) ||
 || `CRM_COMPANY_DETAIL_TAB` | Вкладка в карточке [компании](../../crm/companies/) ||
 || `CRM_QUOTE_DETAIL_TAB` | Вкладка в карточке [коммерческого предложения](../../crm/quote/) ||
-|| `CRM_DYNAMIC_XXX_DETAIL_TAB` | Вкладка в карточке элемента пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_TAB` ||
+|| `CRM_DYNAMIC_XXX_DETAIL_TAB` | Вкладка в карточке элемента пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_DETAIL_TAB` ||
 |#
 
 ## Что получает обработчик

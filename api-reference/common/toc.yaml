@@ -13,7 +13,7 @@ items:
       mode: link
   - name: Настройки приложения
     include:
-      path: settings/toc.yaml
+      path: settings/b24-toc.yaml
       mode: link
   - name: События
     include:
