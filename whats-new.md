@@ -10,6 +10,7 @@
 
 - Обновлена документация по встраиванию в виде пользовательских типов полей [userfieldtype.*](./api-reference/widgets/user-field/index.md)
 - Обновлена документация по работе с контактами [crm.contact.*](./api-reference/crm/contacts/index.md)
+- Обновлена документация по работе с пользовательскими полями контактов [crm.contact.userfield.*](./api-reference/crm/contacts/userfield/index.md)
 
 ### 17 сентября, 2024
 

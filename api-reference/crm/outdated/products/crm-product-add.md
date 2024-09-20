@@ -39,7 +39,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"NAME":"1С-Битрикс: Управление сайтом - Старт","CURRENCY_ID":"RUB","PRICE":4900,"SORT":500}}' \
+    -d '{"fields":{"NAME":"Стул пластиковый","CURRENCY_ID":"RUB","PRICE":4900,"SORT":500}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.product.add
     ```
 
@@ -49,7 +49,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"NAME":"1С-Битрикс: Управление сайтом - Старт","CURRENCY_ID":"RUB","PRICE":4900,"SORT":500},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"NAME":"Стул пластиковый","CURRENCY_ID":"RUB","PRICE":4900,"SORT":500},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.product.add
     ```
 
@@ -61,7 +61,7 @@
         {
             fields:
             {
-                "NAME": "1С-Битрикс: Управление сайтом - Старт",
+                "NAME": "Стул пластиковый",
                 "CURRENCY_ID": "RUB",
                 "PRICE": 4900,
                 "SORT": 500
@@ -86,7 +86,7 @@
         'crm.product.add',
         [
             'fields' => [
-                'NAME' => '1С-Битрикс: Управление сайтом - Старт',
+                'NAME' => 'Стул пластиковый',
                 'CURRENCY_ID' => 'RUB',
                 'PRICE' => 4900,
                 'SORT' => 500
