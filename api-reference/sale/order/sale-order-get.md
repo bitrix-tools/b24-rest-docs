@@ -265,7 +265,7 @@ HTTP-статус: **200**
                     "name": "E-Mail1",
                     "orderPropsId": 21,
                     "orderPropsXmlId": "bx_63a082af0d250",
-                    "value": "Artemlxvl@yandex.ru"
+                    "value": "Artemlxvl@my-mail.ru"
                 },
                 {
                     "code": "PHONE",

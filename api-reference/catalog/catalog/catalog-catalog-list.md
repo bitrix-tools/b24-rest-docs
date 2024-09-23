@@ -79,7 +79,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["iblockId","iblockTypeId","id","lid","name","productIblockId","skuPropertyId","subscription","vatId","yandexExport"],"filter":{">id":10,"@vatId":[1,2],"skuPropertyId":121},"order":{"id":"desc"}}' \
+    -d '{"select":["iblockId","iblockTypeId","id","lid","name","productIblockId","skuPropertyId","subscription","vatId"],"filter":{">id":10,"@vatId":[1,2],"skuPropertyId":121},"order":{"id":"desc"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.catalog.list
     ```
 
@@ -89,7 +89,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["iblockId","iblockTypeId","id","lid","name","productIblockId","skuPropertyId","subscription","vatId","yandexExport"],"filter":{">id":10,"@vatId":[1,2],"skuPropertyId":121},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["iblockId","iblockTypeId","id","lid","name","productIblockId","skuPropertyId","subscription","vatId"],"filter":{">id":10,"@vatId":[1,2],"skuPropertyId":121},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.catalog.list
     ```
 
@@ -106,9 +106,8 @@
                 "name",
                 "productIblockId",
                 "skuPropertyId",
-    "subscription",
-    "vatId",
-                "yandexExport",
+                "subscription",
+                "vatId"
             ],
             "filter": {
                 ">id": 10,
@@ -146,8 +145,7 @@
                 'productIblockId',
                 'skuPropertyId',
                 'subscription',
-                'vatId',
-                'yandexExport',
+                'vatId'
             ],
             'filter' => [
                 '>id' => 10,
@@ -184,8 +182,7 @@ HTTP-статус: **200**
                 "productIblockId": 23,
                 "skuPropertyId": 97,
                 "subscription": "N",
-                "vatId": 1,
-                "yandexExport": "N"
+                "vatId": 1
             }
         ]
     },

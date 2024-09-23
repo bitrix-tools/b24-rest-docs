@@ -10,6 +10,12 @@
 
 Список методов для управления журналом лог-записей.
 
+{% note info "" %}
+
+Важно: методы [`crm.timeline.logmessage.get`](./crm-timeline-logmessage-get.md) и [`crm.timeline.logmessage.list`](./crm-timeline-logmessage-list.md) возвращают только записи, ранее созданные с помощью [`crm.timeline.logmessage.add`](./crm-timeline-logmessage-add.md). Системные записи с помощью этих методов получить невозможно.
+
+{% endnote %}
+
 #|
 || [`crm.timeline.logmessage.add`](./crm-timeline-logmessage-add.md) | Добавляет новую лог-запись в таймлайн ||
 || [`crm.timeline.logmessage.get`](./crm-timeline-logmessage-get.md) | Получает информацию о лог-записи ||
