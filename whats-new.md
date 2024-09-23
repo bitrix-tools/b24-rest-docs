@@ -2,6 +2,20 @@
 
 ## 2024
 
+### 23 сентября, 2024
+
+- Обновлена документация по основным методам работы со сделками [crm.deal.*](./api-reference/crm/deals/index.md)
+
+### 20 сентября, 2024
+
+- Обновлена документация по общим методам, связанным с хранением и получением [настроек приложения](./api-reference/common/settings/index.md)
+
+### 19 сентября, 2024
+
+- Обновлена документация по встраиванию в виде пользовательских типов полей [userfieldtype.*](./api-reference/widgets/user-field/index.md)
+- Обновлена документация по работе с контактами [crm.contact.*](./api-reference/crm/contacts/index.md)
+- Обновлена документация по работе с пользовательскими полями контактов [crm.contact.userfield.*](./api-reference/crm/contacts/userfield/index.md)
+
 ### 17 сентября, 2024
 
 - Добавлена документация по [Потокам](./api-reference/tasks/flow/index.md)

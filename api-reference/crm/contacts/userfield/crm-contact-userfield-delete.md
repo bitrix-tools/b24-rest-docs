@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: Администратор
+> Кто может выполнять метод: администратор
 
 Метод `crm.contact.userfield.delete` удаляет пользовательское поле контактов.
 
@@ -13,30 +13,38 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id^*^**
-[`integer`](../../../data-types.md) | Идентификатор пользовательского поля, привязанного к контакту
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор пользовательского поля, привязанного к контакту.
 
-Можно получить с помощью методов [`crm.contact.userfield.add`](crm-contact-userfield-add.md) или [`crm.contact.userfield.list`](crm-contact-userfield-list.md) ||
+Идентификатор можно получить с помощью методов [`crm.contact.userfield.add`](./crm-contact-userfield-add.md) или [`crm.contact.userfield.list`](./crm-contact-userfield-list.md) ||
 |#
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Удаление пользовательского поля с `id = 432`
+Удалить пользовательское поле с `id = 432`
 
 {% list tabs %}
 
 - cURL (Webhook)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":432}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.userfield.delete
     ```
 
 - cURL (OAuth)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":432,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.contact.userfield.delete
     ```
 
 - JS
@@ -59,11 +67,21 @@
 - PHP
 
     ```php
-    todo
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.contact.userfield.delete',
+        [
+            'id' => 432
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
-
 
 ## Обработка ответа
 
@@ -71,18 +89,20 @@ HTTP-статус: **200**
 
 ```json
 {
-	"result": true,
-	"time": {
-		"start": 1724316817.995457,
-		"finish": 1724316818.640754,
-		"duration": 0.6452970504760742,
-		"processing": 0.3215677738189697,
-		"date_start": "2024-08-22T10:53:37+02:00",
-		"date_finish": "2024-08-22T10:53:38+02:00",
-		"operating": 0
-	}
+    "result": true,
+    "time": {
+        "start": 1724316817.995457,
+        "finish": 1724316818.640754,
+        "duration": 0.6452970504760742,
+        "processing": 0.3215677738189697,
+        "date_start": "2024-08-22T10:53:37+02:00",
+        "date_finish": "2024-08-22T10:53:38+02:00",
+        "operating": 0
+    }
 }
 ```
+
+### Возвращаемые данные
 
 #|
 || **Название**
@@ -93,15 +113,14 @@ HTTP-статус: **200**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-
 ## Обработка ошибок
 
 HTTP-статус: **400**
 
 ```json
 {
-  "error": "",
-  "error_description": "Access denied."
+    "error": "",
+    "error_description": "Access denied."
 }
 ```
 
@@ -111,18 +130,19 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | ID is not defined or invalid. | Переданный `id` либо меньше или равен нулю, либо не передан вовсе ||
-|| `-` | Access denied. | Возникает в случаях:
-* У пользователя нет административных прав
-* Пользователь пытается удалить пользовательское поле не привязанное к контактам ||
-
-|| `ERROR_NOT_FOUND` | The entity with ID `id` is not found. | Пользовательское поле с переданным `id` не существует ||
-|| `-` | Ошибка удаления `FIELD_NAME` для объекта `ENTITY_ID`. | Неизвестная ошибка при удалении ||
+|| `-` | `ID is not defined or invalid` | Переданный `id` либо меньше или равен нулю, либо же не передан вовсе ||
+|| `-` | `Access denied` | Возникает в случаях, когда:
+- у пользователя нет административных прав
+- пользователь пытается удалить пользовательское поле, не привязанное к контактам ||
+|| `ERROR_NOT_FOUND` | `The entity with ID 'id' is not found` | Пользовательское поле с переданным `id` не существует ||
+|| `-` | Ошибка удаления `FIELD_NAME` для объекта `ENTITY_ID` | Неизвестная ошибка при удалении ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-
 ## Продолжите изучение
 
-TODO
+- [{#T}](./crm-contact-userfield-add.md)
+- [{#T}](./crm-contact-userfield-update.md)
+- [{#T}](./crm-contact-userfield-get.md)
+- [{#T}](./crm-contact-userfield-list.md)

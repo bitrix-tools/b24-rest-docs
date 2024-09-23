@@ -98,7 +98,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":357,"fields":{"NAME":"ПАО Сбербанк (не использовать)","COMMENTS":"Устаревший","SORT":10000,"ACTIVE":"N"}}' \
+    -d '{"id":357,"fields":{"NAME":"ПАО Супербанк (не использовать)","COMMENTS":"Устаревший","SORT":10000,"ACTIVE":"N"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.bankdetail.update
     ```
 
@@ -108,7 +108,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":357,"fields":{"NAME":"ПАО Сбербанк (не использовать)","COMMENTS":"Устаревший","SORT":10000,"ACTIVE":"N"},"auth":"**put_access_token_here**"}' \
+    -d '{"id":357,"fields":{"NAME":"ПАО Супербанк (не использовать)","COMMENTS":"Устаревший","SORT":10000,"ACTIVE":"N"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.requisite.bankdetail.update
     ```
 
@@ -121,7 +121,7 @@
             id: 357,
             fields:
             {
-                "NAME": "ПАО Сбербанк (не использовать)",
+                "NAME": "ПАО Супербанк (не использовать)",
                 "COMMENTS": "Устаревший",
                 "SORT" : 10000,
                 "ACTIVE": "N"
@@ -149,7 +149,7 @@
         [
             'id' => 357,
             'fields' => [
-                'NAME' => 'ПАО Сбербанк (не использовать)',
+                'NAME' => 'ПАО Супербанк (не использовать)',
                 'COMMENTS' => 'Устаревший',
                 'SORT' => 10000,
                 'ACTIVE' => 'N'

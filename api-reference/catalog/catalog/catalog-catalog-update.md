@@ -142,8 +142,7 @@ HTTP-статус: **200**
             "productIblockId": 23,
             "skuPropertyId": 97,
             "subscription": "N",
-            "vatId": 2,
-            "yandexExport": "N"
+            "vatId": 2
         }
     },
     "time": {

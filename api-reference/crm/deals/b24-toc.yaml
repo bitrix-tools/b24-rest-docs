@@ -1,10 +1,8 @@
 title: Сделки
 href: index.md
 items:
-  - name: О сделках в Битрикс24
+  - name: Обзор методов
     href: index.md
-  - name: Получить поля сделки
-    href: crm-deal-fields.md
   - name: Создать новую сделку
     href: crm-deal-add.md
   - name: Изменить сделку
@@ -15,6 +13,8 @@ items:
     href: crm-deal-list.md
   - name: Удалить сделку
     href: crm-deal-delete.md
+  - name: Получить поля сделки
+    href: crm-deal-fields.md
   - name: Добавить товары в сделку
     href: crm-deal-productrows-set.md
   - name: Получить товары сделки

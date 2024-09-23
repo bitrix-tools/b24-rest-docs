@@ -1,10 +1,10 @@
-# Получить привязанные к приложению данные app.option.get
+# Получить пользовательские данные, привязанные к приложению user.option.get
 
 > Scope: [`базовый`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `app.option.get` получает данные, привязанные к приложению. Если ничего не подать на вход, вернет все записанные через [app.option.set](./app-option-set.md) свойства.
+Метод `user.option.get` получает пользовательские данные, привязанные к приложению. Если ничего не подать на вход, то вернет все записанные через [user.option.set](./user-option-set.md) свойства.
 
 ## Параметры
 
@@ -12,7 +12,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **option**
-[`string`](../../data-types.md) | Строка, один из ключей из свойства [app.option.set](./app-option-set.md). ||
+[`string`](../../data-types.md) | Строка, один из ключей из свойства [user.option.set](./user-option-set.md). ||
 |#
 
 ## Примеры кода
@@ -33,7 +33,7 @@
     -d '{
         "option": "data"
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/app.option.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.option.get
     ```
 
     Пример №2
@@ -43,7 +43,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/app.option.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.option.get
     ```
 
 - cURL (OAuth)
@@ -58,7 +58,7 @@
         "option": "data",
         "auth": "**put_access_token_here**"
     }' \
-    https://**put_your_bitrix24_address**/rest/app.option.get
+    https://**put_your_bitrix24_address**/rest/user.option.get
     ```
     
     Пример №2
@@ -68,7 +68,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/app.option.get
+    https://**put_your_bitrix24_address**/rest/user.option.get
     ```
 
 - JS
@@ -77,7 +77,7 @@
 
     ```js
     BX24.callMethod(
-        'app.option.get',
+        'user.option.get',
         {
             "option":"data"
         },
@@ -95,7 +95,7 @@
     
     ```js
     BX24.callMethod(
-        'app.option.get', {},
+        'user.option.get', {},
         function(result)
         {
             if(result.error())
@@ -114,7 +114,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'app.option.get',
+        'user.option.get',
         [
             'option' => 'data'
         ]
@@ -131,7 +131,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'app.option.get',
+        'user.option.get',
         []
     );
 
@@ -153,7 +153,8 @@ HTTP-статус: **200**
 }
 ```
 
-Метод возвращает данные, привязанные к приложению.
+Метод возвращает пользовательские данные, привязанные к приложению.
+
 
 ## Обработка ошибок
 
@@ -180,5 +181,5 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./app-option-set.md)
+- [{#T}](./app-option-get.md)
 - [{#T}](./user-option-set.md)
-- [{#T}](./user-option-get.md)
