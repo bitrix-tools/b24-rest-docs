@@ -4,6 +4,7 @@
 
 ### 24 сентября, 2024
 
+- Обновлена документация по событиям [контактов](./api-reference/crm/contacts/events/index.md) и [пользовательских полей контактов](./api-reference/crm/contacts/userfield/events/index.md)
 - Обновлена документация по работе со ставками НДС [catalog.vat.*](./api-reference/catalog/vat/index.md)
 
 ### 23 сентября, 2024
