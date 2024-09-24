@@ -1,6 +1,6 @@
 title: BX24.JS SDK
 href: index.md
-items: 
+items:
   - name: Подключение и использование
     href: index.md
   - name: Вызов методов REST
@@ -22,4 +22,8 @@ items:
   - name: Дополнительные
     include:
       path: additional-functions/toc.yaml
+      mode: link
+  - name: Все методы
+    include:
+      path: bx24-toc.yaml
       mode: link

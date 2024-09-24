@@ -1,0 +1,83 @@
+title: BX24.JS SDK
+href: index.md
+items:
+  - name: BX24.appOption.get
+    href: options/bx24-app-option-get.md
+  - name: BX24.appOption.set
+    href: options/bx24-app-option-set.md
+  - name: BX24.bind
+    href: additional-functions/bx24-bind.md
+  - name: BX24.callBatch
+    href: how-to-call-rest-methods/bx24-call-batch.md
+  - name: BX24.callBind
+    href: how-to-call-rest-methods/bx24-call-bind.md
+  - name: BX24.callMethod
+    href: how-to-call-rest-methods/bx24-call-method.md
+  - name: BX24.callUnbind
+    href: how-to-call-rest-methods/bx24-call-unbind.md
+  - name: BX24.closeApplication
+    href: additional-functions/bx24-close-application.md
+  - name: BX24.fitWindow
+    href: additional-functions/bx24-fit-window.md
+  - name: BX24.getAuth
+    href: system-functions/bx24-get-auth.md
+  - name: BX24.getDomain
+    href: additional-functions/bx24-get-domain.md
+  - name: BX24.getLang
+    href: additional-functions/bx24-get-lang.md
+  - name: BX24.getScrollSize
+    href: additional-functions/bx24-get-scroll-size.md
+  - name: BX24.im.callTo
+    href: additional-functions/bx24-im-call-to.md
+  - name: BX24.im.openHistory
+    href: additional-functions/bx24-im-open-history.md
+  - name: BX24.im.openMessenger
+    href: additional-functions/bx24-im-open-messenger.md
+  - name: BX24.im.phoneTo
+    href: additional-functions/bx24-im-phone-to.md
+  - name: BX24.init
+    href: system-functions/bx24-init.md
+  - name: BX24.install
+    href: system-functions/bx24-install.md
+  - name: BX24.installFinish
+    href: system-functions/bx24-install-finish.md
+  - name: BX24.isAdmin
+    href: additional-functions/bx24-is-admin.md
+  - name: BX24.isReady
+    href: additional-functions/bx24-is-ready.md
+  - name: BX24.loadScript
+    href: additional-functions/bx24-load-script.md
+  - name: BX24.openApplication
+    href: additional-functions/bx24-open-application.md
+  - name: BX24.openPath
+    href: additional-functions/bx24-open-path.md
+  - name: BX24.proxy
+    href: additional-functions/bx24-proxy.md
+  - name: BX24.proxyContext
+    href: additional-functions/bx24-proxy-context.md
+  - name: BX24.ready
+    href: additional-functions/bx24-ready.md
+  - name: BX24.refreshAuth
+    href: system-functions/bx24-refresh-auth.md
+  - name: BX24.reloadWindow
+    href: additional-functions/bx24-reload-window.md
+  - name: BX24.resizeWindow
+    href: additional-functions/bx24-resize-window.md
+  - name: BX24.scrollParentWindow
+    href: additional-functions/bx24-scroll-parent-window.md
+  - name: BX24.selectAccess
+    href: system-dialogues/bx24-select-access.md
+  - name: BX24.selectCRM
+    href: system-dialogues/bx24-select-crm.md
+  - name: BX24.selectUser
+    href: system-dialogues/bx24-select-user.md
+  - name: BX24.selectUsers
+    href: system-dialogues/bx24-select-users.md
+  - name: BX24.setTitle
+    href: additional-functions/bx24-set-title.md
+  - name: BX24.unbind
+    href: additional-functions/bx24-unbind.md
+  - name: BX24.userOption.get
+    href: options/bx24-user-option-get.md
+  - name: BX24.userOption.set
+    href: options/bx24-user-option-set.md
