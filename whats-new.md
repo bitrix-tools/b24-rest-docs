@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 24 сентября, 2024
+
+- Обновлена документация по событиям [контактов](./api-reference/crm/contacts/events/index.md) и [пользовательских полей контактов](./api-reference/crm/contacts/userfield/events/index.md)
+
 ### 23 сентября, 2024
 
 - Обновлена документация по основным методам работы со сделками [crm.deal.*](./api-reference/crm/deals/index.md)
