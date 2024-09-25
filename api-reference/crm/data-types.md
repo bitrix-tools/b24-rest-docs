@@ -175,7 +175,7 @@
 || **THOUSANDS_SEP**
 [`string`](../data-types.md) | Разделитель триад (параметр локализации) ||
 || **LANG**
-[`crm_currency_localization[]`](#crm_currency_localization) | Локализации валюты.
+[`object`](../data-types.md) | Локализации валюты.
 Объект со списком доступных локализаций в формате `{"lang_1": "value_1", ... "lang_N": "value_N"}`, где `lang_N` — идентификатор языка, а `value` — объект типа [crm_currency_localization](#crm_currency_localization).
 Идентификатор языка — строка из двух латинских букв. Возможные значения смотрите в [таблице идентификаторов языков](#lang-ids)
  ||

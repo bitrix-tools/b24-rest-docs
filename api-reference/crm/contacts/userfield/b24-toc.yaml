@@ -13,3 +13,7 @@ items:
     href: crm-contact-userfield-list.md
   - name: Удалить пользовательское поле контактов
     href: crm-contact-userfield-delete.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
