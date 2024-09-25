@@ -1,4 +1,5 @@
-// const GITHUB_REPO_BASE_URL = "https://github.com/bitrix-tools/b24-rest-docs/";
+const GITHUB_REPO_BASE_URL = "https://github.com/bitrix-tools/b24-rest-docs/";
+var LOGO_EXISTS = false;
 
 function createSeparator () {
     var divider = document.createElement('div');
@@ -53,13 +54,12 @@ function createLink( url, buttonCaption, svgPath, additionalClass) {
 }
 
 function convertToGitHubProjectLink() {
-    const githubRepo = getLocalizedString('github');
     const currentUrl = window.location.href;
 
     const origin = window.location.origin;
     let path = currentUrl.replace(origin, "");
 
-    const githubBaseUrl = `${githubRepo}blob/main/`;
+    const githubBaseUrl = `${GITHUB_REPO_BASE_URL}blob/main/`;
 
     if (path.endsWith(".html")) {
         path = path.replace(/\.html$/, ".md");
@@ -99,7 +99,7 @@ function closePopup() {
 function addSearchResults () {
     // Search results popup
     const resultContainer = document.createElement('div');
-    
+
     resultContainer.classList.add('search-results-container');
     resultContainer.style.setProperty('position', 'fixed', 'important');
     // resultContainer.style.top = '100%';
@@ -112,11 +112,11 @@ function addSearchResults () {
     resultContainer.style.zIndex = '9999';
     resultContainer.style.display = 'none';
     resultContainer.style.padding = '10px';
-    
+
     const searchContainer = document.querySelector('.search-container');
     const higherLevelContainer = document.body;
     higherLevelContainer.appendChild(resultContainer);
-    
+
     resultContainer.style.top = `${searchContainer.getBoundingClientRect().bottom + window.scrollY}px`;
     resultContainer.style.width = '700px';
     resultContainer.style.left = `${searchContainer.getBoundingClientRect().right - 700}px`;
@@ -126,8 +126,9 @@ function addSearchResults () {
 function addSearchField() {
 
     const existingSearchInput = document.querySelector('.bx-search-input');
-    
-    if (!existingSearchInput) {
+    const existingLogo = document.querySelector('.pc-logo__icon');
+
+    if (!existingSearchInput && (existingLogo.width > 0)) {
 
         const searchContainer = document.createElement('div');
         searchContainer.style.position = 'relative';
@@ -139,14 +140,14 @@ function addSearchField() {
         // Search text field
         const searchInput = document.createElement('input');
         searchInput.type = 'text';
-        searchInput.placeholder = getLocalizedString('searchPlacehoder');
+        searchInput.placeholder = 'Поиск...';
         searchInput.style.padding = '10px 5px';
         searchInput.style.fontSize = '16px';
         searchInput.style.borderRadius = '4px';
         searchInput.style.border = '1px solid #ccc';
         searchInput.style.width = '100%';
         searchInput.classList.add('bx-search-input');
-        
+
         let typingTimer;
         const typingDelay = 800;
 
@@ -176,7 +177,7 @@ function addSearchField() {
         });
 
         searchContainer.appendChild(searchInput);
-        
+
         const clearButton = document.createElement('span');
         clearButton.textContent = '×';
         clearButton.style.position = 'absolute';
@@ -188,10 +189,11 @@ function addSearchField() {
         clearButton.style.fontSize = '20px';
         clearButton.style.userSelect = 'none';
         searchContainer.appendChild(clearButton);
-        
+
         clearButton.addEventListener('click', function() {
             searchInput.value = '';
             searchInput.focus();
+            // resultContainer.style.display = 'none';
             showHint();
         });
 
@@ -217,14 +219,15 @@ function addSearchField() {
 
         function showHint() {
             resultContainer = document.querySelector('.search-results-container');
-            const searchCaption = getLocalizedString('searchCaption');
+
+            // text-align: center; color: #666; width: 66.67%; margin: 0 auto;
 
             resultContainer.innerHTML = `
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; width: 66.67%; margin: 0 auto; text-align: center;">
                     <svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M56.6536 62.8186C52.8102 65.3422 48.2117 66.8102 43.2703 66.8102C29.7864 66.8102 18.8555 55.8793 18.8555 42.3953C18.8555 28.9114 29.7864 17.9805 43.2703 17.9805C56.7543 17.9805 67.6852 28.9114 67.6852 42.3953C67.6852 47.3367 66.2172 51.9352 63.6936 55.7786L76.3834 68.4684C77.8804 69.9654 77.8804 72.3925 76.3834 73.8895L74.7645 75.5084C73.2675 77.0054 70.8404 77.0054 69.3434 75.5084L56.6536 62.8186ZM60.7095 42.3953C60.7095 52.0267 52.9017 59.8345 43.2703 59.8345C33.6389 59.8345 25.8311 52.0267 25.8311 42.3953C25.8311 32.7639 33.6389 24.9561 43.2703 24.9561C52.9017 24.9561 60.7095 32.7639 60.7095 42.3953Z" fill="#DFE0E3"></path>
                     </svg>
-                    <p>${searchCaption}</p>
+                    <p>Начните искать нужные статьи</p>
                 </div>
             `;
             resultContainer.style.display = 'block';
@@ -243,7 +246,7 @@ function fillResults(data) {
     resultContainer.innerHTML = '';
 
     if (data.result === 'ok' && data.items.length > 0) {
-        
+
         data.items.forEach(item => {
             const resultItem = document.createElement('div');
             resultItem.style.padding = '10px 5px';
@@ -279,7 +282,7 @@ function fillResults(data) {
                 breadcrumb.style.color = '#666';
                 breadcrumb.style.fontSize = '12px';
                 breadcrumb.style.marginRight = '5px';
-                
+
                 breadcrumbs.push(breadcrumb);
 
                 if (index < urlParts.length - 1) {
@@ -310,24 +313,22 @@ function fillResults(data) {
 }
 
 function showNoResultsMessage(resultContainer) {
-    const searchEmpty = getLocalizedString('searchNoResult');
-
     resultContainer.innerHTML = `
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; width: 66.67%; margin: 0 auto; text-align: center;">
             <svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M56.6536 62.8186C52.8102 65.3422 48.2117 66.8102 43.2703 66.8102C29.7864 66.8102 18.8555 55.8793 18.8555 42.3953C18.8555 28.9114 29.7864 17.9805 43.2703 17.9805C56.7543 17.9805 67.6852 28.9114 67.6852 42.3953C67.6852 47.3367 66.2172 51.9352 63.6936 55.7786L76.3834 68.4684C77.8804 69.9654 77.8804 72.3925 76.3834 73.8895L74.7645 75.5084C73.2675 77.0054 70.8404 77.0054 69.3434 75.5084L56.6536 62.8186ZM60.7095 42.3953C60.7095 52.0267 52.9017 59.8345 43.2703 59.8345C33.6389 59.8345 25.8311 52.0267 25.8311 42.3953C25.8311 32.7639 33.6389 24.9561 43.2703 24.9561C52.9017 24.9561 60.7095 32.7639 60.7095 42.3953Z" fill="#DFE0E3"></path>
             </svg>
-            <p>${searchEmpty}</p>
+            <p>К сожалению, по вашему запросу мы ничего не нашли. Попробуйте переформулировать</p>
         </div>
     `;
     resultContainer.style.display = 'block';
 }
 
 function performSearch(query, resultContainer) {
-    const searchUrl = getLocalizedString('searchUrl');
-    const url = `${searchUrl}${encodeURIComponent(query)}`;
+
+    const url = `https://util.1c-bitrix.ru/documentation/rest/search.php?q=${encodeURIComponent(query)}`;
     const searchInput = document.querySelector('.bx-search-input');
-    
+
     searchInput.classList.add('loading');
 
     fetch(url)
@@ -402,7 +403,7 @@ function addB24Buttons () {
             dcControlsDiv.appendChild(createSeparator());
             dcControlsDiv.appendChild(createLink(
                 convertToGitHubProjectLink(),
-                getLocalizedString('githubEdit'), 
+                'Edit in GitHub', 
                 '<path fill="currentColor" fill-rule="evenodd" d="M11.423 1A3.577 3.577 0 0 1 15 4.577c0 .27-.108.53-.3.722l-.528.529-1.971 1.971-5.059 5.059a3 3 0 0 1-1.533.82l-2.638.528a1 1 0 0 1-1.177-1.177l.528-2.638a3 3 0 0 1 .82-1.533l5.059-5.059 2.5-2.5c.191-.191.451-.299.722-.299Zm-2.31 4.009-4.91 4.91a1.5 1.5 0 0 0-.41.766l-.38 1.903 1.902-.38a1.5 1.5 0 0 0 .767-.41l4.91-4.91a2.077 2.077 0 0 0-1.88-1.88Zm3.098.658a3.59 3.59 0 0 0-1.878-1.879l1.28-1.28c.995.09 1.788.884 1.878 1.88l-1.28 1.28Z" clip-rule="evenodd"></path>',
                 ''
             ));
