@@ -1,24 +1,14 @@
 # Получить поля сделки crm.deal.fields
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-> Название метода: **crm.deal.fields**
-> 
 > Scope: [`crm`](../../scopes/permissions.md)
 > 
 > Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.fields` возвращает описание полей сделки, в том числе пользовательских.
 
-
 ## Параметры метода
 
 Без параметров.
-
 
 ## Примеры кода
 
@@ -29,13 +19,21 @@
 - cURL (Webhook)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.fields
     ```
 
 - cURL (OAuth)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.deal.fields
     ```
 
 - JS
@@ -56,11 +54,19 @@
 - PHP
 
     ```php
-    todo
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.deal.fields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
-
 
 ## Обработка ответа
 
@@ -68,435 +74,435 @@ HTTP-статус: **200**
 
 ```json
 {
-	"result": {
-		"ID": {
-			"type": "integer",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "ID"
-		},
-		"TITLE": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Название"
-		},
-		"TYPE_ID": {
-			"type": "crm_status",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"statusType": "DEAL_TYPE",
-			"title": "Тип"
-		},
-		"CATEGORY_ID": {
-			"type": "crm_category",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": true,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Воронка"
-		},
-		"STAGE_ID": {
-			"type": "crm_status",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"statusType": "DEAL_STAGE",
-			"title": "Стадия сделки"
-		},
-		"STAGE_SEMANTIC_ID": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Группа стадии"
-		},
-		"IS_NEW": {
-			"type": "char",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Новая сделка"
-		},
-		"IS_RECURRING": {
-			"type": "char",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Регулярная сделка"
-		},
-		"IS_RETURN_CUSTOMER": {
-			"type": "char",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Повторная сделка"
-		},
-		"IS_REPEATED_APPROACH": {
-			"type": "char",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Повторное обращение"
-		},
-		"PROBABILITY": {
-			"type": "integer",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Вероятность"
-		},
-		"CURRENCY_ID": {
-			"type": "crm_currency",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Валюта"
-		},
-		"OPPORTUNITY": {
-			"type": "double",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Сумма"
-		},
-		"IS_MANUAL_OPPORTUNITY": {
-			"type": "char",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "IS_MANUAL_OPPORTUNITY"
-		},
-		"TAX_VALUE": {
-			"type": "double",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Ставка налога"
-		},
-		"COMPANY_ID": {
-			"type": "crm_company",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Компания",
-			"settings": {
-				"parentEntityTypeId": 4
-			}
-		},
-		"CONTACT_ID": {
-			"type": "crm_contact",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"isDeprecated": true,
-			"title": "Контакт"
-		},
-		"CONTACT_IDS": {
-			"type": "crm_contact",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": true,
-			"isDynamic": false,
-			"title": "Контакты"
-		},
-		"QUOTE_ID": {
-			"type": "crm_quote",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Предложение",
-			"settings": {
-				"parentEntityTypeId": 7
-			}
-		},
-		"BEGINDATE": {
-			"type": "date",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Дата начала"
-		},
-		"CLOSEDATE": {
-			"type": "date",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Дата завершения"
-		},
-		"OPENED": {
-			"type": "char",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Доступна для всех"
-		},
-		"CLOSED": {
-			"type": "char",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Закрыта"
-		},
-		"COMMENTS": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Комментарий"
-		},
-		"ASSIGNED_BY_ID": {
-			"type": "user",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Ответственный"
-		},
-		"CREATED_BY_ID": {
-			"type": "user",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Кем создана"
-		},
-		"MODIFY_BY_ID": {
-			"type": "user",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Кем изменена"
-		},
-		"MOVED_BY_ID": {
-			"type": "user",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "MOVED_BY_ID"
-		},
-		"DATE_CREATE": {
-			"type": "datetime",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Дата создания"
-		},
-		"DATE_MODIFY": {
-			"type": "datetime",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Дата изменения"
-		},
-		"MOVED_TIME": {
-			"type": "datetime",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "MOVED_TIME"
-		},
-		"SOURCE_ID": {
-			"type": "crm_status",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"statusType": "SOURCE",
-			"title": "Источник"
-		},
-		"SOURCE_DESCRIPTION": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Дополнительно об источнике"
-		},
-		"LEAD_ID": {
-			"type": "crm_lead",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Лид",
-			"settings": {
-				"parentEntityTypeId": 1
-			}
-		},
-		"ADDITIONAL_INFO": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Дополнительная информация"
-		},
-		"LOCATION_ID": {
-			"type": "location",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Местоположение"
-		},
-		"ORIGINATOR_ID": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Внешний источник"
-		},
-		"ORIGIN_ID": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Идентификатор элемента во внешнем источнике"
-		},
-		"UTM_SOURCE": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Рекламная система"
-		},
-		"UTM_MEDIUM": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Тип трафика"
-		},
-		"UTM_CAMPAIGN": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Обозначение рекламной кампании"
-		},
-		"UTM_CONTENT": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Содержание кампании"
-		},
-		"UTM_TERM": {
-			"type": "string",
-			"isRequired": false,
-			"isReadOnly": false,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "Условие поиска кампании"
-		},
-		"LAST_ACTIVITY_TIME": {
-			"type": "datetime",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "LAST_ACTIVITY_TIME"
-		},
-		"LAST_ACTIVITY_BY": {
-			"type": "user",
-			"isRequired": false,
-			"isReadOnly": true,
-			"isImmutable": false,
-			"isMultiple": false,
-			"isDynamic": false,
-			"title": "LAST_ACTIVITY_BY"
-		}
-	},
-	"time": {
-		"start": 1724857659.824873,
-		"finish": 1724857660.790877,
-		"duration": 0.9660041332244873,
-		"processing": 0.3691408634185791,
-		"date_start": "2024-08-28T17:07:39+02:00",
-		"date_finish": "2024-08-28T17:07:40+02:00",
-		"operating": 0
-	}
+    "result": {
+        "ID": {
+            "type": "integer",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "ID"
+        },
+        "TITLE": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Название"
+        },
+        "TYPE_ID": {
+            "type": "crm_status",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "statusType": "DEAL_TYPE",
+            "title": "Тип"
+        },
+        "CATEGORY_ID": {
+            "type": "crm_category",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": true,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Воронка"
+        },
+        "STAGE_ID": {
+            "type": "crm_status",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "statusType": "DEAL_STAGE",
+            "title": "Стадия сделки"
+        },
+        "STAGE_SEMANTIC_ID": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Группа стадии"
+        },
+        "IS_NEW": {
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Новая сделка"
+        },
+        "IS_RECURRING": {
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Регулярная сделка"
+        },
+        "IS_RETURN_CUSTOMER": {
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Повторная сделка"
+        },
+        "IS_REPEATED_APPROACH": {
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Повторное обращение"
+        },
+        "PROBABILITY": {
+            "type": "integer",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Вероятность"
+        },
+        "CURRENCY_ID": {
+            "type": "crm_currency",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Валюта"
+        },
+        "OPPORTUNITY": {
+            "type": "double",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Сумма"
+        },
+        "IS_MANUAL_OPPORTUNITY": {
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "IS_MANUAL_OPPORTUNITY"
+        },
+        "TAX_VALUE": {
+            "type": "double",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Ставка налога"
+        },
+        "COMPANY_ID": {
+            "type": "crm_company",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Компания",
+            "settings": {
+                "parentEntityTypeId": 4
+            }
+        },
+        "CONTACT_ID": {
+            "type": "crm_contact",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "isDeprecated": true,
+            "title": "Контакт"
+        },
+        "CONTACT_IDS": {
+            "type": "crm_contact",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": true,
+            "isDynamic": false,
+            "title": "Контакты"
+        },
+        "QUOTE_ID": {
+            "type": "crm_quote",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Предложение",
+            "settings": {
+                "parentEntityTypeId": 7
+            }
+        },
+        "BEGINDATE": {
+            "type": "date",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дата начала"
+        },
+        "CLOSEDATE": {
+            "type": "date",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дата завершения"
+        },
+        "OPENED": {
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Доступна для всех"
+        },
+        "CLOSED": {
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Закрыта"
+        },
+        "COMMENTS": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Комментарий"
+        },
+        "ASSIGNED_BY_ID": {
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Ответственный"
+        },
+        "CREATED_BY_ID": {
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Кем создана"
+        },
+        "MODIFY_BY_ID": {
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Кем изменена"
+        },
+        "MOVED_BY_ID": {
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "MOVED_BY_ID"
+        },
+        "DATE_CREATE": {
+            "type": "datetime",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дата создания"
+        },
+        "DATE_MODIFY": {
+            "type": "datetime",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дата изменения"
+        },
+        "MOVED_TIME": {
+            "type": "datetime",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "MOVED_TIME"
+        },
+        "SOURCE_ID": {
+            "type": "crm_status",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "statusType": "SOURCE",
+            "title": "Источник"
+        },
+        "SOURCE_DESCRIPTION": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дополнительно об источнике"
+        },
+        "LEAD_ID": {
+            "type": "crm_lead",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Лид",
+            "settings": {
+                "parentEntityTypeId": 1
+            }
+        },
+        "ADDITIONAL_INFO": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дополнительная информация"
+        },
+        "LOCATION_ID": {
+            "type": "location",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Местоположение"
+        },
+        "ORIGINATOR_ID": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Внешний источник"
+        },
+        "ORIGIN_ID": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Идентификатор элемента во внешнем источнике"
+        },
+        "UTM_SOURCE": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Рекламная система"
+        },
+        "UTM_MEDIUM": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Тип трафика"
+        },
+        "UTM_CAMPAIGN": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Обозначение рекламной кампании"
+        },
+        "UTM_CONTENT": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Содержание кампании"
+        },
+        "UTM_TERM": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Условие поиска кампании"
+        },
+        "LAST_ACTIVITY_TIME": {
+            "type": "datetime",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "LAST_ACTIVITY_TIME"
+        },
+        "LAST_ACTIVITY_BY": {
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "LAST_ACTIVITY_BY"
+        }
+    },
+    "time": {
+        "start": 1724857659.824873,
+        "finish": 1724857660.790877,
+        "duration": 0.9660041332244873,
+        "processing": 0.3691408634185791,
+        "date_start": "2024-08-28T17:07:39+02:00",
+        "date_finish": "2024-08-28T17:07:40+02:00",
+        "operating": 0
+    }
 }
 ```
 
@@ -507,6 +513,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект в формате:
+
 ```
 {
     field_1: value_1,
@@ -518,20 +525,21 @@ HTTP-статус: **200**
 
 где:
 - `field_n` — поле сделки
-- `value_n` — информация о поле в формате [`crm_rest_field_description`](../data-types.md#crm_rest_field_description)
-
+- `value_n` — информация о поле в формате [crm_rest_field_description](../data-types.md#crm_rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-
 ## Обработка ошибок
 
-Метод не предполагает возврат ошибок
+Метод не возвращает ошибки.
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
 
-
 ## Продолжите изучение
 
-TODO
+- [{#T}](./crm-deal-add.md)
+- [{#T}](./crm-deal-update.md)
+- [{#T}](./crm-deal-get.md)
+- [{#T}](./crm-deal-list.md)
+- [{#T}](./crm-deal-delete.md)

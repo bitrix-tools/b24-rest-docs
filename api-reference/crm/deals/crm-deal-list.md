@@ -1,23 +1,12 @@
 # Получить список сделок crm.deal.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-> Название метода: **crm.deal.list**
-> 
 > Scope: [`crm`](../../scopes/permissions.md)
 > 
 > Кто может выполнять метод: любой пользователь с правом «чтения» сделок
 
-Метод `crm.deal.list` Возвращает список сделок по фильтру. Является реализацией списочного метода для сделок.
-
+Метод `crm.deal.list` возвращает список сделок по фильтру. Является реализацией списочного метода для сделок.
 
 ## Параметры метода
-
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,17 +14,17 @@
 || **select**
 [`string[]`](../../data-types.md) | Список полей, которые должны быть заполнены у сделок в выборке.
 
-При выборке вы можете использовать маски:
-- `'*'` - для выборки всех полей (без пользовательских и множественных)
-- `'UF_*'` - для выборки всех пользовательских полей (без множественных)
+При выборке можно использовать следующие маски:
+- `'*'` — для выборки всех полей (без пользовательских и множественных)
+- `'UF_*'` — для выборки всех пользовательских полей (без множественных)
 
-Список доступных полей для выборки можно узнать посредством метода [`crm.deal.fields`](crm-deal-fields.md)
+Список доступных полей для выборки можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md).
 
-По умолчанию берутся все поля - `'*'` + Пользовательские поля - `'UF_*'`
+По умолчанию берутся все поля — `'*'` + Пользовательские поля — `'UF_*'`
 ||
 || **filter**
-[`object`](../../data-types.md) |
-Объект формата:
+[`object`](../../data-types.md) | Объект формата:
+
 ```
 {
     field_1: value_1,
@@ -44,8 +33,9 @@
     field_n: value_n,
 }
 ```
-где
-- `field_n` — название поля по которому будет отфильтрована выборка элементов
+
+где:
+- `field_n` — название поля, по которому будет отфильтрована выборка элементов
 - `value_n` — значение фильтра
 
 К ключам `field_n` можно добавить префикс, уточняющий работу фильтра.
@@ -66,17 +56,13 @@
 - `!=` — не равно
 - `!` — не равно
 
-{% note warning %}
+Фильтр LIKE не работает с полями типа `crm_status`, `crm_contact`, `crm_company` (тип сделки `TYPE_ID`, стадия `STAGE_ID` и так далее).
 
-LIKE фильтр не работает с полями типа `crm_status`, `crm_contact`, `crm_company`. (Тип сделки (`TYPE_ID`), Стадия (`STAGE_ID`) и т.д.)
-
-{% endnote %}
-
-Список доступных полей для фильтрации можно узнать посредством метода [`crm.deal.fields`](crm-deal-fields.md)
+Список доступных полей для фильтрации можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md)
 ||
 || **order**
-[`object`](../../data-types.md) |
-Объект формата:
+[`object`](../../data-types.md) | Объект формата:
+
 ```
 {
     field_1: value_1,
@@ -85,13 +71,14 @@ LIKE фильтр не работает с полями типа `crm_status`, `
     field_n: value_n,
 }
 ```
-где
-- `field_n` — название поля по которому будет произведена сортировка выборки контактов
-- `value_n` — значение типа `string` равное:
+
+где:
+- `field_n` — название поля, по которому будет произведена сортировка выборки контактов
+- `value_n` — значение типа `string`, равное:
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
 
-Список доступных полей для сортировки можно узнать посредством метода [`crm.deal.fields`](crm-deal-fields.md)
+Список доступных полей для сортировки можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md)
 ||
 || **start**
 [`integer`](../../data-types.md)  | Параметр используется для управления постраничной навигацией.
@@ -114,48 +101,53 @@ LIKE фильтр не работает с полями типа `crm_status`, `
 
 {% endnote %}
 
-
 ## Примеры кода
 
-**Получить список сделок у которых:**
-1. Идентификатор воронки равен `1`
-2. Тип сделки равен **COMPLEX** (Комплексная продажа)
-3. Название заканчивается на `а`
-4. Стадия равна **С1:NEW** (Новая)
-5. Сумма больше 10000 и меньше или равна 20000
-6. Включен ручной режим подсчета суммы
-7. Ответственным является либо пользователь с `id = 1`, либо пользователь с `id = 6`
-8. Дата создания не менее 6 месяцев назад
-
-**Задать следующий порядок сортировки у данной выборки:**
-* Название и сумма в порядке возрастания
-
-**Для наглядности выберем только необходимые для нас поля:**
-* Идентификатор `ID`
-* Название `TITLE`
-* Тип сделки `TYPE_ID`
-* Идентификатор воронки `CATEGORY_ID`
-* Стадия `STAGE_ID`
-* Сумма `OPPORTUNITY`
-* Включен ли ручной режим `IS_MANUAL_OPPORTUNITY`
-* Ответственный `ASSIGNED_BY_ID`
-* Дата создания `DATE_CREATE`
-
-
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Получить список сделок, у которых:
+1. идентификатор воронки равен `1`
+2. тип сделки равен `COMPLEX` (комплексная продажа)
+3. название заканчивается на `а`
+4. стадия равна `С1:NEW` (новая)
+5. сумма больше 10000, но меньше или равна 20000
+6. включен ручной режим подсчета суммы
+7. ответственным является либо пользователь с `id = 1`, либо пользователь с `id = 6`
+8. сделка создана не менее 6 месяцев назад
+
+Задать следующий порядок сортировки у данной выборки: название и сумма в порядке возрастания.
+
+Для наглядности выбрать только необходимые поля:
+- Идентификатор `ID`
+- Название `TITLE`
+- Тип сделки `TYPE_ID`
+- Идентификатор воронки `CATEGORY_ID`
+- Стадия `STAGE_ID`
+- Сумма `OPPORTUNITY`
+- Включен ли ручной режим `IS_MANUAL_OPPORTUNITY`
+- Ответственный `ASSIGNED_BY_ID`
+- Дата создания `DATE_CREATE`
 
 {% list tabs %}
 
 - cURL (Webhook)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"SELECT":["ID","TITLE","TYPE_ID","CATEGORY_ID","STAGE_ID","OPPORTUNITY","IS_MANUAL_OPPORTUNITY","ASSIGNED_BY_ID","DATE_CREATE"],"FILTER":{"=%TITLE":"%а","CATEGORY_ID":1,"TYPE_ID":"COMPLEX","STAGE_ID":"C1:NEW",">OPPORTUNITY":10000,"<=OPPORTUNITY":20000,"IS_MANUAL_OPPORTUNITY":"Y","@ASSIGNED_BY_ID":[1,6],">DATE_CREATE":"'"$(date --date='-6 months' +%Y-%m-%d)"'"},"ORDER":{"TITLE":"ASC","OPPORTUNITY":"ASC"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.list
     ```
 
 - cURL (OAuth)
 
     ```bash
-    todo
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"SELECT":["ID","TITLE","TYPE_ID","CATEGORY_ID","STAGE_ID","OPPORTUNITY","IS_MANUAL_OPPORTUNITY","ASSIGNED_BY_ID","DATE_CREATE"],"FILTER":{"=%TITLE":"%а","CATEGORY_ID":1,"TYPE_ID":"COMPLEX","STAGE_ID":"C1:NEW",">OPPORTUNITY":10000,"<=OPPORTUNITY":20000,"IS_MANUAL_OPPORTUNITY":"Y","@ASSIGNED_BY_ID":[1,6],">DATE_CREATE":"'"$(date --date='-6 months' +%Y-%m-%d)"'"},"ORDER":{"TITLE":"ASC","OPPORTUNITY":"ASC"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.deal.list
     ```
 
 - JS
@@ -207,11 +199,48 @@ LIKE фильтр не работает с полями типа `crm_status`, `
 - PHP
 
     ```php
-    todo
+    require_once('crest.php');
+
+    $sixMonthAgo = (new DateTime())->modify('-6 months')->format('Y-m-d');
+
+    $result = CRest::call(
+        'crm.deal.list',
+        [
+            'SELECT' => [
+                'ID',
+                'TITLE',
+                'TYPE_ID',
+                'CATEGORY_ID',
+                'STAGE_ID',
+                'OPPORTUNITY',
+                'IS_MANUAL_OPPORTUNITY',
+                'ASSIGNED_BY_ID',
+                'DATE_CREATE',
+            ],
+            'FILTER' => [
+                '=%TITLE' => '%а',
+                'CATEGORY_ID' => 1,
+                'TYPE_ID' => 'COMPLEX',
+                'STAGE_ID' => 'C1:NEW',
+                '>OPPORTUNITY' => 10000,
+                '<=OPPORTUNITY' => 20000,
+                'IS_MANUAL_OPPORTUNITY' => 'Y',
+                '@ASSIGNED_BY_ID' => [1, 6],
+                '>DATE_CREATE' => $sixMonthAgo,
+            ],
+            'ORDER' => [
+                'TITLE' => 'ASC',
+                'OPPORTUNITY' => 'ASC',
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
-
 
 ## Обработка ответа
 
@@ -219,84 +248,84 @@ HTTP-статус: **200**
 
 ```json
 {
-	"result": [
-		{
-			"ID": "37",
-			"TITLE": "[А] Сделка",
-			"TYPE_ID": "COMPLEX",
-			"CATEGORY_ID": "1",
-			"STAGE_ID": "C1:NEW",
-			"OPPORTUNITY": "19999.99",
-			"IS_MANUAL_OPPORTUNITY": "Y",
-			"ASSIGNED_BY_ID": "1",
-			"DATE_CREATE": "2024-09-02T18:37:18+02:00"
-		},
-		{
-			"ID": "38",
-			"TITLE": "[А] Сделка",
-			"TYPE_ID": "COMPLEX",
-			"CATEGORY_ID": "1",
-			"STAGE_ID": "C1:NEW",
-			"OPPORTUNITY": "20000.00",
-			"IS_MANUAL_OPPORTUNITY": "Y",
-			"ASSIGNED_BY_ID": "6",
-			"DATE_CREATE": "2024-09-02T18:37:38+02:00"
-		},
-		{
-			"ID": "39",
-			"TITLE": "[Б] Продажа",
-			"TYPE_ID": "COMPLEX",
-			"CATEGORY_ID": "1",
-			"STAGE_ID": "C1:NEW",
-			"OPPORTUNITY": "12500.00",
-			"IS_MANUAL_OPPORTUNITY": "Y",
-			"ASSIGNED_BY_ID": "1",
-			"DATE_CREATE": "2024-04-09T23:11:01+02:00"
-		},
-		{
-			"ID": "40",
-			"TITLE": "[Б] Сделка",
-			"TYPE_ID": "COMPLEX",
-			"CATEGORY_ID": "1",
-			"STAGE_ID": "C1:NEW",
-			"OPPORTUNITY": "13500.00",
-			"IS_MANUAL_OPPORTUNITY": "Y",
-			"ASSIGNED_BY_ID": "6",
-			"DATE_CREATE": "2024-08-08T19:00:14+02:00"
-		},
-		{
-			"ID": "41",
-			"TITLE": "[В] Сделка",
-			"TYPE_ID": "COMPLEX",
-			"CATEGORY_ID": "1",
-			"STAGE_ID": "C1:NEW",
-			"OPPORTUNITY": "11500.00",
-			"IS_MANUAL_OPPORTUNITY": "Y",
-			"ASSIGNED_BY_ID": "6",
-			"DATE_CREATE": "2024-05-08T09:38:23+02:00"
-		},
-		{
-			"ID": "42",
-			"TITLE": "[С] Сделка",
-			"TYPE_ID": "COMPLEX",
-			"CATEGORY_ID": "1",
-			"STAGE_ID": "C1:NEW",
-			"OPPORTUNITY": "18500.00",
-			"IS_MANUAL_OPPORTUNITY": "Y",
-			"ASSIGNED_BY_ID": "6",
-			"DATE_CREATE": "2024-07-02T15:38:32+02:00"
-		}
-	],
-	"total": 6,
-	"time": {
-		"start": 1725292115.026221,
-		"finish": 1725292115.907058,
-		"duration": 0.8808369636535645,
-		"processing": 0.2484450340270996,
-		"date_start": "2024-09-02T17:48:35+02:00",
-		"date_finish": "2024-09-02T17:48:35+02:00",
-		"operating": 0
-	}
+    "result": [
+        {
+            "ID": "37",
+            "TITLE": "[А] Сделка",
+            "TYPE_ID": "COMPLEX",
+            "CATEGORY_ID": "1",
+            "STAGE_ID": "C1:NEW",
+            "OPPORTUNITY": "19999.99",
+            "IS_MANUAL_OPPORTUNITY": "Y",
+            "ASSIGNED_BY_ID": "1",
+            "DATE_CREATE": "2024-09-02T18:37:18+02:00"
+        },
+        {
+            "ID": "38",
+            "TITLE": "[А] Сделка",
+            "TYPE_ID": "COMPLEX",
+            "CATEGORY_ID": "1",
+            "STAGE_ID": "C1:NEW",
+            "OPPORTUNITY": "20000.00",
+            "IS_MANUAL_OPPORTUNITY": "Y",
+            "ASSIGNED_BY_ID": "6",
+            "DATE_CREATE": "2024-09-02T18:37:38+02:00"
+        },
+        {
+            "ID": "39",
+            "TITLE": "[Б] Продажа",
+            "TYPE_ID": "COMPLEX",
+            "CATEGORY_ID": "1",
+            "STAGE_ID": "C1:NEW",
+            "OPPORTUNITY": "12500.00",
+            "IS_MANUAL_OPPORTUNITY": "Y",
+            "ASSIGNED_BY_ID": "1",
+            "DATE_CREATE": "2024-04-09T23:11:01+02:00"
+        },
+        {
+            "ID": "40",
+            "TITLE": "[Б] Сделка",
+            "TYPE_ID": "COMPLEX",
+            "CATEGORY_ID": "1",
+            "STAGE_ID": "C1:NEW",
+            "OPPORTUNITY": "13500.00",
+            "IS_MANUAL_OPPORTUNITY": "Y",
+            "ASSIGNED_BY_ID": "6",
+            "DATE_CREATE": "2024-08-08T19:00:14+02:00"
+        },
+        {
+            "ID": "41",
+            "TITLE": "[В] Сделка",
+            "TYPE_ID": "COMPLEX",
+            "CATEGORY_ID": "1",
+            "STAGE_ID": "C1:NEW",
+            "OPPORTUNITY": "11500.00",
+            "IS_MANUAL_OPPORTUNITY": "Y",
+            "ASSIGNED_BY_ID": "6",
+            "DATE_CREATE": "2024-05-08T09:38:23+02:00"
+        },
+        {
+            "ID": "42",
+            "TITLE": "[С] Сделка",
+            "TYPE_ID": "COMPLEX",
+            "CATEGORY_ID": "1",
+            "STAGE_ID": "C1:NEW",
+            "OPPORTUNITY": "18500.00",
+            "IS_MANUAL_OPPORTUNITY": "Y",
+            "ASSIGNED_BY_ID": "6",
+            "DATE_CREATE": "2024-07-02T15:38:32+02:00"
+        }
+    ],
+    "total": 6,
+    "time": {
+        "start": 1725292115.026221,
+        "finish": 1725292115.907058,
+        "duration": 0.8808369636535645,
+        "processing": 0.2484450340270996,
+        "date_start": "2024-09-02T17:48:35+02:00",
+        "date_finish": "2024-09-02T17:48:35+02:00",
+        "operating": 0
+    }
 }
 ```
 
@@ -306,17 +335,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`deal[]`](crm-deal-get.md#deal) | Корневой элемент ответа. Содержит массив из объектов, содержащих информацию о полях сделок. Стоит учитывать, что структура полей может быть изменена из-за параметра `select` ||
+[`deal[]`](crm-deal-get.md#deal) | Корневой элемент ответа. Содержит массив из объектов, содержащих информацию о полях сделок. 
+
+Стоит учитывать, что структура полей может быть изменена из-за параметра `select` ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных элементов ||
 || **next**
 [`integer`](../../data-types.md) | Содержит значение, которое нужно передать в следующий запрос в параметр `start`, чтобы получить следующую порцию данных.
 
-Параметр `next` появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение `50`. ||
+Параметр `next` появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение `50` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
-
 
 ## Обработка ошибок
 
@@ -324,8 +354,8 @@ HTTP-статус: **400**
 
 ```json
 {
-	"error": "",
-	"error_description": "Parameter 'filter' must be array."
+    "error": "",
+    "error_description": "Parameter 'filter' must be array."
 }
 ```
 
@@ -335,15 +365,18 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | Access denied. | У пользователя нет прав на «чтение» сделок ||
-|| `-`     | Parameter 'order' must be array. | В параметр `order` передан не объект ||
-|| `-`     | Parameter 'filter' must be array. | В параметр `filter` передан не объект ||
-|| `-`     | Failed to get list. General error. | Произошла неизвестная ошибка ||
+|| `-`     | `Access denied` | У пользователя нет прав на «чтение» сделок ||
+|| `-`     | `Parameter 'order' must be array` | В параметр `order` передан не объект ||
+|| `-`     | `Parameter 'filter' must be array` | В параметр `filter` передан не объект ||
+|| `-`     | `Failed to get list. General error` | Произошла неизвестная ошибка ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
 
-
 ## Продолжите изучение
 
-TODO
+- [{#T}](./crm-deal-add.md)
+- [{#T}](./crm-deal-update.md)
+- [{#T}](./crm-deal-get.md)
+- [{#T}](./crm-deal-delete.md)
+- [{#T}](./crm-deal-fields.md)

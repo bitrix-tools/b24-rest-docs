@@ -1,23 +1,15 @@
-# Методы работы со ставками НДС
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Обзор методов
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
-
-Методы работы со складами:
+> Кто может выполнять метод: администратор
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.vat.add](./catalog-vat-add.md) | Метод добавляет ставку НДС. ||
-|| [catalog.vat.delete](./catalog-vat-delete.md) | Метод удаляет ставку НДС. ||
-|| [catalog.vat.get](./catalog-vat-get.md) | Метод для получения значений полей ставки НДС по ID. ||
-|| [catalog.vat.getFields](./catalog-vat-get-fields.md) | Метод возвращает поля ставки НДС. ||
-|| [catalog.vat.list](./catalog-vat-list.md) | Метод получает список ставок НДС по фильтру. ||
-|| [catalog.vat.update](./catalog-vat-update.md) | Метод обновляет ставку НДС. ||
+|| [catalog.vat.add](./catalog-vat-add.md) | Добавляет ставку НДС ||
+|| [catalog.vat.update](./catalog-vat-update.md) | Изменяет ставку НДС ||
+|| [catalog.vat.get](./catalog-vat-get.md) | Возвращает значения полей ставки НДС по идентификатору ||
+|| [catalog.vat.list](./catalog-vat-list.md) | Возвращает список ставок НДС по фильтру ||
+|| [catalog.vat.delete](./catalog-vat-delete.md) | Удаляет ставку НДС ||
+|| [catalog.vat.getFields](./catalog-vat-get-fields.md) | Возвращает поля ставки НДС ||
 |#

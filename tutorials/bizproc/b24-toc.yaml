@@ -3,9 +3,7 @@ href: index.md
 items: 
   - name: Типовые кейсы использования REST API в бизнес-процессах и роботах
     href: index.md
-  - name: Как создать активити
+  - name: Как добавить действие или робота для создания счета
     href: activity.md
-  - name: Как создать робота CRM 
-    href: robot.md
   - name: Как встроить свой UI в параметры робота 
     href: setting-robot.md

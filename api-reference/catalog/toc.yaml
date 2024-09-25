@@ -95,7 +95,7 @@ items:
       mode: link
   - name: Ставки НДС
     include:
-      path: vat/toc.yaml
+      path: vat/b24-toc.yaml
       mode: link
   - name: События
     include:
