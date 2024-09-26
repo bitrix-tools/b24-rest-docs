@@ -29,9 +29,9 @@
 || [`catalog_product_sku.id`](#catalog_product_sku) | Целочисленный идентификатор головного товара (например, `1`). Получить идентификаторы головных товаров можно с помощью метода [catalog.product.sku.list](./product/sku/catalog-product-sku-list.md) ||
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор торгового предложения (например, `1`). Получить идентификаторы торговых предложений можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
-|| [`catalog_measure`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
-|| [`catalog_section`](#catalog_section) | Целочисленный идентификатор секции каталога (например, `1`). Получить идентификаторы разделов товаров можно с помощью метода [catalog.section.list] [catalog.measure.list](./section/catalog-section-list.md) ||
-|| [`catalog_vat`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
+|| [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
+|| [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор секции каталога (например, `1`). Получить идентификаторы разделов товаров можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
+|| [`catalog_vat.id`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
 |#
 
 ## Структура объектов

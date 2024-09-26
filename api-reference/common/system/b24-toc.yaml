@@ -1,10 +1,8 @@
 title: Системные методы
 href: index.md
 items: 
-  - name: Список методов
+  - name: Обзор методов
     href: index.md
-  - name: Получить список доступных методов (устар.)
-    href: methods.md
   - name: Получить список доступных методов
     href: method-get.md
   - name: Получить список доступных разрешений
@@ -17,3 +15,5 @@ items:
     href: feature-get.md
   - name: Получить текущее время сервера
     href: server-time.md
+  - name: Получить список доступных методов (устар.)
+    href: methods.md
