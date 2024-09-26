@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 26 сентября, 2024
+
+- Обновлена документация по основным методам работы с бизнес-процессами [bizproc.workflow.*](./api-reference/bizproc/bizproc-workflow-start.md)
+
 ### 24 сентября, 2024
 
 - Обновлена документация по событиям [контактов](./api-reference/crm/contacts/events/index.md) и [пользовательских полей контактов](./api-reference/crm/contacts/userfield/events/index.md)
