@@ -1,4 +1,4 @@
-# Удалить виджет landing.repowidget.unregister
+# Удалить виджет для вайба landing.repowidget.unregister
 
 {% note warning "Мы еще работаем над инструментом" %}
 
@@ -6,26 +6,26 @@
 
 {% endnote %}
 
-> Scope: [`landing`](../../scopes/permissions.md)
+> Scope: [`landing`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `landing.repowidget.unregister` удаляет партнерский виджет. В случае успеха возвращает *true*, в противном случае — *false* или ошибку с описанием.
+Метод `landing.repowidget.unregister` удаляет виджет для вайба - главной страницы. В случае успеха возвращает `true`, в противном случае — `false` или ошибку с описанием.
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **code***
-[`string`](../../data-types.md) | Уникальный код удаляемого виджета ||
+[`string`](../data-types.md) | Уникальный код удаляемого виджета ||
 |#
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -90,14 +90,14 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат удаления виджета ||
+[`boolean`](../data-types.md) | Результат удаления виджета ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-{% include [системные ошибки](../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

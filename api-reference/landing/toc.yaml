@@ -25,15 +25,11 @@ items:
     include:
       path: embedding/toc.yaml
       mode: link
-  - name: Партнерские блоки
+  - name: Пользовательские блоки
     include:
-      path: partners-blocks/toc.yaml
+      path: user-blocks/toc.yaml
       mode: link
-  - name: Партнерские виджеты
-    include:
-      path: partners-widgets/b24-toc.yaml
-      mode: link
-  - name: Партнерские шаблоны
+  - name: Пользовательские шаблоны
     include:
       path: demos/toc.yaml
       mode: link
