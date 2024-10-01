@@ -81,9 +81,9 @@ items:
     include:
       path: user/b24-toc.yaml
       mode: link
-  - name: Бизнес-процессы
+  - name: Бизнес-процессы и роботы
     include:
-      path: bizproc/toc.yaml
+      path: bizproc/b24-toc.yaml
       mode: link
   - name: Генератор документов
     include:

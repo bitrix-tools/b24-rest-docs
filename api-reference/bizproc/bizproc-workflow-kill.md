@@ -1,56 +1,145 @@
 # Удалить запущенный процесс bizproc.workflow.kill
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- в чем разница с методом terminate?
-  
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`bizproc`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
-Метод удаляет запущенный бизнес-процесс.
+Метод удаляет запущенный бизнес-процесс вместе со всеми данными процесса.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **ID**^*^ | Идентификатор бизнес-процесса. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **ID***
+[`integer`](../data-types.md) | Идентификатор бизнес-процесса ||
 |#
 
-\* - Обязательные параметры
 
-## Пример
- ```javascript
-function killWf(id, cb)
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ID":"65e5a449e8f135.21284909"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.workflow.kill
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ID":"65e5a449e8f135.21284909","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/bizproc.workflow.kill
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'bizproc.workflow.kill',
+        {
+            ID: '65e5a449e8f135.21284909',
+        },
+        function(result) {
+            console.log('response', result.answer);
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.workflow.kill',
+        [
+            'ID' => '65e5a449e8f135.21284909'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
 {
-	var params = {ID: id};
-	BX24.callMethod(
-		'bizproc.workflow.kill',
-		params,
-		function(result)
-		{
-			if(result.error())
-				alert("Error: " + result.error());
-			else if (cb)
-				cb();
-		}
-	);
+    "result": true,
+    "time": {
+        "start": 1726476060.581428,
+        "finish": 1726476060.813776,
+        "duration": 0.23234796524047852,
+        "processing": 0.002630949020385742,
+        "date_start": "2024-09-16T08:41:00+00:00",
+        "date_finish": "2024-09-16T08:41:00+00:00",
+        "operating_reset_at": 1726476660,
+        "operating": 0,
+    },
 }
 ```
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../data-types.md) | Корневой элемент ответа.
+
+Содержит `true` в случае успеха ||
+|| **time**
+[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied!",
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** |**Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
+|| `400` | `ERROR_WRONG_WORKFLOW_ID` | Empty workflow instance ID | Передали пустое значение в параметр `ID` ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./bizproc-workflow-start.md)
+- [{#T}](./bizproc-workflow-instances.md)
+- [{#T}](./bizproc-workflow-terminate.md)

@@ -6,6 +6,10 @@
 
 - Добавлен [список ошибок сервера OAuth](./api-reference/oauth/error-codes.md)
 
+### 26 сентября, 2024
+
+- Обновлена документация по основным методам работы с бизнес-процессами [bizproc.workflow.*](./api-reference/bizproc/bizproc-workflow-start.md)
+
 ### 25 сентября, 2024
 
 - Обновлена документация по [системным методам](./api-reference/common/system/index.md)
