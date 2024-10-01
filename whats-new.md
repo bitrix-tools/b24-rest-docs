@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 1 октября, 2024
+
+- Добавлен [список ошибок сервера OAuth](./api-reference/oauth/error-codes.md)
+
 ### 25 сентября, 2024
 
 - Обновлена документация по [системным методам](./api-reference/common/system/index.md)
