@@ -64,4 +64,5 @@ navigation:
         type: 'link'
         url: '/api-reference/index.html'
     rightItems:    
+      - type: search
       - type: controls

@@ -6,3 +6,5 @@ resources:
   script:
     - _assets/b24loc.js?20240925-02
     - _assets/b24addons.js?20240925-02
+
+search: true
