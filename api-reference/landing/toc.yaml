@@ -29,6 +29,10 @@ items:
     include:
       path: partners-blocks/toc.yaml
       mode: link
+  - name: Партнерские виджеты
+    include:
+      path: partners-widgets/b24-toc.yaml
+      mode: link
   - name: Партнерские шаблоны
     include:
       path: demos/toc.yaml

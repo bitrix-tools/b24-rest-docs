@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 1 октября, 2024
+
+- Добавлена документация по [Партнерским виджетам](./api-reference/landing/partners-widgets/index.md)
+
 ### 25 сентября, 2024
 
 - Обновлена документация по [системным методам](./api-reference/common/system/index.md)

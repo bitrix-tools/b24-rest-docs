@@ -1,0 +1,9 @@
+title: Партнерские виджеты 
+href: index.md
+items:
+  - name: Вайб и партнерские виджеты 
+    href: index.md
+  - name: Добавить виджет
+    href: landing-repowidget-register.md
+  - name: Удалить виджет
+    href: landing-repowidget-unregister.md
