@@ -109,10 +109,6 @@ items:
     include:
       path: pay-system/b24-toc.yaml
       mode: link
-  - name: Провайдеры сообщений, SMS-провайдеры
-    include:
-      path: messageservice/toc.yaml
-      mode: link
   - name: Пользователи
     include:
       path: user/b24-toc.yaml
@@ -124,6 +120,10 @@ items:
   - name: Почтовые сервисы
     include:
       path: mailservice/toc.yaml
+      mode: link
+  - name: Провайдеры сообщений, SMS-провайдеры
+    include:
+      path: messageservice/toc.yaml
       mode: link
   - name: Рабочие группы и проекты
     include:
@@ -145,14 +145,6 @@ items:
     include:
       path: catalog/toc.yaml
       mode: link
-  - name: Чаты
-    include:
-      path: chats/b24-toc.yaml
-      mode: link
-  - name: Чат-боты
-    include:
-      path: chat-bots/b24-toc.yaml
-      mode: link
   - name: Универсальные списки
     include:
       path: lists/toc.yaml
@@ -164,6 +156,14 @@ items:
   - name: Хранилище данных
     include:
       path: entity/toc.yaml
+      mode: link
+  - name: Чаты
+    include:
+      path: chats/b24-toc.yaml
+      mode: link
+  - name: Чат-боты
+    include:
+      path: chat-bots/b24-toc.yaml
       mode: link
   - name: Устаревшие методы
     include:
