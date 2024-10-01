@@ -4,7 +4,12 @@
 
 ### 1 октября, 2024
 
+- Добавлен [список ошибок сервера OAuth](./api-reference/oauth/error-codes.md)
 - Добавлена документация по [Партнерским виджетам](./api-reference/landing/partners-widgets/index.md)
+
+### 26 сентября, 2024
+
+- Обновлена документация по основным методам работы с бизнес-процессами [bizproc.workflow.*](./api-reference/bizproc/bizproc-workflow-start.md)
 
 ### 25 сентября, 2024
 

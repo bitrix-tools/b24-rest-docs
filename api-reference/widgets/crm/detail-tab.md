@@ -1,5 +1,4 @@
 # Вкладка в детальной карточке элемента CRM CRM_XXX_DETAIL_TAB, CRM_DYNAMIC_XXX_DETAIL_TAB
-# Вкладка в детальной карточке элемента CRM CRM_XXX_DETAIL_TAB, CRM_DYNAMIC_XXX_DETAIL_TAB
 
 > Scope: [`crm`](../../scopes/permissions.md)
 

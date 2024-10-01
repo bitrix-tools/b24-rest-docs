@@ -13,10 +13,10 @@ items:
     href: bizproc-workflow-kill.md
   - name: Добавить шаблон
     href: bizproc-workflow-template-add.md
-  - name: Получить список шаблонов
-    href: bizproc-workflow-template-list.md
   - name: Изменить шаблон
     href: bizproc-workflow-template-update.md
+  - name: Получить список шаблонов
+    href: bizproc-workflow-template-list.md
   - name: Удалить шаблон
     href: bizproc-workflow-template-delete.md
   - name: Задания

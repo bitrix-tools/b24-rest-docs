@@ -99,7 +99,7 @@ function closePopup() {
 function addSearchResults () {
     // Search results popup
     const resultContainer = document.createElement('div');
-    
+
     resultContainer.classList.add('search-results-container');
     resultContainer.style.setProperty('position', 'fixed', 'important');
     // resultContainer.style.top = '100%';
@@ -112,11 +112,11 @@ function addSearchResults () {
     resultContainer.style.zIndex = '9999';
     resultContainer.style.display = 'none';
     resultContainer.style.padding = '10px';
-    
+
     const searchContainer = document.querySelector('.search-container');
     const higherLevelContainer = document.body;
     higherLevelContainer.appendChild(resultContainer);
-    
+
     resultContainer.style.top = `${searchContainer.getBoundingClientRect().bottom + window.scrollY}px`;
     resultContainer.style.width = '700px';
     resultContainer.style.left = `${searchContainer.getBoundingClientRect().right - 700}px`;
@@ -127,7 +127,7 @@ function addSearchField() {
 
     const existingSearchInput = document.querySelector('.bx-search-input');
     const existingLogo = document.querySelector('.pc-logo__icon');
-    
+
     if (!existingSearchInput && (existingLogo.width > 0)) {
 
         const searchContainer = document.createElement('div');
@@ -147,7 +147,7 @@ function addSearchField() {
         searchInput.style.border = '1px solid #ccc';
         searchInput.style.width = '100%';
         searchInput.classList.add('bx-search-input');
-        
+
         let typingTimer;
         const typingDelay = 800;
 
@@ -177,7 +177,7 @@ function addSearchField() {
         });
 
         searchContainer.appendChild(searchInput);
-        
+
         const clearButton = document.createElement('span');
         clearButton.textContent = '×';
         clearButton.style.position = 'absolute';
@@ -189,7 +189,7 @@ function addSearchField() {
         clearButton.style.fontSize = '20px';
         clearButton.style.userSelect = 'none';
         searchContainer.appendChild(clearButton);
-        
+
         clearButton.addEventListener('click', function() {
             searchInput.value = '';
             searchInput.focus();
@@ -246,7 +246,7 @@ function fillResults(data) {
     resultContainer.innerHTML = '';
 
     if (data.result === 'ok' && data.items.length > 0) {
-        
+
         data.items.forEach(item => {
             const resultItem = document.createElement('div');
             resultItem.style.padding = '10px 5px';
@@ -282,7 +282,7 @@ function fillResults(data) {
                 breadcrumb.style.color = '#666';
                 breadcrumb.style.fontSize = '12px';
                 breadcrumb.style.marginRight = '5px';
-                
+
                 breadcrumbs.push(breadcrumb);
 
                 if (index < urlParts.length - 1) {
@@ -328,7 +328,7 @@ function performSearch(query, resultContainer) {
 
     const url = `https://util.1c-bitrix.ru/documentation/rest/search.php?q=${encodeURIComponent(query)}`;
     const searchInput = document.querySelector('.bx-search-input');
-    
+
     searchInput.classList.add('loading');
 
     fetch(url)
