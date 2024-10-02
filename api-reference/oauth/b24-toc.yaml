@@ -7,3 +7,5 @@ items:
     href: simple-way.md
   - name: Автоматическое продление токенов
     href: auto-renewal.md
+  - name: Коды ошибок
+    href: error-codes.md

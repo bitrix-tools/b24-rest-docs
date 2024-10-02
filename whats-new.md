@@ -2,6 +2,15 @@
 
 ## 2024
 
+### 2 октября, 2024
+
+Обновлены общие методы с [информацией о пользователе](./api-reference/common/users/index.md)
+
+### 1 октября, 2024
+
+- Добавлен [список ошибок сервера OAuth](./api-reference/oauth/error-codes.md)
+- Добавлена документация по [Виджетам для Вайбов](./api-reference/vibe/index.md)
+
 ### 26 сентября, 2024
 
 - Обновлена документация по основным методам работы с бизнес-процессами [bizproc.workflow.*](./api-reference/bizproc/bizproc-workflow-start.md)

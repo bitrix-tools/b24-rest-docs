@@ -1,4 +1,4 @@
-# Получить список блоков landing.repo.getList
+# Получить список пользовательских блоков landing.repo.getList
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
