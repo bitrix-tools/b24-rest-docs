@@ -1,4 +1,4 @@
-# Добавить виджет в репозиторий landing.repowidget.register
+# Добавить виджет для вайба - главной страницы landing.repowidget.register
 
 {% note warning "Мы еще работаем над инструментом" %}
 
@@ -6,46 +6,47 @@
 
 {% endnote %}
 
-> Scope: [`landing`](../../scopes/permissions.md)
+> Scope: [`landing`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `landing.repowidget.register` добавляет партнерский виджет для Главной страницы. Возвращает ошибку или `ID` добавленного виджета.
+Метод `landing.repowidget.register` добавляет виджет для вайба - Главной страницы. Возвращает ошибку или идентификатор `ID` добавленного виджета.
 
-При добавлении выполняется проверка. Если виджет с данным кодом уже присутствует в системе, то происходит обновление его контента. Ранее добавленные виджеты сами обновляются на Главной странице.
+При добавлении выполняется проверка. Если виджет с кодом `code` уже зарегистрирован ранее, то происходит обновление его контента. Виджеты, уже размещенные на Вайбах в случае обновления контента обновляются автоматически.
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **code***
-[`string`](../../data-types.md) | Уникальный код партнерского виджета ||
+[`string`](../data-types.md) | Уникальный код виджета. Настоятельно рекомендуется использовать какой-либо уникальный префикс для своих виджетов, чтобы избежать риск совпадения кодов с виджетами других разработчиков ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания виджета ||
+[`object`](../data-types.md) | Значения полей для создания виджета ||
 || **manifest**
-[`array`](../../data-types.md) | Массив [манифеста](../block/manifest.md) виджета. Разрешено указывать только настройки стилей и редактируемые ноды ||
+[`array`](../data-types.md) | Массив [манифеста](../landing/block/manifest.md) виджета. Используется механизм редактируемого контента в блоках для сайтов и лендингов с рядом ограничений: разрешено указывать только настройки стилей и редактируемые ноды ||
 |#
 
 ### Параметр fields
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **NAME**
-[`string`](../../data-types.md) | Название виджета ||
+[`string`](../data-types.md) | Название виджета ||
 || **PREVIEW**
-[`string`](../../data-types.md) | URL картинки-обложки виджета ||
+[`string`](../data-types.md) | URL картинки-обложки виджета для слайдера выбора виджетов ||
 || **DESCRIPTION**
-[`string`](../../data-types.md) | Описание виджета ||
+[`string`](../data-types.md) | Описание виджета ||
 || **CONTENT**
-[`string`](../../data-types.md) | Содержимое виджета в виде vue-конструкций ||
+[`string`](../data-types.md) | Вёрстка виджета с использованием конструкций Vue ||
 || **SECTIONS**
-[`string`](../../data-types.md) | Код раздела, в который будет добавлен виджет. Список доступных разделов:
+[`string`](../data-types.md) | Код раздела, в который будет добавлен виджет. Список доступных разделов:
+
 - `widgets_company_life` — Жизнь компании
 - `widgets_new_employees` — Новым сотрудникам
 - `widgets_team` — Команда
@@ -61,37 +62,46 @@
 - `widgets_image` — Картинки
 - `widgets_video` — Видео ||
 || **WIDGET_PARAMS**
-[`object`](../../data-types.md) | [Параметры](#anchor-widget-params) для vue-шаблонизатора. Если их нет, то блок останется обычным html-кодом с `{{}}` ||
+[`object`](../data-types.md) | [Параметры](#anchor-widget-params) для vue-шаблонизатора. Если их нет, то блок останется обычным html-кодом с `{{}}` ||
 || **ACTIVE**
-[`char`](../../data-types.md) | Активность виджета (Y\|N)||
+[`char`](../data-types.md) | Активность виджета. Принимает значения: 
+
+- `Y` - виджет активен и доступен;
+- `N` - виджет неактивен и недоступен ||
 || **SITE_TEMPLATE_ID**
-[`string`](../../data-types.md) | Привязка виджета к определенному шаблону сайта. *Только для коробочных версий!* ||
+[`string`](../data-types.md) | Привязка виджета к определенному шаблону сайта. **Только для коробочного Битрикс24!** ||
 |#
 
 #### Параметр WIDGET_PARAMS  {#anchor-widget-params}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **rootNode***
-[`string`](../../data-types.md) | Селектор корневого элемента в разметке, который будет превращен во vue-component. Корневой элемент должен быть единственным элементом в передаваемом шаблоне, вся остальная разметка будет очищена ||
+[`string`](../data-types.md) | Селектор корневого элемента в вёрстке, который будет превращен во vue-component. Корневой элемент должен быть единственным элементом в передаваемом шаблоне, вся остальная разметка будет очищена ||
 || **lang**
-[`string`](../../data-types.md) | Массив языковых фраз, использующихся в конструкциях `{{$Bitrix.Loc.getMessage('W_EMPTY')}}` ||
+[`string`](../data-types.md) | Массив языковых фраз, использующихся в конструкциях `{{$Bitrix.Loc.getMessage('W_EMPTY')}}` ||
 || **handler***
-[`string`](../../data-types.md) | Адрес [внешнего обработчика](./index.md#anchor-handler), к которому будут выполняться запросы ||
-|| **style**
-[`string`](../../data-types.md) | Адрес стилей для виджета. Стили также могут быть заданы инлайново в разметке через привязку `:style="{borderBottom: '1px solid red'}"` ||
-|| **data**
-[`array`](../../data-types.md) | Данные для первичного отображения виджета. В массиве должны содержаться все реактивные переменные, используемые в шаблоне. Если это условие не будет выполнено, то vue-конструкции, такие как `v-if="persons == null"`, могут приводить к ошибке при отсутствии параметра `persons`.
+[`string`](../data-types.md) | Адрес [внешнего обработчика](./index.md#anchor-handler), к которому будут выполняться запросы.
 
-Если данные не переданы, то перед отрисовкой виджета будет выполнен запрос к `handler` без параметров ||
+**Важно**: Обработчик должен быть доступен из внешней сети! Проверяйте доступность обработчика специальными сервисами.
+
+ ||
+|| **style**
+[`string`](../data-types.md) | Адрес стилей для виджета. Стили также могут быть заданы инлайново в разметке через привязку `:style="{borderBottom: '1px solid red'}"` ||
+|| **data**
+[`array`](../data-types.md) | Данные для первичного отображения виджета. 
+
+В массиве должны содержаться все реактивные переменные, используемые в шаблоне. Если это условие не будет выполнено, то vue-конструкции, такие как `v-if="persons == null"`, могут приводить к ошибке при отсутствии параметра `persons`.
+
+Если этот параметр при регистрации виджета не использован, то перед отрисовкой виджета будет выполнен запрос к `handler` ||
 |#
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -99,7 +109,7 @@
 
     ```js
     const content = `
-        <div class="w-container">
+        <div class="my-app-w-container">
             <h2 class="w-title" :style="{borderBottom: '1px solid red'}">
                 {{$Bitrix.Loc.getMessage('W_TITLE')}}
             </h2>
@@ -133,23 +143,23 @@
         code: 'my_widget',
         fields: {
             NAME: 'My widget',
-            PREVIEW: 'https://cp.local/vibe_preview.jpg',
+            PREVIEW: 'https://my-app.com/vibe_preview.jpg',
             CONTENT: content,
             SECTIONS: 'widgets_company_life',
             WIDGET_PARAMS: {
-                rootNode: '.w-container',
+                rootNode: '.my-app-w-container',
                 lang: {
                     ru: {
                         W_TITLE: 'Люди и их возраст',
                         W_EMPTY: 'Нет людей',
                     },
                     en: {
-                        W_TITLE: 'Widget title',
-                        W_EMPTY: 'Empty!',
+                        W_TITLE: 'People and their ages',
+                        W_EMPTY: 'Empty',
                     },
                 },
-                handler: 'https://cp.local/vibe.php',
-                style: 'https://cp.local/vibe.css',
+                handler: 'https://my-app.com/vibe.php',
+                style: 'https://my-app.com/vibe.css',
                 data: {
                     desc: 'Just a test widget',
                     count: 420,
@@ -186,7 +196,7 @@
     require_once('crest.php');
 
     $content = <<<'HTML'
-        <div class="w-container">
+        <div class="my-app-w-container">
             <h2 class="w-title" :style="{borderBottom: '1px solid red'}">
                 {{$Bitrix.Loc.getMessage('W_TITLE')}}
             </h2>
@@ -220,23 +230,23 @@
         'code' => 'my_widget',
         'fields' => [
             'NAME' => 'My widget', 
-            'PREVIEW' => 'https://cp.local/vibe_preview.jpg', 
+            'PREVIEW' => 'https://my-app.com/vibe_preview.jpg', 
             'CONTENT' => $content,  // Vue-разметка вынесена в отдельную переменную для удобства
             'SECTIONS' => 'widgets_company_life', 
             'WIDGET_PARAMS' => [
-                'rootNode' => '.w-container',
+                'rootNode' => '.my-app-w-container',
                 'lang' => [
                     'ru' => [
                         'W_TITLE' => 'Люди и их возраст',
                         'W_EMPTY' => 'Нет людей',
                     ],
                     'en' => [
-                        'W_TITLE' => 'Widget title',
+                        'W_TITLE' => 'People and their ages',
                         'W_EMPTY' => 'Empty!',
                     ],
                 ],
-                'handler' => 'https://cp.local/vibe.php',
-                'style' => 'https://cp.local/vibe.css',
+                'handler' => 'https://my-app.com/vibe.php',
+                'style' => 'https://my-app.com/vibe.css',
                 'data' => [
                     'desc' => 'Just a test widget',
                     'count' => 420,
@@ -296,14 +306,14 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../../data-types.md) | Идентификатор добавленного виджета ||
+[`integer`](../data-types.md) | Идентификатор добавленного виджета ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-{% include [системные ошибки](../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

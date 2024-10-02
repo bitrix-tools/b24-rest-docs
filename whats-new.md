@@ -9,7 +9,7 @@
 ### 1 октября, 2024
 
 - Добавлен [список ошибок сервера OAuth](./api-reference/oauth/error-codes.md)
-- Добавлена документация по [Партнерским виджетам](./api-reference/landing/partners-widgets/index.md)
+- Добавлена документация по [Виджетам для Вайбов](./api-reference/vibe/index.md)
 
 ### 26 сентября, 2024
 

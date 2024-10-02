@@ -61,73 +61,89 @@ items:
     include:
       path: common/toc.yaml
       mode: link
-  - name: CRM
-    include:
-      path: crm/toc.yaml
-      mode: link
   - name: CoPilot
     include:
       path: ai/b24-toc.yaml
       mode: link 
-  - name: Лента новостей
+  - name: CRM
     include:
-      path: log/toc.yaml
-      mode: link
-  - name: Интернет-магазин
-    include:
-      path: sale/b24-toc.yaml
-      mode: link
-  - name: Пользователи
-    include:
-      path: user/b24-toc.yaml
+      path: crm/toc.yaml
       mode: link
   - name: Бизнес-процессы и роботы
     include:
       path: bizproc/b24-toc.yaml
       mode: link
+  - name: Вайб
+    include:
+      path: vibe/b24-toc.yaml
+      mode: link
   - name: Генератор документов
     include:
       path: document-generator/toc.yaml
+      mode: link
+  - name: Диск
+    include:
+      path: disk/toc.yaml
+      mode: link
+  - name: Задачи
+    include:
+      path: tasks/b24-toc.yaml
+      mode: link
+  - name: Интернет-магазин
+    include:
+      path: sale/b24-toc.yaml
       mode: link
   - name: Календарь
     include:
       path: calendar/toc.yaml
       mode: link
-  - name: Платежные системы
+  - name: Лента новостей
     include:
-      path: pay-system/b24-toc.yaml
-      mode: link
-  - name: Структура компании
-    include:
-      path: departments/toc.yaml
-      mode: link
-  - name: Пользовательские соглашения
-    include:
-      path: user-consent/toc.yaml
-      mode: link
-  - name: Рабочие группы и проекты
-    include:
-      path: sonet-group/toc.yaml
+      path: log/toc.yaml
       mode: link
   - name: Открытые линии
     include:
       path: imopenlines/b24-toc.yaml
       mode: link
-  - name: Чат-боты
+  - name: Платежные системы
     include:
-      path: chat-bots/b24-toc.yaml
+      path: pay-system/b24-toc.yaml
       mode: link
-  - name: Чаты
+  - name: Пользователи
     include:
-      path: chats/b24-toc.yaml
+      path: user/b24-toc.yaml
+      mode: link
+  - name: Пользовательские соглашения
+    include:
+      path: user-consent/toc.yaml
+      mode: link
+  - name: Почтовые сервисы
+    include:
+      path: mailservice/toc.yaml
+      mode: link
+  - name: Провайдеры сообщений, SMS-провайдеры
+    include:
+      path: messageservice/toc.yaml
+      mode: link
+  - name: Рабочие группы и проекты
+    include:
+      path: sonet-group/toc.yaml
       mode: link
   - name: Сайты и магазины
     include:
       path: landing/toc.yaml
       mode: link
-  - name: Провайдеры сообщений, SMS-провайдеры
+  - name: Структура компании
     include:
-      path: messageservice/toc.yaml
+      path: departments/toc.yaml
+      mode: link
+  - name: Телефония
+    include:
+      path: telephony/toc.yaml
+      mode: link
+  - name: Торговый каталог
+    include:
+      path: catalog/toc.yaml
       mode: link
   - name: Универсальные списки
     include:
@@ -141,25 +157,13 @@ items:
     include:
       path: entity/toc.yaml
       mode: link
-  - name: Торговый каталог
+  - name: Чаты
     include:
-      path: catalog/toc.yaml
+      path: chats/b24-toc.yaml
       mode: link
-  - name: Телефония
+  - name: Чат-боты
     include:
-      path: telephony/toc.yaml
-      mode: link
-  - name: Диск
-    include:
-      path: disk/toc.yaml
-      mode: link
-  - name: Задачи
-    include:
-      path: tasks/b24-toc.yaml
-      mode: link
-  - name: Почтовые сервисы
-    include:
-      path: mailservice/toc.yaml
+      path: chat-bots/b24-toc.yaml
       mode: link
   - name: Устаревшие методы
     include:
