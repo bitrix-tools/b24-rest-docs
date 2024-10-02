@@ -26,7 +26,7 @@
 `тип` | **Описание** ||
 || **ID***
 [`integer`](../data-types.md) | Идентификатор пользователя ||
-|| **EMAIL***
+|| **EMAIL**
 [`string`](../data-types.md) | E-mail пользователя ||
 || **NAME**
 [`string`](../data-types.md) | Имя ||
