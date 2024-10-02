@@ -7,7 +7,7 @@ items:
     href: tools.md 
   - name: Как вызывать методы REST
     include:
-      path: how-to-call-rest-api/toc.yaml
+      path: how-to-call-rest-api/b24-toc.yaml
       mode: link
   - name: Типы данных и форматы параметров
     href: data-types.md 
