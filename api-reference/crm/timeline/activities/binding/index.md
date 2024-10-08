@@ -23,7 +23,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.binding.add](./crm-activity-binding-list.md) | Добавить привязку ||
+|| [crm.activity.binding.add](./crm-activity-binding-add.md) | Добавить привязку ||
 || [crm.activity.binding.list](./crm-activity-binding-list.md) | Получить список привязок ||
 || [crm.activity.binding.delete](./crm-activity-binding-delete.md) | Удалить привязку ||
 |#
