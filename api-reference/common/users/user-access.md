@@ -1,88 +1,105 @@
 # Определить набор прав пользователя user.access
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- более развернутый пример с получением результата на js
-- примеры на других языках
-- вообще непонятно, какие именно права проверяются-то, пример не дает ответа на этот вопрос. Нужен перечень возможных типов прав со пояснением, что есть что
-- пример успешного ответа нужен более информативный - какой он будет, если одно из прав у пользователя есть, а другого нет?
-- нужны коды возможных ошибок
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`базовый`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `user.access` сообщает, обладает ли текущий пользователь хотя бы одним из указанных прав.
+Метод `user.access` определяет, обладает ли текущий пользователь хотя бы одним из заданного параметром `ACCESS` набора прав.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **ACCESS**
-[`integer`](../../data-types.md) или [`array`](../../data-types.md) | Идентификатор или список идентификаторов прав, доступ к которым нужно проверить. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **ACCESS***
+[`array`](../../data-types.md) | Идентификатор или список идентификаторов прав, доступ к которым нужно проверить ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- cURL
+- cURL (Webhook)
 
-    ```http
+    ```curl
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{ "ACCESS": "[U22, U33"], "auth": "d161f25928c3184678924ec127edd29a" }' \
-    user.access.json
+    -d '{
+        "ACCESS": ["G2", "AU"]
+    }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.access
+    ```
+
+- cURL (OAuth)
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "ACCESS": ["G2", "AU"],
+        "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/user.access
     ```
 
 - JS
 
     ```js
-    BX24.callMethod('user.access', {ACCESS:['U22','U33']});
-    // нужен более внятный пример с обработкой получения результата
-
+    BX24.callMethod(
+        "user.access",
+        {
+            "'ACCESS": ["G2", "AU"]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
     ```
 
 - PHP
 
     ```php
-    // нужен пример
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'user.access',
+        [
+            'ACCESS' => ['G2','AU']
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
 {
-    "result": false,
+    "result": true,
     "time": {
-        "start": 1705764932.998683,
-        "finish": 1705764937.173995,
-        "duration": 4.1753120422363281,
-        "processing": 3.3076529502868652,
-        "date_start": "2024-01-20T18:35:32+03:00",
-        "date_finish": "2024-01-20T18:35:37+03:00",
-        "operating_reset_at": 1705765533,
-        "operating": 3.3076241016387939
+        "start": 1722001311.94644,
+        "finish": 1722001311.98622,
+        "duration": 0.0397801399230957,
+        "processing": 0.000041961669921875,
+        "date_start": "2024-07-26T13:41:51+00:00",
+        "date_finish": "2024-07-26T13:41:51+00:00",
+        "operating": 0
     }
 }
 ```
@@ -90,42 +107,19 @@
 ### Возвращаемые данные
 
 #|
-|| **Значение** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md)| true или false в зависимости от наличия запрошенных прав ||
+[`boolean`](../../data-types.md) | Возвращается `true`, если текущий пользователь обладает хотя бы одним из перечисленных в параметре `ACCESS` прав, `false` — в противном случае ||
 || **time**
-[`array`](../../data-types.md) | Информация о времени выполнения запроса ||
-|| **start**
-[`double`](../../data-types.md) | Timestamp момента инициализации запроса ||
-|| **finish**
-[`double`](../../data-types.md) | Timestamp момента завершения выполнения запроса ||
-|| **duration**
-[`double`](../../data-types.md) | Как долго в миллисекундах выполнялся запрос (finish - start) ||
-|| **date_start**
-[`string`](../../data-types.md) | Строковое представление даты и времени момента инициализации запроса ||
-|| **date_finish**
-[`double`](../../data-types.md) | Строковое представление даты и времени момента завершения запроса ||
-|| **operating_reset_at**
-[`timestamp`](../../data-types.md) | Timestamp момента, когда будет сброшен лимит на ресурсы REST API. Читайте подробности в статье [лимит на операции](../../../limits.md) ||
-|| **operating**
-[`double`](../../data-types.md) | Через сколько миллисекунд будет сброшен лимит на ресурсы REST API? Читайте подробности в статье [лимит на операции](../../../limits.md) ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
-## Ответ в случае ошибки
+## Обработка ошибок
 
-> 200, 50x Error
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-```json
-{
-    "error": "TITLE_EMPTY",
-    "error_description": "The deal title is required"
-}
-```
+## Продолжите изучение
 
-### Возможные коды ошибок
-
-#|
-|| **Code** | **Description** ||
-|| **TITLE_EMPTY** | The required field values are not set || 
-|| **WRONG_REQUEST** | The parameters of the request were unable to interpret || 
-|#
+- [{#T}](./user-admin.md)
+- [{#T}](./profile.md)

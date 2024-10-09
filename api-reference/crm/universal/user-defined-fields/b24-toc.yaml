@@ -11,5 +11,5 @@ items:
     href: crm-userfield-enumeration-fields.md
   - name: Получить описание полей настроек
     href: crm-userfield-settings-fields.md
-  - name: Создать новое поля
+  - name: Создать новое поле
     href: userfieldconfig-add.md

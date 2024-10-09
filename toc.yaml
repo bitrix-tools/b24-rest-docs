@@ -11,7 +11,7 @@ items:
     href: first-rest-api-call.md
   - name: Как использовать примеры 
     href: how-to-use-examples.md
-  - name: Частные кейсы и сценарии 
+  - name: Частые кейсы и сценарии 
     include:
       path: tutorials/b24-toc.yaml
       mode: link

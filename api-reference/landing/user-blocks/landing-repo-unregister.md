@@ -1,4 +1,4 @@
-# Удалить блок landing.repo.unregister
+# Удалить пользовательский блок landing.repo.unregister
 
 {% note warning "Мы еще обновляем эту страницу" %}
 

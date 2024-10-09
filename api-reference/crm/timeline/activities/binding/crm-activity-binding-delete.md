@@ -1,4 +1,4 @@
-# Получить список привязок дела crm.activity.binding.delete
+# Удалить привязку дела crm.activity.binding.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
