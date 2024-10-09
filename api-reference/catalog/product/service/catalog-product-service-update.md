@@ -49,7 +49,9 @@
 || **dateCreate**
 [`datetime`](../../../data-types.md) | Дата создания ||
 || **iblockSectionId**
-[`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор раздела информационного блока ||
+[`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор основного раздела информационного блока ||
+|| **IblockSection**
+[`array`](../../../data-types.md)| Массив со всеми разделами, к которым привязана услуга ||
 || **previewText**
 [`string`](../../../data-types.md) | Описание для анонса ||
 || **detailText**
