@@ -1,6 +1,6 @@
 # Сделки в CRM: обзор методов
 
-Сделка — одна из ключевых сущностей CRM, в ней:
+Сделка — один из ключевых объектов CRM, в ней:
 
 * можно управлять процессом продажи товара или услуги, включая отслеживание этапов и прием онлайн-платежей
 * ведется диалог с клиентом: звонки, письма, чаты открытых линий 
@@ -107,9 +107,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmDealAdd](./events/on-crm-deal-add.md) | На создание сделки. ||
-    || [onCrmDealUpdate](./events/on-crm-deal-update.md) | На изменение сделки. ||
-    || [onCrmDealDelete](./events/on-crm-deal-delete.md) | На удаление сделки. ||
+    || [onCrmDealAdd](./events/on-crm-deal-add.md) | При создании сделки ||
+    || [onCrmDealUpdate](./events/on-crm-deal-update.md) | При изменении сделки ||
+    || [onCrmDealDelete](./events/on-crm-deal-delete.md) | При удалении сделки ||
     |#
 
 {% endlist %}
@@ -122,23 +122,23 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [crm.deal.recurring.add](./recurring-deals/crm-deal-recurring-add.md) | Создание новой рекурентной сделки. ||
-    || [crm.deal.recurring.fields](./recurring-deals/crm-deal-recurring-fields.md) | Просмотр списка полей шаблона регулярной сделки. ||
-    || [crm.deal.recurring.expose](./recurring-deals/crm-deal-recurring-expose.md) | Создание новой сделки из шаблона. ||
-    || [crm.deal.recurring.update](./recurring-deals/crm-deal-recurring-update.md) | Изменение существующей настройки для шаблона регулярной сделки. ||
-    || [crm.deal.recurring.get](./recurring-deals/crm-deal-recurring-get.md) | Получение полей настройки шаблона регулярной сделки по Id. ||
-    || [crm.deal.recurring.list](./recurring-deals/crm-deal-recurring-list.md) | Получение списка настроек шаблонов регулярных сделок. ||
-    || [crm.deal.recurring.delete](./recurring-deals/crm-deal-recurring-delete.md) | Удаление существующей настройки для шаблона регулярной сделки. ||
+    || [crm.deal.recurring.add](./recurring-deals/crm-deal-recurring-add.md) | Создает новую регулярную сделку ||
+    || [crm.deal.recurring.fields](./recurring-deals/crm-deal-recurring-fields.md) | Возвращает список полей шаблона регулярной сделки ||
+    || [crm.deal.recurring.expose](./recurring-deals/crm-deal-recurring-expose.md) | Создает новую сделку из шаблона ||
+    || [crm.deal.recurring.update](./recurring-deals/crm-deal-recurring-update.md) | Изменяет существующие настройки для шаблона регулярной сделки ||
+    || [crm.deal.recurring.get](./recurring-deals/crm-deal-recurring-get.md) | Получает поля настройки шаблона регулярной сделки по Id ||
+    || [crm.deal.recurring.list](./recurring-deals/crm-deal-recurring-list.md) | Получает список настроек шаблонов регулярных сделок ||
+    || [crm.deal.recurring.delete](./recurring-deals/crm-deal-recurring-delete.md) | Удаляет существующие настройки для шаблона регулярной сделки ||
     |#
 
 - События
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmDealRecurringAdd](./events/on-crm-deal-recurring-add.md) | На создание новой регулярной сделки. ||
-    || [onCrmDealRecurringUpdate](./events/on-crm-deal-recurring-update.md) | На изменение регулярной сделки. ||
-    || [onCrmDealRecurringDelete](./events/on-crm-deal-recurring-delete.md) | На удаление регулярной сделки. ||
-    || [onCrmDealRecurringExpose](./events/on-crm-deal-recurring-expose.md) | На создание новой сделки из регулярной сделки. ||
+    || [onCrmDealRecurringAdd](./events/on-crm-deal-recurring-add.md) | При создании новой регулярной сделки ||
+    || [onCrmDealRecurringUpdate](./events/on-crm-deal-recurring-update.md) | При изменении регулярной сделки ||
+    || [onCrmDealRecurringDelete](./events/on-crm-deal-recurring-delete.md) | При удалении регулярной сделки ||
+    || [onCrmDealRecurringExpose](./events/on-crm-deal-recurring-expose.md) | При создании новой сделки из регулярной сделки ||
     |#
 
 {% endlist %}
@@ -151,21 +151,21 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [crm.deal.userfield.add](./user-defined-fields/crm-deal-userfield-add.md) | Создание нового пользовательского поля для сделок. ||
-    || [crm.deal.userfield.update](./user-defined-fields/crm-deal-userfield-update.md) | Изменение существующего пользовательского поля сделок. ||
-    || [crm.deal.userfield.get](./user-defined-fields/crm-deal-userfield-get.md) | Получение пользовательского поля сделок по Id. ||
-    || [crm.deal.userfield.list](./user-defined-fields/crm-deal-userfield-list.md) | Получение списка пользовательских полей сделок. ||
-    || [crm.deal.userfield.delete](./user-defined-fields/crm-deal-userfield-delete.md) | Удаление пользовательского поля сделок. ||
+    || [crm.deal.userfield.add](./user-defined-fields/crm-deal-userfield-add.md) | Создает новое пользовательское поле для сделок ||
+    || [crm.deal.userfield.update](./user-defined-fields/crm-deal-userfield-update.md) | Изменяет существующее пользовательское поле сделок ||
+    || [crm.deal.userfield.get](./user-defined-fields/crm-deal-userfield-get.md) | Получает пользовательское поле сделок по Id ||
+    || [crm.deal.userfield.list](./user-defined-fields/crm-deal-userfield-list.md) | Получает списка пользовательских полей сделок ||
+    || [crm.deal.userfield.delete](./user-defined-fields/crm-deal-userfield-delete.md) | Удаляет пользовательское поле сделок ||
     |#
 
 - События
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmDealUserFieldAdd](./events/on-crm-deal-user-field-add.md) | На добавление пользовательского поля. ||
-    || [onCrmDealUserFieldUpdate](./events/on-crm-deal-user-field-update.md) | На изменение пользовательского поля. ||
-    || [onCrmDealUserFieldDelete](./events/on-crm-deal-user-field-delete.md) | На удаление пользовательского поля. ||
-    || [onCrmDealUserFieldSetEnumValues](./events/on-crm-deal-user-field-set-enum-values.md) | На изменение набора значений для пользовательского поля списочного типа. ||
+    || [onCrmDealUserFieldAdd](./events/on-crm-deal-user-field-add.md) | При добавлении пользовательского поля ||
+    || [onCrmDealUserFieldUpdate](./events/on-crm-deal-user-field-update.md) | При изменении пользовательского поля ||
+    || [onCrmDealUserFieldDelete](./events/on-crm-deal-user-field-delete.md) | При удалении пользовательского поля ||
+    || [onCrmDealUserFieldSetEnumValues](./events/on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
     |#
 
 {% endlist %}
@@ -174,12 +174,12 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.deal.contact.add](./contacts/crm-deal-contact-add.md) | Добавление контакта к сделке. ||
-|| [crm.deal.contact.items.set](./contacts/crm-deal-contact-items-set.md) | Добавление нескольких контактов к сделке. ||
-|| [crm.deal.contact.fields](./contacts/crm-deal-contact-fields.md) | Просмотр полей для связи сделка-контакт. ||
-|| [crm.deal.contact.items.get](./contacts/crm-deal-contact-items-get.md) | Набор контактов, связанных со сделкой. ||
-|| [crm.deal.contact.delete](./contacts/crm-deal-contact-delete.md) | Удаление контакта из указанной сделки. ||
-|| [crm.deal.contact.items.delete](./contacts/crm-deal-contact-items-delete.md) | Удаление набора контактов, связанных с указанной сделкой. ||
+|| [crm.deal.contact.add](./contacts/crm-deal-contact-add.md) | Добавляет контакт к сделке ||
+|| [crm.deal.contact.items.set](./contacts/crm-deal-contact-items-set.md) | Добавляет несколько контактов к сделке ||
+|| [crm.deal.contact.fields](./contacts/crm-deal-contact-fields.md) | Возвращает поля связи сделка-контакт ||
+|| [crm.deal.contact.items.get](./contacts/crm-deal-contact-items-get.md) | Получает набор контактов, связанных со сделкой ||
+|| [crm.deal.contact.delete](./contacts/crm-deal-contact-delete.md) | Удаляет контакт из указанной сделки ||
+|| [crm.deal.contact.items.delete](./contacts/crm-deal-contact-items-delete.md) | Удаляет набор контактов, связанных с указанной сделкой ||
 |#
 
 ### Управление карточками сделок

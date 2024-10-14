@@ -23,7 +23,7 @@ items:
     include:
       path: events/b24-toc.yaml
       mode: link
-  - name: Рекурентные сделки
+  - name: Регулярные сделки
     include:
       path: recurring-deals/b24-toc.yaml
       mode: link

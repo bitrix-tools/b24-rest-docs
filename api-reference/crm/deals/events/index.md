@@ -14,15 +14,15 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmDealAdd](./on-crm-deal-add.md) | На создание сделки. ||
-|| [onCrmDealUpdate](./on-crm-deal-update.md) | На изменение сделки. ||
-|| [onCrmDealDelete](./on-crm-deal-delete.md) | На удаление сделки. ||
-|| [onCrmDealUserFieldAdd](./on-crm-deal-user-field-add.md) | На добавление пользовательского поля. ||
-|| [onCrmDealUserFieldUpdate](./on-crm-deal-user-field-update.md) | На изменение пользовательского поля. ||
-|| [onCrmDealUserFieldDelete](./on-crm-deal-user-field-delete.md) | На удаление пользовательского поля. ||
-|| [onCrmDealUserFieldSetEnumValues](./on-crm-deal-user-field-set-enum-values.md) | На изменение набора значений для пользовательского поля списочного типа. ||
-|| [onCrmDealRecurringAdd](./on-crm-deal-recurring-add.md) | На создание новой регулярной сделки. ||
-|| [onCrmDealRecurringUpdate](./on-crm-deal-recurring-update.md) | На изменение регулярной сделки. ||
-|| [onCrmDealRecurringDelete](./on-crm-deal-recurring-delete.md) | На удаление регулярной сделки. ||
-|| [onCrmDealRecurringExpose](./on-crm-deal-recurring-expose.md) | На создание новой сделки из регулярной сделки. ||
+|| [onCrmDealAdd](./on-crm-deal-add.md) | При создании сделки ||
+|| [onCrmDealUpdate](./on-crm-deal-update.md) | При изменении сделки ||
+|| [onCrmDealDelete](./on-crm-deal-delete.md) | При удалении сделки ||
+|| [onCrmDealUserFieldAdd](./on-crm-deal-user-field-add.md) | При добавлении пользовательского поля ||
+|| [onCrmDealUserFieldUpdate](./on-crm-deal-user-field-update.md) | При изменении пользовательского поля ||
+|| [onCrmDealUserFieldDelete](./on-crm-deal-user-field-delete.md) | При удалении пользовательского поля ||
+|| [onCrmDealUserFieldSetEnumValues](./on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
+|| [onCrmDealRecurringAdd](./on-crm-deal-recurring-add.md) | При создании новой регулярной сделки ||
+|| [onCrmDealRecurringUpdate](./on-crm-deal-recurring-update.md) | При изменении регулярной сделки ||
+|| [onCrmDealRecurringDelete](./on-crm-deal-recurring-delete.md) | При удалении регулярной сделки ||
+|| [onCrmDealRecurringExpose](./on-crm-deal-recurring-expose.md) | При создании новой сделки из регулярной сделки ||
 |#
