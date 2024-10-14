@@ -1,23 +1,15 @@
-# Тип цены
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Обзор методов
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
-
-Методы работы с типами цен:
+> Кто может выполнять метод: администратор
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.priceType.add](./catalog-price-type-add.md) | Метод добавляет тип цены. ||
-|| [catalog.priceType.delete](./catalog-price-type-delete.md) | Метод удаляет тип цены. ||
-|| [catalog.priceType.get](./catalog-price-type-get.md) | Метод для получения значений полей типа цены по ID. ||
-|| [catalog.priceType.getFields](./catalog-price-type-get-fields.md) | Метод возвращает поля типа цен. ||
-|| [catalog.priceType.list](./catalog-price-type-list.md) | Метод получает список типов цен по фильтру. ||
-|| [catalog.priceType.update](./catalog-price-type-update.md) | Метод обновляет поля типа цены. ||
+|| [catalog.priceType.add](./catalog-price-type-add.md) | Добавляет новый тип цены ||
+|| [catalog.priceType.update](./catalog-price-type-update.md) | Изменяет поля типа цены ||
+|| [catalog.priceType.get](./catalog-price-type-get.md) | Возвращает информацию о типе цены по его идентификатору ||
+|| [catalog.priceType.list](./catalog-price-type-list.md) | Возвращает список типов цены по фильтру ||
+|| [catalog.priceType.delete](./catalog-price-type-delete.md) | Удаляет тип цены ||
+|| [catalog.priceType.getFields](./catalog-price-type-get-fields.md) | Возвращает поля типа цены ||
 |#

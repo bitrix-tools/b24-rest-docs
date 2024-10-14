@@ -30,6 +30,7 @@
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор торгового предложения (например, `1`). Получить идентификаторы торговых предложений можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
+|| [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
 || [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор секции каталога (например, `1`). Получить идентификаторы разделов товаров можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
 || [`catalog_vat.id`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
 |#
@@ -697,6 +698,36 @@
 [`string`](../data-types.md) | Международное условное обозначение ||
 || **symbolLetterIntl**
 [`string`](../data-types.md) | Международное кодовое буквенное обозначение ||
+|#
+
+### catalog_price_type
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор типа цены ||
+|| **name**
+[`string`](../data-types.md) | Код типа цены ||
+|| **base**
+[`string`](../data-types.md) | Является ли тип цены базовым. Возможные значения:
+- `Y` — да
+- `N` — нет
+||
+|| **sort**
+[`integer`](../data-types.md) | Сортировка ||
+|| **xmlId**
+[`string`](../data-types.md) | Внешний код.
+
+Можно использовать для синхронизации текущего типа цены с аналогичной позицией во внешней системе ||
+|| **timestampX**
+[`datetime`](../data-types.md) | Дата изменения ||
+|| **createdBy**
+[`user.id`](../data-types.md) | Кем создан ||
+|| **modifiedBy**
+[`user.id`](../data-types.md) | Кем изменен ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания ||
 |#
 
 ### catalog_section

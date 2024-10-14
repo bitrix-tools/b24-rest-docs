@@ -25,9 +25,9 @@ items:
     include:
       path: price/toc.yaml
       mode: link
-  - name: Тип цены
+  - name: Типы цены
     include:
-      path: price-type/toc.yaml
+      path: price-type/b24-toc.yaml
       mode: link
   - name: Привязка типов цен к группам покупателей
     include:
