@@ -63,7 +63,7 @@
 
 Лиды в CRM могут отсутствовать  — так происходит если активирован простой режим работы CRM.  
 
-Конвертировать лид при помощи REST API невозможно. Можно только сменить стадию на успешную без создания новых сущностей.
+Конвертировать лид при помощи REST API невозможно. Можно только сменить стадию на успешную без создания новых объектов.
 
 {% note tip "Пользовательская документация" %}
 
@@ -100,9 +100,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmLeadAdd](./events/on-crm-lead-add.md) | На добавление лида. ||
-    || [onCrmLeadUpdate](./events/on-crm-lead-update.md) | На изменение лида. ||
-    || [onCrmLeadDelete](./events/on-crm-lead-delete.md) | На удаление лида. ||
+    || [onCrmLeadAdd](./events/on-crm-lead-add.md) | При добавлении лида ||
+    || [onCrmLeadUpdate](./events/on-crm-lead-update.md) | При изменении лида ||
+    || [onCrmLeadDelete](./events/on-crm-lead-delete.md) | При удалении лида ||
     |#
 
 {% endlist %}
@@ -127,21 +127,21 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [crm.lead.userfield.add](./userfield/crm-lead-userfield-add.md) | Добавление поля. ||
-    || [crm.lead.userfield.update](./userfield/crm-lead-userfield-update.md) | Изменение поля. ||
-    || [crm.lead.userfield.get](./userfield/crm-lead-userfield-get.md) | Получение поля по коду. ||
-    || [crm.lead.userfield.list](./userfield/crm-lead-userfield-list.md) | Получение списка полей. ||
-    || [crm.lead.userfield.delete](./userfield/crm-lead-userfield-delete.md) | Удаление поля ||
+    || [crm.lead.userfield.add](./userfield/crm-lead-userfield-add.md) | Создает новое поле ||
+    || [crm.lead.userfield.update](./userfield/crm-lead-userfield-update.md) | Изменяет поле ||
+    || [crm.lead.userfield.get](./userfield/crm-lead-userfield-get.md) | Возвращает поле по коду ||
+    || [crm.lead.userfield.list](./userfield/crm-lead-userfield-list.md) | Возвращает список полей ||
+    || [crm.lead.userfield.delete](./userfield/crm-lead-userfield-delete.md) | Удаляет поле ||
     |#
 
 - События 
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmLeadUserFieldAdd](./events/on-crm-lead-user-field-add.md) | На добавление пользовательского поля. ||
-    || [onCrmLeadUserFieldUpdate](./events/on-crm-lead-user-field-update.md) | На изменение пользовательского поля. ||
-    || [onCrmLeadUserFieldDelete](./events/on-crm-lead-user-field-delete.md) | На удаление пользовательского поля. ||
-    || [onCrmLeadUserFieldSetEnumValues](./events/on-crm-lead-user-field-set-enum-values.md) | На изменение набора значений для пользовательского поля списочного типа. ||
+    || [onCrmLeadUserFieldAdd](./events/on-crm-lead-user-field-add.md) | При добавлении пользовательского поля ||
+    || [onCrmLeadUserFieldUpdate](./events/on-crm-lead-user-field-update.md) | При изменении пользовательского поля ||
+    || [onCrmLeadUserFieldDelete](./events/on-crm-lead-user-field-delete.md) | При удалении пользовательского поля ||
+    || [onCrmLeadUserFieldSetEnumValues](./events/on-crm-lead-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
     |#
 
 {% endlist %}

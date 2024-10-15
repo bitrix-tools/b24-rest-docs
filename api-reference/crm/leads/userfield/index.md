@@ -24,9 +24,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.lead.userfield.add](./crm-lead-userfield-add.md) | Добавление поля. ||
-|| [crm.lead.userfield.update](./crm-lead-userfield-update.md) | Изменение поля. ||
-|| [crm.lead.userfield.get](./crm-lead-userfield-get.md) | Получение поля по коду. ||
-|| [crm.lead.userfield.list](./crm-lead-userfield-list.md) | Получение списка полей. ||
-|| [crm.lead.userfield.delete](./crm-lead-userfield-delete.md) | Удаление поля ||
+|| [crm.lead.userfield.add](./crm-lead-userfield-add.md) | Создает новое поле ||
+|| [crm.lead.userfield.update](./crm-lead-userfield-update.md) | Изменяет поле ||
+|| [crm.lead.userfield.get](./crm-lead-userfield-get.md) | Возвращает поле по коду ||
+|| [crm.lead.userfield.list](./crm-lead-userfield-list.md) | Возвращает список полей ||
+|| [crm.lead.userfield.delete](./crm-lead-userfield-delete.md) | Удаляет поле ||
 |#

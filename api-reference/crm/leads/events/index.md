@@ -14,11 +14,11 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmLeadAdd](./on-crm-lead-add.md) | На добавление лида. ||
-|| [onCrmLeadUpdate](./on-crm-lead-update.md) | На изменение лида. ||
-|| [onCrmLeadDelete](./on-crm-lead-delete.md) | На удаление лида. ||
-|| [onCrmLeadUserFieldAdd](./on-crm-lead-user-field-add.md) | На добавление пользовательского поля. ||
-|| [onCrmLeadUserFieldUpdate](./on-crm-lead-user-field-update.md) | На изменение пользовательского поля. ||
-|| [onCrmLeadUserFieldDelete](./on-crm-lead-user-field-delete.md) | На удаление пользовательского поля. ||
-|| [onCrmLeadUserFieldSetEnumValues](./on-crm-lead-user-field-set-enum-values.md) | На изменение набора значений для пользовательского поля списочного типа. ||
+|| [onCrmLeadAdd](./on-crm-lead-add.md) | При добавлении лида ||
+|| [onCrmLeadUpdate](./on-crm-lead-update.md) | При изменении лида ||
+|| [onCrmLeadDelete](./on-crm-lead-delete.md) | При удалении лида ||
+|| [onCrmLeadUserFieldAdd](./on-crm-lead-user-field-add.md) | При добавлении пользовательского поля ||
+|| [onCrmLeadUserFieldUpdate](./on-crm-lead-user-field-update.md) | При изменении пользовательского поля ||
+|| [onCrmLeadUserFieldDelete](./on-crm-lead-user-field-delete.md) | При удалении пользовательского поля ||
+|| [onCrmLeadUserFieldSetEnumValues](./on-crm-lead-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
 |#

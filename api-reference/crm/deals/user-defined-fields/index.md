@@ -24,9 +24,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.deal.userfield.add](./crm-deal-userfield-add.md) | Создание нового пользовательского поля для сделок. ||
-|| [crm.deal.userfield.update](./crm-deal-userfield-update.md) | Изменение существующего пользовательского поля сделок. ||
-|| [crm.deal.userfield.get](./crm-deal-userfield-get.md) | Получение пользовательского поля сделок по Id. ||
-|| [crm.deal.userfield.list](./crm-deal-userfield-list.md) | Получение списка пользовательских полей сделок. ||
-|| [crm.deal.userfield.delete](./crm-deal-userfield-delete.md) | Удаление пользовательского поля сделок. ||
+|| [crm.deal.userfield.add](./crm-deal-userfield-add.md) | Создает новое пользовательское поле для сделок ||
+|| [crm.deal.userfield.update](./crm-deal-userfield-update.md) | Изменяет существующее пользовательское поле сделок ||
+|| [crm.deal.userfield.get](./crm-deal-userfield-get.md) | Получает пользовательское поле сделок по Id ||
+|| [crm.deal.userfield.list](./crm-deal-userfield-list.md) | Получает списка пользовательских полей сделок ||
+|| [crm.deal.userfield.delete](./crm-deal-userfield-delete.md) | Удаляет пользовательское поле сделок ||
 |#

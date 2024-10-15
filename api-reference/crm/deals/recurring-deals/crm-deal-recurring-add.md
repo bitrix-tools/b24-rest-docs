@@ -1,4 +1,4 @@
-# Создать новую рекурентную сделку crm.deal.recurring.add
+# Создать новую регулярную сделку crm.deal.recurring.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
