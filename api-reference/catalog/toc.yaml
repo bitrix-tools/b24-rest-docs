@@ -67,7 +67,7 @@ items:
       mode: link
   - name: Правила округления цен
     include:
-      path: rounding-rule/toc.yaml
+      path: rounding-rule/b24-toc.yaml
       mode: link
   - name: Секция каталога
     include:

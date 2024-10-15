@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 15 октября, 2024
+
+- Обновлена документация по работе с правилами округления цен [catalog.roundingrule.*](./api-reference/catalog/rounding-rule/index.md)
+
 ### 14 октября, 2024
 
 - Обновлена документация по работе с типами цены [catalog.priceType.*](./api-reference/catalog/price-type/index.md)

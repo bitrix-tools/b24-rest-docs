@@ -31,6 +31,7 @@
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
+|| [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
 || [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор секции каталога (например, `1`). Получить идентификаторы разделов товаров можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
 || [`catalog_vat.id`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
 |#
@@ -728,6 +729,35 @@
 [`user.id`](../data-types.md) | Кем изменен ||
 || **dateCreate**
 [`datetime`](../data-types.md) | Дата создания ||
+|#
+
+### catalog_rounding_rule
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор правила округления цен ||
+|| **catalogGroupId**
+[`catalog_price_type.id`](#catalog_price_type) | Тип цены ||
+|| **price**
+[`double`](../data-types.md) | Минимальная цена для округления ||
+|| **roundType**
+[`integer`](../data-types.md) | Тип округления. Возможные значения:
+- `1` — математическое округление
+- `2` — округление вверх (в пользу магазина)
+- `4` — округление вниз (в пользу клиента)
+||
+|| **roundPrecision**
+[`double`](../data-types.md) | Точность округления ||
+|| **createdBy**
+[`user.id`](../data-types.md) | Кем создано ||
+|| **modifiedBy**
+[`user.id`](../data-types.md) | Кем изменено ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания ||
+|| **dateModify**
+[`datetime`](../data-types.md) | Дата изменения ||
 |#
 
 ### catalog_section

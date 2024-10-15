@@ -7,7 +7,7 @@
 #|
 || **Метод** | **Описание** ||
 || [catalog.priceType.add](./catalog-price-type-add.md) | Добавляет новый тип цены ||
-|| [catalog.priceType.update](./catalog-price-type-update.md) | Изменяет поля типа цены ||
+|| [catalog.priceType.update](./catalog-price-type-update.md) | Изменяет значения полей типа цены ||
 || [catalog.priceType.get](./catalog-price-type-get.md) | Возвращает информацию о типе цены по его идентификатору ||
 || [catalog.priceType.list](./catalog-price-type-list.md) | Возвращает список типов цены по фильтру ||
 || [catalog.priceType.delete](./catalog-price-type-delete.md) | Удаляет тип цены ||
