@@ -27,7 +27,7 @@ items:
       mode: link
   - name: Компании
     include:
-      path: companies/toc.yaml
+      path: companies/b24-toc.yaml
       mode: link
   - name: Коммерческие предложения
     include:
