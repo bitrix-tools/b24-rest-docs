@@ -69,7 +69,7 @@ items:
       mode: link
   - name: Чек-листы
     include:
-      path: checklist-item/toc.yaml
+      path: checklist-item/b24-toc.yaml
       mode: link
   - name: Комментарии
     include:
