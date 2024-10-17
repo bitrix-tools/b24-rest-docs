@@ -29,14 +29,6 @@ items:
     include:
       path: price-type/b24-toc.yaml
       mode: link
-  - name: Привязка типов цен к группам покупателей
-    include:
-      path: price-type-group/toc.yaml
-      mode: link
-  - name: Переводы названий типов цен
-    include:
-      path: price-type-lang/toc.yaml
-      mode: link
   - name: Товары
     include:
       path: product/b24-toc.yaml

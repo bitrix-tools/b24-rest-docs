@@ -15,4 +15,11 @@ items:
     href: catalog-price-type-delete.md
   - name: Получить поля типа цены
     href: catalog-price-type-get-fields.md
-
+  - name: Переводы названий типов цен
+    include:
+      path: price-type-lang/b24-toc.yaml
+      mode: link
+  - name: Привязка типов цен к группам покупателей
+    include:
+      path: price-type-group/b24-toc.yaml
+      mode: link

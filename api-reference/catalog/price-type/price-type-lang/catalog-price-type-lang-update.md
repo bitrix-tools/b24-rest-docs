@@ -19,7 +19,7 @@
 
 {% endif %}
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -36,10 +36,10 @@ catalog.priceTypeLang.update(id, fields)
 || **id**
 [`integer`](../../data-types.md) | Идентификатор перевода названия типа цен. ||
 || **fields** 
-[`object`](../../data-types.md)|  Поля, соответствующие доступному списку полей [`fields`](catalog-price-type-lang-get-fields.md). ||
+[`object`](../../data-types.md)|  Поля, соответствующие доступному списку полей [`fields`](./catalog-price-type-lang-get-fields.md). ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 ## Примеры
 
@@ -63,4 +63,4 @@ BX24.callMethod(
     }
 );
 ```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}

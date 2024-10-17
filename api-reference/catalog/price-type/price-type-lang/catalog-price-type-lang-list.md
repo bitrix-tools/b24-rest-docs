@@ -18,7 +18,7 @@
 
 {% endif %}
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -34,16 +34,16 @@ catalog.priceTypeLang.list(select, filter, order, start)
 #|
 || **Параметр** | **Описание** ||
 || **select** 
-[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-price-type-lang-get-fields.md).||
+[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](./catalog-price-type-lang-get-fields.md).||
 || **filter** 
-[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-price-type-lang-get-fields.md). ||
+[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](./catalog-price-type-lang-get-fields.md). ||
 || **order**
-[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-price-type-lang-get-fields.md). ||
+[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](./catalog-price-type-lang-get-fields.md). ||
 || **start** 
 [`string`](../../data-types.md)| Номер страницы вывода. Работает для https запросов. ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 ## Примеры
 
@@ -74,4 +74,4 @@ BX24.callMethod(
 https://ваш_портал/rest/catalog.priceTypeLang.list?auth=_ключ_авторизации_&start=50
 ```
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
