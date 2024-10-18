@@ -1,4 +1,4 @@
-# Удалить виджет для Вайба landing.repowidget.unregister
+# Включить режим отладки landing.repowidget.debug
 
 {% note warning "Мы еще работаем над инструментом" %}
 
@@ -10,7 +10,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `landing.repowidget.unregister` удаляет виджет для Главный страницы: наш вайб. В случае успеха возвращает `true`, в противном случае — `false` или ошибку с описанием.
+Метод `landing.repowidget.debug` включает режим отладки для всех виджетов текущего приложения. В этом случае vue-приложение будет сообщать больше ошибок в js-консоли для удобства разработчика. По умолчанию режим отключен.
 
 ## Параметры метода
 
@@ -19,8 +19,8 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **code***
-[`string`](../data-types.md) | Уникальный код удаляемого виджета ||
+|| **enable**
+[`boolean`](../data-types.md) | Флаг активности режима отладки ||
 |#
 
 ## Примеры кода
@@ -33,8 +33,8 @@
 
     ```js
     BX24.callMethod(
-        'landing.repowidget.unregister', {
-            code: 'my_widget'
+        'landing.repowidget.debug', {
+            enable: true,
         },
         function(result)
         {
@@ -52,9 +52,9 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'landing.repowidget.unregister',
+        'landing.repowidget.debug',
         [
-            'code' => 'my_widget'
+            'enable' => true,
         ]
     );
 
@@ -90,17 +90,35 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Результат удаления виджета ||
+[`boolean`](../data-types.md) | В случае успеха — `true`, в противном случае — ошибка ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error":"APP_NOT_FOUND",
+    "error_description":"Cannot find REST application"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `APP_NOT_FOUND` | REST-приложение не найдено. Возникает при проблемах с авторизацией rest-приложения на портале ||
+|#
+
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./landing-repowidget-register.md)
+- [{#T}](./landing-repowidget-unregister.md)
 - [{#T}](./landing-repowidget-get-list.md)
-- [{#T}](./landing-repowidget-debug.md)
