@@ -65,32 +65,32 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [lists.element.add](./elements/lists-element-add.md) | Создает элемент списка |
-|| [lists.element.delete](./elements/lists-element-delete.md) | Удаляет элемент списка |
-|| [lists.element.get](./elements/lists-element-get.md) | Возвращает список элементов или элемент |
-|| [lists.element.update](./elements/lists-element-update.md) | Обновляет элемент списка |
-|| [lists.element.get.file.url](./elements/lists-element-get-file-url.md) | Возвращает путь к файлу |
+|| [lists.element.add](./elements/lists-element-add.md) | Создает элемент списка ||
+|| [lists.element.delete](./elements/lists-element-delete.md) | Удаляет элемент списка ||
+|| [lists.element.get](./elements/lists-element-get.md) | Возвращает список элементов или элемент ||
+|| [lists.element.update](./elements/lists-element-update.md) | Обновляет элемент списка ||
+|| [lists.element.get.file.url](./elements/lists-element-get-file-url.md) | Возвращает путь к файлу ||
 |#
 
 ### Поля
 
 #|
 || **Метод** | **Описание** ||
-|| [lists.field.add](./fields/lists-field-add.md) | Создает поле списка |
-|| [lists.field.delete](./fields/lists-field-delete.md) | Удаляет поле списка |
-|| [lists.field.get](./fields/lists-field-get.md) | Возвращает данные поля |
-|| [lists.field.type.get](./fields/lists-field-type-get.md) | Возвращает доступные типы полей для указанного списка |
-|| [lists.field.update](./fields/lists-field-update.md) | Обновляет поле списка |
+|| [lists.field.add](./fields/lists-field-add.md) | Создает поле списка ||
+|| [lists.field.delete](./fields/lists-field-delete.md) | Удаляет поле списка ||
+|| [lists.field.get](./fields/lists-field-get.md) | Возвращает данные поля ||
+|| [lists.field.type.get](./fields/lists-field-type-get.md) | Возвращает доступные типы полей для указанного списка ||
+|| [lists.field.update](./fields/lists-field-update.md) | Обновляет поле списка ||
 |#
 
 ### Разделы
 
 #|
 || **Метод** | **Описание** ||
-|| [lists.section.add](./sections/lists-section-add.md) | Создает раздел списка |
-|| [lists.section.get](./sections/lists-section-get.md) | Возвращает даные о разделах |
-|| [lists.section.update](./sections/lists-section-update.md) | Обновляет раздел списка |
-|| [lists.section.delete](./sections/lists-section-delete.md) | Удаляет раздел списка |
+|| [lists.section.add](./sections/lists-section-add.md) | Создает раздел списка ||
+|| [lists.section.get](./sections/lists-section-get.md) | Возвращает даные о разделах ||
+|| [lists.section.update](./sections/lists-section-update.md) | Обновляет раздел списка ||
+|| [lists.section.delete](./sections/lists-section-delete.md) | Удаляет раздел списка ||
 |#
 
 [*iblock]: Информационный блок — это специальный объект для хранения новостей, услуг, статей, каталогов товаров и других данных, имеющих четкую структуру.
