@@ -1,22 +1,14 @@
-# Картинки товаров и торговых предложений
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Обзор методов
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
-
-Методы работы с картинками товаров и торговых предложений:
+> Кто может выполнять метод: администратор
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.productImage.add](./catalog-product-image-add.md) | Метод добавляет изображение в товар или торговое предложение. ||
-|| [catalog.productImage.delete](./catalog-product-image-delete.md) | Метод удаляет изображение из товара или торгового предложения. ||
-|| [catalog.productImage.get](./catalog-product-image-get.md) | Метод получает информацию по конкретному изображению в товаре или торговом предложении. ||
-|| [catalog.productImage.getFields](./catalog-product-image-get-fields.md) | Метод возвращает поля картинки товара или торгового предложения. ||
-|| [catalog.productImage.list](./catalog-product-image-list.md) | Метод получает список изображений по конкретному товару или торговому предложению. ||
+|| [catalog.productImage.add](./catalog-product-image-add.md) | Добавляет изображения в товар, головной товар, торговое предложение или услугу ||
+|| [catalog.productImage.get](./catalog-product-image-get.md) | Возвращает информацию о конкретном изображении товара, головного товара, торгового предложения или услуги ||
+|| [catalog.productImage.list](./catalog-product-image-list.md) | Возвращает список изображений товара, головного товара, торгового предложения или услуги ||
+|| [catalog.productImage.delete](./catalog-product-image-delete.md) | Удаляет изображение из товара, головного товара, торгового предложения или услуги ||
+|| [catalog.productImage.getFields](./catalog-product-image-get-fields.md) | Возвращает доступные поля картинки товара, головного товара, торгового предложения или услуги ||
 |#
