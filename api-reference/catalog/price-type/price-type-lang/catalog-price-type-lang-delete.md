@@ -1,4 +1,4 @@
-# Удалить привязку типа цен к группе покупателей catalog.priceTypeGroup.delete
+# Удалить перевод называния типа цен catalog.priceTypeLang.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,17 +18,17 @@
 
 {% endif %}
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
 ## Описание
 
 ```http
-catalog.priceTypeGroup.delete(id)
+catalog.priceTypeLang.delete(id)
 ```
 
-Метод удаляет цену товара из коллекции цен товаров.
+Метод удаляет перевод называния типа цен.
 Если операция успешна, возвращается `true` в теле ответа.
 
 ## Параметры
@@ -36,18 +36,18 @@ catalog.priceTypeGroup.delete(id)
 #|
 || **Параметр** | **Описание** ||
 || **id** 
-[`integer`](../../data-types.md)| Идентификатор привязки типа цен к группе покупателей. ||
+[`integer`](../../data-types.md)| Идентификатор перевода называния типа цен. ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 ## Примеры
 
 ```javascript
 BX24.callMethod(
-    'catalog.priceTypeGroup.delete',
+    'catalog.priceTypeLang.delete',
     {
-        id: 84
+        id: 346
     },
     function(result)
     {
@@ -58,5 +58,4 @@ BX24.callMethod(
     }
 );
 ```
-```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -18,7 +18,7 @@
 
 {% endif %}
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -48,4 +48,4 @@ BX24.callMethod(
     }
 );
 ```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}

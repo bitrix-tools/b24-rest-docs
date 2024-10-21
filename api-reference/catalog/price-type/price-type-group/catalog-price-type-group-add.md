@@ -1,4 +1,4 @@
-# Добавить перевод названия типа цен catalog.priceTypeLang.add
+# Добавить привязку типа цен к группе покупателей catalog.priceTypeGroup.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,38 +19,39 @@
 
 {% endif %}
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
 ## Описание
 
 ```http
-catalog.priceTypeLang.add(fields)
+catalog.priceTypeGroup.add(fields)
 ```
 
-Метод добавляет перевод названия типа цен.
+Метод добавляет привязку типа цен к группе покупателей.
+.
 
 ## Параметры
 
 #|
 || **Параметр** | **Описание** ||
 || **fields**
-[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-price-type-lang-get-fields.md). ||
+[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](./catalog-price-type-group-get-fields.md). ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 ## Примеры
 
 ```javascript
 BX24.callMethod(
-    'catalog.priceTypeLang.add',
+    'catalog.priceTypeGroup.add',
     {
         fields: {
             catalogGroupId: 14,
-            lang: "ru",
-            name: "Оптовая цена"
+            groupId: 16,
+            access: "Y"
         }
     },
     function(result) {
@@ -61,4 +62,4 @@ BX24.callMethod(
     }
 );
 ```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}

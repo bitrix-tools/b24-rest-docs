@@ -29,6 +29,7 @@
 || [`catalog_product_sku.id`](#catalog_product_sku) | Целочисленный идентификатор головного товара (например, `1`). Получить идентификаторы головных товаров можно с помощью метода [catalog.product.sku.list](./product/sku/catalog-product-sku-list.md) ||
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор торгового предложения (например, `1`). Получить идентификаторы торговых предложений можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
+|| [`catalog_product_image.id`](#catalog_product_image) | Целочисленный идентификатор изображения товара (например, `1`). Получить идентификаторы изображений товаров можно с помощью метода [catalog.productImage.list](./product-image/catalog-product-image-list.md) ||
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
 || [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
@@ -673,6 +674,31 @@
 
 `valueId` всех свойств услуги можно получить с помощью методов [catalog.product.service.get](./product/service/catalog-product-service-get.md) и [catalog.product.service.list](./product/service/catalog-product-service-list.md)
 ||
+|#
+
+### catalog_product_image
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор изображения ||
+|| **name**
+[`string`](../data-types.md) | Наименование изображения ||
+|| **productId**
+[`integer`](../data-types.md) | Идентификатор товара ||
+|| **type**
+[`string`](../data-types.md) | Тип изображения:
+- `DETAIL_PICTURE` — детальная картинка
+- `PREVIEW_PICTURE` — картинка для анонса
+- `MORE_PHOTO` — картинки товара
+||
+|| **createTime**
+[`datetime`](../data-types.md) | Дата создания изображения ||
+|| **downloadUrl**
+[`string`](../data-types.md) | Ссылка для скачивания, подписанная текущим токеном доступа ||
+|| **detailUrl**
+[`string`](../data-types.md) | Ссылка на изображение ||
 |#
 
 ### catalog_measure

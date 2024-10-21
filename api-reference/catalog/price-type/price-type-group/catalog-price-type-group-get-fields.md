@@ -18,7 +18,7 @@
 
 {% endif %}
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -49,7 +49,7 @@ BX24.callMethod(
     }
 );
 ```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 ## Возвращаемые поля
 
@@ -68,4 +68,4 @@ BX24.callMethod(
 [`integer`](../../data-types.md) | Идентификатор привязки. | Неизменяемое поле. ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}

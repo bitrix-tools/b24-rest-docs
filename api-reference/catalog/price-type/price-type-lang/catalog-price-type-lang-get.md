@@ -1,4 +1,4 @@
-# Удалить перевод называния типа цен catalog.priceTypeLang.delete
+# Получить значения полей перевода называния типа цен catalog.priceTypeLang.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,36 +18,35 @@
 
 {% endif %}
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
 ## Описание
 
 ```http
-catalog.priceTypeLang.delete(id)
+catalog.priceTypeLang.get(id)
 ```
 
-Метод удаляет перевод называния типа цен.
-Если операция успешна, возвращается `true` в теле ответа.
+Метод для доступа к значению полей перевода названия типа цен.
 
 ## Параметры
 
 #|
 || **Параметр** | **Описание** ||
 || **id** 
-[`integer`](../../data-types.md)| Идентификатор перевода называния типа цен. ||
+[`integer`](../../data-types.md)| Идентификатор перевода названия типа цен. ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 ## Примеры
 
 ```javascript
 BX24.callMethod(
-    'catalog.priceTypeLang.delete',
+    'catalog.priceTypeLang.get',
     {
-        id: 346
+        id: 537
     },
     function(result)
     {
@@ -58,4 +57,4 @@ BX24.callMethod(
     }
 );
 ```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
