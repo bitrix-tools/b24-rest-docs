@@ -1,5 +1,23 @@
 # Митапы, трансляции и записи выступлений для разработчиков
 
+## B24PHPSdk, Быстрый старт - Разработка на Битрикс24 REST API, эпизод 1
+
+21.10.2024
+
+- Преимущества использования B24PhpSdk для работы с REST API Битрикс24
+- Как подключить SDK к своему проекту
+- Как использовать входящие вебхуки
+- Как работает автокомплит и приведение типов в среде разработки
+- Как использовать batch с помощью SDK
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-webhook-example.zip)
+
+Спикер:
+
+- Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
 ## Bitrix Talks Tech. Новый чат в Битрикс24
 
 13.12.2023
