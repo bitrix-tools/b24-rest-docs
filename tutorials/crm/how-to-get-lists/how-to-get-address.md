@@ -4,76 +4,23 @@
 >
 > Кто может выполнять метод: пользователи с административным доступом к разделу CRM
 
-Представленный ниже пример кода решает задачу получения данных адреса контакта по его ФИО. 
+Разбор выполнения методов для получения адреса контакта или компании. 
 
-Для реализации последовательно выполняется три метода:
+Последовательно выполните два метода:
 
-* [crm.contact.list](../../../api-reference/crm/contacts/crm-contact-list.md)
-* [crm.requisite.list](../../../api-reference/crm/requisites/universal/crm-requisite-list.md)
-* [crm.address.list](../../../api-reference/crm/requisites/addresses/crm-address-list.md)
+1. [crm.requisite.list](../../../api-reference/crm/requisites/universal/crm-requisite-list.md)
+2. [crm.address.list](../../../api-reference/crm/requisites/addresses/crm-address-list.md)
 
-Для запроса в каждом последующем методе используем полученные результаты из предыдущего.
-
-Аналогичным образом можно получать данные компании, использовав [crm.company.list](../../../api-reference/crm/companies/crm-company-list.md) и изменив  `ENTITY_TYPE_ID` в методе запроса реквизита на код объекта компании — 4.
-
-
-## 1. Получаем ID контакта
-
-Для получения ID контакта используем метод crm.contact.list с фильтром по полям `NAME` и `LAST_NAME`.
-
-В примере фильтруем по ФИО, в реальности это может быть любое поле контакта, в том числе номер телефона. Первый шаг можно изменить по аналогии с туториалом [поиска дубликатов по номеру телефона](./search-by-phone-and-email.md).  
-
-{% list tabs %}
-
-- JS
-
-    ```javascript
-    BX24.callMethod(
-    'crm.contact.list',
-        {
-        filter: {
-            "NAME": "Вася",
-            "LAST_NAME": "Петечкин",
-            },
-        select: [
-            "ID",
-            "NAME",
-            "LAST_NAME",
-            ],
-        },
-    );
-
-    ```
-
-- PHP
-
-    {% note info %}
-
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../how-to-use-examples.md)
-
-    {% endnote %}
-
-    ```php
-    
-    ```
-
-{% endlist %}
-
-
-В результате мы получаем ID искомого контакта — параметр, необходимый для следующего запроса. 
-
-> "result":[{"ID":"2429","NAME":"Вася","LAST_NAME":"Петечкин"}]
-
-## 2. Получаем реквизиты, связанные с контактом
+## 1. Получаем реквизиты, связанные с контактом
 
 Для получения реквизитов используем метод crm.requisite.list с фильтром
 
-  `ENTITY_TYPE_ID`  —  код объекта контакт 3 
-  `ENTITY_ID` — ID полученный в предыдущем запросе
+  `ENTITY_TYPE_ID`  —  код объекта контакта 3, код объекта компании 4
+  `ENTITY_ID` —  ID контакта, в примере 2429. Если ID отсутствует, получить его можно методом [crm.contact.list](../../../api-reference/crm/contacts/crm-contact-list.md) с фильтром по любому известному полю контакта. Чтобы получить ID компании используйте [crm.company.list](../../../api-reference/crm/companies/crm-company-list.md). Если необходимо получить ID контакта или компании по номеру телефона или почте, используйте туториал [поиска дубликатов по номеру телефона](./search-by-phone-and-email.md).  
 
 {% note info "" %}
 
-Получение ID реквизита является необходимым шагом, поскольку адрес не имеет прямой привязки к контакту или компании. Адрес привязан к объекту реквизита. 
+Получение ID реквизита необходимый шаг, так как адрес не имеет прямой привязки к контакту или компании. Адрес привязан к объекту реквизита. 
 
 {% endnote %}
 
@@ -109,21 +56,61 @@
 
     ```php
     
+        require_once('crest.php');
+
+            $result = CRest::call(
+                'crm.requisite.list',
+                [
+                    'filter' => [
+                        'ENTITY_TYPE_ID' => '3',
+                        'ENTITY_ID' => '2429',
+                    ],
+                    'select' => [
+                        'ID',
+                        'ENTITY_TYPE_ID',
+                        'ENTITY_ID',
+                    ],
+                ]
+            );
+
+            echo '<PRE>';
+            print_r($result);
+            echo '</PRE>';
+
     ```
 
 {% endlist %}
 
-В результате мы получили ID искомого реквизита —  параметр, необходимый для следующего запроса. 
+В результате мы получили ID реквизита —  параметр, необходимый для следующего запроса. 
 
-> "result":[{"ID":"361","ENTITY_TYPE_ID":"3","ENTITY_ID":"2429"}]
+ ```json
 
-## 3.  Получаем адрес
+    Array
+    (
+     [result] => Array
+        (
+            [0] => Array
+                (
+                    [ID] => 361
+                    [ENTITY_TYPE_ID] => 3
+                    [ENTITY_ID] => 2429
+                )
 
-Для получения адреса используем метод  crm.address.list с фильтром
+        )
 
-`ENTITY_TYPE_ID` — код объекта реквизита 8
-`ENTITY_ID`  — ID полученный в предыдущем запросе
-`TYPE_ID` —  тип адреса, для доставки код 11
+     [total] => 1
+      
+    )
+
+ ```
+
+## 2.  Получаем адрес
+
+Для получения адреса используем метод crm.address.list с фильтром
+
+  `ENTITY_TYPE_ID` — код объекта реквизита 8
+  `ENTITY_ID`  — ID реквизита, полученный в предыдущем запросе, в примере 361
+  `TYPE_ID` —  тип адреса, если необходимо получить конкретный. Например тип адрес доставки — 11, юридический адрес — 6.
 
 {% list tabs %}
 
@@ -136,8 +123,8 @@
             filter: { 
             "ENTITY_TYPE_ID": 8, 
             "ENTITY_ID": 361,  
-                "TYPE_ID": 11, 
-                },
+            "TYPE_ID": 11, 
+            },
         },
     );
 
@@ -153,13 +140,60 @@
 
     ```php
     
+    require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.address.list',
+            [
+                'filter' => [
+                    'ENTITY_TYPE_ID' => 8,
+                    'ENTITY_ID' => 361,
+                    'TYPE_ID' => 11,
+                ],
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+
     ```
 
 {% endlist %}
 
 В результате мы получили данные адреса для доставки контакта. 
 
->"result":[{"TYPE_ID":"11","ENTITY_TYPE_ID":"8","ENTITY_ID":"361","ADDRESS_1":"Гранатный переулок, 10 c1","ADDRESS_2":null "CITY":"Москва","POSTAL_CODE":"123001","REGION":"Пресненский район","PROVINCE":"Москва","COUNTRY":"Россия","COUNTRY_CODE":null "LOC_ADDR_ID":"571","ANCHOR_TYPE_ID":"3","ANCHOR_ID":"2429"}] 
+ ```json
+
+    Array
+    (
+        [result] => Array
+            (
+                [0] => Array
+                    (
+                        [TYPE_ID] => 11
+                        [ENTITY_TYPE_ID] => 8
+                        [ENTITY_ID] => 361
+                        [ADDRESS_1] => Гранатный переулок, 10 c1
+                        [ADDRESS_2] => 
+                        [CITY] => Москва
+                        [POSTAL_CODE] => 123001
+                        [REGION] => Пресненский район
+                        [PROVINCE] => Москва
+                        [COUNTRY] => Россия
+                        [COUNTRY_CODE] => 
+                        [LOC_ADDR_ID] => 571
+                        [ANCHOR_TYPE_ID] => 3
+                        [ANCHOR_ID] => 2429
+                    )
+
+            )
+
+        [total] => 1
+        
+    )
+
+ ```
 
 ## Сопутствующие материалы
 
@@ -173,85 +207,69 @@
 - JS
 
     ```javascript
-    // Определяем имя и фамилию клиента
-    var firstName = "Вася";
-    var lastName = "Петечкин";
+    var contactId = "ваш_контакт_ID_здесь"; // Замените на фактический ID контакта
 
+    // Метод для получения ID реквизита
     BX24.callMethod(
-    "crm.contact.list",
-    {
-        filter: {
-           "NAME": firstName,
-           "LAST_NAME": lastName
+        "crm.requisite.list",
+        {
+            filter: {
+                "ENTITY_TYPE_ID": 3,
+                "ENTITY_ID": contactId
+            },
+            select: ["ID"]
         },
-        select: ["ID"]
-    },
-    function(result) {
-        if (result.error()) {
-            console.error(result.error());
-        } else {
-            var contacts = result.data();
-            if (contacts.length > 0) {
-                var contactId = contacts[0].ID;
-                console.log("Contact ID:", contactId);
+        function(requisiteResult) {
+            if (requisiteResult.error()) {
+                console.error(requisiteResult.error());
+            } else {
+                var requisites = requisiteResult.data();
+                if (requisites.length > 0) {
+                    var requisiteId = requisites[0].ID;
+                    console.log("Requisite ID:", requisiteId);
 
-                // Второй метод для получения ID реквизита
-                BX24.callMethod(
-                    "crm.requisite.list",
-                    {
-                        filter: {
-                            "ENTITY_TYPE_ID": 3,
-                            "ENTITY_ID": contactId
+                    // Метод для получения адреса
+                    BX24.callMethod(
+                        "crm.address.list",
+                        {
+                            filter: {
+                                "ENTITY_TYPE_ID": 8,
+                                "ENTITY_ID": requisiteId,
+                                "TYPE_ID": 11
+                            }
                         },
-                        select: ["ID"]
-                    },
-                    function(requisiteResult) {
-                        if (requisiteResult.error()) {
-                            console.error(requisiteResult.error());
-                        } else {
-                            var requisites = requisiteResult.data();
-                            if (requisites.length > 0) {
-                                var requisiteId = requisites[0].ID;
-                                console.log("Requisite ID:", requisiteId);
-
-                                // Третий метод для получения адреса
-                                BX24.callMethod(
-                                    "crm.address.list",
-                                    {
-                                        filter: {
-                                            "ENTITY_TYPE_ID": 8,
-                                            "ENTITY_ID": requisiteId,
-                                            "TYPE_ID": 11 
-                                        }
-                                    },
-                                    function(addressResult) {
-                                        if (addressResult.error()) {
-                                            console.error(addressResult.error());
-                                        } else {
-                                            var addresses = addressResult.data();
-                                            if (addresses.length > 0) {
-                                                console.log("Delivery Address:", addresses);
-                                                // Здесь можно обработать данные адреса
-                                            } else {
-                                                console.log("Адрес для доставки не найден.");
-                                            }
-                                        }
-                                    }
-                                );
+                        function(addressResult) {
+                            if (addressResult.error()) {
+                                console.error(addressResult.error());
                             } else {
-                                console.log("Реквизит не найден.");
+                                var addresses = addressResult.data();
+                                if (addresses.length > 0) {
+                                    // Создаем таблицу для отображения адресов
+                                    var table = [];
+                                    addresses.forEach(function(address) {
+                                        table.push({
+                                            "Адрес": address.ADDRESS_1 || "Не указано",
+                                            "Город": address.CITY || "Не указано",
+                                            "Индекс": address.POSTAL_CODE || "Не указано",
+                                            "Страна": address.COUNTRY || "Не указано"
+                                        });
+                                    });
+                                    console.table(table);
+                                } else {
+                                    console.log("Адрес для доставки не найден.");
+                                }
                             }
                         }
-                    }
-                );
-            } else {
-                console.log("Контакт не найден.");
+                    );
+                } else {
+                    console.log("Реквизит не найден.");
+                }
             }
         }
-    }
     );
 
     ```
+
 
 - PHP
 
@@ -263,6 +281,68 @@
 
     ```php
     
+    require_once('crest.php');
+
+        $contactId = 'ваш_контакт_ID_здесь'; // Замените на фактический ID контакта
+
+        // Метод для получения ID реквизита
+        $requisiteResult = CRest::call(
+            'crm.requisite.list',
+            [
+                'filter' => [
+                    'ENTITY_TYPE_ID' => 3,
+                    'ENTITY_ID' => $contactId
+                ],
+                'select' => ['ID']
+            ]
+        );
+
+        if (isset($requisiteResult['error'])) {
+            echo 'Error: ' . $requisiteResult['error_description'];
+        } else {
+            $requisites = $requisiteResult['result'];
+            if (count($requisites) > 0) {
+                $requisiteId = $requisites[0]['ID'];
+                echo 'Requisite ID: ' . $requisiteId . PHP_EOL;
+
+                // Метод для получения адреса
+                $addressResult = CRest::call(
+                    'crm.address.list',
+                    [
+                        'filter' => [
+                            'ENTITY_TYPE_ID' => 8,
+                            'ENTITY_ID' => $requisiteId,
+                            'TYPE_ID' => 11
+                        ]
+                    ]
+                );
+
+                if (isset($addressResult['error'])) {
+                    echo 'Error: ' . $addressResult['error_description'];
+                } else {
+                    $addresses = $addressResult['result'];
+                    if (count($addresses) > 0) {
+                        // Создаем таблицу для отображения адресов
+                        echo '<table border="1">';
+                        echo '<tr><th>Адрес</th><th>Город</th><th>Индекс</th><th>Страна</th></tr>';
+                        foreach ($addresses as $address) {
+                            echo '<tr>';
+                            echo '<td>' . ($address['ADDRESS_1'] ?? 'Не указано') . '</td>';
+                            echo '<td>' . ($address['CITY'] ?? 'Не указано') . '</td>';
+                            echo '<td>' . ($address['POSTAL_CODE'] ?? 'Не указано') . '</td>';
+                            echo '<td>' . ($address['COUNTRY'] ?? 'Не указано') . '</td>';
+                            echo '</tr>';
+                        }
+                        echo '</table>';
+                    } else {
+                        echo 'Адрес для доставки не найден.';
+                    }
+                }
+            } else {
+                echo 'Реквизит не найден.';
+            }
+        }
+
     ```
 
 {% endlist %}
