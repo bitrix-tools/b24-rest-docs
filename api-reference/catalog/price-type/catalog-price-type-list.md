@@ -1,10 +1,10 @@
-# Получить список типов цены по фильтру catalog.priceType.list
+# Получить список типов цен по фильтру catalog.priceType.list
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает список типов цены по фильтру.
+Метод возвращает список типов цен по фильтру.
 
 ## Параметры метода
 
@@ -17,7 +17,7 @@
 Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля типа цены
 ||
 || **filter** 
-[`object`](../../data-types.md)| Объект для фильтрации выбранных типов цены в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
+[`object`](../../data-types.md)| Объект для фильтрации выбранных типов цен в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_price_type](../data-types.md#catalog_price_type).
 
@@ -45,7 +45,7 @@
 - `!` — не равно
 ||
 || **order**
-[`object`](../../data-types.md)| Объект для сортировки выбранных типов цены в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`object`](../../data-types.md)| Объект для сортировки выбранных типов цен в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_price_type](../data-types.md#catalog_price_type).
 
@@ -190,7 +190,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **priceTypes**
-[`catalog_price_type[]`](../data-types.md#catalog_price_type) | Массив объектов с информацией о выбранных типах цены ||
+[`catalog_price_type[]`](../data-types.md#catalog_price_type) | Массив объектов с информацией о выбранных типах цен ||
 || **total**
 [`integer`](../../data-types.md#time) | Общее количество найденных записей ||
 || **time**
