@@ -1,19 +1,31 @@
-# Изменить бэклог tasks.api.scrum.backlog.update
+# Обновить бэклог tasks.api.scrum.backlog.update
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод изменяет бэклог.
+Метод обновляет бэклог.
 
-## Параметры
+## Параметры метода
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор бэклога, можно получить от метода [tasks.api.scrum.backlog.get](./tasks-api-scrum-backlog-get.md) ||
+[`integer`](../../../data-types.md) | Идентификатор бэклога. 
+
+Можно получить методом [tasks.api.scrum.backlog.get](./tasks-api-scrum-backlog-get.md) ||
 || **fields***
-[`object`](../../../data-types.md) | Объект содержащий записи о группе и пользователе (подробное описание приведено ниже) в виде структуры. ||
+[`object`](../../../data-types.md) | Объект содержащий записи о группе и пользователе (подробное описание приведено ниже) в виде структуры:
+
+```js
+"fields": {
+    "groupId": значение,
+    "createdBy": значение,
+    "modifiedBy": значение,
+}    
+```
+||
 |#
 
 ### Параметр fields
@@ -24,7 +36,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **groupId**
-[`integer`](../../../data-types.md) | Идентификатор группы, к которой принадлежит бэклог. Идентификатор группы можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork-api-workgroup-list.md](../../socialnetwork-api-workgroup-list.md) ||
+[`integer`](../../../data-types.md) | Идентификатор группы, к которой принадлежит бэклог.
+
+Идентификатор группы можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork-api-workgroup-list.md](../../socialnetwork-api-workgroup-list.md) ||
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, от кого будет создан бэклог ||
 || **modifiedBy**
@@ -43,7 +57,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1, "fields": {"groupId": 1, "createdBy": 1}}' \
+    -d '{"id":1, "fields": {"groupId": 125, "createdBy": 6}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.api.scrum.backlog.update
     ```
 
@@ -53,7 +67,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1, "fields": {"groupId": 1, "createdBy": 1}, "auth":"**put_access_token_here**"}' \
+    -d '{"id":1, "fields": {"groupId": 125, "createdBy": 6}, "auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/tasks.api.scrum.backlog.update
     ```
 
@@ -61,11 +75,12 @@
 
     ```js
     BX24.callMethod(
-        'tasks.api.scrum.backlog.update',{
+        'tasks.api.scrum.backlog.update',
+        {
             "id": 1,
             "fields": {
-                "groupId": 1,
-                "createdBy": 1,
+                "groupId": 125,
+                "createdBy": 6,
             },
         },
         function(result) {
@@ -83,13 +98,16 @@
     ```php
     require_once('crest.php');
 
-    $result = CRest::call('tasks.api.scrum.backlog.update', [
-        'id' => 1,
-        'fields' => [
-            'groupId' => 1,
-            'createdBy' => 1,
-        ],
-    ]);
+    $result = CRest::call(
+        'tasks.api.scrum.backlog.update',
+        [
+            'id' => 1,
+            'fields' => [
+                'groupId' => 125,
+                'createdBy' => 6,
+            ],
+        ]
+    );
 
     echo '<PRE>';
     print_r($result);
@@ -105,10 +123,10 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-      "id": 2,
-      "groupId": 1,
-      "createdBy": 1,
-      "modifiedBy": 0
+        "id": 1,
+        "groupId": 125,
+        "createdBy": 6,
+        "modifiedBy": 1
     },
     "time":{
         "start":1712137817.343984,
