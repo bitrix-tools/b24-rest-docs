@@ -16,7 +16,7 @@
 
 - Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
 
-<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
 ## Bitrix Talks Tech. Новый чат в Битрикс24
 
