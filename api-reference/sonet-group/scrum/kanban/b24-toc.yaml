@@ -3,17 +3,18 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Создать стадию канбана Скрама
+  - name: Создать стадию канбана
     href: tasks-api-scrum-kanban-add-stage.md
-  - name: Изменить стадию канбана Скрама
+  - name: Обновить стадию канбана
     href: tasks-api-scrum-kanban-update-stage.md
-  - name: Добавить задачу в канбан Скрама
-    href: tasks-api-scrum-kanban-add-task.md
+  - name: Получить стадии канбана по идентификатору спринта
+    href: tasks-api-scrum-kanban-get-stages.md
   - name: Удалить стадию
     href: tasks-api-scrum-kanban-delete-stage.md
-  - name: Удалить задачу из канбана Скрама
+  - name: Добавить задачу в канбан
+    href: tasks-api-scrum-kanban-add-task.md
+  - name: Удалить задачу из канбана
     href: tasks-api-scrum-kanban-delete-task.md
   - name: Получить список доступных полей стадии канбана
     href: tasks-api-scrum-kanban-get-fields.md
-  - name: Получить стадию канбана по идентификатору спринта
-    href: tasks-api-scrum-kanban-get-stages.md
+
