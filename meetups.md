@@ -2,6 +2,23 @@
 
 ## B24PHPSdk, Быстрый старт - Разработка на Битрикс24 REST API, эпизод 1
 
+29.10.2024
+
+- Как подключить SDK к своему проекту
+- Как использовать SDK в локальном приложении
+- Какие инструменты разработчика использовать 
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-local-app-example.zip)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
+Спикер:
+
+- Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+## B24PHPSdk, Быстрый старт - Разработка на Битрикс24 REST API, эпизод 1
+
 21.10.2024
 
 - Преимущества использования B24PhpSdk для работы с REST API Битрикс24
@@ -11,6 +28,7 @@
 - Как использовать batch с помощью SDK
 
 [Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-webhook-example.zip)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
 
 Спикер:
 
