@@ -31,7 +31,7 @@
 
 Чтобы удалить задачу из канбана используйте метод [tasks.api.scrum.kanban.deleteTask](./tasks-api-scrum-kanban-delete-task.md), указав идентификатор спринта `sprintId` и идентификатор задачи `taskId`. Задача останется в спринте на странице планирования. Метод не перенесет задачу в [бэклог](../backlog/index.md).
 
-# Обзор методов {#all-methods}
+## Обзор методов {#all-methods}
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >
