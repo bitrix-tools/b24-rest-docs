@@ -17,10 +17,11 @@
 {% endnote %}
 
 #|
-|| [`crm.timeline.logmessage.add`](./crm-timeline-logmessage-add.md) | Добавляет новую лог-запись в таймлайн ||
-|| [`crm.timeline.logmessage.get`](./crm-timeline-logmessage-get.md) | Получает информацию о лог-записи ||
-|| [`crm.timeline.logmessage.list`](./crm-timeline-logmessage-list.md) | Получает список всех лог-записей для определенного элемента ||
-|| [`crm.timeline.logmessage.delete`](./crm-timeline-logmessage-delete.md) | Удаляет лог-запись ||
-|| [`crm.timeline.icon.*`](./icons/index.md) | Методы для работы с иконками записей ||
-|| [`crm.timeline.logo.*`](./logo/index.md) | Методы для работы с логотипами записей ||
+|| **Метод** | **Описание** ||
+|| [crm.timeline.logmessage.add](./crm-timeline-logmessage-add.md) | Добавляет новую лог-запись в таймлайн ||
+|| [crm.timeline.logmessage.get](./crm-timeline-logmessage-get.md) | Получает информацию о лог-записи ||
+|| [crm.timeline.logmessage.list](./crm-timeline-logmessage-list.md) | Получает список всех лог-записей для определенного элемента ||
+|| [crm.timeline.logmessage.delete](./crm-timeline-logmessage-delete.md) | Удаляет лог-запись ||
+|| [crm.timeline.icon.*](./icons/index.md) | Методы для работы с иконками записей ||
+|| [crm.timeline.logo.*](./logo/index.md) | Методы для работы с логотипами записей ||
 |#
