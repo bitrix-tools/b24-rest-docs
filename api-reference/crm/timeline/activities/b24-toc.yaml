@@ -19,7 +19,7 @@ items:
     href: crm-activity-configurable-update.md
   - name: Изменить универсальное дело
     include:
-      path: todo-update/toc.yaml
+      path: todo-update/b24-toc.yaml
       mode: link
   - name: Получить список дел
     href: crm-activity-list.md
@@ -33,15 +33,15 @@ items:
     href: crm-activity-delete.md 
   - name: Привязка дел к объектам CRM
     include:
-      path: binding/toc.yaml
+      path: binding/b24-toc.yaml
       mode: link
   - name: Пользовательские типы дел
     include:
-      path: types/toc.yaml
+      path: types/b24-toc.yaml
       mode: link
   - name: Бейджи конфигурируемых дел
     include:
-      path: badges/toc.yaml
+      path: badges/b24-toc.yaml
       mode: link
   - name: Структура конфигурируемого дела
     include:
@@ -53,9 +53,9 @@ items:
       mode: link
   - name: События
     include:
-      path: events/toc.yaml
+      path: events/b24-toc.yaml
       mode: link
   - name: Встраивание приложений
     include:
-      path: app-embedding/toc.yaml
+      path: app-embedding/b24-toc.yaml
       mode: link
