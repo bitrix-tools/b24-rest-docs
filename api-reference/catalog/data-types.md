@@ -31,6 +31,7 @@
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
 || [`catalog_product_image.id`](#catalog_product_image) | Целочисленный идентификатор изображения товара (например, `1`). Получить идентификаторы изображений товаров можно с помощью метода [catalog.productImage.list](./product-image/catalog-product-image-list.md) ||
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
+|| [`catalog_ratio.id`](#catalog_ratio) | Целочисленный идентификатор коэффициента единицы измерения (например, `1`). Получить идентификаторы коэффициентов единиц измерения можно с помощью метода [catalog.ratio.list](./ratio/catalog-ratio-list.md) ||
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
 || [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
 || [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор секции каталога (например, `1`). Получить идентификаторы разделов товаров можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
@@ -725,6 +726,24 @@
 [`string`](../data-types.md) | Международное условное обозначение ||
 || **symbolLetterIntl**
 [`string`](../data-types.md) | Международное кодовое буквенное обозначение ||
+|#
+
+### catalog_ratio
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор коэффициента единицы измерения ||
+|| **productId**
+[`integer`](../data-types.md) | Идентификатор товара ||
+|| **ratio**
+[`double`](../data-types.md) | Коэффициент единицы измерения ||
+|| **isDefault**
+[`string`](../data-types.md) | Является ли данный коэффициент единицы измерения коэффициентом по умолчанию. Возможные значения:
+- `Y` — да
+- `N` — нет
+||
 |#
 
 ### catalog_price_type
