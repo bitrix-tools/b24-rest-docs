@@ -4,9 +4,9 @@ REST-методы для работы с дополнительным конте
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.layout.blocks.set](./crm-activity-layout-blocks-set.md) | Метод позволяет REST Приложениям устанавливать набор дополнительных контентных блоков в дело ||
-|| [crm.activity.layout.blocks.get](./crm-activity-layout-blocks-get.md) | Метод позволяет REST Приложениям получать установленный им же набор дополнительных контентных блоков в деле ||
-|| [crm.activity.layout.blocks.delete](./crm-activity-layout-blocks-delete.md) | Метод позволяет REST приложениям удалять установленный им же набор дополнительных контентных блоков для дела ||
+|| [crm.activity.layout.blocks.set](./crm-activity-layout-blocks-set.md) | Устанавливает набор дополнительных контентных блоков в дело ||
+|| [crm.activity.layout.blocks.get](./crm-activity-layout-blocks-get.md) | Получает установленный приложением набор дополнительных контентных блоков в деле ||
+|| [crm.activity.layout.blocks.delete](./crm-activity-layout-blocks-delete.md) | Удаляет установленный приложением набор дополнительных контентных блоков для дела ||
 |#
 
 ## Дело привязанное к нескольким сущностям

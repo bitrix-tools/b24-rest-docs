@@ -83,7 +83,7 @@ items:
     include:
       path: user-field/toc.yaml
       mode: link
-  - name: Мой план и стадии Канбана
+  - name: Стадии канбана и «Моего плана»
     include:
       path: stages/b24-toc.yaml
       mode: link

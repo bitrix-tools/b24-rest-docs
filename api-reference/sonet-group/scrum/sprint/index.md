@@ -24,7 +24,7 @@
 
 Метод [tasks.api.scrum.sprint.complete](./tasks-api-scrum-sprint-complete.md) завершает активный спринт по идентификатору группы `id`, а не спринта. Получить идентификатор можно методом [создания новой группы](../../sonet-group-create.md) или методом [получения списка групп](../../socialnetwork-api-workgroup-list.md). У завершенного спринта статус сменится с `active` на `completed`.
 
-## Обзор методов
+## Обзор методов {#all-methods}
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >

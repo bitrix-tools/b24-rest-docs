@@ -55,7 +55,10 @@
     ```php
     require_once('crest.php');
 
-    $result = CRest::call('tasks.api.scrum.backlog.getFields', []);
+    $result = CRest::call(
+        'tasks.api.scrum.backlog.getFields',
+        []
+    );
 
     echo '<PRE>';
     print_r($result);
@@ -71,17 +74,17 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-      "fields": {
-        "groupId": {
-          "type": "integer"
-        },
-        "createdBy": {
-          "type": "integer"
-        },
-        "modifiedBy": {
-          "type": "integer"
+        "fields": {
+            "groupId": {
+                "type": "integer"
+            },
+            "createdBy": {
+                "type": "integer"
+            },
+            "modifiedBy": {
+                "type": "integer"
+            }
         }
-      }
     },
     "time":{
         "start":1712137817.343984,
