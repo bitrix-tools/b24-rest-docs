@@ -10,3 +10,4 @@
 - [CoPilot](./ai/add-joke-prompt.md)
 - [Чат-ботами](./chat-bots/index.md)
 - [Телефонией](./telephony/index.md)
+- [задачами](./tasks/index.md)
