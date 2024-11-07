@@ -88,7 +88,7 @@
 
 ## Обзор методов и событий {#all-methods}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять методы: любой пользователь
 
