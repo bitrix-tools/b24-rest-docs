@@ -7,13 +7,9 @@
 В Битрикс24 есть два типа файловых полей: 
 
 * **Файл.** Поле не связано с диском, в него файлы загружаются напрямую, через [строку формата Base64](../../api-reference/bx24-js-sdk/how-to-call-rest-methods/files.md)
-* **Файл (диск).** Поле связано с диском, в поле хранится ID объекта диска. Формат Bаse64 в поле не обрабатывается, поэтому загрузить файл напрямую нельзя 
+* **Файл (диск).** Поле связано с диском, в поле хранится ID объекта диска. Формат Bаse64 в поле не обрабатывается, поэтому сначала файл необходимо загрузить на диск Битрикс24
 
-{% note info "Туториал" %}
-
-[Как прикрепить файл к существующей задаче]()
-
-{% endnote %}
+Если задача уже создана, используйте туториал — [«Как загрузить файл в задачу»](./how-to-upload-file-to-task.md).
 
 Чтобы создать задачу с  файлом, последовательно выполним два метода:
 
@@ -28,11 +24,7 @@
 * `data` — укажем имя файла `NAME`, с этим именем файл сохранится на диске Битрикс24
 * `fileContent` — передаем файл в формате ['имя_файла.расширение', 'файл в виде строки, закодированной в Base64']
 
-{% note info " " %}
-
 Загрузка файла на диск — необходимый шаг, так как поле `UF_TASK_WEBDAV_FILES` в задачах принимает только ID файлов диска.
-
-{% endnote %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -387,9 +379,13 @@
     function uploadFileToDisk() {
         // ID папки, в которую вы хотите загрузить файл
         $folderId = 'ваш_ID_папки';
-        // Имя файла и его содержимое в формате Base64
+        // Имя файла, который вы хотите загрузить
         $fileName = 'ваше_имя_файла';
-        $fileContentBase64 = 'ваше_содержимое_файла_Base64';
+        // Путь к файлу на вашей файловой системе
+        $filePath = '/путь/к/вашему/файлу';
+
+        // Чтение содержимого файла и его кодирование в Base64
+        $fileContentBase64 = base64_encode(file_get_contents($filePath));
 
         // Вызываем метод disk.folder.uploadfile
         $result = CRest::call(
@@ -447,120 +443,6 @@
     ```
 
 {% endlist %}
-
-## Пример кода на HTML странице
-
-```html
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <met a charset="UTF-8">
-    <met a name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Загрузка файла и создание задачи</title>
-    <script>
-        // Функция для преобразования файла в формат Base64
-        function convertFileToBase64(file, callback) {
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var base64String = event.target.result.split(',')[1]; // Извлекаем строку Base64
-                callback(base64String);
-            };
-            reader.onerror = function(error) {
-                console.error('Ошибка при чтении файла:', error);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Функция для загрузки файла
-        function uploadFileToDisk(base64String, fileName, folderId) {
-            // Вызываем метод disk.folder.uploadfile
-            BX24.callMethod(
-                'disk.folder.uploadfile',
-                {
-                    id: folderId,
-                    data: {
-                        NAME: fileName
-                    },
-                    fileContent: [
-                        fileName,
-                        base64String
-                    ]
-                },
-                function(result) {
-                    if (result.error()) {
-                        console.error('Ошибка при загрузке файла:', result.error());
-                    } else {
-                        console.log('Файл успешно загружен!', result.data());
-                        var fileId = result.data().ID; // Используем ID из результата
-                        createTaskWithFile(fileId);
-                    }
-                }
-            );
-        }
-
-        // Функция для создания задачи с прикрепленным файлом
-        function createTaskWithFile(fileId) {
-            // Получаем значения из полей ввода
-            var taskTitle = document.getElementById('taskTitle').value;
-            var taskDescription = document.getElementById('taskDescription').value;
-            var responsibleId = document.getElementById('responsibleId').value;
-
-            // Вызываем метод tasks.task.add
-            BX24.callMethod(
-                'tasks.task.add',
-                {
-                    fields: {
-                        TITLE: taskTitle,
-                        DESCRIPTION: taskDescription,
-                        RESPONSIBLE_ID: responsibleId,
-                        UF_TASK_WEBDAV_FILES: ['n' + fileId] // Добавляем префикс 'n' к ID файла
-                    }
-                },
-                function(result) {
-                    if (result.error()) {
-                        console.error('Ошибка при создании задачи:', result.error());
-                    } else {
-                        console.log('Задача успешно создана!', result.data());
-                    }
-                }
-            );
-        }
-
-        // Обработчик для кнопки "Создать задачу"
-        function createTask() {
-            var fileInput = document.getElementById('fileInput');
-            if (fileInput.files.length > 0) {
-                var file = fileInput.files[0];
-                var folderId = document.getElementById('folderId').value;
-                convertFileToBase64(file, function(base64String) {
-                    uploadFileToDisk(base64String, file.name, folderId);
-                });
-            } else {
-                console.error('Пожалуйста, выберите файл для загрузки.');
-            }
-        }
-    </script>
-</head>
-<body>
-    <h1>Загрузка файла и создание задачи</h1>
-    <label for="folderId">ID папки:</label>
-    <input type="text" id="folderId" placeholder="Введите ID папки"><br><br>
-
-    <label for="taskTitle">Название задачи:</label>
-    <input type="text" id="taskTitle" placeholder="Введите название задачи"><br><br>
-
-    <label for="taskDescription">Описание задачи:</label>
-    <input type="text" id="taskDescription" placeholder="Введите описание задачи"><br><br>
-
-    <label for="responsibleId">ID ответственного:</label>
-    <input type="text" id="responsibleId" placeholder="Введите ID ответственного"><br><br>
-
-    <input type="file" id="fileInput"><br><br>
-
-    <button oncl ick="createTask()">Создать задачу</button>
-</body>
-</html>
-```
 
 
 
