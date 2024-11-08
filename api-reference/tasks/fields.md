@@ -61,7 +61,9 @@ N - Нет.
 N - Нет.
 По умолчанию - Нет. ||
 || **GROUP_ID**
-[`integer`](../data-types.md) | Проект. | По умолчанию - 0 ||
+[`integer`](../data-types.md) | Группа или проект | По умолчанию - 0 ||
+|| **FLOW_ID**
+[`integer`](../data-types.md) | Поток | null ||
 || **STAGE_ID**
 [`integer`](../data-types.md) | Стадия. | По умолчанию - 0 ||
 || **CREATED_BY^*^**
