@@ -5,6 +5,8 @@ items:
     href: authorization.md
   - name: Как выполняется запрос 
     href: general-principles.md
+  - name: Кодирование данных
+    href: data-encoding.md
   - name: Особенности списочных методов 
     href: list-methods-pecularities.md
   - name: Как выполнить пакет запросов
