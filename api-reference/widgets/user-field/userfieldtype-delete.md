@@ -85,6 +85,27 @@
     echo '</PRE>';
     ```
 
+- B24-PHP-SDK
+
+    ```php
+    
+try {
+    $userTypeId = 'example_user_type_id'; // Replace with the actual user type ID
+    $result = $serviceBuilder
+        ->getPlacementScope()
+        ->userFieldType()
+        ->delete($userTypeId);
+
+    if ($result->isSuccess()) {
+        print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+    } else {
+        print("Error occurred while deleting user field type.");
+    }
+} catch (\Throwable $e) {
+    print("Exception: " . $e->getMessage());
+}
+
+    ```
 {% endlist %}
 
 ## Обработка ответа

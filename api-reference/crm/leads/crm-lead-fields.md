@@ -58,6 +58,25 @@
     https://xxx.bitrix24.com/rest/1/5***/crm.lead.fields.json
     ```
 
+- B24-PHP-SDK
+
+    ```php
+    
+try {
+    $fieldsResult = $serviceBuilder
+        ->getCRMScope()
+        ->lead()
+        ->fields();
+
+    $fieldsDescription = $fieldsResult->getFieldsDescription();
+
+    // Assuming you want to print the fields description
+    print_r($fieldsDescription);
+} catch (Throwable $e) {
+    print("Error: " . $e->getMessage());
+}
+
+    ```
 {% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

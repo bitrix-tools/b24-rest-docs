@@ -36,6 +36,29 @@
 
 ## Примеры
 
+- B24-PHP-SDK
+
+    ```php
+    
+try {
+    $notificationId = 123; // Replace with your actual notification ID
+    $answerText = "This is an answer text"; // Replace with your actual answer text
+
+    $result = $serviceBuilder
+        ->getIMScope()
+        ->notify()
+        ->answer($notificationId, $answerText);
+
+    if ($result->isSuccess()) {
+        print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+    } else {
+        print("Failed to send answer.");
+    }
+} catch (Throwable $e) {
+    print("An error occurred: " . $e->getMessage());
+}
+
+    ```
 ```js
 B24.callMethod(
     'im.notify.answer',

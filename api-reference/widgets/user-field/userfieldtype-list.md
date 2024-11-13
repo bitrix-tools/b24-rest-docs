@@ -65,6 +65,25 @@
     echo '</PRE>';
     ```
 
+- B24-PHP-SDK
+
+    ```php
+    
+try {
+    $userFieldTypesResult = $serviceBuilder->getPlacementScope()->userFieldType()->list();
+    $userFieldTypes = $userFieldTypesResult->getUserFieldTypes();
+
+    foreach ($userFieldTypes as $userFieldType) {
+        print("Description: " . $userFieldType->DESCRIPTION . "\n");
+        print("Handler: " . $userFieldType->HANDLER . "\n");
+        print("Title: " . $userFieldType->TITLE . "\n");
+        print("User Type ID: " . $userFieldType->USER_TYPE_ID . "\n");
+    }
+} catch (Throwable $e) {
+    print("Error: " . $e->getMessage());
+}
+
+    ```
 {% endlist %}
 
 ## Обработка ответа

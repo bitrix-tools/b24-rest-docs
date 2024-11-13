@@ -34,6 +34,27 @@
 
 ## Пример
 
+- B24-PHP-SDK
+
+    ```php
+    
+try {
+    $userfieldId = 123; // Replace with the actual userfield ID you want to delete
+    $result = $serviceBuilder
+        ->getCRMScope()
+        ->dealUserfield()
+        ->delete($userfieldId);
+
+    if ($result->isSuccess()) {
+        print("Userfield deleted successfully.");
+    } else {
+        print("Failed to delete userfield.");
+    }
+} catch (Throwable $e) {
+    print("An error occurred: " . $e->getMessage());
+}
+
+    ```
 ```js
 var id = prompt("Введите ID");
 BX24.callMethod(

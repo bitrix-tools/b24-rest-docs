@@ -36,6 +36,24 @@
 
 ## Примеры
 
+- B24-PHP-SDK
+
+    ```php
+    
+try {
+    $itemId = 123; // Replace with the actual item ID to delete
+    $result = $serviceBuilder->getCRMScope()->activity()->delete($itemId);
+    
+    if ($result->isSuccess()) {
+        print("Item deleted successfully.");
+    } else {
+        print("Failed to delete item.");
+    }
+} catch (Throwable $e) {
+    print("Error occurred: " . $e->getMessage());
+}
+
+    ```
 ```js
 var id = prompt("Введите ID");
 BX24.callMethod(

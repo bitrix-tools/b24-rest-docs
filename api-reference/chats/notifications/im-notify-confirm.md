@@ -43,6 +43,29 @@
 
 ## Примеры
 
+- B24-PHP-SDK
+
+    ```php
+    
+try {
+    $notificationId = 123; // Example notification ID
+    $isAccept = true; // Example acceptance status
+
+    $result = $serviceBuilder
+        ->getIMScope()
+        ->notify()
+        ->confirm($notificationId, $isAccept);
+
+    if ($result->isSuccess()) {
+        print_r($result->getCoreResponse()->getResponseData()->getResult());
+    } else {
+        print("Confirmation failed.");
+    }
+} catch (Throwable $e) {
+    print("An error occurred: " . $e->getMessage());
+}
+
+    ```
 ```js
 B24.callMethod(
     'im.notify.confirm',
