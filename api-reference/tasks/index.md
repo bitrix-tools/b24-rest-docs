@@ -87,6 +87,13 @@
 
 Прикрепляйте файлы к задаче методом [tasks.task.files.attach](./tasks-task-files-attach.md), если задача уже создана.
 
+{% note tip "Частые кейсы и сценарии" %}
+
+- [{#T}](../../tutorials/tasks/how-to-create-task-with-file.md)
+- [{#T}](../../tutorials/tasks/how-to-upload-file-to-task.md)
+
+{% endnote %}
+
 ## Потоки
 
 Потоки — это инструмент, который автоматизирует распределение и выполнение задач. Сотрудникам не нужно искать, кто будет делать задачу. Они ставят задачи в поток отдела, и он автоматически назначает исполнителя.
@@ -154,35 +161,50 @@
 
 ### Основные
 
-#|
-|| **Метод** | **Описание** ||
-|| [tasks.task.add](./tasks-task-add.md) | Создает задачу ||
-|| [tasks.task.update](./tasks-task-update.md) | Обновляет задачу ||
-|| [tasks.task.get](./tasks-task-get.md) | Получает информацию о задаче по `id` ||
-|| [tasks.task.list](./tasks-task-list.md) | Получает список задач ||
-|| [tasks.task.files.attach](./tasks-task-files-attach.md) | Прикрепляет файлы к задаче ||
-|| [tasks.task.delegate](./tasks-task-delegate.md) | Делегирует задачи ||
-|| [tasks.task.counters.get](./tasks-task-counters-get.md) | Получает счетчики пользователя ||
-|| [tasks.task.start](./tasks-task-start.md) | Переводит задачу в статус «выполняется» ||
-|| [tasks.task.pause](./tasks-task-pause.md) | Останавливает выполнение задачи и переводит в статус «ждет выполнения» ||
-|| [tasks.task.defer](./tasks-task-defer.md) | Переводит задачу в статус «отложена» ||
-|| [tasks.task.complete](./tasks-task-complete.md) | Переводит задачу в статус «завершена» ||
-|| [tasks.task.renew](./tasks-task-renew.md) | Возобновляет задачу после ее завершения ||
-|| [tasks.task.approve](./tasks-task-approve.md) | Принимает задачу ||
-|| [tasks.task.disapprove](./tasks-task-disapprove.md) | Отклоняет задачу ||
-|| [tasks.task.delete](./tasks-task-delete.md) | Удаляет задачу ||
-|| [tasks.task.startwatch](./tasks-task-start-watch.md) | Позволяет наблюдать за задачей ||
-|| [tasks.task.stopwatch](./tasks-task-stop-watch.md) | Останавливает наблюдение за задачей ||
-|| [tasks.task.favorite.add](./tasks-task-favorite-add.md) | Добавляет задачи в избранное ||
-|| [tasks.task.favorite.remove](./tasks-task-favorite-remove.md) | Удаляет задачи из избранного ||
-|| [tasks.task.getFields](./tasks-task-get-fields.md) |	Получает доступные поля ||
-|| [tasks.task.getaccess](./tasks-task-get-access.md) |	Проверяет доступ к задаче ||
-|| [tasks.task.history.list](./tasks-task-history-list.md) | Получает историю задачи ||
-|| [tasks.task.mute](./tasks-task-mute.md) | Включает режим «Без звука» ||
-|| [tasks.task.unmute](./tasks-task-unmute.md) | Выключает режим «Без звука» ||
-|| [task.dependence.add](./task-dependence-add.md) | Создает зависимость одной задачи от другой ||
-|| [task.dependence.delete](./task-dependence-delete.md) | Удаляет зависимость одной задачи от другой ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [tasks.task.add](./tasks-task-add.md) | Создает задачу ||
+    || [tasks.task.update](./tasks-task-update.md) | Обновляет задачу ||
+    || [tasks.task.get](./tasks-task-get.md) | Получает информацию о задаче по `id` ||
+    || [tasks.task.list](./tasks-task-list.md) | Получает список задач ||
+    || [tasks.task.files.attach](./tasks-task-files-attach.md) | Прикрепляет файлы к задаче ||
+    || [tasks.task.delegate](./tasks-task-delegate.md) | Делегирует задачи ||
+    || [tasks.task.counters.get](./tasks-task-counters-get.md) | Получает счетчики пользователя ||
+    || [tasks.task.start](./tasks-task-start.md) | Переводит задачу в статус «выполняется» ||
+    || [tasks.task.pause](./tasks-task-pause.md) | Останавливает выполнение задачи и переводит в статус «ждет выполнения» ||
+    || [tasks.task.defer](./tasks-task-defer.md) | Переводит задачу в статус «отложена» ||
+    || [tasks.task.complete](./tasks-task-complete.md) | Переводит задачу в статус «завершена» ||
+    || [tasks.task.renew](./tasks-task-renew.md) | Возобновляет задачу после ее завершения ||
+    || [tasks.task.approve](./tasks-task-approve.md) | Принимает задачу ||
+    || [tasks.task.disapprove](./tasks-task-disapprove.md) | Отклоняет задачу ||
+    || [tasks.task.delete](./tasks-task-delete.md) | Удаляет задачу ||
+    || [tasks.task.startwatch](./tasks-task-start-watch.md) | Позволяет наблюдать за задачей ||
+    || [tasks.task.stopwatch](./tasks-task-stop-watch.md) | Останавливает наблюдение за задачей ||
+    || [tasks.task.favorite.add](./tasks-task-favorite-add.md) | Добавляет задачи в избранное ||
+    || [tasks.task.favorite.remove](./tasks-task-favorite-remove.md) | Удаляет задачи из избранного ||
+    || [tasks.task.getFields](./tasks-task-get-fields.md) |	Получает доступные поля ||
+    || [tasks.task.getaccess](./tasks-task-get-access.md) |	Проверяет доступ к задаче ||
+    || [tasks.task.history.list](./tasks-task-history-list.md) | Получает историю задачи ||
+    || [tasks.task.mute](./tasks-task-mute.md) | Включает режим «Без звука» ||
+    || [tasks.task.unmute](./tasks-task-unmute.md) | Выключает режим «Без звука» ||
+    || [task.dependence.add](./task-dependence-add.md) | Создает зависимость одной задачи от другой ||
+    || [task.dependence.delete](./task-dependence-delete.md) | Удаляет зависимость одной задачи от другой ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [OnTaskAdd](./events-tasks/on-task-add.md) | При добавлении задачи ||
+    || [OnTaskUpdate](./events-tasks/on-task-update.md) | При обновлении задачи ||
+    || [OnTaskDelete](./events-tasks/on-task-delete.md) | При удалении задачи ||
+    |#
+
+{% endlist %}
 
 ### Результат задачи
 
@@ -277,13 +299,4 @@
 || [tasks.flow.flow.delete](./flow/tasks-flow-flow-delete.md) | Удалить поток ||
 || [tasks.flow.flow.isExists](./flow/tasks-flow-flow-is-exists.md) | Проверить, существует ли поток с таким названием ||
 || [tasks.flow.flow.activate](./flow/tasks-flow-flow-activate.md) | Включить или выключить поток ||
-|#
-
-### События
-
-#|
-|| **Событие** | **Вызывается** ||
-|| [OnTaskAdd](./events-tasks/on-task-add.md) | При добавлении задачи ||
-|| [OnTaskUpdate](./events-tasks/on-task-update.md) | При обновлении задачи ||
-|| [OnTaskDelete](./events-tasks/on-task-delete.md) | При удалении задачи ||
 |#
