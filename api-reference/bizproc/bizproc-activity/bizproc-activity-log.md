@@ -53,45 +53,52 @@
 
 ## Пример
 
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    var params = {
+        event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
+        log_message: 'Please wait for answer!'
+    };
+
+    BX24.callMethod(
+        'bizproc.activity.log',
+        params,
+        function(result) {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
 - B24-PHP-SDK
 
-    ```php
-    
-try {
-    $eventToken = 'your_event_token'; // Replace with actual event token
-    $message = 'Your log message'; // Replace with actual message
+        ```php
 
-    $result = $serviceBuilder
-        ->getBizProcScope()
-        ->activity()
-        ->log($eventToken, $message);
+    try {
+        $eventToken = 'your_event_token'; // Replace with actual event token
+        $message = 'Your log message'; // Replace with actual message
 
-    if ($result->isSuccess()) {
-        print($result->getCoreResponse()->getResponseData()->getResult()[0]);
-    } else {
-        print('Log entry failed.');
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->activity()
+            ->log($eventToken, $message);
+
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print('Log entry failed.');
+        }
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
     }
-} catch (Throwable $e) {
-    print('Error: ' . $e->getMessage());
-}
 
-    ```
-```javascript
-var params = {
-    event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
-    log_message: 'Please wait for answer!'
-};
+        ```
 
-BX24.callMethod(
-    'bizproc.activity.log',
-    params,
-    function(result) {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
