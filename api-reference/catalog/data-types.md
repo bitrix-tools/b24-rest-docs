@@ -34,6 +34,7 @@
 || [`catalog_ratio.id`](#catalog_ratio) | Целочисленный идентификатор коэффициента единицы измерения (например, `1`). Получить идентификаторы коэффициентов единиц измерения можно с помощью метода [catalog.ratio.list](./ratio/catalog-ratio-list.md) ||
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
 || [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
+|| [`catalog_extra.id`](#catalog_extra) | Целочисленный идентификатор наценки (например, `1`). Получить идентификаторы наценок можно с помощью метода [catalog.extra.list](./extra/catalog-extra-list.md) ||
 || [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор секции каталога (например, `1`). Получить идентификаторы разделов товаров можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
 || [`catalog_vat.id`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
 |#
@@ -803,6 +804,19 @@
 [`datetime`](../data-types.md) | Дата создания ||
 || **dateModify**
 [`datetime`](../data-types.md) | Дата изменения ||
+|#
+
+### catalog_extra
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор наценки ||
+|| **name**
+[`string`](../data-types.md) | Название наценки ||
+|| **percentage**
+[`double`](../data-types.md) | Величина наценки ||
 |#
 
 ### catalog_section

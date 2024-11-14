@@ -15,7 +15,7 @@ items:
       mode: link
   - name: Наценка
     include:
-      path: extra/toc.yaml
+      path: extra/b24-toc.yaml
       mode: link
   - name: Единица измерения
     include:
