@@ -96,6 +96,51 @@ $result = $B24->core->call('crm.deal.add', [
 
 В этом случае не работает автокомплит кода в IDE и не происходит приведение типов в получаемых данных.
 
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-webhook-example.zip)
+
 ## Использование в локальных и тиражных приложениях
 
-Особенности использования B24PhpSDK в локальных и тиражных приложениях, иными словами, особенности использования токенов авторизации OAuth 2.0 мы рассмотрим позже, следите [за обновлениями](../../whats-new.md) документации.
+Чтобы подключить SDK внутри вашего кода (предполагая, что ваш файл находится в папке public из описанной выше структуры), используйте минимально необходимую конструкцию:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Bitrix24\SDK\Core\Credentials\ApplicationProfile;
+use Bitrix24\SDK\Services\ServiceBuilderFactory;
+use Symfony\Component\HttpFoundation\Request;
+
+require_once 'vendor/autoload.php';
+
+$appProfile = ApplicationProfile::initFromArray([
+    'BITRIX24_PHP_SDK_APPLICATION_CLIENT_ID' => 'put-your-client-id-here',
+    'BITRIX24_PHP_SDK_APPLICATION_CLIENT_SECRET' => 'put-your-client-secret-here',
+    'BITRIX24_PHP_SDK_APPLICATION_SCOPE' => 'crm,user_basic'
+]);
+
+$B24 = ServiceBuilderFactory::createServiceBuilderFromPlacementRequest(
+    Request::createFromGlobals(), 
+    $appProfile
+);
+```
+
+В случае локального приложения, вам нужно будет взять значения для `BITRIX24_PHP_SDK_APPLICATION_CLIENT_ID` (Код приложения (client_id)), `BITRIX24_PHP_SDK_APPLICATION_CLIENT_SECRET` (Ключ приложения (client_secret)) и `BITRIX24_PHP_SDK_APPLICATION_SCOPE` (Настройка прав) из соответствующих настроек локального приложения в вашем Битрикс24.
+
+Код, приведенный выше, также предполагает, что приложение открывается "внутри" Битрикс24 либо в качестве основного интерфейса, либо в качестве виджета. Другие сценарии использования SDK, например, внешние приложения, требуют других способов инициализации.
+
+Инициировав объект `$B24` вы можете использовать его для вызова различных методов REST API. В примере ниже переменная `$result` получит значение идентификатора сделки в результате её создания:
+
+```php
+$result = $B24->getCRMScope()->deal()->add([
+    'TITLE' => 'New Deal',
+    'TYPE_ID' => 'SALE',
+    'STAGE_ID' => 'NEW'
+])->getId();
+```
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-local-app-example.zip)

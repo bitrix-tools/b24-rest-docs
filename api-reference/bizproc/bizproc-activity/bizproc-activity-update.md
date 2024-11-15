@@ -31,29 +31,83 @@
 
 ## Пример
 
-```javascript
-function updateActivity1()
-{
-    var params = {
-        'CODE': 'hash',
-        'FIELDS': {
-            'DOCUMENT_TYPE': '',
-            'FILTER': ''
-        },
-    };
-
-    BX24.callMethod(
-        'bizproc.activity.update',
-        params,
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Успешно: " + result.data());
-        }
-    );
-}
-```
-
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"iblockId":24,"vatId":0,"productIblockId":23,"skuPropertyId":97}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.catalog.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"iblockId":24,"vatId":0,"productIblockId":23,"skuPropertyId":97},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.catalog.add
+    ```
+
+- JS
+
+    ```javascript
+    function updateActivity1()
+    {
+        var params = {
+            'CODE': 'hash',
+            'FIELDS': {
+                'DOCUMENT_TYPE': '',
+                'FILTER': ''
+            },
+        };
+
+        BX24.callMethod(
+            'bizproc.activity.update',
+            params,
+            function(result)
+            {
+                if(result.error())
+                    alert("Error: " + result.error());
+                else
+                    alert("Успешно: " + result.data());
+            }
+        );
+    }
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php
+    {% include notitle [пример](../../_include_examples/bizproc-activity-update.md) %}
+    ```
+
+- PHP (CRest)
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.catalog.add',
+        [
+            'fields' => [
+                'iblockId' => 24,
+                'vatId' => 0,
+                'productIblockId' => 23,
+                'skuPropertyId' => 97,
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
