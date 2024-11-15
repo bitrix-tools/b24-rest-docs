@@ -1,4 +1,4 @@
-# Удалить виджет для вайба landing.repowidget.unregister
+# Удалить виджет для Вайба landing.repowidget.unregister
 
 {% note warning "Мы еще работаем над инструментом" %}
 
@@ -10,7 +10,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `landing.repowidget.unregister` удаляет виджет для вайба - главной страницы. В случае успеха возвращает `true`, в противном случае — `false` или ошибку с описанием.
+Метод `landing.repowidget.unregister` удаляет виджет для Главный страницы: наш вайб. В случае успеха возвращает `true`, в противном случае — `false` или ошибку с описанием.
 
 ## Параметры метода
 
@@ -102,3 +102,5 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./landing-repowidget-register.md)
+- [{#T}](./landing-repowidget-get-list.md)
+- [{#T}](./landing-repowidget-debug.md)

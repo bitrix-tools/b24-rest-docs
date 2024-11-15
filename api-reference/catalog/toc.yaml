@@ -15,7 +15,7 @@ items:
       mode: link
   - name: Наценка
     include:
-      path: extra/toc.yaml
+      path: extra/b24-toc.yaml
       mode: link
   - name: Единица измерения
     include:
@@ -25,7 +25,7 @@ items:
     include:
       path: price/toc.yaml
       mode: link
-  - name: Типы цены
+  - name: Типы цен
     include:
       path: price-type/b24-toc.yaml
       mode: link
@@ -49,13 +49,13 @@ items:
     include:
       path: product-property-section/toc.yaml
       mode: link
-  - name: Картинки товаров и торговых предложений
+  - name: Изображения товаров и торговых предложений
     include:
-      path: product-image/toc.yaml
+      path: product-image/b24-toc.yaml
       mode: link
   - name: Коэффициент единицы измерения
     include:
-      path: ratio/toc.yaml
+      path: ratio/b24-toc.yaml
       mode: link
   - name: Правила округления цен
     include:

@@ -4,9 +4,9 @@ REST-методы для работы с дополнительным конте
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.timeline.layout.blocks.set](./crm-timeline-layout-blocks-set.md) | Метод позволяет REST Приложениям устанавливать набор дополнительных контентных блоков в запись таймлайна ||
-|| [crm.timeline.layout.blocks.get](./crm-timeline-layout-blocks-get.md) | Метод позволяет REST Приложениям получать установленный им же набор дополнительных контентных блоков для записи таймлайна ||
-|| [crm.timeline.layout.blocks.delete](./crm-timeline-layout-blocks-delete.md) | Метод позволяет REST приложениям удалять установленный им же набор дополнительных контентных блоков для записи таймлайна ||
+|| [crm.timeline.layout.blocks.set](./crm-timeline-layout-blocks-set.md) | Устанавливает набор дополнительных контентных блоков в запись таймлайна ||
+|| [crm.timeline.layout.blocks.get](./crm-timeline-layout-blocks-get.md) | Получает установленный приложением набор дополнительных контентных блоков для записи таймлайна ||
+|| [crm.timeline.layout.blocks.delete](./crm-timeline-layout-blocks-delete.md) | Удаляет установленный приложением набор дополнительных контентных блоков для записи таймлайна ||
 |#
 
 ## Удаление записей таймлайна

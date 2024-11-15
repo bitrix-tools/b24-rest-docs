@@ -1,4 +1,32 @@
-# Обзор методов
+# Бэклог в Скраме: обзор методов
+
+Бэклог — это список всех задач команды. Задачи, пожелания, идеи, обратная связь записываются и приоритизируются. Участники команды просматривают бэклог и решают, какие задачи брать в [спринт](../sprint/index.md).
+
+> Быстрый переход: [все методы и события](#all-methods) 
+> 
+> Пользовательская документация: [Битрикс24.Скрам](https://helpdesk.bitrix24.ru/open/13660630/)
+
+## Связь бэклога с другими объектами
+
+**Группа.** Бэклог привязывается к группе (скраму) по идентификатору группы `groupId`. Получить идентификатор можно методом [создания новой группы](../../sonet-group-create.md) или методом [получения списка групп](../../socialnetwork-api-workgroup-list.md). Группа является скрамом, если заполнено поле `SCRUM_MASTER_ID`.
+
+**Пользователь.** Бэклог имеет привязку к пользователям по числовому идентификатору в параметрах `createdBy` и `modifiedBy`. Получить идентификатор пользователя можно с помощью метода [user.get](../../../user/user-get.md).
+
+{% note tip "Пользовательская документация" %}
+
+- [Как создать группу и проект](https://helpdesk.bitrix24.ru/open/22699004/)
+
+{% endnote %}
+
+## Особенности методов add и delete
+
+В Скраме может быть только один бэклог, Битрикс24 создает его автоматически.
+
+Метод [добавления бэклога в Скрам](./tasks-api-scrum-backlog-add.md) пригодится только при импорте данных из другой системы, когда нужно создать бэклог после создания Скрама.
+
+Метод [удаления бэклога](./tasks-api-scrum-backlog-delete.md) используйте, если ошибочно добавили бэклог в группу или проект, которые не являются скрамом. Если удалить бэклог в Скраме, Битрикс24 автоматически создаст его заново при открытии страницы планирования.
+
+## Обзор методов {#all-methods}
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >
@@ -6,9 +34,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [tasks.api.scrum.backlog.add](./tasks-api-scrum-backlog-add.md) | Метод добавляет бэклог в Скрам ||
-|| [tasks.api.scrum.backlog.delete](./tasks-api-scrum-backlog-delete.md) | Метод удаляет бэклог ||
-|| [tasks.api.scrum.backlog.get](./tasks-api-scrum-backlog-get.md) | Метод возвращает значения полей бэклога по идентификатору Скрама ||
-|| [tasks.api.scrum.backlog.getFields](./tasks-api-scrum-backlog-get-fields.md) | Метод возвращает доступные поля бэклога ||
-|| [tasks.api.scrum.backlog.update](./tasks-api-scrum-backlog-update.md) | Метод изменяет бэклог ||
+|| [tasks.api.scrum.backlog.add](./tasks-api-scrum-backlog-add.md) | Добавляет бэклог в Скрам ||
+|| [tasks.api.scrum.backlog.update](./tasks-api-scrum-backlog-update.md) | Обновляет бэклог ||
+|| [tasks.api.scrum.backlog.get](./tasks-api-scrum-backlog-get.md) | Получает значения полей бэклога по идентификатору Скрама ||
+|| [tasks.api.scrum.backlog.delete](./tasks-api-scrum-backlog-delete.md) | Удаляет бэклог ||
+|| [tasks.api.scrum.backlog.getFields](./tasks-api-scrum-backlog-get-fields.md) | Получает доступные поля бэклога ||
 |#

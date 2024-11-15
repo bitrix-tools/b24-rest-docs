@@ -41,7 +41,7 @@ items:
     include:
       path: timeline/b24-toc.yaml
       mode: link
-  - name: Поиск по CRM и дубликаты
+  - name: Поиск и обработка дубликатов в CRM
     include:
       path: duplicates/b24-toc.yaml
       mode: link

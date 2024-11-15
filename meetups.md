@@ -1,5 +1,62 @@
 # Митапы, трансляции и записи выступлений для разработчиков
 
+## Создание виджетов и шаблонов для Битрикс24 Вайб - Разработка на Битрикс24 REST API, эпизод 3
+
+08.11.2024
+
+Приветствуем вас на онлайн-встрече, где мы поговорили про Битрикс24 Вайб, а именно, как разработать крутые виджеты и шаблоны, которые помогут клиентам настроить быстрый доступ, чтобы все важное и нужное было в одном месте.
+
+Вместе с экспертами обсудили:
+- Frontend и backend виджетов
+- Интерактивные виджеты
+- Экспорт шаблонов и публикация в Битрикс24 Маркет.Плюс
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-vibe24-widgets.zip)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
+Спикеры:
+
+- Дмитрий Самойлов, ведущий разработчик Битрикс24
+- Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240176&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+## B24PHPSdk, Быстрый старт, Локальное приложение - Разработка на Битрикс24 REST API, эпизод 2
+
+29.10.2024
+
+- Как подключить SDK к своему проекту
+- Как использовать SDK в локальном приложении
+- Какие инструменты разработчика использовать 
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-local-app-example.zip)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
+Спикер:
+
+- Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+## B24PHPSdk, Быстрый старт - Разработка на Битрикс24 REST API, эпизод 1
+
+21.10.2024
+
+- Преимущества использования B24PhpSdk для работы с REST API Битрикс24
+- Как подключить SDK к своему проекту
+- Как использовать входящие вебхуки
+- Как работает автокомплит и приведение типов в среде разработки
+- Как использовать batch с помощью SDK
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-webhook-example.zip)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
+Спикер:
+
+- Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
 ## Bitrix Talks Tech. Новый чат в Битрикс24
 
 13.12.2023
