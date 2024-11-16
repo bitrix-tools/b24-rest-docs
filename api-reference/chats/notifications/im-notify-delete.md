@@ -47,29 +47,6 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-- B24-PHP-SDK
-
-    ```php
-    
-try {
-    $notificationId = 123; // Replace with actual notification ID
-    $notificationTag = null; // Replace with actual notification tag if needed
-    $subTag = null; // Replace with actual sub tag if needed
-
-    $result = $serviceBuilder->getIMScope()
-        ->notify()
-        ->delete($notificationId, $notificationTag, $subTag);
-
-    if ($result->isSuccess()) {
-        print($result->getCoreResponse()->getResponseData()->getResult()[0]);
-    } else {
-        print("Failed to delete notification.");
-    }
-} catch (Throwable $e) {
-    print("An error occurred: " . $e->getMessage());
-}
-
-    ```
 ```php
 $result = restCommand(
     'im.notify.delete',
@@ -83,15 +60,7 @@ $result = restCommand(
     ]
 );
 ```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
-
-## Ответ в случае успеха
-
-
-- B24-PHP-SDK
-
-    ```php
+```php
         
     try {
         $notificationId = 123; // Replace with actual notification ID
@@ -110,8 +79,13 @@ $result = restCommand(
     } catch (Throwable $e) {
         print("An error occurred: " . $e->getMessage());
     }
-    
-    ```
+
+```
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Ответ в случае успеха
+
 
 ```json
 {
