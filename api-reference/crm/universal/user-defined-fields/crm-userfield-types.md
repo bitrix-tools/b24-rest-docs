@@ -62,6 +62,25 @@
     );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $userfieldService = $serviceBuilder->getCRMScope()->userfield();
+        $userfieldTypesResult = $userfieldService->types();
+        
+        foreach ($userfieldTypesResult->getTypes() as $item) {
+            print("ID: " . $item->ID . "\n");
+            print("Title: " . $item->title . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . "\n");
+    }
+    
+    ```
+
 - PHP
   
     ```

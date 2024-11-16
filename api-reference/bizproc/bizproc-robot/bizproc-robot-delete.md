@@ -33,6 +33,29 @@
 
 ## Примеры
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $robotCode = 'your_robot_code_here'; // Replace with the actual robot code
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->robot()
+            ->delete($robotCode);
+    
+        if ($result->isSuccess()) {
+            print("Robot deleted successfully.");
+        } else {
+            print("Failed to delete robot.");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
+    
+    ```
+
 ```javascript
 var params = {
     'CODE': 'robot'

@@ -34,6 +34,26 @@
 
 ## Пример
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $dealId = 123; // Replace with the actual deal ID you want to delete contacts from
+        $result = $serviceBuilder->getCRMScope()->dealContact()->itemsDelete($dealId);
+        
+        if ($result->isSuccess()) {
+            print("Successfully deleted contacts from deal ID: $dealId");
+        } else {
+            print("Failed to delete contacts. Result: " . json_encode($result));
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    
+    ```
+
 ```js
 var id = prompt("Введите ID");
 BX24.callMethod(

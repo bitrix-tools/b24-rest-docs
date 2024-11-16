@@ -41,3 +41,30 @@
 {% endnote %}
 ||
 |#
+
+## Examples
+
+{% list tabs %}
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $dealId = 123; // Replace with your actual deal ID
+        $contactId = 456; // Replace with your actual contact ID
+        $isPrimary = true; // Set to true or false based on your requirement
+        $sort = 100; // Set the sort order
+    
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealContact()
+            ->add($dealId, $contactId, $isPrimary, $sort);
+    
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    
+    ```
+{% endlist %}  

@@ -46,6 +46,27 @@
     );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $fieldsResult = $serviceBuilder
+            ->getCRMScope()
+            ->lead()
+            ->fields();
+    
+        $fieldsDescription = $fieldsResult->getFieldsDescription();
+    
+        // Assuming you want to print the fields description
+        print_r($fieldsDescription);
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
+    
+    ```
+
 - PHP
 
     ```php
