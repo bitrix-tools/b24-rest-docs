@@ -47,29 +47,6 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-- B24-PHP-SDK
-
-    ```php
-    
-try {
-    $result = $serviceBuilder->getIMScope()
-        ->notify()
-        ->fromSystem(
-            123, // $userId
-            'This is a test message.', // $message
-            null, // $forEmailChannelMessage
-            null, // $notificationTag
-            null, // $subTag
-            null // $attachment
-        );
-
-    print($result->getId());
-} catch (Throwable $e) {
-    // Handle exception
-    print('Error: ' . $e->getMessage());
-}
-
-    ```
 ```php
 $result = restCommand(
     'im.notify.system.add',
@@ -86,15 +63,7 @@ $result = restCommand(
     ]
 );
 ```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
-
-## Ответ в случае успеха
-
-
-- B24-PHP-SDK
-
-    ```php
+```php
         
     try {
         $result = $serviceBuilder->getIMScope()
@@ -114,7 +83,12 @@ $result = restCommand(
         print('Error: ' . $e->getMessage());
     }
     
-    ```
+```
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Ответ в случае успеха
+
 
 ```json
 {
