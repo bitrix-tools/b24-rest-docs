@@ -54,6 +54,29 @@
 );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $id = 123; // Example lead ID to delete
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->lead()
+            ->delete($id);
+    
+        if ($result->isSuccess()) {
+            print("Lead with ID $id has been successfully deleted.");
+        } else {
+            print("Failed to delete lead with ID $id.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    
+    ```
+
 - PHP
 
     ```php

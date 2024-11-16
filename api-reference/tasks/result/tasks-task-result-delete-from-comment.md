@@ -34,11 +34,19 @@
 ## Пример
 
 ```js
-BX.ajax.runAction("tasks.task.result.deleteFromComment", {
-    data: {
-        commentId: 100500
+BX24.callMethod(
+    'tasks.task.result.deleteFromComment',
+    {
+        "commentId" : 2549
+    },
+    function(result) {
+        if (result.error()) {
+            console.error(result.error());
+        } else {
+            console.info(result.data());
+        }
     }
-}).then(function (response) { console.log(response);});
+);
 ```
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

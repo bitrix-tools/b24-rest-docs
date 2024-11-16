@@ -68,6 +68,29 @@
     );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $notificationIds = [1, 2, 3]; // Example notification IDs
+        $result = $serviceBuilder
+            ->getIMScope()
+            ->notify()
+            ->markMessagesAsUnread($notificationIds);
+    
+        if ($result->isSuccess()) {
+            print_r($result->getCoreResponse()->getResponseData()->getResult());
+        } else {
+            print("Failed to mark messages as unread.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    
+    ```
+
 - PHP
 
     {% include [Пояснение о restCommand](../_includes/rest-command.md) %}

@@ -33,28 +33,30 @@
 
 ## Пример
 
+
 - B24-PHP-SDK
 
     ```php
-    
-try {
-    $dealId = 123; // Replace with the actual deal ID
-    $result = $serviceBuilder
-        ->getCRMScope()
-        ->dealContact()
-        ->itemsGet($dealId);
-    
-    foreach ($result->getDealContacts() as $item) {
-        print("CONTACT_ID: " . $item->CONTACT_ID . "\n");
-        print("SORT: " . $item->SORT . "\n");
-        print("ROLE_ID: " . $item->ROLE_ID . "\n");
-        print("IS_PRIMARY: " . $item->IS_PRIMARY . "\n");
+        
+    try {
+        $dealId = 123; // Replace with the actual deal ID
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealContact()
+            ->itemsGet($dealId);
+        
+        foreach ($result->getDealContacts() as $item) {
+            print("CONTACT_ID: " . $item->CONTACT_ID . "\n");
+            print("SORT: " . $item->SORT . "\n");
+            print("ROLE_ID: " . $item->ROLE_ID . "\n");
+            print("IS_PRIMARY: " . $item->IS_PRIMARY . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
     }
-} catch (Throwable $e) {
-    print("Error: " . $e->getMessage());
-}
-
+    
     ```
+
 ```js
 var id = prompt("Введите ID");
 BX24.callMethod(

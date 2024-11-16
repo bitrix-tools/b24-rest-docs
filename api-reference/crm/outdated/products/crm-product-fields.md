@@ -50,6 +50,32 @@
     );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $fieldsResult = $serviceBuilder->getCRMScope()->product()->fields();
+        $fieldsDescription = $fieldsResult->getFieldsDescription();
+    
+        foreach ($fieldsDescription as $field) {
+            if (isset($field['DATE_CREATE'])) {
+                $field['DATE_CREATE'] = (new DateTime($field['DATE_CREATE']))->format(DateTime::ATOM);
+            }
+            
+            if (isset($field['TIMESTAMP_X'])) {
+                $field['TIMESTAMP_X'] = (new DateTime($field['TIMESTAMP_X']))->format(DateTime::ATOM);
+            }
+            
+            print($field['ID'] . ': ' . $field['NAME'] . PHP_EOL);
+        }
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage() . PHP_EOL);
+    }
+    
+    ```
+
 - PHP
 
     ```php

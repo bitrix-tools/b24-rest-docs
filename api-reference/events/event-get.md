@@ -48,6 +48,28 @@
     );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $eventService = $serviceBuilder->getMainScope()->event();
+        $result = $eventService->get();
+        $eventHandlers = $result->getEventHandlers();
+    
+        foreach ($eventHandlers as $handler) {
+            print("Event: " . $handler->event . "\n");
+            print("Handler: " . $handler->handler . "\n");
+            print("Auth Type: " . $handler->auth_type . "\n");
+            print("Offline: " . $handler->offline . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
+    
+    ```
+
 - PHP
 
     ```php

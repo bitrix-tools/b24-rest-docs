@@ -64,8 +64,8 @@ array(
                     //здесь: https://apidocs.bitrix24.ru/api-reference/chats/messages/index.html
             'files' => array(//Массив описаний файлов, где каждый файл описывается 
                              //массивом, со ссылкой, которая доступна порталу
-                array('url' => 'Cсылка на файл'),
-                array('url' => 'Cсылка на файл'),
+                array('url' => 'Cсылка на файл', 'name' => 'Имя файла'),
+                array('url' => 'Cсылка на файл', 'name' => 'Имя файла'),
                 ...
             )
         ),

@@ -3,8 +3,6 @@ href: index.md
 items:
   - name: О задачах в Битрикс24
     href: index.md
-  - name: Структура связей объектов задач
-    href: structure-connections.md
   - name: Поля задачи
     href: fields.md
   - name: Добавить задачу
@@ -61,7 +59,7 @@ items:
     href: task-dependence-delete.md
   - name: Результат задачи
     include:
-      path: result/toc.yaml
+      path: result/b24-toc.yaml
       mode: link
   - name: События
     include:
@@ -83,7 +81,7 @@ items:
     include:
       path: user-field/toc.yaml
       mode: link
-  - name: Мой план и стадии Канбана
+  - name: Стадии канбана и «Моего плана»
     include:
       path: stages/b24-toc.yaml
       mode: link

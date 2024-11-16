@@ -64,6 +64,29 @@
     );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $userfieldId = 123; // Replace with the actual userfield ID you want to delete
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->contactUserfield()
+            ->delete($userfieldId);
+    
+        if ($result->isSuccess()) {
+            print("Deleted item successfully.");
+        } else {
+            print("Failed to delete item.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    
+    ```
+
 - PHP
 
     ```php

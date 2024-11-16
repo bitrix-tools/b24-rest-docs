@@ -155,9 +155,6 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-catalog-add.md)
-- [{#T}](./catalog-catalog-update.md)
 - [{#T}](./catalog-catalog-list.md)
 - [{#T}](./catalog-catalog-is-offers.md)
-- [{#T}](./catalog-catalog-delete.md)
 - [{#T}](./catalog-catalog-get-fields.md)

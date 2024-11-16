@@ -36,27 +36,29 @@
 
 ## Пример
 
+
 - B24-PHP-SDK
 
     ```php
+        
+    try {
+        $templateId = 123; // Replace with the actual template ID you want to delete
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->template()
+            ->delete($templateId);
     
-try {
-    $templateId = 123; // Replace with the actual template ID you want to delete
-    $result = $serviceBuilder
-        ->getBizProcScope()
-        ->template()
-        ->delete($templateId);
-
-    if ($result->isSuccess()) {
-        print("Template with ID {$templateId} deleted successfully.\n");
-    } else {
-        print("Failed to delete template with ID {$templateId}.\n");
+        if ($result->isSuccess()) {
+            print("Template with ID {$templateId} deleted successfully.\n");
+        } else {
+            print("Failed to delete template with ID {$templateId}.\n");
+        }
+    } catch (\Throwable $e) {
+        print("An error occurred: " . $e->getMessage() . "\n");
     }
-} catch (\Throwable $e) {
-    print("An error occurred: " . $e->getMessage() . "\n");
-}
-
+    
     ```
+
 ```javascript
 function deleteTemplate(id)
 {

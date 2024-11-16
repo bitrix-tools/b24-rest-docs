@@ -66,6 +66,31 @@
     );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $workflowId = 'your_workflow_id'; // Replace with actual workflow ID
+        $message = 'Workflow terminated'; // Replace with actual message
+    
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->workflow()
+            ->terminate($workflowId, $message);
+    
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print('Termination failed.');
+        }
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    
+    ```
+
 - PHP
 
     ```php

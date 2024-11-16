@@ -33,3 +33,32 @@
 |#
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
+
+## Examples
+
+{% list tabs %}
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $dealId = 123; // Example deal ID
+        $contactId = 456; // Example contact ID
+    
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealContact()
+            ->delete($dealId, $contactId);
+    
+        if ($result->isSuccess()) {
+            print("Item deleted successfully.");
+        } else {
+            print("Failed to delete item.");
+        }
+    } catch (\Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    
+    ```
+{% endlist %}  

@@ -233,6 +233,41 @@
     );
     ```
 
+
+- B24-PHP-SDK
+
+    ```php
+        
+    try {
+        $id = 123; // Example lead ID
+        $fields = [
+            'TITLE' => 'Updated Lead Title',
+            'NAME' => 'John',
+            'LAST_NAME' => 'Doe',
+            'BIRTHDATE' => (new DateTime('1980-01-01'))->format(DateTime::ATOM),
+            'COMPANY_TITLE' => 'Example Company',
+            'STATUS_ID' => 'NEW',
+            'COMMENTS' => 'Updated comments for the lead.',
+            'PHONE' => '1234567890',
+            'EMAIL' => 'john.doe@example.com',
+        ];
+        $params = [
+            'REGISTER_SONET_EVENT' => 'Y',
+        ];
+    
+        $result = $serviceBuilder->getCRMScope()->lead()->update($id, $fields, $params);
+    
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print("Update failed.");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
+    
+    ```
+
 - PHP
 
     ```php
@@ -262,7 +297,7 @@
 - HTTPS
 
     ```http
-    https://xxx.bitrix24.com/rest/1/5***/crm.lead.update.json?fields[NAME]=Василий&fields[SECOND_NAME]=Петрович&fields[LAST_NAME]=Космонавт&fields[PHONE][0][VALUE]=89994445556&fields[PHONE][0][VALUE_TYPE]=WORK&fields[EMAIL][0][VALUE]=test@ya.ru&fields[EMAIL][0][VALUE_TYPE]=WORK
+    https://xxx.bitrix24.com/rest/1/5***/crm.lead.update.json?id=1734&fields[NAME]=Василий&fields[SECOND_NAME]=Петрович&fields[LAST_NAME]=Космонавт&fields[PHONE][0][VALUE]=89994445556&fields[PHONE][0][VALUE_TYPE]=WORK&fields[EMAIL][0][VALUE]=test@ya.ru&fields[EMAIL][0][VALUE_TYPE]=WORK
     ```
 
 - B24-PHP-SDK

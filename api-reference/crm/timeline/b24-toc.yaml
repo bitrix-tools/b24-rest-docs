@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Дела
     include:
-      path: activities/toc.yaml
+      path: activities/b24-toc.yaml
       mode: link
   - name: Заметки к записи таймлайна
     include:
