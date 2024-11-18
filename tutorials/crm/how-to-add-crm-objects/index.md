@@ -11,3 +11,4 @@
 - [{#T}](./how-to-add-activity-to-contact.md)
 - [{#T}](./how-to-product-binding.md)
 - [{#T}](./how-to-add-product-with-custom-props.md)
+- [{#T}](./how-to-add-comment-to-spa.md)

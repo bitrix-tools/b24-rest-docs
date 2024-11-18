@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 18 ноября, 2024
+
+- Добавлен новый туториал [Как добавить комментарий в таймлайн смарт-процесса](./tutorials/crm/how-to-add-crm-objects/how-to-add-comment-to-spa.md) 
+
 ### 14 ноября, 2024
 
 - Обновлена документация по работе с наценками [catalog.extra.*](./api-reference/catalog/extra/index.md)
