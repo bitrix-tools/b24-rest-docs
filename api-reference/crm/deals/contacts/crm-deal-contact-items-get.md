@@ -33,22 +33,49 @@
 
 ## Пример
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.deal.contact.items.get",
-    {
-        id: id
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.deal.contact.items.get",
+        {
+            id: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- B24-PHP-SDK
+
+    ```php
+    try {
+        $dealId = 123; // Replace with the actual deal ID
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealContact()
+            ->itemsGet($dealId);
+
+        foreach ($result->getDealContacts() as $item) {
+            print("CONTACT_ID: " . $item->CONTACT_ID . "\n");
+            print("SORT: " . $item->SORT . "\n");
+            print("ROLE_ID: " . $item->ROLE_ID . "\n");
+            print("IS_PRIMARY: " . $item->IS_PRIMARY . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
     }
-);
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

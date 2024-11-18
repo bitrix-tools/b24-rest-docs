@@ -36,19 +36,42 @@
 
 ## Примеры
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.activity.delete",
-    { id: id },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
+{% list tabs %}
+
+- JS
+    
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.activity.delete",
+        { id: id },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+- B24-PHP-SDK
+
+    ```php
+    try {
+        $itemId = 123; // Replace with the actual item ID to delete
+        $result = $serviceBuilder->getCRMScope()->activity()->delete($itemId);
+
+        if ($result->isSuccess()) {
+            print("Item deleted successfully.");
+        } else {
+            print("Failed to delete item.");
+        }
+    } catch (Throwable $e) {
+        print("Error occurred: " . $e->getMessage());
     }
-);
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
