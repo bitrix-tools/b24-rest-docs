@@ -181,7 +181,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **extra**
+|| **extras**
 [`catalog_extra[]`](../data-types.md#catalog_extra) | Массив объектов с информацией о выбранных наценках ||
 || **total**
 [`integer`](../../data-types.md#time) | Общее количество найденных записей ||
