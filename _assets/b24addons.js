@@ -408,6 +408,22 @@ function addB24Buttons () {
                 ''
             ));
 
+            const TITLE = document.title; 
+            const currentUrl = window.location.href; 
+
+            const issue_url = `${GITHUB_REPO_BASE_URL}issues/new` +
+                `?title=${encodeURIComponent(`Страница ${TITLE}`)}` +
+                `&body=${encodeURIComponent(`Ссылка на страницу: ${currentUrl}`)}`;
+
+            dcControlsDiv.appendChild(createSeparator());
+            dcControlsDiv.appendChild(createLink(
+                issue_url,
+                'Report an issue or ask a question', 
+                '<path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>',
+                ''
+            ));
+
+
             /* to-do
             dcControlsDiv.appendChild(createSeparator());
             dcControlsDiv.appendChild(createLink(
@@ -429,7 +445,7 @@ function addB24Buttons () {
 
 function initB24items() {    
     addB24Buttons();
-    addSearchField();
+    // addSearchField();
 }
 
 initB24itemsIfReady();

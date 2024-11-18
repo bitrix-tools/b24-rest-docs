@@ -36,7 +36,7 @@ blocks:
       text: 'Быстрый старт'
     items:
       - title: 'С чего начать знакомство'
-        icon: './_images/img_restapi_icon_01.svg'
+        icon: '_images/img_restapi_icon_01.svg'
         text: 'Узнайте, как устроена документация и как использовать API'
         buttons:
           - text: 'Узнать'
@@ -44,7 +44,7 @@ blocks:
             size: 'promo'
             url: 'about.md'
       - title: 'Как получить доступ'
-        icon: './_images/img_restapi_icon_02.svg'
+        icon: '_images/img_restapi_icon_02.svg'
         text: 'Ознакомьтесь с требованиями к тарифу Битрикс24 и начните знакомство с разделом для разработчиков внутри продукта'
         buttons:
           - text: 'Ознакомиться'
@@ -52,7 +52,7 @@ blocks:
             size: 'promo'
             url: 'access-to-rest-api.md'
       - title: 'Как выполнить запрос'
-        icon: './_images/img_restapi_icon_03.svg'
+        icon: '_images/img_restapi_icon_03.svg'
         text: 'Получите практическую инструкцию для вашего первого вызова REST API Битрикс24'
         buttons:
           - text: 'Попробовать'
@@ -73,7 +73,7 @@ blocks:
           title: '<a href="/tutorials/crm/index.html">CRM</a>'
           text: 'Как быстро связать форму на своем сайте с CRM? Как автоматически создавать сделки с товарными позициями? Как, создавая лид из своего источника, «прокинуть» в Битрикс информацию для сквозной аналитики?'
         media:
-          image: './_images/img_restapi_banner_s_01.png'
+          image: '_images/img_restapi_banner_s_01.png'
           disableCompress: true
         fullScreen: true
         border: true
@@ -83,7 +83,7 @@ blocks:
           title: '<a href="/tutorials/sale/index.html">Онлайн-продажи</a>'
           text: 'Как быстро сформировать заказ интернет-магазина? Как получить ссылку на оплату для передачи клиенту? Как подключить свою онлайн-кассу?'
         media:
-          image: './_images/img_restapi_banner_s_02.png'
+          image: '_images/img_restapi_banner_s_02.png'
           disableCompress: true
         fullScreen: true
         border: true
@@ -93,7 +93,7 @@ blocks:
           title: '<a href="/tutorials/index.html">Еще много всего</a>'
           text: 'Импортировать данные, интегрировать свою телефонию, использовать товарный каталог — десятки готовых практических примеров.'
         media:
-          image: './_images/img_restapi_banner_s_03.png'
+          image: '_images/img_restapi_banner_s_03.png'
           disableCompress: true
         fullScreen: true
         border: true
@@ -125,7 +125,7 @@ blocks:
         card:
           type: 'layout-item'
           media:
-            image: './_images/local-integrations.jpg'
+            image: '_images/local-integrations.jpg'
             disableCompress: true
           border: true
           content:
@@ -141,7 +141,7 @@ blocks:
         card:
           type: 'layout-item'
           media:
-            image: './_images/market.png'
+            image: '_images/market.png'
             disableCompress: true
           border: true
           content:
@@ -156,7 +156,7 @@ blocks:
         card:
           type: 'layout-item'
           media:
-            image: './_images/api-reference.png'
+            image: '_images/api-reference.png'
             disableCompress: true
           border: true
           content:
@@ -174,7 +174,7 @@ blocks:
         title: 'Улучшить документацию'
         text: 'Мы выложили исходный код нашей документации в открытый доступ. Вы можете помочь нам стать лучше.'
         background:
-          src: './_images/img_restapi_banner_l_01.png'
+          src: '_images/img_restapi_banner_l_01.png'
           disableCompress: true
         paddingBottom: 'm'
         buttons:
@@ -187,7 +187,7 @@ blocks:
         title: 'Общаться с коллегами'
         text: 'Если не нашли ответ на свой вопрос в официальной документации, присоединяйтесь к коммьюнити разработчиков — это лучшая среда для обмена опытом.'
         background:
-          src: './_images/img_restapi_banner_l_02.png'
+          src: '_images/img_restapi_banner_l_02.png'
           disableCompress: true
         paddingBottom: 'm'
         buttons:
@@ -200,7 +200,7 @@ blocks:
         title: 'Связаться с поддержкой'
         text: 'Наша техническая поддержка помогает решать проблемы партнерам и клиентам. Мы всегда открыты к диалогу!'
         background:
-          src: './_images/img_restapi_banner_l_03.png'
+          src: '_images/img_restapi_banner_l_03.png'
           disableCompress: true
         paddingBottom: 'm'
         buttons:
@@ -214,6 +214,6 @@ blocks:
     size: 'm'
     title: 'Присоединяйтесь к нам'
     items:
-      - src: './_images/telegram.svg'
+      - src: '_images/telegram.svg'
         text: 'Битрикс24.Маркет Live!'
         url: 'https://t.me/b24marketlive'
