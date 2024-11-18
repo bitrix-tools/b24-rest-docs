@@ -57,10 +57,6 @@
 
 - JS
 
-{% list tabs %}
-
-- JS
-
     ```javascript
     function updateActivity1()
     {
