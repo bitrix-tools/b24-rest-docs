@@ -47,22 +47,50 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.notify.system.add',
-    Array(
-        'USER_ID' => 1,
-        'MESSAGE' => 'Системное уведомление',
-        'MESSAGE_OUT' => 'Текст системного уведомления для почты',
-        'TAG' => 'TEST',
-        'SUB_TAG' => 'SUB|TEST',
-        'ATTACH' => 'Array()'
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.notify.system.add',
+        Array(
+            'USER_ID' => 1,
+            'MESSAGE' => 'Системное уведомление',
+            'MESSAGE_OUT' => 'Текст системного уведомления для почты',
+            'TAG' => 'TEST',
+            'SUB_TAG' => 'SUB|TEST',
+            'ATTACH' => 'Array()'
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+- B24-PHP-SDK
+
+    ```php
+    try {
+        $result = $serviceBuilder->getIMScope()
+            ->notify()
+            ->fromSystem(
+                123, // $userId
+                'This is a test message.', // $message
+                null, // $forEmailChannelMessage
+                null, // $notificationTag
+                null, // $subTag
+                null // $attachment
+            );
+
+        print($result->getId());
+    } catch (Throwable $e) {
+        // Handle exception
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

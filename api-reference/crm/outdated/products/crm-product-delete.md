@@ -79,4 +79,21 @@
     echo '</PRE>';
     ```
 
+- B24-PHP-SDK
+
+    ```php        
+    try {
+        $productId = 123; // Example product ID
+        $result = $serviceBuilder->getCRMScope()->product()->delete($productId);
+        
+        if ($result->isSuccess()) {
+            print("Item deleted successfully.");
+        } else {
+            print("Failed to delete item.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+
 {% endlist %}

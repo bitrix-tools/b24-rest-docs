@@ -29,18 +29,49 @@
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-	'bizproc.robot.list',
-	{},
-	function(result)
-	{
-		if(result.error())
-			alert("Error: " + result.error());
-		else
-			alert("Успешно: " + result.data().join(', '));
+{% list tabs %}
+
+- JS
+
+	```javascript
+	BX24.callMethod(
+		'bizproc.robot.list',
+		{},
+		function(result)
+		{
+			if(result.error())
+				alert("Error: " + result.error());
+			else
+				alert("Успешно: " + result.data().join(', '));
+		}
+	);
+	```
+
+- B24-PHP-SDK
+
+	```php
+	try {
+		$result = $serviceBuilder
+			->getBizProcScope()
+			->robot()
+			->list();
+
+		foreach ($result->getRobots() as $robot) {
+			print($robot->code);
+			print($robot->name);
+			print($robot->handlerUrl);
+			print($robot->authUserId);
+			print($robot->isUseSubscription ? 'Yes' : 'No');
+			print($robot->isUsePlacement ? 'Yes' : 'No');
+			if ($robot->createdDate instanceof DateTime) {
+				print($robot->createdDate->format(DateTime::ATOM));
+			}
+		}
+	} catch (Throwable $e) {
+		// Handle the exception
+		print('Error: ' . $e->getMessage());
 	}
-);
-```
+	```
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

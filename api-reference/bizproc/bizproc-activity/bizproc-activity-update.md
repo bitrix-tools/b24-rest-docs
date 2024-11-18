@@ -31,29 +31,66 @@
 
 ## Пример
 
-```javascript
-function updateActivity1()
-{
-    var params = {
-        'CODE': 'hash',
-        'FIELDS': {
-            'DOCUMENT_TYPE': '',
-            'FILTER': ''
-        },
-    };
+{% list tabs %}
 
-    BX24.callMethod(
-        'bizproc.activity.update',
-        params,
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Успешно: " + result.data());
+- JS
+
+    ```javascript
+    function updateActivity1()
+    {
+        var params = {
+            'CODE': 'hash',
+            'FIELDS': {
+                'DOCUMENT_TYPE': '',
+                'FILTER': ''
+            },
+        };
+
+        BX24.callMethod(
+            'bizproc.activity.update',
+            params,
+            function(result)
+            {
+                if(result.error())
+                    alert("Error: " + result.error());
+                else
+                    alert("Успешно: " + result.data());
+            }
+        );
+    }
+    ```
+
+- B24-PHP-SDK
+
+    ```php
+    try {
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->activity()
+            ->update(
+                'activity_code',
+                'https://example.com/handler',
+                1,
+                ['en' => 'Activity Name', 'ru' => 'Название Активности'],
+                ['en' => 'Activity Description', 'ru' => 'Описание Активности'],
+                true,
+                ['param1' => 'value1'],
+                false,
+                ['returnParam1' => 'value1'],
+                null,
+                null
+            );
+
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print('Update failed.');
         }
-    );
-}
-```
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

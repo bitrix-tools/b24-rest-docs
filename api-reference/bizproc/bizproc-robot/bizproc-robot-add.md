@@ -90,69 +90,102 @@
 
 ## Пример
 
-```js
-var params = {
-	'CODE': 'robot',
-	'HANDLER': 'http:///robot.php',
-	'AUTH_USER_ID': 1,
-	'NAME': 'Пример робота',
-	'PROPERTIES': {
-		'bool': {
-			'Name': 'Да/Нет',
-			'Type': 'bool',
-			'Required': 'Y',
-			'Multiple': 'N'
-		},
-		'date': {
-			'Name': 'Дата',
-			'Type': 'date'
-		},
-		'datetime': {
-			'Name': 'Дата/Время',
-			'Type': 'datetime'
-		},
-		'double': {
-			'Name': 'Число',
-			'Type': 'double',
-			'Required': 'Y'
-		},
-		'int': {
-			'Name': 'Целое число',
-			'Type': 'int'
-		},
-		'select': {
-			'Name': 'Список',
-			'Type': 'select',
-			'Options': {
-				'one': 'one',
-				'two': 'two'
-			}
-		},
-		'string': {
-			'Name': 'Строка',
-			'Type': 'string',
-			'Default': 'default string value'
-		},
-		'text': {
-			'Name': 'Текст',
-			'Type': 'text'
-		},
-		'user': {
-			'Name': 'Пользователь',
-			'Type': 'user'
-		}
-	}
-};
+{% list tabs %}
 
-BX24.callMethod(
-	'bizproc.robot.add',
-	params,
-	function(result)
-	{
-		if(result.error())
-			alert("Error: " + result.error());
-		else
-			alert("Успешно: " + result.data());
+- JS
+
+	```js
+	var params = {
+		'CODE': 'robot',
+		'HANDLER': 'http:///robot.php',
+		'AUTH_USER_ID': 1,
+		'NAME': 'Пример робота',
+		'PROPERTIES': {
+			'bool': {
+				'Name': 'Да/Нет',
+				'Type': 'bool',
+				'Required': 'Y',
+				'Multiple': 'N'
+			},
+			'date': {
+				'Name': 'Дата',
+				'Type': 'date'
+			},
+			'datetime': {
+				'Name': 'Дата/Время',
+				'Type': 'datetime'
+			},
+			'double': {
+				'Name': 'Число',
+				'Type': 'double',
+				'Required': 'Y'
+			},
+			'int': {
+				'Name': 'Целое число',
+				'Type': 'int'
+			},
+			'select': {
+				'Name': 'Список',
+				'Type': 'select',
+				'Options': {
+					'one': 'one',
+					'two': 'two'
+				}
+			},
+			'string': {
+				'Name': 'Строка',
+				'Type': 'string',
+				'Default': 'default string value'
+			},
+			'text': {
+				'Name': 'Текст',
+				'Type': 'text'
+			},
+			'user': {
+				'Name': 'Пользователь',
+				'Type': 'user'
+			}
+		}
+	};
+
+	BX24.callMethod(
+		'bizproc.robot.add',
+		params,
+		function(result)
+		{
+			if(result.error())
+				alert("Error: " + result.error());
+			else
+				alert("Успешно: " + result.data());
+		}
+	);
+	```
+
+- B24-PHP-SDK
+  
+	```php
+	try {
+		$result = $serviceBuilder
+			->getBizProcScope()
+			->robot()
+			->add(
+				'robot_code', // string $code
+				'https://example.com/handler', // string $handlerUrl
+				1, // int $b24AuthUserId
+				['en' => 'Robot Name'], // array $localizedRobotName
+				true, // bool $isUseSubscription
+				[], // array $properties
+				false, // bool $isUsePlacement
+				[] // array $returnProperties
+			);
+
+		if ($result->isSuccess()) {
+			print_r($result->getCoreResponse()->getResponseData()->getResult());
+		} else {
+			print("Failed to add robot.");
+		}
+	} catch (Throwable $e) {
+		print("Error: " . $e->getMessage());
 	}
-);
-```
+	```
+{% endlist %}

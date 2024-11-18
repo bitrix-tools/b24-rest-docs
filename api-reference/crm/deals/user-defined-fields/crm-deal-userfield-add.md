@@ -49,58 +49,101 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    "crm.deal.userfield.add",
-    {
-        fields:
-        {
-            "FIELD_NAME": "MY_STRING",
-            "EDIT_FORM_LABEL": "Моя строка",
-            "LIST_COLUMN_LABEL": "Моя строка",
-            "USER_TYPE_ID": "string",
-            "XML_ID": "MY_STRING",
-            "SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
-        }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    "crm.deal.userfield.add",
-    {
-        fields:
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.deal.userfield.add",
         {
-            "FIELD_NAME": "MY_LIST",
-            "EDIT_FORM_LABEL": "Мой список",
-            "LIST_COLUMN_LABEL": "Мой список",
-            "USER_TYPE_ID": "enumeration",
-            "LIST": [ { "VALUE": "Элемент #1" },
-                { "VALUE": "Элемент #2" },
-                { "VALUE": "Элемент #3" },
-                { "VALUE": "Элемент #4" },
-                { "VALUE": "Элемент #5" } ],
-            "XML_ID": "MY_LIST",
-            "SETTINGS": { "LIST_HEIGHT": 3 }
+            fields:
+            {
+                "FIELD_NAME": "MY_STRING",
+                "EDIT_FORM_LABEL": "Моя строка",
+                "LIST_COLUMN_LABEL": "Моя строка",
+                "USER_TYPE_ID": "string",
+                "XML_ID": "MY_STRING",
+                "SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
+    );
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.deal.userfield.add",
+        {
+            fields:
+            {
+                "FIELD_NAME": "MY_LIST",
+                "EDIT_FORM_LABEL": "Мой список",
+                "LIST_COLUMN_LABEL": "Мой список",
+                "USER_TYPE_ID": "enumeration",
+                "LIST": [ { "VALUE": "Элемент #1" },
+                    { "VALUE": "Элемент #2" },
+                    { "VALUE": "Элемент #3" },
+                    { "VALUE": "Элемент #4" },
+                    { "VALUE": "Элемент #5" } ],
+                "XML_ID": "MY_LIST",
+                "SETTINGS": { "LIST_HEIGHT": 3 }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- B24-PHP-SDK
+
+    ```php
+    try {
+        $userfieldItemFields = [
+            'FIELD_NAME' => 'Test Field',
+            'USER_TYPE_ID' => 'string',
+            'XML_ID' => 'test_field_1',
+            'SORT' => '100',
+            'MULTIPLE' => 'N',
+            'MANDATORY' => 'N',
+            'SHOW_FILTER' => 'Y',
+            'SHOW_IN_LIST' => 'Y',
+            'EDIT_IN_LIST' => 'Y',
+            'IS_SEARCHABLE' => 'Y',
+            'EDIT_FORM_LABEL' => 'Test Field Label',
+            'LIST_COLUMN_LABEL' => 'Test Field List Label',
+            'LIST_FILTER_LABEL' => 'Test Field Filter Label',
+            'ERROR_MESSAGE' => 'Error occurred',
+            'HELP_MESSAGE' => 'Help message for Test Field',
+            'LIST' => '',
+            'SETTINGS' => '',
+        ];
+
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealUserfield()
+            ->add($userfieldItemFields);
+
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
     }
-);
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

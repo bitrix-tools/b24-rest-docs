@@ -29,28 +29,63 @@
 
 ## Примеры
 
-```js
-function updateRobot1()
-{
-    var params = {
-        'CODE': 'hash',
-        'FIELDS': {
-            'DOCUMENT_TYPE': '',
-            'FILTER': ''
-        },
-    };
-    BX24.callMethod(
-        'bizproc.robot.update',
-        params,
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Успешно: " + result.data());
+{% list tabs %}
+
+- JS
+
+    ```js
+    function updateRobot1()
+    {
+        var params = {
+            'CODE': 'hash',
+            'FIELDS': {
+                'DOCUMENT_TYPE': '',
+                'FILTER': ''
+            },
+        };
+        BX24.callMethod(
+            'bizproc.robot.update',
+            params,
+            function(result)
+            {
+                if(result.error())
+                    alert("Error: " + result.error());
+                else
+                    alert("Успешно: " + result.data());
+            }
+        );
+    }
+    ```
+
+- B24-PHP-SDK
+
+    ```php
+    try {
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->robot()
+            ->update(
+                'robot_code',
+                'https://example.com/handler',
+                1,
+                ['en' => 'Localized Name'],
+                true,
+                ['property1' => 'value1'],
+                false,
+                ['returnProperty1']
+            );
+
+        // Process the result
+        if ($result->isSuccess()) {
+            print_r($result->getCoreResponse()->getResponseData()->getResult());
+        } else {
+            print("Update failed.");
         }
-    );
-}
-```
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+        
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

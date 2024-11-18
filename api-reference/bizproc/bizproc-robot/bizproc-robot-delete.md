@@ -33,21 +33,47 @@
 
 ## Примеры
 
-```javascript
-var params = {
-    'CODE': 'robot'
-};
+{% list tabs %}
 
-BX24.callMethod(
-    'bizproc.robot.delete',
-    params,
-    function(result) {
-        if(result.error())
-            alert('Error: ' + result.error());
-        else
-            alert("Успешно: " + result.data());
+- JS
+
+    ```javascript
+    var params = {
+        'CODE': 'robot'
+    };
+
+    BX24.callMethod(
+        'bizproc.robot.delete',
+        params,
+        function(result) {
+            if(result.error())
+                alert('Error: ' + result.error());
+            else
+                alert("Успешно: " + result.data());
+        }
+    );
+    ```
+
+- B24-PHP-SDK
+
+    ```php
+    try {
+        $robotCode = 'your_robot_code_here'; // Replace with the actual robot code
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->robot()
+            ->delete($robotCode);
+
+        if ($result->isSuccess()) {
+            print("Robot deleted successfully.");
+        } else {
+            print("Failed to delete robot.");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
     }
-);
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
