@@ -5,17 +5,17 @@ items:
     href: index.md
   - name: Базовые методы
     include:
-      path: base/toc.yaml
+      path: base/b24-toc.yaml
       mode: link
   - name: Офисные сети
     include:
-      path: networkrange/toc.yaml
+      path: networkrange/b24-toc.yaml
       mode: link
   - name: Контроль времени
     include:
-      path: timecontrol/toc.yaml
+      path: timecontrol/b24-toc.yaml
       mode: link
   - name: Рабочий график
     include:
-      path: schedule/toc.yaml
+      path: schedule/b24-toc.yaml
       mode: link

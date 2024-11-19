@@ -51,7 +51,7 @@ items:
     href: calendar-grid-veiw.md
   - name: События
     include:
-      path: events-calendar/toc.yaml
+      path: events-calendar/b24-toc.yaml
       mode: link
 
 

@@ -5,13 +5,13 @@ items:
     href: index.md
   - name: Хранилища
     include:
-      path: entities/toc.yaml
+      path: entities/b24-toc.yaml
       mode: link
   - name: Разделы
     include:
-      path: sections/toc.yaml
+      path: sections/b24-toc.yaml
       mode: link
   - name: Элементы
     include:
-      path: items/toc.yaml
+      path: items/b24-toc.yaml
       mode: link

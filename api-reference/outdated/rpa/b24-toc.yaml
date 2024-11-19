@@ -5,31 +5,31 @@ items:
     href: index.md 
   - name: Процессы
     include:
-      path: type/toc.yaml
+      path: type/b24-toc.yaml
       mode: link
   - name: Стадии
     include:
-      path: stage/toc.yaml
+      path: stage/b24-toc.yaml
       mode: link
   - name: Элементы
     include:
-      path: item/toc.yaml
+      path: item/b24-toc.yaml
       mode: link
   - name: Задания
     include:
-      path: task/toc.yaml
+      path: task/b24-toc.yaml
       mode: link
   - name: Настройки видимости полей
     include:
-      path: fields/toc.yaml
+      path: fields/b24-toc.yaml
       mode: link
   - name: Записи таймлайна
     include:
-      path: timeline/toc.yaml
+      path: timeline/b24-toc.yaml
       mode: link
   - name: Комментарии
     include:
-      path: comment/toc.yaml
+      path: comment/b24-toc.yaml
       mode: link
 
 

@@ -11,5 +11,5 @@ items:
     href: landing-repo-unbind.md
   - name: Встраивание Базы знаний
     include:
-      path: knowledge-base/toc.yaml
+      path: knowledge-base/b24-toc.yaml
       mode: link

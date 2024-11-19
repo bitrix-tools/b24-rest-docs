@@ -25,7 +25,7 @@ items:
       mode: link
   - name: Товары
     include:
-      path: products/toc.yaml
+      path: products/b24-toc.yaml
       mode: link
   - name: Разделы товаров
     include:

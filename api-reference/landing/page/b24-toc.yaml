@@ -9,14 +9,14 @@ items:
     href: color-themes.md
   - name: Методы
     include:
-      path: methods/toc.yaml
+      path: methods/b24-toc.yaml
       mode: link
   - name: Блоки
     include:
-      path: block-methods/toc.yaml
+      path: block-methods/b24-toc.yaml
       mode: link
   - name: Специальные страницы
     include:
-      path: special-pages/toc.yaml
+      path: special-pages/b24-toc.yaml
       mode: link
 

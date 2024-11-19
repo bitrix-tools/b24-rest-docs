@@ -17,9 +17,9 @@ items:
     href: crm-card.md
   - name: Взаимодействие c карточкой звонка
     include:
-      path: call-card/toc.yaml
+      path: call-card/b24-toc.yaml
       mode: link
   - name: WebRTC - управление карточкой звонка
     include:
-      path: page-background-worker/toc.yaml
+      path: page-background-worker/b24-toc.yaml
       mode: link

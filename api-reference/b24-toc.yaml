@@ -17,17 +17,17 @@ items:
       mode: link
   - name: Установка приложений
     include:
-      path: app-installation/toc.yaml
+      path: app-installation/b24-toc.yaml
       mode: link
   - name: Удаление приложений
     href: app-uninstallation.md 
   - name: Скоупы методов
     include:
-      path: scopes/toc.yaml
+      path: scopes/b24-toc.yaml
       mode: link
   - name: Виджеты
     include:
-      path: widgets/toc.yaml
+      path: widgets/b24-toc.yaml
       mode: link
   - name: События
     include:
@@ -59,7 +59,7 @@ items:
       mode: link
   - name: Общие методы и события
     include:
-      path: common/toc.yaml
+      path: common/b24-toc.yaml
       mode: link
   - name: CoPilot
     include:
@@ -67,7 +67,7 @@ items:
       mode: link 
   - name: CRM
     include:
-      path: crm/toc.yaml
+      path: crm/b24-toc.yaml
       mode: link
   - name: Бизнес-процессы и роботы
     include:
@@ -79,11 +79,11 @@ items:
       mode: link
   - name: Генератор документов
     include:
-      path: document-generator/toc.yaml
+      path: document-generator/b24-toc.yaml
       mode: link
   - name: Диск
     include:
-      path: disk/toc.yaml
+      path: disk/b24-toc.yaml
       mode: link
   - name: Задачи
     include:
@@ -95,11 +95,11 @@ items:
       mode: link
   - name: Календарь
     include:
-      path: calendar/toc.yaml
+      path: calendar/b24-toc.yaml
       mode: link
   - name: Лента новостей
     include:
-      path: log/toc.yaml
+      path: log/b24-toc.yaml
       mode: link
   - name: Открытые линии
     include:
@@ -115,47 +115,47 @@ items:
       mode: link
   - name: Пользовательские соглашения
     include:
-      path: user-consent/toc.yaml
+      path: user-consent/b24-toc.yaml
       mode: link
   - name: Почтовые сервисы
     include:
-      path: mailservice/toc.yaml
+      path: mailservice/b24-toc.yaml
       mode: link
   - name: Провайдеры сообщений, SMS-провайдеры
     include:
-      path: messageservice/toc.yaml
+      path: messageservice/b24-toc.yaml
       mode: link
   - name: Рабочие группы и проекты
     include:
-      path: sonet-group/toc.yaml
+      path: sonet-group/b24-toc.yaml
       mode: link
   - name: Сайты и магазины
     include:
-      path: landing/toc.yaml
+      path: landing/b24-toc.yaml
       mode: link
   - name: Структура компании
     include:
-      path: departments/toc.yaml
+      path: departments/b24-toc.yaml
       mode: link
   - name: Телефония
     include:
-      path: telephony/toc.yaml
+      path: telephony/b24-toc.yaml
       mode: link
   - name: Торговый каталог
     include:
-      path: catalog/toc.yaml
+      path: catalog/b24-toc.yaml
       mode: link
   - name: Универсальные списки
     include:
-      path: lists/toc.yaml
+      path: lists/b24-toc.yaml
       mode: link
   - name: Учёт рабочего времени
     include:
-      path: timeman/toc.yaml
+      path: timeman/b24-toc.yaml
       mode: link
   - name: Хранилище данных
     include:
-      path: entity/toc.yaml
+      path: entity/b24-toc.yaml
       mode: link
   - name: Чаты
     include:
