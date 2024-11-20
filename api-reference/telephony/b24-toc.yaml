@@ -27,11 +27,11 @@ items:
     href: telephony-call-attach-transcription.md
   - name: События
     include:
-      path: events/toc.yaml
+      path: events/b24-toc.yaml
       mode: link
   - name: SIP и встроенная телефония
     include:
-      path: voximplant/toc.yaml
+      path: voximplant/b24-toc.yaml
       mode: link
   - name: Виджеты
     href: widgets.md

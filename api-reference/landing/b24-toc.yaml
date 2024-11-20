@@ -7,7 +7,7 @@ items:
     href: types.md
   - name: Сущность Сайт
     include:
-      path: site/toc.yaml
+      path: site/b24-toc.yaml
       mode: link
   - name: Сущность Страница
     include:
@@ -15,27 +15,27 @@ items:
       mode: link
   - name: Сущность Блоки
     include:
-      path: block/toc.yaml
+      path: block/b24-toc.yaml
       mode: link
   - name: Сущность Шаблон представления
     include:
-      path: template/toc.yaml
+      path: template/b24-toc.yaml
       mode: link
   - name: Места встраивания
     include:
-      path: embedding/toc.yaml
+      path: embedding/b24-toc.yaml
       mode: link
   - name: Пользовательские блоки
     include:
-      path: user-blocks/toc.yaml
+      path: user-blocks/b24-toc.yaml
       mode: link
   - name: Пользовательские шаблоны
     include:
-      path: demos/toc.yaml
+      path: demos/b24-toc.yaml
       mode: link
   - name: Права
     include:
-      path: rights/toc.yaml
+      path: rights/b24-toc.yaml
       mode: link
   - name: Полезные ссылки
     href: additional-links.md

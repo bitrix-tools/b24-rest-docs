@@ -13,5 +13,5 @@ items:
     href: entity-item-delete.md
   - name: Свойства элементов
     include:
-      path: properties/toc.yaml
+      path: properties/b24-toc.yaml
       mode: link

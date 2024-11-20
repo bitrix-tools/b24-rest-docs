@@ -17,6 +17,7 @@
 - [{#T}](how-to-add-crm-objects/how-to-product-binding.md)
 - [{#T}](how-to-add-crm-objects/how-to-add-product-with-custom-props.md)
 - [{#T}](how-to-add-crm-objects/how-to-generate-documents.md) 
+- [{#T}](how-to-add-crm-objects/how-to-add-comment-to-spa.md)
 
 ## Как заменить устаревший номер телефона у существующего клиента; как обновить информацию о товаре и другие примеры
 

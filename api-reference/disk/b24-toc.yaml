@@ -5,25 +5,25 @@ items:
     href: index.md
   - name: Версия
     include:
-      path: version/toc.yaml
+      path: version/b24-toc.yaml
       mode: link
   - name: Папка
     include:
-      path: folder/toc.yaml
+      path: folder/b24-toc.yaml
       mode: link
   - name: Права доступа
     include:
-      path: rights/toc.yaml
+      path: rights/b24-toc.yaml
       mode: link
   - name: Прикреплённый файл
     include:
-      path: attached-object/toc.yaml
+      path: attached-object/b24-toc.yaml
       mode: link
   - name: Файл
     include:
-      path: file/toc.yaml
+      path: file/b24-toc.yaml
       mode: link
   - name: Хранилище
     include:
-      path: storage/toc.yaml
+      path: storage/b24-toc.yaml
       mode: link

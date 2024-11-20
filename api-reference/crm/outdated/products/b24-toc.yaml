@@ -35,5 +35,5 @@ items:
     href: crm-product-property-delete.md
   - name: События 
     include:
-      path: events-custom/toc.yaml
+      path: events-custom/b24-toc.yaml
       mode: link

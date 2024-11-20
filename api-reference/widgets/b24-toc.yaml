@@ -59,7 +59,7 @@ items:
     href: close-application.md
   - name: Взаимодействие с UI из виджетов
     include:
-      path: ui-interaction/toc.yaml
+      path: ui-interaction/b24-toc.yaml
       mode: link
   - name: Встраивание в виде пользовательских типов полей
     include:

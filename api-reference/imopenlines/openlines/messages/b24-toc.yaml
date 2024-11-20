@@ -1,7 +1,9 @@
 title: Сообщения
 href: index.md
 items: 
-  - name: Отправить сообщение в открытую линию
+  - name: Сообщения в открытых линиях
     href: index.md
+  - name: Отправить сообщение в открытую линию
+    href: imopenlines-crm-message-add.md
   - name: Сохранить сообщение в качестве быстрого ответа
     href: imopenlines-message-quick-save.md
