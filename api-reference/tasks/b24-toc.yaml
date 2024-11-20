@@ -1,6 +1,6 @@
 title: Задачи
 href: index.md
-items:
+items: 
   - name: О задачах в Битрикс24
     href: index.md
   - name: Поля задачи
@@ -88,6 +88,7 @@ items:
   - name: План рабочего дня
     include:
       path: planner/b24-toc.yaml
+      mode: link
   - name: Потоки
     include:
       path: flow/b24-toc.yaml
