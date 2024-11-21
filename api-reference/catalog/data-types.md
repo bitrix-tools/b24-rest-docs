@@ -35,7 +35,7 @@
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
 || [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
 || [`catalog_extra.id`](#catalog_extra) | Целочисленный идентификатор наценки (например, `1`). Получить идентификаторы наценок можно с помощью метода [catalog.extra.list](./extra/catalog-extra-list.md) ||
-|| [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор секции каталога (например, `1`). Получить идентификаторы разделов товаров можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
+|| [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор раздела каталога (например, `1`). Получить идентификаторы разделов каталога можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
 || [`catalog_vat.id`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
 |#
 
@@ -825,7 +825,7 @@
 || **Значение**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../data-types.md) | Идентификатор секции каталога ||
+[`integer`](../data-types.md) | Идентификатор раздела каталога ||
 || **iblockId**
 [`catalog_catalog.id`](#catalog_catalog) | Идентификатор инфоблока.
 
@@ -837,17 +837,17 @@
 
 По умолчанию выбирается верхний уровень ||
 || **name**
-[`string`](../data-types.md) | Название секции каталога ||
+[`string`](../data-types.md) | Название раздела каталога ||
 || **xmlId**
 [`string`](../data-types.md) | Внешний идентификатор.
 
-Можно использовать для синхронизации текущего раздела товаров с аналогичной позицией во внешней системе ||
+Можно использовать для синхронизации текущего раздела каталога с аналогичной позицией во внешней системе ||
 || **code**
-[`string`](../data-types.md) | Код секции каталога ||
+[`string`](../data-types.md) | Код раздела каталога ||
 || **sort**
 [`integer`](../data-types.md) | Сортировка ||
 || **active**
-[`string`](../data-types.md) | Индикатор активности секции каталога:
+[`string`](../data-types.md) | Индикатор активности раздела каталога:
 - `Y` — активен
 - `N` — неактивен ||
 || **description**
