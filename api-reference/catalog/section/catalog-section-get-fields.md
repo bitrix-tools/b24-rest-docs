@@ -1,10 +1,10 @@
-# Получить поля секции каталога catalog.section.getFields
+# Получить поля раздела торгового каталога catalog.section.getFields
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `catalog.section.getFields` предназначен для получения доступных полей секции каталога. 
+Метод `catalog.section.getFields` возвращает доступные поля раздела каталога. 
 
 Без параметров.
 
