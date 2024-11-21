@@ -41,11 +41,15 @@ items:
     include:
       path: performance/b24-toc.yaml
       mode: link
-  - name: BX24.JS SDK
+  - name: B24 JS SDK
+    include:
+      path: b24jssdk/b24-toc.yaml
+      mode: link
+  - name: BX24 JS library
     include:
       path: bx24-js-sdk/b24-toc.yaml
       mode: link
-  - name: B24PhpSDK
+  - name: B24 PHP SDK
     include:
       path: b24phpsdk/b24-toc.yaml
       mode: link
