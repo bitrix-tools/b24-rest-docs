@@ -21,7 +21,7 @@ items:
     href: call-card-close.md
   - name: События
     include:
-      path: events/toc.yaml
+      path: events/b24-toc.yaml
       mode: link
 
 

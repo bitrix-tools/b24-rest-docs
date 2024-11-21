@@ -1,4 +1,4 @@
-# Принять задачу
+# Принять задачу tasks.task.approve
 
 {% if build == 'dev' %}
 

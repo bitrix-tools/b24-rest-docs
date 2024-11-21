@@ -33,5 +33,5 @@ items:
     href: catalog-document-update.md
   - name: Товары документа складского учета
     include:
-      path: document-element/toc.yaml
+      path: document-element/b24-toc.yaml
       mode: link

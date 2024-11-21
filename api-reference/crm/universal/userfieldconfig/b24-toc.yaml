@@ -7,5 +7,5 @@ items:
     href: entity-id.md
   - name: Работа с пользовательскими полями
     include:
-      path: userfieldconfig/toc.yaml
+      path: userfieldconfig/b24-toc.yaml
       mode: link

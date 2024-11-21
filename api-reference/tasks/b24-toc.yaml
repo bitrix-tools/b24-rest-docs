@@ -1,6 +1,6 @@
 title: Задачи
 href: index.md
-items:
+items: 
   - name: О задачах в Битрикс24
     href: index.md
   - name: Поля задачи
@@ -63,15 +63,15 @@ items:
       mode: link
   - name: События
     include:
-      path: events-tasks/toc.yaml
+      path: events-tasks/b24-toc.yaml
       mode: link
   - name: Чек-листы
     include:
-      path: checklist-item/toc.yaml
+      path: checklist-item/b24-toc.yaml
       mode: link
   - name: Комментарии
     include:
-      path: comment-item/toc.yaml
+      path: comment-item/b24-toc.yaml
       mode: link
   - name: Затраченное время
     include:
@@ -79,7 +79,7 @@ items:
       mode: link
   - name: Пользовательские поля
     include:
-      path: user-field/toc.yaml
+      path: user-field/b24-toc.yaml
       mode: link
   - name: Стадии канбана и «Моего плана»
     include:
@@ -87,7 +87,7 @@ items:
       mode: link
   - name: План рабочего дня
     include:
-      path: planner/toc.yaml
+      path: planner/b24-toc.yaml
       mode: link
   - name: Потоки
     include:

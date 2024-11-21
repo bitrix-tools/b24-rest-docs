@@ -5,17 +5,17 @@ items:
     href: index.md
   - name: Работа со списками
     include:
-      path: lists/toc.yaml
+      path: lists/b24-toc.yaml
       mode: link
   - name: Работа с элементами
     include:
-      path: elements/toc.yaml
+      path: elements/b24-toc.yaml
       mode: link
   - name: Работа с полями
     include:
-      path: fields/toc.yaml
+      path: fields/b24-toc.yaml
       mode: link
   - name: Работа с разделами
     include:
-      path: sections/toc.yaml
+      path: sections/b24-toc.yaml
       mode: link

@@ -11,10 +11,10 @@ items:
     href: landing-role-is-enabled.md
   - name: Расширенная модель
     include:
-      path: extended-model/toc.yaml
+      path: extended-model/b24-toc.yaml
       mode: link
   - name: Ролевая модель
     include:
-      path: role-model/toc.yaml
+      path: role-model/b24-toc.yaml
       mode: link
 

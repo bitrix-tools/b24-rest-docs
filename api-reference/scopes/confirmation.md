@@ -75,4 +75,4 @@ HTTP/1.1 403 Forbidden
 
 ## Список методов, требующих подтверждения
 
-- [{#T}](../telephony/voximplant/users/voximplant-user-get.md)
+- [{#T}](../../api-reference/telephony/voximplant/users/voximplant-user-get.md)

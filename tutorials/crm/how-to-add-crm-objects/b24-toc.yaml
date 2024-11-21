@@ -29,4 +29,8 @@ items:
     href: how-to-generate-documents.md
   - name: Отправить e-mail клиенту от имени сотрудника
     href: how-to-send-email.md
+  - name: Добавить комментарий в таймлайн смарт-процесса
+    href: how-to-add-comment-to-spa.md
+
+
     

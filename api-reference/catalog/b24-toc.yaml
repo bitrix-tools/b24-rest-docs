@@ -11,7 +11,7 @@ items:
       mode: link
   - name: Перечисления
     include:
-      path: enum/toc.yaml
+      path: enum/b24-toc.yaml
       mode: link
   - name: Наценка
     include:
@@ -23,7 +23,7 @@ items:
       mode: link
   - name: Цена
     include:
-      path: price/toc.yaml
+      path: price/b24-toc.yaml
       mode: link
   - name: Типы цен
     include:
@@ -35,19 +35,19 @@ items:
       mode: link
   - name: Свойства товаров и торговых предложений
     include:
-      path: product-property/toc.yaml
+      path: product-property/b24-toc.yaml
       mode: link
   - name: Значения списочных свойств
     include:
-      path: product-property-enum/toc.yaml
+      path: product-property-enum/b24-toc.yaml
       mode: link
   - name: Параметры свойств товаров и торговых предложений
     include:
-      path: product-property-feature/toc.yaml
+      path: product-property-feature/b24-toc.yaml
       mode: link
   - name: Секционные настройки свойств
     include:
-      path: product-property-section/toc.yaml
+      path: product-property-section/b24-toc.yaml
       mode: link
   - name: Изображения товаров и торговых предложений
     include:
@@ -67,23 +67,23 @@ items:
       mode: link
   - name: Склад
     include:
-      path: store/toc.yaml
+      path: store/b24-toc.yaml
       mode: link
   - name: Остатки по складам
     include:
-      path: store-product/toc.yaml
+      path: store-product/b24-toc.yaml
       mode: link
   - name: Складской учет
     include:
-      path: document/toc.yaml
+      path: document/b24-toc.yaml
       mode: link
   - name: Пользовательские поля документов складского учёта
     include:
-      path: userfield-document/toc.yaml
+      path: userfield-document/b24-toc.yaml
       mode: link
   - name: Работа с CRM-поставщиками
     include:
-      path: documentcontractor/toc.yaml
+      path: documentcontractor/b24-toc.yaml
       mode: link
   - name: Ставки НДС
     include:
@@ -91,5 +91,5 @@ items:
       mode: link
   - name: События
     include:
-      path: events/toc.yaml
+      path: events/b24-toc.yaml
       mode: link
