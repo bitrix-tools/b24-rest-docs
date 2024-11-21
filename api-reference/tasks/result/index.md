@@ -30,7 +30,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [tasks.task.result.addFromCommentt](./tasks-task-result-add-from-comment.md) | Добавляет комментарий в результат ||
+|| [tasks.task.result.addFromComment](./tasks-task-result-add-from-comment.md) | Добавляет комментарий в результат ||
 || [tasks.task.result.list](./tasks-task-result-list.md) | Получает список результатов задачи ||
 || [tasks.task.result.deleteFromComment](./tasks-task-result-delete-from-comment.md) | Удаляет комментарий из результата задачи ||
 |#
