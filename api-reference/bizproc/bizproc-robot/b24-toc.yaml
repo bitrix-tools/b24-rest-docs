@@ -12,4 +12,4 @@ items:
   - name: Удалить зарегистрированного робота
     href: bizproc-robot-delete.md
   - name: Роботы и действия бизнес-процессов с ожиданием результата
-    href: bizproc-robot-with-subscription.md
+    href: bizproc-event-send.md

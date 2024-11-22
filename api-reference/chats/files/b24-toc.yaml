@@ -1,7 +1,7 @@
 title: Файлы
 href: index.md
 items:
-  - name: Получить папку хранения файлов указанного чата
+  - name: Работа с файлами в чатах
     href: index.md
   - name: Добавить файл в чат
     href: im-disk-file-commit.md
@@ -9,4 +9,6 @@ items:
     href: im-disk-file-delete.md
   - name: Сохранить файл на свой диск
     href: im-disk-file-save.md
+  - name: Получить папку хранения файлов указанного чата
+    href: im-disk-folder-get.md
 

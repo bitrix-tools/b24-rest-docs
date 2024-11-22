@@ -61,7 +61,7 @@ items:
     include:
       path: rounding-rule/b24-toc.yaml
       mode: link
-  - name: Секция каталога
+  - name: Разделы каталога
     include:
       path: section/b24-toc.yaml
       mode: link

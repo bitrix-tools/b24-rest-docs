@@ -3,7 +3,7 @@ href: index.md
 items:
   - name: Обзор 
     href: index.md
-  - name: RPA - роботизаци
+  - name: RPA — роботизация
     include:
       path: rpa/b24-toc.yaml
       mode: link

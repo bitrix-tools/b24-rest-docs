@@ -1,4 +1,24 @@
-# Обзор методов
+# Разделы в Торговом каталоге: обзор методов
+
+Разделы служат для организации товаров и услуг в каталоге.
+
+Товар или услугу можно привязать к нескольким разделам. Например, товар «Бандана» может отображаться в разделах «Для спорта», «Аксессуары» и «Головные уборы». При этом один из разделов необходимо отметить как основной, чтобы поисковые системы не рассматривали товар «Бандана» как дублирующийся контент. 
+
+> Быстрый переход: [все методы](#all-methods)
+> 
+> Пользовательская документация: [Как создать и настроить каталог товаров](https://helpdesk.bitrix24.ru/open/20922462/)
+
+## Связь разделов с другими объектами
+
+**Торговый каталог.** Укажите, к какому торговому каталогу относится раздел. Список каталогов можно получить с помощью метода [catalog.catalog.list](../catalog/catalog-catalog-list.md).
+
+**Товары.** Привяжите товары и услуги к нужным разделам, используя группы методов:
+- [catalog.product.*](../product/index.md) — для простых товаров
+- [catalog.product.service.*](../product/service/index.md) — для услуг
+- [catalog.product.sku.*](../product/sku/index.md) — для головных товаров у товаров с вариациями
+- [catalog.product.offer.*](../product/offer/index.md) — для вариаций товаров
+
+## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
@@ -6,10 +26,10 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.section.add](./catalog-section-add.md) | Метод добавляет секцию каталога ||
-|| [catalog.section.delete](./catalog-section-delete.md) | Метод удаляет секцию торгового каталога ||
-|| [catalog.section.get](./catalog-section-get.md) | Метод для получения значений полей секции торгового каталога ||
-|| [catalog.section.getFields](./catalog-section-get-fields.md) | Метод возвращает поля секции торгового каталога ||
-|| [catalog.section.list](./catalog-section-list.md) | Метод получает список секций торгового каталога ||
-|| [catalog.section.update](./catalog-section-update.md) | Метод изменяет поля секции торгового каталога ||
+|| [catalog.section.add](./catalog-section-add.md) | Добавляет раздел торгового каталога ||
+|| [catalog.section.update](./catalog-section-update.md) | Изменяет поля раздела торгового каталога ||
+|| [catalog.section.get](./catalog-section-get.md) | Возвращает значения полей раздела торгового каталога ||
+|| [catalog.section.list](./catalog-section-list.md) | Возвращает список разделов торгового каталога ||
+|| [catalog.section.delete](./catalog-section-delete.md) | Удаляет раздел торгового каталога ||
+|| [catalog.section.getFields](./catalog-section-get-fields.md) | Возвращает поля раздела торгового каталога ||
 |#

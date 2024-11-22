@@ -2,6 +2,16 @@
 
 ## 2024
 
+### 22 ноября, 2024
+
+- Обновлена главная страница раздела [Заказы](./api-reference/sale/order/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 21 ноября, 2024
+
+- Обновлена главная страница раздела [Разделы каталога](./api-reference/catalog/section/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Добавлен параметр `ACTIVE_ONLY` в метод [imopenlines.crm.chat.get](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get.md)
+- Добавлен пример ответа с описанием возвращаемых данных в метод [imconnector.send.messages](./api-reference/imopenlines/imconnector/imconnector-send-messages.md). В результате теперь возвращается информация о диалоге открытой линии
+
 ### 18 ноября, 2024
 
 - Добавлен новый туториал [Как добавить комментарий в таймлайн смарт-процесса](./tutorials/crm/how-to-add-crm-objects/how-to-add-comment-to-spa.md) 

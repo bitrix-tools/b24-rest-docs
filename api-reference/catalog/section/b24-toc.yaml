@@ -3,15 +3,15 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Добавить секцию в торговый каталог
+  - name: Добавить раздел торгового каталога
     href: catalog-section-add.md
-  - name: Изменить секцию торгового каталога
+  - name: Изменить раздел торгового каталога
     href: catalog-section-update.md
-  - name: Получить доступ к полям секции каталога
+  - name: Получить значения полей раздела торгового каталога
     href: catalog-section-get.md
-  - name: Получить список секций торгового каталога
+  - name: Получить список разделов торгового каталога
     href: catalog-section-list.md
-  - name: Удалить секцию торгового каталога
+  - name: Удалить раздел торгового каталога
     href: catalog-section-delete.md
-  - name: Получить поля секции каталога
+  - name: Получить поля раздела торгового каталога
     href: catalog-section-get-fields.md
