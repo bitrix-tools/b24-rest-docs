@@ -1,6 +1,6 @@
 # Как использовать примеры в документации
 
-В документации в описаниях методов и дополнительных туториалах представлены примеры кода для различных языков программирования. Каждый пример, зачастую, представлен в четырех вариантах: curl запроса с параметрами, JS код с использованием библиотеки BX24.js, PHP код с использованием официального CRest SDK и Python код на базе B24-Python SDK.
+В документации в описаниях методов и дополнительных туториалах представлены примеры кода для различных языков программирования. Каждый пример, зачастую, представлен в четырех вариантах: curl запроса с параметрами, JS код с использованием библиотеки BX24.js, PHP код с использованием CRest SDK, PHP код с использованием официального B24PhpSdk и JS код с использованием официального B24JsSdk.
 
 ## Curl запросы
 
@@ -81,6 +81,64 @@ BX24.callMethod(
 
 Дополнительную информацию о BX24.js можно найти в разделе [{#T}](./api-reference/bx24-js-sdk/index.md). Учтите, что эта библиотека может использоваться только в рамках приложений, которые открываются во фреймах в пользовательском интерфейсе Битрикс24. Читайте об этом подробнее в разделе про [виджеты](./api-reference/widgets/).
 
+### JavaScript с использованием B24JsSDK
+
+В отличие от bx24.js, B24JsSDK может использоваться в любых веб-приложениях, как в качестве front-end, так и в качестве back-end на Node.js.
+
+Это различие требует немного другого подхода к подключению библиотеки. Подробную информацию можно найти в [{#T}](./api-reference/b24jssdk/index.md). Сейчас же приведем пример подключения B24JsSDK в качестве браузерной UMD-библиотеки:
+
+```html
+<script src="https://unpkg.com/@bitrix24/b24jssdk@latest/dist/umd/index.min.js"></script>
+```
+
+После подключения библиотека будет доступна через глобальную переменную `B24Js`. Пример использования B24JsSDK ниже подразумевает, что код используется в рамках приложений, которые открываются во фреймах в пользовательском интерфейсе Битрикс24:
+
+```html
+<script src="https://unpkg.com/@bitrix24/b24jssdk@latest/dist/umd/index.min.js"></script>
+<script type="module">
+try
+{
+    const $logger = B24Js.LoggerBrowser.build('local-app', true);
+    
+    const $b24 = await B24Js.initializeB24Frame();
+    $b24.setLogger(
+        B24Js.LoggerBrowser.build('Core')
+    );
+    
+    $logger.warn('B24Frame.init');
+    
+    const response = await $b24.callMethod(
+        'crm.item.add',
+        {
+            entityTypeId: B24Js.EnumCrmEntityTypeId.deal,
+            fields: {
+                title: `New Deal`,
+                typeId: 'SALE',
+                stageId: 'NEW'
+            }
+        }
+    );
+    
+    const newDeal = response.getData().result.item;
+    
+    $logger.info(
+        `${B24Js.Text.getDateForLog()} crm.item.add >>`,
+        {
+            newId: newDeal.id,
+            createdTime: B24Js.Text.toDateTime(newDeal.createdTime).toFormat('HH:mm:ss'),
+            fields: newDeal
+        }
+    );
+}
+catch( error )
+{
+    console.error(error);
+}
+</script>
+```
+
+Библиотека также поддерживает работу с входящими вебхуками. Однако, в этом случае её следует использовать на back-end в Node.js. Вызывать REST API с помощью входящего вебхука с front-end небезопасно, так как любой пользователь, открывший такое приложение, сможет увидеть вебхук и использовать его для несанкционированного доступа к Битрикс24 с правами пользователя, создавшего вебхук.
+
 ### PHP с использованием B24PhpSDK
 
 Для начала использования необходимо установить и подключить B24PhpSDK. Подробную информацию можно найти в [{#T}](./api-reference/b24phpsdk/index.md).
@@ -108,7 +166,6 @@ $result = $B24->getCRMScope()->deal()->add([
     'STAGE_ID' => 'NEW'
 ])->getId();
 ```
-
 
 ### PHP с использованием CRest SDK
 
