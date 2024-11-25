@@ -5,6 +5,7 @@
 ### 25 ноября, 2024
 
 - Добавлен новый метод [messageservice.sender.update](./api-reference/messageservice/messageservice-sender-update.md)
+- Добавлены новые события [OnImConnectorDialogStart](./api-reference/imopenlines/imconnector/events/on-im-connector-dialog-start.md) и [OnImConnectorDialogFinish](./api-reference/imopenlines/imconnector/events/on-im-connector-dialog-finish.md)
 
 ### 22 ноября, 2024
 
