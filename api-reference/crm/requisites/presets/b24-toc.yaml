@@ -1,7 +1,7 @@
 title: Шаблоны реквизитов
 href: index.md
 items:
-  - name: О шаблонах
+  - name: Обзор методов
     href: index.md
   - name: Создать шаблон 
     href: crm-requisite-preset-add.md

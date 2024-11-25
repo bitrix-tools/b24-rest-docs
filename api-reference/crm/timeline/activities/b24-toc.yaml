@@ -1,7 +1,7 @@
 title: Дела
 href: index.md
 items:
-  - name: О делах
+  - name: Обзор методов
     href: index.md
   - name: Поля дела CRM
     href: fields.md

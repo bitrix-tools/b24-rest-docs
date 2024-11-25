@@ -1,7 +1,7 @@
 title: Список событий при работе с компаниями
 href: index.md
 items:
-  - name: Список событий 
+  - name: Обзор событий 
     href: index.md
   - name: При создании компании
     href: on-crm-company-add.md
