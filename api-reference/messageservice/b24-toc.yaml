@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Зарегистрировать провайдер
     href: messageservice-sender-add.md
+  - name: Обновить провайдер
+    href: messageservice-sender-update.md
   - name: Получить список провайдеров
     href: messageservice-sender-list.md
   - name: Удалить провайдер

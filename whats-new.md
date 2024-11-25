@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 25 ноября, 2024
+
+- Добавлен новый метод [messageservice.sender.update](./api-reference/messageservice/messageservice-sender-update.md)
+
 ### 22 ноября, 2024
 
 - Обновлена главная страница раздела [Заказы](./api-reference/sale/order/index.md). Добавили вводную информацию, а также обзор методов и связей
