@@ -7,6 +7,8 @@
 - Добавлен новый метод [messageservice.sender.update](./api-reference/messageservice/messageservice-sender-update.md)
 - Добавлены новые события [OnImConnectorDialogStart](./api-reference/imopenlines/imconnector/events/on-im-connector-dialog-start.md) и [OnImConnectorDialogFinish](./api-reference/imopenlines/imconnector/events/on-im-connector-dialog-finish.md)
 - Обновлена главная страница раздела [Вспомогательные методы](./api-reference/crm/auxiliary/index.md) в CRM. Добавили вводную информацию и обзор методов
+- Добавлены новые события [OnSessionStart](./api-reference/imopenlines/openlines/events/on-session-start.md) и [OnSessionFinish](./api-reference/imopenlines/openlines/events/on-session-finish.md)
+- Добавлены новые события [OnOpenLineMessageAdd](./api-reference/imopenlines/openlines/events/on-open-line-message-add.md), [OnOpenLineMessageUpdate](./api-reference/imopenlines/openlines/events/on-open-line-message-update.md) и [OnOpenLineMessageDelete](./api-reference/imopenlines/openlines/events/on-open-line-message-delete.md)
 
 ### 22 ноября, 2024
 
