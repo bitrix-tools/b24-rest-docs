@@ -1,7 +1,7 @@
 title: Пользовательские типы дел
 href: index.md
 items:
-  - name: О пользовательских типах дел
+  - name: Обзор методов
     href: index.md
   - name: Добавить пользовательский тип дел
     href: crm-activity-type-add.md

@@ -1,7 +1,7 @@
 title: Настройки поиска дубликатов по любым полям
 href: index.md
 items:
-  - name: Настройки поиска дубликатов по любым полям
+  - name: Обзор методов
     href: index.md
   - name: Получить список полей, доступных для использования
     href: crm-duplicate-volatile-type-fields.md

@@ -1,7 +1,7 @@
 title: Документы 
 href: index.md
 items:
-  - name: Документы
+  - name: Обзор методов
     href: index.md
   - name: Получить поля документа
     href: crm-document-generator-document-get-fields.md

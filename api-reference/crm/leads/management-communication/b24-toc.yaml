@@ -1,7 +1,7 @@
 title: Связь между лидами и контактами 
 href: index.md
 items: 
-  - name: О связи между лидами и контактами
+  - name: Обзор методов
     href: index.md
   - name: Добавить привязку контакта к лиду
     href: crm-lead-contact-add.md

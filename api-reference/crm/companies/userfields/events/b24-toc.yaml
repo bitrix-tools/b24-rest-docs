@@ -1,7 +1,7 @@
 title: Список событий при работе с пользовательскими полями компаний
 href: index.md
 items:
-  - name: Список событий 
+  - name: Обзор событий 
     href: index.md
   - name: При добавлении пользовательского поля
     href: on-crm-company-user-field-add.md
