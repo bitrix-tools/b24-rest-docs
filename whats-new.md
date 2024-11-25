@@ -6,6 +6,7 @@
 
 - Добавлен новый метод [messageservice.sender.update](./api-reference/messageservice/messageservice-sender-update.md)
 - Добавлены новые события [OnImConnectorDialogStart](./api-reference/imopenlines/imconnector/events/on-im-connector-dialog-start.md) и [OnImConnectorDialogFinish](./api-reference/imopenlines/imconnector/events/on-im-connector-dialog-finish.md)
+- Обновлена главная страница раздела [Вспомогательные методы](./api-reference/crm/auxiliary/index.md) в CRM. Добавили вводную информацию и обзор методов
 
 ### 22 ноября, 2024
 
