@@ -34,16 +34,23 @@
 
 ## Пример
 
-```php
-CRest::call(
-    'user.userfield.update',
-    [
-        'id' => 42,
-        'fields' => [
-            'LIST_FILTER_LABEL' => 'Title',
-            'LIST_COLUMN_LABEL' => 'List Title',
-        ],
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'user.userfield.update',
+        [
+            'id' => 42,
+            'fields' => [
+                'LIST_FILTER_LABEL' => 'Title',
+                'LIST_COLUMN_LABEL' => 'List Title',
+            ],
+        ]
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

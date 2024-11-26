@@ -33,13 +33,19 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.meeting.status.get",
-    {
-        eventId: '651'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.meeting.status.get",
+        {
+            eventId: '651'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

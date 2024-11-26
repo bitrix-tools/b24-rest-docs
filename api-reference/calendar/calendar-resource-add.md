@@ -33,13 +33,19 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.resource.add",
-    {
-        name: 'My resource title'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.resource.add",
+        {
+            name: 'My resource title'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

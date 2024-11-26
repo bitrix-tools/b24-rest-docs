@@ -50,24 +50,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.section.add",
-    {
-        type: 'user',
-        ownerId: '2',
-        name: 'New Section',
-        description: 'Description for section',
-        color: '#9cbeee',
-        text_color: '#283000',
-        export: [{ALLOW: false}],
-        access: {
-            'D114': 17,
-            'G2': 13,
-            'U2': 15
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.section.add",
+        {
+            type: 'user',
+            ownerId: '2',
+            name: 'New Section',
+            description: 'Description for section',
+            color: '#9cbeee',
+            text_color: '#283000',
+            export: [{ALLOW: false}],
+            access: {
+                'D114': 17,
+                'G2': 13,
+                'U2': 15
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

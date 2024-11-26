@@ -53,29 +53,36 @@
 
 ## Пример
 
-```php
-CRest::call(
-    'user.userfield.add',
-    [
-        'fields' => [
-            'FIELD_NAME' => 'MY_TEST_FIELD_STR3',
-            'USER_TYPE_ID' => 'string',
-            'XML_ID' => 'MY_TEST_FIELD_STR_xml',
-            'MULTIPLE' => 'Y',
-            'SHOW_FILTER' => 'Y',
-            'SORT' => 100,
-            'LIST_FILTER_LABEL' => 'Title',
-            'LIST_COLUMN_LABEL' => 'List Title',
-            'EDIT_FORM_LABEL' => 'Title',
-            'ERROR_MESSAGE' => 'Title',
-            'HELP_MESSAGE' => 'Title',
-            'SETTINGS' => [
-                'DEFAULT_VALUE' => 'value'
-            ]
-        ],
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'user.userfield.add',
+        [
+            'fields' => [
+                'FIELD_NAME' => 'MY_TEST_FIELD_STR3',
+                'USER_TYPE_ID' => 'string',
+                'XML_ID' => 'MY_TEST_FIELD_STR_xml',
+                'MULTIPLE' => 'Y',
+                'SHOW_FILTER' => 'Y',
+                'SORT' => 100,
+                'LIST_FILTER_LABEL' => 'Title',
+                'LIST_COLUMN_LABEL' => 'List Title',
+                'EDIT_FORM_LABEL' => 'Title',
+                'ERROR_MESSAGE' => 'Title',
+                'HELP_MESSAGE' => 'Title',
+                'SETTINGS' => [
+                    'DEFAULT_VALUE' => 'value'
+                ]
+            ],
+        ]
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 Вместо

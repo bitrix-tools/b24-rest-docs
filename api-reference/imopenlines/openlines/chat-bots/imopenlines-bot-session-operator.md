@@ -37,15 +37,21 @@
 
 {% include [Пояснение о restCommand](../../../chat-bots/_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imopenlines.bot.session.operator',
-    Array(
-        'CHAT_ID' => 12
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imopenlines.bot.session.operator',
+        Array(
+            'CHAT_ID' => 12
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

@@ -26,12 +26,19 @@
 
 Метод удаляет пользовательское поле.
 
-```php
-CRest::call(
-    'user.userfield.delete',
-    [
-        'id' => 42,
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'user.userfield.delete',
+        [
+            'id' => 42,
+        ]
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

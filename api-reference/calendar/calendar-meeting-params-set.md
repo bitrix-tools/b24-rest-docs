@@ -40,15 +40,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.meeting.params.set",
-    {
-        eventId: '651',
-        accessibility: 'free',
-        remind: [{type: 'min', count: 20}]
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.meeting.params.set",
+        {
+            eventId: '651',
+            accessibility: 'free',
+            remind: [{type: 'min', count: 20}]
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

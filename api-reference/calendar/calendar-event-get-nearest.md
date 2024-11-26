@@ -40,16 +40,22 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.event.get.nearest",
-    {
-        type: 'user',
-        ownerId: '2',
-        days: 10,
-        forCurrentUser: true,
-        detailUrl: '/company/personal/user/#user_id#/calendar/'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.event.get.nearest",
+        {
+            type: 'user',
+            ownerId: '2',
+            days: 10,
+            forCurrentUser: true,
+            detailUrl: '/company/personal/user/#user_id#/calendar/'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

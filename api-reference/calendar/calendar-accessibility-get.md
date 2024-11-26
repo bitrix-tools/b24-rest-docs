@@ -35,15 +35,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.accessibility.get",
-    {
-        from: '2013-06-20',
-        to: '2013-12-20',
-        users: [1, 2, 34]
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.accessibility.get",
+        {
+            from: '2013-06-20',
+            to: '2013-12-20',
+            users: [1, 2, 34]
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

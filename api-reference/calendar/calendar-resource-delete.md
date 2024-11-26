@@ -33,13 +33,19 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.resource.delete",
-    {
-        resourceId: 521
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.resource.delete",
+        {
+            resourceId: 521
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

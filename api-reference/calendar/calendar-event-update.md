@@ -71,27 +71,33 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.event.update",
-    {
-        id: 699,
-        type: 'user',
-        ownerId: '2',
-        name: 'Changed Event Name',
-        description: 'New description for event',
-        from: '2013-06-17',
-        to: '2013-06-17',
-        skipTime: 'Y',
-        section: 5,
-        color: '#9cbe1c',
-        text_color: '#283033',
-        accessibility: 'free',
-        importance: 'normal',
-        is_meeting: 'N',
-        private_event: 'Y',
-        remind: [{type: 'min', count: 10}]
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.event.update",
+        {
+            id: 699,
+            type: 'user',
+            ownerId: '2',
+            name: 'Changed Event Name',
+            description: 'New description for event',
+            from: '2013-06-17',
+            to: '2013-06-17',
+            skipTime: 'Y',
+            section: 5,
+            color: '#9cbe1c',
+            text_color: '#283033',
+            accessibility: 'free',
+            importance: 'normal',
+            is_meeting: 'N',
+            private_event: 'Y',
+            remind: [{type: 'min', count: 10}]
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

@@ -35,25 +35,37 @@
 
 **Первый вариант:** для возможности оценить бронирования (занятость) определенных ресурсов на какой-то период. Может использоваться для создания собственных представлений занятости или для использования в логике.
 
-```js
-BX24.callMethod("calendar.resource.booking.list", {
-    filter: {
-        resourceTypeIdList: [10852, 10888, 10873, 10871, 10853], // передается список id ресурсов, которые можно выбрать методом calendar.resource.list
-        from: '2018-06-20',
-        to: '2018-08-20',
-    }
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.resource.booking.list", {
+        filter: {
+            resourceTypeIdList: [10852, 10888, 10873, 10871, 10853], // передается список id ресурсов, которые можно выбрать методом calendar.resource.list
+            from: '2018-06-20',
+            to: '2018-08-20',
+        }
+    });
+    ```
+
+{% endlist %}
 
 **Второй вариант:** возможность выбрать бронирования по их id (это значения UF-поля, привязанного к CRM сущности).
 
-```js
-BX24.callMethod("calendar.resource.booking.list", {
-    filter: {
-        resourceIdList: [10, 18, 17] // эти ID берутся из значения UF-поля типа resourcebooking у CRM сущностей LEAD|DEAL
-    }
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.resource.booking.list", {
+        filter: {
+            resourceIdList: [10, 18, 17] // эти ID берутся из значения UF-поля типа resourcebooking у CRM сущностей LEAD|DEAL
+        }
+    });
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

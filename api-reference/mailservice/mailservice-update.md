@@ -48,30 +48,37 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "mailservice.update",
-    {
-        'ID': 5,
-        'ACTIVE': 'N',
-        'NAME': 'Почтовый сервис Yandex',
-        'SERVER': 'imap.yandex.ru',
-        'PORT': '993',
-        'ENCRYPTION': 'Y',
-        'LINK': 'https://mail.yandex.ru/',
-        'SORT': '666'
-    },
-    function(result)
-    {
-        if(result.errorы())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "mailservice.update",
         {
-            console.error(result.error());
-        }
-        else
+            'ID': 5,
+            'ACTIVE': 'N',
+            'NAME': 'Почтовый сервис Yandex',
+            'SERVER': 'imap.yandex.ru',
+            'PORT': '993',
+            'ENCRYPTION': 'Y',
+            'LINK': 'https://mail.yandex.ru/',
+            'SORT': '666'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.errorы())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

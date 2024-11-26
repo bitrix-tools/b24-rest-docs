@@ -40,23 +40,35 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.event.get",
-    {
-        type: 'user',
-        ownerId: '1',
-        from: '2013-06-20',
-        to: '2013-08-20',
-        section: [21, 44]
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.event.get",
+        {
+            type: 'user',
+            ownerId: '1',
+            from: '2013-06-20',
+            to: '2013-08-20',
+            section: [21, 44]
+        }
+    );
+    ```
+
+{% endlist %}
 
 Получить события календаря компании:
 
-```js
-'type'=> 'company_calendar',
-'ownerId' => '' // ownerId не указывается при выборке событий календаря компании. Он пустой для всех событий такого типа.
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    'type'=> 'company_calendar',
+    'ownerId' => '' // ownerId не указывается при выборке событий календаря компании. Он пустой для всех событий такого типа.
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

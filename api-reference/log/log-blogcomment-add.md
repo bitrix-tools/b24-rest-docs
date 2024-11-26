@@ -38,51 +38,69 @@
 
 ## Примеры
 
-```js
-// Пример добавления
-BX24.callMethod('log.blogcomment.add', {
-    POST_ID: 10,
-    TEXT: 'Комментарий к посту'
-}, result => {
-    console.log(result);
-});
-```
+{% list tabs %}
 
-```js
-// Получает комментарий в ленте новостей. Если не передавать id в фильтр, вернёт все доступные по правам комментарии
-let params = {
-    FIRST_ID: 893, //id из таблицы b_sonet_log_comment
-    LAST_ID: 894,
-};
-BX24.callMethod('log.blogcomment.user.get', params,
-    result => {
-        if(result.error())
-        {
-            alert("Error: " + result.error());
-        }
-        else
-        {
-            console.log(result.data());
-        }
-    }
-);
-```
+- JS
 
-```js
-// Удаляет комментарий в ленте новостей
-let params = {
-    COMMENT_ID: 261, //id из таблицы b_blog_comment
-};
-BX24.callMethod('log.blogcomment.delete', params,
-    result => {
-        if(result.error())
-        {
-            alert("Error: " + result.error());
+    ```js
+    // Пример добавления
+    BX24.callMethod('log.blogcomment.add', {
+        POST_ID: 10,
+        TEXT: 'Комментарий к посту'
+    }, result => {
+        console.log(result);
+    });
+    ```
+
+{% endlist %}
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Получает комментарий в ленте новостей. Если не передавать id в фильтр, вернёт все доступные по правам комментарии
+    let params = {
+        FIRST_ID: 893, //id из таблицы b_sonet_log_comment
+        LAST_ID: 894,
+    };
+    BX24.callMethod('log.blogcomment.user.get', params,
+        result => {
+            if(result.error())
+            {
+                alert("Error: " + result.error());
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
+    );
+    ```
+
+{% endlist %}
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Удаляет комментарий в ленте новостей
+    let params = {
+        COMMENT_ID: 261, //id из таблицы b_blog_comment
+    };
+    BX24.callMethod('log.blogcomment.delete', params,
+        result => {
+            if(result.error())
+            {
+                alert("Error: " + result.error());
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}

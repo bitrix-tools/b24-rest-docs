@@ -43,13 +43,20 @@
 
 ## Пример
 
-```php
-CRest::call(
-    'user.userfield.list',
-    [
-        'order' => ['ID' => 'desc'],
-        'filter' => ['ID' => 42],
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'user.userfield.list',
+        [
+            'order' => ['ID' => 'desc'],
+            'filter' => ['ID' => 42],
+        ]
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

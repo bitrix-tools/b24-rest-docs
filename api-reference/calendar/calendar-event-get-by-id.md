@@ -34,23 +34,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.event.getbyid", {id: 324});
-/*
-    * Returns event by its id
-    *
-    * @param array $params - incoming params:
-    * $params['id'] - int, (required) calendar event id
-    * @return event or null
-    * @throws \Bitrix\Rest\RestException
-    *
-    * @example (Javascript)
-    * BX24.callMethod("calendar.event.getbyid",
-    * {
-    *     id: 324
-    * });
-    *
-    */
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.event.getbyid", {id: 324});
+    /*
+        * Returns event by its id
+        *
+        * @param array $params - incoming params:
+        * $params['id'] - int, (required) calendar event id
+        * @return event or null
+        * @throws \Bitrix\Rest\RestException
+        *
+        * @example (Javascript)
+        * BX24.callMethod("calendar.event.getbyid",
+        * {
+        *     id: 324
+        * });
+        *
+        */
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

@@ -123,9 +123,20 @@
     ```php
     require_once('crest.php');
 
+    $params = [
+        'DELIVERY_ID' => 197,
+        'ACTIVE' => 'Y',
+        'CODE' => 'door_delivery',
+        'NAME' => 'Door Delivery',
+        'DESCRIPTION' => 'Door Delivery Description',
+        'TYPE' => 'checkbox',
+        'SORT' => 100,
+        'PRICE' => 99.99
+    ];
+
     $result = CRest::call(
-        'sale.basketitem.getFields',
-        []
+        'sale.delivery.extra.service.add',
+        $params
     );
 
     echo '<PRE>';

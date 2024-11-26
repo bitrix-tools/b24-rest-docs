@@ -35,49 +35,67 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'tasks.task.add',
-    {fields:{TITLE:'task for test', RESPONSIBLE_ID:1}},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.add',
+        {fields:{TITLE:'task for test', RESPONSIBLE_ID:1}},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 Для прикрепления файла к задаче перед идентификатором файла должен быть символ `n`
 
-```js
-{
-    "taskId":"76",
-    "fields": {
-        "UF_TASK_WEBDAV_FILES": [
-            "n96"
-        ]
-    }
-}
-```
+{% list tabs %}
 
-**С версии 22.1300.0** в метод можно передать параметр `SE_PARAMETER` — список объектов с дополнительными параметрами задачи.
+- JS
 
-```js
-BX.ajax.runAction("tasks.task.add", {
-    data: {
-        fields: {
-            "TITLE": 'REST',
-            "RESPONSIBLE_ID": 1,
-            "SE_PARAMETER": [
-                {
-                    'VALUE': 'Y',
-                    'CODE': 3
-                },
-                {
-                    'VALUE': 'Y',
-                    'CODE': 2
-                },
+    ```js
+    {
+        "taskId":"76",
+        "fields": {
+            "UF_TASK_WEBDAV_FILES": [
+                "n96"
             ]
         }
     }
-}).then(function (response) { console.log(response);});
-```
+    ```
+
+{% endlist %}
+
+**С версии 22.1300.0** в метод можно передать параметр `SE_PARAMETER` — список объектов с дополнительными параметрами задачи.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX.ajax.runAction("tasks.task.add", {
+        data: {
+            fields: {
+                "TITLE": 'REST',
+                "RESPONSIBLE_ID": 1,
+                "SE_PARAMETER": [
+                    {
+                        'VALUE': 'Y',
+                        'CODE': 3
+                    },
+                    {
+                        'VALUE': 'Y',
+                        'CODE': 2
+                    },
+                ]
+            }
+        }
+    }).then(function (response) { console.log(response);});
+    ```
+
+{% endlist %}
 
 Значения кодов:
 

@@ -35,25 +35,38 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'log.blogpost.getusers.important',
-    {
-        POST_ID: 345
-    },
-    function(result)
-    {
-        console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'log.blogpost.getusers.important',
+        {
+            POST_ID: 345
+        },
+        function(result)
+        {
+            console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос:
 
-```http
-https://my.bitrix24.ru/rest/log.blogpost.getusers.important.json?POST_ID=345&auth=xxxxxxx
-```
+{% list tabs %}
+
+- URL-запрос
+
+    ```http
+    https://my.bitrix24.ru/rest/log.blogpost.getusers.important.json?POST_ID=345&auth=xxxxxxx
+    ```
+
+{% endlist %}
 
 ## Ответ:
 

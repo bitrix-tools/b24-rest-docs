@@ -45,25 +45,31 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.section.update",
-    {
-        id: 325,
-        type: 'user',
-        ownerId: '2',
-        name: 'Changed Section Name',
-        description: 'New description for section',
-        color: '#9cbeAA',
-        text_color: '#283099',
-        export: [{ALLOW: false}],
-        access: {
-            'D114': 17,
-            'G2': 13,
-            'U2': 15
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.section.update",
+        {
+            id: 325,
+            type: 'user',
+            ownerId: '2',
+            name: 'Changed Section Name',
+            description: 'New description for section',
+            color: '#9cbeAA',
+            text_color: '#283099',
+            export: [{ALLOW: false}],
+            access: {
+                'D114': 17,
+                'G2': 13,
+                'U2': 15
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

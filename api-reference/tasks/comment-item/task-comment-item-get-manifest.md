@@ -37,15 +37,22 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.commentitem.getmanifest',
-    [],
-    function(result)
-    {
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.commentitem.getmanifest',
+        [],
+        function(result)
+        {
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -42,11 +42,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.section.get",
-    {
-        type: 'user',
-        ownerId: '1'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.section.get",
+        {
+            type: 'user',
+            ownerId: '1'
+        }
+    );
+    ```
+
+{% endlist %}
+

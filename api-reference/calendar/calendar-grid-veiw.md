@@ -22,30 +22,48 @@
 
 Как можно забиндить (привязать) приложение к календарной встройке:
 
-```javascript
-BX24.callMethod('placement.bind', {
-    PLACEMENT:'CALENDAR_GRIDVIEW',
-    HANDLER: 'http://svd.org/svdapp.php',
-    TITLE: 'Custom tab'
-}, (result) => {console.log(result)});
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod('placement.bind', {
+        PLACEMENT:'CALENDAR_GRIDVIEW',
+        HANDLER: 'http://svd.org/svdapp.php',
+        TITLE: 'Custom tab'
+    }, (result) => {console.log(result)});
+    ```
+
+{% endlist %}
 
 Если в самом приложении вызвать:
 
-```php
-echo "<pre>";
-print_r($_REQUEST);
-echo "</pre>";
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    echo "<pre>";
+    print_r($_REQUEST);
+    echo "</pre>";
+    ```
+
+{% endlist %}
 
 то увидим, что туда приходят определенные параметры. В частности:
 
-```php
-[PLACEMENT_OPTIONS] => {
-    "viewRangeFrom":"2018-09-30",
-    "viewRangeTo":"2018-11-04"
-}
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    [PLACEMENT_OPTIONS] => {
+        "viewRangeFrom":"2018-09-30",
+        "viewRangeTo":"2018-11-04"
+    }
+    ```
+
+{% endlist %}
 
 Также при работе во встройке есть определенный интерфейс: методы и события.
 
@@ -53,58 +71,88 @@ echo "</pre>";
 
 - **getEvents** – получение событий.
 
-```javascript
-var dateFrom = new Date();
-var dateTo = new Date(dateFrom.getTime() + 86400 * 30 * 1000); // Умножаем на 1000, чтобы преобразовать секунды в миллисекунды
-dateFrom.setHours(0, 0, 0, 0);
-dateTo.setHours(0, 0, 0, 0);
+{% list tabs %}
 
-BX24.placement.call('getEvents',
-    {
-        dateFrom: dateFrom,
-        dateTo: dateTo
-    },
-    function(events) {
-        console.log('getEvents response:');
-        console.dir(events);
-    }
-);
-```
-  
+- JS
+
+    ```javascript
+    var dateFrom = new Date();
+    var dateTo = new Date(dateFrom.getTime() + 86400 * 30 * 1000); // Умножаем на 1000, чтобы преобразовать секунды в миллисекунды
+    dateFrom.setHours(0, 0, 0, 0);
+    dateTo.setHours(0, 0, 0, 0);
+
+    BX24.placement.call('getEvents',
+        {
+            dateFrom: dateFrom,
+            dateTo: dateTo
+        },
+        function(events) {
+            console.log('getEvents response:');
+            console.dir(events);
+        }
+    );
+    ```
+
+{% endlist %}
+
 - **viewEvent** – просмотр события (открытие карточки просмотра).
 
-```javascript
-BX24.placement.call('viewEvent',
-	{
-		id: "1431170", - id события
-		dateFrom: "11.07.2018" - дата события (не обязательно, но важно для регулярных)
-	},
-	function(){}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.placement.call('viewEvent',
+        {
+            id: "1431170", - id события
+            dateFrom: "11.07.2018" - дата события (не обязательно, но важно для регулярных)
+        },
+        function(){}
+    );
+    ```
+
+{% endlist %}
 
 - **addEvent** – добавление нового события (открытие карточки).
 
-```javascript
-BX24.placement.call('addEvent', function(){});
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.placement.call('addEvent', function(){});
+    ```
+
+{% endlist %}
 
 - **editEvent** – редактирование события (открытие карточки).
 
-```javascript
-BX24.placement.call('editEvent', {uid: "1431171|19.07.2018"}, function(){});
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.placement.call('editEvent', {uid: "1431171|19.07.2018"}, function(){});
+    ```
+
+{% endlist %}
 
 - **deleteEvent** – удаление события.
 
-```javascript
-BX24.placement.call('deleteEvent',
-	{
-		id: "1431169"
-	},
-	function(){}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.placement.call('deleteEvent',
+        {
+            id: "1431169"
+        },
+        function(){}
+    );
+    ```
+
+{% endlist %}
 
 ## События, которые можно отслеживать в плейсменте
 

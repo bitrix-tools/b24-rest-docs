@@ -216,13 +216,19 @@ BX24.callMethod('tasks.task.list',{start: 1150})
 
 Вывод всех неповторяющихся задач, добавленных в "Избранное", у которых статус больше 2:
 
-```js
-BX24.callMethod(
-    'tasks.task.list',
-    {filter:{'>STATUS':2, REPLICATE:'N', '::SUBFILTER-PARAMS':{FAVORITE:'Y'}}},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.list',
+        {filter:{'>STATUS':2, REPLICATE:'N', '::SUBFILTER-PARAMS':{FAVORITE:'Y'}}},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 ## Ответ в случае успеха
 
@@ -265,13 +271,19 @@ BX24.callMethod(
 
 Вывод всех задач с названием "task for test", отбор по полям `ID`, `TITLE`, `STATUS`, сортировка по полю `ID` (сортировка по возрастанию):
 
-```js
-BX24.callMethod(
-    'tasks.task.list',
-    {filter:{TITLE:'task for test'}, select: ['ID','TITLE','STATUS'], order:{ID:'asc'}},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.list',
+        {filter:{TITLE:'task for test'}, select: ['ID','TITLE','STATUS'], order:{ID:'asc'}},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 ![Результат](_images/tasks_task_list-2.png =873x)
 
@@ -279,17 +291,23 @@ BX24.callMethod(
 
 Пример отключения постраничной навигации:
 
-```php
-$result = CRest::call(
-    'tasks.task.list',
-    [
-        'filter' => [
-            '>ID' => 50
-        ],
-        'start' => -1,
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = CRest::call(
+        'tasks.task.list',
+        [
+            'filter' => [
+                '>ID' => 50
+            ],
+            'start' => -1,
+        ]
+    );
+    ```
+
+{% endlist %}
 
 ## Пример 4
 
@@ -297,53 +315,59 @@ $result = CRest::call(
 
 Фильтры задач по ID, дате, статусу. Для фильтра `'=ID' => 3` рекомендуется использовать [tasks.task.get](.) так как в нём нет постраничной навигации.
 
-```php
-$filter = [];
-//by id
-$filter = [
-    '>ID' => 3
-];
-$filter = [
-    '=ID' => 3//recommend: CRest::call('tasks.task.get');
-];
-//by date
-$filter = [
-    '<CREATED_DATE' => date(DATE_ATOM, mktime(12, 22, 37, 7, 25, 2019))
-];
-//by status
-$filter = [
-    '>STATUS' => 2 // 2 is enum value. for current client: CRest::call( 'tasks.task.getFields');
-];
-$result = CRest::call(
-    'tasks.task.list',
-    [
-        'filter' => $filter,
-        'select' => [
-            'ID',
-            'TITLE',
-            'CREATED_DATE'
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $filter = [];
+    //by id
+    $filter = [
+        '>ID' => 3
+    ];
+    $filter = [
+        '=ID' => 3//recommend: CRest::call('tasks.task.get');
+    ];
+    //by date
+    $filter = [
+        '<CREATED_DATE' => date(DATE_ATOM, mktime(12, 22, 37, 7, 25, 2019))
+    ];
+    //by status
+    $filter = [
+        '>STATUS' => 2 // 2 is enum value. for current client: CRest::call( 'tasks.task.getFields');
+    ];
+    $result = CRest::call(
+        'tasks.task.list',
+        [
+            'filter' => $filter,
+            'select' => [
+                'ID',
+                'TITLE',
+                'CREATED_DATE'
+            ]
         ]
-    ]
-);
-//all fields
-$fields = CRest::call( 'tasks.task.getFields');
-echo '<pre>';
-print_r([$filter, $result, $fields]);
-echo '</pre>';
-$result = CRest::call(
-    'tasks.task.get',
-    [
-        'taskId' => 3,
-        'select' => [
-            'ID',
-            'TITLE',
-            'CREATED_DATE'
+    );
+    //all fields
+    $fields = CRest::call( 'tasks.task.getFields');
+    echo '<pre>';
+    print_r([$filter, $result, $fields]);
+    echo '</pre>';
+    $result = CRest::call(
+        'tasks.task.get',
+        [
+            'taskId' => 3,
+            'select' => [
+                'ID',
+                'TITLE',
+                'CREATED_DATE'
+            ]
         ]
-    ]
-);
-echo '<pre>';
-print_r($result);
-echo '</pre>';
-```
+    );
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

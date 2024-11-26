@@ -34,14 +34,20 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.resource.update",
-    {
-        resourceId: 325,
-        name: 'Changed Resource Name'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.resource.update",
+        {
+            resourceId: 325,
+            name: 'Changed Resource Name'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

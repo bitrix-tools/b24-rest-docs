@@ -58,15 +58,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.checklistitem.getlist',
-    [13, {'TOGGLED_DATE': 'desc'}],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.checklistitem.getlist',
+        [13, {'TOGGLED_DATE': 'desc'}],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

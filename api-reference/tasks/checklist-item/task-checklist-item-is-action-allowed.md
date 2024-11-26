@@ -45,16 +45,22 @@
 
 ## Пример
 
-```js
-// Для элемента с ID=21 проверяем, разрешено ли действие его изменения
-BX24.callMethod(
-    'task.checklistitem.isactionallowed',
-    [13, 21, 2],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Для элемента с ID=21 проверяем, разрешено ли действие его изменения
+    BX24.callMethod(
+        'task.checklistitem.isactionallowed',
+        [13, 21, 2],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

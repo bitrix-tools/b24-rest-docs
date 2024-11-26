@@ -27,9 +27,15 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.resource.list")
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.resource.list")
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

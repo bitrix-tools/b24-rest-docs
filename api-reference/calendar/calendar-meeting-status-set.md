@@ -36,14 +36,20 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.meeting.status.set",
-    {
-        eventId: '651',
-        status: 'Y'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.meeting.status.set",
+        {
+            eventId: '651',
+            status: 'Y'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

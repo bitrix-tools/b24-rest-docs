@@ -105,32 +105,50 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'tasks.task.get',
-    {taskId:1, select:['ID','TITLE']},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.get',
+        {taskId:1, select:['ID','TITLE']},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 Для получения тэгов конкретной задачи:
 
-```js
-BX24.callMethod(
-    'tasks.task.get',
-    {taskId:1367, select:['TAGS']},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.get',
+        {taskId:1367, select:['TAGS']},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 Синтаксис для выборки всех полей:
 
-```js
-BX24.callMethod(
-    'tasks.task.get',
-    {taskId:1367, select:['*']},
-    function(res){console.log(res.answer.result);}
-)
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.get',
+        {taskId:1367, select:['*']},
+        function(res){console.log(res.answer.result);}
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

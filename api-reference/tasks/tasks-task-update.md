@@ -37,13 +37,19 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.update',
-    {taskId:1, fields:{TITLE:'task for test', RESPONSIBLE_ID:1}},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.update',
+        {taskId:1, fields:{TITLE:'task for test', RESPONSIBLE_ID:1}},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 Параметры метода для прикрепления файла к задаче из диска:
 
@@ -61,26 +67,32 @@ BX24.callMethod(
 
 **С версии 22.1300.0** в метод можно передать параметр `SE_PARAMETER` - список объектов с дополнительными параметрами задачи.
 
-```js
-BX.ajax.runAction("tasks.task.add", {
-    data: {
-        fields: {
-            "TITLE": 'REST',
-            "RESPONSIBLE_ID": 1,
-            "SE_PARAMETER": [
-                {
-                    'VALUE': 'Y',
-                    'CODE': 3
-                },
-                {
-                    'VALUE': 'Y',
-                    'CODE': 2
-                },
-            ]
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX.ajax.runAction("tasks.task.add", {
+        data: {
+            fields: {
+                "TITLE": 'REST',
+                "RESPONSIBLE_ID": 1,
+                "SE_PARAMETER": [
+                    {
+                        'VALUE': 'Y',
+                        'CODE': 3
+                    },
+                    {
+                        'VALUE': 'Y',
+                        'CODE': 2
+                    },
+                ]
+            }
         }
-    }
-}).then(function (response) { console.log(response);});
-```
+    }).then(function (response) { console.log(response);});
+    ```
+
+{% endlist %}
 
 Значения кодов:
 

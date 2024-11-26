@@ -33,19 +33,25 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.user.settings.set",
-    {
-        settings: {
-            tabId: 'month',
-            meetSection: '23',
-            blink: true,
-            showDeclined: false,
-            showMuted: true
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.user.settings.set",
+        {
+            settings: {
+                tabId: 'month',
+                meetSection: '23',
+                blink: true,
+                showDeclined: false,
+                showMuted: true
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

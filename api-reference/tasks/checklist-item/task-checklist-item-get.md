@@ -45,15 +45,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.checklistitem.get',
-    [13, 20],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.checklistitem.get',
+        [13, 20],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

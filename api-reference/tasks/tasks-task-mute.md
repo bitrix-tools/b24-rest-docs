@@ -39,8 +39,14 @@
 
 ## Пример
 
-```js
-BX24.callMethod('tasks.task.mute', {id: 1223})
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('tasks.task.mute', {id: 1223})
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

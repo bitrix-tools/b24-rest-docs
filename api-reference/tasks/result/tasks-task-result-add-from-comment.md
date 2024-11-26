@@ -33,20 +33,26 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.result.addFromComment',
-    {
-        "commentId" : 2549
-    },
-    function(result) {
-        if (result.error()) {
-            console.error(result.error());
-        } else {
-            console.info(result.data());
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.result.addFromComment',
+        {
+            "commentId" : 2549
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

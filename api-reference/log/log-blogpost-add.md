@@ -61,28 +61,40 @@ https://my.bitrix24.ru/rest/log.blogpost.add.json?POST_MESSAGE=Hello%2C%20world!
 
 ## Примеры
 
-```js
-BX24.callMethod('log.blogpost.add', {
-    POST_TITLE: 'Заголовок',
-    POST_MESSAGE: 'Текст',
-    DEST: ['SG1', 'U2']
-}, result => {
-    if(result.error())
-    {
-        console.log(result.error());
-    }
-    else
-    {
-        alert('OK!');
-    }
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('log.blogpost.add', {
+        POST_TITLE: 'Заголовок',
+        POST_MESSAGE: 'Текст',
+        DEST: ['SG1', 'U2']
+    }, result => {
+        if(result.error())
+        {
+            console.log(result.error());
+        }
+        else
+        {
+            alert('OK!');
+        }
+    });
+    ```
+
+{% endlist %}
 
 ## Запрос
 
-```http
-https://my.bitrix24.ru/rest/log.blogpost.add.json?POST_MESSAGE=Hello%2C%20world!&auth=d9a76e2929b7bc1ff21aee9c0ce7e3e2
-```
+{% list tabs %}
+
+- URL-запрос
+
+    ```http
+    https://my.bitrix24.ru/rest/log.blogpost.add.json?POST_MESSAGE=Hello%2C%20world!&auth=d9a76e2929b7bc1ff21aee9c0ce7e3e2
+    ```
+
+{% endlist %}
 
 ## Ответ
 

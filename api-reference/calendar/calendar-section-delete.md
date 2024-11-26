@@ -37,15 +37,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.section.delete",
-    {
-        type: 'user',
-        ownerId: '2',
-        id: 521
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.section.delete",
+        {
+            type: 'user',
+            ownerId: '2',
+            id: 521
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

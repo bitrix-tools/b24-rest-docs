@@ -28,8 +28,14 @@
 
 ## Пример
 
-```js
-BX24.callMethod("calendar.user.settings.get", {});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod("calendar.user.settings.get", {});
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
