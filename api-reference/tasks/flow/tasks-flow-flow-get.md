@@ -102,25 +102,39 @@ HTTP-статус: **200**
         "ownerId": 1,
         "groupId": 178,
         "templateId": 0,
-        "efficiency": 100,
+        "efficiency": 0,
         "active": true,
         "plannedCompletionTime": 7200,
-        "activity": "2024-08-22T12:17:48+00:00",
-        "name": "Flow Name",
-        "description": "Flow description",
+        "activity": "2024-09-02T15:27:29+00:00",
+        "name": "Updated Flow Name",
+        "description": "Updated description",
         "distributionType": "manually",
-        "responsibleQueue": [],
+        "responsibleList": [
+            [
+                "user",
+                "3"
+            ]
+        ],
         "demo": false,
-        "manualDistributorId": 3,
         "responsibleCanChangeDeadline": true,
         "matchWorkTime": true,
         "taskControl": false,
         "notifyAtHalfTime": false,
-        "notifyOnQueueOverflow": null,
+        "notifyOnQueueOverflow": 10,
         "notifyOnTasksInProgressOverflow": 50,
         "notifyWhenEfficiencyDecreases": null,
-        "taskCreators": [{"meta-user":  "all-users"}],
-        "taskAssignees": [],
+        "taskCreators": [
+            [
+                "meta-user",
+                "all-users"
+            ]
+        ],
+        "team": [
+            [
+                "user",
+                "3"
+            ]
+        ],
         "trialFeatureEnabled": false
     }
 }
@@ -157,10 +171,8 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Описание потока ||
 || **distributionType** 
 [`string`](../../data-types.md) | Тип распределения задач в потоке ||
-|| **responsibleQueue** 
-[`array`](../../data-types.md) | Команда потока, если тип распределения — очередь. Пустой при ручном распределении ||
-|| **manualDistributorId** 
-[`integer`](../../data-types.md) | Идентификатор модератора потока при ручном распределении (`null` при распределении по очереди) ||
+|| **responsibleList**
+[`array`](../../data-types.md) | Список ответственных за задачи в потоке. Для ручного распределения это модератор потока ||
 || **demo** 
 [`boolean`](../../data-types.md) | Является ли поток демонстрационным. Системный параметр. Только для чтения ||
 || **responsibleCanChangeDeadline** 
@@ -179,8 +191,8 @@ HTTP-статус: **200**
 [`integer`](../../data-types.md) | Эффективность в процентах, при снижении до которой будет отправлено уведомление администратору потока (если `null`, то уведомления выключены) ||
 || **taskCreators** 
 [`object`](../../data-types.md) | Список пользователей, которые могут добавлять задачи в поток в формате `{"<тип-объекта>": "<идентификатор-объекта>"}`, например `[{"user": 3}, {"department": "17:F"}]`. Элемент `{"meta-user": "all-users"}` означает, что задачи могут добавлять все пользователи ||
-|| **taskAssignees** 
-[`object`](../../data-types.md) | Участники проекта, к которому привязан поток, если тип распределения — ручной ||
+|| **team**
+[`object`](../../data-types.md) | Вся команда потока. Для ручного распределения это все участники проекта, к которому привязан поток, за исключением модератора. Для очереди и самораспределения team = responsibleList ||
 || **trialFeatureEnabled** 
 [`boolean`](../../data-types.md) | Включен ли демонстрационный период для потока. Системный параметр. Только для чтения ||
 |#
@@ -216,3 +228,4 @@ HTTP-статус: **400**
 - [{#T}](./tasks-flow-flow-delete.md)
 - [{#T}](./tasks-flow-flow-is-exists.md)
 - [{#T}](./tasks-flow-flow-activate.md)
+- [{#T}](tasks-flow-flow-pin.md)

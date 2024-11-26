@@ -155,3 +155,4 @@ HTTP-статус: **400**
 - [{#T}](./tasks-flow-flow-update.md)
 - [{#T}](./tasks-flow-flow-is-exists.md)
 - [{#T}](./tasks-flow-flow-activate.md)
+- [{#T}](./tasks-flow-flow-pin.md)
