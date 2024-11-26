@@ -1,7 +1,7 @@
 title: Ставки НДС
 href: index.md
 items:
-  - name: Ставки НДС 
+  - name: Обзор методов
     href: index.md
   - name: Создать новую ставку НДС
     href: crm-vat-add.md

@@ -1,4 +1,4 @@
-# На получение новых сообщений OnImConnectorMessageAdd
+# При получении новых сообщений OnImConnectorMessageAdd
 
 {% note warning "Мы еще обновляем эту страницу" %}
 

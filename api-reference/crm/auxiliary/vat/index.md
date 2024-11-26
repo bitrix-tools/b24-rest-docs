@@ -16,10 +16,10 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.vat.add](./crm-vat-add.md) | Метод создает новую ставку НДС. ||
-|| [crm.vat.delete](./crm-vat-delete.md) | Метод удаляет ставку НДС. ||
-|| [crm.vat.get](./crm-vat-get.md) | Метод возвращает ставку НДС по идентификатору. ||
-|| [crm.vat.fields](./crm-vat-fields.md) | Метод возвращает описание полей ставки НДС. ||
-|| [crm.vat.list](./crm-vat-list.md) | Метод получает список ставок НДС. ||
-|| [crm.vat.update](./crm-vat-update.md) | Метод обновляет существующую ставку НДС. ||
+|| [crm.vat.add](./crm-vat-add.md) | Создает новую ставку НДС ||
+|| [crm.vat.delete](./crm-vat-delete.md) | Удаляет ставку НДС ||
+|| [crm.vat.get](./crm-vat-get.md) | Возвращает ставку НДС по идентификатору ||
+|| [crm.vat.fields](./crm-vat-fields.md) | Возвращает описание полей ставки НДС ||
+|| [crm.vat.list](./crm-vat-list.md) | Возвращает список ставок НДС ||
+|| [crm.vat.update](./crm-vat-update.md) | Обновляет существующую ставку НДС ||
 |#

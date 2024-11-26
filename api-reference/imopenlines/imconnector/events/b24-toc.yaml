@@ -1,13 +1,17 @@
 title: События
 href: index.md
 items: 
-  - name: На получение новых сообщений
+  - name: При получении новых сообщений
     href: index.md
-  - name: На изменение сообщений
+  - name: При создании диалога
+    href: on-im-connector-dialog-start.md    
+  - name: При изменении сообщений
     href: on-im-connector-message-update.md
-  - name: На удаление сообщений
+  - name: При удалении сообщений
     href: on-im-connector-message-delete.md
-  - name: На удаление открытой линии
-    href: on-im-connector-line-delete.md
-  - name: На отключение открытой линии
+  - name: При закрытии диалога
+    href: on-im-connector-dialog-finish.md 
+  - name: При отключении открытой линии
     href: on-im-connector-status-delete.md
+  - name: При удалении открытой линии
+    href: on-im-connector-line-delete.md
