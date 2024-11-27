@@ -265,7 +265,7 @@
     https://xxx.bitrix24.com/rest/1/5***/crm.lead.update.json?id=1734&fields[NAME]=Василий&fields[SECOND_NAME]=Петрович&fields[LAST_NAME]=Космонавт&fields[PHONE][0][VALUE]=89994445556&fields[PHONE][0][VALUE_TYPE]=WORK&fields[EMAIL][0][VALUE]=test@ya.ru&fields[EMAIL][0][VALUE_TYPE]=WORK
     ```
 
-- B24-PHP-SDK
+- PHP (B24PhpSdk)
 
     ```php        
     try {

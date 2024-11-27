@@ -41,9 +41,16 @@
 
 ## Примеры
 
-```http
-crm.activity.todo.updateDeadline?ownerTypeId=2&ownerId=1&id=1&value=2022-12-12T15:00:00
-```
+{% list tabs %}
+
+- HTTP
+
+    ```http
+    crm.activity.todo.updateDeadline?ownerTypeId=2&ownerId=1&id=1&value=2022-12-12T15:00:00
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 

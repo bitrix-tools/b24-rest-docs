@@ -39,34 +39,40 @@ crm.status.delete(id, params)
 
 ## Примеры
 
-```javascript
-var id = prompt("Введите ID пользовательского элемента");
-BX24.callMethod(
-    "crm.status.delete",
-    { id: id },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
 
-```javascript
-var id = prompt("Введите ID пользовательского или системного элемента");
-BX24.callMethod(
-    "crm.status.delete",
-    { id: id, params:{ FORCED: "Y" } },
-    function(result)
-    {
-     if(result.error())
-            console.error(result.error());
-     else
-            console.info(result.data());
-    }
-);
-```
+- JS
+
+    ```javascript
+    var id = prompt("Введите ID пользовательского элемента");
+    BX24.callMethod(
+        "crm.status.delete",
+        { id: id },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+    ```javascript
+    var id = prompt("Введите ID пользовательского или системного элемента");
+    BX24.callMethod(
+        "crm.status.delete",
+        { id: id, params:{ FORCED: "Y" } },
+        function(result)
+        {
+        if(result.error())
+                console.error(result.error());
+        else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

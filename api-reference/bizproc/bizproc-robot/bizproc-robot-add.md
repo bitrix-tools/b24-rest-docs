@@ -90,6 +90,8 @@
 
 ## Пример
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 {% list tabs %}
 
 - JS
@@ -161,7 +163,7 @@
 	);
 	```
 
-- B24-PHP-SDK
+- PHP (B24PhpSdk)
   
 	```php
 	try {

@@ -55,30 +55,36 @@
 
 ## Примеры
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.company.update",
-    {
-        id: id,
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.company.update",
         {
-            "CURRENCY_ID": "RUB",
-            "REVENUE" : 500000,
-            "EMPLOYEES": "EMPLOYEES_3"
+            id: id,
+            fields:
+            {
+                "CURRENCY_ID": "RUB",
+                "REVENUE" : 500000,
+                "EMPLOYEES": "EMPLOYEES_3"
+            },
+            params: { "REGISTER_SONET_EVENT": "Y" }
         },
-        params: { "REGISTER_SONET_EVENT": "Y" }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

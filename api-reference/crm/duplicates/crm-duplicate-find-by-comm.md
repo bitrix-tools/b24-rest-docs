@@ -59,26 +59,32 @@ crm.duplicate.findbycomm()
 
 ## Пример поиска контакта по телефону:
 
-```js
-//Поиск контакта по телефону
-BX24.callMethod(
-    "crm.duplicate.findbycomm",
-    {
-        entity_type: "CONTACT",
-        type: "PHONE",
-        values: [ "8976543", "11223355" ],
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            {
-                console.dir(result.data());
-            }
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //Поиск контакта по телефону
+    BX24.callMethod(
+        "crm.duplicate.findbycomm",
+        {
+            entity_type: "CONTACT",
+            type: "PHONE",
+            values: [ "8976543", "11223355" ],
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                {
+                    console.dir(result.data());
+                }
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

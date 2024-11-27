@@ -38,7 +38,7 @@
 
 - JS
   
-    ```
+    ```js
     var id = prompt("Введите ID");
     BX24.callMethod(
         "crm.userfield.settings.fields",
@@ -57,7 +57,7 @@
 
 - PHP
   
-    ```
+    ```php
     require_once('crest.php');
 
     $type = 'string'; // Замените на нужный тип

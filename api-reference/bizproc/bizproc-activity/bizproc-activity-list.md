@@ -30,17 +30,23 @@
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'bizproc.activity.list',
-    {},
-    function(result) {
-        if(result.error())
-            alert("Ошибка: " + result.error());
-        else
-            alert("Успешно: " + result.data().join(', '));
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'bizproc.activity.list',
+        {},
+        function(result) {
+            if(result.error())
+                alert("Ошибка: " + result.error());
+            else
+                alert("Успешно: " + result.data().join(', '));
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

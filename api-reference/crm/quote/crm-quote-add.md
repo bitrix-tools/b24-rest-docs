@@ -49,32 +49,38 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "crm.quote.add",
-    {
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.quote.add",
         {
-            "TITLE": "Черновик",
-            "STATUS_ID": "DRAFT",
-            "OPENED": "Y",
-            "ASSIGNED_BY_ID": 1,
-            "CURRENCY_ID": "USD",
-            "OPPORTUNITY": 5000,
-            "COMPANY_ID": 1,
-            "COMMENTS": "Новое коммерческое предложение.",
-            "BEGINDATE": "2016-03-01T12:00:00",
-            "CLOSEDATE": "2016-04-01T12:00:00"
+            fields:
+            {
+                "TITLE": "Черновик",
+                "STATUS_ID": "DRAFT",
+                "OPENED": "Y",
+                "ASSIGNED_BY_ID": 1,
+                "CURRENCY_ID": "USD",
+                "OPPORTUNITY": 5000,
+                "COMPANY_ID": 1,
+                "COMMENTS": "Новое коммерческое предложение.",
+                "BEGINDATE": "2016-03-01T12:00:00",
+                "CLOSEDATE": "2016-04-01T12:00:00"
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info("Создано предложение с ID " + result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info("Создано предложение с ID " + result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

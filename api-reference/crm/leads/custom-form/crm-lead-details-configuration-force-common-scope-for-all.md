@@ -44,21 +44,27 @@
 
 ## Примеры
 
-```js
-//---
-//Установить общую карточку лидов для всех пользователей.
-BX24.callMethod(
-    "crm.lead.details.configuration.forceCommonScopeForAll",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //---
+    //Установить общую карточку лидов для всех пользователей.
+    BX24.callMethod(
+        "crm.lead.details.configuration.forceCommonScopeForAll",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

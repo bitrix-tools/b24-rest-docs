@@ -34,22 +34,30 @@
 
 ## Пример
 
-```javascript
-var params = {
-    event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
-    return_values: {
-        outputString: '846c55d14f552180874a628d2615e285'
-    }
-};
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-BX24.callMethod(
-    'bizproc.event.send',
-    params,
-    function(result) {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    var params = {
+        event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
+        return_values: {
+            outputString: '846c55d14f552180874a628d2615e285'
+        }
+    };
+
+    BX24.callMethod(
+        'bizproc.event.send',
+        params,
+        function(result) {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}

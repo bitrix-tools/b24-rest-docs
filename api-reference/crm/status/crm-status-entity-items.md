@@ -38,21 +38,27 @@ crm.status.entity.items()
 
 ## Примеры
 
-```javascript
-var id = prompt('Введите ID');
-BX24.callMethod(
-    "crm.status.entity.items",
-    {
-        entityId: id
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    var id = prompt('Введите ID');
+    BX24.callMethod(
+        "crm.status.entity.items",
+        {
+            entityId: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

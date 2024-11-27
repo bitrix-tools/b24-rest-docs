@@ -73,7 +73,7 @@
     https://xxx.bitrix24.com/rest/1/5***/crm.lead.delete.json?id=123
     ```
 
-- B24-PHP-SDK
+- PHP (B24PhpSdk)
 
     ```php        
     try {

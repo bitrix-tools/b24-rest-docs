@@ -101,67 +101,73 @@
 
 ## Примеры
 
-```js
-var params = {
-    'CODE': 'md5',
-    'HANDLER': 'http://yanzh.net16.net/ping.php',
-    'AUTH_USER_ID': 1,
-    'USE_SUBSCRIPTION': 'Y',
-    'NAME': {
-        'ru': 'MD5 генератор',
-        'en': 'MD5 generator'
-    },
-    'DESCRIPTION': {
-        'ru': 'Действие возвращает MD5 хеш от входящего параметра',
-        'en': 'Activity returns MD5 hash of input parameter'
-    },
-    'PROPERTIES': {
-        'inputString': {
-            'Name': {
-                'ru': 'Входящая строка',
-                'en': 'Input string'
-            },
-            'Description': {
-                'ru': 'Введите строку, которую вы хотите хешировать',
-                'en': 'Input string for hashing'
-            },
-            'Type': 'string',
-            'Required': 'Y',
-            'Multiple': 'N',
-            'Default': '{=Document:NAME}'
-        }
-    },
-    'RETURN_PROPERTIES': {
-        'outputString': {
-            'Name': {
-                'ru': 'MD5',
-                'en': 'MD5'
-            },
-            'Type': 'string',
-            'Multiple': 'N',
-            'Default': null
-        }
-    },
-    'DOCUMENT_TYPE': ['lists', 'BizprocDocument', 'iblock_1'],
-    'FILTER': {
-        INCLUDE: [
-            ['lists']
-        ]
-    }
-};
+{% list tabs %}
 
-BX24.callMethod(
-    'bizproc.activity.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+- JS
+
+    ```js
+    var params = {
+        'CODE': 'md5',
+        'HANDLER': 'http://yanzh.net16.net/ping.php',
+        'AUTH_USER_ID': 1,
+        'USE_SUBSCRIPTION': 'Y',
+        'NAME': {
+            'ru': 'MD5 генератор',
+            'en': 'MD5 generator'
+        },
+        'DESCRIPTION': {
+            'ru': 'Действие возвращает MD5 хеш от входящего параметра',
+            'en': 'Activity returns MD5 hash of input parameter'
+        },
+        'PROPERTIES': {
+            'inputString': {
+                'Name': {
+                    'ru': 'Входящая строка',
+                    'en': 'Input string'
+                },
+                'Description': {
+                    'ru': 'Введите строку, которую вы хотите хешировать',
+                    'en': 'Input string for hashing'
+                },
+                'Type': 'string',
+                'Required': 'Y',
+                'Multiple': 'N',
+                'Default': '{=Document:NAME}'
+            }
+        },
+        'RETURN_PROPERTIES': {
+            'outputString': {
+                'Name': {
+                    'ru': 'MD5',
+                    'en': 'MD5'
+                },
+                'Type': 'string',
+                'Multiple': 'N',
+                'Default': null
+            }
+        },
+        'DOCUMENT_TYPE': ['lists', 'BizprocDocument', 'iblock_1'],
+        'FILTER': {
+            INCLUDE: [
+                ['lists']
+            ]
+        }
+    };
+
+    BX24.callMethod(
+        'bizproc.activity.add',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 Пример параметров Бизнес-процесса
 

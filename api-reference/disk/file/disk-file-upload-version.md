@@ -36,22 +36,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.file.uploadversion",
-    {
-        id: 4,
-        fileContent: document.getElementById('test_file_input')
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.file.uploadversion",
+        {
+            id: 4,
+            fileContent: document.getElementById('test_file_input')
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

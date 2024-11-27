@@ -49,36 +49,44 @@
 {% endnote %}
 
 ### Пример загрузки файла
-```js
-BX24.callMethod(
-    "disk.folder.uploadfile",
-    {
-        id: 4,
-        data: {
-            NAME: "avatar.jpg"
-        },
-        fileContent: document.getElementById('test_file_input'),
-        generateUniqueName: true,
-        rights: [
-            {
-                TASK_ID: 42,
-                ACCESS_CODE: 'U35' // доступ для пользователя с ID=35
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.folder.uploadfile",
+        {
+            id: 4,
+            data: {
+                NAME: "avatar.jpg"
             },
-            {
-                TASK_ID: 38,
-                ACCESS_CODE: 'U2' // доступ для пользователя с ID=2
-            }
-        ]
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+            fileContent: document.getElementById('test_file_input'),
+            generateUniqueName: true,
+            rights: [
+                {
+                    TASK_ID: 42,
+                    ACCESS_CODE: 'U35' // доступ для пользователя с ID=35
+                },
+                {
+                    TASK_ID: 38,
+                    ACCESS_CODE: 'U2' // доступ для пользователя с ID=2
+                }
+            ]
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ### Пример прямой загрузки файла на Диск
@@ -124,72 +132,78 @@ BX24.callMethod(
 
 ### Как загрузить файл через `UploadUrl` на PHP
 
-```php
-<?php
-require_once (__DIR__.'/crest.php');
+{% list tabs %}
 
-$path = __DIR__ . '/pic.jpg';
-$folderId = 1;
+- PHP (crest)
 
-$result = [];
-if (file_exists($path))
-{
-    $file = CRest::call(
-        'disk.folder.uploadfile',
-        [
-            'id' => $folderId,
-        ]
-    );
-    if (!empty($file['result']['uploadUrl']))
+    ```php
+    <?php
+    require_once (__DIR__.'/crest.php');
+
+    $path = __DIR__ . '/pic.jpg';
+    $folderId = 1;
+
+    $result = [];
+    if (file_exists($path))
     {
-        $info = pathinfo($path);
-        if ($info['basename'])
+        $file = CRest::call(
+            'disk.folder.uploadfile',
+            [
+                'id' => $folderId,
+            ]
+        );
+        if (!empty($file['result']['uploadUrl']))
         {
-            $delimiter = '-------------' . uniqid('', true);
-            $name = $info['basename'];
-            $mime = mime_content_type($path);
-            $content = file_get_contents($path);
-
-            $body = '--' . $delimiter. "\r\n";
-            $body .= 'Content-Disposition: form-data; name="file"';
-            $body .= '; filename="' . $name . '"' . "\r\n";
-            $body .= 'Content-Type: ' . $mime . "\r\n\r\n";
-            $body .= $content . "\r\n";
-            $body .= "--" . $delimiter . "--\r\n";
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $file['result']['uploadUrl']);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-            curl_setopt(
-                $ch,
-                CURLOPT_HTTPHEADER,
-                [
-                    'Content-Type: multipart/form-data; boundary=' . $delimiter,
-                    'Content-Length: ' . strlen($body),
-                ]
-            );
-            $out = curl_exec($ch);
-            try
+            $info = pathinfo($path);
+            if ($info['basename'])
             {
-                $result = json_decode($out, true, 512, JSON_THROW_ON_ERROR);
-            }
-            catch (JsonException $e)
-            {
-                $result = [
-                    'error' => $e->getMessage(),
-                ];
+                $delimiter = '-------------' . uniqid('', true);
+                $name = $info['basename'];
+                $mime = mime_content_type($path);
+                $content = file_get_contents($path);
+
+                $body = '--' . $delimiter. "\r\n";
+                $body .= 'Content-Disposition: form-data; name="file"';
+                $body .= '; filename="' . $name . '"' . "\r\n";
+                $body .= 'Content-Type: ' . $mime . "\r\n\r\n";
+                $body .= $content . "\r\n";
+                $body .= "--" . $delimiter . "--\r\n";
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $file['result']['uploadUrl']);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+                curl_setopt(
+                    $ch,
+                    CURLOPT_HTTPHEADER,
+                    [
+                        'Content-Type: multipart/form-data; boundary=' . $delimiter,
+                        'Content-Length: ' . strlen($body),
+                    ]
+                );
+                $out = curl_exec($ch);
+                try
+                {
+                    $result = json_decode($out, true, 512, JSON_THROW_ON_ERROR);
+                }
+                catch (JsonException $e)
+                {
+                    $result = [
+                        'error' => $e->getMessage(),
+                    ];
+                }
             }
         }
     }
-}
 
-echo '<pre>';
-    print_r($result);
-echo '</pre>';
-?>
-```
+    echo '<pre>';
+        print_r($result);
+    echo '</pre>';
+    ?>
+    ```
+
+{% endlist %}
 
 ## Ответ в случае успеха
 

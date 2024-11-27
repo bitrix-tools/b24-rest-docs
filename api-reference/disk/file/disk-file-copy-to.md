@@ -37,22 +37,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.file.copyto",
-    {
-        id: 10,
-        targetFolderId: 226
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.file.copyto",
+        {
+            id: 10,
+            targetFolderId: 226
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

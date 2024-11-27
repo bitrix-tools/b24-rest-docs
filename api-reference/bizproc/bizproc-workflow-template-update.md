@@ -54,20 +54,26 @@
 
 ## Примеры
 
-```javascript
-function renameTemplate(id, name)
-{
-	BX24.callMethod(
-		'bizproc.workflow.template.update',
-		{ID: id, FIELDS: {'NAME': name}},
-		function(result)
-		{
-			if(result.error())
-				alert("Error: " + result.error());
-			console.log(result);
-		}
-	);
-}
-```
+{% list tabs %}
+
+- JS
+
+	```javascript
+	function renameTemplate(id, name)
+	{
+		BX24.callMethod(
+			'bizproc.workflow.template.update',
+			{ID: id, FIELDS: {'NAME': name}},
+			function(result)
+			{
+				if(result.error())
+					alert("Error: " + result.error());
+				console.log(result);
+			}
+		);
+	}
+	```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

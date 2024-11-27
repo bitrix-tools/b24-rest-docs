@@ -30,21 +30,27 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'crm.activity.type.list',
-    {
-    },
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'crm.activity.type.list',
         {
-            console.log(result.data());
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+            {
+                console.log(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}

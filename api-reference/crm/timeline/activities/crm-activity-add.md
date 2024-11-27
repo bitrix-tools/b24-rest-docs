@@ -66,54 +66,60 @@
 
 ## Примеры
 
-```js
-var paddatepart = function(part)
-{
-    return part >= 10 ? part.toString() : '0' + part.toString();
-};
+{% list tabs %}
 
-var d = new Date();
-d.setDate(d.getDate() + 7);
-d.setSeconds(0);
-var dateStr = d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+00:00';
+- JS
 
-BX24.callMethod(
-    "crm.activity.add",
+    ```js
+    var paddatepart = function(part)
     {
-        fields:
+        return part >= 10 ? part.toString() : '0' + part.toString();
+    };
+
+    var d = new Date();
+    d.setDate(d.getDate() + 7);
+    d.setSeconds(0);
+    var dateStr = d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+00:00';
+
+    BX24.callMethod(
+        "crm.activity.add",
         {
-            "OWNER_TYPE_ID": 2, //из метода crm.enum.ownertype: 2 - тип "сделка"
-            "OWNER_ID": 102, //id сделки
-            "TYPE_ID": 2, //из метода crm.enum.activitytype
-            "COMMUNICATIONS": [ { VALUE:"+79832322323", ENTITY_ID:134,ENTITY_TYPE_ID:3 } ], //где 134 - id контакта, 3 - тип "контакт"
-            "SUBJECT": "Новый звонок",
-            "START_TIME": dateStr,
-            "END_TIME": dateStr,
-            "COMPLETED": "N",
-            "PRIORITY": 3, //из метода crm.enum.activitypriority
-            "RESPONSIBLE_ID": 1,
-            "DESCRIPTION": "Важный звонок",
-            "DESCRIPTION_TYPE": 3, //из метода crm.enum.contenttype
-            "DIRECTION": 2, // из метода crm.enum.activitydirection
-            "WEBDAV_ELEMENTS":
-            [
-                { fileData: document.getElementById('file1') }
-            ],
-            "FILES":
-            [
-                { fileData: document.getElementById('file1') }
-            ] //после установки модуля disk и конвертации данных из webdav можно будет указавать FILES вместо WEBDAV_ELEMENTS
+            fields:
+            {
+                "OWNER_TYPE_ID": 2, //из метода crm.enum.ownertype: 2 - тип "сделка"
+                "OWNER_ID": 102, //id сделки
+                "TYPE_ID": 2, //из метода crm.enum.activitytype
+                "COMMUNICATIONS": [ { VALUE:"+79832322323", ENTITY_ID:134,ENTITY_TYPE_ID:3 } ], //где 134 - id контакта, 3 - тип "контакт"
+                "SUBJECT": "Новый звонок",
+                "START_TIME": dateStr,
+                "END_TIME": dateStr,
+                "COMPLETED": "N",
+                "PRIORITY": 3, //из метода crm.enum.activitypriority
+                "RESPONSIBLE_ID": 1,
+                "DESCRIPTION": "Важный звонок",
+                "DESCRIPTION_TYPE": 3, //из метода crm.enum.contenttype
+                "DIRECTION": 2, // из метода crm.enum.activitydirection
+                "WEBDAV_ELEMENTS":
+                [
+                    { fileData: document.getElementById('file1') }
+                ],
+                "FILES":
+                [
+                    { fileData: document.getElementById('file1') }
+                ] //после установки модуля disk и конвертации данных из webdav можно будет указавать FILES вместо WEBDAV_ELEMENTS
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info("Создан новый звонок с ID " + result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info("Создан новый звонок с ID " + result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

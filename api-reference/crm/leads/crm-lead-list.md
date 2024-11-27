@@ -150,7 +150,7 @@
     https://xxx.bitrix24.com/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.lead.list.json?select[]=*&select=UF_*&start=50&filter[=OPPORTUNITY]=15000.00&order[STATUS_ID]=ASC
     ```
 
-- B24-PHP-SDK
+- PHP (B24PhpSdk)
 
   ```php      
   try {

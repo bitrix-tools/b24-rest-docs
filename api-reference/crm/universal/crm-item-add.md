@@ -1327,7 +1327,7 @@
         echo '</PRE>';
         ```
 
-   - B24-PHP-SDK
+   - PHP (B24PhpSdk)
 
         ```php
        try {

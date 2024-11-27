@@ -50,24 +50,30 @@
 
 ## Примеры
 
-```js
-//---
-//Сброс личных настроек карточки сделок общего направления для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.deal.details.configuration.reset",
-    {
-        scope: "P",
-        userId: 1
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //---
+    //Сброс личных настроек карточки сделок общего направления для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.deal.details.configuration.reset",
+        {
+            scope: "P",
+            userId: 1
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
