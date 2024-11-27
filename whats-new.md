@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 27 ноября, 2024
+
+- Обновлена главная страница раздела [Корзина](./api-reference/sale/basket-item/index.md). Добавили вводную информацию, а также обзор методов и связей
+
 ### 25 ноября, 2024
 
 - Добавлен новый метод [messageservice.sender.update](./api-reference/messageservice/messageservice-sender-update.md)
