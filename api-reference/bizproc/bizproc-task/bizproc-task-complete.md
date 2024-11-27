@@ -63,27 +63,36 @@
 
 ## Пример
 
-```js
-function completeTask(id, status, comment, cb)
-{
-    var params = {
-        TASK_ID: id,
-        STATUS: status,
-        COMMENT: comment
-    };
-    BX24.callMethod(
-        'bizproc.task.complete',
-        params,
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else if (cb)
-                cb();
-        }
-    );
-}
-```
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    function completeTask(id, status, comment, cb)
+    {
+        var params = {
+            TASK_ID: id,
+            STATUS: status,
+            COMMENT: comment
+        };
+        BX24.callMethod(
+            'bizproc.task.complete',
+            params,
+            function(result)
+            {
+                if(result.error())
+                    alert("Error: " + result.error());
+                else if (cb)
+                    cb();
+            }
+        );
+    }
+    ```
+
+{% endlist %}
+
 
 ## Выполнение задания Запрос дополнительной информации через REST
 

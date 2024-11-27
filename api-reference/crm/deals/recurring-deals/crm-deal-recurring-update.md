@@ -41,48 +41,54 @@
 
 ## Пример
 
-```js
-var current = new Date();
-var nextYear = new Date();
-nextYear.setYear(current.getFullYear() + 1);
-var date2str = function(d)
-{
-    return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
-};
-var paddatepart = function(part)
-{
-    return part >= 10 ? part.toString() : '0' + part.toString();
-};
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.deal.recurring.update",
+{% list tabs %}
+
+- JS
+  
+    ```js
+    var current = new Date();
+    var nextYear = new Date();
+    nextYear.setYear(current.getFullYear() + 1);
+    var date2str = function(d)
     {
-        id: id,
-        fields:
+        return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
+    };
+    var paddatepart = function(part)
+    {
+        return part >= 10 ? part.toString() : '0' + part.toString();
+    };
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.deal.recurring.update",
         {
-            "CATEGORY_ID": "2",
-            "START_DATE": date2str(nextYear),
-            "PARAMS": {
-                "MODE": "single",
-                "SINGLE_BEFORE_START_DATE_TYPE": "day",
-                "SINGLE_BEFORE_START_DATE_VALUE": 5,
-                "OFFSET_BEGINDATE_TYPE": "day",
-                "OFFSET_BEGINDATE_VALUE": 1,
-                "OFFSET_CLOSEDATE_TYPE": "month",
-                "OFFSET_CLOSEDATE_VALUE": 2,
-            }
+            id: id,
+            fields:
+            {
+                "CATEGORY_ID": "2",
+                "START_DATE": date2str(nextYear),
+                "PARAMS": {
+                    "MODE": "single",
+                    "SINGLE_BEFORE_START_DATE_TYPE": "day",
+                    "SINGLE_BEFORE_START_DATE_VALUE": 5,
+                    "OFFSET_BEGINDATE_TYPE": "day",
+                    "OFFSET_BEGINDATE_VALUE": 1,
+                    "OFFSET_CLOSEDATE_TYPE": "month",
+                    "OFFSET_CLOSEDATE_VALUE": 2,
+                }
+            },
         },
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

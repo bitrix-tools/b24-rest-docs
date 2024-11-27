@@ -43,31 +43,38 @@
 
 ## Пример
 
-```js
-var id = prompt("Введите ID");
-var label = prompt("Введите новое название");
-BX24.callMethod(
-    "crm.lead.userfield.update",
-    {
-        id: id,
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    var label = prompt("Введите новое название");
+    BX24.callMethod(
+        "crm.lead.userfield.update",
         {
-            "EDIT_FORM_LABEL": label,
-            "LIST_COLUMN_LABEL": label
-        }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+            id: id,
+            fields:
+            {
+                "EDIT_FORM_LABEL": label,
+                "LIST_COLUMN_LABEL": label
+            }
+        },
+        function(result)
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

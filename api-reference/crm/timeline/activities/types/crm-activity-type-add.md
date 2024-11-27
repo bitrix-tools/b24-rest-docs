@@ -44,58 +44,64 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'crm.activity.type.add',
-    {
-        fields:
-            {
-                "TYPE_ID": '1C',
-                "NAME": "Дело 1с",
-                'ICON_FILE': document.getElementById('type-icon'), // file input node
-                "IS_CONFIGURABLE_TYPE": "N"
-            }
-    },
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-        {
-            alert("Success: " + result.data());
-        }
-    }
-);
-```
+{% list tabs %}
 
-После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически.
+- JS
 
-```js
-BX24.callMethod(
-    'crm.activity.add',
-    {
-        fields:
-            {
-                "OWNER_TYPE_ID": 1,
-                "OWNER_ID": selectedEntityId,
-                "PROVIDER_ID": 'REST_APP',
-                "PROVIDER_TYPE_ID": '1C',
-                "SUBJECT": "Новое дело",
-                "COMPLETED": "N",
-                "RESPONSIBLE_ID": 1,
-                "DESCRIPTION": "Описание нового дела"
-            }
-    },
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
+    ```js
+    BX24.callMethod(
+        'crm.activity.type.add',
         {
-            alert("Success: " + result.data());
+            fields:
+                {
+                    "TYPE_ID": '1C',
+                    "NAME": "Дело 1с",
+                    'ICON_FILE': document.getElementById('type-icon'), // file input node
+                    "IS_CONFIGURABLE_TYPE": "N"
+                }
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+            {
+                alert("Success: " + result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+    После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически.
+
+    ```js
+    BX24.callMethod(
+        'crm.activity.add',
+        {
+            fields:
+                {
+                    "OWNER_TYPE_ID": 1,
+                    "OWNER_ID": selectedEntityId,
+                    "PROVIDER_ID": 'REST_APP',
+                    "PROVIDER_TYPE_ID": '1C',
+                    "SUBJECT": "Новое дело",
+                    "COMPLETED": "N",
+                    "RESPONSIBLE_ID": 1,
+                    "DESCRIPTION": "Описание нового дела"
+                }
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+            {
+                alert("Success: " + result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}

@@ -45,33 +45,39 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    "crm.company.add",
-    {
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.company.add",
         {
-            "TITLE": "ИП Титов",
-            "COMPANY_TYPE": "CUSTOMER",
-            "INDUSTRY": "MANUFACTURING",
-            "EMPLOYEES": "EMPLOYEES_2",
-            "CURRENCY_ID": "RUB",
-            "REVENUE" : 3000000,
-            "LOGO": { "fileData": document.getElementById('logo') },
-            "OPENED": "Y",
-            "ASSIGNED_BY_ID": 1,
-            "PHONE": [ { "VALUE": "555888", "VALUE_TYPE": "WORK" } ]     
+            fields:
+            {
+                "TITLE": "ИП Титов",
+                "COMPANY_TYPE": "CUSTOMER",
+                "INDUSTRY": "MANUFACTURING",
+                "EMPLOYEES": "EMPLOYEES_2",
+                "CURRENCY_ID": "RUB",
+                "REVENUE" : 3000000,
+                "LOGO": { "fileData": document.getElementById('logo') },
+                "OPENED": "Y",
+                "ASSIGNED_BY_ID": 1,
+                "PHONE": [ { "VALUE": "555888", "VALUE_TYPE": "WORK" } ]     
+            },
+            params: { "REGISTER_SONET_EVENT": "Y" }        
         },
-        params: { "REGISTER_SONET_EVENT": "Y" }        
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info("Создана компания с ID " + result.data());
-    }
-);
-```
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info("Создана компания с ID " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -31,26 +31,32 @@ Cм. описание [списочных методов](../../how-to-call-rest
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    "crm.quote.list",
-    {
-        order: { "STATUS_ID": "ASC" },
-        filter: { "=COMPANY_ID": 1 },
-        select: [ "ID", "TITLE", "STATUS_ID", "OPPORTUNITY", "CURRENCY_ID" ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "crm.quote.list",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            order: { "STATUS_ID": "ASC" },
+            filter: { "=COMPANY_ID": 1 },
+            select: [ "ID", "TITLE", "STATUS_ID", "OPPORTUNITY", "CURRENCY_ID" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

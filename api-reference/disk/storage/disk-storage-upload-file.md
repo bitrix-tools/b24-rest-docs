@@ -48,36 +48,43 @@
 
 {% endnote %}
 
-```js
-BX24.callMethod(
-    "disk.storage.uploadFile",
-    {
-        id: 4,
-        data: {
-            NAME: "avatar.jpg"
-        },
-        fileContent: document.getElementById('test_file_input'),
-        generateUniqueName: true,
-        rights: [
-            {
-                TASK_ID: 42,
-                ACCESS_CODE: 'U35' //доступ для пользователя с ID=35
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.storage.uploadFile",
+        {
+            id: 4,
+            data: {
+                NAME: "avatar.jpg"
             },
-            {
-                TASK_ID: 38,
-                ACCESS_CODE: 'U2' //доступ для пользователя с ID=2
-            }
-        ]
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+            fileContent: document.getElementById('test_file_input'),
+            generateUniqueName: true,
+            rights: [
+                {
+                    TASK_ID: 42,
+                    ACCESS_CODE: 'U35' //доступ для пользователя с ID=35
+                },
+                {
+                    TASK_ID: 38,
+                    ACCESS_CODE: 'U2' //доступ для пользователя с ID=2
+                }
+            ]
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

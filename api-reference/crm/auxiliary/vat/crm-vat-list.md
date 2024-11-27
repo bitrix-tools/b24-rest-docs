@@ -28,26 +28,33 @@ Cмотри описание [списочных методов](../../../../api
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    "crm.vat.list",
-    {
-        "order": { "ID": "ASC" },
-        "filter": { "ACTIVE": "Y" },
-        "select": [ "ID", "NAME", "RATE" ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+  
+    ```javascript
+    BX24.callMethod(
+        "crm.vat.list",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            "order": { "ID": "ASC" },
+            "filter": { "ACTIVE": "Y" },
+            "select": [ "ID", "NAME", "RATE" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

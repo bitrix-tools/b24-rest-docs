@@ -60,33 +60,39 @@ REST-метод для добавления пользовательского �
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'ai.engine.register',
-    {
-        name: 'Ivanov GPT',
-        code: 'ivanov_gpt',
-        category: 'text',
-        completions_url: 'https://antonds.ru/ai/aul/completions/',
-        settings: {
-            code_alias: 'ChatGPT',
-            model_context_type: 'token',
-            model_context_limit: 16*1024,
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'ai.engine.register',
+        {
+            name: 'Ivanov GPT',
+            code: 'ivanov_gpt',
+            category: 'text',
+            completions_url: 'https://antonds.ru/ai/aul/completions/',
+            settings: {
+                code_alias: 'ChatGPT',
+                model_context_type: 'token',
+                model_context_limit: 16*1024,
+            },
         },
-    },
-    function(result)
-    {
-        if(result.error())
+        function(result)
         {
-            console.error(result.error());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 ## Endpoint
 

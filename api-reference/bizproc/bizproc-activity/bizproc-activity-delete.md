@@ -40,21 +40,27 @@
 
 ## Примеры
 
-```javascript
-var params = {
-    code: 'md5'
-};
+{% list tabs %}
 
-BX24.callMethod(
-    'bizproc.activity.delete',
-    params,
-    function(result) {
-        if(result.error())
-            alert('Error: ' + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+- JS
+
+    ```javascript
+    var params = {
+        code: 'md5'
+    };
+
+    BX24.callMethod(
+        'bizproc.activity.delete',
+        params,
+        function(result) {
+            if(result.error())
+                alert('Error: ' + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+    
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

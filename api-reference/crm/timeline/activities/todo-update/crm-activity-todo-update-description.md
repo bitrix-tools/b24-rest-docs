@@ -41,9 +41,14 @@
 
 ## Примеры
 
-```http
-crm.activity.todo.updateDescription?ownerTypeId=2&ownerId=1&id=1&value=перезвонить
-```
+{% list tabs %}
+
+- HTTP
+
+    ```http
+    crm.activity.todo.updateDescription?ownerTypeId=2&ownerId=1&id=1&value=перезвонить
+    ```
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 

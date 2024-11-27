@@ -34,19 +34,25 @@
 
 ## Пример
 
-```javascript
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.quote.get",
-    { id: id },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.quote.get",
+        { id: id },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

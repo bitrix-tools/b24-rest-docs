@@ -38,28 +38,34 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "crm.quote.userfield.add",
-    {
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.quote.userfield.add",
         {
-            "FIELD_NAME": "MY_STRING",
-            "EDIT_FORM_LABEL": "Моя строка",
-            "LIST_COLUMN_LABEL": "Моя строка",
-            "USER_TYPE_ID": "string",
-            "XML_ID": "MY_STRING",
-            "SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
+            fields:
+            {
+                "FIELD_NAME": "MY_STRING",
+                "EDIT_FORM_LABEL": "Моя строка",
+                "LIST_COLUMN_LABEL": "Моя строка",
+                "USER_TYPE_ID": "string",
+                "XML_ID": "MY_STRING",
+                "SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

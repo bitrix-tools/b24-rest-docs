@@ -36,22 +36,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'crm.activity.type.delete',
-    {
-        TYPE_ID: id
-    },
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'crm.activity.type.delete',
         {
-            alert("Success: " + result.data());
+            TYPE_ID: id
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+            {
+                alert("Success: " + result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}

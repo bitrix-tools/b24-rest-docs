@@ -7,6 +7,8 @@ items:
     href: events.md
   - name: Зарегистрировать обработчик 
     href: event-bind.md
+  - name: Как проверить свой обработчик 
+    href: test-handler.md
   - name: Получить список обработчиков
     href: event-get.md
   - name: Отменить обработчик

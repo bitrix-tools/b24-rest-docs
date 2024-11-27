@@ -3,6 +3,8 @@ href: index.md
 items: 
   - name: Кастомные коннекторы открытых линий
     href: index.md
+  - name: Частые кейсы
+    href: tutorials.md
   - name: Зарегистрировать коннектор
     href: imconnector-register.md
   - name: Активировать коннектор

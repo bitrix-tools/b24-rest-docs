@@ -39,25 +39,31 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "crm.company.userfield.list",
-    {
-        order: { "SORT": "ASC" },
-        filter: { "MANDATORY": "N" }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+  
+    ```js
+    BX24.callMethod(
+        "crm.company.userfield.list",
         {
-            console.dir(result.data());             
-            if(result.more())
-                result.next();                        
+            order: { "SORT": "ASC" },
+            filter: { "MANDATORY": "N" }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());             
+                if(result.more())
+                    result.next();                        
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

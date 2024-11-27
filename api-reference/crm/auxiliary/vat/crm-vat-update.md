@@ -41,27 +41,34 @@ crm.vat.update(id, fields)
 
 ## Примеры
 
-```javascript
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.vat.update",
-    {
-        "id": id,
-        "fields":
+{% list tabs %}
+
+- JS
+  
+    ```javascript
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.vat.update",
         {
-            "ACTIVE": "N"
-        }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+            "id": id,
+            "fields":
+            {
+                "ACTIVE": "N"
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

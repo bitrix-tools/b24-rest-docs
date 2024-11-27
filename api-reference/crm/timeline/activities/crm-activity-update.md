@@ -55,36 +55,42 @@
 
 ## Пример
 
-```js
-var d = new Date();
-d.setSeconds(0);
-var dateStr = d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+00:00';
-var paddatepart = function(part)
-{
-    return part >= 10 ? part.toString() : '0' + part.toString();
-}
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.activity.update",
+{% list tabs %}
+
+- JS
+
+    ```js
+    var d = new Date();
+    d.setSeconds(0);
+    var dateStr = d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+00:00';
+    var paddatepart = function(part)
     {
-        id: id,
-        fields:
-        {
-            "START_TIME": dateStr,
-            "END_TIME": dateStr,
-            COMPLETED: 'Y'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-        {
-            console.info(result.data());
-        }
+        return part >= 10 ? part.toString() : '0' + part.toString();
     }
-);
-```
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.activity.update",
+        {
+            id: id,
+            fields:
+            {
+                "START_TIME": dateStr,
+                "END_TIME": dateStr,
+                COMPLETED: 'Y'
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
