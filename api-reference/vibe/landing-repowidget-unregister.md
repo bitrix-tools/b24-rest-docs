@@ -1,11 +1,5 @@
 # Удалить виджет для Вайба landing.repowidget.unregister
 
-{% note warning "Мы еще работаем над инструментом" %}
-
-Функционал будет выпущен в ближайшее время
-
-{% endnote %}
-
 > Scope: [`landing`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
