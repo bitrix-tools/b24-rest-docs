@@ -4,3 +4,4 @@
 
 - [{#T}](./how-to-create-task-with-file.md)
 - [{#T}](./how-to-upload-file-to-task.md)
+- [{#T}](./how-to-create-comment-with-file.md)

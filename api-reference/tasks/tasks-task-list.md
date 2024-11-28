@@ -371,3 +371,9 @@ BX24.callMethod('tasks.task.list',{start: 1150})
 {% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../tutorials/tasks/how-to-create-comment-with-file.md)
+- [{#T}](../../tutorials/tasks/how-to-upload-file-to-task.md)
+- [{#T}](../../tutorials/tasks/how-to-create-task-with-file.md)
