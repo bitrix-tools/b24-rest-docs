@@ -34,49 +34,55 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.updateCards',
-    {
-        lid: 2856,
-        block: 25458,
-        data: {
-            //воздействуем на данный селектор карточки
-            // (можно передавать и другие селекторы одновременно)
-            '.landing-block-card': {
-                //останется только данное кол-во карточек, у которых
-                //будут изменены только указанные ноды;
-                //для клонирования будет браться первая карточка
-                'values': [
-                    {
-                        '.landing-block-node-title': 'New title 0'
-                    },
-                    {
-                        '.landing-block-node-title': 'New title 1'
-                    },
-                    {
-                        '.landing-block-node-title': 'New title 2'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.updateCards',
+        {
+            lid: 2856,
+            block: 25458,
+            data: {
+                //воздействуем на данный селектор карточки
+                // (можно передавать и другие селекторы одновременно)
+                '.landing-block-card': {
+                    //останется только данное кол-во карточек, у которых
+                    //будут изменены только указанные ноды;
+                    //для клонирования будет браться первая карточка
+                    'values': [
+                        {
+                            '.landing-block-node-title': 'New title 0'
+                        },
+                        {
+                            '.landing-block-node-title': 'New title 1'
+                        },
+                        {
+                            '.landing-block-node-title': 'New title 2'
+                        }
+                    ],
+                    //опционально можно применить пресеты карточек (ключ - порядковый номер карточки, начиная с 0)
+                    'presets': {
+                        '1': 'preset_h2'
                     }
-                ],
-                //опционально можно применить пресеты карточек (ключ - порядковый номер карточки, начиная с 0)
-                'presets': {
-                    '1': 'preset_h2'
                 }
             }
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+        },
+        function(result)
         {
-            console.error(result.error());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

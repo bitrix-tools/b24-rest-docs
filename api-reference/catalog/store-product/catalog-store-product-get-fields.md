@@ -37,18 +37,25 @@ catalog.storeproduct.getFields()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.storeproduct.getFields',
-    {},
-    function(result) {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.storeproduct.getFields',
+        {},
+        function(result) {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Возвращаемые поля

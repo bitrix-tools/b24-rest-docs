@@ -36,21 +36,29 @@ catalog.productProperty.getFields()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productProperty.getFields',
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% list tabs %}
 
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productProperty.delete',
+        {
+            id: 128
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Возвращаемые поля
 

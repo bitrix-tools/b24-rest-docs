@@ -44,22 +44,30 @@ catalog.priceTypeGroup.add(fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.priceTypeGroup.add',
-    {
-        fields: {
-            catalogGroupId: 14,
-            groupId: 16,
-            access: "Y"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.priceTypeGroup.add',
+        {
+            fields: {
+                catalogGroupId: 14,
+                groupId: 16,
+                access: "Y"
+            }
+        },
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

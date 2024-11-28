@@ -55,24 +55,30 @@ catalog.documentcontractor.add(fields)
 
 ## Примеры
 
-```js
-BX.callMethod(
-    'catalog.documentcontractor.add',
-    {
-        fields: {
-            documentId: 11,
-            entityTypeId: 3,
-            entityId: 21,
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX.callMethod(
+        'catalog.documentcontractor.add',
+        {
+            fields: {
+                documentId: 11,
+                entityTypeId: 3,
+                entityId: 21,
+            },
         },
-    },
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 Идентификатор документа **documentId** известен. Рассмотрим подробнее, откуда брать **entityTypeId** и **entityId**:
 

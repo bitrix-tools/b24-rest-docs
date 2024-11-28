@@ -46,12 +46,20 @@
 
 ## Пример
 
-```js
-// Получаем список участников группы соцсети с ID=15
-BX24.callMethod('sonet_group.user.get', {
-    'ID': 15
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Получаем список участников группы соцсети с ID=15
+    BX24.callMethod('sonet_group.user.get', {
+        'ID': 15
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Запрос:

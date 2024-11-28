@@ -51,27 +51,33 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.addFolder',
-    {
-        siteId: 1817,
-        fields: {
-            TITLE: 'Новая папка'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.addFolder',
         {
-            console.error(result.error());
-        }
-        else
+            siteId: 1817,
+            fields: {
+                TITLE: 'Новая папка'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

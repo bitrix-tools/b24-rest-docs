@@ -43,25 +43,32 @@ catalog.productProperty.update(id, fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productProperty.update',
-    {
-        id: 128,
-        fields: {
-            isRequired: "Y",
-            iblockId: 16,
-            name: "Размер",
-            propertyType: "L"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productProperty.update',
+        {
+            id: 128,
+            fields: {
+                isRequired: "Y",
+                iblockId: 16,
+                name: "Размер",
+                propertyType: "L"
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

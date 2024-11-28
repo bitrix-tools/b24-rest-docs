@@ -35,24 +35,30 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    "timeman.schedule.get",
-    {
-        id: 2
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "timeman.schedule.get",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            id: 2
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

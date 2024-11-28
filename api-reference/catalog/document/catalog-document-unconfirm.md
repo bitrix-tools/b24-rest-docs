@@ -51,9 +51,9 @@ catalog.document.unconfirm(id)
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.unconfirm',
         {
@@ -69,9 +69,9 @@ catalog.document.unconfirm(id)
     );
     ```
 
-- php
+- PHP
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.unconfirm',
         [

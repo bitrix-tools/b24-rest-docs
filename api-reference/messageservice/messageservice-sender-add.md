@@ -49,26 +49,33 @@
 
 ## Пример
 
-```js
-var params = {
-    CODE: 'provider1',
-    TYPE: 'SMS',
-    HANDLER: 'http:///',
-    NAME: 'Провайдер ***.ru',
-    DESCRIPTION: 'Провайдер ***.ru'
-};
-BX24.callMethod(
-    'messageservice.sender.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Успешно: " + result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        CODE: 'provider1',
+        TYPE: 'SMS',
+        HANDLER: 'http:///',
+        NAME: 'Провайдер ***.ru',
+        DESCRIPTION: 'Провайдер ***.ru'
+    };
+    BX24.callMethod(
+        'messageservice.sender.add',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Успешно: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 
 **Отправление из карточки CRM**
 

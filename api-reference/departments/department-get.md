@@ -41,11 +41,29 @@
 
 Параметры фильтрации могут принимать значение массивов.
 
-## Вызов
+## Примеры кода
 
-```js
-BX24.callMethod('department.get', {"ID": 222});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'department.get',
+        {
+            "ID": 222
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 ## Запрос
 

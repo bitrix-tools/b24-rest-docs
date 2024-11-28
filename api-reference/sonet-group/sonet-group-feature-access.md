@@ -60,13 +60,21 @@ https://mydomain.bitrix24.ru/rest/sonet_group.feature.access.json?auth=52423d4a5
 
 ## Пример
 
-```js
-// Получаем список групп текущего пользователя
+{% list tabs %}
 
-BX24.callMethod('sonet_group.feature.access', {
-    'GROUP_ID': 1,
-    'FEATURE': 'blog',
-    'OPERATION': 'write_post'
-});
-```
+- JS
+
+    ```js
+    // Получаем список групп текущего пользователя
+
+    BX24.callMethod('sonet_group.feature.access', {
+        'GROUP_ID': 1,
+        'FEATURE': 'blog',
+        'OPERATION': 'write_post'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

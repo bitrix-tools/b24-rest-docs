@@ -39,14 +39,22 @@
 
 ## Пример
 
-```js
-BX24.callMethod('socialnetwork.api.workgroup.list', {
-    filter: {
-        ID: 157,
-    },
-    select: [ 'ID', 'NAME' ]
-}, result => {
-    console.log(result);
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('socialnetwork.api.workgroup.list', {
+        filter: {
+            ID: 157,
+        },
+        select: [ 'ID', 'NAME' ]
+    }, result => {
+        console.log(result);
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

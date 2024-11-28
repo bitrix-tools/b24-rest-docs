@@ -37,22 +37,28 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.repo.checkContent',
-    {
-        content: '<div style="color: red" onclick="alert(123)"><iframe src="//evil.com"></iframe></div>',
-        splitter: '#AAA#'
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.repo.checkContent',
+        {
+            content: '<div style="color: red" onclick="alert(123)"><iframe src="//evil.com"></iframe></div>',
+            splitter: '#AAA#'
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

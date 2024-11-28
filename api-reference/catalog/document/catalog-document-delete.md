@@ -46,7 +46,7 @@ catalog.document.delete(id)
 
 - js
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.delete',
         {
@@ -64,7 +64,7 @@ catalog.document.delete(id)
 
 - php
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.delete',
         [

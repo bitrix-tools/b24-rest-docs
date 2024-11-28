@@ -36,24 +36,30 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.delete',
-    {
-        id: 206
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.delete',
         {
-            console.error(result.error());
-        }
-        else
+            id: 206
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

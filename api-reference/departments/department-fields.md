@@ -24,11 +24,26 @@
 
 Получение списка названий полей подразделения. Метод не имеет параметров.
 
-## Вызов
+## Примеры кода
 
-```js
-BX24.callMethod('department.fields');
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'department.fields',
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 ## Запрос (xml для наглядности ответа)
 

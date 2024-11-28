@@ -47,27 +47,31 @@ catalog.priceTypeGroup.list(select, filter, order, start)
 
 ## Примеры
 
-Для JS
+{% list tabs %}
 
-```javascript
-BX24.callMethod(
-    'catalog.priceTypeGroup.list',
-    {
-        select: ['catalogGroupId'],
-        filter: {
-            groupId: 8
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.priceTypeGroup.list',
+        {
+            select: ['catalogGroupId'],
+            filter: {
+                groupId: 8
+            },
         },
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-        result.next();
-    }
-);
-```
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+            result.next();
+        }
+    );
+    ```
+
+{% endlist %}
 
 Пример HTTPS запроса
 

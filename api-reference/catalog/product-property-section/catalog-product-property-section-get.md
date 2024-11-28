@@ -43,7 +43,11 @@ catalog.productPropertySection.get(propertyId)
 
 ## Примеры
 
-```javascript
+{% list tabs %}
+
+- JS
+
+```js
 BX24.callMethod(
     'catalog.productPropertySection.get',
     {
@@ -58,4 +62,7 @@ BX24.callMethod(
     }
 );
 ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

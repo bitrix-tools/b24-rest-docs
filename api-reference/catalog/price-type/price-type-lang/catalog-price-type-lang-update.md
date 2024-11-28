@@ -43,24 +43,31 @@ catalog.priceTypeLang.update(id, fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.priceTypeLang.update',
-    {
-        id: 537,
-        fields: {            
-            catalogGroupId: 14,
-            lang: "ru",
-            name: "Оптовая цена для партнёров"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.priceTypeLang.update',
+        {
+            id: 537,
+            fields: {            
+                catalogGroupId: 14,
+                lang: "ru",
+                name: "Оптовая цена для партнёров"
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -73,14 +73,22 @@ https://mydomain.bitrix24.ru/rest/sonet_group.create.json?auth=803f65e30340ff397
 
 ## Пример
 
-```js
-// Создадим видимую и открытую для вступления группу соцсети с именем 'Test sonet group' с правом приглашать новых членов группы для всех текущих членов группы
+{% list tabs %}
 
-BX24.callMethod('sonet_group.create', {
-    'NAME': 'Test sonet group',
-    'VISIBLE': 'Y',
-    'OPENED': 'N',
-    'INITIATE_PERMS': 'K'
-});
-```
+- JS
+
+    ```js
+    // Создадим видимую и открытую для вступления группу соцсети с именем 'Test sonet group' с правом приглашать новых членов группы для всех текущих членов группы
+
+    BX24.callMethod('sonet_group.create', {
+        'NAME': 'Test sonet group',
+        'VISIBLE': 'Y',
+        'OPENED': 'N',
+        'INITIATE_PERMS': 'K'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

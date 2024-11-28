@@ -45,24 +45,30 @@ catalog.userfield.document.update(documentId, fields)
 
 В API используются названия полей в виде `field[ID поля в базе]` – например, `field287`. ID поля можно узнать с помощью метода [`userfieldconfig.list`](.).
 
-```js
-BX24.callMethod(
-    'catalog.userfield.document.update',
-    {
-        documentId: 64,
-        fields: {
-            'documentType': 'S',
-            'field287': 'new value'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.userfield.document.update',
+        {
+            documentId: 64,
+            fields: {
+                'documentType': 'S',
+                'field287': 'new value'
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -56,7 +56,7 @@ catalog.document.element.list(order, filter, select, offset, limit, start)
 
 - js
 
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.element.list',
         {
@@ -81,7 +81,7 @@ catalog.document.element.list(order, filter, select, offset, limit, start)
 
 - php
 
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.element.list',
         [
@@ -103,9 +103,9 @@ catalog.document.element.list(order, filter, select, offset, limit, start)
 
 - Для HTTPS
   
-```
-https://ваш_портал/rest/catalog.document.element.list?auth=_ключ_авторизации_&start=50
-```
+    ```http
+    https://ваш_портал/rest/catalog.document.element.list?auth=_ключ_авторизации_&start=50
+    ```
 
 {% endlist %}
 

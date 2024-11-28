@@ -34,13 +34,21 @@
 
 ## Пример
 
-```js
-// Изменяем название группы соцсети с ID=11 на 'Test sonet group XXX'
-BX24.callMethod('sonet_group.update', {
-    'GROUP_ID': 11,
-    'NAME': 'Test sonet group XXX'
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Изменяем название группы соцсети с ID=11 на 'Test sonet group XXX'
+    BX24.callMethod('sonet_group.update', {
+        'GROUP_ID': 11,
+        'NAME': 'Test sonet group XXX'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос:

@@ -42,29 +42,35 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.changeNodeName',
-    {
-        lid: 2006,
-        block: 20476,
-        data: {
-            '.landing-block-node-small-title@0': 'i',
-            '.landing-block-node-small-title@1': 'u'
-        }
-    },
-    function (result)
-    {
-        if (result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.changeNodeName',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 2006,
+            block: 20476,
+            data: {
+                '.landing-block-node-small-title@0': 'i',
+                '.landing-block-node-small-title@1': 'u'
+            }
+        },
+        function (result)
         {
-            console.info(result.data());
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

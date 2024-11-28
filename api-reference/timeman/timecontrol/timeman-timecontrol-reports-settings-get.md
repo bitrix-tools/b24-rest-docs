@@ -34,7 +34,7 @@
 
 - JS
 
-    ```javascript
+    ```js
     BX24.callMethod('timeman.timecontrol.reports.settings.get', {}, function(result){
         if(result.error())
         {
@@ -50,7 +50,11 @@
 - PHP
 
     ```php
-    $result = restCommand('timeman.timecontrol.reports.settings.get', Array(), $_REQUEST["auth"]);    
+    $result = restCommand(
+        'timeman.timecontrol.reports.settings.get',
+        Array(),
+        $_REQUEST["auth"]
+    );    
     ```
 
 {% endlist %}

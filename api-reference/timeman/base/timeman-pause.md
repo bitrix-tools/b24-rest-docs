@@ -35,11 +35,17 @@
 
 ## Пример
 
-Пример вызова:
+{% list tabs %}
 
-```http
-https://portal.bitrix24.com/rest/timeman.pause?user_id=5
-```
+- cURL
+
+    ```http
+    https://portal.bitrix24.com/rest/timeman.pause?user_id=5
+    ```
+
+{% endlist %}
+
+
 
 ## Ответ в случае успеха
 

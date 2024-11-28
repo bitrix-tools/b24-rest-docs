@@ -43,22 +43,30 @@ catalog.priceTypeLang.add(fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.priceTypeLang.add',
-    {
-        fields: {
-            catalogGroupId: 14,
-            lang: "ru",
-            name: "Оптовая цена"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.priceTypeLang.add',
+        {
+            fields: {
+                catalogGroupId: 14,
+                lang: "ru",
+                name: "Оптовая цена"
+            }
+        },
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

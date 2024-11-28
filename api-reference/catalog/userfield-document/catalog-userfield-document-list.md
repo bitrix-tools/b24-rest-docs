@@ -51,9 +51,9 @@ catalog.userfield.document.list(select, filter, order, start)
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX24.callMethod(
     'catalog.userfield.document.list',
     {

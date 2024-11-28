@@ -41,12 +41,20 @@
 
 ## Пример
 
-```js
-// Меняем роли пользователей с ID=10 и 21 в группе соцсети с ID=15 на модераторов
-BX24.callMethod('sonet_group.user.update', {
-    GROUP_ID: 15,
-    USER_ID: [ 10, 21 ],
-    ROLE: 'E'
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Меняем роли пользователей с ID=10 и 21 в группе соцсети с ID=15 на модераторов
+    BX24.callMethod('sonet_group.user.update', {
+        GROUP_ID: 15,
+        USER_ID: [ 10, 21 ],
+        ROLE: 'E'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

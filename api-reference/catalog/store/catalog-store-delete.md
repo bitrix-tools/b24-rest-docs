@@ -44,9 +44,9 @@ catalog.store.delete(id)
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.store.delete',
         {
@@ -62,9 +62,9 @@ catalog.store.delete(id)
     );
     ```
 
-- php
+- PHP
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.store.delete',
         [
