@@ -46,27 +46,33 @@
 
 ## Пример
 
-```js
-/* lists.section.update */
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_CODE': 'rest_1',
-    'SECTION_CODE': 'Section_code_1',
-    'FIELDS': {
-        'NAME': 'Section_1 (Updated)'
-    }
-};
-BX24.callMethod(
-    'lists.section.update',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    /* lists.section.update */
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_CODE': 'rest_1',
+        'SECTION_CODE': 'Section_code_1',
+        'FIELDS': {
+            'NAME': 'Section_1 (Updated)'
+        }
+    };
+    BX24.callMethod(
+        'lists.section.update',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

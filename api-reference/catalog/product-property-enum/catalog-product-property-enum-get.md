@@ -42,19 +42,26 @@ catalog.productPropertyEnum.get(id)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyEnum.get',
-    {
-        id: 121
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'catalog.productPropertyEnum.get',
+        {
+            id: 121
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

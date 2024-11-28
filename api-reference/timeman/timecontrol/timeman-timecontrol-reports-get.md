@@ -50,7 +50,7 @@
 
 - JS
 
-    ```javascript
+    ```js
     BX24.callMethod('timeman.timecontrol.reports.get', {
         user_id: 2,
         year: 2018,

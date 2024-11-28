@@ -56,26 +56,32 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.updatecontent',
-    {
-        lid: 625,
-        block: 11883,
-        content: '<h3>My super content</h3>'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.updatecontent',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 625,
+            block: 11883,
+            content: '<h3>My super content</h3>'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

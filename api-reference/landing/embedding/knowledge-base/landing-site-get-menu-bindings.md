@@ -35,24 +35,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.site.getMenuBindings',
-    {
-        menuCode: 'crm_switcher:deal'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.getMenuBindings',
         {
-            console.error(result.error());
-        }
-        else
+            menuCode: 'crm_switcher:deal'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

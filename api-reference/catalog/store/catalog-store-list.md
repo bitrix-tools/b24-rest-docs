@@ -54,31 +54,35 @@ catalog.store.list(select, filter, order, start)
 
 ## Примеры
 
-Для JS
+{% list tabs %}
 
-```javascript
-BX24.callMethod(
-    'catalog.store.list',
-    {
-        select:['id', 'active'],
-        filter:{
-            modifiedBy: 1
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.store.list',
+        {
+            select:['id', 'active'],
+            filter:{
+                modifiedBy: 1
+            },
+            order:{
+                id: 'ASC'
+            },
+            start: 1
         },
-        order:{
-            id: 'ASC'
-        },
-        start: 1
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-        result.next();
-    }
-);
-```
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+            result.next();
+        }
+    );
+    ```
+
+{% endlist %}
 
 Пример HTTPS запроса
 

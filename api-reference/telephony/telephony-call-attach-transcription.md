@@ -52,52 +52,60 @@
 
 ## Пример
 
-```js
-var callId = '<Id of the call>';
-var messages = [
-    {
-        SIDE: "User",
-        START_TIME: 1,
-        STOP_TIME: 3,
-        MESSAGE: "Добрый день, чем могу помочь"
-    },
-    {
-        SIDE: "Client",
-        START_TIME: 4,
-        STOP_TIME: 8,
-        MESSAGE: "Здравствуйте, вы продаете пылесосы?"
-    },
-    {
-        SIDE: "User",
-        START_TIME: 9,
-        STOP_TIME: 11,
-        MESSAGE: "К сожалению, нет"
-    },
-    {
-        SIDE: "Client",
-        START_TIME: 11,
-        STOP_TIME: 13,
-        MESSAGE: "Понятно, до свидания"
-    },
-    {
-        SIDE: "User",
-        START_TIME: 13,
-        STOP_TIME: 15,
-        MESSAGE: "До свидания"
-    },
-];
+{% list tabs %}
 
-BX24.callMethod(
-    "telephony.call.attachTranscription",
-    {
-        CALL_ID: callId,
-        MESSAGES: messages
-    },
-    function(response)
-    {
-        console.log(response.data())
-    }
-);
-```
+- JS
+
+    ```js
+    var callId = '<Id of the call>';
+    var messages = [
+        {
+            SIDE: "User",
+            START_TIME: 1,
+            STOP_TIME: 3,
+            MESSAGE: "Добрый день, чем могу помочь"
+        },
+        {
+            SIDE: "Client",
+            START_TIME: 4,
+            STOP_TIME: 8,
+            MESSAGE: "Здравствуйте, вы продаете пылесосы?"
+        },
+        {
+            SIDE: "User",
+            START_TIME: 9,
+            STOP_TIME: 11,
+            MESSAGE: "К сожалению, нет"
+        },
+        {
+            SIDE: "Client",
+            START_TIME: 11,
+            STOP_TIME: 13,
+            MESSAGE: "Понятно, до свидания"
+        },
+        {
+            SIDE: "User",
+            START_TIME: 13,
+            STOP_TIME: 15,
+            MESSAGE: "До свидания"
+        },
+    ];
+
+    BX24.callMethod(
+        "telephony.call.attachTranscription",
+        {
+            CALL_ID: callId,
+            MESSAGES: messages
+        },
+        function(response)
+        {
+            console.log(response.data())
+        }
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

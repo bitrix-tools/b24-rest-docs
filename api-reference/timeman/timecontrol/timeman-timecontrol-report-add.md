@@ -48,7 +48,7 @@
 
 - JS
 
-    ```javascript
+    ```js
     BX24.callMethod('timeman.timecontrol.report.add', {
         'id': 468,
         'type': 'private',

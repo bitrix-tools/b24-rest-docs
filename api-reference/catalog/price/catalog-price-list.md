@@ -48,32 +48,36 @@ catalog.price.list(select, filter, order, start)
 
 ## Примеры
 
-Для JS
+{% list tabs %}
 
-```javascript
-BX24.callMethod(
-    'catalog.price.list',
-    {
-        select: {
-            id
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.price.list',
+        {
+            select: {
+                id
+            },
+            filter: {
+                productId: 8
+            },
+            order: {
+                id: 'ASC'
+            }
         },
-        filter: {
-            productId: 8
-        },
-        order: {
-            id: 'ASC'
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+            result.next();
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-        result.next();
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 Пример HTTPS запроса
 

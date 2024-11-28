@@ -43,26 +43,33 @@ catalog.productPropertyEnum.update(id, fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyEnum.update',
-    {
-        id: 122,
-        fields: {
-            propertyId: 128,
-            value: "Средний",
-            def: "Y",
-            sort: 1234,
-            xmlId: "M"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productPropertyEnum.update',
+        {
+            id: 122,
+            fields: {
+                propertyId: 128,
+                value: "Средний",
+                def: "Y",
+                sort: 1234,
+                xmlId: "M"
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

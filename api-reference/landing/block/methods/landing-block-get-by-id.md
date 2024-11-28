@@ -39,28 +39,34 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.getbyid',
-    {
-        block: 6102,
-        params: {
-            edit_mode: 0
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.getbyid',
         {
-            console.error(result.error());
-        }
-        else
+            block: 6102,
+            params: {
+                edit_mode: 0
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

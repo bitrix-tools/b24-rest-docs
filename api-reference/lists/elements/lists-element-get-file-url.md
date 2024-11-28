@@ -49,24 +49,32 @@
 
 ## Пример
 
-```javascript
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_ID': '41',
-    'ELEMENT_ID': '683',
-    'FIELD_ID': '120'
-};
-BX24.callMethod(
-    'lists.element.get.file.url',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-)
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_ID': '41',
+        'ELEMENT_ID': '683',
+        'FIELD_ID': '120'
+    };
+    BX24.callMethod(
+        'lists.element.get.file.url',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    )
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

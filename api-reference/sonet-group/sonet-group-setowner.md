@@ -39,10 +39,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod('sonet_group.setowner', {
-    'GROUP_ID': 11,
-    'USER_ID': 2
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('sonet_group.setowner', {
+        'GROUP_ID': 11,
+        'USER_ID': 2
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

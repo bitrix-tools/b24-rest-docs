@@ -33,7 +33,7 @@
 
 - JS
 
-    ```javascript
+    ```js
     BX24.callMethod('timeman.networkrange.get', {}, function(result){
         if(result.error())
         {
@@ -49,7 +49,11 @@
 - PHP
 
     ```php
-    $result = restCommand('timeman.networkrange.get', Array(), $_REQUEST["auth"]);
+    $result = restCommand(
+        'timeman.networkrange.get',
+        Array(),
+        $_REQUEST["auth"]
+    );
     ```
 
 {% endlist %}

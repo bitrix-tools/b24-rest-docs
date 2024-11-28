@@ -45,17 +45,23 @@ catalog.documentcontractor.delete(id)
 
 ## Примеры
 
-```js
-BX.callMethod(
-    'catalog.documentcontractor.delete',
-    { id: 20 },
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX.callMethod(
+        'catalog.documentcontractor.delete',
+        { id: 20 },
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

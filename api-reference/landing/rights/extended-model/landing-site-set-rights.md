@@ -54,32 +54,38 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.setRights',
-    {
-        id: 645,
-        rights: {
-            'U3': [
-                'edit', 'delete'
-            ],
-            'U1': [
-                'edit', 'sett'
-            ]
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.setRights',
         {
-            console.error(result.error());
-        }
-        else
+            id: 645,
+            rights: {
+                'U3': [
+                    'edit', 'delete'
+                ],
+                'U1': [
+                    'edit', 'sett'
+                ]
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

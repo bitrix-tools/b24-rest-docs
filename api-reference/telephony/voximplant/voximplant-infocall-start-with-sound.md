@@ -35,22 +35,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.infocall.startwithsound',
-    {
-        "FROM_LINE": "reg1332",
-        "TO_NUMBER": "7911xxxxxxx",
-        "URL": "http://your.domain/path/file.mp3",
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.infocall.startwithsound',
+        {
+            "FROM_LINE": "reg1332",
+            "TO_NUMBER": "7911xxxxxxx",
+            "URL": "http://your.domain/path/file.mp3",
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

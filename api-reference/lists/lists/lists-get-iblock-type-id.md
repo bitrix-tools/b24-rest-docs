@@ -35,21 +35,29 @@
 
 ## Пример:
 
-```javascript
-var params = {
-    'IBLOCK_ID': '41'
-};
-BX24.callMethod(
-    'lists.get.iblock.type.id',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_ID': '41'
+    };
+    BX24.callMethod(
+        'lists.get.iblock.type.id',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

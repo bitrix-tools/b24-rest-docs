@@ -45,39 +45,45 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.landing.removeEntities',
-    {
-        lid: 648,
-        data: {
-            blocks: [12167, 123],
-            images: [
-                {
-                    block: 12269,
-                    image: 6866
-                },
-                {
-                    block: 12268,
-                    image: 6861
-                }
-            ]
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.removeEntities',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 648,
+            data: {
+                blocks: [12167, 123],
+                images: [
+                    {
+                        block: 12269,
+                        image: 6866
+                    },
+                    {
+                        block: 12268,
+                        image: 6861
+                    }
+                ]
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-// В примере мы удаляем блоки с ID 12167, 123, а также картинку 6866 (из блока 12269) и картинку 6861 (из блока 12268).
-// Все сущности лежат в лендинге 648.
-```
+    );
+    // В примере мы удаляем блоки с ID 12167, 123, а также картинку 6866 (из блока 12269) и картинку 6861 (из блока 12268).
+    // Все сущности лежат в лендинге 648.
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

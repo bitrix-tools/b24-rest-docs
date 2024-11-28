@@ -78,14 +78,22 @@
 
 ## Пример
 
-```js
-BX24.callMethod('socialnetwork.api.workgroup.get', {
-    params: {
-        groupId: 622,
-        select: [ 'ID', 'NAME' ],
-    },
-}, result => {
-    console.log(result);
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('socialnetwork.api.workgroup.get', {
+        params: {
+            groupId: 622,
+            select: [ 'ID', 'NAME' ],
+        },
+    }, result => {
+        console.log(result);
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

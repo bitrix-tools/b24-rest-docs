@@ -43,12 +43,11 @@ catalog.document.fields()
 
 ## Примеры
 
-
 {% list tabs %}
 
 - js
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.fields',
         {},
@@ -64,7 +63,7 @@ catalog.document.fields()
 
 - php
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.fields'
     );

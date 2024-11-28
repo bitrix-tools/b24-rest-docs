@@ -43,17 +43,24 @@ catalog.enum.getStoreDocumentTypes()
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'catalog.enum.getStoreDocumentTypes',
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.enum.getStoreDocumentTypes',
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

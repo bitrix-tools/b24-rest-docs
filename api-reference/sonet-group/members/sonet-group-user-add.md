@@ -38,11 +38,19 @@
 
 ## Пример
 
-```js
-// Добавляем пользователей с ID=10 и 21 в группу соцсети с ID=15
-BX24.callMethod('sonet_group.user.add', {
-    GROUP_ID: 15,
-    USER_ID: [ 10, 21 ]
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Добавляем пользователей с ID=10 и 21 в группу соцсети с ID=15
+    BX24.callMethod('sonet_group.user.add', {
+        GROUP_ID: 15,
+        USER_ID: [ 10, 21 ]
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

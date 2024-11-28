@@ -42,10 +42,12 @@
 
 - JS
 
-    ```javascript
-    BX24.callMethod('timeman.networkrange.set', {
+    ```js
+    BX24.callMethod('timeman.networkrange.set',
+    {
         ranges: '[{"ip_range":"10.0.0.0-10.255.255.255","name":"Офисная сеть 10.x.x.x"},{"ip_range":"172.16.0.0-172.31.255.255","name":"Офисная сеть 172.x.x.x"},{"ip_range":"192.168.0.0-192.168.255.255","name":"Офисная сеть 192.168.x.x"}]'
-    }, function(result){
+    },
+    function(result){
         if(result.error())
         {
             console.error(result.error().ex);

@@ -77,31 +77,37 @@ data: {
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.updateattrs',
-    {
-        lid: 313,
-        block: 6134,
-        data: {
-            '.bitrix24forms': {
-                'data-b24form': 'tratrata'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.updateattrs',
+        {
+            lid: 313,
+            block: 6134,
+            data: {
+                '.bitrix24forms': {
+                    'data-b24form': 'tratrata'
+                }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
             }
         }
-    },
-    function(result)
-    {
-        if(result.error())
-        {
-            console.error(result.error());
-        }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

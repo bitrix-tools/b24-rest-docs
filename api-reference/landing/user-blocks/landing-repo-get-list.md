@@ -76,27 +76,33 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.repo.getList',
-    {
-        params: {
-            select: [
-                'ID', 'NAME', 'MANIFEST'
-            ],
-            filter: {
-                '>ID': '1'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.repo.getList',
+        {
+            params: {
+                select: [
+                    'ID', 'NAME', 'MANIFEST'
+                ],
+                filter: {
+                    '>ID': '1'
+                }
             }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

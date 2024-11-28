@@ -37,34 +37,40 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.template.getlist',
-    {
-        params: {
-            select: [
-                'ID', 'TITLE'
-            ],
-            filter: {
-                '>ID': 0
-            },
-            order: {
-                ID: 'DESC'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.template.getlist',
+        {
+            params: {
+                select: [
+                    'ID', 'TITLE'
+                ],
+                filter: {
+                    '>ID': 0
+                },
+                order: {
+                    ID: 'DESC'
+                }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
             }
         }
-    },
-    function(result)
-    {
-        if(result.error())
-        {
-            console.error(result.error());
-        }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

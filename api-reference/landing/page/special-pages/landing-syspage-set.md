@@ -29,26 +29,32 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.syspage.set',
-    {
-        id: 1390,// ИД сайта
-        type: 'personal',// тип страницы
-        lid: 8593// ИД страницы, которая в рамках сайта будет считаться данного типа
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.syspage.set',
         {
-            console.error(result.error());
-        }
-        else
+            id: 1390,// ИД сайта
+            type: 'personal',// тип страницы
+            lid: 8593// ИД страницы, которая в рамках сайта будет считаться данного типа
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-)
-```
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

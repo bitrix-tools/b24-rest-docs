@@ -40,7 +40,7 @@
 
 - JS
 
-    ```javascript
+    ```js
     BX24.callMethod('timeman.networkrange.check',
         {
             'IP': '10.10.255.255'

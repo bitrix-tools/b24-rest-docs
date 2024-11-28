@@ -27,28 +27,34 @@
 
 Метод `landing.syspage.getSpecialPage` возвращает адрес специальной страницы сайта. В примере показано как получить ссылку на страницу персонального раздела сайта.
 
-```js
-BX24.callMethod(
-    'landing.syspage.getSpecialPage',
-    {
-        siteId: 1391,// ИД сайта
-        type: 'personal',// тип специальной страницы
-        additional: {// необязательный массив доп. параметров, которые будут добавлены к URL
-            SECTION: 'private'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.syspage.getSpecialPage',
         {
-            console.error(result.error());
-        }
-        else
+            siteId: 1391,// ИД сайта
+            type: 'personal',// тип специальной страницы
+            additional: {// необязательный массив доп. параметров, которые будут добавлены к URL
+                SECTION: 'private'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

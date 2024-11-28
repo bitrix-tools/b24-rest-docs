@@ -40,25 +40,31 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.landing.markundeletedblock',
-    {
-        lid: 627,
-        block: 11923
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.markundeletedblock',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 627,
+            block: 11923
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

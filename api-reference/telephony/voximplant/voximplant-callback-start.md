@@ -48,23 +48,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.callback.start',
-    {
-        "FROM_LINE": "reg1332",
-        "TO_NUMBER": "7911xxxxxxx",
-        "TEXT_TO_PRONOUNCE": "Вам поступил запрос на обратный звонок, соединяю с клиентом.",
-        "VOICE": "ruinternalfemale"
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.callback.start',
+        {
+            "FROM_LINE": "reg1332",
+            "TO_NUMBER": "7911xxxxxxx",
+            "TEXT_TO_PRONOUNCE": "Вам поступил запрос на обратный звонок, соединяю с клиентом.",
+            "VOICE": "ruinternalfemale"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
