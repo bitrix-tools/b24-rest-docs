@@ -32,6 +32,7 @@ REST-методы, доступные при работе с коннектор�
 || [imconnector.activate](imconnector-activate.md) | Активировать коннектор. ||
 || [imconnector.deactivate](imconnector-deactivate.md) | Деактивировать коннектор. ||
 || [imconnector.status](imconnector-status.md) | Получить статус коннектора. ||
+|| [imconnector.connector.data.set](./imconnector-connector-data-set.md) | Изменить настройки коннектора ||
 || [imconnector.list](imconnector-list.md) | Получение списка коннекторов. ||
 || [imconnector.unregister](imconnector-unregister.md) | Отмена регистрации коннектора. ||
 || [imconnector.send.messages](imconnector-send-messages.md) | Отправить сообщения в Битрикс24. ||

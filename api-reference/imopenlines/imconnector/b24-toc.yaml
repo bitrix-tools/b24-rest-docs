@@ -13,6 +13,8 @@ items:
     href: imconnector-deactivate.md
   - name: Получить статус коннектора
     href: imconnector-status.md
+  - name: Изменить настройки коннектора
+    href: imconnector-connector-data-set.md
   - name: Получить список коннекторов
     href: imconnector-list.md
   - name: Отменить регистрацию коннектора
