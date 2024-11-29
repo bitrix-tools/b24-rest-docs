@@ -25,7 +25,7 @@ blocks:
       - text: 'Начать'
         theme: 'outlined'
         size: 'promo'
-        url: 'about.md'
+        url: 'about.html'
       - text: 'GitHub'
         theme: 'outlined'
         size: 'promo'
@@ -42,7 +42,7 @@ blocks:
           - text: 'Узнать'
             theme: 'outlined'
             size: 'promo'
-            url: 'about.md'
+            url: 'about.html'
       - title: 'Как получить доступ'
         icon: '_images/img_restapi_icon_02.svg'
         text: 'Ознакомьтесь с требованиями к тарифу Битрикс24 и начните знакомство с разделом для разработчиков внутри продукта'
@@ -50,7 +50,7 @@ blocks:
           - text: 'Ознакомиться'
             theme: 'outlined'
             size: 'promo'
-            url: 'access-to-rest-api.md'
+            url: 'access-to-rest-api.html'
       - title: 'Как выполнить запрос'
         icon: '_images/img_restapi_icon_03.svg'
         text: 'Получите практическую инструкцию для вашего первого вызова REST API Битрикс24'
@@ -58,7 +58,7 @@ blocks:
           - text: 'Попробовать'
             theme: 'outlined'
             size: 'promo'
-            url: 'first-rest-api-call.md'
+            url: 'first-rest-api-call.html'
 
   - type: 'card-layout-block'
     title: 'Частые кейсы и сценарии'
@@ -131,7 +131,7 @@ blocks:
           content:
             links:
               - text: 'Посмотреть документацию'
-                url: './local-integrations/index.md'
+                url: './local-integrations/'
                 theme: 'normal'
                 arrow: true
                 color: #54BA7E
@@ -180,7 +180,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: 'change-article.md'
+            url: 'change-article.html'
         border: none
         theme: 'light'
       - type: 'background-card'
@@ -193,7 +193,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: 'support.md'
+            url: 'support.html'
         border: none
         theme: 'light'
       - type: 'background-card'
@@ -206,7 +206,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: 'support.md'
+            url: 'support.html'
         theme: 'light'
         border: none
 
