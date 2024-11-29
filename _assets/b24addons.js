@@ -452,14 +452,41 @@ function addCopyIconsToCodeElements() {
     const codeElements = document.querySelectorAll('code');
 
     codeElements.forEach(codeElement => {
-        const copyIcon = document.createElement('span');
-        copyIcon.innerHTML = '📋';
-        copyIcon.style.cursor = 'pointer';
-        copyIcon.style.marginLeft = '5px';
-        copyIcon.style.display = 'none';
+        // Пропускаем элементы <code>, которые находятся внутри <pre>
+        if (codeElement.closest('pre')) {
+            return;
+        }
 
-        codeElement.style.position = 'relative';
-        codeElement.appendChild(copyIcon);
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        wrapper.style.display = 'inline-block';
+
+        const copyIconWrapper = document.createElement('div');
+        const bodyBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
+        copyIconWrapper.style.backgroundColor = bodyBackgroundColor; 
+        
+        copyIconWrapper.style.position = 'absolute';
+        copyIconWrapper.style.right = '0';
+        copyIconWrapper.style.top = '50%';
+        copyIconWrapper.style.transform = 'translateY(-50%)';
+        copyIconWrapper.style.cursor = 'pointer';
+        copyIconWrapper.style.display = 'none';
+
+        const copyIcon = document.createElement('span');
+        copyIcon.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" class="yfm-clipboard-icon" data-animation="121">
+                <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path>
+                <path stroke="currentColor" fill="transparent" stroke-width="1.5" d="M9.5 13l3 3l5 -5" visibility="hidden">
+                    <animate id="visibileAnimation-121" attributeName="visibility" from="hidden" to="visible" dur="0.2s" fill="freeze" begin=""></animate>
+                    <animate id="hideAnimation-121" attributeName="visibility" from="visible" to="hidden" dur="1s" begin="visibileAnimation-121.end+1" fill="freeze"></animate>
+                </path>
+            </svg>
+        `;
+        copyIcon.style.border = 'none';
+        // copyIcon.style.backgroundColor = 'var(--g-color-base-misc-light)';
+        copyIcon.style.background = 'none';
+
+        copyIconWrapper.appendChild(copyIcon);
 
         const tooltip = document.createElement('div');
         tooltip.innerHTML = 'Copied!';
@@ -474,27 +501,29 @@ function addCopyIconsToCodeElements() {
         tooltip.style.fontSize = '12px';
         tooltip.style.display = 'none';
         tooltip.style.zIndex = '10';
-        codeElement.appendChild(tooltip);
 
-        codeElement.addEventListener('mouseenter', () => {
-            copyIcon.style.display = 'inline';
+        wrapper.appendChild(codeElement.cloneNode(true));
+        wrapper.appendChild(copyIconWrapper);
+        wrapper.appendChild(tooltip);
+        codeElement.replaceWith(wrapper);   
+
+        wrapper.addEventListener('mouseenter', () => {
+            copyIconWrapper.style.display = 'inline';
         });
 
-        codeElement.addEventListener('mouseleave', () => {
-            copyIcon.style.display = 'none';
+        wrapper.addEventListener('mouseleave', () => {
+            copyIconWrapper.style.display = 'none';
         });
 
-        copyIcon.addEventListener('click', (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            const textToCopy = codeElement.textContent.replace('📋Copied!', '').trim();
+        copyIconWrapper.addEventListener('click', () => {
+            const textToCopy = wrapper.querySelector('code').textContent;
             navigator.clipboard.writeText(textToCopy).then(() => {
                 tooltip.style.display = 'block';
                 setTimeout(() => {
                     tooltip.style.display = 'none';
-                }, 2000); 
+                }, 2000);
             }).catch(err => {
-                console.error('Error of copying: ', err);
+                console.error('Ошибка копирования текста: ', err);
             });
         });
     });
