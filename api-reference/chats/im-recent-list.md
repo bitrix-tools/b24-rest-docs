@@ -39,24 +39,30 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.recent.list',
-    {
-        LAST_MESSAGE_DATE: '2021-10-30'
-    },
-    res => {
-        if (res.error())
-        {
-        console.error(result.error().ex);
-        }
-        else
-        {
-        console.log(res.data())
-        }
-    }
-)
-```
+{% list tabs %}
+
+- JS
+
+   ```js
+   B24.callMethod(
+      'im.recent.list',
+      {
+         LAST_MESSAGE_DATE: '2021-10-30'
+      },
+      res => {
+         if (res.error())
+         {
+               console.error(result.error().ex);
+         }
+         else
+         {
+               console.log(res.data())
+         }
+      }
+   )
+   ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

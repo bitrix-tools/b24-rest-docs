@@ -52,23 +52,29 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.message.add',
-    Array(
-        'DIALOG_ID' => 'chat13',
-        'MESSAGE' => 'Текст сообщения',
-        'SYSTEM' => 'N',
-        'ATTACH' => '',
-        'URL_PREVIEW' => 'Y',
-        'KEYBOARD' => '',
-        'MENU' => '',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.message.add',
+        Array(
+            'DIALOG_ID' => 'chat13',
+            'MESSAGE' => 'Текст сообщения',
+            'SYSTEM' => 'N',
+            'ATTACH' => '',
+            'URL_PREVIEW' => 'Y',
+            'KEYBOARD' => '',
+            'MENU' => '',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

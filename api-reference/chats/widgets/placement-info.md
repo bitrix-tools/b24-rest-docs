@@ -18,26 +18,32 @@
 
 Все встраивания являются стандартным форматом и регистрируются с помощью метода [placement.bind](../../widgets/placement-bind.md). Пример:
 
-```php
-CRest::call(
-    'placement.bind',
-    [
-        'PLACEMENT' => 'IM_SIDEBAR',
-        'HANDLER' => 'https://example.com/apps/immarket/handlers/sidebar.php',
-        'LANG_ALL' => [
-            'ru' => [
-                'TITLE' => 'Приложение в сайдбаре',
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'IM_SIDEBAR',
+            'HANDLER' => 'https://example.com/apps/immarket/handlers/sidebar.php',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Приложение в сайдбаре',
+                ],
             ],
-        ],
-        'OPTIONS' => [
-            'iconName' => 'fa-bug',
-            'context' => 'USER;LINES',
-            'role' => 'ADMIN',
-            'extranet' => 'N',
+            'OPTIONS' => [
+                'iconName' => 'fa-bug',
+                'context' => 'USER;LINES',
+                'role' => 'ADMIN',
+                'extranet' => 'N',
+            ]
         ]
-    ]
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 Рассмотрим подробнее секцию `OPTIONS`:
 

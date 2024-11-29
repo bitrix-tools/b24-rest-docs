@@ -45,17 +45,23 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    'entity.update',
-    {
-        'ENTITY': 'dish',
-        'ACCESS': {
-            U1:'W',
-            AU:'R'
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'entity.update',
+        {
+            'ENTITY': 'dish',
+            'ACCESS': {
+                U1:'W',
+                AU:'R'
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

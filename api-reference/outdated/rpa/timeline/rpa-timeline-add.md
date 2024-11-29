@@ -48,36 +48,42 @@
 
 ## Пример
 
-```json
-{
-    "timeline": {
-        "id": 325,
-        "typeId": 24,
-        "itemId": 10,
-        "createdTime": "2020-03-26T21:55:25+02:00",
-        "userId": 1,
-        "title": "rest update",
-        "description": "<h5>small header</h5>",
-        "action": false,
-        "isFixed": false,
-        "data": {
-            "scope": "rest"
-        },
-        "createdTimestamp": 1585252525000,
-        "users": {
-            "1": {
-                "id": "1",
-                "name": "Anton",
-                "secondName": "",
-                "lastName": "",
-                "title": null,
-                "workPosition": "",
-                "fullName": "Anton",
-                "link": "/company/personal/user/1/"
+{% list tabs %}
+
+- JS
+
+    ```json
+    {
+        "timeline": {
+            "id": 325,
+            "typeId": 24,
+            "itemId": 10,
+            "createdTime": "2020-03-26T21:55:25+02:00",
+            "userId": 1,
+            "title": "rest update",
+            "description": "<h5>small header</h5>",
+            "action": false,
+            "isFixed": false,
+            "data": {
+                "scope": "rest"
+            },
+            "createdTimestamp": 1585252525000,
+            "users": {
+                "1": {
+                    "id": "1",
+                    "name": "Anton",
+                    "secondName": "",
+                    "lastName": "",
+                    "title": null,
+                    "workPosition": "",
+                    "fullName": "Anton",
+                    "link": "/company/personal/user/1/"
+                }
             }
         }
     }
-}
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -35,23 +35,29 @@
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Пример
+## Примеры
 
-Вызов
-```javascript
-BX24.callMethod(
-    'entity.section.delete',
-    {
-        ENTITY: 'menu_new',
-        ID: 220
-    }
-);
-```
+{% list tabs %}
 
-Запрос
-```http
-https://my.bitrix24.ru/rest/entity.section.delete.json?ENTITY=menu_new&ID=220&auth=9affe382af74d9c5caa588e28096e872
-```
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'entity.section.delete',
+        {
+            ENTITY: 'menu_new',
+            ID: 220
+        }
+    );
+    ```
+
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.section.delete.json?ENTITY=menu_new&ID=220&auth=9affe382af74d9c5caa588e28096e872
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -38,9 +38,15 @@
 
 ## Примеры
 
-```js
-[BOT_ID] => 39
-[BOT_CODE] => giphy
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    [BOT_ID] => 39
+    [BOT_CODE] => giphy
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

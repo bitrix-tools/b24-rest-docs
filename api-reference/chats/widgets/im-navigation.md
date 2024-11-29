@@ -44,24 +44,30 @@ IFRAME открывается, но в него не передаётся кон
 
 ## Примеры
 
-```php
-CRest::call(
-    'placement.bind',
-    [
-        'PLACEMENT' => 'IM_NAVIGATION',
-        'HANDLER' => 'https://example.com/apps/immarket/handlers/navigation.php',
-        'LANG_ALL' => [
-            'ru' => [
-                'TITLE' => 'Приложение для левого меню навигации',
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'IM_NAVIGATION',
+            'HANDLER' => 'https://example.com/apps/immarket/handlers/navigation.php',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Приложение для левого меню навигации',
+                ],
             ],
-        ],
-        'OPTIONS' => [
-            'iconName' => 'fa-check',
-            'role' => 'USER',
-            'extranet' => 'N',
+            'OPTIONS' => [
+                'iconName' => 'fa-check',
+                'role' => 'USER',
+                'extranet' => 'N',
+            ]
         ]
-    ]
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -58,26 +58,32 @@
 
 Этот запрос создаст новый процесс под названием "Мой процесс". Все пользователи смогут создавать элементы этого процесса. Только пользователь с ID 1 сможет менять настройки этого процесса
 
-```json
-{
-    "fields": {
-        "title": "Мой процесс",
-        "image": "list",
-        "permissions": [
-            {
-                "accessCode": "UA",
-                "permission": "X",
-                "action": "ITEMS_CREATE"
-            },
-            {
-                "accessCode": "U1",
-                "permission": "X",
-                "action": "MODIFY"
-            },
-        ]
+{% list tabs %}
+
+- JS
+
+    ```json
+    {
+        "fields": {
+            "title": "Мой процесс",
+            "image": "list",
+            "permissions": [
+                {
+                    "accessCode": "UA",
+                    "permission": "X",
+                    "action": "ITEMS_CREATE"
+                },
+                {
+                    "accessCode": "U1",
+                    "permission": "X",
+                    "action": "MODIFY"
+                },
+            ]
+        }
     }
-}
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

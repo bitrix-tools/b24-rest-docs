@@ -60,31 +60,35 @@
 
 ## Пример
 
-Вызов
+{% list tabs %}
 
-```javascript
-BX24.callMethod(
-    'entity.item.add',
-    {
-        ENTITY: 'menu_new',
-        DATE_ACTIVE_FROM: new Date(),
-        DETAIL_PICTURE: '',
-        NAME: 'Hello, world!',
-        PROPERTY_VALUES: {
-            test: 11,
-            test1: 22,
-            test_file: ''
-        },
-        SECTION: 219
-    }
-);
-```
+- JS
 
-Запрос
+    ```javascript
+    BX24.callMethod(
+        'entity.item.add',
+        {
+            ENTITY: 'menu_new',
+            DATE_ACTIVE_FROM: new Date(),
+            DETAIL_PICTURE: '',
+            NAME: 'Hello, world!',
+            PROPERTY_VALUES: {
+                test: 11,
+                test1: 22,
+                test_file: ''
+            },
+            SECTION: 219
+        }
+    );
+    ```
 
-```http
-https://my.bitrix24.ru/rest/entity.item.add.json?DATE_ACTIVE_FROM=2013-06-26T11%3A54%3A30.421Z&DETAIL_PICTURE=&ENTITY=menu_new&NAME=Hello%2C%20world!&PROPERTY_VALUES%5Btest1%5D=22&PROPERTY_VALUES%5Btest%5D=11&PROPERTY_VALUES%5Btest_file%5D=&SECTION=219&auth=9affe382af74d9c5caa588e28096e872
-```
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.add.json?DATE_ACTIVE_FROM=2013-06-26T11%3A54%3A30.421Z&DETAIL_PICTURE=&ENTITY=menu_new&NAME=Hello%2C%20world!&PROPERTY_VALUES%5Btest1%5D=22&PROPERTY_VALUES%5Btest%5D=11&PROPERTY_VALUES%5Btest_file%5D=&SECTION=219&auth=9affe382af74d9c5caa588e28096e872
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

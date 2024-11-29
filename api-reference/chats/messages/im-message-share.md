@@ -44,26 +44,32 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.message.share',
-    {
-        MESSAGE_ID: 289,
-        DIALOG_ID: 'chat74',
-        TYPE: 'CHAT',
-    },
-    res => {
-        if (res.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    B24.callMethod(
+        'im.message.share',
         {
-        console.error(result.error().ex);
+            MESSAGE_ID: 289,
+            DIALOG_ID: 'chat74',
+            TYPE: 'CHAT',
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
         }
-        else
-        {
-        console.log(res.data())
-        }
-    }
-)
-```
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

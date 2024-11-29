@@ -54,24 +54,30 @@ const context = BX24.placement.info().options;
 
 ## Примеры
 
-```php
-CRest::call(
-    'placement.bind',
-    [
-        'PLACEMENT' => 'IM_SMILES_SELECTOR',
-        'HANDLER' => 'https://example.com/apps/immarket/handlers/smiles_selector.php',
-        'LANG_ALL' => [
-            'ru' => [
-                'TITLE' => 'Приложение для расширения возможностей смайлов и giphy',
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'IM_SMILES_SELECTOR',
+            'HANDLER' => 'https://example.com/apps/immarket/handlers/smiles_selector.php',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Приложение для расширения возможностей смайлов и giphy',
+                ],
             ],
-        ],
-        'OPTIONS' => [
-            'context' => 'USER;LINES',
-            'role' => 'USER',
-            'extranet' => 'Y',
+            'OPTIONS' => [
+                'context' => 'USER;LINES',
+                'role' => 'USER',
+                'extranet' => 'Y',
+            ]
         ]
-    ]
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

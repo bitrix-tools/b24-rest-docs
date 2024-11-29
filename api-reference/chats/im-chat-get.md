@@ -30,7 +30,7 @@
 #|
 || **Параметр** | **Пример** | **Описание** | **Ревизия** ||
 || **ENTITY_TYPE^*^**
-[`unknown`]../data-types.md) | `CRM` | Идентификатор сущности. Может быть использован для поиска чата и для легкого определения контекста в обработчиках событий:
+[`unknown`](../data-types.md) | `CRM` | Идентификатор сущности. Может быть использован для поиска чата и для легкого определения контекста в обработчиках событий:
 - [ONIMBOTMESSAGEADD](.),
 - [ONIMBOTMESSAGEUPDATE](.),
 - [ONIMBOTMESSAGEDELETE](.) | 18 ||
@@ -47,18 +47,24 @@
 
 {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.chat.get',
-    Array(
-        'ENTITY_TYPE' => 'CRM',
-        'ENTITY_ID' => 'LEAD|13',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.chat.get',
+        Array(
+            'ENTITY_TYPE' => 'CRM',
+            'ENTITY_ID' => 'LEAD|13',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

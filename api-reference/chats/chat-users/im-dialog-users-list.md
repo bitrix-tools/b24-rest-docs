@@ -42,25 +42,31 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.dialog.users.list',
-    {
-        DIALOG_ID: 'chat74',
-        SKIP_EXTERNAL: 'Y'
-    },
-    res => {
-        if (res.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    B24.callMethod(
+        'im.dialog.users.list',
         {
-        console.error(result.error().ex);
+            DIALOG_ID: 'chat74',
+            SKIP_EXTERNAL: 'Y'
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
         }
-        else
-        {
-        console.log(res.data())
-        }
-    }
-)
-```
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
