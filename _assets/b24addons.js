@@ -448,6 +448,58 @@ function initB24items() {
     // addSearchField();
 }
 
+function addCopyIconsToCodeElements() {
+    const codeElements = document.querySelectorAll('code');
+
+    codeElements.forEach(codeElement => {
+        const copyIcon = document.createElement('span');
+        copyIcon.innerHTML = '📋';
+        copyIcon.style.cursor = 'pointer';
+        copyIcon.style.marginLeft = '5px';
+        copyIcon.style.display = 'none';
+
+        codeElement.style.position = 'relative';
+        codeElement.appendChild(copyIcon);
+
+        const tooltip = document.createElement('div');
+        tooltip.innerHTML = 'Copied!';
+        tooltip.style.position = 'absolute';
+        tooltip.style.bottom = '100%';
+        tooltip.style.left = '50%';
+        tooltip.style.transform = 'translateX(-50%)';
+        tooltip.style.backgroundColor = '#333';
+        tooltip.style.color = '#fff';
+        tooltip.style.padding = '5px';
+        tooltip.style.borderRadius = '3px';
+        tooltip.style.fontSize = '12px';
+        tooltip.style.display = 'none';
+        tooltip.style.zIndex = '10';
+        codeElement.appendChild(tooltip);
+
+        codeElement.addEventListener('mouseenter', () => {
+            copyIcon.style.display = 'inline';
+        });
+
+        codeElement.addEventListener('mouseleave', () => {
+            copyIcon.style.display = 'none';
+        });
+
+        copyIcon.addEventListener('click', (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            const textToCopy = codeElement.textContent.replace('📋Copied!', '').trim();
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                tooltip.style.display = 'block';
+                setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 2000); 
+            }).catch(err => {
+                console.error('Error of copying: ', err);
+            });
+        });
+    });
+}
+
 initB24itemsIfReady();
 
 mainObserver.observe(document, { childList: true, subtree: true });
@@ -475,4 +527,6 @@ window.onload = function() {
         trackLinks: true,
         accurateTrackBounce: true
     });
+
+    addCopyIconsToCodeElements();
 };
