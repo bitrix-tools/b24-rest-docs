@@ -1,4 +1,4 @@
-# Пользовательские поля задач task.item.userfield.getfields
+# Получить поля пользовательского поля task.item.userfield.getfields
 
 {% if build == 'dev' %}
 
