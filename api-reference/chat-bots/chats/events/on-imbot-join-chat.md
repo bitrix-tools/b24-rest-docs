@@ -93,34 +93,40 @@
 
 ## Примеры
 
-```js
-[BOT] => Array (
-    [39] => Array (
-        [AUTH] => Array (
-            [domain] => b24.hazz
-            [member_id] => d41d8cd98f00b204e9800998ecf8427e
-            [application_token] => 8006ddd764e69deb28af0c768b10ed65
+{% list tabs %}
+
+- JS
+
+    ```js
+    [BOT] => Array (
+        [39] => Array (
+            [AUTH] => Array (
+                [domain] => b24.hazz
+                [member_id] => d41d8cd98f00b204e9800998ecf8427e
+                [application_token] => 8006ddd764e69deb28af0c768b10ed65
+            )
+            [BOT_ID] => 39    
+            [BOT_CODE] => newbot
         )
-        [BOT_ID] => 39    
-        [BOT_CODE] => newbot
     )
-)
-[PARAMS] => Array (
-    [DIALOG_ID] => 1
-    [BOT_ID] => 39
-    [CHAT_TYPE] => P
-    [CHAT_ENTITY_TYPE] => 'LINES'
-    [USER_ID] => 1
-    [LANGUAGE] => ru
-)
-[USER] => Array (
-    [ID] => 1
-    [NAME] => Евгений Шеленков
-    [FIRST_NAME] => Евгений
-    [LAST_NAME] => Шеленков
-    [WORK_POSITION] =>
-    [GENDER] => M
-)
-```
+    [PARAMS] => Array (
+        [DIALOG_ID] => 1
+        [BOT_ID] => 39
+        [CHAT_TYPE] => P
+        [CHAT_ENTITY_TYPE] => 'LINES'
+        [USER_ID] => 1
+        [LANGUAGE] => ru
+    )
+    [USER] => Array (
+        [ID] => 1
+        [NAME] => Евгений Шеленков
+        [FIRST_NAME] => Евгений
+        [LAST_NAME] => Шеленков
+        [WORK_POSITION] =>
+        [GENDER] => M
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -54,24 +54,30 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.message.add',
-    Array(
-        'BOT_ID' => 39,
-        'DIALOG_ID' => 1,
-        'MESSAGE' => 'answer text',
-        'ATTACH' => '',
-        'KEYBOARD' => '',
-        'MENU' => '',
-        'SYSTEM' => 'N',
-        'URL_PREVIEW' => 'Y'
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.message.add',
+        Array(
+            'BOT_ID' => 39,
+            'DIALOG_ID' => 1,
+            'MESSAGE' => 'answer text',
+            'ATTACH' => '',
+            'KEYBOARD' => '',
+            'MENU' => '',
+            'SYSTEM' => 'N',
+            'URL_PREVIEW' => 'Y'
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

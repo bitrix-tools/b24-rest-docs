@@ -49,30 +49,36 @@
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-```php
-$result = restCommand(
-    'imbot.app.register',
-    Array(
-        'BOT_ID' => 62,
-        'CODE' => 'echo',
-        'JS_METHOD' => 'SEND',
-        'JS_PARAM' => '/help',
-        'ICON_FILE' => '/* base64 image */',
-        'CONTEXT' => 'BOT',
-        'EXTRANET_SUPPORT' => 'N',
-        'LIVECHAT_SUPPORT' => 'N',
-        'IFRAME_POPUP' => 'N',
-        'LANG' => Array(
-            Array(
-                'LANGUAGE_ID' => 'en',
-                'TITLE' => 'Echobot BUTTON',
-                'DESCRIPTION' => 'Send help command'
-            ),
-        )
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.app.register',
+        Array(
+            'BOT_ID' => 62,
+            'CODE' => 'echo',
+            'JS_METHOD' => 'SEND',
+            'JS_PARAM' => '/help',
+            'ICON_FILE' => '/* base64 image */',
+            'CONTEXT' => 'BOT',
+            'EXTRANET_SUPPORT' => 'N',
+            'LIVECHAT_SUPPORT' => 'N',
+            'IFRAME_POPUP' => 'N',
+            'LANG' => Array(
+                Array(
+                    'LANGUAGE_ID' => 'en',
+                    'TITLE' => 'Echobot BUTTON',
+                    'DESCRIPTION' => 'Send help command'
+                ),
+            )
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 ## Параметры метода для IFRAME-приложения
 
@@ -111,34 +117,40 @@ $result = restCommand(
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-```php
-$result = restCommand(
-    'imbot.app.register',
-    Array(
-        'BOT_ID' => 62,
-        'CODE' => 'echo',
-        'IFRAME' => 'https://marta.bitrix.info/iframe/echo.php',
-        'IFRAME_WIDTH' => '350',
-        'IFRAME_HEIGHT' => '150',
-        'HASH' => 'd1ab17949a572b0979d8db0d5b349cd2',
-        'ICON_FILE' => '/* base64 image */',
-        'CONTEXT' => 'BOT',
-        'HIDDEN' => 'N',
-        'EXTRANET_SUPPORT' => 'N',
-        'LIVECHAT_SUPPORT' => 'N',
-        'IFRAME_POPUP' => 'N',
-        'LANG' => Array(
-            Array(
-                'LANGUAGE_ID' => 'en',
-                'TITLE' => 'Echobot IFRAME',
-                'DESCRIPTION' => 'Open Echobot IFRAME app',
-                'COPYRIGHT' => 'Bitrix24'
-            ),
-        )
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.app.register',
+        Array(
+            'BOT_ID' => 62,
+            'CODE' => 'echo',
+            'IFRAME' => 'https://marta.bitrix.info/iframe/echo.php',
+            'IFRAME_WIDTH' => '350',
+            'IFRAME_HEIGHT' => '150',
+            'HASH' => 'd1ab17949a572b0979d8db0d5b349cd2',
+            'ICON_FILE' => '/* base64 image */',
+            'CONTEXT' => 'BOT',
+            'HIDDEN' => 'N',
+            'EXTRANET_SUPPORT' => 'N',
+            'LIVECHAT_SUPPORT' => 'N',
+            'IFRAME_POPUP' => 'N',
+            'LANG' => Array(
+                Array(
+                    'LANGUAGE_ID' => 'en',
+                    'TITLE' => 'Echobot IFRAME',
+                    'DESCRIPTION' => 'Open Echobot IFRAME app',
+                    'COPYRIGHT' => 'Bitrix24'
+                ),
+            )
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 ## Возвращаемые данные
 

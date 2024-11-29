@@ -55,22 +55,28 @@
 
 ## Пример
 
-```json
-{
-    "typeId": 24,
-    "itemId": 10,
-    "fields": {
-        "description": "Упоминание пользователя с ид 1 ",
-        "files": [
-            {
-                "id": 15
-            },
-            [
-                "another_document.pdf", "...base64_decoded_content..."
+{% list tabs %}
+
+- JS
+
+    ```json
+    {
+        "typeId": 24,
+        "itemId": 10,
+        "fields": {
+            "description": "Упоминание пользователя с ид 1 ",
+            "files": [
+                {
+                    "id": 15
+                },
+                [
+                    "another_document.pdf", "...base64_decoded_content..."
+                ]
             ]
-        ]
+        }
     }
-}
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

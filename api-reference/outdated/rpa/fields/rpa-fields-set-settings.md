@@ -39,17 +39,24 @@
 
 ## Пример
 
-```json
-{
-    "typeId": 1,
-    "fields": {
-        "kanban": [
-            "createdBy", 
-            "UF_RPA_1_NAME"
-        ]
+{% list tabs %}
+
+- JS
+
+    ```json
+    {
+        "typeId": 1,
+        "fields": {
+            "kanban": [
+                "createdBy",
+                "UF_RPA_1_NAME"
+            ]
+        }
     }
-}
-```
+    ```
+
+{% endlist %}
+
 Метод вернет результат аналогичный запросу  `rpa.fields.getSettings`.
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

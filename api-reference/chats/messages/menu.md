@@ -36,32 +36,38 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-restCommand(
-    'im.message.add',
-    Array(
-        "DIALOG_ID" => 12,
-        "MESSAGE" => "Hello! Message with context menu!",
-        "MENU" => Array(
-            Array(
-                "TEXT" => "Bitrix24",
-                "LINK" => "http://bitrix24.com",
-            ),
-            Array(
-                "TEXT" => "Echo",
-                "COMMAND" => "echo",
-                "COMMAND_PARAMS" => "test from keyboard"
-            ),
-            Array(
-                "TEXT" => "Open app",
-                "APP_ID" => "12",
-                "APP_PARAMS" => "TEST"
-            ),
-        )
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    restCommand(
+        'im.message.add',
+        Array(
+            "DIALOG_ID" => 12,
+            "MESSAGE" => "Hello! Message with context menu!",
+            "MENU" => Array(
+                Array(
+                    "TEXT" => "Bitrix24",
+                    "LINK" => "http://bitrix24.com",
+                ),
+                Array(
+                    "TEXT" => "Echo",
+                    "COMMAND" => "echo",
+                    "COMMAND_PARAMS" => "test from keyboard"
+                ),
+                Array(
+                    "TEXT" => "Open app",
+                    "APP_ID" => "12",
+                    "APP_PARAMS" => "TEST"
+                ),
+            )
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 Контекстное меню - это набор кнопок, каждая кнопка может состоять из следующих ключей:
 

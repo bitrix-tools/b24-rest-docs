@@ -19,15 +19,21 @@
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-```php
-$result = restCommand(
-    'imbot.app.unregister',
-    Array(
-        'APP_ID' => 13,
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.app.unregister',
+        Array(
+            'APP_ID' => 13,
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 ## Ответ в случае успеха
 

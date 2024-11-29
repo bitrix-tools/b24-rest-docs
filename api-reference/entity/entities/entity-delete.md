@@ -35,14 +35,20 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    'entity.delete',
-    {
-        'ENTITY': 'test'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'entity.delete',
+        {
+            'ENTITY': 'test'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

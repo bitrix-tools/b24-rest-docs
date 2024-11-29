@@ -112,42 +112,48 @@
 
 ## Примеры
 
-```js
-[COMMAND] => Array (
-    [14] => Array (
-        [AUTH] => Array (
-            [domain] => b24.hazz
-            [member_id] => d41d8cd98f00b204e9800998ecf8427e
-            [application_token] => 8006ddd764e69deb28af0c768b10ed65
+{% list tabs %}
+
+- JS
+
+    ```js
+    [COMMAND] => Array (
+        [14] => Array (
+            [AUTH] => Array (
+                [domain] => b24.hazz
+                [member_id] => d41d8cd98f00b204e9800998ecf8427e
+                [application_token] => 8006ddd764e69deb28af0c768b10ed65
+            )
+            [BOT_ID] => 62
+            [BOT_CODE] => echobot
+            [COMMAND] => echo
+            [COMMAND_ID] => 14
+            [COMMAND_PARAMS] => test
+            [COMMAND_CONTEXT] => TEXTAREA
+            [MESSAGE_ID] => 1221
         )
-        [BOT_ID] => 62
-        [BOT_CODE] => echobot
-        [COMMAND] => echo
-        [COMMAND_ID] => 14
-        [COMMAND_PARAMS] => test
-        [COMMAND_CONTEXT] => TEXTAREA
-        [MESSAGE_ID] => 1221
     )
-)
-[PARAMS] => Array (
-    [DIALOG_ID] => 1
-    [CHAT_TYPE] => P
-    [MESSAGE_ID] => 1221
-    [MESSAGE] => /echo test
-    [MESSAGE_ORIGINAL] => /echo test
-    [FROM_USER_ID] => 1
-    [TO_USER_ID] => 2
-    [TO_CHAT_ID] => 6
-    [LANGUAGE] => ru
-)
-[USER] => Array (
-    [ID] => 1
-    [NAME] => Евгений Шеленков
-    [FIRST_NAME] => Евгений
-    [LAST_NAME] => Шеленков
-    [WORK_POSITION] =>
-    [GENDER] => M
-)
-```
+    [PARAMS] => Array (
+        [DIALOG_ID] => 1
+        [CHAT_TYPE] => P
+        [MESSAGE_ID] => 1221
+        [MESSAGE] => /echo test
+        [MESSAGE_ORIGINAL] => /echo test
+        [FROM_USER_ID] => 1
+        [TO_USER_ID] => 2
+        [TO_CHAT_ID] => 6
+        [LANGUAGE] => ru
+    )
+    [USER] => Array (
+        [ID] => 1
+        [NAME] => Евгений Шеленков
+        [FIRST_NAME] => Евгений
+        [LAST_NAME] => Шеленков
+        [WORK_POSITION] =>
+        [GENDER] => M
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

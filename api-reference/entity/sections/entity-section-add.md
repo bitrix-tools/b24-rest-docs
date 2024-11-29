@@ -48,23 +48,29 @@
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Пример
+## Примеры
 
-Вызов
-```js
-BX24.callMethod(
-    'entity.section.add',
-    {
-        ENTITY: 'menu_new',
-        'NAME': 'Тестовый раздел'
-    }
-);
-```
+{% list tabs %}
 
-Запрос
-```http
-https://my.bitrix24.ru/rest/entity.section.add.json?ENTITY=menu_new&NAME=%D0%A2%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB&auth=9affe382af74d9c5caa588e28096e872
-```
+- JS
+
+    ```js
+    BX24.callMethod(
+        'entity.section.add',
+        {
+            ENTITY: 'menu_new',
+            'NAME': 'Тестовый раздел'
+        }
+    );
+    ```
+
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.section.add.json?ENTITY=menu_new&NAME=%D0%A2%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB&auth=9affe382af74d9c5caa588e28096e872
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

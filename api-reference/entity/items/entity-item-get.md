@@ -42,56 +42,66 @@
 
 ## Примеры
 
-Вызов
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    'entity.item.get',
-    {
-        ENTITY: 'menu',
-        SORT: {
-            DATE_ACTIVE_FROM: 'ASC',
-            ID: 'ASC'
+- JS
+
+    ```js
+    BX24.callMethod(
+        'entity.item.get',
+        {
+            ENTITY: 'menu',
+            SORT: {
+                DATE_ACTIVE_FROM: 'ASC',
+                ID: 'ASC'
+            },
+            FILTER: {
+                '>=DATE_ACTIVE_FROM': dateStart,
+                '<DATE_ACTIVE_FROM': dateFinish
+            }
         },
-        FILTER: {
-            '>=DATE_ACTIVE_FROM': dateStart,
-            '<DATE_ACTIVE_FROM': dateFinish
-        }
-    },
-    $.proxy(
-        this.buildData,
-        this
-    )
-);
-```
+        $.proxy(
+            this.buildData,
+            this
+        )
+    );
+    ```
 
-Запрос
+- HTTP
 
-```http
-https://my.bitrix24.ru/rest/entity.item.get.json?=&ENTITY=menu&FILTER%5B%3CDATE_ACTIVE_FROM%5D=2013-07-01T00%3A00%3A00.000Z&FILTER%5B%3E%3DDATE_ACTIVE_FROM%5D=2013-06-24T00%3A00%3A00.000Z&SORT%5BDATE_ACTIVE_FROM%5D=ASC&SORT%5BID%5D=ASC&auth=723867cdb1ada1de7870de8b0e558679
-```
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.get.json?=&ENTITY=menu&FILTER%5B%3CDATE_ACTIVE_FROM%5D=2013-07-01T00%3A00%3A00.000Z&FILTER%5B%3E%3DDATE_ACTIVE_FROM%5D=2013-06-24T00%3A00%3A00.000Z&SORT%5BDATE_ACTIVE_FROM%5D=ASC&SORT%5BID%5D=ASC&auth=723867cdb1ada1de7870de8b0e558679
+    ```
+
+{% endlist %}
 
 ### Пример вызова со сложным фильтром
 
-```js
-BX24.callMethod(
-    'entity.item.get',
-    {
-        ENTITY: 'menu',
-        SORT: {
-            DATE_ACTIVE_FROM: 'ASC',
-            ID: 'ASC'
-        },
-        FILTER: {
-            '1':{
-                'LOGIC':'OR',
-                'PROPERTY_MYPROP1':'value1',
-                'PROPERTY_MYPROP2':'value2'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'entity.item.get',
+        {
+            ENTITY: 'menu',
+            SORT: {
+                DATE_ACTIVE_FROM: 'ASC',
+                ID: 'ASC'
+            },
+            FILTER: {
+                '1':{
+                    'LOGIC':'OR',
+                    'PROPERTY_MYPROP1':'value1',
+                    'PROPERTY_MYPROP2':'value2'
+                }
             }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

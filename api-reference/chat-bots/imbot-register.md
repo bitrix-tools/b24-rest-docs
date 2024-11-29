@@ -84,32 +84,38 @@
 
 {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.register',
-    Array(
-        'CODE' => 'newbot',
-        'TYPE' => 'B',
-        'EVENT_HANDLER' => 'http://www.hazz/chatApi/event.php',
-        'OPENLINE' => 'Y',
-        'CLIENT_ID' => '',
-        'PROPERTIES' => Array(
-            'NAME' => 'NewBot',
-            'LAST_NAME' => '',
-            'COLOR' => 'GREEN',
-            'EMAIL' => 'test@test.ru',
-            'PERSONAL_BIRTHDAY' => '2016-03-11',
-            'WORK_POSITION' => 'Лучший сотрудник',
-            'PERSONAL_WWW' => 'http://test.ru',
-            'PERSONAL_GENDER' => 'F',
-            'PERSONAL_PHOTO' => '/* base64 image */',
-        )
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.register',
+        Array(
+            'CODE' => 'newbot',
+            'TYPE' => 'B',
+            'EVENT_HANDLER' => 'http://www.hazz/chatApi/event.php',
+            'OPENLINE' => 'Y',
+            'CLIENT_ID' => '',
+            'PROPERTIES' => Array(
+                'NAME' => 'NewBot',
+                'LAST_NAME' => '',
+                'COLOR' => 'GREEN',
+                'EMAIL' => 'test@test.ru',
+                'PERSONAL_BIRTHDAY' => '2016-03-11',
+                'WORK_POSITION' => 'Лучший сотрудник',
+                'PERSONAL_WWW' => 'http://test.ru',
+                'PERSONAL_GENDER' => 'F',
+                'PERSONAL_PHOTO' => '/* base64 image */',
+            )
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

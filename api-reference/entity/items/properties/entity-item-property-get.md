@@ -35,27 +35,31 @@
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
-## Пример
+## Примеры
 
-Вызов
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    'entity.item.property.get',
-    {
-        ENTITY: 'menu_new'
-    },
-    function(r){
-        console.log(r.data());
-    }
-);
-```
+- JS
 
-Запрос
+    ```js
+    BX24.callMethod(
+        'entity.item.property.get',
+        {
+            ENTITY: 'menu_new'
+        },
+        function(r){
+            console.log(r.data());
+        }
+    );
+    ```
 
-```http
-https://my.bitrix24.ru/rest/entity.item.property.get.json?ENTITY=menu_new&auth=340bf57f35ee95e0debf98399632999c
-```
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.property.get.json?ENTITY=menu_new&auth=340bf57f35ee95e0debf98399632999c
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

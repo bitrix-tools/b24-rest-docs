@@ -36,24 +36,30 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.dialog.writing',
-    {
-        'DIALOG_ID': '13'
-    },
-    function(result){
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    B24.callMethod(
+        'im.dialog.writing',
         {
-            console.error(result.error().ex);
+            'DIALOG_ID': '13'
+        },
+        function(result){
+            if(result.error())
+            {
+                console.error(result.error().ex);
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

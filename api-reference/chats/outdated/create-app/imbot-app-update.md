@@ -43,36 +43,42 @@
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-```php
-$result = restCommand(
-    'imbot.app.update',
-    Array(
-        'APP_ID' => 13,
-        'FIELDS' => Array(
-            'IFRAME' => 'https://marta.bitrix.info/iframe/echo.php',
-            'IFRAME_WIDTH' => '350',
-            'IFRAME_HEIGHT' => '150',
-            'JS_METHOD' => 'SEND',
-            'JS_PARAM' => '/help',
-            'HASH' => 'register',
-            'ICON_FILE' => '/* base64 image */',
-            'CONTEXT' => 'BOT',
-            'EXTRANET_SUPPORT' => 'N',
-            'LIVECHAT_SUPPORT' => 'N',
-            'IFRAME_POPUP' => 'N',
-            'LANG' => Array(
-                Array(
-                    'LANGUAGE_ID' => 'en',
-                    'TITLE' => 'Echobot IFRAME',
-                    'DESCRIPTION' => 'Open Echobot IFRAME app',
-                    'COPYRIGHT' => 'Bitrix24'
-                ),
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.app.update',
+        Array(
+            'APP_ID' => 13,
+            'FIELDS' => Array(
+                'IFRAME' => 'https://marta.bitrix.info/iframe/echo.php',
+                'IFRAME_WIDTH' => '350',
+                'IFRAME_HEIGHT' => '150',
+                'JS_METHOD' => 'SEND',
+                'JS_PARAM' => '/help',
+                'HASH' => 'register',
+                'ICON_FILE' => '/* base64 image */',
+                'CONTEXT' => 'BOT',
+                'EXTRANET_SUPPORT' => 'N',
+                'LIVECHAT_SUPPORT' => 'N',
+                'IFRAME_POPUP' => 'N',
+                'LANG' => Array(
+                    Array(
+                        'LANGUAGE_ID' => 'en',
+                        'TITLE' => 'Echobot IFRAME',
+                        'DESCRIPTION' => 'Open Echobot IFRAME app',
+                        'COPYRIGHT' => 'Bitrix24'
+                    ),
+                )
             )
-        )
-    ),
-    $_REQUEST["auth"]
-);
-```
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 ## Ответ в случае успеха
 

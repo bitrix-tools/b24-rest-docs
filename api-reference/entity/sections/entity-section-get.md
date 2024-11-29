@@ -71,28 +71,34 @@
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Пример
+## Примеры
 
-Вызов
-```js
-BX24.callMethod(
-    'entity.section.get',
-    {
-        ENTITY: 'menu_new',
-        SORT: {
-            'NAME': 'ASC'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'entity.section.get',
+        {
+            ENTITY: 'menu_new',
+            SORT: {
+                'NAME': 'ASC'
+            }
+        },
+        function(result){
+            sections = result.data();
         }
-    },
-    function(result){
-        sections = result.data();
-    }
-);
-```
+    );
+    ```
 
-Запрос
-```http
-https://my.bitrix24.ru/rest/entity.section.get.json?ENTITY=menu_new&SORT%5BNAME%5D=ASC&auth=9affe382af74d9c5caa588e28096e872
-```
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.section.get.json?ENTITY=menu_new&SORT%5BNAME%5D=ASC&auth=9affe382af74d9c5caa588e28096e872
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

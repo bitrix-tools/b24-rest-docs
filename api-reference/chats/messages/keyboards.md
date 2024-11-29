@@ -41,61 +41,67 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-restCommand(
-    'imbot.command.answer',
-    Array(
-        "COMMAND_ID" => $command['COMMAND_ID'],
-        "MESSAGE_ID" => $command['MESSAGE_ID'],
-        "MESSAGE" => "Hello! My name is EchoBot :)[br] I designed to answer your questions!",
-        "KEYBOARD" => Array(
- // Синяя кнопка с текстом Bitrix24 на первой строке
-            Array(
-                "TEXT" => "Bitrix24",
-                "LINK" => "http://bitrix24.com",
-                "BG_COLOR_TOKEN" => "primary",
-                "BG_COLOR" => "#29619b",
-                "TEXT_COLOR" => "#fff",
-                "DISPLAY" => "LINE",		
-            ),
-// Белая кнопка с текстом BitBucket на первой строке
-            Array(
-                "TEXT" => "BitBucket", 
-                "LINK" => "https://bitbucket.org/Bitrix24com/rest-bot-echotest",
-                "BG_COLOR_TOKEN" => "secondary",
-                "BG_COLOR" => "#2a4c7c",
-                "TEXT_COLOR" => "#fff",
-                "DISPLAY" => "LINE",
-            ),
-// перенос строки, следующие кнопки будут размещены на второй строке
-            Array(
-                "TYPE" => "NEWLINE" 
-            ), 
-// Красная кнопка с текстом Echo на второй строке
-            Array(
-                "TEXT" => "Echo", 
-                "COMMAND" => "echo",
-                "COMMAND_PARAMS" => "test from keyboard",
-                "DISPLAY" => "LINE",
-                "BG_COLOR_TOKEN" => "alert",
-            ),
-// Базовая кнопка с текстом List на второй строке
-            Array(
-                "TEXT" => "List",
-                "COMMAND" => "echoList",
-                "DISPLAY" => "LINE"
-            ),
-// Базовая кнопка с текстом Help на второй строке
-            Array(
-                "TEXT" => "Help", 
-                "COMMAND" => "help",
-                "DISPLAY" => "LINE"
-            ),
-        )
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    restCommand(
+        'imbot.command.answer',
+        Array(
+            "COMMAND_ID" => $command['COMMAND_ID'],
+            "MESSAGE_ID" => $command['MESSAGE_ID'],
+            "MESSAGE" => "Hello! My name is EchoBot :)[br] I designed to answer your questions!",
+            "KEYBOARD" => Array(
+    // Синяя кнопка с текстом Bitrix24 на первой строке
+                Array(
+                    "TEXT" => "Bitrix24",
+                    "LINK" => "http://bitrix24.com",
+                    "BG_COLOR_TOKEN" => "primary",
+                    "BG_COLOR" => "#29619b",
+                    "TEXT_COLOR" => "#fff",
+                    "DISPLAY" => "LINE",		
+                ),
+    // Белая кнопка с текстом BitBucket на первой строке
+                Array(
+                    "TEXT" => "BitBucket", 
+                    "LINK" => "https://bitbucket.org/Bitrix24com/rest-bot-echotest",
+                    "BG_COLOR_TOKEN" => "secondary",
+                    "BG_COLOR" => "#2a4c7c",
+                    "TEXT_COLOR" => "#fff",
+                    "DISPLAY" => "LINE",
+                ),
+    // перенос строки, следующие кнопки будут размещены на второй строке
+                Array(
+                    "TYPE" => "NEWLINE" 
+                ), 
+    // Красная кнопка с текстом Echo на второй строке
+                Array(
+                    "TEXT" => "Echo", 
+                    "COMMAND" => "echo",
+                    "COMMAND_PARAMS" => "test from keyboard",
+                    "DISPLAY" => "LINE",
+                    "BG_COLOR_TOKEN" => "alert",
+                ),
+    // Базовая кнопка с текстом List на второй строке
+                Array(
+                    "TEXT" => "List",
+                    "COMMAND" => "echoList",
+                    "DISPLAY" => "LINE"
+                ),
+    // Базовая кнопка с текстом Help на второй строке
+                Array(
+                    "TEXT" => "Help", 
+                    "COMMAND" => "help",
+                    "DISPLAY" => "LINE"
+                ),
+            )
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 Клавиатура — это набор кнопок, каждая кнопка может состоять из следующих ключей:
 

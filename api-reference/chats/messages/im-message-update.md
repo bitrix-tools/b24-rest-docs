@@ -47,22 +47,28 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand('
-    im.message.update',
-    Array(
-        'MESSAGE_ID' => 1,
-        'MESSAGE' => 'Текст сообщения',
-        'ATTACH' => '',
-        'URL_PREVIEW' => 'Y',
-        'KEYBOARD' => '',
-        'MENU' => '',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand('
+        im.message.update',
+        Array(
+            'MESSAGE_ID' => 1,
+            'MESSAGE' => 'Текст сообщения',
+            'ATTACH' => '',
+            'URL_PREVIEW' => 'Y',
+            'KEYBOARD' => '',
+            'MENU' => '',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
