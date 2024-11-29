@@ -1,22 +1,35 @@
-# Обзор методов
+# Пользовательские поля в задачах: обзор методов
+
+В задаче есть набор системных полей: исполнитель, наблюдатели, крайний срок выполнения, теги и так далее. Если системных полей недостаточно, вы можете создать собственные — пользовательские поля. Пользовательские поля позволяют хранить информацию в различных форматах данных: строка, число, дата со временем и да/нет. 
+
+> Быстрый переход: [все методы и события](#all-methods) 
+> 
+> Пользовательская документация: [пользовательские поля в задачах](https://helpdesk.bitrix24.ru/open/2573061/)
+
+## Особенности
+
+При создании пользовательского поля методом [task.item.userfield.add](./task-item-user-field-add.md), в названии поля `FIELD_NAME` обязательно использовать префикс `UF_`. Если не указать префикс, система автоматически добавит его в начало названия.
+Получить список всех пользовательских полей задач можно методом [task.item.userfield.getlist](./task-item-user-field-get-list.md). В списке будет три системных поля задач для связи с другими объектами:
+
+- `UF_CRM_TASK` —  с объектами CRM
+- `UF_MAIL_MESSAGE` —  с письмом Почты
+- `UF_TASK_WEBDAV_FILES` — c файлами Диска
+
+Они созданы на основе пользовательских полей, поэтому есть в списке. Подробнее о связях задачи с другими объектами — в статье [Задачи: обзор методов](../index.md).
+
+## Обзор методов {#all-methods}
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+> Кто может выполнять метод: в зависимости от метода
 
 #|
 || **Метод** | **Описание** ||
-|| [task.item.userfield.add](./task-item-user-field-add.md) | Создает новое поле ||
-|| [task.item.userfield.update](./task-item-user-field-update.md) | Обновляет параметры поля ||
-|| [task.item.userfield.get](./task-item-user-field-get.md) | Получает поле по идентификатору ||
+|| [task.item.userfield.add](./task-item-user-field-add.md) | Создает пользовательское поле ||
+|| [task.item.userfield.update](./task-item-user-field-update.md) | Обновляет пользовательское поле ||
+|| [task.item.userfield.get](./task-item-user-field-get.md) | Получает поле по идентификатору `id` ||
 || [task.item.userfield.getlist](./task-item-user-field-get-list.md) | Получает список полей ||
-|| [task.item.userfield.delete](./task-item-user-field-delete.md) | Удаляет поле ||
+|| [task.item.userfield.delete](./task-item-user-field-delete.md) | Удаляет пользовательское поле ||
 || [task.item.userfield.gettypes](./task-item-user-field-get-types.md) | Получает все доступные типы данных ||
 || [task.item.userfield.getfields](./task-item-user-field-get-fields.md) | Получает все доступные поля пользовательского поля ||
 |#
