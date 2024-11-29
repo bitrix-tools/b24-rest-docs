@@ -42,25 +42,31 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.landing.addByTemplate',
-    {
-        siteId: 870,
-        code: 'agency',
-        fields: {
-            TITLE: 'Заголовок страницы',
-            DESCRIPTION: 'Описание страницы'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.addByTemplate',
+        {
+            siteId: 870,
+            code: 'agency',
+            fields: {
+                TITLE: 'Заголовок страницы',
+                DESCRIPTION: 'Описание страницы'
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

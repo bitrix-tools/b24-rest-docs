@@ -36,32 +36,38 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.landing.add',
-    {
-        fields: {
-            TITLE: 'My first page!',
-            CODE: 'firstpage',
-            SITE_ID: 292,
-            ADDITIONAL_FIELDS: {
-                THEME_CODE: 'wedding'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.add',
+        {
+            fields: {
+                TITLE: 'My first page!',
+                CODE: 'firstpage',
+                SITE_ID: 292,
+                ADDITIONAL_FIELDS: {
+                    THEME_CODE: 'wedding'
+                }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
             }
         }
-    },
-    function(result)
-    {
-        if(result.error())
-        {
-            console.error(result.error());
-        }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

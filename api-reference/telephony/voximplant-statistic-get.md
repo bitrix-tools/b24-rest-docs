@@ -63,22 +63,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.statistic.get',
-    {
-        "FILTER": {">CALL_DURATION":60},
-        "SORT": "CALL_DURATION",
-        "ORDER": "DESC",
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.statistic.get',
+        {
+            "FILTER": {">CALL_DURATION":60},
+            "SORT": "CALL_DURATION",
+            "ORDER": "DESC",
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

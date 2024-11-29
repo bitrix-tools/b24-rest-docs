@@ -34,11 +34,31 @@
 
 {% include [Сноска о параметрах](../../_includes/required.md) %}
 
-## Вызов
+## Примеры кода
 
-```js
-BX24.callMethod('department.add', {"NAME": "Подразделение", "PARENT": 155, "UF_HEAD": 1});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'department.add',
+        {
+            "NAME": "Подразделение",
+            "PARENT": 155,
+            "UF_HEAD": 1
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 ## Запрос
 

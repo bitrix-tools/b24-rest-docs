@@ -50,46 +50,53 @@ catalog.price.modify(fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.price.modify',
-    {
-        fields: {
-            product: {
-                id: 8,
-                prices: [
-                    {
-                        catalogGroupId: 1,
-                        currency: 'RUB',
-                        price: 2001,
-                        quantityFrom: 1,
-                        quantityTo: 2
-                    },
-                    {
-                        catalogGroupId: 1,
-                        currency: 'RUB',
-                        price: 2001,                
-                        quantityFrom: 3,
-                        quantityTo: 4
-                    },
-                    {
-                        catalogGroupId: 1,
-                        currency: 'RUB',
-                        price: 2001,                
-                        quantityFrom: 5,
-                        id: 122
-                    },
-                ]
-            },
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.price.modify',
+        {
+            fields: {
+                product: {
+                    id: 8,
+                    prices: [
+                        {
+                            catalogGroupId: 1,
+                            currency: 'RUB',
+                            price: 2001,
+                            quantityFrom: 1,
+                            quantityTo: 2
+                        },
+                        {
+                            catalogGroupId: 1,
+                            currency: 'RUB',
+                            price: 2001,                
+                            quantityFrom: 3,
+                            quantityTo: 4
+                        },
+                        {
+                            catalogGroupId: 1,
+                            currency: 'RUB',
+                            price: 2001,                
+                            quantityFrom: 5,
+                            id: 122
+                        },
+                    ]
+                },
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

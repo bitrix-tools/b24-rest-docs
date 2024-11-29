@@ -47,7 +47,7 @@ catalog.document.element.add(fields)
 
 - js
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.element.add',
         {
@@ -72,7 +72,7 @@ catalog.document.element.add(fields)
 
 - php
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.element.add',
         [

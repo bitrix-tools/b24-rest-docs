@@ -50,27 +50,35 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.addCard',
-    {
-        lid: 634,
-        block: 12079,
-        selector: '.landing-block-node-menu-list-item@0',
-        content: '<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">' + '<a href="#about" class="landing-block-node-menu-list-item-link nav-link g-color-white p-0">New card item</a>' + '</li>'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.addCard',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 634,
+            block: 12079,
+            selector: '.landing-block-node-menu-list-item@0',
+            content: '<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">' + '<a href="#about" class="landing-block-node-menu-list-item-link nav-link g-color-white p-0">New card item</a>' + '</li>'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

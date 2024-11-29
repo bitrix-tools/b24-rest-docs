@@ -36,10 +36,18 @@
 
 ## Пример
 
-```js
-// Получаем список групп текущего пользователя
-BX24.callMethod('sonet_group.user.groups', {});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Получаем список групп текущего пользователя
+    BX24.callMethod('sonet_group.user.groups', {});
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос:

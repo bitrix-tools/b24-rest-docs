@@ -62,30 +62,38 @@
 - JS
 
     ```javascript
-    BX24.callMethod('timeman.timecontrol.settings.set', {
-        active: true,
-        report_request_type: 'user',
-        report_request_users: [1,2,3],
-    }, function(result){
-        if(result.error())
+    BX24.callMethod(
+        'timeman.timecontrol.settings.set',
         {
-            console.error(result.error().ex);
+            active: true,
+            report_request_type: 'user',
+            report_request_users: [1,2,3],
+        },
+        function(result){
+            if(result.error())
+            {
+                console.error(result.error().ex);
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+    );
     ```
 
 - PHP
 
     ```php
-    $result = restCommand('timeman.timecontrol.settings.set', Array(
-        active: true,
-        report_request_type: 'user',
-        report_request_users: [1,2,3],
-    ), $_REQUEST["auth"]);
+    $result = restCommand(
+        'timeman.timecontrol.settings.set',
+        Array(
+            active: true,
+            report_request_type: 'user',
+            report_request_users: [1,2,3],
+        ),
+        $_REQUEST["auth"]
+    );
     ```
 
 {% endlist %}

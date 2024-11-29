@@ -53,28 +53,34 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.updateFolder',
-    {
-        siteId: 1817,
-        folderId: 736,
-        fields: {
-            TITLE: 'Измененная папка'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.updateFolder',
         {
-            console.error(result.error());
-        }
-        else
+            siteId: 1817,
+            folderId: 736,
+            fields: {
+                TITLE: 'Измененная папка'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

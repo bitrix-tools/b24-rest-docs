@@ -54,7 +54,7 @@ catalog.document.confirm(id)
 
 - js
   
-    ```
+    ```js
     BX24.callMethod(
     'catalog.document.confirm',
     {
@@ -72,7 +72,7 @@ catalog.document.confirm(id)
 
 - php
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.confirm',
         [

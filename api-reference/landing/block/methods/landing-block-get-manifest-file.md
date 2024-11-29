@@ -37,25 +37,31 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.getmanifestfile',
-    {
-        code: '01.big_with_text'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.getmanifestfile',
         {
-            console.error(result.error());
-        }
-        else
+            code: '01.big_with_text'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

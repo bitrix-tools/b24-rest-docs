@@ -63,3 +63,7 @@
 {% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)

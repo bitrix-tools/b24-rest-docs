@@ -45,9 +45,9 @@ catalog.store.add(fields)
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.store.add',
         {
@@ -74,9 +74,9 @@ catalog.store.add(fields)
     );
     ```
 
-- php
+- PHP
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.store.add',
         [

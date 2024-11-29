@@ -38,15 +38,15 @@
 
     ```js
     BX24.callMethod(
-    'catalog.extra.getFields', 
-    {},
-    function(result)
-    {
-    if(result.error())
-    console.error(result.error());
-    else
-    console.log(result.data());
-    }
+        'catalog.extra.getFields', 
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
     );
     ```
 

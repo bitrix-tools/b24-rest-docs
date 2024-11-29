@@ -45,9 +45,9 @@ catalog.store.update(id, fields)
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.store.update',
         {
@@ -75,9 +75,9 @@ catalog.store.update(id, fields)
     );
     ```
 
-- php
+- PHP
 
-    ```
+    ```php
     $result = CRest::call(
         'catalog.store.update',
         [

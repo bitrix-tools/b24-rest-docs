@@ -82,39 +82,45 @@
 
 ## Пример
 
-```javascript
-var params = {
-    'IBLOCK_TYPE_ID': 'lists_socnet',
-    'IBLOCK_CODE': 'rest_1',
-    'SOCNET_GROUP_ID': '7',
-    'FIELDS': {
-        'NAME': 'List field',
-        'IS_REQUIRED': 'Y',
-        'MULTIPLE': 'N',
-        'TYPE': 'L',
-        'SORT': '20',
-        'CODE': 'fieldList',
-        'LIST_TEXT_VALUES': 'one\ntwo\nthree',
-        'SETTINGS': {
-            'SHOW_ADD_FORM': 'Y',
-            'SHOW_EDIT_FORM': 'Y',
-            'ADD_READ_ONLY_FIELD': 'N',
-            'EDIT_READ_ONLY_FIELD': 'N',
-            'SHOW_FIELD_PREVIEW': 'N'
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists_socnet',
+        'IBLOCK_CODE': 'rest_1',
+        'SOCNET_GROUP_ID': '7',
+        'FIELDS': {
+            'NAME': 'List field',
+            'IS_REQUIRED': 'Y',
+            'MULTIPLE': 'N',
+            'TYPE': 'L',
+            'SORT': '20',
+            'CODE': 'fieldList',
+            'LIST_TEXT_VALUES': 'one\ntwo\nthree',
+            'SETTINGS': {
+                'SHOW_ADD_FORM': 'Y',
+                'SHOW_EDIT_FORM': 'Y',
+                'ADD_READ_ONLY_FIELD': 'N',
+                'EDIT_READ_ONLY_FIELD': 'N',
+                'SHOW_FIELD_PREVIEW': 'N'
+            }
         }
-    }
-};
-BX24.callMethod(
-    'lists.field.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+    };
+    BX24.callMethod(
+        'lists.field.add',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

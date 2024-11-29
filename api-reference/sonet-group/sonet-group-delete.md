@@ -38,13 +38,21 @@
 
 ## Пример
 
-```js
-// Удаляем группы соцсети с ID=11
+{% list tabs %}
 
-BX24.callMethod('sonet_group.delete', {
-    'GROUP_ID': 11
-});
-```
+- JS
+
+    ```js
+    // Удаляем группы соцсети с ID=11
+
+    BX24.callMethod('sonet_group.delete', {
+        'GROUP_ID': 11
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос:

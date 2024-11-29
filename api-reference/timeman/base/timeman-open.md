@@ -47,11 +47,15 @@
 
 ## Пример
 
-Пример вызова:
+{% list tabs %}
 
-```http
-https://portal.bitrix24.com/rest/timeman.open?auth=xxxxxx&time=2017-04-21T07%3A30%3A00%2B08%3A00&report=Forgot&lat=54.7199881&lon=20.4879224&user_id=5
-```
+- cURL
+
+    ```http
+    https://portal.bitrix24.com/rest/timeman.open?auth=xxxxxx&time=2017-04-21T07%3A30%3A00%2B08%3A00&report=Forgot&lat=54.7199881&lon=20.4879224&user_id=5
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

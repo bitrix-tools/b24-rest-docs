@@ -30,30 +30,36 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.role.isEnabled',
-    {
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.role.isEnabled',
         {
-            console.error(result.error());
-        }
-        else
+        },
+        function(result)
         {
-            if (result.data())
+            if(result.error())
             {
-                console.log('Ролевая модель');
+                console.error(result.error());
             }
             else
             {
-                console.log('Расширенная модель');
+                if (result.data())
+                {
+                    console.log('Ролевая модель');
+                }
+                else
+                {
+                    console.log('Расширенная модель');
+                }
             }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

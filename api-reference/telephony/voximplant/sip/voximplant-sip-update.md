@@ -38,22 +38,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "voximplant.sip.update",
-    {
-        "CONFIG_ID": 69,
-        "TITLE": "название линии",
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "voximplant.sip.update",
+        {
+            "CONFIG_ID": 69,
+            "TITLE": "название линии",
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

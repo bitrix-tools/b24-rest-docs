@@ -46,26 +46,30 @@ catalog.productPropertyEnum.list(select, filter, order, start)
 
 ## Примеры
 
-Для JS
+{% list tabs %}
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyEnum.list',
-    {
-        filter: {
-            propertyId: 128
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productPropertyEnum.list',
+        {
+            filter: {
+                propertyId: 128
+            },
         },
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-        result.next();
-    }
-);
-```
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+            result.next();
+        }
+    );
+    ```
+
+{% endlist %}
 
 Пример HTTPS запроса
 

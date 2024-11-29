@@ -50,47 +50,61 @@ $placement = isset($_REQUEST['PLACEMENT_OPTIONS'])
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.repo.bind',
-    {
-        fields: {
-            PLACEMENT: 'LANDING_BLOCK_04.1.one_col_fix_with_title',
-            PLACEMENT_HANDLER: 'https://cpe/rt/placement.php',
-            TITLE: 'My block'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.repo.bind',
+        {
+            fields: {
+                PLACEMENT: 'LANDING_BLOCK_04.1.one_col_fix_with_title',
+                PLACEMENT_HANDLER: 'https://cpe/rt/placement.php',
+                TITLE: 'My block'
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 
 Если вы хотите встроить универсальное приложение для каждого блока, следует указывать код со *:
 
-```js
-BX24.callMethod(
-    'landing.repo.bind',
-    {
-        fields: {
-            PLACEMENT: 'LANDING_BLOCK_*',
-            PLACEMENT_HANDLER: 'https://cpe/rt/placement.php',
-            TITLE: 'My block'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.repo.bind',
+        {
+            fields: {
+                PLACEMENT: 'LANDING_BLOCK_*',
+                PLACEMENT_HANDLER: 'https://cpe/rt/placement.php',
+                TITLE: 'My block'
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-)
-```
+    )
+    ```
+
+{% endlist %}
 
 ## Обновление блока из приложения
 
@@ -98,18 +112,24 @@ BX24.callMethod(
 
 ### Пример
 
-```js
-BX24.placement.call(
-    'refreshBlock',
-    {
-        id: 123 // блок с идентификатором 123
-    },
-    function()
-    {
-        console.log('Блок успешно обновлен');
-        // закрываем слайдер
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.placement.call(
+        'refreshBlock',
+        {
+            id: 123 // блок с идентификатором 123
+        },
+        function()
+        {
+            console.log('Блок успешно обновлен');
+            // закрываем слайдер
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

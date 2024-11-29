@@ -38,27 +38,33 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.landing.update',
-    {
-        lid: 349,
-        fields: {
-            TITLE: 'My second page!'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.update',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 349,
+            fields: {
+                TITLE: 'My second page!'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

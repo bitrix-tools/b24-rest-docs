@@ -53,67 +53,73 @@
 
 Заметьте, что в примере использован результат метода [landing.site.fullExport](../site/landing-site-full-export.md).
 
-```js
-BX24.callMethod(
-    'landing.site.fullExport',
-    {
-        id: 326,
-        params: {
-            edit_mode: 'Y',
-            code: 'myfirstsite',//symbolic code of site
-            name: 'Сайт автомастерской',// наименование сайта (страницы)
-            description: 'Сайт для вашего автосервиса. Под капотом все самое нужное.',//описание сайта
-            preview_url: 'http://sample.landing.mycompany.ru/',//url предварительного просмотра
-            preview: 'http://site.ru/preview.jpg',//основная превью-картинка для списка шаблонов (реком. 280x115)
-            preview2x: 'http://site.ru/preview.jpg',//увеличенная превью-картинка (рекомен. 560x230)
-            preview3x: 'http://site.ru/preview.jpg',//ретина-размер превью картинки (рекомен. 845x345)
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.fullExport',
         {
-            console.error(result.error());
-        }
-        else
+            id: 326,
+            params: {
+                edit_mode: 'Y',
+                code: 'myfirstsite',//symbolic code of site
+                name: 'Сайт автомастерской',// наименование сайта (страницы)
+                description: 'Сайт для вашего автосервиса. Под капотом все самое нужное.',//описание сайта
+                preview_url: 'http://sample.landing.mycompany.ru/',//url предварительного просмотра
+                preview: 'http://site.ru/preview.jpg',//основная превью-картинка для списка шаблонов (реком. 280x115)
+                preview2x: 'http://site.ru/preview.jpg',//увеличенная превью-картинка (рекомен. 560x230)
+                preview3x: 'http://site.ru/preview.jpg',//ретина-размер превью картинки (рекомен. 845x345)
+            }
+        },
+        function(result)
         {
-            var data = result.data();
-            console.info(data);
-            BX24.callMethod(
-                'landing.demos.register',
-                {
-                    data: data,
-                    params: {
-                        site_template_id: '',//передать значение шаблона, если вы регистрируете для своего шаблона (только коробка!)
-                        //локализационный массив и оригинальный язык
-                        /*lang: {
-                            en: {
-                                'Фраза 1': 'Translate en 1',
-                                'Фраза 2': 'Translate en 2'
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                var data = result.data();
+                console.info(data);
+                BX24.callMethod(
+                    'landing.demos.register',
+                    {
+                        data: data,
+                        params: {
+                            site_template_id: '',//передать значение шаблона, если вы регистрируете для своего шаблона (только коробка!)
+                            //локализационный массив и оригинальный язык
+                            /*lang: {
+                                en: {
+                                    'Фраза 1': 'Translate en 1',
+                                    'Фраза 2': 'Translate en 2'
+                                },
+                                de: {
+                                    'Фраза 1': 'Translate de 1',
+                                    'Фраза 2': 'Translate de 2'
+                                }
                             },
-                            de: {
-                                'Фраза 1': 'Translate de 1',
-                                'Фраза 2': 'Translate de 2'
-                            }
-                        },
-                        lang_original: 'ru'*/
-                    }
-                },
-                function(result)
-                {
-                    if(result.error())
+                            lang_original: 'ru'*/
+                        }
+                    },
+                    function(result)
                     {
-                        console.error(result.error());
+                        if(result.error())
+                        {
+                            console.error(result.error());
+                        }
+                        else
+                        {
+                            console.info(result.data());
+                        }
                     }
-                    else
-                    {
-                        console.info(result.data());
-                    }
-                }
-            );
+                );
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

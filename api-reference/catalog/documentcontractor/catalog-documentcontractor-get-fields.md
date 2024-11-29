@@ -36,18 +36,24 @@ catalog.documentcontractor.getFields()
 
 ## Примеры
 
-```js
-BX.callMethod(
-    'catalog.documentcontractor.getFields',
-    {},
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX.callMethod(
+        'catalog.documentcontractor.getFields',
+        {},
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

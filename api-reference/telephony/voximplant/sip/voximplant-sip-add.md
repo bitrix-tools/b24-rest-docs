@@ -25,7 +25,11 @@
 
 #|
 || **Параметр** | **Описание** ||
-|| **TYPE** | Тип АТС список типов АТС, по умолчанию: **Облачная АТС**. ||
+|| **TYPE** | Тип АТС. Возможные значения:
+- `cloud` —	облачная АТС
+- `office` — офисная АТС
+
+По умолчанию `cloud` ||
 || **TITLE**^*^ | Название подключения. ||
 || **SERVER**^*^ | Адрес сервера sip-регистрации. ||
 || **LOGIN**^*^ | Логин для сервера. ||
@@ -36,25 +40,31 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.sip.add',
-    {
-        "TYPE": "cloud",
-        "TITLE": "sipnet",
-        "SERVER": "sipnet.ru",
-        "LOGIN": "YYYYY",
-        "PASSWORD": "ZZZZZ"
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.sip.add',
+        {
+            "TYPE": "cloud",
+            "TITLE": "sipnet",
+            "SERVER": "sipnet.ru",
+            "LOGIN": "YYYYY",
+            "PASSWORD": "ZZZZZ"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -63,7 +73,9 @@ BX24.callMethod(
 #|
 || **Поле** | **Описание** ||
 || **CONFIG_ID** | Идентификатор настройки sip-линии. ||
-|| **TYPE** | Тип АТС список типов АТС ||
+|| **TYPE** | Тип АТС. Возможные значения:
+- `cloud` —	облачная АТС
+- `office` — офисная АТС ||
 || **TITLE** | Название подключения. ||
 || **SERVER** | Адрес сервера sip-регистрации для Облачной АТС или адрес сервера Офисной АТС. ||
 || **LOGIN** | Логин для сервера. ||

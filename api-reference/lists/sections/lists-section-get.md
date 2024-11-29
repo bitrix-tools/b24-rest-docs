@@ -49,27 +49,33 @@
 
 ## Пример
 
-```js
-/* lists.section.get */
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_CODE': 'rest_1',
-    'FILTER': {
-        'NAME': 'section_%'
-    },
-    'SELECT': ['ID', 'NAME']
-};
-BX24.callMethod(
-    'lists.section.get',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    /* lists.section.get */
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_CODE': 'rest_1',
+        'FILTER': {
+            'NAME': 'section_%'
+        },
+        'SELECT': ['ID', 'NAME']
+    };
+    BX24.callMethod(
+        'lists.section.get',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

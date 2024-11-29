@@ -80,58 +80,70 @@ BX24.callMethod(
 
 ## Примеры
 
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists_socnet',
-    'IBLOCK_CODE': 'rest_1',
-    'ELEMENT_CODE': 'element_1',
-    'LIST_ELEMENT_URL': '#list_id#/element/#section_id#/#element_id#/',
-    'FIELDS': {
-        'NAME': 'Test element',
-        'PROPERTY_62': 'Text string',
-        'PROPERTY_63': {
-            '0': '7',
-            '1': '9',
-            '2': '10'
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists_socnet',
+        'IBLOCK_CODE': 'rest_1',
+        'ELEMENT_CODE': 'element_1',
+        'LIST_ELEMENT_URL': '#list_id#/element/#section_id#/#element_id#/',
+        'FIELDS': {
+            'NAME': 'Test element',
+            'PROPERTY_62': 'Text string',
+            'PROPERTY_63': {
+                '0': '7',
+                '1': '9',
+                '2': '10'
+            }
         }
-    }
-};
-BX24.callMethod(
-    'lists.element.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+    };
+    BX24.callMethod(
+        'lists.element.add',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 Пример добавления файла:
 
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_ID': '41',
-    'ELEMENT_CODE': 'element1',
-    'FIELDS': {
-        'NAME': 'Test element 1',
-        'PROPERTY_122': document.getElementById('fileInputId') // PROPERTY_122 - Пользовательское свойство типа "Файл"
-    }
-};
-BX24.callMethod(
-    'lists.element.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_ID': '41',
+        'ELEMENT_CODE': 'element1',
+        'FIELDS': {
+            'NAME': 'Test element 1',
+            'PROPERTY_122': document.getElementById('fileInputId') // PROPERTY_122 - Пользовательское свойство типа "Файл"
+        }
+    };
+    BX24.callMethod(
+        'lists.element.add',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

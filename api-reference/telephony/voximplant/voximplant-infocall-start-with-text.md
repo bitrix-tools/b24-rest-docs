@@ -36,22 +36,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.infocall.startwithtext',
-    {
-        "FROM_LINE": "reg1332",
-        "TO_NUMBER": "7911xxxxxxx",
-        "PRONOUNCE": "Добрый день. Ваша заявка выполнена",
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.infocall.startwithtext',
+        {
+            "FROM_LINE": "reg1332",
+            "TO_NUMBER": "7911xxxxxxx",
+            "PRONOUNCE": "Добрый день. Ваша заявка выполнена",
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

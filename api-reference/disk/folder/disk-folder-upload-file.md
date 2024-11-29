@@ -210,3 +210,9 @@
 > 200 OK
 
 В случае успеха возвращает структуру, аналогичную [disk.file.get](../file/disk-file-get.md).
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
+- [{#T}](../../../tutorials/tasks/how-to-create-task-with-file.md)
+- [{#T}](../../../tutorials/tasks/how-to-upload-file-to-task.md)

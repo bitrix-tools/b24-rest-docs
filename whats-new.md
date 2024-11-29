@@ -2,6 +2,12 @@
 
 ## 2024
 
+### 28 ноября, 2024
+
+- Добавлен новый туториал [Как создать комментарий в задаче и прикрепить к нему файл](./tutorials/tasks/how-to-create-comment-with-file.md) 
+- Добавлен метод [imconnector.connector.data.set](./api-reference/imopenlines/imconnector/imconnector-connector-data-set.md)
+- Дополнены методы [telephony.externalcall.finish](./api-reference/telephony/telephony-external-call-finish.md), [voximplant.sip.add](./api-reference/telephony/voximplant/sip/voximplant-sip-add.md) и [voximplant.sip.status](./api-reference/telephony/voximplant/sip/voximplant-sip-status.md)
+
 ### 27 ноября, 2024
 
 - Обновлена главная страница раздела [Корзина](./api-reference/sale/basket-item/index.md). Добавили вводную информацию, а также обзор методов и связей
