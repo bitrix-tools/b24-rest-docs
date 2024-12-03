@@ -1,4 +1,4 @@
-# Измененить комментарий task.commentitem.update
+# Обновить комментарий task.commentitem.update
 
 {% if build == 'dev' %}
 

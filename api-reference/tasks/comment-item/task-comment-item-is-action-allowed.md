@@ -1,4 +1,4 @@
-# Проверить доступные действия над задачей task.commentitem.isactionallowed
+# Проверить, разрешено ли действие с комментарием task.commentitem.isactionallowed
 
 {% if build == 'dev' %}
 

@@ -1,4 +1,4 @@
-# Получить перечень методов и их описаний task.commentitem.getmanifest
+# Получить список методов и их описание task.commentitem.getmanifest
 
 {% if build == 'dev' %}
 
