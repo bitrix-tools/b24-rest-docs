@@ -1,5 +1,23 @@
 # Митапы, трансляции и записи выступлений для разработчиков
 
+## Презентации B24PhpSdk, B24JsSDK и UI-Kit во время митапов на партнерской конференции
+
+26.11.2024
+
+Записи выступления Сергея Вострикова на митапах во время партнерской конференции с рассказом о новых SDK для PHP и JS, а также о новом UI-Kit
+
+**B24PHPSdk**
+
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456240183&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+**B24JsSdk**
+
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456240184&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+**UI Kit**
+
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456240185&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
 ## Создание виджетов и шаблонов для Битрикс24 Вайб - Разработка на Битрикс24 REST API, эпизод 3
 
 08.11.2024
