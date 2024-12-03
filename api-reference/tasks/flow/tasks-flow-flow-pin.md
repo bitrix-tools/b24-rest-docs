@@ -1,10 +1,10 @@
-# Активировать/деактивировать поток tasks.flow.flow.activate
+# Закрепить или открепить поток tasks.flow.flow.pin
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: создатель или администратор потока
+> Кто может выполнять метод: пользователь, который может видеть поток в списке потоков
 
-Метод `tasks.flow.flow.activate` включает или выключает поток по его идентификатору. Если поток выключен, он его включает. Если включен, то выключает.
+Метод закрепляет или открепляет поток в списке потоков по его идентификатору.
 
 ## Параметры метода
 
@@ -14,7 +14,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **flowId*** 
-[`integer`](../../data-types.md) | Идентификатор потока, который нужно включить или выключить. 
+[`integer`](../../data-types.md) | Идентификатор потока, который нужно закрепить или открепить.
 
 Получить идентификатор можно методом создания нового потока [tasks.flow.flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 |#
@@ -26,14 +26,14 @@
 {% list tabs %}
 
 - cURL (Webhook)
-  
+
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.activate
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.pin
     ```
 
 - cURL (oAuth)
@@ -45,14 +45,14 @@
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.activate
+    https://your-domain.bitrix24.com/rest/tasks.flow.flow.pin
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.activate',
+        'tasks.flow.flow.pin',
         {
             flowId: 517
         },
@@ -70,17 +70,17 @@
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
-
+    
     $flowId = 517;
-
+    
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.activate',
+        'tasks.flow.flow.pin',
         [
             'flowId' => $flowId
         ]
     );
-
+    
     // Обработка ответа от Битрикс24
     if ($result['error']) {
         echo 'Error: '.$result['error_description'];
@@ -104,32 +104,32 @@ HTTP-статус: **200**
 ### Возвращаемые данные
 
 #|
-|| **Название**
+|| **Название** 
 `тип` | **Описание** ||
-|| **result** 
-[`boolean`](../../data-types.md) | Успешность операции ||
+|| **result**
+[`boolean`](../../data-types.md) | Результат выполнения метода. Возможные значения:
+- `true` — поток закреплен
+- `false` — поток откреплен 
+||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **200**
 
 ```json
 {
     "error": "0",
-    "error_description": "Flow not found"
+    "error_description": "Unknown error"
 }
 ```
-
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Дополнительная информация** ||
 || `0` | Доступ запрещен или поток не найден | Тариф портала не позволяет работать с потоками или у пользователя нет прав на выполнение операции ||
-|| `0` | `Flow not found` | Поток с указанным идентификатором не найден ||
-|| `0` | `Unknown error` | Неизвестная ошибка ||
+|| `0` | Unknown error | Неизвестная ошибка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -137,8 +137,8 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./tasks-flow-flow-create.md)
-- [{#T}](./tasks-flow-flow-update.md)
 - [{#T}](./tasks-flow-flow-get.md)
+- [{#T}](./tasks-flow-flow-update.md)
 - [{#T}](./tasks-flow-flow-delete.md)
 - [{#T}](./tasks-flow-flow-is-exists.md)
-- [{#T}](./tasks-flow-flow-pin.md)
+- [{#T}](./tasks-flow-flow-activate.md)
