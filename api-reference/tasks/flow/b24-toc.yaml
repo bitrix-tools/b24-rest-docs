@@ -5,10 +5,10 @@ items:
     href: index.md
   - name: Создать поток
     href: tasks-flow-flow-create.md
-  - name: Получить поток
-    href: tasks-flow-flow-get.md
   - name: Изменить поток
     href: tasks-flow-flow-update.md
+  - name: Получить поток
+    href: tasks-flow-flow-get.md
   - name: Удалить поток
     href: tasks-flow-flow-delete.md
   - name: Проверить название потока на уникальность

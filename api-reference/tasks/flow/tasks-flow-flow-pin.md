@@ -1,26 +1,55 @@
-# Активация/деактивация закрепления потока tasks.flow.flow.pin
+# Закрепить или открепить поток tasks.flow.flow.pin
 
-> Scope: [`task`](../../scopes/permissions.md) | 
+> Scope: [`task`](../../scopes/permissions.md)
 >
->Кто может выполнять метод: пользователь, который может видеть поток в списке потоков
+> Кто может выполнять метод: пользователь, который может видеть поток в списке потоков
 
-Метод `tasks.flow.flow.pin` закрепляет или открепляет поток в списке потоков по его идентификатору. Если поток не закреплен, он его закрепляет. Если закреплен, то открепляет.
+Метод закрепляет или открепляет поток в списке потоков по его идентификатору.
 
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Название** `тип` | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **flowId*** 
-[`integer`](../../data-types.md) | Идентификатор потока, который нужно закрепить или открепить. Получить flowId можно при помощи метода [tasks.task.get](../tasks-task-get.md) для задачи, уже добавленной в поток, либо создать новый поток при помощи метода [tasks.flow.flow.create](./tasks-flow-flow-create.md) ||
+[`integer`](../../data-types.md) | Идентификатор потока, который нужно закрепить или открепить.
+
+Получить идентификатор можно методом создания нового потока [tasks.flow.flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 |#
 
 ## Примеры кода
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+        "flowId": 517
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.pin
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -d '{
+        "flowId": 517
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.flow.flow.pin
+    ```
+
 - JS
+
     ```js
     BX24.callMethod(
         'tasks.flow.flow.pin',
@@ -37,28 +66,8 @@
     );
     ```
 
-- cURL (oAuth)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-    -d '{
-        "flowId": 517
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.pin
-    ```
-
-- cURL (Webhook)
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-        "flowId": 517
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.pin
-    ```
-
 - PHP
+
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
     
@@ -88,15 +97,20 @@ HTTP-статус: **200**
 
 ```json
 {
-"result": true
+    "result": true
 }
 ```
 
 ### Возвращаемые данные
 
 #|
-|| **Название** `тип` | **Описание** ||
-|| **result** [`boolean`](../. ./. ./data-types.md) | `true`, если поток закреплен, `false`, если поток откреплен ||
+|| **Название** 
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Результат выполнения метода. Возможные значения:
+- `true` — поток закреплен
+- `false` — поток откреплен 
+||
 |#
 
 ## Обработка ошибок
@@ -114,7 +128,7 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Дополнительная информация** ||
-|| `0` | Доступ запрещён или поток не найден | Возможно, тариф портала не позволяет работать с потоками, или у пользователя нет прав на выполнение операции ||
+|| `0` | Доступ запрещен или поток не найден | Тариф портала не позволяет работать с потоками или у пользователя нет прав на выполнение операции ||
 || `0` | Unknown error | Неизвестная ошибка ||
 |#
 
@@ -122,6 +136,7 @@ HTTP-статус: **200**
 
 ## Продолжите изучение
 
+- [{#T}](./tasks-flow-flow-create.md)
 - [{#T}](./tasks-flow-flow-get.md)
 - [{#T}](./tasks-flow-flow-update.md)
 - [{#T}](./tasks-flow-flow-delete.md)
