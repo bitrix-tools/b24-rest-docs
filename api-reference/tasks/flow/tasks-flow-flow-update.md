@@ -44,21 +44,19 @@
 Если не указать, администратором будет создатель потока ||
 || **templateId** 
 [`integer`](../../data-types.md) | Идентификатор шаблона, по которому пользователи будут добавлять задачи в поток ||
-|| **plannedCompletionTime** 
+|| **plannedCompletionTime***
 [`integer`](../../data-types.md) | Планируемое время выполнения задачи в секундах ||
-|| **distributionType** 
-[`string`](../../data-types.md) | Тип распределения (`manually` для ручного распределения, `queue` для распределения по очереди). 
 
-Подробнее о типах распределения смотрите [в описании потоков](./index.md) ||
-|| **responsibleQueue** 
-[`array`](../../data-types.md) | Массив идентификаторов сотрудников команды потока в случае с распределением по очереди. 
+|| **distributionType***
+[`string`](../../data-types.md) | Тип распределения (`manually` для ручного распределения, `queue` для распределения по очереди, `himself` для самостоятельного распределения). 
 
-В случае с ручным распределением не заполняется ||
-|| **manualDistributorId** 
-[`integer`](../../data-types.md) | Идентификатор модератора потока (пользователь, который будет распределять задачи по сотрудникам). 
+Подробнее о типах распределения смотрите [здесь](./index.md) ||
+|| **responsibleList***
+[`array`](../../data-types.md) | Массив идентификаторов сотрудников, которые будут получать задачи. 
 
-В случае с распределением по очереди не заполняется||
-|| **taskCreators** [`object`](../../data-types.md) | Список пользователей, которые могут добавлять задачи в поток в формате `{"<тип-объекта>": "<идентификатор-объекта>"}`, например, `[{"user": 3}, {"department": "17:F"}]`. 
+Для ручного распределения это модератор потока. Для самостоятельного распределения в качестве команды потока может быть добавлен отдел, например `[{"department": 3}, {"department": "17:F"}]` (если суффикс `:F` не указан, будут выбраны все подотделы выбранного отдела согласно структуре компании) ||
+|| **taskCreators**
+[`object`](../../data-types.md) | Список пользователей, которые могут добавлять задачи в поток в формате {"<тип-сущности>": "<идентификатор-сущности>"}, например `[{"user": 3}, {"department": "17:F"}]`. 
 
 Элемент `{"meta-user": "all-users"}` означает, что задачи могут добавлять все пользователи ||
 || **matchWorkTime** 
@@ -109,12 +107,10 @@
             "description": "Updated description",
             "plannedCompletionTime": 7200,
             "distributionType": "manually",
-            "manualDistributorId": 3,
+            "responsibleList": [["user", "3"]],
             "taskCreators": [["meta-user", "all-users"]],
             "matchWorkTime": 1,
-            "notifyAtHalfTime": 0,
-            "notifyOnQueueOverflow": null,
-            "notifyOnTasksInProgressOverflow": 50
+            "notifyAtHalfTime": 0
         }
     }' \
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.update
@@ -133,12 +129,10 @@
             "description": "Updated description",
             "plannedCompletionTime": 7200,
             "distributionType": "manually",
-            "manualDistributorId": 3,
+            "responsibleList": [["user", "3"]],
             "taskCreators": [["meta-user", "all-users"]],
             "matchWorkTime": 1,
-            "notifyAtHalfTime": 0,
-            "notifyOnQueueOverflow": null,
-            "notifyOnTasksInProgressOverflow": 50
+            "notifyAtHalfTime": 0
         }
     }' \
     https://your-domain.bitrix24.com/rest/tasks.flow.flow.update
@@ -156,12 +150,10 @@
                 description: 'Updated description',
                 plannedCompletionTime: 7200,
                 distributionType: 'manually',
-                manualDistributorId: 3,
+                responsibleList: [['user', '3']],
                 taskCreators: [['meta-user', 'all-users']],
                 matchWorkTime: 1,
-                notifyAtHalfTime: 0,
-                notifyOnQueueOverflow: null,
-                notifyOnTasksInProgressOverflow: 50
+                notifyAtHalfTime: 0
             }
         },
         function(result) {
@@ -185,12 +177,10 @@
         "description" => "Updated description",
         "plannedCompletionTime" => 7200,
         "distributionType" => "manually",
-        "manualDistributorId" => 3,
+        "responsibleList" => [["user", "3"]],
         "taskCreators" => [["meta-user", "all-users"]],
         "matchWorkTime" => 1,
-        "notifyAtHalfTime" => 0,
-        "notifyOnQueueOverflow" => null,
-        "notifyOnTasksInProgressOverflow" => 50
+        "notifyAtHalfTime" => 0
     ];
 
     // выполнение запроса к REST API
@@ -223,25 +213,39 @@ HTTP-статус: **200**
         "ownerId": 1,
         "groupId": 178,
         "templateId": 0,
-        "efficiency": 100,
+        "efficiency": 0,
         "active": true,
         "plannedCompletionTime": 7200,
-        "activity": "2024-08-22T12:17:48+00:00",
+        "activity": "2024-09-02T15:27:29+00:00",
         "name": "Updated Flow Name",
         "description": "Updated description",
         "distributionType": "manually",
-        "responsibleQueue": [],
+        "responsibleList": [
+            [
+                "user",
+                "3"
+            ]
+        ],
         "demo": false,
-        "manualDistributorId": 3,
         "responsibleCanChangeDeadline": true,
         "matchWorkTime": true,
         "taskControl": false,
         "notifyAtHalfTime": false,
-        "notifyOnQueueOverflow": null,
+        "notifyOnQueueOverflow": 10,
         "notifyOnTasksInProgressOverflow": 50,
         "notifyWhenEfficiencyDecreases": null,
-        "taskCreators": [{"meta-user":  "all-users"}],
-        "taskAssignees": [{"user":  1}, {"user":  2}, {"user":  3}],
+        "taskCreators": [
+            [
+                "meta-user",
+                "all-users"
+            ]
+        ],
+        "team": [
+            [
+                "user",
+                "3"
+            ]
+        ],
         "trialFeatureEnabled": false
     }
 }
@@ -278,10 +282,8 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Описание потока ||
 || **distributionType** 
 [`string`](../../data-types.md) | Тип распределения задач в потоке ||
-|| **responsibleQueue** 
-[`array`](../../data-types.md) | Команда потока, если тип распределения — очередь. Пустой при ручном распределении ||
-|| **manualDistributorId** 
-[`integer`](../../data-types.md) | Идентификатор модератора потока при ручном распределении (`null` при распределении по очереди) ||
+|| **responsibleList**
+[`array`](../../data-types.md) | Список ответственных за задачи в потоке. Для ручного распределения это модератор потока ||
 || **demo** 
 [`boolean`](../../data-types.md) | Является ли поток демонстрационным. Системный параметр. Только для чтения ||
 || **responsibleCanChangeDeadline** 
@@ -299,9 +301,9 @@ HTTP-статус: **200**
 || **notifyWhenEfficiencyDecreases** 
 [`integer`](../../data-types.md) | Эффективность в процентах, при снижении до которой будет отправлено уведомление администратору потока (если `null`, то уведомления выключены) ||
 || **taskCreators** 
-[`object`](../../data-types.md) | Список пользователей, которые могут добавлять задачи в поток в формате `{"<тип-объекта>": "<идентификатор-объекта>"}`, например, `[{"user": 3}, {"department": "17:F"}]`. Элемент `{"meta-user": "all-users"}` означает, что задачи могут добавлять все пользователи ||
-|| **taskAssignees** 
-[`object`](../../data-types.md) | Участники проекта, к которому привязан поток, если тип распределения — ручной. Формат: `[{"<тип-объекта>": "<идентификатор-объекта>"}]` ||
+[`object`](../../data-types.md) | Список пользователей, которые могут добавлять задачи в поток в формате `{"<тип-объекта>": "<идентификатор-объекта>"}`, например `[{"user": 3}, {"department": "17:F"}]`. Элемент `{"meta-user": "all-users"}` означает, что задачи могут добавлять все пользователи ||
+|| **team**
+[`object`](../../data-types.md) | Вся команда потока. Для ручного распределения это все участники проекта, к которому привязан поток, за исключением модератора. Для очереди и самораспределения team = responsibleList ||
 || **trialFeatureEnabled** 
 [`boolean`](../../data-types.md) | Включен ли демонстрационный период для потока. Системный параметр. Только для чтения ||
 |#
@@ -333,8 +335,9 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./tasks-flow-flow-create.md)
 - [{#T}](./tasks-flow-flow-get.md)
+- [{#T}](./tasks-flow-flow-update.md)
 - [{#T}](./tasks-flow-flow-delete.md)
 - [{#T}](./tasks-flow-flow-is-exists.md)
 - [{#T}](./tasks-flow-flow-activate.md)
+- [{#T}](./tasks-flow-flow-pin.md)

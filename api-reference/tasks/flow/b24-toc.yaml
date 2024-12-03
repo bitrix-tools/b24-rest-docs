@@ -15,3 +15,5 @@ items:
     href: tasks-flow-flow-is-exists.md
   - name: Включить или выключить поток
     href: tasks-flow-flow-activate.md
+  - name: Закрепить или открепить поток
+    href: tasks-flow-flow-pin.md
