@@ -106,7 +106,7 @@
     - STATE_COMPLETED = 5;
     - STATE_DEFERRED = 6;
     - STATE_DECLINED = 7;
-- **STATUS** - статус для сортировки. Соответствует полю `subStatus` в ответе. Аналогичен **REAL_STATUS**, но имеет дополнительно три мета-статуса. :
+- **STATUS** - статус для сортировки. Соответствует полю `subStatus` в ответе. Аналогичен **REAL_STATUS**, но имеет три дополнительных мета-статуса:
     - **-3** - задача почти просрочена;
     - **-2** - не просмотренная задача;
     - **-1** - просроченная задача.
@@ -148,7 +148,7 @@
     - **0** - низкий;
     - **1** - средний;
     - **2** - высокий.
-- **STATUS** - статус. Выберет как обычный статус `status`, так и мета-статус `subStatus`;
+- **STATUS** - статус. Вернет обычный статус `status` и мета-статус `subStatus`;
 - **MULTITASK** - множественная задача;
 - **NOT_VIEWED** - непросмотренная задача;
 - **REPLICATE** - повторяемая задача;
@@ -223,7 +223,15 @@ BX24.callMethod('tasks.task.list',{start: 1150})
     ```js
     BX24.callMethod(
         'tasks.task.list',
-        {filter:{'>STATUS':2, REPLICATE:'N', '::SUBFILTER-PARAMS':{FAVORITE:'Y'}}},
+        {
+            filter:{
+                '>STATUS':2,
+                'REPLICATE':'N',
+                '::SUBFILTER-PARAMS':{
+                    FAVORITE:'Y'
+                }
+            }
+        },
         function(res){console.log(res.answer.result);}
     );
     ```
@@ -236,88 +244,88 @@ BX24.callMethod('tasks.task.list',{start: 1150})
 
 ```js
 {
-  "result": {
-    "tasks": [
-      {
-        "id": "434",
-        "parentId": "0",
-        "title": "test task 1",
-        "description": "",
-        "mark": null,
-        "priority": "1",
-        "multitask": "N",
-        "notViewed": "N",
-        "replicate": "N",
-        "stageId": "0",
-        "createdBy": "1",
-        "createdDate": "2024-11-22T13:58:17+02:00",
-        "responsibleId": "1",
-        "changedBy": "1",
-        "changedDate": "2024-11-26T13:43:28+02:00",
-        "statusChangedBy": "1",
-        "closedBy": "0",
-        "closedDate": null,
-        "activityDate": "2024-11-22T13:58:17+02:00",
-        "dateStart": "2024-11-26T13:43:28+02:00",
-        "deadline": null,
-        "startDatePlan": null,
-        "endDatePlan": null,
-        "guid": "{8a261464-64eb-4d04-827b-37ded5433e85}",
-        "xmlId": null,
-        "commentsCount": null,
-        "serviceCommentsCount": null,
-        "allowChangeDeadline": "Y",
-        "allowTimeTracking": "N",
-        "taskControl": "Y",
-        "addInReport": "N",
-        "forkedByTemplateId": null,
-        "timeEstimate": "0",
-        "timeSpentInLogs": null,
-        "matchWorkTime": "N",
-        "forumTopicId": null,
-        "forumId": null,
-        "siteId": "s1",
-        "subordinate": "N",
-        "exchangeModified": null,
-        "exchangeId": null,
-        "outlookVersion": "2",
-        "viewedDate": "2024-11-26T13:40:45+02:00",
-        "sorting": null,
-        "durationFact": null,
-        "isMuted": "N",
-        "isPinned": "N",
-        "isPinnedInGroup": "N",
-        "flowId": null,
-        "descriptionInBbcode": "Y",
-        "status": "3",
-        "statusChangedDate": "2024-11-26T13:43:28+02:00",
-        "durationPlan": null,
-        "durationType": "days",
-        "favorite": "N",
-        "groupId": "0",
-        "auditors": [],
-        "accomplices": [],
-        "newCommentsCount": 0,
-        "group": [],
-        "creator": {
-        "id": "1",
-        "name": "Admin Adminov",
-        "link": "/company/personal/user/1/",
-        "icon": "/bitrix/images/tasks/default_avatar.png",
-        "workPosition": "Chief"
-        },
-        "responsible": {
-        "id": "1",
-        "name": "Admin Adminov",
-        "link": "/company/personal/user/1/",
-        "icon": "/bitrix/images/tasks/default_avatar.png",
-        "workPosition": "Chief"
-        },
-        "accomplicesData": [],
-        "auditorsData": [],
-        "subStatus": "3"
-      }
-    ]
+    "result": {
+        "tasks": [
+            {
+                "id": "434",
+                "parentId": "0",
+                "title": "test task 1",
+                "description": "",
+                "mark": null,
+                "priority": "1",
+                "multitask": "N",
+                "notViewed": "N",
+                "replicate": "N",
+                "stageId": "0",
+                "createdBy": "1",
+                "createdDate": "2024-11-22T13:58:17+02:00",
+                "responsibleId": "1",
+                "changedBy": "1",
+                "changedDate": "2024-11-26T13:43:28+02:00",
+                "statusChangedBy": "1",
+                "closedBy": "0",
+                "closedDate": null,
+                "activityDate": "2024-11-22T13:58:17+02:00",
+                "dateStart": "2024-11-26T13:43:28+02:00",
+                "deadline": null,
+                "startDatePlan": null,
+                "endDatePlan": null,
+                "guid": "{8a261464-64eb-4d04-827b-37ded5433e85}",
+                "xmlId": null,
+                "commentsCount": null,
+                "serviceCommentsCount": null,
+                "allowChangeDeadline": "Y",
+                "allowTimeTracking": "N",
+                "taskControl": "Y",
+                "addInReport": "N",
+                "forkedByTemplateId": null,
+                "timeEstimate": "0",
+                "timeSpentInLogs": null,
+                "matchWorkTime": "N",
+                "forumTopicId": null,
+                "forumId": null,
+                "siteId": "s1",
+                "subordinate": "N",
+                "exchangeModified": null,
+                "exchangeId": null,
+                "outlookVersion": "2",
+                "viewedDate": "2024-11-26T13:40:45+02:00",
+                "sorting": null,
+                "durationFact": null,
+                "isMuted": "N",
+                "isPinned": "N",
+                "isPinnedInGroup": "N",
+                "flowId": null,
+                "descriptionInBbcode": "Y",
+                "status": "3",
+                "statusChangedDate": "2024-11-26T13:43:28+02:00",
+                "durationPlan": null,
+                "durationType": "days",
+                "favorite": "N",
+                "groupId": "0",
+                "auditors": [],
+                "accomplices": [],
+                "newCommentsCount": 0,
+                "group": [],
+                "creator": {
+                    "id": "1",
+                    "name": "Admin Adminov",
+                    "link": "/company/personal/user/1/",
+                    "icon": "/bitrix/images/tasks/default_avatar.png",
+                    "workPosition": "Chief"
+                },
+                "responsible": {
+                    "id": "1",
+                    "name": "Admin Adminov",
+                    "link": "/company/personal/user/1/",
+                    "icon": "/bitrix/images/tasks/default_avatar.png",
+                    "workPosition": "Chief"
+                },
+                "accomplicesData": [],
+                "auditorsData": [],
+                "subStatus": "3"
+            }
+        ]
     },
     "time": {
         "start": 1552382093.81029,
