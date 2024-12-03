@@ -1,19 +1,19 @@
-title: Торговые предложения
+title: Вариации товара
 href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Добавить торговое предложение
+  - name: Добавить вариацию товара
     href: catalog-product-offer-add.md
-  - name: Обновить поля торгового предложения
+  - name: Обновить поля вариации товара
     href: catalog-product-offer-update.md
-  - name: Получить значения полей торгового предложения
+  - name: Получить значения полей вариации товара
     href: catalog-product-offer-get.md
-  - name: Получить список торговых предложений
+  - name: Получить список вариаций товара
     href: catalog-product-offer-list.md
-  - name: Скачать файлы торгового предложения
+  - name: Скачать файлы вариации товара
     href: catalog-product-offer-download.md
-  - name: Удалить торговое предложение
+  - name: Удалить вариацию товара
     href: catalog-product-offer-delete.md
-  - name: Получить поля торгового предложения по фильтру
+  - name: Получить поля вариации товара по фильтру
     href: catalog-product-offer-get-fields-by-filter.md

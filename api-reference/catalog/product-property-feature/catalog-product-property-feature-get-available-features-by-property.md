@@ -1,4 +1,4 @@
-# Получить доступные параметры свойств товаров или торговых предложений catalog.productPropertyFeature.getAvailableFeaturesByProperty
+# Получить доступные параметры свойств товаров или вариаций catalog.productPropertyFeature.getAvailableFeaturesByProperty
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -36,7 +36,7 @@ catalog.productPropertyFeature.getAvailableFeaturesByProperty(propertyId)
 #|
 || **Параметр** | **Описание** ||
 || **propertyId** 
-[`integer`](../../data-types.md)| Идентификатор свойства товаров или торговых предложений. ||
+[`integer`](../../data-types.md)| Идентификатор свойства товаров или вариаций ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}

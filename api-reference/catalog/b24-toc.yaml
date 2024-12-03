@@ -33,7 +33,7 @@ items:
     include:
       path: product/b24-toc.yaml
       mode: link
-  - name: Свойства товаров и торговых предложений
+  - name: Свойства товаров и вариаций
     include:
       path: product-property/b24-toc.yaml
       mode: link
@@ -41,7 +41,7 @@ items:
     include:
       path: product-property-enum/b24-toc.yaml
       mode: link
-  - name: Параметры свойств товаров и торговых предложений
+  - name: Параметры свойств товаров и вариаций
     include:
       path: product-property-feature/b24-toc.yaml
       mode: link
@@ -49,7 +49,7 @@ items:
     include:
       path: product-property-section/b24-toc.yaml
       mode: link
-  - name: Изображения товаров и торговых предложений
+  - name: Изображения товаров и вариаций
     include:
       path: product-image/b24-toc.yaml
       mode: link

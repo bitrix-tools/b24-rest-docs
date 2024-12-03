@@ -1,10 +1,10 @@
-# Получить список торговых предложений catalog.product.offer.list
+# Получить список вариаций товара catalog.product.offer.list
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает список торговых предложений по фильтру.
+Метод возвращает список вариаций товара по фильтру.
 
 ## Параметры метода
 
@@ -18,7 +18,7 @@
 Обязательные поля: `id`, `iblockId`
 ||
 || **filter**
-[`object`](../../../data-types.md) | Объект для фильтрации выбранных торговых предложений в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+[`object`](../../../data-types.md) | Объект для фильтрации выбранных вариаций товара в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_product_offer](../../data-types.md#catalog_product_offer). 
 
@@ -48,7 +48,7 @@
 - `!` — не равно ||
 || **order**
 [`object`](../../../data-types.md) | 
-Объект для сортировки выбранных торговых предложений в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+Объект для сортировки выбранных вариаций товара в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_product_offer](../../data-types.md#catalog_product_offer).
 
@@ -272,7 +272,7 @@ HTTP-статус: **200**
                 "length": 100,
                 "measure": 5,
                 "modifiedBy": 1,
-                "name": "Торговое предложение",
+                "name": "Вариация товара",
                 "parentId": {
                     "value": "1275",
                     "valueId": "9867"
@@ -325,7 +325,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **offers**
-[`catalog_product_offer[]`](../../data-types.md#catalog_product_offer) | Массив объектов с информацией о выбранных торговых предложениях ||
+[`catalog_product_offer[]`](../../data-types.md#catalog_product_offer) | Массив объектов с информацией о выбранных вариациях товара ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество найденных записей ||
 || **time**

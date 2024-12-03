@@ -34,9 +34,9 @@ catalog.productPropertyEnum.update(id, fields)
 #|
 || **Параметр** | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) | Идентификатор свойства товаров или торговых предложенийн. ||
+[`integer`](../../data-types.md) | Идентификатор свойства товаров или вариаций ||
 || **fields** 
-[`object`](../../data-types.md)|  Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-enum-get-fields.md). ||
+[`object`](../../data-types.md)|  Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-enum-get-fields.md) ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}

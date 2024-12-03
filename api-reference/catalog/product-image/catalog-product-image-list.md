@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает список изображений товара, головного товара, торгового предложения или услуги.
+Метод возвращает список изображений товара, головного товара, вариации или услуги.
 
 ## Параметры метода
 
@@ -17,12 +17,12 @@
 [`catalog_product.id`](../data-types.md#catalog_product)\|
 [`catalog_product_sku.id`](../data-types.md#catalog_product_sku)\|
 [`catalog_product_offer.id`](../data-types.md#catalog_product_offer)\|
-[`catalog_product_service.id`](../data-types.md#catalog_product_service) | Идентификатор товара, головного товара, торгового предложения или услуги.
+[`catalog_product_service.id`](../data-types.md#catalog_product_service) | Идентификатор товара, головного товара, вариации или услуги.
 
 Чтобы получить существующие идентификаторы, используйте следующие методы:
 - для товаров — [catalog.product.list](../product/catalog-product-list.md)
 - для головных товаров — [catalog.product.sku.list](../product/sku/catalog-product-sku-list.md)
-- для торговых предложений — [catalog.product.offer.list](../product/offer/catalog-product-offer-list.md)
+- для вариаций товара — [catalog.product.offer.list](../product/offer/catalog-product-offer-list.md)
 - для услуг — [catalog.product.service.list](../product/service/catalog-product-service-list.md)
 ||
 || **select** 

@@ -1,4 +1,4 @@
-# Свойства товаров и торговых предложений
+# Свойства товаров и вариаций
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -10,14 +10,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Методы работы со свойствами товаров или торговых предложений:
-
 #|
 || **Метод** | **Описание** ||
-|| [catalog.productProperty.add](./catalog-product-property-add.md) | Метод добавляет свойство товаров или торговых предложений. ||
-|| [catalog.productProperty.delete](./catalog-product-property-delete.md) | Метод удаляет свойство товаров или торговых предложений. ||
-|| [catalog.productProperty.get](./catalog-product-property-get.md) | Метод для доступа к значению полей свойства товаров или торговых предложений. ||
-|| [catalog.productProperty.getFields](./catalog-product-property-get-fields.md) | Метод возвращает поля свойства товаров или торговых предложений. ||
-|| [catalog.productProperty.list](./catalog-product-property-list.md) | Метод получает список свойств товаров или торговых предложений. ||
-|| [catalog.productProperty.update](./catalog-product-property-update.md) | Метод для обновления полей свойства товаров или торговых предложений. ||
+|| [catalog.productProperty.add](./catalog-product-property-add.md) | Метод добавляет свойство товаров или вариаций ||
+|| [catalog.productProperty.delete](./catalog-product-property-delete.md) | Метод удаляет свойство товаров или вариаций ||
+|| [catalog.productProperty.get](./catalog-product-property-get.md) | Метод для доступа к значению полей свойства товаров или вариаций ||
+|| [catalog.productProperty.getFields](./catalog-product-property-get-fields.md) | Метод возвращает поля свойства товаров или вариаций ||
+|| [catalog.productProperty.list](./catalog-product-property-list.md) | Метод получает список свойств товаров или вариаций ||
+|| [catalog.productProperty.update](./catalog-product-property-update.md) | Метод для обновления полей свойства товаров или вариаций ||
 |#
