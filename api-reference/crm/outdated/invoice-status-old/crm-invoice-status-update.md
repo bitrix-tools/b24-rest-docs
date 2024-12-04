@@ -20,7 +20,7 @@
 || **id***
 [`integer`](../../../data-types.md) | Идентификатор статуса счета ||
 || **fields***
-[`array`](../../data-types.md) | Набор полей — массив вида ёarray("обновляемое поле"=>"значение"[, ...])ё, где "обновляемое поле" может принимать значения из возвращаемых методом [crm.invoice.status.fields](./crm-invoice-status-fields.md). 
+[`array`](../../data-types.md) | Набор полей — массив вида `array("обновляемое поле"=>"значение"[, ...])`, где "обновляемое поле" может принимать значения из возвращаемых методом [crm.invoice.status.fields](./crm-invoice-status-fields.md). 
 
 {% note info %}
 
