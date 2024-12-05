@@ -112,7 +112,8 @@
 - JS
 
     ```js
-    BX24.callMethod('calendar.event.add',
+    BX24.callMethod(
+        'calendar.event.add',
         {
             type: 'user',
             ownerId: 2,
@@ -144,7 +145,7 @@
                 COUNT: 10,
                 INTERVAL: 1,
             },
-            crm_fields: ['C_5', 'L_11'],
+            crm_fields: ['C_5', 'L_11']
         }
     );
     ```

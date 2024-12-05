@@ -28,14 +28,20 @@
 
 #|
 || **Параметр** | **Описание** ||
-|| **type** | Тип календаря: 
+|| **type**
+[`string`](../data-types.md) | Тип календаря: 
 - user; 
 - group. ||
-|| **ownerId** | Идентификатор владельца календаря. ||
-|| **days** | Число дней для выборки (по умолчанию - 60). ||
-|| **forCurrentUser** | Вывод списка событий для текущего пользователя. ||
-|| **maxEventsCount** | Максимальное число выводимых событий. ||
-|| **detailUrl** | URL для календаря. ||
+|| **ownerId**
+[`integer`](../data-types.md) | Идентификатор владельца календаря. ||
+|| **days**
+[`integer`](../data-types.md) | Число дней для выборки (по умолчанию - 60). ||
+|| **forCurrentUser**
+[`boolean`](../data-types.md) | Вывод списка событий для текущего пользователя. ||
+|| **maxEventsCount**
+[`integer`](../data-types.md) | Максимальное число выводимых событий. ||
+|| **detailUrl**
+[`string`](../data-types.md) | URL для календаря. ||
 |#
 
 ## Пример
@@ -45,12 +51,14 @@
 - JS
 
     ```js
-    BX24.callMethod("calendar.event.get.nearest",
+    BX24.callMethod(
+        'calendar.event.get.nearest',
         {
             type: 'user',
-            ownerId: '2',
+            ownerId: 2,
             days: 10,
             forCurrentUser: true,
+            maxEventsCount: 100,
             detailUrl: '/company/personal/user/#user_id#/calendar/'
         }
     );
@@ -59,3 +67,50 @@
 {% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+  "result": [
+    {
+      "ID": "853",
+      ...
+    },
+    {
+      "ID": "1221",
+      ...
+    }
+  ],
+  "time": {
+    "start": 1733411636.753706,
+    "finish": 1733411637.040975,
+    "duration": 0.28726911544799805,
+    "processing": 0.05995798110961914,
+    "date_start": "2024-12-05T15:13:56+00:00",
+    "date_finish": "2024-12-05T15:13:57+00:00"
+  }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../data-types.md) | Массив событий ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+  "error": "",
+  "error_description": "Доступ запрещен"
+}
+```
