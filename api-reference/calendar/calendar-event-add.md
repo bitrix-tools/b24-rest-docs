@@ -27,7 +27,7 @@
 
 #|
 || **Параметр** | **Описание** ||
-|| **type**^*^
+|| **type***
 [`string`](../data-types.md) | Тип календаря: 
 - user; 
 - group. ||
@@ -120,7 +120,7 @@
             description: 'Description for event',
             from: '2013-06-14',
             to: '2013-06-14',
-            skipTime: 'Y',
+            skip_time: 'Y',
             section: 5,
             color: '#9cbe1c',
             text_color: '#283033',
@@ -140,9 +140,9 @@
             },
             rrule: {
                 FREQ: 'WEEKLY',
-                BYDAY: 'MO,WE',
+                BYDAY: ['MO', 'WE'],
                 COUNT: 10,
-                INTERVAL: 0
+                INTERVAL: 1,
             },
             crm_fields: ['C_5', 'L_11'],
         }
