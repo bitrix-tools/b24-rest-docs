@@ -64,7 +64,7 @@ HTTP-статус: **200**
     "DELETED": "N",
     "CAL_TYPE": "user",
     "OWNER_ID": "1",
-    "NAME": "4Event Name",
+    "NAME": "Event Name",
     "DATE_FROM": "12/11/2024 05:59:00 pm",
     "DATE_TO": "12/11/2024 06:59:00 pm",
     "ORIGINAL_DATE_FROM": null,
@@ -80,7 +80,7 @@ HTTP-статус: **200**
     "CREATED_BY": "1",
     "DATE_CREATE": "12/05/2024 01:48:41 pm",
     "TIMESTAMP_X": "12/05/2024 01:48:41 pm",
-    "DESCRIPTION": "New description for event",
+    "DESCRIPTION": "Description for event",
     "PRIVATE_EVENT": "",
     "ACCESSIBILITY": "free",
     "IMPORTANCE": "normal",
@@ -88,7 +88,7 @@ HTTP-статус: **200**
     "MEETING_STATUS": "H",
     "MEETING_HOST": "1",
     "MEETING": {
-      "HOST_NAME": "Admin Adminov",
+      "HOST_NAME": "User Name",
       "NOTIFY": false,
       "REINVITE": false,
       "ALLOW_INVITE": false,
@@ -143,7 +143,7 @@ HTTP-статус: **200**
         "id": 1
       }
     ],
-    "~DESCRIPTION": "New description for event",
+    "~DESCRIPTION": "Description for event",
     "~USER_OFFSET_FROM": 7200,
     "~USER_OFFSET_TO": 7200
   },
