@@ -13,7 +13,8 @@
 || **type**
 [`string`](../data-types.md) | Тип календаря: 
 - user; 
-- group. ||
+- group;
+- company_calendar (указывается ownerId == ""). ||
 || **ownerId**
 [`integer`](../data-types.md) | Идентификатор владельца календаря. ||
 || **days**
@@ -42,6 +43,25 @@
             forCurrentUser: true,
             maxEventsCount: 100,
             detailUrl: '/company/personal/user/#user_id#/calendar/'
+        }
+    );
+    ```
+
+{% endlist %}
+
+Получить события календаря компании:
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'calendar.event.get',
+        {
+            type: 'company_calendar',
+            ownerId: '', // ownerId не указывается при выборке событий календаря компании. Он пустой для всех событий такого типа.
+            forCurrentUser: false
         }
     );
     ```

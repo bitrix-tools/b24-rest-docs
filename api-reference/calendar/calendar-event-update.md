@@ -17,7 +17,8 @@
 || **type***
 [`string`](../data-types.md) | Тип календаря:
 - user;
-- group. ||
+- group;
+- company_calendar (указывается ownerId == ""). ||
 || **ownerId***
 [`integer`](../data-types.md) | Идентификатор владельца календаря. ||
 || **from**
