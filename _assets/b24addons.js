@@ -515,6 +515,7 @@ function initB24items() {
                             const erudaElement = document.querySelector('#eruda');
                             if (erudaElement) {
                                 const shadowRoot = erudaElement.shadowRoot;
+                                
                                 if (shadowRoot) {
                                     const devToolsElement = shadowRoot.querySelector('.eruda-dev-tools');
                                     if (devToolsElement) {
@@ -522,9 +523,31 @@ function initB24items() {
                                     } else {
                                         console.error('eruda-dev-tools element not found.');
                                     }
+
+                                    const erudaContainer = shadowRoot.querySelector('.eruda-container');
+
+                                    if (erudaContainer) {
+                                        
+                                        const entryButton = erudaContainer.querySelector('.eruda-entry-btn');
+
+                                        if (entryButton) {
+                                            
+                                            entryButton.style.position = 'absolute';
+                                            entryButton.style.bottom = '10px'; 
+                                            entryButton.style.right = '10px'; 
+                                            entryButton.style.top = ''; 
+                                            entryButton.style.left = ''; 
+                                        } else {
+                                            console.error('Element with class eruda-entry-btn not found.');
+                                        }
+                                    } else {
+                                        console.error('Element with class eruda-container not found.');
+                                    }
+
                                 } else {
                                     console.error('Shadow root not found.');
                                 }
+
                             } else {
                                 console.error('Eruda element not found.');
                             }
