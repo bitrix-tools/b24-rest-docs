@@ -58,11 +58,11 @@
 [`string`](../data-types.md) | **[Y\|N]** Отметка частного события. ||
 || **rrule**
 [`object`](../data-types.md) | Повторяемость события. В терминах стандарта iCalendar:
-- FREQ - частота повторения (DAILY, WEEKLY, MONTHLY, YEARLY); 
-- COUNT - количество повторений; 
-- INTERVAL - интервал между повторениями; 
-- BYDAY - дни недели ('SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'); 
-- UNTIL - дата окончания повторений. ||
+- FREQ [`string`](../data-types.md) - частота повторения (DAILY, WEEKLY, MONTHLY, YEARLY); 
+- COUNT [`integer`](../data-types.md) - количество повторений; 
+- INTERVAL [`integer`](../data-types.md) - интервал между повторениями; 
+- BYDAY [`array`](../data-types.md) - дни недели ('SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'); 
+- UNTIL [`date`](../data-types.md) - дата окончания повторений. ||
 || **is_meeting**
 [`string`](../data-types.md) | **[Y\|N]** Признак встречи с участниками события. ||
 || **location**
