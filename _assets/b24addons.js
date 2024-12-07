@@ -102,9 +102,6 @@ function addSearchResults () {
 
     resultContainer.classList.add('search-results-container');
     resultContainer.style.setProperty('position', 'fixed', 'important');
-    // resultContainer.style.top = '100%';
-    // resultContainer.style.left = '0';
-    // resultContainer.style.width = '100%';
     resultContainer.style.height = '500px';
     resultContainer.style.overflowY = 'auto';
     resultContainer.style.backgroundColor = '#fff';
@@ -193,7 +190,6 @@ function addSearchField() {
         clearButton.addEventListener('click', function() {
             searchInput.value = '';
             searchInput.focus();
-            // resultContainer.style.display = 'none';
             showHint();
         });
 
@@ -219,8 +215,6 @@ function addSearchField() {
 
         function showHint() {
             resultContainer = document.querySelector('.search-results-container');
-
-            // text-align: center; color: #666; width: 66.67%; margin: 0 auto;
 
             resultContainer.innerHTML = `
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; width: 66.67%; margin: 0 auto; text-align: center;">
@@ -443,16 +437,128 @@ function addB24Buttons () {
     }
 }
 
+function isInsideIframe() {
+    return window.self !== window.top;
+}
+
+function processCodeBlocks() {
+    var container = document.querySelector('.dc-doc-page__main');
+
+    if (container) {
+
+        if (container.querySelector('.debug-button-container')) {
+            return; 
+        }
+
+        const codeBlocks = container.querySelectorAll('code.hljs.js, code.hljs.javascript');
+
+        codeBlocks.forEach(codeBlock => {
+
+            const code = codeBlock.textContent;
+
+            // Create button container
+            const buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('debug-button-container');
+
+            // Create "Execute" button
+            const executeButton = document.createElement('button');
+            executeButton.textContent = 'Execute';
+            executeButton.className += ' g-button g-button_view_outlined g-button_size_l g-button_pin_round-round pc-button-block pc-button-block_size_m pc-button-block_theme_outlined pc-buttons__button';
+            executeButton.addEventListener('click', () => {
+                try {
+                    eval(code);
+                } catch (error) {
+                    console.error('Error executing code:', error);
+                }
+            });
+
+            buttonContainer.appendChild(executeButton);
+            codeBlock.insertAdjacentElement('afterend', buttonContainer);
+        });
+    }
+}
+
 function initB24items() {    
     addB24Buttons();
-    // addSearchField();
+
+    if (isInsideIframe()) {
+        
+        const script = document.createElement('script');
+        
+        script.src = '//api.bitrix24.com/api/v1/';
+        script.onload = function() {
+            try {
+                
+                BX24.ready(() => {
+
+                    if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/eruda"]')) {
+                        
+                        const erudaScript = document.createElement('script');
+                        erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
+                        erudaScript.onload = function() {
+                            
+                            const erudaContainer = document.createElement('div');
+                            erudaContainer.className = 'eruda-container';
+                            document.body.appendChild(erudaContainer);
+                            
+                            eruda.init({
+                                container: erudaContainer,
+                                tool: ['console', 'network'],
+                                autoScale: true,
+                                defaults: {
+                                    displaySize: 30,
+                                    transparency: 0.9,
+                                    theme: 'Monokai Pro'
+                                }
+                            });
+
+                            const erudaElement = document.querySelector('#eruda');
+                            if (erudaElement) {
+                                const shadowRoot = erudaElement.shadowRoot;
+                                if (shadowRoot) {
+                                    const devToolsElement = shadowRoot.querySelector('.eruda-dev-tools');
+                                    if (devToolsElement) {
+                                        devToolsElement.style.height = '40%';
+                                    } else {
+                                        console.error('eruda-dev-tools element not found.');
+                                    }
+                                } else {
+                                    console.error('Shadow root not found.');
+                                }
+                            } else {
+                                console.error('Eruda element not found.');
+                            }
+                            eruda.show();
+                        };
+
+                        erudaScript.onerror = function() {
+                            console.error('Failed to load Eruda script.');
+                        };
+
+                        document.head.appendChild(erudaScript);
+    
+                        processCodeBlocks();
+                    }
+
+                });
+            } catch (error) {
+                console.error('Error initializing BX24:', error);
+            }
+        };
+        script.onerror = function() {
+            console.error('Failed to load Bitrix24 API script.');
+        };
+
+        document.head.appendChild(script);
+
+    }
 }
 
 function addCopyIconsToCodeElements() {
     const codeElements = document.querySelectorAll('code');
 
     codeElements.forEach(codeElement => {
-        // Пропускаем элементы <code>, которые находятся внутри <pre>
+        
         if (codeElement.closest('pre')) {
             return;
         }
@@ -523,7 +629,7 @@ function addCopyIconsToCodeElements() {
                     tooltip.style.display = 'none';
                 }, 2000);
             }).catch(err => {
-                console.error('Ошибка копирования текста: ', err);
+                console.error('Error copying text: ', err);
             });
         });
     });
@@ -534,28 +640,31 @@ initB24itemsIfReady();
 mainObserver.observe(document, { childList: true, subtree: true });
 
 window.onload = function() {
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){
-            (m[i].a=m[i].a||[]).push(arguments)
-        };
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {
-            if (document.scripts[j].src === r) { 
-                return; 
-            }
-        }
-        k = e.createElement(t),
-        a = e.getElementsByTagName(t)[0];
-        k.async = 1;
-        k.src = r;
-        a.parentNode.insertBefore(k,a);
-    })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-    ym(98117665, "init", {
-        clickmap: true,
-        trackLinks: true,
-        accurateTrackBounce: true
-    });
+    if (!isInsideIframe()) {
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){
+                (m[i].a=m[i].a||[]).push(arguments)
+            };
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) { 
+                    return; 
+                }
+            }
+            k = e.createElement(t),
+            a = e.getElementsByTagName(t)[0];
+            k.async = 1;
+            k.src = r;
+            a.parentNode.insertBefore(k,a);
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    
+        ym(98117665, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true
+        });
+    }
 
     addCopyIconsToCodeElements();
 };
