@@ -1,6 +1,7 @@
 const GITHUB_REPO_BASE_URL = "https://github.com/bitrix-tools/b24-rest-docs/";
-var LOGO_EXISTS = false;
+var dynamicObserver = null;
 
+// functions to add buttons to the right panel
 function createSeparator () {
     var divider = document.createElement('div');
     divider.className = 'dc-divider-control dc-divider-control_vertical dc-controls__divider';
@@ -8,7 +9,6 @@ function createSeparator () {
 }
 
 function createLink( url, buttonCaption, svgPath, additionalClass) {
-    // Create the link element
 
     if (url != '') {
         var link = document.createElement('a');
@@ -72,318 +72,6 @@ function convertToGitHubProjectLink() {
     return githubBaseUrl + path + '?plain=1';
 }
 
-function setMenuPosition () {
-    const activeItem = document.querySelector('.dc-toc__list-item_active');
-    if (activeItem)
-    {
-        const parentContent = activeItem.closest('.dc-toc__content');
-        if (parentContent)
-        {
-            parentContent.scrollTop = activeItem.offsetTop - parentContent.offsetTop;
-        }
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    initB24items();
-    setMenuPosition();
-});
-
-function closePopup() {
-    const resultContainer = document.querySelector('.search-results-container');
-    if (resultContainer) {
-        resultContainer.style.display = 'none';
-    }
-}
-
-function addSearchResults () {
-    // Search results popup
-    const resultContainer = document.createElement('div');
-
-    resultContainer.classList.add('search-results-container');
-    resultContainer.style.setProperty('position', 'fixed', 'important');
-    resultContainer.style.height = '500px';
-    resultContainer.style.overflowY = 'auto';
-    resultContainer.style.backgroundColor = '#fff';
-    resultContainer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-    resultContainer.style.zIndex = '9999';
-    resultContainer.style.display = 'none';
-    resultContainer.style.padding = '10px';
-
-    const searchContainer = document.querySelector('.search-container');
-    const higherLevelContainer = document.body;
-    higherLevelContainer.appendChild(resultContainer);
-
-    resultContainer.style.top = `${searchContainer.getBoundingClientRect().bottom + window.scrollY}px`;
-    resultContainer.style.width = '700px';
-    resultContainer.style.left = `${searchContainer.getBoundingClientRect().right - 700}px`;
-}
-
-// Creates the search bar
-function addSearchField() {
-
-    const existingSearchInput = document.querySelector('.bx-search-input');
-    const existingLogo = document.querySelector('.pc-logo__icon');
-
-    if (!existingSearchInput && (existingLogo.width > 0)) {
-
-        const searchContainer = document.createElement('div');
-        searchContainer.style.position = 'relative';
-        searchContainer.style.flex = '0 0 auto';
-        searchContainer.style.marginLeft = '20px';
-        searchContainer.style.width = '500px';
-        searchContainer.classList.add('search-container');
-
-        // Search text field
-        const searchInput = document.createElement('input');
-        searchInput.type = 'text';
-        searchInput.placeholder = 'Поиск...';
-        searchInput.style.padding = '10px 5px';
-        searchInput.style.fontSize = '16px';
-        searchInput.style.borderRadius = '4px';
-        searchInput.style.border = '1px solid #ccc';
-        searchInput.style.width = '100%';
-        searchInput.classList.add('bx-search-input');
-
-        let typingTimer;
-        const typingDelay = 800;
-
-        searchInput.addEventListener('input', function () {
-            clearTimeout(typingTimer);
-
-            const resultContainer = document.querySelector('.search-results-container');
-            const query = searchInput.value.trim();
-            if (query.length > 2) {
-                typingTimer = setTimeout(function () {
-                    performSearch(query, resultContainer);
-                }, typingDelay);
-            } else {
-                showHint();
-            }
-        });
-
-        searchInput.addEventListener('focus', function () {
-
-            const resultContainer = document.querySelector('.search-results-container');
-
-            if (searchInput.value.trim().length === 0) {
-                showHint();
-            } else {
-                resultContainer.style.display = 'block';
-            }
-        });
-
-        searchContainer.appendChild(searchInput);
-
-        const clearButton = document.createElement('span');
-        clearButton.textContent = '×';
-        clearButton.style.position = 'absolute';
-        clearButton.style.right = '10px';
-        clearButton.style.top = '50%';
-        clearButton.style.transform = 'translateY(-50%)';
-        clearButton.style.cursor = 'pointer';
-        clearButton.style.color = '#888';
-        clearButton.style.fontSize = '20px';
-        clearButton.style.userSelect = 'none';
-        searchContainer.appendChild(clearButton);
-
-        clearButton.addEventListener('click', function() {
-            searchInput.value = '';
-            searchInput.focus();
-            showHint();
-        });
-
-        // Add the search bar into top menu container
-        const menu = document.querySelector('.pc-desktop-navigation__navigation');
-        if (menu) {
-            menu.appendChild(searchContainer);
-        }
-
-        addSearchResults();
-
-        document.addEventListener('click', function(event) {
-            if (!searchContainer.contains(event.target)) {
-                closePopup();
-            }
-        });
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closePopup();
-            }
-        });
-
-        function showHint() {
-            resultContainer = document.querySelector('.search-results-container');
-
-            resultContainer.innerHTML = `
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; width: 66.67%; margin: 0 auto; text-align: center;">
-                    <svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M56.6536 62.8186C52.8102 65.3422 48.2117 66.8102 43.2703 66.8102C29.7864 66.8102 18.8555 55.8793 18.8555 42.3953C18.8555 28.9114 29.7864 17.9805 43.2703 17.9805C56.7543 17.9805 67.6852 28.9114 67.6852 42.3953C67.6852 47.3367 66.2172 51.9352 63.6936 55.7786L76.3834 68.4684C77.8804 69.9654 77.8804 72.3925 76.3834 73.8895L74.7645 75.5084C73.2675 77.0054 70.8404 77.0054 69.3434 75.5084L56.6536 62.8186ZM60.7095 42.3953C60.7095 52.0267 52.9017 59.8345 43.2703 59.8345C33.6389 59.8345 25.8311 52.0267 25.8311 42.3953C25.8311 32.7639 33.6389 24.9561 43.2703 24.9561C52.9017 24.9561 60.7095 32.7639 60.7095 42.3953Z" fill="#DFE0E3"></path>
-                    </svg>
-                    <p>Начните искать нужные статьи</p>
-                </div>
-            `;
-            resultContainer.style.display = 'block';
-        }
-    }
-}
-
-function fillResults(data) {
-    var resultContainer = document.querySelector('.search-results-container');
-
-    if (resultContainer === null) {
-        addSearchResults();
-        resultContainer = document.querySelector('.search-results-container');
-    }
-
-    resultContainer.innerHTML = '';
-
-    if (data.result === 'ok' && data.items.length > 0) {
-
-        data.items.forEach(item => {
-            const resultItem = document.createElement('div');
-            resultItem.style.padding = '10px 5px';
-
-            // Create the full link with title
-            const titleLink = document.createElement('a');
-            titleLink.textContent = item.title;
-            titleLink.href = item.link;
-            titleLink.style.textDecoration = 'none';
-            titleLink.style.color = '#000';
-            titleLink.style.fontSize = '16px';
-            titleLink.style.display = 'block';
-
-            resultItem.appendChild(titleLink);
-
-            // Split the link into parts to create breadcrumbs
-            let urlParts = item.link.split('/').filter(Boolean);
-
-            // Exclude the last part if it's a file (e.g., ends with ".html")
-            if (urlParts.length > 0 && urlParts[urlParts.length - 1].includes('.')) {
-                urlParts.pop();
-            }
-
-            const breadcrumbs = [];
-            let cumulativePath = '';
-
-            urlParts.forEach((part, index) => {
-                cumulativePath += `/${part}`;
-                const breadcrumb = document.createElement('a');
-                breadcrumb.href = cumulativePath;
-                breadcrumb.textContent = part;
-                breadcrumb.style.textDecoration = 'none';
-                breadcrumb.style.color = '#666';
-                breadcrumb.style.fontSize = '12px';
-                breadcrumb.style.marginRight = '5px';
-
-                breadcrumbs.push(breadcrumb);
-
-                if (index < urlParts.length - 1) {
-                    const separator = document.createElement('span');
-                    separator.textContent = '/';
-                    separator.style.color = '#666';
-                    separator.style.marginRight = '5px';
-                    breadcrumbs.push(separator);
-                }
-            });
-
-            // Create a container for breadcrumbs
-            const breadcrumbContainer = document.createElement('div');
-            breadcrumbContainer.style.marginTop = '5px';
-            breadcrumbContainer.style.display = 'flex';
-            breadcrumbContainer.style.flexWrap = 'wrap';
-
-            breadcrumbs.forEach(breadcrumb => breadcrumbContainer.appendChild(breadcrumb));
-
-            resultItem.appendChild(breadcrumbContainer);
-            resultContainer.appendChild(resultItem);
-        });
-
-        resultContainer.style.display = 'block';
-    } else {
-        showNoResultsMessage(resultContainer);
-    }
-}
-
-function showNoResultsMessage(resultContainer) {
-    resultContainer.innerHTML = `
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; width: 66.67%; margin: 0 auto; text-align: center;">
-            <svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M56.6536 62.8186C52.8102 65.3422 48.2117 66.8102 43.2703 66.8102C29.7864 66.8102 18.8555 55.8793 18.8555 42.3953C18.8555 28.9114 29.7864 17.9805 43.2703 17.9805C56.7543 17.9805 67.6852 28.9114 67.6852 42.3953C67.6852 47.3367 66.2172 51.9352 63.6936 55.7786L76.3834 68.4684C77.8804 69.9654 77.8804 72.3925 76.3834 73.8895L74.7645 75.5084C73.2675 77.0054 70.8404 77.0054 69.3434 75.5084L56.6536 62.8186ZM60.7095 42.3953C60.7095 52.0267 52.9017 59.8345 43.2703 59.8345C33.6389 59.8345 25.8311 52.0267 25.8311 42.3953C25.8311 32.7639 33.6389 24.9561 43.2703 24.9561C52.9017 24.9561 60.7095 32.7639 60.7095 42.3953Z" fill="#DFE0E3"></path>
-            </svg>
-            <p>К сожалению, по вашему запросу мы ничего не нашли. Попробуйте переформулировать</p>
-        </div>
-    `;
-    resultContainer.style.display = 'block';
-}
-
-function performSearch(query, resultContainer) {
-
-    const url = `https://util.1c-bitrix.ru/documentation/rest/search.php?q=${encodeURIComponent(query)}`;
-    const searchInput = document.querySelector('.bx-search-input');
-
-    searchInput.classList.add('loading');
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            fillResults(data);
-            searchInput.classList.remove('loading');
-        })
-        .catch(error => {
-            console.error('Error while searching:', error);
-            resultContainer.style.display = 'none';
-            resultContainer.innerHTML = '';
-            searchInput.classList.remove('loading');
-        });
-}
-
-function initB24itemsIfReady() {
-    if (document.readyState === 'complete') {
-        initB24items();
-    } else {
-        window.addEventListener('load', function() {
-            LOGO_EXISTS = true;
-            initB24items();
-        });
-    }
-}
-
-// onload
-const mainObserver = new MutationObserver(function(mutationsList, observer) {
-    for (let mutation of mutationsList) {
-        if (mutation.type === 'childList' && document.readyState === 'complete') {
-            initB24items();
-            mainObserver.disconnect(); 
-
-            const targetElement = document.querySelector('.pc-layout__navigation');
-            const parentElement = targetElement ? targetElement.parentElement : document.body;
-
-            const dynamicObserver = new MutationObserver(handleMutations);
-            dynamicObserver.observe(parentElement, { childList: true, subtree: true });
-
-            break;
-        }
-    }
-});
-
-function handleMutations(mutationsList, observer) {
-    mutationsList.forEach(mutation => {
-        if (mutation.type === 'childList') {
-            const targetElement = document.querySelector('.pc-layout__navigation');
-            if (targetElement && checkVisibility(targetElement)) {
-                initB24items();
-            }
-        }
-    });
-}
-
-function checkVisibility(element) {
-    const style = window.getComputedStyle(element);
-    return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-}
-
 function addB24Buttons () {
     // Find the div with the class 'dc-controls'
     var dcControlsDiv = document.querySelector('.dc-doc-page__controls .dc-controls');
@@ -406,8 +94,8 @@ function addB24Buttons () {
             const currentUrl = window.location.href; 
 
             const issue_url = `${GITHUB_REPO_BASE_URL}issues/new` +
-                `?title=${encodeURIComponent(`Страница ${TITLE}`)}` +
-                `&body=${encodeURIComponent(`Ссылка на страницу: ${currentUrl}`)}`;
+                `?title=${encodeURIComponent(`Page ${TITLE}`)}` +
+                `&body=${encodeURIComponent(`Page link: ${currentUrl}`)}`;
 
             dcControlsDiv.appendChild(createSeparator());
             dcControlsDiv.appendChild(createLink(
@@ -437,6 +125,196 @@ function addB24Buttons () {
     }
 }
 
+// Fix for position in the left menu
+function setMenuPosition () {
+    const activeItem = document.querySelector('.dc-toc__list-item_active');
+    if (activeItem)
+    {
+        const parentContent = activeItem.closest('.dc-toc__content');
+        if (parentContent)
+        {
+            parentContent.scrollTop = activeItem.offsetTop - parentContent.offsetTop;
+        }
+    }
+}
+
+// Methods for adding copy icons to code blocks
+function getActualBackgroundColor(element)
+{
+    // Create a temporary canvas element
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    // Set the canvas dimensions
+    const rect = element.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    // Draw the element onto the canvas with all styles applied
+    const computedStyle = window.getComputedStyle(element);
+    // Set the canvas background to the element's background color
+    context.fillStyle = computedStyle.backgroundColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    // Get the pixel color data
+    const pixelData = context.getImageData(0, 0, 1, 1).data;
+    // Form the color in rgba format
+    const rgbaColor = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3] / 255})`;
+
+    return rgbaColor;
+}
+
+function blendColors(elementRgbaStr, backgroundRgbStr)
+{
+    // Regular expressions to extract values from strings
+    const rgbaRegex = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*(?:\.\d+)?)\)/;
+    const rgbRegex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
+    // Extract values from strings
+    const elementMatch = elementRgbaStr.match(rgbaRegex);
+    const backgroundMatch = backgroundRgbStr.match(rgbRegex);
+    if (!elementMatch || !backgroundMatch)
+    {
+        throw new Error('Invalid input format.');
+    }
+    // Convert extracted strings to numbers
+    const element = {
+        r: parseInt(elementMatch[1], 10),
+        g: parseInt(elementMatch[2], 10),
+        b: parseInt(elementMatch[3], 10),
+        a: parseFloat(elementMatch[4]),
+    };
+    const background = {
+        r: parseInt(backgroundMatch[1], 10),
+        g: parseInt(backgroundMatch[2], 10),
+        b: parseInt(backgroundMatch[3], 10),
+    };
+    // Calculate the resulting color for each channel
+    const resultColor = {
+        r: Math.round(element.r * element.a + background.r * (1 - element.a)),
+        g: Math.round(element.g * element.a + background.g * (1 - element.a)),
+        b: Math.round(element.b * element.a + background.b * (1 - element.a)),
+    };
+
+    return `rgb(${resultColor.r}, ${resultColor.g}, ${resultColor.b})`;
+}
+
+function findParentTableRow(element)
+{
+    // Traverse up the DOM until we encounter a <table> or reach the top
+    while (element.parentElement)
+    {
+        if (element.tagName.toLowerCase() === 'tr')
+        {
+            return element; // Return the parent <tr> element
+        }
+        if (element.tagName.toLowerCase() === 'table')
+        {
+            return null; // Element is inside a <table> but has no parent <tr>
+        }
+        element = element.parentElement;
+    }
+    return null; // Element is not inside a <table>
+}
+
+function addCopyIconsToCodeElements() {
+    const codeElements = document.querySelectorAll('code');
+
+    codeElements.forEach(codeElement => {
+        
+        if (codeElement.closest('pre')) {
+            return;
+        }
+
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        wrapper.style.display = 'inline-block';
+
+        const copyIconWrapper = document.createElement('div');
+        const bodyBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
+        copyIconWrapper.style.backgroundColor = bodyBackgroundColor; 
+        
+        copyIconWrapper.style.position = 'absolute';
+        copyIconWrapper.style.right = '0';
+        copyIconWrapper.style.top = '50%';
+        copyIconWrapper.style.transform = 'translateY(-50%)';
+        copyIconWrapper.style.cursor = 'pointer';
+        copyIconWrapper.style.display = 'none';
+
+        const copyIcon = document.createElement('span');
+        copyIcon.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" class="yfm-clipboard-icon" data-animation="121">
+                <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path>
+                <path stroke="currentColor" fill="transparent" stroke-width="1.5" d="M9.5 13l3 3l5 -5" visibility="hidden">
+                    <animate id="visibileAnimation-121" attributeName="visibility" from="hidden" to="visible" dur="0.2s" fill="freeze" begin=""></animate>
+                    <animate id="hideAnimation-121" attributeName="visibility" from="visible" to="hidden" dur="1s" begin="visibileAnimation-121.end+1" fill="freeze"></animate>
+                </path>
+            </svg>
+        `;
+        copyIcon.style.border = 'none';
+        copyIcon.style.background = 'none';
+
+        copyIconWrapper.appendChild(copyIcon);
+
+        const tooltip = document.createElement('div');
+        tooltip.innerHTML = 'Copied!';
+        tooltip.style.position = 'absolute';
+        tooltip.style.bottom = '100%';
+        tooltip.style.left = '50%';
+        tooltip.style.transform = 'translateX(-50%)';
+        tooltip.style.backgroundColor = '#333';
+        tooltip.style.color = '#fff';
+        tooltip.style.padding = '5px';
+        tooltip.style.borderRadius = '3px';
+        tooltip.style.fontSize = '12px';
+        tooltip.style.display = 'none';
+        tooltip.style.zIndex = '10';
+
+        wrapper.appendChild(codeElement.cloneNode(true));
+        wrapper.appendChild(copyIconWrapper);
+        wrapper.appendChild(tooltip);
+        codeElement.replaceWith(wrapper);   
+
+        wrapper.addEventListener('mouseenter', () => {
+            copyIconWrapper.style.display = 'inline';
+        });
+
+        wrapper.addEventListener('mouseleave', () => {
+            copyIconWrapper.style.display = 'none';
+        });
+
+        copyIconWrapper.addEventListener('click', () => {
+            const textToCopy = wrapper.querySelector('code').textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                tooltip.style.display = 'block';
+                setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copying text error: ', err);
+            });
+        });
+    });
+
+    const backgroundRgbStr = window.getComputedStyle(document.body).backgroundColor;
+
+    const codeTags = document.querySelectorAll('code');
+    codeTags.forEach((codeTag, index) => {
+        let rgb = backgroundRgbStr;
+        let parentTr = findParentTableRow(codeTag);
+        if (parentTr)
+        {
+            rgb = blendColors(getActualBackgroundColor(parentTr), rgb);
+        }
+
+        const elementRgbaStr = getActualBackgroundColor(codeTag);
+        const blendColor = blendColors(elementRgbaStr, rgb);
+
+        const nextElement = codeTag.nextElementSibling;
+        if (nextElement)
+        {
+            nextElement.style.backgroundColor = blendColor;
+        }
+    });
+}
+
+// Methods for working with Bitrix24 REST API from the application
 function isInsideIframe() {
     return window.self !== window.top;
 }
@@ -465,22 +343,28 @@ function processCodeBlocks() {
             executeButton.textContent = 'Execute';
             executeButton.className += ' g-button g-button_view_outlined g-button_size_l g-button_pin_round-round pc-button-block pc-button-block_size_m pc-button-block_theme_outlined pc-buttons__button';
             executeButton.addEventListener('click', () => {
-                try {
-                    eval(code);
-                } catch (error) {
-                    console.error('Error executing code:', error);
-                }
+                executeButton.disabled = true;
+                executeButton.innerHTML = 'Executing...'; // Clear button content
+
+                setTimeout(() => {
+                    try {
+                        eval(code);
+                    } catch (error) {
+                        console.error('Executing code error:', error);
+                    } finally {
+                        executeButton.disabled = false;
+                        executeButton.textContent = 'Execute'; // Reset button text
+                    }
+                }, 0);
             });
 
             buttonContainer.appendChild(executeButton);
-            codeBlock.insertAdjacentElement('afterend', buttonContainer);
+            codeBlock.parentElement.parentElement.insertAdjacentElement('afterend', buttonContainer);
         });
     }
 }
 
-function initB24items() {    
-    addB24Buttons();
-
+function addAPILibraries() {
     if (isInsideIframe()) {
         
         const script = document.createElement('script');
@@ -577,91 +461,66 @@ function initB24items() {
     }
 }
 
-function addCopyIconsToCodeElements() {
-    const codeElements = document.querySelectorAll('code');
+function initB24items() {   
+    if (dynamicObserver) {
+        dynamicObserver.disconnect();
+    }
 
-    codeElements.forEach(codeElement => {
-        
-        if (codeElement.closest('pre')) {
-            return;
+    addB24Buttons();
+    addCopyIconsToCodeElements();
+
+    addAPILibraries();
+    createDynamicObserver();
+}
+
+// Methods for adding additional elements after page load and state changes
+
+function createDynamicObserver() {
+
+    const targetElement = document.querySelector('.pc-layout__navigation');
+    const parentElement = targetElement ? targetElement.parentElement : document.body;
+
+    if (!dynamicObserver) dynamicObserver = new MutationObserver(handleMutations);
+
+    dynamicObserver.observe(parentElement, { childList: true, subtree: true });
+}
+
+const mainObserver = new MutationObserver(function(mutationsList, observer) {
+    for (let mutation of mutationsList) {
+        if (mutation.type === 'childList' && document.readyState === 'complete') {
+            mainObserver.disconnect(); 
+
+            initB24items();
+
+            break;
         }
+    }
+});
 
-        const wrapper = document.createElement('div');
-        wrapper.style.position = 'relative';
-        wrapper.style.display = 'inline-block';
+function checkVisibility(element) {
+    const style = window.getComputedStyle(element);
+    return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+}
 
-        const copyIconWrapper = document.createElement('div');
-        const bodyBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
-        copyIconWrapper.style.backgroundColor = bodyBackgroundColor; 
-        
-        copyIconWrapper.style.position = 'absolute';
-        copyIconWrapper.style.right = '0';
-        copyIconWrapper.style.top = '50%';
-        copyIconWrapper.style.transform = 'translateY(-50%)';
-        copyIconWrapper.style.cursor = 'pointer';
-        copyIconWrapper.style.display = 'none';
-
-        const copyIcon = document.createElement('span');
-        copyIcon.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" class="yfm-clipboard-icon" data-animation="121">
-                <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path>
-                <path stroke="currentColor" fill="transparent" stroke-width="1.5" d="M9.5 13l3 3l5 -5" visibility="hidden">
-                    <animate id="visibileAnimation-121" attributeName="visibility" from="hidden" to="visible" dur="0.2s" fill="freeze" begin=""></animate>
-                    <animate id="hideAnimation-121" attributeName="visibility" from="visible" to="hidden" dur="1s" begin="visibileAnimation-121.end+1" fill="freeze"></animate>
-                </path>
-            </svg>
-        `;
-        copyIcon.style.border = 'none';
-        // copyIcon.style.backgroundColor = 'var(--g-color-base-misc-light)';
-        copyIcon.style.background = 'none';
-
-        copyIconWrapper.appendChild(copyIcon);
-
-        const tooltip = document.createElement('div');
-        tooltip.innerHTML = 'Copied!';
-        tooltip.style.position = 'absolute';
-        tooltip.style.bottom = '100%';
-        tooltip.style.left = '50%';
-        tooltip.style.transform = 'translateX(-50%)';
-        tooltip.style.backgroundColor = '#333';
-        tooltip.style.color = '#fff';
-        tooltip.style.padding = '5px';
-        tooltip.style.borderRadius = '3px';
-        tooltip.style.fontSize = '12px';
-        tooltip.style.display = 'none';
-        tooltip.style.zIndex = '10';
-
-        wrapper.appendChild(codeElement.cloneNode(true));
-        wrapper.appendChild(copyIconWrapper);
-        wrapper.appendChild(tooltip);
-        codeElement.replaceWith(wrapper);   
-
-        wrapper.addEventListener('mouseenter', () => {
-            copyIconWrapper.style.display = 'inline';
-        });
-
-        wrapper.addEventListener('mouseleave', () => {
-            copyIconWrapper.style.display = 'none';
-        });
-
-        copyIconWrapper.addEventListener('click', () => {
-            const textToCopy = wrapper.querySelector('code').textContent;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                tooltip.style.display = 'block';
-                setTimeout(() => {
-                    tooltip.style.display = 'none';
-                }, 2000);
-            }).catch(err => {
-                console.error('Error copying text: ', err);
-            });
-        });
+function handleMutations(mutationsList, observer) {
+    mutationsList.forEach(mutation => {
+        if (mutation.type === 'childList') {
+            const targetElement = document.querySelector('.pc-layout__navigation');
+            if (targetElement && checkVisibility(targetElement)) {
+                initB24items();
+            }
+        }
     });
 }
 
-initB24itemsIfReady();
-
 mainObserver.observe(document, { childList: true, subtree: true });
 
+document.addEventListener('DOMContentLoaded', function() {
+    setMenuPosition();
+    initB24items();
+});
+
+// Connecting external metrics
 window.onload = function() {
 
     if (!isInsideIframe()) {
@@ -688,6 +547,4 @@ window.onload = function() {
             accurateTrackBounce: true
         });
     }
-
-    addCopyIconsToCodeElements();
 };

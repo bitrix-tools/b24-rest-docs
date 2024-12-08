@@ -5,6 +5,6 @@ resources:
     - _assets/style/b24_custom.css?20241023-01
   script:
     - _assets/b24loc.js?20240925-02
-    - _assets/b24addons.js?20241129-01
+    - _assets/b24addons.js?20241208-01
 
 search: true
