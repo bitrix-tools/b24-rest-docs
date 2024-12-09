@@ -17,3 +17,5 @@ items:
     href: serverside-local-app-with-no-ui.md
   - name: Обзор раздела для Разработчиков
     href: developers-area.md
+  - name: Как исправить ошибку «Сайт не позволяет установить соединение» при открытии приложения
+    href: site-does-not-allow-connection.md
