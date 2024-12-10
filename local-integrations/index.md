@@ -16,3 +16,4 @@
 - [Входящие и исходящие вебхуки в видео-курсе по REST API](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=266&LESSON_ID=25528&LESSON_PATH=25398.25506.25512.25528)
 - [{#T}](local-webhooks.md)
 - [{#T}](local-apps.md)
+- [{#T}](site-does-not-allow-connection.md)
