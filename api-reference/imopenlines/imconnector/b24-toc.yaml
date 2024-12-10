@@ -29,6 +29,8 @@ items:
     href: imconnector-send-status-delivery.md
   - name: Обновить статус «прочитано»
     href: imconnector-send-status-reading.md
+  - name: Установить новое имя чата
+    href: imconnector-chat-name-set.md
   - name: События
     include:
       path: events/b24-toc.yaml
