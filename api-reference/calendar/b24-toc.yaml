@@ -17,8 +17,6 @@ items:
     href: calendar-event-get-by-id.md
   - name: Отредактировать существующее событие
     href: calendar-event-update.md
-  - name: Установить параметры события для текущего пользователя
-    href: calendar-meeting-params-set.md
   - name: Получить статус участия текущего пользователя в событии
     href: calendar-meeting-status-get.md
   - name: Установить статус участия в событии для текущего пользователя
