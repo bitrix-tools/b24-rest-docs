@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 11 декабря, 2024
+
+- Обновлена главная страница раздела [Оплаты](./api-reference/sale/payment/index.md). Добавили вводную информацию, а также обзор методов и связей
+
 ### 10 декабря, 2024
 
 - Добавлен новый метод [imconnector.chat.name.set](./api-reference/imopenlines/imconnector/imconnector-chat-name-set.md)
