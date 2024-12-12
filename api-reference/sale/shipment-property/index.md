@@ -1,4 +1,18 @@
-# Обзор методов
+# Свойства отгрузки в Интернет-магазине: обзор методов
+
+Свойства отгрузки — это дополнительные параметры, которые можно задать для отгрузки товаров: адрес и способ доставки, дата отгрузки. Например, в заказе три книги, которые нужно отправить по разным адресам. Чтобы указать адрес для каждой отправки, создайте свойства отгрузки.
+
+> Быстрый переход: [все методы](#all-methods)
+
+## Связь свойств отгрузки с другими объектами
+
+**Типы плательщиков.** Определите, к какому виду клиентов относится покупатель: физическое или юридическое лицо. Для этого используйте методы [sale.persontype.*](../person-type/index.md).
+
+**Группы свойств.** Привяжите свойство отгрузки к подходящей группе: личные данные, данные для доставки, данные компании, контактная информация. Вы можете создать или изменить группы свойств с помощью методов [sale.propertygroup.*](../property-group/index.md).
+
+**Значения свойств отгрузки.** Измените значения свойства конкретной отгрузки с помощью методов [sale.shipmentpropertyvalue.*](../shipment-property-value/index.md).
+
+## Обзор методов {#all-methods}
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
@@ -8,8 +22,8 @@
 || **Метод** | **Описание** ||
 || [sale.shipmentproperty.add](./sale-shipment-property-add.md) | Добавляет свойство отгрузки ||
 || [sale.shipmentproperty.update](./sale-shipment-property-update.md) | Обновляет поля свойства отгрузки ||
-|| [sale.shipmentproperty.get](./sale-shipment-property-get.md) | Получает значение свойства отгрузки по id ||
-|| [sale.shipmentproperty.list](./sale-shipment-property-list.md) | Получает список свойств отгрузки ||
+|| [sale.shipmentproperty.get](./sale-shipment-property-get.md) | Возвращает значения полей свойства отгрузки по идентификатору ||
+|| [sale.shipmentproperty.list](./sale-shipment-property-list.md) | Возвращает список свойств отгрузки ||
 || [sale.shipmentproperty.delete](./sale-shipment-property-delete.md) | Удаляет свойство отгрузки ||
 || [sale.shipmentproperty.getFieldsByType](./sale-shipment-property-get-fields-by-type.md) | Возвращает поля и настройки свойства отгрузки для определенного типа свойства ||
 |#
