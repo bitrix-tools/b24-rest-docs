@@ -1,7 +1,7 @@
 title: Единица измерения
 href: index.md
 items: 
-  - name: Обзор методов
+  - name: Обзор методов и событий
     href: index.md
   - name: Добавить единицу измерения
     href: catalog-measure-add.md
