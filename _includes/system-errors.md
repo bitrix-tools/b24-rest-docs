@@ -12,7 +12,7 @@ HTTP-статус: **20х**, **40x**, **50x**
 Internal server error | Возникла внутренняя ошибка сервера ||
 || `500` | `ERROR_UNEXPECTED_ANSWER`
 Server returned an unexpected response | Возникла внутренняя ошибка сервера ||
-|| `429` | `QUERY_LIMIT_EXCEEDED`
+|| `503` | `QUERY_LIMIT_EXCEEDED`
 Too many requestes | Превышен [лимит на интенсивность запросов](../limits.md) ||
 || `200` | `ERROR_BATCH_METHOD_NOT_ALLOWED`
 Method is not allowed for batch usage | Текущий метод не разрешен для вызове с помощью [batch](../api-reference/how-to-call-rest-api/batch.md) ||
