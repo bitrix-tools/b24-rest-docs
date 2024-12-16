@@ -12,7 +12,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter**
-[`array`](../data-types.md) | Фильтр записей. По умолчанию отдаются все записи, без фильтрации. Поддерживается фильтрация по полям: `ID`, `TIMESTAMP_X`, `EVENT_NAME`, `MESSAGE_ID` со стандартными операциями типа `=`, `>`, `<`, `<=` и так далее ||
+[`array`](../data-types.md) | Фильтр записей.  По умолчанию отдаются все записи, без фильтрации. Поддерживается фильтрация по полям: `ID`, `TIMESTAMP_X`, `EVENT_NAME`, `MESSAGE_ID` со стандартными операциями типа `=`, `>`, `<`, `<=` и так далее.
+
+Важно: тип операции ставится перед именем поля фильтрации ||
 || **order**
 [`array`](../data-types.md) | Сортировка записей. Поддерживается сортировка по тем же полям, что и в фильтре, на вход принимается массив вида `[поле=>ASC\|DESC]`. По умолчанию — [TIMESTAMP_X:ASC] ||
 || **limit**
@@ -52,9 +54,9 @@
     -H "Accept: application/json" \
     -d '{
         "filter": {
-            "MESSAGE_ID": 1,
-            "EVENT_NAME": "ONCRMLEADADD",
-            "ID": 1
+            "=MESSAGE_ID": 1,
+            "=EVENT_NAME": "ONCRMLEADADD",
+            ">=ID": 1
         }
     }' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.offline.get
@@ -68,9 +70,9 @@
     -H "Accept: application/json" \
     -d '{
         "filter": {
-            "MESSAGE_ID": 1,
-            "EVENT_NAME": "ONCRMLEADADD",
-            "ID": 1
+            "=MESSAGE_ID": 1,
+            "=EVENT_NAME": "ONCRMLEADADD",
+            ">=ID": 1
         },
         "auth": "**put_access_token_here**"
     }' \
@@ -84,9 +86,9 @@
         "event.offline.get",
         {
             "filter": {
-                "MESSAGE_ID": 1,
-                "EVENT_NAME": "ONCRMLEADADD",
-                "ID": 1
+                "=MESSAGE_ID": 1,
+                "=EVENT_NAME": "ONCRMLEADADD",
+                ">=ID": 1
             }
         },
         function(result)
@@ -108,9 +110,9 @@
         'event.offline.get',
         [
             'filter' => [
-                'MESSAGE_ID' => 1,
-                'EVENT_NAME' => 'ONCRMLEADADD',
-                'ID' => 1
+                '=MESSAGE_ID' => 1,
+                '=EVENT_NAME' => 'ONCRMLEADADD',
+                '>=ID' => 1
             ]
         ]
     );
