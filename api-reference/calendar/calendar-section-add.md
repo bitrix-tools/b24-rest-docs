@@ -40,8 +40,6 @@
   - 3_9 - 3 месяца до и 9 после;
   - 6_12 - 6 месяцев до и 12 после.
 ||
-|| **access**
-[`object`](../data-types.md) | Массив данных доступа к календарю. ||
 |#
 
 ## Примеры кода
@@ -62,12 +60,7 @@
             description: 'Description for section',
             color: '#9cbeee',
             text_color: '#283000',
-            export: {ALLOW: false, SET: '3_9'},
-            access: {
-                'D114': 17,
-                'G2': 13,
-                'U2': 15
-            }
+            export: {ALLOW: false, SET: '3_9'}
         }
     );
     ```
