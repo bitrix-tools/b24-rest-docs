@@ -2,6 +2,11 @@
 
 ## 2024
 
+### 17 декабря, 2024
+
+- Обновлена документация по событиям [типов цен](./api-reference/catalog/price-type/index.md)
+- Обновлена документация по событиям [товаров](./api-reference/catalog/product/index.md)
+
 ### 13 декабря, 2024
 
 - Обновлена документация по событиям [единиц измерения](./api-reference/catalog/measure/index.md)
