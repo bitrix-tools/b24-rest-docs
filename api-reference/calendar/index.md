@@ -18,7 +18,6 @@
 || [calendar.event.get](./calendar-event-get.md) | Возвращает список событий календаря. ||
 || [calendar.event.get.nearest](./calendar-event-get-nearest.md) | Возвращает список будущих событий для текущего пользователя. ||
 || [calendar.event.update](./calendar-event-update.md) | Редактирует существующее событие. ||
-|| [calendar.meeting.params.set](./calendar-meeting-params-set.md) | Устанавливает параметры события для текущего пользователя. ||
 || [calendar.meeting.status.get](./calendar-meeting-status-get.md) | Возвращает статус участия текущего пользователя в событии. ||
 || [calendar.meeting.status.set](./calendar-meeting-status-set.md) | Устанавливает статус участия в событии для текущего пользователя. ||
 || [calendar.resource.list](./calendar-resource-list.md) | Возвращает список (массив) всех ресурсов. ||

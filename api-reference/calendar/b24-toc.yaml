@@ -1,24 +1,22 @@
 title: Календарь
 href: index.md
 items: 
-  - name: Календарь
+  - name: Обзор методов
     href: index.md 
-  - name: Просмотреть занятость пользователей из списка
-    href: calendar-accessibility-get.md
-  - name: Добавить новое событие
+  - name: Добавить событие
     href: calendar-event-add.md
-  - name: Удалить событие
-    href: calendar-event-delete.md
+  - name: Обновить событие
+    href: calendar-event-update.md
+  - name: Получить событие по id
+    href: calendar-event-get-by-id.md
   - name: Получить список событий календаря
     href: calendar-event-get.md
-  - name: Просмотреть список будущих событий для текущего пользователя
+  - name: Получить список будущих событий
     href: calendar-event-get-nearest.md
   - name: Просмотреть события календаря по идентификатору
     href: calendar-event-get-by-id.md
   - name: Отредактировать существующее событие
     href: calendar-event-update.md
-  - name: Установить параметры события для текущего пользователя
-    href: calendar-meeting-params-set.md
   - name: Получить статус участия текущего пользователя в событии
     href: calendar-meeting-status-get.md
   - name: Установить статус участия в событии для текущего пользователя
