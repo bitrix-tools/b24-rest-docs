@@ -20,6 +20,7 @@
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-update.md)
 - [{#T}](./crm-type-get.md)
+- [{#T}](./crm-type-get-by-entity-type-id.md)
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
 
