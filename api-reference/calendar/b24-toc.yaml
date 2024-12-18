@@ -19,6 +19,8 @@ items:
     href: calendar-meeting-status-get.md
   - name: Установить статус участия в событии для текущего пользователя
     href: calendar-meeting-status-set.md
+  - name: Просмотреть занятость пользователей из списка
+    href: calendar-accessibility-get.md    
   - name: Добавить новый ресурс
     href: calendar-resource-add.md
   - name: Предоставить возможность выбрать бронирования ресурсов
