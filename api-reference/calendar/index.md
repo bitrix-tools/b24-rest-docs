@@ -12,8 +12,7 @@
 
 #|
 || **Метод** | **Описание** ||
-
-[//]: # (|| [calendar.accessibility.get]&#40;./calendar-accessibility-get.md&#41; | Возвращает занятость пользователей из списка. ||)
+|| [calendar.accessibility.get](./calendar-accessibility-get.md) | Возвращает занятость пользователей из списка. ||
 || [calendar.event.add](./calendar-event-add.md) | Добавляет новое событие. ||
 || [calendar.event.delete](./calendar-event-delete.md) | Удаляет событие. ||
 || [calendar.event.get](./calendar-event-get.md) | Возвращает список событий календаря. ||
