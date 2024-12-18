@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 18 декабря, 2024
+
+- Обновлена документация по методам работы с событиями календаря [calendar.event.*](./api-reference/calendar/calendar-event-add.md)
+
 ### 17 декабря, 2024
 
 - Обновлена документация по событиям [типов цен](./api-reference/catalog/price-type/index.md)
