@@ -13,10 +13,8 @@ items:
     href: calendar-event-get.md
   - name: Получить список будущих событий
     href: calendar-event-get-nearest.md
-  - name: Просмотреть события календаря по идентификатору
-    href: calendar-event-get-by-id.md
-  - name: Отредактировать существующее событие
-    href: calendar-event-update.md
+  - name: Удалить событие
+    href: calendar-event-delete.md
   - name: Получить статус участия текущего пользователя в событии
     href: calendar-meeting-status-get.md
   - name: Установить статус участия в событии для текущего пользователя
