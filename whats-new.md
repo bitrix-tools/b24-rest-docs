@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 19 декабря, 2024
+
+- Обновлена документация по событиям [правил округления цен](./api-reference/catalog/rounding-rule/index.md)
+
 ### 18 декабря, 2024
 
 - Обновлена документация по методам работы с событиями календаря [calendar.event.*](./api-reference/calendar/calendar-event-add.md)

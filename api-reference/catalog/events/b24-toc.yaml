@@ -1,7 +1,7 @@
 title: События
 href: index.md
 items: 
-  - name: События
+  - name: Обзор событий
     href: index.md
   - name: При добавлении единицы измерения
     href: catalog-measure-on-add.md
@@ -33,11 +33,3 @@ items:
     href: catalog-rounding-on-update.md
   - name: При удалении правила округления цен
     href: catalog-rounding-on-delete.md
-  - name: При добавлении склада
-    href: catalog-store-on-add.md
-  - name: При изменении склада
-    href: catalog-store-on-update.md
-  - name: При удалении склада
-    href: catalog-store-on-delete.md
-
-
