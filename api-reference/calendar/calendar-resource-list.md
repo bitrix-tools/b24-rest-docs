@@ -61,7 +61,7 @@ HTTP-статус: **200**
 [`string`](../data-types.md) | Идентификатор ресурса ||
 || **NAME**
 [`string`](../data-types.md) | Наименование ресурса ||
-|| **CREATED_AT**
+|| **CREATED_BY**
 [`string`](../data-types.md) | Идентификатор создателя ресурса ||
 |#
 
