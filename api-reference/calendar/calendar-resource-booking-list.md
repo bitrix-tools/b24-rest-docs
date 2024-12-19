@@ -17,9 +17,9 @@
 [`object`](../data-types.md) | Поля фильтра. ||
 || **resourceTypeIdList***
 [`array`](../data-types.md) | Передается список идентификаторов ресурсов, которые можно выбрать методом `calendar.resource.list` ||
-|| **from***
+|| **from**
 [`date`](../data-types.md) | Дата начала периода. ||
-|| **to***
+|| **to**
 [`date`](../data-types.md) | Поля окончания периода. ||
 || **resourceIdList***
 [`array`](../data-types.md) | Эти ID берутся из значения UF-поля типа resourcebooking у CRM сущностей LEAD|DEAL ||
