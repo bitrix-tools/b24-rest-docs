@@ -1,4 +1,4 @@
-# Получить поля контакта crm.contacts.fields
+# Получить поля контакта crm.contact.fields
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
