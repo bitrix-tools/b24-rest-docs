@@ -15,7 +15,7 @@ items:
     href: crm-contact-delete.md
   - name: Получить поля контакта
     href: crm-contact-fields.md
-  - name: Компании
+  - name: Связь контакта с компаниями
     include:
       path: company/b24-toc.yaml
       mode: link
