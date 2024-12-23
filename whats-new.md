@@ -6,6 +6,7 @@
 
 - Обновлена главная страница раздела [Связь контакта с компаниями](./api-reference/crm/contacts/company/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновлена главная страница раздела [Пользовательские поля компаний](./api-reference/crm/companies/userfields/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена документация по методам календаря [calendar.meeting.status.get](./api-reference/calendar/calendar-meeting-status-get.md), [calendar.meeting.status.set](./api-reference/calendar/calendar-meeting-status-set.md) и [calendar.accessibility.get](./api-reference/calendar/calendar-accessibility-get.md)
 
 ### 20 декабря, 2024
 
