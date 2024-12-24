@@ -43,7 +43,7 @@ items:
     href: calendar-settings-get.md
   - name: Получить пользовательские настройки календаря
     href: calendar-user-settings-get.md
-  - name: Сохранить пользовательские настройки календаря
+  - name: Установить пользовательские настройки календаря
     href: calendar-user-settings-set.md
   - name: Встроиться в календарь
     href: calendar-grid-veiw.md
