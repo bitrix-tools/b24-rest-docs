@@ -755,6 +755,35 @@
 
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
+  || **fm**
+  [`multifield[]`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `typeId` — Тип мультиполя.
+    - `valueType` — Тип значения.
+    - `value` — Значение.
+
+  Пример:
+
+    ```bash
+    fm: [
+      {
+        "valueType": "WORK",
+        "value": "+79999999",
+        "typeId": "PHONE"
+      },
+      {
+        "valueType": "WORK",
+        "value": "bitrix@bitrix.ru",
+        "typeId": "EMAIL"
+      }
+    ]
+
+    ```
+  По умолчанию — `null`||
   |#
 
 
@@ -923,35 +952,6 @@
 
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
-  || **fm**
-  [`multifield[]`][1] | Массив мультиполей.
-
-  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
-
-  Структура мультиполя:
-
-    - `typeId` — Тип мультиполя.
-    - `valueType` — Тип значения.
-    - `value` — Значение.
-
-  Пример:
-
-    ```bash
-    fm: [
-      {
-        "valueType": "WORK",
-        "value": "+79999999",
-        "typeId": "PHONE"
-      },
-      {
-        "valueType": "WORK",
-        "value": "bitrix@bitrix.ru",
-        "typeId": "EMAIL"
-      }
-    ]
-
-    ```
-  По умолчанию — `null`||
   |#
 
 
