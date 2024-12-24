@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 24 декабря, 2024
+
+- Обновлена документация по методам настроек календаря [calendar.settings.get](./api-reference/calendar/calendar-settings-get.md), [calendar.user.settings.get](./api-reference/calendar/calendar-user-settings-get.md) и [calendar.user.settings.set](./api-reference/calendar/calendar-user-settings-set.md)
+
 ### 23 декабря, 2024
 
 - Обновлена главная страница раздела [Связь контакта с компаниями](./api-reference/crm/contacts/company/index.md). Добавили вводную информацию, а также обзор методов и связей
