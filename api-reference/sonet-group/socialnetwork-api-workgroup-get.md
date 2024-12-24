@@ -28,16 +28,19 @@
 
 ## Параметры
 
+Параметры метода передавайте внутри массива `params`.
+
 #|
-|| **Параметр** | **Описание** | **С версии** ||
-|| **groupId** | Идентификатор группы. Обязательный параметр, целое число. | ||
+|| **Параметр** | **Описание** ||
+|| **groupId*** | Идентификатор группы. Обязательный параметр, целое число ||
+|| **select** | Массив, задающий выбираемые поля ||
 |#
 
 {% include [Сноска о параметрах](../../_includes/required.md) %}
 
 ## Поля
 
-Доступные поля:
+Доступные поля для выбора в select:
 
 #|
 || **Поле** | **Описание** | **С версии** ||
@@ -93,7 +96,69 @@
     });
     ```
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"params":{"groupId":622,"select":["ID","NAME"]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/socialnetwork.api.workgroup.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"params":{"groupId":622,"select":["ID","NAME"]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/socialnetwork.api.workgroup.get
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'socialnetwork.api.workgroup.get',
+        [
+            'params' => [
+                'groupId' => 622,
+                'select' => ['ID', 'NAME']
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "SONET_CONTROLLER_WORKGROUP_EMPTY",
+    "error_description": "Не передано значение ID рабочей группы."
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `-`     | `SONET_CONTROLLER_WORKGROUP_EMPTY` | В массив `params` не передан параметр `groupId` ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
