@@ -2,7 +2,21 @@ title: Календарь
 href: index.md
 items: 
   - name: Обзор методов
-    href: index.md 
+    href: index.md
+  - name: Добавить новый календарь
+    href: calendar-section-add.md
+  - name: Обновить календарь
+    href: calendar-section-update.md
+  - name: Получить список календарей
+    href: calendar-section-get.md
+  - name: Удалить календарь
+    href: calendar-section-delete.md
+  - name: Получить основные настройки календаря
+    href: calendar-settings-get.md
+  - name: Получить пользовательские настройки календаря
+    href: calendar-user-settings-get.md
+  - name: Установить пользовательские настройки календаря
+    href: calendar-user-settings-set.md
   - name: Добавить событие
     href: calendar-event-add.md
   - name: Обновить событие
@@ -23,28 +37,14 @@ items:
     href: calendar-accessibility-get.md    
   - name: Добавить новый ресурс
     href: calendar-resource-add.md
+  - name: Изменить ресурс
+    href: calendar-resource-update.md
+  - name: Получить список всех ресурсов
+    href: calendar-resource-list.md
   - name: Предоставить возможность выбрать бронирования ресурсов
     href: calendar-resource-booking-list.md
   - name: Удалить ресурс
     href: calendar-resource-delete.md
-  - name: Получить список всех ресурсов
-    href: calendar-resource-list.md
-  - name: Изменить ресурс
-    href: calendar-resource-update.md
-  - name: Добавить новый календарь
-    href: calendar-section-add.md
-  - name: Удалить календарь
-    href: calendar-section-delete.md
-  - name: Получить список календарей
-    href: calendar-section-get.md
-  - name: Обновить календарь
-    href: calendar-section-update.md
-  - name: Получить основные настройки календаря
-    href: calendar-settings-get.md
-  - name: Получить пользовательские настройки календаря
-    href: calendar-user-settings-get.md
-  - name: Установить пользовательские настройки календаря
-    href: calendar-user-settings-set.md
   - name: Встроиться в календарь
     href: calendar-grid-veiw.md
   - name: События

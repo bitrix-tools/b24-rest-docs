@@ -4,38 +4,49 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `calendar.section.update` обновляет календарь. Здесь и в дальнейшем section будет именоваться как "календарь".
+Метод обновляет календарь.
 
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **type***
-[`string`](../data-types.md) | Тип календаря: 
-- user; 
-- group. ||
+[`string`](../data-types.md) | Тип календаря. Возможные значения:
+- `user` — календарь пользователя
+- `group` — календарь группы  ||
 || **ownerId***
-[`integer`](../data-types.md) | Идентификатор владельца календаря. ||
+[`integer`](../data-types.md) | Идентификатор владельца календаря ||
 || **id***
-[`string`](../data-types.md) | Идентификатор календаря. ||
+[`string`](../data-types.md) | Идентификатор календаря ||
 || **name**
-[`string`](../data-types.md) | Название календаря. ||
+[`string`](../data-types.md) | Название календаря ||
 || **description**
-[`string`](../data-types.md) | Описание календаря. ||
+[`string`](../data-types.md) | Описание календаря ||
 || **color**
-[`string`](../data-types.md) | Цвет календаря. ||
+[`string`](../data-types.md) | Цвет календаря ||
 || **text_color**
-[`string`](../data-types.md) | Цвет текста в календаре. ||
+[`string`](../data-types.md) | Цвет текста в календаре ||
 || **export**
-[`object`](../data-types.md) | Список параметров: 
-- ALLOW [`boolean`](../data-types.md) - разрешить экспорт календаря; 
-- SET [`string`](../data-types.md) - устанавливается период, за который производить экспорт ('all', '3_9', '6_12'):
-  - all - за весь период;
-  - 3_9 - 3 месяца до и 9 после;
-  - 6_12 - 6 месяцев до и 12 после.
+[`object`](../data-types.md) | Объект [параметров экспорта календаря](#export)
 ||
+|#
+
+### Параметр export {#export}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ALLOW**
+[`boolean`](../data-types.md) | Разрешить экспорт календаря ||
+|| **SET**
+[`string`](../data-types.md) | Период, за который производить экспорт. Возможные значения:
+- `all` — за весь период
+- `3_9` — 3 месяца до и 9 после
+- `6_12` — 6 месяцев до и 12 после
+ ||
 |#
 
 ## Примеры кода
@@ -43,6 +54,26 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":325,"type":"user","ownerId":2,"name":"Changed Section Name","description":"New description for section","color":"#9cbeAA","text_color":"#283099","export":[{"ALLOW":false}]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.section.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":325,"type":"user","ownerId":2,"name":"Changed Section Name","description":"New description for section","color":"#9cbeAA","text_color":"#283099","export":[{"ALLOW":false}],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/calendar.section.update
+    ```
 
 - JS
 
@@ -57,9 +88,41 @@
             description: 'New description for section',
             color: '#9cbeAA',
             text_color: '#283099',
-            export: [{ALLOW: false}]
+            export: [
+                {
+                    ALLOW: false
+                }
+            ]
         }
     );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'calendar.section.update',
+        [
+            'id' => 325,
+            'type' => 'user',
+            'ownerId' => 2,
+            'name' => 'Changed Section Name',
+            'description' => 'New description for section',
+            'color' => '#9cbeAA',
+            'text_color' => '#283099',
+            'export' => [
+                [
+                    'ALLOW' => false
+                ]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -70,15 +133,15 @@ HTTP-статус: **200**
 
 ```json
 {
-  "result": 190,
-  "time": {
-    "start": 1733812564.64201,
-    "finish": 1733812565.71673,
-    "duration": 1.0747201442718506,
-    "processing": 0.05963897705078125,
-    "date_start": "2024-12-08T06:36:04+00:00",
-    "date_finish": "2024-12-08T06:36:05+00:00"
-  }
+    "result": 190,
+    "time": {
+        "start": 1733812564.64201,
+        "finish": 1733812565.71673,
+        "duration": 1.0747201442718506,
+        "processing": 0.05963897705078125,
+        "date_start": "2024-12-08T06:36:04+00:00",
+        "date_finish": "2024-12-08T06:36:05+00:00"
+    }
 }
 ```
 
@@ -88,7 +151,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../data-types.md) | Идентификатор созданного календаря ||
+[`integer`](../data-types.md) | Идентификатор измененного календаря ||
 |#
 
 ## Обработка ошибок
@@ -97,8 +160,8 @@ HTTP-статус: **400**
 
 ```json
 {
-  "error": "",
-  "error_description": "Не задан обязательный параметр \"type\" для метода \"calendar.section.update\""
+    "error": "",
+    "error_description": "Не задан обязательный параметр "type" для метода "calendar.section.update""
 }
 ```
 
@@ -118,3 +181,10 @@ HTTP-статус: **400**
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./calendar-section-add.md)
+- [{#T}](./calendar-section-get.md)
+- [{#T}](./calendar-section-delete.md)
