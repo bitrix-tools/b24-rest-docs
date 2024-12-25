@@ -2,6 +2,10 @@
 
 ## 2024
 
+### 25 декабря, 2024
+
+- Обновлена документация по методам работы с календарем [calendar.section.*](./api-reference/calendar/calendar-section-add.md)
+
 ### 24 декабря, 2024
 
 - Обновлена документация по методам настроек календаря [calendar.settings.get](./api-reference/calendar/calendar-settings-get.md), [calendar.user.settings.get](./api-reference/calendar/calendar-user-settings-get.md) и [calendar.user.settings.set](./api-reference/calendar/calendar-user-settings-set.md)
