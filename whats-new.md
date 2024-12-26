@@ -5,7 +5,8 @@
 ### 25 декабря, 2024
 
 - Обновлена документация по методам работы с календарем [calendar.section.*](./api-reference/calendar/calendar-section-add.md)
-- Обновлена главная страница раздела [Пользовательские поля контактов](./api-reference/crm/contacts/userfield/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Пользовательские поля контактов](./api-reference/crm/contacts/userfield/index.md). Добавили вводную информацию, а также обзор методов и ошибок
+- Обновлена главная страница раздела [Пользовательские поля лидов](./api-reference/crm/leads/userfield/index.md). Добавили вводную информацию, а также обзор методов и ошибок
 
 ### 24 декабря, 2024
 
@@ -14,7 +15,7 @@
 ### 23 декабря, 2024
 
 - Обновлена главная страница раздела [Связь контакта с компаниями](./api-reference/crm/contacts/company/index.md). Добавили вводную информацию, а также обзор методов и связей
-- Обновлена главная страница раздела [Пользовательские поля компаний](./api-reference/crm/companies/userfields/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Пользовательские поля компаний](./api-reference/crm/companies/userfields/index.md). Добавили вводную информацию, а также обзор методов и ошибок
 - Обновлена документация по методам календаря [calendar.meeting.status.get](./api-reference/calendar/calendar-meeting-status-get.md), [calendar.meeting.status.set](./api-reference/calendar/calendar-meeting-status-set.md) и [calendar.accessibility.get](./api-reference/calendar/calendar-accessibility-get.md)
 
 ### 20 декабря, 2024
