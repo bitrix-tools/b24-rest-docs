@@ -26,7 +26,7 @@
         "scope": "crm",
         "domain": "some-domain.bitrix24.com",
         "server_endpoint": "https://oauth.bitrix.info/rest/",
-        "status": "F",
+        "status": "L",
         "client_endpoint": "https://some-domain.bitrix24.com/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
         "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",

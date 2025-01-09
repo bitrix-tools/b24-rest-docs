@@ -1,5 +1,11 @@
 # Что нового?
 
+## 2025
+
+### 09 января, 2025
+
+- Обновлена документация по событиям сделок [onCrmDealAdd](./api-reference/crm/deals/events/on-crm-deal-add.md), [onCrmDealUpdate](./api-reference/crm/deals/events/on-crm-deal-update.md), [onCrmDealDelete](./api-reference/crm/deals/events/on-crm-deal-delete.md)
+
 ## 2024
 
 ### 28 декабря, 2024
