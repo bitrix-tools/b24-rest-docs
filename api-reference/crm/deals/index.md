@@ -110,6 +110,7 @@
     || [onCrmDealAdd](./events/on-crm-deal-add.md) | При создании сделки ||
     || [onCrmDealUpdate](./events/on-crm-deal-update.md) | При изменении сделки ||
     || [onCrmDealDelete](./events/on-crm-deal-delete.md) | При удалении сделки ||
+    || [onCrmDealMoveToCategory](./events/on-crm-deal-move-to-category.md) | При изменении воронки сделки ||
     |#
 
 {% endlist %}
