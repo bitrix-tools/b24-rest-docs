@@ -5,6 +5,7 @@
 ### 09 января, 2025
 
 - Обновлена документация по событиям сделок [onCrmDealAdd](./api-reference/crm/deals/events/on-crm-deal-add.md), [onCrmDealUpdate](./api-reference/crm/deals/events/on-crm-deal-update.md), [onCrmDealDelete](./api-reference/crm/deals/events/on-crm-deal-delete.md)
+- Обновлена документация по работе с переводами названий типов цен [catalog.priceTypeLang.*](./api-reference/catalog/price-type/price-type-lang/index.md)
 
 ## 2024
 

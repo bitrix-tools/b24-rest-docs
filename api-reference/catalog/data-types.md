@@ -33,6 +33,8 @@
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
 || [`catalog_ratio.id`](#catalog_ratio) | Целочисленный идентификатор коэффициента единицы измерения (например, `1`). Получить идентификаторы коэффициентов единиц измерения можно с помощью метода [catalog.ratio.list](./ratio/catalog-ratio-list.md) ||
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
+|| [`catalog_price_type_lang.id`](#catalog_price_type_lang) | Целочисленный идентификатор перевода названий типов цен (например, `1`). Получить идентификаторы переводов можно с помощью метода [catalog.priceTypeLang.list](./price-type/price-type-lang/catalog-price-type-lang-list.md) ||
+|| [`catalog_language.lid`](#catalog_language) | Строковый идентификатор языка, состоящий из двух символов (например, `ru`). Получить идентификаторы языков можно с помощью метода [catalog.priceTypeLang.getLanguages](./price-type/price-type-lang/catalog-price-type-lang-get-languages.md) ||
 || [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
 || [`catalog_extra.id`](#catalog_extra) | Целочисленный идентификатор наценки (например, `1`). Получить идентификаторы наценок можно с помощью метода [catalog.extra.list](./extra/catalog-extra-list.md) ||
 || [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор раздела каталога (например, `1`). Получить идентификаторы разделов каталога можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
@@ -775,6 +777,37 @@
 [`user.id`](../data-types.md) | Кем изменен ||
 || **dateCreate**
 [`datetime`](../data-types.md) | Дата создания ||
+|#
+
+### catalog_price_type_lang
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор перевода названия типа цены ||
+|| **catalogGroupId**
+[`catalog_price_type.id`](#catalog_price_type) | Идентификатор типа цены ||
+|| **name**
+[`string`](../data-types.md) | Перевод названия типа цены ||
+|| **lang**
+[`catalog_language.lid`](#catalog_language) | Идентификатор языка ||
+|#
+
+### catalog_language
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **lid**
+[`string`](../data-types.md) | Идентификатор языка ||
+|| **name**
+[`string`](../data-types.md) | Название языка ||
+|| **active**
+[`string`](../data-types.md) | Признак активности. Возможные значения:
+- `Y` — да
+- `N` — нет
+||
 |#
 
 ### catalog_rounding_rule
