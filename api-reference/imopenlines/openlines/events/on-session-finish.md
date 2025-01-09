@@ -1,4 +1,4 @@
-# При создании чата OnSessionFinish
+# При закрытии чата OnSessionFinish
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md) 
 >
