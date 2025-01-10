@@ -1,10 +1,10 @@
-# Получить пользовательский тип по id crm.type.get
+# Получить пользовательский тип по entityTypeId crm.type.getByEntityTypeId
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с административным доступом к смарт-процессу, либо пользователем, имеющим право на чтение смарт-процесса
 
-Метод получает информацию о смарт-процессе с идентификатором `id`.
+Метод получает информацию о смарт-процессе с идентификатором типа смарт-процесса `entityTypeId`.
 
 ## Параметры метода
 
@@ -13,13 +13,13 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id***
-[`integer`][1] | Идентификатор смарт-процесса. Можно получить с помощью методов: [`crm.type.list`](./crm-type-list.md), [`crm.type.add`](./crm-type-add.md) ||
+|| **entityTypeId***
+[`integer`][1] | Идентификатор типа смарт-процесса. ||
 |#
 
 ## Примеры кода
 
-Получить информацию о смарт-процессе с `id = 16`.
+Получить информацию о смарт-процессе с `entityTypeId = 2024`.
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -31,8 +31,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":16}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.type.get
+    -d '{"entityTypeId":2024}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.type.getByEntityTypeId
     ```
 
 - cURL (OAuth)
@@ -41,17 +41,17 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":16,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/crm.type.get
+    -d '{"entityTypeId":2024,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.type.getByEntityTypeId
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'crm.type.get',
+        'crm.type.getByEntityTypeId',
         {
-            id: 16,
+            entityTypeId: 2024,
         },
         (result) => {
             if (result.error())
@@ -72,9 +72,9 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'crm.type.get',
+        'crm.type.getByEntityTypeId',
         [
-            'id' => 16
+            'entityTypeId' => 2024
         ]
     );
 
@@ -208,7 +208,7 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `allowed_only_intranet_user` | Действие разрешено только интранет-пользователям | Возникает, если пользователь не является интранет-пользователем ||
 || `400` | `ACCESS_DENIED` | Доступ запрещен | Возникает, если у пользователя нет административных прав CRM и нет прав на чтение смарт-процесса ||
-|| `400` | `0` | Смарт-процесс не найден | Смарт-процесс с переданным `id` не найден ||
+|| `400` | `0` | Смарт-процесс не найден | Смарт-процесс с переданным `entityTypeId` не найден ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
@@ -218,7 +218,7 @@ HTTP-статус: **400**
 - [{#T}](./index.md)
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-update.md)
-- [{#T}](./crm-type-get-by-entity-type-id.md)
+- [{#T}](./crm-type-get.md)
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)
