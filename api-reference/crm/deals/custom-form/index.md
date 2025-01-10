@@ -25,9 +25,9 @@
 
 ## Универсальные методы для управления карточками
 
-Yаравне с методами crm.deal.details.configuration.* для настройки карточки сделки можно использовать группу универсальных методов [crm.item.details.configuration.*](../../universal/item-details-configuration/index.md). Возможности методов одинаковые, отличие может быть во времени выполнения запроса.
+Наравне с методами crm.deal.details.configuration.* для настройки карточки сделки можно использовать группу универсальных методов [crm.item.details.configuration.*](../../universal/item-details-configuration/index.md). Возможности методов одинаковые, отличие может быть во времени выполнения запроса.
 
-Методы [crm.item.details.configuration.*](../../universal/item-details-configuration/index.md) имеют дополнительный параметр `entityTypeId` — ID типа объекта. Параметр `entityTypeId` позволяет применять универсальные методы к любому объекту CRM. Для управления карточкой сделки через универсальный метод передавайте `entityTypeId` = `2`. 
+Универсальные методы [crm.item.details.configuration.*](../../universal/item-details-configuration/index.md) имеют дополнительный параметр `entityTypeId` — ID типа объекта. Параметр `entityTypeId` позволяет применять универсальные методы к любому объекту CRM. Для управления карточкой сделки через универсальный метод передавайте `entityTypeId: 2`. 
 
 ## Обзор методов {#all-methods}
 

@@ -4,12 +4,14 @@
 
 ### 10 января, 2025
 
+- Обновлена главная страница раздела [Управление карточками лидов](./api-reference/crm/leads/custom-form/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновлена главная страница раздела [Типы плательщиков](./api-reference/sale/person-type/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 09 января, 2025
 
 - Обновлена документация по событиям сделок [onCrmDealAdd](./api-reference/crm/deals/events/on-crm-deal-add.md), [onCrmDealUpdate](./api-reference/crm/deals/events/on-crm-deal-update.md), [onCrmDealDelete](./api-reference/crm/deals/events/on-crm-deal-delete.md)
 - Обновлена документация по работе с переводами названий типов цен [catalog.priceTypeLang.*](./api-reference/catalog/price-type/price-type-lang/index.md)
+- Добавили документацию по событию изменения воронки сделки [onCrmDealMoveToCategory](./api-reference/crm/deals/events/on-crm-deal-move-to-category.md)
 
 ## 2024
 
