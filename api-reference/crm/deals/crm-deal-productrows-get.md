@@ -27,13 +27,21 @@
 - cURL (Webhook)
 
     ```bash
-    todo
+    curl -X POST \
+	-H "Content-Type: application/json" \
+	-H "Accept: application/json" \
+	-d '{"id":5}' \
+	https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.productrows.get
     ```
 
 - cURL (OAuth)
 
     ```bash
-    todo
+    curl -X POST \
+	-H "Content-Type: application/json" \
+	-H "Accept: application/json" \
+	-d '{"id":5,"auth":"**put_access_token_here**"}' \
+	https://**put_your_bitrix24_address**/rest/crm.deal.productrows.get
     ```
 
 - JS
@@ -56,7 +64,18 @@
 - PHP
 
     ```php
-    todo
+    require_once('crest.php');
+
+	$result = CRest::call(
+		'crm.deal.productrows.get',
+		[
+			'id' => 5
+		]
+	);
+
+	echo '<PRE>';
+	print_r($result);
+	echo '</PRE>';
     ```
 
 {% endlist %}
@@ -267,4 +286,4 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-todo
+- [{#T}](./crm-deal-productrows-set.md)
