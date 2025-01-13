@@ -1,6 +1,6 @@
 # Получить статус участия текущего пользователя в событии calendar.meeting.status.get
 
-> Scope: [`calendar`](../scopes/permissions.md)
+> Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -8,20 +8,20 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **eventId***
-[`integer`](../data-types.md) | Идентификатор события.
+[`integer`](../../data-types.md) | Идентификатор события.
 
 Получить идентификатор можно методом [calendar.event.get](./calendar-event-get.md) или [calendar.event.get.nearest](./calendar-event-get-nearest.md) ||
 |#
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -99,7 +99,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`string`](../data-types.md) | Статус участия текущего пользователя. Возможные значения:
+[`string`](../../data-types.md) | Статус участия текущего пользователя. Возможные значения:
 - `Y` — согласен
 - `N` — отказался
 - `Q` — приглашен, но еще не ответил
@@ -117,7 +117,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -127,7 +127,7 @@ HTTP-статус: **400**
 || Пустая строка | При выборке статуса произошла ошибка | Другая ошибка ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение 
 

@@ -1,0 +1,17 @@
+title: Ресурс
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md 
+  - name: Добавить новый ресурс
+    href: calendar-resource-add.md
+  - name: Изменить ресурс
+    href: calendar-resource-update.md
+  - name: Получить список всех ресурсов
+    href: calendar-resource-list.md
+  - name: Предоставить возможность выбрать бронирования ресурсов
+    href: calendar-resource-booking-list.md
+  - name: Удалить ресурс
+    href: calendar-resource-delete.md
+
+

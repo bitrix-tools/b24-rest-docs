@@ -1,6 +1,6 @@
 # Установить статус участия в событии для текущего пользователя calendar.meeting.status.set
 
-> Scope: [`calendar`](../scopes/permissions.md)
+> Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -8,17 +8,17 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **eventId***
-[`integer`](../data-types.md) | Идентификатор события.
+[`integer`](../../data-types.md) | Идентификатор события.
 
 Получить идентификатор можно методом [calendar.event.get](./calendar-event-get.md) или [calendar.event.get.nearest](./calendar-event-get-nearest.md) ||
 || **status***
-[`string`](../data-types.md) | Статус участия в событии. Возможные значения: 
+[`string`](../../data-types.md) | Статус участия в событии. Возможные значения: 
 - `Y` — согласен
 - `N` — отказался
 - `Q` — приглашен, но еще не ответил ||
@@ -26,7 +26,7 @@
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -106,7 +106,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Успешность установки статуса.
+[`boolean`](../../data-types.md) | Успешность установки статуса.
 
 Возвращает `true` если статус установлен успешно ||
 |#
@@ -122,7 +122,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -133,7 +133,7 @@ HTTP-статус: **400**
 || Пустая строка | Недопустимое значение параметра "status" | В параметре `status` передано значение отличное от `Q`, `Y` или `N` ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение 
 

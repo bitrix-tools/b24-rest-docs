@@ -1,44 +1,40 @@
-# Получить список событий календаря calendar.event.get
+# Получить список будущих событий calendar.event.get.nearest
 
-> Scope: [`calendar`](../scopes/permissions.md)
+> Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает список событий календаря.
+Метод получает список будущих событий.
 
 ## Параметры метода
-
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **type***
-[`string`](../data-types.md) | Тип календаря: 
+|| **type**
+[`string`](../../data-types.md) | Тип календаря: 
 - `user` — календарь пользователя
 - `group` — календарь группы
 - `company_calendar` — календарь компании ||
-|| **ownerId***
-[`integer`](../data-types.md) | Идентификатор владельца календаря.
+|| **ownerId**
+[`integer`](../../data-types.md) | Идентификатор владельца календаря.
 
 Для календаря компании параметр `ownerId` имеет пустое значение `""` ||
-|| **from**
-[`date`](../data-types.md) | Дата начала выборки.
-
-Значение по умолчанию — месяц до текущей даты ||
-|| **to**
-[`date`](../data-types.md) | Дата окончания выборки.
-
-Значение по умолчанию — три месяца после текущей даты ||
-|| **section**
-[`array`](../data-types.md) | Массив идентификаторов календарей ||
+|| **days**
+[`integer`](../../data-types.md) | Число дней для выборки. По умолчанию — `60` ||
+|| **forCurrentUser**
+[`boolean`](../../data-types.md) | Вывод списка событий для текущего пользователя. По умолчанию — `true` ||
+|| **maxEventsCount**
+[`integer`](../../data-types.md) | Максимальное число выводимых событий ||
+|| **detailUrl**
+[`string`](../../data-types.md) | Ссылка URL календаря ||
 |#
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-1. Получить события пользователя с `id` = `1` за период с `2024-06-20` по `2024-08-20`
+1. Получить события текущего пользователя за следующие 10 дней.
 
     {% list tabs %}
 
@@ -48,8 +44,8 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"type":"user","ownerId":1,"from":"2024-06-20","to":"2024-08-20","section":[21,44]}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.event.get
+        -d '{"type":"user","ownerId":2,"days":10,"forCurrentUser":true,"maxEventsCount":100,"detailUrl":"/company/personal/user/#user_id#/calendar/"}' \
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.event.get.nearest
         ```
 
     - cURL (OAuth)
@@ -58,21 +54,22 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"type":"user","ownerId":1,"from":"2024-06-20","to":"2024-08-20","section":[21,44],"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/calendar.event.get
+        -d '{"type":"user","ownerId":2,"days":10,"forCurrentUser":true,"maxEventsCount":100,"detailUrl":"/company/personal/user/#user_id#/calendar/","auth":"**put_access_token_here**"}' \
+        https://**put_your_bitrix24_address**/rest/calendar.event.get.nearest
         ```
 
     - JS
 
         ```js
         BX24.callMethod(
-            'calendar.event.get',
+            'calendar.event.get.nearest',
             {
                 type: 'user',
-                ownerId: 1,
-                from: '2024-06-20',
-                to: '2024-08-20',
-                section: [21, 44]
+                ownerId: 2,
+                days: 10,
+                forCurrentUser: true,
+                maxEventsCount: 100,
+                detailUrl: '/company/personal/user/#user_id#/calendar/'
             }
         );
         ```
@@ -83,13 +80,14 @@
         require_once('crest.php');
 
         $result = CRest::call(
-            'calendar.event.get',
+            'calendar.event.get.nearest',
             [
                 'type' => 'user',
-                'ownerId' => 1,
-                'from' => '2024-06-20',
-                'to' => '2024-08-20',
-                'section' => [21, 44]
+                'ownerId' => 2,
+                'days' => 10,
+                'forCurrentUser' => true,
+                'maxEventsCount' => 100,
+                'detailUrl' => '/company/personal/user/#user_id#/calendar/'
             ]
         );
 
@@ -111,7 +109,7 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"type":"company_calendar","ownerId":""}' \
+        -d '{"type":"company_calendar","ownerId":"","forCurrentUser":false}' \
         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.event.get
         ```
 
@@ -121,7 +119,7 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"type":"company_calendar","ownerId":"","auth":"**put_access_token_here**"}' \
+        -d '{"type":"company_calendar","ownerId":"","forCurrentUser":false,"auth":"**put_access_token_here**"}' \
         https://**put_your_bitrix24_address**/rest/calendar.event.get
         ```
 
@@ -132,7 +130,8 @@
             'calendar.event.get',
             {
                 type: 'company_calendar',
-                ownerId: ''
+                ownerId: '', // ownerId не указывается при выборке событий календаря компании. Он пустой для всех событий такого типа.
+                forCurrentUser: false
             }
         );
         ```
@@ -146,7 +145,8 @@
             'calendar.event.get',
             [
                 'type' => 'company_calendar',
-                'ownerId' => ''
+                'ownerId' => '',
+                'forCurrentUser' => false
             ]
         );
 
@@ -206,16 +206,16 @@ HTTP-статус: **200**
             "LOCATION": "test location",
             "REMIND": [
                 {
-                "type": "min",
-                "count": 50
+                    "type": "min",
+                    "count": 50
                 }
             ],
             "COLOR": "#9dcf00",
             "RRULE": {
                 "FREQ": "WEEKLY",
                 "BYDAY": {
-                "MO": "MO",
-                "WE": "WE"
+                    "MO": "MO",
+                    "WE": "WE"
                 },
                 "INTERVAL": 1,
                 "UNTIL": "12/24/2024",
@@ -249,17 +249,17 @@ HTTP-статус: **200**
             "SECT_ID": "4",
             "ATTENDEE_LIST": [
                 {
-                "id": 1,
-                "entryId": "1265",
-                "status": "H"
+                    "id": 1,
+                    "entryId": "1265",
+                    "status": "H"
                 }
             ],
             "COLLAB_ID": null,
             "~RRULE_DESCRIPTION": "каждую неделю по: Пн, Ср, от 12/11/2024 до 12/24/2024",
             "attendeesEntityList": [
                 {
-                "entityId": "user",
-                "id": 1
+                    "entityId": "user",
+                    "id": 1
                 }
             ],
             "~DESCRIPTION": "Description for event",
@@ -272,19 +272,19 @@ HTTP-статус: **200**
         }
     ],
     "time": {
-        "start": 1733412607.646361,
-        "finish": 1733412607.956879,
-        "duration": 0.3105177879333496,
-        "processing": 0.0637059211730957,
-        "date_start": "2024-12-05T15:30:07+00:00",
-        "date_finish": "2024-12-05T15:30:07+00:00"
+        "start": 1733411636.753706,
+        "finish": 1733411637.040975,
+        "duration": 0.28726911544799805,
+        "processing": 0.05995798110961914,
+        "date_start": "2024-12-05T15:13:56+00:00",
+        "date_finish": "2024-12-05T15:13:57+00:00"
     }
 }
 ```
 
 ### Возвращаемые данные
 
-{% include notitle [поля события календаря](./_includes/calendar_event_fields.md) %}
+{% include notitle [поля события календаря](.././_includes/calendar_event_fields.md) %}
 
 ## Обработка ошибок
 
@@ -292,19 +292,17 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "",
-    "error_description": "Не задан обязательный параметр "type" для метода "calendar.event.get""
+  "error": "",
+  "error_description": "Доступ запрещен"
 }
 ```
-
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Не задан обязательный параметр "type" для метода "calendar.event.get" | Не передан обязательный параметр `type` ||
-|| Пустая строка | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
+|| Пустая строка | Доступ запрещен | Запрещен доступ к типу календаря или у пользователя не активирована функциональность календаря ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}

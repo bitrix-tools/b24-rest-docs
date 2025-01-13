@@ -1,6 +1,6 @@
 # Предоставить возможность выбрать бронирования ресурсов calendar.resource.booking.list
 
-> Scope: [`calendar`](../scopes/permissions.md)
+> Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -8,21 +8,21 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **filter***
-[`object`](../data-types.md) | Поля фильтра. ||
+[`object`](../../data-types.md) | Поля фильтра. ||
 || **resourceTypeIdList***
-[`array`](../data-types.md) | Передается список идентификаторов ресурсов, которые можно выбрать методом `calendar.resource.list` ||
+[`array`](../../data-types.md) | Передается список идентификаторов ресурсов, которые можно выбрать методом `calendar.resource.list` ||
 || **from**
-[`date`](../data-types.md) | Дата начала периода. ||
+[`date`](../../data-types.md) | Дата начала периода. ||
 || **to**
-[`date`](../data-types.md) | Поля окончания периода. ||
+[`date`](../../data-types.md) | Поля окончания периода. ||
 || **resourceIdList***
-[`array`](../data-types.md) | Эти ID берутся из значения UF-поля типа resourcebooking у CRM сущностей LEAD|DEAL ||
+[`array`](../../data-types.md) | Эти ID берутся из значения UF-поля типа resourcebooking у CRM сущностей LEAD|DEAL ||
 |#
 
 ## Примеры
@@ -67,7 +67,7 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 
@@ -130,71 +130,71 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../data-types.md) | Массив объектов бронирования ||
+[`array`](../../data-types.md) | Массив объектов бронирования ||
 || **ID**
-[`string`](../data-types.md) | Идентификатор бронирования ||
+[`string`](../../data-types.md) | Идентификатор бронирования ||
 || **PARENT_ID**
-[`string`](../data-types.md) | Для объекта бронирования всегда равен полю `ID` ||
+[`string`](../../data-types.md) | Для объекта бронирования всегда равен полю `ID` ||
 || **DELETED**
-[`string`](../data-types.md) | Флаг отображающий удалено ли бронирование. Возможные значения:
+[`string`](../../data-types.md) | Флаг отображающий удалено ли бронирование. Возможные значения:
 - `Y` — бронирование удалено
 - `N` — бронирование не удалено  ||
 || **CAL_TYPE**
-[`string`](../data-types.md) | Тип календаря в котором находится бронирование ||
+[`string`](../../data-types.md) | Тип календаря в котором находится бронирование ||
 || **OWNER_ID**
-[`string`](../data-types.md) | Для объекта бронирования всегда равно '0' ||
+[`string`](../../data-types.md) | Для объекта бронирования всегда равно '0' ||
 || **NAME**
-[`string`](../data-types.md) | Название бронирования ||
+[`string`](../../data-types.md) | Название бронирования ||
 || **DATE_FROM**
-[`datetime`](../data-types.md) | Дата начала бронирования ||
+[`datetime`](../../data-types.md) | Дата начала бронирования ||
 || **DATE_TO**
-[`datetime`](../data-types.md) | Дата окончания бронирования ||
+[`datetime`](../../data-types.md) | Дата окончания бронирования ||
 || **TZ_FROM**
-[`string`](../data-types.md) | Таймзона даты начала бронирования ||
+[`string`](../../data-types.md) | Таймзона даты начала бронирования ||
 || **TZ_TO**
-[`string`](../data-types.md) | Таймзона даты окончания бронирования ||
+[`string`](../../data-types.md) | Таймзона даты окончания бронирования ||
 || **TZ_OFFSET_FROM**
-[`string`](../data-types.md) | Смещение времени начала бронирования относительно UTC в секундах ||
+[`string`](../../data-types.md) | Смещение времени начала бронирования относительно UTC в секундах ||
 || **TZ_OFFSET_TO**
-[`string`](../data-types.md) | Смещение времени окончания бронирования относительно UTC в секундах ||
+[`string`](../../data-types.md) | Смещение времени окончания бронирования относительно UTC в секундах ||
 || **DATE_FROM_TS_UTC**
-[`string`](../data-types.md) | Дата и время начала бронирования в UTC в формате timestamp ||
+[`string`](../../data-types.md) | Дата и время начала бронирования в UTC в формате timestamp ||
 || **DATE_TO_TS_UTC**
-[`string`](../data-types.md) | Дата и время окончания бронирования в UTC в формате timestamp ||
+[`string`](../../data-types.md) | Дата и время окончания бронирования в UTC в формате timestamp ||
 || **DT_SKIP_TIME**
-[`string`](../data-types.md) | Флаг отображающий что бронирования длится целый день. Возможные значения:
+[`string`](../../data-types.md) | Флаг отображающий что бронирования длится целый день. Возможные значения:
 - `Y` — целый день
 - `N` — не целый день ||
 || **DT_LENGTH**
-[`integer`](../data-types.md) | Длительность бронирования в секундах ||
+[`integer`](../../data-types.md) | Длительность бронирования в секундах ||
 || **EVENT_TYPE**
-[`string`](../data-types.md) | Тип бронирования ||
+[`string`](../../data-types.md) | Тип бронирования ||
 || **CREATED_BY**
-[`string`](../data-types.md) | Идентификатор пользователя, который создал бронирования ||
+[`string`](../../data-types.md) | Идентификатор пользователя, который создал бронирования ||
 || **DATE_CREATE**
-[`datetime`](../data-types.md) | Дата создания бронирования ||
+[`datetime`](../../data-types.md) | Дата создания бронирования ||
 || **TIMESTAMP_X**
-[`datetime`](../data-types.md) | Дата изменения бронирования ||
+[`datetime`](../../data-types.md) | Дата изменения бронирования ||
 || **DESCRIPTION**
-[`string`](../data-types.md) | Описание бронирования ||
+[`string`](../../data-types.md) | Описание бронирования ||
 || **IS_MEETING**
-[`boolean`](../data-types.md) | Для объекта бронирования всегда false ||
+[`boolean`](../../data-types.md) | Для объекта бронирования всегда false ||
 || **MEETING_STATUS**
-[`string`](../data-types.md) | Для объекта бронирования всегда 'Y' ||
+[`string`](../../data-types.md) | Для объекта бронирования всегда 'Y' ||
 || **MEETING_HOST**
-[`string`](../data-types.md) | Для объекта бронирования всегда '0' ||
+[`string`](../../data-types.md) | Для объекта бронирования всегда '0' ||
 || **VERSION**
-[`string`](../data-types.md) | Версия изменений бронирования ||
+[`string`](../../data-types.md) | Версия изменений бронирования ||
 || **SECTION_ID**
-[`string`](../data-types.md) | Идентификатор ресурса в котором расположено бронирование ||
+[`string`](../../data-types.md) | Идентификатор ресурса в котором расположено бронирование ||
 || **DATE_FROM_FORMATTED**
-[`string`](../data-types.md) | Форматированная дата начала бронирования ||
+[`string`](../../data-types.md) | Форматированная дата начала бронирования ||
 || **DATE_TO_FORMATTED**
-[`string`](../data-types.md) | Форматированная дата окончания бронирования ||
+[`string`](../../data-types.md) | Форматированная дата окончания бронирования ||
 || **SECT_ID**
-[`string`](../data-types.md) | Идентификатор ресурса в котором расположено бронирования ||
+[`string`](../../data-types.md) | Идентификатор ресурса в котором расположено бронирования ||
 || **RESOURCE_BOOKING_ID**
-[`integer`](../data-types.md) | Идентификатор бронирования ||
+[`integer`](../../data-types.md) | Идентификатор бронирования ||
 |#
 
 ## Обработка ошибок
@@ -207,7 +207,7 @@ HTTP-статус: **400**
   "error_description": "Не задан обязательный параметр \"filter['resourceTypeIdList']\" для метода \"calendar.resource.booking.list\""
 }
 ```
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -217,4 +217,4 @@ HTTP-статус: **400**
 || Пустая строка | Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list" | Не передан ни один из обязательных параметров `resourceTypeIdList` или `resourceIdList` ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}

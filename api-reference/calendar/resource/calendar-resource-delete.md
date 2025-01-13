@@ -1,6 +1,6 @@
 # Удалить ресурс calendar.resource.delete
 
-> Scope: [`calendar`](../scopes/permissions.md)
+> Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -8,7 +8,7 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -33,7 +33,7 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 
@@ -59,7 +59,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | В случае успешного удаления возвращает **true** ||
+[`boolean`](../../data-types.md) | В случае успешного удаления возвращает **true** ||
 |#
 
 ## Обработка ошибок
@@ -73,7 +73,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -84,4 +84,4 @@ HTTP-статус: **400**
 || Пустая строка | При удалении секции произошла ошибка | Другая ошибка ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}

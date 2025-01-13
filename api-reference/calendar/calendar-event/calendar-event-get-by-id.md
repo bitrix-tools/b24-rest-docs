@@ -1,6 +1,6 @@
 # Получить событие по id calendar.event.getbyid
 
-> Scope: [`calendar`](../scopes/permissions.md)
+> Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -8,20 +8,20 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../data-types.md) | Идентификатор события.
+[`integer`](../../data-types.md) | Идентификатор события.
 
 Получить идентификатор можно методом [calendar.event.get](./calendar-event-get.md) или [calendar.event.get.nearest](./calendar-event-get-nearest.md) ||
 |#
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -196,7 +196,7 @@ HTTP-статус: **200**
 
 ### Возвращаемые данные
 
-{% include notitle [поля события календаря](./_includes/calendar_event_fields.md) %}
+{% include notitle [поля события календаря](.././_includes/calendar_event_fields.md) %}
 
 ## Обработка ошибок
 
@@ -209,7 +209,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -219,4 +219,4 @@ HTTP-статус: **400**
 || Пустая строка | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}

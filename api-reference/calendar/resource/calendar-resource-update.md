@@ -1,6 +1,6 @@
 # Изменить ресурс calendar.resource.update
 
-> Scope: [`calendar`](../scopes/permissions.md)
+> Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -8,15 +8,15 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **resourceId***
-[`integer`](../data-types.md) | Идентификатор ресурса. ||
+[`integer`](../../data-types.md) | Идентификатор ресурса. ||
 || **name***
-[`string`](../data-types.md) | Имя ресурса. ||
+[`string`](../../data-types.md) | Имя ресурса. ||
 |#
 
 ## Пример
@@ -37,7 +37,7 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 
@@ -63,7 +63,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../data-types.md) | Идентификатор редактируемого ресурса ||
+[`integer`](../../data-types.md) | Идентификатор редактируемого ресурса ||
 |#
 
 ## Обработка ошибок
@@ -76,7 +76,7 @@ HTTP-статус: **400**
   "error_description": "Не задан обязательный параметр \"name\" для метода \"calendar.resource.update\""
 }
 ```
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -88,4 +88,4 @@ HTTP-статус: **400**
 || Пустая строка | При изменении ресурса произошла ошибка | Другая ошибка ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}

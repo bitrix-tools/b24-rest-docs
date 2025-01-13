@@ -1,6 +1,6 @@
 # Получить список всех ресурсов calendar.resource.list
 
-> Scope: [`calendar`](../scopes/permissions.md)
+> Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -20,7 +20,7 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 
@@ -56,13 +56,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../data-types.md) | Массив ресурсов ||
+[`array`](../../data-types.md) | Массив ресурсов ||
 || **ID**
-[`string`](../data-types.md) | Идентификатор ресурса ||
+[`string`](../../data-types.md) | Идентификатор ресурса ||
 || **NAME**
-[`string`](../data-types.md) | Наименование ресурса ||
+[`string`](../../data-types.md) | Наименование ресурса ||
 || **CREATED_BY**
-[`string`](../data-types.md) | Идентификатор создателя ресурса ||
+[`string`](../../data-types.md) | Идентификатор создателя ресурса ||
 |#
 
 ## Обработка ошибок
@@ -76,7 +76,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -85,4 +85,4 @@ HTTP-статус: **400**
 || Пустая строка | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
