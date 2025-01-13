@@ -4,6 +4,7 @@
 
 ### 13 января, 2025
 
+- Обновлена документация по методам работы c товарными позицими сделок [crm.deal.productrows.get](./api-reference/crm/deals/crm-deal-productrows-get.md), [crm.deal.productrows.set](./api-reference/crm/deals/crm-deal-productrows-set.md)
 - Обновлена документация по событиям [Календаря](./api-reference/calendar/events/index.md)
 
 ### 10 января, 2025
