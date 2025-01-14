@@ -58,3 +58,8 @@
 {% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
+
+## Продолжить изучение
+
+- [{#T}](../../tutorials/tasks/how-to-upload-file-to-task.md)
+- [{#T}](./deprecated/task-item/task-item-get-files.md)
