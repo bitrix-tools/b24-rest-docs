@@ -9,14 +9,8 @@ items:
     href: on-crm-deal-update.md
   - name: На удаление сделки 
     href: on-crm-deal-delete.md
-  - name: На добавление пользовательского поля 
-    href: on-crm-deal-user-field-add.md
-  - name: На изменение пользовательского поля 
-    href: on-crm-deal-user-field-update.md
-  - name: На удаление пользовательского поля 
-    href: on-crm-deal-user-field-delete.md
-  - name: На изменение набора значений для пользовательского поля списочного типа
-    href: on-crm-deal-user-field-set-enum-values.md
+  - name: На изменение воронки сделки
+    href: on-crm-deal-move-to-category.md
   - name: На создание новой регулярной сделки
     href: on-crm-deal-recurring-add.md
   - name: На изменение регулярной сделки

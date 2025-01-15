@@ -2,7 +2,7 @@
 
 > Scope: [`intranet`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт в выпадающее меню генератора документов таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [счета](../../crm/outdated/invoice/) и [коммерческие предложения](../../crm/quote/).
+Вы можете добавлять свой пункт в выпадающее меню генератора документов таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [счета](../../crm/outdated/invoice/index.md) и [коммерческие предложения](../../crm/quote/index.md).
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -10,12 +10,12 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CRM_LEAD_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [лидов](../../crm/leads/) ||
-|| `CRM_CONTACT_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [контактов](../../crm/contacts/) ||
-|| `CRM_COMPANY_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [компаний](../../crm/companies/) ||
-|| `CRM_DEAL_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [сделок](../../crm/deals/) ||
-|| `CRM_INVOICE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [счетов](../../crm/outdated/invoice/) ||
-|| `CRM_QUOTE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [коммерческих предложений](../../crm/quote/) ||
+|| `CRM_LEAD_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [лидов](../../crm/leads/index.md) ||
+|| `CRM_CONTACT_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [контактов](../../crm/contacts/index.md) ||
+|| `CRM_COMPANY_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [компаний](../../crm/companies/index.md) ||
+|| `CRM_DEAL_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [сделок](../../crm/deals/index.md) ||
+|| `CRM_INVOICE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [счетов](../../crm/outdated/invoice/index.md) ||
+|| `CRM_QUOTE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [коммерческих предложений](../../crm/quote/index.md) ||
 |#
 
 ## Что получает обработчик

@@ -40,7 +40,7 @@ userfieldconfig.add({moduleId: string, field: {}})
 
 - [entityId^*^](../entity-id.md) - строковый идентификатор сущности. 
 - fieldName^*^ - код поля. Должен быть сформирован по шаблону `UF_ + {идентификатор сущности} + _ + {произвольная строка в UPPER_CASE}`. Код поля не может быть больше 50 символов. 
-- userTypeId^*^ - строковый идентификатор [типа поля](https://dev.1c-bitrix.ru/api_d7/bitrix/main/userfield/settings/types.php). 
+- userTypeId^*^ - строковый идентификатор [типа поля](../userfieldconfig/userfieldconfig-get-types.md). 
 - xmlId - внешний идентификатор.
 - sort - индекс сортировки.
 - multiple - флаг множественности (N или Y), по умолчанию N. Этот флаг можно указать только при создании поля.

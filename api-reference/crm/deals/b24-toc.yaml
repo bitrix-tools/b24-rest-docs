@@ -15,7 +15,7 @@ items:
     href: crm-deal-delete.md
   - name: Получить поля сделки
     href: crm-deal-fields.md
-  - name: Добавить товары в сделку
+  - name: Установить товары в сделку
     href: crm-deal-productrows-set.md
   - name: Получить товары сделки
     href: crm-deal-productrows-get.md
@@ -31,12 +31,12 @@ items:
     include:
       path: user-defined-fields/b24-toc.yaml
       mode: link
-  - name: Контакты у сделки
+  - name: Связь сделки с контактами
     include:
       path: contacts/b24-toc.yaml
       mode: link
   - name: История движения сделки
-    href: deal-stage-history.md     
+    href: deal-stage-history.md
   - name: Виджеты
     href: widgets.md
   - name: Воронки продаж в сделках
@@ -44,4 +44,4 @@ items:
   - name: Управление карточками сделок
     include:
       path: custom-form/b24-toc.yaml
-      mode: link  
+      mode: link

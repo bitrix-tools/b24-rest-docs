@@ -1,0 +1,21 @@
+title: События календаря
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить событие
+    href: calendar-event-add.md
+  - name: Обновить событие
+    href: calendar-event-update.md
+  - name: Получить событие по id
+    href: calendar-event-get-by-id.md
+  - name: Получить список событий календаря
+    href: calendar-event-get.md
+  - name: Получить список будущих событий
+    href: calendar-event-get-nearest.md
+  - name: Удалить событие
+    href: calendar-event-delete.md
+  - name: Получить статус участия текущего пользователя в событии
+    href: calendar-meeting-status-get.md
+  - name: Установить статус участия в событии для текущего пользователя
+    href: calendar-meeting-status-set.md

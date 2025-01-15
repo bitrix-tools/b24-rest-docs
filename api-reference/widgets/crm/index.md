@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт в контекстное меню таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [счета](../../crm/outdated/invoice/), [коммерческие предложения](../../crm/quote/), [дела](../../crm/timeline/activities/) и [пользовательские типы](../../crm/universal/) объектов.
+Вы можете добавлять свой пункт в контекстное меню таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [счета](../../crm/outdated/invoice/index.md), [коммерческие предложения](../../crm/quote/index.md), [дела](../../crm/timeline/activities/index.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
 
 ![Виджет в виде пункта контекстного меню в Сделке](./_images/CRM_DEAL_LIST_MENU.png "Виджет в виде пункта контекстного меню в Сделке")
 
@@ -12,14 +12,14 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CRM_LEAD_LIST_MENU` | Пункт контекстного меню [лида](../../crm/leads/) ||
-|| `CRM_CONTACT_LIST_MENU` | Пункт контекстного меню [контакта](../../crm/contacts/) ||
-|| `CRM_COMPANY_LIST_MENU` | Пункт контекстного меню [компании](../../crm/companies/) ||
-|| `CRM_DEAL_LIST_MENU` | Пункт контекстного меню [сделки](../../crm/deals/) ||
-|| `CRM_INVOICE_LIST_MENU` | Пункт контекстного меню [счета](../../crm/outdated/invoice/) ||
-|| `CRM_QUOTE_LIST_MENU` | Пункт контекстного меню [коммерческого предложения](../../crm/quote/) ||
-|| `CRM_ACTIVITY_LIST_MENU` | Пункт контекстного меню [дела](../../crm/timeline/activities/) ||
-|| `CRM_DYNAMIC_XXX_LIST_MENU` | Пункт контекстного меню пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_LIST_MENU` ||
+|| `CRM_LEAD_LIST_MENU` | Пункт контекстного меню [лида](../../crm/leads/index.md) ||
+|| `CRM_CONTACT_LIST_MENU` | Пункт контекстного меню [контакта](../../crm/contacts/index.md) ||
+|| `CRM_COMPANY_LIST_MENU` | Пункт контекстного меню [компании](../../crm/companies/index.md) ||
+|| `CRM_DEAL_LIST_MENU` | Пункт контекстного меню [сделки](../../crm/deals/index.md) ||
+|| `CRM_INVOICE_LIST_MENU` | Пункт контекстного меню [счета](../../crm/outdated/invoice/index.md) ||
+|| `CRM_QUOTE_LIST_MENU` | Пункт контекстного меню [коммерческого предложения](../../crm/quote/index.md) ||
+|| `CRM_ACTIVITY_LIST_MENU` | Пункт контекстного меню [дела](../../crm/timeline/activities/index.md) ||
+|| `CRM_DYNAMIC_XXX_LIST_MENU` | Пункт контекстного меню пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_LIST_MENU` ||
 |#
 
 ## Что получает обработчик

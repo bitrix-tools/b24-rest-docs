@@ -169,4 +169,3 @@
 - [{#T}](../widgets/index.md)
 - [{#T}](../../local-integrations/local-apps.md)
 - [{#T}](../widgets/user-field/index.md)
-- [Добавление своих методов REST API](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=7985) в учебном курсе

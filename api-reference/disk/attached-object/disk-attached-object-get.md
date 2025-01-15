@@ -70,3 +70,9 @@ result: {
     SIZE: "3867" //размер файла в байтах
 }
 ```
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
+- [{#T}](../../../tutorials/tasks/how-to-create-task-with-file.md)
+- [{#T}](../../../tutorials/tasks/how-to-upload-file-to-task.md)

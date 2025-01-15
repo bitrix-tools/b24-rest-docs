@@ -53,7 +53,7 @@
 || **SECTION**
 [`unknown`](../../data-types.md) | Идентификатор раздела хранилища. ||
 || **PROPERTY_VALUES**
-[`unknown`](../../data-types.md) | Ассоциативный список значений свойств элемента. Свойства хранилища создаются при помощи [entity.item.property.add](.). ||
+[`unknown`](../../data-types.md) | Ассоциативный список значений свойств элемента. Свойства хранилища создаются при помощи [entity.item.property.add](./properties/entity-item-property-add.md). ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}

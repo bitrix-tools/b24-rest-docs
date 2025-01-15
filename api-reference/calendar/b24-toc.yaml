@@ -17,39 +17,21 @@ items:
     href: calendar-user-settings-get.md
   - name: Установить пользовательские настройки календаря
     href: calendar-user-settings-set.md
-  - name: Добавить событие
-    href: calendar-event-add.md
-  - name: Обновить событие
-    href: calendar-event-update.md
-  - name: Получить событие по id
-    href: calendar-event-get-by-id.md
-  - name: Получить список событий календаря
-    href: calendar-event-get.md
-  - name: Получить список будущих событий
-    href: calendar-event-get-nearest.md
-  - name: Удалить событие
-    href: calendar-event-delete.md
-  - name: Получить статус участия текущего пользователя в событии
-    href: calendar-meeting-status-get.md
-  - name: Установить статус участия в событии для текущего пользователя
-    href: calendar-meeting-status-set.md
   - name: Получить занятость пользователей из списка
     href: calendar-accessibility-get.md    
-  - name: Добавить новый ресурс
-    href: calendar-resource-add.md
-  - name: Изменить ресурс
-    href: calendar-resource-update.md
-  - name: Получить список всех ресурсов
-    href: calendar-resource-list.md
-  - name: Предоставить возможность выбрать бронирования ресурсов
-    href: calendar-resource-booking-list.md
-  - name: Удалить ресурс
-    href: calendar-resource-delete.md
   - name: Встроиться в календарь
     href: calendar-grid-veiw.md
+  - name: События календаря
+    include:
+      path: calendar-event/b24-toc.yaml
+      mode: link
+  - name: Бронирование ресурсов
+    include:
+      path: resource/b24-toc.yaml
+      mode: link
   - name: События
     include:
-      path: events-calendar/b24-toc.yaml
+      path: events/b24-toc.yaml
       mode: link
 
 

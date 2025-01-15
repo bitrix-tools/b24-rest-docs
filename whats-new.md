@@ -1,11 +1,48 @@
 # Что нового?
 
+## 2025
+
+### 15 января, 2025
+
+- Обновлена документация по [бронированию ресурсов](./api-reference/calendar/resource/index.md) в разделе Календарь
+- Обновлена документация по [событиям пользовательских полей сделок](./api-reference/crm/deals/user-defined-fields/events/index.md)
+
+### 14 января, 2025
+
+- Обновлена главная страница раздела [Связь сделки с контактами](./api-reference/crm/deals/contacts/index.md). Добавили вводную информацию, а также обзор методов
+- Обновлена главная страница раздела [Статусы](./api-reference/sale/status/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 13 января, 2025
+
+- Обновлена документация по методам работы c товарными позицими сделок [crm.deal.productrows.get](./api-reference/crm/deals/crm-deal-productrows-get.md), [crm.deal.productrows.set](./api-reference/crm/deals/crm-deal-productrows-set.md)
+- Обновлена документация по событиям [Календаря](./api-reference/calendar/events/index.md)
+
+### 10 января, 2025
+
+- Обновлена главная страница раздела [Управление карточками лидов](./api-reference/crm/leads/custom-form/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Типы плательщиков](./api-reference/sale/person-type/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 09 января, 2025
+
+- Обновлена документация по событиям сделок [onCrmDealAdd](./api-reference/crm/deals/events/on-crm-deal-add.md), [onCrmDealUpdate](./api-reference/crm/deals/events/on-crm-deal-update.md), [onCrmDealDelete](./api-reference/crm/deals/events/on-crm-deal-delete.md)
+- Обновлена документация по работе с переводами названий типов цен [catalog.priceTypeLang.*](./api-reference/catalog/price-type/price-type-lang/index.md)
+- Добавили документацию по событию изменения воронки сделки [onCrmDealMoveToCategory](./api-reference/crm/deals/events/on-crm-deal-move-to-category.md)
+
 ## 2024
+
+### 28 декабря, 2024
+
+- Обновлена главная страница раздела [Управление карточками сделок](./api-reference/crm/deals/custom-form/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 26 декабря, 2024
+
+- Обновлена главная страница раздела [Пользовательские поля лидов](./api-reference/crm/leads/userfield/index.md). Добавили вводную информацию, а также обзор методов и ошибок
+- Обновлена главная страница раздела [Пользовательские поля сделок](./api-reference/crm/deals/user-defined-fields/index.md). Добавили вводную информацию, а также обзор методов и ошибок
 
 ### 25 декабря, 2024
 
 - Обновлена документация по методам работы с календарем [calendar.section.*](./api-reference/calendar/calendar-section-add.md)
-- Обновлена главная страница раздела [Пользовательские поля контактов](./api-reference/crm/contacts/userfield/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Пользовательские поля контактов](./api-reference/crm/contacts/userfield/index.md). Добавили вводную информацию, а также обзор методов и ошибок
 
 ### 24 декабря, 2024
 
@@ -14,8 +51,8 @@
 ### 23 декабря, 2024
 
 - Обновлена главная страница раздела [Связь контакта с компаниями](./api-reference/crm/contacts/company/index.md). Добавили вводную информацию, а также обзор методов и связей
-- Обновлена главная страница раздела [Пользовательские поля компаний](./api-reference/crm/companies/userfields/index.md). Добавили вводную информацию, а также обзор методов и связей
-- Обновлена документация по методам календаря [calendar.meeting.status.get](./api-reference/calendar/calendar-meeting-status-get.md), [calendar.meeting.status.set](./api-reference/calendar/calendar-meeting-status-set.md) и [calendar.accessibility.get](./api-reference/calendar/calendar-accessibility-get.md)
+- Обновлена главная страница раздела [Пользовательские поля компаний](./api-reference/crm/companies/userfields/index.md). Добавили вводную информацию, а также обзор методов и ошибок
+- Обновлена документация по методам календаря [calendar.meeting.status.get](./api-reference/calendar/calendar-event/calendar-meeting-status-get.md), [calendar.meeting.status.set](./api-reference/calendar/calendar-event/calendar-meeting-status-set.md) и [calendar.accessibility.get](./api-reference/calendar/calendar-accessibility-get.md)
 
 ### 20 декабря, 2024
 
@@ -27,7 +64,7 @@
 
 ### 18 декабря, 2024
 
-- Обновлена документация по методам работы с событиями календаря [calendar.event.*](./api-reference/calendar/calendar-event-add.md)
+- Обновлена документация по методам работы с событиями календаря [calendar.event.*](./api-reference/calendar/calendar-event/index.md)
 - Обновлена главная страница раздела [Почтовые сервисы](./api-reference/mailservice/index.md). Добавили вводную информацию и обзор методов
 
 ### 17 декабря, 2024
