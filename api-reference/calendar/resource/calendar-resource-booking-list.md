@@ -1,10 +1,10 @@
-# Предоставить возможность выбрать бронирования ресурсов calendar.resource.booking.list
+# Получить бронирования ресурсов по фильтру calendar.resource.booking.list
 
 > Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `calendar.resource.booking.list` предоставляет возможность выбрать бронирования ресурсов.
+Метод получает бронирования ресурсов по фильтру.
 
 ## Параметры метода
 
@@ -14,22 +14,68 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter***
-[`object`](../../data-types.md) | Поля фильтра. ||
-|| **resourceTypeIdList***
-[`array`](../../data-types.md) | Передается список идентификаторов ресурсов, которые можно выбрать методом `calendar.resource.list` ||
-|| **from**
-[`date`](../../data-types.md) | Дата начала периода. ||
-|| **to**
-[`date`](../../data-types.md) | Поля окончания периода. ||
-|| **resourceIdList***
-[`array`](../../data-types.md) | Эти ID берутся из значения UF-поля типа resourcebooking у CRM сущностей LEAD|DEAL ||
+[`object`](../../data-types.md) | Поля фильтра ||
 |#
 
-## Примеры
+### Параметр filter
 
-**Первый вариант:** для возможности оценить бронирования (занятость) определенных ресурсов на какой-то период. Может использоваться для создания собственных представлений занятости или для использования в логике.
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **resourceTypeIdList***
+[`array`](../../data-types.md) | Cписок идентификаторов ресурсов.
+
+Получить идентификаторы можно методом [calendar.resource.list](./calendar-resource-list.md) ||
+|| **from**
+[`date`](../../data-types.md) | Дата начала периода ||
+|| **to**
+[`date`](../../data-types.md) | Дата окончания периода ||
+|| **resourceIdList***
+[`array`](../../data-types.md) | Список идентификаторов ресурсов из пользовательского поля типа `resourcebooking` у лидов или сделок в CRM.
+
+Получить идентификаторы можно:
+- универсальными методами — [crm.item.get](../../crm/universal/crm-item-get.md), [crm.item.list](../../crm/universal/crm-item-list.md)
+- методами для лидов — [crm.lead.get](../../crm/leads/crm-lead-get.md), [crm.lead.list](../../crm/leads/crm-lead-list.md)
+- методами для сделок — [rm.deal.get](../../crm/deals/crm-deal-get.md), [crm.deal.list](../../crm/deals/crm-deal-list.md) 
+
+Узнать какие пользовательские поля имеют тип `resourcebooking` можно методом [crm.lead.userfield.list](../../crm/leads/userfield/crm-lead-userfield-list.md) для лидов и методом [crm.deal.userfield.list](../../crm/deals/user-defined-fields/crm-deal-userfield-list.md) для сделок ||
+|#
+
+{% note info " " %}
+
+В методе `calendar.resource.booking.list` необходимо использовать только один из двух обязательных параметров: `resourceTypeIdList` или `resourceIdList`. Вместе эти параметры использовать нельзя.
+
+{% endnote %}
+
+## Примеры кода
+
+**Пример 1**. Оценить занятость ресурсов за период, например, для создания собственных представлений занятости или для использования в логике приложения.
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"resourceTypeIdList":[10852,10888,10873,10871,10853],"from":"2024-06-20","to":"2024-08-20"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.resource.booking.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"resourceTypeIdList":[10852,10888,10873,10871,10853],"from":"2024-06-20","to":"2024-08-20"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/calendar.resource.booking.list
+    ```
 
 - JS
 
@@ -46,11 +92,55 @@
     );
     ```
 
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'calendar.resource.booking.list',
+        [
+            'filter' => [
+                'resourceTypeIdList' => [10852, 10888, 10873, 10871, 10853],
+                'from' => '2024-06-20',
+                'to' => '2024-08-20'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-**Второй вариант:** возможность выбрать бронирования по их id (это значения UF-поля, привязанного к CRM сущности).
+
+**Пример 2**. Выбрать бронирования по их идентификаторам из пользовательских полей CRM сущности.
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"resourceIdList":[10,18,17]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.resource.booking.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"resourceIdList":[10,18,17]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/calendar.resource.booking.list
+    ```
 
 - JS
 
@@ -65,9 +155,28 @@
     );
     ```
 
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'calendar.resource.booking.list',
+        [
+            'filter' => [
+                'resourceIdList' => [10, 18, 17]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 
 ## Обработка ответа
 
@@ -75,52 +184,52 @@ HTTP-статус: **200**
 
 ```json
 {
-  "result": [
-    {
-      "ID": "1408",
-      "PARENT_ID": "1408",
-      "DELETED": "N",
-      "CAL_TYPE": "resource",
-      "OWNER_ID": "0",
-      "NAME": "Бронирование",
-      "DATE_FROM": "20.12.2024 00:00:00",
-      "DATE_TO": "21.12.2024 00:00:00",
-      "TZ_FROM": "Europe/Kaliningrad",
-      "TZ_TO": "Europe/Kaliningrad",
-      "TZ_OFFSET_FROM": "7200",
-      "TZ_OFFSET_TO": "7200",
-      "DATE_FROM_TS_UTC": "1734652800",
-      "DATE_TO_TS_UTC": "1734739200",
-      "DT_SKIP_TIME": "Y",
-      "DT_LENGTH": 172800,
-      "EVENT_TYPE": "#resourcebooking#",
-      "CREATED_BY": "1",
-      "DATE_CREATE": "18.12.2024 13:55:35",
-      "TIMESTAMP_X": "18.12.2024 13:55:35",
-      "DESCRIPTION": "Услуга: some",
-      "IS_MEETING": false,
-      "MEETING_STATUS": "Y",
-      "MEETING_HOST": "0",
-      "VERSION": "1",
-      "SECTION_ID": "198",
-      "DATE_FROM_FORMATTED": "Fri Dec 20 2024",
-      "DATE_TO_FORMATTED": "Sat Dec 21 2024",
-      "SECT_ID": "198",
-      "RESOURCE_BOOKING_ID": "1"
-    },
-    {
-      "ID": "1409",
-      ...
+    "result": [
+        {
+            "ID": "1408",
+            "PARENT_ID": "1408",
+            "DELETED": "N",
+            "CAL_TYPE": "resource",
+            "OWNER_ID": "0",
+            "NAME": "Бронирование",
+            "DATE_FROM": "20.12.2024 00:00:00",
+            "DATE_TO": "21.12.2024 00:00:00",
+            "TZ_FROM": "Europe/Riga",
+            "TZ_TO": "Europe/Riga",
+            "TZ_OFFSET_FROM": "7200",
+            "TZ_OFFSET_TO": "7200",
+            "DATE_FROM_TS_UTC": "1734652800",
+            "DATE_TO_TS_UTC": "1734739200",
+            "DT_SKIP_TIME": "Y",
+            "DT_LENGTH": 172800,
+            "EVENT_TYPE": "#resourcebooking#",
+            "CREATED_BY": "1",
+            "DATE_CREATE": "18.12.2024 13:55:35",
+            "TIMESTAMP_X": "18.12.2024 13:55:35",
+            "DESCRIPTION": "Услуга: some",
+            "IS_MEETING": false,
+            "MEETING_STATUS": "Y",
+            "MEETING_HOST": "0",
+            "VERSION": "1",
+            "SECTION_ID": "198",
+            "DATE_FROM_FORMATTED": "Fri Dec 20 2024",
+            "DATE_TO_FORMATTED": "Sat Dec 21 2024",
+            "SECT_ID": "198",
+            "RESOURCE_BOOKING_ID": "1"
+        },
+        {
+            "ID": "1409",
+            ...
+        }
+    ],
+    "time": {
+        "start": 1733318565.183275,
+        "finish": 1733318565.695058,
+        "duration": 0.5117831230163574,
+        "processing": 0.29406094551086426,
+        "date_start": "2024-12-04T13:22:45+00:00",
+        "date_finish": "2024-12-04T13:22:45+00:00"
     }
-  ],
-  "time": {
-    "start": 1733318565.183275,
-    "finish": 1733318565.695058,
-    "duration": 0.5117831230163574,
-    "processing": 0.29406094551086426,
-    "date_start": "2024-12-04T13:22:45+00:00",
-    "date_finish": "2024-12-04T13:22:45+00:00"
-  }
 }
 ```
 
@@ -130,19 +239,32 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив объектов бронирования ||
+[`array`](../../data-types.md) | Массив объектов. Каждый объект описывает [бронирование](#booking) ||
+|#
+
+#### Объект бронирования {#booking}
+
+{% note info " " %}
+
+Технически бронирование — это событие календаря. Метод получает набор полей, аналогичный полям события календаря. Некоторые поля остаются пустыми, так как они неактуальны для бронирования. Ниже перечислены только актуальные или заполненные поля.
+
+{% endnote %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **ID**
 [`string`](../../data-types.md) | Идентификатор бронирования ||
 || **PARENT_ID**
 [`string`](../../data-types.md) | Для объекта бронирования всегда равен полю `ID` ||
 || **DELETED**
-[`string`](../../data-types.md) | Флаг отображающий удалено ли бронирование. Возможные значения:
+[`string`](../../data-types.md) | Флаг показывает удалено ли бронирование. Возможные значения:
 - `Y` — бронирование удалено
 - `N` — бронирование не удалено  ||
 || **CAL_TYPE**
-[`string`](../../data-types.md) | Тип календаря в котором находится бронирование ||
+[`string`](../../data-types.md) | Тип календаря, в котором находится бронирование ||
 || **OWNER_ID**
-[`string`](../../data-types.md) | Для объекта бронирования всегда равно '0' ||
+[`string`](../../data-types.md) | Для объекта бронирования всегда равно `'0'` ||
 || **NAME**
 [`string`](../../data-types.md) | Название бронирования ||
 || **DATE_FROM**
@@ -162,7 +284,7 @@ HTTP-статус: **200**
 || **DATE_TO_TS_UTC**
 [`string`](../../data-types.md) | Дата и время окончания бронирования в UTC в формате timestamp ||
 || **DT_SKIP_TIME**
-[`string`](../../data-types.md) | Флаг отображающий что бронирования длится целый день. Возможные значения:
+[`string`](../../data-types.md) | Флаг показывает, длится ли бронирование целый день. Возможные значения:
 - `Y` — целый день
 - `N` — не целый день ||
 || **DT_LENGTH**
@@ -170,7 +292,7 @@ HTTP-статус: **200**
 || **EVENT_TYPE**
 [`string`](../../data-types.md) | Тип бронирования ||
 || **CREATED_BY**
-[`string`](../../data-types.md) | Идентификатор пользователя, который создал бронирования ||
+[`string`](../../data-types.md) | Идентификатор пользователя, который создал бронирование ||
 || **DATE_CREATE**
 [`datetime`](../../data-types.md) | Дата создания бронирования ||
 || **TIMESTAMP_X**
@@ -178,21 +300,21 @@ HTTP-статус: **200**
 || **DESCRIPTION**
 [`string`](../../data-types.md) | Описание бронирования ||
 || **IS_MEETING**
-[`boolean`](../../data-types.md) | Для объекта бронирования всегда false ||
+[`boolean`](../../data-types.md) | Для объекта бронирования всегда `false` ||
 || **MEETING_STATUS**
-[`string`](../../data-types.md) | Для объекта бронирования всегда 'Y' ||
+[`string`](../../data-types.md) | Для объекта бронирования всегда `'Y'` ||
 || **MEETING_HOST**
-[`string`](../../data-types.md) | Для объекта бронирования всегда '0' ||
+[`string`](../../data-types.md) | Для объекта бронирования всегда `'0'` ||
 || **VERSION**
 [`string`](../../data-types.md) | Версия изменений бронирования ||
 || **SECTION_ID**
-[`string`](../../data-types.md) | Идентификатор ресурса в котором расположено бронирование ||
+[`string`](../../data-types.md) | Идентификатор ресурса, в котором расположено бронирование ||
 || **DATE_FROM_FORMATTED**
 [`string`](../../data-types.md) | Форматированная дата начала бронирования ||
 || **DATE_TO_FORMATTED**
 [`string`](../../data-types.md) | Форматированная дата окончания бронирования ||
 || **SECT_ID**
-[`string`](../../data-types.md) | Идентификатор ресурса в котором расположено бронирования ||
+[`string`](../../data-types.md) | Идентификатор ресурса, в котором расположено бронирование ||
 || **RESOURCE_BOOKING_ID**
 [`integer`](../../data-types.md) | Идентификатор бронирования ||
 |#
@@ -203,10 +325,11 @@ HTTP-статус: **400**
 
 ```json
 {
-  "error": "",
-  "error_description": "Не задан обязательный параметр \"filter['resourceTypeIdList']\" для метода \"calendar.resource.booking.list\""
+    "error": "",
+    "error_description": "Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list""
 }
 ```
+
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
@@ -214,7 +337,15 @@ HTTP-статус: **400**
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
 || Пустая строка | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
-|| Пустая строка | Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list" | Не передан ни один из обязательных параметров `resourceTypeIdList` или `resourceIdList` ||
+|| Пустая строка | Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list" | Не передан ни один из обязательных параметров: `resourceTypeIdList` или `resourceIdList`. ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./calendar-resource-add.md)
+- [{#T}](./calendar-resource-update.md)
+- [{#T}](./calendar-resource-list.md)
+- [{#T}](./calendar-resource-delete.md)
