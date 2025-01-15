@@ -68,11 +68,27 @@
 >
 > Кто может выполнять методы: в зависимости от метода
 
-#|
-|| **Метод** | **Описание** ||
-|| [crm.deal.userfield.add](./crm-deal-userfield-add.md) | Создает новое пользовательское поле для сделок ||
-|| [crm.deal.userfield.update](./crm-deal-userfield-update.md) | Изменяет существующее пользовательское поле сделок ||
-|| [crm.deal.userfield.get](./crm-deal-userfield-get.md) | Возвращает пользовательское поле сделок по идентификатору  ||
-|| [crm.deal.userfield.list](./crm-deal-userfield-list.md) | Возвращает список пользовательских полей сделок по фильтру ||
-|| [crm.deal.userfield.delete](./crm-deal-userfield-delete.md) | Удаляет пользовательское поле сделок ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [crm.deal.userfield.add](./crm-deal-userfield-add.md) | Создает новое пользовательское поле для сделок ||
+    || [crm.deal.userfield.update](./crm-deal-userfield-update.md) | Изменяет существующее пользовательское поле сделок ||
+    || [crm.deal.userfield.get](./crm-deal-userfield-get.md) | Получает пользовательское поле сделок по Id ||
+    || [crm.deal.userfield.list](./crm-deal-userfield-list.md) | Получает списка пользовательских полей сделок ||
+    || [crm.deal.userfield.delete](./crm-deal-userfield-delete.md) | Удаляет пользовательское поле сделок ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [onCrmDealUserFieldAdd](./events/on-crm-deal-user-field-add.md) | При добавлении пользовательского поля ||
+    || [onCrmDealUserFieldUpdate](./events/on-crm-deal-user-field-update.md) | При изменении пользовательского поля ||
+    || [onCrmDealUserFieldDelete](./events/on-crm-deal-user-field-delete.md) | При удалении пользовательского поля ||
+    || [onCrmDealUserFieldSetEnumValues](./events/on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
+    |#
+
+{% endlist %}

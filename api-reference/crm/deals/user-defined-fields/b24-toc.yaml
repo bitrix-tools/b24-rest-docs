@@ -15,3 +15,7 @@ items:
     href: crm-deal-userfield-list.md
   - name: Удалить пользовательское поле сделок
     href: crm-deal-userfield-delete.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

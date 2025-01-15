@@ -18,10 +18,6 @@
 || [onCrmDealUpdate](./on-crm-deal-update.md) | При изменении сделки ||
 || [onCrmDealDelete](./on-crm-deal-delete.md) | При удалении сделки ||
 || [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md) | При изменении воронки сделки ||
-|| [onCrmDealUserFieldAdd](./on-crm-deal-user-field-add.md) | При добавлении пользовательского поля ||
-|| [onCrmDealUserFieldUpdate](./on-crm-deal-user-field-update.md) | При изменении пользовательского поля ||
-|| [onCrmDealUserFieldDelete](./on-crm-deal-user-field-delete.md) | При удалении пользовательского поля ||
-|| [onCrmDealUserFieldSetEnumValues](./on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
 || [onCrmDealRecurringAdd](./on-crm-deal-recurring-add.md) | При создании новой регулярной сделки ||
 || [onCrmDealRecurringUpdate](./on-crm-deal-recurring-update.md) | При изменении регулярной сделки ||
 || [onCrmDealRecurringDelete](./on-crm-deal-recurring-delete.md) | При удалении регулярной сделки ||

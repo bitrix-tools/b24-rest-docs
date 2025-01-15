@@ -163,10 +163,10 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmDealUserFieldAdd](./events/on-crm-deal-user-field-add.md) | При добавлении пользовательского поля ||
-    || [onCrmDealUserFieldUpdate](./events/on-crm-deal-user-field-update.md) | При изменении пользовательского поля ||
-    || [onCrmDealUserFieldDelete](./events/on-crm-deal-user-field-delete.md) | При удалении пользовательского поля ||
-    || [onCrmDealUserFieldSetEnumValues](./events/on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
+    || [onCrmDealUserFieldAdd](./user-defined-fields/events/on-crm-deal-user-field-add.md) | При добавлении пользовательского поля ||
+    || [onCrmDealUserFieldUpdate](./user-defined-fields/events/on-crm-deal-user-field-update.md) | При изменении пользовательского поля ||
+    || [onCrmDealUserFieldDelete](./user-defined-fields/events/on-crm-deal-user-field-delete.md) | При удалении пользовательского поля ||
+    || [onCrmDealUserFieldSetEnumValues](./user-defined-fields/events/on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
     |#
 
 {% endlist %}
