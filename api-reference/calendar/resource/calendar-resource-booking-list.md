@@ -38,7 +38,7 @@
 Получить идентификаторы можно:
 - универсальными методами — [crm.item.get](../../crm/universal/crm-item-get.md), [crm.item.list](../../crm/universal/crm-item-list.md)
 - методами для лидов — [crm.lead.get](../../crm/leads/crm-lead-get.md), [crm.lead.list](../../crm/leads/crm-lead-list.md)
-- методами для сделок — [rm.deal.get](../../crm/deals/crm-deal-get.md), [crm.deal.list](../../crm/deals/crm-deal-list.md) 
+- методами для сделок — [crm.deal.get](../../crm/deals/crm-deal-get.md), [crm.deal.list](../../crm/deals/crm-deal-list.md) 
 
 Узнать какие пользовательские поля имеют тип `resourcebooking` можно методом [crm.lead.userfield.list](../../crm/leads/userfield/crm-lead-userfield-list.md) для лидов и методом [crm.deal.userfield.list](../../crm/deals/user-defined-fields/crm-deal-userfield-list.md) для сделок ||
 |#
