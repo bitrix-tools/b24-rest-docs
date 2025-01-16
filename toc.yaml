@@ -34,7 +34,7 @@ items:
     include:
       path: local-integrations/b24-toc.yaml
       mode: link
-  - name: Битрикс24 Маркет
+  - name: Битрикс24 Маркетплейс
     include:
       path: market/b24-toc.yaml
       mode: link

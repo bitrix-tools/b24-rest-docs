@@ -111,7 +111,7 @@ blocks:
       - id: 'one'
         label: 'Локальные интеграции'
       - id: 'two'
-        label: 'Битрикс24 Маркет'
+        label: 'Битрикс24 Маркетплейс'
       - id: 'three'
         label: 'Справочник API'
     colSizes:
