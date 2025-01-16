@@ -45,7 +45,7 @@ items:
     include:
       path: person-type/b24-toc.yaml
       mode: link
-  - name: Соответствие физ. и юр. лицам
+  - name: Статусы типов плательщиков
     include:
       path: business-value-person-domain/b24-toc.yaml
       mode: link
