@@ -2,7 +2,7 @@ title: События
 href: index.md
 items:
   - name: На новое сообщение
-    href: index.md
+    href: on-imbot-message-add.md
   - name: На изменение сообщения
     href: on-imbot-message-update.md
   - name: На удаление сообщения

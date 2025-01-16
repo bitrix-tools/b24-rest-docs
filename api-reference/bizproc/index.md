@@ -1,5 +1,7 @@
 # Бизнес-процессы и роботы
 
+> Быстрый переход: [все методы и события](#all-methods) 
+
 Бизнес-процессы в Битрикс24 представляют собой low-code инструмент, который позволяет автоматизировать повседневные задачи без необходимости глубоких знаний в программировании. Пользователи могут легко настроить различные операции, используя уже готовые к использованию действия.
 
 ![Дизайнер бизнес-процессов](_images/sequence_templ3_sm.png "Дизайнер бизнес-процессов")
@@ -96,3 +98,53 @@
 - Научитесь [запускать готовый бизнес-процесс](bizproc-workflow-start.md) или [останавливать](bizproc-workflow-kill.md) уже запущенный
 - Узнайте, как [добавлять свой шаблон](bizproc-workflow-template-add.md)
 - Узнайте, как получить список текущих [заданий бизнес-процесса](bizproc-task/bizproc-task-list.md) и как автоматически их [завершать](bizproc-task/bizproc-task-complete.md) за пользователя
+
+## Обзор методов {#all-methods}
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.workflow.start](./bizproc-workflow-start.md) | Запускает новый бизнес-процесс ||
+|| [bizproc.workflow.instances](./bizproc-workflow-instances.md) | Возвращает список запущенных бизнес-процессов ||
+|| [bizproc.workflow.kill](./bizproc-workflow-kill.md) | Удаляет запущенный бизнес-процесс вместе со всеми данными процесса ||
+|| [bizproc.workflow.terminate](./bizproc-workflow-terminate.md) | Прерывает выполнение бизнес-процесса ||
+|#
+
+### Шаблоны бизнес-процессов
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.workflow.template.add](./bizproc-workflow-template-add.md) | Добавляет новый шаблон бизнес-процесса ||
+|| [bizproc.workflow.template.update](./bizproc-workflow-template-update.md) | Обновляет существующий шаблон бизнес-процесса ||
+|| [bizproc.workflow.template.delete](./bizproc-workflow-template-delete.md) | Удаляет шаблон бизнес-процесса ||
+|| [bizproc.workflow.template.list](./bizproc-workflow-template-list.md) | Возвращает список шаблонов бизнес-процессов ||
+|#
+
+### Задания бизнес-процессов
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.task.complete](./bizproc-task/bizproc-task-complete.md) | Выполняет указанное задание бизнес-процесса||
+|| [bizproc.task.list](./bizproc-task/bizproc-task-list.md) | Возвращает список заданий бизнес-процессов ||
+|#
+
+### Роботы приложений
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.robot.add](./bizproc-robot/bizproc-robot-add.md) | Регистрирует нового робота ||
+|| [bizproc.robot.update](./bizproc-robot/bizproc-robot-update.md) | Обновляет поля уже добавленного робота ||
+|| [bizproc.robot.list](./bizproc-robot/bizproc-robot-list.md) | Возвращает список роботов, зарегистрированных приложением ||
+|| [bizproc.robot.delete](./bizproc-robot/bizproc-robot-delete.md) | Удаляет зарегистрированного робота ||
+|| [bizproc.event.send](./bizproc-robot/bizproc-event-send.md) | Возвращает действию выходные параметры, заданные в описании действия ||
+|#
+
+### Действия приложений
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.activity.add](./bizproc-activity/bizproc-activity-add.md) | Добавляет новое действие для использования в бизнес-процессах ||
+|| [bizproc.activity.update](./bizproc-activity/bizproc-activity-update.md) | Обновляет поля уже добавленного действия ||
+|| [bizproc.activity.list](./bizproc-activity/bizproc-activity-list.md) | Возвращает список установленных приложением действий ||
+|| [bizproc.activity.log](./bizproc-activity/bizproc-activity-log.md) | Записывает информацию в лог бизнес-процесса ||
+|| [bizproc.activity.delete](./bizproc-activity/bizproc-activity-delete.md) | Удаляет установленное приложением действие ||
+|#

@@ -19,3 +19,12 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.robot.add](./bizproc-robot-add.md) | Регистрирует нового робота ||
+|| [bizproc.robot.update](./bizproc-robot-update.md) | Обновляет поля уже добавленного робота ||
+|| [bizproc.robot.list](./bizproc-robot-list.md) | Возвращает список роботов, зарегистрированных приложением ||
+|| [bizproc.robot.delete](./bizproc-robot-delete.md) | Удаляет зарегистрированного робота ||
+|| [bizproc.event.send](./bizproc-event-send.md) | Возвращает действию выходные параметры, заданные в описании действия ||
+|#

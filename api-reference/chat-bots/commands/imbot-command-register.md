@@ -65,7 +65,7 @@ Array(
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/on-im-command-add.md).
 
 {% endnote %}
 
@@ -143,5 +143,5 @@ Array(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом команды ONIMCOMMANDADD](./events/index.md)
+- [Событие на получение чат-ботом команды ONIMCOMMANDADD](./events/on-im-command-add.md)
 

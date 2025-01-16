@@ -6,7 +6,7 @@
 
 2. Если необходимо расширить возможности уже существующего чат-бота, то следует передать новый ключ `OPENLINE => Y`, и тогда чат-бот будет работать в гибридном режиме.
    
-   В гибридном режиме чат-бот должен корректно работать в групповом чате, персональном чате и чате открытых линий. Для этого нужно во всех входящих событиях ([ONIMBOTMESSAGEADD](../../api-reference/chat-bots/messages/events/index.md) и [ONIMBOTJOINCHAT](../../api-reference/chat-bots/chats/events/on-imbot-join-chat.md)) проверять параметр `CHAT_ENTITY_TYPE` — для *Открытых линий* он должен быть `CHAT_ENTITY_TYPE => LINES`.
+   В гибридном режиме чат-бот должен корректно работать в групповом чате, персональном чате и чате открытых линий. Для этого нужно во всех входящих событиях ([ONIMBOTMESSAGEADD](../../api-reference/chat-bots/messages/events/on-imbot-message-add.md) и [ONIMBOTJOINCHAT](../../api-reference/chat-bots/chats/events/on-imbot-join-chat.md)) проверять параметр `CHAT_ENTITY_TYPE` — для *Открытых линий* он должен быть `CHAT_ENTITY_TYPE => LINES`.
 
 Во всем остальном это привычный и уже знакомый [чат-бот](./index.md).
 

@@ -19,3 +19,13 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.activity.add](./bizproc-activity-add.md) | Добавляет новое действие для использования в бизнес-процессах ||
+|| [bizproc.activity.update](./bizproc-activity-update.md) | Обновляет поля уже добавленного действия ||
+|| [bizproc.activity.list](./bizproc-activity-list.md) | Возвращает список установленных приложением действий ||
+|| [bizproc.activity.log](./bizproc-activity-log.md) | Записывает информацию в лог бизнес-процесса ||
+|| [bizproc.activity.delete](./bizproc-activity-delete.md) | Удаляет установленное приложением действие ||
+|#
+

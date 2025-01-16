@@ -18,3 +18,9 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.task.complete](./bizproc-task-complete.md) | Выполняет указанное задание бизнес-процесса||
+|| [bizproc.task.list](./bizproc-task-list.md) | Возвращает список заданий бизнес-процессов ||
+|#
