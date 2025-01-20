@@ -22,4 +22,5 @@
 
 ## Смотри также
 
-- [Взаимодействие с пользовательским интерфейсом Битрикс24](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=02535)
+- [{#T}](../../widgets/universal/app-url.md)
+- [{#T}](../../widgets/user-field/index.md)
