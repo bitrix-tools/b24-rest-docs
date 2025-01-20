@@ -1,6 +1,8 @@
 title: Управление SIP-подключениями
 href: voximplant-sip-connector-status.md
 items: 
+  - name: Обзор методов
+    href: index.md
   - name: Получить статус SIP-коннектора
     href: voximplant-sip-connector-status.md
   - name: Добавить SIP-подключение
