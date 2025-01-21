@@ -33,7 +33,7 @@
 || **to**
 [`date`](../../data-types.md) | Дата окончания периода ||
 || **resourceIdList***
-[`array`](../../data-types.md) | Список идентификаторов ресурсов из пользовательского поля типа `resourcebooking` у лидов или сделок в CRM.
+[`array`](../../data-types.md) | Список идентификаторов бронирований ресурсов из пользовательского поля типа `resourcebooking` у лидов или сделок в CRM.
 
 Получить идентификаторы можно:
 - универсальными методами — [crm.item.get](../../crm/universal/crm-item-get.md), [crm.item.list](../../crm/universal/crm-item-list.md)
@@ -215,7 +215,7 @@ HTTP-статус: **200**
             "DATE_FROM_FORMATTED": "Fri Dec 20 2024",
             "DATE_TO_FORMATTED": "Sat Dec 21 2024",
             "SECT_ID": "198",
-            "RESOURCE_BOOKING_ID": "1"
+            "RESOURCE_BOOKING_ID": "10"
         },
         {
             "ID": "1409",

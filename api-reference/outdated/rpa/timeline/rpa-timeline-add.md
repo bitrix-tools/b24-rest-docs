@@ -1,89 +1,77 @@
 # Создать новую запись таймлайна rpa.timeline.add
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `rpa.timeline.add` создаст новую запись таймлайна у элемента с идентификатором itemId процесса с идентификатором typeId.
+Метод создаст новую запись таймлайна у элемента `itemId` процесса `typeId`.
 
-Этот метод позволяет изменять только поля title и description.
+Этот метод позволяет изменять только поля `title` и `description`.
+
+## Параметры метода
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **typeId** 
-[`number`](../../../data-types.md) | Идентификатор процесса. ||
+[`number`](../../../data-types.md) | Идентификатор процесса ||
 || **itemId** 
-[`number`](../../../data-types.md) | Идентификатор элемента. ||
+[`number`](../../../data-types.md) | Идентификатор элемента ||
 || **fields** 
-[`array`](../../../data-types.md) | Поля записи. ||
+[`array`](../../../data-types.md) | Поля записи ||
 |#
 
-## Параметры fields
+### Параметр fields
 
 #|
-|| **Параметр** | **Описание** ||
-|| **title** | Заголовок записи. ||
-|| **description** | Описание записи (можно использовать html). ||
+|| **Название**
+`тип` | **Описание** ||
+|| **title** 
+[`string`](../../../data-types.md) | Заголовок записи ||
+|| **description** 
+[`string`](../../../data-types.md) | Описание записи. Можно использовать HTML теги ||
 |#
 
-## Пример
+## Обработка ответа
 
-{% list tabs %}
+HTTP-статус: **200**
 
-- JS
-
-    ```json
-    {
-        "timeline": {
-            "id": 325,
-            "typeId": 24,
-            "itemId": 10,
-            "createdTime": "2020-03-26T21:55:25+02:00",
-            "userId": 1,
-            "title": "rest update",
-            "description": "<h5>small header</h5>",
-            "action": false,
-            "isFixed": false,
-            "data": {
-                "scope": "rest"
-            },
-            "createdTimestamp": 1585252525000,
-            "users": {
-                "1": {
-                    "id": "1",
-                    "name": "Anton",
-                    "secondName": "",
-                    "lastName": "",
-                    "title": null,
-                    "workPosition": "",
-                    "fullName": "Anton",
-                    "link": "/company/personal/user/1/"
-                }
+```json
+{
+    "timeline": {
+        "id": 325,
+        "typeId": 24,
+        "itemId": 10,
+        "createdTime": "2020-03-26T21:55:25+02:00",
+        "userId": 1,
+        "title": "rest update",
+        "description": "<h5>small header</h5>",
+        "action": false,
+        "isFixed": false,
+        "data": {
+            "scope": "rest"
+        },
+        "createdTimestamp": 1585252525000,
+        "users": {
+            "1": {
+                "id": "1",
+                "name": "Anton",
+                "secondName": "",
+                "lastName": "",
+                "title": null,
+                "workPosition": "",
+                "fullName": "Anton",
+                "link": "/company/personal/user/1/"
             }
         }
     }
-    ```
+}
+```
 
-{% endlist %}
+## Продолжите изучение 
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+- [{#T}](./index.md)
+- [{#T}](./rpa-timeline-update.md)
+- [{#T}](./rpa-timeline-update-is-fixed.md)
+- [{#T}](./rpa-timeline-list-for-item.md)
+- [{#T}](./rpa-timeline-delete.md)

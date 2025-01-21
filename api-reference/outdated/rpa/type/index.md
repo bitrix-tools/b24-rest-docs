@@ -1,10 +1,4 @@
-# Процессы
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Обзор методов
 
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
@@ -12,9 +6,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [rpa.type.get](./rpa-type-get.md) | Отдаёт информацию о процессе по его ID. ||
-|| [rpa.type.list](./rpa-type-list.md) | Метод вернёт массив процессов с их полями. ||
-|| [rpa.type.add](./rpa-type-add.md) | Метод создаст новый процесс и вернёт в ответе данные, аналогичные ответу на запрос `rpa.type.get`. ||
-|| [rpa.type.update](./rpa-type-update.md) | Метод обновит процесс с id и вернёт в ответе данные, аналогичные ответу на запрос `rpa.type.get`. ||
-|| [rpa.type.delete](./rpa-type-delete.md) | Метод удаляет процесс. ||
+|| [rpa.type.add](./rpa-type-add.md) | Создает новый процесс ||
+|| [rpa.type.update](./rpa-type-update.md) | Обновляет процесс ||
+|| [rpa.type.get](./rpa-type-get.md) | Получает информацию о процессе по его `id` ||
+|| [rpa.type.list](./rpa-type-list.md) | Получает список процессов с описанием полей ||
+|| [rpa.type.delete](./rpa-type-delete.md) | Удаляет процесс ||
 |#
