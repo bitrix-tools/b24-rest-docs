@@ -41,7 +41,7 @@
 || **URL_PREVIEW**
 [`unknown`](../../data-types.md) | `Y` | Преобразовывать ссылки в rich-ссылки, необязательное поле, по умолчанию 'Y' | 18 ||
 || **KEYBOARD**
-[`unknown`](../../data-types.md)d | | Клавиатура | 18 ||
+[`unknown`](../../data-types.md) | | Клавиатура | 18 ||
 || **MENU**
 [`unknown`](../../data-types.md) | | Контекстное меню | 18 ||
 |#
