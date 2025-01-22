@@ -62,17 +62,15 @@
 || **ID**
 [`integer`](../data-types.md) | Идентификатор значения множественного поля ||
 || **TYPE_ID**
-[`string`](../data-types.md) | Тип множественного поля. Может принимать значения  `PHONE`, `EMAIL`, `WEB`, `IM`, `LINK`. ||
+[`string`](../data-types.md) | Тип множественного поля. Может принимать значения  `PHONE`, `EMAIL`, `WEB`, `IM`, `LINK` ||
 || **VALUE**
-[`string`](../data-types.md) | Строковое значение множественного поля. ||
-|| **VALUE**
-[`string`](../data-types.md) | Строковое значение множественного поля. ||
+[`string`](../data-types.md) | Строковое значение множественного поля ||
 || **VALUE_TYPE**
 [`string`](../data-types.md) | Тип значения множественного поля.
 Может принимать значения  `WORK`, `MOBILE`, `FAX`, `HOME`, `PAGER`, `MAILING`, `OTHER` для телефона,
 `WORK`, `HOME`, `MAILING`, `OTHER` для почты,
 `WORK`, `HOME`, `FACEBOOK`, `VK`, `LIVEJOURNAL`, `TWITTER`, `OTHER` для сайта,
-`FACEBOOK`, `TELEGRAM`, `VK`, `SKYPE`, `VIBER`, `INSTAGRAM`, `BITRIX24`, `OPENLINE`, `IMOL`, `ICQ`, `MSN`, `JABBER`, `OTHER` для мессенджера.
+`FACEBOOK`, `TELEGRAM`, `VK`, `SKYPE`, `VIBER`, `INSTAGRAM`, `BITRIX24`, `OPENLINE`, `IMOL`, `ICQ`, `MSN`, `JABBER`, `OTHER` для мессенджера
 ||
 |#
 

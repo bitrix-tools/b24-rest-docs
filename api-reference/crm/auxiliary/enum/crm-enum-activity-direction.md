@@ -56,5 +56,45 @@ crm.enum.activivtydirection()
 
 {% endlist %}
 
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": [
+        {
+            "ID": 0,
+            "NAME": "",
+            "SYMBOL_CODE": "",
+            "SYMBOL_CODE_SHORT": ""
+        },
+        {
+            "ID": 1,
+            "NAME": "Incoming",
+            "SYMBOL_CODE": "",
+            "SYMBOL_CODE_SHORT": ""
+        },
+        {
+            "ID": 2,
+            "NAME": "Outgoing",
+            "SYMBOL_CODE": "",
+            "SYMBOL_CODE_SHORT": ""
+        }
+    ],
+    "time": {
+        "start": 1737527595.9598,
+        "finish": 1737527595.9931,
+        "duration": 0.033305883407593,
+        "processing": 0.0027921199798584,
+        "date_start": "2025-01-22T09:33:15+03:00",
+        "date_finish": "2025-01-22T09:33:15+03:00",
+        "operating_reset_at": 1737528195,
+        "operating": 0
+    },
+    "code": 200
+}
+```
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
