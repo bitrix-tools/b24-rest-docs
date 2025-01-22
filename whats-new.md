@@ -2,6 +2,11 @@
 
 ## 2025
 
+### 22 января, 2025
+
+- Добавлен новый метод для получения пользовательского типа объекта CRM [crm.type.getByEntityTypeId](./api-reference/crm/universal/user-defined-object-types/crm-type-get-by-entity-type-id.md)
+- Добавлена возможность работать с мультиполями в методах [crm.item.add](./api-reference/crm/universal/crm-item-add.md) и [crm.item.update](./api-reference/crm/universal/crm-item-update.md)
+
 ### 21 января, 2025
 
 - Обновлена главная страница раздела [События календаря](./api-reference/calendar/calendar-event/index.md). Добавили вводную информацию, а также обзор методов и связей
