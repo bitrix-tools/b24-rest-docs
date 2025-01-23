@@ -1,42 +1,64 @@
 # Создать подразделение department.add
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствует ответ в случае ошибки
-- нет примеров
-  
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`department`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на изменение структуры
 
-Метод создает подразделение
+Метод `department.add` добавляет новый отдел в структуру компании. 
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **NAME^*^** | наименование подразделения ||
-|| **SORT** | параметр сортировки подразделения ||
-|| **PARENT** | идентификатор родительского подразделения. ||
-|| **UF_HEAD** | идентификатор руководителя подразделения ||
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME***
+[`string`](../data-types.md) | Название подразделения ||
+|| **SORT**
+[`int`](../data-types.md) | Поле сортировки подразделения ||
+|| **PARENT***
+[`int`](../data-types.md) | Идентификатор родительского подразделения ||
+|| **UF_HEAD**
+[`int`](../data-types.md) | Идентификатор пользователя, который станет руководителем подразделения ||
 |#
-
-{% include [Сноска о параметрах](../../_includes/required.md) %}
 
 ## Примеры кода
 
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```curl
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "NAME": "Отдел изучения маглов",
+        "SORT": 450,
+        "UF_HEAD": 1,
+        "PARENT": 15
+    }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/department.add
+    ```
+
+- cURL (OAuth)
+
+    ```curl
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "NAME": "Отдел изучения маглов",
+        "SORT": 450,
+        "UF_HEAD": 1,
+        "PARENT": 15,
+        "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/department.add
+    ```
 
 - JS
 
@@ -44,32 +66,100 @@
     BX24.callMethod(
         'department.add',
         {
-            "NAME": "Подразделение",
-            "PARENT": 155,
-            "UF_HEAD": 1
+            "NAME": "Отдел изучения маглов",
+            "SORT": 450,
+            "UF_HEAD": 1,
+            "PARENT": 15
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
     );
     ```
 
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'department.add',
+        [
+            'NAME' => 'Отдел изучения маглов',
+            'SORT' => 450,
+            'UF_HEAD' => 1,
+            'PARENT' => 15,
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-## Запрос
+## Обработка ответа
 
-```
-https://my.bitrix24.ru/rest/department.add.json?NAME=Подразделение&PARENT=155&UF_HEAD=1&auth=1b2234a7412080205f4318e42c7298dc
-```
-
-## Ответ
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
-{"result":222}
+{
+    "result": 18,
+    "time": {
+        "start": 1736927311.779587,
+        "finish": 1736927312.132503,
+        "duration": 0.35291600227355957,
+        "processing": 0.17050600051879883,
+        "date_start": "2025-01-15T07:48:31+00:00",
+        "date_finish": "2025-01-15T07:48:32+00:00",
+        "operating": 0.1704881191253662
+    }
+}
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`int`](../data-types.md) | Идентификатор созданного отдела ||
+|| **time**
+[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_CORE",
+    "error_description": "Не введено название раздела.\u003Cbr\u003E"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Cообщение об ошибке** | **Описание** ||
+|| `ERROR_CORE` | Не введено название раздела.\u003Cbr\u003E | Не заполнен обязательный параметр `NAME` ||
+|| `ERROR_CORE` | В структуре компании должен быть только один раздел верхнего уровня | Неверно указан параметр `PARENT` ||
+|| `ERROR_CORE` | Access denied | Недостаточно прав для добавления отдела ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./department-update.md)
+- [{#T}](./department-get.md)
+- [{#T}](./department-delete.md)
+- [{#T}](./department-fields.md)
