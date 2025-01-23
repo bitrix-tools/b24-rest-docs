@@ -1,0 +1,13 @@
+title: Шаблоны бизнес-процессов
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить шаблон
+    href: bizproc-workflow-template-add.md
+  - name: Обновить шаблон
+    href: bizproc-workflow-template-update.md
+  - name: Получить список шаблонов
+    href: bizproc-workflow-template-list.md
+  - name: Удалить шаблон
+    href: bizproc-workflow-template-delete.md
