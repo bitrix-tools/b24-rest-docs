@@ -1,7 +1,7 @@
 title: Настройки видимости полей
 href: index.md
 items: 
-  - name: Настройки видимости полей
+  - name: Обзор методов
     href: index.md
   - name: Получить полный набор настроек видимости полей
     href: rpa-fields-get-settings.md

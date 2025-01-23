@@ -1,63 +1,68 @@
 # Установить полный набора настроек видимости полей rpa.fields.setSettings
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствует таблица fields
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `rpa.fields.setSettings` устанавливает полный набор настроек видимости полей на стадии с идентификатором stageId процесса с идентификатором typeId.
+Метод устанавливает полный набор настроек видимости полей на стадии с идентификатором `stageId` процесса с идентификатором `typeId`.
+
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **typeId**^*^ 
-[`number`](../../../data-types.md) | Идентификатор процесса. ||
+|| **typeId*** 
+[`number`](../../../data-types.md) | Идентификатор процесса ||
 || **stageId** 
-[`number`](../../../data-types.md) | Идентификатор стадии. По умолчанию 0 (общие настройки). ||
-|| **fields**^*^ 
-[`array`](../../../data-types.md) | Массив с настройками видимости полей. Если передать пустой fields, то все настройки будут стерты. ||
+[`number`](../../../data-types.md) | Идентификатор стадии.
+
+По умолчанию имеет значение `0`, то есть — общие настройки ||
+|| **fields*** 
+[`object`](../../../data-types.md) | Массив с настройками видимости полей.
+
+Если передать пустой `fields` — все настройки будут стерты ||
 |#
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+## Примеры кода
 
-## Пример
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
 
-    ```json
-    {
-        "typeId": 1,
-        "fields": {
-            "kanban": [
-                "createdBy",
-                "UF_RPA_1_NAME"
-            ]
+    ```js
+    BX24.callMethod(
+        'rpa.comment.add',
+        {
+            "typeId": 1,
+            "fields": {
+                "kanban": [
+                    "createdBy",
+                    "UF_RPA_1_NAME"
+                ]
+            }
+        },
+        function(result) {
+            console.log('response', result.answer);
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+            console.log(result.data());
         }
-    }
+    )
     ```
 
 {% endlist %}
 
-Метод вернет результат аналогичный запросу  `rpa.fields.getSettings`.
+## Обработка ответа
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+Метод вернет результат аналогичный запросу [rpa.fields.getSettings](./rpa-fields-get-settings.md).
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./rpa-fields-get-settings.md)
+- [{#T}](./rpa-fields-set-visibility-settings.md)

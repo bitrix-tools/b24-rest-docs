@@ -1,13 +1,13 @@
 title: Задания
 href: index.md
 items: 
-  - name: Задания
+  - name: Обзор методов
     href: index.md
-  - name: Удалить робота из процесса
-    href: rpa-task-delete.md
   - name: Добавить пользователя к существующему заданию
     href: rpa-task-add-user.md
-  - name: Метод выполнения задания
+  - name: Удалить робота из процесса
+    href: rpa-task-delete.md
+  - name: Выполнить задание
     href: rpa-task-do.md
 
 
