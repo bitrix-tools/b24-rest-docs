@@ -134,9 +134,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.type.add](./types/crm-activity-type-add.md) | Регистрирует новый подтип дел ||
-|| [crm.activity.type.list](./types/crm-activity-type-list.md) | Возвращает список подтипов дел ||
-|| [crm.activity.type.delete](./types/crm-activity-type-delete.md) | Удаляет подтип дел ||
+|| [crm.activity.type.add](./types/crm-activity-type-add.md) | Регистрирует пользовательский тип дела с указанием названия и иконки ||
+|| [crm.activity.type.list](./types/crm-activity-type-list.md) | Получает список дел ||
+|| [crm.activity.type.delete](./types/crm-activity-type-delete.md) | Удаляет пользовательский тип ||
 |#
 
 ### Универсальное дело
