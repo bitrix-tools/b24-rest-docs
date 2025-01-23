@@ -11,14 +11,10 @@ items:
     href: bizproc-workflow-terminate.md
   - name: Удалить активный процесс
     href: bizproc-workflow-kill.md
-  - name: Добавить шаблон
-    href: bizproc-workflow-template-add.md
-  - name: Изменить шаблон
-    href: bizproc-workflow-template-update.md
-  - name: Получить список шаблонов
-    href: bizproc-workflow-template-list.md
-  - name: Удалить шаблон
-    href: bizproc-workflow-template-delete.md
+  - name: Шаблоны
+    include:
+      path: template/b24-toc.yaml
+      mode: link
   - name: Задания
     include:
       path: bizproc-task/b24-toc.yaml
