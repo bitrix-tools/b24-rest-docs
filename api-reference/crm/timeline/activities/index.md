@@ -63,7 +63,7 @@
 * [Структура конфигурируемого дела](./structure/layout.md)
 * [Бейджи кофигурируемого дела](./badges/index.md)
 
-Чтобы создать или изменить конфигурируемое дело, используйте группу методов [crm.activity.configurable.*](./crm-activity-configurable-add.md). 
+Чтобы создать или изменить конфигурируемое дело, используйте группу методов [crm.activity.configurable.*](./configurable/crm-activity-configurable-add.md). 
 
 ## Виджеты
 
@@ -152,9 +152,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.configurable.add](./crm-activity-configurable-add.md) | Создает конфигурируемое дело ||
-|| [crm.activity.configurable.update](./crm-activity-configurable-update.md) | Изменяет конфигурируемое дело ||
-|| [crm.activity.configurable.get](./crm-activity-configurable-get.md) | Возвращает информацию о деле по идентификатору  ||
+|| [crm.activity.configurable.add](./configurable/crm-activity-configurable-add.md) | Добавляет новое конфигурируемое дело в таймлайн ||
+|| [crm.activity.configurable.update](./configurable/crm-activity-configurable-update.md) | Обновляет конфигурируемое дело ||
+|| [crm.activity.configurable.get](./configurable/crm-activity-configurable-get.md) | Получает информацию о деле по идентификатору  ||
 |#
 
 ### Бейджи конфигурируемого дела

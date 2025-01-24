@@ -1,0 +1,30 @@
+# Обзор методов
+
+{% if build == 'dev' %}
+
+{% note alert "TO-DO _не выгружается на prod_" %}
+
+- Отсутствует контент
+- Заменить ссылку
+
+{% endnote %}
+
+{% endif %}
+
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: `любой пользователь`
+
+Конфигурируемые дела — это тип дел, создать который можно только из приложения. Для этого типа можно настроить внешний вид карточки дела и ее функционал. Методы работы с пользовательскими типами дел в [таймлайне](https://helpdesk.bitrix24.ru/open/16749348/)
+
+#|
+|| **Метод** | **Описание** ||
+|| [crm.activity.configurable.add](./crm-activity-configurable-add.md) | Добавляет новое конфигурируемое дело в таймлайн ||
+|| [crm.activity.configurable.update](./crm-activity-configurable-update.md) | Обновляет конфигурируемое дело ||
+|| [crm.activity.configurable.get](./crm-activity-configurable-get.md) | Получает информацию о деле ||
+|#
+
+## Дополнительно
+
+- [Таймлайн в элементе CRM](https://helpdesk.bitrix24.ru/open/16749348/)
+- [Универсальное дело в CRM](https://helpdesk.bitrix24.ru/open/21064046/)

@@ -12,11 +12,11 @@ items:
   - name: Добавить универсальное дело
     href: crm-activity-todo-add.md
   - name: Добавить конфигурируемое дело
-    href: crm-activity-configurable-add.md
+    href: configurable/crm-activity-configurable-add.md
   - name: Изменить системное дело
     href: crm-activity-update.md
   - name: Изменить конфигурируемое дело
-    href: crm-activity-configurable-update.md
+    href: configurable/crm-activity-configurable-update.md
   - name: Изменить универсальное дело
     include:
       path: todo-update/b24-toc.yaml
@@ -26,7 +26,7 @@ items:
   - name: Получить дело по ID
     href: crm-activity-get.md
   - name: Получить конфигурируемое дело по ID
-    href: crm-activity-configurable-get.md
+    href: configurable/crm-activity-configurable-get.md
   - name: Получить описание коммуникации
     href: crm-activity-communication-fields.md
   - name: Удалить дело
