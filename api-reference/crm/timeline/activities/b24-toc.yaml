@@ -11,12 +11,12 @@ items:
     href: crm-activity-add.md
   - name: Добавить универсальное дело
     href: crm-activity-todo-add.md
-  - name: Добавить конфигурируемое дело
-    href: configurable/crm-activity-configurable-add.md
   - name: Изменить системное дело
     href: crm-activity-update.md
-  - name: Изменить конфигурируемое дело
-    href: configurable/crm-activity-configurable-update.md
+  - name: Конфигурируемое дело
+    include:
+      path: configurable/b24-toc.yaml
+      mode: link
   - name: Изменить универсальное дело
     include:
       path: todo-update/b24-toc.yaml
@@ -25,8 +25,6 @@ items:
     href: crm-activity-list.md
   - name: Получить дело по ID
     href: crm-activity-get.md
-  - name: Получить конфигурируемое дело по ID
-    href: configurable/crm-activity-configurable-get.md
   - name: Получить описание коммуникации
     href: crm-activity-communication-fields.md
   - name: Удалить дело
@@ -38,14 +36,6 @@ items:
   - name: Пользовательские типы дел
     include:
       path: types/b24-toc.yaml
-      mode: link
-  - name: Бейджи конфигурируемых дел
-    include:
-      path: badges/b24-toc.yaml
-      mode: link
-  - name: Структура конфигурируемого дела
-    include:
-      path: structure/b24-toc.yaml
       mode: link
   - name: Дополнительные контентные блоки
     include:

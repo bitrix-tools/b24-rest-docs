@@ -60,8 +60,8 @@
 
 Конфигурируемые дела — это тип дел, создать который можно только из приложения.  Для этого типа можно настроить внешний вид карточки дела и ее функционал:
 
-* [Структура конфигурируемого дела](./structure/layout.md)
-* [Бейджи кофигурируемого дела](./badges/index.md)
+* [Структура конфигурируемого дела](./configurable/structure/layout.md)
+* [Бейджи кофигурируемого дела](./configurable/badges/index.md)
 
 Чтобы создать или изменить конфигурируемое дело, используйте группу методов [crm.activity.configurable.*](./configurable/crm-activity-configurable-add.md). 
 
@@ -161,10 +161,10 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.badge.add](./badges/crm-activity-badge-add.md) | Создает значок ||
-|| [crm.activity.badge.get](./badges/crm-activity-badge-get.md) | Возвращает информацию о значке ||
-|| [crm.activity.badge.list](./badges/crm-activity-badge-list.md) | Возвращает список всех зарегистрированных значков  ||
-|| [crm.activity.badge.delete](./badges/crm-activity-badge-delete.md) | Удаляет значок ||
+|| [crm.activity.badge.add](./configurable/badges/crm-activity-badge-add.md) | Создает значок ||
+|| [crm.activity.badge.get](./configurable/badges/crm-activity-badge-get.md) | Возвращает информацию о значке ||
+|| [crm.activity.badge.list](./configurable/badges/crm-activity-badge-list.md) | Возвращает список всех зарегистрированных значков  ||
+|| [crm.activity.badge.delete](./configurable/badges/crm-activity-badge-delete.md) | Удаляет значок ||
 |#
 
 ### Дополнительные контентные блоки
