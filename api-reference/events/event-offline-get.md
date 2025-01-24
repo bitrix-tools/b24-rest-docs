@@ -46,22 +46,6 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "filter": {
-            "=MESSAGE_ID": 1,
-            "=EVENT_NAME": "ONCRMLEADADD",
-            ">=ID": 1
-        }
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.offline.get
-    ```
-
 - cURL (OAuth)
 
     ```curl

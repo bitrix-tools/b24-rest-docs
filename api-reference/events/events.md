@@ -27,32 +27,6 @@ BX24.callMethod('events', {});
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    Пример №1
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "SCOPE": "user"
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/events
-    ```
-
-    Пример №2
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "FULL": true
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/events
-    ```
-
 - cURL (OAuth)
 
     Пример №1
