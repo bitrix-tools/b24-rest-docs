@@ -63,7 +63,7 @@ fields:
             fields:
             {
                 "TYPE_ID": '1C',
-                "NAME": "Дело 1с",
+                "NAME": "Дело 1C",
                 'ICON_FILE': document.getElementById('type-icon'), // file input node
                 "IS_CONFIGURABLE_TYPE": "N"
             }
@@ -119,7 +119,8 @@ HTTP-статус: **200**
         "duration": 0.3953571319580078,
         "processing": 0.13033390045166016,
         "date_start": "2025-01-21T13:47:08+02:00",
-        "date_finish": "2025-01-21T13:47:08+02:00"
+        "date_finish": "2025-01-21T13:47:08+02:00",
+        "operating": 0
     }
 }
 ```
