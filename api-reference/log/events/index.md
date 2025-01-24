@@ -1,4 +1,4 @@
-# На добавление сообщения в Ленту новостей
+# События ленты
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -6,28 +6,12 @@
 
 {% endnote %}
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- какие данные передаются в событие
-- не прописаны ссылки на ещё не созданные страницы
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "OnLiveFeedPostAdd" %}
-
-{% include notitle [Скоуп log все](../_includes/scope-log-all.md) %}
-
-{% endnote %}
-
-Событие `OnLiveFeedPostAdd` вызывается после добавления нового поста в Ленту новостей. Прокси к событию [OnAfterSocNetLogAdd](.).
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 #|
-|| **Поле** | **Описание** ||
-|| **ID** | Идентификатор нового сообщения ||
+|| [OnLiveFeedPostAdd](./on-live-feed-post-add.md) | На добавление сообщения в Ленту новостей ||
+|| [OnLiveFeedPostDelete](./on-live-feed-post-delete.md) | На удаление сообщения из Ленты новостей ||
+|| [OnLiveFeedPostUpdate](./on-live-feed-post-update.md) | На редактирование сообщения в Ленте новостей ||
 |#
-{% include [Сноска о параметрах](../../_includes/required.md) %}
