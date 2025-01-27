@@ -634,6 +634,8 @@
 [`datetime`](../data-types.md) | Дата изменения. Только для чтения ||
 || **iblockSectionId**
 [`catalog_section.id`](#catalog_section) | Идентификатор раздела информационного блока ||
+|| **measure**
+[`catalog_measure.id`](#catalog_measure) | Единица измерения ||
 || **previewText**
 [`string`](../data-types.md) | Описание для анонса ||
 || **detailText**

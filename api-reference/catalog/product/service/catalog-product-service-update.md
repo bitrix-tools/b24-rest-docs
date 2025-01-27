@@ -52,6 +52,8 @@
 [`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор основного раздела информационного блока ||
 || **IblockSection**
 [`array`](../../../data-types.md)| Массив со всеми разделами, к которым привязана услуга ||
+|| **measure**
+[`catalog_measure.id`](../../data-types.md#catalog_measure)| Единица измерения ||
 || **previewText**
 [`string`](../../../data-types.md) | Описание для анонса ||
 || **detailText**
