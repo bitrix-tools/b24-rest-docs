@@ -401,5 +401,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-get.md)
 - [{#T}](crm-item-delete.md)
 - [{#T}](crm-item-fields.md)
+- [{#T}](../../../tutorials/tasks/how-to-connect-task-to-spa.md)
 
 [1]: ../data-types.md
