@@ -53,16 +53,6 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"ID":525,"FIELDS":{"NAME":"Вывести время","DESCRIPTION":"Шаблон показывает сообщение с локальным и серверным временем","AUTO_EXECUTE":0}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.workflow.template.update
-    ```
-
 - cURL (OAuth)
 
     ```bash
@@ -168,7 +158,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `ACCESS_DENIED` | Application context required | токен доступа не из приложения ||
+|| `ACCESS_DENIED` | Application context required | Токен доступа не из приложения ||
 || `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
 || `ERROR_TEMPLATE_VALIDATION_FAILURE` | No fields to update. | Не указаны поля для обновления ||
 || `ERROR_TEMPLATE_NOT_FOUND` | Workflow template not found. | Не найден шаблон с заданным `ID` ||

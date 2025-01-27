@@ -1,4 +1,4 @@
-# Обзор методов
+# RPA: обзор методов
 
 > Scope: [`rpa`](../../scopes/permissions.md)
 >

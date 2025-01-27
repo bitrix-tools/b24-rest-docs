@@ -16,3 +16,11 @@
 
 {% endif %}
 
+
+#|
+|| [messageservice.message.status.update](./messageservice-message-status-update.md) | Обновляет статус доставки сообщения ||
+|| [messageservice.sender.add](./messageservice-sender-add.md) | Регистрирует SMS-провайдера или провайдера сообщений ||
+|| [messageservice.sender.delete](./messageservice-sender-delete.md) | Удаляет SMS-провайдера или провайдера сообщений ||
+|| [messageservice.sender.list](./messageservice-sender-list.md) | Получает список SMS-провайдеров или провайдеров сообщений ||
+|| [messageservice.sender.update](./messageservice-sender-update.md) | Обновляет SMS-провайдера ||
+|#

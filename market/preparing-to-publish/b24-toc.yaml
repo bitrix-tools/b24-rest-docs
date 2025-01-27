@@ -15,7 +15,7 @@ items:
     href: requirements-telephony.md
   - name: Требования к готовым сайтам
     href: requirements-sites.md
-  - name: Требования к "Умныем сценариям"
+  - name: Требования к "Умным сценариям"
     href: requirements-smart-scripts.md
   - name: Требования к отчетам BI-Конструктора
     href: requirements-superset.md

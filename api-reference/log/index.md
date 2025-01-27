@@ -2,6 +2,8 @@
 
 С помощью методов и событий REST API [ленты новостей в Битрикс24](https://helpdesk.bitrix24.ru/open/18634548/) вы сможете управлять сообщениями (добавлять, изменять и удалять их), а также добавлять комментарии к сообщениям.
 
+> Быстрый переход: [все методы и события](#all-methods)
+
 ## Частные пользовательские сценарии
 
 Вы сможете автоматически публиковать в Ленте новостей различного рода оперативную информацию:
@@ -38,3 +40,31 @@
 - Как получить [список сообщений](log-blogpost-get.md)
 - Какие [события](events/index.md) доступны
 - Как [добавить комментарий](log-blogcomment-add.md) к сообщению
+
+## Обзор методов и событий {#all-methods}
+
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [log.blogcomment.add](./log-blogcomment-add.md) | Добавляет комментарий к сообщению Ленты новостей ||
+    || [log.blogpost.add](./log-blogpost-add.md) | Добавляет сообщение в Ленту новостей от имени текущего пользователя ||
+    || [log.blogpost.update](./log-blogpost-update.md) | Изменяет сообщение Ленты новостей ||
+    || [log.blogpost.get](./log-blogpost-get.md) | Получает доступные пользователю сообщения Ленты новостей ||
+    || [log.blogpost.getusers.important](./log-blogpost-getusers-important.md) | Просматривает пользователей, прочитавших важное сообщение ||
+    || [log.blogpost.share](./log-blogpost-share.md) | Добавляет получателей в сообщение Ленты новостей ||
+    || [log.blogpost.delete](./log-blogpost-delete.md) | Удаляет сообщение Ленты новостей ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Описание** ||
+    || [OnLiveFeedPostAdd](./events/on-live-feed-post-add.md) | На добавление сообщения в Ленту новостей ||
+    || [OnLiveFeedPostDelete](./events/on-live-feed-post-delete.md) | На удаление сообщения из Ленты новостей ||
+    || [OnLiveFeedPostUpdate](./events/on-live-feed-post-update.md) | На редактирование сообщения в Ленте новостей ||
+    |#
+
+{% endlist %}
