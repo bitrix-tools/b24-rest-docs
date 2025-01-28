@@ -19,3 +19,5 @@ items:
     href: calendar-meeting-status-get.md
   - name: Установить статус участия в событии для текущего пользователя
     href: calendar-meeting-status-set.md
+  - name: Получить занятость пользователей из списка
+    href: calendar-accessibility-get.md 

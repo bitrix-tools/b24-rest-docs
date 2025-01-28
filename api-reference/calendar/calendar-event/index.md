@@ -27,7 +27,7 @@
 - [calendar.event.get](./calendar-event-get.md) — возвращает список любых событий, прошедших и будущих, за указанный период
 - [calendar.event.get.nearest](./calendar-event-get-nearest.md) — возвращает список только будущих событий за указанное количество дней
 
-## Статус участия пользователя в событии
+## Участие пользователя в событии
 Пользователь решает, участвовать в событии или нет. Решение фиксируется в статусе участия и может иметь значение:
 - `Y` — согласен
 - `N` — отказался
@@ -35,20 +35,38 @@
 
 Узнать статус участия текущего пользователя в событии можно методом [calendar.meeting.status.get](./calendar-meeting-status-get.md). Установить статус — методом [calendar.meeting.status.set](./calendar-meeting-status-set.md).
 
-## Обзор методов {#all-methods}
+Метод [calendar.accessibility.get](./calendar-accessibility-get.md) получает занятость пользователей из списка.
+
+## Обзор методов и событий {#all-methods}
 
 > Scope: [`calendar`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-#|
-|| **Метод** | **Описание** ||
-|| [calendar.event.add](./calendar-event-add.md) | Добавить событие ||
-|| [calendar.event.update](./calendar-event-update.md) | Обновить событие ||
-|| [calendar.event.getById](./calendar-event-get-by-id.md) | Получить событие по `id` ||
-|| [calendar.event.get](./calendar-event-get.md) | Получить список событий календаря ||
-|| [calendar.event.getNearest](./calendar-event-get-nearest.md) | Получить список будущих событий ||
-|| [calendar.event.delete](./calendar-event-delete.md) | Удалить событие ||
-|| [calendar.meeting.status.get](./calendar-meeting-status-get.md) | Получить статус участия текущего пользователя в событии ||
-|| [calendar.meeting.status.set](./calendar-meeting-status-set.md) | Установить статус участия в событии для текущего пользователя ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [calendar.event.add](./calendar-event-add.md) | Добавить событие ||
+    || [calendar.event.update](./calendar-event-update.md) | Обновить событие ||
+    || [calendar.event.getById](./calendar-event-get-by-id.md) | Получить событие по `id` ||
+    || [calendar.event.get](./calendar-event-get.md) | Получить список событий календаря ||
+    || [calendar.event.getNearest](./calendar-event-get-nearest.md) | Получить список будущих событий ||
+    || [calendar.event.delete](./calendar-event-delete.md) | Удалить событие ||
+    || [calendar.meeting.status.get](./calendar-meeting-status-get.md) | Получить статус участия текущего пользователя в событии ||
+    || [calendar.meeting.status.set](./calendar-meeting-status-set.md) | Установить статус участия в событии для текущего пользователя ||
+    || [calendar.accessibility.get](./calendar-accessibility-get.md) | Получить занятость пользователей из списка ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [OnCalendarEntryAdd](../events/on-calendar-entry-add.md) | При добавлении события ||
+    || [OnCalendarEntryUpdate](../events/on-calendar-entry-update.md) | При изменении события ||
+    || [OnCalendarEntryDelete](../events/on-calendar-entry-delete.md) | При удалении события ||
+    |#
+
+{% endlist %}
