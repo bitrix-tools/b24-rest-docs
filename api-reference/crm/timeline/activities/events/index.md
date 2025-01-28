@@ -12,4 +12,3 @@
 || [onCrmActivityUpdate](./on-crm-activity-update.md) | При обновлении дела ||
 || [onCrmActivityDelete](./on-crm-activity-delete.md) | При удалении дела ||
 |#
-
