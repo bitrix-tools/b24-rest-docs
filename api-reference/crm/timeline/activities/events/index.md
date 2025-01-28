@@ -1,20 +1,15 @@
-# Список событий
+# Обзор событий
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% note info "" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+Список событий при работе с делом в таймлайне.
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmActivityAdd](./on-crm-activity-add.md) | при создании дела ||
-|| [onCrmActivityUpdate](./on-crm-activity-update.md) | при обновлении дела ||
-|| [onCrmActivityDelete](./on-crm-activity-delete.md) | при удалении дела ||
+|| [onCrmActivityAdd](./on-crm-activity-add.md) | При создании нового дела ||
+|| [onCrmActivityUpdate](./on-crm-activity-update.md) | При обновлении дела ||
+|| [onCrmActivityDelete](./on-crm-activity-delete.md) | При удалении дела ||
 |#
+
