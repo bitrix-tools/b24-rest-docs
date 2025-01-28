@@ -35,7 +35,7 @@
 [FooterDto](./footer.md) |  | Нижняя часть записи с блоком действий | ||
 |#
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}
 
 ### Пример
 
@@ -149,4 +149,4 @@
 [`string`](../../../../data-types.md) | Код иконки | Список доступных кодов можно получить методом [crm.timeline.icon.list](.) ||
 |#
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}

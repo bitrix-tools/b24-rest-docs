@@ -45,9 +45,9 @@
 
 **Текстовые заметки** можно добавлять к делам и комментариям таймлайна и  удалять их. Используйте группу методов [crm.timeline.note.*](./note/index.md).
 
-**Контентные блоки** можно добавлять к комментариям таймлайна и удалять их. Используйте группу методов [crm.timeline.layout.blocks.*](./layout-blocks/index.md). 
+**Контентные блоки** можно добавлять к комментариям таймлайна и удалять их. Используйте группу методов [crm.timeline.layout.blocks.*](./layout-blocks/index.md).
 
-* [Доступные контентные блоки](./activities/structure/body.md#contentblockdto)
+* [Доступные контентные блоки](./activities/configurable/structure/body.md#contentblockdto)
 
 
 ## Обзор методов и событий {#all-methods}

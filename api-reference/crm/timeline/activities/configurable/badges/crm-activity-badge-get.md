@@ -18,7 +18,7 @@
 
 {% endif %}
 
-> Scope: [`crm`](../../../../scopes/permissions.md)
+> Scope: [`crm`](../../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
