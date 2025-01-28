@@ -5,6 +5,7 @@
 ### 28 января, 2025
 
 - Дополнено описание методов по встраиванию приложений: [BX24.placement.info](./api-reference/widgets/ui-interaction/bx24-placement-info.md), [BX24.placement.getInterface](./api-reference/widgets/ui-interaction/bx24-placement-get-interface.md), [BX24.placement.call](./api-reference/widgets/ui-interaction/bx24-placement-call.md) и [BX24.placement.bindEvent](./api-reference/widgets/ui-interaction/bx24-placement-bind-event.md)
+- Обновлена главная страница раздела [Локализация статусов](./api-reference/sale/status-lang/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 27 января, 2025
 
