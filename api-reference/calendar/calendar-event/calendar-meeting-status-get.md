@@ -133,3 +133,4 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./calendar-meeting-status-set.md)
+- [{#T}](./calendar-accessibility-get.md)

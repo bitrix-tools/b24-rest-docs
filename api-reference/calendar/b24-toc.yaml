@@ -17,8 +17,6 @@ items:
     href: calendar-user-settings-get.md
   - name: Установить пользовательские настройки календаря
     href: calendar-user-settings-set.md
-  - name: Получить занятость пользователей из списка
-    href: calendar-accessibility-get.md    
   - name: Встроиться в календарь
     href: calendar-grid-veiw.md
   - name: События календаря

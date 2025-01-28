@@ -5,6 +5,7 @@
 ### 28 января, 2025
 
 - Дополнено описание методов по встраиванию приложений: [BX24.placement.info](./api-reference/widgets/ui-interaction/bx24-placement-info.md), [BX24.placement.getInterface](./api-reference/widgets/ui-interaction/bx24-placement-get-interface.md), [BX24.placement.call](./api-reference/widgets/ui-interaction/bx24-placement-call.md) и [BX24.placement.bindEvent](./api-reference/widgets/ui-interaction/bx24-placement-bind-event.md)
+- Обновлена главная страница раздела [Календарь](./api-reference/calendar/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 27 января, 2025
 
@@ -84,7 +85,7 @@
 
 - Обновлена главная страница раздела [Связь контакта с компаниями](./api-reference/crm/contacts/company/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновлена главная страница раздела [Пользовательские поля компаний](./api-reference/crm/companies/userfields/index.md). Добавили вводную информацию, а также обзор методов и ошибок
-- Обновлена документация по методам календаря [calendar.meeting.status.get](./api-reference/calendar/calendar-event/calendar-meeting-status-get.md), [calendar.meeting.status.set](./api-reference/calendar/calendar-event/calendar-meeting-status-set.md) и [calendar.accessibility.get](./api-reference/calendar/calendar-accessibility-get.md)
+- Обновлена документация по методам календаря [calendar.meeting.status.get](./api-reference/calendar/calendar-event/calendar-meeting-status-get.md), [calendar.meeting.status.set](./api-reference/calendar/calendar-event/calendar-meeting-status-set.md) и [calendar.accessibility.get](./api-reference/calendar/calendar-event/calendar-accessibility-get.md)
 
 ### 20 декабря, 2024
 
