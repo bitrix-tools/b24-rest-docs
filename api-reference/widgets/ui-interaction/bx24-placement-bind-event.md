@@ -1,27 +1,44 @@
 # Установить обработчик события интерфейса BX24.placement.bindEvent
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`placement`](../../scopes/permissions.md)
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `BX24.placement.bindEvent` устанавливает обработчик события интерфейса. Событие  должно быть зарегистрировано на вызывающей стороне, иначе ничего не произойдет.
 
-{% endnote %}
+## Параметры
 
-{% if build == 'dev' %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **event***
+[`string`](../../data-types.md) | Имя события, на которое подписывается обработчик ||
+|| **callback***
+[`callable`](../../data-types.md) | Функция обратного вызова.
 
-- нужны правки под стандарт написания
-- отсутствуют параметры или поля
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
+Обработчик `callback` может получать или не получать данные в зависимости от события, на которое он подписывается. ||
+|#
 
-{% endnote %}
+## Пример кода
 
-{% endif %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-`BX24.placement.bindEvent(event, callback)`
+```js
+BX24.ready(function () {
+    BX24.init(function () {
+        BX24.placement.bindEvent('BackgroundCallCard::initialized', event => {
+            // some code
+        });
 
-Установка обработчика события интерфейса
+        BX24.placement.bindEvent('CallCard::CallStateChanged', (callState) => {
+            console.log(callState);
+        });
+    });
+});
+```
+
+## Продолжите изучение 
+
+- [{#T}](bx24-placement-info.md)
+- [{#T}](bx24-placement-get-interface.md)
+- [{#T}](bx24-placement-call.md)
