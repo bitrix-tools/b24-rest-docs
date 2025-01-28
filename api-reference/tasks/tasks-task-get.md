@@ -151,4 +151,9 @@
 
 {% endlist %}
 
+## Продолжить изучение
+
+- [{#T}](../../tutorials/tasks/how-to-create-task-with-file.md)
+- [{#T}](../../tutorials/tasks/how-to-connect-task-to-spa.md)
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

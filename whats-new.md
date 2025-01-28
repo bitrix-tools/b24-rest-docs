@@ -2,9 +2,14 @@
 
 ## 2025
 
+### 28 января, 2025
+
+- Дополнено описание методов по встраиванию приложений: [BX24.placement.info](./api-reference/widgets/ui-interaction/bx24-placement-info.md), [BX24.placement.getInterface](./api-reference/widgets/ui-interaction/bx24-placement-get-interface.md), [BX24.placement.call](./api-reference/widgets/ui-interaction/bx24-placement-call.md) и [BX24.placement.bindEvent](./api-reference/widgets/ui-interaction/bx24-placement-bind-event.md)
+
 ### 27 января, 2025
 
 - Обновлена главная страница раздела [Кассы](./api-reference/sale/cashbox/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Добавлен новый туториал [Как прикрепить задачу к смарт-процессу](./tutorials/tasks/how-to-connect-task-to-spa.md)
 
 ### 23 января, 2025
 
