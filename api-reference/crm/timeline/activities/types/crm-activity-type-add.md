@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод регистрирует пользовательский тип дела с указанием названия и иконки.
+Метод `crm.activity.type.add` регистрирует пользовательский тип дела с указанием названия и иконки.
 
 ## Параметры метода
 
@@ -14,7 +14,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../../data-types.md#object_type) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления нового пользовательского тип дела в виде структуры:
+[`object`](../../../../data-types.md#object_type) | Значения полей для добавления нового пользовательского типа дела в виде структуры:
 
 ```json
 fields:
@@ -25,6 +25,8 @@ fields:
     "IS_CONFIGURABLE_TYPE": 'значение',
 }
 ```
+
+Подробное описание приведено [ниже](#parametr-fields)
 |#
 
 ### Параметр fields {#parametr-fields}
@@ -35,13 +37,13 @@ fields:
 || **Название**
 `тип` | **Описание** ||
 || **TYPE_ID***
-[`string`](../../../../data-types.md) | Строковое значение типа дела (например, `1C`). При создании дела это поле `PROVIDER_TYPE_ID` ||
+[`string`](../../../../data-types.md) | Строковое значение типа дела, например `1C`. При создании дела это поле `PROVIDER_TYPE_ID` ||
 || **NAME**
-[`string`](../../../../data-types.md) | Название типа дела (например, `Дело 1с` для сделки). По умолчанию пустая строка ||
+[`string`](../../../../data-types.md) | Название типа дела, например `Дело 1с` для сделки. По умолчанию пустая строка ||
 || **ICON_FILE**
 [`attached_diskfile`](../../../../data-types.md) | Файл иконки типа дела, описанный по [правилам](../../../../bx24-js-sdk/how-to-call-rest-methods/files.md) ||
 || **IS_CONFIGURABLE_TYPE**
-[`string`](../../../../data-types.md) | Значение по умолчанию - `N`. Значение `Y` - признак того, что тип будет использоваться для [конфигурируемых дел](.) ||
+[`string`](../../../../data-types.md) | Значение по умолчанию - `N`. Значение `Y` - признак того, что тип будет использоваться для [конфигурируемых дел](../crm-activity-configurable-add.md) ||
 |#
 
 ## Примеры кода
@@ -50,9 +52,25 @@ fields:
 
 {% list tabs %}
 
-- cURL (Webhook)
-
 - cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"TYPE_ID":"1C","NAME":"Дело 1C","ICON_FILE":"@type-icon","IS_CONFIGURABLE_TYPE":"N"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.type.add
+    ```
+
+    После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически.
+    
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"OWNER_TYPE_ID":1,"OWNER_ID":selectedEntityId,"PROVIDER_ID":"REST_APP","PROVIDER_TYPE_ID":"1C","SUBJECT":"Новое дело","COMPLETED":"N","RESPONSIBLE_ID":1,"DESCRIPTION":"Описание нового дела"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.add
+    ```
 
 - JS
 
@@ -76,7 +94,7 @@ fields:
     );
     ```
 
-    После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически. Например,
+    После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически. 
 
     ```js
     BX24.callMethod(
@@ -103,6 +121,54 @@ fields:
     ```
 
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.type.add',
+        [
+            'fields' => [
+                'TYPE_ID' => '1C',
+                'NAME' => 'Дело 1C',
+                'ICON_FILE' => $_FILES['type-icon'], // Assuming file input is handled
+                'IS_CONFIGURABLE_TYPE' => 'N'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+    После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически. 
+
+     ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.add',
+        [
+            'fields' => [
+                'OWNER_TYPE_ID' => 1,
+                'OWNER_ID' => $selectedEntityId, // Assuming this variable is defined
+                'PROVIDER_ID' => 'REST_APP',
+                'PROVIDER_TYPE_ID' => '1C',
+                'SUBJECT' => 'Новое дело',
+                'COMPLETED' => 'N',
+                'RESPONSIBLE_ID' => 1,
+                'DESCRIPTION' => 'Описание нового дела'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+
 
 {% endlist %}
 
@@ -136,7 +202,7 @@ HTTP-статус: **200**
 - `false` — в случае неудачи (произошла ошибка)
 ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -157,6 +223,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
+|| `Access denied! Application context required` | Метод работает только в контексте приложений ||
 || `INVALID_ARG_VALUE` | Не заполнено обязательное поле `TYPE_ID` ||
 || `INVALID_ARG_VALUE` | Пользовательский тип дела с указанным `TYPE_ID` уже существует ||
 |#

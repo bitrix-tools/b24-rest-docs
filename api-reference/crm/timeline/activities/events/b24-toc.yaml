@@ -3,10 +3,10 @@ href: index.md
 items:
   - name: Обзор событий
     href: index.md
-  - name: На создание нового дела
+  - name: При создание нового дела
     href: on-crm-activity-add.md
-  - name: На обновление дела
+  - name: При обновление дела
     href: on-crm-activity-update.md
-  - name:  На удаление дела
+  - name:  При удаление дела
     href: on-crm-activity-delete.md
 

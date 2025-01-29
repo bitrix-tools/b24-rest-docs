@@ -5,6 +5,8 @@
 ### 29 января, 2025
 
 - Добавлен новый туториал [Как создать пользовательское поле в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- Обновлена информация по методам пользовательских типов дел в CRM [crm.activity.type.*](./api-reference/crm/timeline/activities/types/index.md)
+- Обновлена информация по событиям дел в CRM [onCrmActivity*](./api-reference/crm/timeline/activities/events/index.md)
 
 ### 28 января, 2025
 

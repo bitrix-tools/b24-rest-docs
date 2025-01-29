@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод удаляет пользовательский тип дел.
+Метод `crm.activity.type.delete` удаляет пользовательский тип дел.
 
 ## Параметры метода
 
@@ -14,7 +14,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **TYPE_ID***
-[`string`](../../../../data-types.md) | Строковое значение типа дела (например, `1C`) ||
+[`string`](../../../../data-types.md) | Строковое значение типа дела, например `1C` ||
 |#
 
 ## Примеры кода
@@ -23,9 +23,15 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
 - cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TYPE_ID":"1C","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.type.delete
+    ```
 
 - JS
 
@@ -44,6 +50,21 @@
     ```
 
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.type.delete',
+        [
+            'TYPE_ID' => '1C'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
@@ -74,10 +95,10 @@ HTTP-статус: **200**
 || **result**
 [`boolean`](../../../../data-types.md) | Корневой элемент ответа. Содержит:
 - `true` — в случае успеха
-- `false` — в случае неудачи (произошла ошибка)
+- `false` — в случае неудачи
 ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -93,11 +114,12 @@ HTTP-статус: **400**
 
 {% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
+### Возможные коды ошибок 
 
 #|
 || **Код** | **Описание** ||
 || `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
+|| `Access denied! Application context required` | Метод работает только в контексте приложений ||
 || `INVALID_ARG_VALUE` | Пользовательский тип дела с указанным `TYPE_ID` не существует ||
 |#
 
