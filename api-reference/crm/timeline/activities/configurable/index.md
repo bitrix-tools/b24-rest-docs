@@ -22,9 +22,19 @@
 || [crm.activity.configurable.add](./crm-activity-configurable-add.md) | Добавляет новое конфигурируемое дело в таймлайн ||
 || [crm.activity.configurable.update](./crm-activity-configurable-update.md) | Обновляет конфигурируемое дело ||
 || [crm.activity.configurable.get](./crm-activity-configurable-get.md) | Получает информацию о деле ||
+|| [crm.activity.delete](../crm-activity-delete.md) | Удаляет конфигурируемое дело по идентификатору ||
+|| [crm.activity.list](../crm-activity-list.md) | Получает список всех конфигурируемых дел для элемента CRM (с фильтром по `PROVIDER_ID` = `CONFIGURABLE_REST_APP`) ||
 |#
+
+{% note warning %}
+
+Вызов методов `crm.activity.configurable.add`, `crm.activity.configurable.update`, `crm.activity.configurable.get` возможен только в контексте [Rest приложения](https://dev.1c-bitrix.ru/docs/chm_files/app.zip).
+
+{% endnote %}
 
 ## Дополнительно
 
+- [{#T}](./structure/layout.md)
+- [{#T}](./badges/index.md)
 - [Таймлайн в элементе CRM](https://helpdesk.bitrix24.ru/open/16749348/)
 - [Универсальное дело в CRM](https://helpdesk.bitrix24.ru/open/21064046/)
