@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 29 января, 2025
+
+- Добавлен новый туториал [Как создать пользовательское поле в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+
 ### 28 января, 2025
 
 - Дополнено описание методов по встраиванию приложений: [BX24.placement.info](./api-reference/widgets/ui-interaction/bx24-placement-info.md), [BX24.placement.getInterface](./api-reference/widgets/ui-interaction/bx24-placement-get-interface.md), [BX24.placement.call](./api-reference/widgets/ui-interaction/bx24-placement-call.md) и [BX24.placement.bindEvent](./api-reference/widgets/ui-interaction/bx24-placement-bind-event.md)

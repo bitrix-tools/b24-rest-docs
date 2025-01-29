@@ -422,5 +422,6 @@ HTTP-статус: **400**
 - [{#T}](./crm-type-get-by-entity-type-id.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
 
 [1]: ../../../data-types.md

@@ -123,3 +123,7 @@
 - [{#T}](../events/type/on-crm-type-add.md)
 - [{#T}](../events/type/on-crm-type-update.md)
 - [{#T}](../events/type/on-crm-type-delete.md)
+
+## Продолжите изучение
+
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
