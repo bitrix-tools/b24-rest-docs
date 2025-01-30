@@ -133,6 +133,7 @@
 - [{#T}](./body.md)
 - [{#T}](./footer.md)
 - [{#T}](./menu-item.md)
+- [{#T}](./action.md)
 - [{#T}](./field-types.md)
 - [{#T}](./rest-app-layout-dto.md)
 - [{#T}](./examples.md)
