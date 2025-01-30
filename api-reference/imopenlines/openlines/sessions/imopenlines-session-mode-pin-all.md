@@ -1,4 +1,4 @@
-# Забрать все доступные диалоги imopenlines.session.mode.pinAll
+# Закрепить все доступные диалоги за оператором imopenlines.session.mode.pinAll
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
