@@ -6,7 +6,7 @@ items:
   - name: Структура конфигурируемого дела
     include:
       path: structure/b24-toc.yaml
-      mode: link    
+      mode: link
   - name: Бейджи конфигурируемых дел
     include:
       path: badges/b24-toc.yaml
@@ -15,5 +15,5 @@ items:
     href: crm-activity-configurable-add.md
   - name: Обновить конфигурируемое дело
     href: crm-activity-configurable-update.md    
-  - name: Получить информацию о конфигурируемом дело
+  - name: Получить информацию о конфигурируемом деле
     href: crm-activity-configurable-get.md
