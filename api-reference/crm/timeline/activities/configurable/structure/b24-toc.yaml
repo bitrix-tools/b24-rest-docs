@@ -9,6 +9,8 @@ items:
     href: header.md
   - name: Основная контентная область
     href: body.md
+  - name: Контентный блок конфигурируемого дела
+    href: content-block.md    
   - name: Нижняя часть записи
     href: footer.md
   - name: Выпадающее меню нижней части

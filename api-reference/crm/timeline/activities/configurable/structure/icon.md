@@ -27,6 +27,7 @@
 - [{#T}](./layout.md)
 - [{#T}](./header.md)
 - [{#T}](./body.md)
+- [{#T}](./content-block.md)
 - [{#T}](./footer.md)
 - [{#T}](./menu-item.md)
 - [{#T}](./action.md)

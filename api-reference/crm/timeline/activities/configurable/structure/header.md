@@ -9,14 +9,14 @@
 #|
 || **Поле** | **Описание** ||
 || **title^*^**
-[`textWithTranslation`](./field-types.md) | Заголовок записи ||
+[`textWithTranslation`](./field-types.md#textwithtranslation) | Заголовок записи ||
 || **titleAction**
 [`ActionDto`](./action.md) | Действие по нажатию на заголовок записи ||
 || **tags**
-[`TagDto`](#tagdto) | Тег в заголовке записи таймлайна ||
+[`TagDto[]`](#obuekt) | Ассоциативный массив объектов, описывающих теги ||
 |#
 
-## Объект TagDto
+## Объект `TagDto`
 
 Тег в заголовке записи таймлайна.
 
@@ -35,13 +35,13 @@
 #|
 || **Поле** | **Описание** ||
 || **title^*^**
-[`textWithTranslation`](./field-types.md) | Текст тега ||
+[`textWithTranslation`](./field-types.md#textwithtranslation) | Текст тега ||
 || **type^*^**
-[`string`](../../../../data-types.md) | Тип тега. Определяет его внешний вид ||
+[`string`](../../../../data-types.md) | Тип тега, например `warning`. Определяет его внешний вид ||
 || **action**
 [`ActionDto`](./action.md) | Действие по нажатию на тег ||
 || **scope**
-[`string`](../../../../data-types.md) | Область видимости. Где показывать - в мобильном приложении, в вебе или и там и там ||
+[`string`](../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 || **hideIfReadonly**
 [`boolean`](../../../../data-types.md) | Флаг. Скрывает тег, если у пользователя нет доступа на редактирование (по умолчанию `false`) ||
 |#
@@ -62,6 +62,10 @@
 ```json
     "header": {
         "title": "Входящий звонок",
+        "titleAction": {
+            "type": "redirect",
+            "uri": "some.url"
+        },
         "tags": {
             "status2": {
                 "type": "warning",
@@ -76,6 +80,7 @@
 - [{#T}](./layout.md)
 - [{#T}](./icon.md)
 - [{#T}](./body.md)
+- [{#T}](./content-block.md)
 - [{#T}](./footer.md)
 - [{#T}](./menu-item.md)
 - [{#T}](./action.md)
