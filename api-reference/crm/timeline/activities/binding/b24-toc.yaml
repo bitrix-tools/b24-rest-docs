@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Добавить связь дела с элементом CRM
     href: crm-activity-binding-add.md
+  - name: Обновить связь дела с элементом CRM
+    href: crm-activity-binding-move.md
   - name: Получить список связей дела
     href: crm-activity-binding-list.md
   - name: Удалить связь дела с элементом CRM 

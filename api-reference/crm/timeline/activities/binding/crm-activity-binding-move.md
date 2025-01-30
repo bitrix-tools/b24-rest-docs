@@ -1,10 +1,10 @@
-# Добавить связь дела с элементом CRM crm.activity.binding.add
+# Обновить связь дела с элементом CRM crm.activity.binding.move
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод добавляет связь дела с элементом CRM. Привязка дела возможна только к элементу, к которому у текущего пользователя есть доступ на редактирование.
+Метод обновляет связь дела с элементом CRM. Обновление возможно только в том случае, если у текущего пользователя есть доступ на редактирование к элементам CRM, связи с которыми он меняет.
 
 ## Параметры метода
 
@@ -15,10 +15,14 @@
 `тип` | **Описание** ||
 || **activityId***
 [`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне (например, `999`) ||
-|| **entityTypeId***
+|| **sourceEntityTypeId***
+[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../../data-types.md#object_type), к которому привязано дело (например, `2` для сделки) ||
+|| **sourceEntityId***
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязано дело (например, `1`)  ||
+|| **targetEntityTypeId***
 [`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../../data-types.md#object_type), к которому нужно привязать дело (например, `2` для сделки) ||
-|| **entityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому нужно привязать дело (например, `1`)  ||
+|| **targetEntityId***
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому нужно привязать дело (например, `100`)  ||
 |#
 
 ## Примеры кода
@@ -33,8 +37,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"activityId":999, "entityTypeId":2, entityId: "1"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.binding.add
+    -d '{"activityId":999, "sourceEntityTypeId":2, sourceEntityId: "1", "targetEntityTypeId":2, targetEntityId: "100"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.binding.move
     ```
 
 - cURL (OAuth)
@@ -71,7 +75,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true` если связь успешно создана, иначе — `false` ||
+[`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true` если связь успешно изменена, иначе — `false` ||
 || **time**
 [`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -98,6 +102,7 @@ HTTP-статус: **400**
 || `OWNER_NOT_FOUND` | Владелец элемента не найден ||
 || `ACCESS_DENIED` | Недостаточно прав для выполнении операции ||
 || `ACTIVITY_IS_ALREADY_BOUND` | Дело уже привязано к этому элементу ||
+|| `BINDING_NOT_FOUND` | Дело не привязано к указанному элементу ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -106,4 +111,5 @@ HTTP-статус: **400**
 
 - [{#T}](./crm-activity-binding-list.md)
 - [{#T}](./crm-activity-binding-delete.md)
-- [{#T}](./crm-activity-binding-move.md)
+- [{#T}](./crm-activity-binding-add.md)
+
