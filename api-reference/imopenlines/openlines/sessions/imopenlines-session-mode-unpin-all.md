@@ -1,4 +1,4 @@
-# Отдать все свои диалоги imopenlines.session.mode.unpinAll
+# Открепить все диалоги от оператора imopenlines.session.mode.unpinAll
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
