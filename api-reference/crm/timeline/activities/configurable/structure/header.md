@@ -1,75 +1,84 @@
 # Заголовок записи
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Заголовок записи таймлайна `HeaderDto`.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+## Параметры объекта `HeaderDto`
 
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- верно ли указаны типы, отличные от стандартных?
-
-{% endnote %}
-
-{% endif %}
-
-## HeaderDto
-
-Заголовок записи таймлайна.
+{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}
 
 #|
 || **Поле** | **Описание** ||
 || **title^*^**
-[textWithTranslation](./field-types.md) | Заголовок записи ||
+[`textWithTranslation`](./field-types.md) | Заголовок записи ||
 || **titleAction**
-[ActionDto](./action.md) | Действие по нажатию на заголовок записи ||
+[`ActionDto`](./action.md) | Действие по нажатию на заголовок записи ||
 || **tags**
-[TagDto](#tagdto) | Допускается не более двух тегов ||
+[`TagDto`](#tagdto) | Тег в заголовке записи таймлайна ||
 |#
 
-{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}
-
-## TagDto
+## Объект TagDto
 
 Тег в заголовке записи таймлайна.
 
+{% note warning %}
+
+Допускается не более двух тегов.
+
+{% endnote %}
+
 ![](./_images/TagDto_1.png)
+
+### Параметры объекта `TagDto`
+
+{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}
 
 #|
 || **Поле** | **Описание** ||
 || **title^*^**
-[textWithTranslation](./field-types.md) | Текст тега ||
+[`textWithTranslation`](./field-types.md) | Текст тега ||
 || **type^*^**
-[`string`](../../../../data-types.md) | Тип тега. Определяет его внешний вид. ||
+[`string`](../../../../data-types.md) | Тип тега. Определяет его внешний вид ||
 || **action**
-[ActionDto](./action.md) | Действие по нажатию на тег ||
+[`ActionDto`](./action.md) | Действие по нажатию на тег ||
 || **scope**
-[`string`](../../../../data-types.md) | Где показывать. ||
+[`string`](../../../../data-types.md) | Область видимости. Где показывать - в мобильном приложении, в вебе или и там и там ||
 || **hideIfReadonly**
-[`boolean`](../../../../data-types.md) | Скрывать тег, если у пользователя нет доступа на редактирование. По-умолчанию `=false`. ||
+[`boolean`](../../../../data-types.md) | Флаг. Скрывает тег, если у пользователя нет доступа на редактирование (по умолчанию `false`) ||
 |#
-
-{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}
 
 Возможные значения поля **type**:
 
-![](./_images/TagDto_2.png)
-
-- **success** - Зеленый фон
+- **warning** - Жёлтый фон
+- **success** - Зелёный фон
 - **failure** - Красный фон
-- **warning** - Желтый фон
 - **primary** - Голубой фон
 - **secondary** - Серый фон
+- **lavender** - Бледно-лиловый
 
-### Пример
+![Варианты тэгов](./_images/TagDto_2.png)
+
+## Пример объекта
 
 ```json
-{
-    "title": "Внимание! Важно!",
-    "type": "warning"
-}
+    "header": {
+        "title": "Входящий звонок",
+        "tags": {
+            "status2": {
+                "type": "warning",
+                "title": "не расшифрован"
+            }
+        }
+    },
 ```
+
+## Продолжите изучение
+
+- [{#T}](./layout.md)
+- [{#T}](./icon.md)
+- [{#T}](./body.md)
+- [{#T}](./footer.md)
+- [{#T}](./menu-item.md)
+- [{#T}](./action.md)
+- [{#T}](./field-types.md)
+- [{#T}](./rest-app-layout-dto.md)
+- [{#T}](./examples.md)
