@@ -94,7 +94,7 @@ REST приложение может получить только тот наб
 
 HTTP-статус: **200**
 
-Возвращает `object` с ключом `layout`, содержащим в себе [RestAppLayoutDto](../structure/rest-app-layout-dto.md).
+Возвращает `object` с ключом `layout`, содержащим в себе [RestAppLayoutDto](../configurable/structure/rest-app-layout-dto.md).
 
 ```json
 {
