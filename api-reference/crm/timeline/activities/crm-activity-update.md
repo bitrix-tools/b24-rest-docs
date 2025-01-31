@@ -28,8 +28,8 @@
 {% note warning %}
 
 С версии CRM 22.1350.0 метод устарел. Используйте методы универсального дела:
-- [{#T}](./todo-update/crm-activity-todo-update-deadline.md)
-- [{#T}](./todo-update/crm-activity-todo-update-description.md).
+- [{#T}](./todo/crm-activity-todo-update-deadline.md)
+- [{#T}](./todo/crm-activity-todo-update-description.md).
 
 {% endnote %}
 

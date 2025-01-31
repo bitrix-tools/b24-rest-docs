@@ -46,7 +46,7 @@
 
 Универсальные дела — это тип дел с расширенными настройками. В карточке универсального дела можно синхронизировать дело с календарем, выбрать место встречи с клиентом, добавить коллег, выбрать клиента из элемента CRM, разделить дела по цветам, выбрать переговорную. Расширенные настройки доступны сотруднику на стороне Битрикс24.
 
-Для создания универсального используйте метод [crm.activity.todo.add](./crm-activity-todo-add.md). Для изменения крайнего срока дела — метод [crm.activity.todo.updateDeadline](./todo-update/crm-activity-todo-update-deadline.md), для изменения описания дела — [crm.activity.todo.updateDescription](./todo-update/crm-activity-todo-update-description.md). 
+Для создания универсального используйте метод [crm.activity.todo.add](./crm-activity-todo-add.md). Для изменения крайнего срока дела — метод [crm.activity.todo.updateDeadline](./todo/crm-activity-todo-update-deadline.md), для изменения описания дела — [crm.activity.todo.updateDescription](./todo/crm-activity-todo-update-description.md). 
 
    
 {% note tip "Пользовательская документация" %}

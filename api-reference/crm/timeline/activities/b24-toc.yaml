@@ -17,9 +17,9 @@ items:
     href: crm-activity-update.md
   - name: Изменить конфигурируемое дело
     href: crm-activity-configurable-update.md
-  - name: Изменить универсальное дело
+  - name: Универсальное дело
     include:
-      path: todo-update/b24-toc.yaml
+      path: todo/b24-toc.yaml
       mode: link
   - name: Получить список дел
     href: crm-activity-list.md
