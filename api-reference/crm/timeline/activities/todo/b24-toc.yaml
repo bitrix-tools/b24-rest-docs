@@ -1,6 +1,8 @@
 title: Универсальное дело
 href: crm-activity-todo-update-deadline.md
 items:
+  - name: Добавить универсальное дело
+    href: crm-activity-todo-add.md
   - name: Изменить срок
     href: crm-activity-todo-update-deadline.md
   - name: Изменить описание
