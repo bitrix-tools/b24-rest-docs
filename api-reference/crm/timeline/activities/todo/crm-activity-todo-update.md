@@ -62,6 +62,7 @@
     BX24.callMethod(
         "crm.activity.todo.update",
         {
+            id: 999,
             ownerTypeId: 2,
             ownerId: 1,
             deadline: (new Date()),
