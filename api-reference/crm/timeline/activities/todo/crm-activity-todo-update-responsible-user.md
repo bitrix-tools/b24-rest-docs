@@ -1,0 +1,1 @@
+# Обновить ответственного за универсальное дело crm.activity.todo.updateResponsibleUser

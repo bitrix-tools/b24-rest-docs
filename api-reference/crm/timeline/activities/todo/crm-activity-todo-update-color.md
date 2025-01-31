@@ -1,0 +1,1 @@
+# Обновить цвет универсального дела crm.activity.todo.updateColor
