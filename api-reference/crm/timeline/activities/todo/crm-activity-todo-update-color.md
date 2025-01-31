@@ -125,7 +125,7 @@ HTTP-статус: **400**
 || `NOT_FOUND` | Элемент CRM не найден ||
 || `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
 || `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `CAN_NOT_UPDATE_COLOR_COMPLETED_TODO` |Невозможно изменить цвет в закрытом деле ||
+|| `CAN_NOT_UPDATE_COLOR_COMPLETED_TODO` | Невозможно изменить цвет в закрытом деле ||
 || `CAN_NOT_UPDATE_WRONG_COLOR_TODO` | Некорректное значение цвета ||
 |#
 
