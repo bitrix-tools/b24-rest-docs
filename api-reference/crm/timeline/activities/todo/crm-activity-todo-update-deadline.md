@@ -2,45 +2,135 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: `любой пользователь с правом на редактирование элемента CRM, для которого обновляется дело`
 
-Метод меняет дедлайн универсального дела. Результат будет содержать `id` - идентификатор измененного дела.
+Метод меняет дедлайн универсального дела.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **ownerTypeId**
-[`number`](../../../../data-types.md) | Идентификатор типа элемента (справочник доступных типов), к которому относится дело. ||
-|| **ownerId**
-[`number`](../../../../data-types.md) | Идентификатор элемента, к которому относится дело. ||
-|| **id**
-[`number`](../../../../data-types.md) | Идентификатор дела. ||
-|| **value**
-[`string`](../../../../data-types.md) | Новый крайний срок дела. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор обновляемого дела, например  `999` ||
+|| **ownerTypeId***
+[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../../data-types.md#object_type), к которому привязано дело (например, `2` для сделки) ||
+|| **ownerId***
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязано дело (например, `1`) ||
+|| **value***
+[`datetime`](../../../../data-types.md) | Новый крайний срок дела ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- HTTP
+- cURL (Webhook)
 
-    ```http
-    crm.activity.todo.updateDeadline?ownerTypeId=2&ownerId=1&id=1&value=2022-12-12T15:00:00
+    ```bash
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.activity.todo.updateDeadline",
+        {
+            id: 999,
+            ownerTypeId: 2,
+            ownerId: 1,
+            value: nnew Date()
+        }, result => {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
     ```
 
 {% endlist %}
 
+## Обработка ответа
 
-{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
-
-## Ответ в случае успеха
+HTTP-статус: **200**
 
 ```json
 {
     "result": {
-        "id": 243
+        "id": 999
+    },
+    "time": {
+       "start": 1724068028.331234,
+        "finish": 1724068028.726591,
+        "duration": 0.3953571319580078,
+        "processing": 0.13033390045166016,
+        "date_start": "2025-01-21T13:47:08+02:00",
+        "date_finish": "2025-01-21T13:47:08+02:00",
+        "operating": 0
     }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../../data-types.md) | В случае успеха возвращает объект, содержащий целочисленный идентификатор обновлённого дела `id`, в случае ошибки = `null` ||
+|| **time**
+[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "NOT_FOUND",
+    "error_description": "Not found."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `100` | Не переданы обязательные поля ||
+|| `NOT_FOUND` | Элемент CRM не найден ||
+|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
+|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
+|| `WRONG_DATETIME_FORMAT` | Некорректный формат даты || 
+|| `CAN_NOT_UPDATE_COMPLETED_TODO` | Закрытое дело нельзя изменять ||
+|#
+
+{% include [системные ошибки](../../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./crm-activity-todo-add.md)
+- [{#T}](./crm-activity-todo-update.md)
+- [{#T}](./crm-activity-todo-update-description.md)
+- [{#T}](./crm-activity-todo-update-color.md)
+- [{#T}](./crm-activity-todo-update-responsible-user.md)
