@@ -15,3 +15,12 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [im.chat.mute](./im-chat-mute.md) | Отключает уведомления от чата ||
+|| [im.dialog.read.all](./im-dialog-read-all.md) | Устанавливает признак «прочитано» у всех чатов ||
+|| [im.recent.hide](./im-recent-hide.md) | Удаляет чат из списка последних ||
+|| [im.recent.pin](./im-recent-pin.md) | Закрепляет чат в избранном ||
+|| [im.recent.unread](./im-recent-unread.md) | Устанавливает или снимает признак «прочитано» у чата ||
+|#
