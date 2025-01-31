@@ -6,7 +6,7 @@
 
 Метод удаляет шаблон бизнес-процесса. 
 
-С его помощью можно удалить шаблоны, которые были созданы методом [bizproc.workflow.template.add](./bizproc-workflow-template-add.md). Эти шаблоны привязаны к приложению и могут быть удалены только в контексте того же приложения, которым они были созданы.
+С его помощью можно удалить шаблоны, которые были созданы методом [bizproc.workflow.template.add](./bizproc-workflow-template-add.md). Эти шаблоны привязаны к приложению и могут быть удалены только в контексте того же [приложения](../../app-installation/index.md), которым они были созданы.
 
 ## Параметры метода
 
@@ -69,6 +69,25 @@
     print_r($result);
     echo '</PRE>';
     ```
+
+- PHP (B24PhpSdk)
+
+	```php
+	try {
+		$templateId = 123; // Replace with the actual template ID you want to delete
+		$result = $serviceBuilder
+			->getBizProcScope()
+			->template()
+			->delete($templateId);
+		if ($result->isSuccess()) {
+			print("Template with ID {$templateId} deleted successfully.\n");
+		} else {
+			print("Failed to delete template with ID {$templateId}.\n");
+		}
+	} catch (\Throwable $e) {
+		print("An error occurred: " . $e->getMessage() . "\n");
+	}
+	```
 
 {% endlist %}
 
