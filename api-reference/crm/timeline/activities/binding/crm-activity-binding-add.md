@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод добавляет связь дела с элементом CRM. Привязка дела возможна только к элементу, к которому у текущего пользователя есть доступ на редактирование.
+Метод `crm.activity.binding.add` добавляет связь дела с элементом CRM. Привязка дела возможна только к элементу, к которому у текущего пользователя есть доступ на редактирование.
 
 ## Параметры метода
 
@@ -14,11 +14,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **activityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне (например, `999`) ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999` ||
 || **entityTypeId***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../../data-types.md#object_type), к которому нужно привязать дело (например, `2` для сделки) ||
+[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type) к которому нужно привязать дело, например `2` для сделки ||
 || **entityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому нужно привязать дело (например, `1`)  ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM к которому нужно привязать дело, например `1`  ||
 |#
 
 ## Примеры кода
@@ -33,15 +33,58 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"activityId":999, "entityTypeId":2, entityId: "1"}' \
+    -d '{"activityId":999, "entityTypeId":2, "entityId": 1}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.binding.add
     ```
 
 - cURL (OAuth)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"activityId":999, "entityTypeId":2, "entityId": 1, "auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.binding.add
+    ```
+
 - JS
 
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.binding.add',
+        {
+            activityId: 999, // ID дела
+            entityTypeId: 2, // ID типа объекта CRM
+            entityId: 1 // ID элемента CRM
+        },
+        function(result) {
+            if (result.error()) {
+                console.error('Ошибка:', result.error()); 
+            } else {
+                console.log('Результат:', result.data()); 
+            }
+        }
+    );
+    ```
+
 - PHP
+  
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.binding.add',
+        [
+            'activityId' => 999, // ID дела
+            'entityTypeId' => 2, // ID типа объекта CRM
+            'entityId' => 1 // ID элемента CRM
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
@@ -73,7 +116,7 @@ HTTP-статус: **200**
 || **result**
 [`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true` если связь успешно создана, иначе — `false` ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

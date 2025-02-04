@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 4 февраля, 2025
+
+- Обновлена документация по методам привязки дел в таймлайне CRM [crm.activity.binding.*](./api-reference/crm/timeline/activities/binding/index.md)
+
 ### 31 января, 2025
 
 - Обновлена главная страница раздела [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/index.md). Добавили вводную информацию, а также обзор методов и связей

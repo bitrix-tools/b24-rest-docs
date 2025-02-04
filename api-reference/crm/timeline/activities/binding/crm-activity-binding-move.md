@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод обновляет связь дела с элементом CRM. Обновление возможно только в том случае, если у текущего пользователя есть доступ на редактирование к элементам CRM, связи с которыми он меняет.
+Метод `crm.activity.binding.move` обновляет связь дела с элементом CRM. Обновление возможно только в том случае, если у текущего пользователя есть доступ на редактирование к элементам CRM, связи с которыми он меняет.
 
 ## Параметры метода
 
@@ -14,15 +14,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **activityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне (например, `999`) ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999` ||
 || **sourceEntityTypeId***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../../data-types.md#object_type), к которому привязано дело (например, `2` для сделки) ||
+[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
 || **sourceEntityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязано дело (например, `1`)  ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязано дело, например `1`  ||
 || **targetEntityTypeId***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../../data-types.md#object_type), к которому нужно привязать дело (например, `2` для сделки) ||
+[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому нужно привязать дело, например `1` для лида ||
 || **targetEntityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому нужно привязать дело (например, `100`)  ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому нужно привязать дело, например `100`  ||
 |#
 
 ## Примеры кода
@@ -37,15 +37,62 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"activityId":999, "sourceEntityTypeId":2, sourceEntityId: "1", "targetEntityTypeId":2, targetEntityId: "100"}' \
+    -d '{"activityId":999, "sourceEntityTypeId":2, "sourceEntityId": 1, "targetEntityTypeId":1, "targetEntityId": 100}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.binding.move
     ```
 
 - cURL (OAuth)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"activityId":999,"sourceEntityTypeId":2,"sourceEntityId":1,"targetEntityTypeId":1,"targetEntityId":100,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.binding.move
+    ```
+
 - JS
 
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.binding.move',
+        {
+            activityId: 999, // ID дела
+            sourceEntityTypeId: 2, // Тип объекта, к которому дело привязано
+            sourceEntityId: 1, // ID элемента, к которому дело привязано
+            targetEntityTypeId: 1, // Тип объекта, к которому дело будет привязано
+            targetEntityId: 100 // ID элемента, к которому дело будет привязано
+
+        function(result) {
+            if (result.error()) {
+                console.error('Ошибка:', result.error()); 
+            } else {
+                console.log('Результат:', result.data()); 
+            }
+        }
+    );
+    ```
+
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.binding.move',
+        [
+            'activityId' => 999, // ID дела
+            'sourceEntityTypeId' => 2, // Тип объекта, к которому дело привязано
+            'sourceEntityId' => 1, // ID элемента, к которому дело привязано
+            'targetEntityTypeId' => 1, // Тип объекта, к которому дело будет привязано
+            'targetEntityId' => 100 // ID элемента, к которому дело будет привязано
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
@@ -77,7 +124,7 @@ HTTP-статус: **200**
 || **result**
 [`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true` если связь успешно изменена, иначе — `false` ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

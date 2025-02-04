@@ -4,12 +4,12 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод получает список всех связей дела.
+Метод `crm.activity.binding.list` получает список всех связей дела.
 
 Метод вернет массив, элементами которого будут массивы, содержащие:
 
-- `entityTypeId` - целочисленный идентификатор типа сущности CRM ([Справочник доступных типов](../../../data-types.md#object_type),);
-- `entityId` - целочисленный идентификатор элемента CRM
+- `entityTypeId` — целочисленный идентификатор [типа объекта CRM](../../../data-types.md#object_type)
+- `entityId` — целочисленный идентификатор элемента CRM
 
 Результат будет содержать только элементы, к которым у текущего пользователя есть доступ на чтение.
 
@@ -21,7 +21,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **activityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне (например, `999`) ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999` ||
 |#
 
 ## Примеры кода
@@ -42,9 +42,48 @@
 
 - cURL (OAuth)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"activityId":999,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.binding.list
+    ```
+
 - JS
 
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.binding.list',
+        {
+            activityId: 999 // ID дела
+        },
+        function(result) {
+            if (result.error()) {
+                console.error('Ошибка:', result.error()); 
+            } else {
+                console.log('Результат:', result.data()); 
+            }
+        }
+    );
+    ```
+
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.binding.list',
+        [
+            'activityId' => 999 // ID дела
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
@@ -89,11 +128,11 @@ HTTP-статус: **200**
 || **result**
 [`array`](../../../../data-types.md) | Результат операции. Возвращает массив, элементами которого будут массивы, содержащие:
 
-- `entityTypeId` - целочисленный идентификатор типа сущности CRM ([Справочник доступных типов](../../../data-types.md#object_type),);
-- `entityId` - целочисленный идентификатор элемента CRM
+- `entityTypeId` —  целочисленный идентификатор [типа объекта CRM](../../../data-types.md#object_type)
+- `entityId` — целочисленный идентификатор элемента CRM
 ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
