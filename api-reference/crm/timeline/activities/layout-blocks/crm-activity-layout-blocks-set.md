@@ -26,7 +26,7 @@
 || **activityId***
 [`integer`](../../../../data-types.md) | Идентификатор дела ||
 || **layout***
-[`RestAppLayoutDto`](../structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||
+[`RestAppLayoutDto`](../configurable/structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||
 |#
 
 ## Примеры кода

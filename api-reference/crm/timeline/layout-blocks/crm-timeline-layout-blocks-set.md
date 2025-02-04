@@ -27,7 +27,7 @@
 || **activityId***
 [`integer`](../../../data-types.md) | Идентификатор записи таймлайна ||
 || **layout***
-[`RestAppLayoutDto`](../activities/structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||
+[`RestAppLayoutDto`](../activities/configurable/structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||
 |#
 
 ## Примеры кода

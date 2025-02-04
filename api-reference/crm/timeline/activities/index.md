@@ -60,10 +60,10 @@
 
 Конфигурируемые дела — это тип дел, создать который можно только из приложения.  Для этого типа можно настроить внешний вид карточки дела и ее функционал:
 
-* [Структура конфигурируемого дела](./structure/layout.md)
-* [Бейджи кофигурируемого дела](./badges/index.md)
+* [Структура конфигурируемого дела](./configurable/structure/layout.md)
+* [Бейджи кофигурируемого дела](./configurable/badges/index.md)
 
-Чтобы создать или изменить конфигурируемое дело, используйте группу методов [crm.activity.configurable.*](./crm-activity-configurable-add.md). 
+Чтобы создать или изменить конфигурируемое дело, используйте группу методов [crm.activity.configurable.*](./configurable/crm-activity-configurable-add.md). 
 
 ## Виджеты
 
@@ -84,7 +84,7 @@
 
 **Контентные блоки** можно добавлять к делам и удалять их. Используйте группу методов [crm.activity.layout.blocks.*](./layout-blocks/index.md). 
 
- * [Доступные контентные блоки](./structure/body.md#contentblockdto)
+ * [Доступные контентные блоки](./configurable/structure/body.md#contentblockdto)
 
 ## Обзор методов и событий {#all-methods}
 
@@ -152,19 +152,19 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.configurable.add](./crm-activity-configurable-add.md) | Создает конфигурируемое дело ||
-|| [crm.activity.configurable.update](./crm-activity-configurable-update.md) | Изменяет конфигурируемое дело ||
-|| [crm.activity.configurable.get](./crm-activity-configurable-get.md) | Возвращает информацию о деле по идентификатору  ||
+|| [crm.activity.configurable.add](./configurable/crm-activity-configurable-add.md) | Добавляет новое конфигурируемое дело в таймлайн ||
+|| [crm.activity.configurable.update](./configurable/crm-activity-configurable-update.md) | Обновляет конфигурируемое дело ||
+|| [crm.activity.configurable.get](./configurable/crm-activity-configurable-get.md) | Получает информацию о деле по идентификатору  ||
 |#
 
 ### Бейджи конфигурируемого дела
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.badge.add](./badges/crm-activity-badge-add.md) | Создает значок ||
-|| [crm.activity.badge.get](./badges/crm-activity-badge-get.md) | Возвращает информацию о значке ||
-|| [crm.activity.badge.list](./badges/crm-activity-badge-list.md) | Возвращает список всех зарегистрированных значков  ||
-|| [crm.activity.badge.delete](./badges/crm-activity-badge-delete.md) | Удаляет значок ||
+|| [crm.activity.badge.add](./configurable/badges/crm-activity-badge-add.md) | Создает значок ||
+|| [crm.activity.badge.get](./configurable/badges/crm-activity-badge-get.md) | Возвращает информацию о значке ||
+|| [crm.activity.badge.list](./configurable/badges/crm-activity-badge-list.md) | Возвращает список всех зарегистрированных значков  ||
+|| [crm.activity.badge.delete](./configurable/badges/crm-activity-badge-delete.md) | Удаляет значок ||
 |#
 
 ### Дополнительные контентные блоки
