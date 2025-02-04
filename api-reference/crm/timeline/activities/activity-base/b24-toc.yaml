@@ -3,19 +3,20 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Поля дела CRM
-    href: fields.md
-  - name: Получить список полей дела
-    href: crm-activity-fields.md
   - name: Добавить системное дело
     href: crm-activity-add.md
   - name: Изменить системное дело
     href: crm-activity-update.md
+  - name: Получить дело по идентификатору
+    href: crm-activity-get.md
   - name: Получить список дел
     href: crm-activity-list.md
-  - name: Получить дело по ID
-    href: crm-activity-get.md
+  - name: Удалить дело
+    href: crm-activity-delete.md        
+  - name: Поля дела CRM
+    href: fields.md
+  - name: Получить список полей дела
+    href: crm-activity-fields.md
   - name: Получить описание коммуникации
     href: crm-activity-communication-fields.md
-  - name: Удалить дело
-    href: crm-activity-delete.md         
+     

@@ -23,12 +23,12 @@
 #|
 || **Поле** | **Описание** | **Примечание** ||
 || **ASSOCIATED_ENTITY_ID**
-[`integer`](../../../data-types.md) | Идентификатор связанной с делом сущности | Только для чтения ||
+[`integer`](../../../../data-types.md) | Идентификатор связанной с делом сущности | Только для чтения ||
 || **AUTHOR_ID**
-[`user`](../../../data-types.md)
-| Создатель дела | ||
+[`integer`](../../../../data-types.md)
+| ID Создатель дела | ||
 || **AUTOCOMPLETE_RULE**
-[`integer`](../../../data-types.md) | Автозаполнение | ||
+[`integer`](../../../../data-types.md) | Автозаполнение | ||
 || **BINDINGS**
 [`crm_activity_binding`](../../../data-types.md) | Привязки | Множественное, только для чтения. ||
 || **COMMUNICATIONS**
@@ -118,7 +118,7 @@
 #|
 || **Поле** | **Описание** ||
 || **typeId**
-[`unknown`](../../../data-types.md) | Тип конфигурируемого дела. Если не указано, то устанавливается значение по умолчанию `CONFIGURABLE`. Если указано, то значение должно соответствовать одному из типов, созданных методом [crm.activity.type.add](./types/crm-activity-type-add.md) с полем IS_CONFIGURABLE_TYPE равным `Y` в контексте того же rest-приложения. ||
+[`unknown`](../../../data-types.md) | Тип конфигурируемого дела. Если не указано, то устанавливается значение по умолчанию `CONFIGURABLE`. Если указано, то значение должно соответствовать одному из типов, созданных методом [crm.activity.type.add](../types/crm-activity-type-add.md) с полем IS_CONFIGURABLE_TYPE равным `Y` в контексте того же rest-приложения. ||
 || **completed**
 [`boolean`](../../../data-types.md) | Закрыто ли дело. Для установки значения можно использовать: Y/N,1/0, true/false. ||
 || **deadline**
@@ -130,7 +130,7 @@
 || **responsibleId**
 [`user`](../../../data-types.md) | Ответственный. ||
 || **badgeCode**
-[`string`](../../../data-types.md) | Код значка на канбане, соответствующего делу (смотри [crm.activity.badge.list](./configurable/badges/crm-activity-badge-list.md)). ||
+[`string`](../../../data-types.md) | Код значка на канбане, соответствующего делу (смотри [crm.activity.badge.list](../configurable/badges/crm-activity-badge-list.md)). ||
 || **originatorId**
 [`string`](../../../data-types.md) | Идентификатор источника данных. ||
 || **originId**

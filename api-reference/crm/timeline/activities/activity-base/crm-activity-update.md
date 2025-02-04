@@ -21,15 +21,15 @@
 
 {% endif %}
 
-> Scope: [`crm`](../../../scopes/permissions.md)
+> Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
 {% note warning %}
 
 С версии CRM 22.1350.0 метод устарел. Используйте методы универсального дела:
-- [{#T}](./todo-update/crm-activity-todo-update-deadline.md)
-- [{#T}](./todo-update/crm-activity-todo-update-description.md).
+- [{#T}](../todo-update/crm-activity-todo-update-deadline.md)
+- [{#T}](../todo-update/crm-activity-todo-update-description.md).
 
 {% endnote %}
 
@@ -40,9 +40,9 @@
 #|
 || **Параметр** | **Описание** ||
 || **id**
-[`unknown`](../../../data-types.md) | Идентификатор дела. ||
+[`unknown`](../../../../data-types.md) | Идентификатор дела. ||
 || **fields**
-[`array`](../../../data-types.md) | Набор полей - массив вида array("обновляемое поле"=>"значение"[, ...]), где "обновляемое поле" может принимать значения из возвращаемых методом [crm.activity.fields](./crm-activity-fields.md). 
+[`array`](../../../../data-types.md) | Набор полей - массив вида array("обновляемое поле"=>"значение"[, ...]), где "обновляемое поле" может принимать значения из возвращаемых методом [crm.activity.fields](./crm-activity-fields.md). 
 
 {% note info %}
 
@@ -93,4 +93,4 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}

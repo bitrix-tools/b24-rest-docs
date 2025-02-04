@@ -20,7 +20,7 @@
 
 {% endif %}
 
-> Scope: [`crm`](../../../scopes/permissions.md)
+> Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -31,7 +31,7 @@
 #|
 || **Параметр** | **Описание** ||
 || **id**
-[`unknown`](../../../data-types.md) | Идентификатор дела. ||
+[`unknown`](../../../../data-types.md) | Идентификатор дела. ||
 |#
 
 ## Примеры
@@ -74,4 +74,4 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
