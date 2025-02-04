@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Добавить системное дело
     href: crm-activity-add.md
-  - name: Изменить системное дело
+  - name: Обновить системное дело
     href: crm-activity-update.md
   - name: Получить дело по идентификатору
     href: crm-activity-get.md
