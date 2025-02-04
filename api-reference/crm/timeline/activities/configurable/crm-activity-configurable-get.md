@@ -4,11 +4,11 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод возвращает информацию о конфигурируемом деле. 
+Метод `crm.activity.configurable.get` возвращает информацию о конфигурируемом деле. 
 
 {% note warning %}
 
-Вызов метода возможен только в контексте [Rest приложения](https://dev.1c-bitrix.ru/docs/chm_files/app.zip).
+Вызов метода возможен только в контексте [приложения](https://helpdesk.bitrix24.ru/examples/app.zip).
 
 {% endnote %}
 
@@ -20,7 +20,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор дела] (например, `999`) ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела, например `999` ||
 |#
 
 ## Примеры кода
@@ -29,9 +29,15 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
 - cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":999,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.configurable.get
+    ```
 
 - JS
 
@@ -40,16 +46,32 @@
         "crm.activity.configurable.get",
         {
             id: 999,
-        }, result => {
+        }, 
+        result => {
             if (result.error())
                 console.error(result.error());
             else
                 console.dir(result.data());
         }    
-);
+    );
     ```
 
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.configurable.get',
+        [
+            'id' => 999
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
@@ -192,9 +214,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | Корневой элемент ответа - ассоциативный массив с ключом **activity**, в котором будет содержаться [поля](./crm-activity-configurable-add.md#параметры-метода) ||
+[`object`](../../../../data-types.md) | Корневой элемент ответа - ассоциативный массив с ключом **activity**, в котором будет содержаться [поля](./crm-activity-configurable-add.md#parametr-fields) ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -216,7 +238,7 @@ HTTP-статус: **400**
 || **Код** | **Описание** ||
 || `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
 || `NOT_FOUND` | Элемент не найден ||
-|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения ||
+|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте приложения ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}

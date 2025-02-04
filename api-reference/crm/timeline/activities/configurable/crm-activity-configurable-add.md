@@ -4,11 +4,11 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод добавляет конфигурируемое дело в таймлайн. 
+Метод `crm.activity.configurable.add` добавляет конфигурируемое дело в таймлайн. 
 
 {% note warning %}
 
-Вызов метода возможен только в контексте [Rest приложения](https://dev.1c-bitrix.ru/docs/chm_files/app.zip).
+Вызов метода возможен только в контексте [приложения](https://helpdesk.bitrix24.ru/examples/app.zip).
 
 {% endnote %}
 
@@ -20,9 +20,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **ownerTypeId***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../../data-types.md#object_type), к которому привязан комментарий (например, `2` для сделки) ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор [типа собъекта CRM](../../../data-types.md#object_type), в котором создаем дело, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязан комментарий (например, `1`) ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, в котором создаем дело, например `1` ||
 || **fields***
 [`array`](../../../../data-types.md) | Ассоциативный массив значений [полей дела](#parametr-fields) в виде структуры:
 ```json
@@ -52,7 +52,7 @@ fields:
 || **Название**
 `тип` | **Описание** ||
 || **typeId**
-[`string`](../../../../data-types.md) | Тип конфигурируемого дела. Если значение не указано, то оно устанавливается в значение по умолчанию `CONFIGURABLE`. Если указано, то значение должно соответствовать одному из типов, созданных методом [crm.activity.type.add](../types/crm-activity-type-add.md) с полем IS_CONFIGURABLE_TYPE равным "Y" в контексте того же rest-приложения) ||
+[`string`](../../../../data-types.md) | Тип конфигурируемого дела. Если значение не указано, то оно устанавливается в значение по умолчанию `CONFIGURABLE`. Если указано, то значение должно соответствовать одному из типов, созданных методом [crm.activity.type.add](../types/crm-activity-type-add.md) с полем `IS_CONFIGURABLE_TYP0`E равным `Y` в контексте того же приложения ||
 || **completed**
 [`boolean`](../../../../data-types.md) | Флаг, говорящий закрыто ли дело. Для установки значения можно использовать `Y/N`, `1/0`, `true/false` ||
 || **deadline**
@@ -64,7 +64,7 @@ fields:
 || **responsibleId**
 [`integer`](../../../../data-types.md) | Ответственный за дело ||
 || **badgeCode**
-[`string`](../../../../data-types.md) | Код значка на канбане, соответствующего делу (подробнее [crm.activity.badge.list](./badges/crm-activity-badge-list.md)) ||
+[`string`](../../../../data-types.md) | Код [значка на канбане](./badges/crm-activity-badge-list.md), соответствующего делу ||
 || **originatorId**
 [`string`](../../../../data-types.md) | Идентификатор источника данных ||
 || **originId**
@@ -77,9 +77,15 @@ fields:
 
 {% list tabs %}
 
-- cURL (Webhook)
-
 - cURL (OAuth)
+  
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ownerTypeId":1,"ownerId":999,"fields":{"typeId":"CONFIGURABLE","completed":true,"deadline":"**put_current_date_time_here**","pingOffsets":[60,300],"isIncomingChannel":"N","responsibleId":1,"badgeCode":"CUSTOM"},"layout":{"icon":{"code":"call-completed"},"header":{"title":"Входящий звонок"},"body":{"logo":{"code":"call-incoming"},"blocks":{"responsible":{"type":"lineOfBlocks","properties":{"blocks":{"client":{"type":"link","properties":{"text":"Сергей Востриков","bold":true,"action":{"type":"redirect","uri":"/crm/lead/details/789/"}}},"phone":{"type":"text","properties":{"value":"+7 999 888 7777"}}}}}}},"footer":{"buttons":{"startCall":{"title":"О клиенте","action":{"type":"openRestApp","actionParams":{"clientId":456}},"type":"primary"}}}},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.configurable.add
+    ```
 
 - JS
 
@@ -159,10 +165,92 @@ fields:
             else
                 console.dir(result.data());
         }    
-);
+    );
     ```
 
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.configurable.add',
+        [
+            'ownerTypeId' => 1,
+            'ownerId' => 999,
+            'fields' => [
+                'typeId' => 'CONFIGURABLE',
+                'completed' => true,
+                'deadline' => date('c'), // Используем текущую дату и время в формате ISO 8601
+                'pingOffsets' => [60, 300],
+                'isIncomingChannel' => 'N',
+                'responsibleId' => 1,
+                'badgeCode' => 'CUSTOM',
+            ],
+            'layout' => [
+                'icon' => [
+                    'code' => 'call-completed'
+                ],
+                'header' => [
+                    'title' => 'Входящий звонок'
+                ],
+                'body' => [
+                    'logo' => [
+                        'code' => 'call-incoming'
+                    ],
+                    'blocks' => [
+                        'responsible' => [
+                            'type' => 'lineOfBlocks',
+                            'properties' => [
+                                'blocks' => [
+                                    'client' => [
+                                        'type' => 'link',
+                                        'properties' => [
+                                            'text' => 'Сергей Востриков',
+                                            'bold' => true,
+                                            'action' => [
+                                                'type' => 'redirect',
+                                                'uri' => '/crm/lead/details/789/'
+                                            ]
+                                        ]
+                                    ],
+                                    'phone' => [
+                                        'type' => 'text',
+                                        'properties' => [
+                                            'value' => '+7 999 888 7777'
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'footer' => [
+                    'buttons' => [
+                        'startCall' => [
+                            'title' => 'О клиенте',
+                            'action' => [
+                                'type' => 'openRestApp',
+                                'actionParams' => [
+                                    'clientId' => 456
+                                ]
+                            ],
+                            'type' => 'primary'
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    );
+
+    if (isset($result['error'])) {
+        echo 'Ошибка: ' . $result['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result['result']);
+        echo '</PRE>';
+    }
+    ```
 
 {% endlist %}
 
@@ -184,6 +272,7 @@ HTTP-статус: **200**
         "date_start": "2025-01-21T13:47:08+02:00",
         "date_finish": "2025-01-21T13:47:08+02:00",
         "operating": 0
+        }
     }
 }
 ```
@@ -196,7 +285,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../../data-types.md) | Корневой элемент ответа, содержащий информацию о добавленном идентифокаторе дела `id` в случае успеха. В случае неудачи вернёт `null` ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -218,7 +307,7 @@ HTTP-статус: **400**
 || **Код** | **Описание** ||
 || `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
 || `100` | Не заполнены обязательные поля ||
-|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения ||
+|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте приложения ||
 || `ERROR_WRONG_APPLICATION` | Обновить дело может только приложение, которое его создало ||
 || `WRONG_FIELD_VALUE` | Некорректное значение поля ||
 || `INCOMING_ACTIVITY_CAN_NOT_BE_WITH_DEADLINE` | Входящее дело не может иметь крайний срок ||

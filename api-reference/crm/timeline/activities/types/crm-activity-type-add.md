@@ -43,7 +43,7 @@ fields:
 || **ICON_FILE**
 [`attached_diskfile`](../../../../data-types.md) | Файл иконки типа дела, описанный по [правилам](../../../../bx24-js-sdk/how-to-call-rest-methods/files.md) ||
 || **IS_CONFIGURABLE_TYPE**
-[`string`](../../../../data-types.md) | Значение по умолчанию - `N`. Значение `Y` - признак того, что тип будет использоваться для [конфигурируемых дел](../crm-activity-configurable-add.md) ||
+[`string`](../../../../data-types.md) | Значение по умолчанию - `N`. Значение `Y` - признак того, что тип будет использоваться для [конфигурируемых дел](../configurable/crm-activity-configurable-add.md) ||
 |#
 
 ## Примеры кода
