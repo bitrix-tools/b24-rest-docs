@@ -2,9 +2,9 @@
 
 > Scope: [`crm`](../../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `пользователи с административным доступом к разделу crm`
+> Кто может выполнять метод: пользователи с административным доступом к разделу crm
 
-Метод удаляет бейдж.
+Метод `crm.activity.badge.delete` удаляет бейдж.
 
 ## Параметры метода
 
@@ -22,11 +22,19 @@
 {% include [Сноска о примерах](../../../../../../_includes/examples.md) %}
 
 {% list tabs %}
-- cURL (Webhook)
 
 - cURL (OAuth)
+  
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"code":"missedCall","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.badge.delete
+    ```
 
 - JS
+  
     ```js
     BX24.callMethod(
         "crm.activity.badge.delete",
@@ -38,9 +46,25 @@
             else
                 console.dir(result.data());
         }    
-);
+    );
     ```
+
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.badge.delete',
+        [
+            'code' => 'missedCall'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
@@ -74,7 +98,7 @@ HTTP-статус: **200**
 - `null` — в случае неудачи (произошла ошибка)
 ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 5 февраля, 2025
+
+- Обновлена документация по методам, структуре и бейджам конфигурируемых дел в CRM [crm.activity.configurable.*](./api-reference/crm/timeline/activities/configurable/index.md)
+
 ### 4 февраля, 2025
 
 - Обновлена документация по методам привязки дел в таймлайне CRM [crm.activity.binding.*](./api-reference/crm/timeline/activities/binding/index.md)

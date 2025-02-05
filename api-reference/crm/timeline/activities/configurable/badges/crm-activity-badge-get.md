@@ -2,9 +2,9 @@
 
 > Scope: [`crm`](../../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: любой пользователь
 
-Метод вернет массив, содержащий [поля бейджа](./index.md#поля-записи-о-бейдже), то есть информацию о бейдже.
+Метод `crm.activity.badge.get` вернет массив, содержащий [поля бейджа](./index.md#поля-записи-о-бейдже).
 
 ## Параметры метода
 
@@ -21,11 +21,19 @@
 {% include [Сноска о примерах](../../../../../../_includes/examples.md) %}
 
 {% list tabs %}
-- cURL (Webhook)
 
 - cURL (OAuth)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"code":"missedCall","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.badge.get
+    ```
+
 - JS
+  
     ```js
     BX24.callMethod(
         "crm.activity.badge.get",
@@ -37,9 +45,25 @@
             else
                 console.dir(result.data());
         }    
-);
+    );
     ```
+
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.badge.get',
+        [
+            'code' => 'missedCall'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
@@ -75,9 +99,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | Корневой элемент ответа, содержащий информацию о бейдже в случае успеха. В случае неудачи вернёт `null` ||
+[`object`](../../../../data-types.md) | Корневой элемент ответа, содержащий информацию о бейдже в случае успеха. В случае неудачи вернет `null` ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

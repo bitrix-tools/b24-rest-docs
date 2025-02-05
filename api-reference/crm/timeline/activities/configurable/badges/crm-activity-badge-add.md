@@ -2,9 +2,9 @@
 
 > Scope: [`crm`](../../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `пользователи с административным доступом к разделу crm`
+> Кто может выполнять метод: пользователи с административным доступом к разделу crm
 
-Метод добавляет новый бейдж для конфигурируемого дела.
+Метод `crm.activity.badge.add` добавляет новый бейдж для конфигурируемого дела.
 
 ## Параметры метода
 
@@ -15,9 +15,9 @@
 || **code***
 [`string`](../../../../../data-types.md) | Код бейджа, например `missedCall` ||
 || **title***
-[`string`\|`array`](../../../../../data-types.md) | Заголовок бейджа. Может быть как строкой, так и массивом строк для разных языков ||
+[`string`\|`array`](../../../../../data-types.md) | Заголовок бейджа. Может быть строкой или массивом строк для разных языков ||
 || **value***
-[`string`\|`array`](../../../../../data-types.md) | Заголовок бейджа. Может быть как строкой, так и массивом строк для разных языков ||
+[`string`\|`array`](../../../../../data-types.md) | Заголовок бейджа. Может быть строкой или массивом строк для разных языков ||
 || **type***
 [`string`](../../../../../data-types.md) | [Тип бейджа](./index.md#tip-bejdzha) ||
 |#
@@ -27,11 +27,19 @@
 {% include [Сноска о примерах](../../../../../../_includes/examples.md) %}
 
 {% list tabs %}
-- cURL (Webhook)
 
 - cURL (OAuth)
+  
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"code":"missedCall","title":"Статус звонка","value":"Пропущен","type":"failure","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.badge.add
+    ```
 
 - JS
+  
     ```js
     BX24.callMethod(
         "crm.activity.badge.add",
@@ -46,9 +54,28 @@
             else
                 console.dir(result.data());
         }    
-);
+    );
     ```
+
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.badge.add',
+        [
+            'code' => 'missedCall',
+            'title' => 'Статус звонка',
+            'value' => 'Пропущен',
+            'type' => 'failure'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
@@ -84,9 +111,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | Корневой элемент ответа, содержащий информацию о добавленном бейдже в случае успеха. В случае неудачи вернёт `null` ||
+[`object`](../../../../data-types.md) | Корневой элемент ответа, содержащий информацию о добавленном бейдже в случае успеха. В случае неудачи вернет `null` ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
