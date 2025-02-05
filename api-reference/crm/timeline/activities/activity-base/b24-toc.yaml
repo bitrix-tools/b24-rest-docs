@@ -12,9 +12,7 @@ items:
   - name: Получить список дел
     href: crm-activity-list.md
   - name: Удалить дело
-    href: crm-activity-delete.md        
-  - name: Поля дела CRM
-    href: fields.md
+    href: crm-activity-delete.md
   - name: Получить список полей дела
     href: crm-activity-fields.md
   - name: Получить описание коммуникации
