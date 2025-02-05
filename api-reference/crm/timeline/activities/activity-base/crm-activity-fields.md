@@ -37,9 +37,7 @@
     ```javascript
     BX24.callMethod(
         'crm.activity.fields',
-        {
-            id: 999,
-        },
+        {},
         result => {
             if (result.error())
                 console.error(result.error());
