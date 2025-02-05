@@ -123,3 +123,11 @@
 || [crm.timeline.icon.*](./logmessage/icons/index.md) | Управляют иконками записей ||
 || [crm.timeline.logo.*](./logmessage/logo/index.md) | Управляют логотипами записей ||
 |#
+
+### Действия с записями в таймлайне
+
+#|
+|| **Метод** | **Описание** ||
+|| [crm.timeline.item.pin](./actions/crm-timeline-item-pin.md) | Закрепляет запись в таймлайне ||
+|| [crm.timeline.item.unpin](./actions/crm-timeline-item-unpin.md) | Открепляет запись в таймлайне ||
+|#
