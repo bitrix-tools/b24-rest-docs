@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 6 февраля, 2025
+
+- Обновлена документация по методам работы с [заданиями](./api-reference/bizproc/bizproc-task/index.md) в разделе Бизнес-процессы и роботы
+
 ### 5 февраля, 2025
 
 - Обновлена документация по методам, структуре и бейджам конфигурируемых дел в CRM [crm.activity.configurable.*](./api-reference/crm/timeline/activities/configurable/index.md)
