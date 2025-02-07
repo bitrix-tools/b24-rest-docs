@@ -66,6 +66,7 @@ Array
 
 ## Продолжите изучение
 
+- [{#T}](../calendar/calendar-grid-veiw.md)
 - [{#T}](./placement-bind.md)
 - [{#T}](./ui-interaction/index.md)
 - [{#T}](./ui-interaction/crm-card.md)
