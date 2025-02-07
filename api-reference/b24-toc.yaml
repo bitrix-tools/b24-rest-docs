@@ -173,4 +173,7 @@ items:
     include:
       path: outdated/b24-toc.yaml
       mode: link
-
+  - name: Как работать с файлами
+    include:
+      path: files/b24-toc.yaml
+      mode: link
