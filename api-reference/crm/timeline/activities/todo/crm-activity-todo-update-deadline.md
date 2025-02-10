@@ -2,9 +2,9 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь с правом на редактирование элемента CRM, для которого обновляется дело`
+> Кто может выполнять метод: пользователь с правом на редактирование элемента CRM, для которого обновляется дело
 
-Метод меняет дедлайн универсального дела.
+Метод `crm.activity.todo.updateDeadline` меняет дедлайн универсального дела.
 
 ## Параметры метода
 
@@ -14,11 +14,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор обновляемого дела, например  `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например  `999` ||
 || **ownerTypeId***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа сущности CRM](../../../data-types.md#object_type), к которому привязано дело (например, `2` для сделки) ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязано дело (например, `1`) ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например, `1` ||
 || **value***
 [`datetime`](../../../../data-types.md) | Новый крайний срок дела ||
 |#
@@ -32,12 +32,21 @@
 - cURL (Webhook)
 
     ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"value":"'"$(date -Iseconds)"'"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.todo.updateDeadline
     ```
 
 - cURL (OAuth)
 
     ```bash
-
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"value":"**put_current_date_here**","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.todo.updateDeadline
     ```
 
 - JS
@@ -50,7 +59,8 @@
             ownerTypeId: 2,
             ownerId: 1,
             value: nnew Date()
-        }, result => {
+        }, 
+        result => {
             if (result.error())
                 console.error(result.error());
             else
@@ -64,6 +74,19 @@
     ```php
     require_once('crest.php');
 
+    $result = CRest::call(
+        'crm.activity.todo.updateDeadline',
+        [
+            'id' => 999,
+            'ownerTypeId' => 2,
+            'ownerId' => 1,
+            'value' => date('c') // Текущие дата и время в формате ISO 8601
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -95,9 +118,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | В случае успеха возвращает объект, содержащий целочисленный идентификатор обновлённого дела `id`, в случае ошибки = `null` ||
+[`object`](../../../../data-types.md) | В случае успеха возвращает объект, содержащий идентификатор обновлённого дела `id`, в случае ошибки = `null` ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

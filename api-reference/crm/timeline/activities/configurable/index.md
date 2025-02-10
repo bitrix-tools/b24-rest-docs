@@ -36,5 +36,3 @@
 
 - [{#T}](./structure/layout.md)
 - [{#T}](./badges/index.md)
-- [Таймлайн в элементе CRM](https://helpdesk.bitrix24.ru/open/16749348/)
-- [Универсальное дело в CRM](https://helpdesk.bitrix24.ru/open/21064046/)
