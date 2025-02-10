@@ -15,3 +15,11 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [im.chat.setOwner](./im-chat-set-owner.md) | Изменяет владельца чата ||
+|| [im.chat.updateAvatar](./im-chat-update-avatar.md) | Изменяет аватарку чата ||
+|| [im.chat.updateColor](./im-chat-update-color.md) | Изменяет цвет чата ||
+|| [im.chat.add](./im-chat-update-title.md) | Изменяет заголовок чата ||
+|#

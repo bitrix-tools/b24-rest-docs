@@ -1,24 +1,4 @@
-# Роботы и действия бизнес-процессов с ожиданием результата bizproc.event.send
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-Статья про то, как работает ожидание результата от робота и действий бп. Тезисы:
-
-- В каких сценариях нужны такие роботы и действия?
-- Какие есть минусы и особенности?
-- Как это работает? Вот тут всплывает метод bizproc.event.send в обычном оформлении
-
-{% endnote %}
-
-{% endif %}
+# Вернуть параметры действию или роботу bizproc.event.send
 
 > Scope: [`bizproc`](../../scopes/permissions.md)
 >
@@ -26,31 +6,52 @@
 
 Метод возвращает действию выходные параметры, заданные в описании действия.
 
+## Параметры метода
+
 #|
-|| Параметр     | Описание  ||
-|| **EVENT_TOKEN** | Уникальный ключ, который необходимо использовать при отправке события бизнес-процессу. Значение этого токена получает обработчик робота или действия юизнес-процесса в массиве передаваемых входных данных.    ||
-|| **RETURN_VALUES** | Массив возвращаемых значений действия. Также будет появляться в форме _Вставка значения_ во вкладке _Дополнительные результаты_. ||
+|| **Название**
+`тип` | **Описание**||
+|| **EVENT_TOKEN** | Специальный токен, который приходит на хендлер приложения, когда выполняется действие или робот. Значение этого токена получает обработчик робота или действия бизнес-процесса в массиве передаваемых входных данных.
+
+Отправить событие можно, если действие приложения подписано `'USE_SUBSCRIPTION': 'Y'` на ход выполнения бизнес-процесса или роботов ||
+|| **RETURN_VALUES** | Массив возвращаемых значений действия или робота. Указываются значения свойств, которые были зарегистрированы как дополнительные результаты `RETURN_PROPERTIES` методами:
+- [bizproc.robot.add](./bizproc-robot-add.md), [bizproc.robot.update](./bizproc-robot-update.md)
+- [bizproc.activity.add](../bizproc-activity/bizproc-activity-add.md), [bizproc.activity.update](../bizproc-activity/bizproc-activity-update.md) ||
+|| **LOG_MESSAGE** | Текст для журнала бизнес-процесса.
+
+По умолчанию имеет значение «Получен ответ от приложения».
+
+Запись событий в журнал должна быть [включена в шаблоне](https://helpdesk.bitrix24.ru/open/21994508/) бизнес-процесса
+||
 |#
 
-## Пример
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"event_token":"55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90","return_values":{"outputString":"846c55d14f552180874a628d2615e285"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/bizproc.event.send
+    ```
+
 - JS
 
-    ```javascript
-    var params = {
-        event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
-        return_values: {
-            outputString: '846c55d14f552180874a628d2615e285'
-        }
-    };
-
+    ```js
     BX24.callMethod(
         'bizproc.event.send',
-        params,
+        {
+            event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
+            return_values: {
+                outputString: '846c55d14f552180874a628d2615e285'
+            }
+        },
         function(result) {
             if(result.error())
                 alert("Error: " + result.error());
@@ -60,4 +61,36 @@
     );
     ```
 
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.event.send',
+        [
+            'event_token' => '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
+            'return_values' => [
+                'outputString' => '846c55d14f552180874a628d2615e285'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
+
+## Обработка ошибок
+
+### Возможные коды ошибок
+
+Метод может возвращать код и текст ошибки из бизнес-процесса или робота.
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)

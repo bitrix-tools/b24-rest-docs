@@ -119,7 +119,7 @@ N - Нет.
 N - Нет.
 По умолчанию - Нет. ||
 || **TIME_ESTIMATE**
-[`integer`](../data-types.md) | Затраченное время. | ||
+[`integer`](../data-types.md) | Время, выделенное на задачу. | ||
 || **TIME_SPENT_IN_LOGS**
 [`integer`](../data-types.md) | Затраченное время из истории изменений. | ||
 || **MATCH_WORK_TIME**

@@ -1,7 +1,9 @@
 title: Задания бизнес-процессов
 href: bizproc-task-list.md
 items:
+  - name: Обзор методов
+    href: index.md
   - name: Получить список заданий
     href: bizproc-task-list.md
-  - name: Выполнить задания бизнес-процессов
+  - name: Выполнить задание бизнес-процесса
     href: bizproc-task-complete.md

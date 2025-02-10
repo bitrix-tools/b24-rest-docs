@@ -130,7 +130,7 @@
 || **responsibleId**
 [`user`](../../../data-types.md) | Ответственный. ||
 || **badgeCode**
-[`string`](../../../data-types.md) | Код значка на канбане, соответствующего делу (смотри [crm.activity.badge.list](./badges/crm-activity-badge-list.md)). ||
+[`string`](../../../data-types.md) | Код значка на канбане, соответствующего делу (смотри [crm.activity.badge.list](./configurable/badges/crm-activity-badge-list.md)). ||
 || **originatorId**
 [`string`](../../../data-types.md) | Идентификатор источника данных. ||
 || **originId**

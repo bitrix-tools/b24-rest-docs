@@ -2,6 +2,30 @@
 
 ## 2025
 
+### 7 февраля, 2025
+
+- Обновлена главная страница раздела [Шаблоны бизнес-процессов](./api-reference/bizproc/template/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Добавлен раздел по работе с файлами со статьей [Как загрузить файлы](./api-reference/files/how-to-upload-files.md)
+
+### 6 февраля, 2025
+
+- Обновлена документация по методам работы с [заданиями](./api-reference/bizproc/bizproc-task/index.md) в разделе Бизнес-процессы и роботы
+- Обновлена главная страница раздела [Единицы Измерения](./api-reference/catalog/measure/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 5 февраля, 2025
+
+- Обновлена документация по методам, структуре и бейджам конфигурируемых дел в CRM [crm.activity.configurable.*](./api-reference/crm/timeline/activities/configurable/index.md)
+
+### 4 февраля, 2025
+
+- Обновлена документация по методам привязки дел в таймлайне CRM [crm.activity.binding.*](./api-reference/crm/timeline/activities/binding/index.md)
+
+### 31 января, 2025
+
+- Обновлена главная страница раздела [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена документация по [действиям приложений](./api-reference/bizproc/bizproc-activity/index.md) в разделе Бизнес-процессы и роботы
+- Обновлена документация по [роботам приложений](./api-reference/bizproc/bizproc-robot/index.md) в разделе Бизнес-процессы и роботы
+
 ### 29 января, 2025
 
 - Добавлен новый туториал [Как создать пользовательское поле в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)

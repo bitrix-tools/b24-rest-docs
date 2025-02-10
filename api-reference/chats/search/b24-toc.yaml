@@ -1,8 +1,10 @@
 title: Поиск
 href: index.md
 items:
-  - name: Найти чаты по названиям
+  - name: Обзор методов
     href: index.md
+  - name: Найти чаты по названиям
+    href: im-search-chat-list.md
   - name: Найти пользователей
     href: im-search-user-list.md
   - name: Найти подразделения

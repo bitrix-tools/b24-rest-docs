@@ -15,3 +15,27 @@
 Если портал переходит из категории платных в бесплатные, функционал прав отключается на нем автоматически и все закрытые сущности становятся доступными для всех.
 
 {% endnote %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.role.enable](./landing-role-enable.md) | Переключает модели ||
+|| [landing.role.isEnabled](./landing-role-is-enabled.md) | Определяет модели прав ||
+|#
+
+## Расширенная модель прав
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.site.getRights](./extended-model/landing-site-get-rights.md) | Метод вернет права текущего пользователя. ||
+|| [landing.site.setRights](./extended-model/landing-site-set-rights.md) | Устанавливает права доступа для сайта. ||
+|#
+
+## Ролевая модель прав
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.role.getList](./role-model/landing-role-get-list.md) | Метод позволяет получить список ролей. ||
+|| [landing.role.getRights](./role-model/landing-role-get-rights.md) | Метод позволяет получить список сайтов, права на которые установлены в рамках роли. ||
+|| [landing.role.setAccessCodes](./role-model/landing-role-set-access-codes.md) | Метод устанавливает для роли коды доступа, для которых будет действовать данная роль. ||
+|| [landing.role.setRights](./role-model/landing-role-set-rights.md) | Метод устанавливает необходимые права в рамках роли для списков сайта. ||
+|#
