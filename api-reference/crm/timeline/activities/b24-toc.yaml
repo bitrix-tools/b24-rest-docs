@@ -9,18 +9,8 @@ items:
     href: crm-activity-fields.md
   - name: Добавить системное дело
     href: crm-activity-add.md
-  - name: Добавить универсальное дело
-    href: crm-activity-todo-add.md
   - name: Изменить системное дело
     href: crm-activity-update.md
-  - name: Конфигурируемое дело
-    include:
-      path: configurable/b24-toc.yaml
-      mode: link
-  - name: Изменить универсальное дело
-    include:
-      path: todo-update/b24-toc.yaml
-      mode: link
   - name: Получить список дел
     href: crm-activity-list.md
   - name: Получить дело по ID
@@ -29,6 +19,14 @@ items:
     href: crm-activity-communication-fields.md
   - name: Удалить дело
     href: crm-activity-delete.md 
+  - name: Конфигурируемое дело
+    include:
+     path: configurable/b24-toc.yaml
+     mode: link
+  - name: Универсальное дело
+    include:
+      path: todo/b24-toc.yaml
+      mode: link    
   - name: Привязка дел к объектам CRM
     include:
       path: binding/b24-toc.yaml
