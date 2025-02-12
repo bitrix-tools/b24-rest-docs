@@ -180,7 +180,8 @@
 
 {% note tip "Связанные методы и темы" %}
 
-[{#T}](./recurring-deals/crm-deal-recurring-update.md)
+- [{#T}](./recurring-deals/crm-deal-recurring-update.md)
+- [Для изменения воронки сделки воспользуйтесь бизнесс-процессом](../../bizproc/bizproc-workflow-start.md)
 
 {% endnote %}
 
