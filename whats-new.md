@@ -6,6 +6,7 @@
 
 - Обновлена главная страница раздела [Задания бизнес-процессов](./api-reference/bizproc/bizproc-task/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновлена главная страница раздела [Рабочий день](./api-reference/timeman/base/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена информация по методам дел в CRM [crm.activity.*](./api-reference/crm/timeline/activities/activity-base/index.md)
 
 ### 10 февраля, 2025
 

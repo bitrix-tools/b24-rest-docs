@@ -14,15 +14,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **activityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор дела в таймлайне, например `999` ||
 || **sourceEntityTypeId***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
 || **sourceEntityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязано дело, например `1`  ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например `1`  ||
 || **targetEntityTypeId***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому нужно привязать дело, например `1` для лида ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому нужно привязать дело, например `2` для сделки ||
 || **targetEntityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому нужно привязать дело, например `100`  ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому нужно привязать дело, например `100`  ||
 |#
 
 ## Примеры кода
@@ -37,7 +37,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"activityId":999, "sourceEntityTypeId":2, "sourceEntityId": 1, "targetEntityTypeId":1, "targetEntityId": 100}' \
+    -d '{"activityId":999, "sourceEntityTypeId":2, "sourceEntityId": 1, "targetEntityTypeId":2, "targetEntityId": 100}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.binding.move
     ```
 
@@ -47,7 +47,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"activityId":999,"sourceEntityTypeId":2,"sourceEntityId":1,"targetEntityTypeId":1,"targetEntityId":100,"auth":"**put_access_token_here**"}' \
+    -d '{"activityId":999,"sourceEntityTypeId":2,"sourceEntityId":1,"targetEntityTypeId":2,"targetEntityId":100,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.binding.move
     ```
 
@@ -60,7 +60,7 @@
             activityId: 999, // ID дела
             sourceEntityTypeId: 2, // Тип объекта, к которому дело привязано
             sourceEntityId: 1, // ID элемента, к которому дело привязано
-            targetEntityTypeId: 1, // Тип объекта, к которому дело будет привязано
+            targetEntityTypeId: 2, // Тип объекта, к которому дело будет привязано
             targetEntityId: 100 // ID элемента, к которому дело будет привязано
 
         function(result) {
@@ -84,7 +84,7 @@
             'activityId' => 999, // ID дела
             'sourceEntityTypeId' => 2, // Тип объекта, к которому дело привязано
             'sourceEntityId' => 1, // ID элемента, к которому дело привязано
-            'targetEntityTypeId' => 1, // Тип объекта, к которому дело будет привязано
+            'targetEntityTypeId' => 2, // Тип объекта, к которому дело будет привязано
             'targetEntityId' => 100 // ID элемента, к которому дело будет привязано
         ]
     );
@@ -147,6 +147,8 @@ HTTP-статус: **400**
 || `100` | Не переданы обязательные поля ||
 || `NOT_FOUND` | Элемент не найден ||
 || `OWNER_NOT_FOUND` | Владелец элемента не найден ||
+|| `SOURCE_AND_TARGET_ENTITY_TYPES_ARE_NOT_EQUAL` | Невозможно перенести дело из одного типа объекта CRM в другой ||
+|| `SOURCE_AND_TARGET_ENTITY_ID_ARE_EQUAL_ERROR` | Невозможно перенести дело в то же самое дело ||
 || `ACCESS_DENIED` | Недостаточно прав для выполнении операции ||
 || `ACTIVITY_IS_ALREADY_BOUND` | Дело уже привязано к этому элементу ||
 || `BINDING_NOT_FOUND` | Дело не привязано к указанному элементу ||

@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь с правом на удаление дела`
+> Кто может выполнять метод: любой пользователь с правом на удаление дела
 
 Метод `crm.activity.delete` удаляет дело любого типа.
 
@@ -13,8 +13,8 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id**
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999` ||
+|| **id***
+[`integer`](../../../../data-types.md) | Идентификатор дела в таймлайне, например `999` ||
 |#
 
 ## Примеры кода
@@ -36,7 +36,11 @@
 - cURL (OAuth)
 
     ```bash
-
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":999,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.delete
     ```
 
 - JS
@@ -59,7 +63,18 @@
 - PHP
 
     ```php
-    
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.delete',
+        [
+            'id' => 999
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -111,10 +126,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Activity is not found. | Дело с указанным идентификатором не найдено для сущности в CRM ||
-|| Пустая строка | Access denied. | Отсутствуют права на удаление сущности в CRM ||
-|| Пустая строка | Application context required. | Некорректный параметр `PROVIDER_ID` для дела, созданного в контексте приложения ||
+|| **Код** | **Описание** ||
+|| `Activity is not found` | Дело с указанным идентификатором не найдено для сущности в CRM ||
+|| `Access denied` | Отсутствуют права на редактирование сущности в CRM ||
+|| `Application context required` | Некорректный параметр `PROVIDER_ID` для дела, созданного в контексте приложения ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}

@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.fields` возвращает описание полей системного дела.
 
@@ -29,7 +29,11 @@
 - cURL (OAuth)
 
     ```bash
-
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.fields
     ```
 
 - JS
@@ -50,7 +54,16 @@
 - PHP
 
     ```php
-    
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.fields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -481,7 +494,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../../data-types.md) | Корневой элемент ответа. Значения для поля `result` соответствуют [полям объекта](#all-fields). ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Обзор полей системного дела {#all-fields}
@@ -491,11 +504,11 @@ HTTP-статус: **200**
 #|
 || **Поле** `тип` | **Описание** | **Примечание** ||
 || **ID***
-[`integer`](../../../data-types.md) | Целочисленный идентификатор дела | Только для чтения ||
+[`integer`](../../../data-types.md) | Идентификатор дела | Только для чтения ||
 || **OWNER_ID***
-[`integer`](../../../data-types.md) | Целочисленный идентификатор элемента CRM | Неизменяемое ||
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM | Можно изменить методом [crm.activity.binding.move](../binding/crm-activity-binding-move.md)  ||
 || **OWNER_TYPE_ID***
-[`integer`](../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type) | Неизменяемое ||
+[`integer`](../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) | Неизменяемое ||
 || **TYPE_ID***
 [`crm_enum_activitytype`](../../../data-types.md) | Тип дела | Обязательный, неизменяемый ||
 || **ASSOCIATED_ENTITY_ID**
@@ -579,7 +592,7 @@ HTTP-статус: **200**
 || **WEBDAV_ELEMENTS**
 [`diskfile`](../../../data-types.md) | Добавленные файлы | Множественное. Устарел, сохраняется для совместимости ||
 || **IS_INCOMING_CHANNEL**
-[`char`](../../../data-types.md) | Флаг, говорящий дело создано из входящего канала или нет (`Y`|`N`) |  ||
+[`char`](../../../data-types.md) | Флаг, говорящий дело создано из входящего канала или нет (`Y`/`N`) |  ||
 |#
 
 ## Обработка ошибок

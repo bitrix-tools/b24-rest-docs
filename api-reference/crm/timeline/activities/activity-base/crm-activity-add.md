@@ -2,15 +2,15 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь с правом на добавление дела`
+> Кто может выполнять метод: пользователь с правом на добавление дела
 
-{% note warning %}
+{% note warning "Развитие метода остановлено" %}
 
-С версии CRM 22.1350.0 метод устарел. Используйте метод добавления универсального дела [{#T}](../crm-activity-todo-add.md).
+Метод `crm.activity.add` продолжает работать, но у него есть более актуальный аналог [crm.activity.todo.add](../todo/crm-activity-todo-add.md).
 
 {% endnote %}
 
-Метод `crm.activity.add` создаёт новое системное дело.
+Метод `crm.activity.add` создает новое системное дело.
 
 ## Параметры метода
 
@@ -20,14 +20,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`array`](../../../../data-types.md) | Массив вида array("поле"=>"значение"[, ...]), содержащий значения полей дел.
+[`array`](../../../../data-types.md) | Массив значений [полей дела](#fields) в виде структуры:
 
-{% note info %}
-
-Чтобы узнать требуемый формат полей, выполните метод [crm.activity.fields](./crm-activity-fields.md) и посмотрите формат пришедших значений этих полей.
-
-{% endnote %}
-
+```json
+fields:
+{
+    "OWNER_TYPE_ID": 2, 
+    "OWNER_ID": 102, 
+    "TYPE_ID": 2, 
+    "SUBJECT": "Новый звонок",
+}
+```
 Имеется дополнительное поле `DISABLE_SENDING_MESSAGE_COPY`. Оно предназначено для принудительного отключения отправки копии сообщения адресату из MESSAGE_FROM. Если параметр не заполнен или указано любое значение отличное от `Y` - копия отправлена будет. Пример:
 
 ```js
@@ -42,11 +45,78 @@
  ||
 |#
 
+### Параметр fields {#fields}
+
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
+
+#|
+|| **Поле** `тип` | **Описание** ||
+|| **OWNER_ID***
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM ||
+|| **OWNER_TYPE_ID***
+[`integer`](../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) ||
+|| **TYPE_ID***
+[`crm_enum_activitytype`](../../../data-types.md) | Тип дела ||
+|| **ASSOCIATED_ENTITY_ID**
+[`integer`](../../../../data-types.md) | Идентификатор связанного с делом элемента ||
+|| **COMMUNICATIONS***
+[`crm_activity_communication`](../../../data-types.md) | [Описание коммуникации](./crm-activity-communication-fields.md) ||
+|| **DEADLINE**
+[`datetime`](../../../data-types.md) | Дата и время срока исполнения дела. Поле напрямую не устанавливается, значение берётся из START_TIME для звонка и встречи и из END_TIME для задачи ||
+|| **DESCRIPTION**
+[`string`](../../../data-types.md) | Текстовое описание дела ||
+|| **DESCRIPTION_TYPE**
+[`crm.enum.contenttype`](../../../data-types.md) | Тип описания ||
+|| **DIRECTION**
+[`crm.enum.activitydirection`](../../../data-types.md) | Направление дела: входящее/исходящее. Актуально для звонков и писем, для встреч не используется ||
+|| **END_TIME**
+[`datetime`](../../../data-types.md) | Время завершения дела | ||
+|| **FILES**
+[`diskfile`](../../../data-types.md) | Добавленные в дело файлы ||
+|| **LOCATION**
+[`string`](../../../data-types.md) | Местоположение ||
+|| **NOTIFY_TYPE**
+[`crm.enum.activitynotifytype`](../../../data-types.md) | Тип уведомления ||
+|| **ORIGINATOR_ID**
+[`string`](../../../data-types.md) | Идентификатор источника данных, используется только для привязки к внешнему источнику ||
+|| **ORIGIN_ID**
+[`string`](../../../data-types.md) | Идентификатор элемента в источнике данных, используется только для привязки к внешнему источнику ||
+|| **ORIGIN_VERSION**
+[`string`](../../../data-types.md) | Оригинальная версия, используется для защиты данных от случайного перетирания внешней системой. Если данные были импортированы и не изменялись во внешней системе, то такие данные могут быть редактированы в CRM без опасения, что следующая выгрузка приведет к перетиранию данных ||
+|| **PRIORITY**
+[`crm.enum.activitypriority`](../../../data-types.md) | Приоритет ||
+|| **PROVIDER_DATA**
+[`string`](../../../data-types.md) | Дополнительные данные провайдера ||
+|| **PROVIDER_GROUP_ID**
+[`string`](../../../data-types.md) | Идентификатор группы провайдера ||
+|| **PROVIDER_ID**
+[`string`](../../../data-types.md) | Идентификатор провайдера ||
+|| **PROVIDER_TYPE_ID**
+[`string`](../../../data-types.md) | Идентификатор типа провайдера, статус из справочника ||
+|| **PROVIDER_PARAMS**
+[`object`](../../../data-types.md) | Дополнительные параметры провайдера ||
+|| **RESPONSIBLE_ID***
+[`user`](../../../data-types.md) | Идентификатор пользователя, ответственного за дело ||
+|| **SETTINGS**
+[`object`](../../../data-types.md) | Доболнительные настройки ||
+|| **START_TIME**
+[`datetime`](../../../data-types.md) | Время начала выполнения дела ||
+|| **STATUS**
+[`crm_enum_activitystatus`](../../../data-types.md) | Статус дела ||
+|| **SUBJECT**
+[`string`](../../../data-types.md) | Дополнительное описание дела ||
+|| **WEBDAV_ELEMENTS**
+[`diskfile`](../../../data-types.md) | Добавленные файлы. Устарел, сохраняется для совместимости ||
+|| **IS_INCOMING_CHANNEL**
+[`char`](../../../data-types.md) | Флаг, говорящий дело создано из входящего канала или нет (`Y`/`N`) ||
+|#
+
+
 ### Варианты использования значений полей
 
 Для дел типа `e-mail`:
-- если письмо не должно быть отправлено, то следует установить `DIRECTION=2` и `COMPLETED='N'`;
-- если необходимо пометить письма как завершенные, то следует выполнить обновление с выставлением флага завершения.
+- если письмо не должно быть отправлено, устанавливайте параметры `DIRECTION=2` и `COMPLETED='N'`;
+- если необходимо пометить письма как завершенные, выполните обновление дел с выставлением флага завершения.
 
 ## Примеры кода
 
@@ -57,60 +127,61 @@
 - cURL (Webhook)
 
     ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"OWNER_TYPE_ID":2,"OWNER_ID":102,"TYPE_ID":2,"COMMUNICATIONS":[{"VALUE":"+79832322323","ENTITY_ID":134,"ENTITY_TYPE_ID":3}],"SUBJECT":"Новый звонок","START_TIME":"2023-12-31T12:00:00+00:00","END_TIME":"2023-12-31T12:30:00+00:00","COMPLETED":"N","PRIORITY":3,"RESPONSIBLE_ID":1,"DESCRIPTION":"Важный звонок","DESCRIPTION_TYPE":3,"DIRECTION":2,"FILES":[{"fileData":["example.jpg","base64_encoded_content_here"]}]} }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.add
     ```
 
 - cURL (OAuth)
 
     ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"OWNER_TYPE_ID":2,"OWNER_ID":102,"TYPE_ID":2,"COMMUNICATIONS":[{"VALUE":"+79832322323","ENTITY_ID":134,"ENTITY_TYPE_ID":3}],"SUBJECT":"Новый звонок","START_TIME":"2023-12-31T12:00:00+00:00","END_TIME":"2023-12-31T12:30:00+00:00","COMPLETED":"N","PRIORITY":3,"RESPONSIBLE_ID":1,"DESCRIPTION":"Важный звонок","DESCRIPTION_TYPE":3,"DIRECTION":2,"FILES":[{"fileData":["example.jpg","base64_encoded_content_here"]}]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.add
     ```
 
 - JS
 
     ```javascript
-    let paddatepart = function(part)
-    {
-        return part >= 10 ? part.toString() : '0' + part.toString();
-    };
-
-    let d = new Date();
-    d.setDate(d.getDate() + 7);
-    d.setSeconds(0);
- 
-    let dateStr = d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+00:00';
-
     BX24.callMethod(
         "crm.activity.add",
         {
-            fields:
-            {
-                "OWNER_TYPE_ID": 2, //из метода crm.enum.ownertype: 2 - тип "сделка"
-                "OWNER_ID": 102, //id сделки
-                "TYPE_ID": 2, //из метода crm.enum.activitytype
-                "COMMUNICATIONS": [ { VALUE:"+79832322323", ENTITY_ID:134,ENTITY_TYPE_ID:3 } ], //где 134 - id контакта, 3 - тип "контакт"
+            fields: {
+                "OWNER_TYPE_ID": 2,
+                "OWNER_ID": 102,
+                "TYPE_ID": 2,
+                "COMMUNICATIONS": [
+                    { VALUE: "+79832322323", ENTITY_ID: 134, ENTITY_TYPE_ID: 3 }
+                ],
                 "SUBJECT": "Новый звонок",
-                "START_TIME": dateStr,
-                "END_TIME": dateStr,
+                "START_TIME": "2023-12-31T12:00:00+00:00", // Пример даты и времени
+                "END_TIME": "2023-12-31T12:30:00+00:00", // Пример даты и времени
                 "COMPLETED": "N",
-                "PRIORITY": 3, //из метода crm.enum.activitypriority
+                "PRIORITY": 3,
                 "RESPONSIBLE_ID": 1,
                 "DESCRIPTION": "Важный звонок",
-                "DESCRIPTION_TYPE": 3, //из метода crm.enum.contenttype
-                "DIRECTION": 2, // из метода crm.enum.activitydirection
-                "WEBDAV_ELEMENTS":
-                [
-                    { fileData: document.getElementById('file1') }
-                ],
-                "FILES":
-                [
-                    { fileData: document.getElementById('file1') }
-                ] //после установки модуля disk и конвертации данных из webdav можно будет указавать FILES вместо WEBDAV_ELEMENTS
+                "DESCRIPTION_TYPE": 3,
+                "DIRECTION": 2,
+                "FILES": [
+                    {
+                        fileData: [
+                            "example.jpg", // Имя файла
+                            "base64_encoded_content_here" // Контент файла в формате base64
+                        ]
+                    }
+                ]
             }
         },
         result => {
-            if (result.error())
+            if (result.error()) {
                 console.error(result.error());
-            else
+            } else {
                 console.dir(result.data());
+            }
         }
     );
     ```
@@ -118,7 +189,50 @@
 - PHP
 
     ```php
-    
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.add',
+        [
+            'fields' => [
+                'OWNER_TYPE_ID' => 2,
+                'OWNER_ID' => 102,
+                'TYPE_ID' => 2,
+                'COMMUNICATIONS' => [
+                    [
+                        'VALUE' => '+79832322323',
+                        'ENTITY_ID' => 134,
+                        'ENTITY_TYPE_ID' => 3
+                    ]
+                ],
+                'SUBJECT' => 'Новый звонок',
+                'START_TIME' => '2023-12-31T12:00:00+00:00', // Пример даты и времени
+                'END_TIME' => '2023-12-31T12:30:00+00:00', // Пример даты и времени
+                'COMPLETED' => 'N',
+                'PRIORITY' => 3,
+                'RESPONSIBLE_ID' => 1,
+                'DESCRIPTION' => 'Важный звонок',
+                'DESCRIPTION_TYPE' => 3,
+                'DIRECTION' => 2,
+                'FILES' => [
+                    [
+                        'fileData' => [
+                            'example.jpg', // Имя файла
+                            'base64_encoded_content_here' // Контент файла в формате base64
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    );
+
+    if (isset($result['error'])) {
+        echo 'Ошибка: ' . $result['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result['result']);
+        echo '</PRE>';
+    }
     ```
 
 {% endlist %}    
@@ -149,7 +263,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../data-types.md) | Результат операции. Возвращает целочисленный идентификатор дела в таймлайне в случае успеха, иначе — `false` ||
+[`boolean`](../../../../data-types.md) | Результат операции. Возвращает идентификатор дела в таймлайне в случае успеха, иначе — `false` ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -170,28 +284,28 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | The field SUBJECT is not defined or empty. | Поле `SUBJECT` не установлено ||
-|| Пустая строка | The field RESPONSIBLE_ID is not defined or invalid. | Поле `RESPONSIBLE_ID` не установлено ||
-|| Пустая строка | The field TYPE_ID is not defined or invalid. | Поле `TYPE_ID` не установлено ||
-|| Пустая строка | The field COMMUNICATIONS is not defined or invalid. | Поле `COMMUNICATIONS` не установлено ||
-|| Пустая строка | The only one communication is allowed for activity of specified type. | Количество контактов более 1 ||
-|| Пустая строка | Could not build binding. Please ensure that owner info and communications are defined correctly. | Связи для дела не указаны ||
-|| Пустая строка | 
-- Email send error. Failed to load module "subscribe".
-- Email send error. Invalid data.
-- Email send error. Invalid email is specified.
-- Email send error. "From" is not found.
-- Email send error. "To" is not found.
-- Email send error. Failed to add posting. Please see details below.
-- Email send error. Failed to save posting file. Please see details below.
-- Email send error. Failed to update activity.
-- Email send error. General error.
+|| **Код** | **Описание** ||
+|| `The field SUBJECT is not defined or empty` | Поле `SUBJECT` не установлено ||
+|| `The field RESPONSIBLE_ID is not defined or invalid` | Поле `RESPONSIBLE_ID` не установлено ||
+|| `The field TYPE_ID is not defined or invalid` | Поле `TYPE_ID` не установлено ||
+|| `The field COMMUNICATIONS is not defined or invalid` | Поле `COMMUNICATIONS` не установлено ||
+|| `The only one communication is allowed for activity of specified type` | Количество контактов более 1 ||
+|| `Could not build binding. Please ensure that owner info and communications are defined correctly` | Связи для дела не указаны ||
+|| 
+- `Email send error. Failed to load module "subscribe"`
+- `Email send error. Invalid data`
+- `Email send error. Invalid email is specified`
+- `Email send error. "From" is not found`
+- `Email send error. "To" is not found`
+- `Email send error. Failed to add posting. Please see details below`
+- `Email send error. Failed to save posting file. Please see details below`
+- `Email send error. Failed to update activity`
+- `Email send error. General error`
  | Ошибки "почтовых" дел ||
-|| Пустая строка | The custom activity without provider is not supported in current context. | Тип дела не поддерживается в заданном контексте ||
-|| Пустая строка | Use crm.activity.configurable.add for this activity provider | Некорректный вызов метода для конфигур. дела ||
-|| Пустая строка | Access denied. | Отсутствуют права на добавление сущности в CRM ||
-|| Пустая строка | Application context required. | Некорректный параметр `PROVIDER_ID` для дела, созданного в контексте приложения ||
+|| `The custom activity without provider is not supported in current context` | Тип дела не поддерживается в заданном контексте ||
+|| `Use crm.activity.configurable.add for this activity provider` | Некорректный вызов метода для конфигурируемого дела ||
+|| `Access denied` | Отсутствуют права на добавление сущности в CRM ||
+|| `Application context required` | Некорректный параметр `PROVIDER_ID` для дела, созданного в контексте приложения ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}

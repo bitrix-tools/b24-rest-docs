@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.activity.communication.fields` возвращает описание коммуникации для дела. Коммуникации хранят номера телефонов в звонках, email-адреса в письмах, имена во встречах.
 
@@ -29,7 +29,11 @@
 - cURL (OAuth)
 
     ```bash
-
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.activity.communication.fields
     ```
 
 - JS
@@ -50,7 +54,16 @@
 - PHP
 
     ```php
-    
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.communication.fields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -138,7 +151,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../../data-types.md) | Корневой элемент ответа. Значения для поля `result` соответствуют [полям объекта](#all-fields). ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Обзор полей коммуникации дела {#all-fields}
@@ -146,19 +159,19 @@ HTTP-статус: **200**
 {% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
-|| **Поле** `тип` | **Описание** | **Примечание** ||
+|| **Поле** `тип` | **Описание** ||
 || **ID***
-[`integer`](../../../data-types.md) | Целочисленный идентификатор коммуниуации | Неизменяемое ||
+[`integer`](../../../data-types.md) | Идентификатор коммуниуации ||
 || **ACTIVITY_ID***
-[`integer`](../../../data-types.md) | Целочисленный идентификатор дела | Неизменяемое ||
+[`integer`](../../../data-types.md) | Идентификатор дела ||
 || **ENTITY_ID***
-[`integer`](../../../data-types.md) | Целочисленный идентификатор элемента CRM | Неизменяемое ||
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM ||
 || **ENTITY_TYPE_ID***
-[`integer`](../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type) | Неизменяемое ||
+[`integer`](../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) ||
 || **TYPE_ID***
-[`integer`](../../../data-types.md) | Тип коммуникации | Неизменяемый ||
+[`integer`](../../../data-types.md) | Тип коммуникации ||
 || **VALUE***
-[`integer`](../../../data-types.md) | Значение коммуникации | Неизменяемый ||
+[`integer`](../../../data-types.md) | Значение коммуникации ||
 |#
 
 # Обработка ошибок

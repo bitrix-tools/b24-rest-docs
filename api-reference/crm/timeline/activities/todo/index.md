@@ -20,9 +20,9 @@
 || [crm.activity.todo.updateDeadline](./crm-activity-todo-update-deadline.md) | Обновляет крайний срок универсального дела ||
 || [crm.activity.todo.updateDescription](./crm-activity-todo-update-description.md) | Обновляет описание универсального дела ||
 || [crm.activity.todo.updateResponsibleUser](./crm-activity-todo-update-responsible-user.md) | Обновляет ответственного за универсальное дело ||
-|| [crm.activity.get](../crm-activity-get.md) | Получает информацию об универсальном деле по идентификатору ||
-|| [crm.activity.list](../crm-activity-list.md) | Получает список всех универсалиных дел для элемента CRM с фильтром `PROVIDER_ID` = `"CRM_TODO"` ||
-|| [crm.activity.delete](../crm-activity-delete.md) | Удаляет универсальное дело по идентификатору ||
+|| [crm.activity.get](../activity-base/crm-activity-get.md) | Получает информацию об универсальном деле по идентификатору ||
+|| [crm.activity.list](../activity-base/crm-activity-list.md) | Получает список всех универсалиных дел для элемента CRM с фильтром `PROVIDER_ID` = `"CRM_TODO"` ||
+|| [crm.activity.delete](../activity-base/crm-activity-delete.md) | Удаляет универсальное дело по идентификатору ||
 |#
 
 ## Дополнительно
