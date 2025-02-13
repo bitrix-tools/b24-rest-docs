@@ -92,6 +92,10 @@ CRM
 
 ## Обзор методов {#all-methods}
 
+> Scope: [`bizproc`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
+
 #|
 || **Метод** | **Описание** ||
 || [bizproc.workflow.template.add](./bizproc-workflow-template-add.md) | Добавить шаблон бизнес-процесса из файла ||

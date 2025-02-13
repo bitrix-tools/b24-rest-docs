@@ -3,7 +3,7 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Базовые методы
+  - name: Рабочий день
     include:
       path: base/b24-toc.yaml
       mode: link
