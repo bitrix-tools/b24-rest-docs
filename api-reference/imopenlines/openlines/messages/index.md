@@ -15,3 +15,9 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [imopenlines.crm.message.add](./imopenlines-crm-message-add.md) | Отправляет сообщение в открытую линию ||
+|| [imopenlines.message.quick.save](./imopenlines-message-quick-save.md) | Сохраняет сообщение в качестве быстрого ответа ||
+|#

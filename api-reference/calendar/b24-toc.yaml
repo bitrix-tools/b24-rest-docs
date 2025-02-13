@@ -17,7 +17,7 @@ items:
     href: calendar-user-settings-get.md
   - name: Установить пользовательские настройки календаря
     href: calendar-user-settings-set.md
-  - name: Встроиться в календарь
+  - name: Как встроить приложение в календарь
     href: calendar-grid-veiw.md
   - name: События календаря
     include:

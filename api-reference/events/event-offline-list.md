@@ -2,7 +2,7 @@
 
 > Кто может выполнять метод: любой пользователь
 
-Метод `event.offline.list` для чтения текущей очереди без вносения изменений в ее состояние в отличие от [event.offline.get](./event-offline-get.md). Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
+Метод `event.offline.list` для чтения текущей очереди без внесения изменений в ее состояние в отличие от [event.offline.get](./event-offline-get.md). Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
 
 ## Параметры метода
 

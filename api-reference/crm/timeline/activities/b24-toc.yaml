@@ -11,12 +11,10 @@ items:
     include:
       path: configurable/b24-toc.yaml
       mode: link
-  - name: Добавить универсальное дело
-    href: crm-activity-todo-add.md      
-  - name: Изменить универсальное дело
+  - name: Универсальное дело
     include:
-      path: todo-update/b24-toc.yaml
-      mode: link
+      path: todo/b24-toc.yaml
+      mode: link    
   - name: Привязка дел к объектам CRM
     include:
       path: binding/b24-toc.yaml

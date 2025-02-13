@@ -15,3 +15,11 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md) | Получает Id последнего чата ||
+|| [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) | Получает чат для объекта CRM ||
+|| [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) | Добавляет пользователя к существующему чату ||
+|| [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) | Удаляет пользователя из чата ||
+|#

@@ -53,6 +53,7 @@
 {% note tip "Частые кейсы и сценарии" %}
 
 -  [{#T}](../widgets/index.md)
+-  [{#T}](./calendar-grid-veiw.md)
 
 {% endnote %}
 
