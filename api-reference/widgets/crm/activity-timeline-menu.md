@@ -147,7 +147,7 @@
 || **ASSOCIATED_ENTITY_ID***
 [`string`](../../data-types.md) | Идентификатор дела CRM, для которого был открыт виджет.
 
-Может быть использован для получения дополнительной информации с помощью метода [crm.activity.get](../../crm/timeline/activities/crm-activity-get.md)
+Может быть использован для получения дополнительной информации с помощью метода [crm.activity.get](../../crm/timeline/activities/activity-base/crm-activity-get.md)
 
 ||
 || **ASSOCIATED_ENTITY_TYPE_ID***

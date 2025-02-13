@@ -26,7 +26,7 @@
 
 * дело письма создает почта. Когда на подключенный в Битрикс24 адрес приходит письмо от клиента, CRM проверяет, существует ли в базе клиент с e-mail из письма. По результатам проверки будет создано дело в карточке найденного элемента или новый клиент, в карточке которого появится дело 
 
-Чтобы создать, изменить или удалить системное дело используйте группу методов [crm.activity.*](./crm-activity-add.md). При создании системного дела указывайте `TYPE_ID`, например для дела письма `TYPE_ID` = `2` . Для получения значений других типов дел используйте метод [crm.enum.activitytype](../../auxiliary/enum/crm-enum-activity-type.md).
+Чтобы создать, изменить или удалить системное дело используйте группу методов [crm.activity.*](./activity-base/index.md). При создании системного дела указывайте `TYPE_ID`, например для дела письма `TYPE_ID` = `2` . Для получения значений других типов дел используйте метод [crm.enum.activitytype](../../auxiliary/enum/crm-enum-activity-type.md).
 
 ### Пользовательские типы дел
 
@@ -34,11 +34,11 @@
 
 * Зарегистрировать тип дела — используйте методы группы [crm.activity.type.*](./types/index.md). При создании типа необходимо задать его кодовое обозначение в параметре `TYPE_ID`
   
-* Создать дело с типом приложения — используйте группу методов системных дел [crm.activity.*](./crm-activity-add.md). При создании дела укажите кодовое обозначение пользовательского типа `TYPE_ID`, зарегистрированного для типа дел, в параметре `PROVIDER_TYPE_ID`
+* Создать дело с типом приложения — используйте группу методов системных дел [crm.activity.add](./activity-base/crm-activity-add.md). При создании дела укажите кодовое обозначение пользовательского типа `TYPE_ID`, зарегистрированного для типа дел, в параметре `PROVIDER_TYPE_ID`
 
 {% note tip "" %}
 
-Методы [crm.activity.delete](./crm-activity-delete.md) (удаляет дело) и [crm.activity.list](./crm-activity-list.md) (получает список дел) общие для всех видов дел CRM.
+Методы [crm.activity.delete](./activity-base/crm-activity-delete.md) (удаляет дело) и [crm.activity.list](./activity-base/crm-activity-list.md) (получает список дел) общие для всех видов дел CRM.
 
 {% endnote %}
 
@@ -100,15 +100,14 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [crm.activity.add](./crm-activity-add.md) | Создает новое дело ||
-    || [crm.activity.update](./crm-activity-update.md) | Обновляет дело ||
-    || [crm.activity.get](./crm-activity-get.md) | Возвращает дело по идентификатору ||
-    || [crm.activity.list](./crm-activity-list.md) | Возвращает список дел всех типов по фильтру ||
-    || [crm.activity.delete](./crm-activity-delete.md) | Удаляет любой тип дел ||
-    || [crm.activity.fields](./crm-activity-fields.md) | Возвращает описание полей дел ||
-    || [crm.activity.communication.fields](./crm-activity-communication-fields.md) | Возвращает описание полей коммуникации ||
+    || [crm.activity.add](./activity-base/crm-activity-add.md) | Создает новое дело ||
+    || [crm.activity.update](./activity-base/crm-activity-update.md) | Обновляет дело ||
+    || [crm.activity.get](./activity-base/crm-activity-get.md) | Возвращает дело по идентификатору ||
+    || [crm.activity.list](./activity-base/crm-activity-list.md) | Возвращает список дел всех типов по фильтру ||
+    || [crm.activity.delete](./activity-base/crm-activity-delete.md) | Удаляет любой тип дел ||
+    || [crm.activity.fields](./activity-base/crm-activity-fields.md) | Возвращает описание полей дел ||
+    || [crm.activity.communication.fields](./activity-base/crm-activity-communication-fields.md) | Возвращает описание полей коммуникации ||
     |#
-
 
 - События
 

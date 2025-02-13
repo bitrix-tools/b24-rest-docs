@@ -22,8 +22,8 @@
 || [crm.activity.configurable.add](./crm-activity-configurable-add.md) | Добавляет новое конфигурируемое дело в таймлайн ||
 || [crm.activity.configurable.update](./crm-activity-configurable-update.md) | Обновляет конфигурируемое дело ||
 || [crm.activity.configurable.get](./crm-activity-configurable-get.md) | Получает информацию о деле ||
-|| [crm.activity.delete](../crm-activity-delete.md) | Удаляет конфигурируемое дело по идентификатору ||
-|| [crm.activity.list](../crm-activity-list.md) | Получает список всех конфигурируемых дел для элемента CRM с фильтром по `PROVIDER_ID` = `CONFIGURABLE_REST_APP` ||
+|| [crm.activity.delete](../activity-base/crm-activity-delete.md) | Удаляет конфигурируемое дело по идентификатору ||
+|| [crm.activity.list](../activity-base/crm-activity-list.md) | Получает список всех конфигурируемых дел для элемента CRM с фильтром по `PROVIDER_ID` = `CONFIGURABLE_REST_APP` ||
 |#
 
 {% note warning %}

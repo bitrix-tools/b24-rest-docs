@@ -377,7 +377,7 @@
 
 ### 27 августа, 2024
 
-- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Получение списка дел](./api-reference/crm/timeline/activities/crm-activity-list.md), добавлены важные нюансы, касающиеся связей дел с объектами CRM, а также три дополнительных частных примера.
+- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Получение списка дел](./api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), добавлены важные нюансы, касающиеся связей дел с объектами CRM, а также три дополнительных частных примера.
   
 ### 21 августа, 2024
 
