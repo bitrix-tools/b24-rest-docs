@@ -59,7 +59,9 @@
 
 Список доступных стадий можно узнать с помощью метода [crm.status.list](../status/crm-status-list.md), применив фильтр:
 - `{ ENTITY_ID: "DEAL_STAGE" }` — если сделка находится в общей воронке (направлении)
-- `{ ENTITY_ID: "DEAL_STAGE_{categoryId}" }` — если сделка находится не в общей воронке, где `categoryId` — это идентификатор [воронки](../universal/category/index.md) и равен `CATEGORY_ID` сделки
+- `{ ENTITY_ID: "DEAL_STAGE_{categoryId}" }` — если сделка находится не в общей воронке, где `categoryId` — это идентификатор [воронки](../universal/category/index.md) и равен `CATEGORY_ID` сделки.
+  
+Если необходимо сменить воронку сделки, используйте метод [crm.item.update](../universal/crm-item-update.md), `entityTypeId` сделки — `2`
 ||
 || **IS_RECURRING**
 [`char`](../../data-types.md) | Является ли сделка шаблоном регулярной сделки. Возможные значения:
@@ -371,4 +373,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-list.md)
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
+- [{#T}](../universal/crm-item-update.md)
 
