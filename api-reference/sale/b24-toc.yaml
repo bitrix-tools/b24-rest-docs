@@ -29,7 +29,7 @@ items:
     include:
       path: property-group/b24-toc.yaml
       mode: link
-  - name: Варианты свойств
+  - name: Варианты свойства заказа типа ENUM
     include:
       path: property-variant/b24-toc.yaml
       mode: link    
