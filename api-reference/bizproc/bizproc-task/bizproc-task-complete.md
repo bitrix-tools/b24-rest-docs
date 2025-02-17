@@ -142,7 +142,7 @@
         [
             'TASK_ID' => 1501,
             'STATUS' => 1,
-            'OMMENT' => 'Добавлено',
+            'COMMENT' => 'Добавлено',
             'Fields' => [
                 'contractor' => 'C_607',
                 'phone_number' => '89991234567'
