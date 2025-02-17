@@ -22,9 +22,9 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **ownerId**
+|| **ownerId***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM ||
-|| **ownerType**
+|| **ownerType***
 [`string`](../../../data-types.md) | Идентификатор [`типа объекта CRM`](../../data-types.md#object_type). Передавайте [Краткий символьный код типа](../../data-types.md#object_type) ||
 || **productId**
 [`catalog_product.id`](../../../catalog/data-types.md#catalog_product) | Идентификатор товара из каталога ||
