@@ -729,6 +729,12 @@
 [`double`](../data-types.md) | GPS-широта ||
 || **gpsS**
 [`double`](../data-types.md) | GPS-долгота ||
+|| **imageId**
+[`object`](../data-types.md) | Изображение. Объект в формате `{fileData: [value1, value2]}`, где:
+- `value1` – название файла картинки с расширением
+- `value2` – картинка в формате base64
+
+Для удаления картинки используйте объект в формате `{remove: ‘Y’}` ||
 || **dateModify**
 [`datetime`](../data-types.md) | Дата изменения ||
 || **dateCreate**

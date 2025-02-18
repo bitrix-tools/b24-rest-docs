@@ -135,6 +135,12 @@ HTTP-статус: **200**
                 "isRequired": false,
                 "type": "integer"
             },
+            "imageId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "file"
+            },
             "issuingCenter": {
                 "isImmutable": false,
                 "isReadOnly": false,

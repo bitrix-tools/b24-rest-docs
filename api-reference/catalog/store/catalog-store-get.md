@@ -99,6 +99,10 @@ HTTP-статус: **200**
             "gpsN": 54.71411,
             "gpsS": 21.56675,
             "id": 1,
+            "imageId": {
+                "id": 1,
+                "url": "\/upload\/iblock\/6f1\/bkm7jmwso31wisk423gtp28iagy2e8v0\/test.jpeg"
+            },
             "issuingCenter": "N",
             "modifiedBy": 1,
             "phone": "8 (495) 212 85 06",
