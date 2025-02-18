@@ -7,6 +7,7 @@
 - Обновлена документация по методам работы со [складами](./api-reference/catalog/store/index.md) в разделе Торговый каталог
 - Добавили раздел с методами модуля [Подпись](./api-reference/sign/index.md). Добавили новые методы [sign.b2e.personal.tail](./api-reference/sign/sign-b2e-personal-tail.md) и [sign.b2e.mysafe.tail](./api-reference/sign/sign-b2e-mysafe-tail.md)
 - Обновлена главная страница раздела [Склады](./api-reference/catalog/store/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Контроль времени](./api-reference/timeman/timecontrol/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 14 февраля, 2025
 

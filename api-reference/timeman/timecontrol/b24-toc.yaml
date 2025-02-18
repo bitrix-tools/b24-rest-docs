@@ -7,11 +7,12 @@ items:
     href: timeman-timecontrol-report-add.md
   - name: Получить отчет о выявленных отсутствиях
     href: timeman-timecontrol-reports-get.md
-  - name: Получить пользовательские настройки
-    href: timeman-timecontrol-reports-settings-get.md
-  - name: Получить список пользователей
-    href: timeman-timecontrol-reports-users-get.md
   - name: Получить настройки инструмента контроля времени
     href: timeman-timecontrol-settings-get.md
   - name: Установить настройки инструмента контроля времени
     href: timeman-timecontrol-settings-set.md
+  - name: Получить пользовательские настройки
+    href: timeman-timecontrol-reports-settings-get.md
+  - name: Получить список пользователей
+    href: timeman-timecontrol-reports-users-get.md
+
