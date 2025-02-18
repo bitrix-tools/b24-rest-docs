@@ -40,6 +40,7 @@
 || **pull** | [Pull&Push](../interactivity/push-and-pull/index.md) | Pull&Push ||
 || **rpa** | [Роботизация бизнеса](../outdated/rpa/index.md) | Роботизация бизнеса ||
 || **sale** | [Интернет-магазин](../sale/index.md) | Интернет-магазин ||
+|| **sign.b2e** | [Подпись](../sign/index.md) | КЭДО + Госключ ||
 || **sonet_group, socialnetwork** | [Рабочие группы соцсети](../sonet-group/sonet-group-create.md) | Рабочие группы соцсети ||
 || **task** | [Задачи](../tasks/index.md) | Задачи ||
 || **telephony** | [Телефония](../telephony/index.md) | Телефония ||

@@ -113,6 +113,10 @@ items:
     include:
       path: pay-system/b24-toc.yaml
       mode: link
+  - name: Подпись
+    include:
+      path: sign/b24-toc.yaml
+      mode: link
   - name: Пользователи
     include:
       path: user/b24-toc.yaml
