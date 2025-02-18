@@ -1,23 +1,15 @@
-# Методы работы со ставками НДС
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Обзор методов
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
-
-Методы работы со складами:
+> Кто может выполнять метод: администратор
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.store.add](./catalog-store-add.md) | Метод добавляет склад. ||
-|| [catalog.store.delete](./catalog-store-delete.md) | Метод удаляет склад. ||
-|| [catalog.store.get](./catalog-store-get.md) | Метод для получения значений полей склада по ID. ||
-|| [catalog.store.getFields](./catalog-store-get-fields.md) | Метод возвращает поля склада. ||
-|| [catalog.store.list](./catalog-store-list.md) | Метод получает список складов по фильтру. ||
-|| [catalog.store.update](./catalog-store-update.md) | Метод обновляет склад. ||
+|| [catalog.store.add](./catalog-store-add.md) | Добавляет склад ||
+|| [catalog.store.update](./catalog-store-update.md) | Изменяет склад ||
+|| [catalog.store.get](./catalog-store-get.md) | Возвращает значения полей склада по его идентификатору ||
+|| [catalog.store.list](./catalog-store-list.md) | Возвращает список складов по фильтру ||
+|| [catalog.store.delete](./catalog-store-delete.md) | Удаляет склад ||
+|| [catalog.store.getFields](./catalog-store-get-fields.md) | Возвращает доступные поля склада ||
 |#

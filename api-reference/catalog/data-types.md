@@ -30,6 +30,7 @@
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор вариации товара (например, `1`). Получить идентификаторы вариаций товаров можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
 || [`catalog_product_image.id`](#catalog_product_image) | Целочисленный идентификатор изображения товара (например, `1`). Получить идентификаторы изображений товаров можно с помощью метода [catalog.productImage.list](./product-image/catalog-product-image-list.md) ||
+|| [`catalog_store.id`](#catalog_store) | Целочисленный идентификатор склада (например, `1`). Получить идентификаторы складов можно с помощью метода [catalog.store.list](./store/catalog-store-list.md) ||
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
 || [`catalog_ratio.id`](#catalog_ratio) | Целочисленный идентификатор коэффициента единицы измерения (например, `1`). Получить идентификаторы коэффициентов единиц измерения можно с помощью метода [catalog.ratio.list](./ratio/catalog-ratio-list.md) ||
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
@@ -705,6 +706,55 @@
 [`string`](../data-types.md) | Ссылка для скачивания, подписанная текущим токеном доступа ||
 || **detailUrl**
 [`string`](../data-types.md) | Ссылка на изображение ||
+|#
+
+### catalog_store
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор склада ||
+|| **address**
+[`string`](../data-types.md) | Адрес склада ||
+|| **title**
+[`string`](../data-types.md) | Название склада ||
+|| **active**
+[`string`](../data-types.md) | Активность. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **description**
+[`string`](../data-types.md) | Описание ||
+|| **gpsN**
+[`double`](../data-types.md) | GPS-широта ||
+|| **gpsS**
+[`double`](../data-types.md) | GPS-долгота ||
+|| **dateModify**
+[`datetime`](../data-types.md) | Дата изменения ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания ||
+|| **userId**
+[`user.id`](../data-types.md) | Кем создан ||
+|| **modifiedBy**
+[`user.id`](../data-types.md) | Кем изменен ||
+|| **phone**
+[`string`](../data-types.md) | Телефон ||
+|| **schedule**
+[`string`](../data-types.md) | График работы ||
+|| **xmlId**
+[`string`](../data-types.md) | Внешний код.
+
+Можно использовать для синхронизации текущего склада с аналогичной позицией во внешней системе ||
+|| **sort**
+[`integer`](../data-types.md) | Сортировка ||
+|| **email**
+[`string`](../data-types.md) | E-mail ||
+|| **issuingCenter**
+[`string`](../data-types.md) | Является ли пунктом выдачи. Возможные значения:
+- `Y` – да
+- `N` – нет ||
+|| **code**
+[`string`](../data-types.md) | Символьный код ||
 |#
 
 ### catalog_measure
