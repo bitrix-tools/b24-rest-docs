@@ -33,7 +33,7 @@
 || [im.chat.setOwner](./chat-update/im-chat-set-owner.md) | Изменяет владельца чата ||
 || [im.chat.updateAvatar](./chat-update/im-chat-update-avatar.md) | Изменяет аватарку чата ||
 || [im.chat.updateColor](./chat-update/im-chat-update-color.md) | Изменяет цвет чата ||
-|| [im.chat.add](./chat-update/im-chat-update-title.md) | Изменяет заголовок чата ||
+|| [im.chat.updateTitle](./chat-update/im-chat-update-title.md) | Изменяет заголовок чата ||
 |#
 
 ## Участники чата 
