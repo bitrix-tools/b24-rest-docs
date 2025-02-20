@@ -3,6 +3,6 @@ href: index.md
 items:
   - name: Встраивание приложений
     href: index.md
-  - name: Создание дела из приложений
+  - name: Как создать дело из приложения
     href: activity-app.md
 
