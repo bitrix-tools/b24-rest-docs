@@ -36,16 +36,36 @@ catalog.productProperty.getFields()
 
 ## Примеры
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.productProperty.getFields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.productProperty.getFields
+    ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'catalog.productProperty.delete',
-        {
-            id: 128
-        },
+        'catalog.productProperty.getFields',
+        {},
         function(result)
         {
             if(result.error())
@@ -56,9 +76,22 @@ catalog.productProperty.getFields()
     );
     ```
 
-{% endlist %}
+- PHP
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.productProperty.getFields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
 
 ## Возвращаемые поля
 
