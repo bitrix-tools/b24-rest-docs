@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 24 февраля, 2025
+
+- Добавлен новый раздел [Действия с записями в таймлайне](./api-reference/crm/timeline/actions/index.md). Добавили новые методы [crm.timeline.item.pin](./api-reference/crm/timeline/actions/crm-timeline-item-pin.md) и [crm.timeline.item.unpin](./api-reference/crm/timeline/actions/crm-timeline-item-unpin.md)
+
 ### 18 февраля, 2025
 
 - Обновлена документация по методам работы со [складами](./api-reference/catalog/store/index.md) в разделе Торговый каталог
@@ -13,7 +17,7 @@
 
 - Обновлена главная страница раздела [Ставки НДС](./api-reference/catalog/vat/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновлена главная страница раздела [Варианты свойства заказа типа ENUM](./api-reference/sale/property-variant/index.md). Добавили вводную информацию, а также обзор методов и связей
-- - Обновлена главная страница раздела [Табличная часть отгрузки](./api-reference/sale/shipment-item/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Табличная часть отгрузки](./api-reference/sale/shipment-item/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 13 февраля, 2025
 

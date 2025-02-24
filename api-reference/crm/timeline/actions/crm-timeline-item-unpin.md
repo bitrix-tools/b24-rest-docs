@@ -2,9 +2,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: любой пользователь
 
-Метод открепляет запись в таймлайне.
+Метод `crm.timeline.item.unpin` открепляет запись в таймлайне.
 
 ## Параметры метода
 
@@ -14,11 +14,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Целочисленный идентификатор дела (например, `999`) ||
+[`integer`](../../../data-types.md) | Идентификатор записи таймлайна, например `999`. Получить id можно методом [crm.timeline.comment.list](../comments/crm-timeline-comment-list.md) ||
 || **ownerTypeId***
-[`integer`](../../data-types.md#object_type) | [Целочисленный идентификатор типа сущности CRM](../../data-types.md#object_type), к которому привязано дело (например, `2` для сделки) ||
+[`integer`](../../data-types.md#object_type) | [Идентификатор типа объекта CRM](../../data-types.md#object_type), к которому привязана запись, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязано дело (например, `10`) ||
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM, к которому привязана запись, например `10` ||
 |#
 
 ## Примеры кода
@@ -40,6 +40,11 @@
 - cURL (OAuth)
 
     ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":999,"ownerTypeId":2,"ownerId":10,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.timeline.item.unpin
     ```
 
 - JS
@@ -63,6 +68,20 @@
 - PHP
 
     ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.timeline.item.unpin',
+        [
+            'id' => 999,
+            'ownerTypeId' => 2,
+            'ownerId' => 10
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -95,7 +114,7 @@ HTTP-статус: **200**
 || **result**
 [`null`](../../../data-types.md) | Результат операции. Всегда возвращает `null` ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
