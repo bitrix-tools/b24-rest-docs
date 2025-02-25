@@ -58,7 +58,7 @@
 
 ## Пример «Команды и активные ссылки»
 
-@[youtube](10G8hIBOXRc)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/6df697f3139fdad5bfbf4953ef1f83a5/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Обзор методов {#all-methods}
 

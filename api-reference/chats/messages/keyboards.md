@@ -177,12 +177,12 @@
 1. **EchoBot**
     Постраничная навигация, кнопки при вызове команды «Помощь»
 
-    @[youtube](2v5MUeVSBX4)
+    <iframe width="720" height="405" src="https://rutube.ru/play/embed/6df697f3139fdad5bfbf4953ef1f83a5/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 2. **Марта**
     Просто напишите марте «Поиграй со мной!». Клавиатура используется как игровое поле:
 
-    @[youtube](qSDKsDwJsBI)
+    <iframe width="720" height="405" src="https://rutube.ru/play/embed/282c08597e37aaf9ad9828c935400c72/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 3. **Giphy**
     Кнопка **Еще** позволяет без повторного введения поискового слова просматривать другие картинки на эту же тему:
