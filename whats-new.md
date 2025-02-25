@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 25 февраля, 2025
+
+- Обновлена главная страница раздела [Офисные сети](./api-reference/timeman/networkrange/index.md). Добавили вводную информацию, а также обзор методов и связей
+
 ### 24 февраля, 2025
 
 - Добавлен новый раздел [Действия с записями в таймлайне](./api-reference/crm/timeline/actions/index.md). Добавили новые методы [crm.timeline.item.pin](./api-reference/crm/timeline/actions/crm-timeline-item-pin.md) и [crm.timeline.item.unpin](./api-reference/crm/timeline/actions/crm-timeline-item-unpin.md)
