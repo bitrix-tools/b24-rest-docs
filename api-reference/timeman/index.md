@@ -6,34 +6,52 @@
 
 {% endnote %}
 
+
+## Обзор методов 
+
 > Scope: [`timeman`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: в зависимости от метода
 
-## Список методов
+### Рабочий день {#all-methods}
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| **Рабочий день** | | ||
-|| [timeman.settings](./base/timeman-settings.md) | Получение настроек рабочего времени пользователя | 17.0.2 ||
-|| [timeman.status](./base/timeman-status.md) | Получение информации о текущем рабочем дне пользователя | 17.0.2 ||
-|| [timeman.open](./base/timeman-open.md) | Начать новый рабочий день либо возобновить закрытый или приостановленный | 17.0.2 ||
-|| [timeman.close](./base/timeman-close.md) | Закрыть рабочий день | 17.0.2 ||
-|| [timeman.pause](./base/timeman-pause.md) | Приостановить рабочий день | 17.0.2 ||
-|| **Офисные сети** | | ||
-|| [timeman.networkrange.check](./networkrange/timeman-networkrange-check.md) | Метод для проверки IP-адреса на вхождение в диапазоны сетевых адресов офисной сети. | 18.5.0 ||
-|| [timeman.networkrange.get](./networkrange/timeman-networkrange-get.md) | Метод для получения диапазонов сетевых адресов, входящих в офисную сеть. | 18.5.0 ||
-|| [timeman.networkrange.set](./networkrange/timeman-networkrange-set.md) | Метод для установки диапазонов сетевых адресов, входящих в офисную сеть. | 18.5.0 ||
-|| **Контроль времени** | | ||
-|| [timeman.timecontrol.report.add](./timecontrol/timeman-timecontrol-report-add.md) | Метод для отправки отчета о выявленном отсутствии. | 18.5.0 ||
-|| [timeman.timecontrol.reports.get](./timecontrol/timeman-timecontrol-reports-get.md) | Метод для получения отчета о выявленных отсутствиях. | 18.5.0 ||
-|| [timeman.timecontrol.reports.settings.get](./timecontrol/timeman-timecontrol-reports-settings-get.md) | Метод для получения пользовательских настроек для построения интерфейса отчетов инструмента контроля времени. | 18.5.0 ||
-|| [timeman.timecontrol.reports.users.get](./timecontrol/timeman-timecontrol-reports-users-get.md) | Метод для получения списка пользователей, относящихся к указанному подразделению. | 18.5.0 ||
-|| [timeman.timecontrol.settings.get](./timecontrol/timeman-timecontrol-settings-get.md) | Метод для получения настроек инструмента контроля времени. | 18.5.0 ||
-|| [timeman.timecontrol.settings.set](./timecontrol/timeman-timecontrol-settings-set.md) | Метод для установки настроек инструмента контроля времени. | 18.5.0 ||
-|| **Рабочий график** | | ||
-|| [timeman.schedule.get](./schedule/timeman-schedule-get.md) | Метод позволяет получить рабочий график по его идентификатору. | ||
+|| **Метод** | **Описание** ||
+|| [timeman.open](./timeman-open.md) | Начать новый рабочий день или возобновить закрытый ||
+|| [timeman.pause](./timeman-pause.md) | Поставить паузу в рабочем дне ||
+|| [timeman.close](./timeman-close.md) | Закрыть рабочий день ||
+|| [timeman.status](./timeman-status.md) | Получить информацию о текущем рабочем дне пользователя ||
+|| [timeman.settings](./timeman-settings.md) | Получить настройки рабочего времени пользователя ||
 |#
+
+### Офисные сети
+
+#|
+|| **Метод** | **Описание** ||
+|| [timeman.networkrange.get](./timeman-networkrange-get.md) | Получает диапазоны сетевых адресов, входящие в офисную сеть ||
+|| [timeman.networkrange.set](./timeman-networkrange-set.md) | Устанавливает диапазоны сетевых адресов, входящие в офисную сеть ||
+|| [timeman.networkrange.check](./timeman-networkrange-check.md) | Проверяет входит ли IP-адрес в диапазоны сетевых адресов офисной сети ||
+|#
+
+### Контроль времени
+
+#|
+|| **Метод** | **Описание** ||
+|| [timeman.timecontrol.report.add](./timeman-timecontrol-report-add.md) | Отправляет отчет о выявленном отсутствии ||
+|| [timeman.timecontrol.reports.get](./timeman-timecontrol-reports-get.md) | Получает отчет о выявленных отсутствиях ||
+|| [timeman.timecontrol.settings.get](./timeman-timecontrol-settings-get.md) | Получает настройки инструмента контроля времени ||
+|| [timeman.timecontrol.settings.set](./timeman-timecontrol-settings-set.md) | Устанавливает настройки инструмента контроля времени ||
+|| [timeman.timecontrol.reports.settings.get](./timeman-timecontrol-reports-settings-get.md) | Получает пользовательские настройки для построения интерфейса отчетов инструмента контроля времени ||
+|| [timeman.timecontrol.reports.users.get](./timeman-timecontrol-reports-users-get.md) | Получает список пользователей указанного подразделения ||
+|#
+
+### Рабочий график
+
+#|
+|| **Метод** | **Описание** ||
+|| [timeman.schedule.get](./timeman-schedule-get.md) | Получает рабочий график по идентификатору ||
+|#
+
 
 ## Несколько примеров
 

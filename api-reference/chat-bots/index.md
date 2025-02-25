@@ -95,13 +95,13 @@ Slash-команды позволяют быстро создавать запр
 
     Постраничная навигация, кнопки при вызове команды «Помощь»
 
-    @[youtube](2v5MUeVSBX4)
+    <iframe width="720" height="405" src="https://rutube.ru/play/embed/6df697f3139fdad5bfbf4953ef1f83a5/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 2. **Марта**
    
     Просто напишите марте «Поиграй со мной!». Клавиатура используется как игровое поле:
 
-    @[youtube](qSDKsDwJsBI)
+    <iframe width="720" height="405" src="https://rutube.ru/play/embed/282c08597e37aaf9ad9828c935400c72/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 3. **Giphy**
    
@@ -185,7 +185,7 @@ Slash-команды позволяют быстро создавать запр
 
 Для более четкого понимания, что могут делать чат-боты на платформе *Битрикс24*, приведем видео-примеры возможностей уже готовых чат-ботов. Типы чат-ботов приведены условно, вы можете создать чат-бота, который может сочетать 2 или 3 типа.
 
-@[youtube](tcRytBQ-Gzw)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/08ba27116ef2e6b1165341d470b4e384/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ### Личный помощник
 

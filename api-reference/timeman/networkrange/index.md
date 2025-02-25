@@ -12,7 +12,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [timeman.networkrange.check](./timeman-networkrange-check.md) | Метод для проверки IP-адреса на вхождение в диапазоны сетевых адресов офисной сети. ||
-|| [timeman.networkrange.get](./timeman-networkrange-get.md) | Метод для получения диапазонов сетевых адресов, входящих в офисную сеть. ||
-|| [timeman.networkrange.set](./timeman-networkrange-set.md) | Метод для установки диапазонов сетевых адресов, входящих в офисную сеть. ||
+|| [timeman.networkrange.get](./timeman-networkrange-get.md) | Получает диапазоны сетевых адресов, входящие в офисную сеть ||
+|| [timeman.networkrange.set](./timeman-networkrange-set.md) | Устанавливает диапазоны сетевых адресов, входящие в офисную сеть ||
+|| [timeman.networkrange.check](./timeman-networkrange-check.md) | Проверяет входит ли IP-адрес в диапазоны сетевых адресов офисной сети ||
 |#
