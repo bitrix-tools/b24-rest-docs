@@ -77,3 +77,7 @@
 {% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)

@@ -100,5 +100,6 @@ userfieldconfig.add({moduleId: string, field: {}})
 ## Продолжите изучение
 
 - [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
 
 [*ключ_индекс]: Добавляйте в поиск только нужные поля. На построение индекса уходит время при изменении каждого значения поля, что может существенно замедлить работы при большом количестве таких полей.

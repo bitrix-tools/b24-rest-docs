@@ -20,6 +20,7 @@
 - [Как добавить товар в каталог со значениями пользовательских полей](../../tutorials/crm/how-to-add-crm-objects/how-to-add-product-with-custom-props.md)
 - [Как создать новый печатный документ с помощью генератора документов](../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md) 
 - [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
 
 ## Как заменить устаревший номер телефона у существующего клиента; как обновить информацию о товаре и другие примеры
 
