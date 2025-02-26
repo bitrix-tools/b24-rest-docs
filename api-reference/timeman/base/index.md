@@ -39,7 +39,7 @@
 
 {% note tip "Пользовательская документация" %}
 
--  [Рабочие графики](https://helpdesk.bitrix24.ru/open/22955798/)
+-  [Рабочие графики](https://helpdesk.bitrix24.ru/open/17937890/)
 
 {% endnote %}
 

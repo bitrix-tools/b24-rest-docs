@@ -1,4 +1,4 @@
-title: Учёт рабочего времени
+title: Учет рабочего времени
 href: index.md
 items:
   - name: Обзор методов
@@ -7,15 +7,17 @@ items:
     include:
       path: base/b24-toc.yaml
       mode: link
-  - name: Офисные сети
+  - name: Рабочий график
     include:
-      path: networkrange/b24-toc.yaml
+      path: schedule/b24-toc.yaml
       mode: link
   - name: Контроль времени
     include:
       path: timecontrol/b24-toc.yaml
       mode: link
-  - name: Рабочий график
+  - name: Офисные сети
     include:
-      path: schedule/b24-toc.yaml
+      path: networkrange/b24-toc.yaml
       mode: link
+
+
