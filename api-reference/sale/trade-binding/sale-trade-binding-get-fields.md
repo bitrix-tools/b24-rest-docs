@@ -1,10 +1,10 @@
-# Получить поля для заказов из внешних источников sale.tradeBinding.getFields
+# Получить доступные поля заказов из источников sale.tradeBinding.getFields
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с правом «Просмотр каталога товаров»
 
-Метод `sale.tradeBinding.getFields` возвращает поля заказов из внешних источников.
+Метод `sale.tradeBinding.getFields` возвращает доступные поля заказов из источников.
 
 Без параметров.
 
@@ -115,7 +115,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **tradeBinding**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [`sale_order_trade_binding`](../data-types.md) , а `value` — объект типа [`rest_field_description`](../data-types.md) ||
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [`sale_order_trade_binding`](../data-types.md#sale_order_trade_binding) , а `value` — объект типа [`rest_field_description`](../data-types.md) ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
