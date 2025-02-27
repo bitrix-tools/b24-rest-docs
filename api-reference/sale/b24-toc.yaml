@@ -17,7 +17,11 @@ items:
     include:
       path: order/b24-toc.yaml
       mode: link
-  - name: Заказы из внешних источников
+  - name: Источники заказов
+    include:
+      path: trade-platform/b24-toc.yaml
+      mode: link
+  - name: Привязка источников заказов к заказам
     include:
       path: trade-binding/b24-toc.yaml
       mode: link
@@ -33,10 +37,6 @@ items:
     include:
       path: property-variant/b24-toc.yaml
       mode: link    
-  - name: Торговые платформы
-    include:
-      path: trade-platform/b24-toc.yaml
-      mode: link
   - name: Оплаты
     include:
       path: payment/b24-toc.yaml
