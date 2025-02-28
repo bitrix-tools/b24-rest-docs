@@ -73,7 +73,7 @@ items:
     include:
       path: status-lang/b24-toc.yaml
       mode: link
-  - name: Привязка элемента корзины к оплате
+  - name: Привязка элементов корзины к оплатам
     include:
       path: payment-item-basket/b24-toc.yaml
       mode: link
