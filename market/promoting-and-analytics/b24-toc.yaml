@@ -7,5 +7,7 @@ items:
     href: users-rating.md
   - name: Премиум-рейтинг
     href: premium-rating.md
-  - name: Яндекс-метрика
+  - name: Яндекс Метрика
     href: yandex-metrica.md
+  - name: CRM-виджет
+    href: crm-widget.md
