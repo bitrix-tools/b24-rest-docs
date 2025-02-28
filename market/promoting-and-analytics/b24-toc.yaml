@@ -3,7 +3,9 @@ href: index.md
 items: 
   - name: Маркетинговые инструменты
     href: index.md
-  - name: Премиум-рейтинг
-    href: premium-rating.md
   - name: Работа с отзывами
     href: users-rating.md
+  - name: Премиум-рейтинг
+    href: premium-rating.md
+  - name: Яндекс-метрика
+    href: yandex-metrica.md
