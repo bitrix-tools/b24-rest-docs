@@ -1,10 +1,10 @@
-# Создать новый поток tasks.flow.flow.create
+# Создать новый поток tasks.flow.Flow.create
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь, не являющийся экстранетом
 
-Метод `tasks.flow.flow.create` создает поток.
+Метод `tasks.flow.Flow.create` создает поток.
 
 Поток должен привязываться к группе. Если не передать идентификатор группы при создании потока, автоматически будет создана новая группа, участниками которой будут создатель, администратор и команда потока.
 
@@ -29,7 +29,7 @@
 || **name*** 
 [`string`](../../data-types.md) | Название потока. Должно быть уникальным для каждого потока.
 
-Проверить название можно методом [tasks.flow.flow.isExists](./tasks-flow-flow-is-exists.md) ||
+Проверить название можно методом [tasks.flow.Flow.isExists](./tasks-flow-flow-is-exists.md) ||
 || **description** 
 [`string`](../../data-types.md) | Описание потока ||
 || **groupId** 
@@ -140,7 +140,7 @@
             "notifyAtHalfTime": 0
         }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.create
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.create
     ```
 
 - cURL (oAuth)
@@ -161,14 +161,14 @@
             "notifyAtHalfTime": 0
         }
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.create
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.create
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.create',
+        'tasks.flow.Flow.create',
         {
             flowData: {
                 name: 'Unique Flow Name',
@@ -217,7 +217,7 @@
 
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.create',
+        'tasks.flow.Flow.create',
         [
             'flowData' => $flowData
         ]

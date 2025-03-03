@@ -1,10 +1,10 @@
-# Удалить поток tasks.flow.flow.delete
+# Удалить поток tasks.flow.Flow.delete
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: создатель или администратор потока
 
-Метод `tasks.flow.flow.delete` удаляет поток по его идентификатору.
+Метод `tasks.flow.Flow.delete` удаляет поток по его идентификатору.
 
 ## Параметры метода
 
@@ -18,7 +18,7 @@
 || **flowData.id*** 
 [`integer`](../../data-types.md) | Идентификатор потока, который нужно удалить. 
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 |#
 
 ## Примеры кода
@@ -37,7 +37,7 @@
             "id": 517
         }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.delete
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.delete
     ```
 
 - cURL (oAuth)
@@ -51,14 +51,14 @@
             "id": 517
         }
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.delete
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.delete
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.delete',
+        'tasks.flow.Flow.delete',
         {
             flowData: {
                 id: 517
@@ -85,7 +85,7 @@
 
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.delete',
+        'tasks.flow.Flow.delete',
         [
             'flowData' => $flowData
         ]

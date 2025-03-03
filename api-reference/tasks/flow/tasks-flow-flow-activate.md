@@ -1,10 +1,10 @@
-# Активировать/деактивировать поток tasks.flow.flow.activate
+# Активировать/деактивировать поток tasks.flow.Flow.activate
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: создатель или администратор потока
 
-Метод `tasks.flow.flow.activate` включает или выключает поток по его идентификатору. Если поток выключен, он его включает. Если включен, то выключает.
+Метод `tasks.flow.Flow.activate` включает или выключает поток по его идентификатору. Если поток выключен, он его включает. Если включен, то выключает.
 
 ## Параметры метода
 
@@ -16,7 +16,7 @@
 || **flowId*** 
 [`integer`](../../data-types.md) | Идентификатор потока, который нужно включить или выключить. 
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 |#
 
 ## Примеры кода
@@ -33,7 +33,7 @@
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.activate
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.activate
     ```
 
 - cURL (oAuth)
@@ -45,14 +45,14 @@
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.activate
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.activate
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.activate',
+        'tasks.flow.Flow.activate',
         {
             flowId: 517
         },
@@ -75,7 +75,7 @@
 
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.activate',
+        'tasks.flow.Flow.activate',
         [
             'flowId' => $flowId
         ]

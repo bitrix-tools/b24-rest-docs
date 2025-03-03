@@ -98,7 +98,7 @@
 
 Потоки — это инструмент, который автоматизирует распределение и выполнение задач. Сотрудникам не нужно искать, кто будет делать задачу. Они ставят задачи в поток отдела, и он автоматически назначает исполнителя.
 
-Управлять Потоками можно группой методов [tasks.flow.flow.*](./flow/index.md). 
+Управлять Потоками можно группой методов [tasks.flow.Flow.*](./flow/index.md). 
 
 {% note tip "Пользовательская документация" %}
 
@@ -293,10 +293,10 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [tasks.flow.flow.create](./flow/tasks-flow-flow-create.md) | Создать поток ||
-|| [tasks.flow.flow.get](./flow/tasks-flow-flow-get.md) | Получить поток ||
-|| [tasks.flow.flow.update](./flow/tasks-flow-flow-update.md) | Изменить поток ||
-|| [tasks.flow.flow.delete](./flow/tasks-flow-flow-delete.md) | Удалить поток ||
-|| [tasks.flow.flow.isExists](./flow/tasks-flow-flow-is-exists.md) | Проверить, существует ли поток с таким названием ||
-|| [tasks.flow.flow.activate](./flow/tasks-flow-flow-activate.md) | Включить или выключить поток ||
+|| [tasks.flow.Flow.create](./flow/tasks-flow-flow-create.md) | Создать поток ||
+|| [tasks.flow.Flow.get](./flow/tasks-flow-flow-get.md) | Получить поток ||
+|| [tasks.flow.Flow.update](./flow/tasks-flow-flow-update.md) | Изменить поток ||
+|| [tasks.flow.Flow.delete](./flow/tasks-flow-flow-delete.md) | Удалить поток ||
+|| [tasks.flow.Flow.isExists](./flow/tasks-flow-flow-is-exists.md) | Проверить, существует ли поток с таким названием ||
+|| [tasks.flow.Flow.activate](./flow/tasks-flow-flow-activate.md) | Включить или выключить поток ||
 |#

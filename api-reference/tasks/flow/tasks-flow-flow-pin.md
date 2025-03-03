@@ -1,4 +1,4 @@
-# Закрепить или открепить поток tasks.flow.flow.pin
+# Закрепить или открепить поток tasks.flow.Flow.pin
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
@@ -16,7 +16,7 @@
 || **flowId*** 
 [`integer`](../../data-types.md) | Идентификатор потока, который нужно закрепить или открепить.
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 |#
 
 ## Примеры кода
@@ -33,7 +33,7 @@
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.pin
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.pin
     ```
 
 - cURL (oAuth)
@@ -45,14 +45,14 @@
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.pin
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.pin
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.pin',
+        'tasks.flow.Flow.pin',
         {
             flowId: 517
         },
@@ -75,7 +75,7 @@
     
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.pin',
+        'tasks.flow.Flow.pin',
         [
             'flowId' => $flowId
         ]
