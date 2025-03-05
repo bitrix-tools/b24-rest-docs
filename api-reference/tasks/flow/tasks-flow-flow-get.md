@@ -1,10 +1,10 @@
-# Получить поток tasks.flow.flow.get
+# Получить поток tasks.flow.Flow.get
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: команда потока; пользователь, который может ставить задачи в поток
 
-Метод `tasks.flow.flow.get` возвращает данные потока по его идентификатору.
+Метод `tasks.flow.Flow.get` возвращает данные потока по его идентификатору.
 
 ## Параметры метода
 
@@ -15,7 +15,7 @@
 `тип` | **Описание** ||
 || **flowId*** [`integer`](../../data-types.md) | Идентификатор потока, данные которого нужно получить. 
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 |#
 
 ## Примеры кода
@@ -32,7 +32,7 @@
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.get
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.get
     ```
 
 - cURL (oAuth)
@@ -44,14 +44,14 @@
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.get
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.get
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.get',
+        'tasks.flow.Flow.get',
         {
             flowId: 517
         },
@@ -74,7 +74,7 @@
 
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.get',
+        'tasks.flow.Flow.get',
         [
             'flowId' => $flowId
         ]
