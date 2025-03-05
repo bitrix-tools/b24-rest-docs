@@ -11,11 +11,3 @@ items:
     href: on-crm-deal-delete.md
   - name: На изменение воронки сделки
     href: on-crm-deal-move-to-category.md
-  - name: На создание новой регулярной сделки
-    href: on-crm-deal-recurring-add.md
-  - name: На изменение регулярной сделки
-    href: on-crm-deal-recurring-update.md
-  - name: На удаление регулярной сделки
-    href: on-crm-deal-recurring-delete.md
-  - name: На создание новой сделки из регулярной сделки
-    href: on-crm-deal-recurring-expose.md

@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 05 марта, 2025
+
+- Обновлены страницы событий регулярных сделок [onCrmDealRecurring*](./api-reference/crm/deals/recurring-deals/events/index.md)
+
 ### 04 марта, 2025
 
 - Обновлена главная страница раздела [Регулярные сделки](./api-reference/crm/deals/recurring-deals/index.md). Добавили вводную информацию, а также обзор методов и связей

@@ -17,3 +17,7 @@ items:
     href: crm-deal-recurring-list.md
   - name: Удалить существующую настройку для шаблона регулярной сделки
     href: crm-deal-recurring-delete.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
