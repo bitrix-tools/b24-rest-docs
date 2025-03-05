@@ -5,6 +5,7 @@
 ### 05 марта, 2025
 
 - Обновлены страницы событий регулярных сделок [onCrmDealRecurring*](./api-reference/crm/deals/recurring-deals/events/index.md)
+- Обновлена главная страница раздела [Участники чата](./api-reference/chats/chat-users/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 04 марта, 2025
 
