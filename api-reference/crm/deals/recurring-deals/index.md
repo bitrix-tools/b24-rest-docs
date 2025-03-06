@@ -43,10 +43,10 @@
   
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmDealRecurringAdd](../events/on-crm-deal-recurring-add.md) | При создании новой регулярной сделки ||
-    || [onCrmDealRecurringUpdate](../events/on-crm-deal-recurring-update.md) | При изменении регулярной сделки ||
-    || [onCrmDealRecurringDelete](../events/on-crm-deal-recurring-delete.md) | При удалении регулярной сделки ||
-    || [onCrmDealRecurringExpose](../events/on-crm-deal-recurring-expose.md) | При создании новой сделки из регулярной сделки ||
+    || [onCrmDealRecurringAdd](./events/on-crm-deal-recurring-add.md) | При создании новой регулярной сделки ||
+    || [onCrmDealRecurringUpdate](./events/on-crm-deal-recurring-update.md) | При изменении регулярной сделки ||
+    || [onCrmDealRecurringDelete](./events/on-crm-deal-recurring-delete.md) | При удалении регулярной сделки ||
+    || [onCrmDealRecurringExpose](./events/on-crm-deal-recurring-expose.md) | При создании новой сделки из регулярной сделки ||
     |#
 
 {% endlist %}
