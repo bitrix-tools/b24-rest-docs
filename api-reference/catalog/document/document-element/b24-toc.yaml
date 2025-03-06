@@ -7,8 +7,6 @@ items:
     href: catalog-document-element-add.md
   - name: Удалить товар документа складского учета
     href: catalog-document-element-delete.md
-  - name: Получить список полей (уст.)
-    href: catalog-document-element-fields.md
   - name: Получить список полей товара документа
     href: catalog-document-element-get-fields.md
   - name: Получить список товаров
