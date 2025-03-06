@@ -12,26 +12,24 @@ items:
   - name: Провести документ
     href: catalog-document-conduct.md
   - name: Выполнить групповое проведение документов
-    href: catalog-document-conduct-list.md
-  - name: Провести документ (уст.)
-    href: catalog-document-confirm.md    
+    href: catalog-document-conduct-list.md 
   - name: Удалить документ
     href: catalog-document-delete.md
   - name: Выполнить групповое удаление документов
     href: catalog-document-delete-list.md
-  - name: Получить список полей документа (уст.)
-    href: catalog-document-fields.md
   - name: Получить поля документа складского учета
     href: catalog-document-get-fields.md
   - name: Получить список документов
     href: catalog-document-list.md
   - name: Получить информацию о режиме складского учета
     href: catalog-document-mode-status.md
-  - name: Отменить проведение документа (уст.)
-    href: catalog-document-unconfirm.md
   - name: Изменить документ
     href: catalog-document-update.md
   - name: Товары документа складского учета
     include:
       path: document-element/b24-toc.yaml
+      mode: link
+  - name: Устаревшие методы складского учета
+    include:
+      path: outdated/b24-toc.yaml
       mode: link
