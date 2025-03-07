@@ -7,5 +7,5 @@ items:
     href: subscription-details.md
   - name: Встроенные покупки
     href: in-app-purchases.md
-  - name: Бесплатные
+  - name: Немонетизируемые
     href: free.md
