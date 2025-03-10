@@ -13,7 +13,7 @@ items:
     href: common-requirements.md
   - name: Требования к телефониям
     href: requirements-telephony.md
-  - name: Требования к готовым сайтам
+  - name: Требования к готовым шаблонам сайтов
     href: requirements-sites.md
   - name: Требования к Умным сценариям
     href: requirements-smart-scripts.md
