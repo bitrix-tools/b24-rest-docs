@@ -74,8 +74,6 @@
 || Документооборот | 12 500 р/неделя ||
 |#
 
-[Правила проведения акции](https://partners.1c-bitrix.ru/upload/marketplace/promotion_rules_premium_b24.pdf)
-
 Нужны подробности? Ознакомьтесь с текстом соглашения об оказании услуг и правилами. 
 
 [Соглашение](https://vendors.bitrix24.ru/oferta_premium.pdf)
