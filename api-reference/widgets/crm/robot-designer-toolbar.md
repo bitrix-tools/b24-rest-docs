@@ -2,7 +2,7 @@
 
 > Scope: [`intranet`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт выпадающего меню верхней кнопки дизайнера роботов в таких объектов CRM как [лиды](../../crm/leads/) и [сделки](../../crm/deals/)
+Вы можете добавлять свой пункт выпадающего меню верхней кнопки дизайнера роботов в таких объектов CRM как [лиды](../../crm/leads/), [сделки](../../crm/deals/), [новые счета](../../crm/smart-invoice/) и [пользовательские типы](../../crm/universal/) объектов.
 
 ![Виджет в виде пункта выпадающего меню верхней кнопки дизайнера роботов](./_images/CRM_ROBOT_DESIGNER_TOOLBAR.png "Виджет в виде пункта выпадающего меню верхней кнопки дизайнера роботов")
 
@@ -14,6 +14,8 @@
 || **Код встройки** | **Место** ||
 || `CRM_LEAD_ROBOT_DESIGNER_TOOLBAR` | Пункт выпадающего меню верхней кнопки дизайнера роботов в [лиде](../../crm/leads/) ||
 || `CRM_DEAL_ROBOT_DESIGNER_TOOLBAR` | Пункт выпадающего меню верхней кнопки дизайнера роботов в [сделке](../../crm/deals/) ||
+|| `CRM_SMART_INVOICE_ROBOT_DESIGNER_TOOLBAR` | Пункт выпадающего меню верхней кнопки дизайнера роботов в [новых счетах](../../crm/smart-invoice/) ||
+|| `CRM_DYNAMIC_XXX_ROBOT_DESIGNER_TOOLBAR` |  Пункт выпадающего меню верхней кнопки дизайнера роботов в пользовательских типах объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_LIST_MENU` ||
 |#
 
 ## Что получает обработчик
@@ -58,6 +60,46 @@
         [member_id] => da45a03b265edd8787f8a258d793cc5d
         [status] => L
         [PLACEMENT] => CRM_DEAL_ROBOT_DESIGNER_TOOLBAR
+    )
+
+    ```
+
+- CRM_SMART_INVOICE_ROBOT_DESIGNER_TOOLBAR
+
+    ```php
+
+    Array
+    (
+        [DOMAIN] => xxx.bitrix24.com
+        [PROTOCOL] => 1
+        [LANG] => en
+        [APP_SID] => 551f45b6c2344572c396f678b19b9fd2
+        [AUTH_ID] => 9c44d0670076a4b8006f518000000001201c07653252db32225bf0a643c676de22ba44
+        [AUTH_EXPIRES] => 3600
+        [REFRESH_ID] => 8cc3f7670076a4b8006f518000000001201c07f2d093e0a9e3af54d1c1bd9f51b39b95
+        [member_id] => e8857f161a1a8288f312b6cc6ad67995
+        [status] => L
+        [PLACEMENT] => CRM_SMART_INVOICE_ROBOT_DESIGNER_TOOLBAR
+    )
+
+    ```
+
+- CRM_DYNAMIC_XXX_ROBOT_DESIGNER_TOOLBAR
+
+    ```php
+
+    Array
+    (
+        [DOMAIN] => xxx.bitrix24.com
+        [PROTOCOL] => 1
+        [LANG] => en
+        [APP_SID] => c1ec1ec90542fe796fe8868c4da3c482
+        [AUTH_ID] => 9745d0670076a4b8006f518000000001201c070f6ab1c3c782c839d8c502019162ff5a
+        [AUTH_EXPIRES] => 3600
+        [REFRESH_ID] => 87c4f7670076a4b8006f518000000001201c078c7f1717892822ebf3ef37611b566015
+        [member_id] => e8857f161a1a8288f312b6cc6ad67995
+        [status] => L
+        [PLACEMENT] => CRM_DYNAMIC_183_ROBOT_DESIGNER_TOOLBAR
     )
 
     ```

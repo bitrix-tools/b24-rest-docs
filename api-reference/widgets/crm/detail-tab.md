@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавлять свои вкладки в детальную карточку таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/) и [пользовательские типы](../../crm/universal/) объектов.
+Вы можете добавлять свои вкладки в детальную карточку таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [новые счета](../../crm/smart-invoice/) и [пользовательские типы](../../crm/universal/) объектов.
 
 ![Виджет в виде вкладки в детальной карточке элемента CRM](./_images/CRM_DEAL_DETAIL_TAB.png "Виджет в виде вкладки в детальной карточке элемента CRM")
 
@@ -17,6 +17,7 @@
 || `CRM_CONTACT_DETAIL_TAB` | Вкладка в карточке [контакта](../../crm/contacts/) ||
 || `CRM_COMPANY_DETAIL_TAB` | Вкладка в карточке [компании](../../crm/companies/) ||
 || `CRM_QUOTE_DETAIL_TAB` | Вкладка в карточке [коммерческого предложения](../../crm/quote/) ||
+|| `CRM_SMART_INVOICE_DETAIL_TAB` | Вкладка в карточке [счетов](../../crm/smart-invoice/) ||
 || `CRM_DYNAMIC_XXX_DETAIL_TAB` | Вкладка в карточке элемента пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_DETAIL_TAB` ||
 |#
 
@@ -131,6 +132,27 @@
     
     ```
 
+- CRM_SMART_INVOICE_DETAIL_TAB
+
+    ```php
+
+    Array
+    (
+        [DOMAIN] => xxx.bitrix24.com
+        [PROTOCOL] => 1
+        [LANG] => en
+        [APP_SID] => fff172819907af99a29b4830304aabe7
+        [AUTH_ID] => ccbfca670076a4b8006f518000000001201c07b80ac830a875756c6c0c9073bec005c5
+        [AUTH_EXPIRES] => 3600
+        [REFRESH_ID] => bc3ef2670076a4b8006f518000000001201c07efcbf35af9b89bb15ea3ab8e7223fe49
+        [member_id] => e8857f161a1a8288f312b6cc6ad67995
+        [status] => L
+        [PLACEMENT] => CRM_SMART_INVOICE_DETAIL_TAB
+        [PLACEMENT_OPTIONS] => {"ID":"32"}
+    )
+    
+    ```
+
 - CRM_DYNAMIC_XXX_DETAIL_TAB
 
     ```php
@@ -175,7 +197,7 @@
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
-- компания [crm.comany.get](../../crm/companies/crm-company-get.md)
+- компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
  
 В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`.
