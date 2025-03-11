@@ -122,7 +122,7 @@
 || **COLLAB_ID**
 [`integer`](../../data-types.md) | Идентификатор коллабы, в которой создано событие ||
 || **~RRULE_DESCRIPTION**
-[`integer`](../../data-types.md) | Текстовое описание правила повторения события ||
+[`string`](../../data-types.md) | Текстовое описание правила повторения события ||
 || **attendeesEntityList**
 [`array`](../../data-types.md) | Массив объектов, описывающих пользователей — [участников события](#attendeesEntityList) ||
 || **~DESCRIPTION**
