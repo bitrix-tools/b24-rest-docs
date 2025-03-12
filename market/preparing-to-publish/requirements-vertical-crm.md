@@ -14,7 +14,7 @@
 
 Живая демонстрация экспорта, установки пользователем, ответы на частые вопросы.
 
-@[rutube](https://rutube.ru/video/private/d87dee62968740a4e14ea8f636a20979/?p=Z75yQBDal1wXRXe5RwsGKw)
+@[rutube](https://rutube.ru/play/embed/d87dee62968740a4e14ea8f636a20979/?p=Z75yQBDal1wXRXe5RwsGKw)
 
 ### Как мыслить продуктово при создании отраслевых решений
 
@@ -22,7 +22,7 @@
 
 Продуктологи из Битрикс24 делятся своим опытом и дают рекомендации, которые позволят вам сделать самое лучшее решение для выбранной вами отрасли бизнеса.
 
-@[rutube](https://rutube.ru/video/private/19f2f34622c16d295e15a7d9d5b15132/?p=4wbM51PiY251NnVK_SsaSw&r=plemwd)
+@[rutube](https://rutube.ru/play/embed/19f2f34622c16d295e15a7d9d5b15132/?p=4wbM51PiY251NnVK_SsaSw&r=plemwd)
 
 ## Какие настройки CRM могут использоваться в Отраслевой CRM
 
