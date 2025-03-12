@@ -46,7 +46,7 @@
 
 Также можно показать пользователю небольшую видео-инструкцию о том, как именно выставляются оценки в интерфейсе Маркетплейса.
 
-@[rutube](https://rutube.ru/video/private/2d00e9c19107b15ab107064bd4a372e7/?r=wd&p=fWS-goJikJAssBr1bmoYMg)
+@[rutube](https://rutube.ru/video/embed/2d00e9c19107b15ab107064bd4a372e7/?r=wd&p=fWS-goJikJAssBr1bmoYMg)
 
 ## Как изменить отзыв
 
