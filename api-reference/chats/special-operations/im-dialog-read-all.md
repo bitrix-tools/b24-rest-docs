@@ -33,7 +33,7 @@
 - JS
 
     ```js
-    B24.callMethod(
+    BX24.callMethod(
         'im.dialog.read.all',
         {},
         res => console.log(res.data())

@@ -1,15 +1,16 @@
 title: Специальные операции
 href: index.md
 items:
-  - name: Специальные операции в чатах Битрикс24
+  - name: Обзор методов
     href: index.md
+  - name: Закрепить чат вверху списка
+    href: im-recent-pin.md
   - name: Установить или снять признак «прочитано» у чата
     href: im-recent-unread.md
   - name: Установить признак «прочитано» у всех чатов
     href: im-dialog-read-all.md
-  - name: Закрепить чат в избранном
-    href: im-recent-pin.md
-  - name: Удалить чат из списка последних
-    href: im-recent-hide.md
   - name: Отключить уведомления от чата
     href: im-chat-mute.md
+  - name: Удалить чат из списка последних чатов
+    href: im-recent-hide.md
+

@@ -2,6 +2,9 @@
 
 ## 2025
 
+### 12 марта, 2025
+- Обновлена главная страница раздела [Специальные операции](./api-reference/chats/special-operations/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
 ### 05 марта, 2025
 
 - Обновлены страницы событий регулярных сделок [onCrmDealRecurring*](./api-reference/crm/deals/recurring-deals/events/index.md)
