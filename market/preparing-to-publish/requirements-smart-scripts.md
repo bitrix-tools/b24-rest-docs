@@ -51,7 +51,7 @@
 - Антон Янжула, ведущий разработчик «1С-Битрикс»
 - Сергей Востриков, руководитель направления Маркетплейс и интеграций в «1С-Битрикс»
 
-@[rutube](https://rutube.ru/video/private/d348f3c78040cd9ce07fd831950679bd/?p=CDceQ1-pw2ot-UCbKUVRWg)
+@[rutube](https://rutube.ru/play/embed/d348f3c78040cd9ce07fd831950679bd/?p=CDceQ1-pw2ot-UCbKUVRWg)
 
 ## Продолжите изучение
 
