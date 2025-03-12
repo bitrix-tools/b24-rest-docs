@@ -100,7 +100,7 @@
     || [crm.deal.delete](./crm-deal-delete.md) | Удаляет сделку и все связанные с ней объекты ||
     || [crm.deal.fields](./crm-deal-fields.md) | Возвращает описание полей сделки ||
     || [crm.deal.productrows.set](./crm-deal-productrows-set.md) | Добавляет товары в сделку ||
-    || [crm.deal.productrows.get](./crm-deal-get.md) | Возвращает товары сделки ||
+    || [crm.deal.productrows.get](./crm-deal-productrows-get.md) | Возвращает товары сделки ||
     |#
 
 - События
