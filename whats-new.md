@@ -2,7 +2,13 @@
 
 ## 2025
 
+### 13 марта, 2025
+
+- Добавлен новый туториал [Как перенести дело из одного типа объекта в другой](./tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
+- Добавлен новый туториал [Как перенести дело между элементами одного типа](./tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
+
 ### 12 марта, 2025
+
 - Обновлена главная страница раздела [Специальные операции](./api-reference/chats/special-operations/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
 
 ### 05 марта, 2025

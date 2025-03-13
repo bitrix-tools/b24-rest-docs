@@ -153,3 +153,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-binding-list.md)
 - [{#T}](./crm-activity-binding-add.md)
 - [{#T}](./crm-activity-binding-move.md)
+- [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
