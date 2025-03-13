@@ -88,7 +88,7 @@
 
 - Евгений Шеленков, ведущий разработчик, тимлид команды «1С-Битрикс»
 
-@[youtube](https://www.youtube.com/watch?v=rZ487evFazw)
+@[rutube](https://rutube.ru/play/embed/14f7a53359e1126e7de481577c72d787/?p=ziDzU6F9ieGY97GV67UK5g)
 
 ## Bitrix Talks Tech. E-commerce. Создаём приложение для оплаты через REST API в сделках/смарт-процессах
 
@@ -102,7 +102,7 @@
 
 - Максим Лашков, ведущий разработчик «1С-Битрикс», тимлид команды «1С-Битрикс
 
-@[youtube](https://www.youtube.com/watch?v=h3m42MF4TXo)
+@[rutube](https://rutube.ru/play/embed/75c4a43985d9ca82cd6d73305c030d90/?p=-Yrp9RF2dSF9jL0uVTrnQw)
 
 ## Bitrix Talks Tech. AI. CoPilot
 
@@ -117,7 +117,7 @@
 - Тарас Вишник, разработчик «1С-Битрикс»
 - Сергей Востриков, руководитель направления Маркетплейс и интеграций Битрикс24
 
-@[youtube](https://www.youtube.com/watch?v=xIkqDVJObdM)
+@[rutube](https://rutube.ru/play/embed/db5e6cf437d28bcd32ce50a72a50f931/?p=oGDZho4T7zQCAfw9xXMhPg)
 
 ## Bitrix Talks Tech. Разбор механизма событий REST API
 
@@ -131,7 +131,7 @@
 
 - Владислав Бажанов, ведущий разработчик «1С-Битрикс»
   
-@[youtube](https://www.youtube.com/watch?v=3WSH9kJl-4c)
+@[rutube](https://rutube.ru/play/embed/ad1a1cd389f5b65d9609037591619898/?p=azvDTzgKv95G71gZTJzfEQ)
 
 ## Преимущества оффлайн-событий, или как их правильно использовать
 
@@ -148,7 +148,7 @@
 
 [Скачать презентацию](https://video.1c-bitrix.ru/meet21/denisyuk.pptx)
 
-@[youtube](https://www.youtube.com/watch?v=O0iTxYew3b4)
+@[rutube](https://rutube.ru/play/embed/64d852b521780c31238061edbac8a8f6/?p=3ahdlK3HwqveYWoD1WlH7g)
 
 ## Разработка REST-приложений. Полезное
 
@@ -164,7 +164,7 @@
 
 [Скачать презентацию](https://video.1c-bitrix.ru/meet21/vostrikov-bazhanov.pptx)
 
-@[youtube](https://www.youtube.com/watch?v=UiGgSn7_igg)
+@[rutube](https://rutube.ru/play/embed/bae0f19dc003d842858f4f956b67cb9e/?p=PxAB7Cs-2EgwqLfNhFgY1w)
 
 ## Умные сценарии и развитие роботов
 
@@ -181,7 +181,7 @@
 - Антон Янжула, ведущий разработчик «1С-Битрикс»
 - Сергей Востриков, руководитель направления Маркет и интеграций в «1С-Битрикс»
 
-@[youtube](https://www.youtube.com/watch?v=ntSqIxJk-lY)
+@[rutube](https://rutube.ru/play/embed/d348f3c78040cd9ce07fd831950679bd/?p=CDceQ1-pw2ot-UCbKUVRWg)
 
 ## Как разрабатывать для облака. Архитектура rest-приложений для высоких нагрузок
 
@@ -189,7 +189,7 @@
 
 Ведущий разработчик REST API Владислав Бажанов рассказал, как правильно проектировать облачную архитектуру для приложений, чтобы они смогли работать с большим количеством порталов Битрикс24 и при этом соответствовать системным требованиям REST API
 
-@[youtube](https://www.youtube.com/watch?v=lgdoJJpRFDI)
+@[rutube](https://rutube.ru/play/embed/29242dde3149a5d8303f52ac36928220/?p=_likQDVraFKEvaf19olSBg)
 
 ## Современный JS в разработке на BitrixFramework
 
@@ -197,7 +197,7 @@
 
 Этот доклад не про технологии 1С-Битрикс. Но если вы хотите заниматься разработкой front-end в том числе для приложений Битрикс24, то без правильного подхода не обойтись. Доклад Евгения Шеленкова как раз про это - как использовать современные frameworks, и в частности, vue.js для разработки сложных интерфейсов и как это уже используется в Битрикс24 в новом CRM-виджете
 
-@[youtube](https://www.youtube.com/watch?v=0bZGKbNgxqw)
+@[rutube](https://rutube.ru/play/embed/34dbc8e840c09e074f480502b47e1748/?p=oVkOTOjdAmccg3MwaMo2EA)
 
 ## Виджеты в Битрикс24 и синхронизация данных
 
@@ -205,7 +205,7 @@
 
 Смотрите запись доклада Сергея Вострикова на партнерской конференции посвященного новым местам встройки виджетов в Битрикс24 (на примере встраивания в задачи), а также большой теме синхронизации данных Битрикс24 с внешними источниками на основе оффлайн-событий
 
-@[youtube](https://www.youtube.com/watch?v=JtHzrvs4IiY)
+@[rutube](https://rutube.ru/play/embed/75a1b6eb957c010e64c728dc95b6f1f0/?p=_T5FSNMj430kRwdBUDADyA)
 
 ## Приложения "под колпаком"
 
@@ -213,7 +213,7 @@
 
 REST API работает и в коробочном Битрикс24. Но при этом сервер OAuth-авторизации и очередь REST-событий все равно находятся на облачных серверах Битрикс. Но есть способ, который позволит при необходимости продолжать пользоваться REST без обращения к внешним ресурсам. Смотрите запись доклада Максима Сидоренко на Битрикс24.Идея
 
-@[youtube](https://www.youtube.com/watch?v=MtTVF9Vf0Wo)
+@[rutube](https://rutube.ru/play/embed/0becef7c826427edd5e05e55ffb24144/?p=6tgNGVLNFCycVzj1phG1xg)
 
 ## REST для триггеров CRM
 
