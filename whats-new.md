@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 14 марта, 2025
+
+- Добавили новый параметр `useOriginalUfNames` в методы [crm.item.*](./api-reference/crm/universal/index.md) для управления форматом имен пользовательских полей
+
 ### 13 марта, 2025
 
 - Добавлен новый туториал [Как перенести дело из одного типа объекта в другой](./tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)

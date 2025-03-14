@@ -20,13 +20,13 @@
 
 Можно получить методом [`crm.item.list`](./crm-item-list.md) или при создании элемента с помощью [`crm.item.add`](./crm-item-add.md) ||
 || **useOriginalUfNames**
-[`boolean`][1] | Параметр используется для управления форматом имён пользовательских полей в ответе.   
+[`boolean`][1] | Параметр используется для управления форматом имен пользовательских полей в ответе.   
 Возможные значения:
 
 - `Y` — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830
 - `N` — имена пользовательских полей в camelCase, например ufCrm_2_1639669411830
 
-По умолчанию — `N`. ||
+По умолчанию — `N` ||
 |#
 
 ## Примеры кода
@@ -43,8 +43,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":1,"id":250}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.get
+    -d '{"entityTypeId":1,"id":250,"useOriginalUfNames":"N"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.get
     ```
 
 - cURL (OAuth)
@@ -53,7 +53,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":1,"id":250,"auth":"**put_access_token_here**"}' \
+    -d '{"entityTypeId":1,"id":250,"useOriginalUfNames":"N","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.item.get
     ```
 
@@ -65,6 +65,7 @@
             {
                 entityTypeId: 1,
                 id: 250,
+                useOriginalUfNames: 'N',
             },
             (result) => {
                 if (result.error())
@@ -265,10 +266,10 @@ HTTP-статус: **200**
 [`time`][1] | Объект, содержащий в себе информацию о времени выполнения запроса ||
 |#
 
-{% note info %}
+{% note info " " %}
 
-По умолчанию имена пользовательских полей возвращаются в camelCase, например ufCrm_1720019876534.
-При передаче параметра useOriginalUfNames со значением Y пользовательские поля будут возвращаться с оригинальными именами, например UF_CRM_1720019876534.
+По умолчанию имена пользовательских полей возвращаются в camelCase, например ufCrm2_1639669411830.
+При передаче параметра `useOriginalUfNames` со значением `Y` пользовательские поля будут возвращаться с оригинальными именами, например UF_CRM_2_1639669411830.
 
 {% endnote %}
 
