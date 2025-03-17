@@ -168,7 +168,7 @@ blocks:
                 color: #54BA7E
 
   - type: 'card-layout-block'
-    title: 'Коммьюнити и коммуникация с Битрикс24'
+    title: 'Комьюнити и коммуникация с Битрикс24'
     children:
       - type: 'background-card'
         title: 'Улучшить документацию'
