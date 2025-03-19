@@ -1,4 +1,4 @@
-# Событие на обновление валюты onCrmCurrencyUpdate
+# Событие при обновлении валюты onCrmCurrencyUpdate
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
