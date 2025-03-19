@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 19 марта, 2025
+
+- Обновлены страницы событий при работе с валютой [onCrmCurrency*](./api-reference/crm/currency/events/index.md)
+
 ### 14 марта, 2025
 
 - Добавили новый параметр `useOriginalUfNames` в методы [crm.item.*](./api-reference/crm/universal/index.md) для управления форматом имен пользовательских полей
