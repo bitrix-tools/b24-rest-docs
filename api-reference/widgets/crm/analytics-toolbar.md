@@ -43,7 +43,7 @@ Array
 
 ### PLACEMENT_OPTIONS
 
-В текущем виджете, параметр `PLACEMENT_OPTIONS` не передаётся.
+В текущем виджете параметр `PLACEMENT_OPTIONS` не передается.
 
 ## Продолжите изучение
 

@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт в контекстное меню таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [старые счета](../../crm/outdated/invoice/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
+Вы можете добавить свой пункт в контекстное меню объектов CRM: [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [старые счета](../../crm/outdated/invoice/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md), [пользовательские типы  объектов](../../crm/universal/index.md).
 
 ![Виджет в виде пункта контекстного меню в Сделке](./_images/CRM_DEAL_LIST_MENU.png "Виджет в виде пункта контекстного меню в Сделке")
 
@@ -16,7 +16,7 @@
 || `CRM_CONTACT_LIST_MENU` | Пункт контекстного меню [контакта](../../crm/contacts/index.md) ||
 || `CRM_COMPANY_LIST_MENU` | Пункт контекстного меню [компании](../../crm/companies/index.md) ||
 || `CRM_DEAL_LIST_MENU` | Пункт контекстного меню [сделки](../../crm/deals/index.md) ||
-|| `CRM_INVOICE_LIST_MENU` | Пункт контекстного меню [счета](../../crm/outdated/invoice/index.md) ||
+|| `CRM_INVOICE_LIST_MENU` | Пункт контекстного меню [старого счета](../../crm/outdated/invoice/index.md) ||
 || `CRM_SMART_INVOICE_LIST_MENU` | Пункт контекстного меню [нового счета](../../crm/universal/invoice.md) ||
 || `CRM_QUOTE_LIST_MENU` | Пункт контекстного меню [коммерческого предложения](../../crm/quote/index.md) ||
 || `CRM_ACTIVITY_LIST_MENU` | Пункт контекстного меню [дела](../../crm/timeline/activities/index.md) ||
@@ -242,9 +242,9 @@
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
 - компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
-- дело [crm.activity.get](../../crm/timeline/activities/crm-activity-get.md)
+- дело [crm.activity.get](../../crm/timeline/activities/activity-base/crm-activity-get.md)
 
-В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`.
+В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше — `183`
 
 ||
 |#
