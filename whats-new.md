@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 20 марта, 2025
+
+- Добавлена поддержка поля `contactIds` в фильтре для метода [crm.item.list](./api-reference/crm/universal/crm-item-list.md)
+
 ### 19 марта, 2025
 
 - Обновлены страницы событий при работе с валютой [onCrmCurrency*](./api-reference/crm/currency/events/index.md)
