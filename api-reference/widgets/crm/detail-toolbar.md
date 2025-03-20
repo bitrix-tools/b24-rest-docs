@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт выпадающего меню верхней кнопки карточки таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), и [пользовательские типы](../../crm/universal/index.md) объектов.
+Вы можете добавлять свой пункт выпадающего меню верхней кнопки карточки таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
 
 ![Виджет в виде пункта выпадающего меню верхней кнопки карточки сделки](./_images/CRM_DEAL_DETAIL_TOOLBAR.png "Виджет в виде пункта выпадающего меню верхней кнопки карточки сделки")
 
@@ -16,6 +16,8 @@
 || `CRM_DEAL_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [сделки](../../crm/deals/index.md) ||
 || `CRM_CONTACT_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [контакта](../../crm/contacts/index.md) ||
 || `CRM_COMPANY_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [компании](../../crm/companies/index.md) ||
+|| `CRM_QUOTE_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [коммерческого предложения](../../crm/quote/index.md) ||
+|| `CRM_SMART_INVOICE_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [счетов](../../crm/universal/invoice.md) ||
 || `CRM_DYNAMIC_XXX_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DETAIL_ACTIVITY` ||
 |#
 
@@ -109,7 +111,7 @@
         
     ```
 
-- CRM_QUOTE_DETAIL_ACTIVITY
+- CRM_QUOTE_DETAIL_TOOLBAR
 
     ```php
 
@@ -126,6 +128,27 @@
         [status] => L
         [PLACEMENT] => CRM_QUOTE_DETAIL_TOOLBAR
         [PLACEMENT_OPTIONS] => {"ENTITY_ID":"5"}
+    )
+    
+    ```
+
+- CRM_SMART_INVOICE_DETAIL_TOOLBAR
+
+    ```php
+
+    Array
+    (
+        [DOMAIN] => xxx.bitrix24.com
+        [PROTOCOL] => 1
+        [LANG] => en
+        [APP_SID] => 0913971fc9a85afea6263cc6dcff04bd
+        [AUTH_ID] => 9fc7ca670076a4b8006f518000000001201c07e51994c33447f80190049359e6d29a0c
+        [AUTH_EXPIRES] => 3600
+        [REFRESH_ID] => 8f46f2670076a4b8006f518000000001201c078f877b9e542e35eeeca4c284d2fd976a
+        [member_id] => e8857f161a1a8288f312b6cc6ad67995
+        [status] => L
+        [PLACEMENT] => CRM_SMART_INVOICE_DETAIL_TOOLBAR
+        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"32"}
     )
     
     ```
@@ -174,7 +197,7 @@
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
-- компания [crm.comany.get](../../crm/companies/crm-company-get.md)
+- компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
 
 В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`.

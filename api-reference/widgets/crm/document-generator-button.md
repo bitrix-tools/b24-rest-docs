@@ -2,7 +2,7 @@
 
 > Scope: [`intranet`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт в выпадающее меню генератора документов таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [счета](../../crm/outdated/invoice/index.md) и [коммерческие предложения](../../crm/quote/index.md).
+Вы можете добавлять свой пункт в выпадающее меню генератора документов таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -14,8 +14,9 @@
 || `CRM_CONTACT_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [контактов](../../crm/contacts/index.md) ||
 || `CRM_COMPANY_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [компаний](../../crm/companies/index.md) ||
 || `CRM_DEAL_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [сделок](../../crm/deals/index.md) ||
-|| `CRM_INVOICE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [счетов](../../crm/outdated/invoice/index.md) ||
+|| `CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [счетов](../../crm/universal/invoice.md) ||
 || `CRM_QUOTE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [коммерческих предложений](../../crm/quote/index.md) ||
+|| `CRM_DYNAMIC_XXX_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON` ||
 |#
 
 ## Что получает обработчик
@@ -129,6 +130,27 @@
     
     ```
 
+- CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON
+
+    ```php
+
+    Array
+    (
+        [DOMAIN] => xxx.bitrix24.com
+        [PROTOCOL] => 1
+        [LANG] => en
+        [APP_SID] => adada92053b22a4de3895402a01693cf
+        [AUTH_ID] => 69c7ca670076a4b8006f518000000001201c0720c9c9d78077b5f2c5530f64b061c8a1
+        [AUTH_EXPIRES] => 3600
+        [REFRESH_ID] => 5946f2670076a4b8006f518000000001201c07709da4b12d3c7e82e120a20e547b638f
+        [member_id] => e8857f161a1a8288f312b6cc6ad67995
+        [status] => L
+        [PLACEMENT] => CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON
+        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"32"}
+    )
+    
+    ```
+
 - CRM_DYNAMIC_ХХХ_DOCUMENTGENERATOR_BUTTON
 
     ```php
@@ -173,7 +195,7 @@
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
-- компания [crm.comany.get](../../crm/companies/crm-company-get.md)
+- компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
 
 В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`.
