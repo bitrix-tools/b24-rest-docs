@@ -111,7 +111,7 @@ blocks:
       - id: 'one'
         label: 'Локальные интеграции'
       - id: 'two'
-        label: 'Битрикс24 Маркет'
+        label: 'Битрикс24 Маркетплейс'
       - id: 'three'
         label: 'Справочник API'
     colSizes:
@@ -168,7 +168,7 @@ blocks:
                 color: #54BA7E
 
   - type: 'card-layout-block'
-    title: 'Коммьюнити и коммуникация с Битрикс24'
+    title: 'Комьюнити и коммуникация с Битрикс24'
     children:
       - type: 'background-card'
         title: 'Улучшить документацию'

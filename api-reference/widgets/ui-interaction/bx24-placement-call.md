@@ -1,28 +1,45 @@
 # Вызвать зарегистрированную команду интерфейса BX24.placement.call
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`placement`](../../scopes/permissions.md)
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `BX24.placement.call` вызывает зарегистрированную команду интерфейса.
 
-{% endnote %}
+## Параметры
 
-{% if build == 'dev' %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **command***
+[`string`](../../data-types.md) | Вызываемая команда ||
+|| **parameters**
+[`object`](../../data-types.md) | Передаваемые параметры ||
+|| **callback***
+[`callable`](../../data-types.md) | Функция обратного вызова ||
+|#
 
-- нужны правки под стандарт написания
-- отсутствуют параметры или поля
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы.
 
-{% endnote %}
+## Пример кода
 
-{% endif %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-`BX24.placement.call(command, parameters, callback)`
+```js
+BX24.ready(function () {
+    BX24.init(function () {
+        BX24.placement.call('getStatus', {}, function (result) {
+            console.log(result);
+        });
 
-Вызов зарегистрированной команды интерфейса
+        BX24.placement.call('CallCardSetCardTitle', {title: 'hello world!'}, function (result) {
+            console.log(result);
+        });
+    });
+});
+```
+
+## Продолжите изучение 
+
+- [{#T}](bx24-placement-info.md)
+- [{#T}](bx24-placement-get-interface.md)
+- [{#T}](bx24-placement-bind-event.md)

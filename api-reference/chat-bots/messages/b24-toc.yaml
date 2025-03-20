@@ -1,6 +1,8 @@
 title: Работа с сообщениями
 href: imbot-message-add.md
 items:
+  - name: Обзор методов
+    href: index.md
   - name: Отправить сообщение
     href: imbot-message-add.md
   - name: Изменить отправленное сообщение

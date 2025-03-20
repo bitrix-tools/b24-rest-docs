@@ -1,26 +1,30 @@
-# Обзор методов
+# Источники заказов в Интернет-магазине: обзор методов
 
-{% if build == 'dev' %}
+Заказы можно создать вручную методом [sale.order.add](../order/sale-order-add.md) или получить из внутренних источников:
+- счет,
+- документ реализации,
+- сделка,
+- дело,
+- лендинг.
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+Чтобы просмотреть все источники заказов вашего Битрикс24, используйте метод [sale.tradePlatform.list](./sale-trade-platform-list.md).
 
-- нет контента
-- добавить инфу из комментариев задачи? https://bitrix24.team/company/personal/user/35/tasks/task/view/493498/
+> Быстрый переход: [все методы](#all-methods)
 
-{% endnote %}
+## Связь источников заказов с другими объектами
 
-{% endif %}
+**Привязка источников заказов к заказам.** Чтобы просмотреть заказы из конкретного источника, используйте метод [sale.tradeBinding.list](../trade-binding/sale-trade-binding-list.md).
 
-> Название метода:
->
+**Заказ.** Получите всю информацию о заказе с помощью метода [sale.order.get](../order/sale-order-get.md).
+
+## Обзор методов {#all-methods}
+
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с правом «Просмотр каталога товаров»
 
-Методы работы с Торговыми платформами:
-
 #|
 || **Метод** | **Описание** ||
-|| [sale.tradePlatform.getFields](./sale-trade-platform-get-fields.md) | Возвращает поля торговых платформ статусов ||
-|| [sale.tradePlatform.list](./sale-trade-platform-list.md) | Метод для получения списка торговых платформ ||
+|| [sale.tradePlatform.list](./sale-trade-platform-list.md) | Возвращает список источников заказов ||
+|| [sale.tradePlatform.getFields](./sale-trade-platform-get-fields.md) | Возвращает доступные поля источников заказов ||
 |#

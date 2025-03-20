@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Типы данных и структура объектов в REST API CRM
     href: data-types.md 
+  - name: Поля основных объектов CRM
+    href: main-entities-fields.md
   - name: Частые кейсы и туториалы
     href: tutorials.md
   - name: Определить текущий режим работы CRM
@@ -75,5 +77,3 @@ items:
       mode: link
   - name: Получить историю движения по стадиям
     href: crm-stage-history-list.md
-  - name: Поля основных объектов CRM
-    href: main-entities-fields.md

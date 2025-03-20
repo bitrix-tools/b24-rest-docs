@@ -58,7 +58,8 @@
 
 Фильтр LIKE не работает с полями типа `crm_status`, `crm_contact`, `crm_company` (тип сделки `TYPE_ID`, стадия `STAGE_ID` и так далее).
 
-Список доступных полей для фильтрации можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md)
+Список доступных полей для фильтрации можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md). 
+Фильтр не поддерживает поле `CONTACT_IDS`
 ||
 || **order**
 [`object`](../../data-types.md) | Объект формата:

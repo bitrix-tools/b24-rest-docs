@@ -19,7 +19,7 @@ Method is not allowed for batch usage | Текущий метод не разр�
 || `200` | `ERROR_BATCH_LENGTH_EXCEEDED`
 Max batch length exceeded | Превышена максимальная длина параметров, переданных в метод [batch](../api-reference/how-to-call-rest-api/batch.md) ||
 || `200` | `NO_AUTH_FOUND`
-Wrong authorization data | Неверный [access-токен](../api-reference/oauth/) или [код вебхука](../local-integrations/local-webhooks.md) ||
+Wrong authorization data | Неверный [access-токен](../api-reference/oauth/index.md) или [код вебхука](../local-integrations/local-webhooks.md) ||
 || `200` | `INVALID_REQUEST`
 Https required. | Для вызовов REST методов требуется использовать протокол HTTPS ||
 || `200` | `OVERLOAD_LIMIT`
@@ -27,13 +27,13 @@ REST API is blocked due to overload | REST API заблокирован из-з�
 || `200` | `ACCESS_DENIED`
 REST API is available only on commercial plans | REST API доступен только на коммерческих планах. ||
 || `200` | `INVALID_CREDENTIALS`
-Invalid request credentials | У пользователя, с чьим [access-токеном](../api-reference/oauth/) или [вебхуком](../local-integrations/local-webhooks.md) был вызван метод, не хватает прав ||
+Invalid request credentials | У пользователя, с чьим [access-токеном](../api-reference/oauth/index.md) или [вебхуком](../local-integrations/local-webhooks.md) был вызван метод, не хватает прав ||
 || `200` | `ERROR_MANIFEST_IS_NOT_AVAILABLE`
 Manifest is not available. | Манифест недоступен. ||
 || `200` | `insufficient_scope`
 The request requires higher privileges than provided by the webhook token | Запрос требует более высоких привилегий, чем предоставляет токен [веб-хука](../local-integrations/local-webhooks.md) ||
 || `200` | `expired_token`
-The access token provided has expired | Предоставленный [access-токен](../api-reference/oauth/) доступа истек ||
+The access token provided has expired | Предоставленный [access-токен](../api-reference/oauth/index.md) доступа истек ||
 || `200` | `user_access_error`
 The user does not have access to the application | Пользователь не имеет доступа к приложению. Это означает, что приложение установлено, но администратор портала разрешил доступ к этому приложению только конкретным пользователям ||
 |#

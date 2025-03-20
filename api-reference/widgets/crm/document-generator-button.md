@@ -2,7 +2,7 @@
 
 > Scope: [`intranet`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт в выпадающее меню генератора документов таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [счета](../../crm/outdated/invoice/), [коммерческие предложения](../../crm/quote/), [новые счета](../../crm/smart-invoice/) и [пользовательские типы](../../crm/universal/) объектов.
+Вы можете добавлять свой пункт в выпадающее меню генератора документов таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -10,13 +10,13 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CRM_LEAD_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [лидов](../../crm/leads/) ||
-|| `CRM_CONTACT_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [контактов](../../crm/contacts/) ||
-|| `CRM_COMPANY_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [компаний](../../crm/companies/) ||
-|| `CRM_DEAL_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [сделок](../../crm/deals/) ||
-|| `CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [счетов](../../crm/smart-invoice/) ||
-|| `CRM_QUOTE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [коммерческих предложений](../../crm/quote/) ||
-|| `CRM_DYNAMIC_XXX_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON` ||
+|| `CRM_LEAD_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [лидов](../../crm/leads/index.md) ||
+|| `CRM_CONTACT_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [контактов](../../crm/contacts/index.md) ||
+|| `CRM_COMPANY_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [компаний](../../crm/companies/index.md) ||
+|| `CRM_DEAL_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [сделок](../../crm/deals/index.md) ||
+|| `CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [счетов](../../crm/universal/invoice.md) ||
+|| `CRM_QUOTE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [коммерческих предложений](../../crm/quote/index.md) ||
+|| `CRM_DYNAMIC_XXX_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON` ||
 |#
 
 ## Что получает обработчик

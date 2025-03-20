@@ -1,29 +1,17 @@
-# Логика привязки дел
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-Из файла Сергея:
-тут надо рассмотреть разницу привязки через ownerId и bindings
-
-{% endnote %}
-
-{% endif %}
+# Управление связями дела в таймлайне
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
+Методы для управление привязками дел к сущностям CRM.
+
+## Обзор методов {#all-methods}
+
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.binding.add](./crm-activity-binding-add.md) | Добавить привязку ||
-|| [crm.activity.binding.list](./crm-activity-binding-list.md) | Получить список привязок ||
-|| [crm.activity.binding.delete](./crm-activity-binding-delete.md) | Удалить привязку ||
+|| [crm.activity.binding.add](./crm-activity-binding-add.md) | Добавляет связь дела с элементом CRM ||
+|| [crm.activity.binding.move](./crm-activity-binding-move.md) | Обновляет связь дела с элементом CRM ||
+|| [crm.activity.binding.list](./crm-activity-binding-list.md) | Получает список всех связей дела ||
+|| [crm.activity.binding.delete](./crm-activity-binding-delete.md) | Удаляет связь дела с элементом CRM ||
 |#

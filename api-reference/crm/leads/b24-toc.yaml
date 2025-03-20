@@ -3,8 +3,6 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Получить поля лида
-    href: crm-lead-fields.md
   - name: Создать новый лид
     href: crm-lead-add.md
   - name: Изменить лид
@@ -15,6 +13,8 @@ items:
     href: crm-lead-list.md
   - name: Удалить лид
     href: crm-lead-delete.md
+  - name: Получить поля лида
+    href: crm-lead-fields.md
   - name: Добавить товары в лид
     href: crm-lead-productrows-set.md
   - name: Получить товары лида

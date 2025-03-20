@@ -14,7 +14,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../data-types.md) | Название метода для проверки ||
+[`string`](../../data-types.md) | Название метода для проверки в нижнем регистре, например `user.get` ||
 |#
 
 > Если метод вызван без параметров, то он вернет список всех методов, доступных текущему приложению.
@@ -27,7 +27,7 @@
 
 - cURL (Webhook)
 
-    ```curl
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -39,7 +39,7 @@
 
 - cURL (OAuth)
 
-    ```curl
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \

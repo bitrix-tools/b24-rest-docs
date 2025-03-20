@@ -101,9 +101,9 @@
 || MODULE_ID_ERROR     | Формат поля MODULE_ID не верный. Разрешены английские буквы в нижнем регистре, цифры, точка и знак подчеркивания. ||
 || USER_ID_ACCESS_ERROR | Указывать произвольных пользователей может только пользователь с правами администратора. ||
 || PARAMS_ERROR         | Передан не корректный JSON объект. ||
-|| WRONG_AUTH_TYPE     | Метод можно использовать только в рамках [OAuth 2.0](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=2486&LESSON_PATH=8771.5380.5379.2486). ||
+|| WRONG_AUTH_TYPE     | Метод можно использовать только в рамках [OAuth 2.0](../../oauth/index.md). ||
 |#
 
 ## Смотрите также
 
-- [Интерактивность в приложениях](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=012565)
+- [Интерактивность в приложениях](../../interactivity/index.md)

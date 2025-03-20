@@ -42,9 +42,9 @@
 || **AVATAR**
 [`unknown`](../data-types.md) | `base64 image` | Аватар чата в base64 формате | 18 ||
 || **ENTITY_TYPE**
-[`unknown`](../data-types.md) | `CHAT` | Идентификатор сущности, может быть использован для поиска по этому полю и для легкого определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](.), [ONIMBOTMESSAGEUPDATE](.), [ONIMBOTMESSAGEDELETE](.) | 18 ||
+[`unknown`](../data-types.md) | `CHAT` | Идентификатор сущности, может быть использован для поиска по этому полю и для легкого определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](../chat-bots/messages/events/on-imbot-message-add.md), [ONIMBOTMESSAGEUPDATE](../chat-bots/messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) | 18 ||
 || **ENTITY_ID**
-[`unknown`](../data-types.md) | `13` | Числовой идентификатор сущности, может быть использован для поиска чата и для легкого определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](.), [ONIMBOTMESSAGEUPDATE](.), [ONIMBOTMESSAGEDELETE](.) | 18 ||
+[`unknown`](../data-types.md) | `13` | Числовой идентификатор сущности, может быть использован для поиска чата и для легкого определения контекста в обработчиках событий  [ONIMBOTMESSAGEADD](../chat-bots/messages/events/on-imbot-message-add.md), [ONIMBOTMESSAGEUPDATE](../chat-bots/messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) | 18 ||
 || **OWNER_ID**
 [`unknown`](../data-types.md) | `39` | Идентификатор владельца чата. Можно не указывать, владельцем будет тот, от кого идёт запрос. | 18 ||
 |#

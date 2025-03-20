@@ -45,9 +45,9 @@
 
 **Текстовые заметки** можно добавлять к делам и комментариям таймлайна и  удалять их. Используйте группу методов [crm.timeline.note.*](./note/index.md).
 
-**Контентные блоки** можно добавлять к комментариям таймлайна и удалять их. Используйте группу методов [crm.timeline.layout.blocks.*](./layout-blocks/index.md). 
+**Контентные блоки** можно добавлять к комментариям таймлайна и удалять их. Используйте группу методов [crm.timeline.layout.blocks.*](./layout-blocks/index.md).
 
-* [Доступные контентные блоки](./activities/structure/body.md#contentblockdto)
+* [Доступные контентные блоки](./activities/configurable/structure/body.md#contentblockdto)
 
 
 ## Обзор методов и событий {#all-methods}
@@ -122,4 +122,12 @@
 || [crm.timeline.logmessage.delete](./logmessage/crm-timeline-logmessage-delete.md) | Удаляет лог-запись ||
 || [crm.timeline.icon.*](./logmessage/icons/index.md) | Управляют иконками записей ||
 || [crm.timeline.logo.*](./logmessage/logo/index.md) | Управляют логотипами записей ||
+|#
+
+### Действия с записями в таймлайне
+
+#|
+|| **Метод** | **Описание** ||
+|| [crm.timeline.item.pin](./actions/crm-timeline-item-pin.md) | Закрепляет запись в таймлайне ||
+|| [crm.timeline.item.unpin](./actions/crm-timeline-item-unpin.md) | Открепляет запись в таймлайне ||
 |#

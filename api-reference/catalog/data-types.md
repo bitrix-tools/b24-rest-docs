@@ -30,9 +30,12 @@
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор вариации товара (например, `1`). Получить идентификаторы вариаций товаров можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
 || [`catalog_product_image.id`](#catalog_product_image) | Целочисленный идентификатор изображения товара (например, `1`). Получить идентификаторы изображений товаров можно с помощью метода [catalog.productImage.list](./product-image/catalog-product-image-list.md) ||
+|| [`catalog_store.id`](#catalog_store) | Целочисленный идентификатор склада (например, `1`). Получить идентификаторы складов можно с помощью метода [catalog.store.list](./store/catalog-store-list.md) ||
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
 || [`catalog_ratio.id`](#catalog_ratio) | Целочисленный идентификатор коэффициента единицы измерения (например, `1`). Получить идентификаторы коэффициентов единиц измерения можно с помощью метода [catalog.ratio.list](./ratio/catalog-ratio-list.md) ||
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
+|| [`catalog_price_type_lang.id`](#catalog_price_type_lang) | Целочисленный идентификатор перевода названий типов цен (например, `1`). Получить идентификаторы переводов можно с помощью метода [catalog.priceTypeLang.list](./price-type/price-type-lang/catalog-price-type-lang-list.md) ||
+|| [`catalog_language.lid`](#catalog_language) | Строковый идентификатор языка, состоящий из двух символов (например, `ru`). Получить идентификаторы языков можно с помощью метода [catalog.priceTypeLang.getLanguages](./price-type/price-type-lang/catalog-price-type-lang-get-languages.md) ||
 || [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
 || [`catalog_extra.id`](#catalog_extra) | Целочисленный идентификатор наценки (например, `1`). Получить идентификаторы наценок можно с помощью метода [catalog.extra.list](./extra/catalog-extra-list.md) ||
 || [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор раздела каталога (например, `1`). Получить идентификаторы разделов каталога можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
@@ -632,6 +635,8 @@
 [`datetime`](../data-types.md) | Дата изменения. Только для чтения ||
 || **iblockSectionId**
 [`catalog_section.id`](#catalog_section) | Идентификатор раздела информационного блока ||
+|| **measure**
+[`catalog_measure.id`](#catalog_measure) | Единица измерения ||
 || **previewText**
 [`string`](../data-types.md) | Описание для анонса ||
 || **detailText**
@@ -701,6 +706,61 @@
 [`string`](../data-types.md) | Ссылка для скачивания, подписанная текущим токеном доступа ||
 || **detailUrl**
 [`string`](../data-types.md) | Ссылка на изображение ||
+|#
+
+### catalog_store
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор склада ||
+|| **address**
+[`string`](../data-types.md) | Адрес склада ||
+|| **title**
+[`string`](../data-types.md) | Название склада ||
+|| **active**
+[`string`](../data-types.md) | Активность. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **description**
+[`string`](../data-types.md) | Описание ||
+|| **gpsN**
+[`double`](../data-types.md) | GPS-широта ||
+|| **gpsS**
+[`double`](../data-types.md) | GPS-долгота ||
+|| **imageId**
+[`object`](../data-types.md) | Изображение. Объект в формате `{fileData: [value1, value2]}`, где:
+- `value1` – название файла картинки с расширением
+- `value2` – картинка в формате base64
+
+Для удаления картинки используйте объект в формате `{remove: ‘Y’}` ||
+|| **dateModify**
+[`datetime`](../data-types.md) | Дата изменения ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания ||
+|| **userId**
+[`user.id`](../data-types.md) | Кем создан ||
+|| **modifiedBy**
+[`user.id`](../data-types.md) | Кем изменен ||
+|| **phone**
+[`string`](../data-types.md) | Телефон ||
+|| **schedule**
+[`string`](../data-types.md) | График работы ||
+|| **xmlId**
+[`string`](../data-types.md) | Внешний код.
+
+Можно использовать для синхронизации текущего склада с аналогичной позицией во внешней системе ||
+|| **sort**
+[`integer`](../data-types.md) | Сортировка ||
+|| **email**
+[`string`](../data-types.md) | E-mail ||
+|| **issuingCenter**
+[`string`](../data-types.md) | Является ли пунктом выдачи. Возможные значения:
+- `Y` – да
+- `N` – нет ||
+|| **code**
+[`string`](../data-types.md) | Символьный код ||
 |#
 
 ### catalog_measure
@@ -775,6 +835,37 @@
 [`user.id`](../data-types.md) | Кем изменен ||
 || **dateCreate**
 [`datetime`](../data-types.md) | Дата создания ||
+|#
+
+### catalog_price_type_lang
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор перевода названия типа цены ||
+|| **catalogGroupId**
+[`catalog_price_type.id`](#catalog_price_type) | Идентификатор типа цены ||
+|| **name**
+[`string`](../data-types.md) | Перевод названия типа цены ||
+|| **lang**
+[`catalog_language.lid`](#catalog_language) | Идентификатор языка ||
+|#
+
+### catalog_language
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **lid**
+[`string`](../data-types.md) | Идентификатор языка ||
+|| **name**
+[`string`](../data-types.md) | Название языка ||
+|| **active**
+[`string`](../data-types.md) | Признак активности. Возможные значения:
+- `Y` — да
+- `N` — нет
+||
 |#
 
 ### catalog_rounding_rule

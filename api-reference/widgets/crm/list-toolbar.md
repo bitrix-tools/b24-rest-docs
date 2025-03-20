@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт выпадающего меню над списком элементов таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [счета](../../crm/outdated/invoice/), [коммерческие предложения](../../crm/quote/), [новые счета](../../crm/smart-invoice/) и [пользовательские типы](../../crm/universal/) объектов.
+Вы можете добавлять свой пункт выпадающего меню над списком элементов таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [старые счета](../../crm/outdated/invoice/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
 
 ![Виджет в виде пункта контекстного меню в Сделке](./_images/CRM__LIST_TOOLBAR.png "Виджет в виде пункта контекстного меню в Сделке")
 
@@ -12,14 +12,14 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CRM_LEAD_LIST_TOOLBAR` | Пункт выпадающего меню над списком [лидов](../../crm/leads/) ||
-|| `CRM_CONTACT_LIST_TOOLBAR` | Пункт выпадающего меню над списком [контактов](../../crm/contacts/) ||
-|| `CRM_COMPANY_LIST_TOOLBAR` | Пункт выпадающего меню над списком [компаний](../../crm/companies/) ||
-|| `CRM_DEAL_LIST_TOOLBAR` | Пункт выпадающего меню над списком [сделок](../../crm/deals/) ||
-|| `CRM_INVOICE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [счетов](../../crm/outdated/invoice/) ||
-|| `CRM_SMART_INVOICE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [новых счетов](../../crm/smart-invoice/) ||
-|| `CRM_QUOTE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [коммерческих предложений](../../crm/quote/) ||
-|| `CRM_DYNAMIC_XXX_LIST_TOOLBAR` | Пункт выпадающего меню над списком элементов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_LIST_TOOLBAR` ||
+|| `CRM_LEAD_LIST_TOOLBAR` | Пункт выпадающего меню над списком [лидов](../../crm/leads/index.md) ||
+|| `CRM_CONTACT_LIST_TOOLBAR` | Пункт выпадающего меню над списком [контактов](../../crm/contacts/index.md) ||
+|| `CRM_COMPANY_LIST_TOOLBAR` | Пункт выпадающего меню над списком [компаний](../../crm/companies/index.md) ||
+|| `CRM_DEAL_LIST_TOOLBAR` | Пункт выпадающего меню над списком [сделок](../../crm/deals/index.md) ||
+|| `CRM_INVOICE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [счетов](../../crm/outdated/invoice/index.md) ||
+|| `CRM_SMART_INVOICE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [новых счетов](../../crm/universal/invoice.md) ||
+|| `CRM_QUOTE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [коммерческих предложений](../../crm/quote/index.md) ||
+|| `CRM_DYNAMIC_XXX_LIST_TOOLBAR` | Пункт выпадающего меню над списком элементов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_LIST_TOOLBAR` ||
 |#
 
 ## Что получает обработчик

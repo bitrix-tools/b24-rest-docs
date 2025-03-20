@@ -35,8 +35,8 @@
 || [`sale_order_property_value`](#sale_order_property_value) | Целочисленный идентификатор значения свойства заказа (например, `1`). Получить идентификатор значения свойства заказа можно с помощью метода [sale.propertyvalue.list](./property-value/sale-property-value-list.md) ||
 || [`sale_order_property_variant`](#sale_order_property_variant) | Целочисленный идентификатор варианта значения свойства (например, `1`). Получить идентификаторы типов групп свойств можно с помощью метода [sale.propertyvariant.list](./property-variant/sale-property-variant-list.md) ||
 || [`sale_order_property_relation`](#sale_order_property_relation) | Объект, содержащий информацию о привязке свойства. Получить список объектов привязки свойства можно с помощью метода [sale.propertyRelation.list](./property-relation/sale-property-relation-list.md) ||
-|| [`sale_order_trade_platform`](#sale_order_trade_platform) | Целочисленный идентификатор торговой платформы (например, `1`). Получить идентификаторы торговых платформ можно с помощью метода [sale.tradePlatform.list](./trade-platform/sale-trade-platform-list.md) ||
-|| [`sale_order_trade_binding`](#sale_order_trade_binding) | Целочисленный идентификатор привязки к заказу из внешнего источника (например, `1`). Получить идентификаторы привязок к заказам можно с помощью метода [sale.tradeBinding.list](./trade-binding/sale-trade-binding-list.md) ||
+|| [`sale_order_trade_platform`](#sale_order_trade_platform) | Целочисленный идентификатор источника заказов (например, `1`). Получить идентификаторы источников заказов можно с помощью метода [sale.tradePlatform.list](./trade-platform/sale-trade-platform-list.md) ||
+|| [`sale_order_trade_binding`](#sale_order_trade_binding) | Целочисленный идентификатор привязки источников заказов к заказам (например, `1`). Получить идентификаторы привязок можно с помощью метода [sale.tradeBinding.list](./trade-binding/sale-trade-binding-list.md) ||
 || [`sale_order_payment`](#sale_order_payment) | Целочисленный идентификатор оплаты (например, `1`). Получить идентификаторы оплат можно с помощью метода [sale.payment.list](./payment/sale-payment-list.md) ||
 || [`sale_business_value_person_domain`](#sale_business_value_person_domain) | Объект, содержащий информацию о соответствии между типом плательщика и физ. или юр. лицом. Получить список объектов соответствий можно с помощью метода  [sale.businessValuePersonDomain.list](./business-value-person-domain/sale-business-value-person-domain-list.md) ||
 || [`sale_delivery_handler`](#sale_delivery_handler) | Объект обработчика службы доставки. 
@@ -595,10 +595,10 @@
 || **entityType**
 [`string`](../data-types.md) | Тип сущности:
 
-- `P` — платёжная система
+- `P` — платежная система
 - `D` — доставка
 - `L` — лендинг
-- `T` — торговая платформа ||
+- `T` — источник заказа ||
 || **propertyId**
 [`sale_order_property.id`](#sale_order_property) | Идентификатор свойства ||
 |#
@@ -770,7 +770,7 @@
 || **requisiteLink**
 Массив из связей реквизитов модуля CRM | Связи реквизитов с заказом. Список связей реквизитов с CRM сущностями можно получить через метод [crm.requisite.link.list](../crm/requisites/links/crm-requisite-link-list.md), где для заказа [entity_type_id = 14](../crm/data-types.md) ||
 || **tradeBindings**
-[`sale_order_trade_binding[]`](#sale_order_trade_binding) | Торговые платформы заказа ||
+[`sale_order_trade_binding[]`](#sale_order_trade_binding) | Источники заказа ||
 |#
 
 ### sale_order_crm_client
@@ -865,7 +865,7 @@
 || **payReturnNum**
 [`string`](../data-types.md) | Номер документа возврата ||
 || **priceCod**
-[`string`](../data-types.md) | Стоимость оплаты при доставке (используется, например, для наложенного платежа) ||
+[`double`](../data-types.md) | Стоимость оплаты при доставке (используется, например, для наложенного платежа) ||
 || **payReturnDate**
 [`date`](../data-types.md) | Дата документа возврата ||
 || **empReturnId**
@@ -900,7 +900,7 @@
 - `N` — нет 
 ||
 || **psInvoiceId**
-[`integer`](../data-types.md) | Идентификатор оплаты в платежной системе ||
+[`string`](../data-types.md) | Идентификатор оплаты в платежной системе ||
 || **marked**
 [`string`](../data-types.md) | Флаг маркировки. Признак того, является ли оплата отмеченной как проблемная:
 - `Y` — да
@@ -1040,29 +1040,30 @@
 || **Значение**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../data-types.md) | Идентификатор торговой платформы ||
+[`integer`](../data-types.md) | Идентификатор источника заказа ||
 || **code**
-[`string`](../data-types.md) | Код торговой платформы ||
+[`string`](../data-types.md) | Код источника заказа ||
 || **active**
-[`string`](../data-types.md) | Активна ли торговая платформа
+[`string`](../data-types.md) | Активен ли источник заказа
 
 - `Y` — да
 - `N` — нет ||
 || **name**
-[`string`](../data-types.md) | Название торговой платформы ||
+[`string`](../data-types.md) | Название источника заказа ||
 || **description**
-[`string`](../data-types.md) | Описание торговой платформы ||
+[`string`](../data-types.md) | Описание источника заказа ||
 || **settings**
-[`string`](../data-types.md) | Настройки торговой платформы в сериализованном виде ||
+[`string`](../data-types.md) | Настройки источника заказа в сериализованном виде ||
 || **catalogSectionTabClassName**
 [`string`](../data-types.md) | Класс для обработки закладки в настройках раздела каталога ||
 || **class**
-[`string`](../data-types.md) | Класс торговой платформы ||
+[`string`](../data-types.md) | Класс источника заказа ||
 || **xmlId**
 [`string`](../data-types.md) | Внешний идентификатор ||
 |#
 
 ### sale_order_trade_binding
+
 #|
 || **Значение**
 `тип` | **Описание** ||
@@ -1075,9 +1076,9 @@
 || **orderId**
 [`sale_order.id`](#sale_order) | Идентификатор заказа ||
 || **tradingPlatformId**
-[`sale_order_trade_platform.id`](#sale_order_trade_platform) | Идентификатор торговой платформы ||
+[`sale_order_trade_platform.id`](#sale_order_trade_platform) | Идентификатор источника заказа ||
 || **tradingPlatformXmlId**
-[`string`](../data-types.md) | Внешний идентификатор торговой платформы ||
+[`string`](../data-types.md) | Внешний идентификатор источника заказа ||
 || **params**
 [`string`](../data-types.md) | Параметры в сериализованном виде ||
 |#

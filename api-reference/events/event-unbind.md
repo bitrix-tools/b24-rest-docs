@@ -27,7 +27,7 @@
 {% endnote %} 
 ||
 || **event_type**
-[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=04462&LESSON_PATH=8771.5380.2461.4462) ||
+[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](./offline-events.md) ||
 |#
 
 Если какие-либо параметры не указаны, то будут удалены все обработчики события, удовлетворяющие остальным требованиям.
@@ -37,19 +37,6 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "event": "ONCRMLEADADD",
-        "handler": "https://www.my-domain.ru/handler/"
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.unbind
-    ```
 
 - cURL (OAuth)
 

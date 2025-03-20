@@ -100,7 +100,7 @@
     || [crm.deal.delete](./crm-deal-delete.md) | Удаляет сделку и все связанные с ней объекты ||
     || [crm.deal.fields](./crm-deal-fields.md) | Возвращает описание полей сделки ||
     || [crm.deal.productrows.set](./crm-deal-productrows-set.md) | Добавляет товары в сделку ||
-    || [crm.deal.productrows.get](./crm-deal-get.md) | Возвращает товары сделки ||
+    || [crm.deal.productrows.get](./crm-deal-productrows-get.md) | Возвращает товары сделки ||
     |#
 
 - События
@@ -110,6 +110,7 @@
     || [onCrmDealAdd](./events/on-crm-deal-add.md) | При создании сделки ||
     || [onCrmDealUpdate](./events/on-crm-deal-update.md) | При изменении сделки ||
     || [onCrmDealDelete](./events/on-crm-deal-delete.md) | При удалении сделки ||
+    || [onCrmDealMoveToCategory](./events/on-crm-deal-move-to-category.md) | При изменении воронки сделки ||
     |#
 
 {% endlist %}
@@ -135,10 +136,10 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmDealRecurringAdd](./events/on-crm-deal-recurring-add.md) | При создании новой регулярной сделки ||
-    || [onCrmDealRecurringUpdate](./events/on-crm-deal-recurring-update.md) | При изменении регулярной сделки ||
-    || [onCrmDealRecurringDelete](./events/on-crm-deal-recurring-delete.md) | При удалении регулярной сделки ||
-    || [onCrmDealRecurringExpose](./events/on-crm-deal-recurring-expose.md) | При создании новой сделки из регулярной сделки ||
+    || [onCrmDealRecurringAdd](./recurring-deals/events/on-crm-deal-recurring-add.md) | При создании новой регулярной сделки ||
+    || [onCrmDealRecurringUpdate](./recurring-deals/events/on-crm-deal-recurring-update.md) | При изменении регулярной сделки ||
+    || [onCrmDealRecurringDelete](./recurring-deals/events/on-crm-deal-recurring-delete.md) | При удалении регулярной сделки ||
+    || [onCrmDealRecurringExpose](./recurring-deals/events/on-crm-deal-recurring-expose.md) | При создании новой сделки из регулярной сделки ||
     |#
 
 {% endlist %}
@@ -162,10 +163,10 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmDealUserFieldAdd](./events/on-crm-deal-user-field-add.md) | При добавлении пользовательского поля ||
-    || [onCrmDealUserFieldUpdate](./events/on-crm-deal-user-field-update.md) | При изменении пользовательского поля ||
-    || [onCrmDealUserFieldDelete](./events/on-crm-deal-user-field-delete.md) | При удалении пользовательского поля ||
-    || [onCrmDealUserFieldSetEnumValues](./events/on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
+    || [onCrmDealUserFieldAdd](./user-defined-fields/events/on-crm-deal-user-field-add.md) | При добавлении пользовательского поля ||
+    || [onCrmDealUserFieldUpdate](./user-defined-fields/events/on-crm-deal-user-field-update.md) | При изменении пользовательского поля ||
+    || [onCrmDealUserFieldDelete](./user-defined-fields/events/on-crm-deal-user-field-delete.md) | При удалении пользовательского поля ||
+    || [onCrmDealUserFieldSetEnumValues](./user-defined-fields/events/on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
     |#
 
 {% endlist %}

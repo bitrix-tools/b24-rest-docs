@@ -1,21 +1,5 @@
 # Получить список лидов crm.lead.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- упомянуть поиск по телефонам и email со ссылкой на специальный метод
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на чтение лидов
@@ -37,7 +21,7 @@
 - "UF_*"- для выборки всех пользовательских полей (без множественных)
 
 Маски для выборки множественных полей нет. Для выборки множественных полей укажите нужные в списке выбора ("PHONE", "EMAIL" и так далее).
-Возможности добавить к фильтру логическое условие OR, если нужно выбрать по нескольким разным полям, нет.||
+Возможности добавить к фильтру логическое условие OR, если нужно выбрать по нескольким разным полям, нет||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных лидов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
@@ -87,19 +71,33 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-## Примеры
+Так же смотрите описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- cURL
+- cURL (Webhook)
 
-    ```http
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"select":["*", "UF_*"], "start":"50", "filter":{"=OPPORTUNITY": "15000.00"},"order":{"STATUS_ID": "ASC"},"auth":"**put_access_token_here**"}' \
-    https://xxx.bitrix24.com/rest/crm.lead.list.json
-    ```
+  ```bash
+  curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"select":["*","UF_*"],"start":50,"filter":{"=OPPORTUNITY":15000},"order":{"STATUS_ID":"ASC"}}' \
+  https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.lead.list
+  ```
+
+- cURL (OAuth)
+
+  ```bash
+  curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"select":["*","UF_*"],"start":50,"filter":{"=OPPORTUNITY":15000},"order":{"STATUS_ID":"ASC"},"auth":"**put_access_token_here**"}' \
+  https://**put_your_bitrix24_address**/rest/crm.lead.list
+  ```
 
 - JS
 
@@ -131,24 +129,27 @@
 
 - PHP
 
-    ```php
-    $result = CRest::call('crm.lead.list', [
-        'SELECT' => ['*', 'UF_*'],
-        'START' => 50,
-        'FILTER' => [
-            '=OPPORTUNITY' => 15000,
-        ],
-        'ORDER' => [
-            'STATUS_ID' => 'ASC',
-        ],     
-    ]);
-    ```
+  ```php
+  require_once('crest.php');
 
-- HTTPS
+  $result = CRest::call(
+      'crm.lead.list',
+      [
+          'select' => ['*', 'UF_*'],
+          'start' => 50,
+          'filter' => [
+              '=OPPORTUNITY' => 15000,
+          ],
+          'order' => [
+              'STATUS_ID' => 'ASC',
+          ],
+      ]
+  );
 
-    ```http
-    https://xxx.bitrix24.com/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.lead.list.json?select[]=*&select=UF_*&start=50&filter[=OPPORTUNITY]=15000.00&order[STATUS_ID]=ASC
-    ```
+  echo '<PRE>';
+  print_r($result);
+  echo '</PRE>';
+  ```
 
 - PHP (B24PhpSdk)
 
@@ -187,6 +188,7 @@
 {% endlist %}
 
 ## Некоторые практические примеры
+
 {% list tabs %}
 
 - Поиск несконвертированных лидов с суммой больше нуля
@@ -261,11 +263,9 @@
   ```
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
 {
@@ -403,32 +403,25 @@
 ### Возвращаемые данные
 
 #|
-|| **Значение** / **Тип** | **Описание** ||
+|| **Название**
+`тип`  | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Результат запроса. Массив лидов. Для получения информации о структуре лида смотрите метод [`crm.lead.get`](./crm-lead-get.md) ||
-|| **next**
-[`integer`](../../data-types.md) | Значение, которое нужно послать для получение следующей страницы данных списочного метода. Показывается в случае, если такие элементы существуют. ||
+[`array`](../../data-types.md) | Корневой элемент ответа. Содержит массив из объектов, содержащих информацию о полях сделок. 
+
+Стоит учитывать, что структура полей может быть изменена из-за параметра `select`.
+
+ Для получения информации о структуре лида смотрите метод [`crm.lead.get`](./crm-lead-get.md) ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество лидов, удовлетворяющее запросу ||
+[`integer`](../../data-types.md) | Общее количество найденных элементов ||
+|| **next**
+[`integer`](../../data-types.md) | Содержит значение, которое нужно передать в следующий запрос в параметр `start`, чтобы получить следующую порцию данных.
+
+Параметр `next` появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение `50` ||
 || **time**
-[`array`](../../data-types.md) | Информация о времени выполнения запроса ||
-|| **start**
-[`double`](../../data-types.md) | Timestamp момента инициализации запроса ||
-|| **finish**
-[`double`](../../data-types.md) | Timestamp момента завершения выполнения запроса ||
-|| **duration**
-[`double`](../../data-types.md) | Как долго в миллисекундах выполнялся запрос (finish - start) ||
-|| **date_start**
-[`string`](../../data-types.md) | Строковое представление даты и времени момента инициализации запроса ||
-|| **date_finish**
-[`double`](../../data-types.md) | Строковое представление даты и времени момента завершения запроса ||
-|| **operating_reset_at**
-[`timestamp`](../../data-types.md) | Timestamp момента, когда будет сброшен лимит на ресурсы REST API. Читайте подробности в статье [лимит на операции](../../../limits.md) ||
-|| **operating**
-[`double`](../../data-types.md) | Через сколько миллисекунд будет сброшен лимит на ресурсы REST API? Читайте подробности в статье [лимит на операции](../../../limits.md) ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-## Ответ в случае ошибки
+## Обработка ошибок
 
 > HTTP-статус: 40x, 50x Error
 
@@ -439,11 +432,13 @@
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные ошибки
 
 #|  
 || **Текст ошибки** | **Описание** ||
-|| Access denied. | У пользователя нет прав на чтение лидов. ||
+|| `Access denied` | У пользователя нет прав на чтение лидов ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

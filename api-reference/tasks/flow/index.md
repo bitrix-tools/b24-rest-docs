@@ -48,13 +48,13 @@
 
 ## Включить или выключить поток
 
-Если нужно временно остановить работу с потоком, его можно выключить. Выключает и включает поток метод [tasks.flow.flow.activate](./tasks-flow-flow-activate.md) по идентификатору `flowId`. 
+Если нужно временно остановить работу с потоком, его можно выключить. Выключает и включает поток метод [tasks.flow.Flow.activate](./tasks-flow-flow-activate.md) по идентификатору `flowId`. 
 
 Получить идентификатор потока можно методом [создания нового потока](./tasks-flow-flow-create.md) или методом [получения информации о задаче](../tasks-task-get.md) для задачи из потока.
 
 ## Проверить уникальность названия потока
 
-Название потока должно быть уникальным. Проверить уникальность названия можно методом [tasks.flow.flow.isExists](./tasks-flow-flow-is-exists.md).
+Название потока должно быть уникальным. Проверить уникальность названия можно методом [tasks.flow.Flow.isExists](./tasks-flow-flow-is-exists.md).
 
 ## Обзор методов {#all-methods}
 
@@ -64,11 +64,11 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [tasks.flow.flow.create](./tasks-flow-flow-create.md) | Создать поток ||
-|| [tasks.flow.flow.update](./tasks-flow-flow-update.md) | Изменить поток ||
-|| [tasks.flow.flow.get](./tasks-flow-flow-get.md) | Получить поток ||
-|| [tasks.flow.flow.delete](./tasks-flow-flow-delete.md) | Удалить поток ||
-|| [tasks.flow.flow.isExists](./tasks-flow-flow-is-exists.md) | Проверить, существует ли поток с таким названием ||
-|| [tasks.flow.flow.activate](./tasks-flow-flow-activate.md) | Включить или выключить поток ||
-|| [tasks.flow.flow.pin](./tasks-flow-flow-pin.md) | Закрепить или открепить поток в списке ||
+|| [tasks.flow.Flow.create](./tasks-flow-flow-create.md) | Создать поток ||
+|| [tasks.flow.Flow.update](./tasks-flow-flow-update.md) | Изменить поток ||
+|| [tasks.flow.Flow.get](./tasks-flow-flow-get.md) | Получить поток ||
+|| [tasks.flow.Flow.delete](./tasks-flow-flow-delete.md) | Удалить поток ||
+|| [tasks.flow.Flow.isExists](./tasks-flow-flow-is-exists.md) | Проверить, существует ли поток с таким названием ||
+|| [tasks.flow.Flow.activate](./tasks-flow-flow-activate.md) | Включить или выключить поток ||
+|| [tasks.flow.Flow.pin](./tasks-flow-flow-pin.md) | Закрепить или открепить поток в списке ||
 |#

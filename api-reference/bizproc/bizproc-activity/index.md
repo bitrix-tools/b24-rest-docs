@@ -1,10 +1,4 @@
-# Действия приложений
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Действия приложений: обзор методов
 
 {% if build == 'dev' %}
 
@@ -19,3 +13,13 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [bizproc.activity.add](./bizproc-activity-add.md) | Добавляет новое действие для использования в бизнес-процессах ||
+|| [bizproc.activity.update](./bizproc-activity-update.md) | Обновляет действие ||
+|| [bizproc.activity.list](./bizproc-activity-list.md) | Получает список действий, установленных приложением ||
+|| [bizproc.activity.delete](./bizproc-activity-delete.md) | Удаляет действие, установленное приложением ||
+|| [bizproc.activity.log](./bizproc-activity-log.md) | Записывает информацию в лог бизнес-процесса ||
+|#
+

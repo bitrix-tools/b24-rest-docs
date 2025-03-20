@@ -65,7 +65,7 @@ items:
     include:
       path: section/b24-toc.yaml
       mode: link
-  - name: Склад
+  - name: Склады
     include:
       path: store/b24-toc.yaml
       mode: link

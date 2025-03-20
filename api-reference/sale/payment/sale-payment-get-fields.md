@@ -253,7 +253,7 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "type": "string"
+                "type": "double"
             },
             "psCurrency": {
                 "isImmutable": false,
@@ -265,7 +265,7 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "type": "integer"
+                "type": "string"
             },
             "psResponseDate": {
                 "isImmutable": false,

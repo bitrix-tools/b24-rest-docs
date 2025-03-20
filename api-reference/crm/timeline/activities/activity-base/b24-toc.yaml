@@ -1,0 +1,20 @@
+title: Системное дело
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить системное дело
+    href: crm-activity-add.md
+  - name: Обновить системное дело
+    href: crm-activity-update.md
+  - name: Получить дело по идентификатору
+    href: crm-activity-get.md
+  - name: Получить список дел
+    href: crm-activity-list.md
+  - name: Удалить дело
+    href: crm-activity-delete.md
+  - name: Получить список полей дела
+    href: crm-activity-fields.md
+  - name: Получить описание коммуникации
+    href: crm-activity-communication-fields.md
+     

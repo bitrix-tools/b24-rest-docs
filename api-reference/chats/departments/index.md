@@ -22,8 +22,16 @@
 
 Методы `im.department.*` доступны только для [интранет-пользователей](*intranet_users).
 
+
+#|
+|| **Метод** | **Описание** ||
+|| [im.department.colleagues.list](./im-department-colleagues-list.md) | Получает список пользователей, состоящих в вашем отделе ||
+|| [im.department.employees.get](./im-department-employees-get.md) | Получает список сотрудников подразделения ||
+|| [im.department.get](./im-department-get.md) | Получает информацию о подразделении ||
+|| [im.department.managers.get](./im-department-managers-get.md) | Получает список руководителей подразделений ||
+|#
+
 [*intranet_users]: В Битрикс24 различают два вида пользователей:
 - интранет-пользователи – внутренние пользователи (сотрудники Вашей компании);
 - экстранет-пользователи – внешние пользователи (поставщики, дистрибьюторы и т.п.).
 [Подробнее...](https://helpdesk.bitrix24.ru/open/6770709/)
-

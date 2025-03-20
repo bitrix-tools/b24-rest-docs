@@ -1,42 +1,32 @@
-# Встроиться в календарь CALENDAR_GRIDVIEW
+# Как встроить приложение в календарь CALENDAR_GRIDVIEW
 
-{% note warning "Мы еще обновляем эту страницу" %}
+В календарь можно встроить приложение. В верхней части календаря в списке видов отображения есть место для встройки `CALENDAR_GRIDVIEW`, куда можно добавить свой пункт. 
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Подробнее о виджете — в статье [Виджет в календаре](../widgets/calendar.md).
 
-{% endnote %}
+## Как привязать приложение к календарю
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
-
-Плейсмент **CALENDAR_GRIDVIEW** позволяет встроиться в календарный вид (вверху - там, где день/неделя/месяц/список).
-
-## Пример
-
-Как можно забиндить (привязать) приложение к календарной встройке:
+Исспользуйте метод [placement.bind](../widgets/placement-bind.md), чтобы связать приложение с календарем. Параметры `PLACEMENT`, `HANDLER` и `TITLE` определяют, где и как будет отображаться ваше приложение.
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    BX24.callMethod('placement.bind', {
-        PLACEMENT:'CALENDAR_GRIDVIEW',
-        HANDLER: 'http://svd.org/svdapp.php',
-        TITLE: 'Custom tab'
-    }, (result) => {console.log(result)});
+    ```js
+    BX24.callMethod(
+        'placement.bind',
+        {
+            PLACEMENT:'CALENDAR_GRIDVIEW',
+            HANDLER: 'http://your_site/handler.php',
+            TITLE: 'Custom tab'
+        },
+        (result) => {console.log(result)}
+    );
     ```
 
 {% endlist %}
 
-Если в самом приложении вызвать:
+Если в приложении вывести все параметры, которые передаются в запросе к приложению:
 
 {% list tabs %}
 
@@ -50,7 +40,7 @@
 
 {% endlist %}
 
-то увидим, что туда приходят определенные параметры. В частности:
+Можно увидеть, что передаются определенные параметры, например диапазон дат, который отображается в календаре:
 
 {% list tabs %}
 
@@ -65,23 +55,26 @@
 
 {% endlist %}
 
-Также при работе во встройке есть определенный интерфейс: методы и события.
+Эти параметры можно использовать для настройки отображения вашего приложения.
 
-## Методы (js методы)
+## JS методы
 
-- **getEvents** – получение событий.
+### Получить события
+
+Метод `getEvents` получает события календаря.
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
+    ```js
     var dateFrom = new Date();
     var dateTo = new Date(dateFrom.getTime() + 86400 * 30 * 1000); // Умножаем на 1000, чтобы преобразовать секунды в миллисекунды
     dateFrom.setHours(0, 0, 0, 0);
     dateTo.setHours(0, 0, 0, 0);
 
-    BX24.placement.call('getEvents',
+    BX24.placement.call(
+        'getEvents',
         {
             dateFrom: dateFrom,
             dateTo: dateTo
@@ -95,17 +88,20 @@
 
 {% endlist %}
 
-- **viewEvent** – просмотр события (открытие карточки просмотра).
+### Открыть карточку и просмотреть событие
+
+Метод `viewEvent` открывает карточку для просмотра события.
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    BX24.placement.call('viewEvent',
+    ```js
+    BX24.placement.call(
+        'viewEvent',
         {
-            id: "1431170", - id события
-            dateFrom: "11.07.2018" - дата события (не обязательно, но важно для регулярных)
+            id: "1431170", // идентификатор события
+            dateFrom: "11.07.2018" // дата события. Не обязательна, но важна для регулярных событий
         },
         function(){}
     );
@@ -113,38 +109,54 @@
 
 {% endlist %}
 
-- **addEvent** – добавление нового события (открытие карточки).
+### Добавить новое событие
+
+Метод `addEvent` открывает карточку для добавления нового события.
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    BX24.placement.call('addEvent', function(){});
+    ```js
+    BX24.placement.call(
+        'addEvent',
+        function(){}
+    );
     ```
 
 {% endlist %}
 
-- **editEvent** – редактирование события (открытие карточки).
+### Обновить событие
+
+Метод `editEvent` открывает карточку для редактирования события.
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    BX24.placement.call('editEvent', {uid: "1431171|19.07.2018"}, function(){});
+    ```js
+    BX24.placement.call(
+        'editEvent',
+        {
+            uid: "1431171|19.07.2018"
+        },
+        function(){}
+    );
     ```
 
 {% endlist %}
 
-- **deleteEvent** – удаление события.
+### Удалить событие
+
+Метод `deleteEvent` удаляет событие.
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    BX24.placement.call('deleteEvent',
+    ```js
+    BX24.placement.call(
+        'deleteEvent',
         {
             id: "1431169"
         },
@@ -154,19 +166,22 @@
 
 {% endlist %}
 
-## События, которые можно отслеживать в плейсменте
+## События
+
+События, которые можно отслеживать в месте встройки:
 
 #|
 || **Событие** | **Описание** ||
-|| Calendar.customView:refreshEntries | Обновление событий. ||
-|| Calendar.customView:decreaseViewRangeDate | Нажимаем на стрелочку назад, т.е. отматываем календарь на предыдущие даты. ||
-|| Calendar.customView:increaseViewRangeDate | Нажимаем на стрелочку вперед, т.е. отматываем календарь на следующие даты. ||
-|| Calendar.customView:adjustToDate | Переход к конкретной дате. ||
+|| `Calendar.customView:refreshEntries` | Обновление событий ||
+|| `Calendar.customView:decreaseViewRangeDate` | Нажатие на стрелочку назад, то есть открытие календаря за предыдущие даты ||
+|| `Calendar.customView:increaseViewRangeDate` | Нажатие на стрелочку вперед, то есть открытие календаря на следующие даты ||
+|| `Calendar.customView:adjustToDate` | Переход к конкретной дате ||
 |#
 
-## Смотри также
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../widgets/index.md)
-- [{#T}](../../local-integrations/local-apps.md)
+- [{#T}](../widgets/calendar.md)
 - [{#T}](../widgets/user-field/index.md)
-- [Добавление своих методов REST API](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=7985) в учебном курсе
+- [{#T}](../../local-integrations/local-apps.md)

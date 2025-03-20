@@ -36,7 +36,7 @@
 - `company` — компания
 - `contact` — контакт
  ||
-|| **CRM_ENTITY_ID***
+|| **CRM_ENTITY***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM ||
 || **ACTIVE_ONLY**
 [`boolean`](../../../data-types.md) | Вернуть только активные чаты.

@@ -1,99 +1,110 @@
 # Создать новый лид crm.lead.add
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с правом на создание лидов
 
-Метод создает новый лид.
+Метод `crm.lead.add` создает новый лид.
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`тип` | **Описание** | **Ревизия** ||
-|| **fields***
-`object` | В массиве необходимо указать значения конкретных полей лида (`"field"=>"value"[, ...]`). [Перечень возможных полей](./crm-lead-fields.md) | 1 ||
+`тип` | **Описание** ||
+|| **fields**
+[`object`](../../data-types.md) | Объект формата:
+
+```
+{
+    field_1: value_1,
+    field_2: value_2,
+    ...,
+    field_n: value_n,
+}
+```
+
+где:
+- `field_n` — название поля
+- `value_n` — значение поля
+
+Список доступных полей описан [ниже](#fields)
+||
 || **options**
-`object` | Необязательный массив опций (`"optionName"=>"value"[, ...]`). Перечень возможных полей описан ниже | 1 ||
+[`object`](../../data-types.md) | Необязательный массив опций (`"optionName"=>"value"[, ...]`). Перечень возможных полей описан [ниже](#options) ||
 |#
 
 
-### Параметр fields
+### Параметр fields {#fields}
 
 #|
-|| **Поле** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **ADDRESS**
-[`string`](../../data-types.md) | Адрес контакта ||
+[`string`](../../data-types.md) | Адрес ||
 || **ADDRESS_2**
 [`string`](../../data-types.md) | Вторая страница адреса. В некоторых странах принято разбивать адрес на 2 части ||
 || **ADDRESS_CITY**
-[`string`](../../data-types.md) | Город. ||
+[`string`](../../data-types.md) | Город ||
 || **ADDRESS_COUNTRY**
-[`string`](../../data-types.md) | Страна. ||
+[`string`](../../data-types.md) | Страна ||
 || **ADDRESS_COUNTRY_CODE**
-[`string`](../../data-types.md) | Код страны. ||
+[`string`](../../data-types.md) | Код страны ||
 || **ADDRESS_POSTAL_CODE**
-[`string`](../../data-types.md) | Почтовый индекс. ||
+[`string`](../../data-types.md) | Почтовый индекс ||
 || **ADDRESS_PROVINCE**
-[`string`](../../data-types.md) | Область. ||
+[`string`](../../data-types.md) | Область ||
 || **ADDRESS_REGION**
-[`string`](../../data-types.md) | Район. ||
-|| **ADDRESS_LOC_ADDR_ID**
-[`string`](../../data-types.md) | Используется только для внутренних целей. ||
+[`string`](../../data-types.md) | Район ||
 || **ASSIGNED_BY_ID**
-[`user`](../../data-types.md) | Ответственный. ||
+[`user`](../../data-types.md) | Ответственный ||
 || **BIRTHDATE**
-[`date`](../../data-types.md) | Дата рождения. ||
+[`date`](../../data-types.md) | Дата рождения ||
 || **COMMENTS**
-[`string`](../../data-types.md) | Комментарии. ||
+[`string`](../../data-types.md) | Комментарии ||
 || **COMPANY_ID**
-[`crm_company`](../../data-types.md) | Привязка лида к компании. ||
+[`crm_company`](../../data-types.md) | Привязка лида к компании ||
 || **COMPANY_TITLE**
-[`string`](../../data-types.md) | Название компании, указанное в соответствующем поле лида. Для привязки существующей компании стоит передавать её id в поле COMPANY_ID. ||
+[`string`](../../data-types.md) | Название компании, указанное в соответствующем поле лида. Для привязки существующей компании стоит передавать её id в поле COMPANY_ID ||
 || **CONTACT_ID**
-[`crm_contact`](../../data-types.md) | Привязка лида к контакту. ||
+[`crm_contact`](../../data-types.md) | Привязка лида к контакту ||
 || **CONTACT_IDS**
-[`crm_contact`](../../data-types.md) | Идентификатор привязанного контакта. Множественный. При использовании crm.deal.update и crm.deal.add можно подать массив контактов. В методах crm.deal.list и crm.deal.get поля нет и необходимо использовать crm.deal.contact.items.get для получения списка контактов. Для очистки поля используйте crm.deal.contact.items.delete, для замены значения используйте crm.deal.contact.items.set. ||
+[`crm_contact`](../../data-types.md) | Список привязанных к лиду контактов.
+
+Контакты можно добавлять или удалять группой методов [crm.lead.contact.*](./management-communication/index.md) ||
 || **CURRENCY_ID**
-[`crm_currency`](../../data-types.md) | Идентификатор валюты. ||
+[`crm_currency`](../../data-types.md) | Идентификатор валюты ||
 || **EMAIL**
-[`crm_multifield`](../../data-types.md) | Адрес электронной почты. Множественное. ||
+[`crm_multifield`](../../data-types.md) | Адрес электронной почты. Множественное ||
 || **HONORIFIC**
-[`crm_status`](../../data-types.md) | Вид обращения. ||
+[`crm_status`](../../data-types.md) | Вид обращения ||
 || **IM**
-[`crm_multifield`](../../data-types.md) | Мессенджер. Множественное. ||
+[`crm_multifield`](../../data-types.md) | Мессенджер. Множественное ||
 || **LINK**
-[`crm_multifield`](../../data-types.md) | ID пользователя, привязанного через открытую линию. Множественное. ||
+[`crm_multifield`](../../data-types.md) | ID пользователя, привязанного через открытую линию. Множественное ||
 || **LAST_NAME**
 [`string`](../../data-types.md) | Фамилия ||
 || **NAME**
 [`string`](../../data-types.md) | Имя ||
+|| **SECOND_NAME**
+[`string`](../../data-types.md) | Отчество ||
 || **OPENED**
-[`char`](../../data-types.md) | Признак доступности лида для всех.  Допустимые значения `Y` или `N`. ||
+[`char`](../../data-types.md) | Признак доступности лида для всех.  Допустимые значения `Y` или `N`.||
 || **OPPORTUNITY**
-[`double`](../../data-types.md) | Сумма. ||
+[`double`](../../data-types.md) | Сумма ||
 || **IS_MANUAL_OPPORTUNITY**
-[`char`](../../data-types.md) | Признак ручного режима расчёта суммы.  Допустимые значения Y или N.||
+[`char`](../../data-types.md) | Признак ручного режима расчёта суммы.  Допустимые значения Y или N||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Идентификатор источника данных.
 
 Используется только для привязки к внешнему источнику ||
 || **ORIGIN_ID**
-[`string`](../../data-types.md) | Идентификатор элемента в источнике данных. Используется только для привязки к внешнему источнику. ||
+[`string`](../../data-types.md) | Идентификатор элемента в источнике данных. Используется только для привязки к внешнему источнику ||
 || **PHONE**
-[`crm_multifield`](../../data-types.md) | Телефон. Множественное. ||
+[`crm_multifield`](../../data-types.md) | Телефон. Множественное ||
 || **POST**
-[`string`](../../data-types.md) | Должность. ||
-|| **SECOND_NAME**
-[`string`](../../data-types.md) | Отчество ||
+[`string`](../../data-types.md) | Должность ||
 || **SOURCE_DESCRIPTION**
-[`string`](../../data-types.md) | Описание источника. ||
+[`string`](../../data-types.md) | Описание источника ||
 || **SOURCE_ID**
 [`crm_status`](../../data-types.md) | Идентификатор источника. 
 Значения по умолчанию:
@@ -114,7 +125,7 @@
 ||OTHER|Другое||
 |#
 
-Список всех возможных идентификаторов из справочника можно получить методом crm.status.list с фильтром `filter[ENTITY_ID]=SOURCE` ||
+Список всех возможных идентификаторов из справочника можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=SOURCE` ||
 || **STATUS_DESCRIPTION**
 [`string`](../../data-types.md) | Дополнительно о стадии ||
 || **STATUS_ID**
@@ -129,22 +140,26 @@
 ||CONVERTED | Качественный лид||
 |#
 
-Список всех возможных стадий из справочника можно получить методом crm.status.list с фильтром `filter[ENTITY_ID]=STATUS` ||
+Список всех возможных стадий из справочника можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=STATUS` ||
 || **TITLE**
-[`string`](../../data-types.md) | Название лида. ||
+[`string`](../../data-types.md) | Название лида ||
 || **UTM_CAMPAIGN**
-[`string`](../../data-types.md) | Обозначение рекламной кампании. ||
+[`string`](../../data-types.md) | Обозначение рекламной кампании ||
 || **UTM_CONTENT**
-[`string`](../../data-types.md) | Содержание кампании. Например, для контекстных объявлений. ||
+[`string`](../../data-types.md) | Содержание кампании. Например, для контекстных объявлений ||
 || **UTM_MEDIUM**
-[`string`](../../data-types.md) | Тип трафика. CPC (объявления), CPM (баннеры). ||
+[`string`](../../data-types.md) | Тип трафика. CPC (объявления), CPM (баннеры) ||
 || **UTM_SOURCE**
-[`string`](../../data-types.md) | Рекламная система. Yandex-Direct, Google-Adwords и другие. ||
+[`string`](../../data-types.md) | Рекламная система. Yandex-Direct, Google-Adwords и другие ||
 || **UTM_TERM**
-[`string`](../../data-types.md) | Условие поиска кампании. Например, ключевые слова контекстной рекламы. ||
+[`string`](../../data-types.md) | Условие поиска кампании. Например, ключевые слова контекстной рекламы ||
 || **WEB**
-[`crm_multifield`](../../data-types.md) | Сайт. Множественное. ||
-|| **ufCrm_ххх** | пользовательские поля. Смотри раздел [{#T}](../universal/user-defined-fields/index.md) ||
+[`crm_multifield`](../../data-types.md) | Сайт. Множественное ||
+|| **UF_...** | Пользовательские поля. Например, `UF_CRM_25534736`.  
+
+В зависимости от настроек портала у лидов может быть набор пользовательских полей определенных типов. 
+
+Для создания, изменения или удаления пользовательских полей в лидах используйте методы [crm.lead.userfield.*](./userfield/index.md) ||
 |#
 
 {% note info %}
@@ -159,27 +174,40 @@
 
 {% endnote %}
 
-## Параметр options
+## Параметр options {#options}
 
 #|
-|| **Параметр** / **Тип** | **Описание** | **Ревизия** ||
+|| **Название**
+`тип`  | **Описание** ||
 || **REGISTER_SONET_EVENT**
-[`boolean`](../../data-types.md) | произвести регистрацию события добавления лида в живой ленте. Дополнительно будет отправлено уведомление ответственному за лид. | 1 ||
+[`boolean`](../../data-types.md) | произвести регистрацию события добавления лида в живой ленте. Дополнительно будет отправлено уведомление ответственному за лид ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - cURL (Webhook)
 
-    // пример для cURL (Webhook)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"TITLE":"ИП Титов","NAME":"Глеб","SECOND_NAME":"Егорович","LAST_NAME":"Титов","STATUS_ID":"NEW","OPENED":"Y","ASSIGNED_BY_ID":1,"CURRENCY_ID":"USD","OPPORTUNITY":12500,"PHONE":[{"VALUE":"555888","VALUE_TYPE":"WORK"}],"WEB":[{"VALUE":"www.mysite.com","VALUE_TYPE":"WORK"}]},"params":{"REGISTER_SONET_EVENT":"Y"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.lead.add
+    ```
 
 - cURL (OAuth)
 
-    // пример для cURL (OAuth)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"TITLE":"ИП Титов","NAME":"Глеб","SECOND_NAME":"Егорович","LAST_NAME":"Титов","STATUS_ID":"NEW","OPENED":"Y","ASSIGNED_BY_ID":1,"CURRENCY_ID":"USD","OPPORTUNITY":12500,"PHONE":[{"VALUE":"555888","VALUE_TYPE":"WORK"}],"WEB":[{"VALUE":"www.mysite.com","VALUE_TYPE":"WORK"}]},"params":{"REGISTER_SONET_EVENT":"Y"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.lead.add
+    ```
 
 - JS
 
@@ -230,16 +258,51 @@
 
 - PHP
 
-    // пример для php
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.lead.add',
+        [
+            'fields' => [
+                'TITLE' => 'ИП Титов',
+                'NAME' => 'Глеб',
+                'SECOND_NAME' => 'Егорович',
+                'LAST_NAME' => 'Титов',
+                'STATUS_ID' => 'NEW',
+                'OPENED' => 'Y',
+                'ASSIGNED_BY_ID' => 1,
+                'CURRENCY_ID' => 'USD',
+                'OPPORTUNITY' => 12500,
+                'PHONE' => [
+                    [
+                        'VALUE' => '555888',
+                        'VALUE_TYPE' => 'WORK',
+                    ],
+                ],
+                'WEB' => [
+                    [
+                        'VALUE' => 'www.mysite.com',
+                        'VALUE_TYPE' => 'WORK',
+                    ],
+                ],
+            ],
+            'params' => [
+                'REGISTER_SONET_EVENT' => 'Y',
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
+## Обработка ответа
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
-
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
 {
@@ -260,29 +323,16 @@
 ### Возвращаемые данные
 
 #|
-|| **Значение** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **result**
-`integer`| Идентификатор созданного лида ||
+[`integer`](../../data-types.md) | Корневой элемент ответа, содержит идентификатор созданного лида ||
 || **time**
-[`array`](../../data-types.md) | Информация о времени выполнения запроса ||
-|| **start**
-[`double`](../../data-types.md) | Timestamp момента инициализации запроса ||
-|| **finish**
-[`double`](../../data-types.md) | Timestamp момента завершения выполнения запроса ||
-|| **duration**
-[`double`](../../data-types.md) | Как долго в миллисекундах выполнялся запрос (finish - start) ||
-|| **date_start**
-[`string`](../../data-types.md) | Строковое представление даты и времени момента инициализации запроса ||
-|| **date_finish**
-[`double`](../../data-types.md) | Строковое представление даты и времени момента завершения запроса ||
-|| **operating_reset_at**
-[`timestamp`](../../data-types.md) | Timestamp момента, когда будет сброшен лимит на ресурсы REST API. Читайте подробности в статье [лимит на операции](../../../limits.md) ||
-|| **operating**
-[`double`](../../data-types.md) | Через сколько миллисекунд будет сброшен лимит на ресурсы REST API? Читайте подробности в статье [лимит на операции](../../../limits.md) ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 
-## Ответ в случае ошибки
+## Обработка ошибок
 
 > HTTP-статус: 40x, 50x Error
 

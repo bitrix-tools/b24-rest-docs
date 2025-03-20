@@ -1,0 +1,13 @@
+title: Устаревшие методы складского учета
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Провести документ
+    href: catalog-document-confirm.md    
+  - name: Отменить проведение документа
+    href: catalog-document-unconfirm.md
+  - name: Получить список полей документа
+    href: catalog-document-fields.md
+  - name: Получить список полей товаров документа складского учета
+    href: catalog-document-element-fields.md

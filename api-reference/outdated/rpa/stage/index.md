@@ -1,10 +1,4 @@
-# Стадии
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Стадии: обзор методов
 
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
@@ -12,9 +6,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [rpa.stage.get](./rpa-stage-get.md) | Отдает информацию о стадии по её ID. ||
-|| [rpa.stage.listForType](./rpa-stage-list-for-type.md) | Метод вернет список стадий процесса, отсотированный в порядке сортировки, с финальными стадиями в конце. ||
-|| [rpa.stage.add](./rpa-stage-add.md) | Метод создаст новую стадию и вернет в ответе данные, аналогичные ответу на запрос `rpa.stage.get`. ||
-|| [rpa.stage.update](./rpa-stage-update.md) | Метод обновит стадию с id и вернет в ответе данные, аналогичные ответу на запрос `rpa.stage.get`. ||
-|| [rpa.stage.delete](./rpa-stage-delete.md) | Метод удаляет стадию. ||
+|| [rpa.stage.add](./rpa-stage-add.md) | Добавлет новую стадию ||
+|| [rpa.stage.update](./rpa-stage-update.md) | Обновляет стадию по `id` ||
+|| [rpa.stage.get](./rpa-stage-get.md) | Получает информацию о стадии по ее `id` ||
+|| [rpa.stage.listForType](./rpa-stage-list-for-type.md) | Получает список стадий процесса, отсотированный в порядке сортировки, с финальными стадиями в конце ||
+|| [rpa.stage.delete](./rpa-stage-delete.md) | Удаляет стадию ||
 |#

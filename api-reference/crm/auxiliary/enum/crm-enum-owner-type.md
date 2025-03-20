@@ -129,3 +129,7 @@ crm.enum.ownertype()
 {% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+## Продолжить изучение
+
+- [{#T}](../../../../tutorials/tasks/how-to-connect-task-to-spa.md)

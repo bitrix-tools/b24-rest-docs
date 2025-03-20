@@ -1,129 +1,229 @@
-# Выполнить задания бизнес-процессов bizproc.task.complete
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- надо собрать общую таблицу параметров, включая PARAMETERS
-- подробности значений для PARAMETERS и STATUS вынести в отдельные таблицы
-- непонятно, откуда разработчик должен понимать, какие именно Fields он может или должен заполнить
-- не хватает примеров
-- нет стандартных блоков
-
-{% endnote %}
-
-{% endif %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы.
-
-{% endnote %}
-
-{% endif %}
+# Выполнить задание бизнес-процесса bizproc.task.complete
 
 > Scope: [`bizproc`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод осуществляет выполнение указанного задания бизнес-процесса. В настоящий момент можно выполнить задания вида:
-
-- [Утверждение документа](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3771)
-- [Ознакомление с документом](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3783)
-- [Запрос доп. информации](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=57&LESSON_ID=3782)
+Метод выполняет задание бизнес-процесса:
+- Утверждение документа
+- Ознакомление с документом
+- Запрос дополнительной информации
+- Запрос дополнительной информации с отклонением
   
-Выполнить можно только своё задание (относящееся к пользователю, с чьим access-токеном выполняется метод), если оно ещё не было выполнено.
+Выполнить можно только свое задание.
 
-#|
-|| **Параметр** | **Описание** | **Примечание** | **С версии** ||
-|| **TASK_ID^*^** | Идентификатор задания, обязательный | |  ||
-|| **STATUS^*^** | Целевой статус задания, обязательный. Список допустимых значений: 
+{% note tip "Пользовательская документация" %}
 
-- `1` или yes - ответ "Да" (утвержден)
-- `2` или no - ответ "Нет" (отклонен)
-- `3` или ok - ответ "Ок" (ознакомлен)
-- `4` или cancel - ответ "Отмена" | Статусы: **1** и **2** для действия Утверждение документа; <br> **3** и **4** для действия Запрос доп. информации; **3** для действия Запроса доп.информации с отклонением. |  ||
-|| **COMMENT** | Комментарий пользователя, обязательность зависит от параметров задания | |  ||
-|#
+- [Действия: Задания](https://helpdesk.bitrix24.ru/open/7451037/)
+
+{% endnote %}
+
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Пример
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **TASK_ID***
+[`integer`](../../data-types.md) | Идентификатор задания.
+
+Получить идентификатор можно методом [bizproc.task.list](./bizproc-task-list.md) ||
+|| **STATUS***
+[`integer` \| `string` ](../../data-types.md) | Целевой статус задания. Возможные значения: 
+
+- `1` или `yes` — да, утвержден
+- `2` или `no` — нет, отклонен
+- `3` или `ok` — ок, ознакомлен
+- `4` или `cancel` — отмена
+
+Набор допустимых значений меняется в зависимости от типа задания:
+- Утверждение документа — `1` или `2`
+- Ознакомление с документом — `3`
+- Запрос дополнительной информации — `3`
+- Запрос дополнительной информации с отклонением — `3` или `4`
+||
+|| **COMMENT**
+[`string`](../../data-types.md) | Комментарий пользователя.
+
+Обязательность параметра зависит от настроек задания ||
+|| **FIELDS**
+[`object`](../../data-types.md) | Объект с описанием полей для выполнения заданий с запросом дополнительной информации в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где
+- `field_N` — символьный идентификатор поля задания
+- `value_N` — значение поля
+
+Получить описания полей в задании можно методом [bizproc.task.list](./bizproc-task-list.md) в объекте `"PARAMETERS": "Fields"` ответа. Структура описания объекта поля:
+
+```json
+"PARAMETERS": {
+    ...
+    "Fields": [
+        {
+            "Id": "field_id",
+            "Type": "type",
+            "Name": "name",
+            "Description": "description",
+            "Multiple": false,
+            "Required": true,
+            "Options": null,
+            "Settings": null,
+            "Default": "default_value"
+        }
+```
+
+`Id` — символьный идентификатор поля задания.
+
+В `Default` хранятся значения по умолчанию, которые можно передать для выполнения задания. Эти значения сконвертированы во внешнее представление:
+- для дат — в формат rest ATOM ISO-8601
+- для файлов — в ссылку на файл 
+
+В таком формате значения передаются в метод `bizproc.task.complete`. Затем они конвертируются во внутреннее представление:
+- даты из rest формата конвертируются во внутренний
+- файлы сохраняются и прикрепляются к бизнес-процессу
+
+Чтобы передать значение в поле типа Файл укажите:
+- для типа Файл — base64 или массив с названием и base64
+- для типа Файл (Диск) — идентификатор файла с Диска
+
+Подробнее о работе с файлами в статье [{#T}](../../files/how-to-upload-files.md)
+
+||
+|#
+
+## Пример кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASK_ID":1501,"STATUS":1,"COMMENT":"Добавлено","Fields":{"contractor":"C_607","phone_number":"89991234567"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.task.complete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASK_ID":1501,"STATUS":1,"COMMENT":"Добавлено","Fields":{"contractor":"C_607","phone_number":"89991234567"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/bizproc.task.complete
+    ```
+
 - JS
 
     ```js
-    function completeTask(id, status, comment, cb)
-    {
-        var params = {
-            TASK_ID: id,
-            STATUS: status,
-            COMMENT: comment
-        };
-        BX24.callMethod(
-            'bizproc.task.complete',
-            params,
-            function(result)
-            {
-                if(result.error())
-                    alert("Error: " + result.error());
-                else if (cb)
-                    cb();
+    BX24.callMethod(
+        'bizproc.task.complete',
+        {
+            'TASK_ID': 1501,
+            'STATUS': 1,
+            'COMMENT': 'Добавлено',
+            "Fields": {
+                'contractor': 'C_607',
+                'phone_number': '89991234567'
             }
-        );
-    }
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.task.complete',
+        [
+            'TASK_ID' => 1501,
+            'STATUS' => 1,
+            'COMMENT' => 'Добавлено',
+            'Fields' => [
+                'contractor' => 'C_607',
+                'phone_number' => '89991234567'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-
-## Выполнение задания Запрос дополнительной информации через REST
-
-С версии **20.0.800** модуля Бизнес-процессы появилась возможность выполнять задания **Запрос доп.информации** через rest метод **bizrpoc.task.complete**.
-
-Для того, чтобы понять, какие поля нужно заполнить, в метод [bizproc.task.list](.) в PARAMETERS добавлено новое свойство `Fields` - массив с описанием полей.
+## Обработка ответа
+ 
+HTTP-статус: **200**
 
 ```json
-"PARAMETERS": {
-    "CommentLabel": "Комментарий",
-    "CommentRequired": "N",
-    "ShowComment": "Y",
-    "StatusOkLabel": "Сохранить",
-    "Fields": [
-        {
-            "Type": "datetime",
-            "Name": "date",
-            "Description": "",
-            "Multiple": false,
-            "Required": true,
-            "Options": null,
-            "Settings": null,
-            "Default": "2020-07-08T15:16:12+02:00",
-            "Id": "date"
-        }
-    ]
+{
+    "result": true,
+    "time": {
+        "start": 1738746693.9218969,
+        "finish": 1738746694.1367991,
+        "duration": 0.21490216255187988,
+        "processing": 0.19237995147705078,
+        "date_start": "2025-02-05T12:11:33+03:00",
+        "date_finish": "2025-02-05T12:11:34+03:00",
+        "operating_reset_at": 1738747293,
+        "operating": 0.19236207008361816
+    }
 }
 ```
 
-Значения **по умолчанию** хранятся в разделе **Default**. Значения конвертируются во "внешнее" представление (для дат - в формат rest ATOM (ISO-8601), а для файлов - в ссылку на файл).
+### Возвращаемые данные
 
-Далее значения этих полей нужно передать в метод **bizrpoc.task.complete** в параметре **Fields**. Значения конвертируются в этот раз во "внутреннее представление" (т.е. даты из rest формата конвертируются во внутренний, а файлы из rest сохраняются и прикрепляются к бизнес-процессу).
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true`, если задание выполнено успешно ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
- {% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_TASK_VALIDATION",
+    "error_description": "incorrect STATUS"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+ 
+#|
+|| **Код** | **Сообщение об ошибке** | **Описание** ||
+|| `ERROR_TASK_VALIDATION` | empty TASK_ID | Не укзан `ID` задания ||
+|| `ERROR_TASK_VALIDATION` | incorrect STATUS | Указан некорректный статус задания ||
+|| `ERROR_TASK_NOT_FOUND` | Task not found | Не найдено задание с заданным `ID` ||
+|| `ERROR_TASK_COMPLETED` | Task already completed | Задание уже выполнено ранее ||
+|| `ERROR_TASK_TYPE` | Incorrect task type | Некорректный тип задания. Такое задание нельзя выполнить через рест ||
+|| `ERROR_TASK_EXECUTION` | текст ошибки из задания | В процессе выполнения задания случилась указанная ошибка ||
+|#
+ 
+ {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+ ## Продолжите изучение 
+ 
+ - [{#T}](./index.md)
+ - [{#T}](./bizproc-task-list.md)

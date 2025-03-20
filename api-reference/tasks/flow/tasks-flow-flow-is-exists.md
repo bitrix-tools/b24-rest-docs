@@ -1,10 +1,10 @@
-# Проверить существование потока tasks.flow.flow.isExists
+# Проверить существование потока tasks.flow.Flow.isExists
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.flow.flow.isExists` проверяет, существует ли поток с указанным именем. Если указан `id`, проверяет, существуют ли потоки с таким же именем, кроме указанного.
+Метод `tasks.flow.Flow.isExists` проверяет, существует ли поток с указанным именем. Если указан `id`, проверяет, существуют ли потоки с таким же именем, кроме указанного.
 
 ## Параметры метода
 
@@ -20,7 +20,7 @@
 || **id** 
 [`integer`](../../data-types.md) | Идентификатор потока для исключения из проверки (необязательный). 
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 |#
 
 ## Примеры кода
@@ -39,7 +39,7 @@
             "name": "Flow Name"
         }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.isExists
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.isExists
     ```
 
 - cURL (oAuth)
@@ -53,14 +53,14 @@
             "name": "Flow Name"
         }
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.isExists
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.isExists
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.isExists',
+        'tasks.flow.Flow.isExists',
         {
             flowData: {
                 name: 'Flow Name'
@@ -87,7 +87,7 @@
 
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.isExists',
+        'tasks.flow.Flow.isExists',
         [
             'flowData' => $flowData
         ]

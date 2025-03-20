@@ -5,7 +5,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **access_token**
-[`string`](../api-reference/data-types.md) |  Токен авторизации [OAuth 2.0](../api-reference/oauth/) ||
+[`string`](../api-reference/data-types.md) |  Токен авторизации [OAuth 2.0](../api-reference/oauth/index.md) ||
 || **expires_in**
 [`integer`](../api-reference/data-types.md) | Время в секундах до истечения срока действия токена ||
 || **scope***
@@ -18,8 +18,8 @@
 [`string`](../api-reference/data-types.md) | Статус приложения, подписавшегося на это событие:
 
 - `L` — [локальное](../local-integrations/local-apps.md) приложение
-- `F` — [бесплатное тиражное](../market/) приложение
-- `S` — [подписное тиражное](../market/monetization/) приложение
+- `F` — [бесплатное тиражное](../market/index.md) приложение
+- `S` — [подписное тиражное](../market/monetization/index.md) приложение
 
 ||
 || **client_endpoint***
@@ -27,7 +27,7 @@
 || **member_id***
 [`string`](../api-reference/data-types.md) | Идентификатор Битрикс24, на котором произошло событие ||
 || **refresh_token**
-[`string`](../api-reference/data-types.md) | Токен продления авторизации [OAuth 2.0](../api-reference/oauth/) ||
+[`string`](../api-reference/data-types.md) | Токен продления авторизации [OAuth 2.0](../api-reference/oauth/index.md) ||
 || **application_token***
 [`string`](../api-reference/data-types.md) | Токен для безопасной обработки событий ||
 |#

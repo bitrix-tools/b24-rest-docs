@@ -1,68 +1,149 @@
-# Удалить перевод называния типа цен catalog.priceTypeLang.delete
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
+# Удалить перевод названия типа цены catalog.priceTypeLang.delete
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
-## Описание
+Метод удаляет перевод названия типа цены по его идентификатору. 
 
-```http
-catalog.priceTypeLang.delete(id)
-```
+## Параметры метода
 
-Метод удаляет перевод называния типа цен.
-Если операция успешна, возвращается `true` в теле ответа.
-
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **id** 
-[`integer`](../../data-types.md)| Идентификатор перевода называния типа цен. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены ||
 |#
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":3}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.priceTypeLang.delete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":3,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.priceTypeLang.delete
+    ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'catalog.priceTypeLang.delete',
-        {
-            id: 346
-        },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error().ex);
-            else
-                console.log(result.data());
-        }
+    'catalog.priceTypeLang.delete', 
+    { 
+    id: 3
+    }, 
+    function(result)
+    {
+    if(result.error())
+    console.error(result.error());
+    else
+    console.log(result.data());
+    }
     );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.priceTypeLang.delete',
+        [
+            'id' => 3
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1733842077.14235,
+        "finish": 1733842077.43516,
+        "duration": 0.292811155319214,
+        "processing": 0.00620388984680176,
+        "date_start": "2024-12-10T16:47:57+02:00",
+        "date_finish": "2024-12-10T16:47:57+02:00",
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../../data-types.md) | Результат удаления перевода названия типа цены ||
+|| **time**
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": 200040300020,
+    "error_description": "Access Denied",
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `200040300020` | Недостаточно прав для редактирования
+|| 
+|| `201200000000` | Перевода названия типа цены с таким идентификатором не существует
+|| 
+|| `100` | Не указан параметр `id`
+|| 
+|| `0` | Другие ошибки (например, фатальные ошибки)
+|| 
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./catalog-price-type-lang-add.md)
+- [{#T}](./catalog-price-type-lang-update.md)
+- [{#T}](./catalog-price-type-lang-get.md)
+- [{#T}](./catalog-price-type-lang-list.md)
+- [{#T}](./catalog-price-type-lang-get-languages.md)
+- [{#T}](./catalog-price-type-lang-get-fields.md)

@@ -1,82 +1,147 @@
 # Удалить склад catalog.store.delete
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-  
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
-## Описание
+Метод удаляет склад.
 
-```http
-catalog.store.delete(id)
-```
+## Параметры метода
 
-Метод для удаления склада.
-Если операция успешна, возвращается `Y` в теле ответа.
-
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **id** 
-[`integer`](../../data-types.md)| Идентификатор склада. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`catalog_store.id`](../data-types.md#catalog_store) | Идентификатор склада.
+
+Получить идентификаторы складов можно методом [catalog.store.list](./catalog-store-list.md) ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":1}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.store.delete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":1,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.store.delete
+    ```
+
 - JS
-  
+
     ```js
     BX24.callMethod(
         'catalog.store.delete',
         {
-            id: 42,
+            id: 1,
         },
-        function(result)
-        {
-            if(result.error())
+        function(result) {
+            if (result.error()) {
                 console.error(result.error());
-            else
-                console.log(result.data());
+            } else {
+                console.info(result.data());
+            }
         }
     );
     ```
 
 - PHP
-  
+
     ```php
+    require_once('crest.php');
+
     $result = CRest::call(
         'catalog.store.delete',
         [
-            'id' => 42,
+            'id' => 1
         ]
     );
 
-    echo '<pre>';
+    echo '<PRE>';
     print_r($result);
-    echo '</pre>';
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1729516191.298727,
+        "finish": 1729516191.799495,
+        "duration": 0.5007679462432861,
+        "processing": 0.16301894187927246,
+        "date_start": "2024-10-21T16:09:51+03:00",
+        "date_finish": "2024-10-21T16:09:51+03:00",
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Результат удаления склада ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{	
+    "error":200040300020,
+    "error_description":"Access Denied"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `200040300020` | Недостаточно прав для удаления склада ||
+|| `201100000000` | Склад с указанным идентификатором не найден ||
+|| `100` | Не указан или пустой параметр `id` ||
+|| `0` | На данный склад оформлены документы || 
+|| `0` | Другие ошибки (например, фатальные ошибки) || 
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./catalog-store-add.md)
+- [{#T}](./catalog-store-update.md)
+- [{#T}](./catalog-store-get.md)
+- [{#T}](./catalog-store-list.md)
+- [{#T}](./catalog-store-get-fields.md)
+

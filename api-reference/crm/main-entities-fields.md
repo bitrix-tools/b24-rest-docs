@@ -942,7 +942,7 @@
 
 - Дела
 
-    Описание полей возвращает метод [crm.activity.fields](./timeline/activities/crm-activity-fields.md)
+    Описание полей возвращает метод [crm.activity.fields](./timeline/activities/activity-base/crm-activity-fields.md)
 
     #|
     || **Название** | **Описание** | **Чтение** | **Запись** ||

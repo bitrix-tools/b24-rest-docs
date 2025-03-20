@@ -1,0 +1,9 @@
+title: Подпись
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Список подписанных документов пользователя
+    href: sign-b2e-personal-tail.md
+  - name: Список подписанных документов в сейфе компании
+    href: sign-b2e-mysafe-tail.md

@@ -35,7 +35,7 @@ catalog.productPropertyEnum.get(id)
 #|
 || **Параметр** | **Описание** ||
 || **id** 
-[`integer`](../../data-types.md)| Идентификатор списочного свойства. ||
+[`integer`](../../data-types.md)| Идентификатор значения списочного свойства. ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}

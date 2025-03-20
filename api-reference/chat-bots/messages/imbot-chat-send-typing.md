@@ -79,5 +79,5 @@
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/index.md)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/on-imbot-message-add.md)
 - [Событие на получение информации чат-ботом о включении его в чат (или личную переписку) ONIMJOINCHAT](../chats/events/on-imbot-join-chat.md)

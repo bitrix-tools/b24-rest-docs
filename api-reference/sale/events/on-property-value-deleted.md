@@ -13,7 +13,7 @@
 ```
 [
     'event' => 'ONPROPERTYVALUEDELETED',
-    'eventId' => 1,
+    'event_handler_id' => 1,
     'data' => [
         'FIELDS' => [
             'ID' => 300,
@@ -44,8 +44,8 @@
 `тип` | **Описание** ||
 || **event***
 [`string`](../../data-types.md) | Символьный код события ||
-|| **eventId***
-[`integer`](../../data-types.md) | Идентификатор события ||
+|| **event_handler_id***
+[`integer`](../../data-types.md) | Идентификатор обработчика события ||
 || **data***
 [`object`](../../data-types.md) | Объект с данными события ||
 || **ts***

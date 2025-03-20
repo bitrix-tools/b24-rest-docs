@@ -9,7 +9,7 @@
 > Scope: [`crm`](../../scopes/permissions.md)
 
 
-Вы можете добавлять свой пункт контекстного меню дела в карточке таких объектов CRM как [лиды](../../crm/leads/), [сделки](../../crm/deals/), [коммерческие предложения](../../crm/quote/), [новые счета](../../crm/smart-invoice/) и [пользовательские типы](../../crm/universal/) объектов.
+Вы можете добавлять свой пункт контекстного меню дела в карточке таких объектов CRM как [лиды](../../crm/leads/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
 
 ![Виджет в виде пункта контекстного меню дела в лиде](./_images/CRM__ACTIVITY_TIMELINE_MENU.png "Виджет в виде пункта контекстного меню дела в лиде")
 
@@ -19,11 +19,11 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CRM_LEAD_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [лиде](../../crm/leads/) ||
-|| `CRM_DEAL_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [сделке](../../crm/deals/) ||
-|| `CRM_QUOTE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [коммерческом предложении](../../crm/quote/) ||
-|| `CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [новых счетах](../../crm/smart-invoice/) ||
-|| `CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU` |  Пункт контекстного меню дела в пользовательских типах объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_LIST_MENU` ||
+|| `CRM_LEAD_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [лиде](../../crm/leads/index.md) ||
+|| `CRM_DEAL_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [сделке](../../crm/deals/index.md) ||
+|| `CRM_QUOTE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [коммерческом предложении](../../crm/quote/index.md) ||
+|| `CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [новых счетах](../../crm/universal/invoice.md) ||
+|| `CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU` |  Пункт контекстного меню дела в пользовательских типах объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_LIST_MENU` ||
 |#
 
 ## Что получает обработчик
@@ -95,7 +95,7 @@
     
     ```
 
-- CRM_QUOTE_ACTIVITY_TIMELINE_MENU
+- CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU
 
     ```php
 
@@ -167,7 +167,7 @@
 || **ASSOCIATED_ENTITY_ID***
 [`string`](../../data-types.md) | Идентификатор дела CRM, для которого был открыт виджет.
 
-Может быть использован для получения дополнительной информации с помощью метода [crm.activity.get](../../crm/timeline/activities/crm-activity-get.md)
+Может быть использован для получения дополнительной информации с помощью метода [crm.activity.get](../../crm/timeline/activities/activity-base/crm-activity-get.md)
 
 ||
 || **ASSOCIATED_ENTITY_TYPE_ID***

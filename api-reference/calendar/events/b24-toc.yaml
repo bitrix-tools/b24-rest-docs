@@ -1,0 +1,20 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При добавлении события
+    href: on-calendar-entry-add.md
+  - name: При изменении события
+    href: on-calendar-entry-update.md
+  - name: При удалении события
+    href: on-calendar-entry-delete.md
+  - name: При добавлении секции календаря или ресурса
+    href: on-calendar-section-add.md
+  - name: При изменении секции календаря или ресурса
+    href: on-calendar-section-update.md
+  - name: При удалении секции календаря или ресурса
+    href: on-calendar-section-delete.md
+
+
+

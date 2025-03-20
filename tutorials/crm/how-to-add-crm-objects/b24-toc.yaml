@@ -31,6 +31,10 @@ items:
     href: how-to-send-email.md
   - name: Добавить комментарий в таймлайн смарт-процесса
     href: how-to-add-comment-to-spa.md
-
+  - name: Создать пользовательское поле в смарт-процессе    
+    href: how-to-add-user-field-to-spa.md
+  - name: Настроить округление для пользовательского поля типа «Число»
+    href: how-to-add-precision-to-user-field.md
+    
 
     

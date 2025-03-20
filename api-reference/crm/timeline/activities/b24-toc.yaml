@@ -3,34 +3,18 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Поля дела CRM
-    href: fields.md
-  - name: Получить список полей дела
-    href: crm-activity-fields.md
-  - name: Добавить системное дело
-    href: crm-activity-add.md
-  - name: Добавить универсальное дело
-    href: crm-activity-todo-add.md
-  - name: Добавить конфигурируемое дело
-    href: crm-activity-configurable-add.md
-  - name: Изменить системное дело
-    href: crm-activity-update.md
-  - name: Изменить конфигурируемое дело
-    href: crm-activity-configurable-update.md
-  - name: Изменить универсальное дело
+  - name: Системное дело
     include:
-      path: todo-update/b24-toc.yaml
+      path: activity-base/b24-toc.yaml
       mode: link
-  - name: Получить список дел
-    href: crm-activity-list.md
-  - name: Получить дело по ID
-    href: crm-activity-get.md
-  - name: Получить конфигурируемое дело по ID
-    href: crm-activity-configurable-get.md
-  - name: Получить описание коммуникации
-    href: crm-activity-communication-fields.md
-  - name: Удалить дело
-    href: crm-activity-delete.md 
+  - name: Конфигурируемое дело
+    include:
+      path: configurable/b24-toc.yaml
+      mode: link
+  - name: Универсальное дело
+    include:
+      path: todo/b24-toc.yaml
+      mode: link    
   - name: Привязка дел к объектам CRM
     include:
       path: binding/b24-toc.yaml
@@ -38,14 +22,6 @@ items:
   - name: Пользовательские типы дел
     include:
       path: types/b24-toc.yaml
-      mode: link
-  - name: Бейджи конфигурируемых дел
-    include:
-      path: badges/b24-toc.yaml
-      mode: link
-  - name: Структура конфигурируемого дела
-    include:
-      path: structure/b24-toc.yaml
       mode: link
   - name: Дополнительные контентные блоки
     include:

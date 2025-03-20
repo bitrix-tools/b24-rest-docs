@@ -24,9 +24,11 @@
 
 Команды бывают **общими** и **локальными**.
 
+> Быстрый переход: [все методы и события](#all-methods) 
+
 {% note warning %}
 
-Обратите внимание! Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
+Обратите внимание! Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/on-im-command-add.md).
 
 {% endnote %}
 
@@ -56,4 +58,29 @@
 
 ## Пример «Команды и активные ссылки»
 
-@[youtube](10G8hIBOXRc)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/6df697f3139fdad5bfbf4953ef1f83a5/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+## Обзор методов {#all-methods}
+
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [imbot.command.register](./imbot-command-register.md) | Регистрирует новую команду для чат-бота ||
+    || [imbot.command.unregister](./imbot-command-unregister.md) | Удаляет зарегистрированную команду чат-бота ||
+    || [imbot.command.update](./imbot-command-update.md) | Обновляет информацию о зарегистрированной команде чат-бота ||
+    || [imbot.command.answer](./imbot-command-answer.md) | Публикует ответ на команду чат-бота ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [ONIMCOMMANDADD](./events/on-im-command-add.md) | При добавлении новой команды чат-ботом ||
+    |#
+
+{% endlist %}
+
+

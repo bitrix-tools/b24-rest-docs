@@ -3,9 +3,9 @@ href: index.md
 items:
   - name: Обзор событий
     href: index.md
-  - name: На добавление валюты
+  - name: При добавлении валюты
     href: on-crm-currency-add.md
-  - name: На изменение валюты
+  - name: При изменении валюты
     href: on-crm-currency-update.md
-  - name: На удаление валюты
+  - name: При удалении валюты
     href: on-crm-currency-delete.md

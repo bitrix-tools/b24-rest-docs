@@ -15,3 +15,11 @@
 {% endnote %}
 
 {% endif %}
+
+#|
+|| **Метод** | **Описание** ||
+|| [im.disk.file.commit](./im-disk-file-commit.md) | Добавляет файл в чат ||
+|| [im.disk.file.delete](./im-disk-file-delete.md) | Удаляет файл из папки чата ||
+|| [im.disk.file.save](./im-disk-file-save.md) | Сохраняет файл на свой диск ||
+|| [im.disk.folder.get](./im-disk-folder-get.md) | Получает папку хранения файлов указанного чата ||
+|#

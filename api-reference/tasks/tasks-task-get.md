@@ -76,7 +76,7 @@
 - **TASK_CONTROL** — принять в работу; 
 - **ADD_IN_REPORT** — добавить в отчет; 
 - **FORKED_BY_TEMPLATE_ID** — создано автоматически из шаблона; 
-- **TIME_ESTIMATE** — затраченное время; 
+- **TIME_ESTIMATE** — время, выделенное на задачу; 
 - **TIME_SPENT_IN_LOGS** — затраченное время из истории изменений; 
 - **MATCH_WORK_TIME** — пропустить выходные дни; 
 - **FORUM_TOPIC_ID** — идентификатор темы форума; 
@@ -150,5 +150,10 @@
     ```
 
 {% endlist %}
+
+## Продолжить изучение
+
+- [{#T}](../../tutorials/tasks/how-to-create-task-with-file.md)
+- [{#T}](../../tutorials/tasks/how-to-connect-task-to-spa.md)
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

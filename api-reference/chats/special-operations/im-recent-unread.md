@@ -43,7 +43,7 @@
 - JS
 
     ```js
-    B24.callMethod(
+    BX24.callMethod(
         'im.recent.unread',
         {
             DIALOG_ID: 'chat74',

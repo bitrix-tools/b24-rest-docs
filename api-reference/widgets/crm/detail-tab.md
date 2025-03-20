@@ -2,7 +2,8 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавлять свои вкладки в детальную карточку таких объектов CRM как [лиды](../../crm/leads/), [контакты](../../crm/contacts/), [компании](../../crm/companies/), [сделки](../../crm/deals/), [новые счета](../../crm/smart-invoice/) и [пользовательские типы](../../crm/universal/) объектов.
+
+Вы можете добавлять свои вкладки в детальную карточку таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
 
 ![Виджет в виде вкладки в детальной карточке элемента CRM](./_images/CRM_DEAL_DETAIL_TAB.png "Виджет в виде вкладки в детальной карточке элемента CRM")
 
@@ -12,13 +13,13 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CRM_LEAD_DETAIL_TAB` | Вкладка в карточке [лида](../../crm/leads/) ||
-|| `CRM_DEAL_DETAIL_TAB` | Вкладка в карточке [сделки](../../crm/deals/) ||
-|| `CRM_CONTACT_DETAIL_TAB` | Вкладка в карточке [контакта](../../crm/contacts/) ||
-|| `CRM_COMPANY_DETAIL_TAB` | Вкладка в карточке [компании](../../crm/companies/) ||
-|| `CRM_QUOTE_DETAIL_TAB` | Вкладка в карточке [коммерческого предложения](../../crm/quote/) ||
-|| `CRM_SMART_INVOICE_DETAIL_TAB` | Вкладка в карточке [счетов](../../crm/smart-invoice/) ||
-|| `CRM_DYNAMIC_XXX_DETAIL_TAB` | Вкладка в карточке элемента пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/). Например, `CRM_DYNAMIC_183_DETAIL_TAB` ||
+|| `CRM_LEAD_DETAIL_TAB` | Вкладка в карточке [лида](../../crm/leads/index.md) ||
+|| `CRM_DEAL_DETAIL_TAB` | Вкладка в карточке [сделки](../../crm/deals/index.md) ||
+|| `CRM_CONTACT_DETAIL_TAB` | Вкладка в карточке [контакта](../../crm/contacts/index.md) ||
+|| `CRM_COMPANY_DETAIL_TAB` | Вкладка в карточке [компании](../../crm/companies/index.md) ||
+|| `CRM_QUOTE_DETAIL_TAB` | Вкладка в карточке [коммерческого предложения](../../crm/quote/index.md) ||
+|| `CRM_SMART_INVOICE_DETAIL_TAB` | Вкладка в карточке [счетов](../../crm/universal/invoice.md) ||
+|| `CRM_DYNAMIC_XXX_DETAIL_TAB` | Вкладка в карточке элемента пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DETAIL_TAB` ||
 |#
 
 ## Что получает обработчик

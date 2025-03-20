@@ -1,6 +1,218 @@
 # Что нового?
 
+## 2025
+
+### 19 марта, 2025
+
+- Обновлены страницы событий при работе с валютой [onCrmCurrency*](./api-reference/crm/currency/events/index.md)
+- Обновлена главная страница раздела [Связь лида с контактами](./api-reference/crm/leads/management-communication/index.md). Добавили вводную информацию и обзор методов
+
+### 14 марта, 2025
+
+- Добавили новый параметр `useOriginalUfNames` в методы [crm.item.*](./api-reference/crm/universal/index.md) для управления форматом имен пользовательских полей
+
+### 13 марта, 2025
+
+- Добавлен новый туториал [Как перенести дело из одного типа объекта в другой](./tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
+- Добавлен новый туториал [Как перенести дело между элементами одного типа](./tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
+- Обновлена главная страница раздела [Обработчики служб доставки](./api-reference/sale/delivery/handler/index.md) в Интернет-магазине. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Службы доставки](./api-reference/sale/delivery/delivery/index.md) в Интернет-магазине. Добавили вводную информацию, а также обзор методов и связей
+
+### 12 марта, 2025
+
+- Обновлена главная страница раздела [Специальные операции](./api-reference/chats/special-operations/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
+### 05 марта, 2025
+
+- Обновлены страницы событий регулярных сделок [onCrmDealRecurring*](./api-reference/crm/deals/recurring-deals/events/index.md)
+- Обновлена главная страница раздела [Участники чата](./api-reference/chats/chat-users/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Добавили статью с описанием использования универсальных методов для новых счетов [Счета: обзор методов](./api-reference/crm/universal/invoice.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 04 марта, 2025
+
+- Обновлена главная страница раздела [Регулярные сделки](./api-reference/crm/deals/recurring-deals/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 28 февраля, 2025
+
+- Обновлена главная страница раздела [Привязка оплат к отгрузкам](./api-reference/sale/payment-item-shipment/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Привязка элементов корзины к оплатам](./api-reference/sale/payment-item-basket/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 27 февраля, 2025
+
+- Обновлена главная страница раздела [Складской учет](./api-reference/catalog/document/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Источники заказов](./api-reference/sale/trade-platform/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Привязка источников заказов к заказам](./api-reference/sale/trade-binding/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 26 февраля, 2025
+
+- Добавлен новый туториал [Как настроить округление для пользовательского поля типа «Число»](./tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
+- Обновлена главная страница раздела [Учет рабочего времени](./api-reference/timeman/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 25 февраля, 2025
+
+- Обновлена главная страница раздела [Офисные сети](./api-reference/timeman/networkrange/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 24 февраля, 2025
+
+- Добавлен новый раздел [Действия с записями в таймлайне](./api-reference/crm/timeline/actions/index.md). Добавили новые методы [crm.timeline.item.pin](./api-reference/crm/timeline/actions/crm-timeline-item-pin.md) и [crm.timeline.item.unpin](./api-reference/crm/timeline/actions/crm-timeline-item-unpin.md)
+
+### 18 февраля, 2025
+
+- Обновлена документация по методам работы со [складами](./api-reference/catalog/store/index.md) в разделе Торговый каталог
+- Добавили раздел с методами модуля [Подпись](./api-reference/sign/index.md). Добавили новые методы [sign.b2e.personal.tail](./api-reference/sign/sign-b2e-personal-tail.md) и [sign.b2e.mysafe.tail](./api-reference/sign/sign-b2e-mysafe-tail.md)
+- Обновлена главная страница раздела [Склады](./api-reference/catalog/store/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Контроль времени](./api-reference/timeman/timecontrol/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 14 февраля, 2025
+
+- Обновлена главная страница раздела [Ставки НДС](./api-reference/catalog/vat/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Варианты свойства заказа типа ENUM](./api-reference/sale/property-variant/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Табличная часть отгрузки](./api-reference/sale/shipment-item/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 13 февраля, 2025
+
+- Обновлена главная страница раздела [Задания бизнес-процессов](./api-reference/bizproc/bizproc-task/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Рабочий день](./api-reference/timeman/base/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена информация по методам дел в CRM [crm.activity.*](./api-reference/crm/timeline/activities/activity-base/index.md)
+- Обновлена главная страница раздела [Изображения товаров и вариаций](./api-reference/catalog/product-image/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 10 февраля, 2025
+
+- Обновлена информация по методам универсальных дел в CRM [crm.activity.todo.*](./api-reference/crm/timeline/activities/todo/index.md)
+
+### 7 февраля, 2025
+
+- Обновлена главная страница раздела [Шаблоны бизнес-процессов](./api-reference/bizproc/template/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Добавлен раздел по работе с файлами со статьей [Как загрузить файлы](./api-reference/files/how-to-upload-files.md)
+
+### 6 февраля, 2025
+
+- Обновлена документация по методам работы с [заданиями](./api-reference/bizproc/bizproc-task/index.md) в разделе Бизнес-процессы и роботы
+- Обновлена главная страница раздела [Единицы Измерения](./api-reference/catalog/measure/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 5 февраля, 2025
+
+- Обновлена документация по методам, структуре и бейджам конфигурируемых дел в CRM [crm.activity.configurable.*](./api-reference/crm/timeline/activities/configurable/index.md)
+
+### 4 февраля, 2025
+
+- Обновлена документация по методам привязки дел в таймлайне CRM [crm.activity.binding.*](./api-reference/crm/timeline/activities/binding/index.md)
+
+### 31 января, 2025
+
+- Обновлена главная страница раздела [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена документация по [действиям приложений](./api-reference/bizproc/bizproc-activity/index.md) в разделе Бизнес-процессы и роботы
+- Обновлена документация по [роботам приложений](./api-reference/bizproc/bizproc-robot/index.md) в разделе Бизнес-процессы и роботы
+
+### 29 января, 2025
+
+- Добавлен новый туториал [Как создать пользовательское поле в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- Обновлена информация по методам пользовательских типов дел в CRM [crm.activity.type.*](./api-reference/crm/timeline/activities/types/index.md)
+- Обновлена информация по событиям дел в CRM [onCrmActivity*](./api-reference/crm/timeline/activities/events/index.md)
+
+### 28 января, 2025
+
+- Дополнено описание методов по встраиванию приложений: [BX24.placement.info](./api-reference/widgets/ui-interaction/bx24-placement-info.md), [BX24.placement.getInterface](./api-reference/widgets/ui-interaction/bx24-placement-get-interface.md), [BX24.placement.call](./api-reference/widgets/ui-interaction/bx24-placement-call.md) и [BX24.placement.bindEvent](./api-reference/widgets/ui-interaction/bx24-placement-bind-event.md)
+- Обновлена главная страница раздела [Локализация статусов](./api-reference/sale/status-lang/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Календарь](./api-reference/calendar/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 27 января, 2025
+
+- Обновлена главная страница раздела [Кассы](./api-reference/sale/cashbox/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Добавлен новый туториал [Как прикрепить задачу к смарт-процессу](./tutorials/tasks/how-to-connect-task-to-spa.md)
+
+### 23 января, 2025
+
+- Дополнено описание методов в разделе [Структура компании](./api-reference/departments/index.md)
+- Обновлена документация по [шаблонам бизнес-процессов](./api-reference/bizproc/template/index.md) в разделе Бизнес-процессы
+- Обновлена главная страница раздела [Бронирование ресурсов](./api-reference/calendar/resource/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Значения свойств отгрузки](./api-reference/sale/shipment-property-value/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 22 января, 2025
+
+- Обновлена главная страница раздела [Объект Сайт](./api-reference/landing/site/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Добавлен новый метод для получения пользовательского типа объекта CRM [crm.type.getByEntityTypeId](./api-reference/crm/universal/user-defined-object-types/crm-type-get-by-entity-type-id.md)
+- Добавлена возможность работать с мультиполями в методах [crm.item.add](./api-reference/crm/universal/crm-item-add.md) и [crm.item.update](./api-reference/crm/universal/crm-item-update.md)
+
+### 21 января, 2025
+
+- Обновлена главная страница раздела [События календаря](./api-reference/calendar/calendar-event/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Службы доставки](./api-reference/sale/delivery/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 16 января, 2025
+
+- Обновлена главная страница раздела [Статусы типов плательщиков](./api-reference/sale/business-value-person-domain/index.md). Добавили вводную информацию, а также обзор методов
+- Обновлена главная страница раздела [Отгрузки](./api-reference/sale/shipment/index.md). Добавили вводную информацию, а также обзор методов
+
+### 15 января, 2025
+
+- Обновлена документация по [бронированию ресурсов](./api-reference/calendar/resource/index.md) в разделе Календарь
+- Обновлена документация по [событиям пользовательских полей сделок](./api-reference/crm/deals/user-defined-fields/events/index.md)
+
+### 14 января, 2025
+
+- Обновлена главная страница раздела [Связь сделки с контактами](./api-reference/crm/deals/contacts/index.md). Добавили вводную информацию, а также обзор методов
+- Обновлена главная страница раздела [Статусы](./api-reference/sale/status/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 13 января, 2025
+
+- Обновлена документация по методам работы c товарными позицими сделок [crm.deal.productrows.get](./api-reference/crm/deals/crm-deal-productrows-get.md), [crm.deal.productrows.set](./api-reference/crm/deals/crm-deal-productrows-set.md)
+- Обновлена документация по событиям [Календаря](./api-reference/calendar/events/index.md)
+
+### 10 января, 2025
+
+- Обновлена главная страница раздела [Управление карточками лидов](./api-reference/crm/leads/custom-form/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Типы плательщиков](./api-reference/sale/person-type/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 09 января, 2025
+
+- Обновлена документация по событиям сделок [onCrmDealAdd](./api-reference/crm/deals/events/on-crm-deal-add.md), [onCrmDealUpdate](./api-reference/crm/deals/events/on-crm-deal-update.md), [onCrmDealDelete](./api-reference/crm/deals/events/on-crm-deal-delete.md)
+- Обновлена документация по работе с переводами названий типов цен [catalog.priceTypeLang.*](./api-reference/catalog/price-type/price-type-lang/index.md)
+- Добавили документацию по событию изменения воронки сделки [onCrmDealMoveToCategory](./api-reference/crm/deals/events/on-crm-deal-move-to-category.md)
+
 ## 2024
+
+### 28 декабря, 2024
+
+- Обновлена главная страница раздела [Управление карточками сделок](./api-reference/crm/deals/custom-form/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 26 декабря, 2024
+
+- Обновлена главная страница раздела [Пользовательские поля лидов](./api-reference/crm/leads/userfield/index.md). Добавили вводную информацию, а также обзор методов и ошибок
+- Обновлена главная страница раздела [Пользовательские поля сделок](./api-reference/crm/deals/user-defined-fields/index.md). Добавили вводную информацию, а также обзор методов и ошибок
+
+### 25 декабря, 2024
+
+- Обновлена документация по методам работы с календарем [calendar.section.*](./api-reference/calendar/calendar-section-add.md)
+- Обновлена главная страница раздела [Пользовательские поля контактов](./api-reference/crm/contacts/userfield/index.md). Добавили вводную информацию, а также обзор методов и ошибок
+
+### 24 декабря, 2024
+
+- Обновлена документация по методам настроек календаря [calendar.settings.get](./api-reference/calendar/calendar-settings-get.md), [calendar.user.settings.get](./api-reference/calendar/calendar-user-settings-get.md) и [calendar.user.settings.set](./api-reference/calendar/calendar-user-settings-set.md)
+
+### 23 декабря, 2024
+
+- Обновлена главная страница раздела [Связь контакта с компаниями](./api-reference/crm/contacts/company/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Пользовательские поля компаний](./api-reference/crm/companies/userfields/index.md). Добавили вводную информацию, а также обзор методов и ошибок
+- Обновлена документация по методам календаря [calendar.meeting.status.get](./api-reference/calendar/calendar-event/calendar-meeting-status-get.md), [calendar.meeting.status.set](./api-reference/calendar/calendar-event/calendar-meeting-status-set.md) и [calendar.accessibility.get](./api-reference/calendar/calendar-event/calendar-accessibility-get.md)
+
+### 20 декабря, 2024
+
+- Обновлена главная страница раздела [Управление карточками контактов](./api-reference/crm/contacts/custom-form/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 19 декабря, 2024
+
+- Обновлена документация по событиям [правил округления цен](./api-reference/catalog/rounding-rule/index.md)
+
+### 18 декабря, 2024
+
+- Обновлена документация по методам работы с событиями календаря [calendar.event.*](./api-reference/calendar/calendar-event/index.md)
+- Обновлена главная страница раздела [Почтовые сервисы](./api-reference/mailservice/index.md). Добавили вводную информацию и обзор методов
+
+### 17 декабря, 2024
+
+- Обновлена документация по событиям [типов цен](./api-reference/catalog/price-type/index.md)
+- Обновлена документация по событиям [товаров](./api-reference/catalog/product/index.md)
 
 ### 13 декабря, 2024
 
@@ -234,7 +446,7 @@
 
 ### 27 августа, 2024
 
-- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Получение списка дел](./api-reference/crm/timeline/activities/crm-activity-list.md), добавлены важные нюансы, касающиеся связей дел с объектами CRM, а также три дополнительных частных примера.
+- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Получение списка дел](./api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), добавлены важные нюансы, касающиеся связей дел с объектами CRM, а также три дополнительных частных примера.
   
 ### 21 августа, 2024
 

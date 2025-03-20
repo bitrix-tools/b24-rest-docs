@@ -1,10 +1,10 @@
-# Изменить поток tasks.flow.flow.update
+# Изменить поток tasks.flow.Flow.update
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: создатель или администратор потока
 
-Метод `tasks.flow.flow.update` изменяет поток.
+Метод `tasks.flow.Flow.update` изменяет поток.
 
 ## Параметры метода
 
@@ -27,11 +27,11 @@
 || **id*** 
 [`integer`](../../data-types.md) | Идентификатор потока, который нужно изменить. 
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 || **name** 
 [`string`](../../data-types.md) | Название потока. Должно быть уникальным для каждого потока. 
 
-Для проверки названия можно воспользоваться методом [tasks.flow.flow.isExists](./tasks-flow-flow-is-exists.md) ||
+Для проверки названия можно воспользоваться методом [tasks.flow.Flow.isExists](./tasks-flow-flow-is-exists.md) ||
 || **description** 
 [`string`](../../data-types.md) | Описание потока ||
 || **groupId** 
@@ -144,7 +144,7 @@
             "notifyAtHalfTime": 0
         }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.update
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.update
     ```
 
 - cURL (oAuth)
@@ -166,14 +166,14 @@
             "notifyAtHalfTime": 0
         }
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.update
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.update
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.update',
+        'tasks.flow.Flow.update',
         {
             flowData: {
                 id: 517,
@@ -224,7 +224,7 @@
 
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.update',
+        'tasks.flow.Flow.update',
         [
             'flowData' => $flowData
         ]

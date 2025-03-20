@@ -30,16 +30,6 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"event":"ONAPPTEST","handler":"https://example.com/handler.php"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.bind
-    ```
-
 - cURL (OAuth)
 
     ```bash
@@ -92,16 +82,6 @@
 Заставьте событие сработать вызовом метода с произвольными данными.
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"any":"data"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.test
-    ```
 
 - cURL (OAuth)
 

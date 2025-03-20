@@ -4,7 +4,7 @@
 
 Один из типов цен обязательно должен быть обозначен как базовый. Базовый тип цены нельзя удалить.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы и события](#all-methods) 
 
 ## Связь типа цены с другими объектами
 
@@ -14,7 +14,7 @@
 
 **Переводы названий типов цен.** Укажите названия типа цены для используемых языков в Битрикс24. Воспользуйтесь методами [catalog.priceTypeLang.*](./price-type-lang/index.md).
 
-## Обзор методов {#all-methods}
+## Обзор методов и событий {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
@@ -22,15 +22,30 @@
 
 ### Основные
 
-#|
-|| **Метод** | **Описание** ||
-|| [catalog.priceType.add](./catalog-price-type-add.md) | Добавляет новый тип цены ||
-|| [catalog.priceType.update](./catalog-price-type-update.md) | Изменяет значения полей типа цены ||
-|| [catalog.priceType.get](./catalog-price-type-get.md) | Возвращает информацию о типе цены по его идентификатору ||
-|| [catalog.priceType.list](./catalog-price-type-list.md) | Возвращает список типов цен по фильтру ||
-|| [catalog.priceType.delete](./catalog-price-type-delete.md) | Удаляет тип цены ||
-|| [catalog.priceType.getFields](./catalog-price-type-get-fields.md) | Возвращает поля типа цены ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [catalog.priceType.add](./catalog-price-type-add.md) | Добавляет новый тип цены ||
+    || [catalog.priceType.update](./catalog-price-type-update.md) | Изменяет значения полей типа цены ||
+    || [catalog.priceType.get](./catalog-price-type-get.md) | Возвращает информацию о типе цены по его идентификатору ||
+    || [catalog.priceType.list](./catalog-price-type-list.md) | Возвращает список типов цен по фильтру ||
+    || [catalog.priceType.delete](./catalog-price-type-delete.md) | Удаляет тип цены ||
+    || [catalog.priceType.getFields](./catalog-price-type-get-fields.md) | Возвращает поля типа цены ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [CATALOG.PRICE.TYPE.ON.ADD](../events/catalog-price-type-on-add.md) | При добавлении типа цены ||
+    || [CATALOG.PRICE.TYPE.ON.UPDATE](../events/catalog-price-type-on-update.md) | При обновлении типа цены ||
+    || [CATALOG.PRICE.TYPE.ON.DELETE](../events/catalog-price-type-on-delete.md) | При удалении типа цены ||
+    |#
+
+{% endlist %}
 
 ### Переводы названий типов цен
 

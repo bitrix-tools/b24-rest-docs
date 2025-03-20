@@ -11,7 +11,7 @@
 > Кто может подписаться: любой пользователь
 
 #|
-|| **Метод** | **Описание** ||
+|| **Событие** | **Описание** ||
 || [onSonetGroupAdd](./on-sonet-group-add.md) | Вызывается после добавления новой рабочей группы. Прокси к событию `OnSocNetGroupAdd` ||
 || [onSonetGroupDelete](./on-sonet-group-delete.md) | Вызывается в момент удаления рабочей группы. Прокси к событию `OnSocNetGroupDelete` ||
 || [onSonetGroupSubjectAdd](./on-sonet-group-subject-add.md) | Вызывается после создания темы рабочей группы. Прокси к событию `OnSocNetGroupSubjectAdd` ||

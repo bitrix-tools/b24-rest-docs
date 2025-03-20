@@ -113,6 +113,10 @@ items:
     include:
       path: pay-system/b24-toc.yaml
       mode: link
+  - name: Подпись
+    include:
+      path: sign/b24-toc.yaml
+      mode: link
   - name: Пользователи
     include:
       path: user/b24-toc.yaml
@@ -153,7 +157,7 @@ items:
     include:
       path: lists/b24-toc.yaml
       mode: link
-  - name: Учёт рабочего времени
+  - name: Учет рабочего времени
     include:
       path: timeman/b24-toc.yaml
       mode: link
@@ -173,4 +177,7 @@ items:
     include:
       path: outdated/b24-toc.yaml
       mode: link
-
+  - name: Как работать с файлами
+    include:
+      path: files/b24-toc.yaml
+      mode: link

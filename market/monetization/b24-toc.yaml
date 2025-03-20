@@ -1,11 +1,11 @@
 title: Монетизация
 href: index.md
 items: 
-  - name: Подписка Маркет Плюс
+  - name: Подписка Битрикс24 Маркетплейс
     href: index.md
   - name: Примеры расчетов начислений по подписке
     href: subscription-details.md
   - name: Встроенные покупки
     href: in-app-purchases.md
-  - name: Бесплатные
+  - name: Немонетизируемые
     href: free.md

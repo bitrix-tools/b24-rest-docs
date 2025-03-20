@@ -1,6 +1,8 @@
 title: Работа с пользователями
-href: im-user-get.md
+href: index.md
 items:
+  - name: Обзор методов
+    href: index.md
   - name: Получить данные о пользователе
     href: im-user-get.md
   - name: Получить данные о пользователях

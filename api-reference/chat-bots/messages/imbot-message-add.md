@@ -113,4 +113,4 @@
 - [Как работать с набираемыми клавиатурами](../../chats/messages/keyboards.md)
 - [Как работать с вложениями](../../chats/messages/attachments/index.md)
 - [Форматирование сообщения](../../chats/messages/index.md)
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/index.md)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/on-imbot-message-add.md)
