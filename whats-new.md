@@ -2,6 +2,11 @@
 
 ## 2025
 
+### 19 марта, 2025
+
+- Обновлены страницы событий при работе с валютой [onCrmCurrency*](./api-reference/crm/currency/events/index.md)
+- Обновлена главная страница раздела [Связь лида с контактами](./api-reference/crm/leads/management-communication/index.md). Добавили вводную информацию и обзор методов
+
 ### 14 марта, 2025
 
 - Добавили новый параметр `useOriginalUfNames` в методы [crm.item.*](./api-reference/crm/universal/index.md) для управления форматом имен пользовательских полей

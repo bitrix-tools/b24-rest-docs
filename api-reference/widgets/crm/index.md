@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт в контекстное меню таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [счета](../../crm/outdated/invoice/index.md), [коммерческие предложения](../../crm/quote/index.md), [дела](../../crm/timeline/activities/index.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
+Вы можете добавлять свой пункт в контекстное меню таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [старые счета](../../crm/outdated/invoice/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
 
 ![Виджет в виде пункта контекстного меню в Сделке](./_images/CRM_DEAL_LIST_MENU.png "Виджет в виде пункта контекстного меню в Сделке")
 
@@ -17,9 +17,10 @@
 || `CRM_COMPANY_LIST_MENU` | Пункт контекстного меню [компании](../../crm/companies/index.md) ||
 || `CRM_DEAL_LIST_MENU` | Пункт контекстного меню [сделки](../../crm/deals/index.md) ||
 || `CRM_INVOICE_LIST_MENU` | Пункт контекстного меню [счета](../../crm/outdated/invoice/index.md) ||
+|| `CRM_SMART_INVOICE_LIST_MENU` | Пункт контекстного меню [нового счета](../../crm/universal/invoice.md) ||
 || `CRM_QUOTE_LIST_MENU` | Пункт контекстного меню [коммерческого предложения](../../crm/quote/index.md) ||
 || `CRM_ACTIVITY_LIST_MENU` | Пункт контекстного меню [дела](../../crm/timeline/activities/index.md) ||
-|| `CRM_DYNAMIC_XXX_LIST_MENU` | Пункт контекстного меню пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_LIST_MENU` ||
+|| `CRM_DYNAMIC_XXX_LIST_MENU` | Пункт контекстного меню пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_LIST_MENU` || 
 |#
 
 ## Что получает обработчик
@@ -154,6 +155,27 @@
     
     ```
 
+- CRM_SMART_INVOICE_LIST_MENU
+
+    ```php
+
+    Array
+    (
+        [DOMAIN] => xxx.bitrix24.com
+        [PROTOCOL] => 1
+        [LANG] => en
+        [APP_SID] => adada92053b22a4de3895402a01693cf
+        [AUTH_ID] => 69c7ca670076a4b8006f518000000001201c0720c9c9d78077b5f2c5530f64b061c8a1
+        [AUTH_EXPIRES] => 3600
+        [REFRESH_ID] => 5946f2670076a4b8006f518000000001201c07709da4b12d3c7e82e120a20e547b638f
+        [member_id] => e8857f161a1a8288f312b6cc6ad67995
+        [status] => L
+        [PLACEMENT] => CRM_SMART_INVOICE_LIST_MENU
+        [PLACEMENT_OPTIONS] => {"ID":"32"}
+    )
+    
+    ```
+
 - CRM_ACTIVITY_LIST_MENU
 
     ```php
@@ -218,8 +240,9 @@
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
-- компания [crm.comany.get](../../crm/companies/crm-company-get.md)
+- компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
+- дело [crm.activity.get](../../crm/timeline/activities/crm-activity-get.md)
 
 В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`.
 
