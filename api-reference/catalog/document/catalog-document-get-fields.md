@@ -65,8 +65,6 @@ catalog.document.getFields()
 || **Поле** | **Описание** | **Примечание** ||
 || **commentary** 
 [`char`](../../data-types.md) | Комментарий. |  ||
-|| **contractorId** 
-[`integer`](../../data-types.md) | Поставщик. |  ||
 || **createdBy** 
 [`integer`](../../data-types.md) | Кем создан. |  Неизменяемое поле. ||
 || **currency^*^** 

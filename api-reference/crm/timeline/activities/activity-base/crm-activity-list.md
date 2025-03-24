@@ -575,3 +575,8 @@ HTTP-статус: **200**
     }
 }
 ```
+
+## Продолжите изучение 
+
+- [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
+- [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)

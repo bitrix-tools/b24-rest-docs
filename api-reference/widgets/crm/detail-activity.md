@@ -2,7 +2,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавлять свой пункт в меню таймлана таких объектов CRM как [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md) и [пользовательские типы](../../crm/universal/index.md) объектов.
+Вы можете добавить свой пункт в меню таймлана объектов CRM: [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md), [пользовательские типы объектов](../../crm/universal/index.md).
 
 ![Виджет в виде пункта меню таймлайна в Сделке](./_images/CRM_DEAL_DETAIL_ACTIVITY.png "Виджет в виде пункта меню таймлайна в Сделке")
 
@@ -17,6 +17,7 @@
 || `CRM_COMPANY_DETAIL_ACTIVITY` | Пункт в меню таймлана [компании](../../crm/companies/index.md) ||
 || `CRM_DEAL_DETAIL_ACTIVITY` | Пункт в меню таймлана [сделки](../../crm/deals/index.md) ||
 || `CRM_QUOTE_DETAIL_ACTIVITY` | Пункт в меню таймлана [коммерческого предложения](../../crm/quote/index.md) ||
+|| `CRM_SMART_INVOICE_DETAIL_ACTIVITY` | Пункт в меню таймлана [счетов](../../crm/universal/invoice.md) ||
 || `CRM_DYNAMIC_XXX_DETAIL_ACTIVITY` | Пункт в меню таймлана пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DETAIL_ACTIVITY` ||
 |#
 
@@ -131,6 +132,27 @@
     
     ```
 
+- CRM_SMART_INVOICE_DETAIL_ACTIVITY
+
+    ```php
+
+    Array
+    (
+        [DOMAIN] => xxx.bitrix24.com
+        [PROTOCOL] => 1
+        [LANG] => en
+        [APP_SID] => adada92053b22a4de3895402a01693cf
+        [AUTH_ID] => 69c7ca670076a4b8006f518000000001201c0720c9c9d78077b5f2c5530f64b061c8a1
+        [AUTH_EXPIRES] => 3600
+        [REFRESH_ID] => 5946f2670076a4b8006f518000000001201c07709da4b12d3c7e82e120a20e547b638f
+        [member_id] => e8857f161a1a8288f312b6cc6ad67995
+        [status] => L
+        [PLACEMENT] => CRM_SMART_INVOICE_DETAIL_ACTIVITY
+        [PLACEMENT_OPTIONS] => {"ID":"32"}
+    )
+    
+    ```
+
 - CRM_DYNAMIC_XXX_DETAIL_ACTIVITY
 
     ```php
@@ -175,10 +197,10 @@
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
-- компания [crm.comany.get](../../crm/companies/crm-company-get.md)
+- компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
  
-В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`.
+В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше — `183`
 
 ||
 |#

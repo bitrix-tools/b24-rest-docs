@@ -8,3 +8,5 @@
 - [{#T}](./how-to-change-email-or-phone.md)
 - [{#T}](./how-to-change-date-in-activity.md)
 - [{#T}](./how-to-change-product-custom-field-values.md)
+- [{#T}](./how-to-move-activity.md)
+- [{#T}](./how-to-move-activity-between-objects.md)

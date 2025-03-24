@@ -6,15 +6,15 @@
 
 {% endnote %}
 
-{% note info "Права" %}
 
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
 
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmCurrencyAdd](./on-crm-currency-add.md) | после создания валюты ||
-|| [onCrmCurrencyUpdate](./on-crm-currency-update.md) | после обновления валюты ||
-|| [onCrmCurrencyDelete](./on-crm-currency-delete.md) | после удаления валюты ||
+|| [onCrmCurrencyAdd](./on-crm-currency-add.md) |  При добавлении валюты ||
+|| [onCrmCurrencyUpdate](./on-crm-currency-update.md) | При изменении валюты ||
+|| [onCrmCurrencyDelete](./on-crm-currency-delete.md) | При удалении валюты ||
 |#

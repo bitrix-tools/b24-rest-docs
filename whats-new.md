@@ -2,7 +2,28 @@
 
 ## 2025
 
+### 20 марта, 2025
+
+- Добавлена поддержка поля `contactIds` в фильтре для метода [crm.item.list](./api-reference/crm/universal/crm-item-list.md)
+
+### 19 марта, 2025
+
+- Обновлены страницы событий при работе с валютой [onCrmCurrency*](./api-reference/crm/currency/events/index.md)
+- Обновлена главная страница раздела [Связь лида с контактами](./api-reference/crm/leads/management-communication/index.md). Добавили вводную информацию и обзор методов
+
+### 14 марта, 2025
+
+- Добавили новый параметр `useOriginalUfNames` в методы [crm.item.*](./api-reference/crm/universal/index.md) для управления форматом имен пользовательских полей
+
+### 13 марта, 2025
+
+- Добавлен новый туториал [Как перенести дело из одного типа объекта в другой](./tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
+- Добавлен новый туториал [Как перенести дело между элементами одного типа](./tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
+- Обновлена главная страница раздела [Обработчики служб доставки](./api-reference/sale/delivery/handler/index.md) в Интернет-магазине. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Службы доставки](./api-reference/sale/delivery/delivery/index.md) в Интернет-магазине. Добавили вводную информацию, а также обзор методов и связей
+
 ### 12 марта, 2025
+
 - Обновлена главная страница раздела [Специальные операции](./api-reference/chats/special-operations/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
 
 ### 05 марта, 2025
