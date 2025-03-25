@@ -4,8 +4,8 @@
 
 ### 24 марта, 2025
 
-- Добавили статью «Рабочие группы и проекты: обзор методов». 
-- ыДополнили описание событий: на добавление новой рабочей группы onSonetGroupAdd, на изменение рабочей группы onSonetGroupUpdate, на на удаление рабочей группы onSonetGroupDelete.
+- Добавили статью [Рабочие группы и проекты: обзор методов](./api-reference/sonet-group/events/index.md)
+- Дополнили описание событий: на добавление новой рабочей группы [onSonetGroupAdd](./api-reference/sonet-group/events/on-sonet-group-add.md), на изменение рабочей группы [onSonetGroupUpdate](./api-reference/sonet-group/events/on-sonet-group-update.md), на удаление рабочей группы [onSonetGroupDelete](./api-reference/sonet-group/events/on-sonet-group-delete.md).
 
 ### 20 марта, 2025
 

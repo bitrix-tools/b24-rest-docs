@@ -14,7 +14,7 @@
 
 ## Чем отличается группа от проекта
 
-Проект — это группа с расширенными возможностями. Его главное отличие от группы — возможность устанавливать сроки. Алгоритм создания группы и проекта идентичен: в обоих случаях используйте метод [sonet_group.create](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-create.html). Для проекта задайте дополнительные параметры:
+Проект — это группа с расширенными возможностями. Его главное отличие от группы — возможность устанавливать сроки. Алгоритм создания группы и проекта идентичен: в обоих случаях используйте метод [sonet_group.create](../sonet-group-create.md). Для проекта задайте дополнительные параметры:
 
 -  `PROJECT` — указывает, что создаваемый объект является проектом,
 
@@ -26,13 +26,13 @@
 
 **Пользователи**. Совместно работают над задачами внутри рабочих групп и проектов. Используйте методы группы sonet_group.user.\*, чтобы управлять участниками рабочих групп: добавлять, удалять, назначать роли и права.
 
-**Задачи**. Нужны, чтобы распределять обязанности между участниками рабочих групп, отслеживать выполнение и контролировать сроки. Создавайте и изменяйте задачи с помощью группы методов [tasks.task.\*](https://apidocs.bitrix24.ru/api-reference/tasks/index.html).
+**Задачи**. Нужны, чтобы распределять обязанности между участниками рабочих групп, отслеживать выполнение и контролировать сроки. Создавайте и изменяйте задачи с помощью группы методов [tasks.task.\*](../../tasks/index.md).
 
-**Диск**. Привязанное к конкретной группе или проекту хранилище с необходимыми для работы материалами. Чтобы управлять хранилищами, используйте группу методов [disk.storage.\*](https://apidocs.bitrix24.ru/api-reference/disk/storage/index.html).
+**Диск**. Привязанное к конкретной группе или проекту хранилище с необходимыми для работы материалами. Чтобы управлять хранилищами, используйте группу методов [disk.storage.\*](../../disk/storage/index.md).
 
-**Универсальные списки**. Структурированные перечни элементов внутри рабочих групп. Нужны, чтобы создавать реестры или хранилища данных, сортировать и фильтровать информацию, автоматизировать учет. Создавайте, обновляйте и удаляйте универсальные списки при помощи методов группы [lists.lists.\*](https://apidocs.bitrix24.ru/api-reference/lists/lists/index.html).
+**Универсальные списки**. Структурированные перечни элементов внутри рабочих групп. Нужны, чтобы создавать реестры или хранилища данных, сортировать и фильтровать информацию, автоматизировать учет. Создавайте, обновляйте и удаляйте универсальные списки при помощи методов группы [lists.lists.\*](../../lists/lists/index.md).
 
-**Лента новостей**. Используйте метод [log.blogpost.add](https://apidocs.bitrix24.ru/api-reference/log/log-blogpost-add.html), чтобы публиковать сообщения, которые будут видны только добавленным в группу пользователям.
+**Лента новостей**. Используйте метод [log.blogpost.add](../../log/log-blogpost-add.md), чтобы публиковать сообщения, которые будут видны только добавленным в группу пользователям.
 
 > Пользовательская документация
 >
@@ -42,13 +42,13 @@
 
 Добавляйте свои пункты в выпадающие меню, чтобы расширить функциональность рабочих групп и проектов:
 
--  [Пункт основного выпадающего меню проекта SONET_GROUP_DETAIL_TAB](https://apidocs.bitrix24.ru/api-reference/widgets/workgroups/index.html).
+-  [Пункт основного выпадающего меню проекта SONET_GROUP_DETAIL_TAB](../../widgets/workgroups/index.md). 
 
--  [Пункт выпадающего меню над списком задач TASK_GROUP_LIST_TOOLBAR](https://apidocs.bitrix24.ru/api-reference/widgets/workgroups/toolbar.html).
+-  [Пункт выпадающего меню над списком задач TASK_GROUP_LIST_TOOLBAR](../../widgets/workgroups//toolbar.md).
 
--  [Пункт основного выпадающего меню около настроек роботов TASK_ROBOT_DESIGNER_TOOLBAR](https://apidocs.bitrix24.ru/api-reference/widgets/workgroups/robot-designer-toolbar.html).
+-  [Пункт основного выпадающего меню около настроек роботов TASK_ROBOT_DESIGNER_TOOLBAR](../../widgets/workgroups/robot-designer-toolbar.md).
 
-Код конкретного места встройки виджета указывайте в параметре `PLACEMENT` метода [placement.bind](https://apidocs.bitrix24.ru/api-reference/widgets/placement-bind.html).
+Код конкретного места встройки виджета указывайте в параметре `PLACEMENT` метода [placement.bind](../../widgets/placement-bind.md).
 
 ## Специализированные рабочие группы: Скрам и Поток
 
@@ -64,9 +64,9 @@
 
 Скрам и Поток реализованы на базе рабочих групп.
 
-Для создания Скрама используйте метод [создания новой группы](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-create.html). Группа станет Скрамом, если вы заполните поле `SCRUM_MASTER_ID`.
+Для создания Скрама используйте метод [создания новой группы](../sonet-group-create.md). Группа станет Скрамом, если вы заполните поле `SCRUM_MASTER_ID`.
 
-Чтобы привязать Поток к группе, используйте идентификатор `groupId`. Для получения идентификатора используйте метод [создания новой группы](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-create.html) или метод [получения списка групп](https://apidocs.bitrix24.ru/api-reference/sonet-group/socialnetwork-api-workgroup-list.html).
+Чтобы привязать Поток к группе, используйте идентификатор `groupId`. Для получения идентификатора используйте метод [создания новой группы](../sonet-group-create.md) или метод [получения списка групп](../socialnetwork-api-workgroup-list.md).
 
 ## Обзор методов и событий {#all-methods}
 
@@ -80,26 +80,26 @@
 
     #|
     || **Метод**                        | **Описание**                                ||
-    || [sonet_group.create](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-create.html)              | Создает группу                              ||
-    || [sonet_group.update](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-update.html)               | Изменяет параметры группы                   ||
-    || [socialnetwork.api.workgroup.get](https://apidocs.bitrix24.ru/api-reference/sonet-group/socialnetwork-api-workgroup-get.html)  | Получает данные по рабочей группе           ||
-    || [socialnetwork.api.workgroup.list](https://apidocs.bitrix24.ru/api-reference/sonet-group/socialnetwork-api-workgroup-list.html) | Получает список рабочих групп               ||
-    || [sonet_group.get](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-get.html)                  | Получает список групп                       ||
-    || [sonet_group.feature.access](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-feature-access.html)       | Проверяет права текущего пользователя       ||
-    || [sonet_group.user.groups](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-user-groups.html)          | Получает список групп текущего пользователя ||
-    || [sonet_group.setowner](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-setowner.html)             | Изменяет владельца группы                   ||
-    || [sonet_group.delete](https://apidocs.bitrix24.ru/api-reference/sonet-group/sonet-group-delete.html)               | Удаляет группу                              ||
+    || [sonet_group.create](../sonet-group-create.md)              | Создает группу                              ||
+    || [sonet_group.update](../sonet-group-update.md)               | Изменяет параметры группы                   ||
+    || [socialnetwork.api.workgroup.get](../socialnetwork-api-workgroup-get.md)  | Получает данные по рабочей группе           ||
+    || [socialnetwork.api.workgroup.list](../socialnetwork-api-workgroup-list.md) | Получает список рабочих групп               ||
+    || [sonet_group.get](../sonet-group-get.md)                  | Получает список групп                       ||
+    || [sonet_group.feature.access](../sonet-group-feature-access.md)       | Проверяет права текущего пользователя       ||
+    || [sonet_group.user.groups](../sonet-group-user-groups.md)          | Получает список групп текущего пользователя ||
+    || [sonet_group.setowner](../sonet-group-setowner.md)             | Изменяет владельца группы                   ||
+    || [sonet_group.delete](../sonet-group-delete.md)               | Удаляет группу                              ||
     |#
 
     ### Управление пользователями в группах
     #|
     || **Метод**                        | **Описание**                                ||
-    || [sonet_group.user.invite](https://apidocs.bitrix24.ru/api-reference/sonet-group/members/sonet-group-user-invite.html)          | Приглашает пользователей в группу           ||
-    || [sonet_group.user.request](https://apidocs.bitrix24.ru/api-reference/sonet-group/members/sonet-group-user-request.html)         | Отправляет запрос на вступление в группу    ||
-    || [sonet_group.user.add](https://apidocs.bitrix24.ru/api-reference/sonet-group/members/sonet-group-user-add.html)             | Добавляет пользователей в группу            ||
-    || [sonet_group.user.update](https://apidocs.bitrix24.ru/api-reference/sonet-group/members/sonet-group-user-update.html)          | Изменяет роль пользователя в группе         ||
-    || [sonet_group.user.get](https://apidocs.bitrix24.ru/api-reference/sonet-group/members/sonet-group-user-get.html)             | Получает список участников группы           ||
-    || [sonet_group.user.delete](https://apidocs.bitrix24.ru/api-reference/sonet-group/members/sonet-group-user-delete.html)          | Удаляет пользователей из группы             ||
+    || [sonet_group.user.invite](../members/sonet-group-user-invite.md)          | Приглашает пользователей в группу           ||
+    || [sonet_group.user.request](../members/sonet-group-user-request.md)         | Отправляет запрос на вступление в группу    ||
+    || [sonet_group.user.add](../members/sonet-group-user-add.md)             | Добавляет пользователей в группу            ||
+    || [sonet_group.user.update](../members/sonet-group-user-update.md)          | Изменяет роль пользователя в группе         ||
+    || [sonet_group.user.get](../members/sonet-group-user-get.md)             | Получает список участников группы           ||
+    || [sonet_group.user.delete](../members/sonet-group-user-delete.md)          | Удаляет пользователей из группы             ||
     |#
 
 - События
@@ -110,9 +110,9 @@
 
     #|
     || **Событие**                      | **Вызывается**                              ||
-    || [onSonetGroupAdd](https://apidocs.bitrix24.ru/api-reference/sonet-group/events/on-sonet-group-add.html)       | После добавления новой рабочей группы ||
-    || [onSonetGroupUpdate](https://apidocs.bitrix24.ru/api-reference/sonet-group/events/on-sonet-group-update.html) | После изменения рабочей группы        ||
-    || [onSonetGroupDelete](https://apidocs.bitrix24.ru/api-reference/sonet-group/events/on-sonet-group-delete.html) | В момент удаления рабочей группы         ||
+    || [onSonetGroupAdd](../events/on-sonet-group-add.md)       | После добавления новой рабочей группы ||
+    || [onSonetGroupUpdate](../events/on-sonet-group-update.md) | После изменения рабочей группы        ||
+    || [onSonetGroupDelete](../events/on-sonet-group-delete.md) | В момент удаления рабочей группы         ||
     |#
 
 {% endlist %}
