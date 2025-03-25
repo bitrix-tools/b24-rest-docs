@@ -1,6 +1,8 @@
 title: Рабочие группы и проекты
 href: index.md
 items:
+  - name: Обзор методов
+    href: index.md
   - name: Создать группу/проект
     href: sonet-group-create.md
   - name: Изменить группу/проект
