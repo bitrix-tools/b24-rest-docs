@@ -1,4 +1,4 @@
-# Событие на удаление лида onCrmLeadDelete
+# Событие при удалении лида onCrmLeadDelete
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
