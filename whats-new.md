@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 26 марта, 2025
+
+- Обновлена главная страница раздела [Перечисления](./api-reference/crm/auxiliary/enum/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+
 ### 25 марта, 2025
 
 - Обновлена главная страница раздела [Ставки НДС в CRM](./api-reference/crm/auxiliary/vat/index.md). Добавили вводную информацию, а также обзор методов и связей
@@ -9,7 +13,7 @@
 
 ### 24 марта, 2025
 
-- Добавили статью [Рабочие группы и проекты: обзор методов](./api-reference/sonet-group/events/index.md)
+- Добавили статью [Рабочие группы и проекты: обзор методов](./api-reference/sonet-group/index.md)
 - Дополнили описание событий: на добавление новой рабочей группы [onSonetGroupAdd](./api-reference/sonet-group/events/on-sonet-group-add.md), на изменение рабочей группы [onSonetGroupUpdate](./api-reference/sonet-group/events/on-sonet-group-update.md), на удаление рабочей группы [onSonetGroupDelete](./api-reference/sonet-group/events/on-sonet-group-delete.md).
 
 ### 20 марта, 2025
