@@ -138,10 +138,10 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmLeadUserFieldAdd](./events/on-crm-lead-user-field-add.md) | При добавлении пользовательского поля ||
-    || [onCrmLeadUserFieldUpdate](./events/on-crm-lead-user-field-update.md) | При изменении пользовательского поля ||
-    || [onCrmLeadUserFieldDelete](./events/on-crm-lead-user-field-delete.md) | При удалении пользовательского поля ||
-    || [onCrmLeadUserFieldSetEnumValues](./events/on-crm-lead-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
+    || [onCrmLeadUserFieldAdd](./userfield/events/on-crm-lead-user-field-add.md) | При добавлении пользовательского поля ||
+    || [onCrmLeadUserFieldUpdate](./userfield/events/on-crm-lead-user-field-update.md) | При изменении пользовательского поля ||
+    || [onCrmLeadUserFieldDelete](./userfield/events/on-crm-lead-user-field-delete.md) | При удалении пользовательского поля ||
+    || [onCrmLeadUserFieldSetEnumValues](./userfield/events/on-crm-lead-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
     |#
 
 {% endlist %}

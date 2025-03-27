@@ -9,11 +9,3 @@ items:
     href: on-crm-lead-update.md
   - name: При удалении лида
     href: on-crm-lead-delete.md
-  - name: На добавление пользовательского поля
-    href: on-crm-lead-user-field-add.md
-  - name: На изменение пользовательского поля
-    href: on-crm-lead-user-field-update.md
-  - name: На удаление пользовательского поля
-    href: on-crm-lead-user-field-delete.md
-  - name: На изменение набора значений для пользовательского поля списочного типа
-    href: on-crm-lead-user-field-set-enum-values.md
