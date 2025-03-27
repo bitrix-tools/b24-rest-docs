@@ -35,3 +35,7 @@ items:
     include:
       path: scrum/b24-toc.yaml
       mode: link
+  - name: Устаревшее
+    include:
+      path: outdated/b24-toc.yaml
+      mode: link

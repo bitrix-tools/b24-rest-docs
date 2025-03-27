@@ -1,0 +1,8 @@
+title: Устаревшее
+items: 
+  - name: На создание темы группы/проекта 
+    href: on-sonet-group-subject-add.md
+  - name: На изменение темы группы/проекта
+    href: on-sonet-group-subject-update.md
+  - name: На удаление темы группы/проекта
+    href: on-sonet-group-subject-delete.md
