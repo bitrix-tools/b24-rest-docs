@@ -1,4 +1,4 @@
-# Удалить SMS-провайдер или провайдер сообщений messageservice.sender.delete
+# Удалить СМС-провайдер или провайдер сообщений messageservice.sender.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 

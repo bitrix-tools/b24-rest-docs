@@ -1,26 +1,42 @@
-# О провайдерах сообщений
+# Провайдеры сообщений: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Провайдеры сообщений — это сервисы для интеграции с Битрикс24. Они позволяют отправлять сообщения клиентам. Каналами связи могут быть СМС и другие системы, которые распознают получателя по номеру телефона.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+> Быстрый переход: [все методы](#all-methods)
+
+## Связь провайдеров с другими объектами
+
+**CRM**. Сообщение можно отправить из карточки CRM.
+
+**Бизнес-процессы**. Сообщение можно отправить автоматически из действия бизнес-процесса или робота CRM. Провайдер указывается в настройках бизнес-процесса только через интерфейс Битрикс24.
+
+{% note tip "Пользовательская документация" %}
+
+- [Отправка СМС через SMS-ассистент](https://helpdesk.bitrix24.ru/open/9230935/)
+- [Отправка СМС через sms.ru](https://helpdesk.bitrix24.ru/open/6407131/)
+- [Twilio: как создать аккаунт и подключить его к Битрикс24](https://helpdesk.bitrix24.ru/open/21912408/)
 
 {% endnote %}
 
-{% if build == 'dev' %}
+## Статус доставки сообщения
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+Уникальный идентификатор сообщения `message_id` позволяет вызвать метод [messageservice.message.status.update](./messageservice-message-status-update.md). Метод задает статус доставки для сообщения, которое отправлено с помощью провайдера.
 
-- тут пишем о сценариях, что это в основном про смс, но на самом деле может быть любой канал отправки сообщений, в котором используется номер телефона - whatsap или viber и т.д.
+## Обзор методов {#all-methods}
 
-{% endnote %}
-
-{% endif %}
-
+> Scope: [`messageservice`](../scopes/permissions)
+>
+> Кто может выполнять метод: администратор
 
 #|
+|| **Метод** | **Описание** ||
+|| [messageservice.sender.add](./messageservice-sender-add.md) | Регистрирует СМС-провайдер или провайдер сообщений ||
+|| [messageservice.sender.delete](./messageservice-sender-delete.md) | Удаляет СМС-провайдер или провайдер сообщений ||
+|| [messageservice.sender.list](./messageservice-sender-list.md) | Получает список СМС-провайдеров или провайдеров сообщений ||
+|| [messageservice.sender.update](./messageservice-sender-update.md) | Обновляет СМС-провайдер или провайдер сообщений ||
 || [messageservice.message.status.update](./messageservice-message-status-update.md) | Обновляет статус доставки сообщения ||
-|| [messageservice.sender.add](./messageservice-sender-add.md) | Регистрирует SMS-провайдера или провайдера сообщений ||
-|| [messageservice.sender.delete](./messageservice-sender-delete.md) | Удаляет SMS-провайдера или провайдера сообщений ||
-|| [messageservice.sender.list](./messageservice-sender-list.md) | Получает список SMS-провайдеров или провайдеров сообщений ||
-|| [messageservice.sender.update](./messageservice-sender-update.md) | Обновляет SMS-провайдера ||
 |#
+
+## Продолжите изучение
+
+-  [{#T}](./tutorial.md)
