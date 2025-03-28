@@ -1,7 +1,7 @@
 title: Провайдеры сообщений, SMS-провайдеры
 href: index.md
 items:
-  - name: О провайдерах сообщений
+  - name: Обзор методов
     href: index.md
   - name: Зарегистрировать провайдер
     href: messageservice-sender-add.md
