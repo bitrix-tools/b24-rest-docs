@@ -4,6 +4,8 @@
 
 Метод `event.offline.list` для чтения текущей очереди без внесения изменений в ее состояние в отличие от [event.offline.get](./event-offline-get.md). Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
 
+Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
