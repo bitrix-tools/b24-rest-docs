@@ -253,7 +253,16 @@ HTTP-статус: **200**
             "isMultiple":false,
             "isDynamic":false,
             "title":"TYPE"
-         }
+         },
+         "storeId":{
+               "type": "integer",
+               "isRequired": false,
+               "isReadOnly": true,
+               "isImmutable": false,
+               "isMultiple": false,
+               "isDynamic": false,
+               "title": "STORE_ID"
+         }         
       }
    },
    "time":{

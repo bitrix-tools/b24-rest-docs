@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 01 апреля, 2025
+
+- Добавили параметр `storeId` в методы [crm.item.productrows.*](./api-reference/crm/universal/product-rows/index.md). Параметр доступен только на чтение
+
 ### 31 марта, 2025
 
 - Обновлены страницы событий при работе c пользователськими полями компаний [onCrmCompanyUserField*](./api-reference/crm/companies/userfields/events/index.md)
