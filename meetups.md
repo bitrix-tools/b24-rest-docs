@@ -88,7 +88,7 @@
 
 - Евгений Шеленков, ведущий разработчик, тимлид команды «1С-Битрикс»
 
-@[rutube](https://rutube.ru/play/embed/14f7a53359e1126e7de481577c72d787/?p=ziDzU6F9ieGY97GV67UK5g)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/a14343edbd4eb1d4eab1168cda2e3d89/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Bitrix Talks Tech. E-commerce. Создаём приложение для оплаты через REST API в сделках/смарт-процессах
 
@@ -102,7 +102,7 @@
 
 - Максим Лашков, ведущий разработчик «1С-Битрикс», тимлид команды «1С-Битрикс
 
-@[rutube](https://rutube.ru/play/embed/75c4a43985d9ca82cd6d73305c030d90/?p=-Yrp9RF2dSF9jL0uVTrnQw)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/75c4a43985d9ca82cd6d73305c030d90/?p=-Yrp9RF2dSF9jL0uVTrnQw" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Bitrix Talks Tech. AI. CoPilot
 
@@ -117,7 +117,7 @@
 - Тарас Вишник, разработчик «1С-Битрикс»
 - Сергей Востриков, руководитель направления Маркетплейс и интеграций Битрикс24
 
-@[rutube](https://rutube.ru/play/embed/db5e6cf437d28bcd32ce50a72a50f931/?p=oGDZho4T7zQCAfw9xXMhPg)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/db5e6cf437d28bcd32ce50a72a50f931/?p=oGDZho4T7zQCAfw9xXMhPg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Bitrix Talks Tech. Разбор механизма событий REST API
 
@@ -131,7 +131,7 @@
 
 - Владислав Бажанов, ведущий разработчик «1С-Битрикс»
   
-@[rutube](https://rutube.ru/play/embed/ad1a1cd389f5b65d9609037591619898/?p=azvDTzgKv95G71gZTJzfEQ)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/ad1a1cd389f5b65d9609037591619898/?p=azvDTzgKv95G71gZTJzfEQ" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Преимущества оффлайн-событий, или как их правильно использовать
 
@@ -148,7 +148,7 @@
 
 [Скачать презентацию](https://video.1c-bitrix.ru/meet21/denisyuk.pptx)
 
-@[rutube](https://rutube.ru/play/embed/64d852b521780c31238061edbac8a8f6/?p=3ahdlK3HwqveYWoD1WlH7g)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/64d852b521780c31238061edbac8a8f6/?p=3ahdlK3HwqveYWoD1WlH7g" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Разработка REST-приложений. Полезное
 
@@ -164,7 +164,7 @@
 
 [Скачать презентацию](https://video.1c-bitrix.ru/meet21/vostrikov-bazhanov.pptx)
 
-@[rutube](https://rutube.ru/play/embed/bae0f19dc003d842858f4f956b67cb9e/?p=PxAB7Cs-2EgwqLfNhFgY1w)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/bae0f19dc003d842858f4f956b67cb9e/?p=PxAB7Cs-2EgwqLfNhFgY1w" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Умные сценарии и развитие роботов
 
@@ -181,7 +181,7 @@
 - Антон Янжула, ведущий разработчик «1С-Битрикс»
 - Сергей Востриков, руководитель направления Маркет и интеграций в «1С-Битрикс»
 
-@[rutube](https://rutube.ru/play/embed/d348f3c78040cd9ce07fd831950679bd/?p=CDceQ1-pw2ot-UCbKUVRWg)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/d348f3c78040cd9ce07fd831950679bd/?p=CDceQ1-pw2ot-UCbKUVRWg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Как разрабатывать для облака. Архитектура rest-приложений для высоких нагрузок
 
@@ -189,7 +189,7 @@
 
 Ведущий разработчик REST API Владислав Бажанов рассказал, как правильно проектировать облачную архитектуру для приложений, чтобы они смогли работать с большим количеством порталов Битрикс24 и при этом соответствовать системным требованиям REST API
 
-@[rutube](https://rutube.ru/play/embed/29242dde3149a5d8303f52ac36928220/?p=_likQDVraFKEvaf19olSBg)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/29242dde3149a5d8303f52ac36928220/?p=_likQDVraFKEvaf19olSBg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Современный JS в разработке на BitrixFramework
 
@@ -197,7 +197,7 @@
 
 Этот доклад не про технологии 1С-Битрикс. Но если вы хотите заниматься разработкой front-end в том числе для приложений Битрикс24, то без правильного подхода не обойтись. Доклад Евгения Шеленкова как раз про это - как использовать современные frameworks, и в частности, vue.js для разработки сложных интерфейсов и как это уже используется в Битрикс24 в новом CRM-виджете
 
-@[rutube](https://rutube.ru/play/embed/34dbc8e840c09e074f480502b47e1748/?p=oVkOTOjdAmccg3MwaMo2EA)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/34dbc8e840c09e074f480502b47e1748/?p=oVkOTOjdAmccg3MwaMo2EA" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Виджеты в Битрикс24 и синхронизация данных
 
@@ -205,7 +205,7 @@
 
 Смотрите запись доклада Сергея Вострикова на партнерской конференции посвященного новым местам встройки виджетов в Битрикс24 (на примере встраивания в задачи), а также большой теме синхронизации данных Битрикс24 с внешними источниками на основе оффлайн-событий
 
-@[rutube](https://rutube.ru/play/embed/75a1b6eb957c010e64c728dc95b6f1f0/?p=_T5FSNMj430kRwdBUDADyA)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/75a1b6eb957c010e64c728dc95b6f1f0/?p=_T5FSNMj430kRwdBUDADyA" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Приложения "под колпаком"
 
@@ -213,7 +213,7 @@
 
 REST API работает и в коробочном Битрикс24. Но при этом сервер OAuth-авторизации и очередь REST-событий все равно находятся на облачных серверах Битрикс. Но есть способ, который позволит при необходимости продолжать пользоваться REST без обращения к внешним ресурсам. Смотрите запись доклада Максима Сидоренко на Битрикс24.Идея
 
-@[rutube](https://rutube.ru/play/embed/0becef7c826427edd5e05e55ffb24144/?p=6tgNGVLNFCycVzj1phG1xg)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/0becef7c826427edd5e05e55ffb24144/?p=6tgNGVLNFCycVzj1phG1xg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## REST для триггеров CRM
 
