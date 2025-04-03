@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 03 апреля, 2025
+
+- Обновлены страницы событий при работе c коммерческими предложениями [onCrmQuote*](./api-reference/crm/quote/events/index.md)
+
 ### 01 апреля, 2025
 
 - Добавили параметр `storeId` в методы [crm.item.productrows.*](./api-reference/crm/universal/product-rows/index.md). Параметр доступен только на чтение
