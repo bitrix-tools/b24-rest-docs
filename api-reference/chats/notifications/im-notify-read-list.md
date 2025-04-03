@@ -41,7 +41,7 @@
 - JS
 
     ```js
-    B24.callMethod(
+    BX24.callMethod(
         'im.notify.read.list',
         {
             IDS: [1,2,3],

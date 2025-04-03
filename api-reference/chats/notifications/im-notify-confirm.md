@@ -1,4 +1,4 @@
-# Как взаимодействовать с кнопками нотификаций im.notify.confirm
+# Взаимодействовать с кнопками нотификаций im.notify.confirm
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -48,7 +48,7 @@
 - JS
 
     ```js
-    B24.callMethod(
+    BX24.callMethod(
         'im.notify.confirm',
         {
             ID: 288,
