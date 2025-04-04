@@ -9,11 +9,3 @@ items:
     href: on-crm-quote-update.md
   - name: При удалении предложения
     href: on-crm-quote-delete.md
-  - name: При добавлении пользовательского поля
-    href: on-crm-quote-user-field-add.md
-  - name: При изменении пользовательского поля
-    href: on-crm-quote-user-field-update.md
-  - name: При удалении пользовательского поля
-    href: on-crm-quote-user-field-delete.md
-  - name: При изменении значений для поля списочного типа
-    href: on-crm-quote-user-field-set-enum-values.md

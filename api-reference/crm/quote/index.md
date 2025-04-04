@@ -27,7 +27,7 @@
 
 Основное рабочее пространство в предложении — это вкладка Общее его карточки. Она состоит из двух частей: 
 
-* левая, в ней располагаются поля с информацией. Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей предложений используется группа методов [crm.quote.userfield.*](./crm-quote-user-field-add.md)
+* левая, в ней располагаются поля с информацией. Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей предложений используется группа методов [crm.quote.userfield.*](./user-field/index.md)
 
 * правая, в ней располагается таймлайн предложения. В нем можно создавать, редактировать, фильтровать, удалять дела CRM — группа методов [crm.activity.*](../timeline/activities/index.md), и записи таймлайна — группа методов [crm.timeline.*](../timeline/index.md)
 
@@ -98,21 +98,21 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [crm.quote.userfield.add](./crm-quote-user-field-add.md) | Создает новое пользовательское поле для предложений ||
-    || [crm.quote.userfield.update](./crm-quote-user-field-update.md) | Обновляет существующее пользовательское поле предложений ||
-    || [crm.quote.userfield.get](./crm-quote-user-field-get.md) | Возвращает пользовательское поле предложений по идентификатору ||
-    || [crm.quote.userfield.list](./crm-quote-user-field-list.md) | Возвращает список пользовательских полей предложений по фильтру ||
-    || [crm.quote.userfield.delete](./crm-quote-user-field-delete.md) | Удаляет пользовательское поле предложений ||
+    || [crm.quote.userfield.add](./user-field/crm-quote-user-field-add.md) | Создает новое пользовательское поле для предложений ||
+    || [crm.quote.userfield.update](./user-field/crm-quote-user-field-update.md) | Обновляет существующее пользовательское поле предложений ||
+    || [crm.quote.userfield.get](./user-field/crm-quote-user-field-get.md) | Возвращает пользовательское поле предложений по идентификатору ||
+    || [crm.quote.userfield.list](./user-field/crm-quote-user-field-list.md) | Возвращает список пользовательских полей предложений по фильтру ||
+    || [crm.quote.userfield.delete](./user-field/crm-quote-user-field-delete.md) | Удаляет пользовательское поле предложений ||
     |#
 
 - События 
   
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmQuoteUserFieldAdd](./events/on-crm-quote-user-field-add.md) | При добавлении пользовательского поля ||
-    || [onCrmQuoteUserFieldUpdate](./events/on-crm-quote-user-field-update.md) | При изменении пользовательского поля ||
-    || [onCrmQuoteUserFieldDelete](./events/on-crm-quote-user-field-delete.md) | При удалении пользовательского поля ||
-    || [onCrmQuoteUserFieldSetEnumValues](./events/on-crm-quote-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
+    || [onCrmQuoteUserFieldAdd](./user-field/events/on-crm-quote-user-field-add.md) | При добавлении пользовательского поля ||
+    || [onCrmQuoteUserFieldUpdate](./user-field/events/on-crm-quote-user-field-update.md) | При изменении пользовательского поля ||
+    || [onCrmQuoteUserFieldDelete](./user-field/events/on-crm-quote-user-field-delete.md) | При удалении пользовательского поля ||
+    || [onCrmQuoteUserFieldSetEnumValues](./user-field/events/on-crm-quote-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
     |#
 
  {% endlist %}   

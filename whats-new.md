@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 04 апреля, 2025
+
+- Обновлены страницы событий при работе c пользователськими полями коммерческих предложений [onCrmQuoteUserField*](./api-reference/crm/quote/user-field/events/index.md)
+
 ### 03 апреля, 2025
 
 - Обновлены страницы событий при работе c коммерческими предложениями [onCrmQuote*](./api-reference/crm/quote/events/index.md)
