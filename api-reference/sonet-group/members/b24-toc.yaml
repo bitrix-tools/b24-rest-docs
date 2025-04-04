@@ -1,6 +1,8 @@
-title: Участники группы/проекта
+title: Участники групп и проектов
 href: index.md
 items:
+  - name: Участники групп и проектов
+    href: index.md
   - name: Пригласить участника
     href: sonet-group-user-invite.md
   - name: Отправить запрос на участие от текущего пользователя
