@@ -1,61 +1,114 @@
-# О рабочих группах и проектах
+# Рабочие группы и проекты: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Рабочие группы и проекты в Битрикс24 помогают организовать командную работу. В группах можно:
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+-  распределять задачи между участниками, устанавливать сроки выполнения и отслеживать прогресс,
 
-{% endnote %}
+-  обмениваться документами, хранить и совместно редактировать файлы,
 
-{% if build == 'dev' %}
+-  обсуждать задачи в чатах, оставлять комментарии и проводить онлайн-встречи.
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+> Быстрый переход: [все методы и события](#all-methods)
+>
+> Пользовательская документация: [Рабочие группы и проекты в Битрикс24](https://helpdesk.bitrix24.ru/open/24491358/)
 
-- что это, где лежит, чем проект отличается от рабочей группы, как отличить простой проект от скрам-проекта
+## Чем отличается группа от проекта
 
-{% endnote %}
+Проект — это группа с расширенными возможностями. Его главное отличие от группы — возможность устанавливать сроки. Алгоритм создания группы и проекта идентичен: в обоих случаях используйте метод [sonet_group.create](./sonet-group-create.md). Для проекта задайте дополнительные параметры:
 
-{% endif %}
+-  `PROJECT` — указывает, что создаваемый объект является проектом,
 
+-  `PROJECT_DATE_START` — дата начала проекта,
+
+-  `PROJECT_DATE_FINISH` — дата завершения проекта.
+  
+## Связь рабочих групп и проектов с другими объектами
+
+**Пользователи**. Совместно работают над задачами внутри рабочих групп и проектов. Используйте методы группы sonet_group.user.\*, чтобы управлять участниками рабочих групп: добавлять, удалять, назначать роли и права.
+
+**Задачи**. Нужны, чтобы распределять обязанности между участниками рабочих групп, отслеживать выполнение и контролировать сроки. Создавайте и изменяйте задачи с помощью группы методов [tasks.task.\*](../tasks/index.md).
+
+**Диск**. Привязанное к конкретной группе или проекту хранилище с необходимыми для работы материалами. Чтобы управлять хранилищами, используйте группу методов [disk.storage.\*](../disk/storage/index.md).
+
+**Универсальные списки**. Структурированные перечни элементов внутри рабочих групп. Нужны, чтобы создавать реестры или хранилища данных, сортировать и фильтровать информацию, автоматизировать учет. Создавайте, обновляйте и удаляйте универсальные списки при помощи методов группы [lists.lists.\*](../lists/lists/index.md).
+
+**Лента новостей**. Используйте метод [log.blogpost.add](../log/log-blogpost-add.md), чтобы публиковать сообщения, которые будут видны только добавленным в группу пользователям.
+
+> Пользовательская документация
+>
+> - [Как создать группу и проект](https://helpdesk.bitrix24.ru/open/22699004/)
+
+## Виджеты рабочих групп и проектов
+
+Добавляйте свои пункты в выпадающие меню, чтобы расширить функциональность рабочих групп и проектов:
+
+-  [Пункт основного выпадающего меню проекта SONET_GROUP_DETAIL_TAB](../widgets/workgroups/index.md). 
+
+-  [Пункт выпадающего меню над списком задач TASK_GROUP_LIST_TOOLBAR](../widgets/workgroups/toolbar.md).
+
+-  [Пункт основного выпадающего меню около настроек роботов TASK_ROBOT_DESIGNER_TOOLBAR](../widgets/workgroups/robot-designer-toolbar.md).
+
+Код конкретного места встройки виджета указывайте в параметре `PLACEMENT` метода [placement.bind](../widgets/placement-bind.md).
+
+## Специализированные рабочие группы: Скрам и Поток
+
+**Скрам в Битрикс24**. Инструмент для организации командной работы по методике Scrum. Позволяет разбивать проекты на спринты — короткие итерации, в течение которых команда выполняет определенный объем задач.
+
+**Поток в Битрикс24**. Инструмент для организации командной работы. Позволяет собирать задачи в одном месте и быстро распределять их между исполнителями.
+
+> Пользовательская документация
+> 
+> - [Битрикс24 Потоки: начало работы](https://helpdesk.bitrix24.ru/open/21307026/?sphrase_id=145628976)
+> 
+> - [Битрикс24.Скрам](https://helpdesk.bitrix24.ru/open/13660630/?sphrase_id=145628940)
+
+Скрам и Поток реализованы на базе рабочих групп.
+
+Для создания Скрама используйте метод [создания новой группы](./sonet-group-create.md). Чтобы группа стала Скрамом, заполните поле `SCRUM_MASTER_ID`.
+
+Чтобы привязать Поток к группе, используйте идентификатор `groupId`. Для получения идентификатора используйте метод [создания новой группы](./sonet-group-create.md) или метод [получения списка групп](./socialnetwork-api-workgroup-list.md).
+
+## Обзор методов и событий {#all-methods}
+
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 {% list tabs %}
 
 - Методы
 
     #|
-    || **Метод** | **Описание** ||
-    || [socialnetwork.api.workgroup.get](./socialnetwork-api-workgroup-get.md) | Получает данные по рабочей группе ||
-    || [socialnetwork.api.workgroup.list](./socialnetwork-api-workgroup-list.md) | Получает список рабочих групп ||
-    || [sonet_group.create](./sonet-group-create.md) | Создает группу соцсети ||
-    || [sonet_group.update](./sonet-group-update.md) | Изменяет параметры группы соцсети ||
-    || [sonet_group.get](./sonet-group-get.md) | Получает список групп соцсети ||
-    || [sonet_group.delete](./sonet-group-delete.md) | Удаляет группу соцсети ||
-    || [sonet_group.setowner](./sonet-group-setowner.md) | Изменяет владельца группы ||
-    || [sonet_group.feature.access](./sonet-group-feature-access.md) | Проверяет права текущего пользователя ||
-    || [sonet_group.user.groups](./sonet-group-user-groups.md) | Получает список групп текущего пользователя ||
+    || **Метод**                        | **Описание**                                ||
+    || [sonet_group.create](./sonet-group-create.md)              | Создает группу                              ||
+    || [sonet_group.update](./sonet-group-update.md)               | Изменяет параметры группы                   ||
+    || [socialnetwork.api.workgroup.get](./socialnetwork-api-workgroup-get.md)  | Получает данные по рабочей группе           ||
+    || [socialnetwork.api.workgroup.list](./socialnetwork-api-workgroup-list.md) | Получает список рабочих групп               ||
+    || [sonet_group.get](./sonet-group-get.md)                  | Получает список групп                       ||
+    || [sonet_group.feature.access](./sonet-group-feature-access.md)       | Проверяет права текущего пользователя       ||
+    || [sonet_group.user.groups](./sonet-group-user-groups.md)          | Получает список групп текущего пользователя ||
+    || [sonet_group.setowner](./sonet-group-setowner.md)             | Изменяет владельца группы                   ||
+    || [sonet_group.delete](./sonet-group-delete.md)               | Удаляет группу                              ||
+    |#
+
+    ### Управление пользователями в группах
+    #|
+    || **Метод**                        | **Описание**                                ||
+    || [sonet_group.user.invite](./members/sonet-group-user-invite.md)          | Приглашает пользователей в группу           ||
+    || [sonet_group.user.request](./members/sonet-group-user-request.md)         | Отправляет запрос на вступление в группу    ||
+    || [sonet_group.user.add](./members/sonet-group-user-add.md)             | Добавляет пользователей в группу            ||
+    || [sonet_group.user.update](./members/sonet-group-user-update.md)          | Изменяет роль пользователя в группе         ||
+    || [sonet_group.user.get](./members/sonet-group-user-get.md)             | Получает список участников группы           ||
+    || [sonet_group.user.delete](./members/sonet-group-user-delete.md)          | Удаляет пользователей из группы             ||
     |#
 
 - События
 
     #|
-    || **Событие** | **Описание** ||
-    || [onSonetGroupAdd](./events/on-sonet-group-add.md) | Вызывается после добавления новой рабочей группы. Прокси к событию `OnSocNetGroupAdd` ||
-    || [onSonetGroupDelete](./events/on-sonet-group-delete.md) | Вызывается в момент удаления рабочей группы. Прокси к событию `OnSocNetGroupDelete` ||
-    || [onSonetGroupSubjectAdd](./events/on-sonet-group-subject-add.md) | Вызывается после создания темы рабочей группы. Прокси к событию `OnSocNetGroupSubjectAdd` ||
-    || [onSonetGroupSubjectDelete](./events/on-sonet-group-subject-delete.md) | Вызывается перед удалением темы рабочей группы. Прокси к событию `OnSocNetGroupSubjectDelete` ||
-    || [onSonetGroupSubjectUpdate](./events/on-sonet-group-subject-update.md) | Вызывается после изменения темы рабочей группы. Прокси к событию `OnSocNetGroupSubjectUpdate` ||
-    || [onSonetGroupUpdate](./events/on-sonet-group-update.md) | Вызывается после изменения рабочей группы. Прокси к событию `OnSocNetGroupUpdate` ||
+    || **Событие**                      | **Вызывается**                              ||
+    || [onSonetGroupAdd](./events/on-sonet-group-add.md)       | После добавления новой рабочей группы ||
+    || [onSonetGroupUpdate](./events/on-sonet-group-update.md) | После изменения рабочей группы        ||
+    || [onSonetGroupDelete](./events/on-sonet-group-delete.md) | В момент удаления рабочей группы         ||
     |#
 
 {% endlist %}
-
-## Участники
-
-#|
-|| [sonet_group.user.add](./members/sonet-group-user-add.md) | Добавляет пользователей в группу ||
-|| [sonet_group.user.delete](./members/sonet-group-user-delete.md) | Удаляет пользователей из группы ||
-|| [участников](./members/sonet-group-user-get-expanded.md) | Получает расширенный список ||
-|| [sonet_group.user.get](./members/sonet-group-user-get.md) | Получает список участников группы ||
-|| [sonet_group.user.invite](./members/sonet-group-user-invite.md) | Приглашает пользователей в группу ||
-|| [sonet_group.user.request](./members/sonet-group-user-request.md) | Отправляет запрос на вступление в группу ||
-|| [sonet_group.user.update](./members/sonet-group-user-update.md) | Изменяет роль пользователя в группе ||
-|#

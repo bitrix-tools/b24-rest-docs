@@ -25,9 +25,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **iblockId***
-[`catalog_catalog.id`](../../data-types.md#catalog_catalog) | Идентификатор информационного блока.
+[`catalog_catalog.id`](../../data-types.md#catalog_catalog) | Идентификатор информационного блока торгового каталога для вариаций. 
 
-Для получения существующих идентификаторов информационных блоков необходимо использовать [catalog.catalog.list](../../catalog/catalog-catalog-list.md)
+Для получения существующих идентификаторов информационных блоков торговых каталогов необходимо использовать [catalog.catalog.list](../../catalog/catalog-catalog-list.md). У инфоблока вариаций заполнено поле `productIblockId` 
 ||
 |#
 

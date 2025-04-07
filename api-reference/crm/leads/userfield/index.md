@@ -68,11 +68,28 @@
 >
 > Кто может выполнять методы: в зависимости от метода
 
-#|
-|| **Метод** | **Описание** ||
-|| [crm.lead.userfield.add](./crm-lead-userfield-add.md) | Создает новое пользовательское поле для лидов ||
-|| [crm.lead.userfield.update](./crm-lead-userfield-update.md) | Обновляет существующее пользовательское поле лидов ||
-|| [crm.lead.userfield.get](./crm-lead-userfield-get.md) | Возвращает пользовательское поле лидов по идентификатору ||
-|| [crm.lead.userfield.list](./crm-lead-userfield-list.md) | Возвращает список пользовательских полей лидов по фильтру ||
-|| [crm.lead.userfield.delete](./crm-lead-userfield-delete.md) | Удаляет пользовательское поле лидов ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [crm.lead.userfield.add](./crm-lead-userfield-add.md) | Создает новое пользовательское поле для лидов ||
+    || [crm.lead.userfield.update](./crm-lead-userfield-update.md) | Обновляет существующее пользовательское поле лидов ||
+    || [crm.lead.userfield.get](./crm-lead-userfield-get.md) | Возвращает пользовательское поле лидов по идентификатору ||
+    || [crm.lead.userfield.list](./crm-lead-userfield-list.md) | Возвращает список пользовательских полей лидов по фильтру ||
+    || [crm.lead.userfield.delete](./crm-lead-userfield-delete.md) | Удаляет пользовательское поле лидов ||
+    |#
+
+- События 
+
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [onCrmLeadUserFieldAdd](./events/on-crm-lead-user-field-add.md) | При добавлении пользовательского поля ||
+    || [onCrmLeadUserFieldUpdate](./events/on-crm-lead-user-field-update.md) | При изменении пользовательского поля ||
+    || [onCrmLeadUserFieldDelete](./events/on-crm-lead-user-field-delete.md) | При удалении пользовательского поля ||
+    || [onCrmLeadUserFieldSetEnumValues](./events/on-crm-lead-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа ||
+    |#
+
+{% endlist %}

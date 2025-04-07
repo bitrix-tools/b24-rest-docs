@@ -23,7 +23,7 @@ items:
     href: imopenlines-session-head-vote.md
   - name: Начать новый диалог на основании сообщения
     href: imopenlines-message-session-start.md
-  - name: Поставить оценку работе сотрудника в диалоге
+  - name: Создать лид на основании диалога
     href: imopenlines-crm-lead-create.md
   - name: Получить информацию о диалоге
     href: imopenlines-dialog-get.md

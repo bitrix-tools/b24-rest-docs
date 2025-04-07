@@ -2,6 +2,49 @@
 
 ## 2025
 
+### 04 апреля, 2025
+
+- Обновлены страницы событий при работе c пользователськими полями коммерческих предложений [onCrmQuoteUserField*](./api-reference/crm/quote/user-field/events/index.md)
+
+### 03 апреля, 2025
+
+- Обновлены страницы событий при работе c коммерческими предложениями [onCrmQuote*](./api-reference/crm/quote/events/index.md)
+- Обновлена главная страница раздела [Уведомления](./api-reference/chats/notifications/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
+### 01 апреля, 2025
+
+- Добавили параметр `storeId` в методы [crm.item.productrows.*](./api-reference/crm/universal/product-rows/index.md). Параметр доступен только на чтение
+
+### 31 марта, 2025
+
+- Обновлены страницы событий при работе c пользователськими полями компаний [onCrmCompanyUserField*](./api-reference/crm/companies/userfields/events/index.md)
+
+### 28 марта, 2025
+
+- Обновлена главная страница раздела [Провайдеры сообщений, СМС-провайдеры](./api-reference/messageservice/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлены страницы событий при работе c компаниями [onCrmCompany*](./api-reference/crm/companies/events/index.md)
+
+### 27 марта, 2025
+
+- Обновлены страницы событий при работе c пользователськими полями лидов [onCrmLeadUserField*](./api-reference/crm/leads/userfield/events/index.md)
+- Обновлена документация по методам работы с [рабочим днем](./api-reference/timeman/base/index.md) в разделе Учет рабочего времени
+- Обновлена документация по методам работы с [офисными сетями](./api-reference/timeman/networkrange/index.md) в разделе Учет рабочего времени
+- Обновлена главная страница раздела [Поиск](./api-reference/chats/search/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
+### 26 марта, 2025
+
+- Обновлена главная страница раздела [Перечисления](./api-reference/crm/auxiliary/enum/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+
+### 25 марта, 2025
+
+- Обновлена главная страница раздела [Ставки НДС в CRM](./api-reference/crm/auxiliary/vat/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлены страницы событий при работе c лидами [onCrmLead*](./api-reference/crm/leads/events/index.md)
+
+### 24 марта, 2025
+
+- Добавили статью [Рабочие группы и проекты: обзор методов](./api-reference/sonet-group/index.md)
+- Дополнили описание событий: на добавление новой рабочей группы [onSonetGroupAdd](./api-reference/sonet-group/events/on-sonet-group-add.md), на изменение рабочей группы [onSonetGroupUpdate](./api-reference/sonet-group/events/on-sonet-group-update.md), на удаление рабочей группы [onSonetGroupDelete](./api-reference/sonet-group/events/on-sonet-group-delete.md).
+
 ### 20 марта, 2025
 
 - Добавлена поддержка поля `contactIds` в фильтре для метода [crm.item.list](./api-reference/crm/universal/crm-item-list.md)

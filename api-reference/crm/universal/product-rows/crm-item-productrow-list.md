@@ -175,7 +175,8 @@ HTTP-статус: **200**
             "measureName":"шт",
             "sort":20,
             "xmlId":"sale_basket_8147",
-            "type":4
+            "type":4,
+            "storeId": 19
          },
          {
             "id":17650,
@@ -199,7 +200,8 @@ HTTP-статус: **200**
             "measureName":"м",
             "sort":10,
             "xmlId":"sale_basket_8148",
-            "type":4
+            "type":4,
+            "storeId": 17
          }
       ]
    },

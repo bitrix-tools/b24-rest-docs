@@ -21,7 +21,7 @@
 
 {% endif %}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -32,7 +32,7 @@
 #|
 ||  **Параметр** / **Тип**| **Описание** ||
 || **fields**
-[`unknown`](../../data-types.md) | Набор полей - массив вида `array("поле"=>"значение"[, ...])`, содержащий описание пользовательского поля. Полное описание полей можно получить вызовом метода [crm.userfield.fields](../universal/user-defined-fields/crm-userfield-fields.md). 
+[`unknown`](../../../data-types.md) | Набор полей - массив вида `array("поле"=>"значение"[, ...])`, содержащий описание пользовательского поля. Полное описание полей можно получить вызовом метода [crm.userfield.fields](../../universal/user-defined-fields/crm-userfield-fields.md). 
 ||
 |#
 
@@ -68,4 +68,4 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}

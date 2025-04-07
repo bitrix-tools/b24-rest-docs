@@ -1,38 +1,87 @@
-# При изменении пользовательского поля onCrmCompanyUserFieldUpdate
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
+# При обновлении пользовательского поля onCrmCompanyUserFieldUpdate
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие `onCrmCompanyUserFieldUpdate` вызывается при изменении пользовательского поля.
+Событие `ONCRMCOMPANYUSERFIELDUPDATE` сработает при обновлении пользовательского поля для компаний.
 
-## Параметры
+## Что получает обработчик
+
+Данные передаются в виде POST-запроса {.b24-info}
+
+```json
+{
+    "event": "ONCRMCOMPANYUSERFIELDUPDATE",
+    "event_handler_id": "741",
+    "data": {
+        "FIELDS": {
+            "ID": "6979",
+            "ENTITY_ID": "CRM_COMPANY",
+            "FIELD_NAME": "UF_CRM_1743165530"
+        }
+    },
+    "ts": "1743165540",
+    "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "expires_in": "3600",
+        "scope": "crm",
+        "domain": "some-domain.bitrix24.com",
+        "server_endpoint": "https://oauth.bitrix.info/rest/",
+        "status": "L",
+        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
+        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
+    }
+}
+```
 
 #|
-|| **Параметр** | **Описание** ||
-|| **id**
-[`unknown`](../../../../data-types.md) | идентификатор пользовательского поля. ||
-|| **entityId**
-[`unknown`](../../../../data-types.md) | символьный идентификатор сущности, для которой создано поле ||
-|| **fieldName**
-[`unknown`](../../../../data-types.md) | имя созданного пользовательского поля ||
+|| **Параметр**
+`тип` | **Описание** ||
+|| **event**
+[`string`](../../../../data-types.md) | Символьный код события.
+
+В данном случае — `ONCRMCOMPANYUSERFIELDUPDATE` ||
+|| **event_handler_id**
+[`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
+|| **data**
+[`object`](../../../../data-types.md) | Объект, содержащий информацию об обновленном пользовательском поле.
+
+Содержит ключ `FIELDS` ||
+|| **data.FIELDS**
+[`object`](../../../../data-types.md) | Объект, содержащий информацию о полях обновленного пользовательского поля.
+
+Структура описана [ниже](#fields) ||
+|| **ts**
+[`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
+|| **auth**
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+
+Структура описана [ниже](#auth) ||
 |#
+
+### Параметр FIELDS {#fields}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../../data-types.md) | Идентификатор обновленного пользовательского поля ||
+|| **ENTITY_ID**
+[`string`](../../../../data-types.md) | Идентификатор объекта, к которому относится пользовательское поле. В данном случае — `CRM_COMPANY` ||
+|| **FIELD_NAME**
+[`string`](../../../../data-types.md) | Название обновленного пользовательского поля ||
+|#
+
+### Параметр auth {#auth}
+
+{% include notitle [Таблица с ключами в массиве auth](../../../../../_includes/auth-params-in-events.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../../events/index.md)
+- [{#T}](../../../../events/event-bind.md)
+- [{#T}](./on-crm-company-user-field-add.md)
+- [{#T}](./on-crm-company-user-field-delete.md)

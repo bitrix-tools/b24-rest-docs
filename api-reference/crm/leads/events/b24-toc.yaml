@@ -3,17 +3,9 @@ href: index.md
 items: 
   - name: Обзор событий
     href: index.md
-  - name: На добавление лида
+  - name: При добавлении лида
     href: on-crm-lead-add.md
-  - name: На изменение лида
+  - name: При изменении лида
     href: on-crm-lead-update.md
-  - name: На удаление лида
+  - name: При удалении лида
     href: on-crm-lead-delete.md
-  - name: На добавление пользовательского поля
-    href: on-crm-lead-user-field-add.md
-  - name: На изменение пользовательского поля
-    href: on-crm-lead-user-field-update.md
-  - name: На удаление пользовательского поля
-    href: on-crm-lead-user-field-delete.md
-  - name: На изменение набора значений для пользовательского поля списочного типа
-    href: on-crm-lead-user-field-set-enum-values.md

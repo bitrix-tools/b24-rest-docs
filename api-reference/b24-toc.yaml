@@ -129,7 +129,7 @@ items:
     include:
       path: mailservice/b24-toc.yaml
       mode: link
-  - name: Провайдеры сообщений, SMS-провайдеры
+  - name: Провайдеры сообщений, СМС-провайдеры
     include:
       path: messageservice/b24-toc.yaml
       mode: link

@@ -13,3 +13,9 @@ items:
     href: crm-lead-userfield-list.md
   - name: Удалить поле
     href: crm-lead-userfield-delete.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+
+  
