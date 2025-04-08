@@ -1,10 +1,10 @@
 title: Подготовка к публикации
 href: index.md
 items: 
-  - name: Доступ к песочнице
-    href: access-to-sandbox.md
   - name: Как разработать приложение
     href: index.md
+  - name: Доступ к песочнице
+    href: access-to-sandbox.md
   - name: Как добавить приложение
     href: how-to-add-app.md
   - name: Порядок публикации решений в Маркетплейсе
