@@ -1,4 +1,4 @@
-# Изменить пользовательское поле предложений crm.quote.userfield.update
+# Получить список пользовательских полей предложений по фильтру crm.quote.userfield.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -10,7 +10,7 @@
 
 {% note alert "TO-DO _не выгружается на prod_" %}
 
-- нужны правки под стандарт написания
+- нужно описать параметры здесь
 - не указаны типы параметров
 - не указана обязательность параметров
 - отсутствуют примеры (должно быть три примера - curl, js, php)
@@ -21,19 +21,18 @@
 
 {% endif %}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.quote.userfield.update` обновляет существующее пользовательское поле предложений.
+Метод `crm.quote.userfield.list` возвращает список пользовательских полей предложений по фильтру.
 
 #|
 ||  **Параметр** / **Тип**| **Описание** ||
-|| **id**
-[`unknown`](../../data-types.md) | Идентификатор пользовательского поля. ||
-|| **fields**
-[`unknown`](../../data-types.md) | Набор полей - массив вида `array("обновляемое поле"=>"значение"[, ...])`, где "обновляемое поле" может принимать значения из возвращаемых методом [crm.userfield.fields](../universal/user-defined-fields/crm-userfield-fields.md).
-||
+|| **order**
+[`unknown`](../../../data-types.md) | Поля сортировки. ||
+|| **filter**
+[`unknown`](../../../data-types.md) | Поля фильтра. ||
 |#
 
 ## Пример
@@ -44,16 +43,11 @@
 
     ```js
     var id = prompt("Введите ID");
-    var label = prompt("Введите новое название");
     BX24.callMethod(
-        "crm.quote.userfield.update",
+        "crm.quote.userfield.list",
         {
-            id: id,
-            fields:
-            {
-                "EDIT_FORM_LABEL": label,
-                "LIST_COLUMN_LABEL": label
-            }
+            order: { "SORT": "ASC" },
+            filter: { "MANDATORY": "N" }
         },
         function(result)
         {
@@ -71,4 +65,4 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}

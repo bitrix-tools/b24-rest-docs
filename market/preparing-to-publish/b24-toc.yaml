@@ -1,6 +1,8 @@
 title: Подготовка к публикации
 href: index.md
 items: 
+  - name: Доступ к песочнице
+    href: access-to-sandbox.md
   - name: Как разработать приложение
     href: index.md
   - name: Как добавить приложение

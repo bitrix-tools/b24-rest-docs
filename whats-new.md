@@ -2,6 +2,16 @@
 
 ## 2025
 
+### 08 апреля, 2025
+
+- Обновлена главная страница раздела [Пользовательские поля коммерческих предложений](./api-reference/crm/quote/user-field/index.md). Добавили вводную информацию, а также обзор методов и ошибок
+
+### 04 апреля, 2025
+
+- Обновлены страницы событий при работе c пользовательскими полями коммерческих предложений [onCrmQuoteUserField*](./api-reference/crm/quote/user-field/events/index.md)
+- Обновлена главная страница раздела [Лента новостей](./api-reference/log/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Участники групп и проектов](./api-reference/sonet-group/members/index.md). Добавили вводную информацию, а также обзор методов и связей
+
 ### 03 апреля, 2025
 
 - Обновлены страницы событий при работе c коммерческими предложениями [onCrmQuote*](./api-reference/crm/quote/events/index.md)
@@ -13,7 +23,7 @@
 
 ### 31 марта, 2025
 
-- Обновлены страницы событий при работе c пользователськими полями компаний [onCrmCompanyUserField*](./api-reference/crm/companies/userfields/events/index.md)
+- Обновлены страницы событий при работе c пользовательскими полями компаний [onCrmCompanyUserField*](./api-reference/crm/companies/userfields/events/index.md)
 
 ### 28 марта, 2025
 
@@ -22,7 +32,7 @@
 
 ### 27 марта, 2025
 
-- Обновлены страницы событий при работе c пользователськими полями лидов [onCrmLeadUserField*](./api-reference/crm/leads/userfield/events/index.md)
+- Обновлены страницы событий при работе c пользовательскими полями лидов [onCrmLeadUserField*](./api-reference/crm/leads/userfield/events/index.md)
 - Обновлена документация по методам работы с [рабочим днем](./api-reference/timeman/base/index.md) в разделе Учет рабочего времени
 - Обновлена документация по методам работы с [офисными сетями](./api-reference/timeman/networkrange/index.md) в разделе Учет рабочего времени
 - Обновлена главная страница раздела [Поиск](./api-reference/chats/search/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
