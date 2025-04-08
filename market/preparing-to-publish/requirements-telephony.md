@@ -41,4 +41,4 @@ REST API для телефонии позволяет легко сделать 
 
 ## Продолжите изучение
 
-- [{#T}](common-requirements.md)
+- [{#T}](/market/preparing-to-publish/common-requirements.md)
