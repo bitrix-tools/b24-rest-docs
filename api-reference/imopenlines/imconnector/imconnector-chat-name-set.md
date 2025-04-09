@@ -164,7 +164,7 @@ HTTP-статус: **400**
 || **Код** | **Описание** ||
 || `NOT_ACTIVE_LINE` | Линия c таким ID неактивна или не существует ||
 || `IMCONNECTOR_NO_CORRECT_PROVIDER` | Не удалось найти подходящий провайдер для коннектора ||
-|| `ERROR_ARGUMENT` | Не указаны обязательные параметры `NAME` или `CHAT_ID` ||
+|| `ERROR_ARGUMENT` | Не указаны обязательные параметры `NAME`, `CHAT_ID`, `USER_ID`, `CONNECTOR` или `LINE` ||
 || `CHAT_RENAMING_FAILED` | Не удалось переименовать чат ||
 |#
 
