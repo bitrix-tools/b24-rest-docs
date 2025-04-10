@@ -7,3 +7,5 @@ items:
     href: activity.md
   - name: Как встроить свой UI в параметры робота 
     href: setting-robot.md
+  - name: Как завершить бизнес-процессы уволенного сотрудника
+    href: how-to-kill-workflows.md

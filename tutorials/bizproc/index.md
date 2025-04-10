@@ -4,3 +4,4 @@
 
 - [{#T}](./activity.md)
 - [{#T}](./setting-robot.md)
+- [{#T}](./how-to-kill-workflows.md)
