@@ -51,23 +51,43 @@
 
 {% list tabs %}
 
-- cURL
+- cURL (Webhook)
 
     ```bash
-    $appParams = array(
-        'auth' => 'q21g8vhcqmxdrbhqlbd2wh6ev1debppa',
-        'PARAMS' => array(
-            'USER_TYPE_ID' => 'string',
-            'FIELD_NAME' => 'NEW_TASKS_FIELD',
-            'XML_ID' => 'MY_TASK_FIELD',
-            'EDIT_FORM_LABEL' => array(
-                'en' => 'New task field',
-                'ru' => 'Новое поле задач'
-            ),
-            'LABEL' => 'New task field'
-        ),
-    );
-    $request = 'http://your-domain.ru/rest/task.item.userfield.add.xml?' . http_build_query($appParams);
+    curl -X POST "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.item.userfield.add" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "PARAMS": {
+                "USER_TYPE_ID": "string",
+                "FIELD_NAME": "NEW_TASKS_FIELD",
+                "XML_ID": "MY_TASK_FIELD",
+                "EDIT_FORM_LABEL": {
+                    "en": "New task field",
+                    "ru": "Новое поле задач"
+                },
+                "LABEL": "New task field"
+            }
+        }'
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.item.userfield.add" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "PARAMS": {
+                "USER_TYPE_ID": "string",
+                "FIELD_NAME": "NEW_TASKS_FIELD",
+                "XML_ID": "MY_TASK_FIELD",
+                "EDIT_FORM_LABEL": {
+                    "en": "New task field",
+                    "ru": "Новое поле задач"
+                },
+                "LABEL": "New task field"
+            },
+            "auth": "**put_access_token_here**"
+        }'
     ```
 
 - JS
@@ -91,6 +111,32 @@
             console.log(result);
         }
     );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'task.item.userfield.add',
+        [
+            'PARAMS' => [
+                'USER_TYPE_ID' => 'string',
+                'FIELD_NAME' => 'NEW_TASKS_FIELD',
+                'XML_ID' => 'MY_TASK_FIELD',
+                'EDIT_FORM_LABEL' => [
+                    'en' => 'New task field',
+                    'ru' => 'Новое поле задач',
+                ],
+                'LABEL' => 'New task field',
+            ],
+        ]
+    );
+
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
     ```
 
 {% endlist %}
