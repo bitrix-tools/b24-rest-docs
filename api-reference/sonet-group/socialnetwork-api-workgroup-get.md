@@ -1,4 +1,3 @@
-# Получить данные по рабочей группе socialnetwork.api.workgroup.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,6 +18,7 @@
 {% endnote %}
 
 {% endif %}
+# Получить данные о рабочей группе socialnetwork.api.workgroup.get
 
 > Scope: [`socialnetwork`](../scopes/permissions.md)
 >
