@@ -1,4 +1,4 @@
-# Список файлов и папок в корне хранилища
+# Список файлов и папок в корне хранилища disk.storage.getchildren
 
 {% if build == 'dev' %}
 
@@ -8,7 +8,6 @@
 - не указана обязательность параметров
 - отсутствуют примеры (должно быть три примера - curl, js, php)
 - отсутствует ответ в случае ошибки
-- добавить ссылку на фразу в примечании "списочных методов", ссылка должна вести на страницу https://dev.1c-bitrix.ru/rest_help/rest_sum/index.php
 
 {% endnote %}
 
@@ -20,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.storage.getchildren" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.getchildren` возвращает список файлов и папок, которые находятся непосредственно в корне хранилища.
 
@@ -40,30 +37,37 @@
 
 {% note info %}
 
-Cм. также описание [списочных методов](.).
+Cм. также описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
 
 {% endnote %}
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.storage.getchildren",
-    {
-        id: 4,
-        filter: {
-            CREATED_BY: 1
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.storage.getchildren",
+        {
+            id: 4,
+            filter: {
+                CREATED_BY: 1
+            }
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

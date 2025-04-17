@@ -1,4 +1,4 @@
-# Изменить отправленное сообщение
+# Изменить отправленное сообщение im.message.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "im.message.update" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.message.update` отправляет изменения сообщения чат-бота.
 
@@ -49,22 +47,28 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand('
-    im.message.update',
-    Array(
-        'MESSAGE_ID' => 1,
-        'MESSAGE' => 'Текст сообщения',
-        'ATTACH' => '',
-        'URL_PREVIEW' => 'Y',
-        'KEYBOARD' => '',
-        'MENU' => '',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand('
+        im.message.update',
+        Array(
+            'MESSAGE_ID' => 1,
+            'MESSAGE' => 'Текст сообщения',
+            'ATTACH' => '',
+            'URL_PREVIEW' => 'Y',
+            'KEYBOARD' => '',
+            'MENU' => '',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

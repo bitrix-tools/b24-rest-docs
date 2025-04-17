@@ -1,4 +1,4 @@
-# Получение типов справочников
+# Получить типы справочников crm.status.entity.types
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.status.entity.types" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.status.entity.types()
@@ -36,18 +34,24 @@ crm.status.entity.types()
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    "crm.status.entity.types",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "crm.status.entity.types",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

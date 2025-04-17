@@ -1,4 +1,4 @@
-# Получение списка блоков из репозитория
+# Получить список блоков из репозитория landing.block.getrepository
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getrepository" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getrepository` возвращает список блоков из репозитория или ошибку.
 
@@ -39,24 +37,30 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.getrepository',
-    {
-        section: 'about'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.getrepository',
         {
-            console.error(result.error());
-        }
-        else
+            section: 'about'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

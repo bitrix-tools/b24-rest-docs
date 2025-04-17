@@ -1,4 +1,4 @@
-# Получить настройки приложения
+# Получить настройки приложения BX24.appOption.get
 
 ```js
 BX24.appOption.get(string name, mixed value): mixed;

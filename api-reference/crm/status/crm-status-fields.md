@@ -1,4 +1,4 @@
-# Возвращение описания полей справочника
+# Получить описание полей справочника crm.status.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.status.fields" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.status.fields()
@@ -36,18 +34,24 @@ crm.status.fields()
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    "crm.status.fields",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "crm.status.fields",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -1,4 +1,4 @@
-# Получение списка элементов хранилища
+# Получить список элементов хранилища entity.item.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "entity.item.get" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -34,12 +32,9 @@
 
 #|
 || **Параметр** | **Описание** ||
-|| **ENTITY^*^**
-[`string`](../../data-types.md) | Обязательный. Строковой идентификатор хранилища. ||
-|| **SORT**
-[`unknown`](../../data-types.md) | Аналогичны параметрам *arOrder* и *arFilter* PHP-метода [CIBlockElement::GetList](http://dev.1c-bitrix.ru/api_help/iblock/classes/ciblockelement/getlist.php) (включая операции фильтра и сложную логику). ||
-|| **FILTER**
-[`unknown`](../../data-types.md) | Аналогичны параметрам *arOrder* и *arFilter* PHP-метода [CIBlockElement::GetList](http://dev.1c-bitrix.ru/api_help/iblock/classes/ciblockelement/getlist.php) (включая операции фильтра и сложную логику). ||
+|| **ENTITY^*^** | Обязательный. Строковой идентификатор хранилища. ||
+|| **SORT** | Аналогичны параметрам *arOrder* и *arFilter* PHP-метода `CIBlockElement::GetList` (включая операции фильтра и сложную логику). ||
+|| **FILTER** | Аналогичны параметрам *arOrder* и *arFilter* PHP-метода `CIBlockElement::GetList` (включая операции фильтра и сложную логику). ||
 || **START** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
@@ -47,56 +42,66 @@
 
 ## Примеры
 
-Вызов
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    'entity.item.get',
-    {
-        ENTITY: 'menu',
-        SORT: {
-            DATE_ACTIVE_FROM: 'ASC',
-            ID: 'ASC'
+- JS
+
+    ```js
+    BX24.callMethod(
+        'entity.item.get',
+        {
+            ENTITY: 'menu',
+            SORT: {
+                DATE_ACTIVE_FROM: 'ASC',
+                ID: 'ASC'
+            },
+            FILTER: {
+                '>=DATE_ACTIVE_FROM': dateStart,
+                '<DATE_ACTIVE_FROM': dateFinish
+            }
         },
-        FILTER: {
-            '>=DATE_ACTIVE_FROM': dateStart,
-            '<DATE_ACTIVE_FROM': dateFinish
-        }
-    },
-    $.proxy(
-        this.buildData,
-        this
-    )
-);
-```
+        $.proxy(
+            this.buildData,
+            this
+        )
+    );
+    ```
 
-Запрос
+- HTTP
 
-```http
-https://my.bitrix24.ru/rest/entity.item.get.json?=&ENTITY=menu&FILTER%5B%3CDATE_ACTIVE_FROM%5D=2013-07-01T00%3A00%3A00.000Z&FILTER%5B%3E%3DDATE_ACTIVE_FROM%5D=2013-06-24T00%3A00%3A00.000Z&SORT%5BDATE_ACTIVE_FROM%5D=ASC&SORT%5BID%5D=ASC&auth=723867cdb1ada1de7870de8b0e558679
-```
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.get.json?=&ENTITY=menu&FILTER%5B%3CDATE_ACTIVE_FROM%5D=2013-07-01T00%3A00%3A00.000Z&FILTER%5B%3E%3DDATE_ACTIVE_FROM%5D=2013-06-24T00%3A00%3A00.000Z&SORT%5BDATE_ACTIVE_FROM%5D=ASC&SORT%5BID%5D=ASC&auth=723867cdb1ada1de7870de8b0e558679
+    ```
+
+{% endlist %}
 
 ### Пример вызова со сложным фильтром
 
-```js
-BX24.callMethod(
-    'entity.item.get',
-    {
-        ENTITY: 'menu',
-        SORT: {
-            DATE_ACTIVE_FROM: 'ASC',
-            ID: 'ASC'
-        },
-        FILTER: {
-            '1':{
-                'LOGIC':'OR',
-                'PROPERTY_MYPROP1':'value1',
-                'PROPERTY_MYPROP2':'value2'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'entity.item.get',
+        {
+            ENTITY: 'menu',
+            SORT: {
+                DATE_ACTIVE_FROM: 'ASC',
+                ID: 'ASC'
+            },
+            FILTER: {
+                '1':{
+                    'LOGIC':'OR',
+                    'PROPERTY_MYPROP1':'value1',
+                    'PROPERTY_MYPROP2':'value2'
+                }
             }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

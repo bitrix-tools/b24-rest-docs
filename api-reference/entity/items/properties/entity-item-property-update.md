@@ -1,4 +1,4 @@
-# Обновление дополнительного свойства элементов хранилища
+# Изменить дополнительное свойство элементов хранилища entity.item.property.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "entity.item.property.update" %}
-
-**Scope**: [`entity`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.item.property.update` обновляет дополнительное свойство элементов хранилища. Пользователь должен обладать правами на управление (**Х**) хранилищем.
 
@@ -47,24 +45,28 @@
 
 ## Пример
 
-Вызов
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    'entity.item.property.update',
-    {
-        ENTITY: 'menu_new',
-        PROPERTY: 'new_prop',
-        NAME: 'Уже не новое свойство'
-    }
-);
-```
+- JS
 
-Запрос
+    ```js
+    BX24.callMethod(
+        'entity.item.property.update',
+        {
+            ENTITY: 'menu_new',
+            PROPERTY: 'new_prop',
+            NAME: 'Уже не новое свойство'
+        }
+    );
+    ```
 
-```http
-https://my.bitrix24.ru/rest/entity.item.property.update.json?ENTITY=menu_new&NAME=%D0%A3%D0%B6%D0%B5%20%D0%BD%D0%B5%20%D0%BD%D0%BE%D0%B2%D0%BE%D0%B5%20%D1%81%D0%B2%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE&PROPERTY=new_prop&auth=ad5a6f34f14f644136830eb8a936f07f
-```
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.property.update.json?ENTITY=menu_new&NAME=%D0%A3%D0%B6%D0%B5%20%D0%BD%D0%B5%20%D0%BD%D0%BE%D0%B2%D0%BE%D0%B5%20%D1%81%D0%B2%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE&PROPERTY=new_prop&auth=ad5a6f34f14f644136830eb8a936f07f
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

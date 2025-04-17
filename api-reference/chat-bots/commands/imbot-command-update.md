@@ -1,4 +1,4 @@
-# Изменить команду
+# Изменить команду imbot.command.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -22,11 +22,9 @@
 
 {% endif %}
 
-{% note info "imbot.command.update" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.command.update` обновляет данные в команде.
 
@@ -62,7 +60,7 @@ Array(
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/on-im-command-add.md).
 
 {% endnote %}
 
@@ -76,30 +74,36 @@ Array(
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.command.update',
-    Array(
-        'COMMAND_ID' => 13,
-        'FIELDS' => Array(
-            'EVENT_COMMAND_ADD' => 'http://www.hazz/chatApi/bot.php',
-            'HIDDEN' => 'N',
-            'EXTRANET_SUPPORT' => 'N',
-            'CLIENT_ID' => '',
-            'LANG' => Array(
-                Array(
-                    'LANGUAGE_ID' => 'en',
-                    'TITLE' => 'Get echo message',
-                    'PARAMS' => 'some text'
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.command.update',
+        Array(
+            'COMMAND_ID' => 13,
+            'FIELDS' => Array(
+                'EVENT_COMMAND_ADD' => 'http://www.hazz/chatApi/bot.php',
+                'HIDDEN' => 'N',
+                'EXTRANET_SUPPORT' => 'N',
+                'CLIENT_ID' => '',
+                'LANG' => Array(
+                    Array(
+                        'LANGUAGE_ID' => 'en',
+                        'TITLE' => 'Get echo message',
+                        'PARAMS' => 'some text'
+                    ),
                 ),
-            ),
-        )
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+            )
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -1,4 +1,4 @@
-# Получить список участников
+# Получить список участников imbot.chat.user.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.user.list" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.user.list` получает список участников.
 
@@ -41,18 +39,24 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.chat.user.list',
-    Array(
-        'CHAT_ID' => 13,
-        'BOT_ID' => 39,
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.chat.user.list',
+        Array(
+            'CHAT_ID' => 13,
+            'BOT_ID' => 39,
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

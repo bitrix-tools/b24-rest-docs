@@ -1,4 +1,4 @@
-# Переключить диалог в «скрытый» режим
+# Переключить диалог в «скрытый» режим imopenlines.session.mode.silent
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.session.mode.silent**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

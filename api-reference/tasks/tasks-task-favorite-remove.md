@@ -1,4 +1,4 @@
-# Удаление задачи из Избранного
+# Удалить задачу из Избранного tasks.task.favorite.remove
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.favorite.remove" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.favorite.remove` удаляет задачу из Избранного.
 
@@ -38,9 +36,15 @@
 
 ## Пример
 
-```js
-BX24.callMethod('tasks.task.favorite.remove', {taskId: 119}, (res)=>{console.log(res.answer.result);});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('tasks.task.favorite.remove', {taskId: 119}, (res)=>{console.log(res.answer.result);});
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

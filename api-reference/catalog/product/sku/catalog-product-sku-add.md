@@ -1,7 +1,5 @@
-# Добавить головной товар
+# Добавить головной товар catalog.product.sku.add
 
-> Название метода: **catalog.product.sku.add**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
@@ -64,7 +62,9 @@
 || **dateCreate**
 [`datetime`](../../../data-types.md) | Дата создания ||
 || **iblockSectionId**
-[`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор раздела информационного блока ||
+[`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор основного раздела информационного блока ||
+|| **IblockSection**
+[`array`](../../../data-types.md)| Массив со всеми разделами, к которым привязан головной товар ||
 || **measure**
 [`catalog_measure.id`](../../data-types.md#catalog_measure) | Единица измерения.
 

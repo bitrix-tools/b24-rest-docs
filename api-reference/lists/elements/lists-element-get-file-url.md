@@ -1,4 +1,4 @@
-# Метод возвращает путь к файлу
+# Получить путь к файлу lists.element.get.file.url
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.element.get.file.url" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 
 Метод `lists.element.get.file.url` возвращает путь к файлу. В случае успеха будет возвращен массив со списком url для нужного поля типа Файл или Файл (Диск).
@@ -51,24 +49,32 @@
 
 ## Пример
 
-```javascript
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_ID': '41',
-    'ELEMENT_ID': '683',
-    'FIELD_ID': '120'
-};
-BX24.callMethod(
-    'lists.element.get.file.url',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-)
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_ID': '41',
+        'ELEMENT_ID': '683',
+        'FIELD_ID': '120'
+    };
+    BX24.callMethod(
+        'lists.element.get.file.url',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    )
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

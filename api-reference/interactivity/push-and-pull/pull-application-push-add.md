@@ -1,4 +1,4 @@
-# Отправка push-уведомления на мобильное устройство в рамках приложения Битрикс24
+# Отправить push-уведомления на мобильное устройство в рамках приложения Битрикс24 pull.application.push.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "pull.application.push.add" %}
-
-**Scope**: [`pull`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`pull`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `pull.application.push.add` служит для отправки push-уведомления на мобильное устройство в рамках приложения Битрикс24.
 
@@ -106,9 +104,9 @@
 || TEXT_ERROR     | Не передан текст сообщения. ||
 || EMPTY_APP_NAME | Ошибка возникает если у вашего приложения не задано название. ||
 || ACCESS_ERROR    | Метод может использовать только пользователь с правами администратора. ||
-|| WRONG_AUTH_TYPE | Метод можно использовать только в рамках [OAuth 2.0](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=2486&LESSON_PATH=8771.5380.5379.2486). ||
+|| WRONG_AUTH_TYPE | Метод можно использовать только в рамках [OAuth 2.0](../../oauth/index.md). ||
 |#
 
 ## Смотрите также
 
-- [Интерактивность в приложениях](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=012565)
+- [Интерактивность в приложениях](../../interactivity/index.md)

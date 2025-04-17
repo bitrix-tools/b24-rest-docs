@@ -1,0 +1,42 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Работа с типами сайтов и скоупами 
+    href: types.md
+  - name: Объект Сайт
+    include:
+      path: site/b24-toc.yaml
+      mode: link
+  - name: Объект Страница
+    include:
+      path: page/b24-toc.yaml
+      mode: link
+  - name: Объект Блоки
+    include:
+      path: block/b24-toc.yaml
+      mode: link
+  - name: Объект Шаблон представления
+    include:
+      path: template/b24-toc.yaml
+      mode: link
+  - name: Места встраивания
+    include:
+      path: embedding/b24-toc.yaml
+      mode: link
+  - name: Пользовательские блоки
+    include:
+      path: user-blocks/b24-toc.yaml
+      mode: link
+  - name: Пользовательские шаблоны
+    include:
+      path: demos/b24-toc.yaml
+      mode: link
+  - name: Права
+    include:
+      path: rights/b24-toc.yaml
+      mode: link
+  - name: Полезные ссылки
+    href: additional-links.md
+

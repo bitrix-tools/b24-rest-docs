@@ -1,4 +1,4 @@
-# Получение дополнительных полей сайта
+# Получить дополнительные поля сайта landing.site.getadditionalfields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.getadditionalfields" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.getadditionalfields` получает [дополнительные поля](./additional-fields.md) сайта. Возвращает дополнительные поля сайта или ошибку.
 
@@ -38,24 +36,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.site.getadditionalfields',
-    {
-        id: 205
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.getadditionalfields',
         {
-            console.error(result.error());
-        }
-        else
+            id: 205
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

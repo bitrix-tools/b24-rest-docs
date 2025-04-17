@@ -1,4 +1,4 @@
-# Пользователи, прочитавшие Важное сообщение
+# Просмотреть пользователей, прочитавших важное сообщение log.blogpost.getusers.important
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "log.blogpost.getusers.important" %}
-
-{% include notitle [Скоуп log все](./_includes/scope-log-all.md) %}
-
-{% endnote %}
+> Scope: [`log`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Отдает массив идентификаторов пользователей, прочитавших указанное важное сообщение.
 
@@ -37,25 +35,38 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'log.blogpost.getusers.important',
-    {
-        POST_ID: 345
-    },
-    function(result)
-    {
-        console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'log.blogpost.getusers.important',
+        {
+            POST_ID: 345
+        },
+        function(result)
+        {
+            console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос:
 
-```http
-https://my.bitrix24.ru/rest/log.blogpost.getusers.important.json?POST_ID=345&auth=xxxxxxx
-```
+{% list tabs %}
+
+- URL-запрос
+
+    ```http
+    https://my.bitrix24.ru/rest/log.blogpost.getusers.important.json?POST_ID=345&auth=xxxxxxx
+    ```
+
+{% endlist %}
 
 ## Ответ:
 

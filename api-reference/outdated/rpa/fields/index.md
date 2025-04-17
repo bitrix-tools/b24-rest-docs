@@ -1,16 +1,8 @@
-# Настройки видимости полей
+# Настройки видимости полей: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% note info "Права" %}
-
-**Scope**: [`rpa`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`rpa`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Набор методов для работы с настройками видимости полей
 
@@ -18,17 +10,17 @@
 
 Системные поля имеют следующие коды:
 
-- `id` - id элемента
-- `createdBy` - кто создал
-- `updatedBy` - кто изменил
-- `movedBy` - кто сменил стадию
-- `createdTime` - время создания
-- `updatedTime` - время изменения
-- `movedTime` - время смены стадии
+- `id` — идентификатор элемента
+- `createdBy` — кто создал
+- `updatedBy` — кто изменил
+- `movedBy` — кто сменил стадию
+- `createdTime` — время создания
+- `updatedTime` — время изменения
+- `movedTime` — время смены стадии
 
 #|
 || **Метод** | **Описание** ||
-|| [rpa.fields.getSettings](./rpa-fields-get-settings.md) | Метод вернет полный набор настроек видимости полей на стадии с идентификатором stageId процесса с идентификатором typeId. ||
-|| [rpa.fields.setSettings](./rpa-fields-set-settings.md) | Метод устанавливает полный набор настроек видимости полей на стадии с идентификатором stageId процесса с идентификатором typeId. ||
-|| [rpa.fields.setVisibilitySettings](./rpa-fields-set-visibility-settings.md) | Метод изменяет настройки видимости visibility полей fields для процесса с идентификатором typeId на стадии с идентификатором stageId. ||
+|| [rpa.fields.getSettings](./rpa-fields-get-settings.md) | Получает полный набор настроек видимости полей на стадии с идентификатором `stageId` процесса с идентификатором `typeId` ||
+|| [rpa.fields.setSettings](./rpa-fields-set-settings.md) | Устанавливает полный набор настроек видимости полей на стадии с идентификатором `stageId` процесса с идентификатором `typeId` ||
+|| [rpa.fields.setVisibilitySettings](./rpa-fields-set-visibility-settings.md) | Меняет настройки видимости `visibility` полей `fields` для процесса с идентификатором `typeId` на стадии с идентификатором `stageId` ||
 |#

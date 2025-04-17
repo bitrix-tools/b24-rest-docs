@@ -1,4 +1,4 @@
-# Сущности, к которым можно привязать заказ
+# Получить id объектов, к которым можно привязать заказ crm.enum.getorderownertypes
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.enum.getorderownertypes" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -57,18 +55,25 @@ crm.enum.getorderownertypes()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    "crm.enum.getorderownertypes",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);    
-```
+{% list tabs %}
+
+- JS
+  
+    ```javascript
+    BX24.callMethod(
+        "crm.enum.getorderownertypes",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );    
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

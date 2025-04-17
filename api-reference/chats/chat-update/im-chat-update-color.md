@@ -1,4 +1,4 @@
-# Изменить цвет чата
+# Изменить цвет чата im.chat.updateColor
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.chat.updateColor" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.chat.updateColor` обновляет цвет чата.
 
@@ -40,18 +38,24 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.chat.updateColor',
-    Array(
-        'CHAT_ID' => 13,
-        'COLOR' => 'MINT'
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.chat.updateColor',
+        Array(
+            'CHAT_ID' => 13,
+            'COLOR' => 'MINT'
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

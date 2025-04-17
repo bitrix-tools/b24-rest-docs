@@ -1,4 +1,4 @@
-# Виджет панели над полем ввода сообщения
+# Виджет панели над полем ввода сообщения IM_TEXTAREA
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,7 +18,7 @@
 
 {% endif %}
 
-Код встраивания: `IM_TEXTAREA`
+> Scope: [`im`](../../scopes/permissions.md)
 
 Данный формат был и раньше – это генерация контента в момент написания сообщения.
 
@@ -64,28 +64,34 @@ const context = BX24.placement.info().options;
 
 ## Примеры
 
-```php
-CRest::call(
-    'placement.bind',
-    [
-        'PLACEMENT' => 'IM_TEXTAREA',
-        'HANDLER' => 'https://example.com/apps/immarket/handlers/textarea.php',
-        'LANG_ALL' => [
-            'ru' => [
-                'TITLE' => 'Приложение для панели над полем ввода',
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'IM_TEXTAREA',
+            'HANDLER' => 'https://example.com/apps/immarket/handlers/textarea.php',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Приложение для панели над полем ввода',
+                ],
             ],
-        ],
-        'OPTIONS' => [
-            'iconName' => 'fa-bars',
-            'context' => 'USER;CHAT',
-            'role' => 'USER',
-            'color' => 'GRAPHITE',
-            'width' => '200',
-            'height' => '100',
-            'extranet' => 'N',
+            'OPTIONS' => [
+                'iconName' => 'fa-bars',
+                'context' => 'USER;CHAT',
+                'role' => 'USER',
+                'color' => 'GRAPHITE',
+                'width' => '200',
+                'height' => '100',
+                'extranet' => 'N',
+            ]
         ]
-    ]
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

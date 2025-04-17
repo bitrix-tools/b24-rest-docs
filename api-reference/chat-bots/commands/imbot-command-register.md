@@ -1,4 +1,4 @@
-# Добавить команду
+# Добавить команду imbot.command.register
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -23,11 +23,9 @@
 
 {% endif %}
 
-{% note info "imbot.command.register" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.command.register` регистрирует команду для обработки чат-ботом.
 
@@ -36,7 +34,9 @@
 || **BOT_ID**
 [`unknown`](../../data-types.md) | `62` | Идентификатор чат-бота владельца команды | ||
 || **COMMAND**
-[`unknown`](../../data-types.md) | `'echo'` | Текст команды, которую пользователь будет вводить в чатах | ||
+[`unknown`](../../data-types.md) | `'echo'` | Текст команды, которую пользователь будет вводить в чатах.
+
+Можно использовать только латинские буквы и цифры. Не принимает пробелы и спецсимволы | ||
 || **COMMON**
 [`unknown`](../../data-types.md) | `'Y'` | Если указан Y, то команда доступна во всех чатах, если N - то доступна только в тех, где присутствует чат-бот | ||
 || **HIDDEN**
@@ -65,7 +65,7 @@ Array(
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/on-im-command-add.md).
 
 {% endnote %}
 
@@ -88,30 +88,36 @@ Array(
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.command.register',
-    Array(
-        'BOT_ID' => 62,
-        'COMMAND' => 'echo',
-        'COMMON' => 'Y',
-        'HIDDEN' => 'N',
-        'EXTRANET_SUPPORT' => 'N',
-        'CLIENT_ID' => '',
-        'LANG' => Array(
-            Array(
-                'LANGUAGE_ID' => 'en',
-                'TITLE' => 'Get echo message',
-                'PARAMS' => 'some text'
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.command.register',
+        Array(
+            'BOT_ID' => 62,
+            'COMMAND' => 'echo',
+            'COMMON' => 'Y',
+            'HIDDEN' => 'N',
+            'EXTRANET_SUPPORT' => 'N',
+            'CLIENT_ID' => '',
+            'LANG' => Array(
+                Array(
+                    'LANGUAGE_ID' => 'en',
+                    'TITLE' => 'Get echo message',
+                    'PARAMS' => 'some text'
+                ),
             ),
+            'EVENT_COMMAND_ADD' => 'http://www.hazz/chatApi/bot.php',
         ),
-        'EVENT_COMMAND_ADD' => 'http://www.hazz/chatApi/bot.php',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -137,5 +143,5 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом команды ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd)
+- [Событие на получение чат-ботом команды ONIMCOMMANDADD](./events/on-im-command-add.md)
 

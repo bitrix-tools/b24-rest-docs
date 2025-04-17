@@ -1,4 +1,4 @@
-# Добавить сообщение
+# Добавить сообщение im.message.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.message.add" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.message.add` отправляет сообщения в чат.
 
@@ -43,7 +41,7 @@
 || **URL_PREVIEW**
 [`unknown`](../../data-types.md) | `Y` | Преобразовывать ссылки в rich-ссылки, необязательное поле, по умолчанию 'Y' | 18 ||
 || **KEYBOARD**
-[`unknown`](../../data-types.md)d | | Клавиатура | 18 ||
+[`unknown`](../../data-types.md) | | Клавиатура | 18 ||
 || **MENU**
 [`unknown`](../../data-types.md) | | Контекстное меню | 18 ||
 |#
@@ -54,23 +52,29 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.message.add',
-    Array(
-        'DIALOG_ID' => 'chat13',
-        'MESSAGE' => 'Текст сообщения',
-        'SYSTEM' => 'N',
-        'ATTACH' => '',
-        'URL_PREVIEW' => 'Y',
-        'KEYBOARD' => '',
-        'MENU' => '',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.message.add',
+        Array(
+            'DIALOG_ID' => 'chat13',
+            'MESSAGE' => 'Текст сообщения',
+            'SYSTEM' => 'N',
+            'ATTACH' => '',
+            'URL_PREVIEW' => 'Y',
+            'KEYBOARD' => '',
+            'MENU' => '',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

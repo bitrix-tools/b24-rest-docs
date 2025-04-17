@@ -1,4 +1,4 @@
-# Изменить аватар чата
+# Изменить аватар чата imbot.chat.updateAvatar
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.updateAvatar" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.updateAvatar` обновляет аватар чата.
 
@@ -44,19 +42,25 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.chat.updateAvatar',
-    Array(
-        'CHAT_ID' => 13,
-        'AVATAR' => '/* base64 image */',
-        'BOT_ID' => 39,
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.chat.updateAvatar',
+        Array(
+            'CHAT_ID' => 13,
+            'AVATAR' => '/* base64 image */',
+            'BOT_ID' => 39,
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -1,4 +1,4 @@
-# Указание параметров индивидуальной карточки
+# Установить параметры индивидуальной карточки crm.deal.details.configuration.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.details.configuration.set" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.details.configuration.set` позволяет установить настройки карточки сделок. Метод записывает личные настройки карточки указанного пользователя или общие настройки для всех пользователей.
 
@@ -52,65 +50,71 @@
 
 ## Примеры
 
-```js
-//---
-//Установка личных настроек карточки сделок общего направления для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.deal.details.configuration.set",
-    {
-        scope: "P",
-        userId: 1,
-        data:
-        [
-            {
-                name: "main",
-                title: "О сделке",
-                type: "section",
-                elements:
-                [
-                    { name: "TITLE" },
-                    { name: "OPPORTUNITY_WITH_CURRENCY" },
-                    { name: "STAGE_ID" },
-                    { name: "BEGINDATE" },
-                    { name: "CLOSEDATE" },
-                    { name: "CLIENT" }
-                ]
-            },
-            {
-                name: "additional",
-                title: "Дополнительно",
-                type: "section",
-                elements:
-                [
-                    { name: "TYPE_ID" },
-                    { name: "SOURCE_ID" },
-                    { name: "SOURCE_DESCRIPTION" },
-                    { name: "OPENED" },
-                    { name: "ASSIGNED_BY_ID" },
-                    { name: "OBSERVER" },
-                    { name: "COMMENTS" }
-                ]
-            },
-            {
-                name: "products",
-                title: "Товары",
-                type: "section",
-                elements:
-                [
-                    { name: "PRODUCT_ROW_SUMMARY" }
-                ]
-            }
-        ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //---
+    //Установка личных настроек карточки сделок общего направления для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.deal.details.configuration.set",
+        {
+            scope: "P",
+            userId: 1,
+            data:
+            [
+                {
+                    name: "main",
+                    title: "О сделке",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "TITLE" },
+                        { name: "OPPORTUNITY_WITH_CURRENCY" },
+                        { name: "STAGE_ID" },
+                        { name: "BEGINDATE" },
+                        { name: "CLOSEDATE" },
+                        { name: "CLIENT" }
+                    ]
+                },
+                {
+                    name: "additional",
+                    title: "Дополнительно",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "TYPE_ID" },
+                        { name: "SOURCE_ID" },
+                        { name: "SOURCE_DESCRIPTION" },
+                        { name: "OPENED" },
+                        { name: "ASSIGNED_BY_ID" },
+                        { name: "OBSERVER" },
+                        { name: "COMMENTS" }
+                    ]
+                },
+                {
+                    name: "products",
+                    title: "Товары",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "PRODUCT_ROW_SUMMARY" }
+                    ]
+                }
+            ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -1,7 +1,5 @@
-# Удалить единицу измерения
+# Удалить единицу измерения catalog.measure.delete
 
-> Название метода: **catalog.measure.delete**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,4 +1,4 @@
-# Получение списка шаблонов для создания сайтов
+# Получить список шаблонов для создания сайтов landing.demos.getSiteList
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.demos.getSiteList" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.demos.getSiteList` получает список доступных шаблонов для создания сайтов. Как партнёрских, так и системных.
 
@@ -38,19 +36,26 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    '',
-    {
-        type: 'page'
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.demos.getSiteList',
+        {
+            type: 'page'
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

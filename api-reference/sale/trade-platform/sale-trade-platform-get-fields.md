@@ -1,12 +1,10 @@
-# Получить поля торговых платформ
+# Получить доступные поля источников заказов sale.tradePlatform.getFields
 
-> Название метода: **sale.tradePlatform.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с правом «Просмотр каталога товаров»
 
-Метод возвращает поля торговых платформ.
+Метод `sale.tradePlatform.getFields` возвращает доступные поля источников заказов.
 
 Без параметров.
 
@@ -71,8 +69,6 @@
 
 ## Обработка ответа
 
-Метод возвращает объект, содержащий ключ `tradePlatform` — список полей торговых платформ.
-
 HTTP-статус: **200**
 
 ```json
@@ -115,7 +111,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **tradePlatform**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [sale_order_trade_platform](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [sale_order_trade_platform](../data-types.md#sale_order_trade_platform), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#

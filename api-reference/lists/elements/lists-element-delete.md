@@ -1,4 +1,4 @@
-# Удаление элемента универсального списка
+# Удалить элемент универсального списка lists.element.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "lists.element.delete" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.element.delete` удаляет элемент списка. В случае успешного удаления элемента ответ `true`, иначе *Exception*.
 
@@ -48,23 +46,29 @@
 
 ## Пример
 
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists_socnet',
-    'IBLOCK_CODE': 'rest_1',
-    'ELEMENT_CODE': 'element_1'
-};
-BX24.callMethod(
-    'lists.element.delete',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists_socnet',
+        'IBLOCK_CODE': 'rest_1',
+        'ELEMENT_CODE': 'element_1'
+    };
+    BX24.callMethod(
+        'lists.element.delete',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

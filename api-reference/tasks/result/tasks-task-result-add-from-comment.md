@@ -1,4 +1,4 @@
-# Добавление комментария в результат
+# Добавить комментарий в результат tasks.task.result.addFromComment
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.result.addFromComment" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.result.addFromComment` создаёт результат задачи из комментария.
 
@@ -35,12 +33,26 @@
 
 ## Пример
 
-```js
-BX.ajax.runAction("tasks.task.result.addFromComment", {
-    data: {
-        commentId: 100500
-    }
-}).then(function (response) { console.log(response);});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.result.addFromComment',
+        {
+            "commentId" : 2549
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

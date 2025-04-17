@@ -1,4 +1,4 @@
-# Удаление поля из списка списка 
+# Удалить поле из списка lists.field.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.field.delete" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.field.delete` позволяет удалить поле из списка. В случае успешного удаления поля возвращается ответ `true`, в противном случае будет сгенерировано исключение *Exception*.
 
@@ -49,23 +47,29 @@
 
 ## Пример
 
-```javascript
-var params = {
-    'IBLOCK_TYPE_ID': 'lists_socnet',
-    'IBLOCK_CODE': 'rest_1',
-    'FIELD_ID': 'PROPERTY_61'
-};
-BX24.callMethod(
-    'lists.field.delete',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists_socnet',
+        'IBLOCK_CODE': 'rest_1',
+        'FIELD_ID': 'PROPERTY_61'
+    };
+    BX24.callMethod(
+        'lists.field.delete',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

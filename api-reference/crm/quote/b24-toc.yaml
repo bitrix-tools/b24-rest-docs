@@ -1,34 +1,28 @@
 title: Коммерческие предложения
 href: index.md
 items:
-  - name: Список методов
+  - name: Обзор методов
     href: index.md
-  - name: Добавление коммерческого предложения
+  - name: Добавить коммерческое предложение
     href: crm-quote-add.md
-  - name: Удаление коммерческого предложения
+  - name: Удалить коммерческое предложение
     href: crm-quote-delete.md
-  - name: Получение полей коммерческого предложения 
+  - name: Получить поля коммерческого предложения
     href: crm-quote-fields.md
-  - name: Получение коммерческого предложения по идентификатору
+  - name: Получить коммерческое предложение по идентификатору
     href: crm-quote-get.md
-  - name: Список предложений по фильтру
+  - name: Получить список предложений по фильтру
     href: crm-quote-list.md
-  - name: Изменение коммерческого предложения
+  - name: Изменить коммерческое предложение
     href: crm-quote-update.md
-  - name: Получение товарных позиций предложения
+  - name: Получить товарные позиции предложения
     href: crm-quote-product-rows-get.md
-  - name: Создание/изменение товарных позиций предложения 
+  - name: Создать/изменить товарные позиции предложения
     href: crm-quote-product-rows-set.md
-  - name: Создание пользовательского поля для предложений
-    href: crm-quote-user-field-add.md
-  - name: Удаление пользовательского поля предложений
-    href: crm-quote-user-field-delete.md
-  - name: Получение пользовательских полей предложений по идентификатору
-    href: crm-quote-user-field-get.md
-  - name: Список пользовательских полей предложений по фильтру
-    href: crm-quote-user-field-list.md
-  - name: Изменение пользовательского поля предложений
-    href: crm-quote-user-field-update.md
+  - name: Пользовательские поля 
+    include:
+      path: user-field/b24-toc.yaml
+      mode: link
   - name: События 
     include:
       path: events/b24-toc.yaml

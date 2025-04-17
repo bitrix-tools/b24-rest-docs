@@ -1,4 +1,4 @@
-# Получение списка документов по фильтру
+# Получить список документов по фильтру catalog.document.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.document.list" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ```http
 catalog.document.list(order, filter, select, offset, limit, start)
@@ -60,7 +58,7 @@ catalog.document.list(order, filter, select, offset, limit, start)
 
 - js
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.list',
         {
@@ -86,7 +84,7 @@ catalog.document.list(order, filter, select, offset, limit, start)
 
 - php
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.list',
         [
@@ -107,7 +105,7 @@ catalog.document.list(order, filter, select, offset, limit, start)
 
 - Для HTTPS:
 
-    ```
+    ```http
     https://ваш_портал/rest/catalog.document.list?auth=_ключ_авторизации_&start=50
     ```
 

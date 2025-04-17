@@ -79,7 +79,17 @@ blockquote:first-of-type {
     padding-bottom: 10px;
 }
 
-.bx-search-input.loading {
-    background: url('../../_images/loader.gif') no-repeat right center;
-    background-size: 20px 20px; /* Размер loader */
+.g-root_theme_dark .search-results-container {
+    background-color: rgb(45, 44, 51) !important;
+}
+.g-root_theme_dark .search-results-container div a {
+    color: white !important;
+}
+.g-root_theme_dark .search-results-container div div a,
+.g-root_theme_dark .search-results-container div div span {
+    color: gray !important;
+}
+
+.pc-page-constructor .dc-doc-layout__toc {
+    font-feature-settings: unset !important;
 }

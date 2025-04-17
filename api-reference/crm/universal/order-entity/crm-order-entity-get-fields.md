@@ -1,7 +1,5 @@
-# Получить поля привязки заказа
+# Получить поля привязки заказа crm.orderentity.getFields
 
-> Название метода: **crm.orderentity.getFields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: менеджер интернет-магазина

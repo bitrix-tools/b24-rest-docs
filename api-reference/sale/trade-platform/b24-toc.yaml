@@ -1,9 +1,9 @@
-title: Торговые платформы
+title: Источники заказов
 href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Получить список торговых платформ
+  - name: Получить список источников заказов
     href: sale-trade-platform-list.md
-  - name: Получить поля торговых платформ
+  - name: Получить доступные поля источников заказов
     href: sale-trade-platform-get-fields.md

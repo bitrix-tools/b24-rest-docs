@@ -1,4 +1,4 @@
-# Сброс параметров карточки
+# Сбросить параметры карточки crm.company.details.configuration.reset
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.company.details.configuration.reset" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.details.configuration.reset` сбрасывает настройки карточки компаний. Метод удаляет личные настройки карточки указанного пользователя или общие настройки, заданные для всех пользователей.
 
@@ -43,24 +41,30 @@
 
 ## Примеры
 
-```js
-//---
-//Сброс личных настроек карточки компаний для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.company.details.configuration.reset",
-    {
-        scope: "P",
-        userId: 1
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //---
+    //Сброс личных настроек карточки компаний для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.company.details.configuration.reset",
+        {
+            scope: "P",
+            userId: 1
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

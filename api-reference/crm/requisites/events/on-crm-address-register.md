@@ -1,7 +1,5 @@
-# Событие при регистрации адреса
+# Событие при регистрации адреса onCrmAddressRegister
 
-> Название события:: **onCrmAddressRegister**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: `любой пользователь`

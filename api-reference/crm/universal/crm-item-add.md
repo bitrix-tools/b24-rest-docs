@@ -1,7 +1,5 @@
-# Создать новый элемент CRM
+# Создать новый элемент CRM crm.item.add
 
-> Название метода: **crm.item.add**
-> 
 > Scope: [`crm`](../../scopes/permissions.md)
 > 
 > Кто может выполнять метод: любой пользователь с правом «добавления» элемента объекта CRM
@@ -15,6 +13,7 @@
 Этот метод предоставляет гибкую возможность автоматизировать процесс создания объектов и интегрировать CRM с другими системами.
 
 При создании элемента производится стандартный ряд проверок, модификаций и автоматических действий:
+
 - проверяются права доступа
 - проверяется заполненность обязательных полей
 - проверяется заполненность зависимых от стадий обязательных полей
@@ -55,6 +54,14 @@
 
 Некорректное поле в `fields` будет проигнорировано
 ||
+|| **useOriginalUfNames**
+[`boolean`][1] | Параметр для управления форматом имен пользовательских полей в запросе и ответе.   
+Возможные значения:
+
+- `Y` — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830
+- `N` — имена пользовательских полей в camelCase, например ufCrm_2_1639669411830
+
+По умолчанию — `N` ||
 |#
 
 ### Параметр fields
@@ -232,7 +239,37 @@
   || **parentId...**
   [`crm_entity`][1] | Поле-родитель. Элемент другого типа объекта CRM, который привязан к данному элементу.
 
-  Каждое такое поле имеет код `parentId + {parentEntityTypeId}` ||
+  Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
+  ||
+  || **fm**
+  [`multifield[]`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `typeId` — Тип мультиполя
+    - `valueType` — Тип значения
+    - `value` — Значение
+
+  Пример:
+
+    ```bash
+    fm: [
+      {
+        "valueType": "WORK",
+        "value": "+79999999",
+        "typeId": "PHONE"
+      },
+      {
+        "valueType": "WORK",
+        "value": "bitrix@bitrix.ru",
+        "typeId": "EMAIL"
+      }
+    ]
+    ```
+  По умолчанию — `null`
+  ||
   |#
 
 
@@ -560,6 +597,34 @@
 
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
+  || **fm**
+  [`multifield[]`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `typeId` — Тип мультиполя
+    - `valueType` — Тип значения
+    - `value` — Значение
+
+  Пример:
+
+    ```bash
+    fm: [
+      {
+        "valueType": "WORK",
+        "value": "+79999999",
+        "typeId": "PHONE"
+      },
+      {
+        "valueType": "WORK",
+        "value": "bitrix@bitrix.ru",
+        "typeId": "EMAIL"
+      }
+    ]
+    ```
+  По умолчанию — `null`||
   |#
 
 
@@ -698,6 +763,35 @@
 
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
+  || **fm**
+  [`multifield[]`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `typeId` — Тип мультиполя
+    - `valueType` — Тип значения
+    - `value` — Значение
+
+  Пример:
+
+    ```bash
+    fm: [
+      {
+        "valueType": "WORK",
+        "value": "+79999999",
+        "typeId": "PHONE"
+      },
+      {
+        "valueType": "WORK",
+        "value": "bitrix@bitrix.ru",
+        "typeId": "EMAIL"
+      }
+    ]
+
+    ```
+  По умолчанию — `null`||
   |#
 
 
@@ -1326,6 +1420,36 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+   - PHP (B24PhpSdk)
+
+        ```php
+       try {
+           $entityTypeId = 1; // Example entity type ID
+           $fields = [
+               'title' => 'New Item',
+               'createdTime' => (new DateTime())->format(DateTime::ATOM),
+               'updatedTime' => (new DateTime())->format(DateTime::ATOM),
+               'begindate' => (new DateTime())->format(DateTime::ATOM),
+               'closedate' => (new DateTime())->format(DateTime::ATOM),
+               // Add other necessary fields as required
+           ];
+
+           $result = $serviceBuilder
+               ->getCRMScope()
+               ->item()
+               ->add($entityTypeId, $fields);
+
+           print("ID: " . $result->item()->id . PHP_EOL);
+           print("Title: " . $result->item()->title . PHP_EOL);
+           print("Created By: " . $result->item()->createdBy . PHP_EOL);
+           print("Updated By: " . $result->item()->updatedBy . PHP_EOL);
+           print("Created Time: " . $result->item()->createdTime->format(DateTime::ATOM) . PHP_EOL);
+           print("Updated Time: " . $result->item()->updatedTime->format(DateTime::ATOM) . PHP_EOL);
+       } catch (Throwable $e) {
+           print("Error: " . $e->getMessage() . PHP_EOL);
+       }
         ```
 
     {% endlist %}
@@ -1971,7 +2095,19 @@ HTTP-статус: **200**
   || **parentId...**
   [`crm_entity`][1] | Поле-родитель. Элемент другого типа объекта CRM, который привязан к данному элементу.
 
-  Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
+  Каждое такое поле имеет код `parentId + {parentEntityTypeId}`||
+  || **fm**
+  [`multifield`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `id` — Уникальный идентификатор
+    - `typeId` — Тип мультиполя
+    - `valueType` — Тип значения
+    - `value` — Значение
+
   ||
   |#
 
@@ -2294,7 +2430,19 @@ HTTP-статус: **200**
   || **parentId...**
   [`crm_entity`][1] | Поле-родитель. Элемент другого типа объекта CRM, который привязан к данному элементу.
 
-  Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
+  Каждое такое поле имеет код `parentId + {parentEntityTypeId}` ||
+  || **fm**
+  [`multifield`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `id` — Уникальный идентификатор
+    - `typeId` — Тип мультиполя
+    - `valueType` — Тип значения
+    - `value` — Значение
+
   ||
   |#
 
@@ -2428,7 +2576,19 @@ HTTP-статус: **200**
   || **parentId...**
   [`crm_entity`][1] | Поле-родитель (Элемент другого типа объекта CRM, который привязан к данному элементу).
 
-  Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
+  Каждое такое поле имеет код `parentId + {parentEntityTypeId}` ||
+  || **fm**
+  [`multifield`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `id` — Уникальный идентификатор
+    - `typeId` — Тип мультиполя
+    - `valueType` — Тип значения
+    - `value` — Значение
+
   ||
   |#
 
@@ -2894,6 +3054,13 @@ HTTP-статус: **200**
   |#
 
 {% endlist %}
+
+{% note info " " %}
+
+По умолчанию имена пользовательских полей передаются и возвращаются в camelCase, например ufCrm2_1639669411830.
+При передаче параметра `useOriginalUfNames` со значением `Y` пользовательские поля будут возвращаться с оригинальными именами, например UF_CRM_2_1639669411830.
+
+{% endnote %}
 
 ## Обработка ошибок
 

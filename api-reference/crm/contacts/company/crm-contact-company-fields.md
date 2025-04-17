@@ -1,48 +1,154 @@
-# Поля для связи контакт-компания
+# Получить поля для связи контакт-компания crm.contact.company.fields
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры (на других языках)
-- отсутствуют возвращаемые данные
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "crm.contact.company.fields" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `crm.contact.company.fields` возвращает для связи контакт-компания описание полей, используемых методами семейства `crm.contact.company.*`, то есть [crm.contact.company.items.get](./crm-contact-company-items-get.md), [crm.contact.company.items.set](./crm-contact-company-items-set.md), [crm.contact.company.add](./crm-contact-company-add.md) и т.д.
+Метод `crm.contact.company.fields` возвращает описание полей для связи контакт-компания.
 
 Без параметров.
 
-## Пример
-
-```js
-BX24.callMethod(
-    "crm.contact.company.fields",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+Получить список полей для связи контакт-компания
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.company.fields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.contact.company.fields
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'crm.contact.company.fields',
+        {},
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.contact.company.fields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "SORT": {
+            "type": "integer",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Сортировка"
+        },
+        "IS_PRIMARY": {
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Первичный"
+        },
+        "COMPANY_ID": {
+            "type": "integer",
+            "isRequired": true,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Компания"
+        }
+    },
+    "time": {
+        "start": 1724065480.986461,
+        "finish": 1724065481.321185,
+        "duration": 0.33472418785095215,
+        "processing": 0.01616501808166504,
+        "date_start": "2024-08-19T13:04:40+02:00",
+        "date_finish": "2024-08-19T13:04:41+02:00"
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`][1] | Объект в формате:
+```
+{
+    field_1: value_1,
+    field_2: value_2,
+    ...
+    field_n: value_n,
+}
+```
+
+где:
+- `field_n` — поле элемента
+- `value_n` — информация о поле в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
+|| **time**
+[`time`][1] | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+Метод не возвращает ошибок.
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./crm-contact-company-add.md)
+- [{#T}](./crm-contact-company-delete.md)
+- [{#T}](./crm-contact-company-items-get.md)
+- [{#T}](./crm-contact-company-items-set.md)
+- [{#T}](./crm-contact-company-items-delete.md)
+
+[1]: ../../../data-types.md

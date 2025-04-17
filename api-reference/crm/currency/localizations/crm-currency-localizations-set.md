@@ -1,7 +1,5 @@
-# Установить локализации для валюты
+# Установить локализации для валюты crm.currency.localizations.set
 
-> Название метода: **crm.currency.localizations.set**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с доступом к изменению настроек CRM

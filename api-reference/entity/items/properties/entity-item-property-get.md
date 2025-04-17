@@ -1,4 +1,4 @@
-# Получение списка дополнительных свойств элементов хранилища
+# Получить список дополнительных свойств элементов хранилища entity.item.property.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "entity.item.property.get" %}
-
-**Scope**: [`entity`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.item.property.get` получает список дополнительных свойств элементов хранилища.
 
@@ -37,27 +35,31 @@
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
-## Пример
+## Примеры
 
-Вызов
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    'entity.item.property.get',
-    {
-        ENTITY: 'menu_new'
-    },
-    function(r){
-        console.log(r.data());
-    }
-);
-```
+- JS
 
-Запрос
+    ```js
+    BX24.callMethod(
+        'entity.item.property.get',
+        {
+            ENTITY: 'menu_new'
+        },
+        function(r){
+            console.log(r.data());
+        }
+    );
+    ```
 
-```http
-https://my.bitrix24.ru/rest/entity.item.property.get.json?ENTITY=menu_new&auth=340bf57f35ee95e0debf98399632999c
-```
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.property.get.json?ENTITY=menu_new&auth=340bf57f35ee95e0debf98399632999c
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

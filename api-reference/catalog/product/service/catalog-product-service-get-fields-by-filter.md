@@ -1,7 +1,5 @@
-# Получить поля услуги по фильтру
+# Получить поля услуги по фильтру catalog.product.service.getFieldsByFilter
 
-> Название метода: **catalog.product.service.getFieldsByFilter**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

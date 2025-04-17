@@ -1,7 +1,5 @@
-# Удалить привязку свойства
+# Удалить привязку свойства sale.propertyRelation.deleteByFilter
 
-> Название метода: **sale.propertyRelation.deleteByFilter**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

@@ -1,4 +1,4 @@
-# Изменение владельца группы
+# Изменить владельца группы sonet_group.setowner
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,13 +19,9 @@
 
 {% endif %}
 
-{% note info "sonet_group.setowner" %}
-
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод изменяет владельца группы. Может быть запущен либо администратором социальной сети, либо текущим владельцем группы.
 
@@ -43,10 +39,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod('sonet_group.setowner', {
-    'GROUP_ID': 11,
-    'USER_ID': 2
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('sonet_group.setowner', {
+        'GROUP_ID': 11,
+        'USER_ID': 2
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

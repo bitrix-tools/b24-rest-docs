@@ -1,4 +1,4 @@
-# Получение списка результатов задачи
+# Получить список результатов задачи tasks.task.result.list
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.result.list" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.result.list` позволяет просмотреть список результатов к задаче.
 
@@ -35,12 +33,26 @@
 
 ## Пример
 
-```js
-BX.ajax.runAction("tasks.task.result.list", {
-    data: {
-        taskId: 100500
-    }
-}).then(function (response) { console.log(response);});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.result.list',
+        {
+            "taskId" : 7811
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

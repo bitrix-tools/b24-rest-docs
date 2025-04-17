@@ -1,4 +1,4 @@
-# Удаление раздела универсального списка
+# Удалить раздел универсального списка lists.section.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.section.delete" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.section.delete` удаляет раздел списка. В случае успешного создания раздела ответ `true`, иначе *Exception*.
 
@@ -49,24 +47,30 @@
 
 ## Пример
 
-```js
-/* lists.section.delete */
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_CODE': 'rest_1',
-    'SECTION_CODE': 'Section_code_1'
-};
-BX24.callMethod(
-    'lists.section.delete',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    /* lists.section.delete */
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_CODE': 'rest_1',
+        'SECTION_CODE': 'Section_code_1'
+    };
+    BX24.callMethod(
+        'lists.section.delete',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

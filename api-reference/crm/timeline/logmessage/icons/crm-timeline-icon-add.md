@@ -1,7 +1,5 @@
-# Добавить иконку
+# Добавить иконку crm.timeline.icon.add
 
-> Название метода: **crm.timeline.icon.add**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `администратор`

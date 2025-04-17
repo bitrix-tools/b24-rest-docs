@@ -1,0 +1,18 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При инициализации звонка
+    href: on-voximplant-call-init.md
+  - name: При начале разговора
+    href: on-voximplant-call-start.md
+  - name: При окончании разговора
+    href: on-voximplant-call-end.md
+
+
+
+
+
+
+

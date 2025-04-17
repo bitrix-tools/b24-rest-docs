@@ -1,7 +1,5 @@
-# Добавить лог-запись
+# Добавить лог-запись crm.timeline.logmessage.add
 
-> Название метода: **crm.timeline.logmessage.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `администратор`
@@ -44,9 +42,9 @@ fields:
 [`integer`](../../../data-types.md) | Идентификатор элемента сущности, в которой будет создана запись ||
 || **title***
 [`string`](../../../data-types.md) | Заголовок записи ||
-|| **text**
+|| **text***
 [`string`](../../../data-types.md) | Текст записи ||
-|| **iconCode**
+|| **iconCode***
 [`string`](../../../data-types.md) | Код иконки.
 
 Список доступных кодов можно получить методом [crm.timeline.icon.list](./icons/crm-timeline-icon-list.md) ||

@@ -1,0 +1,21 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Работа со списками
+    include:
+      path: lists/b24-toc.yaml
+      mode: link
+  - name: Работа с элементами
+    include:
+      path: elements/b24-toc.yaml
+      mode: link
+  - name: Работа с полями
+    include:
+      path: fields/b24-toc.yaml
+      mode: link
+  - name: Работа с разделами
+    include:
+      path: sections/b24-toc.yaml
+      mode: link

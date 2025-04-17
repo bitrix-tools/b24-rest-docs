@@ -1,7 +1,5 @@
-# Добавить логотип
+# Добавить логотип crm.timeline.logo.add
 
-> Название метода: **crm.timeline.logo.add**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `администратор`

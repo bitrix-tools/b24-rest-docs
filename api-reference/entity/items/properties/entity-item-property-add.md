@@ -1,4 +1,4 @@
-# Добавление дополнительного свойства элементов хранилища
+# Добавить дополнительное свойство элементов хранилища entity.item.property.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "entity.item.property.add" %}
-
-**Scope**: [`entity`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.item.property.add` добавляет дополнительное свойство элементов хранилища. Пользователь должен обладать правами на управление (**Х**) хранилищем.
 
@@ -42,27 +40,31 @@
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
-## Пример
+## Примеры
 
-Вызов
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    'entity.item.property.add',
-    {
-        ENTITY: 'menu_new',
-        PROPERTY: 'new_prop',
-        NAME: 'Новое свойство',
-        TYPE: 'S'
-    }
-);
-```
+- JS
 
-Запрос
+    ```js
+    BX24.callMethod(
+        'entity.item.property.add',
+        {
+            ENTITY: 'menu_new',
+            PROPERTY: 'new_prop',
+            NAME: 'Новое свойство',
+            TYPE: 'S'
+        }
+    );
+    ```
 
-```http
-https://my.bitrix24.ru/rest/entity.item.property.add.json?ENTITY=menu_new&NAME=%D0%9D%D0%BE%D0%B2%D0%BE%D0%B5%20%D1%81%D0%B2%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE&PROPERTY=new_prop&TYPE=S&auth=e690b44d2b3827d2eb9d4dbe59406dbb
-```
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.property.add.json?ENTITY=menu_new&NAME=%D0%9D%D0%BE%D0%B2%D0%BE%D0%B5%20%D1%81%D0%B2%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE&PROPERTY=new_prop&TYPE=S&auth=e690b44d2b3827d2eb9d4dbe59406dbb
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

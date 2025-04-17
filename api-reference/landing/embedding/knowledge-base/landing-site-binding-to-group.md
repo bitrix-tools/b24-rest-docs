@@ -1,4 +1,4 @@
-# Привязка к группе Социальной сети
+# Привязать к группе Социальной сети landing.site.bindingToGroup
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.bindingToGroup" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.bindingToGroup` привязывает конкретную Базу знаний к группе. Пользователь должен состоять в указанной группе, и у группы не должно быть привязанной Базы знаний.
 
@@ -40,25 +38,33 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.bindingToGroup',
-    {
-        id: 32,
-        groupId: 174
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.bindingToGroup',
         {
-            console.error(result.error());
-        }
-        else
+            id: 32,
+            groupId: 174
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

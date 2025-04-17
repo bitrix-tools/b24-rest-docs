@@ -1,4 +1,4 @@
-# Получение списка шаблонов для создания страниц
+# Получить список шаблонов для создания страниц landing.demos.getPageList
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.demos.getPageList" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.demos.getPageList` получает список доступных шаблонов для создания страниц. Как партнёрских, так и системных.
 
@@ -38,20 +36,26 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.demos.getPageList',
-    {
-        type: 'page'
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.demos.getPageList',
+        {
+            type: 'page'
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

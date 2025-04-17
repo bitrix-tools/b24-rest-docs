@@ -1,0 +1,13 @@
+title: Работа с CRM-поставщиками
+href: index.md
+items: 
+  - name: Работа с CRM-поставщиками
+    href: index.md
+  - name: Добавить привязку поставщика к документу
+    href: catalog-documentcontractor-add.md
+  - name: Удалить привязку к документу
+    href: catalog-documentcontractor-delete.md
+  - name: Получить поля привязки
+    href: catalog-documentcontractor-get-fields.md
+  - name: Получить список привязок к документам
+    href: catalog-documentcontractor-list.md

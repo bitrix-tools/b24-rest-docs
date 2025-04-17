@@ -1,4 +1,4 @@
-# Приглашение пользователей в группу
+# Пригласить пользователей в группу sonet_group.user.invite
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "sonet_group.user.invite" %}
-
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -44,14 +42,22 @@
 
 ## Пример
 
-```js
-// Приглашаем пользователя с ID=3 в группу соцсети с ID=15
-BX24.callMethod('sonet_group.user.invite', {
-    'GROUP_ID': 15,
-    'USER_ID': 3,
-    'MESSAGE': 'Invitation'
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Приглашаем пользователя с ID=3 в группу соцсети с ID=15
+    BX24.callMethod('sonet_group.user.invite', {
+        'GROUP_ID': 15,
+        'USER_ID': 3,
+        'MESSAGE': 'Invitation'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 

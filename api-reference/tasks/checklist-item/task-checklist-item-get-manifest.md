@@ -1,4 +1,4 @@
-# Получение перечня методов и их описания
+# Получить перечень методов и их описаний task.checklistitem.getmanifest
 
 {% if build == 'dev' %}
 
@@ -18,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.getmanifest" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.getmanifest` возвращает список методов вида `task.checklistitem.*` и их описание.
 
@@ -38,16 +36,22 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.checklistitem.getmanifest',
-    [],
-    function(result)
-    {
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.checklistitem.getmanifest',
+        [],
+        function(result)
+        {
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

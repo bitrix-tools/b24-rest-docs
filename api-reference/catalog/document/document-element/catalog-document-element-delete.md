@@ -1,4 +1,4 @@
-# Удаление товара документа складского учёта
+# Удалить товар документа складского учета catalog.document.element.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "catalog.document.element.delete" %}
-
-**Scope**: [`catalog`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ## Описание
 
@@ -48,7 +46,7 @@ catalog.document.element.delete(id)
 
 - js
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.element.delete',
         {
@@ -66,7 +64,7 @@ catalog.document.element.delete(id)
 
 - php
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.element.delete',
         [

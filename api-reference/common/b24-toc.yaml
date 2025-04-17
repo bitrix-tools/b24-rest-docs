@@ -1,0 +1,21 @@
+title: Общие методы и события
+href: index.md
+items: 
+  - name: Общие методы и события
+    href: index.md
+  - name: Системные методы
+    include:
+      path: system/b24-toc.yaml
+      mode: link
+  - name: Информация о пользователе
+    include:
+      path: users/b24-toc.yaml
+      mode: link
+  - name: Настройки приложения
+    include:
+      path: settings/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

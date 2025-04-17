@@ -1,4 +1,4 @@
-# Добавить нумератор
+# Обзорм методов
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -6,99 +6,11 @@
 
 {% endnote %}
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "documentgenerator.numerator.add" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `documentgenerator.numerator.add` добавляет новый нумератор.
 
 #|
-|| **Параметр** | **Описание** ||
-|| **name** | Имя. ||
-|| **template** | Шаблон. ||
-|| **settings** | Настройки генераторов. ||
+|| [documentgenerator.numerator.add](./document-generator-numerator-add.md) | Добавляет нумератор ||
+|| [documentgenerator.numerator.delete](./document-generator-numerator-delete.md) | Удаляет нумератор ||
+|| [documentgenerator.numerator.get](./document-generator-numerator-get.md) | Получает нумератор по идентификатору ||
+|| [documentgenerator.numerator.list](./document-generator-numerator-list.md) | Получает список нумераторов ||
+|| [documentgenerator.numerator.update](./document-generator-numerator-update.md) | Изменяет нумератор ||
 |#
-
-## Пример
-
-```php
-\Bitrix\Main\Loader::includeModule('rest');
-$client = new \Bitrix\Main\Web\HttpClient();
-$webHookUrl = 'http://mycrm.bitrix24.com/rest/1/webhookkey/';
-$prefix = 'documentgenerator';
-
-$data = [
-    'fields' => [
-        'name' => 'Rest Numerator',
-        'template' => '{NUMBER}',
-        'settings' => [
-            'Bitrix_Main_Numerator_Generator_SequentNumberGenerator' => [
-                'start' => '0',
-                'step' => '1',
-            ],
-        ],
-    ],
-];
-
-$url = $webHookUrl.$prefix.'.numerator.add/';
-$answer = $client->post($url, $data);
-try
-{
-    $result = \Bitrix\Main\Web\Json::decode($answer);
-}
-catch(Exception $e)
-{
-    var_dump($answer);
-}
-
-print_r($result);
-```
-
-
-# Ответ в случае успеха
-
-Возвращает результат, идентичный [documentgenerator.numerator.get()](./document-generator-numerator-get.md).
-
-> 200 OK
-
-```php
-[result] => Array
-    (
-        [numerator] => Array
-            (
-                [name] => new rest numerator
-                [template] => {NUMBER}
-                [id] => 68
-                [settings] => Array
-                    (
-                        [Bitrix_Main_Numerator_Generator_SequentNumberGenerator] => Array
-                            (
-                                [start] => 0
-                                [step] => 1
-                                [periodicBy] =>
-                                [timezone] =>
-                                [isDirectNumeration] =>
-                            )
-
-                    )
-
-            )
-    )
-```
-
-Из ответа получаем `id` нумератора и можем дальше его использовать.

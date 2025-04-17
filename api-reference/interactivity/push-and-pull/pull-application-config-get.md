@@ -1,4 +1,4 @@
-# Получение информации о подключении к real-time серверам и организация мгновенных коммуникаций в рамках приложений
+# Организовать мгновенные коммуникации в рамках приложений pull.application.config.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "pull.application.config.get" %}
-
-**Scope**: [`pull`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`pull`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `pull.application.config.get` служит для получения информации о подключении к real-time серверам и организации мгновенных коммуникаций в рамках приложений.
 
@@ -158,12 +156,12 @@
 #|
 || **Код** | **Описание** ||
 || SERVER_ERROR | На портале не настроен модуль **Push & Pull** на работу с сервером очередей. ||
-|| WRONG_AUTH_TYPE | Метод можно использовать только в рамках [OAuth 2.0](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=2486&LESSON_PATH=8771.5380.5379.2486) или через [веб-хуки](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=8581&LESSON_PATH=8771.8583.8581). ||
+|| WRONG_AUTH_TYPE | Метод можно использовать только в рамках [OAuth 2.0](../../oauth/index.md) или через [веб-хуки](../../../local-integrations/local-webhooks.md). ||
 |#
 
 ## Смотрите также
 
-- [Интерактивность в приложениях](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=012565)
+- [Интерактивность в приложениях](../../interactivity/index.md)
 
 [*ключ_возможность]: Доступно начиная с 4-й версии сервера очередей.
 

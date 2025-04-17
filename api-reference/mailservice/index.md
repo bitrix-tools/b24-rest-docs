@@ -1,33 +1,33 @@
-# Методы работы с почтовыми сервисами
+# Почтовые сервисы: обзор методов
 
-{% if build == 'dev' %}
+В Битрикс24 можно подключить почтовые ящики от сервисов Яндекс, Mail.ru, Gmail и других. Это упрощает работу с письмами.
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+> Быстрый переход: [все методы](#all-methods) 
 
-- не указаны версии методов
+С помощью REST API можно управлять только почтовыми сервисами. Подключать почтовые ящики, отправлять и получать письма нужно через интерфейс Битрикс24. 
 
-{% endnote %}
+{% note tip "Пользовательская документация" %}
 
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% note info "mailservice.*" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
+- [Как подключить Яндекс Почту к Битрикс24](https://helpdesk.bitrix24.ru/open/18302654/)
+- [Как подключить почту Gmail к Битрикс24](https://helpdesk.bitrix24.ru/open/18482380/)
+- [Способы подключения почтовых ящиков в Битрикс24](https://helpdesk.bitrix24.ru/open/19083990/)
+- [Как работать с почтой в Битрикс24](https://helpdesk.bitrix24.ru/open/18258092/)
+- [Вопросы о работе почты (подключение, интеграция с CRM)](https://helpdesk.bitrix24.ru/open/12487078/)
 
 {% endnote %}
+
+## Обзор методов {#all-methods}
+
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| [mailservice.fields](./mailservice-add.md) | Возвращает описание полей почтового сервиса. | ||
-|| [mailservice.list](./mailservice-list.md) | Возвращает список всех почтовых сервисов. | ||
-|| [mailservice.get](./mailservice-get.md) | Возвращает параметры указанного почтового сервиса. | ||
-|| [mailservice.add](./mailservice-add.md) | Добавляет почтовый сервис. | ||
-|| [mailservice.update](./mailservice-update.md) | Обновляет параметры почтового сервиса. | ||
-|| [mailservice.delete](./mailservice-delete.md) | Удаляет почтовый сервис. | ||
+|| **Метод** | **Описание** ||
+|| [mailservice.fields](./mailservice-add.md) | Возвращает описание полей почтового сервиса ||
+|| [mailservice.list](./mailservice-list.md) | Возвращает список всех почтовых сервисов ||
+|| [mailservice.get](./mailservice-get.md) | Возвращает параметры указанного почтового сервиса ||
+|| [mailservice.add](./mailservice-add.md) | Добавляет почтовый сервис ||
+|| [mailservice.update](./mailservice-update.md) | Обновляет параметры почтового сервиса ||
+|| [mailservice.delete](./mailservice-delete.md) | Удаляет почтовый сервис ||
 |#

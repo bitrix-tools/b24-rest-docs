@@ -1,0 +1,16 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать поле
+    href: lists-field-add.md
+  - name: Удалить поле
+    href: lists-field-delete.md
+  - name: Получить данные о полях
+    href: lists-field-get.md
+  - name: Получить доступные типы полей
+    href: lists-field-type-get.md
+  - name: Изменить поле списка
+    href: lists-field-update.md
+

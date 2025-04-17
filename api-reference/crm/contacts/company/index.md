@@ -1,33 +1,29 @@
-# Компании
+# Связь контакта с компаниями: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+При помощи группы методов crm.contact.company.* можно устанавливать или удалять связь контакта с компанией или с группой компаний.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+> Быстрый переход: [все методы](#all-methods) 
+> 
+> Пользовательская документация: [Связь между сделками, контактами и компаниями](https://helpdesk.bitrix24.ru/open/2501159) 
 
-{% endnote %}
+## Что дает связь между контактом и компаниями
 
-{% if build == 'dev' %}
+1. В карточке контакта отображается информация о компаниях: название, номер телефона, e-mail, адрес, тип компании и сфера деятельности. 
+2. Из карточки контакта можно позвонить или написать письмо без перехода в карточку компании.
+3. При [генерации документов по шаблону](../../document-generator/index.md) можно использовать символьные коды, которые будут автоматически подставлять данные связанных компаний в документ.
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+## Обзор методов {#all-methods}
 
-- нужно вступление, соответствующее заголовку
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "Права" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять методы: в зависимости от метода
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.contact.company.fields](./crm-contact-company-fields.md) | Поля для связи контакт-компания. ||
-|| [crm.contact.company.add](./crm-contact-company-add.md) | Добавление компании к указанному контакту. ||
-|| [crm.contact.company.delete](./crm-contact-company-delete.md) | Удаление компании из указанного контакта. ||
-|| [crm.contact.company.items.get](./crm-contact-company-items-get.md) | Получение набора компаний, связанных с указанным контактом. ||
-|| [crm.contact.company.items.set](./crm-contact-company-items-set.md) | Устанавка набора компаний, связанных с указанным контактом. ||
-|| [crm.contact.company.items.delete](./crm-contact-company-items-delete.md) | Очищение набора компаний, связанных с указанным контактом. ||
+|| [crm.contact.company.add](./crm-contact-company-add.md) | Добавляет компанию к указанному контакту ||
+|| [crm.contact.company.delete](./crm-contact-company-delete.md) | Удаляет компанию из указанного контакта ||
+|| [crm.contact.company.fields](./crm-contact-company-fields.md) | Возвращает описание полей для связи контакт-компания ||
+|| [crm.contact.company.items.get](./crm-contact-company-items-get.md) | Возвращает набор компаний, связанных с указанным контактом ||
+|| [crm.contact.company.items.set](./crm-contact-company-items-set.md) | Устанавливает набор компаний, связанных с указанным контактом ||
+|| [crm.contact.company.items.delete](./crm-contact-company-items-delete.md) | Очищает набор компаний, связанных с указанным контактом ||
 |#

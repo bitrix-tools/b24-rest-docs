@@ -1,0 +1,47 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Поля
+    href: base-fields.md
+  - name: Дополнительные поля
+    href: additional-fields.md
+  - name: Добавить сайт
+    href: landing-site-add.md
+  - name: Добавить папку
+    href: landing-site-add-folder.md
+  - name: Удалить сайт
+    href: landing-site-delete.md
+  - name: Экспортировать сайт
+    href: landing-site-full-export.md
+  - name: Получить папки сайта
+    href: landing-site-get-folders.md
+  - name: Получить список сайтов
+    href: landing-site-get-list.md
+  - name: Получить URL превью сайта
+    href: landing-site-get-preview.md
+  - name: Получить публичный URL сайта
+    href: landing-site-get-public-url.md
+  - name: Получить дополнительные поля
+    href: landing-site-get-additional-fields.md
+  - name: Пометить сайт как удаленный
+    href: landing-site-mark-delete.md
+  - name: Пометить папку как удаленную
+    href: landing-site-mark-folder-delete.md
+  - name: Восстановить папку из корзины
+    href: landing-site-mark-folder-undelete.md
+  - name: Восстановить сайт из корзины
+    href: landing-site-mark-undelete.md
+  - name: Опубликовать сайт
+    href: landing-site-publication.md
+  - name: Опубликовать папку сайта
+    href: landing-site-publication-folder.md
+  - name: Снять папку сайта с публикации
+    href: landing-site-unpublic-folder.md
+  - name: Снять сайт с публикации
+    href: landing-site-unpublic.md
+  - name: Изменить сайт
+    href: landing-site-update.md
+  - name: Изменить папку в сайте
+    href: landing-site-update-folder.md

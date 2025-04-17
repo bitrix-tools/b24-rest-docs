@@ -1,4 +1,4 @@
-# Указание общей карточки для всех пользователей
+# Установить общую карточку для всех пользователей crm.lead.details.configuration.forceCommonScopeForAll
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.lead.details.configuration.forceCommonScopeForAll" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.lead.details.configuration.forceCommonScopeForAll` принудительно устанавливает общую карточку лидов для всех пользователей.
 
@@ -46,21 +44,27 @@
 
 ## Примеры
 
-```js
-//---
-//Установить общую карточку лидов для всех пользователей.
-BX24.callMethod(
-    "crm.lead.details.configuration.forceCommonScopeForAll",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //---
+    //Установить общую карточку лидов для всех пользователей.
+    BX24.callMethod(
+        "crm.lead.details.configuration.forceCommonScopeForAll",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

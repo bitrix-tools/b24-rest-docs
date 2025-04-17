@@ -1,4 +1,4 @@
-# Получить настройки пользователя
+# Получить настройки пользователя BX24.userOption.get
 
 ```js
 BX24.userOption.get(string name): mixed;

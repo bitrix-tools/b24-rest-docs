@@ -1,4 +1,4 @@
-# Создать чат
+# Создать чат im.chat.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "im.chat.add" %}
-
-**Scope**: [`im`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.chat.add` создаёт чат.
 
@@ -44,9 +42,9 @@
 || **AVATAR**
 [`unknown`](../data-types.md) | `base64 image` | Аватар чата в base64 формате | 18 ||
 || **ENTITY_TYPE**
-[`unknown`](../data-types.md) | `CHAT` | Идентификатор сущности, может быть использован для поиска по этому полю и для легкого определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](.), [ONIMBOTMESSAGEUPDATE](.), [ONIMBOTMESSAGEDELETE](.) | 18 ||
+[`unknown`](../data-types.md) | `CHAT` | Идентификатор сущности, может быть использован для поиска по этому полю и для легкого определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](../chat-bots/messages/events/on-imbot-message-add.md), [ONIMBOTMESSAGEUPDATE](../chat-bots/messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) | 18 ||
 || **ENTITY_ID**
-[`unknown`](../data-types.md) | `13` | Числовой идентификатор сущности, может быть использован для поиска чата и для легкого определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](.), [ONIMBOTMESSAGEUPDATE](.), [ONIMBOTMESSAGEDELETE](.) | 18 ||
+[`unknown`](../data-types.md) | `13` | Числовой идентификатор сущности, может быть использован для поиска чата и для легкого определения контекста в обработчиках событий  [ONIMBOTMESSAGEADD](../chat-bots/messages/events/on-imbot-message-add.md), [ONIMBOTMESSAGEUPDATE](../chat-bots/messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) | 18 ||
 || **OWNER_ID**
 [`unknown`](../data-types.md) | `39` | Идентификатор владельца чата. Можно не указывать, владельцем будет тот, от кого идёт запрос. | 18 ||
 |#
@@ -57,24 +55,30 @@
 
 {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.chat.add',
-    Array(
-        'TYPE' => 'CHAT',
-        'TITLE' => 'Мой новый закрытый чат',
-        'DESCRIPTION' => 'Очень важный чат',
-        'COLOR' => 'PINK',
-        'MESSAGE' => 'Добро пожаловать в чат',
-        'USERS' => Array(1,2),
-        'AVATAR' => 'base64 image',
-        'ENTITY_TYPE' => 'CHAT',
-        'ENTITY_ID' => 13,
-        'OWNER_ID' => 39,
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.chat.add',
+        Array(
+            'TYPE' => 'CHAT',
+            'TITLE' => 'Мой новый закрытый чат',
+            'DESCRIPTION' => 'Очень важный чат',
+            'COLOR' => 'PINK',
+            'MESSAGE' => 'Добро пожаловать в чат',
+            'USERS' => Array(1,2),
+            'AVATAR' => 'base64 image',
+            'ENTITY_TYPE' => 'CHAT',
+            'ENTITY_ID' => 13,
+            'OWNER_ID' => 39,
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

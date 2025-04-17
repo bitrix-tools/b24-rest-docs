@@ -1,0 +1,17 @@
+title: Связь контакта с компаниями
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить компанию к указанному контакту
+    href: crm-contact-company-add.md
+  - name: Удалить компанию из указанного контакта
+    href: crm-contact-company-delete.md
+  - name: Получить поля для связи контакт-компания
+    href: crm-contact-company-fields.md
+  - name: Получить набор компаний, связанных с указанным контактом
+    href: crm-contact-company-items-get.md
+  - name: Установить набор компаний, связанных с указанным контактом
+    href: crm-contact-company-items-set.md
+  - name: Очистить набор компаний, связанных с указанным контактом
+    href: crm-contact-company-items-delete.md

@@ -1,4 +1,4 @@
-# Сброс параметров карточки
+# Сбросить параметры карточки crm.lead.details.configuration.reset
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.lead.details.configuration.reset" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.lead.details.configuration.reset` сбрасывает настройки карточки лидов. Метод удаляет личные настройки карточки указанного пользователя или общие настройки, заданные для всех пользователей.
 
@@ -55,24 +53,30 @@
 
 ## Примеры
 
-```js
-//---
-//Сброс личных настроек карточки лидов для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.lead.details.configuration.reset",
-    {
-        scope: "P",
-        userId: 1
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+  
+    ```js
+    //---
+    //Сброс личных настроек карточки лидов для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.lead.details.configuration.reset",
+        {
+            scope: "P",
+            userId: 1
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -1,4 +1,4 @@
-# Возвращение элементов перечисления «Тип владельца»
+# Получить элементы перечисления «Тип владельца» crm.enum.ownertype
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.enum.ownertype" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -110,18 +108,28 @@ crm.enum.ownertype()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    "crm.enum.ownertype",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);     
-```
+{% list tabs %}
+
+- JS
+  
+     ```javascript
+     BX24.callMethod(
+     "crm.enum.ownertype",
+     {},
+     function(result)
+     {
+          if(result.error())
+               console.error(result.error());
+          else
+               console.dir(result.data());
+     }
+     );     
+     ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+## Продолжить изучение
+
+- [{#T}](../../../../tutorials/tasks/how-to-connect-task-to-spa.md)

@@ -1,4 +1,4 @@
-# Получение списка сайтов
+# Получить список сайтов landing.site.getList
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.site.getList" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.getList` получает список сайтов.
 
@@ -45,34 +43,40 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.getList',
-    {
-        params: {
-            select: [
-                'ID', 'TITLE', 'DOMAIN.DOMAIN'
-            ],
-            filter: {
-                TITLE: '%услуги%'
-            },
-            order: {
-                ID: 'DESC'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.getList',
+        {
+            params: {
+                select: [
+                    'ID', 'TITLE', 'DOMAIN.DOMAIN'
+                ],
+                filter: {
+                    TITLE: '%услуги%'
+                },
+                order: {
+                    ID: 'DESC'
+                }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
             }
         }
-    },
-    function(result)
-    {
-        if(result.error())
-        {
-            console.error(result.error());
-        }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

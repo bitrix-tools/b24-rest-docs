@@ -1,4 +1,4 @@
-# Добавление поля
+# Добавить поле crm.lead.userfield.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -22,11 +22,9 @@
 
 {% endif %}
 
-{% note info "crm.lead.userfield.add" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.lead.userfield.add` создаёт новое пользовательское поле для лидов.
 
@@ -44,57 +42,71 @@
 - **DEL** - если равно Y, то существующий элемент списка будет удален. Применяется, если заполнен параметр ID. ||
 |#
 
-Полное описание полей можно получить вызовом метода [crm.userfield.fields](.).
+Полное описание полей можно получить вызовом метода [crm.userfield.fields](../../universal/user-defined-fields/crm-userfield-fields.md).
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    "crm.lead.userfield.add",
-    {
-        fields:
-        {
-            "FIELD_NAME": "MY_STRING",
-            "EDIT_FORM_LABEL": "Моя строка",
-            "LIST_COLUMN_LABEL": "Моя строка",
-            "USER_TYPE_ID": "string",
-            "XML_ID": "MY_STRING",
-            "SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
-        }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    "crm.lead.userfield.add",
-    {
-        fields:
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.lead.userfield.add",
         {
-            "FIELD_NAME": "MY_LIST",
-            "EDIT_FORM_LABEL": "Мой список",
-            "LIST_COLUMN_LABEL": "Мой список",
-            "USER_TYPE_ID": "enumeration",
-            "LIST": [ { "VALUE": "Элемент #1" }, { "VALUE": "Элемент #2" }, { "VALUE": "Элемент #3" }, { "VALUE": "Элемент #4" }, { "VALUE": "Элемент #5" } ],
-            "XML_ID": "MY_LIST",
-            "SETTINGS": { "LIST_HEIGHT": 3 }
+            fields:
+            {
+                "FIELD_NAME": "MY_STRING",
+                "EDIT_FORM_LABEL": "Моя строка",
+                "LIST_COLUMN_LABEL": "Моя строка",
+                "USER_TYPE_ID": "string",
+                "XML_ID": "MY_STRING",
+                "SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);    
-```
+    );
+    ```
+
+{% endlist %}
+
+Пример создания поля типа «список»
+
+{% list tabs %}
+
+- JS
+  
+    ```js
+    BX24.callMethod(
+        "crm.lead.userfield.add",
+        {
+            fields:
+            {
+                "FIELD_NAME": "MY_LIST",
+                "EDIT_FORM_LABEL": "Мой список",
+                "LIST_COLUMN_LABEL": "Мой список",
+                "USER_TYPE_ID": "enumeration",
+                "LIST": [ { "VALUE": "Элемент #1" }, { "VALUE": "Элемент #2" }, { "VALUE": "Элемент #3" }, { "VALUE": "Элемент #4" }, { "VALUE": "Элемент #5" } ],
+                "XML_ID": "MY_LIST",
+                "SETTINGS": { "LIST_HEIGHT": 3 }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );    
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

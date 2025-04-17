@@ -1,4 +1,4 @@
-# Создание универсального списка
+# Создать универсальный список lists.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.add" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.add` создаёт список. В случае успешного создания списка ответ `true`, иначе *Exception*.
 
@@ -58,49 +56,55 @@
 
 ## Пример
 
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists_socnet',
-    'IBLOCK_CODE': 'rest_1',
-    'SOCNET_GROUP_ID': '4',
-    'FIELDS': {
-        'NAME': 'List 1',
-        'DESCRIPTION': 'Test list',
-        'SORT': '10',
-        'PICTURE': document.getElementById('iblock-image-add'),
-        'BIZPROC': 'Y'
-    },
-    'MESSAGES': {
-        'ELEMENT_NAME': 'Element',
-        'ELEMENTS_NAME': 'Elements',
-        'ELEMENT_ADD': 'Add element',
-        'ELEMENT_EDIT': 'Edit element',
-        'ELEMENT_DELETE': 'Delete element',
-        'SECTION_NAME': 'Section',
-        'SECTIONS_NAME': 'Sections',
-        'SECTION_ADD': 'Add section',
-        'SECTION_EDIT': 'Edit section',
-        'SECTION_DELETE': 'Delete section'
-    },
-    'RIGHTS': {
-        'SG4_A': 'W',
-        'SG4_E': 'W',
-        'SG4_K': 'W',
-        'AU': 'D',
-        'G2': 'D'
-    }
-};
-BX24.callMethod(
-    'lists.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists_socnet',
+        'IBLOCK_CODE': 'rest_1',
+        'SOCNET_GROUP_ID': '4',
+        'FIELDS': {
+            'NAME': 'List 1',
+            'DESCRIPTION': 'Test list',
+            'SORT': '10',
+            'PICTURE': document.getElementById('iblock-image-add'),
+            'BIZPROC': 'Y'
+        },
+        'MESSAGES': {
+            'ELEMENT_NAME': 'Element',
+            'ELEMENTS_NAME': 'Elements',
+            'ELEMENT_ADD': 'Add element',
+            'ELEMENT_EDIT': 'Edit element',
+            'ELEMENT_DELETE': 'Delete element',
+            'SECTION_NAME': 'Section',
+            'SECTIONS_NAME': 'Sections',
+            'SECTION_ADD': 'Add section',
+            'SECTION_EDIT': 'Edit section',
+            'SECTION_DELETE': 'Delete section'
+        },
+        'RIGHTS': {
+            'SG4_A': 'W',
+            'SG4_E': 'W',
+            'SG4_K': 'W',
+            'AU': 'D',
+            'G2': 'D'
+        }
+    };
+    BX24.callMethod(
+        'lists.add',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

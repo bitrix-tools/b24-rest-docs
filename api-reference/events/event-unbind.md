@@ -1,12 +1,10 @@
-# Отменить зарегистрированный обработчик события
+# Отменить зарегистрированный обработчик события event.unbind
 
-> Название метода: **event.unbind**
->
 > Кто может выполнять метод: администратор
 
 Метод `event.unbind` выполняет отмену зарегистрированного обработчика события.
 
-Работает только при авторизации под пользователем с правами администрирования портала.
+Метод работает только в контексте авторизации [приложения](../app-installation/index.md) и только при авторизации под пользователем с правами администрирования портала.
 
 ## Параметры метода
 
@@ -29,7 +27,7 @@
 {% endnote %} 
 ||
 || **event_type**
-[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=4462) ||
+[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](./offline-events.md) ||
 |#
 
 Если какие-либо параметры не указаны, то будут удалены все обработчики события, удовлетворяющие остальным требованиям.
@@ -39,19 +37,6 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "event": "ONCRMLEADADD",
-        "handler": "https://www.my-domain.ru/handler/"
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.unbind
-    ```
 
 - cURL (OAuth)
 
@@ -95,6 +80,23 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php        
+    try {
+        $eventCode = 'your_event_code'; // Replace with your actual event code
+        $handlerUrl = 'https://your.handler.url'; // Replace with your actual handler URL
+        $userId = null; // Replace with your actual user ID or leave as null
+        $result = $serviceBuilder
+            ->getMainScope()
+            ->event()
+            ->unbind($eventCode, $handlerUrl, $userId);
+        print($result->getUnbindedHandlersCount());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
     ```
 
 {% endlist %}

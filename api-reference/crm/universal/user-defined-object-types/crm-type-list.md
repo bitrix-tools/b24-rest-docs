@@ -1,7 +1,5 @@
-# Получить список пользовательских типов
+# Получить список пользовательских типов crm.type.list
 
-> Название метода: **crm.type.list**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с административным доступом к разделу CRM
@@ -85,8 +83,8 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"entityTypeId":2}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.category.fields
+        -d '{"filter":[{"logic":"OR",{"%title":"5"},{"%title":"0"}]},"order":{"id":"DESC"}}' \
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.type.list
         ```
 
     - cURL (OAuth)
@@ -95,8 +93,8 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"entityTypeId":2,"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/crm.category.fields
+        -d '{"filter":[{"logic":"OR",{"%title":"5"},{"%title":"0"}]},"order":{"id":"DESC"},"auth":"**put_access_token_here**"}' \
+        https://**put_your_bitrix24_address**/rest/crm.type.list
         ```
 
     - JS
@@ -139,9 +137,22 @@
         require_once('crest.php');
 
         $result = CRest::call(
-            'crm.category.fields',
+            'crm.type.list',
             [
-                'entityTypeId' => 2
+                'filter' => [
+                    [
+                        'logic' => 'OR',
+                        [
+                            '%title' => '5',
+                        ],
+                        [
+                            '%title' => '0',
+                        ],
+                    ],
+                ],
+                'order' => [
+                    'id' => 'DESC',
+                ],
             ]
         );
 
@@ -408,7 +419,9 @@ HTTP-статус: **400**
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-update.md)
 - [{#T}](./crm-type-get.md)
+- [{#T}](./crm-type-get-by-entity-type-id.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
 
 [1]: ../../../data-types.md

@@ -1,4 +1,4 @@
-# Удалить пользователя из чата
+# Удалить пользователя из чата imopenlines.crm.chat.user.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.crm.chat.user.delete**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -41,7 +39,7 @@
 - company
 - contact
  ||
-|| **CRM_ENTITY_ID***
+|| **CRM_ENTITY***
 [`unknown`](../../../data-types.md) | Идентификатор CRM сущности ||
 || **USER_ID***
 [`unknown`](../../../data-types.md) | Идентификатор пользователя или бота, которого мы хотим добавить в чат ||

@@ -1,4 +1,4 @@
-# Получить список стран
+# Получить список стран documentgenerator.region.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.region.list" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.region.list` возвращает список регионов, как установленных по умолчанию, так и пользовательских.
 

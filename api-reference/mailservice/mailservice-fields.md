@@ -1,4 +1,4 @@
-# Описание полей почтового сервиса
+# Получить поля почтового сервиса mailservice.fields
 
 {% if build == 'dev' %}
 
@@ -16,11 +16,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.fields" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.fields` возвращает описание полей почтового сервиса.
 
@@ -30,22 +28,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "mailservice.fields",
-    {
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "mailservice.fields",
         {
-            console.error(result.error());
-        }
-        else
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

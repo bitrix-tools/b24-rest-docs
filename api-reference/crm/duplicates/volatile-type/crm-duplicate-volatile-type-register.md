@@ -1,4 +1,4 @@
-# Добавить поле в поиск дубликатов
+# Добавить поле в поиск дубликатов crm.duplicate.volatileType.register
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.duplicate.volatileType.register" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.duplicate.volatileType.register({entityTypeId: number, fieldCode: string})

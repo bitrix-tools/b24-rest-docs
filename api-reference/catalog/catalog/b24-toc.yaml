@@ -3,17 +3,11 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Добавить торговый каталог
-    href: catalog-catalog-add.md
-  - name: Обновить поля торгового каталога
-    href: catalog-catalog-update.md
   - name: Получить значения всех полей торгового каталога
     href: catalog-catalog-get.md
   - name: Получить список торговых каталогов
     href: catalog-catalog-list.md
-  - name: Проверить, является ли торговый каталог каталогом предложений
+  - name: Проверить, является ли торговый каталог каталогом вариаций
     href: catalog-catalog-is-offers.md
-  - name: Удалить торговый каталог
-    href: catalog-catalog-delete.md
   - name: Получить доступные поля торгового каталога
     href: catalog-catalog-get-fields.md

@@ -1,4 +1,4 @@
-# Делегирование задачи
+# Делегировать задачу tasks.task.delegate
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.delegate" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.delegate` для делегирования задачи
 
@@ -38,12 +36,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.delegate',
-    {taskId:1, userId: 2},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.delegate',
+        {taskId:1, userId: 2},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

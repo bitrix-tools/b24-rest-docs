@@ -1,4 +1,4 @@
-# Создание группы соцсети
+# Создать группу соцсети sonet_group.create
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,15 +19,11 @@
 
 {% endif %}
 
-{% note info "sonet_group.create" %}
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
-
-Создает группу соцсети, используя метод API [CSocNetGroup::CreateGroup()](https://dev.1c-bitrix.ru/api_help/socialnetwork/classes/CSocNetGroup/CreateGroup.php), указывая владельцем группы текущего пользователя.
+Создает группу соцсети, используя метод API `CSocNetGroup::CreateGroup()`, указывая владельцем группы текущего пользователя.
 
 ## Запрос:
 
@@ -77,14 +73,22 @@ https://mydomain.bitrix24.ru/rest/sonet_group.create.json?auth=803f65e30340ff397
 
 ## Пример
 
-```js
-// Создадим видимую и открытую для вступления группу соцсети с именем 'Test sonet group' с правом приглашать новых членов группы для всех текущих членов группы
+{% list tabs %}
 
-BX24.callMethod('sonet_group.create', {
-    'NAME': 'Test sonet group',
-    'VISIBLE': 'Y',
-    'OPENED': 'N',
-    'INITIATE_PERMS': 'K'
-});
-```
+- JS
+
+    ```js
+    // Создадим видимую и открытую для вступления группу соцсети с именем 'Test sonet group' с правом приглашать новых членов группы для всех текущих членов группы
+
+    BX24.callMethod('sonet_group.create', {
+        'NAME': 'Test sonet group',
+        'VISIBLE': 'Y',
+        'OPENED': 'N',
+        'INITIATE_PERMS': 'K'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

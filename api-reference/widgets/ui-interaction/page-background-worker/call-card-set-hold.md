@@ -1,4 +1,4 @@
-# Постановка звонка на удержание со стороны приложения
+# Поставить звонок на удержание со стороны приложения CallCardSetHold
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "CallCardSetHold" %}
-
-{% include notitle [Скоуп telephony all](../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `CallCardSetHold` позволяет со стороны приложения поставить звонок на удержание.
 

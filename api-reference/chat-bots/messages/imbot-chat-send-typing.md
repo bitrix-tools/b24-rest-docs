@@ -1,4 +1,4 @@
-# Отправить признак «Чат-бот пишет сообщение...»
+# Отправить признак «Чат-бот пишет сообщение...» imbot.chat.sendTyping
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -22,11 +22,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.sendTyping" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.sendTyping` отправляет сообщение «Чат-бот пишет сообщение...».
 
@@ -42,18 +40,24 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.chat.sendTyping',
-    Array(
-        'BOT_ID' => 39,
-        'DIALOG_ID' => 1,
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.chat.sendTyping',
+        Array(
+            'BOT_ID' => 39,
+            'DIALOG_ID' => 1,
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -75,5 +79,5 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotmessageadd)
-- [Событие на получение информации чат-ботом о включении его в чат (или личную переписку) ONIMJOINCHAT](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimjoinchat)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/on-imbot-message-add.md)
+- [Событие на получение информации чат-ботом о включении его в чат (или личную переписку) ONIMJOINCHAT](../chats/events/on-imbot-join-chat.md)

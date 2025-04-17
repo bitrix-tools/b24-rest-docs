@@ -1,4 +1,4 @@
-# Удаление пользовательского поля компаний
+# Удалить пользовательское поле компаний crm.company.userfield.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.company.userfield.delete" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.userfield.delete` удаляет пользовательское поле компаний.
 
@@ -38,21 +36,27 @@
 
 ## Примеры
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.company.userfield.delete",
-    {
-        id: id
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.company.userfield.delete",
+        {
+            id: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

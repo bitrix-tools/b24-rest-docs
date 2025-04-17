@@ -1,4 +1,4 @@
-# Добавление внешней линии
+# Добавить внешнюю линию telephony.externalLine.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalLine.add" %}
-
 {% include notitle [Скоуп telephony admin](./_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalLine.add` добавляет внешнюю линию.
 

@@ -1,4 +1,4 @@
-# Восстановление папки из корзины
+# Восстановить папку из корзины disk.folder.restore
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.restore" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.restore` восстанавливает папку из корзины.
 
@@ -37,21 +35,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.folder.restore",
-    {
-        id: 8
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.folder.restore",
+        {
+            id: 8
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

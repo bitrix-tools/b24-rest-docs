@@ -1,4 +1,4 @@
-# Добавление цены товара
+# Добавить цену товара catalog.price.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.price.add" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -45,23 +43,31 @@ catalog.price.add(fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.price.add',
-    {
-        fields: {
-            catalogGroupId: 1,
-            currency: "RUB",
-            price: 2000,
-            productId: 1
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.price.add',
+        {
+            fields: {
+                catalogGroupId: 1,
+                currency: "RUB",
+                price: 2000,
+                productId: 1
+            }
+        },
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

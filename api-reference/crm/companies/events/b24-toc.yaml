@@ -1,0 +1,11 @@
+title: Список событий при работе с компаниями
+href: index.md
+items:
+  - name: Обзор событий 
+    href: index.md
+  - name: При создании компании
+    href: on-crm-company-add.md
+  - name: При удалении компании
+    href: on-crm-company-delete.md
+  - name: При обновлении компании
+    href: on-crm-company-update.md

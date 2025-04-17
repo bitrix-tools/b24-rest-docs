@@ -13,3 +13,5 @@ items:
     href: quote-statuses-with-semantics.md
   - name: Как получить воронку заданного направления
     href: how-to-get-deal-funnels.md
+  - name: Как получить адрес клиента из CRM
+    href: how-to-get-address.md

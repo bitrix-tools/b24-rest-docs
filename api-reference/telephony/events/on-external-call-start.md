@@ -1,4 +1,4 @@
-# Когда пользователь нажимает на телефонный номер в объектах CRM для совершения исходящего звонка
+# Когда пользователь нажимает на телефонный номер в объектах CRM для совершения исходящего звонка OnExternalCallStart
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,7 @@
 
 {% endif %}
 
-{% note info "OnExternalCallStart" %}
-
-{% include notitle [Скоуп telephony all](../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+{% include notitle [Скоуп telephony events](../_includes/scope-telephony-events.md) %}
 
 Событие `OnExternalCallStart` вызывается, когда пользователь нажимает на телефонный номер в объектах CRM для совершения исходящего звонка.
 

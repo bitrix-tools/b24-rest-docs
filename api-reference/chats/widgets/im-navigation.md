@@ -1,4 +1,4 @@
-# Виджет в левом меню чата
+# Виджет в левом меню чата IM_NAVIGATION
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,7 +18,7 @@
 
 {% endif %}
 
-Код встраивания: `IM_NAVIGATION`
+> Scope: [`im`](../../scopes/permissions.md)
 
 По сути, это приложение внутри окружения чата без встраивания непосредственно в чат.
 
@@ -44,24 +44,30 @@ IFRAME открывается, но в него не передаётся кон
 
 ## Примеры
 
-```php
-CRest::call(
-    'placement.bind',
-    [
-        'PLACEMENT' => 'IM_NAVIGATION',
-        'HANDLER' => 'https://example.com/apps/immarket/handlers/navigation.php',
-        'LANG_ALL' => [
-            'ru' => [
-                'TITLE' => 'Приложение для левого меню навигации',
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'IM_NAVIGATION',
+            'HANDLER' => 'https://example.com/apps/immarket/handlers/navigation.php',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Приложение для левого меню навигации',
+                ],
             ],
-        ],
-        'OPTIONS' => [
-            'iconName' => 'fa-check',
-            'role' => 'USER',
-            'extranet' => 'N',
+            'OPTIONS' => [
+                'iconName' => 'fa-check',
+                'role' => 'USER',
+                'extranet' => 'N',
+            ]
         ]
-    ]
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

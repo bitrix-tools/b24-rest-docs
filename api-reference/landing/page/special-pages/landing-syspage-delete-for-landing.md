@@ -1,4 +1,4 @@
-# Удаление всех упоминаний страницы как специальной
+# Удалить все упоминания страницы как специальной landing.syspage.deleteForLanding
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,34 +21,38 @@
 
 {% endif %}
 
-{% note info "landing.syspage.deleteForLanding" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.syspage.deleteForLanding` удаляет все упоминания страницы как специальной
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.syspage.deleteForLanding',
-    {
-        id: 8613 // ИД страницы
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.syspage.deleteForLanding',
         {
-            console.error(result.error());
-        }
-        else
+            id: 8613 // ИД страницы
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

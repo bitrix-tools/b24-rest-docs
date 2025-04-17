@@ -1,4 +1,4 @@
-# Получение списка ролей
+# Получить список ролей landing.role.getList
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,7 +18,7 @@
 
 {% endif %}
 
-{% note info "landing.role.getList" %}
+{% note info "" %}
 
 **Scope**: [`landing`](../../../scopes/permissions.md) | **Права на выполнение**: `администратор`
 
@@ -32,23 +32,29 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.role.getList',
-    {
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.role.getList',
         {
-            console.error(result.error());
-        }
-        else
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

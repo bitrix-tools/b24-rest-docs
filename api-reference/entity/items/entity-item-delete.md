@@ -1,4 +1,4 @@
-# Удаление элемента хранилища
+# Удалить элемент хранилища entity.item.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "entity.item.delete" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.item.delete` удаляет элемент хранилища. Пользователь должен обладать хотя бы правами на запись (**W**) в хранилище.
 
@@ -39,23 +37,27 @@
 
 ## Пример
 
-Вызов
+{% list tabs %}
 
-```js
-BX24.callMethod(
-    'entity.item.delete',
-    {
-        ENTITY: 'menu_new',
-        ID: 842
-    }
-);
-```
+- JS
 
-Запрос
+    ```js
+    BX24.callMethod(
+        'entity.item.delete',
+        {
+            ENTITY: 'menu_new',
+            ID: 842
+        }
+    );
+    ```
 
-```http
-https://my.bitrix24.ru/rest/entity.item.delete.json?ENTITY=menu_new&ID=842&auth=340bf57f35ee95e0debf98399632999c
-```
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.delete.json?ENTITY=menu_new&ID=842&auth=340bf57f35ee95e0debf98399632999c
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

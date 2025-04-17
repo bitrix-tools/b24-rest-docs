@@ -9,25 +9,3 @@
 || [BX24.selectAccess](./bx24-select-access.md) | Показать стандартный диалог выбора прав доступа ||
 || [BX24.selectCRM](./bx24-select-crm.md) | Показать стандартный диалог выбора сущности CRM ||
 |#
-
-## Примеры
-
-Открыть из приложения определенный чат
-```js
-BX24.im.openMessenger(dialogId)
-```
-
-Открыть из приложения историю чата
-```js
-BX24.im.openHistory(dialogId)
-```
-
-Позвонить пользователю портала
-```js
-BX24.im.callTo(userId[, video=true])
-```
-
-Позвонить по номеру телефона
-```js
-BX24.im.phoneTo(phone)
-```

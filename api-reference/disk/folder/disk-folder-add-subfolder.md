@@ -1,4 +1,4 @@
-# Создание дочерней папки
+# Создать дочернюю папку disk.folder.addsubfolder
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.addsubfolder" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.addsubfolder` создает дочернюю папку.
 
@@ -40,24 +38,31 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.folder.addsubfolder",
-    {
-        id: 8,
-        data: {
-            NAME: 'New sub folder'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.folder.addsubfolder",
+        {
+            id: 8,
+            data: {
+                NAME: 'New sub folder'
+            }
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

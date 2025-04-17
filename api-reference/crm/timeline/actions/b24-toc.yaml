@@ -1,0 +1,9 @@
+title: Действия с записями в таймлайне
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Закрепить запись
+    href: crm-timeline-item-pin.md
+  - name: Открепить запись
+    href: crm-timeline-item-unpin.md

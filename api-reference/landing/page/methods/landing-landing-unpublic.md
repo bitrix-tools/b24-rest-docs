@@ -1,4 +1,4 @@
-# Снятие страницы с публикации
+# Снять страницу с публикации landing.landing.unpublic
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.unpublic" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.unpublic` снимает страницы с публикации. Возвращает *true* или ошибку.
 
@@ -38,24 +36,30 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.landing.unpublic',
-    {
-        lid: 351
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.unpublic',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 351
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

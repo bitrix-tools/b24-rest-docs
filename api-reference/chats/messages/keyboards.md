@@ -41,61 +41,67 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-restCommand(
-    'imbot.command.answer',
-    Array(
-        "COMMAND_ID" => $command['COMMAND_ID'],
-        "MESSAGE_ID" => $command['MESSAGE_ID'],
-        "MESSAGE" => "Hello! My name is EchoBot :)[br] I designed to answer your questions!",
-        "KEYBOARD" => Array(
- // Синяя кнопка с текстом Bitrix24 на первой строке
-            Array(
-                "TEXT" => "Bitrix24",
-                "LINK" => "http://bitrix24.com",
-                "BG_COLOR_TOKEN" => "primary",
-                "BG_COLOR" => "#29619b",
-                "TEXT_COLOR" => "#fff",
-                "DISPLAY" => "LINE",		
-            ),
-// Белая кнопка с текстом BitBucket на первой строке
-            Array(
-                "TEXT" => "BitBucket", 
-                "LINK" => "https://bitbucket.org/Bitrix24com/rest-bot-echotest",
-                "BG_COLOR_TOKEN" => "secondary",
-                "BG_COLOR" => "#2a4c7c",
-                "TEXT_COLOR" => "#fff",
-                "DISPLAY" => "LINE",
-            ),
-// перенос строки, следующие кнопки будут размещены на второй строке
-            Array(
-                "TYPE" => "NEWLINE" 
-            ), 
-// Красная кнопка с текстом Echo на второй строке
-            Array(
-                "TEXT" => "Echo", 
-                "COMMAND" => "echo",
-                "COMMAND_PARAMS" => "test from keyboard",
-                "DISPLAY" => "LINE",
-                "BG_COLOR_TOKEN" => "alert",
-            ),
-// Базовая кнопка с текстом List на второй строке
-            Array(
-                "TEXT" => "List",
-                "COMMAND" => "echoList",
-                "DISPLAY" => "LINE"
-            ),
-// Базовая кнопка с текстом Help на второй строке
-            Array(
-                "TEXT" => "Help", 
-                "COMMAND" => "help",
-                "DISPLAY" => "LINE"
-            ),
-        )
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    restCommand(
+        'imbot.command.answer',
+        Array(
+            "COMMAND_ID" => $command['COMMAND_ID'],
+            "MESSAGE_ID" => $command['MESSAGE_ID'],
+            "MESSAGE" => "Hello! My name is EchoBot :)[br] I designed to answer your questions!",
+            "KEYBOARD" => Array(
+    // Синяя кнопка с текстом Bitrix24 на первой строке
+                Array(
+                    "TEXT" => "Bitrix24",
+                    "LINK" => "http://bitrix24.com",
+                    "BG_COLOR_TOKEN" => "primary",
+                    "BG_COLOR" => "#29619b",
+                    "TEXT_COLOR" => "#fff",
+                    "DISPLAY" => "LINE",		
+                ),
+    // Белая кнопка с текстом BitBucket на первой строке
+                Array(
+                    "TEXT" => "BitBucket", 
+                    "LINK" => "https://bitbucket.org/Bitrix24com/rest-bot-echotest",
+                    "BG_COLOR_TOKEN" => "secondary",
+                    "BG_COLOR" => "#2a4c7c",
+                    "TEXT_COLOR" => "#fff",
+                    "DISPLAY" => "LINE",
+                ),
+    // перенос строки, следующие кнопки будут размещены на второй строке
+                Array(
+                    "TYPE" => "NEWLINE" 
+                ), 
+    // Красная кнопка с текстом Echo на второй строке
+                Array(
+                    "TEXT" => "Echo", 
+                    "COMMAND" => "echo",
+                    "COMMAND_PARAMS" => "test from keyboard",
+                    "DISPLAY" => "LINE",
+                    "BG_COLOR_TOKEN" => "alert",
+                ),
+    // Базовая кнопка с текстом List на второй строке
+                Array(
+                    "TEXT" => "List",
+                    "COMMAND" => "echoList",
+                    "DISPLAY" => "LINE"
+                ),
+    // Базовая кнопка с текстом Help на второй строке
+                Array(
+                    "TEXT" => "Help", 
+                    "COMMAND" => "help",
+                    "DISPLAY" => "LINE"
+                ),
+            )
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 Клавиатура — это набор кнопок, каждая кнопка может состоять из следующих ключей:
 
@@ -151,7 +157,7 @@ restCommand(
     "COMMAND_PARAMS" => "1", // параметры для команды
     ```
 
-2. Нажатие на кнопку сгенерирует событие [ONIMCOMMANDADD](../../chat-bots/commands/events/index.md).
+2. Нажатие на кнопку сгенерирует событие [ONIMCOMMANDADD](../../chat-bots/commands/events/on-im-command-add.md).
 
 3. Внутри этого события нужно либо создать новое сообщение, либо отредактировать старое (тем самым формируя эффект постраничной навигации).
 
@@ -160,23 +166,23 @@ restCommand(
    - если команда пришла из клавиатуры, то будет **KEYBOARD**;
    - если команда пришла из контекстного меню, то будет **MENU**.
 
-Готовый пример, можно посмотреть в обновленной версии [ЭхоБота](https://dev.1c-bitrix.ru/~b24bots) (**bot.php**).
+Готовый пример, можно посмотреть в обновленной версии [ЭхоБота](https://github.com/bitrix24com/bots) (**bot.php**).
 
 ## Обработка открытия приложения для чата
 
-Приложение для чата, запускаемые из контекстного меню, работают по принципам [Контекстного приложения](/learning/course/?COURSE_ID=93&LESSON_ID=9303).
+Приложение для чата, запускаемые из контекстного меню, работают по принципам [Контекстного приложения](../outdated/chat-apps.md).
 
 ## Примеры использования клавиатуры
 
 1. **EchoBot**
     Постраничная навигация, кнопки при вызове команды «Помощь»
 
-    @[youtube](2v5MUeVSBX4)
+    <iframe width="720" height="405" src="https://rutube.ru/play/embed/6df697f3139fdad5bfbf4953ef1f83a5/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 2. **Марта**
     Просто напишите марте «Поиграй со мной!». Клавиатура используется как игровое поле:
 
-    @[youtube](qSDKsDwJsBI)
+    <iframe width="720" height="405" src="https://rutube.ru/play/embed/282c08597e37aaf9ad9828c935400c72/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 3. **Giphy**
     Кнопка **Еще** позволяет без повторного введения поискового слова просматривать другие картинки на эту же тему:

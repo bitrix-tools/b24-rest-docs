@@ -1,4 +1,4 @@
-# Цена
+# Обзор методов и событий
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -6,13 +6,11 @@
 
 {% endnote %}
 
-{% note info "" %}
+## Методы
 
-**Scope**: [`catalog `](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Методы работы с ценами:
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 #|
 || **Метод** | **Описание** ||
@@ -23,4 +21,17 @@
 || [catalog.price.list](./catalog-price-list.md) | Метод получает список цен товаров по фильтру. ||
 || [catalog.price.modify](./catalog-price-modify.md) | Метод изменяет элементы коллекции цен товара. ||
 || [catalog.price.update](./catalog-price-update.md) | Метод обновляет поля цены товара. ||
+|#
+
+## События
+
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
+
+#|
+|| **Событие** | **Вызывается** ||
+|| [CATALOG.PRICE.ON.ADD](../events/catalog-price-on-add.md)| При добавлении цены ||
+|| [CATALOG.PRICE.ON.UPDATE](../events/catalog-price-on-update.md)| При обновлении цены ||
+|| [CATALOG.PRICE.ON.DELETE](../events/catalog-price-on-delete.md)| При удалении цены ||
 |#

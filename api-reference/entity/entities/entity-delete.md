@@ -1,4 +1,4 @@
-# Удаление хранилища
+# Удалить хранилище entity.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "entity.delete" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.delete` удаляет хранилище. Пользователь должен обладать правами на управление (**Х**) хранилищем.
 
@@ -37,14 +35,20 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    'entity.delete',
-    {
-        'ENTITY': 'test'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'entity.delete',
+        {
+            'ENTITY': 'test'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

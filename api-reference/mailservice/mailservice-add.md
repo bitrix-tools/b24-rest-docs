@@ -1,4 +1,4 @@
-# Создание нового почтового сервиса
+# Создать новый почтовый сервис mailservice.add
 
 {% if build == 'dev' %}
 
@@ -18,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.add" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.add` добавляет новый почтовый сервис.
 
@@ -48,29 +46,36 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "mailservice.add",
-    {
-        'ACTIVE': 'Y',
-        'NAME': 'Почтовый сервис Yandex',
-        'SERVER': 'imap.yandex.ru',
-        'PORT': '993',
-        'ENCRYPTION': 'Y',
-        'LINK': 'https://mail.yandex.ru/',
-        'SORT': '500'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "mailservice.add",
         {
-            console.error(result.error());
-        }
-        else
+            'ACTIVE': 'Y',
+            'NAME': 'Мой почтовый сервис',
+            'SERVER': 'imap.my-mail.ru',
+            'PORT': '993',
+            'ENCRYPTION': 'Y',
+            'LINK': 'https://mail.my-mail.ru/',
+            'SORT': '500'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

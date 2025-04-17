@@ -1,4 +1,4 @@
-# Удаление почтового сервиса
+# Удалить почтовый сервис mailservice.delete
 
 {% if build == 'dev' %}
 
@@ -17,11 +17,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.delete" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.delete` удаляет почтовый сервис.
 
@@ -35,23 +33,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "mailservice.delete",
-    {
-        'ID': 8
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "mailservice.delete",
         {
-            console.error(result.error());
-        }
-        else
+            'ID': 8
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

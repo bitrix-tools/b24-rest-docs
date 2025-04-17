@@ -1,4 +1,4 @@
-# Установить «Мне нравится» для сообщения
+# Установить «Мне нравится» для сообщения imbot.message.like
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -22,11 +22,9 @@
 
 {% endif %}
 
-{% note info "imbot.message.like" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.message.like` устанавливает метку «Мне нравится» на сообщении.
 
@@ -48,19 +46,25 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.message.like',
-    Array(
-        'BOT_ID' => 39,
-        'MESSAGE_ID' => 1,
-        'ACTION' => 'auto'
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.message.like',
+        Array(
+            'BOT_ID' => 39,
+            'MESSAGE_ID' => 1,
+            'ACTION' => 'auto'
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

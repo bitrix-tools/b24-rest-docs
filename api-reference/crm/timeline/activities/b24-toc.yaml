@@ -1,0 +1,37 @@
+title: Дела
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Системное дело
+    include:
+      path: activity-base/b24-toc.yaml
+      mode: link
+  - name: Конфигурируемое дело
+    include:
+      path: configurable/b24-toc.yaml
+      mode: link
+  - name: Универсальное дело
+    include:
+      path: todo/b24-toc.yaml
+      mode: link    
+  - name: Привязка дел к объектам CRM
+    include:
+      path: binding/b24-toc.yaml
+      mode: link
+  - name: Пользовательские типы дел
+    include:
+      path: types/b24-toc.yaml
+      mode: link
+  - name: Дополнительные контентные блоки
+    include:
+      path: layout-blocks/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: Встраивание приложений
+    include:
+      path: app-embedding/b24-toc.yaml
+      mode: link

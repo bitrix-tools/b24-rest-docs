@@ -1,4 +1,4 @@
-# Исключить участников из чата
+# Исключить участников из чата imbot.chat.user.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.user.delete" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.user.delete` исключает участников.
 
@@ -43,19 +41,25 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.chat.user.delete',
-    Array(
-        'CHAT_ID' => 13,
-        'USER_ID' => 4,
-        'BOT_ID' => 39,
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.chat.user.delete',
+        Array(
+            'CHAT_ID' => 13,
+            'USER_ID' => 4,
+            'BOT_ID' => 39,
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

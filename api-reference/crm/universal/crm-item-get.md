@@ -1,7 +1,5 @@
-# Получить элемент по Id
+# Получить элемент по Id crm.item.get
 
-> Название метода: **crm.item.get**
-> 
 > Scope: [`crm`](../../scopes/permissions.md)
 > 
 > Кто может выполнять метод: любой пользователь с правом «чтения» элементов объекта CRM
@@ -21,6 +19,14 @@
 [`integer`][1] | Идентификатор элемента, чью информацию мы хотим получить.
 
 Можно получить методом [`crm.item.list`](./crm-item-list.md) или при создании элемента с помощью [`crm.item.add`](./crm-item-add.md) ||
+|| **useOriginalUfNames**
+[`boolean`][1] | Параметр используется для управления форматом имен пользовательских полей в ответе.   
+Возможные значения:
+
+- `Y` — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830
+- `N` — имена пользовательских полей в camelCase, например ufCrm_2_1639669411830
+
+По умолчанию — `N` ||
 |#
 
 ## Примеры кода
@@ -37,8 +43,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":1,"id":250}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.get
+    -d '{"entityTypeId":1,"id":250,"useOriginalUfNames":"N"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.get
     ```
 
 - cURL (OAuth)
@@ -47,7 +53,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":1,"id":250,"auth":"**put_access_token_here**"}' \
+    -d '{"entityTypeId":1,"id":250,"useOriginalUfNames":"N","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.item.get
     ```
 
@@ -59,6 +65,7 @@
             {
                 entityTypeId: 1,
                 id: 250,
+                useOriginalUfNames: 'N',
             },
             (result) => {
                 if (result.error())
@@ -82,13 +89,68 @@
         'crm.item.get',
         [
             'entityTypeId' => 1,
-            'id' => 250
+            'id' => 250,
+            'useOriginalUfNames' => 'N',
         ]
     );
 
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+  
+    ```php        
+    try {
+        $entityTypeId = 1; // Example entity type ID
+        $id = 123; // Example item ID
+        $itemResult = $serviceBuilder
+            ->getCRMScope()
+            ->item()
+            ->get($entityTypeId, $id);
+        $item = $itemResult->item();
+        print("ID: " . $item->id . PHP_EOL);
+        print("XML ID: " . $item->xmlId . PHP_EOL);
+        print("Title: " . $item->title . PHP_EOL);
+        print("Created By: " . $item->createdBy . PHP_EOL);
+        print("Updated By: " . $item->updatedBy . PHP_EOL);
+        print("Moved By: " . $item->movedBy . PHP_EOL);
+        print("Created Time: " . $item->createdTime->format(DATE_ATOM) . PHP_EOL);
+        print("Updated Time: " . $item->updatedTime->format(DATE_ATOM) . PHP_EOL);
+        print("Moved Time: " . $item->movedTime->format(DATE_ATOM) . PHP_EOL);
+        print("Category ID: " . $item->categoryId . PHP_EOL);
+        print("Opened: " . ($item->opened ? 'true' : 'false') . PHP_EOL);
+        print("Previous Stage ID: " . $item->previousStageId . PHP_EOL);
+        print("Begin Date: " . $item->begindate->format(DATE_ATOM) . PHP_EOL);
+        print("Close Date: " . $item->closedate->format(DATE_ATOM) . PHP_EOL);
+        print("Company ID: " . $item->companyId . PHP_EOL);
+        print("Contact ID: " . $item->contactId . PHP_EOL);
+        print("Opportunity: " . $item->opportunity . PHP_EOL);
+        print("Is Manual Opportunity: " . ($item->isManualOpportunity ? 'true' : 'false') . PHP_EOL);
+        print("Tax Value: " . $item->taxValue . PHP_EOL);
+        print("Currency ID: " . $item->currencyId . PHP_EOL);
+        print("Opportunity Account: " . $item->opportunityAccount . PHP_EOL);
+        print("Tax Value Account: " . $item->taxValueAccount . PHP_EOL);
+        print("Account Currency ID: " . $item->accountCurrencyId . PHP_EOL);
+        print("My Company ID: " . $item->mycompanyId . PHP_EOL);
+        print("Source ID: " . $item->sourceId . PHP_EOL);
+        print("Source Description: " . $item->sourceDescription . PHP_EOL);
+        print("Webform ID: " . $item->webformId . PHP_EOL);
+        print("Assigned By ID: " . $item->assignedById . PHP_EOL);
+        print("Last Activity By: " . $item->lastActivityBy . PHP_EOL);
+        print("Last Activity Time: " . $item->lastActivityTime->format(DATE_ATOM) . PHP_EOL);
+        print("UTM Source: " . $item->utmSource . PHP_EOL);
+        print("UTM Medium: " . $item->utmMedium . PHP_EOL);
+        print("UTM Campaign: " . $item->utmCampaign . PHP_EOL);
+        print("UTM Content: " . $item->utmContent . PHP_EOL);
+        print("UTM Term: " . $item->utmTerm . PHP_EOL);
+        print("Observers: " . json_encode($item->observers) . PHP_EOL);
+        print("Contact IDs: " . json_encode($item->contactIds) . PHP_EOL);
+        print("Entity Type ID: " . $item->entityTypeId . PHP_EOL);
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . PHP_EOL);
+    }
     ```
 
 {% endlist %}
@@ -203,6 +265,13 @@ HTTP-статус: **200**
 || **time**
 [`time`][1] | Объект, содержащий в себе информацию о времени выполнения запроса ||
 |#
+
+{% note info " " %}
+
+По умолчанию имена пользовательских полей возвращаются в camelCase, например ufCrm2_1639669411830.
+При передаче параметра `useOriginalUfNames` со значением `Y` пользовательские поля будут возвращаться с оригинальными именами, например UF_CRM_2_1639669411830.
+
+{% endnote %}
 
 ## Обработка ошибок
 

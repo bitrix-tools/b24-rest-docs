@@ -1,4 +1,4 @@
-# Доступ к значению списочного свойства по ID
+# Получить значение списочного свойства по идентификатору catalog.productPropertyEnum.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.productPropertyEnum.get" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -37,26 +35,33 @@ catalog.productPropertyEnum.get(id)
 #|
 || **Параметр** | **Описание** ||
 || **id** 
-[`integer`](../../data-types.md)| Идентификатор списочного свойства. ||
+[`integer`](../../data-types.md)| Идентификатор значения списочного свойства. ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyEnum.get',
-    {
-        id: 121
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'catalog.productPropertyEnum.get',
+        {
+            id: 121
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

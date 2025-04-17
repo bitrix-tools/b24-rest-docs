@@ -1,4 +1,4 @@
-# При инициализации звонка
+# При инициализации звонка OnVoximplantCallInit
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "OnVoximplantCallInit" %}
-
-{% include notitle [Скоуп telephony all](../../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
+{% include notitle [Скоуп telephony events](../../_includes/scope-telephony-events.md) %}
 
 Событие `OnVoximplantCallInit` вызывается при инициализации звонка (о поступлении или начале исходящего звонка).
 

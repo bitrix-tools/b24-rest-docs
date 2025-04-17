@@ -1,4 +1,4 @@
-# Добавить файл в чат
+# Добавить файл в чат im.disk.file.commit
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.disk.file.commit" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.disk.file.commit` публикует загруженный файл в чат.
 

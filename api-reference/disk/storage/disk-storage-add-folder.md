@@ -1,4 +1,4 @@
-# Создание папки в корне хранилища
+# Создать папку в корне хранилища disk.storage.addfolder
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.storage.addfolder" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.addfolder` создает папку в корне хранилища.
 
@@ -40,22 +38,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.storage.addfolder",
-    {
-        id: 4,
-        data: {'NAME': 'New'}
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.storage.addfolder",
+        {
+            id: 4,
+            data: {'NAME': 'New'}
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

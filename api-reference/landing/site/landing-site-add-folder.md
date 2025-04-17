@@ -1,4 +1,4 @@
-# Добавление папки на сайт
+# Добавить папку на сайт landing.site.addFolder
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.site.addFolder" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.addFolder` добавляет папку в сайт.
 
@@ -53,27 +51,33 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.addFolder',
-    {
-        siteId: 1817,
-        fields: {
-            TITLE: 'Новая папка'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.addFolder',
         {
-            console.error(result.error());
-        }
-        else
+            siteId: 1817,
+            fields: {
+                TITLE: 'Новая папка'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

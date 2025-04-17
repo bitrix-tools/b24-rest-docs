@@ -1,4 +1,4 @@
-# Удалить сообщение
+# Удалить сообщение imbot.message.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "imbot.message.delete" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.message.delete` удаляет сообщение чат-бота.
 
@@ -45,19 +43,25 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.message.delete',
-    Array(
-        'BOT_ID' => 39,
-        'MESSAGE_ID' => 1,
-        'COMPLETE' => 'N',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.message.delete',
+        Array(
+            'BOT_ID' => 39,
+            'MESSAGE_ID' => 1,
+            'COMPLETE' => 'N',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

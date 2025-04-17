@@ -1,7 +1,5 @@
-# Добавить привязку элемента корзины к оплате
+# Добавить привязку элемента корзины к оплате sale.paymentitembasket.add
 
-> Название метода: **sale.paymentitembasket.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

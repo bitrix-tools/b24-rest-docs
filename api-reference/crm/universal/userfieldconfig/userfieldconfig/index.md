@@ -17,3 +17,7 @@
 || [userfieldconfig.list](userfieldconfig-list.md) | Метод получает список настроек пользовательских полей. ||
 || [userfieldconfig.update](userfieldconfig-update.md) | Метод изменяет значение поля. ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)

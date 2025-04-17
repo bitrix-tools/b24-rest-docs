@@ -1,4 +1,4 @@
-# Возвращение списка элементов справочника по фильтру
+# Получить список элементов справочника по фильтру crm.status.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.status.list" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.status.list()
@@ -37,25 +35,31 @@ Cмотри описание [списочных методов](../../../api-re
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    "crm.status.list",
-    {
-        order: { "SORT": "ASC" },
-        filter: { "ENTITY_ID": "STATUS" }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "crm.status.list",
         {
-            console.dir(result.data());            
-            if(result.more())
-                result.next();                        
+            order: { "SORT": "ASC" },
+            filter: { "ENTITY_ID": "STATUS" }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());            
+                if(result.more())
+                    result.next();                        
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

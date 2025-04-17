@@ -1,4 +1,4 @@
-# Установить признак «прочитано» у всех чатов
+# Установить признак «прочитано» у всех чатов im.dialog.read.all
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.dialog.read.all" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.dialog.read.all` устанавливает метки «прочитано» для всех диалогов.
 
@@ -30,13 +28,19 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.dialog.read.all',
-    {},
-    res => console.log(res.data())
-)
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'im.dialog.read.all',
+        {},
+        res => console.log(res.data())
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

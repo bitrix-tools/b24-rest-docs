@@ -1,0 +1,13 @@
+title: Частые кейсы и сценарии в задачах 
+href: index.md
+items: 
+  - name: Типовые кейсы использования REST API в Задачах и туториалы
+    href: index.md
+  - name: Как создать задачу с прикрепленным файлом
+    href: how-to-create-task-with-file.md
+  - name: Как загрузить файл в задачу
+    href: how-to-upload-file-to-task.md
+  - name: Как создать комментарий в задаче и прикрепить к нему файл
+    href: how-to-create-comment-with-file.md
+  - name: Как прикрепить задачу к смарт-процессу
+    href: how-to-connect-task-to-spa.md  

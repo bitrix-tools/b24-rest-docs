@@ -1,4 +1,4 @@
-# Получение идентификатора страницы по URL
+# Получить идентификатор страницы по URL landing.landing.resolveIdByPublicUrl
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.resolveIdByPublicUrl" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.resolveIdByPublicUrl` возвращает идентификатор страницы по переданному относительному URL страницы.
 
@@ -40,25 +38,31 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.landing.resolveIdByPublicUrl',
-    {
-        landingUrl: '/folder/sub/folder/page/',
-        siteId: 1817
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.resolveIdByPublicUrl',
         {
-            console.error(result.error());
-        }
-        else
+            landingUrl: '/folder/sub/folder/page/',
+            siteId: 1817
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

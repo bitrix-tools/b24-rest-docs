@@ -1,0 +1,17 @@
+title: Ставка НДС
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить ставку НДС
+    href: catalog-vat-add.md
+  - name: Изменить ставку НДС
+    href: catalog-vat-update.md
+  - name: Получить параметры ставки НДС
+    href: catalog-vat-get.md
+  - name: Получить список ставок НДС
+    href: catalog-vat-list.md
+  - name: Удалить ставку НДС
+    href: catalog-vat-delete.md
+  - name: Получить поля ставки НДС
+    href: catalog-vat-get-fields.md

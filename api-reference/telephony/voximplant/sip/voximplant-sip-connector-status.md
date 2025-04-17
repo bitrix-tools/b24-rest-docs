@@ -1,4 +1,4 @@
-# Получение текущего статуса SIP-Коннектора
+# Получить текущий статус SIP-Коннектора voximplant.sip.connector.status
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,7 @@
 
 {% endif %}
 
-{% note info "voximplant.sip.connector.status" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.sip.connector.status` возвращает текущий статус SIP-Коннектора. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 
@@ -32,19 +28,25 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.sip.connector.status',
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.sip.connector.status',
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "t" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Права на выполнение**: `для всех`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Методы работы с пользовательскими полями:
 
@@ -35,4 +33,5 @@
 
 ## Дополнительно
 - [Настройки пользовательских полей](../userfieldconfig/index.md)
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
   

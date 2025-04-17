@@ -1,4 +1,4 @@
-# Удаление пользовательского поля сделок
+# Удалить пользовательское поле сделок crm.deal.userfield.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.userfield.delete" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.userfield.delete` удаляет пользовательское поле сделок.
 
@@ -36,21 +34,47 @@
 
 ## Пример
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.deal.userfield.delete",
-    {
-        id: id
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.deal.userfield.delete",
+        {
+            id: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php
+    try {
+        $userfieldId = 123; // Replace with the actual userfield ID you want to delete
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealUserfield()
+            ->delete($userfieldId);
+
+        if ($result->isSuccess()) {
+            print("Userfield deleted successfully.");
+        } else {
+            print("Failed to delete userfield.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
     }
-);
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

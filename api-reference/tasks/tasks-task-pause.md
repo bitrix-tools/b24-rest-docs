@@ -1,4 +1,4 @@
-# Перевод задачи в статус «ждет выполнения»
+# Перевести задачу в статус «ждет выполнения» tasks.task.pause
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.pause" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.pause` останавливает выполнение задачи, переводя ее в статус «ждет выполнения».
 
@@ -36,12 +34,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.pause',
-    {taskId:1},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.pause',
+        {taskId:1},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

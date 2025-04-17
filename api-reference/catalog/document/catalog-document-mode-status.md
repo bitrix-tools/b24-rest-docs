@@ -1,4 +1,4 @@
-# Метод для получения информации о том, включён ли складской учёт
+# Получить информациюи о том, включен ли складской учет catalog.document.mode.status
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.document.mode.status" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ## Описание
 
@@ -44,9 +42,9 @@ catalog.document.mode.status()
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.mode.status',
         {},
@@ -60,9 +58,9 @@ catalog.document.mode.status()
     );
     ```
 
-- php
+- PHP
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.mode.status'
     );

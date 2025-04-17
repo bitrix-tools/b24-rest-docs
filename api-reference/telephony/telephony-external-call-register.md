@@ -1,4 +1,4 @@
-# Регистрирация звонка в Битрикс24
+# Зарегистрировать звонок в Битрикс24 telephony.externalcall.register
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalcall.register" %}
-
 {% include notitle [Скоуп telephony all](./_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalcall.register` регистрирует звонок в Битрикс24, для чего ищет в CRM соответствующий номеру объект. Если находит, то добавляет звонок в привязке к найденному объекту. Если не находит, то может автоматически создать лид.
 

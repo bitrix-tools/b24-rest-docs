@@ -1,4 +1,4 @@
-# Получение лидов, контактов и компаний с совпадающими данными
+# Получить лиды, контакты и компании с совпадающими данными crm.duplicate.findbycomm
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,17 +18,15 @@
 
 {% endif %}
 
-{% note info "crm.duplicate.findbycomm" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.duplicate.findbycomm()
 ```
 
-Возвращает идентификаторы лидов, контактов и компаний содержащих телефоны или email-адреса из заданного списка.
+Возвращает идентификаторы лидов, контактов и компаний содержащих телефоны или email-адреса из заданного списка. Поиск не учитывает добавочный номер телефона.
 
 ## Параметры
 
@@ -61,26 +59,32 @@ crm.duplicate.findbycomm()
 
 ## Пример поиска контакта по телефону:
 
-```js
-//Поиск контакта по телефону
-BX24.callMethod(
-    "crm.duplicate.findbycomm",
-    {
-        entity_type: "CONTACT",
-        type: "PHONE",
-        values: [ "8976543", "11223355" ],
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            {
-                console.dir(result.data());
-            }
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //Поиск контакта по телефону
+    BX24.callMethod(
+        "crm.duplicate.findbycomm",
+        {
+            entity_type: "CONTACT",
+            type: "PHONE",
+            values: [ "8976543", "11223355" ],
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                {
+                    console.dir(result.data());
+                }
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

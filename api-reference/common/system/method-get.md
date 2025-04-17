@@ -1,53 +1,138 @@
-# Показ списка методов, доступных текущему приложению
+# Получить список доступных методов method.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`базовый`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `method.get` возвращает два параметра `isExisting` и `isAvailable`, которые соответственно определяют существование метода на портале и его доступность для вызова.
 
-{% endnote %}
+## Параметры метода
 
-{% if build == 'dev' %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "method.get" %}
-
-**Scope**: [`базовый`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `method.get` возвращает 2 параметра:
-
-- `isExisting => true/false` - параметр определяет существует ли метод именно на этом портале;
-- `isAvailable => true/false` - параметр определяет доступен ли метод для вызова с текущими доступами ([scope](./scope.md)) приложения.
-
-## Параметры
 #|
-|| **Параметр** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **name**
-[`string`](../../data-types.md) | Имя метода для проверки. ||
+[`string`](../../data-types.md) | Название метода для проверки в нижнем регистре, например `user.get` ||
 |#
 
-## Примеры
+> Если метод вызван без параметров, то он вернет список всех методов, доступных текущему приложению.
 
-```js
-$result = CRest::call(
-    'method.get',
-    [
-        'name' => 'user.get',
-    ]
-);
-print_r($result);
-```
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "name": "user.get"
+    }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/method.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "name": "user.get",
+        "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/method.get
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "method.get",
+        {
+            "name": "user.get"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'method.get',
+        [
+            'name' => 'user.get'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "isExisting": true,
+        "isAvailable": true
+    },
+    "time": {
+        "start": 1721983189.4629,
+        "finish": 1721983189.50346,
+        "duration": 0.0405528545379639,
+        "processing": 0.000152111053466796,
+        "date_start": "2024-07-26T08:39:49+00:00",
+        "date_finish": "2024-07-26T08:39:49+00:00",
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Возвращаются два параметра:
+
+- `isExisting => true/false` — определяет существует ли метод именно на этом портале
+- `isAvailable => true/false` — определяет доступность метода для вызова с текущими доступами ([scope](./scope.md)) приложения ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+
+## Продолжите изучение
+
+- [{#T}](./scope.md)
+- [{#T}](./app-info.md)
+- [{#T}](./access-name.md)
+- [{#T}](./feature-get.md)
+- [{#T}](./server-time.md)
+- [{#T}](./methods.md)

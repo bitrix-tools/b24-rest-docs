@@ -1,4 +1,4 @@
-# Копирование папки в заданную папку
+# Копировать папку в заданную папку disk.folder.copyto
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.copyto" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.copyto` копирует папку в указанную папку.
 
@@ -40,22 +38,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.folder.copyto",
-    {
-        id: 8,
-        targetFolderId: 22081990
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.folder.copyto",
+        {
+            id: 8,
+            targetFolderId: 22081990
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

@@ -1,4 +1,4 @@
-# Обновление документа складского учёта
+# Изменить документ складского учета catalog.document.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.document.update" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ```http
 catalog.document.update(id, fields)
@@ -48,9 +46,9 @@ catalog.document.update(id, fields)
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.update',
         {
@@ -71,9 +69,9 @@ catalog.document.update(id, fields)
     );
     ```
 
-- php
+- PHP
 
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.update',
         [

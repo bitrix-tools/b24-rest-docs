@@ -1,4 +1,4 @@
-# Создание раздела универсального списка
+# Создать раздел универсального списка lists.section.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.section.add" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.section.add` создаёт раздел списка. В случае успешного создания раздела ответ `true`, иначе *Exception*.
 
@@ -44,7 +42,7 @@
 || **IBLOCK_SECTION_ID**
 [`unknown`](../../data-types.md) | Идентификатор раздела родителя, если не задан то раздел будет корневой | ||
 || **FIELDS**
-[`unknown`](../../data-types.md) | Массив полей и значений: Доступные поля описаны в документации [Структура таблиц модуля информационных блоков](https://dev.1c-bitrix.ru/api_help/iblock/fields.php#fsection). Обязательные поля: NAME. | ||
+[`unknown`](../../data-types.md) | Массив полей и значений. Обязательные поля: NAME. | ||
 || **SECTION_CODE**^*^
 [`unknown`](../../data-types.md) | Символьный код раздела (обязательный). | ||
 |#
@@ -53,27 +51,33 @@
 
 ## Пример
 
-```js
-/* lists.section.add */
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_CODE': 'rest_1',
-    'SECTION_CODE': 'Section_code_1'
-    'FIELDS': {
-        'NAME': 'Section_1',
-    }
-};
-BX24.callMethod(
-    'lists.section.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    /* lists.section.add */
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_CODE': 'rest_1',
+        'SECTION_CODE': 'Section_code_1'
+        'FIELDS': {
+            'NAME': 'Section_1',
+        }
+    };
+    BX24.callMethod(
+        'lists.section.add',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

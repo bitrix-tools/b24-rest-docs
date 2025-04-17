@@ -1,7 +1,5 @@
-# Удалить товар
+# Удалить товар crm.product.delete
 
-> Название метода: **crm.product.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -79,6 +77,23 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php        
+    try {
+        $productId = 123; // Example product ID
+        $result = $serviceBuilder->getCRMScope()->product()->delete($productId);
+        
+        if ($result->isSuccess()) {
+            print("Item deleted successfully.");
+        } else {
+            print("Failed to delete item.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}

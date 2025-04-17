@@ -1,7 +1,5 @@
-# Добавить заказ
+# Добавить заказ sale.order.add
 
-> Название метода: **sale.order.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
@@ -135,6 +133,7 @@
     -H "Accept: application/json" \
     -d '{"fields":{"lid":"s1","personTypeId":1,"currency":"RUB","price":100,"discountValue":10,"statusId":"N","empStatusId":1,"dateInsert":"2024-03-01T14:00:00","marked":"Y","empMarkedId":1,"reasonMarked":"","userDescription":"","additionalInfo":"","comments":"","companyId":1,"responsibleId":1,"recurringId":1,"lockedBy":1,"recountFlag":"N","affiliateId":1,"updated1c":"N","orderTopic":"","xmlId":"","id1c":"","version1c":"","externalOrder":"N","canceled":"Y","empCanceledId":1,"reasonCanceled":"","userId":1}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.order.add
+    ```
 
 - cURL (OAuth)
 

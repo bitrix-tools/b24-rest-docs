@@ -1,4 +1,5 @@
-# Список предложений по фильтру
+# Получить список предложений по фильтру crm.quote.list
+
 {% note warning "Мы еще обновляем эту страницу" %}
 
 Тут может не хватать некоторых данных — дополним в ближайшее время
@@ -12,7 +13,6 @@
 - нужно описать параметры здесь
 - не указаны типы параметров
 - не указана обязательность параметров
-- добавить ссылку на фразу "списочных методов", ссылка должна вести на страницу https://dev.1c-bitrix.ru/rest_help/rest_sum/index.php
 - отсутствуют примеры (должно быть три примера - curl, js, php)
 - отсутствует ответ в случае ошибки
 - отсутствует ответ в случае успеха
@@ -21,38 +21,42 @@
 
 {% endif %}
 
-{% note info "crm.quote.list" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.quote.list` возвращает список предложений по фильтру. Является реализацией списочного метода для предложений.
 
-Cм. описание [списочных методов](.).
+Cм. описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    "crm.quote.list",
-    {
-        order: { "STATUS_ID": "ASC" },
-        filter: { "=COMPANY_ID": 1 },
-        select: [ "ID", "TITLE", "STATUS_ID", "OPPORTUNITY", "CURRENCY_ID" ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "crm.quote.list",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            order: { "STATUS_ID": "ASC" },
+            filter: { "=COMPANY_ID": 1 },
+            select: [ "ID", "TITLE", "STATUS_ID", "OPPORTUNITY", "CURRENCY_ID" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

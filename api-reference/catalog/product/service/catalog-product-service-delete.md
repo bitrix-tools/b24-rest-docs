@@ -1,7 +1,5 @@
-# Удалить услугу
+# Удалить услугу catalog.product.service.delete
 
-> Название метода: **catalog.product.service.delete**
->
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

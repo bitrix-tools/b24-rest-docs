@@ -1,4 +1,4 @@
-# Создание хранилища данных
+# Создать хранилище данных entity.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "entity.add" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.add` cоздает хранилище данных. Перед созданием проверить наличие хранилища можно с помощью [entity.get](./entity-get.md)
 
@@ -48,18 +46,24 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    'entity.add',
-    {
-        'ENTITY': 'dish',
-        'NAME': 'Dishes',
-        'ACCESS': {
-            U1:'W',
-            AU:'R'
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'entity.add',
+        {
+            'ENTITY': 'dish',
+            'NAME': 'Dishes',
+            'ACCESS': {
+                U1:'W',
+                AU:'R'
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

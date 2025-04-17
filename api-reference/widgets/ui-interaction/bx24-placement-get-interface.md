@@ -1,28 +1,49 @@
-# Иформация о js-интерфейсе текущего места встраивания
+# Получить иформацию о js-интерфейсе текущего места встраивания BX24.placement.getInterface
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`placement`](../../scopes/permissions.md)
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `BX24.placement.getInterface` позволяет получить информацию о js-интерфейсе текущего места встраивания: список возможных команд и событий.
 
-{% endnote %}
+## Параметры
 
-{% if build == 'dev' %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **callback***
+[`callable`](../../data-types.md) | Функция обратного вызова. 
 
-- нужны правки под стандарт написания
-- отсутствуют параметры или поля
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
+Обработчик `callback` получит объект вида `{command: array, event: array}`, где: 
+- `command` — список доступных команд
+- `event` — список доступных событий
 
-{% endnote %}
+Пример: плейсмент `CALL_CARD` предназначен для работы с карточкой звонка в CRM
+ ||
+|#
 
-{% endif %}
+## Пример кода
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-Получение информации о js-интерфейсе текущего места встраивания: списке возможных команд и событий
+```js
+BX24.ready(function () {
+    BX24.init(function () {
+        BX24.placement.getInterface((result) => {
+            console.info(result);
+        });
+    });
+});
+```
 
-`BX24.placement.getInterface(Function callback)`
+## Результат
+
+```json
+{"command":["getStatus", "disableAutoClose", "enableAutoClose" …],"event":[{"CallCard::EntityChanged", "CallCard::CallStateChanged", "CallCard::BeforeClose" …}]}
+```
+
+## Продолжите изучение 
+
+- [{#T}](bx24-placement-info.md)
+- [{#T}](bx24-placement-call.md)
+- [{#T}](bx24-placement-bind-event.md)

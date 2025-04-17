@@ -1,20 +1,20 @@
 title: Уведомления
 href: index.md
 items:
-  - name: Об уведомлениях
+  - name: Обзор методов
     href: index.md
   - name: Отправить персональное уведомление
     href: im-notify-personal-add.md
   - name: Отправить системное уведомление
     href: im-notify-system-add.md
+  - name: Прочитать список уведомлений 
+    href: im-notify-read-list.md
+  - name: Прочитать уведомление
+    href: im-notify-read.md
+  - name: Ответить на уведомление, которое поддерживает быстрый ответ
+    href: im-notify-answer.md
+  - name: Взаимодействовать с кнопками нотификаций
+    href: im-notify-confirm.md
   - name: Удалить уведомление
     href: im-notify-delete.md
-  - name: Установить отмену прочитанных уведомлений
-    href: im-notify-read.md
-  - name: Прочитать список уведомлений (кроме CONFIRM) 
-    href: im-notify-read-list.md
-  - name: Ответить на уведомление, поддерживающее быстрый ответ
-    href: im-notify-answer.md
-  - name: Как взаимодействовать с кнопками нотификаций
-    href: im-notify-confirm.md
 

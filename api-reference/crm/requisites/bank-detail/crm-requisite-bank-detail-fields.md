@@ -1,7 +1,5 @@
-# Получить описание полей банковских реквизитов
+# Получить описание полей банковских реквизитов crm.requisite.bankdetail.fields
 
-> Название метода: **crm.requisite.bankdetail.fields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,4 +1,4 @@
-# Изменение папки в сайте
+# Изменить папку в сайте landing.site.updateFolder
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.site.updateFolder" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.updateFolder` изменяет папку в сайте.
 
@@ -55,28 +53,34 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.updateFolder',
-    {
-        siteId: 1817,
-        folderId: 736,
-        fields: {
-            TITLE: 'Измененная папка'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.updateFolder',
         {
-            console.error(result.error());
-        }
-        else
+            siteId: 1817,
+            folderId: 736,
+            fields: {
+                TITLE: 'Измененная папка'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -1,7 +1,5 @@
-# Получить поля шаблона реквизитов по id
+# Получить поля шаблона реквизитов по id crm.requisite.preset.get
 
-> Название метода: **crm.requisite.preset.get**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

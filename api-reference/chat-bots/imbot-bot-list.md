@@ -1,4 +1,4 @@
-# Получить список чат-ботов
+# Получить список чат-ботов imbot.bot.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "imbot.bot.list" %}
-
-**Scope**: [`imbot`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.bot.list` получает список доступных чат-ботов.
 
@@ -33,15 +31,21 @@
 
 {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.bot.list',
-    Array(),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.bot.list',
+        Array(),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

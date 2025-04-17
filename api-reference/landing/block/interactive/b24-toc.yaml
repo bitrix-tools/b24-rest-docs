@@ -1,0 +1,11 @@
+title: Интерактивные блоки
+href: index.md
+items:
+  - name: Введение
+    href: index.md
+  - name: Галереи
+    href: gallery.md
+  - name: Слайдеры
+    href: sliders.md
+  - name: Счетчики обратного отсчета
+    href: timer.md

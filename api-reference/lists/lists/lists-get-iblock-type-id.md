@@ -1,4 +1,4 @@
-# Получение идентификатора типа инфоблока
+# Получить идентификатор типа инфоблока lists.get.iblock.type.id
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "lists.get.iblock.type.id" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.get.iblock.type.id` возвращает `id` типа инфоблока. В случае успеха будет возвращена строка с `id` типа инфоблока, иначе `null`.
 
@@ -37,21 +35,29 @@
 
 ## Пример:
 
-```javascript
-var params = {
-    'IBLOCK_ID': '41'
-};
-BX24.callMethod(
-    'lists.get.iblock.type.id',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_ID': '41'
+    };
+    BX24.callMethod(
+        'lists.get.iblock.type.id',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

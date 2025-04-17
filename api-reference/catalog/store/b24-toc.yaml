@@ -1,0 +1,17 @@
+title: Склады
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить склад
+    href: catalog-store-add.md
+  - name: Изменить склад
+    href: catalog-store-update.md
+  - name: Получить значения полей склада
+    href: catalog-store-get.md
+  - name: Получить список складов
+    href: catalog-store-list.md   
+  - name: Удалить склад
+    href: catalog-store-delete.md
+  - name: Получить поля склада
+    href: catalog-store-get-fields.md

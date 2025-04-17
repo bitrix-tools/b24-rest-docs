@@ -1,4 +1,4 @@
-# Получение списка доступных уровней доступа
+# Получить список доступных уровней доступа disk.rights.getTasks
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.rights.getTasks" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.rights.getTasks` позволяет получить список уровней доступов, которые можно использовать в назначении прав.
 Возвращает доступные уровни доступа. 
@@ -44,18 +42,25 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.rights.getTasks",
-    {},
-    function (result) {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-)
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.rights.getTasks",
+        {},
+        function (result) {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    )
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

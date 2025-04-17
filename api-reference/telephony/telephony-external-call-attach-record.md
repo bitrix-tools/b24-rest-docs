@@ -1,4 +1,4 @@
-# Прикрепление записи к завершенному звонку и к Делу звонка
+# Прикрепить запись к завершенному звонку и к Делу звонка telephony.externalCall.attachRecord
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalCall.attachRecord" %}
-
 {% include notitle [Скоуп telephony all](./_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalCall.attachRecord` прикрепляет запись к завершенному звонку и к Делу звонка. Должен вызываться после [telephony.externalcall.finish](./telephony-external-call-finish.md), если запись на момент вызова finish еще не готова. 
 
@@ -36,7 +32,7 @@
 [`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalcall.register](./telephony-external-call-register.md). ||
 || **FILENAME** 
 [`string`](../data-types.md) | Имя файла, обязательный. Имя файла должно заканчиваться на wav или mp3. ||
-|| **CFILE_CONTENT** 
+|| **FILE_CONTENT** 
 [`string`](../data-types.md) | base64-кодированное содержимое файла. Необязательный. Если параметр не указать, метод вернет параметр `uploadUrl` - урл, на который можно за'upload'ить содержимое файла. ||
 || **RECORD_URL** 
 [`string`](../data-types.md) | Ссылка на запись на сервере клиента. Если указано, то будет осуществлена попытка скачать запись по указанному адресу, вместо ожидания загрузки записи на портал клиента.

@@ -1,4 +1,4 @@
-# Изменение страницы
+# Изменить страницу landing.landing.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.update" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.update` вносит изменения в страницу. Возвращает *true* в случае успеха, или ошибку.
 
@@ -40,27 +38,33 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.landing.update',
-    {
-        lid: 349,
-        fields: {
-            TITLE: 'My second page!'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.update',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 349,
+            fields: {
+                TITLE: 'My second page!'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

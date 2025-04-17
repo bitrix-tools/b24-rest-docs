@@ -1,4 +1,4 @@
-# Принудительное обновление ключа авторизации
+# Обновить принудительно ключ авторизации BX24.refreshAuth
 
 ```js
 BX24.refreshAuth(someCallback: function): object

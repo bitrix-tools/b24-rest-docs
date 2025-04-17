@@ -1,4 +1,4 @@
-# Получение списка привязок в меню
+# Получить список привязок в меню landing.site.getMenuBindings
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "landing.site.getMenuBindings" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.getMenuBindings` возвращает список привязанных к меню (конкретному или всем) Баз знаний. Вернутся только привязки, к Базам знаний которых текущий пользователь имеет доступ на чтение.
 
@@ -37,24 +35,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.site.getMenuBindings',
-    {
-        menuCode: 'crm_switcher:deal'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.getMenuBindings',
         {
-            console.error(result.error());
-        }
-        else
+            menuCode: 'crm_switcher:deal'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

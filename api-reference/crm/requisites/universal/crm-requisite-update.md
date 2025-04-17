@@ -1,7 +1,5 @@
-# Обновить реквизит
+# Обновить реквизит crm.requisite.update
 
-> Название метода: **crm.requisite.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

@@ -1,4 +1,4 @@
-# Включить/выключить публичную ссылку на документ
+# Включить/выключить публичную ссылку на документ documentgenerator.document.enablepublicurl
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.document.enablepublicurl" %}
-
-**Scope**: [`documentgenerator`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.document.enablepublicurl` включает/выключает публичную ссылку на документ.
 

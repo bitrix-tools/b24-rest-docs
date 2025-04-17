@@ -1,4 +1,4 @@
-# Удаление привязки к группе социальной сети
+# Удалить привязку к группе Социальной сети landing.site.unbindingFromGroup
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.unbindingFromGroup" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.unbindingFromGroup` отвязывает конкретную Базу знаний от группы. Пользователь должен состоять в указанной группе.
 
@@ -40,25 +38,31 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.unbindingFromGroup',
-    {
-        id: 32,
-        groupId: 174
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.unbindingFromGroup',
         {
-            console.error(result.error());
-        }
-        else
+            id: 32,
+            groupId: 174
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -1,4 +1,4 @@
-# Изменение значения пользовательского поля
+# Изменить значение пользовательского поля userfieldconfig.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "userfieldconfig.update" %}
-
-**Scope**: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 userfieldconfig.update({moduleId: string, id: number, field: {}})
@@ -102,6 +100,7 @@ userfieldconfig.update({moduleId: string, id: number, field: {}})
         "enum": [
             {
                 "id": 29,
+                "value": "Старое значение"
             },
             {
                 "id": 30,
@@ -116,9 +115,14 @@ userfieldconfig.update({moduleId: string, id: number, field: {}})
 ```
 
 В этом примере:
-- вариант значения с id=29 останется без изменений,
-- у варианта с id=30 поменяется значение,
-- добавится новый вариант "Новое значение",
-- все остальные варианты будут удалены.
+- Вариант значения с id=29 останется без изменений
+- У варианта с id=30 поменяется значение
+- Добавится новый вариант "Новое значение"
+- Все остальные варианты будут удалены. Если передавать в запросе только id варианта без значения value — вариант будет удален
+
   
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)

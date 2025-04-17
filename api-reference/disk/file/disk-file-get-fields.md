@@ -1,4 +1,4 @@
-# Описание полей файла
+# Получить описание полей файла disk.file.getfields
 
 {% if build == 'dev' %}
 
@@ -18,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "disk.file.getfields" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.file.getfields` возвращает описание полей файла.
 
@@ -36,17 +34,24 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.file.getfields",
-    {},
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.file.getfields",
+        {},
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

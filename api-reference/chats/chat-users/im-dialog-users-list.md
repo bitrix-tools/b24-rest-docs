@@ -1,4 +1,4 @@
-# Получить список участников
+# Получить список участников im.dialog.users.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.dialog.users.list" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.dialog.users.list` получает информацию об участниках чата. Поддерживается пагинация.
 
@@ -44,25 +42,31 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.dialog.users.list',
-    {
-        DIALOG_ID: 'chat74',
-        SKIP_EXTERNAL: 'Y'
-    },
-    res => {
-        if (res.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    B24.callMethod(
+        'im.dialog.users.list',
         {
-        console.error(result.error().ex);
+            DIALOG_ID: 'chat74',
+            SKIP_EXTERNAL: 'Y'
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
         }
-        else
-        {
-        console.log(res.data())
-        }
-    }
-)
-```
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -1,4 +1,4 @@
-# Установка настроек инструмента контроля времени
+# Установить настройки инструмента контроля времени timeman.timecontrol.settings.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.settings.set" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `timeman.timecontrol.settings.set` для установки настроек инструмента контроля времени.
 
@@ -64,30 +62,38 @@
 - JS
 
     ```javascript
-    BX24.callMethod('timeman.timecontrol.settings.set', {
-        active: true,
-        report_request_type: 'user',
-        report_request_users: [1,2,3],
-    }, function(result){
-        if(result.error())
+    BX24.callMethod(
+        'timeman.timecontrol.settings.set',
         {
-            console.error(result.error().ex);
+            active: true,
+            report_request_type: 'user',
+            report_request_users: [1,2,3],
+        },
+        function(result){
+            if(result.error())
+            {
+                console.error(result.error().ex);
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+    );
     ```
 
 - PHP
 
     ```php
-    $result = restCommand('timeman.timecontrol.settings.set', Array(
-        active: true,
-        report_request_type: 'user',
-        report_request_users: [1,2,3],
-    ), $_REQUEST["auth"]);
+    $result = restCommand(
+        'timeman.timecontrol.settings.set',
+        Array(
+            active: true,
+            report_request_type: 'user',
+            report_request_users: [1,2,3],
+        ),
+        $_REQUEST["auth"]
+    );
     ```
 
 {% endlist %}

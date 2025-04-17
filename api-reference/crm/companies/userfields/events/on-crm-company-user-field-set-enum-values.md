@@ -1,40 +1,88 @@
-# Изменение набора значений для поля типа Список
+# При установке значений списка пользовательского поля onCrmCompanyUserFieldSetEnumValues
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Событие `ONCRMCOMPANYUSERFIELDSETENUMVALUES` сработает при установке значений списка для пользовательского поля компаний.
 
-{% endnote %}
+## Что получает обработчик
 
-{% if build == 'dev' %}
+Данные передаются в виде POST-запроса {.b24-info}
 
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "onCrmCompanyUserFieldSetEnumValues" %}
-
-**Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
-
-Событие `onCrmCompanyUserFieldSetEnumValues` вызывается при изменении набора значений для пользовательского поля списочного типа.
-
-## Параметры
+```json
+{
+    "event": "ONCRMCOMPANYUSERFIELDSETENUMVALUES",
+    "event_handler_id": "745",
+    "data": {
+        "FIELDS": {
+            "ID": "6979",
+            "ENTITY_ID": "CRM_COMPANY",
+            "FIELD_NAME": "UF_CRM_1743165530"
+        }
+    },
+    "ts": "1743165530",
+    "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "expires_in": "3600",
+        "scope": "crm",
+        "domain": "some-domain.bitrix24.com",
+        "server_endpoint": "https://oauth.bitrix.info/rest/",
+        "status": "L",
+        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
+        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
+    }
+}
+```
 
 #|
-|| **Параметр** | **Описание** ||
-|| **id**
-[`unknown`](../../../../data-types.md) | идентификатор пользовательского поля. ||
-|| **entityId**
-[`unknown`](../../../../data-types.md) | символьный идентификатор сущности, для которой создано поле ||
-|| **fieldName**
-[`unknown`](../../../../data-types.md) | имя созданного пользовательского поля ||
+|| **Параметр**
+`тип` | **Описание** ||
+|| **event**
+[`string`](../../../../data-types.md) | Символьный код события.
+
+В данном случае — `ONCRMCOMPANYUSERFIELDSETENUMVALUES` ||
+|| **event_handler_id**
+[`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
+|| **data**
+[`object`](../../../../data-types.md) | Объект, содержащий информацию о пользовательском поле, для которого установлены значения списка.
+
+Содержит ключ `FIELDS` ||
+|| **data.FIELDS**
+[`object`](../../../../data-types.md) | Объект, содержащий информацию о полях пользовательского поля.
+
+Структура описана [ниже](#fields) ||
+|| **ts**
+[`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
+|| **auth**
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+
+Структура описана [ниже](#auth) ||
 |#
+
+### Параметр FIELDS {#fields}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../../data-types.md) | Идентификатор пользовательского поля ||
+|| **ENTITY_ID**
+[`string`](../../../../data-types.md) | Идентификатор объекта, к которому относится пользовательское поле. В данном случае — `CRM_COMPANY` ||
+|| **FIELD_NAME**
+[`string`](../../../../data-types.md) | Название пользовательского поля ||
+|#
+
+### Параметр auth {#auth}
+
+{% include notitle [Таблица с ключами в массиве auth](../../../../../_includes/auth-params-in-events.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../../events/index.md)
+- [{#T}](../../../../events/event-bind.md)
+- [{#T}](./on-crm-company-user-field-add.md)
+- [{#T}](./on-crm-company-user-field-update.md)
+- [{#T}](./on-crm-company-user-field-delete.md)

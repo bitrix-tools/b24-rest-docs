@@ -1,4 +1,4 @@
-# Получение или изменение прав доступа
+# Получить или изменить права доступа entity.rights
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "entity.rights" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.rights` получает или изменяет права доступа к хранилищу. Возвращает текущий набор прав доступа.
 
@@ -44,14 +42,20 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    'entity.rights',
-    {
-        'ENTITY': 'dish'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'entity.rights',
+        {
+            'ENTITY': 'dish'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

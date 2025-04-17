@@ -1,4 +1,4 @@
-# Изменить чат-бот
+# Изменить чат-бот imbot.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -23,11 +23,9 @@
 
 {% endif %}
 
-{% note info "imbot.update" %}
-
-**Scope**: [`imbot`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.update` обновляет данные бота.
 
@@ -83,33 +81,39 @@
 
 {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.update',
-    Array(
-        'BOT_ID' => 39,
-        'CLIENT_ID' => '',
-        'FIELDS' => Array(
-            'CODE' => 'newbot',
-            'EVENT_HANDLER' => 'http://www.hazz/chatApi/event.php',
-            'PROPERTIES' => Array(
-                'NAME' => 'UpdatedBot',
-                'LAST_NAME' => '',
-                'COLOR' => 'MINT',
-                'EMAIL' => 'test2@test.ru',
-                'PERSONAL_BIRTHDAY' => '2016-03-12',
-                'WORK_POSITION' => 'Мой второй бот',
-                'PERSONAL_WWW' => 'http://test2.ru',
-                'PERSONAL_GENDER' => 'M',
-                'PERSONAL_PHOTO' => '/* base64 image */',
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.update',
+        Array(
+            'BOT_ID' => 39,
+            'CLIENT_ID' => '',
+            'FIELDS' => Array(
+                'CODE' => 'newbot',
+                'EVENT_HANDLER' => 'http://www.hazz/chatApi/event.php',
+                'PROPERTIES' => Array(
+                    'NAME' => 'UpdatedBot',
+                    'LAST_NAME' => '',
+                    'COLOR' => 'MINT',
+                    'EMAIL' => 'test2@test.ru',
+                    'PERSONAL_BIRTHDAY' => '2016-03-12',
+                    'WORK_POSITION' => 'Мой второй бот',
+                    'PERSONAL_WWW' => 'http://test2.ru',
+                    'PERSONAL_GENDER' => 'M',
+                    'PERSONAL_PHOTO' => '/* base64 image */',
+                )
             )
-        )
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
@@ -148,4 +152,4 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-[Rest API - События установки и обновления](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7891)
+[Rest API - События установки и обновления](./events/index.md)

@@ -1,0 +1,7 @@
+title: Права доступа
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список уровней доступа
+    href: disk-rights-get-tasks.md

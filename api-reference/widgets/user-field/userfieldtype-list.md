@@ -1,73 +1,143 @@
-# Cписок зарегистрированных типов пользовательских полей
+# Получить список зарегистрированных типов пользовательских полей userfieldtype.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`в зависимости от места встройки`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод получает список зарегистрированных приложением типов пользовательских полей. На выход отдает список типов полей с постраничной навигацией.
 
-{% endnote %}
+Без параметров. 
 
-{% if build == 'dev' %}
+## Примеры кода
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-- нужны правки под стандарт написания
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
+{% list tabs %}
 
+- cURL (Webhook)
 
-{% endnote %}
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/userfieldtype.list
+    ```
 
-{% endif %}
+- cURL (OAuth)
 
-{% note info "userfieldtype.list" %}
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/userfieldtype.list
+    ```
 
-**Scope**: [`в зависимости от места встройки`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
+- JS
 
-{% endnote %}
+    ```js
+    BX24.callMethod(
+        'userfieldtype.list',
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
 
-Получение списка зарегистрированных приложением типов пользовательских полей. Списочный метод. На выход отдается список типов полей с постраничной навигацией.
+- PHP
 
-## Параметры
+    ```php
+    require_once('crest.php');
 
-Входных параметров нет.
+    $result = CRest::call(
+        'userfieldtype.list',
+        []
+    );
 
-## Примеры
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-Пример вызова:
+- PHP (B24PhpSdk)
 
-```js
-BX24.callMethod(
-    'userfieldtype.list',
-    {},
-    function(result)
-    {
-        console.log(result.data());
+    ```php        
+    try {
+        $userFieldTypesResult = $serviceBuilder->getPlacementScope()->userFieldType()->list();
+        $userFieldTypes = $userFieldTypesResult->getUserFieldTypes();
+        foreach ($userFieldTypes as $userFieldType) {
+            print("Description: " . $userFieldType->DESCRIPTION . "\n");
+            print("Handler: " . $userFieldType->HANDLER . "\n");
+            print("Title: " . $userFieldType->TITLE . "\n");
+            print("User Type ID: " . $userFieldType->USER_TYPE_ID . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
     }
-);
-```
+    ```
 
-Пример запроса
+{% endlist %}
 
-```http
-POST https://sometestportal.bitrix24.com/rest/userfieldtype.list HTTP/1.1
+## Обработка ответа
 
-auth=63t6r4z9cugaciaxocrh2r47zlodp12y
+HTTP-статус: **200**
 
-HTTP/1.1 200 OK
-
+```json
 {
     "result": [
         {
-            "DESCRIPTION": "Test userfield type for documentation",
-            "HANDLER": "https://www.myapplication.com/handler/",
-            "TITLE": "Test type",
-            "USER_TYPE_ID": "test"
+            "USER_TYPE_ID": "my_custom_type_2",
+            "HANDLER": "http:\/\/test.com\/test2.php",
+            "TITLE": "test title 2",
+            "DESCRIPTION":"test desc 2"
+        },
+        {
+            "USER_TYPE_ID": "my_custom_type_1",
+            "HANDLER": "http:\/\/test.com\/test1.php",
+            "TITLE": "test title 1",
+            "DESCRIPTION": "test desc 1"
+        },
+        {
+            "USER_TYPE_ID": "test_user_type",
+            "HANDLER": "http:\/\/test.com\/test.php",
+            "TITLE": "test title",
+            "DESCRIPTION": "test desc"
         }
     ],
-    "total": 1
+    "total": 3,
+    "time":{
+        "start":1724423274.842117,
+        "finish":1724423275.558021,
+        "duration":0.7159039974212646,
+        "processing":0.0018908977508544922,
+        "date_start":"2024-08-23T16:27:54+02:00",
+        "date_finish":"2024-08-23T16:27:55+02:00",
+        "operating":0
+    }
 }
 ```
 
+### Возвращаемые данные
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа ||
+|| **total**
+[`integer`](../../data-types.md) | Число обработанных записей ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Продолжите изучение
+
+- [{#T}](./userfieldtype-add.md)
+- [{#T}](./userfieldtype-update.md)
+- [{#T}](./userfieldtype-delete.md)

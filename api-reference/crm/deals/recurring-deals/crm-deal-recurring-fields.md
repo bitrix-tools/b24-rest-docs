@@ -1,4 +1,4 @@
-# Просмотр списка полей шаблона регулярной сделки
+# Получить список полей шаблона регулярной сделки crm.deal.recurring.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,29 +19,33 @@
 
 {% endif %}
 
-{% note info "crm.deal.recurring.fields" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.recurring.fields` возвращает список полей настройки шаблона регулярной сделки c описанием.
 
 ## Пример
 
-```
-BX24.callMethod(
-	"crm.deal.recurring.fields",
-	{},
-	function(result)
-	{
-		if(result.error())
-			console.error(result.error());
-		else
-			console.dir(result.data());
-	}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.deal.recurring.fields",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

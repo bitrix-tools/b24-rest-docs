@@ -1,0 +1,20 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Введение
+    href: introduction.md
+  - name: Локализация
+    href: localization.md
+  - name: Получить список доступных партнерских шаблонов
+    href: landing-demos-get-list.md
+  - name: Получить список шаблонов для создания страниц
+    href: landing-demos-get-page-list.md
+  - name: Получить список шаблонов для создания сайтов
+    href: landing-demos-get-site-list.md
+  - name: Зарегистрировать шаблон
+    href: landing-demos-register.md
+  - name: Удалить шаблон
+    href: landing-demos-unregister.md
+

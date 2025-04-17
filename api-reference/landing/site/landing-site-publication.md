@@ -1,4 +1,4 @@
-# Публикация сайта
+# Опубликовать сайт landing.site.publication
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.publication" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.publication` публикует сайт (и все его страницы).
 
@@ -38,24 +36,32 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.publication',
-    {
-        id: 1688
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.publication',
         {
-            console.error(result.error());
-        }
-        else
+            id: 1688
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

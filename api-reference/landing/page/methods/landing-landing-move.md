@@ -1,4 +1,4 @@
-# Перемещение страницы в другой сайт / папку
+# Переместить страницу в другой сайт / папку landing.landing.move
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.landing.move" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.landing.move` перемещает страницу в другой сайт и/или папку.
 
@@ -43,26 +41,32 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.landing.move',
-    {
-        lid: 11262,
-        toSiteId: 1817,
-        toFolderId: 737
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.move',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 11262,
+            toSiteId: 1817,
+            toFolderId: 737
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

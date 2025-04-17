@@ -1,4 +1,4 @@
-# Получение привязок к группам
+# Получить привязки к группам landing.site.getGroupBindings
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "landing.site.getGroupBindings" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.getGroupBindings` позволяет узнать, существует ли привязка к группе, или какие вообще есть привязки к группам. Вернутся только привязки, к Базам знаний которых текущий пользователь имеет доступ на чтение.
 
@@ -37,24 +35,32 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.getGroupBindings',
-    {
-        groupId: 174
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.getGroupBindings',
         {
-            console.error(result.error());
-        }
-        else
+            groupId: 174
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

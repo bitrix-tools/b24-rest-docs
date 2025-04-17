@@ -1,4 +1,4 @@
-# Возвращение элементов перечисления «Приоритет активности»
+# Получить элементы перечисления «Приоритет активности» crm.enum.activitypriority
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.enum.activitypriority" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -38,18 +36,25 @@ crm.enum.activitypriority()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    "crm.enum.activitypriority",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+  
+    ```javascript
+    BX24.callMethod(
+        "crm.enum.activitypriority",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

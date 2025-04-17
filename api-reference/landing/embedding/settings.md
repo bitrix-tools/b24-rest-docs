@@ -1,4 +1,4 @@
-# Настройки
+# Меню настроек LANDING_SETTINGS
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -42,24 +42,30 @@ $placement = isset($_REQUEST['PLACEMENT_OPTIONS'])
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.repo.bind',
-    {
-        fields: {
-            PLACEMENT: 'LANDING_SETTINGS',
-            PLACEMENT_HANDLER: 'https://cpe/rest/settings.php',
-            TITLE: 'My settings'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.repo.bind',
+        {
+            fields: {
+                PLACEMENT: 'LANDING_SETTINGS',
+                PLACEMENT_HANDLER: 'https://cpe/rest/settings.php',
+                TITLE: 'My settings'
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

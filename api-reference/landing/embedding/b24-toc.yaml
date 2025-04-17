@@ -1,0 +1,15 @@
+title: Места встраивания
+href: index.md
+items:
+  - name: О местах встраивания
+    href: index.md
+  - name: Меню настроек
+    href: settings.md
+  - name: Пункт редактирования блока
+    href: block.md
+  - name: Удалить места встраивания
+    href: landing-repo-unbind.md
+  - name: Встраивание Базы знаний
+    include:
+      path: knowledge-base/b24-toc.yaml
+      mode: link

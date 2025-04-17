@@ -1,7 +1,5 @@
-# Получить неоплаченные товарные позиции объекта CRM
+# Получить неоплаченные товарные позиции объекта CRM crm.item.productrow.getAvailableForPayment
 
-> Название метода: **crm.item.productrow.getAvailableForPayment**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: требуется право на чтение объекта CRM, товарные позиции которого выбираются
@@ -18,7 +16,7 @@
 || **ownerId***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM ||
 || **ownerType***
-[`string`](../../../data-types.md) | Идентификатор [`типа объекта CRM`](../../data-types.md#тип-объекта-crm) ||
+[`string`](../../../data-types.md) | Идентификатор [`типа объекта CRM`](../../data-types.md#object_type). Передавайте [Краткий символьный код типа](../../data-types.md#object_type) ||
 |#
 
 ## Примеры кода

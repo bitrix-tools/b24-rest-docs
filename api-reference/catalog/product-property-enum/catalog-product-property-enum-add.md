@@ -1,4 +1,4 @@
-# Добавление значений списочных свойств
+# Добавить значения списочных свойств catalog.productPropertyEnum.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.productPropertyEnum.add" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -45,24 +43,31 @@ catalog.productPropertyEnum.add(fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyEnum.add',
-    {
-        fields: {
-            propertyId: 128,
-            value: "Средний",
-            def: "Y",
-            sort: 123,
-            xmlId: "M"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productPropertyEnum.add',
+        {
+            fields: {
+                propertyId: 128,
+                value: "Средний",
+                def: "Y",
+                sort: 123,
+                xmlId: "M"
+            }
+        },
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

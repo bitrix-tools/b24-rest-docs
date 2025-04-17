@@ -1,4 +1,4 @@
-# Прочитать список уведомлений (кроме CONFIRM)
+# Прочитать список уведомлений (кроме CONFIRM) im.notify.read.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.notify.read.list" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.notify.read.list` «прочитывает» список уведомлений, исключая уведомления типа CONFIRM.
 
@@ -38,25 +36,31 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.notify.read.list',
-    {
-        IDS: [1,2,3],
-        ACTION: 'Y'
-    },
-    res => {
-        if (res.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'im.notify.read.list',
         {
-        console.error(result.error().ex);
+            IDS: [1,2,3],
+            ACTION: 'Y'
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
         }
-        else
-        {
-        console.log(res.data())
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -1,4 +1,4 @@
-# Доступные пользователю сообщения живой ленты
+# Получить доступные пользователю сообщения Ленты новостей log.blogpost.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "log.blogpost.get" %}
-
-{% include notitle [Скоуп log все](./_includes/scope-log-all.md) %}
-
-{% endnote %}
+> Scope: [`log`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Возвращает список сообщений Ленты новостей, доступных [текущему пользователю](../how-to-call-rest-api/authorization.md#понятие-текущего-пользователя).
 
@@ -40,16 +38,29 @@
 
 ## Примеры
 
-```js
-BX24.callMethod('log.blogpost.get', { POST_ID: 755 });
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('log.blogpost.get', { POST_ID: 755 });
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос
 
-```http
-https://my.bitrix24.ru/rest/log.blogpost.get.xml?auth=xxxxxxx
-```
+{% list tabs %}
+
+- URL-запрос
+
+    ```http
+    https://my.bitrix24.ru/rest/log.blogpost.get.xml?auth=xxxxxxx
+    ```
+
+{% endlist %}
 
 ## Ответ:
 

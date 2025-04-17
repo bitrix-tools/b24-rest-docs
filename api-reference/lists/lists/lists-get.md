@@ -1,4 +1,4 @@
-# Получение данных инфоблока
+# Получить данные инфоблока lists.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.get" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.get` возвращает данные инфоблока. В случае успеха будут возвращены данные инфоблока, иначе пустой массив.
 С помощью метода можно получить список данных сразу всех инфоблоков указанного типа инфоблока.
@@ -43,7 +41,7 @@
 || **SOCNET_GROUP_ID**
 [`unknown`](../../data-types.md) | `id` группы, обязателен, если список находится в группах. ||
 || **IBLOCK_ORDER**
-[`unknown`](../../data-types.md) | Сортировка. Массив [полей разделов информационного блока](https://dev.1c-bitrix.ru/api_help/iblock/fields.php#fsection). Направление сортировки: **asc** (по возрастания) или **desc** (по убыванию) Пример: 
+[`unknown`](../../data-types.md) | Сортировка. Массив полей разделов информационного блока. Направление сортировки: **asc** (по возрастания) или **desc** (по убыванию) Пример: 
 `'IBLOCK_ORDER': { "ID": "DESC" }` ||
 |#
 
@@ -51,22 +49,28 @@
 
 ## Пример
 
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_CODE': 'rest_1'
-};
-BX24.callMethod(
-    'lists.get',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_CODE': 'rest_1'
+    };
+    BX24.callMethod(
+        'lists.get',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

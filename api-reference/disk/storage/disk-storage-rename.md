@@ -1,4 +1,4 @@
-# Переименование хранилища
+# Переименовать хранилище disk.storage.rename
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.storage.rename" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.rename` переименовывает хранилище. Допустимо переименование только хранилища приложения (см. [disk.storage.getforapp](./disk-storage-get-for-app.md)).
 
@@ -39,22 +37,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.storage.rename",
-    {
-        id: 2,
-        newName: 'New name for storage'
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.storage.rename",
+        {
+            id: 2,
+            newName: 'New name for storage'
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

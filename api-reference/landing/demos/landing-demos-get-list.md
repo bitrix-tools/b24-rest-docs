@@ -1,4 +1,4 @@
-# Получение списка доступных партнерских шаблонов
+# Получить список доступных партнерских шаблонов landing.demos.getList
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.demos.getList" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -83,27 +81,33 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.demos.getList',
-    {
-        params: {
-            select: [
-                'ID', 'TITLE', 'MANIFEST'
-            ],
-            filter: {
-                '>ID': '1'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.demos.getList',
+        {
+            params: {
+                select: [
+                    'ID', 'TITLE', 'MANIFEST'
+                ],
+                filter: {
+                    '>ID': '1'
+                }
             }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

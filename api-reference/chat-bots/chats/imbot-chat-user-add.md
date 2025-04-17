@@ -1,4 +1,4 @@
-# Пригласить участников чата
+# Пригласить участников чата imbot.chat.user.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.user.add" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.user.add` приглашает участников в чат.
 
@@ -43,19 +41,25 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.chat.user.add',
-    Array(
-        'CHAT_ID' => 13,
-        'USERS' => Array(3,4),
-        'BOT_ID' => 39,
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.chat.user.add',
+        Array(
+            'CHAT_ID' => 13,
+            'USERS' => Array(3,4),
+            'BOT_ID' => 39,
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

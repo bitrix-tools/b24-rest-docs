@@ -1,0 +1,12 @@
+title: Пользовательские типы дел
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить пользовательский тип
+    href: crm-activity-type-add.md
+  - name: Получить список пользовательских типов
+    href: crm-activity-type-list.md
+  - name: Удалить пользовательский тип
+    href: crm-activity-type-delete.md
+

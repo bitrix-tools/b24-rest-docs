@@ -1,4 +1,4 @@
-# Клонирование карточки блока
+# Клонировать карточку блока landing.block.clonecard
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.clonecard" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.clonecard` клонирует карточку блока. Возвращает _true_ или ошибку.
 
@@ -50,27 +48,33 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.cloneCard',
-    {
-        lid: 311,
-        block: 6057,
-        selector: '.landing-block-card@0'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.cloneCard',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 311,
+            block: 6057,
+            selector: '.landing-block-card@0'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

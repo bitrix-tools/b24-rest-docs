@@ -1,7 +1,5 @@
-# Получить поля товара по фильтру
+# Получить поля товара по фильтру catalog.product.getFieldsByFilter
 
-> Название метода: **catalog.product.getFieldsByFilter**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

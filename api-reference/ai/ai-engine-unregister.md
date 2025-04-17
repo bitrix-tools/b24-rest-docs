@@ -1,4 +1,4 @@
-# Удаление сервиса
+# Удалить сервис ai.engine.unregister
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "ai.engine.unregister" %}
-
-**Scope**: [`ai_admin`](../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`ai_admin`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод для удаления [engine](./ai-engine-register.md).
 
@@ -37,25 +35,31 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'ai.engine.unregister',
-    {
-        code: 'ivanov_gpt',
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'ai.engine.unregister',
         {
-            console.error(result.error());
-        }
-        else
+            code: 'ivanov_gpt',
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

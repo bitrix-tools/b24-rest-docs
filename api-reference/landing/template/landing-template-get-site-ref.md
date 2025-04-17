@@ -1,4 +1,4 @@
-# Получение списка включаемых областей для сайта
+# Получить список включаемых областей для сайта landing.template.getSiteRef
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.template.getSiteRef" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.template.getSiteRef` получает список включаемых областей для сайта. Ключами возвращаемого массива являются идентификаторы включаемых областей, а значениями - идентификаторы страниц.
 
@@ -39,24 +37,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.template.getSiteRef',
-    {
-        id: 1
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.template.getSiteRef',
         {
-            console.error(result.error());
-        }
-        else
+            id: 1
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

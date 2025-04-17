@@ -24,6 +24,8 @@
 
 {% endnote %}
 
+> Быстрый переход: [все методы и события](#all-methods) 
+
 ## Что такое чат-боты и что они могут делать?
 
 Что такое чат-боты, зачем они нужны и зачем вообще заниматься их разработкой?
@@ -55,7 +57,7 @@
 
 {% note info %}
 
-Для более четкого понимания, что могут делать чат-боты на платформе _Битрикс24_, можно посмотреть видео-примеры возможностей уже готовых чат-ботов [тут](#возможные-типы-чат-ботов-битрикс24).
+Для более четкого понимания, что могут делать чат-боты на платформе _Битрикс24_, можно посмотреть видео-примеры возможностей уже готовых чат-ботов [ниже](#opportunities).
 
 {% endnote %}
 
@@ -65,7 +67,7 @@
 
 {% endnote %} 
 
-## Возможности чат-бота
+## Возможности чат-бота {#opportunities}
 
 Чат-бот:
 
@@ -81,7 +83,7 @@ Slash-команды позволяют быстро создавать запр
 
 {% note info %}
 
-Подробнее о работе с командами можно прочитать [здесь](/learning/course/index.php?COURSE_ID=93&CHAPTER_ID=07877).
+Подробнее о работе с командами можно прочитать [здесь](./commands/index.md).
 
 {% endnote %}
 
@@ -93,13 +95,13 @@ Slash-команды позволяют быстро создавать запр
 
     Постраничная навигация, кнопки при вызове команды «Помощь»
 
-    @[youtube](2v5MUeVSBX4)
+    <iframe width="720" height="405" src="https://rutube.ru/play/embed/6df697f3139fdad5bfbf4953ef1f83a5/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 2. **Марта**
    
     Просто напишите марте «Поиграй со мной!». Клавиатура используется как игровое поле:
 
-    @[youtube](qSDKsDwJsBI)
+    <iframe width="720" height="405" src="https://rutube.ru/play/embed/282c08597e37aaf9ad9828c935400c72/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 3. **Giphy**
    
@@ -109,7 +111,7 @@ Slash-команды позволяют быстро создавать запр
 
 {% note info %}
 
-Подробнее о работе с клавиатурами можно прочитать [здесь](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7683).
+Подробнее о работе с клавиатурами можно прочитать [здесь](../chats/messages/keyboards.md).
 
 {% endnote %}
 
@@ -139,7 +141,7 @@ Slash-команды позволяют быстро создавать запр
 
 ## Жизненный цикл чат-бота
 
-Чат-бот публикует свои сообщения в чат через Rest API, получает ответы и команды пользователя через [События Rest API](https://dev.1c-bitrix.ru/rest_help/rest_sum/events/events.php) (POST запрос).
+Чат-бот публикует свои сообщения в чат через Rest API, получает ответы и команды пользователя через [События Rest API](../events/index.md) (POST запрос).
 
 Схема жизни чат-бота выглядит так:
 
@@ -151,12 +153,12 @@ Slash-команды позволяют быстро создавать запр
 
 И у нас есть 6 событий, которые полностью покрывают необходимый спектр реакций:
 
-- [ONAPPINSTALL](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onappinstall) — событие на установку приложения с чат-ботом.
-- [ONAPPUPDATE](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onappupdate) — событие на обновление приложения.
-- [ONIMJOINCHAT](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimjoinchat) — событие после приглашения чат-бота «к разговору», т.е. либо при вызове его пользователем в индивидуальном чате, либо при подключении его к групповому чату.
-- [ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotmessageadd) — событие после отправки сообщения от пользователя к чат-боту (в групповом чате, при явном упоминании бота).
-- [ONIMCOMMANDADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimcommandadd) — событие после отправки команды от пользователя к чат-боту (в персональной переписке с ним, или в групповом чате (если команда глобальная, то он может не участвовать в чате)).
-- [ONIMBOTDELETE](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotdelete) — событие после удаления приложения. Событие вызывается параллельно с [OnAppUninstall](http://dev.1c-bitrix.ru/rest_help/general/events/onappuninstall.php).
+- [ONAPPINSTALL](../common/events/on-app-install.md) — событие на установку приложения с чат-ботом.
+- [ONAPPUPDATE](./events/on-app-update.md) — событие на обновление приложения.
+- [ONIMJOINCHAT](./chats/events/on-imbot-join-chat.md) — событие после приглашения чат-бота «к разговору», т.е. либо при вызове его пользователем в индивидуальном чате, либо при подключении его к групповому чату.
+- [ONIMBOTMESSAGEADD](./messages/events/on-imbot-message-add.md) — событие после отправки сообщения от пользователя к чат-боту (в групповом чате, при явном упоминании бота).
+- [ONIMCOMMANDADD](./commands/events/on-im-command-add.md) — событие после отправки команды от пользователя к чат-боту (в персональной переписке с ним, или в групповом чате (если команда глобальная, то он может не участвовать в чате)).
+- [ONIMBOTDELETE](./chats/events/on-imbot-delete.md) — событие после удаления приложения. Событие вызывается параллельно с [OnAppUninstall](../common/events/on-app-uninstall.md).
 
 Иными словами, мы должны написать обработчики указанных событий, чтобы реализовать простую логику:
 
@@ -166,16 +168,16 @@ Slash-команды позволяют быстро создавать запр
 
 И для этого у нас есть набор простых методов, добавленных в REST API. Нам для старта потребуются только два:
 
-- [imbot.register](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7873#imbot_register) – регистрация чат-бота.
-- [imbot.message.add](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7875#imbot_message_add) – отправка сообщения от чат-бота.
+- [imbot.register](./imbot-register.md) – регистрация чат-бота.
+- [imbot.message.add](./messages/imbot-message-add.md) – отправка сообщения от чат-бота.
 
-Очевидно, что в обработчике события [ONAPPINSTALL](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onappinstall) мы вызовем метод [imbot.register](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7873#imbot_register) для того, чтобы добавить чат-бота на текущий портал, а затем в событии [ONIMJOINCHAT](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimjoinchat) воспользуемся методом [imbot.message.add](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7875#imbot_message_add) для вывода справки о функционале чат-бота, и в обработчике [ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7881#onimbotmessageadd) будем отвечать пользователю при помощи того же [imbot.message.add](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7875#imbot_message_add). Ничего сложного, согласитесь?
+Очевидно, что в обработчике события [ONAPPINSTALL](../common/events/on-app-install.md) мы вызовем метод [imbot.register](./imbot-register.md) для того, чтобы добавить чат-бота на текущий портал, а затем в событии [ONIMJOINCHAT](./chats/events/on-imbot-join-chat.md) воспользуемся методом [imbot.message.add](./messages/imbot-message-add.md) для вывода справки о функционале чат-бота, и в обработчике [ONIMBOTMESSAGEADD](./messages/events/on-imbot-message-add.md) будем отвечать пользователю при помощи того же [imbot.message.add](./messages/imbot-message-add.md). Ничего сложного, согласитесь?
 
 А также вам не придется реализовывать в приложении полноценный OAuth 2.0, поскольку параметры, необходимые для авторизации, приходят в обработчики в массиве **$_REQUEST**.
 
 {% note info %}
 
-Полный список методов и событий **Bot API** можно посмотреть [здесь](/learning/course/index.php?COURSE_ID=93&LESSON_ID=7895).
+Полный список методов и событий **Bot API** можно посмотреть [ниже](#all-methods).
 
 {% endnote %}
 
@@ -183,7 +185,7 @@ Slash-команды позволяют быстро создавать запр
 
 Для более четкого понимания, что могут делать чат-боты на платформе *Битрикс24*, приведем видео-примеры возможностей уже готовых чат-ботов. Типы чат-ботов приведены условно, вы можете создать чат-бота, который может сочетать 2 или 3 типа.
 
-@[youtube](tcRytBQ-Gzw)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/08ba27116ef2e6b1165341d470b4e384/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ### Личный помощник
 
@@ -217,4 +219,109 @@ Slash-команды позволяют быстро создавать запр
 
 Полный список чат-ботов для платформы *Битрикс24* можно увидеть в [одноименном разделе](https://www.bitrix24.ru/apps/?category=chat_bots) *Магазина приложений Битрикс24*.
 
-[*keyboard]: Клавиатура — это набор кнопок, каждая кнопка может состоять из определённых ключей. https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=93&LESSON_ID=7683
+## Обзор методов {#all-methods}
+
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [im.revision.get](./im-revision-get.md) | Возвращает информацию о ревизиях API ||
+    || [imbot.register](./imbot-register.md) | Регистрирует нового чат-бота ||
+    || [imbot.unregister](./imbot-unregister.md) | Удаляет зарегистрированного бота ||
+    || [imbot.update](./imbot-update.md) | Обновляет данные чат-бота ||
+    || [imbot.bot.list](./imbot-bot-list.md) | Возвращает список доступных чат-ботов ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [ONAPPINSTALL](./events/on-app-install.md) | При установке приложения ||
+    || [ONAPPUPDATE](./events/on-app-update.md) | При обновлении приложения ||
+    |#
+
+{% endlist %}
+
+### Чаты
+
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [imbot.chat.add](./chats/imbot-chat-add.md) | Создает новый чат ||
+    || [imbot.chat.get](./chats/imbot-chat-get.md) | Возвращает информацию о чате ||
+    || [imbot.chat.leave](./chats/imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
+    || [imbot.chat.setOwner](./chats/imbot-chat-set-owner.md) | Устанавливает нового владельца чата ||
+    || [imbot.chat.updateAvatar](./chats/imbot-chat-update-avatar.md) | Обновляет аватар чата ||
+    || [imbot.chat.updateColor](./chats/imbot-chat-update-color.md) | Обновляет цвет чата ||
+    || [imbot.chat.updateTitle](./chats/imbot-chat-update-title.md) | Обновляет название чата ||
+    || [imbot.chat.user.add](./chats/imbot-chat-user-add.md) | Добавляет пользователя в чат ||
+    || [imbot.chat.user.list](./chats/imbot-chat-user-list.md) | Возвращает список пользователей в чате ||
+    || [imbot.chat.user.delete](./chats/imbot-chat-user-delete.md) | Удаляет пользователя из чата ||
+    || [imbot.dialog.get](./chats/imbot-dialog-get.md) | Возвращает информацию о диалоге ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [ONIMBOTDELETE](./chats/events/on-imbot-delete.md) | При удалении чат-бота ||
+    || [ONIMBOTJOINCHAT](./chats/events/on-imbot-join-chat.md) | При получении информации чат-ботом о включении его в чат (или личную переписку) ||
+    |#
+
+{% endlist %}
+
+### Команды
+
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [imbot.command.register](./commands/imbot-command-register.md) | Регистрирует новую команду для чат-бота ||
+    || [imbot.command.unregister](./commands/imbot-command-unregister.md) | Удаляет зарегистрированную команду чат-бота ||
+    || [imbot.command.update](./commands/imbot-command-update.md) | Обновляет информацию о зарегистрированной команде чат-бота ||
+    || [imbot.command.answer](./commands/imbot-command-answer.md) | Отправляет ответ на команду чат-бота ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [ONIMCOMMANDADD](./commands/events/on-im-command-add.md) | При добавлении новой команды чат-ботом ||
+    |#
+
+{% endlist %}
+
+### Сообщения
+
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [imbot.message.add](./messages/imbot-message-add.md) | Добавляет новое сообщение от чат-бота ||
+    || [imbot.message.update](./messages/imbot-message-update.md) | Обновляет существующее сообщение от чат-бота ||
+    || [imbot.message.delete](./messages/imbot-message-delete.md) | Удаляет сообщение от чат-бота ||
+    || [imbot.message.like](./messages/imbot-message-like.md) | Ставит "лайк" на сообщение от чат-бота ||
+    || [imbot.chat.sendTyping](./messages/imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [ONIMBOTMESSAGEADD](./messages/events/on-imbot-message-add.md) | При отправке сообщения||
+    || [ONIMBOTMESSAGEUPDATE](./messages/events/on-imbot-message-update.md) | При обновлении сообщения чат-бота ||
+    || [ONIMBOTMESSAGEDELETE](./messages/events/on-imbot-message-delete.md) | При удалении сообщения чат-бота ||
+    |#
+
+{% endlist %}
+
+[*keyboard]: [Клавиатура](../chats/messages/keyboards.md) — это набор кнопок, каждая кнопка может состоять из определённых ключей.

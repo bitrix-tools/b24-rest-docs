@@ -1,4 +1,4 @@
-# Проверка доступных действий над задачей
+# Проверить, разрешено ли действие с комментарием task.commentitem.isactionallowed
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.isactionallowed" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.isactionallowed` проверяет, разрешено ли действие.
 
@@ -52,14 +50,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.commentitem.isactionallowed',
-    [13, 1205, 3],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.commentitem.isactionallowed',
+        [13, 1205, 3],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

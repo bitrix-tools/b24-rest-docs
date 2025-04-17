@@ -1,4 +1,4 @@
-# Получение списка пунктов чек-листа
+# Получить список пунктов чек-листа task.checklistitem.getlist
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.getlist" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.getlist` возвращает список элементов чек-листа в задаче.
 
@@ -60,15 +58,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.checklistitem.getlist',
-    [13, {'TOGGLED_DATE': 'desc'}],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.checklistitem.getlist',
+        [13, {'TOGGLED_DATE': 'desc'}],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -1,10 +1,10 @@
-# Получить список офлайн-событий 
+# Получить список офлайн-событий event.offline.list
 
-> Название метода: **event.offline.list**
->
 > Кто может выполнять метод: любой пользователь
 
-Метод `event.offline.list` для чтения текущей очереди без вносения изменений в ее состояние в отличие от [event.offline.get](./event-offline-get.md). Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
+Метод `event.offline.list` для чтения текущей очереди без внесения изменений в ее состояние в отличие от [event.offline.get](./event-offline-get.md). Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
+
+Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
 
 ## Параметры метода
 
@@ -34,23 +34,6 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "filter": {
-            "ERROR": 0
-        },
-        "order": {
-            "ID": "DESC"
-        }
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.offline.list
-    ```
 
 - cURL (OAuth)
 

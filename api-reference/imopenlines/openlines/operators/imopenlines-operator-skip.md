@@ -1,4 +1,4 @@
-# Пропустить диалог
+# Пропустить диалог imopenlines.operator.skip
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,8 +20,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.operator.skip**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

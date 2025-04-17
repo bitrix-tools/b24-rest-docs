@@ -1,4 +1,4 @@
-# Прикрепление файлов к задаче
+# Прикрепить файлы к задаче tasks.task.files.attach
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.files.attach" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.files.attach` для прикрепления загруженного на диск файла к задаче.
 
@@ -40,17 +38,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.files.attach',
-    {
-        taskId: 1,
-        fileId: 1065,
-    },
-    function(res) {
-        console.log(res.answer.result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.files.attach',
+        {
+            taskId: 1,
+            fileId: 1065,
+        },
+        function(res) {
+            console.log(res.answer.result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
+
+## Продолжить изучение
+
+- [{#T}](../../tutorials/tasks/how-to-upload-file-to-task.md)
+- [{#T}](./deprecated/task-item/task-item-get-files.md)

@@ -1,4 +1,4 @@
-# Удаление значений списочных свойств
+# Удалить значения списочных свойств catalog.productPropertyEnum.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.productPropertyEnum.delete" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -45,19 +43,31 @@ catalog.productPropertyEnum.delete(id)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyEnum.delete',
-    {
-        id: 121
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'catalog.productPropertyEnum.add',
+        {
+            fields: {
+                propertyId: 128,
+                value: "Средний",
+                def: "Y",
+                sort: 123,
+                xmlId: "M"
+            }
+        },
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

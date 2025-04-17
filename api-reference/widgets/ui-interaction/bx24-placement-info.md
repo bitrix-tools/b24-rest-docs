@@ -1,41 +1,33 @@
-# Получение информации о контексте вызова
+# Получить информацию о контексте вызова BX24.placement.info
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`placement`](../../scopes/permissions.md)
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `BX24.placement.info` получает информацию о контексте вызова обработчика встравания.
 
-{% endnote %}
+Без параметров.
 
-{% if build == 'dev' %}
+## Пример кода
 
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- отсутствуют параметры или поля
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы.
-
-{% endnote %}
-
-{% endif %}
-
-
-Получение информации о контексте вызова.
-
-Пример вызова
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ```js
-BX24.placement.info();
+BX24.ready(function () {
+    BX24.init(function () {
+        var placementInfo = BX24.placement.info();
+        console.info("placement = " + placementInfo["placement"]
+    + ", options = " + placementInfo["options"]);
+    });
+});
 ```
 
-Результат:
+## Результат
 
 ```json
 {"placement":"CRM_LEAD_LIST_MENU","options":{"ID":"1348"}}
 ```
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Продолжите изучение 
+
+- [{#T}](bx24-placement-get-interface.md)
+- [{#T}](bx24-placement-call.md)
+- [{#T}](bx24-placement-bind-event.md)

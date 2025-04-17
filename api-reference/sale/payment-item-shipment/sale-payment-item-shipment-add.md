@@ -1,7 +1,5 @@
-# Добавить привязку оплаты к отгрузке
+# Добавить привязку оплаты к отгрузке sale.paymentItemShipment.add
 
-> Название метода: **sale.paymentItemShipment.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

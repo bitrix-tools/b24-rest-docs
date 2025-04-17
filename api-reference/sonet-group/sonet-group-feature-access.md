@@ -1,4 +1,4 @@
-# Проверка прав текущего пользователя
+# Проверить права текущего пользователя sonet_group.feature.access
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,15 +19,11 @@
 
 {% endif %}
 
-{% note info "sonet_group.feature.access" %}
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
-
-Проверяет, имеет ли текущий пользователь право на совершение операции в группе соцсети, осуществляя вызов функции [CSocNetFeaturesPerms::CurrentUserCanPerformOperation()](http://dev.1c-bitrix.ru/api_help/socialnetwork/classes/CSocNetFeaturesPerms/currentusercanperformperation.php)
+Проверяет, имеет ли текущий пользователь право на совершение операции в группе соцсети, осуществляя вызов функции `CSocNetFeaturesPerms::CurrentUserCanPerformOperation()`.
 
 ## Запрос:
 
@@ -58,19 +54,27 @@ https://mydomain.bitrix24.ru/rest/sonet_group.feature.access.json?auth=52423d4a5
 
 {% note info "Примечание" %}
 
-Коды операций и функционала смотрите в описании метода [CanPerformOperation](http://dev.1c-bitrix.ru/api_help/socialnetwork/classes/CSocNetFeaturesPerms/CanPerformOperation.php).
+Коды операций и функционала смотрите в описании метода `CanPerformOperation`.
 
 {% endnote %}
 
 ## Пример
 
-```js
-// Получаем список групп текущего пользователя
+{% list tabs %}
 
-BX24.callMethod('sonet_group.feature.access', {
-    'GROUP_ID': 1,
-    'FEATURE': 'blog',
-    'OPERATION': 'write_post'
-});
-```
+- JS
+
+    ```js
+    // Получаем список групп текущего пользователя
+
+    BX24.callMethod('sonet_group.feature.access', {
+        'GROUP_ID': 1,
+        'FEATURE': 'blog',
+        'OPERATION': 'write_post'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

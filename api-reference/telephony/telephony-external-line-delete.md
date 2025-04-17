@@ -1,4 +1,4 @@
-# Удаление внешней линии
+# Удалить внешнюю линию telephony.externalLine.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "telephony.externalLine.delete" %}
-
 {% include notitle [Скоуп telephony admin](./_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `telephony.externalLine.delete` удаляет внешнюю линию.
 

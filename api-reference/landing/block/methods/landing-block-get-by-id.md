@@ -1,4 +1,4 @@
-# Получение блока по идентификатору
+# Получить блок по идентификатору landing.block.getbyid
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getbyid" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getbyid` получает блок по его идентификатору. Возвращает блок или ошибку.
 
@@ -41,28 +39,34 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.getbyid',
-    {
-        block: 6102,
-        params: {
-            edit_mode: 0
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.getbyid',
         {
-            console.error(result.error());
-        }
-        else
+            block: 6102,
+            params: {
+                edit_mode: 0
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

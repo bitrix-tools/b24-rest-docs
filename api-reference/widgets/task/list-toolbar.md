@@ -1,9 +1,6 @@
-# Пункт основного выпадающего меню
+# Пункт основного выпадающего меню TASK_USER_LIST_TOOLBAR, TASK_GROUP_LIST_TOOLBAR
 
-> Коды встройки: **TASK_USER_LIST_TOOLBAR**, **TASK_GROUP_LIST_TOOLBAR**
->
 > Scope: [`intranet`](../../scopes/permissions.md)
->
 
 Вы можете добавлять свой пункт в основное выпадающее меню в задачах пользователя и группы.
 

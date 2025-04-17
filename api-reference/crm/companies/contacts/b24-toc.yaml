@@ -1,0 +1,17 @@
+title: Список методов работы с контактами компаний
+href: index.md
+items:
+  - name: Обзор методов 
+    href: index.md
+  - name: Добавить контакт к компании
+    href: crm-company-contact-add.md
+  - name: Удалить контакт из компании
+    href: crm-company-contact-delete.md
+  - name: Получить описание полей
+    href: crm-company-contact-fields.md
+  - name: Очистить набор контактов
+    href: crm-company-contact-items-delete.md
+  - name: Получить набор контактов
+    href: crm-company-contact-items-get.md
+  - name: Установить набор контактов
+    href: crm-company-contact-items-set.md

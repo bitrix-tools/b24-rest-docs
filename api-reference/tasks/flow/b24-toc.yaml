@@ -1,0 +1,19 @@
+title: Потоки
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать поток
+    href: tasks-flow-flow-create.md
+  - name: Изменить поток
+    href: tasks-flow-flow-update.md
+  - name: Получить поток
+    href: tasks-flow-flow-get.md
+  - name: Удалить поток
+    href: tasks-flow-flow-delete.md
+  - name: Проверить название потока на уникальность
+    href: tasks-flow-flow-is-exists.md
+  - name: Включить или выключить поток
+    href: tasks-flow-flow-activate.md
+  - name: Закрепить или открепить поток
+    href: tasks-flow-flow-pin.md

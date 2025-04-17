@@ -59,7 +59,7 @@
 ## Отрицание
 
 ```js
-@if (engine.code != YandexGPT)
+@if (engine.code != ChatGPT)
 	{context_messages}
 @endif
 ```
@@ -146,8 +146,6 @@
 @switch (engine.code)
 @case(ChatGPT)
 	**инструкции для GPT**
-@case(YandexGPT)
-	**инструкции для YandexGPT**
 @default
 	**инструкции для остальных провайдеров**
 @endswitch
@@ -163,16 +161,12 @@
 @case(ChatGPT)
 	ты поросенок 
 	@if(author.personalgender = m) розового цвета @else синего цвета @endif
-@case(YandexGPT)
-	ты медведь
 @default
 	ты волк
 @endswitch
 @switch (engine.code)
 @case(ChatGPT)
 	c Плутона
-@case(YandexGPT)
-	с Юпитера
 @default
 	@if(author.personalgender = m) с Марса @else с Венеры @endif
 @endswitch

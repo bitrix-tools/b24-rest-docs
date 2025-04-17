@@ -1,4 +1,4 @@
-# Возвращение элементов перечисления «Тип адреса»
+# Получить элементы перечисления «Тип адреса» crm.enum.addresstype
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.enum.addresstype" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -50,8 +48,16 @@ crm.enum.addresstype()
             "NAME": "Юридический адрес"
         },
         {
+            "ID": 8,
+            "NAME": "Адрес для корреспонденции"
+        },
+        {
             "ID": 9,
             "NAME": "Адрес бенефициара"
+        },
+        {
+            "ID": 11,
+            "NAME": "Адрес доставки"
         }
     ],
     "time": {
@@ -71,18 +77,25 @@ crm.enum.addresstype()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    "crm.enum.addresstype",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+  
+    ```javascript
+    BX24.callMethod(
+        "crm.enum.addresstype",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

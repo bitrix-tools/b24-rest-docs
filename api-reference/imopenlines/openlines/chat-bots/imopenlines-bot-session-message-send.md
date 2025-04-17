@@ -1,4 +1,4 @@
-# Отправить приветственное сообщение
+# Отправить приветственное сообщение imopenlines.bot.session.message.send
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.bot.session.message.send**
->
 > Scope: [`imopenlines, imbot`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -50,17 +48,23 @@
 
 {% include [Пояснение о restCommand](../../../chat-bots/_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imopenlines.bot.session.message.send',
-    Array(
-        'CHAT_ID' => 2,
-        'MESSAGE' => 'message text',
-        'NAME' => 'WELCOME'
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imopenlines.bot.session.message.send',
+        Array(
+            'CHAT_ID' => 2,
+            'MESSAGE' => 'message text',
+            'NAME' => 'WELCOME'
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

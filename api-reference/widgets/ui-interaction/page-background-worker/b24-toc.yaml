@@ -1,0 +1,30 @@
+title: Интеграция собственного WebRTC клиента
+href: index.md
+items: 
+  - name: Сценарий встройки WebRTC
+    href: index.md
+  - name: Карточка звонка
+    href: card.md
+  - name: Выключить микрофон оператора со стороны приложения
+    href: call-card-set-mute.md
+  - name: Поставить звонок на удержание со стороны приложения
+    href: call-card-set-hold.md
+  - name: Изменить состояние интерфейса карточки звонка со стороны приложения
+    href: call-card-set-ui-state.md
+  - name: Получить список доступных состояний интерфейса карточки звонка
+    href: call-card-get-list-ui-states.md
+  - name: Изменить титульник карточки звонка со стороны приложения
+    href: call-card-set-card-title.md
+  - name: Изменить текст в центре карточки звонка со стороны приложения
+    href: call-card-set-status-text.md
+  - name: Закрыть карточку звонка со стороны приложения
+    href: call-card-close.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+
+
+
+
+

@@ -1,4 +1,4 @@
-# Перемещение файла в указанную папку
+# Переместить файл в указанную папку disk.file.moveto
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.file.moveto" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.file.moveto` перемещает файл в указанную папку.
 
@@ -39,22 +37,29 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.file.moveto",
-    {
-        id: 10,
-        targetFolderId: 226
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.file.moveto",
+        {
+            id: 10,
+            targetFolderId: 226
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

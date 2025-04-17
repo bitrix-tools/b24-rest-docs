@@ -1,4 +1,4 @@
-# Обновление приложения
+# На обновление приложения ONAPPUPDATE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "ONAPPUPDATE" %}
-
-**Scope**: [`базовый`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`базовый`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `ONAPPUPDATE` на обновление приложения.
 
@@ -68,22 +66,28 @@
 
 ## Примеры
 
-```js
-[data] => Array(
-    [LANGUAGE_ID] = ru
-    [VERSION] = 2
-    [PREVIOUS_VERSION] => 1
-)
-[auth] => Array(
-    [access_token] => lh8ze36o8ulgrljbyscr36c7ay5sinva
-    [scope] => imbot
-    [domain] => b24.hazz
-    [application_token] => c917d38f6bdb84e9d9e0bfe9d585be73
-    [expires_in] => 3600
-    [member_id] => d41d8cd98f00b204e9800998ecf8427e
-    [refresh_token] => 5f1ih5tsnsb11sc5heg3kp4ywqnjhd09
-)
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    [data] => Array(
+        [LANGUAGE_ID] = ru
+        [VERSION] = 2
+        [PREVIOUS_VERSION] => 1
+    )
+    [auth] => Array(
+        [access_token] => lh8ze36o8ulgrljbyscr36c7ay5sinva
+        [scope] => imbot
+        [domain] => b24.hazz
+        [application_token] => c917d38f6bdb84e9d9e0bfe9d585be73
+        [expires_in] => 3600
+        [member_id] => d41d8cd98f00b204e9800998ecf8427e
+        [refresh_token] => 5f1ih5tsnsb11sc5heg3kp4ywqnjhd09
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

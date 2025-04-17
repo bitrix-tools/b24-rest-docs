@@ -1,7 +1,5 @@
-# Проверить, разрешено ли действие
+# Проверить, разрешено ли действие task.item.isactionallowed
 
-> Название метода: **task.item.isactionallowed**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

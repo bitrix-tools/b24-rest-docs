@@ -1,4 +1,4 @@
-# Получение набора контактов, связанных с указанной компанией
+# Получить набор контактов, связанных с указанной компанией crm.company.contact.items.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -23,13 +23,9 @@
 
 {% endif %}
 
-{% note info "crm.company.contact.items.get" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-`crm.company.contact.items.get(id)`
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.contact.items.get` возвращает набор контактов, связанных с указанной компанией.
 
@@ -57,21 +53,27 @@
 
 ## Примеры
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.company.contact.items.get",
-    {
-        id: id
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.company.contact.items.get",
+        {
+            id: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

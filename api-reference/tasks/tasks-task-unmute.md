@@ -1,4 +1,4 @@
-# Отключение режима «Без звука»
+# Отключить режим «Без звука» tasks.task.unmute
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.unmute" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.unmute` выключает режим «Без звука» для задачи.
 
@@ -41,8 +39,14 @@
 
 ## Пример
 
-```js
-BX24.callMethod('tasks.task.unmute', {id: 1223})
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('tasks.task.unmute', {id: 1223})
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

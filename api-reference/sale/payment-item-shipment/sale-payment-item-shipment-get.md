@@ -1,7 +1,5 @@
-# Получить привязку по Id
+# Получить привязку по Id sale.paymentItemShipment.get
 
-> Название метода: **sale.paymentItemShipment.get**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

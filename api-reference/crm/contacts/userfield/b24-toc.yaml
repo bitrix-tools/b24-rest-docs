@@ -1,0 +1,19 @@
+title: Пользовательские поля
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать пользовательское поле для контактов
+    href: crm-contact-userfield-add.md
+  - name: Изменить существующее пользовательское поле контактов
+    href: crm-contact-userfield-update.md
+  - name: Получить пользовательское поле контактов по Id
+    href: crm-contact-userfield-get.md
+  - name: Получить список пользовательских полей контактов
+    href: crm-contact-userfield-list.md
+  - name: Удалить пользовательское поле контактов
+    href: crm-contact-userfield-delete.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

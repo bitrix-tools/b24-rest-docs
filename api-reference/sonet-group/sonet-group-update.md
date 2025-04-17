@@ -1,4 +1,4 @@
-# Изменение параметров группы соцсети
+# Изменить параметры группы соцсети sonet_group.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,13 +20,9 @@
 
 {% endif %}
 
-{% note info "sonet_group.update" %}
-
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод изменяет параметры группы соцсети, используя метод API `CSocNetGroup::Update()`. Для осуществления операции текущий пользователь должен быть либо владельцем группы, либо иметь права администратора соцсети.
 
@@ -38,13 +34,21 @@
 
 ## Пример
 
-```js
-// Изменяем название группы соцсети с ID=11 на 'Test sonet group XXX'
-BX24.callMethod('sonet_group.update', {
-    'GROUP_ID': 11,
-    'NAME': 'Test sonet group XXX'
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Изменяем название группы соцсети с ID=11 на 'Test sonet group XXX'
+    BX24.callMethod('sonet_group.update', {
+        'GROUP_ID': 11,
+        'NAME': 'Test sonet group XXX'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос:

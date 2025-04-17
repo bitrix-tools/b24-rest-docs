@@ -1,4 +1,4 @@
-# Изменение существующего пользовательского поля сделок
+# Изменить существующее пользовательское поле сделок crm.deal.userfield.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.userfield.update" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.userfield.update` обновляет существующее пользовательское поле сделок.
 
@@ -44,31 +42,37 @@
 
 ## Пример
 
-```js
-var id = prompt("Введите ID");
-var label = prompt("Введите новое название");
-BX24.callMethod(
-    "crm.deal.userfield.update",
-    {
-        id: id,
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    var label = prompt("Введите новое название");
+    BX24.callMethod(
+        "crm.deal.userfield.update",
         {
-            "EDIT_FORM_LABEL": label,
-            "LIST_COLUMN_LABEL": label
-        }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+            id: id,
+            fields:
+            {
+                "EDIT_FORM_LABEL": label,
+                "LIST_COLUMN_LABEL": label
+            }
+        },
+        function(result)
         {
-            console.dir(result.data());             
-            if(result.more())
-                result.next();                        
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());             
+                if(result.more())
+                    result.next();                        
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

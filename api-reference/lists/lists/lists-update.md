@@ -1,4 +1,4 @@
-# Обновление текущего универсального списка
+# Обновить текущий универсальный список lists.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.update" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.update` обновляет существующий список. В случае успешного обновления списка ответ `true`, иначе *Exception*.
 
@@ -58,31 +56,37 @@
 
 ## Пример
 
-```javascript
-var params = {
-    'IBLOCK_TYPE_ID': 'lists_socnet',
-    'IBLOCK_CODE': 'rest_1',
-    'FIELDS': {
-        'NAME': 'List 1 (Update)',
-        'DESCRIPTION': 'Test list (Update)',
-        'SORT': '20',
-        'PICTURE': document.getElementById('iblock-image-update')
-    },
-    'RIGHTS': {
-        'G1': 'X'
-    }
-};
-BX24.callMethod(
-    'lists.update',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists_socnet',
+        'IBLOCK_CODE': 'rest_1',
+        'FIELDS': {
+            'NAME': 'List 1 (Update)',
+            'DESCRIPTION': 'Test list (Update)',
+            'SORT': '20',
+            'PICTURE': document.getElementById('iblock-image-update')
+        },
+        'RIGHTS': {
+            'G1': 'X'
+        }
+    };
+    BX24.callMethod(
+        'lists.update',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

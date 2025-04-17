@@ -1,4 +1,4 @@
-# Получение коммерческого предложения по идентификатору
+# Получить коммерческое предложение по идентификатору crm.quote.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.quote.get" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.quote.get` возвращает коммерческое предложение по идентификатору.
 
@@ -36,19 +34,25 @@
 
 ## Пример
 
-```javascript
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.quote.get",
-    { id: id },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.quote.get",
+        { id: id },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

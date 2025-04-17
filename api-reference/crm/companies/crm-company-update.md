@@ -1,4 +1,4 @@
-# Обновление существующей компании
+# Обновить существующую компанию crm.company.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,23 +16,20 @@
 - отсутствуют примеры
 - отсутствует ответ в случае успеха
 - отсутствует ответ в случае ошибки
-- заменить ссылку http://dev.1c-bitrix.ru/rest_help/crm/fields.php#important на внутреннюю
 
 {% endnote %}
 
 {% endif %}
 
-{% note info "crm.company.update" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.update` обновляет существующую компанию.
 
 {% note warning %}
 
-Настоятельно рекомендуется при обновлении адреса передавать полный набор полей адреса в метод обновления. Особенности обновления полей адреса описаны [здесь](http://dev.1c-bitrix.ru/rest_help/crm/fields.php#important).
+Настоятельно рекомендуется при обновлении адреса передавать полный набор полей адреса в метод обновления. Особенности обновления полей адреса описаны [здесь](../data-types.md).
 
 {% endnote %}
 
@@ -58,30 +55,36 @@
 
 ## Примеры
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.company.update",
-    {
-        id: id,
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.company.update",
         {
-            "CURRENCY_ID": "RUB",
-            "REVENUE" : 500000,
-            "EMPLOYEES": "EMPLOYEES_3"
+            id: id,
+            fields:
+            {
+                "CURRENCY_ID": "RUB",
+                "REVENUE" : 500000,
+                "EMPLOYEES": "EMPLOYEES_3"
+            },
+            params: { "REGISTER_SONET_EVENT": "Y" }
         },
-        params: { "REGISTER_SONET_EVENT": "Y" }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

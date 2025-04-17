@@ -7,11 +7,11 @@ items:
     href: sale-order-add.md
   - name: Изменить заказ
     href: sale-order-update.md
-  - name: Получить значения полей заказа и связанных сущностей
+  - name: Получить значения полей заказа и связанных объектов
     href: sale-order-get.md 
   - name: Получить список заказов
     href: sale-order-list.md
-  - name: Удалить заказ и связанные сущности
+  - name: Удалить заказ и связанные объекты
     href: sale-order-delete.md 
   - name: Получить поля заказа
     href: sale-order-get-fields.md

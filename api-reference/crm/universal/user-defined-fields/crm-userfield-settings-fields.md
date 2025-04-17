@@ -1,4 +1,4 @@
-# Описание полей настроек для типа пользовательского поля
+# Получить описание полей настроек для типа пользовательского поля crm.userfield.settings.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "crm.userfield.settings.fields" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.userfield.settings.fields` возвращает описание полей настроек для типа пользовательского поля.
 
@@ -40,7 +38,7 @@
 
 - JS
   
-    ```
+    ```js
     var id = prompt("Введите ID");
     BX24.callMethod(
         "crm.userfield.settings.fields",
@@ -59,7 +57,7 @@
 
 - PHP
   
-    ```
+    ```php
     require_once('crest.php');
 
     $type = 'string'; // Замените на нужный тип
@@ -97,3 +95,7 @@
 {% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)

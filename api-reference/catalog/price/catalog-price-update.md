@@ -1,4 +1,4 @@
-# Обновление полей цены товара
+# Изменить цену товара catalog.price.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.price.update" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 catalog.price.update(id, fields)
@@ -45,25 +43,32 @@ catalog.price.update(id, fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.price.update',
-    {
-        id: 1,
-        fields: {
-            catalogGroupId: 1,
-            currency: "RUB",
-            price: 5000,
-            productId: 1
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.price.update',
+        {
+            id: 1,
+            fields: {
+                catalogGroupId: 1,
+                currency: "RUB",
+                price: 5000,
+                productId: 1
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

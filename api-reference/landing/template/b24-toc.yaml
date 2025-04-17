@@ -1,0 +1,19 @@
+title: Сущность Шаблон представления
+href: index.md
+items:
+  - name: Введение
+    href: index.md
+  - name: Поля сущности
+    href: fields.md
+  - name: Включаемые области
+    href: include-section.md
+  - name: Получить список включаемых областей для страницы
+    href: landing-template-get-landing-ref.md
+  - name: Получить список включаемых областей для сайта
+    href: landing-template-get-site-ref.md
+  - name: Получить список шаблонов
+    href: landing-template-get-list.md
+  - name: Установить включаемые области для страницы
+    href: landing-template-set-landing-ref.md
+  - name: Установить включаемые области для сайта
+    href: landing-template-set-site-ref.md

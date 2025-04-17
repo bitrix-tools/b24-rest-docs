@@ -1,4 +1,4 @@
-# Возвращение параметров почтового сервиса
+# Получить параметры почтового сервиса mailservice.get
 
 {% if build == 'dev' %}
 
@@ -17,11 +17,9 @@
 
 {% endnote %}
 
-{% note info "mailservice.get" %}
-
-**Scope**: [`mailservice`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`mailservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `mailservice.get` возвращает параметры указанного почтового сервиса.
 
@@ -35,23 +33,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "mailservice.get",
-    {
-        'ID': 10
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "mailservice.get",
         {
-            console.error(result.error());
-        }
-        else
+            'ID': 10
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

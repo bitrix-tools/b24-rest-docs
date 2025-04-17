@@ -1,4 +1,4 @@
-# Групповое проведение документов складского учёта
+# Выполнить групповое проведение документов складского учета catalog.document.conductList
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.document.conductList" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ## Описание
 
@@ -44,23 +42,29 @@ catalog.document.conductList(documentIds)
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'catalog.document.conductList',
-    {
-        "documentIds": [
-            "114",
-            "112"
-        ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.document.conductList',
+        {
+            "documentIds": [
+                "114",
+                "112"
+            ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

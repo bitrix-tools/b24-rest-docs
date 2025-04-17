@@ -1,9 +1,0 @@
-title: Управление пользователями
-href: voximplant-user-get.md
-items: 
-  - name: Получение настроек пользователей
-    href: voximplant-user-get.md
-  - name: Активация SIP-аппарата
-    href: voximplant-user-activate-phone.md
-  - name: Деактивация SIP-аппарата
-    href: voximplant-user-deactivate-phone.md

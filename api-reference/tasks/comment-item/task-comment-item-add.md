@@ -1,4 +1,4 @@
-# Добавление комментария 
+# Добавить комментарий task.commentitem.add
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.add" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.add`создает новый комментарий к задаче. Возвращает идентификатор добавленного комментария.
 
@@ -66,15 +64,26 @@
 
 ## Пример
 
-```js
-// Добавляем новый комментарий с текстом "HELLO" для задачи с ID=13
-BX24.callMethod(
-    'task.commentitem.add',
-    [13, {'POST_MESSAGE': 'HELLO'}],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Добавляем новый комментарий с текстом "HELLO" для задачи с ID=13
+    BX24.callMethod(
+        'task.commentitem.add',
+        [13, {'POST_MESSAGE': 'HELLO'}],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)

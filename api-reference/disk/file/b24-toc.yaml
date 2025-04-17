@@ -1,0 +1,29 @@
+title: Файл
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Копировать файл в папку
+    href: disk-file-copy-to.md
+  - name: Уничтожить файл
+    href: disk-file-delete.md
+  - name: Получить публичную ссылку на файл
+    href: disk-file-get-external-link.md
+  - name: Получить поля файла
+    href: disk-file-get-fields.md
+  - name: Список версий файла
+    href: disk-file-get-versions.md
+  - name: Получить параметры файла
+    href: disk-file-get.md
+  - name: Переместить файл в корзину
+    href: disk-file-mark-deleted.md
+  - name: Переместить файл в папку
+    href: disk-file-move-to.md
+  - name: Переименовать файл
+    href: disk-file-rename.md
+  - name: Восстановить файл из версии
+    href: disk-file-restore-from-version.md
+  - name: Восстановить файл из корзины
+    href: disk-file-restore.md
+  - name: Загрузить новую версию файла
+    href: disk-file-upload-version.md

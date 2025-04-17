@@ -1,4 +1,4 @@
-# Отправить признак «вам пишут...»
+# Отправить признак «вам пишут...» im.dialog.writing
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.dialog.writing" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.dialog.writing` отправляет статус «вам пишут...».
 
@@ -38,24 +36,30 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.dialog.writing',
-    {
-        'DIALOG_ID': '13'
-    },
-    function(result){
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    B24.callMethod(
+        'im.dialog.writing',
         {
-            console.error(result.error().ex);
+            'DIALOG_ID': '13'
+        },
+        function(result){
+            if(result.error())
+            {
+                console.error(result.error().ex);
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

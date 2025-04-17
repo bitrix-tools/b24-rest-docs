@@ -1,4 +1,4 @@
-# Начать новый диалог
+# Начать новый диалог imopenlines.session.start
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,8 +19,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.session.start**
->
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

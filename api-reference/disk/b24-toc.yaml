@@ -1,0 +1,29 @@
+title: Диск
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Версия
+    include:
+      path: version/b24-toc.yaml
+      mode: link
+  - name: Папка
+    include:
+      path: folder/b24-toc.yaml
+      mode: link
+  - name: Права доступа
+    include:
+      path: rights/b24-toc.yaml
+      mode: link
+  - name: Прикреплённый файл
+    include:
+      path: attached-object/b24-toc.yaml
+      mode: link
+  - name: Файл
+    include:
+      path: file/b24-toc.yaml
+      mode: link
+  - name: Хранилище
+    include:
+      path: storage/b24-toc.yaml
+      mode: link

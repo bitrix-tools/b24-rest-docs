@@ -13,8 +13,7 @@
 Эти материалы могут пригодиться при разработке чат-ботов для Битрикс24:
 
 - [{#T}](../../tutorials/chat-bots/index.md)
-- [Примеры чат-ботов](https://dev.1c-bitrix.ru/~b24bots)
+- [Примеры чат-ботов](https://github.com/bitrix24com/bots)
 - [bitrix24-php-sdk](https://github.com/mesilov/bitrix24-php-sdk)
 - [Группа на портале для разработчиков](https://dev.bitrix24.ru/workgroups/group/32/)
-- [Учебный курс «Маркетплейс Битрикс24»](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99)
 - [Видеокурс «Маркетплейс Битрикс24»](http://academy.1c-bitrix.ru/education/index.php?COURSE_ID=88)

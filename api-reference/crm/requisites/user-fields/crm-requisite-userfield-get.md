@@ -1,7 +1,5 @@
-# Получить пользовательское поле по id
+# Получить пользовательское поле по id crm.requisite.userfield.get
 
-> Название метода: **crm.requisite.userfield.get**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

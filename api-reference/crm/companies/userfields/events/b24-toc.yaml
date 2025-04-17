@@ -1,0 +1,13 @@
+title: Список событий при работе с пользовательскими полями компаний
+href: index.md
+items:
+  - name: Обзор событий 
+    href: index.md
+  - name: При добавлении пользовательского поля
+    href: on-crm-company-user-field-add.md
+  - name: При удалении пользовательского поля
+    href: on-crm-company-user-field-delete.md
+  - name: При изменении значений для поля типа Список
+    href: on-crm-company-user-field-set-enum-values.md
+  - name: При изменении пользовательского поля
+    href: on-crm-company-user-field-update.md

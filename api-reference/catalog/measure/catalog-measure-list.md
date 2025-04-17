@@ -1,7 +1,5 @@
-# Получить список единиц измерения
+# Получить список единиц измерения catalog.measure.list
 
-> Название метода: **catalog.measure.list**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

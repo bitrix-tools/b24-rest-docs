@@ -1,4 +1,4 @@
-# Изменение атрибутов ноды блока
+# Изменить атрибуты ноды блока landing.block.updateattrs
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.updateattrs" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.updateattrs` изменяет атрибуты ноды блока. Возвращает _true_ или ошибку.
 
@@ -79,31 +77,37 @@ data: {
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.updateattrs',
-    {
-        lid: 313,
-        block: 6134,
-        data: {
-            '.bitrix24forms': {
-                'data-b24form': 'tratrata'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.updateattrs',
+        {
+            lid: 313,
+            block: 6134,
+            data: {
+                '.bitrix24forms': {
+                    'data-b24form': 'tratrata'
+                }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
             }
         }
-    },
-    function(result)
-    {
-        if(result.error())
-        {
-            console.error(result.error());
-        }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

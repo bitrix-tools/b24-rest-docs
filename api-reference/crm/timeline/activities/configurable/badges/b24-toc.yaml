@@ -1,0 +1,14 @@
+title: Бейджи конфигурируемых дел
+href: index.md
+items:
+  - name: О бейджах
+    href: index.md
+  - name: Добавить бейдж
+    href: crm-activity-badge-add.md
+  - name: Получить список бейджей
+    href: crm-activity-badge-list.md
+  - name: Получить информацию о бейдже по коду
+    href: crm-activity-badge-get.md
+  - name: Удалить бейдж
+    href: crm-activity-badge-delete.md
+

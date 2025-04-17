@@ -1,4 +1,4 @@
-# Получение текущей выбранной линии в качестве исходящей линии по умолчанию
+# Получить текущую выбранную линию в качестве исходящей линии по умолчанию voximplant.line.outgoing.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,7 @@
 
 {% endif %}
 
-{% note info "voximplant.line.outgoing.get" %}
-
 {% include notitle [Скоуп telephony all](../../_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `voximplant.line.outgoing.get` возвращает текущую выбранную линии в качестве исходящей линии по умолчанию. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 
@@ -29,19 +25,25 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.line.outgoing.get',
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.line.outgoing.get',
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

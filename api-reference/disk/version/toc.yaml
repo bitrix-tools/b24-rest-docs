@@ -1,7 +1,0 @@
-title: Версия
-href: index.md
-items:
-  - name: Список методов
-    href: index.md
-  - name: Получение версии по идентификатору
-    href: disk-version-get.md

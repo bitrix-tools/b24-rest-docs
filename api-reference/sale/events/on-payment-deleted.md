@@ -1,7 +1,5 @@
-# При удалении оплаты из базы
+# При удалении оплаты из базы OnPaymentDeleted
 
-> Название события: **OnPaymentDeleted**
->
 > Scope: [`sale`](../../scopes/permissions.md) 
 >
 > Кто может подписаться: любой пользователь
@@ -15,7 +13,7 @@
 ```
 [
     'event' => 'ONPAYMENTDELETED',
-    'eventId' => 6,
+    'event_handler_id' => 6,
     'data' => [
         'FIELDS' => [
             'ID' => 300,
@@ -46,8 +44,8 @@
 `тип` | **Описание** ||
 || **event***
 [`string`](../../data-types.md) | Символьный код события ||
-|| **eventId***
-[`integer`](../../data-types.md) | Идентификатор события ||
+|| **event_handler_id***
+[`integer`](../../data-types.md) | Идентификатор обработчика события ||
 || **data***
 [`object`](../../data-types.md) | Объект с данными события ||
 || **ts***

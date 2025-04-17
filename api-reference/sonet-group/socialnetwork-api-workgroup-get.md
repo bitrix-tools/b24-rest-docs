@@ -1,4 +1,4 @@
-# Получение данных по рабочей группе
+# Получить данные по рабочей группе socialnetwork.api.workgroup.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,19 +20,17 @@
 
 {% endif %}
 
-{% note info "socialnetwork.api.workgroup.get" %}
-
-{% include notitle [Скоуп socialnetwork все](./_includes/scope-socialnetwork-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`socialnetwork`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод возвращает информацию о рабочей группе (в т.ч. о проекте или о скраме) по идентификатору. Администратор может получить информацию о любой рабочей группе (в т.ч. о проекте и о скраме) на портале, даже если она секретная и он в ней не состоит.
 
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+
+Параметры метода передавайте внутри массива `params`.
 
 #|
 || **Название** `тип` | **Описание** ||
@@ -75,7 +73,7 @@
 
 ## Поля
 
-Доступные поля:
+Доступные поля для выбора в select:
 
 #|
 || **Поле** | **Описание** | **С версии** ||
@@ -116,14 +114,83 @@
 
 ## Пример
 
-```js
-BX24.callMethod('socialnetwork.api.workgroup.get', {
-    params: {
-        groupId: 622,
-        select: [ 'ID', 'NAME' ],
-    },
-}, result => {
-    console.log(result);
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('socialnetwork.api.workgroup.get', {
+        params: {
+            groupId: 622,
+            select: [ 'ID', 'NAME' ],
+        },
+    }, result => {
+        console.log(result);
+    });
+    ```
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"params":{"groupId":622,"select":["ID","NAME"]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/socialnetwork.api.workgroup.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"params":{"groupId":622,"select":["ID","NAME"]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/socialnetwork.api.workgroup.get
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'socialnetwork.api.workgroup.get',
+        [
+            'params' => [
+                'groupId' => 622,
+                'select' => ['ID', 'NAME']
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "SONET_CONTROLLER_WORKGROUP_EMPTY",
+    "error_description": "Не передано значение ID рабочей группы."
+}
+```
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `-`     | `SONET_CONTROLLER_WORKGROUP_EMPTY` | В массив `params` не передан параметр `groupId` ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}

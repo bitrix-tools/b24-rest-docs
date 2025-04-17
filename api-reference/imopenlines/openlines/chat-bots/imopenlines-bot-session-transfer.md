@@ -1,4 +1,4 @@
-# Переключить диалог на оператора по Id
+# Переключить диалог на оператора по Id imopenlines.bot.session.transfer
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,8 +17,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.bot.session.transfer**
->
 > Scope: [`imopenlines, imbot`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -50,17 +48,23 @@
 
 {% include [Пояснение о restCommand](../../../chat-bots/_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imopenlines.bot.session.transfer',
-    Array(
-        'CHAT_ID' => 112,
-        'USER_ID' => 12,
-        'LEAVE' => 'N'
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imopenlines.bot.session.transfer',
+        Array(
+            'CHAT_ID' => 112,
+            'USER_ID' => 12,
+            'LEAVE' => 'N'
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

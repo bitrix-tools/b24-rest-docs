@@ -1,0 +1,17 @@
+title: Почтовые сервисы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать новый почтовый сервис
+    href: mailservice-add.md
+  - name: Удалить почтовый сервис
+    href: mailservice-delete.md
+  - name: Получить поля почтового сервиса
+    href: mailservice-fields.md
+  - name: Получить параметры почтового сервиса
+    href: mailservice-get.md
+  - name: Получить список почтовых сервисов
+    href: mailservice-list.md
+  - name: Изменить параметры почтового сервиса
+    href: mailservice-update.md

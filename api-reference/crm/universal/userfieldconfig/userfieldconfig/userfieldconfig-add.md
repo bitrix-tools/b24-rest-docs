@@ -1,4 +1,4 @@
-# Добавление нового пользовательского поля
+# Добавить новое пользовательское поле userfieldconfig.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "userfieldconfig.add" %}
-
-**Scope**: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -42,7 +40,7 @@ userfieldconfig.add({moduleId: string, field: {}})
 
 - [entityId^*^](../entity-id.md) - строковый идентификатор сущности. 
 - fieldName^*^ - код поля. Должен быть сформирован по шаблону `UF_ + {идентификатор сущности} + _ + {произвольная строка в UPPER_CASE}`. Код поля не может быть больше 50 символов. 
-- userTypeId^*^ - строковый идентификатор [типа поля](https://dev.1c-bitrix.ru/api_d7/bitrix/main/userfield/settings/types.php). 
+- userTypeId^*^ - строковый идентификатор [типа поля](../userfieldconfig/userfieldconfig-get-types.md). 
 - xmlId - внешний идентификатор.
 - sort - индекс сортировки.
 - multiple - флаг множественности (N или Y), по умолчанию N. Этот флаг можно указать только при создании поля.
@@ -97,5 +95,11 @@ userfieldconfig.add({moduleId: string, field: {}})
 ```
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+
+
+## Продолжите изучение
+
+- [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
 
 [*ключ_индекс]: Добавляйте в поиск только нужные поля. На построение индекса уходит время при изменении каждого значения поля, что может существенно замедлить работы при большом количестве таких полей.

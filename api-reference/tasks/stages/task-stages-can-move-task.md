@@ -1,39 +1,137 @@
-# Проверка возможности перемещения задачи
+# Проверить возможность перемещения задачи task.stages.canmovetask
 
-{% if build == 'dev' %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод:
+> - любой пользователь для стадий «Моего плана»
+> - любой пользователь с доступом к группе для стадий канбана
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+Метод проверяет, может ли текущий пользователь перемещать задачи в указанном объекте.
 
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
+## Параметры метода
 
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% note info "task.stages.canmovetask" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `task.stages.canmovetask` определяет, может ли текущий пользователь перемещать задачи в указанной сущности.
-
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **entityId**
-[`unknown`](../../data-types.md) | ID сущности. ||
-|| **entityType**
-[`unknown`](../../data-types.md) | Тип сущности ( `U` — пользователь или `G` — группа). В случае `U` (Мой план), `true` вернется только в одном случае? если в `entityId` передается идентификатор текущего пользователя. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **entityId***
+[`integer`](../../data-types.md) | `ID` объекта ||
+|| **entityType***
+[`string`](../../data-types.md) | Тип объекта: 
+- `U` — пользователь
+- `G` — группа
+
+В случае `U` («Мой план») — значение `true` вернется только если в `entityId` передается идентификатор текущего пользователя ||
 |#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "entityId": 1,
+    "entityType": "U"
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.canmovetask
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "entityId": 1,
+    "entityType": "U"
+    }' \
+    https://your-domain.bitrix24.com/rest/task.stages.canmovetask
+    ```
+
+- JS
+
+    ```js
+    const entityId = 1;
+    const entityType = 'U';
+    BX24.callMethod(
+        'task.stages.canmovetask',
+        {
+            entityId: entityId,
+            entityType: entityType
+        },
+        function(res)
+        {
+            console.log(res);
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php'); // подключение CRest PHP SDK
+
+    $entityId = 1;
+    $entityType = 'U';
+
+    // выполнение запроса к REST API
+    $result = CRest::call(
+        'task.stages.canmovetask',
+        [
+            'entityId' => $entityId,
+            'entityType' => $entityType
+        ]
+    );
+
+    // Обработка ответа от Битрикс24
+    if ($result['error']) {
+        echo 'Error: '.$result['error_description'];
+    } else {
+        print_r($result['result']);
+    }
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-Статус: **200**
+
+```json
+{
+    "result": true
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result** 
+[`boolean`](../../data-types.md) | Возвращает значение `true`, если текущий пользователь может переместить задачу.
+
+Иначе — `false`
+||
+|#
+
+## Обработка ошибок
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./task-stages-add.md)
+- [{#T}](./task-stages-update.md)
+- [{#T}](./task-stages-get.md)
+- [{#T}](./task-stages-move-task.md)
+- [{#T}](./task-stages-delete.md)

@@ -1,7 +1,7 @@
 title: Поля шаблона реквизита
 href: index.md
 items:
-  - name: Работа с полями шаблона реквизитов
+  - name: Обзор методов
     href: index.md
   - name: Добавить настраиваемое поле в шаблон реквизитов 
     href: crm-requisite-preset-field-add.md

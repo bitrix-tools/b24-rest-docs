@@ -1,4 +1,4 @@
-# Указание параметров индивидуальной карточки
+# Установить параметры индивидуальной карточки crm.company.details.configuration.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.company.details.configuration.set" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.details.configuration.set` устанавливает настройки карточки компаний. Метод записывает личные настройки карточки указанного пользователя или общие настройки для всех пользователей.
 
@@ -45,53 +43,59 @@
 
 ## Примеры
 
-```js
-//Установка личных настроек карточки компаний для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.company.details.configuration.set",
-    {
-        scope: "P",
-        userId: 1,
-        data:
-        [
-            {
-                name: "main",
-                title: "О компании",
-                type: "section",
-                elements:
-                [
-                    { name: "TITLE" },
-                    { name: "LOGO" },
-                    { name: "COMPANY_TYPE" },
-                    { name: "POST" },
-                    { name: "PHONE" },
-                    { name: "EMAIL" },
-                    { name: "CONTACT" }
-                ]
-            },
-            {
-                name: "additional",
-                title: "Дополнительно",
-                type: "section",
-                elements:
-                [
-                    { name: "INDUSTRY" },
-                    { name: "OPENED" },
-                    { name: "ASSIGNED_BY_ID" },
-                    { name: "COMMENTS" }
-                ]
-            }
-        ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //Установка личных настроек карточки компаний для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.company.details.configuration.set",
+        {
+            scope: "P",
+            userId: 1,
+            data:
+            [
+                {
+                    name: "main",
+                    title: "О компании",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "TITLE" },
+                        { name: "LOGO" },
+                        { name: "COMPANY_TYPE" },
+                        { name: "POST" },
+                        { name: "PHONE" },
+                        { name: "EMAIL" },
+                        { name: "CONTACT" }
+                    ]
+                },
+                {
+                    name: "additional",
+                    title: "Дополнительно",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "INDUSTRY" },
+                        { name: "OPENED" },
+                        { name: "ASSIGNED_BY_ID" },
+                        { name: "COMMENTS" }
+                    ]
+                }
+            ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

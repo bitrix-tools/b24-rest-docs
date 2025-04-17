@@ -1,4 +1,4 @@
-# Изменение документа
+# Изменить документ crm.documentgenerator.document.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.document.update" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.document.update` обновляет существующий документ с новыми значениями. Важно помнить, что обновление документа на основе удалённого шаблона невозможно. Метод работает аналогично [crm.documentgenerator.document.add()](./crm-document-generator-document-add.md).
 

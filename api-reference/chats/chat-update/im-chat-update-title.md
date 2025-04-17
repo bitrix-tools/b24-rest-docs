@@ -1,4 +1,4 @@
-# Изменить заголовок чата
+# Изменить заголовок чата im.chat.updateTitle
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,13 +18,11 @@
 
 {% endif %}
 
-{% note info "im.chat.add" %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `im.chat.add` обновляет заголовок чата.
+Метод `im.chat.updateTitle` обновляет заголовок чата.
 
 #|
 || **Параметр** | **Пример** | **Описание** | **Ревизия** ||
@@ -38,18 +36,24 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.chat.updateTitle',
-    Array(
-        'CHAT_ID' => 13,
-        'TITLE' => 'Новое имя для чата'
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.chat.updateTitle',
+        Array(
+            'CHAT_ID' => 13,
+            'TITLE' => 'Новое имя для чата'
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -1,4 +1,4 @@
-# Получить список коннекторов 
+# Получить список коннекторов imconnector.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,28 +19,33 @@
 
 {% endif %}
 
-{% note info "imconnector.list" %}
-
-**Scope**: [`imopenlines`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод получает список коннекторов.
 
 ## Пример
 
-```js
-BX24.callMethod('imconnector.list', {}, function(result) {
-    if(result.error())
-    {
-        console.error(result.error().ex);
-    }
-    else
-    {
-        console.log(result.data());
-    }
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('imconnector.list', {}, function(result) {
+        if(result.error())
+        {
+            console.error(result.error().ex);
+        }
+        else
+        {
+            console.log(result.data());
+        }
+    });
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

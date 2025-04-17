@@ -1,7 +1,5 @@
-# Получить доступные поля торгового каталога
+# Получить доступные поля торгового каталога catalog.catalog.getFields
 
-> Название метода: **catalog.catalog.getFields**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
@@ -129,12 +127,6 @@ HTTP-статус: **200**
                 "isReadOnly": false,
                 "isRequired": false,
                 "type": "integer"
-            },
-            "yandexExport": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "type": "char"
             }
         }
     },
@@ -187,9 +179,6 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-catalog-add.md)
-- [{#T}](./catalog-catalog-update.md)
 - [{#T}](./catalog-catalog-get.md)
 - [{#T}](./catalog-catalog-list.md)
 - [{#T}](./catalog-catalog-is-offers.md)
-- [{#T}](./catalog-catalog-delete.md)

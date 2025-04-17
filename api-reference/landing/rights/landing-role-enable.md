@@ -1,4 +1,4 @@
-# Переключение моделей
+# Переключить модели landing.role.enable
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,34 +19,40 @@
 
 {% endif %}
 
-{% note info "landing.role.enable" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Права на выполнение**: `администратор`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `landing.role.enable` осуществляет переключение между расширенной и ролевой моделями.
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.role.enable',
-    {
-        mode: 1// 1 – для включения ролевой модели, 0 – для выключения (включения расширенной)
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.role.enable',
         {
-            console.error(result.error());
-        }
-        else
+            mode: 1// 1 – для включения ролевой модели, 0 – для выключения (включения расширенной)
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

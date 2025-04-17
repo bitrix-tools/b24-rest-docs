@@ -1,4 +1,4 @@
-# Получение списка специальных страниц
+# Получить список специальных страниц landing.syspage.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,35 +21,39 @@
 
 {% endif %}
 
-{% note info "landing.syspage.get" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.syspage.get` возвращает список страниц сайта, которые установлены как специальные.
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.syspage.get',
-    {
-        id: 1390,// ИД сайта
-        active: true// Если true, то вернутся только активные страницы сайта (по умолчанию все)
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.syspage.get',
         {
-            console.error(result.error());
-        }
-        else
+            id: 1390,// ИД сайта
+            active: true// Если true, то вернутся только активные страницы сайта (по умолчанию все)
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

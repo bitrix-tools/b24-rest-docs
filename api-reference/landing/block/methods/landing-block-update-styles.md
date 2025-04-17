@@ -1,4 +1,4 @@
-# Изменение стилей блока
+# Изменить стили блока landing.block.updateStyles
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.updateStyles" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.updateStyles` изменяет стили блока. Возвращает _true_ или ошибку.
 
@@ -57,31 +55,39 @@
 
 {% endnote %}
 
-```js
-BX24.callMethod(
-    'landing.block.updateStyles',
-    {
-        lid: 311,
-        block: 6058,
-        data: {
-            '.landing-block-node-text': {
-                classList: ['landing-block-node-text', 'g-color-gray-light-v2', 'text-right'],
-                affect: ['text-align']
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.updateStyles',
+        {
+            lid: 311,
+            block: 6058,
+            data: {
+                '.landing-block-node-text': {
+                    classList: ['landing-block-node-text', 'g-color-gray-light-v2', 'text-right'],
+                    affect: ['text-align']
+                }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
             }
         }
-    },
-    function(result)
-    {
-        if(result.error())
-        {
-            console.error(result.error());
-        }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

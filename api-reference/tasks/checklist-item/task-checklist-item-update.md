@@ -1,4 +1,4 @@
-# Изменение пункта чек-листа
+# Изменить пункт чек-листа task.checklistitem.update
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.update" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.update` обновляет данные элемента чек-листа.
 
@@ -52,16 +50,22 @@
 
 ## Пример
 
-```js
-// Обновляем для элемента c ID=25 состояние на "невыполнен", а текст на "Пункт не выполнен"
-BX24.callMethod(
-    'task.checklistitem.update',
-    [13, 25, {'TITLE': 'Пункт не выполнен', 'IS_COMPLETE': 'N'}],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Обновляем для элемента c ID=25 состояние на "невыполнен", а текст на "Пункт не выполнен"
+    BX24.callMethod(
+        'task.checklistitem.update',
+        [13, 25, {'TITLE': 'Пункт не выполнен', 'IS_COMPLETE': 'N'}],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

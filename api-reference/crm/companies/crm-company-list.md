@@ -1,4 +1,4 @@
-# Получение списка компаний по фильтру
+# Получить список компаний по фильтру crm.company.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.company.list" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.list` возвращает список компаний по фильтру. Является реализацией списочного метода для компаний.
 
@@ -42,49 +40,61 @@
 
 **Поиск компаний по сфере деятельности и типу**
 
-```js
-BX24.callMethod(
-    "crm.company.list",
-    {
-        order: { "DATE_CREATE": "ASC" },
-        filter: { "INDUSTRY": "MANUFACTURING", "COMPANY_TYPE": "CUSTOMER" },
-        select: [ "ID", "TITLE", "CURRENCY_ID", "REVENUE" ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.company.list",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            order: { "DATE_CREATE": "ASC" },
+            filter: { "INDUSTRY": "MANUFACTURING", "COMPANY_TYPE": "CUSTOMER" },
+            select: [ "ID", "TITLE", "CURRENCY_ID", "REVENUE" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 **Поиск компании по телефону**
 
-```js
-BX24.callMethod(
-    "crm.company.list",
-    {
-        filter: { "PHONE": "555888" },
-        select: [ "ID", "TITLE" ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.company.list",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            filter: { "PHONE": "555888" },
+            select: [ "ID", "TITLE" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

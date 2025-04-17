@@ -1,4 +1,4 @@
-# Добавление документа складского учёта
+# Добавить документ складского учета catalog.document.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.document.add" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ## Описание
 
@@ -43,20 +41,53 @@ catalog.document.add(fields)
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- js
-  
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"docType":"S","responsibleId":"1","dateModify":"2000-01-01T00:00:00+02:00","dateCreate":"2000-01-01T00:00:00+02:00","createdBy":"1","modifiedBy":"1","currency":"USD","status":"S","dateStatus":"2000-01-01T00:00:00+02:00","dateDocument":"2000-01-01T00:00:00+02:00","statusBy":"1","total":"100","commentary":"first document.","title":"Новый документ"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.document.add
     ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"docType":"S","responsibleId":"1","dateModify":"2000-01-01T00:00:00+02:00","dateCreate":"2000-01-01T00:00:00+02:00","createdBy":"1","modifiedBy":"1","currency":"USD","status":"S","dateStatus":"2000-01-01T00:00:00+02:00","dateDocument":"2000-01-01T00:00:00+02:00","statusBy":"1","total":"100","commentary":"first document.","title":"Новый документ"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.document.add
+    ```
+
+- JS
+
+    ```js
     BX24.callMethod(
-        'catalog.document.element.update',
+        'catalog.document.add',
         {
-            'id': 42,
             'fields': {
-                'amount': 10,
-                'purchasingPrice': 25,
+                'docType': 'S',
+                'responsibleId': '1',
+                'dateModify': '2000-01-01T00:00:00+02:00',
+                'dateCreate': '2000-01-01T00:00:00+02:00',
+                'createdBy': '1',
+                'modifiedBy': '1',
+                'currency': 'USD',
+                'status': 'S',
+                'dateStatus': '2000-01-01T00:00:00+02:00',
+                'dateDocument': '2000-01-01T00:00:00+02:00',
+                'statusBy': '1',
+                'total': '100',
+                'commentary': 'first document.',
+                'title': 'Новый документ',
             }
         },
         function(result)
@@ -69,25 +100,37 @@ catalog.document.add(fields)
     );
     ```
 
-- php
-  
-    ```
+- PHP
+
+    ```php
+    require_once('crest.php');
+
     $result = CRest::call(
-        'catalog.document.element.update',
+        'catalog.document.add',
         [
-            'id' => 11,
             'fields' => [
-                'amount' => 10,
-                'purchasingPrice' => 25,
-            ],
+                'docType' => 'S',
+                'responsibleId' => '1',
+                'dateModify' => '2000-01-01T00:00:00+02:00',
+                'dateCreate' => '2000-01-01T00:00:00+02:00',
+                'createdBy' => '1',
+                'modifiedBy' => '1',
+                'currency' => 'USD',
+                'status' => 'S',
+                'dateStatus' => '2000-01-01T00:00:00+02:00',
+                'dateDocument' => '2000-01-01T00:00:00+02:00',
+                'statusBy' => '1',
+                'total' => '100',
+                'commentary' => 'first document.',
+                'title' => 'Новый документ',
+            ]
         ]
     );
 
-    echo '<pre>';
+    echo '<PRE>';
     print_r($result);
-    echo '</pre>';
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}

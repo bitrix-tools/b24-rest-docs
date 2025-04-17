@@ -1,4 +1,4 @@
-# Получение элементов справочника по его символьному идентификатору
+# Получить элемент справочника по его символьному идентификатору crm.status.entity.items
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.status.entity.items" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.status.entity.items()
@@ -40,21 +38,27 @@ crm.status.entity.items()
 
 ## Примеры
 
-```javascript
-var id = prompt('Введите ID');
-BX24.callMethod(
-    "crm.status.entity.items",
-    {
-        entityId: id
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    var id = prompt('Введите ID');
+    BX24.callMethod(
+        "crm.status.entity.items",
+        {
+            entityId: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

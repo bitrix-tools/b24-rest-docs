@@ -1,7 +1,0 @@
-title: Прикреплённый файл
-href: index.md
-items:
-  - name: Список методов
-    href: index.md
-  - name: Получение информации о прикрепленном файле
-    href: disk-attached-object-get.md

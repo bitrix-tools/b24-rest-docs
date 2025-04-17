@@ -1,4 +1,4 @@
-# Установить отмену прочитанных уведомлений
+# Прочитать уведомление или все уведомления с указанного im.notify.read
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "im.notify.read" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.notify.read` устанавливает отмену о прочитанных уведомлениях.
 
@@ -84,6 +82,25 @@
             "auth"
         ]
     );    
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php       
+    try {
+        $notificationIds = [1, 2, 3]; // Example notification IDs
+        $result = $serviceBuilder
+            ->getIMScope()
+            ->notify()
+            ->markMessagesAsUnread($notificationIds);
+        if ($result->isSuccess()) {
+            print_r($result->getCoreResponse()->getResponseData()->getResult());
+        } else {
+            print("Failed to mark messages as unread.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}

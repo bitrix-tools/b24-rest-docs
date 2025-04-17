@@ -1,7 +1,5 @@
-# Обновить элемент
+# Обновить элемент crm.item.update
 
-> Название метода: **crm.item.update**
-> 
 > Scope: [`crm`](../../scopes/permissions.md)
 > 
 > Кто может выполнять метод: любой пользователь с правом «изменения» элементов объекта CRM
@@ -57,6 +55,14 @@
 {% endnote %}
 
 ||
+|| **useOriginalUfNames**
+[`boolean`][1] | Параметр для управления форматом имен пользовательских полей в запросе и ответе.   
+Возможные значения:
+
+- `Y` — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830
+- `N` — имена пользовательских полей в camelCase, например ufCrm_2_1639669411830
+
+По умолчанию — `N` ||
 |#
 
 ### Параметр fields
@@ -172,7 +178,38 @@
   || **parentId...**
   [`crm_entity`][1] | Поле-родитель. Элемент другого типа объекта CRM, который привязан к данному элементу.
 
-  Каждое такое поле имеет код `parentId + {parentEntityTypeId}` ||
+  Каждое такое поле имеет код `parentId + {parentEntityTypeId}` 
+  ||
+  || **fm**
+  [`multifield[]`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+  - `id` — Уникальный идентификатор мультиполя. Если не существует мультиполя с данным id, то будет создано новое мультиполе
+  - `typeId` — Тип мультиполя
+  - `valueType` — Тип значения
+  - `value` — Значение
+
+  Пример:
+
+  ```bash
+    fm: {
+        "15": {
+            "valueType": "WORK",
+            "value": "+79999999",
+            "typeId": "PHONE"
+        },
+        "16": {
+            "valueType": "WORK",
+            "value": "bitrix@bitrix.ru",
+            "typeId": "EMAIL"
+        }
+    }
+  ```
+  По умолчанию — `null`
+  ||
   |#
 
 
@@ -390,6 +427,36 @@
 
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
+  || **fm**
+  [`multifield[]`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `id` — Уникальный идентификатор мультиполя. Если не существует мультиполя с данным id, то будет создано новое мультиполе
+    - `typeId` — Тип мультиполя
+    - `valueType` — Тип значения
+    - `value` — Значение
+
+  Пример:
+
+  ```bash
+    fm: {
+        "15": {
+            "valueType": "WORK",
+            "value": "+79999999",
+            "typeId": "PHONE"
+        },
+        "16": {
+            "valueType": "WORK",
+            "value": "bitrix@bitrix.ru",
+            "typeId": "EMAIL"
+        }
+    }
+  ```
+  По умолчанию — `null`
+  ||
   |#
 
 
@@ -477,6 +544,36 @@
   [`crm_entity`][1] | Поле-родитель. Элемент другого типа объекта CRM, который привязан к данному элементу.
 
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
+  ||
+  || **fm**
+  [`multifield[]`][1] | Массив мультиполей.
+
+  Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
+
+  Структура мультиполя:
+
+    - `id` — Уникальный идентификатор мультиполя. Если не существует мультиполя с данным id, то будет создано новое мультиполе
+    - `typeId` — Тип мультиполя
+    - `valueType` — Тип значения
+    - `value` — Значение
+
+  Пример:
+
+  ```bash
+    fm: {
+        "15": {
+            "valueType": "WORK",
+            "value": "+79999999",
+            "typeId": "PHONE"
+        },
+        "16": {
+            "valueType": "WORK",
+            "value": "bitrix@bitrix.ru",
+            "typeId": "EMAIL"
+        }
+    }
+  ```
+  По умолчанию — `null`
   ||
   |#
 
@@ -727,7 +824,9 @@
 
   Доступно лишь при включенной настройке `isObserversEnabled` у соответствующего смарт-процесса ||
   || **categoryId**
-  [`crm_category`][1] | Идентификатор воронки элемента смарт-процесса.
+  [`crm_category`][1] | Идентификатор воронки элемента смарт-процесса. 
+
+  Если идентификатор не указан, то смарт-процесс будет перемещен в основную воронку.
 
   Список доступных воронок можно узнать с помощью [`crm.category.list`](category/crm-category-list.md) применив соответсвующий `entityTypeId` ||
   || **stageId**
@@ -883,7 +982,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":2,"id":351,"fields":{"title":"REST Сделка #1","stageId":"C9:UC_NYL06U","assignedById":6,"observers":[1,2,3],"opened":"N","typeId":"SERVICE","opportunity":10000,"currencyId":"USD","additionalInfo":"Изменение сделки через REST","isManualOpportunity":"N","utmSource":"yandex","ufCrm_1721244707107":200.05,"parentId1220":[2,1]}}' \
+    -d '{"entityTypeId":2,"id":351,"fields":{"title":"REST Сделка #1","stageId":"C9:UC_NYL06U","assignedById":6,"observers":[1,2,3],"opened":"N","typeId":"SERVICE","opportunity":10000,"currencyId":"USD","additionalInfo":"Изменение сделки через REST","isManualOpportunity":"N","utmSource":"google","ufCrm_1721244707107":200.05,"parentId1220":[2,1]}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.update
     ```
 
@@ -893,7 +992,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":2,"id":351,"fields":{"title":"REST Сделка #1","stageId":"C9:UC_NYL06U","assignedById":6,"observers":[1,2,3],"opened":"N","typeId":"SERVICE","opportunity":10000,"currencyId":"USD","additionalInfo":"Изменение сделки через REST","isManualOpportunity":"N","utmSource":"yandex","ufCrm_1721244707107":200.05,"parentId1220":[2,1]},"auth":"**put_access_token_here**"}' \
+    -d '{"entityTypeId":2,"id":351,"fields":{"title":"REST Сделка #1","stageId":"C9:UC_NYL06U","assignedById":6,"observers":[1,2,3],"opened":"N","typeId":"SERVICE","opportunity":10000,"currencyId":"USD","additionalInfo":"Изменение сделки через REST","isManualOpportunity":"N","utmSource":"google","ufCrm_1721244707107":200.05,"parentId1220":[2,1]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.item.update
     ```
 
@@ -916,7 +1015,7 @@
                     currencyId: "USD",
                     additionalInfo: "Изменение сделки через REST",
                     isManualOpportunity: "N",
-                    utmSource: "yandex",
+                    utmSource: "google",
                     ufCrm_1721244707107: 200.05,
                     parentId1220: [2, 1],
                 },
@@ -955,7 +1054,7 @@
                 'currencyId' => "USD",
                 'additionalInfo' => "Изменение сделки через REST",
                 'isManualOpportunity' => "N",
-                'utmSource' => "yandex",
+                'utmSource' => "google",
                 'ufCrm_1721244707107' => 200.05,
                 'parentId1220' => [2, 1],
             ]
@@ -965,6 +1064,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php
+    try {
+        $entityTypeId = 1; // Set your entity type ID
+        $id = 123; // Set the ID of the item to update
+        $fields = [
+            'TITLE' => 'Updated Title',
+            'DATE_MODIFIED' => (new DateTime())->format(DateTime::ATOM), // Example DateTime field
+            // Add other fields as necessary
+        ];
+
+        $itemService = $serviceBuilder->getCRMScope()->item();
+        $updateResult = $itemService->update($entityTypeId, $id, $fields);
+
+        if ($updateResult->isSuccess()) {
+            print("Item updated successfully: " . json_encode($updateResult));
+        } else {
+            print("Failed to update item.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}
@@ -1039,7 +1163,7 @@ HTTP-статус: **200**
                 "2",
                 "1"
             ],
-            "utmSource": "yandex",
+            "utmSource": "google",
             "utmMedium": null,
             "utmCampaign": null,
             "utmContent": null,
@@ -1077,6 +1201,13 @@ HTTP-статус: **200**
 || **time**
 [`time`][1] | Информация о времени выполнения запроса ||
 |#
+
+{% note info " " %}
+
+По умолчанию имена пользовательских полей передаются и возвращаются в camelCase, например ufCrm2_1639669411830.
+При передаче параметра `useOriginalUfNames` со значением `Y` пользовательские поля будут возвращаться с оригинальными именами, например UF_CRM_2_1639669411830.
+
+{% endnote %}
 
 ## Обработка ошибок
 

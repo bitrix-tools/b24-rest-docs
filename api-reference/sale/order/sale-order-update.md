@@ -1,7 +1,5 @@
-# Изменить заказ
+# Изменить заказ sale.order.update
 
-> Название метода: **sale.order.update**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

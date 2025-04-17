@@ -1,4 +1,4 @@
-# Получение задачи по идентификатору
+# Получить задачу по идентификатору tasks.task.get
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.get" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.get` возвращает информацию о конкретной задаче.
 
@@ -78,7 +76,7 @@
 - **TASK_CONTROL** — принять в работу; 
 - **ADD_IN_REPORT** — добавить в отчет; 
 - **FORKED_BY_TEMPLATE_ID** — создано автоматически из шаблона; 
-- **TIME_ESTIMATE** — затраченное время; 
+- **TIME_ESTIMATE** — время, выделенное на задачу; 
 - **TIME_SPENT_IN_LOGS** — затраченное время из истории изменений; 
 - **MATCH_WORK_TIME** — пропустить выходные дни; 
 - **FORUM_TOPIC_ID** — идентификатор темы форума; 
@@ -107,32 +105,55 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'tasks.task.get',
-    {taskId:1, select:['ID','TITLE']},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.get',
+        {taskId:1, select:['ID','TITLE']},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 Для получения тэгов конкретной задачи:
 
-```js
-BX24.callMethod(
-    'tasks.task.get',
-    {taskId:1367, select:['TAGS']},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.get',
+        {taskId:1367, select:['TAGS']},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 Синтаксис для выборки всех полей:
 
-```js
-BX24.callMethod(
-    'tasks.task.get',
-    {taskId:1367, select:['*']},
-    function(res){console.log(res.answer.result);}
-)
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.get',
+        {taskId:1367, select:['*']},
+        function(res){console.log(res.answer.result);}
+    )
+    ```
+
+{% endlist %}
+
+## Продолжить изучение
+
+- [{#T}](../../tutorials/tasks/how-to-create-task-with-file.md)
+- [{#T}](../../tutorials/tasks/how-to-connect-task-to-spa.md)
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

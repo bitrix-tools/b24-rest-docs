@@ -1,4 +1,4 @@
-# Установить настройки для приложения
+# Установить настройки для приложения BX24.appOption.set
 
 ```js
 BX24.appOption.set(string name, mixed value[, Function callback]): void;

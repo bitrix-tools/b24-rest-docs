@@ -1,7 +1,5 @@
-# Удалить пользовательское поле счетов
+# Удалить пользовательское поле счетов crm.invoice.userfield.delete
 
-> Название метода: **crm.invoice.userfield.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

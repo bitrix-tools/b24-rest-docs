@@ -1,4 +1,4 @@
-# Отключение наблюдения за задачей
+# Отключить наблюдения за задачей tasks.task.stopwatch
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.stopwatch" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.stopwatch` останавливает наблюдение за задачей.
 
@@ -36,12 +34,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.stopwatch',
-    {taskId:1},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.stopwatch',
+        {taskId:1},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

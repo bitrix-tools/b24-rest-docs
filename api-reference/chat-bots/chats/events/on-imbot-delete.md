@@ -1,4 +1,4 @@
-# На удаление чат-бота 
+# На удаление чат-бота ONIMBOTDELETE
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,11 +16,9 @@
 
 {% endif %}
 
-{% note info "ONIMBOTDELETE" %}
-
-**Scope**: [`imbot`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие `ONIMBOTDELETE` на удаление чат-бота.
 
@@ -40,9 +38,15 @@
 
 ## Примеры
 
-```js
-[BOT_ID] => 39
-[BOT_CODE] => giphy
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    [BOT_ID] => 39
+    [BOT_CODE] => giphy
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

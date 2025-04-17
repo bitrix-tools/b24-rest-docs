@@ -1,4 +1,4 @@
-# Доступ к значению полей цены по ID
+# Получить значения полей цены catalog.price.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.price.get" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -45,7 +43,11 @@ catalog.price.get(id)
 
 ## Примеры
 
-```javascript
+{% list tabs %}
+
+- JS
+
+```js
 BX24.callMethod(
     'catalog.price.get',
     {
@@ -60,4 +62,7 @@ BX24.callMethod(
     }
 );
 ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -1,4 +1,4 @@
-# Снятие папки сайта с публикации
+# Снять папку сайта с публикации landing.site.unPublicFolder
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.unPublicFolder" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.unPublicFolder` снимает с публикации папку сайта. Должны быть права на публикацию сайта папки.
 
@@ -38,24 +36,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.site.unPublicFolder',
-    {
-        id: 737
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.unPublicFolder',
         {
-            console.error(result.error());
-        }
-        else
+            id: 737
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

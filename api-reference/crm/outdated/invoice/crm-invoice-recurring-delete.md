@@ -1,7 +1,5 @@
-# Удалить настройку регулярного счета
+# Удалить настройку регулярного счета crm.invoice.recurring.delete
 
-> Название метода: **crm.invoice.recurring.delete**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

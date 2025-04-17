@@ -1,7 +1,5 @@
-# Получить значения всех полей торгового каталога
+# Получить значения всех полей торгового каталога catalog.catalog.get
 
-> Название метода: **catalog.catalog.get**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
@@ -97,8 +95,7 @@ HTTP-статус: **200**
             "productIblockId": null,
             "skuPropertyId": null,
             "subscription": "N",
-            "vatId": null,
-            "yandexExport": "N"
+            "vatId": null
         }
     },
     "time": {
@@ -158,9 +155,6 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-catalog-add.md)
-- [{#T}](./catalog-catalog-update.md)
 - [{#T}](./catalog-catalog-list.md)
 - [{#T}](./catalog-catalog-is-offers.md)
-- [{#T}](./catalog-catalog-delete.md)
 - [{#T}](./catalog-catalog-get-fields.md)

@@ -1,4 +1,4 @@
-# Получение поля по коду
+# Получить поле по коду crm.lead.userfield.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.lead.userfield.get" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.lead.userfield.get` возвращает пользовательское поле лидов по идентификатору.
 
@@ -36,21 +34,27 @@
 
 ## Пример
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.lead.userfield.get",
-    {
-        id: id
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.lead.userfield.get",
+        {
+            id: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -1,7 +1,5 @@
-# Изменить количество товара
+# Изменить количество товара crm.item.payment.product.setQuantity
 
-> Название метода: **crm.item.payment.product.setQuantity**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: требуется право на изменение заказа оплаты

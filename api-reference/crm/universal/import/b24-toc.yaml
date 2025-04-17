@@ -3,7 +3,7 @@ href: index.md
 items: 
   - name: Импорт
     href: index.md
-  - name: Импорт одной записи
+  - name: Импортировать одну запись
     href: crm-item-import.md
-  - name: Групповой импорт записей
+  - name: Импортировать группу записей
     href: crm-item-batch-import.md

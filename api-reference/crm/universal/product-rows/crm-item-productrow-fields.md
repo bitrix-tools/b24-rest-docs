@@ -1,7 +1,5 @@
-# Получить список полей товарных позиций
+# Получить список полей товарных позиций crm.item.productrow.fields
 
-> Название метода: **crm.item.productrow.fields**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -255,7 +253,16 @@ HTTP-статус: **200**
             "isMultiple":false,
             "isDynamic":false,
             "title":"TYPE"
-         }
+         },
+         "storeId":{
+               "type": "integer",
+               "isRequired": false,
+               "isReadOnly": true,
+               "isImmutable": false,
+               "isMultiple": false,
+               "isDynamic": false,
+               "title": "STORE_ID"
+         }         
       }
    },
    "time":{

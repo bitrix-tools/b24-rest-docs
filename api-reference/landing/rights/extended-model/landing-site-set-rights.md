@@ -1,4 +1,4 @@
-# Установка прав доступа на сайт
+# Установить права доступа на сайт landing.site.setRights
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.site.setRights" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `landing.site.setRights` устанавливает права доступа для сайта. Вернёт *true* или ошибку. Метод доступен только администратору портала, а в облаке в том числе только платным тарифам.
 
@@ -56,32 +54,38 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.setRights',
-    {
-        id: 645,
-        rights: {
-            'U3': [
-                'edit', 'delete'
-            ],
-            'U1': [
-                'edit', 'sett'
-            ]
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.setRights',
         {
-            console.error(result.error());
-        }
-        else
+            id: 645,
+            rights: {
+                'U3': [
+                    'edit', 'delete'
+                ],
+                'U1': [
+                    'edit', 'sett'
+                ]
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

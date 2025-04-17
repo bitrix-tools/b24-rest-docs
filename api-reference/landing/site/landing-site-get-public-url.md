@@ -1,4 +1,4 @@
-# Получение публичного URL сайта
+# Получить публичный URL сайта landing.site.getPublicUrl
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.getPublicUrl" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.getPublicUrl` возвращает полный URL сайта (сайтов).
 
@@ -38,24 +36,30 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.getPublicUrl',
-    {
-        id: [752, 751]
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.getPublicUrl',
         {
-            console.error(result.error());
-        }
-        else
+            id: [752, 751]
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

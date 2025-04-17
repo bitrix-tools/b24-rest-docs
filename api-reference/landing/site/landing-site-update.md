@@ -1,4 +1,4 @@
-# Изменение сайта
+# Изменить сайт landing.site.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.update" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.update` вносит изменения в сайт. Возвращает `true` в случае успеха, или ошибку.
 
@@ -40,27 +38,35 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.update',
-    {
-        id: 206,
-        fields: {
-            TITLE: 'My second site!'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.update',
         {
-            console.error(result.error());
-        }
-        else
+            id: 206,
+            fields: {
+                TITLE: 'My second site!'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

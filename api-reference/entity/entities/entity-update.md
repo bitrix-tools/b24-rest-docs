@@ -1,4 +1,4 @@
-# Обновление параметров хранилища
+# Изменить параметры хранилища entity.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "entity.update" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.update` обновляет параметры хранилища данных. Пользователь должен обладать правами на управление (**Х**) хранилищем. Пользователь не может отнять у себя права на управление.
 
@@ -47,17 +45,23 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    'entity.update',
-    {
-        'ENTITY': 'dish',
-        'ACCESS': {
-            U1:'W',
-            AU:'R'
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'entity.update',
+        {
+            'ENTITY': 'dish',
+            'ACCESS': {
+                U1:'W',
+                AU:'R'
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

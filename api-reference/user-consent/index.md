@@ -6,11 +6,9 @@
 
 {% endnote %}
 
-{% note info "Права" %}
-
-**Scope**: [`userconsent`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userconsent`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Разрешение **Соглашение пользователя** (userconsent).
 

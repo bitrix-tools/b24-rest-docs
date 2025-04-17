@@ -18,10 +18,6 @@
          
   ![Приветственное сообщение](./_images/openlines4.png)
 
-  - Обратите внимание на галочку `Доступен в поиске`: 
-      - если эта опция включена, то вашу открытую линию можно будет найти по названию в поиске **Бизнес-чата** портала точно так же, как и пользователя *Битрикс24.Network*
-      - если вы хотите организовать *закрытую линию поддержки*, эту опцию необходимо выключить. После этого ваша линия пропадет из поиска **Бизнес-чата** портала — найти ее можно будет только по уникальному коду, указав его в поиске
-
 - Создайте новую открытую линию технической поддержки по вашему продукту или же выберите действующую:
 
 ![Создание или выбор открытой линии](./_images/add_network000.png)
@@ -48,6 +44,6 @@ $result = restCommand(
 
 {% note info %}
 
-`restCommand` — это метод отправки данных в *Битрикс24*, данный метод есть в [ЭхоБоте](https://dev.1c-bitrix.ru/~b24bots) и представлен здесь в качестве примера. Вы можете использовать свою функцию или javascript-метод [BX24.callMethod](../../how-to-use-examples.md), а также [bitrix24-php-sdk](https://github.com/mesilov/bitrix24-php-sdk). Еще можно открыть такой канал поддержки через javascript-метод [BX24.im.openMessenger](../../api-reference/bx24-js-sdk/additional-functions/bx24-im-open-messenger.md).
+`restCommand` — это метод отправки данных в *Битрикс24*, данный метод есть в [ЭхоБоте](https://github.com/bitrix24com/bots) и представлен здесь в качестве примера. Вы можете использовать свою функцию или javascript-метод [BX24.callMethod](../../how-to-use-examples.md), а также [bitrix24-php-sdk](https://github.com/mesilov/bitrix24-php-sdk). Еще можно открыть такой канал поддержки через javascript-метод [BX24.im.openMessenger](../../api-reference/bx24-js-sdk/additional-functions/bx24-im-open-messenger.md).
 
 {% endnote %}

@@ -1,4 +1,4 @@
-# Доступ к значениям полей остатков по складам
+# Получить значения полей остатков по складам catalog.storeproduct.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "catalog.storeproduct.get" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -45,18 +43,25 @@ catalog.storeproduct.get(id)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.storeproduct.get',
-    {
-        id: 1
-    },
-    function(result) {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.storeproduct.get',
+        {
+            id: 1
+        },
+        function(result) {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

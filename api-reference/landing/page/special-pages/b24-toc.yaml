@@ -1,0 +1,15 @@
+title: Общие методы
+href: index.md
+items:
+  - name: О специальных страницах
+    href: index.md
+  - name: Установить специальную страницу
+    href: landing-syspage-set.md
+  - name: Получить список страниц
+    href: landing-syspage-get.md
+  - name: Получить адрес специальной страницы
+    href: landing-syspage-get-special-page.md
+  - name: Удалить все упоминания
+    href: landing-syspage-delete-for-landing.md
+  - name: Удалить все специальные страницы
+    href: landing-syspage-delete-for-site.md

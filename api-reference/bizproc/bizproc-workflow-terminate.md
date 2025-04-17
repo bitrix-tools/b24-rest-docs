@@ -1,60 +1,170 @@
-# Остановка активного бизнес-процесса
+# Остановить активный бизнес-процесс bizproc.workflow.terminate
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`bizproc`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод останавливает указанный бизнес-процесс. Все данные бизнес-процесса при этом сохранятся.
 
-{% endnote %}
+## Параметры метода
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы.
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "bizproc.workflow.terminate" %}
-
-{% include notitle [Скоуп bizproc все](./_includes/scope-bizproc-all.md) %}
-
-{% endnote %}
-
-Метод останавливает указанный бизнес-процесс.
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **ID**^*^ | Идентификатор бизнес-процесса, который нужно остановить. Идентификатор можно получить с помощью метода [bizproc.workflo.instances](./bizproc-workflow-instances.md) ||
-|| **STATUS** | Установить текст статуса ||
+|| **Название**
+`тип` | **Описание** ||
+|| **ID***
+[`string`](../data-types.md) | Идентификатор бизнес-процесса, который нужно остановить.
+
+Идентификатор можно получить методом [bizproc.workflow.instances](./bizproc-workflow-instances.md) ||
+|| **STATUS**
+[`string`](../data-types.md) | Установить текст статуса ||
 |#
 
-## Примеры
+## Примеры кода
 
-```javascript
-function terminateWf(id, cb)
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ID":"65e5a449e8f135.21284909","STATUS":"Terminated by rest app."}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.workflow.terminate
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ID":"65e5a449e8f135.21284909","STATUS":"Terminated by rest app.","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/bizproc.workflow.terminate
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'bizproc.workflow.terminate',
+        {
+            ID: '65e5a449e8f135.21284909',
+            STATUS: 'Terminated by rest app.',
+        },
+        function(result) {
+            console.log('response', result.answer);
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.workflow.terminate',
+        [
+            'ID' => '65e5a449e8f135.21284909',
+            'STATUS' => 'Terminated by rest app.'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+  
+    ```php       
+    try {
+        $workflowId = 'your_workflow_id'; // Replace with actual workflow ID
+        $message = 'Workflow terminated'; // Replace with actual message
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->workflow()
+            ->terminate($workflowId, $message);
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print('Termination failed.');
+        }
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
 {
-	var params = {ID: id, STATUS: 'Terminated by rest app.'};
-	BX24.callMethod(
-		'bizproc.workflow.terminate',
-		params,
-		function(result)
-		{
-			if(result.error())
-				alert("Error: " + result.error());
-			else if (cb)
-				cb();
-		}
-	);
+    "result": true,
+    "time": {
+        "start": 1726476060.581428,
+        "finish": 1726476060.813776,
+        "duration": 0.23234796524047852,
+        "processing": 0.002630949020385742,
+        "date_start": "2024-09-16T08:41:00+00:00",
+        "date_finish": "2024-09-16T08:41:00+00:00",
+        "operating_reset_at": 1726476660,
+        "operating": 0,
+    },
 }
 ```
 
+### Возвращаемые данные
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../data-types.md) | Корневой элемент ответа.
+
+Содержит `true` в случае успеха ||
+|| **time**
+[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied!",
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** |**Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
+|| `400` | `ERROR_WRONG_WORKFLOW_ID` | Empty workflow instance ID | Передали пустое значение в параметр `ID` ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./bizproc-workflow-start.md)
+- [{#T}](./bizproc-workflow-instances.md)
+- [{#T}](./bizproc-workflow-kill.md)

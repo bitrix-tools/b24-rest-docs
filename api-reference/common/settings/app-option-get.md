@@ -1,50 +1,184 @@
-# Получение данных, привязанных к приложению.
+# Получить привязанные к приложению данные app.option.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`базовый`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "app.option.get" %}
-
-**Scope**: [`базовый`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `app.option.get` получает данные, привязанные к приложению. Если ничего не подать на вход, вернёт все свойства записанные через [app.option.set](./app-option-set.md).
+Метод `app.option.get` получает данные, привязанные к приложению. Если ничего не подать на вход, вернет все записанные через [app.option.set](./app-option-set.md) свойства.
 
 ## Параметры
 
 #|
-|| **Параметр** | **Описание** | **С версии** ||
+|| **Название**
+`тип` | **Описание** ||
 || **option**
-[`string`](../../data-types.md) | Строка, один из ключей из свойства **app.option.set**. | ||
+[`string`](../../data-types.md) | Строка, один из ключей из свойства [app.option.set](./app-option-set.md). ||
 |#
 
-## Примеры
-
-```js
-CRest::call('app.option.get',[//вернёт свойство с ключом 'data'
-    'option' => 'data'
-])
-```
-
-```js
-CRest::call('app.option.get',[]) //вернёт все свойства
-```
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    Пример №1
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "option": "data"
+    }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/app.option.get
+    ```
+
+    Пример №2
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/app.option.get
+    ```
+
+- cURL (OAuth)
+
+    Пример №1
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "option": "data",
+        "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/app.option.get
+    ```
+    
+    Пример №2
+    
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/app.option.get
+    ```
+
+- JS
+
+    Пример №1
+
+    ```js
+    BX24.callMethod(
+        'app.option.get',
+        {
+            "option":"data"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+    
+    Пример №2
+    
+    ```js
+    BX24.callMethod(
+        'app.option.get', {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    Пример №1
+    
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'app.option.get',
+        [
+            'option' => 'data'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+    Пример №2
+    
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'app.option.get',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "data": "value",
+    "data2": "value2"
+}
+```
+
+Метод возвращает данные, привязанные к приложению.
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"AccessException",
+    "error_description":"Application context required / User authorization required"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Cообщение об ошибке** | **Описание** ||
+|| `AccessException` | Application context required / Administrator authorization required | Доступ запрещен ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./app-option-set.md)
+- [{#T}](./user-option-set.md)
+- [{#T}](./user-option-get.md)

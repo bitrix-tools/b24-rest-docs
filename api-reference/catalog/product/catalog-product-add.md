@@ -1,7 +1,5 @@
-# Добавить товар
+# Добавить товар catalog.product.add
 
-> Название метода: **catalog.product.add**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
@@ -37,6 +35,7 @@
     detailTextType: 'значение',
     height: 'значение',
     iblockSectionId: 'значение',
+    IblockSection: ['значение_1', ... , 'значение_N'],
     length: 'значение',
     measure: 'значение',
     modifiedBy: 'значение',
@@ -120,7 +119,9 @@
 || **dateCreate**
 [`datetime`](../../data-types.md)| Дата создания ||
 || **iblockSectionId**
-[`catalog_section.id`](../data-types.md#catalog_section)| Идентификатор раздела информационного блока ||
+[`catalog_section.id`](../data-types.md#catalog_section)| Идентификатор основного раздела информационного блока ||
+|| **IblockSection**
+[`array`](../../data-types.md)| Массив со всеми разделами, к которым привязан товар ||
 || **measure**
 [`catalog_measure.id`](../data-types.md#catalog_measure)| Единица измерения ||
 || **previewText**

@@ -1,0 +1,19 @@
+title: Стадии
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать новую стадию
+    href: rpa-stage-add.md
+  - name: Обновить стадию
+    href: rpa-stage-update.md
+  - name: Получить информацию о стадии
+    href: rpa-stage-get.md
+  - name: Получить список стадий процесса
+    href: rpa-stage-list-for-type.md
+  - name: Удалить стадию
+    href: rpa-stage-delete.md
+
+
+
+

@@ -1,4 +1,4 @@
-# Отправить персональное уведомление
+# Отправить персональное уведомление im.notify.personal.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "im.notify.personal.add" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.notify.personal.add` отправляет персональное уведомление.
 
@@ -49,22 +47,28 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.notify.personal.add',
-    Array(
-        'USER_ID' => 1,
-        'MESSAGE' => 'Персональное уведомление',
-        'MESSAGE_OUT' => 'Текст персонального уведомления для почты',
-        'TAG' => 'TEST',
-        'SUB_TAG' => 'SUB|TEST',
-        'ATTACH' => ''
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.notify.personal.add',
+        Array(
+            'USER_ID' => 1,
+            'MESSAGE' => 'Персональное уведомление',
+            'MESSAGE_OUT' => 'Текст персонального уведомления для почты',
+            'TAG' => 'TEST',
+            'SUB_TAG' => 'SUB|TEST',
+            'ATTACH' => ''
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -104,4 +108,4 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-[Как работать с вложениями](http://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=93&CHAPTER_ID=07681)
+- [{#T}](../messages/attachments/index.md)

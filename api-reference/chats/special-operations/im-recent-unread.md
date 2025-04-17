@@ -1,4 +1,4 @@
-# Установить или снять признак «прочитано» у чата
+# Установить или снять признак «прочитано» у чата im.recent.unread
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.recent.unread" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.recent.unread` устанавливает метку «не прочитан» на чат или диалог.
 
@@ -40,25 +38,31 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.recent.unread',
-    {
-        DIALOG_ID: 'chat74',
-        ACTION: 'Y'
-    },
-    res => {
-        if (res.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'im.recent.unread',
         {
-        console.error(result.error().ex);
+            DIALOG_ID: 'chat74',
+            ACTION: 'Y'
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
         }
-        else
-        {
-        console.log(res.data())
-        }
-    }
-)
-```
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

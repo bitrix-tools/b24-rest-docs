@@ -1,7 +1,5 @@
-# Создать новый пользовательский тип
+# Создать новый пользовательский тип crm.type.add
 
-> Название метода: **crm.type.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с административным доступом к разделу CRM
@@ -430,6 +428,7 @@ HTTP-статус: **400**, **403**
 - [{#T}](./index.md)
 - [{#T}](./crm-type-update.md)
 - [{#T}](./crm-type-get.md)
+- [{#T}](./crm-type-get-by-entity-type-id.md)
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)

@@ -1,7 +1,5 @@
-# Получить поля оплаты
+# Получить поля оплаты sale.payment.getFields
 
-> Название метода: **sale.payment.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
@@ -255,7 +253,7 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "type": "string"
+                "type": "double"
             },
             "psCurrency": {
                 "isImmutable": false,
@@ -267,7 +265,7 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "type": "integer"
+                "type": "string"
             },
             "psResponseDate": {
                 "isImmutable": false,

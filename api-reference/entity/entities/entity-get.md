@@ -1,4 +1,4 @@
-# Получение параметров хранилища или списка всех хранилищ
+# Получить параметры хранилища или список всех хранилищ entity.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "entity.get" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.get` получает параметры хранилища или список всех хранилищ приложения.
 
@@ -38,32 +36,45 @@
 
 ## Примеры
 
-```javascript
-BX24.callMethod('entity.get');
-```
+{% list tabs %}
 
-Запрос
-```http
-https://my.bitrix24.ru/rest/entity.get.json?auth=59efe32d01c0e9dc5732e8dfa68a4baa
-```
+- JS
+
+    ```javascript
+    BX24.callMethod('entity.get');
+    ```
+
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.get.json?auth=59efe32d01c0e9dc5732e8dfa68a4baa
+    ```
+
+{% endlist %}
 
 Пример корректного получения списка всех доступных хранилищ:
 
-```javascript
-BX24.callMethod(
-    "entity.get",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "entity.get",
+        {},
+        function(result)
         {
-            console.info("Список созданных хранилищ:", result.data());
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.info("Список созданных хранилищ:", result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

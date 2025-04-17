@@ -1,7 +1,5 @@
-# Обновить пользовательский тип
+# Обновить пользовательский тип crm.type.update
 
-> Название метода: **crm.type.update**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с административным доступом к разделу CRM
@@ -432,6 +430,7 @@ HTTP-статус: **400**
 - [{#T}](./index.md)
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-get.md)
+- [{#T}](./crm-type-get-by-entity-type-id.md)
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)

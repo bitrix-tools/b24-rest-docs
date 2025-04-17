@@ -1,0 +1,19 @@
+title: Системные методы
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список доступных методов
+    href: method-get.md
+  - name: Получить список доступных разрешений
+    href: scope.md
+  - name: Показать информацию о приложении
+    href: app-info.md
+  - name: Получить названия прав доступа
+    href: access-name.md
+  - name: Получить информацию о доступности функционала на портале
+    href: feature-get.md
+  - name: Получить текущее время сервера
+    href: server-time.md
+  - name: Получить список доступных методов (устар.)
+    href: methods.md

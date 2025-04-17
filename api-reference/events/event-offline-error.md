@@ -1,10 +1,10 @@
-# Зарегистрировать ошибки обработки очереди офлайн-событий
+# Зарегистрировать ошибки обработки очереди офлайн-событий event.offline.error
 
-> Название метода: **event.offline.error**
->
 > Кто может выполнять метод: любой пользователь
 
 Метод `event.offline.error` сохраняет запись в базе с пометкой об ошибке при использовании офлайн-событий. Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
+
+Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
 
 ## Параметры метода
 
@@ -24,19 +24,6 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "process_id": "yh3gu929sf0d32lsfysqas2y1hlpp09q",
-        "message_id": [2]
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.offline.error
-    ```
 
 - cURL (OAuth)
 

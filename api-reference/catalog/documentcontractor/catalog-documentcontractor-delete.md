@@ -1,5 +1,4 @@
-# Удаление привязки CRM-сущности (Контакта/Компании) к документу по идентификатору привязки
-
+# Удалить привязку CRM-сущности (Контакта/Компании) к документу catalog.documentcontractor.delete
 {% note warning "Мы еще обновляем эту страницу" %}
 
 Тут может не хватать некоторых данных — дополним в ближайшее время
@@ -16,11 +15,9 @@
 
 {% endif %}
 
-{% note info "catalog.documentcontractor.delete" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -48,17 +45,23 @@ catalog.documentcontractor.delete(id)
 
 ## Примеры
 
-```js
-BX.callMethod(
-    'catalog.documentcontractor.delete',
-    { id: 20 },
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX.callMethod(
+        'catalog.documentcontractor.delete',
+        { id: 20 },
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

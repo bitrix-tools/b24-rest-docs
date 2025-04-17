@@ -1,7 +1,5 @@
-# Получить стадию канбана по идентификатору спринта
+# Получить стадии канбана по идентификатору спринта tasks.api.scrum.kanban.getStages
 
-> Название метода: **tasks.api.scrum.kanban.getStages**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -149,8 +147,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"ERROR_CODE",
-    "error_description":"ACTION_NOT_ALLOWED"
+    "error":0,
+    "error_description":"Sprint id not found"
 }
 ```
 
@@ -159,17 +157,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | `Sprint id not found`
-
-Не заполнено обязательное поле `sprintId` ||
-|| `0` | `Sprint not found`
-
-Передан неизвестный идентификатор спринта `sprintId` ||
-|| `0` | `Access denied`
-
-Доступ запрещен ||
-|| `0` | Неизвестная ошибка ||
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | `Sprint id not found` | Не заполнено обязательное поле `sprintId` ||
+|| `0` | `Sprint not found` | Передан неизвестный идентификатор спринта `sprintId` ||
+|| `0` | `Access denied` | Доступ запрещен ||
+|| `0` | Неизвестная ошибка | ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

@@ -1,4 +1,4 @@
-# Проведение документа складского учёта
+# Провести документ складского учета catalog.document.conduct
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.document.conduct" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 ## Описание
 
@@ -46,20 +44,26 @@ catalog.document.conduct(id)
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'catalog.document.conduct',
-    {
-        id: 112
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.document.conduct',
+        {
+            id: 112
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

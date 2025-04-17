@@ -1,4 +1,4 @@
-# Создать чат от лица чат-бота
+# Создать чат от лица чат-бота imbot.chat.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "imbot.chat.add" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.chat.add` создаёт чат от лица чат-бота.
 
@@ -58,27 +56,33 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.chat.add',
-    Array(
-        'TYPE' => 'CHAT',
-        'TITLE' => 'Мой новый закрытый чат',
-        'DESCRIPTION' => 'Очень важные события',
-        'COLOR' => 'PINK',
-        'MESSAGE' => 'Добро пожаловать!',
-        'USERS' => Array(1,2),
-        'AVATAR' => '/* base64 image */',
-        'ENTITY_TYPE' => 'CHAT',
-        'ENTITY_ID' => 13,
-        'OWNER_ID' => 39,
-        'BOT_ID' => 39,
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.chat.add',
+        Array(
+            'TYPE' => 'CHAT',
+            'TITLE' => 'Мой новый закрытый чат',
+            'DESCRIPTION' => 'Очень важные события',
+            'COLOR' => 'PINK',
+            'MESSAGE' => 'Добро пожаловать!',
+            'USERS' => Array(1,2),
+            'AVATAR' => '/* base64 image */',
+            'ENTITY_TYPE' => 'CHAT',
+            'ENTITY_ID' => 13,
+            'OWNER_ID' => 39,
+            'BOT_ID' => 39,
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -1,70 +1,150 @@
-# Показ списка методов, доступных текущему приложению
+# Получить список доступных методов methods
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`базовый`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- отсутствуют параметры или поля
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "methods" %}
-
-**Scope**: [`базовый`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+Метод `methods` получает список доступных методов.
 
 {% note alert %}
 
-Метод `methods` устарел и в срок до 1 сентября 2022 года будет удалён. Настоятельно рекомендуется использовать метод [method.get](./method-get.md).
+Метод устарел, вместо него настоятельно рекомендуется использовать [method.get](./method-get.md).
 
 {% endnote %}
 
-## Параметры
+## Параметры метода
 
-Без параметров - показ списка методов, доступных текущему приложению.
-
-### Дополнительные параметры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Поле** | **Описание** ||
-|| `full=true` | показ всех методов. ||
-|| `scope=имя_разрешения` | показ методов, входящих в данное разрешение. Если указан параметр без значения (`methods?scope=&auth=xxxxx`), то будут выведены все общие методы. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **full**
+[`boolean`](../../data-types.md) | Если параметр принимает значение `true`, то метод вернет список всех методов ||
+|| **scope**
+[`string`](../../data-types.md) | Показ методов, входящих в указанное разрешение. Если задан параметр без значения (`methods?scope=&auth=xxxxx`), то будут выведены все общие методы. ||
 |#
 
-## Примеры
+> Если метод вызван без параметров, то он вернет список всех методов, доступных текущему приложению.
 
-```http
-https://my.bitrix24.ru/rest/methods?scope=&auth=d161f25928c3184678924ec127edd29a - показать все общедоступные методы.
-```
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-## Ответ в случае успеха
+{% list tabs %}
 
-> 200 OK
+- cURL (Webhook)
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "scope": "user"
+    }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/methods
+    ```
+
+- cURL (OAuth)
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "scope": "user",
+        "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/methods
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "methods",
+        {
+            "scope": "user"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'methods',
+        [
+            'scope' => 'user'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
 ```json
 {
-    "result":[
-        "scope",
-        "methods",
-        "batch",
-        "user.admin",
-        "user.access",
-        "access.name"
-    ]
+    "result": [
+        "user.fields",
+        "user.current",
+        "user.get",
+        "user.search",
+        "user.add",
+        "user.update",
+        "user.online",
+        "user.counters",
+        "user.history.list",
+        "user.history.fields.list"
+    ],
+    "time": {
+        "start": 1721986432.32646,
+        "finish": 1721986432.3598,
+        "duration": 0.0333478450775147,
+        "processing": 0.000032901763916015,
+        "date_start": "2024-07-26T09:33:52+00:00",
+        "date_finish": "2024-07-26T09:33:52+00:00",
+        "operating": 0
+    }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Массив со списком разрешений ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./method-get.md)
+- [{#T}](./scope.md)
+- [{#T}](./app-info.md)
+- [{#T}](./access-name.md)
+- [{#T}](./feature-get.md)
+- [{#T}](./server-time.md)

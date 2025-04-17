@@ -1,0 +1,25 @@
+title: Чек-листы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить пункт чек-листа
+    href: task-checklist-item-add.md
+  - name: Изменить пункт чек-листа
+    href: task-checklist-item-update.md
+  - name: Перенести пункт чек-листа
+    href: task-checklist-item-move-after-item.md
+  - name: Получить пункт чек-листа по идентификатору
+    href: task-checklist-item-get.md
+  - name: Получить список пунктов чек-листа
+    href: task-checklist-item-get-list.md
+  - name: Пометить пункт как «выполненный»
+    href: task-checklist-item-complete.md
+  - name: Пометить пункт как «невыполненный»
+    href: task-checklist-item-renew.md
+  - name: Удалить элемент чек-листа
+    href: task-checklist-item-delete.md
+  - name: Проверить разрешение действия
+    href: task-checklist-item-is-action-allowed.md
+  - name: Получить перечень методов и их описаний
+    href: task-checklist-item-get-manifest.md

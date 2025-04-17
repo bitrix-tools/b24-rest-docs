@@ -1,4 +1,4 @@
-# Получить список полей документов
+# Получить список полей документов documentgenerator.document.getfields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.document.getfields" %}
-
-**Scope**: [`documentgenerator`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.document.getfields` возвращает список полей документа с их описанием. Возвращаемые значения абсолютно идентичны методу [documentgenerator.template.getfields()](./templates/document-generator-template-get-fields.md).
 

@@ -1,7 +1,5 @@
-# Добавить задачу в канбан Скрама
+# Добавить задачу в канбан Скрама tasks.api.scrum.kanban.addTask
 
-> Название метода: **tasks.api.scrum.kanban.addTask**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -114,8 +112,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"ERROR_CODE",
-    "error_description":"ACTION_NOT_ALLOWED"
+    "error":0,
+    "error_description":"TaskId id not found"
 }
 ```
 
@@ -124,29 +122,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | `Sprint id not found`
-
-Не заполнено обязательное поле `sprintId` ||
-|| `0` | `TaskId id not found`
-
-Не заполнено обязательное поле `taskId` ||
-|| `0` | `StageId id not found`
-
-Не заполнено обязательное поле `stageId` ||
-|| `0` | `Sprint not found`
-
-Передан неизвестный идентификатор спринта ||
-|| `0` | `Stage not found`
-
-Передан неизвестный идентификатор стадии ||
-|| `0` | `Task not found. The task must be with GROUP_ID`
-
-Передан неизвестный идентификатор задачи или задача не принадлежит группе спринта ||
-|| `0` | `Access denied`
-
-Доступ запрещен ||
-|| `0` | Неизвестная ошибка ||
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | `Sprint id not found` | Не заполнено обязательное поле `sprintId` ||
+|| `0` | `TaskId id not found` | Не заполнено обязательное поле `taskId` ||
+|| `0` | `StageId id not found` | Не заполнено обязательное поле `stageId` ||
+|| `0` | `Sprint not found` | Передан неизвестный идентификатор спринта ||
+|| `0` | `Stage not found` | Передан неизвестный идентификатор стадии ||
+|| `0` | `Task not found. The task must be with GROUP_ID` | Передан неизвестный идентификатор задачи или задача не принадлежит группе спринта ||
+|| `0` | `Access denied` | Доступ запрещен ||
+|| `0` | Неизвестная ошибка | ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

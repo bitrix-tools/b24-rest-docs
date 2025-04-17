@@ -1,4 +1,4 @@
-# Изменение названия тега
+# Изменить название тега landing.block.changeNodeName
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.changeNodeName" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.changeNodeName` изменяет название тега. Например, тег h3 требуется поменять на тег h1. Вернет _true_ в случае успеха, или ошибку.
 
@@ -44,29 +42,35 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.changeNodeName',
-    {
-        lid: 2006,
-        block: 20476,
-        data: {
-            '.landing-block-node-small-title@0': 'i',
-            '.landing-block-node-small-title@1': 'u'
-        }
-    },
-    function (result)
-    {
-        if (result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.changeNodeName',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 2006,
+            block: 20476,
+            data: {
+                '.landing-block-node-small-title@0': 'i',
+                '.landing-block-node-small-title@1': 'u'
+            }
+        },
+        function (result)
         {
-            console.info(result.data());
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

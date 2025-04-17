@@ -1,7 +1,5 @@
-# Установить набор дополнительных контентных блоков в дело
+# Установить набор дополнительных контентных блоков в дело crm.activity.layout.blocks.set
 
-> Название метода: **crm.activity.layout.blocks.set**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: REST Приложение
@@ -28,7 +26,7 @@
 || **activityId***
 [`integer`](../../../../data-types.md) | Идентификатор дела ||
 || **layout***
-[`RestAppLayoutDto`](../structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||
+[`RestAppLayoutDto`](../configurable/structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||
 |#
 
 ## Примеры кода

@@ -1,4 +1,4 @@
-# Добавление пользовательского поля задачи
+# Добавить пользовательское поле task.item.userfield.add
 
 {% if build == 'dev' %}
 
@@ -20,15 +20,13 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.add" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `task.item.userfield.add` создает новое свойство.
 
-Системное ограничение на название поля — 20 знаков. К названию пользовательского поля всегда добавляется префикс `UF_TASK_`, то есть реальная длина названия — 12 знаков.
+При создании пользовательского поля, в названии поля `FIELD_NAME` обязательно использовать префикс `UF_`. Если не указать префикс, система автоматически добавит его в начало названия.
 
 ## Параметры
 
@@ -39,10 +37,10 @@
 || **PARAMS**
 [`unknown`](../../data-types.md) | Массив с параметрами свойства вида `array("параметр": 'значение' [, ...])`, содержащий следующие параметры: 
 - `USER_TYPE_ID` - тип данных пользовательского поля. Допустимые значения: 
-    - `string` (**Строка**);
-    - `double` (**Число**); 
-    - `date` (**Дата**);
-    - `boolean` (**Да/Нет**); 
+  - `string` — строка
+  - `double` — число
+  - `date` — дата
+  - `boolean` — да/нет  
 - `FIELD_NAME` - код поля; 
 - `XML_ID` - внешний код; 
 - `EDIT_FORM_LABEL` - подпись в форме форматирования (указывается на английском ('en') и русском ('ru") языках); 
@@ -53,23 +51,43 @@
 
 {% list tabs %}
 
-- cURL
+- cURL (Webhook)
 
-    ```http
-    $appParams = array(
-        'auth' => 'q21g8vhcqmxdrbhqlbd2wh6ev1debppa',
-        'PARAMS' => array(
-            'USER_TYPE_ID' => 'string',
-            'FIELD_NAME' => 'NEW_TASKS_FIELD',
-            'XML_ID' => 'MY_TASK_FIELD',
-            'EDIT_FORM_LABEL' => array(
-                'en' => 'New task field',
-                'ru' => 'Новое поле задач'
-            ),
-            'LABEL' => 'New task field'
-        ),
-    );
-    $request = 'http://your-domain.ru/rest/task.item.userfield.add.xml?' . http_build_query($appParams);
+    ```bash
+    curl -X POST "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.item.userfield.add" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "PARAMS": {
+                "USER_TYPE_ID": "string",
+                "FIELD_NAME": "NEW_TASKS_FIELD",
+                "XML_ID": "MY_TASK_FIELD",
+                "EDIT_FORM_LABEL": {
+                    "en": "New task field",
+                    "ru": "Новое поле задач"
+                },
+                "LABEL": "New task field"
+            }
+        }'
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.item.userfield.add" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "PARAMS": {
+                "USER_TYPE_ID": "string",
+                "FIELD_NAME": "NEW_TASKS_FIELD",
+                "XML_ID": "MY_TASK_FIELD",
+                "EDIT_FORM_LABEL": {
+                    "en": "New task field",
+                    "ru": "Новое поле задач"
+                },
+                "LABEL": "New task field"
+            },
+            "auth": "**put_access_token_here**"
+        }'
     ```
 
 - JS
@@ -93,6 +111,32 @@
             console.log(result);
         }
     );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'task.item.userfield.add',
+        [
+            'PARAMS' => [
+                'USER_TYPE_ID' => 'string',
+                'FIELD_NAME' => 'NEW_TASKS_FIELD',
+                'XML_ID' => 'MY_TASK_FIELD',
+                'EDIT_FORM_LABEL' => [
+                    'en' => 'New task field',
+                    'ru' => 'Новое поле задач',
+                ],
+                'LABEL' => 'New task field',
+            ],
+        ]
+    );
+
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
     ```
 
 {% endlist %}

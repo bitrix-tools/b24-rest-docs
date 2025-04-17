@@ -1,7 +1,5 @@
-# Обновить данные обработчика кассы
+# Обновить данные обработчика кассы sale.cashbox.handler.update
 
-> Название метода: **sale.cashbox.handler.update**
->
 > Scope: [`sale, cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)

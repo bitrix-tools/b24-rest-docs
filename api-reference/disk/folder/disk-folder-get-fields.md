@@ -1,4 +1,4 @@
-# Описание полей папки
+# Получить описание полей папки disk.folder.getfields
 
 {% if build == 'dev' %}
 
@@ -17,11 +17,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.getfields" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.getfields` возвращает описание полей папки.
 
@@ -35,19 +33,26 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.folder.getfields",
-    {},
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.folder.getfields",
+        {},
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

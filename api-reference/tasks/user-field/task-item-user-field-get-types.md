@@ -1,4 +1,4 @@
-# Получение списка доступных типов данных 
+# Получить список доступных типов данных task.item.userfield.gettypes
 
 {% if build == 'dev' %}
 
@@ -21,13 +21,17 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.gettypes" %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
+Метод `task.item.userfield.gettypes` возвращает все доступные в системе типы данных.
 
-{% endnote %}
-
-Метод `task.item.userfield.gettypes` возвращает все доступные типы данных.
+Пользовательские поля в задачах поддерживают типы данных:
+- `string` — строка
+- `double` — число
+- `date` — дата
+- `boolean` — да/нет 
 
 ## Параметры
 

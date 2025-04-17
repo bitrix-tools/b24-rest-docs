@@ -1,4 +1,4 @@
-# Обновление контента блока
+# Изменить контент блока landing.block.updatecontent
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.updatecontent" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.updatecontent` обновляет содержимое уже размещенного на странице блока на любой произвольный. Для изменения контентной части рекомендуется метод [landing.block.updatenodes](./landing-block-update-nodes.md). Вернет _true_ в случае успеха, или ошибку.
 
@@ -58,26 +56,32 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.updatecontent',
-    {
-        lid: 625,
-        block: 11883,
-        content: '<h3>My super content</h3>'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.updatecontent',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 625,
+            block: 11883,
+            content: '<h3>My super content</h3>'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

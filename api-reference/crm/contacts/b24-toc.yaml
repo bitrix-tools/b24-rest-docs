@@ -3,29 +3,29 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Поля контакта
-    href: crm-contact-fields.md
-  - name: Создание нового контакта
+  - name: Создать новый контакт
     href: crm-contact-add.md
-  - name: Изменение контакта
+  - name: Изменить контакт
     href: crm-contact-update.md
-  - name: Получение контакта по Id
+  - name: Получить контакт по Id
     href: crm-contact-get.md
-  - name: Получение списка контактов
+  - name: Получить список контактов
     href: crm-contact-list.md
-  - name: Удаление контакта
+  - name: Удалить контакт
     href: crm-contact-delete.md
-  - name: Компании
+  - name: Получить поля контакта
+    href: crm-contact-fields.md
+  - name: Связь контакта с компаниями
     include:
-      path: company/toc.yaml
+      path: company/b24-toc.yaml
       mode: link
   - name: Пользовательские поля
     include:
-      path: userfield/toc.yaml
+      path: userfield/b24-toc.yaml
       mode: link
   - name: События
     include:
-      path: events/toc.yaml
+      path: events/b24-toc.yaml
       mode: link
   - name: Управление карточками контактов
     include:

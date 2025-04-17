@@ -16,7 +16,7 @@
 - [Контакты](./contacts/index.md)
 - [Компании](./companies/index.md)
 - [Таймлайн и дела](./timeline/index.md)
-- [Поиск по CRM и дубликаты](./duplicates/index.md)
+- [Поиск и обработка дубликатов в CRM](./duplicates/index.md)
 - [Справочники](./status/index.md)
 - [Валюты](./currency/index.md)
 - [Генератор документов](./document-generator/index.md)

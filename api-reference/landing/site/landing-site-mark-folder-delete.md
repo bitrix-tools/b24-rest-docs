@@ -1,4 +1,4 @@
-# Пометка папки как удаленной
+# Пометить папку как удаленную landing.site.markFolderDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.markFolderDelete" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.markFolderDelete` помечает папку как удаленную (помещенную в корзину).
 
@@ -38,24 +36,30 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.site.markFolderDelete',
-    {
-        id: 737
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.markFolderDelete',
         {
-            console.error(result.error());
-        }
-        else
+            id: 737
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

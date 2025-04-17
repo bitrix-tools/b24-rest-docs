@@ -1,4 +1,4 @@
-# Возвращает текущие настройки режима работы CRM
+# Получить текущие настройки режима работы CRM crm.settings.mode.get
 
 {% if build == 'dev' %}
 
@@ -13,11 +13,9 @@
 
 {% endif %}
 
-{% note info "crm.settings.mode.get" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 crm.settings.mode.get()

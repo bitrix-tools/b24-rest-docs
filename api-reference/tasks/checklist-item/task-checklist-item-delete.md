@@ -1,4 +1,4 @@
-# Удаление элемента чек-листа
+# Удалить элемент чек-листа task.checklistitem.delete
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.delete" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.delete` удаляет элемент чек-листа.
 
@@ -47,15 +45,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.checklistitem.delete',
-    [13, 20],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.checklistitem.delete',
+        [13, 20],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -1,4 +1,4 @@
-# Получение пользовательских настроек
+# Получить пользовательские настройки timeman.timecontrol.reports.settings.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.reports.settings.get" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `timeman.timecontrol.reports.settings.get` для получения пользовательских настроек для построения интерфейса отчетов инструмента контроля времени.
 
@@ -36,7 +34,7 @@
 
 - JS
 
-    ```javascript
+    ```js
     BX24.callMethod('timeman.timecontrol.reports.settings.get', {}, function(result){
         if(result.error())
         {
@@ -52,7 +50,11 @@
 - PHP
 
     ```php
-    $result = restCommand('timeman.timecontrol.reports.settings.get', Array(), $_REQUEST["auth"]);    
+    $result = restCommand(
+        'timeman.timecontrol.reports.settings.get',
+        Array(),
+        $_REQUEST["auth"]
+    );    
     ```
 
 {% endlist %}

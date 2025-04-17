@@ -36,32 +36,38 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-restCommand(
-    'im.message.add',
-    Array(
-        "DIALOG_ID" => 12,
-        "MESSAGE" => "Hello! Message with context menu!",
-        "MENU" => Array(
-            Array(
-                "TEXT" => "Bitrix24",
-                "LINK" => "http://bitrix24.com",
-            ),
-            Array(
-                "TEXT" => "Echo",
-                "COMMAND" => "echo",
-                "COMMAND_PARAMS" => "test from keyboard"
-            ),
-            Array(
-                "TEXT" => "Open app",
-                "APP_ID" => "12",
-                "APP_PARAMS" => "TEST"
-            ),
-        )
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    restCommand(
+        'im.message.add',
+        Array(
+            "DIALOG_ID" => 12,
+            "MESSAGE" => "Hello! Message with context menu!",
+            "MENU" => Array(
+                Array(
+                    "TEXT" => "Bitrix24",
+                    "LINK" => "http://bitrix24.com",
+                ),
+                Array(
+                    "TEXT" => "Echo",
+                    "COMMAND" => "echo",
+                    "COMMAND_PARAMS" => "test from keyboard"
+                ),
+                Array(
+                    "TEXT" => "Open app",
+                    "APP_ID" => "12",
+                    "APP_PARAMS" => "TEST"
+                ),
+            )
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 Контекстное меню - это набор кнопок, каждая кнопка может состоять из следующих ключей:
 
@@ -106,7 +112,7 @@ restCommand(
     "COMMAND_PARAMS" => "1", // параметры для команды
     ```
 
-2. Нажатие на кнопку создаст событие [ONIMCOMMANDADD](../../chat-bots/commands/events/index.md).
+2. Нажатие на кнопку создаст событие [ONIMCOMMANDADD](../../chat-bots/commands/events/on-im-command-add.md).
 
 3. Внутри этого события нужно либо создать новое сообщение, либо отредактировать старое (тем самым формируя эффект постраничной навигации).
 
@@ -117,4 +123,4 @@ restCommand(
 
 ## Обработка открытия приложения для чата
 
-Приложение для чата, запускаемые из контекстного меню, работают по принципам [Контекстного приложения](/learning/course/?COURSE_ID=93&LESSON_ID=9303).
+Приложение для чата, запускаемые из контекстного меню, работают по принципам [Контекстного приложения](../outdated/context.md).

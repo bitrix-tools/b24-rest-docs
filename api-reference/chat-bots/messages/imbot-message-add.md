@@ -1,4 +1,4 @@
-# Отправить сообщение
+# Отправить сообщение imbot.message.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -22,11 +22,9 @@
 
 {% endif %}
 
-{% note info "imbot.message.add" %}
-
-**Scope**: [`imbot`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imbot`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `imbot.message.add` отправляет сообщение от чат-бота.
 
@@ -56,24 +54,30 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.message.add',
-    Array(
-        'BOT_ID' => 39,
-        'DIALOG_ID' => 1,
-        'MESSAGE' => 'answer text',
-        'ATTACH' => '',
-        'KEYBOARD' => '',
-        'MENU' => '',
-        'SYSTEM' => 'N',
-        'URL_PREVIEW' => 'Y'
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.message.add',
+        Array(
+            'BOT_ID' => 39,
+            'DIALOG_ID' => 1,
+            'MESSAGE' => 'answer text',
+            'ATTACH' => '',
+            'KEYBOARD' => '',
+            'MENU' => '',
+            'SYSTEM' => 'N',
+            'URL_PREVIEW' => 'Y'
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -104,9 +108,9 @@ $result = restCommand(
 || **WRONG_REQUEST** | Что-то пошло не так. ||
 |#
 
-## Ссылки по теме
+## Продолжить изучение
 
-- [Как работать с набираемыми клавиатурами](/learning/course/index.php?COURSE_ID={SELF}&LESSON_ID=7683)
-- [Как работать с вложениями](/learning/course/index.php?COURSE_ID={SELF}&CHAPTER_ID=07681)
-- [Форматирование сообщения](/learning/course/index.php?COURSE_ID={SELF}&LESSON_ID=7679)
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](/learning/course/index.php?COURSE_ID={SELF}&LESSON_ID=7881#onimbotmessageadd)
+- [Как работать с набираемыми клавиатурами](../../chats/messages/keyboards.md)
+- [Как работать с вложениями](../../chats/messages/attachments/index.md)
+- [Форматирование сообщения](../../chats/messages/index.md)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/on-imbot-message-add.md)

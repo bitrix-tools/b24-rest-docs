@@ -1,0 +1,26 @@
+title: Структура конфигурируемого дела
+href: layout.md
+items:
+  - name: Структура конфигурируемого дела
+    href: layout.md
+  - name: Иконка
+    href: icon.md
+  - name: Заголовок записи
+    href: header.md
+  - name: Основная контентная область
+    href: body.md
+  - name: Контентный блок конфигурируемого дела
+    href: content-block.md    
+  - name: Нижняя часть записи
+    href: footer.md
+  - name: Выпадающее меню нижней части
+    href: menu-item.md
+  - name: Реакция на клик
+    href: action.md
+  - name: Типы полей
+    href: field-types.md
+  - name: Набор дополнительных контентных блоков
+    href: rest-app-layout-dto.md
+  - name: Примеры конфигураций дела
+    href: examples.md
+

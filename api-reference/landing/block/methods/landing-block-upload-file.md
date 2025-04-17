@@ -1,4 +1,4 @@
-# Загрузка и привязка картинки к блоку
+# Загрузить и привязать картинку к блоку landing.block.uploadfile
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.uploadfile" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.uploadfile` загружает картинку и привязывает ее к указанному блоку. В случае успеха возвращает пару: прямой путь до загруженного файла и id сохраненного файла. С этого момента картинка удалится только при полном удалении блока, страницы, содержащей блок, или через вызов метода [landing.landing.removeEntities](../../page/methods/landing-landing-remove-entities.md).
 
@@ -51,26 +49,32 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.block.uploadfile',
-    {
-        block: 12294,
-        picture: 'https://site.com/******.jpg'
-//        picture: document.getElementById('file')
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.uploadfile',
         {
-            console.error(result.error());
-        }
-        else
+            block: 12294,
+            picture: 'https://site.com/******.jpg'
+    //        picture: document.getElementById('file')
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

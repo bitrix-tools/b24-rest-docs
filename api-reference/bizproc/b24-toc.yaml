@@ -1,0 +1,30 @@
+title: Бизнес-процессы и роботы
+href: index.md
+items:
+  - name: Обзор
+    href: index.md
+  - name: Запустить бизнес-процесс
+    href: bizproc-workflow-start.md
+  - name: Получить список бизнес-процессов
+    href: bizproc-workflow-instances.md    
+  - name: Остановить бизнес-процесс
+    href: bizproc-workflow-terminate.md
+  - name: Удалить активный процесс
+    href: bizproc-workflow-kill.md
+  - name: Шаблоны
+    include:
+      path: template/b24-toc.yaml
+      mode: link
+  - name: Задания
+    include:
+      path: bizproc-task/b24-toc.yaml
+      mode: link
+  - name: Действия приложений
+    include:
+      path: bizproc-activity/b24-toc.yaml
+      mode: link
+  - name: Роботы приложений
+    include:
+      path: bizproc-robot/b24-toc.yaml
+      mode: link
+

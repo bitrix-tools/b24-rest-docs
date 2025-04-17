@@ -1,4 +1,4 @@
-# Указание параметров индивидуальной карточки
+# Установить параметры индивидуальной карточки crm.lead.details.configuration.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.lead.details.configuration.set" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.lead.details.configuration.set` устанавливает настройки карточки лидов. Метод записывает личные настройки карточки указанного пользователя или общие настройки для всех пользователей.
 
@@ -55,56 +53,62 @@
 
 ## Примеры
 
-```js
-//---
-//Установка личных настроек карточки лидов для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.lead.details.configuration.set",
-    {
-        scope: "P",
-        userId: 1,
-        data:
-        [
-            {
-                name: "main",
-                title: "Общие сведения",
-                type: "section",
-                elements:
-                [
-                    { name: "TITLE" },
-                    { name: "STATUS_ID" },
-                    { name: "NAME" },
-                    { name: "BIRTHDATE" },
-                    { name: "POST" },
-                    { name: "PHONE" },
-                    { name: "EMAIL" }
-                ]
-            },
-            {
-                name: "additional",
-                title: "Дополнительно",
-                type: "section",
-                elements:
-                [
-                    { name: "SOURCE_ID" },
-                    { name: "SOURCE_DESCRIPTION" },
-                    { name: "OPENED" },
-                    { name: "ASSIGNED_BY_ID" },
-                    { name: "OBSERVER" },
-                    { name: "COMMENTS" }
-                ]
-            }
-        ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //---
+    //Установка личных настроек карточки лидов для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.lead.details.configuration.set",
+        {
+            scope: "P",
+            userId: 1,
+            data:
+            [
+                {
+                    name: "main",
+                    title: "Общие сведения",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "TITLE" },
+                        { name: "STATUS_ID" },
+                        { name: "NAME" },
+                        { name: "BIRTHDATE" },
+                        { name: "POST" },
+                        { name: "PHONE" },
+                        { name: "EMAIL" }
+                    ]
+                },
+                {
+                    name: "additional",
+                    title: "Дополнительно",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "SOURCE_ID" },
+                        { name: "SOURCE_DESCRIPTION" },
+                        { name: "OPENED" },
+                        { name: "ASSIGNED_BY_ID" },
+                        { name: "OBSERVER" },
+                        { name: "COMMENTS" }
+                    ]
+                }
+            ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

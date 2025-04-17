@@ -1,4 +1,4 @@
-# Получить информацию о ревизиях API
+# Получить информацию о ревизиях API imopenlines.revision.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,8 +17,6 @@
 
 {% endif %}
 
-> Название метода: **imopenlines.revision.get**
->
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

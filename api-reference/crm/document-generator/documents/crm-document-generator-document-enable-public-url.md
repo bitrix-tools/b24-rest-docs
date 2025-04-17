@@ -1,4 +1,4 @@
-# Включение и выключение публичной ссылки на документ
+# Включить и выключить публичную ссылку на документ crm.documentgenerator.document.enablepublicurl
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.document.enablepublicurl" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.document.enablepublicurl` включает / выключает публичную ссылку на документ.
 

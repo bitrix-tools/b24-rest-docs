@@ -1,7 +1,5 @@
-# Получить список вариантов свойств
+# Получить список вариантов свойств sale.propertyvariant.list
 
-> Название метода: **sale.propertyvariant.list**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

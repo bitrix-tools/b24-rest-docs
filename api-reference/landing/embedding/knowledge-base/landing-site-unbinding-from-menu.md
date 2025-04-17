@@ -1,4 +1,4 @@
-# Удаление из меню
+# Удалить из меню landing.site.unbindingFromMenu
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.unbindingFromMenu" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.unbindingFromMenu` удаляет привязку Базы знаний в меню. К Базе знаний должен быть доступ на чтение.
 
@@ -40,25 +38,31 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.unbindingFromMenu',
-    {
-        id: 31,
-        menuCode: 'crm_switcher:deal'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.unbindingFromMenu',
         {
-            console.error(result.error());
-        }
-        else
+            id: 31,
+            menuCode: 'crm_switcher:deal'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

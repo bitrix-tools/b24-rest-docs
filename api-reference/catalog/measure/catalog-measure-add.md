@@ -1,7 +1,5 @@
-# Добавить единицу измерения
+# Добавить единицу измерения catalog.measure.add
 
-> Название метода: **catalog.measure.add**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

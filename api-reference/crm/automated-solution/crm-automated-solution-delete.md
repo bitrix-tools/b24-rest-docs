@@ -1,7 +1,5 @@
-# Удалить цифровое рабочее место
+# Удалить цифровое рабочее место crm.automatedsolution.delete
 
-> Название метода: **crm.automatedsolution.delete**
->
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователи с административным доступом к разделу CRM

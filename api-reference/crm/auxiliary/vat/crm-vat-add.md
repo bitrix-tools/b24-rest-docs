@@ -1,4 +1,4 @@
-# Добавление ставки НДС
+# Добавить ставку НДС crm.vat.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.vat.add" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -44,37 +42,43 @@ crm.vat.add(fields)
 
 ## Примеры
 
-```javascript
-var current = new Date();
-var date2str = function(d)
-{
-    return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours())
-        + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
-};
-var paddatepart = function(part)
-{
-    return part >= 10 ? part.toString() : '0' + part.toString();
-};
-BX24.callMethod(
-    "crm.vat.add",
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    var current = new Date();
+    var date2str = function(d)
     {
-        "fields":
+        return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours())
+            + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
+    };
+    var paddatepart = function(part)
+    {
+        return part >= 10 ? part.toString() : '0' + part.toString();
+    };
+    BX24.callMethod(
+        "crm.vat.add",
         {
-            "TIMESTAMP_X": date2str(current),
-            "ACTIVE": "Y",
-            "C_SORT": 110,
-            "NAME": "НДС 18%",
-            "RATE": 18.00
+            "fields":
+            {
+                "TIMESTAMP_X": date2str(current),
+                "ACTIVE": "Y",
+                "C_SORT": 110,
+                "NAME": "НДС 18%",
+                "RATE": 18.00
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info("Создана новая ставка НДС с ID " + result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info("Создана новая ставка НДС с ID " + result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

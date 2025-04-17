@@ -1,4 +1,4 @@
-# Получить список полей шаблонов
+# Получить список полей шаблонов documentgenerator.template.getfields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,12 +19,9 @@
 
 {% endif %}
 
-
-{% note info "documentgenerator.template.getfields" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.template.getfields` на вход получает идентификатор шаблона и возвращает набор полей шаблона с их описанием.
 

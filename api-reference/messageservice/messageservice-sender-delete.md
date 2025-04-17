@@ -1,4 +1,4 @@
-# Удаление SMS-провайдера или провайдера сообщений
+# Удалить СМС-провайдер или провайдер сообщений messageservice.sender.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "messageservice.sender.delete" %}
-
-**Scope**: [`messageservice`](../scopes/permissions.md) | **Права на выполнение**: `администратор`
-
-{% endnote %}
+> Scope: [`messageservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод удаляет зарегистрированный ранее провайдера сообщений. Нельзя удалить провайдер зарегистрированный другим приложением или другим вебхуком.
 
@@ -37,23 +35,29 @@
 
 ## Пример
 
-```js
-function uninstallProvider(provider)
-{
-    BX24.callMethod(
-        'messageservice.sender.delete',
-        {
-            'CODE': provider
-        },
-        function(result)
-        {
-            if(result.error())
-                alert('Error: ' + result.error());
-            else
-                alert("Успешно: " + result.data());
-        }
-    );
-}
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    function uninstallProvider(provider)
+    {
+        BX24.callMethod(
+            'messageservice.sender.delete',
+            {
+                'CODE': provider
+            },
+            function(result)
+            {
+                if(result.error())
+                    alert('Error: ' + result.error());
+                else
+                    alert("Успешно: " + result.data());
+            }
+        );
+    }
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

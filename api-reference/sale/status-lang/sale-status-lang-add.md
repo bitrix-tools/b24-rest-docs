@@ -1,7 +1,5 @@
-# Добавить локализацию
+# Добавить локализацию sale.statusLang.add
 
-> Название метода: **sale.statusLang.add**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

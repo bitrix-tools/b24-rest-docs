@@ -1,4 +1,4 @@
-# Получение списка шаблонов документов
+# Получить список шаблонов документов crm.documentgenerator.template.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "crm.documentgenerator.template.list" %}
-
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm.documentgenerator`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.documentgenerator.template.list` возвращает список шаблонов по фильтру.
 

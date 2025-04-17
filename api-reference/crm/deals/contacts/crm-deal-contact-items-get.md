@@ -1,4 +1,4 @@
-# Набор контактов, связанных со сделкой
+# Получить набор контактов, связанных со сделкой crm.deal.contact.items.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.deal.contact.items.get" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.deal.contact.items.get`  возвращает набор контактов, связанных с указанной сделкой.
 
@@ -35,22 +33,49 @@
 
 ## Пример
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.deal.contact.items.get",
-    {
-        id: id
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.deal.contact.items.get",
+        {
+            id: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php
+    try {
+        $dealId = 123; // Replace with the actual deal ID
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealContact()
+            ->itemsGet($dealId);
+
+        foreach ($result->getDealContacts() as $item) {
+            print("CONTACT_ID: " . $item->CONTACT_ID . "\n");
+            print("SORT: " . $item->SORT . "\n");
+            print("ROLE_ID: " . $item->ROLE_ID . "\n");
+            print("IS_PRIMARY: " . $item->IS_PRIMARY . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
     }
-);
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

@@ -1,4 +1,4 @@
-# Получение списка соглашений
+# Получить список соглашений userconsent.agreement.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "userconsent.agreement.list" %}
-
-**Scope**: [`userconsent`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userconsent`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `userconsent.agreement.list` позволяет получить список соглашений.
 

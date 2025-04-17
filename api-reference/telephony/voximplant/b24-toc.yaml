@@ -1,0 +1,36 @@
+title: voximplant
+href: index.md
+items: 
+  - name: Использование SIP и встроенной телефонии
+    href: index.md
+  - name: Запустить обратный звонок
+    href: voximplant-callback-start.md
+  - name: Осуществить автозвонок с проигрыванием MP3-файла
+    href: voximplant-infocall-start-with-sound.md
+  - name: Осуществить автозвонок голосовым роботом
+    href: voximplant-infocall-start-with-text.md
+  - name: Получить список вариантов озвучки для голосового робота
+    href: voximplant-tts-voices-get.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: Управление SIP-подключениями
+    include:
+      path: sip/b24-toc.yaml
+      mode: link
+  - name: Управление линиями
+    include:
+      path: lines/b24-toc.yaml
+      mode: link
+  - name: Управление пользователями
+    include:
+      path: users/b24-toc.yaml
+      mode: link
+  - name: Получить ссылки на ключевые страницы телефонии
+    href: voximplant-url-get.md
+
+
+
+
+

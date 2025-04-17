@@ -1,4 +1,4 @@
-# Получить страну по идентификатору
+# Получить страну по идентификатору documentgenerator.region.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.region.get" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.region.get` возвращает информацию о регионе по его идентификатору.
 

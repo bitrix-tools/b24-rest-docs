@@ -1,7 +1,5 @@
-# Удалить отгрузку
+# Удалить отгрузку sale.shipment.delete
 
-> Название метода: **sale.shipment.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

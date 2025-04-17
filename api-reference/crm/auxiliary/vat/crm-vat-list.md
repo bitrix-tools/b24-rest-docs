@@ -1,4 +1,4 @@
-# Получение списка ставок НДС по фильтру
+# Получить список ставок НДС по фильтру crm.vat.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "crm.vat.list" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Возвращает список ставок НДС по фильтру. Является реализацией списочного метода для ставок НДС.
 
@@ -30,26 +28,33 @@ Cмотри описание [списочных методов](../../../../api
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    "crm.vat.list",
-    {
-        "order": { "ID": "ASC" },
-        "filter": { "ACTIVE": "Y" },
-        "select": [ "ID", "NAME", "RATE" ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+  
+    ```javascript
+    BX24.callMethod(
+        "crm.vat.list",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            "order": { "ID": "ASC" },
+            "filter": { "ACTIVE": "Y" },
+            "select": [ "ID", "NAME", "RATE" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

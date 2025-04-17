@@ -1,4 +1,4 @@
-# Удаление пользователей из группы
+# Удалить пользователей из группы sonet_group.user.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "sonet_group.user.delete" %}
-
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -42,11 +40,18 @@
 
 ## Пример
 
-```js
-// Удаляем пользователей с ID=10 и 21 из группы соцсети с ID=15
-BX24.callMethod('sonet_group.user.delete', {
-    GROUP_ID: 15,
-    USER_ID: [ 10, 21 ]
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Удаляем пользователей с ID=10 и 21 из группы соцсети с ID=15
+    BX24.callMethod('sonet_group.user.delete', {
+        GROUP_ID: 15,
+        USER_ID: [ 10, 21 ]
+    });
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

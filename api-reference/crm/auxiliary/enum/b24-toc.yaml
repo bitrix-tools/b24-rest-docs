@@ -1,14 +1,14 @@
 title: Перечисления
 href: index.md
 items:
-  - name: Перечисления 
+  - name: Обзор методов 
     href: index.md
-  - name: Описание полей перечисления
+  - name: Получить описание полей перечисления
     href: crm-enum-fields.md
+  - name: Получить id объектов, к которым можно привязать заказ
+    href: crm-enum-get-order-owner-types.md
   - name: «Тип владельца»
     href: crm-enum-owner-type.md
-  - name: Сущности, к которым можно привязать заказ
-    href: crm-enum-get-order-owner-types.md
   - name: «Тип содержания»
     href: crm-enum-content-type.md
   - name: «Тип активности»
@@ -23,5 +23,5 @@ items:
     href: crm-enum-address-type.md
   - name: «Статус»
     href: crm-enum-activity-status.md
-  - name: Режим работы CRM
+  - name: Получить описание режимов работы CRM
     href: crm-enum-settings-mode.md

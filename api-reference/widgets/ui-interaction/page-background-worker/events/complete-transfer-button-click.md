@@ -1,4 +1,4 @@
-# Нажатие на кнопку "перенаправить"
+# При нажатии на кнопку «перенаправить» BackgroundCallCard::completeTransferButtonClick
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,10 +16,8 @@
 
 {% endif %}
 
-{% note info "BackgroundCallCard::completeTransferButtonClick" %}
+> Scope: [`telephony`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
-{% include notitle [Скоуп telephony all](../../../../telephony/_includes/scope-telephony-all.md) %}
-
-{% endnote %}
-
-Событие `BackgroundCallCard::completeTransferButtonClick` – нажатие на кнопку "перенаправить". В функцию обратного вызова ничего не передается.
+Событие `BackgroundCallCard::completeTransferButtonClick` — нажатие на кнопку «перенаправить». В функцию обратного вызова ничего не передается.

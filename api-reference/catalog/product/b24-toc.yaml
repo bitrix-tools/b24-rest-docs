@@ -21,7 +21,7 @@ items:
     include:
       path: sku/b24-toc.yaml
       mode: link
-  - name: Торговые предложения
+  - name: Вариации товара
     include:
       path: offer/b24-toc.yaml
       mode: link

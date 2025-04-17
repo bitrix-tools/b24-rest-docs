@@ -1,7 +1,5 @@
-# Получить поля привязки свойства
+# Получить поля привязки свойства sale.propertyRelation.getFields
 
-> Название метода: **sale.propertyRelation.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

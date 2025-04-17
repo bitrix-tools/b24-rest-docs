@@ -1,7 +1,5 @@
-# Получить поля привязки
+# Получить поля привязки sale.paymentItemShipment.getFields
 
-> Название метода: **sale.paymentItemShipment.getFields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

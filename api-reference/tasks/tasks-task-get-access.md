@@ -1,4 +1,4 @@
-# Проверка доступа к задаче
+# Проверить доступ к задаче tasks.task.getaccess
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.getaccess" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.getaccess` для проверки доступа к задаче.
 
@@ -39,12 +37,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.getaccess',
-    {taskId:1, users:[1]},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.getaccess',
+        {taskId:1, users:[1]},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

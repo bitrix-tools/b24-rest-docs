@@ -1,4 +1,4 @@
-# Получить список последних сообщений
+# Получить список последних сообщений im.dialog.messages.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "im.dialog.messages.get" %}
-
-**Scope**: [`im`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.dialog.messages.get` получает список последних сообщений в чате.
 
@@ -115,7 +113,7 @@
             "chat_id": 29,
             "author_id": 1,
             "date": "2018-01-29T16:58:47+03:00",
-            "text": "http://yandex.ru",
+            "text": "https://my-domain.com",
             "params": {
              "URL_ID": [
                 5
@@ -128,10 +126,10 @@
                     {
                      "RICH_LINK": [
                         {
-                         "NAME": "яндекс",
-                         "LINK": "http://yandex.ru/",
-                         "DESC": "Найдется все",
-                         "PREVIEW": "https://yastatic.net/morda-logo/i/share-logo-ru.png"
+                         "NAME": "Мой сайт",
+                         "LINK": "https://my-domain.com",
+                         "DESC": "Мой персональный сайт",
+                         "PREVIEW": "https://my-domain.com/logo/i/share-logo.png"
                         }
                      ]
                     }

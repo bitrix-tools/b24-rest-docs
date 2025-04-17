@@ -1,4 +1,4 @@
-# Удаление пользовательского поля
+# Удалить пользовательское поле task.item.userfield.delete
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.delete" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `task.item.userfield.delete` удаляет свойство.
 

@@ -1,4 +1,4 @@
-# Изменение коммерческого предложения
+# Изменить коммерческое предложение crm.quote.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.quote.update" %}
-
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.quote.update` обновляет существующее предложение.
 
@@ -48,22 +46,28 @@
 
 ## Пример
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.quote.update",
-    {
-        id: id,
-        fields: { "STATUS_ID": "SENT" }    
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.quote.update",
+        {
+            id: id,
+            fields: { "STATUS_ID": "SENT" }    
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

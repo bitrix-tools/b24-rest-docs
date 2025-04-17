@@ -1,4 +1,4 @@
-# Получение прав текущего пользователя
+# Получить права доступа текущего пользователя landing.site.getRights
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.site.getRights" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.getRights` вернет права текущего пользователя. В случае несуществующего сайта или отсутствия прав на него вернется одинаковое состояние – пустой массив. В ином случае массив, состоящий из возможных значений:
 
@@ -46,24 +44,30 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.getRights',
-    {
-        id: 645
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.getRights',
         {
-            console.error(result.error());
-        }
-        else
+            id: 645
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

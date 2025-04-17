@@ -1,4 +1,4 @@
-# Виджет сайдбара чата
+# Виджет сайдбара чата IM_SIDEBAR
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,7 +18,7 @@
 
 {% endif %}
 
-Код встраивания: `IM_SIDEBAR`
+> Scope: [`im`](../../scopes/permissions.md)
 
 Можно создавать приложения, добавляющие дополнительные сценарии для чата – например, отдельный диск для чата или базу знаний.
 
@@ -60,26 +60,32 @@ const context = BX24.placement.info().options;
 
 ## Примеры
 
-```php
-CRest::call(
-    'placement.bind',
-    [
-        'PLACEMENT' => 'IM_SIDEBAR',
-        'HANDLER' => 'https://example.com/apps/immarket/handlers/sidebar.php',
-        'LANG_ALL' => [
-            'ru' => [
-                'TITLE' => 'Приложение для сайдбара',
+{% list tabs %}
+
+- PHP
+
+    ```php
+    CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'IM_SIDEBAR',
+            'HANDLER' => 'https://example.com/apps/immarket/handlers/sidebar.php',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Приложение для сайдбара',
+                ],
             ],
-        ],
-        'OPTIONS' => [
-            'iconName' => 'fa-bug',
-            'context' => 'USER;LINES',
-            'role' => 'ADMIN',
-            'color' => 'AQUA',
-            'extranet' => 'N',
+            'OPTIONS' => [
+                'iconName' => 'fa-bug',
+                'context' => 'USER;LINES',
+                'role' => 'ADMIN',
+                'color' => 'AQUA',
+                'extranet' => 'N',
+            ]
         ]
-    ]
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

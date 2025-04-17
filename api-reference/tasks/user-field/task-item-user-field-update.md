@@ -1,4 +1,4 @@
-# Изменение пользовательского поля задачи
+# Обновить пользовательское поле task.item.userfield.update
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.update" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `task.item.userfield.update` используется для редактирования параметров свойства.
 

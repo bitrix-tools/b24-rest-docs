@@ -1,4 +1,4 @@
-# Возвращение полей параметров свойств товаров или торговых предложений
+# Получить поля параметров свойств товаров или вариаций catalog.productPropertyFeature.getFields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.productPropertyFeature.getFields" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -30,7 +28,7 @@
 catalog.productPropertyFeature.getFields()
 ```
 
-Метод возвращает поля параметров свойств товаров или торговых предложений.
+Метод возвращает поля параметров свойств товаров или вариаций.
 
 ## Параметры
 
@@ -38,27 +36,32 @@ catalog.productPropertyFeature.getFields()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyFeature.getFields',
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productPropertyFeature.getFields',
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Возвращаемые поля
 
 #|
 || **Поле** | **Описание** | **Примечание** ||
-
-
 || **featureId^*^**
 [`string`](../../data-types.md)| Код параметра. |  ||
 || **id**

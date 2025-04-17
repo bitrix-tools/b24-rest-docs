@@ -1,7 +1,5 @@
-# Создать новый счет из шаблона
+# Создать новый счет из шаблона crm.invoice.recurring.expose
 
-> Название метода: **crm.invoice.recurring.expose**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

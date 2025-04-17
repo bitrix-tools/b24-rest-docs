@@ -1,4 +1,4 @@
-# Получение списка групп текущего пользователя
+# Получить список групп текущего пользователя sonet_group.user.groups
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,13 +19,9 @@
 
 {% endif %}
 
-{% note info "sonet_group.user.groups" %}
-
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод возвращает массив групп соцсети текущего пользователя, осуществляя вызов `CSocNetUserToGroup::GetList()`.
 
@@ -40,10 +36,18 @@
 
 ## Пример
 
-```js
-// Получаем список групп текущего пользователя
-BX24.callMethod('sonet_group.user.groups', {});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Получаем список групп текущего пользователя
+    BX24.callMethod('sonet_group.user.groups', {});
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос:

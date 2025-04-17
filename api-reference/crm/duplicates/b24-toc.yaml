@@ -1,9 +1,11 @@
 title: Дубликаты
-href: crm-duplicate-find-by-comm.md
+href: index.md
 items:
-  - name: Возвращение сущностей с совпадающими данными
+  - name: Обзор методов
+    href: index.md
+  - name: Получить объекты с совпадающими данными
     href: crm-duplicate-find-by-comm.md
-  - name: Объединение дубликатов
+  - name: Объединить дубликаты
     href: crm-entity-merge-batch.md
   - name: Настройки поиска дубликатов по любым полям 
     include:

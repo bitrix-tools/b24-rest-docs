@@ -1,4 +1,4 @@
-# Отменить заказ на доставку
+# Отменить заказ на доставку CANCEL_DELIVERY_REQUEST_URL
 
 Запрос отправляется на адрес указанный в `CANCEL_DELIVERY_REQUEST_URL` при создании обработчика доставки в методе [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md).
 

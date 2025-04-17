@@ -10,3 +10,5 @@
 - [CoPilot](./ai/add-joke-prompt.md)
 - [Чат-ботами](./chat-bots/index.md)
 - [Телефонией](./telephony/index.md)
+- [Задачами](./tasks/index.md)
+- [Открытыми линиями](./openlines/example-connector.md)

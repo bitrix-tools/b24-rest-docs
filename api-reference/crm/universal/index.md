@@ -61,3 +61,7 @@
 - [{#T}](events/on-crm-dynamic-item-add.md)
 - [{#T}](events/on-crm-dynamic-item-update.md)
 - [{#T}](events/on-crm-dynamic-item-delete.md)
+- 
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)

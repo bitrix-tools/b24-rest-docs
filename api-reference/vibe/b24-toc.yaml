@@ -1,0 +1,13 @@
+title: Вайб 
+href: index.md
+items:
+  - name: Вайб и виджеты 
+    href: index.md
+  - name: Добавить виджет
+    href: landing-repowidget-register.md
+  - name: Удалить виджет
+    href: landing-repowidget-unregister.md
+  - name: Получить список виджетов
+    href: landing-repowidget-get-list.md
+  - name: Включить режим отладки
+    href: landing-repowidget-debug.md

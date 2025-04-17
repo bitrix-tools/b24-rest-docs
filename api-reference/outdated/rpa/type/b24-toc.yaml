@@ -1,0 +1,19 @@
+title: Процессы
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать процесс
+    href: rpa-type-add.md
+  - name: Обновить процесс
+    href: rpa-type-update.md
+  - name: Получить информацию о процессе по его id
+    href: rpa-type-get.md
+  - name: Получить список процессов
+    href: rpa-type-list.md
+  - name: Удалить процесс
+    href: rpa-type-delete.md
+
+
+
+

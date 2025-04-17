@@ -1,4 +1,4 @@
-# Получение списка настроек пользовательских полей
+# Получить список настроек пользовательских полей userfieldconfig.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "userfieldconfig.list" %}
-
-**Scope**: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ```http
 userfieldconfig.list({moduleId: string, select: ?{}, order: ?{}, filter: ?{}, start: number = 0})

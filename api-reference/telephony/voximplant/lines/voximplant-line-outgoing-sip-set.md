@@ -1,4 +1,4 @@
-# Установка выбранной sip-линии в качестве исходящей линии по умолчанию
+# Установить выбранную sip-линию в качестве исходящей линии по умолчанию voximplant.line.outgoing.sip.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,7 @@
 
 {% endif %}
 
-{% note info "voximplant.line.outgoing.sip.set" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.line.outgoing.sip.set` устанавливает выбранную sip-линию в качестве исходящей линии по-умолчанию. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 
@@ -34,21 +30,27 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "voximplant.line.outgoing.sip.set",
-    {
-        "CONFIG_ID": 57,
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "voximplant.line.outgoing.sip.set",
+        {
+            "CONFIG_ID": 57,
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

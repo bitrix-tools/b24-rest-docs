@@ -1,21 +1,21 @@
 title: Документы 
 href: index.md
 items:
-  - name: Документы
+  - name: Обзор методов
     href: index.md
-  - name: Поля документа
+  - name: Получить поля документа
     href: crm-document-generator-document-get-fields.md
-  - name: Создание нового документа
+  - name: Создать новый документ
     href: crm-document-generator-document-add.md
-  - name: Изменение документа
+  - name: Изменить документ
     href: crm-document-generator-document-update.md
-  - name: Получение информации о документе по Id
+  - name: Получить информацию о документе по Id
     href: crm-document-generator-document-get.md
-  - name: Получение списка документов
+  - name: Получить список документов
     href: crm-document-generator-document-list.md
-  - name: Включение и выключение публичной ссылки на документ
+  - name: Включить и выключить публичную ссылку на документ
     href: crm-document-generator-document-enable-public-url.md
-  - name: Загрузка сформированного документа и прикрепление его к указанной сущности
+  - name: Загрузить сформированный документ и прикрепить его к указанной сущности
     href: crm-document-generator-document-upload.md
-  - name: Удаление документа
+  - name: Удалить документа
     href: crm-document-generator-document-delete.md

@@ -1,9 +1,6 @@
-# Пункт меню в аналитике звонков
+# Пункт меню в аналитике звонков TELEPHONY_ANALYTICS_MENU
 
-> Коды встройки: **TELEPHONY_ANALYTICS_MENU**
->
 > Scope: [`telephony`](../../scopes/permissions.md)
->
 
 Вы можете добавлять свой пункт меню в аналитике звонков.
 

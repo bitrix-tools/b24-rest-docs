@@ -1,4 +1,4 @@
-# Отклонение задачи
+# Отклонить задачу tasks.task.disapprove
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.disapprove" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.disapprove` позволяет отклонить задачу.
 
@@ -36,12 +34,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.disapprove',
-    {taskId:1},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.disapprove',
+        {taskId:1},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

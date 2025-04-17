@@ -1,7 +1,5 @@
-# Получить поля и настройки свойства отгрузки для определенного типа свойств
+# Получить поля и настройки свойства отгрузки для определенного типа свойств sale.shipmentproperty.getfieldsbytype
 
-> Название метода: **sale.shipmentproperty.getfieldsbytype**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

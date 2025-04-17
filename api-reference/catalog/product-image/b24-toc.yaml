@@ -1,0 +1,15 @@
+title: Изображения товаров и вариаций
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить изображение в товар
+    href: catalog-product-image-add.md
+  - name: Получить информацию об изображении товара
+    href: catalog-product-image-get.md
+  - name: Получить список изображений товара
+    href: catalog-product-image-list.md
+  - name: Удалить изображение из товара
+    href: catalog-product-image-delete.md
+  - name: Получить поля изображения товара
+    href: catalog-product-image-get-fields.md

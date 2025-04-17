@@ -1,4 +1,4 @@
-# Получение манифеста блока из репозитория
+# Получить манифест блока из репозитория landing.block.getmanifestfile
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.block.getmanifestfile" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.block.getmanifestfile` получает манифест блока из репозитория. Вернет манифест блока или ошибку.
 
@@ -39,25 +37,31 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.getmanifestfile',
-    {
-        code: '01.big_with_text'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.getmanifestfile',
         {
-            console.error(result.error());
-        }
-        else
+            code: '01.big_with_text'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

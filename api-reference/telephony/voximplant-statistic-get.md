@@ -1,4 +1,4 @@
-# Получение списка истории звонков
+# Получить список истории звонков voximplant.statistic.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,7 @@
 
 {% endif %}
 
-{% note info "voximplant.statistic.get" %}
-
 {% include notitle [Скоуп telephony all](./_includes/scope-telephony-all.md) %}
-
-{% endnote %}
 
 Метод `voximplant.statistic.get` Возвращает список истории звонков. Списочный метод. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Статистика звонков - Просмотр` в соответствии с его значением этого права.
 
@@ -67,22 +63,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.statistic.get',
-    {
-        "FILTER": {">CALL_DURATION":60},
-        "SORT": "CALL_DURATION",
-        "ORDER": "DESC",
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.statistic.get',
+        {
+            "FILTER": {">CALL_DURATION":60},
+            "SORT": "CALL_DURATION",
+            "ORDER": "DESC",
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

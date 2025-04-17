@@ -1,4 +1,4 @@
-# Удаление зарегистрированного партнёрского шаблона
+# Удалить зарегистрированный партнерский шаблон landing.demos.unregister
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.demos.unregister" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.demos.unregister` удаляет зарегистрированный партнёрский шаблон. Возвращает *true* или ошибку. В случае, если шаблон уже был удален, или не найден, вернет *false*.
 
@@ -44,24 +42,30 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.demos.unregister',
-    {
-        code: 'myfirstsite'
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.demos.unregister',
         {
-            console.error(result.error());
-        }
-        else
+            code: 'myfirstsite'
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

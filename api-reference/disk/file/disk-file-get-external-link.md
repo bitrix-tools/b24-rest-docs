@@ -1,4 +1,4 @@
-# Получение публичной ссылки на файл
+# Получить публичную ссылку на файл disk.file.getExternalLink
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "disk.file.getExternalLink" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.file.getExternalLink`  возвращает публичную ссылку по идентификатору файла. Публичные ссылки отдают файл на скачивание только, если пользователь зашел в карточку публичной ссылки.
 
@@ -38,21 +36,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.file.getExternalLink",
-    {
-        id: 10
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.file.getExternalLink",
+        {
+            id: 10
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

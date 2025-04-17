@@ -1,4 +1,4 @@
-# Получение настроек инструмента контроля времени
+# Получить настройки инструмента контроля времени timeman.timecontrol.settings.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -17,11 +17,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.settings.get" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `timeman.timecontrol.settings.get` для получения настроек инструмента контроля времени.
 
@@ -35,23 +33,31 @@
 
 - JS
 
-    ```javascript
-    BX24.callMethod('timeman.timecontrol.settings.get', {}, function(result){
-        if(result.error())
-        {
-            console.error(result.error().ex);
+    ```js
+    BX24.callMethod(
+        'timeman.timecontrol.settings.get',
+        {},
+        function(result){
+            if(result.error())
+            {
+                console.error(result.error().ex);
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+    );
     ```
 
 - PHP
 
     ```php
-    $result = restCommand('timeman.timecontrol.settings.get', Array(), $_REQUEST["auth"]);    
+    $result = restCommand(
+        'timeman.timecontrol.settings.get',
+        Array(),
+        $_REQUEST["auth"]
+    );    
     ```
 
 {% endlist %}

@@ -11,11 +11,11 @@ items:
     href: imopenlines-session-history-get.md
   - name: Забрать диалог у текущего оператора
     href: imopenlines-session-intercept.md
-  - name: Забрать или отдать диалог по Id
+  - name: Закрепить или открепить диалог от оператора
     href: imopenlines-session-mode-pin.md
-  - name: Забрать все доступные диалоги
+  - name: Закрепить все доступные диалоги за оператором
     href: imopenlines-session-mode-pin-all.md
-  - name: Отдать все свои диалоги
+  - name: Открепить все диалоги от оператора
     href: imopenlines-session-mode-unpin-all.md
   - name: Переключить диалог в «скрытый» режим
     href: imopenlines-session-mode-silent.md
@@ -23,7 +23,7 @@ items:
     href: imopenlines-session-head-vote.md
   - name: Начать новый диалог на основании сообщения
     href: imopenlines-message-session-start.md
-  - name: Поставить оценку работе сотрудника в диалоге
+  - name: Создать лид на основании диалога
     href: imopenlines-crm-lead-create.md
   - name: Получить информацию о диалоге
     href: imopenlines-dialog-get.md

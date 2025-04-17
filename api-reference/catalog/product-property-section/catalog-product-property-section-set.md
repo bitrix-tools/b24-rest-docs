@@ -1,4 +1,4 @@
-# Установка секционных настроек свойств
+# Установить секционные настройки свойств catalog.productPropertySection.set
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,18 +18,16 @@
 
 {% endif %}
 
-{% note info "catalog.productPropertySection.set" %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод устанавливает (создаёт или обновляет) секционные настройки свойств товаров или торговых предложений.
+Метод устанавливает (создаёт или обновляет) секционные настройки свойств товаров или вариаций.
 
 #|
 || **Параметр** | **Описание** ||
 || **propertyId**
- `integer`  | Идентификатор свойства товаров или торговых предложений. ||
+ `integer`  | Идентификатор свойства товаров или вариаций. ||
 || **fields**
 `object` | Массив, содержащий следующие поля:
 - **smartFilter** – показывать в умном фильтре (Y/N);
@@ -43,25 +41,31 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'catalog.productPropertySection.set',
-    {
-        propertyId: 128,
-        fields: {
-            displayType: "F",
-            displayExpanded: "Y",
-            filterHint: "Размер товара"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productPropertySection.set',
+        {
+            propertyId: 128,
+            fields: {
+                displayType: "F",
+                displayExpanded: "Y",
+                filterHint: "Размер товара"
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

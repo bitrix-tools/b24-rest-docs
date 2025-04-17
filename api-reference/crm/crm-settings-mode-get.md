@@ -1,4 +1,4 @@
-# Получение текущего режима работы CRM
+# Определить текущий режим работы CRM crm.settings.mode.get
 
 > Название метода: **crm.settings.mode.get**
 >
@@ -42,7 +42,7 @@
 - JS
 
     ```js
-    BX24.callMethod("crm.settings.mode.get", result => {
+    BX24.callMethod("crm.settings.mode.get", {}, result => {
         if (result.error())
             console.error(result.error());
         else
@@ -91,7 +91,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../data-types.md) | Возвращает значение, определённое в [crm.enum.settings.mode](auxiliary/enum/crm-enum-settings-mode.md) ||
+[`integer`](../data-types.md) | Возвращает значение, определённое в [crm.enum.settings.mode](./auxiliary/enum/crm-enum-settings-mode.md) ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#

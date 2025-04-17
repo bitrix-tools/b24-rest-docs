@@ -1,4 +1,4 @@
-# Получить список чатов
+# Получить список чатов im.recent.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "im.recent.list" %}
-
-**Scope**: [`im`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`im`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `im.recent.list` получает список последних диалогов пользователя (с поддержкой пагинации).
 
@@ -41,24 +39,30 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.recent.list',
-    {
-        LAST_MESSAGE_DATE: '2021-10-30'
-    },
-    res => {
-        if (res.error())
-        {
-        console.error(result.error().ex);
-        }
-        else
-        {
-        console.log(res.data())
-        }
-    }
-)
-```
+{% list tabs %}
+
+- JS
+
+   ```js
+   B24.callMethod(
+      'im.recent.list',
+      {
+         LAST_MESSAGE_DATE: '2021-10-30'
+      },
+      res => {
+         if (res.error())
+         {
+               console.error(result.error().ex);
+         }
+         else
+         {
+               console.log(res.data())
+         }
+      }
+   )
+   ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

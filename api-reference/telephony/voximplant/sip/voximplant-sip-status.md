@@ -1,4 +1,4 @@
-# Получение текущего статуса sip-регистрации (только для облачных АТС)
+# Получить текущий статус sip-регистрации (только для облачных АТС) voximplant.sip.status
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,7 @@
 
 {% endif %}
 
-{% note info "voximplant.sip.status" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.sip.status` Возвращает текущий статус sip-регистрации (только для облачных АТС). Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 
@@ -35,21 +31,27 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    "voximplant.sip.status",
-    {
-        "REG_ID": 5505,
-    },
-    function(result) 
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "voximplant.sip.status",
+        {
+            "REG_ID": 5505,
+        },
+        function(result) 
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -61,5 +63,10 @@ BX24.callMethod(
 || **LAST_UPDATED** | Дата последнего изменения sip-регистрации. ||
 || **ERROR_MESSAGE** | Текстовое описание кода ошибки. ||
 || **STATUS_CODE** | Цифровой код ошибки. ||
-|| **STATUS_RESULT** | Состояние sip-регистрации см. таблицу состояний ||
+|| **STATUS_RESULT** | Состояние sip-регистрации. Возможные значения:
+- `success` — успешная регистрация
+- `error` — неудачная регистрация
+- `in_progress` — в процессе регистрации
+- `wait` — ожидает начала регистрации
+||
 |#

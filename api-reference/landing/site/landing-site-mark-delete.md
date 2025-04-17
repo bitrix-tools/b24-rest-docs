@@ -1,4 +1,4 @@
-# Пометка сайта как удаленного
+# Пометить сайт как удаленный landing.site.markDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.site.markDelete" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.markDelete` помечает сайт как удаленный.
 
@@ -38,24 +36,30 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.markDelete',
-    {
-        id: 1688
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.markDelete',
         {
-            console.error(result.error());
-        }
-        else
+            id: 1688
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

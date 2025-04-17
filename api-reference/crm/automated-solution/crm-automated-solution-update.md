@@ -1,4 +1,4 @@
-# Изменить цифровое рабочее место
+# Изменить цифровое рабочее место crm.automatedsolution.update
 
 {% if build == 'dev' %}
 
@@ -10,8 +10,6 @@
 
 {% endif %}
 
-> Название метода: **crm.automatedsolution.update**
->
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователи с административным доступом к разделу crm

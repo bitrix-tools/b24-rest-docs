@@ -1,8 +1,10 @@
 title: События
 href: index.md
 items: 
-  - name: На генерацию документа
+  - name: Обзор событий
     href: index.md
+  - name: На генерацию документа
+    href: on-crm-document-generator-add.md
   - name: На изменение документа
     href: on-crm-document-generator-document-update.md
   - name: На удаление документа

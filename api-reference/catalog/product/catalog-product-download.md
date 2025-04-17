@@ -1,7 +1,5 @@
-# Скачать файлы товара
+# Скачать файлы товара catalog.product.download
 
-> Название метода: **catalog.product.download**
->
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

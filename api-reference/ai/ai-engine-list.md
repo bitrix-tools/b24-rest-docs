@@ -1,4 +1,4 @@
-# Получение списка сервисов
+# Получить список сервисов ai.engine.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,33 +19,37 @@
 
 {% endif %}
 
-{% note info "ai.engine.list" %}
-
-**Scope**: [`ai_admin`](../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
-
-{% endnote %}
+> Scope: [`ai_admin`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод без параметров возвращает список зарегистрированных [engine](./ai-engine-register.md) для текущего партнера. Метод вызывается без параметров.
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'ai.engine.list',
-    {
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'ai.engine.list',
         {
-            console.error(result.error());
-        }
-        else
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

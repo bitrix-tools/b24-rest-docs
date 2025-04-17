@@ -1,7 +1,5 @@
-# Добавить обработчик кассы
+# Добавить обработчик кассы sale.cashbox.handler.add
 
-> Название метода: **sale.cashbox.handler.add**
->
 > Scope: [`sale, cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)

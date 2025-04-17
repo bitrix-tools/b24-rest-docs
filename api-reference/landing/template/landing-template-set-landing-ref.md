@@ -1,4 +1,4 @@
-# Установка включаемых областей для страницы
+# Установить включаемые области для страницы landing.template.setLandingRef
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "landing.template.setLandingRef" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.template.setLandingRef` устанавливает включаемые области для страницы в рамках конкретного шаблона (страница должна быть уже привязана к шаблону через поле TPL_ID). Вернет *true* в случае успеха, или ошибку.
 
@@ -40,29 +38,35 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.template.setLandingRef',
-    {
-        id: 557,
-        data: {
-            1: 614,
-            2: 615,
-            3: 616
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.template.setLandingRef',
         {
-            console.error(result.error());
-        }
-        else
+            id: 557,
+            data: {
+                1: 614,
+                2: 615,
+                3: 616
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

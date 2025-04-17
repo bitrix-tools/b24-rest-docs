@@ -1,4 +1,4 @@
-# Получение списка пользователей
+# Получить список пользователей timeman.timecontrol.reports.users.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "timeman.timecontrol.reports.users.get" %}
-
-**Scope**: [`timeman`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`timeman`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `timeman.timecontrol.reports.users.get` для получения списка пользователей, относящихся к указанному подразделению.
 
@@ -43,27 +41,35 @@
 
 - JS
 
-    ```javascript
-    BX24.callMethod('timeman.timecontrol.reports.users.get', {
-        'DEPARTMENT_ID': 52
-    }, function(result){
-        if(result.error())
+    ```js
+    BX24.callMethod(
+        'timeman.timecontrol.reports.users.get',
         {
-            console.error(result.error().ex);
+            'DEPARTMENT_ID': 52
+        },
+        function(result){
+            if(result.error())
+            {
+                console.error(result.error().ex);
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+    );
     ```
 
 - PHP
 
     ```php
-    $result = restCommand('timeman.timecontrol.reports.users.get', Array(
-        'DEPARTMENT_ID' => 52
-    ), $_REQUEST["auth"]);    
+    $result = restCommand(
+        'timeman.timecontrol.reports.users.get',
+        Array(
+            'DEPARTMENT_ID' => 52
+        ),
+        $_REQUEST["auth"]
+    );    
     ```
 
 {% endlist %}

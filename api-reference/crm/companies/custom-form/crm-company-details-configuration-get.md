@@ -1,4 +1,4 @@
-# Получение параметров карточки
+# Получить параметры карточки crm.company.details.configuration.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "crm.company.details.configuration.get" %}
-
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.details.configuration.get` получает настройки карточки компаний. Метод читает личные настройки карточки указанного пользователя или общие настройки, заданные для всех пользователей.
 
@@ -43,38 +41,44 @@
 
 ## Примеры
 
-```js
-//--
-//Запрос личных настроек карточки компаний для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.company.details.configuration.get",
-    {
-        scope: "P",
-        userId: 1
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//Запрос общих настроек карточки компаний.
-BX24.callMethod(
-    "crm.company.details.configuration.get",
-    {
-        scope: "C"
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //--
+    //Запрос личных настроек карточки компаний для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.company.details.configuration.get",
+        {
+            scope: "P",
+            userId: 1
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //Запрос общих настроек карточки компаний.
+    BX24.callMethod(
+        "crm.company.details.configuration.get",
+        {
+            scope: "C"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

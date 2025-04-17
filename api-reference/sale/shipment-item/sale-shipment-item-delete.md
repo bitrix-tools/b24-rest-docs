@@ -1,7 +1,5 @@
-# Удалить элемент коллекции
+# Удалить элемент коллекции sale.shipmentitem.delete
 
-> Название метода: **sale.shipmentitem.delete**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

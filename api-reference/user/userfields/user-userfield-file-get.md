@@ -1,4 +1,4 @@
-# Получение файла из пользовательского поля
+# Получить файл из пользовательского поля user.userfield.file.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "user.userfield.file.get" %}
-
-**Scope**: [`user.userfield`](../../scopes/permissions.md) | **Права на выполнение**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`user.userfield`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод позволяет получить файл из пользовательского поля.
 
@@ -47,13 +45,19 @@
         )
 )
 ```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 Запрос вебхуком:
 
-```http
-/rest/1/a2ebx1rfao5pq5cr/user.userfield.file.get?id=1&field=UF_USR_1604998606834&value=774
-```
+{% list tabs %}
+
+- URL-запрос
+
+    ```http
+    /rest/1/a2ebx1rfao5pq5cr/user.userfield.file.get?id=1&field=UF_USR_1604998606834&value=774
+    ```
+
+{% endlist %}
+
 {% note info "" %}
 
 Метод возвращает файл как контент на загрузку, а не json/xml.

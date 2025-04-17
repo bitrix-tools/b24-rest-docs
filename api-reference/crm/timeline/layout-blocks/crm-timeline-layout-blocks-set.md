@@ -1,7 +1,5 @@
-# Установить набор дополнительных контентных блоков в запись таймлайна
+# Установить набор дополнительных контентных блоков в запись таймлайна crm.timeline.layout.blocks.set
 
-> Название метода: **crm.timeline.layout.blocks.set**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: REST Приложение
@@ -29,7 +27,7 @@
 || **activityId***
 [`integer`](../../../data-types.md) | Идентификатор записи таймлайна ||
 || **layout***
-[`RestAppLayoutDto`](../activities/structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||
+[`RestAppLayoutDto`](../activities/configurable/structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||
 |#
 
 ## Примеры кода

@@ -1,16 +1,14 @@
-# Получить поля бэклога по идентификатору Скрама
+# Получить поля бэклога по идентификатору Скрама tasks.api.scrum.backlog.get
 
-> Название метода: **tasks.api.scrum.backlog.get**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.api.scrum.backlog.get` возвращает значения полей бэклога по id Скрама.
+Метод `tasks.api.scrum.backlog.get` возвращает значения полей бэклога по `id` Скрама.
 
-Может понадобиться, чтобы получить id бэклога для добавления или переноса в бэклог задачи.
+Может понадобиться, чтобы получить `id` бэклога для добавления или переноса в бэклог задачи.
 
-## Параметры
+## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -18,7 +16,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор группы. Можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork-api-workgroup-list.md](../../socialnetwork-api-workgroup-list.md) ||
+[`integer`](../../../data-types.md) | Идентификатор группы.
+
+Можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork-api-workgroup-list.md](../../socialnetwork-api-workgroup-list.md) ||
 |#
 
 ## Примеры кода
@@ -33,7 +33,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id": 1}' \
+    -d '{"id": 125}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.api.scrum.backlog.get
     ```
 
@@ -43,7 +43,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id": 1, "auth":"**put_access_token_here**"}' \
+    -d '{"id": 125, "auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/tasks.api.scrum.backlog.get
     ```
 
@@ -52,7 +52,7 @@
     ```js
     BX24.callMethod(
         'tasks.api.scrum.backlog.get',{
-            "id": 1,
+            "id": 125,
         },
         function(result) {
             if (result.error()) {
@@ -69,9 +69,12 @@
     ```php
     require_once('crest.php');
 
-    $result = CRest::call('tasks.api.scrum.backlog.get', [
-        'id' => 1,
-    ]);
+    $result = CRest::call(
+        'tasks.api.scrum.backlog.get',
+        [
+            'id' => 125,
+        ]
+    );
 
     echo '<PRE>';
     print_r($result);
@@ -87,10 +90,10 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-      "id": 2,
-      "groupId": 1,
-      "createdBy": 1,
-      "modifiedBy": 1
+        "id": 1,
+        "groupId": 125,
+        "createdBy": 6,
+        "modifiedBy": 1
     },
     "time":{
         "start":1712137817.343984,

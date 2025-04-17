@@ -1,21 +1,22 @@
 title: Спринты
 href: index.md
 items:
-  - name: Методы для работы со спринтами
+  - name: Обзор методов
     href: index.md
-  - name: Добавление спринта в Скрам
+  - name: Добавить спринт в Скрам
     href: tasks-api-scrum-sprint-add.md
-  - name: Завершение активного спринта выбранного Скрама
-    href: tasks-api-scrum-sprint-complete.md
-  - name: Удаление спринта
-    href: tasks-api-scrum-sprint-delete.md
-  - name: Получение полей спринта по его идентификатору
-    href: tasks-api-scrum-sprint-get.md
-  - name: Список доступных полей спринта
-    href: tasks-api-scrum-sprint-get-fields.md
-  - name: Список спринтов
-    href: tasks-api-scrum-sprint-list.md
-  - name: Запуск спринта
-    href: tasks-api-scrum-sprint-start.md
-  - name: Изменение спринта
+  - name: Изменить спринт
     href: tasks-api-scrum-sprint-update.md
+  - name: Запустить спринт
+    href: tasks-api-scrum-sprint-start.md
+  - name: Завершить активный спринт выбранного Скрама
+    href: tasks-api-scrum-sprint-complete.md
+  - name: Получить поля спринта по его идентификатору
+    href: tasks-api-scrum-sprint-get.md
+  - name: Получить список спринтов
+    href: tasks-api-scrum-sprint-list.md
+  - name: Удалить спринт
+    href: tasks-api-scrum-sprint-delete.md
+  - name: Получить список доступных полей спринта
+    href: tasks-api-scrum-sprint-get-fields.md
+

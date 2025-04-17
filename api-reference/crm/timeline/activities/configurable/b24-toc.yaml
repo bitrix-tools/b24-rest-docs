@@ -1,0 +1,19 @@
+title: Конфигурируемое дело
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Структура конфигурируемого дела
+    include:
+      path: structure/b24-toc.yaml
+      mode: link
+  - name: Бейджи конфигурируемых дел
+    include:
+      path: badges/b24-toc.yaml
+      mode: link
+  - name: Добавить конфигурируемое дело
+    href: crm-activity-configurable-add.md
+  - name: Обновить конфигурируемое дело
+    href: crm-activity-configurable-update.md    
+  - name: Получить информацию о конфигурируемом деле
+    href: crm-activity-configurable-get.md

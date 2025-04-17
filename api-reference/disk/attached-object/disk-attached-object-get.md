@@ -1,4 +1,4 @@
-# Получение информации о прикрепленном файле
+# Получить информацию о прикрепленном файле disk.attachedObject.get
 
 {% if build == 'dev' %}
 
@@ -20,31 +20,36 @@
 
 {% endnote %}
 
-{% note info "disk.attachedObject.get" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.attachedObject.get` возвращает информацию о прикрепленном файле через пользовательское свойство по идентификатору привязки. 
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.attachedObject.get",
-    {
-        id: 318
-    },
-    function (result)
-    {
-        if (result.error())
-         console.error(result.error());
-        else
-         console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.attachedObject.get",
+        {
+            id: 318
+        },
+        function (result)
+        {
+            if (result.error())
+            console.error(result.error());
+            else
+            console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха
@@ -65,3 +70,9 @@ result: {
     SIZE: "3867" //размер файла в байтах
 }
 ```
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
+- [{#T}](../../../tutorials/tasks/how-to-create-task-with-file.md)
+- [{#T}](../../../tutorials/tasks/how-to-upload-file-to-task.md)

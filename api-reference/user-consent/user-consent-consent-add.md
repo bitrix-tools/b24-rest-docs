@@ -1,4 +1,4 @@
-# Сохранение полученного согласия пользователя
+# Сохранить полученное согласие пользователя userconsent.consent.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "userconsent.consent.add" %}
-
-**Scope**: [`userconsent`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userconsent`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `userconsent.consent.add` сохраняет полученное согласие пользователя.
 

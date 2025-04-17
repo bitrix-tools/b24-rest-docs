@@ -1,4 +1,4 @@
-# Добавление элемента хранилища
+# Добавить элемент хранилища entity.item.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "entity.item.add" %}
-
-**Scope**: [`entity`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`entity`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `entity.item.add` добавляет элемент хранилища. Пользователь должен обладать хотя бы правами на запись (**W**) в хранилище.
 
@@ -55,38 +53,42 @@
 || **SECTION**
 [`unknown`](../../data-types.md) | Идентификатор раздела хранилища. ||
 || **PROPERTY_VALUES**
-[`unknown`](../../data-types.md) | Ассоциативный список значений свойств элемента. Свойства хранилища создаются при помощи [entity.item.property.add](.). ||
+[`unknown`](../../data-types.md) | Ассоциативный список значений свойств элемента. Свойства хранилища создаются при помощи [entity.item.property.add](./properties/entity-item-property-add.md). ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 ## Пример
 
-Вызов
+{% list tabs %}
 
-```javascript
-BX24.callMethod(
-    'entity.item.add',
-    {
-        ENTITY: 'menu_new',
-        DATE_ACTIVE_FROM: new Date(),
-        DETAIL_PICTURE: '',
-        NAME: 'Hello, world!',
-        PROPERTY_VALUES: {
-            test: 11,
-            test1: 22,
-            test_file: ''
-        },
-        SECTION: 219
-    }
-);
-```
+- JS
 
-Запрос
+    ```javascript
+    BX24.callMethod(
+        'entity.item.add',
+        {
+            ENTITY: 'menu_new',
+            DATE_ACTIVE_FROM: new Date(),
+            DETAIL_PICTURE: '',
+            NAME: 'Hello, world!',
+            PROPERTY_VALUES: {
+                test: 11,
+                test1: 22,
+                test_file: ''
+            },
+            SECTION: 219
+        }
+    );
+    ```
 
-```http
-https://my.bitrix24.ru/rest/entity.item.add.json?DATE_ACTIVE_FROM=2013-06-26T11%3A54%3A30.421Z&DETAIL_PICTURE=&ENTITY=menu_new&NAME=Hello%2C%20world!&PROPERTY_VALUES%5Btest1%5D=22&PROPERTY_VALUES%5Btest%5D=11&PROPERTY_VALUES%5Btest_file%5D=&SECTION=219&auth=9affe382af74d9c5caa588e28096e872
-```
+- HTTP
+
+    ```http
+    https://my.bitrix24.ru/rest/entity.item.add.json?DATE_ACTIVE_FROM=2013-06-26T11%3A54%3A30.421Z&DETAIL_PICTURE=&ENTITY=menu_new&NAME=Hello%2C%20world!&PROPERTY_VALUES%5Btest1%5D=22&PROPERTY_VALUES%5Btest%5D=11&PROPERTY_VALUES%5Btest_file%5D=&SECTION=219&auth=9affe382af74d9c5caa588e28096e872
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -1,4 +1,4 @@
-# Отправление запроса на вступление в группу
+# Отправить запрос на вступление в группу sonet_group.user.request
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,11 +19,9 @@
 
 {% endif %}
 
-{% note info "sonet_group.user.request" %}
-
-{% include notitle [Скоуп sonet все](../_includes/scope-sonet-all.md) %}
-
-{% endnote %}
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -43,13 +41,21 @@
 
 ## Пример
 
-```js
-// Отправляем запрос на вступление в группу с ID=17
-BX24.callMethod('sonet_group.user.request', {
-    'GROUP_ID': 17,
-    'MESSAGE': 'Request'
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Отправляем запрос на вступление в группу с ID=17
+    BX24.callMethod('sonet_group.user.request', {
+        'GROUP_ID': 17,
+        'MESSAGE': 'Request'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Запрос:

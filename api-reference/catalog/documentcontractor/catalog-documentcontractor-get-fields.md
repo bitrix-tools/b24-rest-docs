@@ -1,4 +1,4 @@
-# Возвращение массива полей с привязками CRM-поставщиков к складским документам
+# Получить поля с привязками CRM-поставщиков к складским документам catalog.documentcontractor.getFields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "catalog.documentcontractor.getFields" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 ## Описание
 
@@ -38,18 +36,24 @@ catalog.documentcontractor.getFields()
 
 ## Примеры
 
-```js
-BX.callMethod(
-    'catalog.documentcontractor.getFields',
-    {},
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX.callMethod(
+        'catalog.documentcontractor.getFields',
+        {},
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

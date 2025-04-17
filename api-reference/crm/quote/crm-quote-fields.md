@@ -1,4 +1,4 @@
-# Получение полей коммерческого предложения
+# Получить поля коммерческого предложения crm.quote.fields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,31 +18,35 @@
 
 {% endif %}
 
-{% note info "crm.quote.fields" %}
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-Метод `crm.quote.fields` возвращает описание полей [коммерческого предложения](./crm-quote-add.md), в том числе [пользовательских](./crm-quote-user-field-add.md).
+Метод `crm.quote.fields` возвращает описание полей [коммерческого предложения](./crm-quote-add.md), в том числе [пользовательских](./user-field/crm-quote-user-field-add.md).
 
 Без параметров.
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "crm.quote.fields",
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.quote.fields",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

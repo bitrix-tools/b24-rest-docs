@@ -1,4 +1,4 @@
-# Удаление группы соцсети
+# Удалить группу соцсети sonet_group.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,13 +18,10 @@
 {% endnote %}
 
 {% endif %}
-{% note info "sonet_group.delete" %}
 
-{% include notitle [Скоуп sonet все](./_includes/scope-sonet-all.md) %}
-
-{% endnote %}
-
-## Описание
+> Scope: [`sonet`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Удаляет группу соцсети. Для осуществления операции текущий пользователь должен быть либо владельцем группы, либо иметь права администратора соцсети.
 
@@ -41,13 +38,21 @@
 
 ## Пример
 
-```js
-// Удаляем группы соцсети с ID=11
+{% list tabs %}
 
-BX24.callMethod('sonet_group.delete', {
-    'GROUP_ID': 11
-});
-```
+- JS
+
+    ```js
+    // Удаляем группы соцсети с ID=11
+
+    BX24.callMethod('sonet_group.delete', {
+        'GROUP_ID': 11
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос:

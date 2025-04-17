@@ -1,4 +1,4 @@
-# На удаление сообщений
+# На удаление сообщений OnImConnectorMessageDelete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,11 +16,9 @@
 
 {% endif %}
 
-{% note info " " %}
-
-**Scope**: [`imopenlines`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 Событие удаления сообщения из ОЛ.
 

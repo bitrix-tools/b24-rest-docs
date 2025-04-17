@@ -1,7 +1,7 @@
 title: Реквизиты
 href: index.md
 items:
-  - name: О системе реквизитов
+  - name: Обзор методов
     href: index.md
   - name: Шаблоны реквизитов
     include:

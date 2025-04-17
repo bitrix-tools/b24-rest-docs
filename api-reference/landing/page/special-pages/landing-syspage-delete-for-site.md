@@ -1,4 +1,4 @@
-# Удаление всех специальных страниц
+# Удалить все специальные страницы landing.syspage.deleteForSite
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,34 +21,38 @@
 
 {% endif %}
 
-{% note info "landing.syspage.deleteForSite" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.syspage.deleteForSite` удаляет все специальные страницы сайта
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.syspage.deleteForSite',
-    {
-        id: 1391 // ИД сайта
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.syspage.deleteForSite',
         {
-            console.error(result.error());
-        }
-        else
+            id: 1391 // ИД сайта
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

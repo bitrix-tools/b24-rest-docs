@@ -1,4 +1,4 @@
-# Получение списка комментариев
+# Получить список комментариев task.commentitem.getlist
 
 {% if build == 'dev' %}
 
@@ -20,11 +20,9 @@
 
 {% endnote %}
 
-{% note info "task.commentitem.getlist" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.commentitem.getlist` возвращает список комментариев к задаче.
 
@@ -76,14 +74,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.commentitem.getlist',
-    [1, {'ID': 'asc'}, {'>AUTHOR_ID': 2}],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.commentitem.getlist',
+        [1, {'ID': 'asc'}, {'>AUTHOR_ID': 2}],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

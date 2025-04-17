@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При добавлении лида
+    href: on-crm-lead-add.md
+  - name: При изменении лида
+    href: on-crm-lead-update.md
+  - name: При удалении лида
+    href: on-crm-lead-delete.md

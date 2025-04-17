@@ -1,4 +1,4 @@
-# Возвращение списка SMS-провайдеров или провайдеров сообщений
+# Получить список СМС-провайдеров или провайдеров сообщений messageservice.sender.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,27 +19,32 @@
 
 {% endif %}
 
-{% note info "messageservice.sender.list" %}
-
-**Scope**: [`messageservice`](../scopes/permissions.md) | **Права на выполнение**: `администратор`
-
-{% endnote %}
+> Scope: [`messageservice`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод возвращает список зарегистрированных текущим приложением (или тем же входящим вебхуком) провайдеров сообщений.
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'messageservice.sender.list',
-    {},
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Успешно: " + result.data().join(', '));
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'messageservice.sender.list',
+        {},
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Успешно: " + result.data().join(', '));
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

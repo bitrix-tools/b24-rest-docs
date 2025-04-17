@@ -1,4 +1,4 @@
-# Удаление комментария из результата
+# Удалить комментарий из результата tasks.task.result.deleteFromComment
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.result.deleteFromComment" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.result.deleteFromComment` удаляет результат задачи по комментарию, из которого он был создан.
 
@@ -35,12 +33,26 @@
 
 ## Пример
 
-```js
-BX.ajax.runAction("tasks.task.result.deleteFromComment", {
-    data: {
-        commentId: 100500
-    }
-}).then(function (response) { console.log(response);});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.result.deleteFromComment',
+        {
+            "commentId" : 2549
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

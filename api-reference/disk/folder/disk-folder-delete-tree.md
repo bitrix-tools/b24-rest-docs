@@ -1,4 +1,4 @@
-# Уничтожение папки и всех её дочерних элементов навсегда
+# Уничтожить папку и все дочерние элементы навсегда disk.folder.deletetree
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "disk.folder.deletetree" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.folder.deletetree` уничтожает папку и всё её дочерние элементы навсегда.
 
@@ -37,21 +35,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.folder.deletetree",
-    {
-        id: 8
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.folder.deletetree",
+        {
+            id: 8
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

@@ -1,4 +1,4 @@
-# Активировать коннектор
+# Активировать коннектор imconnector.activate
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,17 +21,15 @@
 
 {% endif %}
 
-{% note info "imconnector.activate" %}
-
-**Scope**: [`imopenlines`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`imopenlines`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод устанавливает, активировать или деактивировать канал конкретной ОЛ.
 
 {% note info "Примечание" %}
 
-Если нужно чтобы коннектор отображался в общем списке коннекторов в виджете на сайте, нужно использовать метод [imconnector.connector.data.set](.). [Пример использования](.).
+Если нужно чтобы коннектор отображался в общем списке коннекторов в виджете на сайте, нужно использовать метод [imconnector.connector.data.set](./imconnector-connector-data-set.md). [Пример использования](../../../tutorials/openlines/example-connector.md).
 
 {% endnote %}
 

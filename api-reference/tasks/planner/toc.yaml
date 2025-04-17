@@ -1,7 +1,0 @@
-title: План рабочего дня
-href: index.md
-items:
-  - name: О плане на день
-    href: index.md
-  - name: Получение списка задач из плана на день
-    href: task-planner-get-list.md

@@ -1,8 +1,10 @@
 title: Коннекторы открытых линий
 href: index.md
 items: 
-  - name: Кастомные коннекторы открытых линий
+  - name: Обзор методов
     href: index.md
+  - name: Частые кейсы
+    href: tutorials.md
   - name: Зарегистрировать коннектор
     href: imconnector-register.md
   - name: Активировать коннектор
@@ -11,6 +13,8 @@ items:
     href: imconnector-deactivate.md
   - name: Получить статус коннектора
     href: imconnector-status.md
+  - name: Изменить настройки коннектора
+    href: imconnector-connector-data-set.md
   - name: Получить список коннекторов
     href: imconnector-list.md
   - name: Отменить регистрацию коннектора
@@ -25,6 +29,8 @@ items:
     href: imconnector-send-status-delivery.md
   - name: Обновить статус «прочитано»
     href: imconnector-send-status-reading.md
+  - name: Установить новое имя чата
+    href: imconnector-chat-name-set.md
   - name: События
     include:
       path: events/b24-toc.yaml

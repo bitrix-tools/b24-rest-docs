@@ -1,7 +1,5 @@
-# Получить поля элемента
+# Получить поля элемента crm.item.fields
 
-> Название метода: **crm.item.fields**
-> 
 > Scope: [`crm`](../../scopes/permissions.md)
 > 
 > Кто может выполнять метод: любой пользователь с правом «чтения» элементов объекта CRM
@@ -23,6 +21,14 @@
 `тип` | **Описание** ||
 || **entityTypeId***
 [`integer`][1] | Идентификатор [системного](./index.md) или [пользовательского типа](./user-defined-object-types/index.md), чьи поля мы хотим получить ||
+|| **useOriginalUfNames**
+[`boolean`][1] | Параметр используется для управления форматом имен пользовательских полей в ответе.   
+Возможные значения:
+
+- `Y` — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830
+- `N` — имена пользовательских полей в camelCase, например ufCrm_2_1639669411830
+
+По умолчанию — `N` ||
 |#
 
 ## Примеры кода
@@ -39,8 +45,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":1268}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.fields
+    -d '{"entityTypeId":1268,"useOriginalUfNames":"N"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.fields
     ```
 
 - cURL (OAuth)
@@ -49,7 +55,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":1268,"auth":"**put_access_token_here**"}' \
+    -d '{"entityTypeId":1268,"useOriginalUfNames":"N","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.item.fields
     ```
 
@@ -60,6 +66,7 @@
             'crm.item.fields',
             {
                 entityTypeId: 1268,
+                useOriginalUfNames: 'N',
             },
             (result) => {
                 if (result.error())
@@ -82,7 +89,8 @@
     $result = CRest::call(
         'crm.item.fields',
         [
-            'entityTypeId' => 1268
+            'entityTypeId' => 1268,
+            'useOriginalUfNames' => 'N',
         ]
     );
 
@@ -502,6 +510,13 @@ HTTP-статус: **200**
 || **time**
 [`time`][1]   | Информация о времени выполнения запроса ||
 |#
+
+{% note info " " %}
+
+По умолчанию имена пользовательских полей возвращаются в camelCase, например ufCrm2_1639669411830.
+При передаче параметра `useOriginalUfNames` со значением `Y` пользовательские поля будут возвращаться с оригинальными именами, например UF_CRM_2_1639669411830.
+
+{% endnote %}
 
 ## Обработка ошибок
 

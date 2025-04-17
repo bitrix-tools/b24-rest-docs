@@ -1,0 +1,13 @@
+title: Настройки приложения
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Привязать данные к приложению
+    href: app-option-set.md
+  - name: Получить привязанные к приложению данные
+    href: app-option-get.md
+  - name: Привязать данные к пользователю и приложению
+    href: user-option-set.md
+  - name: Получить сохраненные настройки пользователя
+    href: user-option-get.md

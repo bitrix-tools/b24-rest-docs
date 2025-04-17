@@ -1,12 +1,10 @@
-# Добавить товар
+# Добавить товар crm.product.add
 
-> Название метода: **crm.product.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод создает новый товар.
+Метод создает новый товар. 
 
 ## Параметры метода
 
@@ -23,7 +21,7 @@
 
 {% note info %}
 
-С версии **CRM 21.700.0** включена поддержка автогенерации символьного кода товара, при условии, что в настройках инфоблока для символьного кода включена генерация и не используется внешний сервис. Задействован метод [generateMnemonicCode](https://dev.1c-bitrix.ru/api_help/iblock/classes/ciblockelement/generatemnemoniccode.php).
+С версии **CRM 21.700.0** включена поддержка автогенерации символьного кода товара.
 
 Если сгенерированный символьный код более 100 символов, то он автоматически обрезается до 100 знаков. Это требуется учитывать при создании запросов, передавая уникальное значение в начале/середине названия товара для избежания совпадения символьных кодов.
 
@@ -41,7 +39,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"NAME":"1С-Битрикс: Управление сайтом - Старт","CURRENCY_ID":"RUB","PRICE":4900,"SORT":500}}' \
+    -d '{"fields":{"NAME":"Стул пластиковый","CURRENCY_ID":"RUB","PRICE":4900,"SORT":500}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.product.add
     ```
 
@@ -51,7 +49,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"NAME":"1С-Битрикс: Управление сайтом - Старт","CURRENCY_ID":"RUB","PRICE":4900,"SORT":500},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"NAME":"Стул пластиковый","CURRENCY_ID":"RUB","PRICE":4900,"SORT":500},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.product.add
     ```
 
@@ -63,7 +61,7 @@
         {
             fields:
             {
-                "NAME": "1С-Битрикс: Управление сайтом - Старт",
+                "NAME": "Стул пластиковый",
                 "CURRENCY_ID": "RUB",
                 "PRICE": 4900,
                 "SORT": 500
@@ -88,7 +86,7 @@
         'crm.product.add',
         [
             'fields' => [
-                'NAME' => '1С-Битрикс: Управление сайтом - Старт',
+                'NAME' => 'Стул пластиковый',
                 'CURRENCY_ID' => 'RUB',
                 'PRICE' => 4900,
                 'SORT' => 500
@@ -99,6 +97,35 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php        
+    try {
+        $fields = [
+            'NAME' => 'Sample Product',
+            'PRICE' => '100.00',
+            'CURRENCY_ID' => 'USD',
+            'ACTIVE' => 'Y',
+            'DATE_CREATE' => (new DateTime())->format(DateTime::ATOM),
+            'TIMESTAMP_X' => (new DateTime())->format(DateTime::ATOM),
+            'CREATED_BY' => 1,
+            'MODIFIED_BY' => 1,
+            'CATALOG_ID' => 1,
+            'DESCRIPTION' => 'This is a sample product.',
+            'VAT_ID' => 1,
+            'VAT_INCLUDED' => 'Y',
+            'MEASURE' => 1,
+            'SECTION_ID' => 1,
+            'SORT' => 100,
+            'XML_ID' => 'sample_product_001',
+        ];
+        $result = $serviceBuilder->getCRMScope()->product()->add($fields);
+        print($result->getId());
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}

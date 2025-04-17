@@ -11,7 +11,7 @@ items:
     href: first-rest-api-call.md
   - name: Как использовать примеры 
     href: how-to-use-examples.md
-  - name: Частные кейсы и сценарии 
+  - name: Частые кейсы и сценарии 
     include:
       path: tutorials/b24-toc.yaml
       mode: link
@@ -21,6 +21,8 @@ items:
     href: error-codes.md       
   - name: Что нового
     href: whats-new.md
+  - name: Митапы для разработчиков
+    href: meetups.md
   - name: Поддержка и коммьюнити для разработчиков
     href: support.md
   - name: Правки в документации
@@ -32,7 +34,7 @@ items:
     include:
       path: local-integrations/b24-toc.yaml
       mode: link
-  - name: Битрикс24 Маркет
+  - name: Битрикс24 Маркетплейс
     include:
       path: market/b24-toc.yaml
       mode: link
@@ -42,24 +44,27 @@ items:
       mode: link 
 navigation:
   logo:
-    url: 'https://apidocs.bitrix24.ru'
+    url: '/'
     dark:
-      icon: 'https://apidocs.bitrix24.ru/_images/bitrix24logo.svg'
+      icon: '/_images/bitrix24logo.svg'
     light:
-      icon: 'https://apidocs.bitrix24.ru/_images/bitrix24logo.svg'
+      icon: '/_images/bitrix24logo.svg'
   header:
     leftItems:
       - text: 'С чего начать'
         type: 'link'
-        url: 'https://apidocs.bitrix24.ru/about.html'
+        url: '/about.html'
       - text: 'Что нового'
         type: 'link'
-        url: 'https://apidocs.bitrix24.ru/whats-new.html'     
+        url: '/whats-new.html'     
       - text: 'Частые кейсы'
         type: 'link'
-        url: 'https://apidocs.bitrix24.ru/tutorials/index.html'  
-      - text: 'Поддержка'
+        url: '/tutorials/index.html'  
+      - text: 'Методы API'
         type: 'link'
-        url: 'https://apidocs.bitrix24.ru/support.html'
+        url: '/api-reference/index.html'
+      - text: 'GitHub'
+        type: 'link'
+        url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
     rightItems:    
       - type: controls

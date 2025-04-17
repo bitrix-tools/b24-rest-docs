@@ -1,4 +1,4 @@
-# Загрузка новой версии файла
+# Загрузить новую версию файла disk.file.uploadversion
 
 {% if build == 'dev' %}
 
@@ -7,7 +7,6 @@
 - не указаны типы параметров
 - не указана обязательность параметров
 - отсутствует ответ в случае ошибки
-- в таблице с описанием параметров сделать ссылку на словосочетании "Обработка файлов"на страницу https://dev.1c-bitrix.ru/rest_help/js_library/rest/files.php
 
 {% endnote %}
 
@@ -19,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "disk.file.uploadversion" %}
-
-**Scope**: [`disk`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`disk`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `disk.file.uploadversion` загружает новую версию файла.
 
@@ -34,27 +31,34 @@
 || **id**
 [`unknown`](../../data-types.md) | Идентификатор файла. ||
 || **fileContent**
-[`unknown`](../../data-types.md) | Аналогично `DETAIL_PICTURE` в примере [Обработка файлов](.). ||
+[`unknown`](../../data-types.md) | Аналогично `DETAIL_PICTURE` в примере [Обработка файлов](../../bx24-js-sdk/how-to-call-rest-methods/files.md). ||
 |#
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.file.uploadversion",
-    {
-        id: 4,
-        fileContent: document.getElementById('test_file_input')
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.file.uploadversion",
+        {
+            id: 4,
+            fileContent: document.getElementById('test_file_input')
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

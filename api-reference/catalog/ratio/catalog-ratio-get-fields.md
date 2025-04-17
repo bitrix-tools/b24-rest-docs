@@ -1,69 +1,156 @@
-# Возвращение полей коэффициента единицы измерения
+# Получить поля коэффициента единицы измерения catalog.ratio.getFields
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`catalog`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
-
-{% note info "catalog.ratio.getFields" %}
-
-**Scope**: [`catalog`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
-
-## Описание
-
-```js
-catalog.ratio.getFields()
-```
-
-Метод возвращает поля коэффициента единицы измерения.
-
-## Параметры
+Метод возвращает доступные поля коэффициента единицы измерения.
 
 Без параметров.
 
-## Примеры
+## Примеры кода
 
-```javascript
-BX24.callMethod(
-    'catalog.ratio.getFields',
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-## Возвращаемые поля
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.ratio.getFields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.ratio.getFields
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.ratio.getFields',
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.ratio.getFields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "ratio": {
+            "id": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "isDefault": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "productId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "integer"
+            },
+            "ratio": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "double"
+            }
+        }
+    },
+    "time": {
+        "start": 1729676085.640063,
+        "finish": 1729676086.017719,
+        "duration": 0.3776559829711914,
+        "processing": 0.013904094696044922,
+        "date_start": "2024-10-23T12:34:45+03:00",
+        "date_finish": "2024-10-23T12:34:46+03:00",
+    }
+}
+```
+
+### Возвращаемые данные
 
 #|
-|| **Поле** | **Описание** | **Примечание** ||
-|| **id** 
-[`integer`](../../data-types.md) | Идентификатор единицы измерения. | Только для чтения. ||
-|| **isDefault** 
-[`char`](../../data-types.md) | Единица измерения по умолчанию. |  ||
-|| **productId^*^** 
-[`integer`](../../data-types.md) | Идентификатор товара. | ||
-|| **ratio^*^** 
-[`double`](../../data-types.md) | Коэффициент единицы измерения. | ||
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа ||
+|| **ratio**
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_ratio](../data-types.md#catalog_ratio), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":200040300010,
+    "error_description":"Access Denied"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `200040300010` | Недостаточно прав для чтения коэффициента единицы измерения
+|| 
+|| `0` | Другие ошибки (например, фатальные ошибки)
+|| 
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./catalog-ratio-get.md)
+- [{#T}](./catalog-ratio-list.md)

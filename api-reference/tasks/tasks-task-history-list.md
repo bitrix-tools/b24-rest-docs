@@ -1,4 +1,4 @@
-# История задачи
+# История задачи tasks.task.history.list
 
 {% if build == 'dev' %}
 
@@ -18,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "tasks.task.history.list" %}
-
-**Scope**: [`task`](../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `tasks.task.history.list` получения истории задачи.
 
@@ -90,17 +88,23 @@ BX24.callMethod('tasks.task.history.list', {taskId: 119, filter:{FIELD:'NEW'}}, 
 
 Вывод истории конкретной задачи без использования фильтров:
 
-```js
-BX24.callMethod(
-    'task.planner.getlist',
-    [],
-    function(result)
-    {
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.planner.getlist',
+        [],
+        function(result)
+        {
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 ![Результат](_images/tasks_task_history_list-2.png =865x)
 

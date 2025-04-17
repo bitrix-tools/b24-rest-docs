@@ -1,4 +1,4 @@
-# Пользовательские поля задач
+# Получить поля пользовательского поля task.item.userfield.getfields
 
 {% if build == 'dev' %}
 
@@ -18,11 +18,9 @@
 
 {% endnote %}
 
-{% note info "task.item.userfield.getfields" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.item.userfield.getfields` возвращает все доступные поля.
 
@@ -32,17 +30,24 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.item.userfield.getfields',
-    {},
-    function(result)
-    {
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.item.userfield.getfields',
+        {},
+        function(result)
+        {
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Список полей

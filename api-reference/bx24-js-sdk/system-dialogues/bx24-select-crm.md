@@ -1,4 +1,4 @@
-# Вызвать диалог выбора сущности CRM
+# Вызвать диалог выбора сущности CRM BX24.selectCRM
 
 ```js
 BX24.selectCRM({entityType: value, multiple: true, value:value}): void;

@@ -1,4 +1,4 @@
-# Получение пункта чек-листа по идентификатору
+# Получить пункта чек-листа по идентификатору task.checklistitem.get
 
 {% if build == 'dev' %}
 
@@ -19,11 +19,9 @@
 
 {% endnote %}
 
-{% note info "task.checklistitem.get" %}
-
-**Scope**: [`task`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`task`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `task.checklistitem.get` возвращает элемент чек-листа по его идентификатору.
 
@@ -47,15 +45,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.checklistitem.get',
-    [13, 20],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.checklistitem.get',
+        [13, 20],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

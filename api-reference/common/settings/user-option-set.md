@@ -1,26 +1,130 @@
-# User.option.set
+# Привязать данные к пользователю и приложению user.option.set
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`базовый`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `user.option.set` привязывает данные к приложению и пользователю.
 
-{% endnote %}
+Приложение может привязываться к установившему пользователю, если это [приложение без пользовательского интерфейса](../../../local-integrations/serverside-local-app-with-no-ui.md) или к пользователю, с которым взаимодействует, если это [приложение с пользовательским интерфейсом](../../../local-integrations/serverside-local-app-with-ui.md).
 
-{% if build == 'dev' %}
+## Параметры метода
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
-См. [user.option.*](./user-option.md). Там кратко описаны и get, и set.
-Видимо нужно разбить и сделать описания раздельно.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **options***
+[`array`](../../data-types.md) | Массив, где ключ — название сохраняемого свойства, а значение — значение свойства.
+Если передать значение с новым ключом, то метод его запишет, а если существующее — обновит ||
+|#
 
-- отсутствуют параметры или поля
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы
+## Примеры кода
 
-{% endnote %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-{% endif %}
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "options": {
+            "data": "value",
+            "data2": "value2"
+        }
+    }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.option.set
+    ```
+
+- cURL (OAuth)
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+        "options": {
+            "data": "value",
+            "data2": "value2"
+        },
+        "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/user.option.set
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'user.option.set',
+        {
+            "options": {
+                "data": "value",
+                "data2": "value2",
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'user.option.set',
+        [
+            'options' => [
+                'data' => 'value',
+                'data2' => 'value2'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ArgumentNullException",
+    "error_description":"options is empty"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Cообщение об ошибке** | **Описание** ||
+|| `ArgumentNullException` | options is empty | Пустой массив `options`  ||
+|| `AccessException` | Application context required / Administrator authorization required | Доступ запрещен ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./app-option-set.md)
+- [{#T}](./app-option-get.md)
+- [{#T}](./user-option-get.md)

@@ -1,7 +1,5 @@
-# Добавить триггер
+# Добавить триггер crm.automation.trigger.add
 
-> Название метода: **crm.automation.trigger.add**
->
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор с доступом к CRM в контексте приложения 

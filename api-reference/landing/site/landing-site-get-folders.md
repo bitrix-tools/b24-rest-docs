@@ -1,4 +1,4 @@
-# Получение папок сайта
+# Получить папки сайта landing.site.getFolders
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -21,11 +21,9 @@
 
 {% endif %}
 
-{% note info "landing.site.getFolders" %}
-
-**Scope**: [`landing`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `landing.site.getFolders` получает папки сайта.
 
@@ -43,9 +41,6 @@
 {% endnote %}
 
 | ||
-
-
-
 || **filter**
 [`unknown`](../../data-types.md) | Опциональный фильтр. Может принимать поля:
 - ACTIVE – активность папки (Y/N). По умолчанию создается не активной;
@@ -60,27 +55,33 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.getFolders',
-    {
-        siteId: 1817,
-        filter: {
-            TITLE: 'Измененная папка'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.getFolders',
         {
-            console.error(result.error());
-        }
-        else
+            siteId: 1817,
+            filter: {
+                TITLE: 'Измененная папка'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

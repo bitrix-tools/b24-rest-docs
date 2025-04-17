@@ -1,7 +1,5 @@
-# Удалить стадию
+# Удалить стадию tasks.api.scrum.kanban.deleteStage
 
-> Название метода: **tasks.api.scrum.kanban.deleteStage**
->
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -111,8 +109,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"ERROR_CODE",
-    "error_description":"ACTION_NOT_ALLOWED"
+    "error":0,
+    "error_description":"Stage has tasks"
 }
 ```
 
@@ -121,19 +119,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | `Stage id not found`
-
-Не заполнено обязательное поле `stageId` ||
-|| `0` | `Stage not found`
-
-Передан неизвестный идентификатор стадии `stageId` ||
-|| `0` | `Stage has tasks`
-
-В стадии есть задачи и она не может быть удалена ||
-|| `0` | `Access denied`
-
-Доступ запрещен ||
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | `Stage id not found` | Не заполнено обязательное поле `stageId` ||
+|| `0` | `Stage not found` | Передан неизвестный идентификатор стадии `stageId` ||
+|| `0` | `Stage has tasks` | В стадии есть задачи и она не может быть удалена ||
+|| `0` | `Access denied` | Доступ запрещен ||
 || `0` | Неизвестная ошибка ||
 |#
 

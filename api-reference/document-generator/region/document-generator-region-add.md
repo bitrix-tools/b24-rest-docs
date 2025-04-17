@@ -1,4 +1,4 @@
-# Добавить страну
+# Добавить страну documentgenerator.region.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -18,11 +18,9 @@
 
 {% endif %}
 
-{% note info "documentgenerator.region.add" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`documentgenerator`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `documentgenerator.region.add` добавляет новый регион. Возвращает те же данные, что и при вызове [documentgenerator.region.get()](./document-generator-region-get.md) на новом регионе.
 

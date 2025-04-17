@@ -1,39 +1,14 @@
-# На генерацию документа
+# Обзор событий
 
-{% if build == 'dev' %}
+{% note warning "Мы еще обновляем эту страницу" %}
 
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы полей
-- не указана обязательность полей
-- отсутствуют примеры
+Тут может не хватать некоторых данных — дополним в ближайшее время
 
 {% endnote %}
 
-{% endif %}
 
-{% note info "onCrmDocumentGeneratorDocumentAdd" %}
-
-**Scope**: [`documentgenerator`](../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
-
-{% endnote %}
-
-Событие `onCrmDocumentGeneratorDocumentAdd` – создание нового документа.
-
-В обработчик события придут данные в следующем виде:
-
-```php
-[
-    'FIELDS' => [
-        'ID' => $documentId,
-        'ENTITY_TYPE_ID' => $entityTypeId,
-        'ENTITY_ID' => $entityId,
-    ],
-]
-```
 #|
-|| **Поле** | **Описание** ||
-|| **$documentId** | Идентификатор документа. ||
-|| **$entityTypeId** | Идентификатор типа CRM. ||
-|| **$entityId** | Идентификатор элемента. ||
+|| [onCrmDocumentGeneratorDocumentAdd](./on-crm-document-generator-add.md) | На генерацию документа ||
+|| [onCrmDocumentGeneratorDocumentDelete](./on-crm-document-generator-document-delete.md) | На удаление документа ||
+|| [onCrmDocumentGeneratorDocumentUpdate](./on-crm-document-generator-document-update.md) | На изменение документа ||
 |#

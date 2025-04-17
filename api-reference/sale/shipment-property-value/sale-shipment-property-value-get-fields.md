@@ -1,7 +1,5 @@
-# Получить доступные поля значений свойств отгрузки
+# Получить доступные поля значений свойств отгрузки sale.shipmentpropertyvalue.getfields
 
-> Название метода: **sale.shipmentpropertyvalue.getfields**
->
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор

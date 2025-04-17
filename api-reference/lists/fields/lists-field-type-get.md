@@ -1,4 +1,4 @@
-# Получение доступных типов полей для списка
+# Получить доступные типы полей для списка lists.field.type.get
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -20,11 +20,9 @@
 
 {% endif %}
 
-{% note info "lists.field.type.get" %}
-
-**Scope**: [`lists`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`lists`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
 Метод `lists.field.type.get` позволяет получить список доступных типов полей для указанного списка. В случае успеха будет возвращен список доступных типов полей, иначе пустой массив.
 
@@ -49,34 +47,40 @@
 
 ## Пример
 
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists_socnet',
-    'IBLOCK_CODE': 'rest_1'
-};
-if(!params.IBLOCK_CODE && !params.IBLOCK_ID)
-    return;
-BX24.callMethod(
-    'lists.field.type.get',
-    params,
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists_socnet',
+        'IBLOCK_CODE': 'rest_1'
+    };
+    if(!params.IBLOCK_CODE && !params.IBLOCK_ID)
+        return;
+    BX24.callMethod(
+        'lists.field.type.get',
+        params,
+        function(result)
         {
-            alert("getFieldTypes: " + result.error());
-        }
-        else
-        {
-            var types = result.data(), html = '';
-            for(var typeId in types)
+            if(result.error())
             {
-                if(!types.hasOwnProperty(typeId)) continue;
-                    html += ''+types[typeId]+'';
+                alert("getFieldTypes: " + result.error());
             }
-            $('#field-type').html(html);
+            else
+            {
+                var types = result.data(), html = '';
+                for(var typeId in types)
+                {
+                    if(!types.hasOwnProperty(typeId)) continue;
+                        html += ''+types[typeId]+'';
+                }
+                $('#field-type').html(html);
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

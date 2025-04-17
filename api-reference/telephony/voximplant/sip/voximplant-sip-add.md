@@ -1,4 +1,4 @@
-# Создание новой sip-линии с привязкой к приложению
+# Создать новую sip-линию с привязкой к приложению voximplant.sip.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,17 +19,17 @@
 
 {% endif %}
 
-{% note info "voximplant.sip.add" %}
-
 {% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
-
-{% endnote %}
 
 Метод `voximplant.sip.add` создает новую sip-линию с привязкой к приложению. После создания данная линия становится исходящей линией по умолчанию. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
 
 #|
 || **Параметр** | **Описание** ||
-|| **TYPE** | Тип АТС список типов АТС, по умолчанию: **Облачная АТС**. ||
+|| **TYPE** | Тип АТС. Возможные значения:
+- `cloud` —	облачная АТС
+- `office` — офисная АТС
+
+По умолчанию `cloud` ||
 || **TITLE**^*^ | Название подключения. ||
 || **SERVER**^*^ | Адрес сервера sip-регистрации. ||
 || **LOGIN**^*^ | Логин для сервера. ||
@@ -40,25 +40,31 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.sip.add',
-    {
-        "TYPE": "cloud",
-        "TITLE": "sipnet",
-        "SERVER": "sipnet.ru",
-        "LOGIN": "YYYYY",
-        "PASSWORD": "ZZZZZ"
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.sip.add',
+        {
+            "TYPE": "cloud",
+            "TITLE": "sipnet",
+            "SERVER": "sipnet.ru",
+            "LOGIN": "YYYYY",
+            "PASSWORD": "ZZZZZ"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -67,7 +73,9 @@ BX24.callMethod(
 #|
 || **Поле** | **Описание** ||
 || **CONFIG_ID** | Идентификатор настройки sip-линии. ||
-|| **TYPE** | Тип АТС список типов АТС ||
+|| **TYPE** | Тип АТС. Возможные значения:
+- `cloud` —	облачная АТС
+- `office` — офисная АТС ||
 || **TITLE** | Название подключения. ||
 || **SERVER** | Адрес сервера sip-регистрации для Облачной АТС или адрес сервера Офисной АТС. ||
 || **LOGIN** | Логин для сервера. ||

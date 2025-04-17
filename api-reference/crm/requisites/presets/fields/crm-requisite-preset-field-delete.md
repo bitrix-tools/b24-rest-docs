@@ -1,7 +1,5 @@
-# Удалить настраиваемое поле из шаблона реквизитов
+# Удалить настраиваемое поле из шаблона реквизитов crm.requisite.preset.field.delete
 
-> Название метода: **crm.requisite.preset.field.delete**
->
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

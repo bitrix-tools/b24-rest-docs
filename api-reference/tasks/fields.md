@@ -61,7 +61,9 @@ N - Нет.
 N - Нет.
 По умолчанию - Нет. ||
 || **GROUP_ID**
-[`integer`](../data-types.md) | Проект. | По умолчанию - 0 ||
+[`integer`](../data-types.md) | Группа или проект | По умолчанию - 0 ||
+|| **FLOW_ID**
+[`integer`](../data-types.md) | Поток | null ||
 || **STAGE_ID**
 [`integer`](../data-types.md) | Стадия. | По умолчанию - 0 ||
 || **CREATED_BY^*^**
@@ -104,6 +106,10 @@ N - Нет.
 [`enum`](../data-types.md) | Разрешить менять сроки. | Y - Да,
 N - Нет.
 По умолчанию - Нет. ||
+|| **ALLOW_TIME_TRACKING**
+[`enum`](../data-types.md) | Разрешить учет времени для задачи | Y - Да,
+N - Нет.
+По умолчанию - Нет. ||
 || **TASK_CONTROL**
 [`enum`](../data-types.md) | Принять работу. | Y - Да,
 N - Нет.
@@ -117,7 +123,7 @@ N - Нет.
 N - Нет.
 По умолчанию - Нет. ||
 || **TIME_ESTIMATE**
-[`integer`](../data-types.md) | Затраченное время. | ||
+[`integer`](../data-types.md) | Время, выделенное на задачу. | ||
 || **TIME_SPENT_IN_LOGS**
 [`integer`](../data-types.md) | Затраченное время из истории изменений. | ||
 || **MATCH_WORK_TIME**
