@@ -1,0 +1,25 @@
+title: Лист ожидания
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить в лист ожидания 
+    href: booking-v1-waitlist-add.md
+  - name: Создать запись в листе ожидания из брони
+    href: booking-v1-waitlist-createfrombooking.md      
+  - name: Обновить запись в листе ожидания
+    href: booking-v1-waitlist-update.md
+  - name: Получить запись из листа ожидания 
+    href: booking-v1-waitlist-get.md
+  - name: Получить список записей из листа ожидания 
+    href: booking-v1-waitlist-list.md
+  - name: Удалить запись из листа ожидания 
+    href: booking-v1-waitlist-delete.md                    
+  - name: Связь с дополнительными объектами
+    include:
+      path: external-data/b24-toc.yaml
+      mode: link
+  - name: Клиент в листе ожидания
+    include:
+      path: client/b24-toc.yaml
+      mode: link

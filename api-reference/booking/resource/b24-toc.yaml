@@ -1,0 +1,23 @@
+title: Ресурс
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить новый ресурс
+    href: booking-v1-resource-add.md 
+  - name: Обновить ресурс
+    href: booking-v1-resource-update.md
+  - name: Получить ресурс
+    href: booking-v1-resource-get.md
+  - name: Получить список ресурсов
+    href: booking-v1-resource-list.md
+  - name: Удалить ресурс
+    href: booking-v1-resource-delete.md                
+  - name: Тип ресурса
+    include:
+      path: resource-type/b24-toc.yaml
+      mode: link
+  - name: Слоты ресурса
+    include:
+      path: slots/b24-toc.yaml
+      mode: link

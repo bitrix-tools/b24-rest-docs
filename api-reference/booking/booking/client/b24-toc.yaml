@@ -1,0 +1,13 @@
+title: Клиент бронирования
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить клиентов к брони
+    href: booking-v1-booking-client-set.md
+  - name: Удалить клиентов из брони
+    href: booking-v1-booking-client-unset.md      
+  - name: Получить список клиентов брони
+    href: booking-v1-booking-client-list.md
+                 
+

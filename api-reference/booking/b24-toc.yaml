@@ -1,0 +1,19 @@
+title: Онлайн-запись
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список типов клиентов
+    href: booking-v1-clienttype-list.md
+  - name: Ресурс
+    include:
+      path: resource/b24-toc.yaml
+      mode: link
+  - name: Лист ожидания
+    include:
+      path: waitlist/b24-toc.yaml
+      mode: link      
+  - name: Бронирование
+    include:
+      path: booking/b24-toc.yaml
+      mode: link 
