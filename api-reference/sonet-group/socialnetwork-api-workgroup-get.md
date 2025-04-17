@@ -394,13 +394,15 @@ HTTP-статус: **400**
     "error_description": "Не передано значение ID рабочей группы."
 }
 ```
+
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `-`     | `SONET_CONTROLLER_WORKGROUP_EMPTY` | В массив `params` не передан параметр `groupId` ||
+|| **Код** | **Описание** | **Статус** ||
+|| `SONET_CONTROLLER_WORKGROUP_EMPTY` | В массив `params` не передан параметр `groupId` | 400 ||
+|| `SONET_CONTROLLER_WORKGROUP_NOT_FOUND` | Группа по идентификатору `params[groupId]` не найдена или у текущего пользователя (т.е. владельца вебхука или пользователя приложения) нет доступа к ней | 400 ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
