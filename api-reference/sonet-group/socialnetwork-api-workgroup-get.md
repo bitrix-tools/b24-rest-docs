@@ -79,7 +79,7 @@
     BX24.callMethod('socialnetwork.api.workgroup.get', {
         params: {
             groupId: 622,
-            select: [ 'ID', 'NAME' ],
+            select: [ 'DEPARTMENTS', 'TAGS' ],
         },
     }, result => {
         console.log(result);
@@ -92,7 +92,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"params":{"groupId":622,"select":["ID","NAME"]}}' \
+    -d '{"params":{"groupId":622,"select":["DEPARTMENTS","TAGS"]}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/socialnetwork.api.workgroup.get
     ```
 
@@ -102,7 +102,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"params":{"groupId":622,"select":["ID","NAME"]},"auth":"**put_access_token_here**"}' \
+    -d '{"params":{"groupId":622,"select":["DEPARTMENTS","TAGS"]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/socialnetwork.api.workgroup.get
     ```
 
@@ -116,7 +116,7 @@
         [
             'params' => [
                 'groupId' => 622,
-                'select' => ['ID', 'NAME']
+                'select' => ['DEPARTMENTS', 'TAGS']
             ]
         ]
     );
@@ -127,7 +127,6 @@
     ```
 
 {% endlist %}
-
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
