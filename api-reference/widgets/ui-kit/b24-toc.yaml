@@ -1,0 +1,13 @@
+title: Битрикс24 UI Kit
+href: index.md
+items: 
+  - name: UI Kit - интерфейс, единый с платформой
+    href: index.md
+  - name: Принципы дизайна
+    href: design.md
+  - name: Компоненты
+    href: components.md
+  - name: Интеграция c REST API и бизнес-логикой
+    href: app-logic.md
+  - name: Быстрый старт
+    href: quick-start.md 
