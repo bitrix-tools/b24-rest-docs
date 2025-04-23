@@ -9,3 +9,5 @@ items:
     href: setting-robot.md
   - name: Как завершить бизнес-процессы уволенного сотрудника
     href: how-to-kill-workflows.md
+  - name: Как массово завершить бизнес-процессы с фильтром по дате
+    href: how-to-filter-and-kill-workflows.md    
