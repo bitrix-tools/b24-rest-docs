@@ -9,8 +9,6 @@
 - [{#T}](./how-to-add-company-with-requisite.md)
 - [{#T}](./how-to-add-deal-with-choice-of-requisite.md)
 - [{#T}](./how-to-add-activity-to-contact.md)
-- [{#T}](./how-to-product-binding.md)
-- [{#T}](./how-to-add-product-with-custom-props.md)
 - [{#T}](./how-to-add-comment-to-spa.md)
 - [{#T}](./how-to-add-user-field-to-spa.md)
 - [{#T}](./how-to-add-precision-to-user-field.md)

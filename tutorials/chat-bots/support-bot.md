@@ -18,11 +18,11 @@
          
   ![Приветственное сообщение](./_images/openlines4.png)
 
-- Создайте новую открытую линию технической поддержки по вашему продукту или же выберите действующую:
+- Создайте новую открытую линию технической поддержки по вашему продукту или выберите действующую:
 
 ![Создание или выбор открытой линии](./_images/add_network000.png)
 
-С помощью Rest-команды [imopenlines.network.join](../../api-reference/imopenlines/openlines/imopenlines-network-join.md) можно автоматически подключать вашу открытую линию к порталу пользователей:
+С помощью метода [imopenlines.network.join](../../api-reference/imopenlines/openlines/imopenlines-network-join.md) можно автоматически подключать вашу открытую линию к порталу пользователей:
 
 ```php
 $result = restCommand(
@@ -36,7 +36,7 @@ $result = restCommand(
 );
 ```
 
-После установки Открытой линии вы можете написать клиенту приветственное сообщение с помощью Rest-команды [imopenlines.network.message.add](../../api-reference/imopenlines/openlines/imopenlines-network-message-add.md):
+После установки Открытой линии вы можете написать клиенту приветственное сообщение с помощью метода [imopenlines.network.message.add](../../api-reference/imopenlines/openlines/imopenlines-network-message-add.md):
 
 ```php
 Спасибо за установку, будем рады помочь, если будут вопросы — пишите в этот чат. Хорошего дня! :)

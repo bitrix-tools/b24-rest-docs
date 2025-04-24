@@ -44,12 +44,6 @@ PHONE: [
 
 Чтобы задать НДС товара или услуги в торговом каталоге, используйте параметр `vatId` групп методов [catalog.product.*](../../catalog/product/index.md). 
 
-{% note tip "Частые кейсы и сценарии" %}
-
-- [Добавить сделку (лид, счет, компред) с товарами, с применением скидок и налогов](../../../tutorials/crm/how-to-add-crm-objects/how-to-product-binding.md)
-  
-{% endnote %}
-
 ## Обзор методов {#all-methods}
 
 > Scope: [`crm`](../../scopes/permissions.md)
