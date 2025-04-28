@@ -1,0 +1,33 @@
+blocks:
+  - type: 'header-block'
+    width: 's'
+    offset: 'default'
+    title: 'Такой страницы не существует'
+    resetPaddings: false
+    verticalOffset: 'l'
+    description: 'Проверьте адрес или воспользуйтесь поиском по сайту'
+    image:
+      mobile: '_images/404.svg'
+      desktop: '_images/404.svg'
+      disableCompress: true
+    color: '#FFFFFF'
+    mediaView: 'fit'
+    imageSize: 'm'
+
+  - type: 'extended-features-block'
+    title:
+      text: 'Информация ниже может помочь:'
+    items:
+      - links:
+        - url: 'https://apidocs.bitrix24.ru/api-reference/index.html#instrument-bitriks24'
+          text: 'Найти метод REST API'
+          theme: 'normal'
+          arrow: true
+        - url: 'https://apidocs.bitrix24.ru/local-integrations/index.html'
+          text: 'Создать свое локальное приложение'
+          theme: 'normal'
+          arrow: true
+        - url: 'https://apidocs.bitrix24.ru/market/index.html'
+          text: 'Опубликовать свое решение для Битрикс24 Маркетплейс'
+          theme: 'normal'
+          arrow: true

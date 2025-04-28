@@ -11,6 +11,12 @@ items:
     href: first-rest-api-call.md
   - name: Как использовать примеры 
     href: how-to-use-examples.md
+  - name: Страница 404
+    href: 404.yaml
+    hidden: true
+  - name: Опрос по документации REST
+    href: poll-bar.md
+    hidden: true
   - name: Частые кейсы и сценарии 
     include:
       path: tutorials/b24-toc.yaml
