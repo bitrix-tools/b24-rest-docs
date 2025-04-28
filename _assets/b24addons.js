@@ -513,12 +513,110 @@ function handleMutations(mutationsList, observer) {
     });
 }
 
-mainObserver.observe(document, { childList: true, subtree: true });
+function showPollBanner()
+{
+    if (localStorage.getItem("hideB24Banner") === "true") return;
+
+    const banner = document.createElement('div');
+    banner.className = 'b24-banner';
+    banner.innerHTML = `
+      <div class="b24-banner__content">
+        <div class="b24-banner__text">
+          Как вам документация Битрикс24? Ответьте на 7 коротких вопросов — помогите писать для вас полезнее.
+        </div>
+        <div class="b24-banner__actions">
+          <a href="/poll-bar.html" class="b24-banner__button">Оставить отзыв</a>
+          <span class="b24-banner__close" title="Закрыть">✖</span>
+        </div>
+      </div>
+    `;
+
+    // Стили для контейнера баннера
+    Object.assign(banner.style, {
+        position: 'fixed',
+        bottom: '0',
+        left: '0',
+        right: '0',
+        backgroundColor: '#3FC0F0',
+        color: 'white',
+        padding: '15px 20px',
+        fontSize: '16px',
+        zIndex: '9999',
+        boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
+    });
+
+    // Контент внутри баннера
+    const content = banner.querySelector('.b24-banner__content');
+    Object.assign(content.style, {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '10px',
+        textAlign: 'center',
+    });
+
+    // Стили текста
+    const text = banner.querySelector('.b24-banner__text');
+    Object.assign(text.style, {
+        flex: '1 1 60%',
+    });
+
+    // Стили кнопки и крестика
+    const actions = banner.querySelector('.b24-banner__actions');
+    Object.assign(actions.style, {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+    });
+
+    const button = banner.querySelector('.b24-banner__button');
+    Object.assign(button.style, {
+        backgroundColor: 'white',
+        color: '#3FC0F0',
+        padding: '8px 16px',
+        textDecoration: 'none',
+        borderRadius: '4px',
+        fontWeight: 'bold',
+        whiteSpace: 'nowrap',
+    });
+
+    const close = banner.querySelector('.b24-banner__close');
+    Object.assign(close.style, {
+        cursor: 'pointer',
+        fontSize: '20px',
+        color: 'white',
+    });
+
+    // Добавляем padding-bottom к #root
+    const root = document.getElementById('root');
+    if (root) {
+        root.style.paddingBottom = '150px';
+    }
+
+    // Обработка закрытия баннера
+    close.addEventListener('click', function () {
+        banner.remove();
+        localStorage.setItem("hideB24Banner", "true");
+
+        if (root) {
+            root.style.paddingBottom = '';
+        }
+    });
+
+    document.body.appendChild(banner);
+}
 
 document.addEventListener('DOMContentLoaded', function() {
+    showPollBanner();
     setMenuPosition();
     initB24items();
 });
+
+
+initB24itemsIfReady();
+
+mainObserver.observe(document, { childList: true, subtree: true });
 
 // Connecting external metrics
 window.onload = function() {
