@@ -614,8 +614,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-initB24itemsIfReady();
-
 mainObserver.observe(document, { childList: true, subtree: true });
 
 // Connecting external metrics
