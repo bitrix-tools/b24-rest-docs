@@ -526,7 +526,17 @@ function showPollBanner()
         return;
     }
 
-    if (localStorage.getItem("hideB24Banner") === "true") return;
+    const STORAGE_KEY_TIME = 'hideB24BannerUntil';
+    const STORAGE_KEY_PERMANENT = 'hideB24BannerForever';
+    const HIDE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 часа
+    const now = Date.now();
+
+    // Проверка на "никогда не показывать"
+    if (localStorage.getItem(STORAGE_KEY_PERMANENT) === 'true') return;
+
+    // Проверка на временное скрытие
+    const hideUntil = parseInt(localStorage.getItem(STORAGE_KEY_TIME), 10);
+    if (!isNaN(hideUntil) && now < hideUntil) return;
 
     const banner = document.createElement('div');
     banner.className = 'b24-banner';
@@ -605,16 +615,31 @@ function showPollBanner()
         root.style.paddingBottom = '150px';
     }
 
-    // Обработка закрытия баннера
+    // Закрытие на 2 часа
     close.addEventListener('click', function () {
         banner.remove();
-        localStorage.setItem("hideB24Banner", "true");
-
-        if (root) {
-            root.style.paddingBottom = '';
-        }
+        localStorage.setItem(STORAGE_KEY_TIME, (Date.now() + HIDE_DURATION_MS).toString());
+        if (root) root.style.paddingBottom = '';
     });
 
+    // Навсегда скрыть при отправке формы
+    const watchSubmitInput = () => {
+        const submitInput = document.querySelector('input[name="web_form_submit"]');
+        if (submitInput) {
+            submitInput.addEventListener('click', () => {
+                localStorage.setItem(STORAGE_KEY_PERMANENT, 'true');
+                banner.remove();
+                if (root) root.style.paddingBottom = '';
+            });
+        }
+    };
+
+    // Подождать, если элемент появится позже
+    watchSubmitInput();
+    const observer = new MutationObserver(watchSubmitInput);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Вставка баннера
     document.body.appendChild(banner);
 }
 
