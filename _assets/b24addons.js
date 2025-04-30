@@ -515,6 +515,17 @@ function handleMutations(mutationsList, observer) {
 
 function showPollBanner()
 {
+    let inIframe = false;
+    try {
+        inIframe = window.self !== window.top;
+    } catch (e) {
+        inIframe = true;
+    }
+    // В iframe не нужно показывать баннер опросника
+    if (inIframe) {
+        return;
+    }
+
     if (localStorage.getItem("hideB24Banner") === "true") return;
 
     const banner = document.createElement('div');
@@ -613,8 +624,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initB24items();
 });
 
-
-initB24itemsIfReady();
 
 mainObserver.observe(document, { childList: true, subtree: true });
 
