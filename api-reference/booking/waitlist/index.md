@@ -15,7 +15,7 @@
 
 **Клиент.** К записи в листе ожидания можно прикрепить [контакт](../../crm/contacts/index.md) или [компанию](../../crm/companies/index.md) из CRM. Передавайте `id` контакта или компании в методах [booking.v1.waitlist.client.*](./client/index.md).
 
-**Сделка.** К записи в листе ожидания можно прикрепить сделку CRM. Передавайте `id` сделки в методах [booking.v1.waitlist.externalData.*](./external-data/index.md).
+**Сделка.** К записи в листе ожидания можно прикрепить [сделку](../../crm/deals/index.md) CRM. Передавайте `id` сделки в методах [booking.v1.waitlist.externalData.*](./external-data/index.md).
 
 ## Обзор методов {#all-methods}
 
