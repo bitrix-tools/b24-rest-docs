@@ -622,25 +622,16 @@ function showPollBanner()
         if (root) root.style.paddingBottom = '';
     });
 
-    // Навсегда скрыть при отправке формы
-    const watchSubmitInput = () => {
-        const submitInput = document.querySelector('input[name="web_form_submit"]');
-        if (submitInput) {
-            submitInput.addEventListener('click', () => {
-                localStorage.setItem(STORAGE_KEY_PERMANENT, 'true');
-                banner.remove();
-                if (root) root.style.paddingBottom = '';
-            });
-        }
-    };
-
-    // Подождать, если элемент появится позже
-    watchSubmitInput();
-    const observer = new MutationObserver(watchSubmitInput);
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    // Вставка баннера
     document.body.appendChild(banner);
+
+    // Навсегда скрыть при отправке формы
+    window.addEventListener('message', function (event) {
+        if (event.data?.formSubmitted) {
+            localStorage.setItem(STORAGE_KEY_PERMANENT, 'true');
+            banner.remove();
+            if (root) root.style.paddingBottom = '';
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
