@@ -21,3 +21,5 @@ items:
     href: how-to-move-activity.md
   - name: Как перенести дело из одного типа объекта в другой
     href: how-to-move-activity-between-objects.md
+  - name: Как внести дату оплаты в поле сделки
+    href: how-to-add-paid-date-to-deal.md

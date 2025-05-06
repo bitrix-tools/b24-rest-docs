@@ -9,3 +9,4 @@
 - [{#T}](./how-to-change-date-in-activity.md)
 - [{#T}](./how-to-move-activity.md)
 - [{#T}](./how-to-move-activity-between-objects.md)
+- [{#T}](./how-to-add-paid-date-to-deal.md)
