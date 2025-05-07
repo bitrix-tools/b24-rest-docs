@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 07 мая, 2025
+
+- Добавили информацию о новых полях для работы со временем отправки сообщений в методы [booking.v1.resource.*](./api-reference/booking/resource/index.md) и [booking.v1.resourcetype.*](./api-reference/booking/resource/resource-type/index.md)
+
 ### 06 мая, 2025
 
 - Добавлен новый туториал [Как внести дату оплаты в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-add-paid-date-to-deal.md)
