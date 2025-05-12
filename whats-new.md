@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 12 мая, 2025
+
+- Обновлена главная страница раздела [Чат-боты](./api-reference/imopenlines/openlines/chat-bots/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
+
 ### 07 мая, 2025
 
 - Добавили информацию о новых полях для работы со временем отправки сообщений в методы [booking.v1.resource.*](./api-reference/booking/resource/index.md) и [booking.v1.resourcetype.*](./api-reference/booking/resource/resource-type/index.md)
