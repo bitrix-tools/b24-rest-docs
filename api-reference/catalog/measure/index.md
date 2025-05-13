@@ -50,9 +50,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [CATALOG.MEASURE.ON.ADD](../events/catalog-measure-on-add.md) | При добавлении единицы измерения ||
-    || [CATALOG.MEASURE.ON.UPDATE](../events/catalog-measure-on-update.md)| При обновлении единицы измерения ||
-    || [CATALOG.MEASURE.ON.DELETE](../events/catalog-measure-on-delete.md)| При удалении единицы измерения ||
+    || [CATALOG.MEASURE.ON.ADD](./events/catalog-measure-on-add.md) | При добавлении единицы измерения ||
+    || [CATALOG.MEASURE.ON.UPDATE](./events/catalog-measure-on-update.md)| При обновлении единицы измерения ||
+    || [CATALOG.MEASURE.ON.DELETE](./events/catalog-measure-on-delete.md)| При удалении единицы измерения ||
     |#
 
 {% endlist %}

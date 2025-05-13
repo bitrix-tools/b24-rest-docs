@@ -1,6 +1,6 @@
 # Событие при изменении правила округления цен CATALOG.ROUNDING.ON.UPDATE
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
@@ -37,7 +37,7 @@
 
 ## Параметры
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -58,7 +58,7 @@
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -71,18 +71,18 @@
 
 ### Параметр FIELDS {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`catalog_rounding_rule.id`](../data-types.md#catalog_rounding_rule) | Идентификатор правила округления цен. Получить все поля правила округления цен по его идентификатору можно с помощью метода [catalog.roundingRule.get](../rounding-rule/catalog-rounding-rule-get.md) ||
+[`catalog_rounding_rule.id`](../../data-types.md#catalog_rounding_rule) | Идентификатор правила округления цен. Получить все поля правила округления цен по его идентификатору можно с помощью метода [catalog.roundingRule.get](../catalog-rounding-rule-get.md) ||
 |#
 
 ### Параметр auth {#auth}
 
-{% include notitle [Таблица с ключами в массиве auth](../../../_includes/auth-params-in-events.md) %}
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение
 

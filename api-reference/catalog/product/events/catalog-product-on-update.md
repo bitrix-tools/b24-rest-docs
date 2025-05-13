@@ -1,10 +1,10 @@
-# Событие при удалении товара CATALOG.PRODUCT.ON.DELETE
+# Событие при изменении товара CATALOG.PRODUCT.ON.UPDATE
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие происходит при удалении товара.
+Событие происходит при обновлении товара.
 
 ## Что получает обработчик
 
@@ -12,7 +12,7 @@
 
 ```
 [
-    'event' => 'CATALOG.PRODUCT.ON.DELETE',    
+    'event' => 'CATALOG.PRODUCT.ON.UPDATE',    
     'event_handler_id' => 1,
     'data' => [
         'FIELDS' => [
@@ -38,7 +38,7 @@
 
 ## Параметры
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -59,7 +59,7 @@
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -72,20 +72,20 @@
 
 ### Параметр FIELDS {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`catalog_product.id`](../data-types.md#catalog_product)\|
-[`catalog_product_sku.id`](../data-types.md#catalog_product_sku)\|
-[`catalog_product_offer.id`](../data-types.md#catalog_product_offer)\|
-[`catalog_product_service.id`](../data-types.md#catalog_product_service) | Идентификатор товара. Получить все поля товара по его идентификатору можно с помощью методов:
-- [catalog.product.get](../product/catalog-product-get.md) — для простых товаров
-- [catalog.product.sku.get](../product/sku/catalog-product-sku-get.md) — для головных товаров
-- [catalog.product.offer.get](../product/offer/catalog-product-offer-get.md) — для вариаций
-- [catalog.product.service.get](../product/service/catalog-product-service-get.md) — для услуг
+[`catalog_product.id`](../../data-types.md#catalog_product)\|
+[`catalog_product_sku.id`](../../data-types.md#catalog_product_sku)\|
+[`catalog_product_offer.id`](../../data-types.md#catalog_product_offer)\|
+[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор товара. Получить все поля товара по его идентификатору можно с помощью методов:
+- [catalog.product.get](../catalog-product-get.md) — для простых товаров
+- [catalog.product.sku.get](../sku/catalog-product-sku-get.md) — для головных товаров
+- [catalog.product.offer.get](../offer/catalog-product-offer-get.md) — для вариаций
+- [catalog.product.service.get](../service/catalog-product-service-get.md) — для услуг
 ||
 || **TYPE***
 [`integer`](../../data-types.md) | Тип товара:
@@ -100,9 +100,9 @@
 
 ### Параметр auth {#auth}
 
-{% include notitle [Таблица с ключами в массиве auth](../../../_includes/auth-params-in-events.md) %}
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./catalog-product-on-add.md)
-- [{#T}](./catalog-product-on-update.md)
+- [{#T}](./catalog-product-on-delete.md)

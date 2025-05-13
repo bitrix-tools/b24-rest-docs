@@ -29,3 +29,7 @@ items:
     include:
       path: service/b24-toc.yaml
       mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

@@ -1,10 +1,10 @@
-# Событие при удалении единицы измерения CATALOG.MEASURE.ON.DELETE
+# Событие при добавлении правила округления цен CATALOG.ROUNDING.ON.ADD
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие происходит при удалении единицы измерения.
+Событие происходит при добавлении правила округления цен.
 
 ## Что получает обработчик
 
@@ -12,7 +12,7 @@
 
 ```
 [
-    'event' => 'CATALOG.MEASURE.ON.DELETE',    
+    'event' => 'CATALOG.ROUNDING.ON.ADD',    
     'event_handler_id' => 1,
     'data' => [
         'FIELDS' => [
@@ -37,7 +37,7 @@
 
 ## Параметры
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -58,33 +58,33 @@
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **FIELDS***
-[`object`](../../data-types.md) | Объект со свойствами единицы измерения.
+[`object`](../../data-types.md) | Объект со свойствами правила округления цен.
 
 Структура описана [ниже](#fields) ||
 |#
 
 ### Параметр FIELDS {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`catalog_measure.id`](../data-types.md#catalog_measure) | Идентификатор единицы измерения. Получить все поля единицы измерения по ее идентификатору можно с помощью метода [catalog.measure.get](../measure/catalog-measure-get.md) ||
+[`catalog_rounding_rule.id`](../../data-types.md#catalog_rounding_rule) | Идентификатор правила округления цен. Получить все поля правила округления цен по его идентификатору можно с помощью метода [catalog.roundingRule.get](../catalog-rounding-rule-get.md) ||
 |#
 
 ### Параметр auth {#auth}
 
-{% include notitle [Таблица с ключами в массиве auth](../../../_includes/auth-params-in-events.md) %}
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-measure-on-add.md)
-- [{#T}](./catalog-measure-on-update.md)
+- [{#T}](./catalog-rounding-on-update.md)
+- [{#T}](./catalog-rounding-on-delete.md)

@@ -1,10 +1,10 @@
-# Событие при добавлении цены CATALOG.PRICE.ON.ADD
+# Событие при изменении единицы измерения CATALOG.MEASURE.ON.UPDATE
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие происходит при добавлении цены.
+Событие происходит при обновлении единицы измерения.
 
 ## Что получает обработчик
 
@@ -12,7 +12,7 @@
 
 ```
 [
-    'event' => 'CATALOG.PRICE.ON.ADD',    
+    'event' => 'CATALOG.MEASURE.ON.UPDATE',    
     'event_handler_id' => 1,
     'data' => [
         'FIELDS' => [
@@ -37,7 +37,7 @@
 
 ## Параметры
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -58,33 +58,33 @@
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **FIELDS***
-[`object`](../../data-types.md) | Объект со свойствами цены.
+[`object`](../../data-types.md) | Объект со свойствами единицы измерения.
 
 Структура описана [ниже](#fields) ||
 |#
 
 ### Параметр FIELDS {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`catalog_price.id`](../data-types.md#catalog_price) | Идентификатор цены. Получить все поля цены по ее идентификатору можно с помощью метода [catalog.price.get](../price/catalog-price-get.md) ||
+[`catalog_measure.id`](../../data-types.md#catalog_measure) | Идентификатор единицы измерения. Получить все поля единицы измерения по ее идентификатору можно с помощью метода [catalog.measure.get](../catalog-measure-get.md) ||
 |#
 
 ### Параметр auth {#auth}
 
-{% include notitle [Таблица с ключами в массиве auth](../../../_includes/auth-params-in-events.md) %}
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-price-on-update.md)
-- [{#T}](./catalog-price-on-delete.md)
+- [{#T}](./catalog-measure-on-add.md)
+- [{#T}](./catalog-measure-on-delete.md)

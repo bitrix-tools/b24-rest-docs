@@ -1,10 +1,10 @@
-# Событие при добавлении типа цены CATALOG.PRICE.TYPE.ON.ADD
+# Событие при удалении цены CATALOG.PRICE.ON.DELETE
 
-> Scope: [`catalog`](../../scopes/permissions.md)
+> Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие происходит при добавлении типа цены.
+Событие происходит при удалении цены.
 
 ## Что получает обработчик
 
@@ -12,7 +12,7 @@
 
 ```
 [
-    'event' => 'CATALOG.PRICE.TYPE.ON.ADD',    
+    'event' => 'CATALOG.PRICE.ON.DELETE',    
     'event_handler_id' => 1,
     'data' => [
         'FIELDS' => [
@@ -37,7 +37,7 @@
 
 ## Параметры
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -58,33 +58,33 @@
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **FIELDS***
-[`object`](../../data-types.md) | Объект со свойствами типа цены.
+[`object`](../../data-types.md) | Объект со свойствами цены.
 
 Структура описана [ниже](#fields) ||
 |#
 
 ### Параметр FIELDS {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены. Получить все поля типа цены по его идентификатору можно с помощью метода [catalog.priceType.get](../price-type/catalog-price-type-get.md) ||
+[`catalog_price.id`](../../data-types.md#catalog_price) | Идентификатор цены. Получить все поля цены по ее идентификатору можно с помощью метода [catalog.price.get](../catalog-price-get.md) ||
 |#
 
 ### Параметр auth {#auth}
 
-{% include notitle [Таблица с ключами в массиве auth](../../../_includes/auth-params-in-events.md) %}
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-price-type-on-update.md)
-- [{#T}](./catalog-price-type-on-delete.md)
+- [{#T}](./catalog-price-on-add.md)
+- [{#T}](./catalog-price-on-update.md)

@@ -37,9 +37,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [CATALOG.ROUNDING.ON.ADD](../events/catalog-rounding-on-add.md) | При добавлении правила округления цен ||
-    || [CATALOG.ROUNDING.ON.UPDATE](../events/catalog-rounding-on-update.md) | При обновлении правила округления цен ||
-    || [CATALOG.ROUNDING.ON.DELETE](../events/catalog-rounding-on-delete.md) | При удалении правила округления цен ||
+    || [CATALOG.ROUNDING.ON.ADD](./events/catalog-rounding-on-add.md) | При добавлении правила округления цен ||
+    || [CATALOG.ROUNDING.ON.UPDATE](./events/catalog-rounding-on-update.md) | При обновлении правила округления цен ||
+    || [CATALOG.ROUNDING.ON.DELETE](./events/catalog-rounding-on-delete.md) | При удалении правила округления цен ||
     |#
 
 {% endlist %}

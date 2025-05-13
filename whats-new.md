@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 13 мая, 2025
+
+- Обновлены главные страницы событий в разделах Торгового каталога: [Единица измерения](./api-reference/catalog/measure/events/index.md), [Цена](./api-reference/catalog/price/events/index.md), [Тип цены](./api-reference/catalog/price-type/events/index.md), [Товары](./api-reference/catalog/product/events/index.md), [Правила округления](./api-reference/catalog/rounding-rule/events/index.md). Добавили вводную информацию, а также обзор событий
+
 ### 12 мая, 2025
 
 - Обновлена главная страница раздела [Чат-боты](./api-reference/imopenlines/openlines/chat-bots/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
