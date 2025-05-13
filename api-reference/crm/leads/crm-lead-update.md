@@ -45,8 +45,8 @@
 
 В `fields` нужно передавать только те поля, которые требуется изменить
 ||
-|| **options** 
-[`object`](../../data-types.md)|Необязательный набор опций. (`"optionName"=>"value"[, ...]`). Перечень возможных полей описан [ниже](#options) ||
+|| **params** 
+[`object`](../../data-types.md)|Необязательный набор опций. (`"paramName"=>"value"[, ...]`). Перечень возможных полей описан [ниже](#params) ||
 |#
 
 ## Параметр fields {#fields}
@@ -187,13 +187,13 @@
 
 {% endnote %}
 
-## Параметр options {#options}
+## Параметр params {#params}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **REGISTER_SONET_EVENT**
-[`char`](../../data-types.md) | произвести регистрацию события добавления лида в живой ленте. Дополнительно будет отправлено уведомление ответственному за лид. Допустимые значения Y или N ||
+[`char`](../../data-types.md) | произвести регистрацию события добавления лида в живой ленте. Дополнительно будет отправлено уведомление ответственному за лид. Допустимые значения `Y` или `N` ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
@@ -210,7 +210,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1608,"fields":{"TITLE":"ИП Титов","NAME":"Глеб","SECOND_NAME":"Егорович","LAST_NAME":"Титов","STATUS_ID":"NEW","OPENED":"Y","ASSIGNED_BY_ID":1,"CURRENCY_ID":"USD","OPPORTUNITY":12500,"PHONE":[{"VALUE":"555888","VALUE_TYPE":"WORK"}],"WEB":[{"VALUE":"www.mysite.com","VALUE_TYPE":"WORK"}]},"options":{"REGISTER_SONET_EVENT":"Y"}}' \
+    -d '{"id":1608,"fields":{"TITLE":"ИП Титов","NAME":"Глеб","SECOND_NAME":"Егорович","LAST_NAME":"Титов","STATUS_ID":"NEW","OPENED":"Y","ASSIGNED_BY_ID":1,"CURRENCY_ID":"USD","OPPORTUNITY":12500,"PHONE":[{"VALUE":"555888","VALUE_TYPE":"WORK"}],"WEB":[{"VALUE":"www.mysite.com","VALUE_TYPE":"WORK"}]},"params":{"REGISTER_SONET_EVENT":"Y"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.lead.update
     ```
 
@@ -220,7 +220,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1608,"fields":{"TITLE":"ИП Титов","NAME":"Глеб","SECOND_NAME":"Егорович","LAST_NAME":"Титов","STATUS_ID":"NEW","OPENED":"Y","ASSIGNED_BY_ID":1,"CURRENCY_ID":"USD","OPPORTUNITY":12500,"PHONE":[{"VALUE":"555888","VALUE_TYPE":"WORK"}],"WEB":[{"VALUE":"www.mysite.com","VALUE_TYPE":"WORK"}]},"options":{"REGISTER_SONET_EVENT":"Y"},"auth":"**put_access_token_here**"}' \
+    -d '{"id":1608,"fields":{"TITLE":"ИП Титов","NAME":"Глеб","SECOND_NAME":"Егорович","LAST_NAME":"Титов","STATUS_ID":"NEW","OPENED":"Y","ASSIGNED_BY_ID":1,"CURRENCY_ID":"USD","OPPORTUNITY":12500,"PHONE":[{"VALUE":"555888","VALUE_TYPE":"WORK"}],"WEB":[{"VALUE":"www.mysite.com","VALUE_TYPE":"WORK"}]},"params":{"REGISTER_SONET_EVENT":"Y"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.lead.update
     ```
 
@@ -255,7 +255,7 @@
                     }
                 ],
             },
-            options: {
+            params: {
                 REGISTER_SONET_EVENT: "Y",
             }
         },

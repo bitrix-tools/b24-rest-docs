@@ -1,0 +1,17 @@
+title: Тип ресурса
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить тип ресурса
+    href: booking-v1-resourcetype-add.md 
+  - name: Обновить тип ресурса
+    href: booking-v1-resourcetype-update.md
+  - name: Получить тип ресурса
+    href: booking-v1-resourcetype-get.md
+  - name: Получить список типов ресурсов
+    href: booking-v1-resourcetype-list.md
+  - name: Удалить тип ресурса
+    href: booking-v1-resourcetype-delete.md                
+
+

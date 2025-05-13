@@ -178,3 +178,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-item-payment-pay.md)
 - [{#T}](./crm-item-payment-unpay.md)
 - [{#T}](./crm-item-payment-add.md)
+- [{#T}](../../../../tutorials/crm/how-to-edit-crm-objects/how-to-add-paid-date-to-deal.md)

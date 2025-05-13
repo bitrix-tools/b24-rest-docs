@@ -40,9 +40,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [CATALOG.PRICE.TYPE.ON.ADD](../events/catalog-price-type-on-add.md) | При добавлении типа цены ||
-    || [CATALOG.PRICE.TYPE.ON.UPDATE](../events/catalog-price-type-on-update.md) | При обновлении типа цены ||
-    || [CATALOG.PRICE.TYPE.ON.DELETE](../events/catalog-price-type-on-delete.md) | При удалении типа цены ||
+    || [CATALOG.PRICE.TYPE.ON.ADD](./events/catalog-price-type-on-add.md) | При добавлении типа цены ||
+    || [CATALOG.PRICE.TYPE.ON.UPDATE](./events/catalog-price-type-on-update.md) | При обновлении типа цены ||
+    || [CATALOG.PRICE.TYPE.ON.DELETE](./events/catalog-price-type-on-delete.md) | При удалении типа цены ||
     |#
 
 {% endlist %}

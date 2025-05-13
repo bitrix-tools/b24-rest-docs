@@ -31,7 +31,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [CATALOG.PRICE.ON.ADD](../events/catalog-price-on-add.md)| При добавлении цены ||
-|| [CATALOG.PRICE.ON.UPDATE](../events/catalog-price-on-update.md)| При обновлении цены ||
-|| [CATALOG.PRICE.ON.DELETE](../events/catalog-price-on-delete.md)| При удалении цены ||
+|| [CATALOG.PRICE.ON.ADD](./events/catalog-price-on-add.md)| При добавлении цены ||
+|| [CATALOG.PRICE.ON.UPDATE](./events/catalog-price-on-update.md)| При обновлении цены ||
+|| [CATALOG.PRICE.ON.DELETE](./events/catalog-price-on-delete.md)| При удалении цены ||
 |#

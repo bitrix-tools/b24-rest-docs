@@ -13,13 +13,13 @@ items:
     href: how-to-generate-edit-form-for-company.md
   - name: Как сделать свою карточку редактирования сделки
     href: how-to-generate-edit-form-for-deal.md
-  - name: Как изменить номера телефонов и e-mail на примере контакта
+  - name: Как изменить или удалить номера телефонов и e-mail
     href: how-to-change-email-or-phone.md
-  - name: Как изменить даты в деле-событии
+  - name: Как изменить время запланированного дела
     href: how-to-change-date-in-activity.md
-  - name: Как изменить значения пользовательских полей товара
-    href: how-to-change-product-custom-field-values.md
   - name: Как перенести дело между элементами одного типа
     href: how-to-move-activity.md
   - name: Как перенести дело из одного типа объекта в другой
     href: how-to-move-activity-between-objects.md
+  - name: Как внести дату оплаты в поле сделки
+    href: how-to-add-paid-date-to-deal.md

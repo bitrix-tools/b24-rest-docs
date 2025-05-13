@@ -161,3 +161,5 @@ HTTP-статус: **400**, **403**
 - [{#T}](./bizproc-workflow-start.md)
 - [{#T}](./bizproc-workflow-instances.md)
 - [{#T}](./bizproc-workflow-terminate.md)
+- [{#T}](../../tutorials/bizproc/how-to-kill-workflows.md)
+- [{#T}](../../tutorials/bizproc/how-to-filter-and-kill-workflows.md)

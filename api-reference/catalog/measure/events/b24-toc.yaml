@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При добавлении единицы измерения
+    href: catalog-measure-on-add.md
+  - name: При изменении единицы измерения
+    href: catalog-measure-on-update.md
+  - name: При удалении единицы измерения
+    href: catalog-measure-on-delete.md

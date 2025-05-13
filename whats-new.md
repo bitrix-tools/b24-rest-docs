@@ -2,6 +2,47 @@
 
 ## 2025
 
+### 13 мая, 2025
+
+- Обновлены главные страницы событий в разделах Торгового каталога: [Единица измерения](./api-reference/catalog/measure/events/index.md), [Цена](./api-reference/catalog/price/events/index.md), [Тип цены](./api-reference/catalog/price-type/events/index.md), [Товары](./api-reference/catalog/product/events/index.md), [Правила округления](./api-reference/catalog/rounding-rule/events/index.md). Добавили вводную информацию, а также обзор событий
+
+### 12 мая, 2025
+
+- Обновлена главная страница раздела [Чат-боты](./api-reference/imopenlines/openlines/chat-bots/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
+
+### 07 мая, 2025
+
+- Добавили информацию о новых полях для работы со временем отправки сообщений в методы [booking.v1.resource.*](./api-reference/booking/resource/index.md) и [booking.v1.resourcetype.*](./api-reference/booking/resource/resource-type/index.md)
+
+### 06 мая, 2025
+
+- Добавлен новый туториал [Как внести дату оплаты в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-add-paid-date-to-deal.md)
+
+### 30 апреля, 2025
+
+- Обновлена главная страница раздела [Бронирование](./api-reference/booking/booking/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+
+### 28 апреля, 2025
+
+- Обновлена главная страница раздела [Ресурсы](./api-reference/booking/resource/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Лист ожидания](./api-reference/booking/waitlist/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+
+### 23 апреля, 2025
+
+- Добавлен новый туториал [Как массово завершить бизнес-процессы с фильтром по дате](./tutorials/bizproc/how-to-filter-and-kill-workflows.md)
+
+### 21 апреля, 2025
+
+- Обновлена главная страница раздела [Онлайн-запись: обзор методов](./api-reference/booking/index.md). Добавили вводную информацию и обзор методов
+
+### 17 апреля, 2025
+
+- Добавили методы нового модуля [Онлайн-запись](./api-reference/booking/index.md)
+
+### 10 апреля, 2025
+
+- Добавлен новый туториал [Как завершить бизнес-процессы уволенного сотрудника](./tutorials/bizproc/how-to-kill-workflows.md)
+
 ### 08 апреля, 2025
 
 - Обновлена главная страница раздела [Пользовательские поля коммерческих предложений](./api-reference/crm/quote/user-field/index.md). Добавили вводную информацию, а также обзор методов и ошибок

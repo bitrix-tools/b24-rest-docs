@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При добавлении товара
+    href: catalog-product-on-add.md
+  - name: При изменении товара
+    href: catalog-product-on-update.md
+  - name: При удалении товара
+    href: catalog-product-on-delete.md

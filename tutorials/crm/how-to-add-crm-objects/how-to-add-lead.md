@@ -1,4 +1,4 @@
-# Как просто добавить лид 
+# Как добавить лид 
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >

@@ -513,12 +513,135 @@ function handleMutations(mutationsList, observer) {
     });
 }
 
-mainObserver.observe(document, { childList: true, subtree: true });
+function showPollBanner()
+{
+    let inIframe = false;
+    try {
+        inIframe = window.self !== window.top;
+    } catch (e) {
+        inIframe = true;
+    }
+    // В iframe не нужно показывать баннер опросника
+    if (inIframe) {
+        return;
+    }
+
+    const STORAGE_KEY_TIME = 'hideB24BannerUntil';
+    const STORAGE_KEY_PERMANENT = 'hideB24BannerForever';
+    const HIDE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 часа
+    const now = Date.now();
+
+    // Проверка на "никогда не показывать"
+    if (localStorage.getItem(STORAGE_KEY_PERMANENT) === 'true') return;
+
+    // Проверка на временное скрытие
+    const hideUntil = parseInt(localStorage.getItem(STORAGE_KEY_TIME), 10);
+    if (!isNaN(hideUntil) && now < hideUntil) return;
+
+    const banner = document.createElement('div');
+    banner.className = 'b24-banner';
+    banner.innerHTML = `
+      <div class="b24-banner__content">
+        <div class="b24-banner__text">
+          Как вам документация Битрикс24? Ответьте на 7 коротких вопросов — помогите писать для вас полезнее.
+        </div>
+        <div class="b24-banner__actions">
+          <a href="/poll-bar.html" class="b24-banner__button">Оставить отзыв</a>
+          <span class="b24-banner__close" title="Закрыть">✖</span>
+        </div>
+      </div>
+    `;
+
+    // Стили для контейнера баннера
+    Object.assign(banner.style, {
+        position: 'fixed',
+        bottom: '0',
+        left: '0',
+        right: '0',
+        backgroundColor: '#3FC0F0',
+        color: 'white',
+        padding: '15px 20px',
+        fontSize: '16px',
+        zIndex: '9999',
+        boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
+    });
+
+    // Контент внутри баннера
+    const content = banner.querySelector('.b24-banner__content');
+    Object.assign(content.style, {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '10px',
+        textAlign: 'center',
+    });
+
+    // Стили текста
+    const text = banner.querySelector('.b24-banner__text');
+    Object.assign(text.style, {
+        flex: '1 1 60%',
+    });
+
+    // Стили кнопки и крестика
+    const actions = banner.querySelector('.b24-banner__actions');
+    Object.assign(actions.style, {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+    });
+
+    const button = banner.querySelector('.b24-banner__button');
+    Object.assign(button.style, {
+        backgroundColor: 'white',
+        color: '#3FC0F0',
+        padding: '8px 16px',
+        textDecoration: 'none',
+        borderRadius: '4px',
+        fontWeight: 'bold',
+        whiteSpace: 'nowrap',
+    });
+
+    const close = banner.querySelector('.b24-banner__close');
+    Object.assign(close.style, {
+        cursor: 'pointer',
+        fontSize: '20px',
+        color: 'white',
+    });
+
+    // Добавляем padding-bottom к #root
+    const root = document.getElementById('root');
+    if (root) {
+        root.style.paddingBottom = '150px';
+    }
+
+    // Закрытие на 2 часа
+    close.addEventListener('click', function () {
+        banner.remove();
+        localStorage.setItem(STORAGE_KEY_TIME, (Date.now() + HIDE_DURATION_MS).toString());
+        if (root) root.style.paddingBottom = '';
+    });
+
+    document.body.appendChild(banner);
+
+    // Навсегда скрыть при отправке формы
+    window.addEventListener('message', function (event) {
+        if (event.data?.formSubmitted) {
+            localStorage.setItem(STORAGE_KEY_PERMANENT, 'true');
+            banner.remove();
+            if (root) root.style.paddingBottom = '';
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
+    showPollBanner();
     setMenuPosition();
     initB24items();
 });
+
+
+mainObserver.observe(document, { childList: true, subtree: true });
 
 // Connecting external metrics
 window.onload = function() {

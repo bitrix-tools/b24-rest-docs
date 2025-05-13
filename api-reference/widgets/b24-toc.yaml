@@ -3,6 +3,10 @@ href: index.md
 items: 
   - name: Механизм встройки виджетов 
     href: index.md
+  - name: UI Kit 
+    include:
+      path: ui-kit/b24-toc.yaml
+      mode: link
   - name: Частые кейсы 
     href: tutorials.md
   - name: Места для встройки виджетов 

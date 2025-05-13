@@ -1,0 +1,13 @@
+title: Связь с дополнительными объектами
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Установить связи для брони
+    href: booking-v1-booking-externaldata-set.md
+  - name: Удалить связи для брони
+    href: booking-v1-booking-externaldata-unset.md      
+  - name: Получить связи записи для брони
+    href: booking-v1-booking-externaldata-list.md
+                 
+

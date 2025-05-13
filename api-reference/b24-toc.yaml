@@ -105,6 +105,10 @@ items:
     include:
       path: log/b24-toc.yaml
       mode: link
+  - name: Онлайн-запись
+    include:
+      path: booking/b24-toc.yaml
+      mode: link
   - name: Открытые линии
     include:
       path: imopenlines/b24-toc.yaml
