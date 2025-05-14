@@ -51,6 +51,8 @@
 
 ## Примеры
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 {% list tabs %}
 
 - cURL (Webhook)
@@ -122,7 +124,11 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% note tip "Частые кейсы и сценарии" %}
+
+- [Пример использования метода в приложении «ЭхоБот»](https://github.com/bitrix24com/bots)
+
+{% endnote %}
 
 ## Ответ в случае успеха
 
