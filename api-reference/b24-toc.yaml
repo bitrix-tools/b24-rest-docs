@@ -65,6 +65,10 @@ items:
     include:
       path: common/b24-toc.yaml
       mode: link
+  - name: BIconnector
+    include:
+      path: biconnector/b24-toc.yaml
+      mode: link       
   - name: CoPilot
     include:
       path: ai/b24-toc.yaml

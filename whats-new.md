@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 14 мая, 2025
+
+- Добавлены методы для модуя BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)
+
 ### 13 мая, 2025
 
 - Обновлены главные страницы событий в разделах Торгового каталога: [Единица измерения](./api-reference/catalog/measure/events/index.md), [Цена](./api-reference/catalog/price/events/index.md), [Тип цены](./api-reference/catalog/price-type/events/index.md), [Товары](./api-reference/catalog/product/events/index.md), [Правила округления](./api-reference/catalog/rounding-rule/events/index.md). Добавили вводную информацию, а также обзор событий

@@ -1,0 +1,18 @@
+title: Коннектор
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать коннектор
+    href: biconnector-connector-add.md    
+  - name: Обновить коннектор 
+    href: biconnector-connector-update.md
+  - name: Получить информацию о коннекторе
+    href: biconnector-connector-get.md
+  - name: Получить список коннекторов
+    href: biconnector-connector-list.md
+  - name: Удалить коннектор 
+    href: biconnector-connector-delete.md     
+  - name: Получить поля коннектора
+    href: biconnector-connector-fields.md                 
+
