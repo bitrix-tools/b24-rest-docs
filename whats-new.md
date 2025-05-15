@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 15 мая, 2025
+
+- Обновлена главная страница раздела [Подразделения](./api-reference/chats/departments/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
 ### 14 мая, 2025
 
 - Добавлены методы для модуя BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)

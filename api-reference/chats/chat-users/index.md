@@ -26,9 +26,12 @@
 
 ## Обзор методов {#all-methods}
 
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
+
 #|
 || **Метод** | **Описание** ||
-
 || [im.chat.user.add](./im-chat-user-add.md) |Пригласить участников в чат ||
 || [im.chat.user.list](./im-chat-user-list.md) | Получить идентификаторы участников чата ||
 || [im.dialog.users.list](./im-dialog-users-list.md) | Получить список участников ||

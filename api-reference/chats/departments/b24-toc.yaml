@@ -5,10 +5,12 @@ items:
     href: index.md
   - name: Получить информацию о подразделении
     href: im-department-get.md
-  - name: Получить список пользователей, состоящих в вашем отделе
-    href: im-department-colleagues-list.md
   - name: Получить список руководителей подразделений
     href: im-department-managers-get.md
-  - name: Получить список сотрудников подразделения
+  - name: Получить список сотрудников подразделений
     href: im-department-employees-get.md
+  - name: Получить список коллег текущего пользователя
+    href: im-department-colleagues-list.md
+
+
 
