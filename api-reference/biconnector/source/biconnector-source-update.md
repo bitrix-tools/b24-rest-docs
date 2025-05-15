@@ -44,7 +44,7 @@
 || **description**
 [`string`](../../data-types.md) | Новое описание источника ||
 || **active**
-[`boolean`](../../data-types.md) | Активеность источника ||
+[`boolean`](../../data-types.md) | Активность источника ||
 || **settings**
 [`object`](../../data-types.md) | Список параметров для авторизации, передается объектом, где ключ — `code` параметра. 
 Параметры можно получить методами [biconnector.connector.list](../connector/biconnector-connector-list.md) или [biconnector.connector.get](../connector/biconnector-connector-get.md) ||

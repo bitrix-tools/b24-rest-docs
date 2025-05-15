@@ -36,17 +36,17 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **name**
+|| **name***
 [`string`](../../data-types.md) | Название датасета ||
-|| **externalName**
+|| **externalName***
 [`string`](../../data-types.md) | Название датасета во внешнем источнике, в приложении ||
-|| **externalCode**
+|| **externalCode***
 [`string`](../../data-types.md) | Уникальный код датасета во внешнем источнике, используется при выборке данных ||
-|| **sourceId**
+|| **sourceId***
 [`integer`](../../data-types.md) | Идентификатор источника, можно получить методами [biconnector.source.list](../source/biconnector-source-list.md) или [biconnector.source.add](../source/biconnector-source-add.md) ||
 || **description**
 [`string`](../../data-types.md) | Описание датасета ||
-|| **fields**
+|| **fields***
 [`array`](../../data-types.md) | Список полей датасета, [(Подробное описание)](./index.md#fields) ||
 |#
 

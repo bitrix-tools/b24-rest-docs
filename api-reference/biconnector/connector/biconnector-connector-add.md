@@ -38,19 +38,19 @@
 `тип` | **Описание** ||
 || **title***
 [`string`](../../data-types.md) | Название коннектора ||
-|| **logo**
+|| **logo***
 [`string`](../../data-types.md) | Логотип коннектора. Может передаваться ссылкой на изображение или строкой формата base64, например `data:image/svg+xml;base64,PHN2ZyB3...` ||
 || **description**
 [`string`](../../data-types.md) | Описание коннектора ||
-|| **urlCheck**
+|| **urlCheck***
 [`string`](../../data-types.md) | Эндпоинт коннектора для проверки доступности, [(подробное описание)](./index.md#urlCheck) ||
-|| **urlTableList**
+|| **urlTableList***
 [`string`](../../data-types.md) | Эндпоинт коннектора для получения списка таблиц, [(подробное описание)](./index.md#urlTableList) ||
-|| **urlTableDescription**
+|| **urlTableDescription***
 [`string`](../../data-types.md) | Эндпоинт коннектора для получения описания конкретной таблицы, [(подробное описание)](./index.md#urlTableDescription) ||
-|| **urlData**
+|| **urlData***
 [`string`](../../data-types.md) | Эндпоинт коннектора для получения данных по выбранной таблице, [(подробное описание)](./index.md#urlData) ||
-|| **settings**
+|| **settings***
 [`array`](../../data-types.md) | Список параметров подключения, [(подробное описание)](./index.md#settings) ||
 || **sort**
 [`int`](../../data-types.md) | Параметр сортировки коннекторов. Значение по умолчанию `100` ||

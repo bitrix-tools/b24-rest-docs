@@ -20,7 +20,7 @@
 
 ### 06 мая, 2025
 
-- Добавлен новый туториал [Как внести дату оплаты в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-add-paid-date-to-deal.md)
+- Добавлен новый туториал [Как внести дату оплаты в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-date-to-deal.md)
 
 ### 30 апреля, 2025
 

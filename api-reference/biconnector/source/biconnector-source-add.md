@@ -43,9 +43,9 @@
 || **active**
 [`boolean`](../../data-types.md) | Активность источника. 
 По умолчанию `true` ||
-|| **connectorId**
+|| **connectorId***
 [`integer`](../../data-types.md) | Идентификатор коннектора, можно получить методами [biconnector.connector.list](../connector/biconnector-connector-list.md) или [biconnector.connector.add](../connector/biconnector-connector-add.md) ||
-|| **settings**
+|| **settings***
 [`object`](../../data-types.md) | Список параметров для авторизации, передается объектом, где ключ — `code` параметра. 
 Параметры можно получить методами [biconnector.connector.list](../connector/biconnector-connector-list.md) или [biconnector.connector.get](../connector/biconnector-connector-get.md) ||
 |#
