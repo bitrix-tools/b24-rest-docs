@@ -180,7 +180,6 @@ HTTP-статус: **200**
 || `DATASET_NOT_FOUND` | `Dataset was not found.` | Датасет не найден ||
 || `INVALID_METHOD` | `Use the method "biconnector.dataset.fields.update" to update the dataset fields.` | Для обновления полей используйте метод `biconnector.dataset.fields.update` ||
 || `-` | `Error updating dataset.` | Ошибка обновления датасета ||
-|| `-` | `Error adding dataset` | Ошибка добавления датасета ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
