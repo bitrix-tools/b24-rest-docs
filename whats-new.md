@@ -4,6 +4,7 @@
 
 ### 16 мая, 2025
 
+- Обновлена главная страница раздела [Цена](./api-reference/catalog/price/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
 - Обновлены главные страницы событий в разделах: [Лента новостей](./api-reference/log/events/index.md), [Открытые линии](./api-reference/imopenlines/openlines/events/index.md), [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/events/index.md). Добавили вводную информацию, а также обзор событий
 
 ### 15 мая, 2025
