@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 16 мая, 2025
+
+- Обновлены главные страницы событий в разделах: [Лента новостей](./api-reference/log/events/index.md), [Открытые линии](./api-reference/imopenlines/openlines/events/index.md), [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/events/index.md). Добавили вводную информацию, а также обзор событий
+
 ### 14 мая, 2025
 
 - Добавлены методы для модуя BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)

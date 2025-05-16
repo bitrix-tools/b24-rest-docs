@@ -1,56 +1,34 @@
-# При получении новых сообщений OnImConnectorMessageAdd
+# Обзор событий при работе с коннектором
 
-{% note warning "Мы еще обновляем эту страницу" %}
+События позволяют приложениям реагировать на изменения в коннекторах открытых линий: получать уведомления о новых сообщениях, их изменении, удалении, а также о завершении диалогов и отключении линий.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
-{% endnote %}
+> Быстрый переход: [все события](#all-events)
 
-{% if build == 'dev' %}
+## Как получать события
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+Подписаться на события коннектора можно через [приложение](../../../app-installation/index) и метод [event.bind](../../../events/event-bind).
 
-- проверить ссылку на CHAT_API
-- не указаны типы и обязательность параметров
-- 
-{% endnote %}
+Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler).
 
-{% endif %}
+## Доступность серверов для отправки и получения событий
 
-> Scope: [`imopenlines`](../../../scopes/permissions.md)
+{% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
+
+## Обзор событий {#all-events}
+
+> Scope: [`imconnector`](../../../scopes/permissions.md), [`imopenlines`](../../../scopes/permissions.md)  
 >
 > Кто может подписаться: любой пользователь
 
-Событие отмечает новое сообщение из ОЛ. Событие выбрасывается для полноценных коннекторов, таких как Телеграм или ВКонтакте. Оно не работает с [виджетом или онлайн чатом](*ключ_виджет), которые скорее js-приложения. 
-
-Обязательно нужно вызвать в ответ метод [**imconnector.send.status.delivery**](../imconnector-send-status-delivery.md), иначе в мессенджере сообщение будет значиться как недоставленное.
-
-## Параметры
-
 #|
-|| **Параметр** | **Описание** | **С версии** ||
-|| **CONNECTOR** | ID коннектора (по нему проводится проверка, относится ли это событие к проверяющему). | ||
-|| **LINE** | ID открытой линии. | ||
-|| **MESSAGES** | Массив сообщений, где каждое сообщение описывается массивом следующего вида:
-
-
-```json
-{
-"im": {
-    "chat_id": 845,
-    "message_id": 344029
-},
-"message": {
-    "text": "Сергей \"Покоев\":\n Тестовое сообщение"
-},
-"chat": {
-    "id": "2"
-}
-}
-```
-| ||
+|| **Событие** | **Вызывается** ||
+|| [OnImConnectorMessageAdd](on-im-connector-message-add.md) | При получении новых сообщений вручную или методом [imconnector.send.messages](../imconnector-send-messages.md) ||
+|| [OnImConnectorDialogStart](on-im-connector-dialog-start.md) | При создании диалога вручную ||
+|| [OnImConnectorMessageUpdate](on-im-connector-message-update.md) | При изменении сообщения вручную или методом [imconnector.update.messages](../imconnector-update-messages.md) ||
+|| [OnImConnectorMessageDelete](on-im-connector-message-delete.md) | При удалении сообщения вручную или методом [imconnector.delete.messages](../imconnector-delete-messages.md) ||
+|| [OnImConnectorDialogFinish](on-im-connector-dialog-finish.md) | При закрытии диалога вручную ||
+|| [OnImConnectorStatusDelete](on-im-connector-status-delete.md) | При отключении открытой линии вручную ||
+|| [OnImConnectorLineDelete](on-im-connector-line-delete.md) | При удалении открытой линии вручную ||
 |#
-
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
-
-[*ключ_виджет]: Смотрите документацию по CHAT API. [Подробнее...](../../../chats/index.md)
