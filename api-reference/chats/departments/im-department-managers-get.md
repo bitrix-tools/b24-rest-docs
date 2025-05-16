@@ -50,6 +50,7 @@
     BX24.callMethod(
         'im.department.managers.get',
         {
+            ID: [7],
             USER_DATA: 'Y'
         },
         function(result){
@@ -73,6 +74,7 @@
     $result = restCommand(
         'im.department.managers.get',
         Array(
+            'ID' => [7],
             'USER_DATA' => 'Y'
         ),
         $_REQUEST[
