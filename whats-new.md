@@ -6,6 +6,10 @@
 
 - Обновлен туториал [Добавить событие календаря для работы с клиентами](./tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
 
+### 21 мая, 2025
+
+- Добавлен новый туториал [Как отфильтровать элементы по названию стадии](./tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+
 ### 16 мая, 2025
 
 - Обновлена главная страница раздела [Цена](./api-reference/catalog/price/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
