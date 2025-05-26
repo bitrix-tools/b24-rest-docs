@@ -4,7 +4,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает список свойств товаров.
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.product.property.list` продолжает работать, но у него есть более актуальный аналог [catalog.productProperty.list](../../../catalog/product-property/catalog-product-property-list.md).
+
+{% endnote %}
+
+Метод `crm.product.property.list` возвращает список свойств товаров.
 
 ## Параметры метода
 
