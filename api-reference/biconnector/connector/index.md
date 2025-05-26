@@ -151,13 +151,13 @@
 
 Ответ возвращает массив полей со структурой:
 - `code` — код поля датасета.
-- `title` — название поля датасета.
+- `name` — название поля датасета.
 - `type` — тип поля, поддерживаются значения: `int`, `string`, `double`, `date`, `datetime`.
 
 ```
   {
       'code' => "code_value",
-      'title' => "title_value",
+      'name' => "title_value",
       'type' => "type_value"
   }
 ```
