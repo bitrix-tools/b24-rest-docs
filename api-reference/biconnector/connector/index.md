@@ -140,7 +140,7 @@
 
 ```
 {
-  "table": "entityName"
+  "name": "entityName"
   "connection": {
     "setting_code_1": "settings_value_1",
     ...,

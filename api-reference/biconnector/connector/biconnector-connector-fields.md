@@ -196,7 +196,7 @@ HTTP-статус: **200**
 
 где:
 - `field_n` — поле коннектора
-- `value_n` — информация о поле в формате [biconnector_rest_field_description](./index.md#description) ||
+- `value_n` — [информация о поле](./index.md#description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
