@@ -19,7 +19,7 @@ items:
     href: how-to-add-company-with-requisite.md
   - name: Добавить сделку и компанию с реквизитами
     href: how-to-add-deal-with-choice-of-requisite.md
-  - name: Добавить клиенту событие календаря
+  - name: Добавить событие календаря для работы с клиентами
     href: how-to-add-activity-to-contact.md
   - name: Создать свой шаблон документа и документ на его основе
     href: how-to-generate-documents.md
