@@ -2,6 +2,11 @@
 
 ## 2025
 
+### 27 мая, 2025
+
+- Обновлен туториал [Добавить контакт через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-contact.md)
+- Обновлен туториал [Добавить компанию через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-company.md)
+
 ### 23 мая, 2025
 
 - Обновлен туториал [Добавить событие календаря для работы с клиентами](./tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
