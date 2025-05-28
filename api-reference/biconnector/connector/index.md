@@ -243,3 +243,8 @@
 || [biconnector.connector.delete](./biconnector-connector-delete.md) | Удаляет коннектор ||
 || [biconnector.connector.fields](./biconnector-connector-fields.md) | Возвращает описание полей коннектора ||
 |#
+
+## Продолжите изучение
+
+- [Пример создания коннектора на базе B24PHPSDK](https://github.com/bitrix24/b24sdk-examples/tree/main/php/special/biconnector)
+- [Митап про создание коннектора](../../../meetups.md#biconnectorMeetup)
