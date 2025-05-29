@@ -543,10 +543,15 @@ function showPollBanner()
     banner.innerHTML = `
       <div class="b24-banner__content">
         <div class="b24-banner__text">
-          Как вам документация Битрикс24? Ответьте на 7 коротких вопросов — помогите писать для вас полезнее.
+            <span>
+                Оцените документацию REST
+            </span>
+            <div class="b24-banner__stars" title="Оцените от 1 до 5">
+              ★★★★★
+            </div>
         </div>
+          
         <div class="b24-banner__actions">
-          <a href="/poll-bar.html" class="b24-banner__button">Оставить отзыв</a>
           <span class="b24-banner__close" title="Закрыть">✖</span>
         </div>
       </div>
@@ -591,16 +596,16 @@ function showPollBanner()
         gap: '10px',
     });
 
-    const button = banner.querySelector('.b24-banner__button');
-    Object.assign(button.style, {
-        backgroundColor: 'white',
-        color: '#3FC0F0',
-        padding: '8px 16px',
-        textDecoration: 'none',
-        borderRadius: '4px',
-        fontWeight: 'bold',
-        whiteSpace: 'nowrap',
-    });
+    // const button = banner.querySelector('.b24-banner__button');
+    // Object.assign(button.style, {
+    //     backgroundColor: 'white',
+    //     color: '#3FC0F0',
+    //     padding: '8px 16px',
+    //     textDecoration: 'none',
+    //     borderRadius: '4px',
+    //     fontWeight: 'bold',
+    //     whiteSpace: 'nowrap',
+    // });
 
     const close = banner.querySelector('.b24-banner__close');
     Object.assign(close.style, {
@@ -623,6 +628,70 @@ function showPollBanner()
     });
 
     document.body.appendChild(banner);
+
+    const STORAGE_KEY_RATING = 'b24StarRating';
+    const savedRating = parseInt(localStorage.getItem(STORAGE_KEY_RATING), 10);
+    const stars = banner.querySelector('.b24-banner__stars');
+
+    Object.assign(stars.style, {
+        width: '100px',
+        margin: 'auto',
+        marginTop: '10px',
+        fontSize: '20px',
+        cursor: 'pointer',
+        color: 'white',
+        userSelect: 'none',
+    });
+
+    let hoverRating = 0;
+    let isRated = !isNaN(savedRating);
+
+    function renderStars(active) {
+        stars.textContent = '★★★★★';
+        stars.innerHTML = [...stars.textContent].map((char, i) => (
+            `<span style="color: ${i < active ? '#FFD700' : 'white'}">${char}</span>`
+        )).join('');
+    }
+
+    if (isRated) {
+        renderStars(savedRating);
+        stars.style.opacity = '0.7';
+        stars.style.cursor = 'pointer';
+    } else {
+        renderStars(0);
+
+        stars.addEventListener('mousemove', function (e) {
+            const rect = stars.getBoundingClientRect();
+            const relativeX = e.clientX - rect.left;
+            const starWidth = rect.width / 5;
+            hoverRating = Math.ceil(relativeX / starWidth);
+            renderStars(hoverRating);
+        });
+
+        stars.addEventListener('mouseleave', function () {
+            renderStars(0);
+        });
+    }
+
+    stars.addEventListener('click', function () {
+        if (!isRated) {
+            if (hoverRating > 0) {
+                localStorage.setItem(STORAGE_KEY_RATING, hoverRating.toString());
+                isRated = true;
+
+                // Метрика — только при первом голосовании
+                if (typeof ym === 'function') {
+                    ym(98117665, 'reachGoal', `survey_star_${hoverRating}`);
+                }
+            } else {
+                // Если пользователь кликнул без наведения на звезды — не редиректим
+                return;
+            }
+        }
+
+        // Редирект в любом случае
+        window.location.href = '/poll-bar.html';
+    });
 
     // Навсегда скрыть при отправке формы
     window.addEventListener('message', function (event) {
