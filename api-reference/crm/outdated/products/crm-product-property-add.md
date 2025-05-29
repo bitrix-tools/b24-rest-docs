@@ -2,9 +2,15 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
-Метод создает новое свойство товара.
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.product.property.add` продолжает работать, но у него есть более актуальный аналог [catalog.productProperty.add](../../../catalog/product-property/catalog-product-property-add.md).
+
+{% endnote %}
+
+Метод `crm.product.property.add` создает новое свойство товара.
 
 ## Параметры метода
 

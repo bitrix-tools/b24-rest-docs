@@ -1,7 +1,7 @@
 title: Цена
 href: index.md
 items: 
-  - name: Обзор методов и событий
+  - name: Обзор методов
     href: index.md
   - name: Ресурс цены
     href: resource.md
@@ -19,3 +19,7 @@ items:
     href: catalog-price-modify.md
   - name: Изменить цену
     href: catalog-price-update.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

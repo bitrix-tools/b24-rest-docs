@@ -82,6 +82,38 @@
 - `animate` — шаблон для записи к специалистам
 
 По умолчанию `inanimate` ||
+|| **infoDelay**
+[`integer`](../../../data-types.md) | Задержка, после которой клиенту приходит сообщение о записи. Указывается в секундах.
+
+По умолчанию 300 ||
+|| **reminderDelay**
+[`integer`](../../../data-types.md) | Время до записи, за которое клиенту приходит напоминание о записи. Указывается в секундах.
+
+По умолчанию -1, утром в день записи ||
+|| **delayedDelay**
+[`integer`](../../../data-types.md) | Время, через сколько отправить клиенту сообщение об опоздании. Указывается в секундах.
+
+По умолчанию 300 ||
+|| **delayedCounterDelay**
+[`integer`](../../../data-types.md) | Время, через сколько включить счетчик в календаре. Указывается в секундах.
+
+По умолчанию 7200 ||
+|| **confirmationDelay**
+[`integer`](../../../data-types.md) | Время до записи, когда клиенту приходит первое сообщение для подтверждения записи. Указывается в секундах.
+
+По умолчанию 86400 ||
+|| **confirmationRepetitions**
+[`integer`](../../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, не учитывая первого.
+
+По умолчанию 0 ||
+|| **confirmationRepetitionsInterval**
+[`integer`](../../../data-types.md) | Интервал между сообщениями о подтверждении записи. Указывается в секундах.
+
+По умолчанию 0 ||
+|| **confirmationCounterDelay**
+[`integer`](../../../data-types.md) | Время до записи, после которого загорается счетчик не подтвержденной записи. Указывается в секундах.
+
+По умолчанию 7200 ||
 |#
 
 ## Примеры кода
@@ -109,6 +141,14 @@
                 templateTypeFeedback: "inanimate",
                 isDelayedNotificationOn: "Y",
                 templateTypeDelayed: "inanimate",
+                infoDelay: 300,
+                reminderDelay: -1,
+                delayedDelay: 300,
+                delayedCounterDelay: 7200,
+                confirmationDelay: 86400,
+                confirmationRepetitions: 0,
+                confirmationRepetitionsInterval: 0,
+                confirmationCounterDelay: 7200
             }
         },
         result => {
@@ -126,7 +166,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"FIELDS":{"name":"Название","code":"code","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"N","templateTypeReminder":"base","isFeedbackNotificationOn":"Y","templateTypeFeedback":"inanimate","isDelayedNotificationOn":"Y","templateTypeDelayed":"inanimate"}}' \
+    -d '{"fields":{"name":"Название","code":"code","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"N","templateTypeReminder":"base","isFeedbackNotificationOn":"Y","templateTypeFeedback":"inanimate","isDelayedNotificationOn":"Y","templateTypeDelayed":"inanimate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.resourceType.add
     ```
 
@@ -136,7 +176,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"FIELDS":{"name":"Название","code":"code","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"N","templateTypeReminder":"base","isFeedbackNotificationOn":"Y","templateTypeFeedback":"inanimate","isDelayedNotificationOn":"Y","templateTypeDelayed":"inanimate"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"name":"Название","code":"code","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"N","templateTypeReminder":"base","isFeedbackNotificationOn":"Y","templateTypeFeedback":"inanimate","isDelayedNotificationOn":"Y","templateTypeDelayed":"inanimate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.resourceType.add
     ```
 
@@ -148,7 +188,7 @@
     $result = CRest::call(
         'booking.v1.resourceType.add',
         [
-            'FIELDS' => [
+            'fields' => [
                 'name' => 'Название',
                 'code' => 'code',
                 'isInfoNotificationOn' => 'Y',
@@ -161,6 +201,14 @@
                 'templateTypeFeedback' => 'inanimate',
                 'isDelayedNotificationOn' => 'Y',
                 'templateTypeDelayed' => 'inanimate',
+                'infoDelay' => 300,
+                'reminderDelay' => -1,
+                'delayedDelay' => 300,
+                'delayedCounterDelay' => 7200,
+                'confirmationDelay' => 86400,
+                'confirmationRepetitions' => 0,
+                'confirmationRepetitionsInterval' => 0,
+                'confirmationCounterDelay' => 7200,
             ]
         ]
     );

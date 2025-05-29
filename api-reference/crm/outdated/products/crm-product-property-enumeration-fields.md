@@ -4,7 +4,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает описание полей элемента свойства товаров списочного типа.
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.product.property.enumeration.fields` продолжает работать, но у него есть более актуальный аналог [catalog.productPropertyEnum.*](../../../catalog/product-property-enum/index.md).
+
+{% endnote %}
+
+Метод `crm.product.property.enumeration.fields` возвращает описание полей элемента свойства товаров списочного типа.
 
 Без параметров.
 

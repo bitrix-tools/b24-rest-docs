@@ -86,33 +86,43 @@ HTTP-статус: **200**
 
 ```json
 {
-"result": {
-    "resource": {
-        "name": "Название",
-        "description": "Описание",
-        "typeId": 1,
-        "isMain": "N",
-        "isInfoNotificationOn": "Y",
-        "templateTypeInfo": "inanimate",
-        "isConfirmationNotificationOn": "Y",
-        "templateTypeConfirmation": "animate",
-        "isReminderNotificationOn": "N",
-        "templateTypeReminder": "base",
-        "isFeedbackNotificationOn": "Y",
-        "templateTypeFeedback": "inanimate",
-        "isDelayedNotificationOn": "Y",
-        "templateTypeDelayed": "inanimate"
+    "result": {
+        "resource": {
+            "confirmationCounterDelay": 10800,
+            "confirmationNotificationDelay": 86400,
+            "confirmationNotificationRepetitions": null,
+            "confirmationNotificationRepetitionsInterval": 10800,
+            "delayedCounterDelay": 300,
+            "delayedNotificationDelay": 300,
+            "description": null,
+            "id": 15,
+            "infoNotificationDelay": null,
+            "isConfirmationNotificationOn": "Y",
+            "isDelayedNotificationOn": "N",
+            "isFeedbackNotificationOn": "N",
+            "isInfoNotificationOn": "Y",
+            "isMain": "Y",
+            "isReminderNotificationOn": "Y",
+            "name": "Название",
+            "reminderNotificationDelay": -1,
+            "templateTypeConfirmation": "animate",
+            "templateTypeDelayed": "animate",
+            "templateTypeFeedback": "animate",
+            "templateTypeInfo": "inanimate",
+            "templateTypeReminder": "base",
+            "typeId": 1
+        }
+    },
+    "time": {
+        "start": 1746539524.292041,
+        "finish": 1746539524.356627,
+        "duration": 0.06458592414855957,
+        "processing": 0.018703937530517578,
+        "date_start": "2025-05-06T16:52:04+03:00",
+        "date_finish": "2025-05-06T16:52:04+03:00",
+        "operating_reset_at": 1746540124,
+        "operating": 0
     }
-},
-"time": {
-    "start": 1741002780.099604,
-    "finish": 1741002780.381558,
-    "duration": 0.2819540500640869,
-    "processing": 0.14896297454833984,
-    "date_start": "2025-03-03T11:53:00+00:00",
-    "date_finish": "2025-03-03T11:53:00+00:00",
-    "operating": 0.14890098571777344
-}
 }
 ```
 
@@ -130,59 +140,75 @@ HTTP-статус: **200**
 #### Ресурс {#resource}
 
 #|
-|| **Название**
-`тип` | **Описание** ||
-|| **name**
-[`string`](../../data-types.md) | Название ресурса ||
+|| **confirmationCounterDelay**
+[`integer`](../../data-types.md) | Время до записи в секундах, после которого загорается счетчик не подтвержденной записи ||
+|| **confirmationDelay**
+[`integer`](../../data-types.md) | Время до записи в секундах, когда клиенту приходит первое сообщение для подтверждения записи ||
+|| **confirmationRepetitions**
+[`integer`](../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, не учитывая первого ||
+|| **confirmationRepetitionsInterval**
+[`integer`](../../data-types.md) | Интервал между сообщениями о подтверждении записи, в секундах ||
+|| **delayedCounterDelay**
+[`integer`](../../data-types.md) | Время в секундах, через сколько включить счетчик в календаре ||
+|| **delayedDelay**
+[`integer`](../../data-types.md) | Время в секундах, через сколько отправить клиенту сообщение об опоздании ||
 || **description**
 [`string`](../../data-types.md) | Описание ресурса ||
-|| **typeId**
-[`integer`](../../data-types.md) | Идентификатор типа ресурса. 
-
-Получить информацию о типе можно с помощью метода [booking.v1.resourceType.get](./resource-type/booking-v1-resourcetype-get.md) ||
-|| **isMain**
-[`string`](../../data-types.md) | Как показывать ресурс. Возможные значения:
-- `Y` — в колонках расписания
-- `N` — при пересечении ресурсов
-||
-|| **isInfoNotificationOn**
-[`string`](../../data-types.md) | Сообщение клиенту о записи. Возможные значения:
-- `Y` — включено
-- `N` — выключено ||
-|| **templateTypeInfo**
-[`string`](../../data-types.md) | Тип шаблона сообщения о записи. Возможные значения:
-- `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор ресурса ||
+|| **infoDelay**
+[`integer`](../../data-types.md) | Задержка в секундах, после которой клиенту приходит сообщение о записи ||
 || **isConfirmationNotificationOn**
 [`string`](../../data-types.md) | Автоматическое подтверждение записи. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
-|| **templateTypeConfirmation**
-[`string`](../../data-types.md) | Тип шаблона сообщения о подтверждении записи. Возможные значения:
-- `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
-|| **isReminderNotificationOn**
-[`string`](../../data-types.md) | Напоминание о записи. Возможные значения:
-- `Y` — включено
-- `N` — выключено ||
-|| **templateTypeReminder**
-[`string`](../../data-types.md) | Тип шаблона сообщения для напоминания. Возможные значения: `base` ||
-|| **isFeedbackNotificationOn**
-[`string`](../../data-types.md) | Запрос обратной связи. Возможные значения:
-- `Y` — включено
-- `N` — выключено ||
-|| **templateTypeFeedback**
-[`string`](../../data-types.md) | Тип шаблона сообщения для запроса обратной связи. Возможные значения:
-- `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
 || **isDelayedNotificationOn**
 [`string`](../../data-types.md) | Напоминание, когда клиент опаздывает. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
+|| **isFeedbackNotificationOn**
+[`string`](../../data-types.md) | Запрос обратной связи. Возможные значения:
+- `Y` — включено
+- `N` — выключено ||
+|| **isInfoNotificationOn**
+[`string`](../../data-types.md) | Сообщение клиенту о записи. Возможные значения:
+- `Y` — включено
+- `N` — выключено ||
+|| **isMain**
+[`string`](../../data-types.md) | Как показывать ресурс. Возможные значения:
+- `Y` — в колонках расписания
+- `N` — при пересечении ресурсов ||
+|| **isReminderNotificationOn**
+[`string`](../../data-types.md) | Напоминание о записи. Возможные значения:
+- `Y` — включено
+- `N` — выключено ||
+|| **name**
+[`string`](../../data-types.md) | Название ресурса ||
+|| **reminderDelay**
+[`integer`](../../data-types.md) | Время до записи в секундах, за которое клиенту приходит напоминание о записи.
+Значение `-1` — утром в день записи ||
+|| **templateTypeConfirmation**
+[`string`](../../data-types.md) | Тип шаблона сообщения о подтверждении записи. Возможные значения:
+- `inanimate` — шаблон для бронирования оборудования и помещений
+- `animate` — шаблон для записи к специалистам ||
 || **templateTypeDelayed**
 [`string`](../../data-types.md) | Тип шаблона сообщения об опоздании. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
 - `animate` — шаблон для записи к специалистам ||
+|| **templateTypeFeedback**
+[`string`](../../data-types.md) | Тип шаблона сообщения для запроса обратной связи. Возможные значения:
+- `inanimate` — шаблон для бронирования оборудования и помещений
+- `animate` — шаблон для записи к специалистам ||
+|| **templateTypeInfo**
+[`string`](../../data-types.md) | Тип шаблона сообщения о записи. Возможные значения:
+- `inanimate` — шаблон для бронирования оборудования и помещений
+- `animate` — шаблон для записи к специалистам ||
+|| **templateTypeReminder**
+[`string`](../../data-types.md) | Тип шаблона сообщения для напоминания. Возможные значения: `base` ||
+|| **typeId**
+[`integer`](../../data-types.md) | Идентификатор типа ресурса.
+
+Получить информацию о типе можно с помощью метода [booking.v1.resourceType.get](./resource-type/booking-v1-resourcetype-get.md) ||
 |#
 
 ## Обработка ошибок

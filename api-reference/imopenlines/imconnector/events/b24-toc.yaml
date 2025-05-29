@@ -1,10 +1,12 @@
 title: События
 href: index.md
 items: 
-  - name: При получении новых сообщений
+  - name: Обзор событий
     href: index.md
+  - name: При получении новых сообщений
+    href: on-im-connector-message-add.md
   - name: При создании диалога
-    href: on-im-connector-dialog-start.md    
+    href: on-im-connector-dialog-start.md
   - name: При изменении сообщений
     href: on-im-connector-message-update.md
   - name: При удалении сообщений

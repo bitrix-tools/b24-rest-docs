@@ -352,4 +352,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
 - [{#T}](../universal/crm-item-update.md)
+- [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-date-to-deal.md)
 

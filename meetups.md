@@ -1,5 +1,16 @@
 # Митапы, трансляции и записи выступлений для разработчиков
 
+## Митап про создание коннекторов для Битрикс24 BI-Конструктор {#biconnectorMeetup}
+
+27.05.2025
+
+Запись выступления Сергея Вострикова на митапе про создание коннекторов для Битрикс24 BI-Конструктор.
+
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456240207&hd=1&autoplay=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+[Получить пример](https://github.com/bitrix24/b24sdk-examples/tree/main/php/special/biconnector)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
 ## Презентации B24PhpSdk, B24JsSDK и UI-Kit во время митапов на партнерской конференции
 
 26.11.2024

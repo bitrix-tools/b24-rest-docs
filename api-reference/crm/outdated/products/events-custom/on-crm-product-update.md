@@ -1,5 +1,11 @@
 # Событие на обновление товара onCrmProductUpdate
 
+{% note warning "Развитие события остановлено" %}
+
+Событие `onCrmProductUpdate` продолжает работать, но у него есть более актуальный аналог [CATALOG.PRODUCT.ON.UPDATE](../../../../catalog/product/events/catalog-product-on-update.md).
+
+{% endnote %}
+
 Событие вызывается при обновлении товара.
 
 ## Параметры

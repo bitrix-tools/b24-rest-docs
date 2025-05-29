@@ -1,0 +1,21 @@
+title: Датасеты
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать датасет
+    href: biconnector-dataset-add.md    
+  - name: Обновить датасет 
+    href: biconnector-dataset-update.md
+  - name: Изменить поля датасета
+    href: biconnector-dataset-fields-update.md     
+  - name: Получить датасет по id
+    href: biconnector-dataset-get.md
+  - name: Получить список датасетов
+    href: biconnector-dataset-list.md
+  - name: Удалить датасет
+    href: biconnector-dataset-delete.md     
+  - name: Получить поля датасета
+    href: biconnector-dataset-fields.md   
+            
+

@@ -55,9 +55,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [CATALOG.PRODUCT.ON.ADD](../events/catalog-product-on-add.md) | При добавлении товара ||
-    || [CATALOG.PRODUCT.ON.UPDATE](../events/catalog-product-on-update.md) | При обновлении товара ||
-    || [CATALOG.PRODUCT.ON.DELETE](../events/catalog-product-on-delete.md) | При удалении товара ||
+    || [CATALOG.PRODUCT.ON.ADD](./events/catalog-product-on-add.md) | При добавлении товара ||
+    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При обновлении товара ||
+    || [CATALOG.PRODUCT.ON.DELETE](./events/catalog-product-on-delete.md) | При удалении товара ||
     |#
 
 {% endlist %}
@@ -83,9 +83,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [CATALOG.PRODUCT.ON.ADD](../events/catalog-product-on-add.md) | При добавлении услуги ||
-    || [CATALOG.PRODUCT.ON.UPDATE](../events/catalog-product-on-update.md) | При обновлении услуги ||
-    || [CATALOG.PRODUCT.ON.DELETE](../events/catalog-product-on-delete.md) | При удалении услуги ||
+    || [CATALOG.PRODUCT.ON.ADD](./events/catalog-product-on-add.md) | При добавлении услуги ||
+    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При обновлении услуги ||
+    || [CATALOG.PRODUCT.ON.DELETE](./events/catalog-product-on-delete.md) | При удалении услуги ||
     |#
 
 {% endlist %}
@@ -111,9 +111,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [CATALOG.PRODUCT.ON.ADD](../events/catalog-product-on-add.md) | При добавлении головного товара ||
-    || [CATALOG.PRODUCT.ON.UPDATE](../events/catalog-product-on-update.md) | При обновлении головного товара ||
-    || [CATALOG.PRODUCT.ON.DELETE](../events/catalog-product-on-delete.md) | При удалении головного товара ||
+    || [CATALOG.PRODUCT.ON.ADD](./events/catalog-product-on-add.md) | При добавлении головного товара ||
+    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При обновлении головного товара ||
+    || [CATALOG.PRODUCT.ON.DELETE](./events/catalog-product-on-delete.md) | При удалении головного товара ||
     |#
 
 {% endlist %}
@@ -139,9 +139,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [CATALOG.PRODUCT.ON.ADD](../events/catalog-product-on-add.md) | При добавлении вариации ||
-    || [CATALOG.PRODUCT.ON.UPDATE](../events/catalog-product-on-update.md) | При обновлении вариации ||
-    || [CATALOG.PRODUCT.ON.DELETE](../events/catalog-product-on-delete.md) | При удалении вариации ||
+    || [CATALOG.PRODUCT.ON.ADD](./events/catalog-product-on-add.md) | При добавлении вариации ||
+    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При обновлении вариации ||
+    || [CATALOG.PRODUCT.ON.DELETE](./events/catalog-product-on-delete.md) | При удалении вариации ||
     |#
 
 {% endlist %}

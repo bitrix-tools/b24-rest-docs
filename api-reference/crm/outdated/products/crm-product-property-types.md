@@ -4,7 +4,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает список типов свойств товаров.
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.product.property.types` продолжает работать, но у него есть более актуальный аналог [catalog.productPropertyFeature.*](../../../catalog/product-property-feature/index.md).
+
+{% endnote %}
+
+Метод `crm.product.property.types` возвращает список типов свойств товаров.
 
 Без параметров.
 

@@ -1,7 +1,7 @@
 title: Чат-боты
 href: index.md
 items: 
-  - name: Чатботы в открытых линиях
+  - name: Обзор методов
     href: index.md
   - name: Отправить приветственное сообщение
     href: imopenlines-bot-session-message-send.md

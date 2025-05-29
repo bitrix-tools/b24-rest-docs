@@ -15,3 +15,7 @@ items:
     href: catalog-rounding-rule-delete.md
   - name: Получить поля правила округления цен
     href: catalog-rounding-rule-get-fields.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

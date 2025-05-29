@@ -15,3 +15,7 @@ items:
     href: catalog-measure-delete.md
   - name: Получить доступные поля единиц измерения
     href: catalog-measure-get-fields.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

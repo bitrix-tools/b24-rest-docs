@@ -1,0 +1,17 @@
+title: BIconnector
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Коннектор
+    include:
+      path: connector/b24-toc.yaml
+      mode: link
+  - name: Источники
+    include:
+      path: source/b24-toc.yaml
+      mode: link      
+  - name: Датасеты
+    include:
+      path: dataset/b24-toc.yaml
+      mode: link 
