@@ -1,5 +1,16 @@
 # Митапы, трансляции и записи выступлений для разработчиков
 
+## Митап про готовый шаблон тиражного приложения с библиотекой роботов {#app-template-automation-rules}
+
+Спикеры:
+
+- Игорь Шевчик, разработчик (автор шаблона, B24JsSDK, Bitrix24 UI Kit)
+- Сергей Востриков, руководитель направления Маркетплейс и интеграций Битрикс24
+
+[Получить шаблон](https://github.com/bitrix24/app-template-automation-rules)
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240208&hd=1&autoplay=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
 ## Митап про создание коннекторов для Битрикс24 BI-Конструктор {#biconnectorMeetup}
 
 27.05.2025
