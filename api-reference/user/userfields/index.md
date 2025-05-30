@@ -16,5 +16,4 @@
 || [user.userfield.update](user-userfield-update.md) | Обновляет пользовательское поле | ||
 || [user.userfield.delete](user-userfield-delete.md) | Удаляет пользовательское поле | ||
 || [user.userfield.list](user-userfield-list.md) | Получает список пользовательских полей | ||
-|| [user.userfield.file.get](user-userfield-file-get.md) | Получает файл из пользовательского поля | ||
 |#
