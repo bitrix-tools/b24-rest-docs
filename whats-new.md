@@ -5,6 +5,8 @@
 ### 30 мая, 2025
 
 - Обновлена документация по методам работы с [пользовательскими полями](./api-reference/user/userfields/index.md) в разделе Пользователи
+- Обновлена документация по методам работы с отчетами [timeman.timecontrol.report.add](./api-reference/timeman/timecontrol/timeman-timecontrol-report-add.md), [timeman.timecontrol.report.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-get.md), [timeman.timecontrol.reports.users.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-users-get.md) в разделе Контроль времени
+- Обновлен туториал [Добавить компанию с реквизитами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-company-with-requisite.md)
 
 ### 29 мая, 2025
 
