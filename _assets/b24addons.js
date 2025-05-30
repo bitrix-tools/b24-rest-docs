@@ -526,6 +526,10 @@ function showPollBanner()
         return;
     }
 
+    if (window.location.pathname === '/poll-bar.html') {
+        return;
+    }
+
     const STORAGE_KEY_TIME = 'hideB24BannerUntil';
     const STORAGE_KEY_PERMANENT = 'hideB24BannerForever';
     const HIDE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 часа
