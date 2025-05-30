@@ -334,3 +334,4 @@ HTTP-статус: **200**
 - [{#T}](./crm-address-update.md)
 - [{#T}](./crm-address-list.md)
 - [{#T}](./crm-address-delete.md)
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-company-with-requisite.md)
