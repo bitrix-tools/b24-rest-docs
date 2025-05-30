@@ -5,6 +5,7 @@
 ### 30 мая, 2025
 
 - Обновлена документация по методам работы с [пользовательскими полями](./api-reference/user/userfields/index.md) в разделе Пользователи
+- Обновлен туториал [Добавить сделку и компанию с реквизитами](./tutorials/crm/how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)
 
 ### 29 мая, 2025
 

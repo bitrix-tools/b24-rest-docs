@@ -336,3 +336,9 @@
 
 {% endlist %}
 
+## Продолжите изучение 
+
+- [{#T}](../../../api-reference/crm/contacts/crm-contact-get.md)
+- [{#T}](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md)
+- [{#T}](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
+- [{#T}](../../../api-reference/crm/auxiliary/enum/crm-enum-activity-type.md)
