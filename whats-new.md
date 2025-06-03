@@ -2,6 +2,44 @@
 
 ## 2025
 
+### 30 мая, 2025
+
+- Обновлена документация по методам работы с [пользовательскими полями](./api-reference/user/userfields/index.md) в разделе Пользователи
+- Обновлена документация по методам работы с отчетами [timeman.timecontrol.report.add](./api-reference/timeman/timecontrol/timeman-timecontrol-report-add.md), [timeman.timecontrol.report.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-get.md), [timeman.timecontrol.reports.users.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-users-get.md) в разделе Контроль времени
+- Обновлен туториал [Добавить компанию с реквизитами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-company-with-requisite.md)
+- Обновлен туториал [Добавить сделку и компанию с реквизитами](./tutorials/crm/how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)
+
+### 29 мая, 2025
+
+- Обновлена главная страница раздела [Свойства товаров и вариаций](./api-reference/catalog/product-property/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Файлы](./api-reference/chats/files/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
+### 27 мая, 2025
+
+- Обновлен туториал [Добавить контакт через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-contact.md)
+- Обновлен туториал [Добавить компанию через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-company.md)
+
+### 23 мая, 2025
+
+- Обновлен туториал [Добавить событие календаря для работы с клиентами](./tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
+
+### 21 мая, 2025
+
+- Добавлен новый туториал [Как отфильтровать элементы по названию стадии](./tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+
+### 16 мая, 2025
+
+- Обновлена главная страница раздела [Цена](./api-reference/catalog/price/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+- Обновлены главные страницы событий в разделах: [Лента новостей](./api-reference/log/events/index.md), [Открытые линии](./api-reference/imopenlines/openlines/events/index.md), [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/events/index.md). Добавили вводную информацию, а также обзор событий
+
+### 15 мая, 2025
+
+- Обновлена главная страница раздела [Подразделения](./api-reference/chats/departments/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
+### 14 мая, 2025
+
+- Добавлены методы для модуя BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)
+
 ### 13 мая, 2025
 
 - Обновлены главные страницы событий в разделах Торгового каталога: [Единица измерения](./api-reference/catalog/measure/events/index.md), [Цена](./api-reference/catalog/price/events/index.md), [Тип цены](./api-reference/catalog/price-type/events/index.md), [Товары](./api-reference/catalog/product/events/index.md), [Правила округления](./api-reference/catalog/rounding-rule/events/index.md). Добавили вводную информацию, а также обзор событий
@@ -16,7 +54,7 @@
 
 ### 06 мая, 2025
 
-- Добавлен новый туториал [Как внести дату оплаты в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-add-paid-date-to-deal.md)
+- Добавлен новый туториал [Как внести дату оплаты в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-date-to-deal.md)
 
 ### 30 апреля, 2025
 

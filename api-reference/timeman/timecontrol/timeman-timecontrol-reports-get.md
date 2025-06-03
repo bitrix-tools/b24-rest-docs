@@ -1,288 +1,421 @@
 # Получить отчет о выявленных отсутствиях timeman.timecontrol.reports.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с правом просмотра отчетов
 
-Метод `timeman.timecontrol.reports.get` для получения отчёта о выявленных отсутствиях.
+Метод `timeman.timecontrol.reports.get` получает отчет о выявленных отсутствиях.
 
-### Параметры
-
-#|
-|| **Параметр** | **Пример** | **Обязательный** | **Описание** ||
-|| **USER_ID**^*^
-[`unknown`](../../data-types.md) | 2 | Да | Идентификатор пользователя. ||
-|| **YEAR**^*^
-[`unknown`](../../data-types.md) | 2018 | Да | Год для формирования отчета. ||
-|| **MONTH**^*^
-[`unknown`](../../data-types.md) | 8 | Да | Месяц для формирования отчета. ||
-|| **WORKDAY_HOURS**^**^
-[`unknown`](../../data-types.md) | 8 | Нет | Необходимая продолжительность рабочего дня в часах (по-умолчанию 8 часов). ||
-|| **IDLE_MINUTES**
-[`unknown`](../../data-types.md) | 15 | Нет | Максимальное время отсутствия на рабочем месте, которое не будет учитываться как отсутствие. ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-^**^ – Параметр `IDLE_MINUTES` доступен только, если вы руководитель или администратор. Если не указывать, время автоматически берется из настроек модуля.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **USER_ID***
+[`integer`](../../data-types.md) | Идентификатор пользователя, для которого запрашиваются отчеты.
 
-## Пример вызова
+Получить идентификатор пользователя можно методом [user.get](../../user/user-get.md) ||
+|| **MONTH***
+[`integer`](../../data-types.md) | Номер месяца ||
+|| **YEAR***
+[`integer`](../../data-types.md) | Год ||
+|| **IDLE_MINUTES**
+[`integer`](../../data-types.md) | Максимальное время отсутствия на рабочем месте, которое не учитывается как отсутствие.
+
+Параметр доступен руководителю и администратору.
+
+Если не указывать, используется время из настроек модуля ||
+|| **WORKDAY_HOURS**
+[`integer`](../../data-types.md) | Продолжительность рабочего дня в часах.
+
+По умолчанию — 8 часов ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"USER_ID":3,"MONTH":5,"YEAR":2025,"IDLE_MINUTES":15,"WORKDAY_HOURS":8}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/timeman.timecontrol.reports.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"USER_ID":3,"MONTH":5,"YEAR":2025,"IDLE_MINUTES":15,"WORKDAY_HOURS":8,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/timeman.timecontrol.reports.get
+    ```
 
 - JS
 
     ```js
-    BX24.callMethod('timeman.timecontrol.reports.get', {
-        user_id: 2,
-        year: 2018,
-        month: 8,
-        workday_hours: 8,
-        idle_minutes: 15
-    }, function(result){
-        if(result.error())
+    BX24.callMethod(
+        'timeman.timecontrol.reports.get',
         {
-            console.error(result.error().ex);
+            'USER_ID': 3,
+            'MONTH': 5,
+            'YEAR': 2025,
+            'IDLE_MINUTES': 15,
+            'WORKDAY_HOURS': 8
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+    );
     ```
 
 - PHP
 
     ```php
-    $result = restCommand('timeman.timecontrol.reports.get', Array(
-        'USER_ID' => 2,
-        'YEAR' => 2018,
-        'MONTH' => 8,
-        'WORKDAY_HOURS' => 8,
-        'IDLE_MINUTES' => 15
-    ), $_REQUEST["auth"]);
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'timeman.timecontrol.reports.get',
+        [
+            'USER_ID' => 3,
+            'MONTH' => 5,
+            'YEAR' => 2025,
+            'IDLE_MINUTES' => 15,
+            'WORKDAY_HOURS' => 8
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-> 200 OK
 ```json
 {
     "result": {
         "report": {
-            "month_title": "Август",
-            "date_start": "2018-08-01T00:00:00+03:00",
-            "date_finish": "2018-08-31T23:59:59+03:00",
+            "month_title": "Май",
+            "date_start": "2025-05-01T00:00:00+03:00",
+            "date_finish": "2025-05-31T23:59:59+03:00",
             "days": [
                 {
-                    "index": "20180816",
-                    "day_title": "16.08.2018",
-                    "workday_complete": false,
-                    "workday_date_start": "2018-08-16T14:08:35+03:00",
-                    "workday_date_finish": "2018-08-16T11:20:00+03:00",
-                    "workday_duration": 10115,
-                    "workday_duration_config": 28800,
-                    "workday_duration_final": 6914,
+                    "index": "20250526",
+                    "day_title": "26.05.2025",
+                    "workday_date_start": "2025-05-26T14:44:47+03:00",
+                    "workday_date_finish": "2025-05-26T14:45:29+03:00",
+                    "workday_complete": true,
                     "workday_time_leaks_user": 0,
-                    "workday_time_leaks_real": 3201,
-                    "workday_time_leaks_final": 21886,
+                    "workday_time_leaks_final": 28758,
+                    "workday_duration": 42,
+                    "workday_duration_final": 42,
+                    "workday_duration_config": 28800,
                     "reports": [
                         {
-                            "id": 459,
+                            "id": "27",
+                            "user_id": "503",
                             "type": "TM_START",
-                            "date_start": "2018-08-16T14:08:35+03:00",
-                            "date_finish": "2018-08-16T14:08:35+03:00",
+                            "date_start": "2025-05-26T14:44:47+03:00",
+                            "date_finish": "2025-05-26T14:44:47+03:00",
                             "duration": 0,
                             "active": false,
-                            "entry_id": 35,
-                            "report_type": "NONE",
-                            "report_text": null,
-                            "system_text": "",
+                            "entry_id": "2237",
+                            "report_type": "WORK",
+                            "report_text": "Работал над проектом",
+                            "system_text": null,
                             "source_start": "TM_EVENT",
                             "source_finish": "TM_EVENT",
-                            "ip_start": "93.60.295.11",
-                            "ip_finish": "10.10.255.255",
+                            "ip_start": "83.219.151.30",
+                            "ip_finish": "83.219.151.30",
                             "ip_start_network": false,
-                            "ip_finish_network": {
-                                "ip": "10.10.255.255",
-                                "range": "10.0.0.0-10.255.255.255",
-                                "name": "Офисная сеть 10.x.x.x"
-                            }
+                            "ip_finish_network": false
+                        },
+                        {
+                            "id": "29",
+                            ...
                         }
-                    ]
+                    ],
+                    "workday_time_leaks_real": 0
                 }
             ]
         },
         "user": {
-            "id": 2,
+            "id": 3,
+            "active": true,
             "name": "Мария Ившина",
             "first_name": "Мария",
             "last_name": "Ившина",
             "work_position": "IT-специалист",
-            "avatar": "http://test.bitrix24.com/upload/resize_cache/main/072/100_100_2/42-17948709.gif",
-            "last_activity_date": "2018-08-15T16:25:34+03:00"
+            "avatar": "http://test.bitrix24.com/upload/resize_cache/45749/7acf4ca766af5d8/main/c89/c89c6b73470635c/4R5A1256.png",
+            "personal_gender": "F",
+            "last_activity_date": "2025-05-29T17:15:56+03:00"
+        },
+        "time": {
+            "start": 1748528193.688745,
+            "finish": 1748528193.730104,
+            "duration": 0.04135894775390625,
+            "processing": 0.014277935028076172,
+            "date_start": "2025-05-29T17:16:33+03:00",
+            "date_finish": "2025-05-29T17:16:33+03:00",
+            "operating_reset_at": 1748528793,
+            "operating": 0
         }
     }
 }
 ```
 
-### Описание ключей
+### Если в ответе пустой days
 
-- **report** - информация об отчете.
-- **month_title** - название месяца.
-- **date_start** - дата начала периода выборки в формате АТОМ.
-- **date_finish** - дата окончания периода выборки в формате АТОМ.
-- **days** - список отработанных дней.
-    - **index** - индекс дня недели.
-    - **day_title** - дата (в формате сайте).
-    - **workday_complete** - рабочий день завершен (true / false).
-    - **workday_date_start** - дата начала рабочего дня в формате АТОМ.
-    - **workday_date_finish** - дата окончания рабочего дня в формате АТОМ (если `workday_complete = false`, в данном поле указывается дата на момент формирования отчета).
-    - **workday_duration** - продолжительность рабочего дня по табелю в секундах (с учетом установленного пользователем перерыва).
-    - **workday_duration_final** - продолжительность рабочего дня по фактической выработке в секундах (с учетом установленного пользователем перерыва, не подтвержденных отсутствий и отсутствий по личным делам).
-    - **workday_duration_config** - необходимая продолжительность рабочего дня в секундах.
-    - **workday_time_leaks_user** - продолжительность перерыва установленного пользователем в секундах.
-    - **workday_time_leaks_real** - продолжительность перерыва установленного автоматической системой фиксации (не подтвержденные отсутствий и отсутствий по личным делам).
-    - **workday_time_leaks_final** - если число положительное: количество не доработанного времени в секундах; если число отрицательное: количество времени отработанных сверх положенного времени (переработка).
-    - **reports** - список записей выявленных отсутствий (значения доступны только на уровне детализации head и full).
-     - **id** - идентификатор записи, необходим для использования метода `timeman.timecontrol.report.add`.
-     - **type** - тип записи (справочник типов описан ниже).
-     - **active** - активность записи.
-     - **date_start**- дата начала фиксации в формате АТОМ.
-     - **date_finish** - дата окончания фиксации в формате АТОМ (если active = true в данном поле указывается дата на момент формирования отчета).
-     - **report_type** - тип отсутствия (work - по рабочим вопросам, private - личные дела, none - не задан, приравнивается к private).
-     - **report_text** - описание причины отсутствия.
-     - **system_text** - системное описание причины отсутствия (параметр доступен только на уровне детализации head).
-     - **source_start** - поставщик данных начала записи (справочник типов описан ниже).
-     - **source_finish** - поставщик данных окончания записи (справочник типов описан ниже).
-     - **ip_start** - ip-адрес на момент начала записи (параметр доступен только на уровне детализации head).
-     - **ip_start_network** - расшифровка ip-адреса на момент начала записи, если ip-адрес не входит в офисную сеть - false (параметр доступен только на уровне детализации head).
-        - **ip** - ip-адрес на момент начала записи.
-        - **range** - диапазон, в который входит указанный IP-адрес.
-        - **name** - название диапазона, в который входит указанный IP-адрес.
-     - **ip_finish** - ip-адрес на момент окончания записи (параметр доступен только на уровне детализации head).
-     - **ip_finish_network** - расшифровка ip-адрес на момент окончания записи, если ip-адрес не входит в офисную сеть - false (параметр доступен только на уровне детализации head).
-        - **ip** - ip-адрес на момент окончания записи.
-        - **range** - диапазон, в который входит указанный IP-адрес.
-        - **name** - название диапазона, в который входит указанный IP-адрес.
+Если метод возвращает пустой массив `days`, настройте инструмент контроля времени.
+1. Выполните под администратором метод [timeman.timecontrol.settings.set](./timeman-timecontrol-settings-set.md) с параметрами:
 
-- **user** - информация о пользователе.
-- **id** - идентификатор пользователя.
-- **name** - имя и фамилия пользователя.
-- **first_name** - имя пользователя.
-- **last_name** - фамилия пользователя.
-- **work_position** - должность.
-- **avatar** - ссылка на аватар (если пусто, значит аватар не задан).
-- **personal_gender** - пол пользователя.
-- **last_activity_date** - дата последнего действия пользователя в формате АТОМ.
+    ```js
+    BX24.callMethod(
+        'timeman.timecontrol.settings.set',
+        {
+            active: true,
+            REPORT_SIMPLE_TYPE: 'all',
+            REPORT_FULL_TYPE: 'all',
+            report_request_type: 'user',
+            report_request_users: 3,
+        },
+        function(result){
+            if(result.error())
+            {
+                console.error(result.error().ex);
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
 
-#### Возможные типы записей (type)
+2. Откройте или закройте рабочий день пользователя.
+3. Выполните метод `timeman.timecontrol.reports.get`. В ответе появятся данные в `days`.
 
-- **IDLE** - Отошел (фиксируется с помощью десктоп приложения).
-- **OFFLINE** - Офлайн.
-- **DESKTOP_ONLINE** - Зафиксирован запуск десктоп приложения (тип доступен только на уровне детализации head).
-- **DESKTOP_OFFLINE** - Зафиксирован выключенное десктоп приложение (тип доступен только на уровне детализации head).
-- **DESKTOP_START** - Зафиксирован запуск десктоп приложения (тип доступен только на уровне детализации head).
-- **TM_START** - Начал рабочий день.
-- **TM_PAUSE** - Ушел на перерыв.
-- **TM_CONTINUE** - Продолжил день.
-- **TM_END** - Завершил рабочий день.
+### Возвращаемые данные
 
-#### Возможные источники записей (source_start, source_finish)
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа ||
+|| **report**
+[`object`](../../data-types.md) | Информация об отчете ||
+|| **month_title**
+[`string`](../../data-types.md) | Название месяца ||
+|| **date_start**
+[`datetime`](../../data-types.md) | Дата начала периода выборки в формате АТОМ ||
+|| **date_finish**
+[`datetime`](../../data-types.md) | Дата окончания периода выборки в формате АТОМ ||
+|| **days**
+[`array`](../../data-types.md) | Список объектов с описанием [отработанных дней](#days) ||
+|| **user**
+[`object`](../../data-types.md) | Объект с информацией о [пользователе](#user) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#  
 
-- **ONLINE_EVENT** - Событие авторизации пользователя.
-- **OFFLINE_AGENT** - Агент проставляющий статус офлайн.
-- **DESKTOP_OFFLINE_AGENT** - Агент проставляющий признак выключенного десктоп приложения.
-- **DESKTOP_ONLINE_EVENT** - Событие проставляющий признак включенного десктоп приложения.
-- **DESKTOP_START_EVENT** - Событие проставляющий признак включенного десктоп приложения.
-- **IDLE_EVENT** - Событие изменение стаса отошел (фиксируется с помощью десктоп приложения).
-- **TM_EVENT** - Событие изменения рабочего дня (начало, перерыв, окончание).
+### Объекты days {#days}
 
-## Ответ в случае ошибки
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **index**
+[`integer`](../../data-types.md) | Индекс дня недели формате `ГГГГММДД`, например, `20250526` для 26 мая 2025 года ||
+|| **day_title**
+[`string`](../../data-types.md) | Дата в формате сайта ||
+|| **workday_date_start**
+[`datetime`](../../data-types.md) | Дата начала рабочего дня в формате АТОМ ||
+|| **workday_date_finish**
+[`datetime`](../../data-types.md) | Дата окончания рабочего дня в формате АТОМ.
 
-> 200 Error, 50x Error
+Если `workday_complete = false`, указывается дата на момент формирования отчета ||
+|| **workday_complete**
+[`boolean`](../../data-types.md) | Рабочий день завершен ||
+|| **workday_time_leaks_user**
+[`integer`](../../data-types.md) | Продолжительность перерыва в секундах ||
+|| **workday_time_leaks_final**
+[`integer`](../../data-types.md) | Продолжительность времени в секундах, которое пользователь недоработал или переработал. 
+- Положительное число — количество не доработанного времени в секундах
+- Отрицательное число — количество времени, отработанного сверх положенного времени, то есть переработка ||
+|| **workday_duration**
+[`integer`](../../data-types.md) | Продолжительность рабочего дня по табелю в секундах, с учетом перерыва ||
+|| **workday_duration_final**
+[`integer`](../../data-types.md) | Продолжительность рабочего дня по фактической выработке в секундах. Учитываются:
+- перерыв
+- не подтвержденные отсутствия
+- отсутствия по личным делам ||
+|| **workday_duration_config**
+[`integer`](../../data-types.md) | Необходимая продолжительность рабочего дня в секундах ||
+|| **reports**
+[`array`](../../data-types.md) | Список объектов с записями [выявленных отсутствий](#reports). 
+
+Значения выводятся в полной детализации отчета и для руководителя  ||
+|| **workday_time_leaks_real**
+[`integer`](../../data-types.md) | Продолжительность перерыва установленного автоматической системой фиксации. Содержит не подтвержденные отсутствия и отсутствия по личным делам ||
+|#  
+
+#### Объекты reports {#reports}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`string`](../../data-types.md) | Идентификатор записи ||
+|| **user_id**
+[`string`](../../data-types.md) | Идентификатор пользователя ||
+|| **type**
+[`string`](../../data-types.md) | Тип записи. Возможные значения:
+
+- `IDLE` — отошел, фиксируется с помощью десктоп приложения
+- `OFFLINE` — офлайн
+- `DESKTOP_ONLINE` — запустил приложение. Только для руководителя
+- `DESKTOP_OFFLINE` — выключил приложение. Только для руководителя
+- `DESKTOP_START` — запустил приложение. Только для руководителя
+- `TM_START` — начал рабочий день
+- `TM_PAUSE` — ушел на перерыв
+- `TM_CONTINUE` — продолжил день
+- `TM_END` — завершил рабочий день ||
+|| **date_start**
+[`datetime`](../../data-types.md) | Дата начала фиксации в формате АТОМ ||
+|| **date_finish**
+[`datetime`](../../data-types.md) | Дата окончания фиксации в формате АТОМ.
+
+Если `active = true`, поле содержит дату на момент формирования отчета ||
+|| **duration**
+[`integer`](../../data-types.md) | Длительность ||
+|| **active**
+[`boolean`](../../data-types.md) | Активность записи ||
+|| **entry_id**
+[`string`](../../data-types.md) | Идентификатор записи времени ||
+|| **report_type**
+[`string`](../../data-types.md) | Тип отсутствия. Возможные значения:
+- `work` — по рабочим вопросам
+- `private` — по личным делам
+- `none` — тип не задан, приравнивается к `private` ||
+|| **report_text**
+[`string`](../../data-types.md) | Описание причины отсутствия ||
+|| **system_text**
+[`string`](../../data-types.md) | Системное описание причины отсутствия. Только для руководителя ||
+|| **source_start**
+[`string`](../../data-types.md) | Поставщик данных начала записи. Возможные значения:
+
+- `ONLINE_EVENT` — событие авторизации пользователя
+- `OFFLINE_AGENT` — агент, который устанавливает статус Офлайн
+- `DESKTOP_OFFLINE_AGENT` — агент, который устанавливает признак выключенного приложения
+- `DESKTOP_ONLINE_EVENT` — событие, которое устанавливает признак включенного приложения
+- `DESKTOP_START_EVENT` — событие, которое устанавливает признак включенного приложения
+- `IDLE_EVENT` — событие изменения статуса Отошел. Фиксируется приложением
+- `TM_EVENT` — событие изменения рабочего дня: начало, перерыв, окончание ||
+|| **source_finish**
+[`string`](../../data-types.md) | Поставщик данных окончания записи. Возможные значения:
+
+- `ONLINE_EVENT` — событие авторизации пользователя
+- `OFFLINE_AGENT` — агент, который устанавливает статус Офлайн
+- `DESKTOP_OFFLINE_AGENT` — агент, который устанавливает признак выключенного приложения
+- `DESKTOP_ONLINE_EVENT` — событие, которое устанавливает признак включенного приложения
+- `DESKTOP_START_EVENT` — событие, которое устанавливает признак включенного приложения
+- `IDLE_EVENT` — событие изменения статуса Отошел. Фиксируется приложением
+- `TM_EVENT` — событие изменения рабочего дня: начало, перерыв, окончание ||
+|| **ip_start**
+[`string`](../../data-types.md) | IP-адрес на момент начала записи. Только для руководителя ||
+|| **ip_finish**
+[`string`](../../data-types.md) | IP-адрес на момент окончания записи. Только для руководителя ||
+|| **ip_start_network**
+[`boolean`](../../data-types.md) \| [`object`](../../data-types.md) | Объект с [расшифровкой IP-адреса](#ip_network) для начала записи, если IP-адрес не входит в офисную сеть. Для офисной сети вернет `false`.
+
+Только для руководителя ||
+|| **ip_finish_network**
+[`boolean`](../../data-types.md) \| [`object`](../../data-types.md) | Объект с [расшифровкой IP-адреса](#ip_network) для окончания записи, если IP-адрес не входит в офисную сеть. Для офисной сети вернет `false`.
+
+Только для руководителя ||
+|#  
+
+#### Объект ip_network {#ip_network}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ip**
+[`string`](../../data-types.md) | IP-адрес ||
+|| **range**
+[`string`](../../data-types.md) | Диапазон, в который входит указанный IP-адрес ||
+|| **name**
+[`string`](../../data-types.md) | Название диапазона, в который входит указанный IP-адрес ||
+|#   
+
+#### Объект user {#user}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор пользователя ||
+|| **active**
+[`boolean`](../../data-types.md) | Активность ||
+|| **name**
+[`string`](../../data-types.md) | Имя и фамилия пользователя ||
+|| **first_name**
+[`string`](../../data-types.md) | Имя пользователя ||
+|| **last_name**
+[`string`](../../data-types.md) | Фамилия пользователя ||
+|| **work_position**
+[`string`](../../data-types.md) | Должность ||
+|| **avatar**
+[`string`](../../data-types.md) | URL аватара пользователя.
+
+Если значение пустое, у пользователя нет аватара ||
+|| **personal_gender**
+[`string`](../../data-types.md) | Пол пользователя ||
+|| **last_activity_date**
+[`datetime`](../../data-types.md) | Дата последнего действия пользователя в формате АТОМ ||
+|#  
+ 
+## Обработка ошибок
+
+HTTP-статус: **400**
+
 ```json
 {
-    "error": "ACCESS_ERROR",
-    "error_description": "You don't have access to this method"
+    "error": "USER_ACCESS_ERROR",
+    "error_description": "You don't have access to report for this user"
 }
 ```
 
-### Описание ключей
-
-- Ключ **error** - код возникшей ошибки.
-- Ключ **error_description** - краткое описание возникшей ошибки.
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ACCESS_ERROR** | Указанный метод не доступен пользователю. ||
-|| **USER_ACCESS_ERROR** | Нет доступа к указанному пользователю. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_ERROR` | You don't have access to this method | У вас нет доступа к этому методу ||
+|| `USER_ACCESS_ERROR` | You don't have access to report for this user | У вас нет доступа к отчетам этого пользователя ||
 |#
 
-## Если возвращает пустой days
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-Если возвращается пустой массив days, то сначала выставьте нужные опции, для доступа к отчету и сбору данных (необходимо быть администратором и на любой странице портала выполнить в консоли):
+## Продолжите изучение 
 
-```js
-BX24.callMethod('timeman.timecontrol.settings.set', {
-    active: true,
-    REPORT_SIMPLE_TYPE: 'all',
-    REPORT_FULL_TYPE: 'all',
-    report_request_type: 'user',
-    report_request_users: [BX.message.USER_ID],
-}, function(result){
-    if(result.error())
-    {
-        console.error(result.error().ex);
-    }
-    else
-    {
-        console.log(result.data());
-    }
-});
-```
-
-После этого откройте или закройте рабочий день, после этого в отчете для этого пользователя будут данные:
-
-```js
-BX24.callMethod('timeman.timecontrol.reports.get', {
-    user_id: BX.message.USER_ID,
-    year: 2019,
-    month: 1,
-    workday_hours: 8,
-    idle_minutes: 15
-}, function(result){
-    if(result.error())
-    {
-        console.error(result.error().ex);
-    }
-    else
-    {
-        console.log(result.data());
-    }
-});
-```
+- [{#T}](./index.md)
+- [{#T}](./timeman-timecontrol-report-add.md)
+- [{#T}](./timeman-timecontrol-reports-users-get.md) 

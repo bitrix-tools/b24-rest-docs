@@ -81,4 +81,4 @@
 ## Продолжите изучение
 
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
-- [{#T}](../../../../tutorials/crm/how-to-edit-crm-objects/how-to-add-paid-date-to-deal.md)
+- [{#T}](../../../../tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-date-to-deal.md)

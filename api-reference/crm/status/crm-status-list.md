@@ -62,4 +62,8 @@ Cмотри описание [списочных методов](../../../api-re
 
 {% endlist %}
 
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

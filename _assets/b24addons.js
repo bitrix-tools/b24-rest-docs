@@ -85,13 +85,13 @@ function addB24Buttons () {
             dcControlsDiv.appendChild(createSeparator());
             dcControlsDiv.appendChild(createLink(
                 convertToGitHubProjectLink(),
-                'Edit in GitHub', 
+                'Edit in GitHub',
                 '<path fill="currentColor" fill-rule="evenodd" d="M11.423 1A3.577 3.577 0 0 1 15 4.577c0 .27-.108.53-.3.722l-.528.529-1.971 1.971-5.059 5.059a3 3 0 0 1-1.533.82l-2.638.528a1 1 0 0 1-1.177-1.177l.528-2.638a3 3 0 0 1 .82-1.533l5.059-5.059 2.5-2.5c.191-.191.451-.299.722-.299Zm-2.31 4.009-4.91 4.91a1.5 1.5 0 0 0-.41.766l-.38 1.903 1.902-.38a1.5 1.5 0 0 0 .767-.41l4.91-4.91a2.077 2.077 0 0 0-1.88-1.88Zm3.098.658a3.59 3.59 0 0 0-1.878-1.879l1.28-1.28c.995.09 1.788.884 1.878 1.88l-1.28 1.28Z" clip-rule="evenodd"></path>',
                 ''
             ));
 
-            const TITLE = document.title; 
-            const currentUrl = window.location.href; 
+            const TITLE = document.title;
+            const currentUrl = window.location.href;
 
             const issue_url = `${GITHUB_REPO_BASE_URL}issues/new` +
                 `?title=${encodeURIComponent(`Page ${TITLE}`)}` +
@@ -100,7 +100,7 @@ function addB24Buttons () {
             dcControlsDiv.appendChild(createSeparator());
             dcControlsDiv.appendChild(createLink(
                 issue_url,
-                'Report an issue or ask a question', 
+                'Report an issue or ask a question',
                 '<path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>',
                 ''
             ));
@@ -217,7 +217,7 @@ function addCopyIconsToCodeElements() {
     const codeElements = document.querySelectorAll('code');
 
     codeElements.forEach(codeElement => {
-        
+
         if (codeElement.closest('pre')) {
             return;
         }
@@ -228,8 +228,8 @@ function addCopyIconsToCodeElements() {
 
         const copyIconWrapper = document.createElement('div');
         const bodyBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
-        copyIconWrapper.style.backgroundColor = bodyBackgroundColor; 
-        
+        copyIconWrapper.style.backgroundColor = bodyBackgroundColor;
+
         copyIconWrapper.style.position = 'absolute';
         copyIconWrapper.style.right = '0';
         copyIconWrapper.style.top = '50%';
@@ -269,7 +269,7 @@ function addCopyIconsToCodeElements() {
         wrapper.appendChild(codeElement.cloneNode(true));
         wrapper.appendChild(copyIconWrapper);
         wrapper.appendChild(tooltip);
-        codeElement.replaceWith(wrapper);   
+        codeElement.replaceWith(wrapper);
 
         wrapper.addEventListener('mouseenter', () => {
             copyIconWrapper.style.display = 'inline';
@@ -325,7 +325,7 @@ function processCodeBlocks() {
     if (container) {
 
         if (container.querySelector('.debug-button-container')) {
-            return; 
+            return;
         }
 
         const codeBlocks = container.querySelectorAll('code.hljs.js, code.hljs.javascript');
@@ -366,25 +366,25 @@ function processCodeBlocks() {
 
 function addAPILibraries() {
     if (isInsideIframe()) {
-        
+
         const script = document.createElement('script');
-        
+
         script.src = '//api.bitrix24.com/api/v1/';
         script.onload = function() {
             try {
-                
+
                 BX24.ready(() => {
 
                     if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/eruda"]')) {
-                        
+
                         const erudaScript = document.createElement('script');
                         erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
                         erudaScript.onload = function() {
-                            
+
                             const erudaContainer = document.createElement('div');
                             erudaContainer.className = 'eruda-container';
                             document.body.appendChild(erudaContainer);
-                            
+
                             eruda.init({
                                 container: erudaContainer,
                                 tool: ['console', 'network'],
@@ -399,7 +399,7 @@ function addAPILibraries() {
                             const erudaElement = document.querySelector('#eruda');
                             if (erudaElement) {
                                 const shadowRoot = erudaElement.shadowRoot;
-                                
+
                                 if (shadowRoot) {
                                     const devToolsElement = shadowRoot.querySelector('.eruda-dev-tools');
                                     if (devToolsElement) {
@@ -411,16 +411,16 @@ function addAPILibraries() {
                                     const erudaContainer = shadowRoot.querySelector('.eruda-container');
 
                                     if (erudaContainer) {
-                                        
+
                                         const entryButton = erudaContainer.querySelector('.eruda-entry-btn');
 
                                         if (entryButton) {
-                                            
+
                                             entryButton.style.position = 'absolute';
-                                            entryButton.style.bottom = '10px'; 
-                                            entryButton.style.right = '10px'; 
-                                            entryButton.style.top = ''; 
-                                            entryButton.style.left = ''; 
+                                            entryButton.style.bottom = '10px';
+                                            entryButton.style.right = '10px';
+                                            entryButton.style.top = '';
+                                            entryButton.style.left = '';
                                         } else {
                                             console.error('Element with class eruda-entry-btn not found.');
                                         }
@@ -443,7 +443,7 @@ function addAPILibraries() {
                         };
 
                         document.head.appendChild(erudaScript);
-    
+
                         processCodeBlocks();
                     }
 
@@ -461,7 +461,7 @@ function addAPILibraries() {
     }
 }
 
-function initB24items() {   
+function initB24items() {
     if (dynamicObserver) {
         dynamicObserver.disconnect();
     }
@@ -488,7 +488,7 @@ function createDynamicObserver() {
 const mainObserver = new MutationObserver(function(mutationsList, observer) {
     for (let mutation of mutationsList) {
         if (mutation.type === 'childList' && document.readyState === 'complete') {
-            mainObserver.disconnect(); 
+            mainObserver.disconnect();
 
             initB24items();
 
@@ -526,6 +526,10 @@ function showPollBanner()
         return;
     }
 
+    if (window.location.pathname === '/poll-bar.html') {
+        return;
+    }
+
     const STORAGE_KEY_TIME = 'hideB24BannerUntil';
     const STORAGE_KEY_PERMANENT = 'hideB24BannerForever';
     const HIDE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 часа
@@ -543,10 +547,16 @@ function showPollBanner()
     banner.innerHTML = `
       <div class="b24-banner__content">
         <div class="b24-banner__text">
-          Как вам документация Битрикс24? Ответьте на 7 коротких вопросов — помогите писать для вас полезнее.
+            <span>
+                Оцените документацию REST
+            </span>
+            <a href="/poll-bar.html" class="b24-banner__button" style="display: none">Оставить отзыв</a>
+            <div class="b24-banner__stars" title="Оцените от 1 до 5">
+              ★★★★★
+            </div>
         </div>
+          
         <div class="b24-banner__actions">
-          <a href="/poll-bar.html" class="b24-banner__button">Оставить отзыв</a>
           <span class="b24-banner__close" title="Закрыть">✖</span>
         </div>
       </div>
@@ -624,6 +634,78 @@ function showPollBanner()
 
     document.body.appendChild(banner);
 
+    const STORAGE_KEY_RATING = 'b24StarRating';
+    const savedRating = parseInt(localStorage.getItem(STORAGE_KEY_RATING), 10);
+    const stars = banner.querySelector('.b24-banner__stars');
+
+    Object.assign(stars.style, {
+        width: '100px',
+        margin: 'auto',
+        marginTop: '10px',
+        fontSize: '20px',
+        cursor: 'pointer',
+        color: 'white',
+        userSelect: 'none',
+    });
+
+    let hoverRating = 0;
+    let isRated = !isNaN(savedRating);
+
+    function renderStars(active) {
+        stars.textContent = '★★★★★';
+        stars.innerHTML = [...stars.textContent].map((char, i) => (
+            `<span style="color: ${i < active ? '#FFD700' : 'white'}">${char}</span>`
+        )).join('');
+    }
+
+    if (isRated) {
+        renderStars(savedRating);
+        stars.style.display = 'none';
+        button.style.display = 'block';
+        button.style.marginLeft = '10px';
+
+        const textBlock = document.querySelector('.b24-banner__text');
+
+        textBlock.style.justifyContent = 'center';
+        textBlock.style.display = 'flex';
+        textBlock.style.alignItems = 'center';
+
+    } else {
+        renderStars(0);
+
+        stars.addEventListener('mousemove', function (e) {
+            const rect = stars.getBoundingClientRect();
+            const relativeX = e.clientX - rect.left;
+            const starWidth = rect.width / 5;
+            hoverRating = Math.ceil(relativeX / starWidth);
+            renderStars(hoverRating);
+        });
+
+        stars.addEventListener('mouseleave', function () {
+            renderStars(0);
+        });
+    }
+
+    stars.addEventListener('click', function () {
+        if (!isRated) {
+            if (hoverRating > 0) {
+                localStorage.setItem(STORAGE_KEY_RATING, hoverRating.toString());
+                isRated = true;
+
+                // Метрика — только при первом голосовании
+                if (typeof ym === 'function') {
+                    ym(98117665, 'reachGoal', `survey_star_${hoverRating}`);
+                }
+            } else {
+                // Если пользователь кликнул без наведения на звезды — не редиректим
+                return;
+            }
+        }
+
+        // Редирект в любом случае
+        window.location.href = '/poll-bar.html';
+    });
+
     // Навсегда скрыть при отправке формы
     window.addEventListener('message', function (event) {
         if (event.data?.formSubmitted) {
@@ -653,17 +735,17 @@ window.onload = function() {
             };
             m[i].l=1*new Date();
             for (var j = 0; j < document.scripts.length; j++) {
-                if (document.scripts[j].src === r) { 
-                    return; 
+                if (document.scripts[j].src === r) {
+                    return;
                 }
             }
             k = e.createElement(t),
-            a = e.getElementsByTagName(t)[0];
+                a = e.getElementsByTagName(t)[0];
             k.async = 1;
             k.src = r;
             a.parentNode.insertBefore(k,a);
         })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-    
+
         ym(98117665, "init", {
             clickmap: true,
             trackLinks: true,

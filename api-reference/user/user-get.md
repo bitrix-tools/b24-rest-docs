@@ -450,5 +450,6 @@ HTTP-статус: **200**
 - [{#T}](./user-current.md)
 - [{#T}](./user-search.md)
 - [{#T}](./user-fields.md)
+- [{#T}](../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 
 [*ключ_Ключ для работы]: `'ADMIN_MODE': 'True'`

@@ -4,7 +4,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает свойство товаров по идентификатору.
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.product.property.get` продолжает работать, но у него есть более актуальный аналог [catalog.productProperty.get](../../../catalog/product-property/catalog-product-property-get.md).
+
+{% endnote %}
+
+Метод `crm.product.property.get` возвращает свойство товаров по идентификатору.
 
 ## Параметры метода
 

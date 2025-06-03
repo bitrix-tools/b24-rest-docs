@@ -1,0 +1,18 @@
+title: Источники
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать источник
+    href: biconnector-source-add.md    
+  - name: Обновить источник 
+    href: biconnector-source-update.md
+  - name: Получить источник по id
+    href: biconnector-source-get.md
+  - name: Получить список источников
+    href: biconnector-source-list.md
+  - name: Удалить источник 
+    href: biconnector-source-delete.md     
+  - name: Получить поля источника
+    href: biconnector-source-fields.md                 
+
