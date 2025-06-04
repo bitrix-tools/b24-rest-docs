@@ -120,14 +120,14 @@ HTTP-статус: **200**
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-## Возможные коды ошибок
+### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_ID_NOT_PROVIDED` | `ID is missing.` | Идентификатор не указан ||
-|| `VALIDATION_INVALID_ID_FORMAT` | `ID has to be a positive integer.` | Неверный формат ID ||
-|| `SOURCE_NOT_FOUND` | `Source was not found.` | Источник не найден ||
-|| `BX_ERROR` | `Cannot delete source. Delete all related datasets first.` | Нельзя удалить источник, пока существуют связанные датасеты ||
+|| `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
+|| `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
+|| `SOURCE_NOT_FOUND` | Source was not found. | Источник не найден ||
+|| `BX_ERROR` | Cannot delete source. Delete all related datasets first. | Нельзя удалить источник, пока существуют связанные датасеты ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
