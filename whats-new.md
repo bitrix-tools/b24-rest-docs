@@ -4,6 +4,7 @@
 
 ### 04 июня, 2025
 
+- Добавлена статья [Как обновить и удалить файлы](./api-reference/files/how-to-update-files.md)
 - Обновлен туториал [Добавить контакт с реквизитами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-contact-with-requisite.md)
 
 ### 30 мая, 2025

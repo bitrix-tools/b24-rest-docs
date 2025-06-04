@@ -26,34 +26,13 @@
 
 Метод `lists.element.add` создаёт элемент списка. В случае успешного создания элемента ответ `true`, иначе *Exception*.
 
-Чтобы загрузить файлы в поле типа Файл (Диск) необходимо:
+Чтобы загрузить файлы в поле типа «Файл» передавайте контент в формате [Base64](../../files/how-to-upload-files.md).
+
+Чтобы загрузить файлы в поле типа «Файл (Диск)» необходимо:
 
 1. использовать rest api модуля disk: disk.folder.uploadfile и disk.storage.uploadfile. В ответе при загрузке этих файлов, вы будете получать `"FILE_ID": 290`.
 2. Получить список `ID` загруженных файлов.
 3. Затем с помощью rest api модуля lists добавлять файлы в нужное поле:
-
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_ID': '41',
-    'ELEMENT_CODE': 'element1',
-    'FIELDS': {
-        'NAME': 'Test element 1',
-        'PROPERTY_121': { 'n0':["n1582"]}
-    }
-};
-BX24.callMethod(
-    'lists.element.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
-    }
-);
-```
 
 ## Параметры
 

@@ -11,5 +11,3 @@ items:
     href: bx24-call-bind.md
   - name: Вызвать интерфейс удаления обработчика события
     href: bx24-call-unbind.md
-  - name: Обработать файлы
-    href: files.md

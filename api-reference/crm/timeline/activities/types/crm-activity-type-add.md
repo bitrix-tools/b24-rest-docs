@@ -41,7 +41,7 @@ fields:
 || **NAME**
 [`string`](../../../../data-types.md) | Название типа дела, например `Дело 1с` для сделки. По умолчанию пустая строка ||
 || **ICON_FILE**
-[`attached_diskfile`](../../../../data-types.md) | Файл иконки типа дела, описанный по [правилам](../../../../bx24-js-sdk/how-to-call-rest-methods/files.md) ||
+[`attached_diskfile`](../../../../data-types.md) | Файл иконки типа дела, описанный по [правилам](../../../../files/how-to-upload-files.md) ||
 || **IS_CONFIGURABLE_TYPE**
 [`string`](../../../../data-types.md) | Значение по умолчанию - `N`. Значение `Y` - признак того, что тип будет использоваться для [конфигурируемых дел](../configurable/crm-activity-configurable-add.md) ||
 |#
