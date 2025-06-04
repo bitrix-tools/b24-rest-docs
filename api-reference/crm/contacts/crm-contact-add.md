@@ -496,6 +496,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-delete.md)
 - [{#T}](./crm-contact-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contact.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contact-with-requisite.md)
 
 [1]: ../../data-types.md
 [2]: ../status/crm-status-list.md
