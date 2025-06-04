@@ -49,4 +49,3 @@ BX24.callBind('OnAppUninstall', 'http://www.my-domain.ru/handler/');
 - [{#T}](./bx24-call-unbind.md)
 - [{#T}](./bx24-call-method.md)
 - [{#T}](./bx24-call-batch.md)
-- [{#T}](./files.md)
