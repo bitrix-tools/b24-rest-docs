@@ -3,9 +3,9 @@ href: index.md
 items: 
   - name: Обзор событий
     href: index.md
-  - name: На создание контакта
+  - name: При создании контакта
     href: on-crm-contact-add.md
-  - name: На обновление контакта
+  - name: При обновлении контакта
     href: on-crm-contact-update.md
-  - name: На удаление контакта
+  - name: При удалении контакта
     href: on-crm-contact-delete.md
