@@ -2,9 +2,14 @@
 
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: руководитель подразделения или администратор
+> Кто может выполнять метод: любой пользователь
 
 Метод `timeman.timecontrol.reports.users.get` получает список пользователей подразделения.
+
+Данные в ответе метода зависят от роли:
+- сотрудник получит только свои данные,
+- руководитель — данные своего департамента,
+- администратор — любого департамента.
 
 ## Параметры метода
 
@@ -135,30 +140,12 @@ HTTP-статус: **200**
 || **personal_gender**
 [`string`](../../data-types.md) | Пол ||
 || **last_activity_date**
-[`string`](../../data-types.md) | Дата последнего действия пользователя в формате АТОМ ||
+[`string`](../../data-types.md) | Дата последнего действия пользователя в формате [ATOM](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
-
-HTTP-статус: **400**
-
-```json
-{
-    "error": "ACCESS_ERROR",
-    "error_description": "You don't have access to this method"
-}
-```
-
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** | **Значение** ||
-|| `ACCESS_ERROR` | You don't have access to this method | У вас нет доступа к этому методу ||
-|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

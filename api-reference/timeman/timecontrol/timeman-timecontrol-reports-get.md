@@ -224,9 +224,9 @@ HTTP-статус: **200**
 || **month_title**
 [`string`](../../data-types.md) | Название месяца ||
 || **date_start**
-[`datetime`](../../data-types.md) | Дата начала периода выборки в формате АТОМ ||
+[`datetime`](../../data-types.md) | Дата начала периода выборки в формате [ATOM](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom) ||
 || **date_finish**
-[`datetime`](../../data-types.md) | Дата окончания периода выборки в формате АТОМ ||
+[`datetime`](../../data-types.md) | Дата окончания периода выборки в формате [ATOM](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom) ||
 || **days**
 [`array`](../../data-types.md) | Список объектов с описанием [отработанных дней](#days) ||
 || **user**
@@ -245,9 +245,9 @@ HTTP-статус: **200**
 || **day_title**
 [`string`](../../data-types.md) | Дата в формате сайта ||
 || **workday_date_start**
-[`datetime`](../../data-types.md) | Дата начала рабочего дня в формате АТОМ ||
+[`datetime`](../../data-types.md) | Дата начала рабочего дня в формате [ATOM](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom) ||
 || **workday_date_finish**
-[`datetime`](../../data-types.md) | Дата окончания рабочего дня в формате АТОМ.
+[`datetime`](../../data-types.md) | Дата окончания рабочего дня в формате [ATOM](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom).
 
 Если `workday_complete = false`, указывается дата на момент формирования отчета ||
 || **workday_complete**
@@ -297,9 +297,9 @@ HTTP-статус: **200**
 - `TM_CONTINUE` — продолжил день
 - `TM_END` — завершил рабочий день ||
 || **date_start**
-[`datetime`](../../data-types.md) | Дата начала фиксации в формате АТОМ ||
+[`datetime`](../../data-types.md) | Дата начала фиксации в формате [ATOM](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom) ||
 || **date_finish**
-[`datetime`](../../data-types.md) | Дата окончания фиксации в формате АТОМ.
+[`datetime`](../../data-types.md) | Дата окончания фиксации в формате [ATOM](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom).
 
 Если `active = true`, поле содержит дату на момент формирования отчета ||
 || **duration**
@@ -388,7 +388,7 @@ HTTP-статус: **200**
 || **personal_gender**
 [`string`](../../data-types.md) | Пол пользователя ||
 || **last_activity_date**
-[`datetime`](../../data-types.md) | Дата последнего действия пользователя в формате АТОМ ||
+[`datetime`](../../data-types.md) | Дата последнего действия пользователя в формате [ATOM](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom) ||
 |#  
  
 ## Обработка ошибок
