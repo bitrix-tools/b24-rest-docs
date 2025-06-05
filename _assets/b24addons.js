@@ -717,7 +717,7 @@ function showPollBanner()
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    showPollBanner();
+    // showPollBanner();
     setMenuPosition();
     initB24items();
 });
