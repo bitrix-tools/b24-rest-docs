@@ -6,7 +6,8 @@
 
 - Обновлены страницы событий [onCrmDocumentGeneratorDocument*](./api-reference/crm/document-generator/documents/events/index.md)
 - Обновлен туториал [Как изменить или удалить номера телефонов и email](./tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
-- Обновлены главные страницы событий в разделах: [Контакты](./api-reference/crm/contacts/events/index.md), [Пользователськие поля контактов](./api-reference/crm/contacts/userfield/events/index.md), [Пользователськие поля компаний](./api-reference/crm/companies/userfields/events/index.md). Добавили вводную информацию, а также обзор событий
+- Обновлены главные страницы событий в разделах: [Контакты](./api-reference/crm/contacts/events/index.md), [Пользователськие поля контактов](./api-reference/crm/contacts/userfield/events/index.md), [Пользовательские поля компаний](./api-reference/crm/companies/userfields/events/index.md). Добавили вводную информацию, а также обзор событий
+- Обновлена документация по методу получения рабочего графика [timeman.schedule.get](./api-reference/timeman/schedule/timeman-schedule-get.md)
 
 ### 04 июня, 2025
 
