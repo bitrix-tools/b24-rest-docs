@@ -5,6 +5,7 @@
 ### 05 июня, 2025
 
 - Обновлены страницы событий [onCrmDocumentGeneratorDocument*](./api-reference/crm/document-generator/documents/events/index.md)
+- Обновлен туториал [Как изменить или удалить номера телефонов и email](./tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
 
 ### 04 июня, 2025
 
