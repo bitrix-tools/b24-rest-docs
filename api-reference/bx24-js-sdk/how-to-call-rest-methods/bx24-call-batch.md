@@ -81,4 +81,3 @@ BX24.init(() => {
 - [{#T}](./bx24-call-bind.md)
 - [{#T}](./bx24-call-unbind.md)
 - [{#T}](./bx24-call-method.md)
-- [{#T}](./files.md)

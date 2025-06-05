@@ -254,24 +254,24 @@ HTTP-статус: **200**
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-## Возможные коды ошибок
+### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_ID_NOT_PROVIDED` | `ID is missing.` | Идентификатор не указан ||
-|| `VALIDATION_INVALID_ID_FORMAT` | `ID has to be a positive integer.` | Неверный формат ID ||
-|| `DATASET_NOT_FOUND` | `Dataset was not found.` | Датасет не найден ||
-|| `DATASET_UPDATE_ERROR` | `Error updating dataset.` | Ошибка обновления датасета ||
-|| `VALIDATION_DUPLICATE_FIELD_CODE` | `Duplicate values found in the "code" parameter: #LIST_CODES#` | Обнаружены дубликаты в параметре `externalCode` полей датасета ||
-|| `VALIDATION_DUPLICATE_FIELD_NAME` | `Duplicate values found in the "name" parameter: #LIST_NAMES#` | Обнаружены дубликаты в параметре `name` полей датасета ||
-|| `VALIDATION_FIELD_NAME_INVALID_FORMAT` | `Field "name" has to start with an uppercase Latin character. Possible entry includes uppercase Latin characters (A-Z), numbers (0-9) and underscores.` | Неправильный формат названия поля. Название должно начинаться с буквы, можно использовать только заглавные латинские буквы `(A-Z)`, цифры и знак `_` ||
-|| `VALIDATION_FIELD_NAME_TOO_LONG` | `Field "name" must not exceed 32 characters.` | Название поля не должно превышать 32 символов ||
-|| `VALIDATION_FIELD_INVALID_TYPE` | `Invalid field type.` | Некорректный тип поля ||
-|| `VALIDATION_DUPLICATE_EXIST_CODE` | `The following "externalCode" values already exist in the current fields: #LIST_CODES#` | Поля с таким параметром `externalCode` уже существуют ||
-|| `VALIDATION_DUPLICATE_EXIST_NAME` | `The following "name" values already exist in the current fields: #LIST_NAMES#` | Поля с таким параметром `name` уже существуют ||
-|| `VALIDATION_FIELD_ADD_MISSING_REQUIRED_FIELDS` | `Field to be added must include the required parameters: "name", "externalCode" and "type".` | Поле для добавления должно включать параметры `name`, `externalCode` и `type` ||
-|| `VALIDATION_FIELD_UPDATE_MISSING_REQUIRED_FIELDS` | `Field to be updated must include the required parameters: "id" and "visible".` | Поле для обновления должно включать параметры `id` и `visible` ||
-|| `VALIDATION_FIELD_DELETE_INVALID_ID` | `ID to be deleted must be a positive integer.` | Неверный формат `id` для удаления ||
+|| `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
+|| `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
+|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасет не найден ||
+|| `DATASET_UPDATE_ERROR` | Error updating dataset. | Ошибка обновления датасета ||
+|| `VALIDATION_DUPLICATE_FIELD_CODE` | Duplicate values found in the "code" parameter: #LIST_CODES# | Обнаружены дубликаты в параметре `externalCode` полей датасета ||
+|| `VALIDATION_DUPLICATE_FIELD_NAME` | Duplicate values found in the "name" parameter: #LIST_NAMES# | Обнаружены дубликаты в параметре `name` полей датасета ||
+|| `VALIDATION_FIELD_NAME_INVALID_FORMAT` | Field "name" has to start with an uppercase Latin character. Possible entry includes uppercase Latin characters (A-Z), numbers (0-9) and underscores. | Неправильный формат названия поля. Название должно начинаться с буквы, можно использовать только заглавные латинские буквы `(A-Z)`, цифры и знак `_` ||
+|| `VALIDATION_FIELD_NAME_TOO_LONG` | Field "name" must not exceed 32 characters. | Название поля не должно превышать 32 символов ||
+|| `VALIDATION_FIELD_INVALID_TYPE` | Invalid field type. | Некорректный тип поля ||
+|| `VALIDATION_DUPLICATE_EXIST_CODE` | The following "externalCode" values already exist in the current fields: #LIST_CODES# | Поля с таким параметром `externalCode` уже существуют ||
+|| `VALIDATION_DUPLICATE_EXIST_NAME` | The following "name" values already exist in the current fields: #LIST_NAMES# | Поля с таким параметром `name` уже существуют ||
+|| `VALIDATION_FIELD_ADD_MISSING_REQUIRED_FIELDS` | Field to be added must include the required parameters: "name", "externalCode" and "type". | Поле для добавления должно включать параметры `name`, `externalCode` и `type` ||
+|| `VALIDATION_FIELD_UPDATE_MISSING_REQUIRED_FIELDS` | Field to be updated must include the required parameters: "id" and "visible". | Поле для обновления должно включать параметры `id` и `visible` ||
+|| `VALIDATION_FIELD_DELETE_INVALID_ID` | ID to be deleted must be a positive integer. | Неверный формат `id` для удаления ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

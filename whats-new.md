@@ -2,9 +2,22 @@
 
 ## 2025
 
+### 05 июня, 2025
+
+- Обновлены страницы событий [onCrmDocumentGeneratorDocument*](./api-reference/crm/document-generator/documents/events/index.md)
+- Обновлен туториал [Как изменить или удалить номера телефонов и email](./tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
+
+### 04 июня, 2025
+
+- Добавлена статья [Как обновить и удалить файлы](./api-reference/files/how-to-update-files.md)
+- Обновлен туториал [Добавить контакт с реквизитами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-contact-with-requisite.md)
+
 ### 30 мая, 2025
 
 - Обновлена документация по методам работы с [пользовательскими полями](./api-reference/user/userfields/index.md) в разделе Пользователи
+- Обновлена документация по методам работы с отчетами [timeman.timecontrol.report.add](./api-reference/timeman/timecontrol/timeman-timecontrol-report-add.md), [timeman.timecontrol.report.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-get.md), [timeman.timecontrol.reports.users.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-users-get.md) в разделе Контроль времени
+- Обновлен туториал [Добавить компанию с реквизитами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-company-with-requisite.md)
+- Обновлен туториал [Добавить сделку и компанию с реквизитами](./tutorials/crm/how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)
 
 ### 29 мая, 2025
 

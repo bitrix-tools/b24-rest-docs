@@ -122,6 +122,8 @@
 
 В зависимости от настроек портала у контактов может быть набор пользовательских полей определенных типов. 
 
+Для изменения файловых полей рекомендуется использовать метод [crm.item.update](../universal/crm-item-update.md).
+
 Добавить пользовательское поле в контакт можно с помощью метода [crm.contact.userfield.add](./userfield/crm-contact-userfield-add.md) ||
 ||**PARENT_ID_...** | Поля связей. 
 
@@ -528,6 +530,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-list.md)
 - [{#T}](./crm-contact-delete.md)
 - [{#T}](./crm-contact-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
 
 [1]: ../../data-types.md
 [2]: ../status/crm-status-list.md

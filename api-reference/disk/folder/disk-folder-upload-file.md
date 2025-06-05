@@ -31,7 +31,7 @@
 || **id**
 [`unknown`](../../data-types.md) | Идентификатор папки. В текущем API загружать файл по пути к папке невозможно. Необходимо обязательно вычислить `ID` папки. ||
 || **fileContent**
-[`unknown`](../../data-types.md) | Аналогично `DETAIL_PICTURE` в примере [Обработка файлов](../../bx24-js-sdk/how-to-call-rest-methods/files.md). ||
+[`unknown`](../../data-types.md) | Загрузка файла в формате [Base64](../../files/how-to-upload-files.md). ||
 || **data**
 [`unknown`](../../data-types.md) | Массив, описывающий файл. Обязательное поле `NAME` — имя нового файла. Доступно отправка файла в виде строки, закодированной в base64. ||
 || **generateUniqueName**

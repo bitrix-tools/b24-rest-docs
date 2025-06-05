@@ -256,3 +256,5 @@ HTTP-статус: **40x**, **50x**
 - [{#T}](./crm-requisite-preset-get.md)
 - [{#T}](./crm-requisite-preset-delete.md)
 - [{#T}](./crm-requisite-preset-fields.md)
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-company-with-requisite.md)
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contact-with-requisite.md)
