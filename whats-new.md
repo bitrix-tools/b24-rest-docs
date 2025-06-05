@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 05 июня, 2025
+
+- Обновлены страницы событий [onCrmDocumentGeneratorDocument*](./api-reference/crm/document-generator/documents/events/index.md)
+
 ### 04 июня, 2025
 
 - Добавлена статья [Как обновить и удалить файлы](./api-reference/files/how-to-update-files.md)

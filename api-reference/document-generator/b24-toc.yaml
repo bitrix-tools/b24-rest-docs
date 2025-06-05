@@ -21,10 +21,6 @@ items:
     href: document-generator-document-enable-public-url.md
   - name: Получить список полей документов
     href: document-generator-document-get-fields.md
-  - name: События
-    include:
-      path: events/b24-toc.yaml
-      mode: link
   - name: Шаблоны
     include:
       path: templates/b24-toc.yaml

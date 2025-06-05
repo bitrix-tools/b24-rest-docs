@@ -6,7 +6,7 @@
 
 {% endnote %}
 
-> Быстрый переход: [все методы и события](#all-methods) 
+> Быстрый переход: [все методы](#all-methods) 
 
 На данный момент есть **два scope** для работы с генератором документов:
 - Методы `crm.documentgenerator.*`. Результаты работы этих методов отображаются в интерфейсе CRM;
@@ -85,31 +85,16 @@
 
 ### Документы
 
-{% list tabs %}
-
-- Методы
-
-    #|
-    || **Метод** | **Описание** ||
-    || [documentgenerator.document.add](./document-generator-document-add.md) | Создает новый документ на основании шаблона ||
-    || [documentgenerator.document.delete](./document-generator-document-delete.md) | Удаляет документ ||
-    || [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md) | Включает/выключает публичную ссылку на документ ||
-    || [documentgenerator.document.getfields](./document-generator-document-get-fields.md) | Получает список полей документов ||
-    || [documentgenerator.document.get](./document-generator-document-get.md) | Получает документ по идентификатору ||
-    || [documentgenerator.document.list](./document-generator-document-list.md) | Получает список документов ||
-    || [documentgenerator.document.update](./document-generator-document-update.md) | Изменяет существующий документ ||
-    |#
-
-- События
-
-    #|
-    || **Событие** | **Описание** ||
-    || [onCrmDocumentGeneratorDocumentAdd](./events/on-crm-document-generator-add.md) | На генерацию документа ||
-    || [onCrmDocumentGeneratorDocumentDelete](./events/on-crm-document-generator-document-delete.md) | На удаление документа ||
-    || [onCrmDocumentGeneratorDocumentUpdate](./events/on-crm-document-generator-document-update.md) | На изменение документа ||
-    |#
-
-{% endlist %}
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.document.add](./document-generator-document-add.md) | Создает новый документ на основании шаблона ||
+|| [documentgenerator.document.delete](./document-generator-document-delete.md) | Удаляет документ ||
+|| [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md) | Включает/выключает публичную ссылку на документ ||
+|| [documentgenerator.document.getfields](./document-generator-document-get-fields.md) | Получает список полей документов ||
+|| [documentgenerator.document.get](./document-generator-document-get.md) | Получает документ по идентификатору ||
+|| [documentgenerator.document.list](./document-generator-document-list.md) | Получает список документов ||
+|| [documentgenerator.document.update](./document-generator-document-update.md) | Изменяет существующий документ ||
+|#
 
 ### Нумератор
 
