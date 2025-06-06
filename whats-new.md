@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 06 июня, 2025
+
+- Обновлена главная страница раздела [Пользовательские поля](./api-reference/user/userfields/index.md). Добавили вводную информацию, а также обзор методов и связей
+
 ### 05 июня, 2025
 
 - Обновлены страницы событий [onCrmDocumentGeneratorDocument*](./api-reference/crm/document-generator/documents/events/index.md)
