@@ -411,7 +411,6 @@
                 "DATE_REGISTER": "2024-07-15T00:00:00+00:00",
                 "TIME_ZONE": "",
                 "IS_ONLINE": "Y",
-                "TIME_ZONE_OFFSET": "7200",
                 "TIMESTAMP_X": {
                 },
                 "LAST_ACTIVITY_DATE": {

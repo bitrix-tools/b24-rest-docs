@@ -81,8 +81,7 @@ HTTP-статус: **200**
         "NAME": "Вадим",
         "LAST_NAME": "Валеев",
         "PERSONAL_GENDER": "",
-        "TIME_ZONE": "",
-        "TIME_ZONE_OFFSET": 7200
+        "TIME_ZONE": ""
     },
     "time": {
         "start": 1722848182.67776,
