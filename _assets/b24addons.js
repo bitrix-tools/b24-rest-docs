@@ -716,8 +716,93 @@ function showPollBanner()
     });
 }
 
+function showCallWriterBanner(widthBanner = '95%')
+{
+    if (isIframe())
+    {
+        return;
+    }
+
+    const contentDivs = document.querySelectorAll('div.dc-toc__content');
+
+    contentDivs.forEach((contentDiv) => {
+        const ulElement = contentDiv.querySelector('ul.dc-toc__list');
+        if (
+            ulElement &&
+            !contentDiv.querySelector('a.writer_banner_link')
+        ) {
+            // Создаём img
+            const img = document.createElement('img');
+            img.src = '/_images/banner_restapi_call.png'; // путь к изображению
+            img.alt = 'Список вакансий';
+            img.style.width = widthBanner; // например, '95%'
+
+            // Оборачиваем img в <a>
+            const link = document.createElement('a');
+            link.href = 'https://careers.bitrix24.ru/jobs/customer-service/editor-IT/';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'writer_banner_link';
+            link.appendChild(img);
+
+            // Вставляем <a> в конец div.dc-toc__content
+            contentDiv.appendChild(link);
+        }
+    });
+
+}
+
+function showCallWriterBannerForMobile()
+{
+    if (isIframe())
+    {
+        return;
+    }
+
+    let wasVisible = false;
+
+    // Проверка количества видимых ul.dc-toc__list
+    function checkVisibleTocLists() {
+        const visibleTocLists = Array.from(document.querySelectorAll('div.dc-toc__content'))
+            .filter(el => el.offsetParent !== null); // offsetParent !== null означает, что элемент видим
+
+        if (visibleTocLists.length >= 2 && !wasVisible) {
+            wasVisible = true;
+            showCallWriterBanner('100%');
+        } else if (visibleTocLists.length < 2) {
+            wasVisible = false;
+        }
+    }
+
+    // Наблюдаем за изменениями в DOM
+    const observer = new MutationObserver(checkVisibleTocLists);
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class'], // чтобы отловить скрытие/появление через display: none и class
+    });
+
+    // Также можно опрашивать вручную (на случай динамической отрисовки без мутаций)
+    setInterval(checkVisibleTocLists, 500);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // showPollBanner();
+    if (isMobile())
+    {
+        showCallWriterBannerForMobile();
+    }
+    else
+    {
+        showCallWriterBanner('95%');
+        const observer =new MutationObserver(() => showCallWriterBanner('95%'));
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+    }
     setMenuPosition();
     initB24items();
 });
@@ -753,3 +838,19 @@ window.onload = function() {
         });
     }
 };
+
+function isIframe()
+{
+    let inIframe = false;
+    try {
+        inIframe = window.self !== window.top;
+    } catch (e) {
+        inIframe = true;
+    }
+    // В iframe не нужно показывать баннер опросника
+    return inIframe;
+
+}
+function isMobile() {
+    return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+}
