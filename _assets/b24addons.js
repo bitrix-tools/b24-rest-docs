@@ -521,7 +521,6 @@ function showPollBanner()
     } catch (e) {
         inIframe = true;
     }
-    // В iframe не нужно показывать баннер опросника
     if (inIframe) {
         return;
     }
@@ -535,10 +534,8 @@ function showPollBanner()
     const HIDE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 часа
     const now = Date.now();
 
-    // Проверка на "никогда не показывать"
     if (localStorage.getItem(STORAGE_KEY_PERMANENT) === 'true') return;
 
-    // Проверка на временное скрытие
     const hideUntil = parseInt(localStorage.getItem(STORAGE_KEY_TIME), 10);
     if (!isNaN(hideUntil) && now < hideUntil) return;
 
@@ -562,7 +559,6 @@ function showPollBanner()
       </div>
     `;
 
-    // Стили для контейнера баннера
     Object.assign(banner.style, {
         position: 'fixed',
         bottom: '0',
@@ -576,7 +572,6 @@ function showPollBanner()
         boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
     });
 
-    // Контент внутри баннера
     const content = banner.querySelector('.b24-banner__content');
     Object.assign(content.style, {
         display: 'flex',
@@ -587,7 +582,6 @@ function showPollBanner()
         textAlign: 'center',
     });
 
-    // Стили текста
     const text = banner.querySelector('.b24-banner__text');
     Object.assign(text.style, {
         flex: '1 1 60%',
@@ -619,13 +613,11 @@ function showPollBanner()
         color: 'white',
     });
 
-    // Добавляем padding-bottom к #root
     const root = document.getElementById('root');
     if (root) {
         root.style.paddingBottom = '150px';
     }
 
-    // Закрытие на 2 часа
     close.addEventListener('click', function () {
         banner.remove();
         localStorage.setItem(STORAGE_KEY_TIME, (Date.now() + HIDE_DURATION_MS).toString());
@@ -692,21 +684,16 @@ function showPollBanner()
                 localStorage.setItem(STORAGE_KEY_RATING, hoverRating.toString());
                 isRated = true;
 
-                // Метрика — только при первом голосовании
                 if (typeof ym === 'function') {
                     ym(98117665, 'reachGoal', `survey_star_${hoverRating}`);
                 }
             } else {
-                // Если пользователь кликнул без наведения на звезды — не редиректим
                 return;
             }
         }
-
-        // Редирект в любом случае
         window.location.href = '/poll-bar.html';
     });
 
-    // Навсегда скрыть при отправке формы
     window.addEventListener('message', function (event) {
         if (event.data?.formSubmitted) {
             localStorage.setItem(STORAGE_KEY_PERMANENT, 'true');
@@ -731,13 +718,12 @@ function showCallWriterBanner(widthBanner = '95%')
             ulElement &&
             !contentDiv.querySelector('a.writer_banner_link')
         ) {
-            // Создаём img
-            const img = document.createElement('img');
-            img.src = '/_images/banner_restapi_call.png'; // путь к изображению
-            img.alt = 'Список вакансий';
-            img.style.width = widthBanner; // например, '95%'
 
-            // Оборачиваем img в <a>
+            const img = document.createElement('img');
+            img.src = '/_images/banner_restapi_call.png';
+            img.alt = 'Список вакансий';
+            img.style.width = widthBanner;
+
             const link = document.createElement('a');
             link.href = 'https://careers.bitrix24.ru/jobs/customer-service/editor-IT/';
             link.target = '_blank';
@@ -745,7 +731,7 @@ function showCallWriterBanner(widthBanner = '95%')
             link.className = 'writer_banner_link';
             link.appendChild(img);
 
-            // Вставляем <a> в конец div.dc-toc__content
+
             contentDiv.appendChild(link);
         }
     });
@@ -761,10 +747,9 @@ function showCallWriterBannerForMobile()
 
     let wasVisible = false;
 
-    // Проверка количества видимых ul.dc-toc__list
     function checkVisibleTocLists() {
         const visibleTocLists = Array.from(document.querySelectorAll('div.dc-toc__content'))
-            .filter(el => el.offsetParent !== null); // offsetParent !== null означает, что элемент видим
+            .filter(el => el.offsetParent !== null);
 
         if (visibleTocLists.length >= 2 && !wasVisible) {
             wasVisible = true;
@@ -774,17 +759,16 @@ function showCallWriterBannerForMobile()
         }
     }
 
-    // Наблюдаем за изменениями в DOM
+
     const observer = new MutationObserver(checkVisibleTocLists);
 
     observer.observe(document.body, {
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['style', 'class'], // чтобы отловить скрытие/появление через display: none и class
+        attributeFilter: ['style', 'class'],
     });
 
-    // Также можно опрашивать вручную (на случай динамической отрисовки без мутаций)
     setInterval(checkVisibleTocLists, 500);
 }
 
@@ -847,7 +831,6 @@ function isIframe()
     } catch (e) {
         inIframe = true;
     }
-    // В iframe не нужно показывать баннер опросника
     return inIframe;
 
 }
