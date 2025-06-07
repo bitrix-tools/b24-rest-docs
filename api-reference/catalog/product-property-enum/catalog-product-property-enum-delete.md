@@ -51,13 +51,7 @@ catalog.productPropertyEnum.delete(id)
     BX24.callMethod(
         'catalog.productPropertyEnum.delete',
         {
-            fields: {
-                propertyId: 128,
-                value: "Средний",
-                def: "Y",
-                sort: 123,
-                xmlId: "M"
-            }
+            id: 42 // Укажите ID удаляемого значения
         },
         function(result) {
             if (result.error())
