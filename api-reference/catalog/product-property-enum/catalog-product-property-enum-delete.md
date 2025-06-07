@@ -49,7 +49,7 @@ catalog.productPropertyEnum.delete(id)
 
     ```javascript
     BX24.callMethod(
-        'catalog.productPropertyEnum.add',
+        'catalog.productPropertyEnum.delete',
         {
             fields: {
                 propertyId: 128,
