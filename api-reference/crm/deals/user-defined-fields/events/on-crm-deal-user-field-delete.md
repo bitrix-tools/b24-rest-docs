@@ -1,4 +1,4 @@
-# Cобытие на удаление пользовательского поля onCrmDealUserFieldDelete
+# Cобытие при удалении пользовательского поля onCrmDealUserFieldDelete
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >

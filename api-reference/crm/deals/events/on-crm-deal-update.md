@@ -1,4 +1,4 @@
-# Cобытие на изменение сделки onCrmDealUpdate
+# Cобытие при изменении сделки onCrmDealUpdate
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

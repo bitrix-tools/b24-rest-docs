@@ -5,6 +5,7 @@
 ### 10 июня, 2025
 
 - Обновлены главные страницы событий в разделах: [Лиды](./api-reference/crm/leads/events/index.md), [Пользовательские поля лидов](./api-reference/crm/leads/userfield/events/index.md), [Коммерческие предложения](./api-reference/crm/quote/events/index.md), [Пользовательские поля коммерческих предложений](./api-reference/crm/quote/user-field/events/index.md). Добавили вводную информацию, а также обзор событий
+- Обновлены главные страницы событий в разделах: [Сделки](./api-reference/crm/deals/events/index.md), [Пользовательские поля сделок](./api-reference/crm/deals/user-defined-fields/events/index.md), [Регулярные сделки](./api-reference/crm/deals/recurring-deals/events/index.md). Добавили вводную информацию, а также обзор событий
 
 ### 06 июня, 2025
 

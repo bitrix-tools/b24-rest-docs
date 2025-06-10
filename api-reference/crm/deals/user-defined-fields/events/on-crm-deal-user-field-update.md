@@ -1,4 +1,4 @@
-# Cобытие на изменение пользовательского поля onCrmDealUserFieldUpdate
+# Cобытие при изменении пользовательского поля onCrmDealUserFieldUpdate
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >

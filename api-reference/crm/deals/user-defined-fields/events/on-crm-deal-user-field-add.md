@@ -1,4 +1,4 @@
-# Cобытие на добавление пользовательского поля onCrmDealUserFieldAdd
+# Cобытие при добавлении пользовательского поля onCrmDealUserFieldAdd
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >

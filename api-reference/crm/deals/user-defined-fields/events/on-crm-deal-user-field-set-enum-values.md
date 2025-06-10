@@ -1,4 +1,4 @@
-# Cобытие на изменение набора значений для пользовательского поля списочного типа onCrmDealUserFieldSetEnumValues
+# Cобытие при изменении набора значений для пользовательского поля списочного типа onCrmDealUserFieldSetEnumValues
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
