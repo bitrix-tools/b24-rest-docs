@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 11 июня, 2025
+
+- Обновлены страницы [системных событий](./api-reference/common/events/index.md) и событие [onOfflineEvent](./api-reference/events/on-offline-event.md)
+
 ### 06 июня, 2025
 
 - Обновлена главная страница раздела [Пользовательские поля](./api-reference/user/userfields/index.md). Добавили вводную информацию, а также обзор методов и связей
