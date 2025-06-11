@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 11 июня, 2025
+
+- Обновлены страницы [системных событий](./api-reference/common/events/index.md) и событие [onOfflineEvent](./api-reference/events/on-offline-event.md)
+
 ### 10 июня, 2025
 
 - Обновлены главные страницы событий в разделах: [Лиды](./api-reference/crm/leads/events/index.md), [Пользовательские поля лидов](./api-reference/crm/leads/userfield/events/index.md), [Коммерческие предложения](./api-reference/crm/quote/events/index.md), [Пользовательские поля коммерческих предложений](./api-reference/crm/quote/user-field/events/index.md). Добавили вводную информацию, а также обзор событий

@@ -1,7 +1,7 @@
 title: События
 href: index.md
 items: 
-  - name: Список событий
+  - name: Обзор событий
     href: index.md
   - name: После успешной установки приложения
     href: on-app-install.md
