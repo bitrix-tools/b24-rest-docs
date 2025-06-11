@@ -3,11 +3,11 @@ href: index.md
 items: 
   - name: Обзор событий
     href: index.md
-  - name: На создание новой регулярной сделки
+  - name: При создании новой регулярной сделки
     href: on-crm-deal-recurring-add.md
-  - name: На изменение регулярной сделки
+  - name: При изменении регулярной сделки
     href: on-crm-deal-recurring-update.md
-  - name: На удаление регулярной сделки
+  - name: При удалении регулярной сделки
     href: on-crm-deal-recurring-delete.md
-  - name: На создание новой сделки из регулярной сделки
+  - name: При создании новой сделки из регулярной сделки
     href: on-crm-deal-recurring-expose.md

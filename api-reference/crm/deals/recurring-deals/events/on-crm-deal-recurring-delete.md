@@ -1,4 +1,4 @@
-# Событие на удаление шаблона регулярной сделки onCrmDealRecurringDelete
+# Событие при удалении шаблона регулярной сделки onCrmDealRecurringDelete
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >

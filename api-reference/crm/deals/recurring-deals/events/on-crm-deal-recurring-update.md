@@ -1,4 +1,4 @@
-# Событие на изменение шаблона регулярной сделки onCrmDealRecurringUpdate
+# Событие при изменении шаблона регулярной сделки onCrmDealRecurringUpdate
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >

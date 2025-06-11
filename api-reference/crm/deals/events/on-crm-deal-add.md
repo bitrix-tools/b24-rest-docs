@@ -1,4 +1,4 @@
-# Cобытие на создание сделки onCrmDealAdd
+# Cобытие при создании сделки onCrmDealAdd
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

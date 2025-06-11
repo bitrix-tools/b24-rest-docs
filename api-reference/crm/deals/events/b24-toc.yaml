@@ -3,11 +3,11 @@ href: index.md
 items: 
   - name: Обзор событий
     href: index.md
-  - name: На создание сделки 
+  - name: При создании сделки 
     href: on-crm-deal-add.md
-  - name: На изменение сделки 
+  - name: При изменении сделки 
     href: on-crm-deal-update.md
-  - name: На удаление сделки 
+  - name: При удалении сделки 
     href: on-crm-deal-delete.md
-  - name: На изменение воронки сделки
+  - name: При изменении воронки сделки
     href: on-crm-deal-move-to-category.md

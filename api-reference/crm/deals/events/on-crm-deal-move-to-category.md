@@ -1,4 +1,4 @@
-# Cобытие на изменение воронки сделки onCrmDealMoveToCategory
+# Cобытие при изменении воронки сделки onCrmDealMoveToCategory
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

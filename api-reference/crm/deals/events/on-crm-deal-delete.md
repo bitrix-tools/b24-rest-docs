@@ -1,4 +1,4 @@
-# Cобытие на удаление сделки onCrmDealDelete
+# Cобытие при удалении сделки onCrmDealDelete
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

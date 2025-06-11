@@ -1,4 +1,4 @@
-# Событие на создание шаблона регулярной сделки onCrmDealRecurringAdd
+# Событие при создании шаблона регулярной сделки onCrmDealRecurringAdd
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
