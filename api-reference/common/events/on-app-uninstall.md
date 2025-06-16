@@ -20,7 +20,7 @@
     "ts": "1466439714",
     "auth": {
         "domain": "some-domain.bitrix24.ru",
-        "server_endpoint": "https://oauth.bitrix.info/rest/", 
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/", 
         "client_endpoint": "https://some-domain.bitrix24.ru/rest/", 
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
         "application_token": "51856fefc120afa4b628cc82d3935cce"

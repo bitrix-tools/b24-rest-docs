@@ -22,7 +22,7 @@ array(
     'ts' => '1696527000',
     'auth' => array(
         'domain' => 'some-domain.bitrix24.ru',
-        'server_endpoint' => 'https://oauth.bitrix.info/rest/',   
+        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/',   
         'status' => 'F',
         'client_endpoint' => 'https://some-domain.bitrix24.ru/rest/',   
         'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',
