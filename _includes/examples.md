@@ -1,1 +1,1 @@
-[{#T}](../how-to-use-examples.md) {.b24-info}
+[Как использовать примеры в документации](/how-to-use-examples.html) {.b24-info}

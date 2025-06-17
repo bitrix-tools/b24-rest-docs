@@ -6,7 +6,7 @@
 
 ## Виджеты в CRM
 
-{% include notitle [Как встраивать виджеты](../../tutorials/crm/crm-widgets/index.md) %}
+{% include notitle [Как встраивать виджеты](./../../_includes/widget_crm.md) %}
 
 ## Виджеты в роботах
 
