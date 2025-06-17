@@ -80,7 +80,6 @@
             "DATE_REGISTER": "2020-04-23T03:00:00+03:00",
             "TIME_ZONE": "Asia/Yekaterinburg",
             "IS_ONLINE": "N",
-            "TIME_ZONE_OFFSET": "7200",
             "TIMESTAMP_X": {},
             "LAST_ACTIVITY_DATE": {},
             "PERSONAL_GENDER": "",

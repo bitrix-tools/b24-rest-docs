@@ -254,22 +254,22 @@ HTTP-статус: **200**
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-## Возможные коды ошибок
+### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_ID_NOT_PROVIDED` | `ID is missing.` | Идентификатор не указан ||
-|| `VALIDATION_INVALID_ID_FORMAT` | `ID has to be a positive integer.` | Неверный формат ID ||
-|| `VALIDATION_FIELDS_NOT_PROVIDED` | `Fields not provided.` | Поля не переданы в запросе ||
-|| `VALIDATION_UNKNOWN_PARAMETERS` | `Unknown parameters: #LIST_OF_PARAMS#` | Обнаружены неизвестные параметры: перечень ||
-|| `VALIDATION_READ_ONLY_FIELD` | `Field "#TITLE#" is read only.` | Поле #TITLE# доступно только для чтения и не может быть изменено ||
-|| `VALIDATION_IMMUTABLE_FIELD` | `Field "#TITLE#" is immutable.` | Поле #TITLE# неизменяемое ||
-|| `VALIDATION_INVALID_FIELD_TYPE` | `Field "#TITLE#" must be of type #TYPE#.` | Поле #TITLE# должно быть типа #TYPE# ||
-|| `CONNECTOR_NOT_FOUND` | `Connector was not found.` | Коннектор не найден ||
-|| `VALIDATION_SETTINGS_MISSING_REQUIRED_FIELDS` | `Settings must include "type", "name" and "code" fields.` | В настройках должны быть указаны поля `type`, `name` и `code` ||
-|| `VALIDATION_SETTINGS_INVALID_TYPE` | `Parameter "type" is not correct.` | Недопустимое значение параметра `type` ||
-|| `VALIDATION_SETTINGS_NAME_TOO_LONG` | `Parameter "name" must be less than 512 characters.` | Значение параметра `name` не должно превышать 512 символов ||
-|| `VALIDATION_SETTINGS_CODE_TOO_LONG` | `Parameter "code" must be less than 512 characters.` | Значение параметра `code` не должно превышать 512 символов ||
+|| `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
+|| `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
+|| `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
+|| `VALIDATION_UNKNOWN_PARAMETERS` | Unknown parameters: #LIST_OF_PARAMS# | Обнаружены неизвестные параметры: перечень ||
+|| `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
+|| `VALIDATION_IMMUTABLE_FIELD` | Field "#TITLE#" is immutable. | Поле #TITLE# неизменяемое ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
+|| `CONNECTOR_NOT_FOUND` | Connector was not found. | Коннектор не найден ||
+|| `VALIDATION_SETTINGS_MISSING_REQUIRED_FIELDS` | Settings must include "type", "name" and "code" fields. | В настройках должны быть указаны поля `type`, `name` и `code` ||
+|| `VALIDATION_SETTINGS_INVALID_TYPE` | Parameter "type" is not correct. | Недопустимое значение параметра `type` ||
+|| `VALIDATION_SETTINGS_NAME_TOO_LONG` | Parameter "name" must be less than 512 characters. | Значение параметра `name` не должно превышать 512 символов ||
+|| `VALIDATION_SETTINGS_CODE_TOO_LONG` | Parameter "code" must be less than 512 characters. | Значение параметра `code` не должно превышать 512 символов ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -248,13 +248,13 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_SELECT_TYPE` | `Parameter "select" must be array.` | В параметр `select` передан не объект ||
-|| `VALIDATION_FILTER_TYPE` | `Parameter "filter" must be array.` | В параметр `filter` передан не объект ||
-|| `VALIDATION_ORDER_TYPE` | `Parameter "order" must be array.` | В параметр `order` передан не объект ||
-|| `VALIDATION_FIELD_NOT_ALLOWED_IN_SELECT` | `Field "#TITLE#" is not allowed in the "select".` | Данные поля недопустимы в выборке ||
-|| `VALIDATION_FIELD_NOT_ALLOWED_IN_FILTER` | `Field "#TITLE#" is not allowed in the "filter".` | Данные поля недопустимы в фильтре ||
-|| `VALIDATION_FIELD_NOT_ALLOWED_IN_ORDER` | `Field "#TITLE#" is not allowed in the "order".` | Данные поля недопустимы для сортировки ||
-|| `VALIDATION_INVALID_FILTER_LOGIC` | `Field "logic" must be either "AND" or "OR".` | Поле `logic` может иметь значение только "AND" или "OR" ||
+|| `VALIDATION_SELECT_TYPE` | Parameter "select" must be array. | В параметр `select` передан не объект ||
+|| `VALIDATION_FILTER_TYPE` | Parameter "filter" must be array. | В параметр `filter` передан не объект ||
+|| `VALIDATION_ORDER_TYPE` | Parameter "order" must be array. | В параметр `order` передан не объект ||
+|| `VALIDATION_FIELD_NOT_ALLOWED_IN_SELECT` | Field "#TITLE#" is not allowed in the "select". | Данные поля недопустимы в выборке ||
+|| `VALIDATION_FIELD_NOT_ALLOWED_IN_FILTER` | Field "#TITLE#" is not allowed in the "filter". | Данные поля недопустимы в фильтре ||
+|| `VALIDATION_FIELD_NOT_ALLOWED_IN_ORDER` | Field "#TITLE#" is not allowed in the "order". | Данные поля недопустимы для сортировки ||
+|| `VALIDATION_INVALID_FILTER_LOGIC` | Field "logic" must be either "AND" or "OR". | Поле `logic` может иметь значение только "AND" или "OR" ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

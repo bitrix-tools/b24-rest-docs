@@ -521,7 +521,6 @@ function showPollBanner()
     } catch (e) {
         inIframe = true;
     }
-    // В iframe не нужно показывать баннер опросника
     if (inIframe) {
         return;
     }
@@ -535,10 +534,8 @@ function showPollBanner()
     const HIDE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 часа
     const now = Date.now();
 
-    // Проверка на "никогда не показывать"
     if (localStorage.getItem(STORAGE_KEY_PERMANENT) === 'true') return;
 
-    // Проверка на временное скрытие
     const hideUntil = parseInt(localStorage.getItem(STORAGE_KEY_TIME), 10);
     if (!isNaN(hideUntil) && now < hideUntil) return;
 
@@ -562,7 +559,6 @@ function showPollBanner()
       </div>
     `;
 
-    // Стили для контейнера баннера
     Object.assign(banner.style, {
         position: 'fixed',
         bottom: '0',
@@ -576,7 +572,6 @@ function showPollBanner()
         boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
     });
 
-    // Контент внутри баннера
     const content = banner.querySelector('.b24-banner__content');
     Object.assign(content.style, {
         display: 'flex',
@@ -587,7 +582,6 @@ function showPollBanner()
         textAlign: 'center',
     });
 
-    // Стили текста
     const text = banner.querySelector('.b24-banner__text');
     Object.assign(text.style, {
         flex: '1 1 60%',
@@ -619,13 +613,11 @@ function showPollBanner()
         color: 'white',
     });
 
-    // Добавляем padding-bottom к #root
     const root = document.getElementById('root');
     if (root) {
         root.style.paddingBottom = '150px';
     }
 
-    // Закрытие на 2 часа
     close.addEventListener('click', function () {
         banner.remove();
         localStorage.setItem(STORAGE_KEY_TIME, (Date.now() + HIDE_DURATION_MS).toString());
@@ -692,21 +684,16 @@ function showPollBanner()
                 localStorage.setItem(STORAGE_KEY_RATING, hoverRating.toString());
                 isRated = true;
 
-                // Метрика — только при первом голосовании
                 if (typeof ym === 'function') {
                     ym(98117665, 'reachGoal', `survey_star_${hoverRating}`);
                 }
             } else {
-                // Если пользователь кликнул без наведения на звезды — не редиректим
                 return;
             }
         }
-
-        // Редирект в любом случае
         window.location.href = '/poll-bar.html';
     });
 
-    // Навсегда скрыть при отправке формы
     window.addEventListener('message', function (event) {
         if (event.data?.formSubmitted) {
             localStorage.setItem(STORAGE_KEY_PERMANENT, 'true');
@@ -716,8 +703,90 @@ function showPollBanner()
     });
 }
 
+function showCallWriterBanner(widthBanner = '95%')
+{
+    if (isIframe())
+    {
+        return;
+    }
+
+    const contentDivs = document.querySelectorAll('div.dc-toc__content');
+
+    contentDivs.forEach((contentDiv) => {
+        const ulElement = contentDiv.querySelector('ul.dc-toc__list');
+        if (
+            ulElement &&
+            !contentDiv.querySelector('a.writer_banner_link')
+        ) {
+
+            const img = document.createElement('img');
+            img.src = '/_images/banner_restapi_call.png';
+            img.alt = 'Список вакансий';
+            img.style.width = widthBanner;
+
+            const link = document.createElement('a');
+            link.href = 'https://careers.bitrix24.ru/jobs/customer-service/editor-IT/';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'writer_banner_link';
+            link.appendChild(img);
+
+
+            contentDiv.appendChild(link);
+        }
+    });
+
+}
+
+function showCallWriterBannerForMobile()
+{
+    if (isIframe())
+    {
+        return;
+    }
+
+    let wasVisible = false;
+
+    function checkVisibleTocLists() {
+        const visibleTocLists = Array.from(document.querySelectorAll('div.dc-toc__content'))
+            .filter(el => el.offsetParent !== null);
+
+        if (visibleTocLists.length >= 2 && !wasVisible) {
+            wasVisible = true;
+            showCallWriterBanner('100%');
+        } else if (visibleTocLists.length < 2) {
+            wasVisible = false;
+        }
+    }
+
+
+    const observer = new MutationObserver(checkVisibleTocLists);
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class'],
+    });
+
+    setInterval(checkVisibleTocLists, 500);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    showPollBanner();
+    // showPollBanner();
+    if (isMobile())
+    {
+        showCallWriterBannerForMobile();
+    }
+    else
+    {
+        showCallWriterBanner('95%');
+        const observer =new MutationObserver(() => showCallWriterBanner('95%'));
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+    }
     setMenuPosition();
     initB24items();
 });
@@ -753,3 +822,18 @@ window.onload = function() {
         });
     }
 };
+
+function isIframe()
+{
+    let inIframe = false;
+    try {
+        inIframe = window.self !== window.top;
+    } catch (e) {
+        inIframe = true;
+    }
+    return inIframe;
+
+}
+function isMobile() {
+    return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+}

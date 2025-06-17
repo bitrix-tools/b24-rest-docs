@@ -46,7 +46,7 @@
         'expires_in' => 3600,
         'scope' => 'imconnector',
         'domain' => 'some-domain.bitrix24.com',
-        'server_endpoint' => 'https://oauth.bitrix.info/rest/&#39;',
+        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/&#39;',
         'status' => 'F',
         'client_endpoint' => 'https://some-domain.bitrix24.com/rest/&#39;',
         'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',

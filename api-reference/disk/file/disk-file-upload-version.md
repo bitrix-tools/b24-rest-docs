@@ -31,7 +31,7 @@
 || **id**
 [`unknown`](../../data-types.md) | Идентификатор файла. ||
 || **fileContent**
-[`unknown`](../../data-types.md) | Аналогично `DETAIL_PICTURE` в примере [Обработка файлов](../../bx24-js-sdk/how-to-call-rest-methods/files.md). ||
+[`unknown`](../../data-types.md) | Загрузка файла в формате [Base64](../../files/how-to-upload-files.md). ||
 |#
 
 ## Пример

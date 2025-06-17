@@ -52,7 +52,6 @@ https://your-domain.bitrix24.com/rest/method-name?param1=value1&param2=value2...
                     "LAST_LOGIN": "2024-08-29T10:29:54+03:00",
                     "DATE_REGISTER": "2023-08-24T03:00:00+03:00",
                     "IS_ONLINE": "Y",
-                    "TIME_ZONE_OFFSET": "0",
                     "TIMESTAMP_X": "24.08.2023 13:19:39",
                     "LAST_ACTIVITY_DATE": "2024-08-29 10:59:12",
                     "PERSONAL_GENDER": "",
@@ -117,7 +116,6 @@ https://your-domain.bitrix24.com/rest/method-name?param1=value1&param2=value2...
                     <LAST_LOGIN>2024-08-29T10:29:54+03:00</LAST_LOGIN>
                     <DATE_REGISTER>2023-08-24T03:00:00+03:00</DATE_REGISTER>
                     <IS_ONLINE>Y</IS_ONLINE>
-                    <TIME_ZONE_OFFSET>0</TIME_ZONE_OFFSET>
                     <TIMESTAMP_X>24.08.2023 13:19:39</TIMESTAMP_X>
                     <LAST_ACTIVITY_DATE>2024-08-29 10:59:12</LAST_ACTIVITY_DATE>
                     <PERSONAL_GENDER></PERSONAL_GENDER>

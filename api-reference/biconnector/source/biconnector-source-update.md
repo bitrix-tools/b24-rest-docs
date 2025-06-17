@@ -195,22 +195,22 @@ HTTP-статус: **200**
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-## Возможные коды ошибок
+### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_ID_NOT_PROVIDED` | `ID is missing.` | Идентификатор не указан ||
-|| `VALIDATION_INVALID_ID_FORMAT` | `ID has to be a positive integer.` | Неверный формат ID ||
-|| `VALIDATION_FIELDS_NOT_PROVIDED` | `Fields not provided.` | Поля не переданы в запросе ||
-|| `VALIDATION_UNKNOWN_PARAMETERS` | `Unknown parameters: #LIST_OF_PARAMS#` | Обнаружены неизвестные параметры: перечень ||
-|| `VALIDATION_REQUIRED_FIELD_MISSING` | `Field "#TITLE#" is required.` | Обязательное поле #TITLE# не передано ||
-|| `VALIDATION_READ_ONLY_FIELD` | `Field "#TITLE#" is read only.` | Поле #TITLE# доступно только для чтения и не может быть изменено ||
-|| `VALIDATION_IMMUTABLE_FIELD` | `Field "#TITLE#" is immutable.` | Поле #TITLE# неизменяемое ||
-|| `VALIDATION_INVALID_FIELD_TYPE` | `Field "#TITLE#" must be of type #TYPE#.` | Поле #TITLE# должно быть типа #TYPE# ||
-|| `SOURCE_NOT_FOUND` | `Source was not found.` | Источник не найден ||
-|| `SOURCE_CREATE_CONNECTION_ERROR` | `Cannot create connection.` | Ошибка при создании подключения ||
-|| `SOURCE_UPDATE_CONNECTION_ERROR` | `Cannot update connection.` | Ошибка при обновлении подключения ||
-|| `BX_ERROR` | `Cannot delete source. Delete all related datasets first.` | Нельзя удалить источник, пока существуют связанные датасеты ||
+|| `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
+|| `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
+|| `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
+|| `VALIDATION_UNKNOWN_PARAMETERS` | Unknown parameters: #LIST_OF_PARAMS# | Обнаружены неизвестные параметры: перечень ||
+|| `VALIDATION_REQUIRED_FIELD_MISSING` | Field "#TITLE#" is required. | Обязательное поле #TITLE# не передано ||
+|| `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
+|| `VALIDATION_IMMUTABLE_FIELD` | Field "#TITLE#" is immutable. | Поле #TITLE# неизменяемое ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
+|| `SOURCE_NOT_FOUND` | Source was not found. | Источник не найден ||
+|| `SOURCE_CREATE_CONNECTION_ERROR` | Cannot create connection. | Ошибка при создании подключения ||
+|| `SOURCE_UPDATE_CONNECTION_ERROR` | Cannot update connection. | Ошибка при обновлении подключения ||
+|| `BX_ERROR` | Cannot delete source. Delete all related datasets first. | Нельзя удалить источник, пока существуют связанные датасеты ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

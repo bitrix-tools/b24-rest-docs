@@ -149,13 +149,13 @@ HTTP-статус: **200**
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-## Возможные коды ошибок
+### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_ID_NOT_PROVIDED` | `ID is missing.` | Идентификатор не указан ||
-|| `VALIDATION_INVALID_ID_FORMAT` | `ID has to be a positive integer.` | Неверный формат ID ||
-|| `CONNECTOR_NOT_FOUND` | `Connector was not found.` | Коннектор не найден ||
+|| `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
+|| `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
+|| `CONNECTOR_NOT_FOUND` | Connector was not found. | Коннектор не найден ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -33,7 +33,7 @@ sequenceDiagram
     Битрикс24-->>Приложение: Передает на url приложения код авторизации
     Note over Битрикс24,Приложение: https://myapp.com/?code=1232311&domain=xxx.bitrix24.yyy&...
     Приложение-->>Сервер авторизации: Передает код авторизации, client_id и client_secret
-    Note over Приложение,Сервер авторизации: https://oauth.bitrix.info/oauth/token/?grant_type=authorization_code<br/>&client_id=app.zzz&client_secret=LJSl0lNB76B5YY<br/>&code=1232311
+    Note over Приложение,Сервер авторизации: https://oauth.bitrix24.tech/oauth/token/?grant_type=authorization_code<br/>&client_id=app.zzz&client_secret=LJSl0lNB76B5YY<br/>&code=1232311
     Сервер авторизации-->>Приложение: Возвращает приложению access_token и refresh_token
     Note over Сервер авторизации,Приложение: "access_token": "s1morf609228iwyjjpvfv6wsvuja4p8u",<br/>"refresh_token": "4f9k4jpmg13usmybzuqknt2v9fh0q6rl"
     Приложение-->>Битрикс24: Использует access_token для вызовов REST API
@@ -64,7 +64,7 @@ sequenceDiagram
 
 ## Полная OAuth-авторизация в Битрикс24
 
-В качестве сервера данных и держателя пользовательской авторизации выступает конкретный Битрикс24. В качестве держателя авторизации приложения служит сервер авторизации, доступный по адресу https://oauth.bitrix.info/.
+В качестве сервера данных и держателя пользовательской авторизации выступает конкретный Битрикс24. В качестве держателя авторизации приложения служит сервер авторизации, доступный по адресу https://oauth.bitrix24.tech/.
 
 Полный сценарий OAuth-авторизации проходит в несколько шагов.
 
@@ -98,7 +98,7 @@ https://www.applicationhost.com/application/?
      &domain=portal.bitrix24.com
      &member_id=a223c6b3710f85df22e9377d6c4f7553
      &scope=crm%2Centity%2Cim%2Ctask
-     &server_domain=oauth.bitrix.info
+     &server_domain=oauth.bitrix24.tech
 ```
 
 Параметры:
@@ -120,14 +120,14 @@ https://www.applicationhost.com/application/?
 
 {% note warning %}
 
-Предыдущая реализация протокола предполагала отдачу `client_secret` приложения непосредственно Битрикс24. В связи с расширением механизма REST API на коробочные установки Битрикс24 такое действие становится небезопасным. Все операции, предполагающие участие секретного кода приложения, должны проводиться исключительно с сервером авторизации **oauth.bitrix.info**. По той же причине этот сервер авторизации должен быть единственным доверенным источником информации о платежном статусе приложения на портале.
+Предыдущая реализация протокола предполагала отдачу `client_secret` приложения непосредственно Битрикс24. В связи с расширением механизма REST API на коробочные установки Битрикс24 такое действие становится небезопасным. Все операции, предполагающие участие секретного кода приложения, должны проводиться исключительно с сервером авторизации **oauth.bitrix24.tech**. По той же причине этот сервер авторизации должен быть единственным доверенным источником информации о платежном статусе приложения на портале.
 
 {% endnote %}
 
 Получив тем или иным способом первый авторизационный код `code`, приложение должно совершить второй шаг OAuth-авторизации и сделать скрытый от пользователя запрос вида:
 
 ```bash
-https://oauth.bitrix.info/oauth/token/?
+https://oauth.bitrix24.tech/oauth/token/?
     grant_type=authorization_code
     &client_id=app.573ad8a0346747.09223434
     &client_secret=LJSl0lNB76B5YY6u0YVQ3AW0DrVADcRTwVr4y99PXU1BWQybWK
@@ -160,12 +160,12 @@ Content-Type: application/json
 {
     "access_token": "s1morf609228iwyjjpvfv6wsvuja4p8u",
     "client_endpoint": "https://portal.bitrix24.com/rest/",
-    "domain": "oauth.bitrix.info",
+    "domain": "oauth.bitrix24.tech",
     "expires_in": 3600,
     "member_id": "a223c6b3710f85df22e9377d6c4f7553",
     "refresh_token": "4f9k4jpmg13usmybzuqknt2v9fh0q6rl",
     "scope": "app",
-    "server_endpoint": "https://oauth.bitrix.info/rest/",
+    "server_endpoint": "https://oauth.bitrix24.tech/rest/",
     "status": "T"
 }
 ```

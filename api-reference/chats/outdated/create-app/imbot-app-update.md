@@ -19,7 +19,7 @@
 #|
 || **Название** | **Пример** | **Описание** ||
 || **APP_ID*** | `13` | Идентификатор чата ||
-|| **IFRAME** | `'https://marta.bitrix.info/iframe/echo.php'` | URL адрес фрейма ||
+|| **IFRAME** | `'https://marta.bitrix24.tech/iframe/echo.php'` | URL адрес фрейма ||
 || **IFRAME_WIDTH** | `'350'` | Желаемая ширина фрейма. Минимальное значение - 250px ||
 || **IFRAME_HEIGHT** | `'150'` | Желаемая высота фрейма. Минимальное значение - 50px ||
 || **JS_METHOD** | `'SEND'` | ||
@@ -53,7 +53,7 @@
         Array(
             'APP_ID' => 13,
             'FIELDS' => Array(
-                'IFRAME' => 'https://marta.bitrix.info/iframe/echo.php',
+                'IFRAME' => 'https://marta.bitrix24.tech/iframe/echo.php',
                 'IFRAME_WIDTH' => '350',
                 'IFRAME_HEIGHT' => '150',
                 'JS_METHOD' => 'SEND',

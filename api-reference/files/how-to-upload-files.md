@@ -1,10 +1,10 @@
 # Как загрузить файлы 
 
-В Битрикс24 есть два типа файловых полей:
+В Битрикс24 есть два типа файловых полей.
 
-- **Файл.** Поле не связано с Диском, в него файлы загружаются напрямую, через строку формата Base64
+- **Файл.** Поле не связано с Диском, в него файлы загружаются напрямую, через строку формата Base64.
 
-- **Файл (диск).** Поле связано с Диском, в поле хранится ID объекта диска. Формат Bаse64 в поле не обрабатывается, поэтому сначала файл загружается на Диск Битрикс24 методами [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md) или [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md)
+- **Файл (диск).** Поле связано с Диском, в поле хранится ID объекта диска. Формат Bаse64 в поле не обрабатывается, поэтому сначала файл загружается на Диск Битрикс24 методами [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md) или [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md).
 
 Для загрузки файлов в Битрикс24 используйте стандарт кодирования Base64. Кодирование используется, когда нужно передать файл через текстовые протоколы, например HTTP.
 
@@ -112,8 +112,6 @@ $base64 = base64_encode($fileData); // Кодируем в base64
    - [crm.item.add](../crm/universal/crm-item-add.md) — в поля типа «файл» объектов CRM
 
    - [log.blogpost.add](../log/log-blogpost-add.md) — в поле `FILES`
-
-   - [user.add](../user/user-add.md) — в поля типа «файл»
 
    - [lists.element.add](../lists/elements/lists-element-add.md) — в свойства типа «файл»
 
@@ -329,15 +327,13 @@ $base64 = base64_encode($fileData); // Кодируем в base64
 
 - [crm.item.add](../crm/universal/crm-item-add.md) — поля типа «файл»
 
-- [user.add](../user/user-add.md) — поля типа «файл»
-
 - [lists.element.add](../lists/elements/lists-element-add.md) — свойства типа «файл»
-
-- [entity.item.add](../entity/items/entity-item-add.md) — свойства типа «файл»
 
 - [crm.timeline.comment.add](../crm/timeline/comments/crm-timeline-comment-add.md) — поле `FILES`
 
-- [log.blogpost.add ](../log/log-blogpost-add.md) — поле `FILES`
+- [log.blogpost.add](../log/log-blogpost-add.md) — поле `FILES`
+
+- [catalog.product.add](../catalog/product/catalog-product-add.md) —  поля типа «файл»
 
 Для загрузки нескольких файлов передавайте массив, где каждый элемент — это имя файла и сам файл, в формате строки закодированной в Bаse64.
 
@@ -424,6 +420,95 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     ```
 
 {% endlist %}
+
+Для загрузки нескольких файлов в методе [catalog.product.add](../catalog/product/catalog-product-add.md) передавайте массив объектов, где каждый объект содержит поле `value`, в котором находится объект с ключом `fileData`. Значение `fileData` — массив из двух элементов: имя файла и сам файл, в формате строки закодированной в Bаse64.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.product.add',
+        {
+            fields: {
+                iblockId: 1,
+                name: "Пример товара",
+                PROPERTY_1077: [
+                    {
+                        value: {
+                            fileData: [
+                                "blue_pixel.txt", // Имя файла
+                                "YmFzZSDRgtC10YHRgg==" // Base64-контент
+                            ]
+                        }
+                    },
+                    {
+                        value: {
+                            fileData: [
+                                "red_pixel.txt", // Имя файла
+                                "YmFzZSDRgtC10YHRgg==" // Base64-контент
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    );
+    ```
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"fields": {"iblockId": 1, "name": "Пример товара", "PROPERTY_1077": [{"value": {"fileData": ["blue_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}, {"value": {"fileData": ["red_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.product.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"fields": {"iblockId": 1, "name": "Пример товара", "PROPERTY_1077": [{"value": {"fileData": ["blue_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}, {"value": {"fileData": ["red_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}]}, "auth": "**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/catalog.product.add
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.product.add',
+        [
+            'fields' => [
+                'iblockId' => 1,
+                'name' => 'Пример товара',
+                'PROPERTY_1077' => [
+                    [
+                        'value' => [
+                            'fileData' => [
+                                'blue_pixel.txt',
+                                'YmFzZSDRgtC10YHRgg=='
+                            ]
+                        ]
+                    ],
+                    [
+                        'value' => [
+                            'fileData' => [
+                                'red_pixel.txt',
+                                'YmFzZSDRgtC10YHRgg=='
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
 
 ## Ограничения при работе с файлами
 

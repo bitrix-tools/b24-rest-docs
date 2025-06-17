@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При генерации документа
+    href: on-crm-document-generator-document-add.md
+  - name: При изменении документа
+    href: on-crm-document-generator-document-update.md
+  - name: При удалении документа
+    href: on-crm-document-generator-document-delete.md

@@ -19,3 +19,7 @@ items:
     href: crm-document-generator-document-upload.md
   - name: Удалить документа
     href: crm-document-generator-document-delete.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link    

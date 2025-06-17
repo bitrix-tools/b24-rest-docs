@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет пользовательское поле.
+Метод `user.userfield.add` добавляет пользовательское поле.
 
 ## Параметры метода
 
@@ -315,21 +315,21 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{
-        "fields": {
-            "USER_TYPE_ID": "string",
-            "FIELD_NAME": "MY_TEST_FIELD_STR",
-            "XML_ID": "MY_TEST_FIELD_XML",
-            "MULTIPLE": "Y",
-            "SHOW_FILTER": "Y",
+    -d '{"fields": {
+            "FIELD_NAME": "UF_USER_DEALS",
+            "USER_TYPE_ID": "crm",
+            "XML_ID": "UF_CRM_DEALS",
             "SORT": 100,
-            "LIST_FILTER_LABEL": "Title",
-            "LIST_COLUMN_LABEL": "List Title",
-            "EDIT_FORM_LABEL": "Title",
-            "ERROR_MESSAGE": "Title",
-            "HELP_MESSAGE": "Title",
+            "MULTIPLE": "Y",
+            "MANDATORY": "N",
+            "SHOW_FILTER": "N",
+            "SHOW_IN_LIST": "Y",
+            "EDIT_IN_LIST": "Y",
             "SETTINGS": {
-                "DEFAULT_VALUE": "default"
+                "DEAL": "Y"
+            },
+            "EDIT_FORM_LABEL": {
+                "ru": "Привязка к сделкам CRM"
             }
         }
     }' \
@@ -343,19 +343,20 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields": {
-            "USER_TYPE_ID": "string",
-            "FIELD_NAME": "MY_TEST_FIELD_STR",
-            "XML_ID": "MY_TEST_FIELD_XML",
-            "MULTIPLE": "Y",
-            "SHOW_FILTER": "Y",
+            "FIELD_NAME": "UF_USER_DEALS",
+            "USER_TYPE_ID": "crm",
+            "XML_ID": "UF_CRM_DEALS",
             "SORT": 100,
-            "LIST_FILTER_LABEL": "Title",
-            "LIST_COLUMN_LABEL": "List Title",
-            "EDIT_FORM_LABEL": "Title",
-            "ERROR_MESSAGE": "Title",
-            "HELP_MESSAGE": "Title",
+            "MULTIPLE": "Y",
+            "MANDATORY": "N",
+            "SHOW_FILTER": "N",
+            "SHOW_IN_LIST": "Y",
+            "EDIT_IN_LIST": "Y",
             "SETTINGS": {
-                "DEFAULT_VALUE": "default"
+                "DEAL": "Y"
+            },
+            "EDIT_FORM_LABEL": {
+                "ru": "Привязка к сделкам CRM"
             }
         },
         "auth": "**put_access_token_here**"
@@ -370,19 +371,20 @@
         'user.userfield.add', 
         {
             fields: {
-                USER_TYPE_ID: 'string',
-                FIELD_NAME: 'MY_TEST_FIELD_STR',
-                XML_ID: 'MY_TEST_FIELD_XML',
-                MULTIPLE: 'Y',
-                SHOW_FILTER: 'Y',
+                FIELD_NAME: "UF_USER_DEALS",
+                USER_TYPE_ID: "crm",
+                XML_ID: "UF_CRM_DEALS",
                 SORT: 100,
-                LIST_FILTER_LABEL: 'Title',
-                LIST_COLUMN_LABEL: 'List Title',
-                EDIT_FORM_LABEL: 'Title',
-                ERROR_MESSAGE: 'Title',
-                HELP_MESSAGE: 'Title',
+                MULTIPLE: "Y",
+                MANDATORY: "N",
+                SHOW_FILTER: "N",
+                SHOW_IN_LIST: "Y",
+                EDIT_IN_LIST: "Y",
                 SETTINGS: {
-                    DEFAULT_VALUE: 'default',
+                    DEAL: "Y",
+                },
+                EDIT_FORM_LABEL: {
+                    ru: "Привязка к сделкам CRM"
                 },
             },
         },
@@ -405,20 +407,21 @@
         'user.userfield.add',
         [
             'fields' => [
-                'USER_TYPE_ID' => 'string',
-                'FIELD_NAME' => 'MY_TEST_FIELD_STR',
-                'XML_ID' => 'MY_TEST_FIELD_XML',
-                'MULTIPLE' => 'Y',
-                'SHOW_FILTER' => 'Y',
+                'FIELD_NAME' => 'UF_USER_DEALS',
+                'USER_TYPE_ID' => 'crm',
+                'XML_ID' => 'UF_CRM_DEALS',
                 'SORT' => 100,
-                'LIST_FILTER_LABEL' => 'Title',
-                'LIST_COLUMN_LABEL' => 'List Title',
-                'EDIT_FORM_LABEL' => 'Title',
-                'ERROR_MESSAGE' => 'Title',
-                'HELP_MESSAGE' => 'Title',
+                'MULTIPLE' => 'Y',
+                'MANDATORY' => 'N',
+                'SHOW_FILTER' => 'N',
+                'SHOW_IN_LIST' => 'Y',
+                'EDIT_IN_LIST' => 'Y',
                 'SETTINGS' => [
-                    'DEFAULT_VALUE' => 'default',
-                ]
+                    'DEAL' => 'Y',
+                ],
+                'EDIT_FORM_LABEL' => [
+                    'ru' => 'Привязка к сделкам CRM'
+                ],
             ]
         ]
     );
@@ -457,7 +460,7 @@ HTTP-статус: **200**
 || **result**
 [`integer`](../../data-types.md) | Идентификатор созданного пользовательского поля ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

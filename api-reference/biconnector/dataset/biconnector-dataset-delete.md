@@ -120,14 +120,14 @@ HTTP-статус: **200**
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-## Возможные коды ошибок
+### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_ID_NOT_PROVIDED` | `ID is missing.` | Идентификатор не указан ||
-|| `VALIDATION_INVALID_ID_FORMAT` | `ID has to be a positive integer.` | Неверный формат ID ||
-|| `DATASET_NOT_FOUND` | `Dataset was not found.` | Датасет не найден ||
-|| `-` | `Error deleting dataset` | Ошибка удаления датасета ||
+|| `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
+|| `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
+|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасет не найден ||
+|| `-` | Error deleting dataset | Ошибка удаления датасета ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

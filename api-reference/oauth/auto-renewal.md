@@ -5,7 +5,7 @@
 В любой момент до истечения срока действия `refresh_token`, приложение может совершить следующий запрос:
 
 ```bash
-https://oauth.bitrix.info/oauth/token/?
+https://oauth.bitrix24.tech/oauth/token/?
     grant_type=refresh_token
     &client_id=app.573ad8a0346747.09223434
     &client_secret=LJSl0lNB76B5YY6u0YVQ3AW0DrVADcRTwVr4y99PXU1BWQybWK
@@ -32,12 +32,12 @@ Content-Type: application/json
 {
     "access_token": "ydtj8pho532wydb5ixk78ol7uqlb7sch",
     "client_endpoint": "http://portal.bitrix24.com/rest/",
-    "domain": "oauth.bitrix.info",
+    "domain": "oauth.bitrix24.tech",
     "expires_in": 3600,
     "member_id": "a223c6b3710f85df22e9377d6c4f7553",
     "refresh_token": "3s6lr4kr3cv2od4v853gvrchb875bwxb",
     "scope": "app",
-    "server_endpoint": "http://oauth.bitrix.info/rest/",
+    "server_endpoint": "http://oauth.bitrix24.tech/rest/",
     "status": "T"
 }
 ```

@@ -2,6 +2,32 @@
 
 ## 2025
 
+### 11 июня, 2025
+
+- Обновлены страницы [системных событий](./api-reference/common/events/index.md) и событие [onOfflineEvent](./api-reference/events/on-offline-event.md)
+
+### 10 июня, 2025
+
+- Обновлены главные страницы событий в разделах: [Лиды](./api-reference/crm/leads/events/index.md), [Пользовательские поля лидов](./api-reference/crm/leads/userfield/events/index.md), [Коммерческие предложения](./api-reference/crm/quote/events/index.md), [Пользовательские поля коммерческих предложений](./api-reference/crm/quote/user-field/events/index.md). Добавили вводную информацию, а также обзор событий
+- Обновлены главные страницы событий в разделах: [Сделки](./api-reference/crm/deals/events/index.md), [Пользовательские поля сделок](./api-reference/crm/deals/user-defined-fields/events/index.md), [Регулярные сделки](./api-reference/crm/deals/recurring-deals/events/index.md). Добавили вводную информацию, а также обзор событий
+
+### 06 июня, 2025
+
+- Обновлена главная страница раздела [Пользовательские поля](./api-reference/user/userfields/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлен туториал [Добавить повторный лид](./tutorials/crm/how-to-add-crm-objects/how-to-add-repeat-lead.md)
+
+### 05 июня, 2025
+
+- Обновлены страницы событий [onCrmDocumentGeneratorDocument*](./api-reference/crm/document-generator/documents/events/index.md)
+- Обновлен туториал [Как изменить или удалить номера телефонов и email](./tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
+- Обновлены главные страницы событий в разделах: [Контакты](./api-reference/crm/contacts/events/index.md), [Пользователськие поля контактов](./api-reference/crm/contacts/userfield/events/index.md), [Пользовательские поля компаний](./api-reference/crm/companies/userfields/events/index.md). Добавили вводную информацию, а также обзор событий
+- Обновлена документация по методу получения рабочего графика [timeman.schedule.get](./api-reference/timeman/schedule/timeman-schedule-get.md)
+
+### 04 июня, 2025
+
+- Добавлена статья [Как обновить и удалить файлы](./api-reference/files/how-to-update-files.md)
+- Обновлен туториал [Добавить контакт с реквизитами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-contact-with-requisite.md)
+
 ### 30 мая, 2025
 
 - Обновлена документация по методам работы с [пользовательскими полями](./api-reference/user/userfields/index.md) в разделе Пользователи

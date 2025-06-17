@@ -49,15 +49,9 @@ catalog.productPropertyEnum.delete(id)
 
     ```javascript
     BX24.callMethod(
-        'catalog.productPropertyEnum.add',
+        'catalog.productPropertyEnum.delete',
         {
-            fields: {
-                propertyId: 128,
-                value: "Средний",
-                def: "Y",
-                sort: 123,
-                xmlId: "M"
-            }
+            id: 42 // Укажите ID удаляемого значения
         },
         function(result) {
             if (result.error())

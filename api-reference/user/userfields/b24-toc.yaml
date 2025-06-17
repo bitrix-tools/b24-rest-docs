@@ -1,7 +1,7 @@
 title: Методы работы с пользовательскими полями
 href: index.md
 items:
-  - name: Методы
+  - name: Обзор методов
     href: index.md
   - name: Добавить пользовательское поле
     href: user-userfield-add.md

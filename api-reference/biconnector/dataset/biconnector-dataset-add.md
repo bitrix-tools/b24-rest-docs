@@ -215,26 +215,26 @@ HTTP-статус: **200**
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-## Возможные коды ошибок
+### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_FIELDS_NOT_PROVIDED` | `Fields not provided.` | Поля не переданы в запросе ||
-|| `VALIDATION_UNKNOWN_PARAMETERS` | `Unknown parameters: #LIST_OF_PARAMS#` | Обнаружены неизвестные параметры: перечень ||
-|| `VALIDATION_REQUIRED_FIELD_MISSING` | `Field "#TITLE#" is required.` | Обязательное поле #TITLE# не передано ||
-|| `VALIDATION_READ_ONLY_FIELD` | `Field "#TITLE#" is read only.` | Поле #TITLE# доступно только для чтения и не может быть изменено ||
-|| `VALIDATION_IMMUTABLE_FIELD` | `Field "#TITLE#" is immutable.` | Поле #TITLE# неизменяемое ||
-|| `VALIDATION_INVALID_FIELD_TYPE` | `Field "#TITLE#" must be of type #TYPE#.` | Поле #TITLE# должно быть типа #TYPE# ||
-|| `SOURCE_NOT_FOUND` | `Source was not found.` | Источник не найден ||
-|| `DATASET_ALREADY_EXIST` | `Dataset with this name already exists.` | Датасет с таким именем уже существует ||
-|| `VALIDATION_DATASET_NAME_INVALID` | `Dataset name has to start with a lowercase Latin character. Possible entry includes lowercase Latin characters (a-z), numbers (0-9) and underscores.` | Неправильный формат названия датасета. Название должно начинаться с буквы, можно использовать только строчные латинские буквы `(a-z)`, цифры и знак `_` ||
-|| `VALIDATION_DATASET_NAME_TOO_LONG` | `Dataset name must not exceed 230 characters.` | Название датасета не должно превышать 230 символов ||
-|| `VALIDATION_DUPLICATE_FIELD_CODE` | `Duplicate values found in the "code" parameter: #LIST_CODES#` | Обнаружены дубликаты в параметре `externalCode` полей датасета ||
-|| `VALIDATION_DUPLICATE_FIELD_NAME` | `Duplicate values found in the "name" parameter: #LIST_NAMES#` | Обнаружены дубликаты в параметре `name` полей датасета ||
-|| `VALIDATION_FIELD_MISSING_REQUIRED_PARAMETERS` | `Field must include the required parameters: "name", "externalCode" and "type".` | Поле должно включать параметры `name`, `externalCode` и `type` ||
-|| `VALIDATION_FIELD_NAME_INVALID_FORMAT` | `Field "name" has to start with an uppercase Latin character. Possible entry includes uppercase Latin characters (A-Z), numbers (0-9) and underscores.` | Неправильный формат названия поля. Название должно начинаться с буквы, можно использовать только заглавные латинские буквы `(A-Z)`, цифры и знак `_` ||
-|| `VALIDATION_FIELD_NAME_TOO_LONG` | `Field "name" must not exceed 32 characters.` | Название поля не должно превышать 32 символов ||
-|| `VALIDATION_FIELD_INVALID_TYPE` | `Invalid field type.` | Некорректный тип поля ||
+|| `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
+|| `VALIDATION_UNKNOWN_PARAMETERS` | Unknown parameters: #LIST_OF_PARAMS# | Обнаружены неизвестные параметры: перечень ||
+|| `VALIDATION_REQUIRED_FIELD_MISSING` | Field "#TITLE#" is required. | Обязательное поле #TITLE# не передано ||
+|| `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
+|| `VALIDATION_IMMUTABLE_FIELD` | Field "#TITLE#" is immutable. | Поле #TITLE# неизменяемое ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
+|| `SOURCE_NOT_FOUND` | Source was not found. | Источник не найден ||
+|| `DATASET_ALREADY_EXIST` | Dataset with this name already exists. | Датасет с таким именем уже существует ||
+|| `VALIDATION_DATASET_NAME_INVALID` | Dataset name has to start with a lowercase Latin character. Possible entry includes lowercase Latin characters (a-z), numbers (0-9) and underscores. | Неправильный формат названия датасета. Название должно начинаться с буквы, можно использовать только строчные латинские буквы `(a-z)`, цифры и знак `_` ||
+|| `VALIDATION_DATASET_NAME_TOO_LONG` | Dataset name must not exceed 230 characters. | Название датасета не должно превышать 230 символов ||
+|| `VALIDATION_DUPLICATE_FIELD_CODE` | Duplicate values found in the "code" parameter: #LIST_CODES# | Обнаружены дубликаты в параметре `externalCode` полей датасета ||
+|| `VALIDATION_DUPLICATE_FIELD_NAME` | Duplicate values found in the "name" parameter: #LIST_NAMES# | Обнаружены дубликаты в параметре `name` полей датасета ||
+|| `VALIDATION_FIELD_MISSING_REQUIRED_PARAMETERS` | Field must include the required parameters: "name", "externalCode" and "type". | Поле должно включать параметры `name`, `externalCode` и `type` ||
+|| `VALIDATION_FIELD_NAME_INVALID_FORMAT` | Field "name" has to start with an uppercase Latin character. Possible entry includes uppercase Latin characters (A-Z), numbers (0-9) and underscores. | Неправильный формат названия поля. Название должно начинаться с буквы, можно использовать только заглавные латинские буквы `(A-Z)`, цифры и знак `_` ||
+|| `VALIDATION_FIELD_NAME_TOO_LONG` | Field "name" must not exceed 32 characters. | Название поля не должно превышать 32 символов ||
+|| `VALIDATION_FIELD_INVALID_TYPE` | Invalid field type. | Некорректный тип поля ||
 || `-` | `Error adding dataset` | Ошибка добавления датасета ||
 |#
 

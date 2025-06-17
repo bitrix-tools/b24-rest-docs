@@ -31,7 +31,7 @@ array (
 || **AUTH_EXPIRES** | Время жизни авторизационного токена ||
 || **REFRESH_ID** | Дополнительный авторизационный токен, служащий для продления сохраненной авторизации ||
 || **member_id** | Уникальный идентификатор портала, не зависящий от доменного имени ||
-|| **status** | Статус приложения на портале. значение поля служит чисто для информации, чтобы получить доверенное значение, используйте метод `oauth.bitrix.info/rest/app.info` ||
+|| **status** | Статус приложения на портале. значение поля служит чисто для информации, чтобы получить доверенное значение, используйте метод `oauth.bitrix24.tech/rest/app.info` ||
 |#
 
 При помощи значения параметра **AUTH_ID** можно сразу совершать запросы к API.
@@ -63,7 +63,7 @@ array(
         'expires_in' => '3600',
         'scope' => 'entity,im',
         'domain' => 'portal.bitrix24.com',
-        'server_endpoint' => 'https://oauth.bitrix.info/rest/',
+        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/',
         'status' => 'F',
         'client_endpoint' => 'https://portal.bitrix24.ru/rest/',
         'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',

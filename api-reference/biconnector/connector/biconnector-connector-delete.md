@@ -125,14 +125,14 @@ HTTP-статус: **200**
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-## Возможные коды ошибок
+### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_ID_NOT_PROVIDED` | `ID is missing.` | Идентификатор не указан ||
-|| `VALIDATION_INVALID_ID_FORMAT` | `ID has to be a positive integer.` | Неверный формат ID ||
-|| `CONNECTOR_NOT_FOUND` | `Connector was not found.` | Коннектор не найден ||
-|| `CONNECTOR_DELETE_RESTRICTED` | `Connector cannot be removed. Remove the connections related to the connector first.` | Нельзя удалить коннектор, пока существуют связанные подключения ||
+|| `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
+|| `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
+|| `CONNECTOR_NOT_FOUND` | Connector was not found. | Коннектор не найден ||
+|| `CONNECTOR_DELETE_RESTRICTED` | Connector cannot be removed. Remove the connections related to the connector first. | Нельзя удалить коннектор, пока существуют связанные подключения ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
