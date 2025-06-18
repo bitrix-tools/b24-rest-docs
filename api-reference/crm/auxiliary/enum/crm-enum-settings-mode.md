@@ -1,34 +1,20 @@
 # Получить описание режимов работы CRM crm.enum.settings.mode
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: любой пользователь
 
-Возвращает описание режимов работы CRM.
+Метод `crm.enum.settings.mode` возвращает список режимов работы CRM.
 
 ## Параметры метода
 
-Метод вызывается без параметров.
+Без параметров.
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    сюда мы сами вставим нужный код, перегенерированный из вашего примера на JS
-
-- cURL (OAuth)
-
-    сюда мы сами вставим нужный код, перегенерированный из вашего примера на JS
 
 - JS
 
@@ -41,17 +27,42 @@
     });
     ```
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.enum.settings.mode
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"auth":"**put_access_token_here**"}' \
+         https://**put_your_bitrix24_address**/rest/crm.enum.settings.mode
+    ```
+
 - PHP
 
-    сюда мы сами вставим нужный код, перегенерированный из вашего примера на JS
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.enum.settings.mode',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
-
-{% note tip "Частые кейсы и сценарии" %}
-
-Контент этого блока мы сами заполним потом. Или уберем блок за ненадобностью
-
-{% endnote %}
 
 ## Обработка ответа
 
@@ -59,24 +70,30 @@ HTTP-статус: **200**
 
 ```json
 {
-     "result": [
-        {
-            "ID": 1,
-            "NAME": "Классическая CRM",
-        },
-        {
-            "ID": 2,
-            "NAME": "Простая CRM",
-        }
-    ],
-    "time": {
-        "start": 1715091541.642592,
-        "finish": 1715091541.730599,
-        "duration": 0.08800697326660156,
-        "date_start": "2024-05-03T17:19:01+03:00",
-        "date_finish": "2024-05-03T17:19:01+03:00",
-        "operating": 0
+"result": [
+    {
+     "ID": 1,
+     "NAME": "Классическая CRM",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
+    },
+    {
+     "ID": 2,
+     "NAME": "Простая CRM",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
     }
+],
+"time": {
+    "start": 1750153429.516902,
+    "finish": 1750153429.650327,
+    "duration": 0.13342499732971191,
+    "processing": 0.0002980232238769531,
+    "date_start": "2025-06-17T12:43:49+03:00",
+    "date_finish": "2025-06-17T12:43:49+03:00",
+    "operating_reset_at": 1750154029,
+    "operating": 0
+}
 }
 ```
 
@@ -86,19 +103,32 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Возвращает массив доступных режимов для работы CRM: **1: классическая CRM** и **2: простая CRM**   ||
+[`array`](../../../data-types.md) | Массив с режимами работы CRM [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Поля массива result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор режима работы ||
+|| **NAME**
+[`string`](../../../data-types.md) | Название режима работы ||
+|| **SYMBOL_CODE**
+[`string`](../../../data-types.md) | Символьный код ||
+|| **SYMBOL_CODE_SHORT**
+[`string`](../../../data-types.md) | Краткий символьный код ||
 |#
 
 ## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
+Метод не возвращает ошибки.
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-Этот блок мы сами потом заполним, но если есть рекомендации, какие методы или страницы документации тут стоит упомянять - будем благодарны
+- [{#T}](./index.md)

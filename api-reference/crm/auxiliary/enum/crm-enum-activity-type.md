@@ -1,52 +1,29 @@
-# Получить элементы перечисления «Тип активности» crm.enum.activitytype
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
+# Получить элементы перечисления «Типы дел» crm.enum.activitytype
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-## Описание
+Метод `crm.enum.activitytype` возвращает список типов для поля `TYPE_ID` [дел](../../timeline/activities/index.md).
 
-```js
-crm.enum.activitytype()
-```
-
-Возвращает элементы перечисления «Тип активности».
-
-## Параметры
+## Параметры метода
 
 Без параметров.
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
-  
-    ```javascript
+
+    ```js
     BX24.callMethod(
         "crm.enum.activitytype",
         {},
-        function(result)
-        {
-            if(result.error())
+        function(result) {
+            if (result.error())
                 console.error(result.error());
             else
                 console.dir(result.data());
@@ -54,9 +31,42 @@ crm.enum.activitytype()
     );
     ```
 
-{% endlist %}
+- cURL (Webhook)
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.enum.activitytype
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"auth":"**put_access_token_here**"}' \
+         https://**put_your_bitrix24_address**/rest/crm.enum.activitytype
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.enum.activitytype',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
 
 ## Обработка ответа
 
@@ -64,59 +74,95 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": [
-        {
-            "ID": 0,
-            "NAME": "",
-            "SYMBOL_CODE": "",
-            "SYMBOL_CODE_SHORT": ""
-        },
-        {
-            "ID": 1,
-            "NAME": "Meeting",
-            "SYMBOL_CODE": "",
-            "SYMBOL_CODE_SHORT": ""
-        },
-        {
-            "ID": 2,
-            "NAME": "Call",
-            "SYMBOL_CODE": "",
-            "SYMBOL_CODE_SHORT": ""
-        },
-        {
-            "ID": 3,
-            "NAME": "Task",
-            "SYMBOL_CODE": "",
-            "SYMBOL_CODE_SHORT": ""
-        },
-        {
-            "ID": 4,
-            "NAME": "E-mail",
-            "SYMBOL_CODE": "",
-            "SYMBOL_CODE_SHORT": ""
-        },
-        {
-            "ID": 5,
-            "NAME": "Activity",
-            "SYMBOL_CODE": "",
-            "SYMBOL_CODE_SHORT": ""
-        },
-        {
-            "ID": 6,
-            "NAME": "User action",
-            "SYMBOL_CODE": "",
-            "SYMBOL_CODE_SHORT": ""
-        }
-    ],
-    "time": {
-        "start": 1737526634.82,
-        "finish": 1737526634.8506,
-        "duration": 0.030540943145752,
-        "processing": 0.0023229122161865,
-        "date_start": "2025-01-22T09:17:14+03:00",
-        "date_finish": "2025-01-22T09:17:14+03:00",
-        "operating_reset_at": 1737527234,
-        "operating": 0
+"result": [
+    {
+     "ID": 0,
+     "NAME": "",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
+    },
+    {
+     "ID": 1,
+     "NAME": "Встреча",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
+    },
+    {
+     "ID": 2,
+     "NAME": "Звонок",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
+    },
+    {
+     "ID": 3,
+     "NAME": "Задача",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
+    },
+    {
+     "ID": 4,
+     "NAME": "Письмо",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
+    },
+    {
+     "ID": 5,
+     "NAME": "Действие",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
+    },
+    {
+     "ID": 6,
+     "NAME": "Пользовательское действие",
+     "SYMBOL_CODE": null,
+     "SYMBOL_CODE_SHORT": null
     }
+],
+"time": {
+    "start": 1750152062.819392,
+    "finish": 1750152062.85849,
+    "duration": 0.03909802436828613,
+    "processing": 0.0004849433898925781,
+    "date_start": "2025-06-17T12:21:02+03:00",
+    "date_finish": "2025-06-17T12:21:02+03:00",
+    "operating_reset_at": 1750152662,
+    "operating": 0
+}
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../../data-types.md) | Массив с типами дел [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Поля массива result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор типа дела ||
+|| **NAME**
+[`string`](../../../data-types.md) | Название типа дела ||
+|| **SYMBOL_CODE**
+[`string`](../../../data-types.md) | Символьный код ||
+|| **SYMBOL_CODE_SHORT**
+[`string`](../../../data-types.md) | Краткий символьный код ||
+|#
+
+## Обработка ошибок
+
+Метод не возвращает ошибки.
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)

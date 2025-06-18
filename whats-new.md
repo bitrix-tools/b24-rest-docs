@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 18 июня, 2025
+
+- Обновлена документация по методам перечислений [crm.enum.*](./api-reference/crm/auxiliary/enum/index.md) в CRM
+
 ### 11 июня, 2025
 
 - Обновлены страницы [системных событий](./api-reference/common/events/index.md) и событие [onOfflineEvent](./api-reference/events/on-offline-event.md)

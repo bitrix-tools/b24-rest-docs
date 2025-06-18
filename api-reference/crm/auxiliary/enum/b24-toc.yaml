@@ -3,19 +3,19 @@ href: index.md
 items:
   - name: Обзор методов 
     href: index.md
-  - name: Получить описание полей перечисления
+  - name: Получить описание полей перечислений
     href: crm-enum-fields.md
   - name: Получить id объектов, к которым можно привязать заказ
     href: crm-enum-get-order-owner-types.md
   - name: «Тип владельца»
     href: crm-enum-owner-type.md
-  - name: «Тип содержания»
+  - name: «Тип описания»
     href: crm-enum-content-type.md
-  - name: «Тип активности»
+  - name: «Типы дел»
     href: crm-enum-activity-type.md
   - name: «Направление активности»
     href: crm-enum-activity-direction.md
-  - name: «Приоритет активности»
+  - name: «Приоритеты дел»
     href: crm-enum-activity-priority.md
   - name: «Тип уведомления о начале активности»
     href: crm-enum-activity-notify-type.md

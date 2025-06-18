@@ -60,12 +60,12 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.enum.fields](./crm-enum-fields.md) | Возвращает описание полей перечисления ||
+|| [crm.enum.fields](./crm-enum-fields.md) | Возвращает описание полей элементов перечислений ||
 || [crm.enum.ownertype](./crm-enum-owner-type.md) | Возвращает элементы перечисления «Тип владельца» ||
 || [crm.enum.getorderownertypes](./crm-enum-get-order-owner-types.md) | Возвращает идентификаторы типов объектов, к которым доступна привязка заказа ||
-|| [crm.enum.contenttype](./crm-enum-content-type.md) | Возвращает элементы перечисления «Тип содержания» ||
-|| [crm.enum.activitytype](./crm-enum-activity-type.md) | Возвращает элементы перечисления «Тип активности» ||
-|| [crm.enum.activitypriority](./crm-enum-activity-priority.md) | Возвращает элементы перечисления «Приоритет активности» ||
+|| [crm.enum.contenttype](./crm-enum-content-type.md) | Возвращает элементы перечисления «Тип описания» ||
+|| [crm.enum.activitytype](./crm-enum-activity-type.md) | Возвращает элементы перечисления «Типы дел» ||
+|| [crm.enum.activitypriority](./crm-enum-activity-priority.md) | Возвращает элементы перечисления «Приоритеты дел» ||
 || [crm.enum.activitydirection](./crm-enum-activity-direction.md) | Возвращает элементы перечисления «Направление активности», для писем и звонков||
 || [crm.enum.activitynotifytype](./crm-enum-activity-notify-type.md) | Возвращает элементы перечисления «Тип уведомления о начале активности», для встреч и звонков ||
 || [crm.enum.addresstype](./crm-enum-address-type.md) | Возвращает элементы перечисления «Тип адреса» ||
