@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.enum.getorderownertypes` возвращает список типов объектов, к которым можно привязать заказ.
+Метод `crm.enum.getorderownertypes` возвращает список типов объектов, к которым можно привязать заказ.  `id` типа объекта используйте в значении параметра `ownerTypeId` методов [crm.orderentity.*](../../universal/order-entity/crm-order-entity-add.md).
 
 {% note info " " %}
 

@@ -1,10 +1,10 @@
-# Получить элементы перечисления «Тип владельца» crm.enum.ownertype
+# Получить типы объектов CRM crm.enum.ownertype
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.enum.ownertype` возвращает идентификаторы типов объектов CRM и смарт-процессов.
+Метод `crm.enum.ownertype` возвращает идентификаторы типов объектов CRM и смарт-процессов. `ID` типа объекта используйте в значении параметра `entityTypeId` методов [crm.item.*](../../universal/index.md), [crm.activity.*](../../timeline/activities/index.md).
 
 {% note info " " %}
 

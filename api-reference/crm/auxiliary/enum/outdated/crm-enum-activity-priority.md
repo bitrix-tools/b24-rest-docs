@@ -1,10 +1,16 @@
 # Получить элементы перечисления «Приоритеты дел» crm.enum.activitypriority
 
-> Scope: [`crm`](../../../scopes/permissions.md)
+> Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.enum.activitypriority` возвращает список приоритетов для поля `PRIORITY` [дел](../../timeline/activities/index.md).
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.enum.activitypriority` продолжает работать, но он относится к устаревшим методам [crm.activity.*](../../../timeline/activities/index.md). Более актуальный аналог методов [crm.activity.todo.*](../../../timeline/activities/todo/index.md). 
+
+{% endnote %}
+
+Метод `crm.enum.activitypriority` возвращает список приоритетов для поля `PRIORITY` [дел](../../../timeline/activities/index.md).
 
 ## Параметры метода
 
@@ -12,7 +18,7 @@
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -119,9 +125,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../data-types.md) | Массив с приоритетами [(подробное описание)](#result) ||
+[`array`](../../../../data-types.md) | Массив с приоритетами [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Поля массива result {#result}
@@ -130,21 +136,21 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор приоритета ||
+[`integer`](../../../../data-types.md) | Идентификатор приоритета ||
 || **NAME**
-[`string`](../../../data-types.md) | Название приоритета ||
+[`string`](../../../../data-types.md) | Название приоритета ||
 || **SYMBOL_CODE**
-[`string`](../../../data-types.md) | Символьный код ||
+[`string`](../../../../data-types.md) | Символьный код ||
 || **SYMBOL_CODE_SHORT**
-[`string`](../../../data-types.md) | Краткий символьный код ||
+[`string`](../../../../data-types.md) | Краткий символьный код ||
 |#
 
 ## Обработка ошибок
 
 Метод не возвращает ошибки.
 
-{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./index.md)
+- [{#T}](./../index.md)

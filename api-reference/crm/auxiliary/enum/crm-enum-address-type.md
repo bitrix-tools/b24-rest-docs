@@ -1,10 +1,11 @@
-# Получить элементы перечисления «Тип адреса» crm.enum.addresstype
+# Получить типы адресов crm.enum.addresstype
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.enum.addresstype` возвращает список типов адресов.
+Метод `crm.enum.addresstype` возвращает список типов адресов. `ID` типа адреса используйте в значении параметра `TYPE_ID`  методов [crm.address.*](../../requisites/addresses/index.md).
+
 
 ## Параметры метода
 

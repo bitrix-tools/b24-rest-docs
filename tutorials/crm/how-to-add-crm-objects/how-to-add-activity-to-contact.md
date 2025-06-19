@@ -135,7 +135,7 @@
 
 - `OWNER_TYPE_ID` — [идентификатор типа объекта CRM](../../../api-reference/crm/data-types.md#object_type). Передаем `3` — контакт. Полный список типов объектов можно получить с помощью метода [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md).
 
-- `TYPE_ID` — тип события. Укажем  `1` — встреча. Список типов событий можно получить с помощью метода [crm.enum.activitytype](../../../api-reference/crm/auxiliary/enum/crm-enum-activity-type.md).
+- `TYPE_ID` — тип события. Укажем  `1` — встреча. Список типов событий можно получить с помощью метода [crm.enum.activitytype](../../../api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-type.md).
 
 - `COMMUNICATIONS` — контактные данные клиента:
 
@@ -341,4 +341,4 @@
 - [{#T}](../../../api-reference/crm/contacts/crm-contact-get.md)
 - [{#T}](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md)
 - [{#T}](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
-- [{#T}](../../../api-reference/crm/auxiliary/enum/crm-enum-activity-type.md)
+- [{#T}](../../../api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-type.md)
