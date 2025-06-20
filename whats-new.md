@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 20 июня, 2025
+
+- Добавлена статья [Пользовательские типы полей в CRM](./api-reference/crm/universal/user-defined-fields/userfield-type.md)
+
 ### 18 июня, 2025
 
 - Обновлена документация по методам перечислений [crm.enum.*](./api-reference/crm/auxiliary/enum/index.md) в CRM

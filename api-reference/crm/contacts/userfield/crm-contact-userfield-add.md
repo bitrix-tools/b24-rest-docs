@@ -59,7 +59,7 @@
 - `iblock_section` — привязка к разделам инф. блоков
 - `iblock_element` — привязка к элементам инф. блоков
 - `crm` — привязка к элементам CRM
-- [пользовательские типы полей](../../universal/user-defined-field-types/index.md)
+- [пользовательские типы полей](../../universal/user-defined-fields/userfield-type.md)
 ||
 || **FIELD_NAME***
 [`string`][1] | Код поля. Уникальное.

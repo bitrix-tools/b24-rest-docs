@@ -255,7 +255,7 @@ HTTP-статус: **200**
 - `iblock_section` — привязка к разделам информационных блоков
 - `iblock_element` — привязка к элементам информационных блоков
 - `crm` — привязка к элементам CRM
-- [пользовательские типы полей](../../universal/user-defined-field-types/index.md)
+- [пользовательские типы полей](../../universal/user-defined-fields/userfield-type.md)
 ||
 || **XML_ID**
 [`string`][1] | Внешний код ||
