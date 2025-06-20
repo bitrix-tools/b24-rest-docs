@@ -5,6 +5,7 @@
 ### 20 июня, 2025
 
 - Добавлена статья [Пользовательские типы полей в CRM](./api-reference/crm/universal/user-defined-fields/userfield-type.md)
+- Обновлен туториал [Как отправить письмо клиенту от имени сотрудника](./tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
 
 ### 18 июня, 2025
 

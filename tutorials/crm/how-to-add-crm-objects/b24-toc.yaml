@@ -23,7 +23,7 @@ items:
     href: how-to-add-activity-to-contact.md
   - name: Создать свой шаблон документа и документ на его основе
     href: how-to-generate-documents.md
-  - name: Отправить e-mail клиенту от имени сотрудника
+  - name: Отправить письмо клиенту от имени сотрудника
     href: how-to-send-email.md
   - name: Добавить комментарий в таймлайн смарт-процесса
     href: how-to-add-comment-to-spa.md

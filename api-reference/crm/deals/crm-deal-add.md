@@ -433,3 +433,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-list.md)
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)

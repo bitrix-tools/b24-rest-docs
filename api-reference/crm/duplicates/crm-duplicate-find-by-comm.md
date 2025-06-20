@@ -88,4 +88,8 @@ crm.duplicate.findbycomm()
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
+## Продолжите изучение 
+
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-repeat-lead.md)
+
 [*ключ_значений]: Ограничено с целью снижения нагрузки.

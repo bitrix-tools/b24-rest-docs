@@ -449,5 +449,6 @@ HTTP-статус: **200**
 - [{#T}](./user-search.md)
 - [{#T}](./user-fields.md)
 - [{#T}](../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+- [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
 
 [*ключ_Ключ для работы]: `'ADMIN_MODE': 'True'`
