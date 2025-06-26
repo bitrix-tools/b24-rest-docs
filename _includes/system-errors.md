@@ -23,7 +23,7 @@ Wrong authorization data | Неверный [access-токен](/api-reference/o
 || `400` | `INVALID_REQUEST`
 Https required. | Для вызовов REST методов требуется использовать протокол HTTPS ||
 || `503` | `OVERLOAD_LIMIT`
-REST API is blocked due to overload | REST API заблокирован из-за перегрузки. Это ручная индивидуальная блокировка, для снятия необходимо обращаться в техническую поддержку Битрикс24 ||
+REST API is blocked due to overload | REST API заблокирован из-за перегрузки. Это ручная индивидуальная блокировка, для снятия необходимо обращаться в [техническую поддержку Битрикс24](../bitrix-support.md) ||
 || `403` | `ACCESS_DENIED`
 REST API is available only on commercial plans | REST API доступен только на коммерческих планах. ||
 || `403` | `INVALID_CREDENTIALS`
