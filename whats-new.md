@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 26 июня, 2025
+
+- Обновлена документация по методам [crm.duplicate.volatileType.*](./api-reference/crm/duplicates/volatile-type/index.md) в CRM 
+
 ### 24 июня, 2025
 
 - Обновлена документация по методам [crm.duplicate.findbycomm](./api-reference/crm/duplicates/crm-duplicate-find-by-comm.md), [crm.entity.mergeBatch](./api-reference/crm/duplicates/crm-entity-merge-batch.md), [crm.multifield.fields](./api-reference/crm/auxiliary/multifield/crm-multifield-fields.md) в CRM 

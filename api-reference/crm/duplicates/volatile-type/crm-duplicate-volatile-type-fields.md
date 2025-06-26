@@ -1,73 +1,147 @@
-# Получить список полей, доступных для использования crm.duplicate.volatileType.fields
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не указана обязательность полей
-- нет примеров на других языках
-  
-{% endnote %}
-
-{% endif %}
+# Получить список полей для поиска дубликатов crm.duplicate.volatileType.fields
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
-```http
-crm.duplicate.volatileType.fields({?entityTypeId: number})
-```
+Метод `crm.duplicate.volatileType.fields` возвращает список стандартных и пользовательcких полей, которые можно использовать для поиска дубликатов в лидах, контактах и компаниях.
 
-Метод вернет массив, содержащий элементы-массивы с ключами:
-
-#|
-|| **Ключ** | **Описание** ||
-|| **entityTypeId**
-| Идентификатор типа сущности. Может принимать значения `1` (лид), `3` (контакт) или `4` (компания). Не обязательный параметр. Если не указан, будут возвращены доступные поля для всех сущностей. ||
-|#
-
-## Параметры
-
-#|
-|| **Параметр** | **Описание** ||
-|| **entityTypeId** | Идентификатор типа сущности ||
-|| **fieldCode** | Код поля ||
-|| **fieldTitle** | Название поля ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
-## Пример
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **entityTypeId**
+[`integer`](../../../data-types.md) | Идентификатор типа объекта. Возможные значения:
+- `1` — [лид](../../leads/index.md)
+- `3` — [контакт](../../contacts/index.md)
+- `4` — [компания](../../companies/index.md)
 
-```json
-[
-    {
-        "entityTypeId": 1,
-        "fieldCode": "TITLE",
-        "fieldTitle": "Название лида"
-    },
-    {
-        "entityTypeId": 1,
-        "fieldCode": "ADDRESS",
-        "fieldTitle": "Адрес"
-    },
-    {
-        "entityTypeId": 1,
-        "fieldCode": "SOURCE_DESCRIPTION",
-        "fieldTitle": "Дополнительно об источнике"
-    },
-    ...
-]
-```
+Если не указан, возвращаются поля для всех типов ||
+|#
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.duplicate.volatileType.fields",
+        {
+            entityTypeId: 1
+        },
+        function(result) {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"entityTypeId":1}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.duplicate.volatileType.fields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":1,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.duplicate.volatileType.fields
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.duplicate.volatileType.fields',
+        [
+            'entityTypeId' => 1
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": [
+        {
+            "entityTypeId": 1,
+            "fieldCode": "TITLE",
+            "fieldTitle": "Название лида"
+        },
+        {
+            "entityTypeId": 1,
+            "fieldCode": "ADDRESS",
+            "fieldTitle": "Адрес"
+        }
+        {
+            "entityTypeId": 1,
+            "fieldCode": "UF_CRM_1750854801",
+            "fieldTitle": "Строка"
+        },
+        // ... другие поля ...
+    ],
+    "time": {
+        "start": 1750854837.219779,
+        "finish": 1750854837.296077,
+        "duration": 0.07629799842834473,
+        "processing": 0.028430938720703125,
+        "date_start": "2025-06-25T12:33:57+00:00",
+        "date_finish": "2025-06-25T12:33:57+00:00" 
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **entityTypeId**
+[`integer`](../../../data-types.md) | Тип объекта ||
+|| **fieldCode**
+[`string`](../../../data-types.md) | Код поля ||
+|| **fieldTitle**
+[`string`](../../../data-types.md) | Название поля ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+Метод не возвращает ошибки.
+
+{% include [системные ошибки](./../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md)
+- [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md)
+- [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md) 
