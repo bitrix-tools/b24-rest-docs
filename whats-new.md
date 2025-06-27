@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 27 июня, 2025
+
+- Обновлена главная страница раздела [Услуги](./api-reference/catalog/product/service/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+
 ### 26 июня, 2025
 
 - Обновлена документация по методам [crm.duplicate.volatileType.*](./api-reference/crm/duplicates/volatile-type/index.md) в CRM 
