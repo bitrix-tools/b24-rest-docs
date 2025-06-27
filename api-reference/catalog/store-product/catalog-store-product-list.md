@@ -56,9 +56,9 @@ catalog.storeproduct.list(select, filter, order, start)
     BX24.callMethod(
         'catalog.storeproduct.list',
         {
-            select: {
-                id
-            },
+            select: [
+                "id"
+            ],
             filter: {
                 productId: 8
             },
