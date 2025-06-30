@@ -62,8 +62,8 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'crm.contact.details.configuration.forceCommonScopeForAll',
-        []
+        'calendar.event.delete',
+        42
     );
 
     echo '<PRE>';
