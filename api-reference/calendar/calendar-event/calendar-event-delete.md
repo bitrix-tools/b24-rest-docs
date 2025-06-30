@@ -63,7 +63,7 @@
 
     $result = CRest::call(
         'calendar.event.delete',
-        42
+        ['id' => 42],
     );
 
     echo '<PRE>';
