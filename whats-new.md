@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 02 июля, 2025
+
+- Обновлена документация по методам работы с настройками [timeman.timecontrol.reports.settings.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-settings-get.md), [timeman.timecontrol.settings.get](./api-reference/timeman/timecontrol/timeman-timecontrol-settings-get.md), [timeman.timecontrol.settings.set](./api-reference/timeman/timecontrol/timeman-timecontrol-settings-set.md) в разделе Контроль времени.
+
 ### 27 июня, 2025
 
 - Обновлена главная страница раздела [Услуги](./api-reference/catalog/product/service/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей

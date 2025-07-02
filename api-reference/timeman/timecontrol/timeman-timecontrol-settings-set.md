@@ -1,82 +1,101 @@
-# Установить настройки инструмента контроля времени timeman.timecontrol.settings.set
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
+# Установить настройки контроля времени timeman.timecontrol.settings.set
 
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод `timeman.timecontrol.settings.set` для установки настроек инструмента контроля времени.
+Метод `timeman.timecontrol.settings.set` устанавливает настройки для модуля контроля времени.
 
-## Параметры
+## Параметры метода
 
 #|
-|| **Параметр** | **По умолчанию** | **Обязательный** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **ACTIVE**
-[`unknown`](../../data-types.md) | false | Нет | Доступность инструмента контроля времени.
-Включается через `active: true`. Отключать через active: false в случае, если данные отправляются как *bool*. Если данные отправляются как текст *false* в виде текста это *true*, то отключается только через `active: 0`. ||
+[`boolean`](../../data-types.md) | Активировать модуль контроля времени ||
 || **MINIMUM_IDLE_FOR_REPORT**
-[`unknown`](../../data-types.md) | 15 | Нет | Минимальное количество времени для запроса отчета в минутах. ||
+[`integer`](../../data-types.md) | Минимальное время отсутствия в минутах, после которого требуется отчет ||
 || **REGISTER_OFFLINE**
-[`unknown`](../../data-types.md) | true | Нет | Фиксировать факт перехода пользователя в режим офлайн. ||
+[`boolean`](../../data-types.md) | Регистрировать офлайн статус ||
 || **REGISTER_IDLE**
-[`unknown`](../../data-types.md) | true | Нет | Фиксировать факт перехода пользователя в режим отошел. ||
+[`boolean`](../../data-types.md) | Регистрировать статус Отошел ||
 || **REGISTER_DESKTOP**
-[`unknown`](../../data-types.md) | true | Нет | Фиксировать факт включения и отключения десктоп приложения. ||
+[`boolean`](../../data-types.md) | Регистрировать статус десктоп приложения ||
 || **REPORT_REQUEST_TYPE**
-[`unknown`](../../data-types.md) | none | Нет | У кого запрашивать отчет (`all` - у всех, `user` - только у указанных пользователей, none - ни у кого). ||
+[`string`](../../data-types.md) | Тип запроса отчетов. Возможные значения:
+- `all` — для всех
+- `user` — для конкретных пользователей
+- `none` — ни для кого ||
 || **REPORT_REQUEST_USERS**
-[`unknown`](../../data-types.md) | [] | Нет* | Список пользователей у кого запрашивать отчет (если `report_request_type == user`). ||
+[`array`](../../data-types.md) | Массив идентификаторов пользователей, для которых требуется запрос отчетов.
+
+Заполняется, если `REPORT_REQUEST_USERS` имеет значение `user` ||
 || **REPORT_SIMPLE_TYPE**
-[`unknown`](../../data-types.md) | all | Нет | Кому доступен упрощенный отчет (`all` - всем, `user` - только указанным пользователям). ||
+[`string`](../../data-types.md) | Тип простого отчета. Возможные значения:
+- `all` — для всех
+- `user` — для конкретных пользователей
+- `none` — ни для кого ||
 || **REPORT_SIMPLE_USERS**
-[`unknown`](../../data-types.md) | [] | Нет* | Список пользователей кому доступен упрощенный отчет (если `report_simple_type == user`). ||
+[`array`](../../data-types.md) | Массив идентификаторов пользователей с доступом к простому отчету.
+
+Заполняется, если `REPORT_SIMPLE_USERS` имеет значение `user` ||
 || **REPORT_FULL_TYPE**
-[`unknown`](../../data-types.md) | user | Нет | Кому доступен расширенный отчет (`all` - всем, `user` - только указанным пользователям). ||
+[`string`](../../data-types.md) | Тип полного отчета. Возможные значения:
+- `all` — для всех
+- `user` — для конкретных пользователей
+- `none` — ни для кого ||
 || **REPORT_FULL_USERS**
-[`unknown`](../../data-types.md) | [] | Нет* | Список пользователей кому доступен расширенный отчет (если `report_simple_type == user`). ||
+[`array`](../../data-types.md) | Массив идентификаторов пользователей с доступом к полному отчету.
+
+Заполняется, если `REPORT_FULL_USERS` имеет значение `user`  ||
 |#
 
-\* - если вы передаете параметр `REPORT_REQUEST_TYPE = user` (или `REPORT_SIMPLE_TYPE = user`, или `REPORT_FULL_TYPE = user`), вы обязательно должны передать соответственно `REPORT_REQUEST_USERS` (или `REPORT_SIMPLE_USERS`, или `REPORT_FULL_USERS`).
+## Примеры кода
 
-## Пример
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ACTIVE":true,"MINIMUM_IDLE_FOR_REPORT":15,"REGISTER_OFFLINE":true,"REGISTER_IDLE":true,"REGISTER_DESKTOP":true,"REPORT_REQUEST_TYPE":"all","REPORT_SIMPLE_TYPE":"all","REPORT_FULL_TYPE":"all"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/timeman.timecontrol.settings.set
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ACTIVE":true,"MINIMUM_IDLE_FOR_REPORT":15,"REGISTER_OFFLINE":true,"REGISTER_IDLE":true,"REGISTER_DESKTOP":true,"REPORT_REQUEST_TYPE":"all","REPORT_SIMPLE_TYPE":"all","REPORT_FULL_TYPE":"all","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/timeman.timecontrol.settings.set
+    ```
+
 - JS
 
-    ```javascript
+    ```js
     BX24.callMethod(
         'timeman.timecontrol.settings.set',
         {
-            active: true,
-            report_request_type: 'user',
-            report_request_users: [1,2,3],
+            'ACTIVE': true,
+            'MINIMUM_IDLE_FOR_REPORT': 15,
+            'REGISTER_OFFLINE': true,
+            'REGISTER_IDLE': true,
+            'REGISTER_DESKTOP': true,
+            'REPORT_REQUEST_TYPE': 'all',
+            'REPORT_SIMPLE_TYPE': 'all',
+            'REPORT_FULL_TYPE': 'all'
         },
-        function(result){
-            if(result.error())
-            {
-                console.error(result.error().ex);
-            }
-            else
-            {
-                console.log(result.data());
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
             }
         }
     );
@@ -85,33 +104,66 @@
 - PHP
 
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'timeman.timecontrol.settings.set',
-        Array(
-            active: true,
-            report_request_type: 'user',
-            report_request_users: [1,2,3],
-        ),
-        $_REQUEST["auth"]
+        [
+            'ACTIVE' => true,
+            'MINIMUM_IDLE_FOR_REPORT' => 15,
+            'REGISTER_OFFLINE' => true,
+            'REGISTER_IDLE' => true,
+            'REGISTER_DESKTOP' => true,
+            'REPORT_REQUEST_TYPE' => 'all',
+            'REPORT_SIMPLE_TYPE' => 'all',
+            'REPORT_FULL_TYPE' => 'all'
+        ]
     );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-> 200 OK
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1748526089.625516,
+        "finish": 1748526089.656787,
+        "duration": 0.03127098083496094,
+        "processing": 0.008746147155761719,
+        "date_start": "2025-05-29T16:41:29+03:00",
+        "date_finish": "2025-05-29T16:41:29+03:00",
+        "operating_reset_at": 1748526689,
+        "operating": 0
+    }
 }
 ```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
 
-> 200 Error, 50x Error
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Результат выполнения.
+
+Возвращает `true`, если настройки успешно сохранены ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
 ```json
 {
     "error": "ACCESS_ERROR",
@@ -119,15 +171,20 @@
 }
 ```
 
-### Описание ключей
-
-- **error** - код возникшей ошибки.
-- **error_description** - краткое описание возникшей ошибки.
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ACCESS_ERROR** | Указанный метод доступен только администраторам. ||
-|| **INVALID_FORMAT** | Передан некорректный формат в поле `RANGE`. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_ERROR` | You don't have access to user this method | У вас нет доступа к этому методу ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./timeman-timecontrol-report-add.md)
+- [{#T}](./timeman-timecontrol-reports-get.md)
+- [{#T}](./timeman-timecontrol-reports-users-get.md)
