@@ -3,7 +3,7 @@ href: index.md
 items: 
   - name: Как получить списки
     href: index.md
-  - name: Как искать в CRM по телефону и e-mail
+  - name: Как найти дубликаты в CRM по телефону и email
     href: search-by-phone-and-email.md
   - name: Как получить список дел
     href: get-activity-list-by-contact.md

@@ -98,3 +98,7 @@
 {% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)

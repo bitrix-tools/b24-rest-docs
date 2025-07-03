@@ -397,5 +397,6 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-get.md)
 - [{#T}](./crm-contact-delete.md)
 - [{#T}](./crm-contact-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
 
 [1]: ../../data-types.md

@@ -28,6 +28,7 @@
 
 - [лиды](../../../crm/leads/index.md), [сделки](../../../crm/deals/index.md), [смарт-процессы](../../../crm/universal/index.md), [счета](../../../crm/universal/invoice.md), [контакты](../../../crm/contacts/index.md) и [компании](../../../crm/companies/index.md) можно указать в услугах с помощью свойства типа «Привязка к элементам CRM».
 
+**Корзина заказа**. Услугу можно добавить, изменить или удалить из корзины с помощью группы методов [sale.basketitem.\*](../../../sale/basket-item/index.md).
 
 ## Обзор методов {#all-methods}
 
