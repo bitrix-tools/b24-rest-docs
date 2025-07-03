@@ -13,13 +13,12 @@
 Методы работы со складами:
 
 #|
-|| **Метод** | **Описание** | **Примечание** ||
-|| [catalog.document.element.add](./catalog-document-element-add.md) | Метод добавляет товар документа складского учёта. |  ||
-|| [catalog.document.element.delete](./catalog-document-element-delete.md) | Метод удаляет товар документа складского учёта. |  ||
-|| [catalog.document.element.fields](./catalog-document-element-fields.md) | Метод для получения значений полей склада по ID.| Метод устарел с версии **22.400.0**. Рекомендуется использовать метод [catalog.document.element.getFields](./catalog-document-element-get-fields.md). ||
-|| [catalog.document.element.getFields](./catalog-document-element-get-fields.md) | Метод возвращает список полей товаров документа складского учёта.  | ||
-|| [catalog.document.element.list](./catalog-document-element-list.md) | Метод получает список товаров в документах складского учёта.  | ||
-|| [catalog.document.element.update](./catalog-document-element-update.md) | Метод обновляет товар документа складского учёта. |  ||
+|| **Метод** | **Описание** ||
+|| [catalog.document.element.add](./catalog-document-element-add.md) | Добавляет товар документа складского учета ||
+|| [catalog.document.element.delete](./catalog-document-element-delete.md) | Удаляет товар документа складского учета ||
+|| [catalog.document.element.getFields](./catalog-document-element-get-fields.md) | Возвращает список полей товаров документа складского учета ||
+|| [catalog.document.element.list](./catalog-document-element-list.md) | Получает список товаров в документах складского учета ||
+|| [catalog.document.element.update](./catalog-document-element-update.md) | Обновляет товар документа складского учета ||
 |#
 
 {% note info "Внимание!" %}

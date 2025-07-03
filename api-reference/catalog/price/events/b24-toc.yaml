@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При добавлении цены
+    href: catalog-price-on-add.md
+  - name: При изменении цены
+    href: catalog-price-on-update.md
+  - name: При удалении цены
+    href: catalog-price-on-delete.md

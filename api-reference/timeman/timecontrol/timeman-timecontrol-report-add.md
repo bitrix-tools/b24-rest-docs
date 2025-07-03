@@ -1,98 +1,148 @@
-# Отправить отчет о выявленном отсутствии timeman.timecontrol.report.add
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
+# Добавить отчет об отсутствии timeman.timecontrol.report.add
 
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `timeman.timecontrol.report.add` для отправки отчета о выявленном отсутствии.
+Метод `timeman.timecontrol.report.add` отправляет отчет об отсутствии и добавляет его в календарь.
 
-## Параметры
+По умолчанию пользователь может отправить отчет только для себя. Администратор портала может отправить отчет любому — для этого в параметре `USER_ID` нужно указать идентификатор пользователя.
 
-#|
-|| **Параметр** | **Пример** | **Обязательный** | **Описание** ||
-|| **ID**^*^
-[`unknown`](../../data-types.md) | 468 | Да | Идентификатор записи. ||
-|| **TYPE**^*^
-[`unknown`](../../data-types.md) | work | Да | Тип отсутствия (`work` - по рабочим вопросам, `private` - личные дела). ||
-|| **TEXT**^*^
-[`unknown`](../../data-types.md) | 'Был на обеде' | Да | Описание причины отсутствия. ||
-|| **CALENDAR**
-[`unknown`](../../data-types.md) | true | Нет | Занести отсутствие в календарь (только для первичного отчета). ||
-|| **USER_ID**
-[`unknown`](../../data-types.md) | 2 | Нет | Идентификатор пользователя для которого сформирован отчет (поле доступно только администраторам). ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Пример вызова
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **REPORT_ID*** \| **ID***
+[`integer`](../../data-types.md) | Идентификатор записи об отсутствии.
+
+Получить идентификаторы записей можно методом [timeman.timecontrol.reports.get](./timeman-timecontrol-reports-get.md#reports) ||
+|| **USER_ID**
+[`integer`](../../data-types.md) | Идентификатор пользователя. Может указать только администратор.
+
+Получить идентификатор пользователя можно методом [user.get](../../user/user-get.md) ||
+|| **TEXT***
+[`string`](../../data-types.md) | Текст отчета ||
+|| **TYPE**
+[`string`](../../data-types.md) | Тип отчета:
+- `WORK` — рабочий
+- `PRIVATE` — личный
+
+Значение по умолчанию — `PRIVATE` ||
+|| **CALENDAR**
+[`string`](../../data-types.md) | Добавлять событие в календарь:
+- `Y` — да
+- `N` — нет
+
+Значение по умолчанию — `Y` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"REPORT_ID":123,"TEXT":"Работал над проектом","TYPE":"WORK","CALENDAR":"Y"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/timeman.timecontrol.report.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"REPORT_ID":123,"TEXT":"Работал над проектом","TYPE":"WORK","CALENDAR":"Y","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/timeman.timecontrol.report.add
+    ```
+
 - JS
 
-    ```javascript
-    BX24.callMethod('timeman.timecontrol.report.add', {
-        'id': 468,
-        'type': 'private',
-        'text': 'Был на обеде',
-        'calendar': true
-    }, function(result){
-        if(result.error())
+    ```js
+    BX24.callMethod(
+        'timeman.timecontrol.report.add',
         {
-            console.error(result.error().ex);
+            'REPORT_ID': 123,
+            'TEXT': 'Работал над проектом',
+            'TYPE': 'WORK',
+            'CALENDAR': 'Y'
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
         }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+    );
     ```
 
 - PHP
 
     ```php
-    $result = restCommand('timeman.timecontrol.report.add', Array(
-        'ID' => 468,
-        'TYPE' => 'private',
-        'TEXT' => 'Был на обеде',
-        'CALENDAR' => true
-    ), $_REQUEST["auth"]);    
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'timeman.timecontrol.report.add',
+        [
+            'REPORT_ID' => 123,
+            'TEXT' => 'Работал над проектом',
+            'TYPE' => 'WORK',
+            'CALENDAR' => 'Y'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-> 200 OK
 ```json
-{    
-    "result": true
+{
+    "result": true,
+    "time": {
+        "start": 1743056587.6559751,
+        "finish": 1743056587.8529301,
+        "duration": 0.19695496559143066,
+        "processing": 0.16714906692504883,
+        "date_start": "2025-03-27T09:23:07+03:00",
+        "date_finish": "2025-03-27T09:23:07+03:00",
+        "operating_reset_at": 1743057187,
+        "operating": 0.1671299934387207
+    }
 }
 ```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
 
-> 200 Error, 50x Error
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Результат выполнения. Возвращает `true`, если отчет добавлен успешно ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
 ```json
 {
     "error": "TEXT_EMPTY",
@@ -100,15 +150,20 @@
 }
 ```
 
-### Описание ключей
-
-- Ключ **error** - код возникшей ошибки.
-- Ключ **error_description** - краткое описание возникшей ошибки.
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **TEXT_EMPTY** | Не передана причина отсутствия. ||
-|| **ACCESS_ERROR** | У вас нет доступа к этому отчету. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_ERROR` | You don't have access for this report | У вас нет доступа к этому отчету ||
+|| `TEXT_EMPTY` | Text can't be empty | Текст отчета не может быть пустым ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./timeman-timecontrol-reports-get.md)
+- [{#T}](./timeman-timecontrol-reports-users-get.md) 

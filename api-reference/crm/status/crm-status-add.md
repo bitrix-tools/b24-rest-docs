@@ -57,13 +57,39 @@ crm.status.add(fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    "crm.status.add",
-    {
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "crm.status.add",
+        {
+            fields:
+            {
+                "ENTITY_ID": "DEAL_STAGE",        
+                "STATUS_ID": "DECISION",
+                "NAME": "Принятие решения",
+                "SORT": 70
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info("Создан элемент справочника с ID " + result.data());
+        }
+    );
+    ```
+
+    ```javascript
+    BX24.callMethod(
+        "crm.status.add",
+        {
         fields:
         {
-            "ENTITY_ID": "DEAL_STAGE",        
+            "ENTITY_ID": "DEAL_STAGE_1",        
             "STATUS_ID": "DECISION",
             "NAME": "Принятие решения",
             "SORT": 70
@@ -76,30 +102,11 @@ BX24.callMethod(
         else
             console.info("Создан элемент справочника с ID " + result.data());
     }
-);
-```
+    );
+    ```
 
-```javascript
-BX24.callMethod(
-    "crm.status.add",
-    {
-     fields:
-     {
-         "ENTITY_ID": "DEAL_STAGE_1",        
-         "STATUS_ID": "DECISION",
-         "NAME": "Принятие решения",
-         "SORT": 70
-     }
-},
-function(result)
-{
-     if(result.error())
-         console.error(result.error());
-     else
-         console.info("Создан элемент справочника с ID " + result.data());
-}
-);
-```
+{% endlist %}
+
 Во втором примере поле STATUS_ID будет сохранено как `С1:DECISION`, где будет добавлен префикс "C1:", соответствующий идентификатору направления сделок.
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

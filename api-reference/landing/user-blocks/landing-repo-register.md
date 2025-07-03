@@ -73,92 +73,98 @@
 
 ## Примеры
 
-```php
-<?
-//для наглядности, передадим PHP-массив на исполнение JS
-$data = array(
-    'code' => 'myblockx',
-    'fields' => array(
-        'NAME' => 'Test block',
-        'DESCRIPTION' => 'Just try!',
-        'SECTIONS' => 'cover,about',
-        'PREVIEW' => 'https://www.bitrix24.ru/images/b24_screen.png',
-        'CONTENT' => '
-<section class="landing-block">
-    <div class="text-center g-color-gray-dark-v3 g-pa-10">
-        <div class="g-width-600 mx-auto">
-            <div class="landing-block-node-text g-font-size-12 ">
-                <p>© 2017 All right reserved. Developed by
-                <a href="#" class="landing-block-node-link g-color-primary">Bitrix24</a></p>
+{% list tabs %}
+
+- JS
+
+    ```js
+    <?
+    //для наглядности, передадим PHP-массив на исполнение JS
+    $data = array(
+        'code' => 'myblockx',
+        'fields' => array(
+            'NAME' => 'Test block',
+            'DESCRIPTION' => 'Just try!',
+            'SECTIONS' => 'cover,about',
+            'PREVIEW' => 'https://www.bitrix24.ru/images/b24_screen.png',
+            'CONTENT' => '
+    <section class="landing-block">
+        <div class="text-center g-color-gray-dark-v3 g-pa-10">
+            <div class="g-width-600 mx-auto">
+                <div class="landing-block-node-text g-font-size-12 ">
+                    <p>© 2017 All right reserved. Developed by
+                    <a href="#" class="landing-block-node-link g-color-primary">Bitrix24</a></p>
+                </div>
             </div>
         </div>
-    </div>
-</section>'
-    ),
-    'manifest' => array(
-        'assets' => array(
-            'css' => array(
-                'https://site.com/aaa.css'
-            ),
-            'js' => array(
-                'https://site.com/aaa.js'
-            )
+    </section>'
         ),
-        'nodes' =>
-            array(
+        'manifest' => array(
+            'assets' => array(
+                'css' => array(
+                    'https://site.com/aaa.css'
+                ),
+                'js' => array(
+                    'https://site.com/aaa.js'
+                )
+            ),
+            'nodes' =>
+                array(
+                    '.landing-block-node-text' =>
+                        array(
+                            'name' => 'Text',
+                            'type' => 'text',
+                        ),
+                    '.landing-block-node-link' =>
+                        array(
+                            'name' => 'Link',
+                            'type' => 'link',
+                        ),
+                ),
+            'style' =>
+                array(
+                    '.landing-block-node-text' =>
+                        array(
+                            'name' => 'Text',
+                            'type' => 'typo',
+                        ),
+                    '.landing-block-node-link' =>
+                        array(
+                            'name' => 'Link',
+                            'type' => 'typo',
+                        ),
+                ),
+            'attrs' =>
+                array(
                 '.landing-block-node-text' =>
                     array(
-                        'name' => 'Text',
-                        'type' => 'text',
-                    ),
-                '.landing-block-node-link' =>
-                    array(
-                        'name' => 'Link',
-                        'type' => 'link',
-                    ),
-            ),
-        'style' =>
-            array(
-                '.landing-block-node-text' =>
-                    array(
-                        'name' => 'Text',
-                        'type' => 'typo',
-                    ),
-                '.landing-block-node-link' =>
-                    array(
-                        'name' => 'Link',
-                        'type' => 'typo',
-                    ),
-            ),
-        'attrs' =>
-            array(
-             '.landing-block-node-text' =>
-                 array(
-                     'name' => 'Настройка копирайта',
-                     'type' => 'dropdown',
-                     'attribute' => 'data-copy',
-                     'items' => array(
-                         'val1' => 'Значение 1',
-                         'val2' => 'Значение 2'
-                            )
-                     ),
-            ),
-    ),
-);
-?>
-// обратите внимание! далее идет JS код.
-BX24.callMethod(
-    'landing.repo.register',
-    //абстрактный метод, превращающий PHP-массив в JS-объект
-    <?= \CUtil::PhpToJSObject($data)?>,
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+                        'name' => 'Настройка копирайта',
+                        'type' => 'dropdown',
+                        'attribute' => 'data-copy',
+                        'items' => array(
+                            'val1' => 'Значение 1',
+                            'val2' => 'Значение 2'
+                                )
+                        ),
+                ),
+        ),
+    );
+    ?>
+    // обратите внимание! далее идет JS код.
+    BX24.callMethod(
+        'landing.repo.register',
+        //абстрактный метод, превращающий PHP-массив в JS-объект
+        <?= \CUtil::PhpToJSObject($data)?>,
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

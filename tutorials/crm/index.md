@@ -14,16 +14,16 @@
 - [{#T}](how-to-add-crm-objects/how-to-add-company-with-requisite.md)
 - [{#T}](how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)
 - [{#T}](how-to-add-crm-objects/how-to-add-activity-to-contact.md)
-- [{#T}](how-to-add-crm-objects/how-to-product-binding.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-product-with-custom-props.md)
 - [{#T}](how-to-add-crm-objects/how-to-generate-documents.md) 
+- [{#T}](how-to-add-crm-objects/how-to-add-comment-to-spa.md)
+- [{#T}](how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
+- [{#T}](how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
 
 ## Как заменить устаревший номер телефона у существующего клиента; как обновить информацию о товаре и другие примеры
 
 - [{#T}](how-to-edit-crm-objects/how-to-upload-images-to-lead.md)
 - [{#T}](how-to-edit-crm-objects/how-to-change-email-or-phone.md)
 - [{#T}](how-to-edit-crm-objects/how-to-change-date-in-activity.md)
-- [{#T}](how-to-edit-crm-objects/how-to-change-product-custom-field-values.md)
 - [{#T}](how-to-edit-crm-objects/how-to-generate-edit-form-for-lead.md)
 - [{#T}](how-to-edit-crm-objects/how-to-make-contact-edit-card.md)
 - [{#T}](how-to-edit-crm-objects/how-to-generate-edit-form-for-company.md)
@@ -36,6 +36,7 @@
 - [{#T}](how-to-get-lists/lead-statuses-with-semantics.md)
 - [{#T}](how-to-get-lists/quote-statuses-with-semantics.md)
 - [{#T}](how-to-get-lists/how-to-get-deal-funnels.md)
+- [{#T}](how-to-get-lists/how-to-get-address.md)
 
 ## Как использовать инструменты сквозной аналитики Битрикс24?
 

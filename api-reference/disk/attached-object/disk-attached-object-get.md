@@ -28,21 +28,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.attachedObject.get",
-    {
-        id: 318
-    },
-    function (result)
-    {
-        if (result.error())
-         console.error(result.error());
-        else
-         console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.attachedObject.get",
+        {
+            id: 318
+        },
+        function (result)
+        {
+            if (result.error())
+            console.error(result.error());
+            else
+            console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха
@@ -63,3 +70,9 @@ result: {
     SIZE: "3867" //размер файла в байтах
 }
 ```
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
+- [{#T}](../../../tutorials/tasks/how-to-create-task-with-file.md)
+- [{#T}](../../../tutorials/tasks/how-to-upload-file-to-task.md)

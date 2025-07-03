@@ -1,6 +1,6 @@
 # Пункт контекстного меню в профиле USER_PROFILE_MENU
 
-> Scope: [`intranet`](../../scopes/permissions.md)
+> Scope: [`user`](../../scopes/permissions.md)
 
 Вы можете добавлять свой пункт в контекстное меню в профиле.
 

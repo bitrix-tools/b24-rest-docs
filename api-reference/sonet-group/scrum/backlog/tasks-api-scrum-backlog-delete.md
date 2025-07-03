@@ -8,16 +8,19 @@
 
 В обычной ситуации удалять бэклог не нужно. При удалении бэклога *Битрикс24* автоматически создаст его заново при открытии страницы планирования в задачах Скрама.
 
-Метод используется, если бэклог добавлен в какую-то группу/проект ошибочно.
+Метод используется, если бэклог ошибочно добавлен в группу или проект, которые не являются скрамом.
 
-## Параметры
+## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор бэклога. Его можно получить при создании [tasks.api.scrum.backlog.add](./tasks-api-scrum-backlog-add.md) или [tasks.api.scrum.backlog.get](./tasks-api-scrum-backlog-get.md) ||
+[`integer`](../../../data-types.md) | Идентификатор бэклога.
+
+Можно получить методом создания бэклога [tasks.api.scrum.backlog.add](./tasks-api-scrum-backlog-add.md) или методом получения полей бэклога по идентификатору Скрама [tasks.api.scrum.backlog.get](./tasks-api-scrum-backlog-get.md) ||
 |#
 
 ## Примеры кода
@@ -50,7 +53,8 @@
 
     ```js
     BX24.callMethod(
-        'tasks.api.scrum.backlog.delete',{
+        'tasks.api.scrum.backlog.delete',
+        {
             "id": 1
         },
         function(result) {
@@ -68,9 +72,12 @@
     ```php
     require_once('crest.php');
 
-    $result = CRest::call('tasks.api.scrum.backlog.delete', [
-        'id' => 1,
-    ]);
+    $result = CRest::call(
+        'tasks.api.scrum.backlog.delete',
+        [
+            'id' => 1,
+        ]
+    );
 
     echo '<PRE>';
     print_r($result);

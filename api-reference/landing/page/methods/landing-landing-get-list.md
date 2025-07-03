@@ -43,35 +43,41 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.landing.getList',
-    {
-        params: {
-            select: [
-                'ID', 'TITLE'
-            ],
-            filter: {
-                TITLE: '%услуги%',
-                SITE_ID: 205
-            },
-            order: {
-                ID: 'DESC'
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.getList',
+        {
+            params: {
+                select: [
+                    'ID', 'TITLE'
+                ],
+                filter: {
+                    TITLE: '%услуги%',
+                    SITE_ID: 205
+                },
+                order: {
+                    ID: 'DESC'
+                }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
             }
         }
-    },
-    function(result)
-    {
-        if(result.error())
-        {
-            console.error(result.error());
-        }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

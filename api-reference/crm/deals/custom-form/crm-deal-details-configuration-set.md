@@ -50,65 +50,71 @@
 
 ## Примеры
 
-```js
-//---
-//Установка личных настроек карточки сделок общего направления для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.deal.details.configuration.set",
-    {
-        scope: "P",
-        userId: 1,
-        data:
-        [
-            {
-                name: "main",
-                title: "О сделке",
-                type: "section",
-                elements:
-                [
-                    { name: "TITLE" },
-                    { name: "OPPORTUNITY_WITH_CURRENCY" },
-                    { name: "STAGE_ID" },
-                    { name: "BEGINDATE" },
-                    { name: "CLOSEDATE" },
-                    { name: "CLIENT" }
-                ]
-            },
-            {
-                name: "additional",
-                title: "Дополнительно",
-                type: "section",
-                elements:
-                [
-                    { name: "TYPE_ID" },
-                    { name: "SOURCE_ID" },
-                    { name: "SOURCE_DESCRIPTION" },
-                    { name: "OPENED" },
-                    { name: "ASSIGNED_BY_ID" },
-                    { name: "OBSERVER" },
-                    { name: "COMMENTS" }
-                ]
-            },
-            {
-                name: "products",
-                title: "Товары",
-                type: "section",
-                elements:
-                [
-                    { name: "PRODUCT_ROW_SUMMARY" }
-                ]
-            }
-        ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//---
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //---
+    //Установка личных настроек карточки сделок общего направления для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.deal.details.configuration.set",
+        {
+            scope: "P",
+            userId: 1,
+            data:
+            [
+                {
+                    name: "main",
+                    title: "О сделке",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "TITLE" },
+                        { name: "OPPORTUNITY_WITH_CURRENCY" },
+                        { name: "STAGE_ID" },
+                        { name: "BEGINDATE" },
+                        { name: "CLOSEDATE" },
+                        { name: "CLIENT" }
+                    ]
+                },
+                {
+                    name: "additional",
+                    title: "Дополнительно",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "TYPE_ID" },
+                        { name: "SOURCE_ID" },
+                        { name: "SOURCE_DESCRIPTION" },
+                        { name: "OPENED" },
+                        { name: "ASSIGNED_BY_ID" },
+                        { name: "OBSERVER" },
+                        { name: "COMMENTS" }
+                    ]
+                },
+                {
+                    name: "products",
+                    title: "Товары",
+                    type: "section",
+                    elements:
+                    [
+                        { name: "PRODUCT_ROW_SUMMARY" }
+                    ]
+                }
+            ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //---
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

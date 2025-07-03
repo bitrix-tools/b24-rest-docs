@@ -59,7 +59,7 @@
 - `iblock_section` — привязка к разделам инф. блоков
 - `iblock_element` — привязка к элементам инф. блоков
 - `crm` — привязка к элементам CRM
-- [пользовательские типы полей](../../universal/user-defined-field-types/index.md)
+- [пользовательские типы полей](../../universal/user-defined-fields/userfield-type.md)
 ||
 || **FIELD_NAME***
 [`string`][1] | Код поля. Уникальное.
@@ -530,6 +530,41 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php
+    try {
+        $userfieldItemFields = [
+            'FIELD_NAME' => 'UF_CRM_example',
+            'USER_TYPE_ID' => 'string',
+            'XML_ID' => 'xml_example',
+            'SORT' => '100',
+            'MULTIPLE' => 'N',
+            'MANDATORY' => 'Y',
+            'SHOW_FILTER' => 'Y',
+            'SHOW_IN_LIST' => 'Y',
+            'EDIT_IN_LIST' => 'Y',
+            'IS_SEARCHABLE' => 'Y',
+            'EDIT_FORM_LABEL' => 'Example Field',
+            'LIST_COLUMN_LABEL' => 'Example Column',
+            'LIST_FILTER_LABEL' => 'Example Filter',
+            'ERROR_MESSAGE' => 'Error occurred',
+            'HELP_MESSAGE' => 'Help message',
+            'LIST' => 'list_value',
+            'SETTINGS' => 'settings_value',
+        ];
+
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->contactUserfield()
+            ->add($userfieldItemFields);
+
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
     ```
 
 {% endlist %}

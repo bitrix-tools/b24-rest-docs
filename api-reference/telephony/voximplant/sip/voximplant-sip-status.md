@@ -31,21 +31,27 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    "voximplant.sip.status",
-    {
-        "REG_ID": 5505,
-    },
-    function(result) 
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "voximplant.sip.status",
+        {
+            "REG_ID": 5505,
+        },
+        function(result) 
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -57,5 +63,10 @@ BX24.callMethod(
 || **LAST_UPDATED** | Дата последнего изменения sip-регистрации. ||
 || **ERROR_MESSAGE** | Текстовое описание кода ошибки. ||
 || **STATUS_CODE** | Цифровой код ошибки. ||
-|| **STATUS_RESULT** | Состояние sip-регистрации см. таблицу состояний ||
+|| **STATUS_RESULT** | Состояние sip-регистрации. Возможные значения:
+- `success` — успешная регистрация
+- `error` — неудачная регистрация
+- `in_progress` — в процессе регистрации
+- `wait` — ожидает начала регистрации
+||
 |#

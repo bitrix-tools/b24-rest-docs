@@ -1,27 +1,20 @@
 title: Перечисления
 href: index.md
 items:
-  - name: Перечисления 
+  - name: Обзор методов 
     href: index.md
-  - name: Получить описание полей перечисления
+  - name: Получить описание полей перечислений
     href: crm-enum-fields.md
   - name: Получить id объектов, к которым можно привязать заказ
     href: crm-enum-get-order-owner-types.md
-  - name: «Тип владельца»
+  - name: Получить типы объектов CRM
     href: crm-enum-owner-type.md
-  - name: «Тип содержания»
-    href: crm-enum-content-type.md
-  - name: «Тип активности»
-    href: crm-enum-activity-type.md
-  - name: «Направление активности»
-    href: crm-enum-activity-direction.md
-  - name: «Приоритет активности»
-    href: crm-enum-activity-priority.md
-  - name: «Тип уведомления о начале активности»
-    href: crm-enum-activity-notify-type.md
-  - name: «Тип адреса»
+  - name: Получить типы адресов
     href: crm-enum-address-type.md
-  - name: «Статус»
-    href: crm-enum-activity-status.md
   - name: Получить описание режимов работы CRM
-    href: crm-enum-settings-mode.md
+    href: crm-enum-settings-mode.md 
+  - name: Устаревшие методы
+    include:
+      path: outdated/b24-toc.yaml
+      mode: link       
+

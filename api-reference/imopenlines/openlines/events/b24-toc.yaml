@@ -1,0 +1,15 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При создании чата
+    href: on-session-start.md    
+  - name: При добавлении сообщения
+    href: on-open-line-message-add.md
+  - name: При изменении сообщения
+    href: on-open-line-message-update.md
+  - name: При удалении сообщения
+    href: on-open-line-message-delete.md 
+  - name: При закрытии чата
+    href: on-session-finish.md

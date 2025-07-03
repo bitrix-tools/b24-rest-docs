@@ -1,0 +1,51 @@
+title: Дополнительные функции
+href: index.md
+items: 
+  - name: Список дополнительных функций
+    href: index.md
+  - name: Проверить администраторский доступ пользователя
+    href: bx24-is-admin.md
+  - name: Получить идентификатор языка текущего портала
+    href: bx24-get-lang.md
+  - name: Изменить размер фрейма
+    href: bx24-resize-window.md
+  - name: Подстроить размер фрейма под содержимое
+    href: bx24-fit-window.md
+  - name: Перезагрузить страницу
+    href: bx24-reload-window.md
+  - name: Установить заголовок страницы
+    href: bx24-set-title.md
+  - name: Установить обработчик события готовности DOM-структуры документа
+    href: bx24-ready.md
+  - name: Установить флаг готовности DOM-структуры документа
+    href: bx24-is-ready.md
+  - name: Получить прокси-функцию
+    href: bx24-proxy.md
+  - name: Закрыть окно с приложением
+    href: bx24-close-application.md
+  - name: Получить адрес портала
+    href: bx24-get-domain.md
+  - name: Открыть всплывающее окно
+    href: bx24-open-application.md
+  - name: Открыть путь в слайдере
+    href: bx24-open-path.md
+  - name: Получить ссылку на контекст
+    href: bx24-proxy-context.md
+  - name: Прокрутить родительское окно
+    href: bx24-scroll-parent-window.md
+  - name: Установить функцию в качестве обработчика события
+    href: bx24-bind.md
+  - name: Отключить функцию в качестве обработчика события
+    href: bx24-unbind.md
+  - name: Получить размеры фрейма
+    href: bx24-get-scroll-size.md
+  - name: Запустить javascript-файл
+    href: bx24-load-script.md
+  - name: Позвонить по внутренней связи
+    href: bx24-im-call-to.md
+  - name: Позвонить на телефонный номер
+    href: bx24-im-phone-to.md
+  - name: Открыть окно мессенджера
+    href: bx24-im-open-messenger.md
+  - name: Открыть окно истории
+    href: bx24-im-open-history.md

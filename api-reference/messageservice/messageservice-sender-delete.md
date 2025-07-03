@@ -1,4 +1,4 @@
-# Удалить SMS-провайдер или провайдер сообщений messageservice.sender.delete
+# Удалить СМС-провайдер или провайдер сообщений messageservice.sender.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -35,23 +35,29 @@
 
 ## Пример
 
-```js
-function uninstallProvider(provider)
-{
-    BX24.callMethod(
-        'messageservice.sender.delete',
-        {
-            'CODE': provider
-        },
-        function(result)
-        {
-            if(result.error())
-                alert('Error: ' + result.error());
-            else
-                alert("Успешно: " + result.data());
-        }
-    );
-}
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    function uninstallProvider(provider)
+    {
+        BX24.callMethod(
+            'messageservice.sender.delete',
+            {
+                'CODE': provider
+            },
+            function(result)
+            {
+                if(result.error())
+                    alert('Error: ' + result.error());
+                else
+                    alert("Успешно: " + result.data());
+            }
+        );
+    }
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

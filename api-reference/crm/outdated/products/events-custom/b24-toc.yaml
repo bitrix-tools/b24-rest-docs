@@ -1,0 +1,17 @@
+title: События
+href: index.md
+items:
+  - name: События
+    href: index.md
+  - name: На добавление товара
+    href: on-crm-product-add.md
+  - name: На изменение товара
+    href: on-crm-product-update.md
+  - name: На удаление товара
+    href: on-crm-product-delete.md
+  - name: На добавление свойства товара
+    href: on-crm-product-property-add.md
+  - name: На изменение свойства товара
+    href: on-crm-product-property-update.md
+  - name: На удаление свойства товара
+    href: on-crm-product-property-delete.md

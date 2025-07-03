@@ -1,0 +1,11 @@
+title: Настройки пользовательских полей
+href: index.md
+items: 
+  - name: Настройки пользовательских полей
+    href: index.md
+  - name: Идентификаторы entityId
+    href: entity-id.md
+  - name: Работа с пользовательскими полями
+    include:
+      path: userfieldconfig/b24-toc.yaml
+      mode: link

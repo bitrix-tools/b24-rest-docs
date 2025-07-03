@@ -30,7 +30,7 @@
 
 - JS
   
-    ```
+    ```js
     BX24.callMethod(
         "crm.userfield.fields",
         {},

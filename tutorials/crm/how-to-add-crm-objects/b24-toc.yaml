@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Добавить лид
     href: how-to-add-lead.md
-  - name: Добавить дело в лид или сделку с учетом режимов CRM
+  - name: Добавить лид или сделку с делом с учетом режима CRM
     href: how-to-add-objects-with-crm-mode.md
   - name: Добавить повторный лид
     href: how-to-add-repeat-lead.md
@@ -17,16 +17,20 @@ items:
     href: how-to-add-company.md
   - name: Добавить компанию с реквизитами
     href: how-to-add-company-with-requisite.md
-  - name: Добавить сделку с выбором реквизитов
+  - name: Добавить сделку и компанию с реквизитами
     href: how-to-add-deal-with-choice-of-requisite.md
-  - name: Добавить клиенту событие календаря
+  - name: Добавить событие календаря для работы с клиентами
     href: how-to-add-activity-to-contact.md
-  - name: Добавить сделку с товарами, с применением скидок и налогов
-    href: how-to-product-binding.md
-  - name: Добавить товар со значениями пользовательских полей
-    href: how-to-add-product-with-custom-props.md
   - name: Создать свой шаблон документа и документ на его основе
     href: how-to-generate-documents.md
-  - name: Отправить e-mail клиенту от имени сотрудника
+  - name: Отправить письмо клиенту от имени сотрудника
     href: how-to-send-email.md
+  - name: Добавить комментарий в таймлайн смарт-процесса
+    href: how-to-add-comment-to-spa.md
+  - name: Создать пользовательское поле в смарт-процессе    
+    href: how-to-add-user-field-to-spa.md
+  - name: Настроить округление для пользовательского поля типа «Число»
+    href: how-to-add-precision-to-user-field.md
+    
+
     

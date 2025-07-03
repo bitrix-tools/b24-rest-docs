@@ -1,215 +1,453 @@
 # Добавить новое действие bizproc.activity.add
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- отсутствуют параметры или поля
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы.
-- описание метода в целом кривое, надо иначе расписать
-- Нужно разбить параметры на несколько таблиц, с учетом, что там массивы внутри
-- неправильная сноска про обязательные параметры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`bizproc`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Добавляет новое действие для использования в бизнес-процессах.
+Добавляет новое действие для использования в бизнес-процессах. 
 
-Каждый документ генерирует свой набор типов полей, с которыми он может работать. Например, у CRM есть поле типа Адрес, он обозначается как UF:address. Чтобы такой тип поля использовать в своих активити, нужно указать, что мы работаем с документом CRM (ключ `DOCUMENT_TYPE`) и тогда можно описывать свойства такого типа (ключ `PROPERTIES`).
+Метод работает только в контексте [приложения](../../app-installation/index.md).
+
+Каждый документ генерирует свой набор типов полей. Например, в CRM есть поле типа Адрес `UF:address`. Чтобы использовать этот тип поля в своих действиях, укажите тип документа CRM в `DOCUMENT_TYPE` и опишите свойства типа в `PROPERTIES`.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
+|| **Название**
+`тип` | **Описание**||
+|| **CODE***
+[`string`](../../data-types.md) | Внутренний идентификатор действия. Является уникальным в рамках приложения.
 
-|| **CODE**^*^ | Внутренний идентификатор действия, уникальный в рамках приложения. Допустимые символы a-z, A-Z, 0-9, точка, дефис и нижнее gодчеркивание.  ||
-|| **HANDLER**^*^     | URL, на который действие будет отсылать данные (через сервер очередей bitrix24), когда бизнес-процесс дошел до его выполнения. Должен ссылаться на тот же домен, на котором установлено приложение.  ||
-|| **AUTH_USER_ID** | ID пользователя, токен которого будет передан приложению. ||
-|| **USE_SUBSCRIPTION** | Использование подписки. Допустимые значения - Y или N. Можно указать, должно ли ожидать действие ответа от приложения. Если параметр пустой или не указан - пользователь может сам настроить этот параметр в настройках действия в дизайнере бизнес-процессов.  ||
-|| **NAME**^*^        | Название действия. Может быть строкой или ассоциативным массивом локализированных строк. Нельзя использовать значение Title. ||
-|| **DESCRIPTION** | Описание действия. Может быть строкой или ассоциативным массивом локализированных строк. ||
-|| **PROPERTIES**    | Массив параметров действия. Список значений аналогичен значениям параметра RETURN_PROPERTIES.  ||
-|| **RETURN_PROPERTIES** | Массив возвращаемых значений действия. Параметр управляет возможностью действия ожидать ответа приложения и работать с данными, которые придут в ответе.
+Допустимые символы — `a-z`, `A-Z`, `0-9`, точка, дефис и нижнее подчеркивание `_` ||
+|| **HANDLER***
+[`string`](../../data-types.md) | URL, на который действие будет отправлять данные через сервер очередей bitrix24.
 
-{% note info "Внимание!" %}
-
-Системное название параметра должно начинаться с буквы и может содержать только символы a-z, A-Z, 0-9 и нижнее подчеркивание.
-
-{% endnote %}
-
-Каждый параметр обязательно должен содержать: 
-- Name - строка или массив локализаций. 
-- Description - описание параметра, строка или массив локализаций. 
-- Type - тип параметра. Список базовых параметров: 
-  - bool (Да/Нет), 
-  - date (Дата), 
-  - datetime (Дата/Время), 
-  - double (Число), 
-  - int (Целое число), 
-  - select (Список) массив значений списка, 
-  - string (Строка), 
-  - text (Текст), 
-  - user (Пользователь). 
-- Options только для TYPE равному select. 
-
-```json
-[
-'value1' => 'title1',
-'value2' => 'title2',
-'value3' => 'title3',
-'value4' => 'title4',
-]
-```
-
-- Required(Y/N) - обязательность параметра.
-- Multiple(Y/N) - множественность параметра.
-- Default - значение параметра по-умолчанию. ||
-|| **DOCUMENT_TYPE** | Тип документа, который будет определять типы данных для параметров PROPERTIES и RETURN_PROPERTIES. Массив из 3 элементов: 
-- id модуля,
-- сущность (класс),
-- непосредственно тип документа.
-
-Примеры:
-
-```php
-['crm', 'CCrmDocumentLead', 'LEAD'], 
-['lists', 'BizprocDocument', 'iblock_22'],
-['disk', 'Bitrix\Disk\BizProcDocument', 'STORAGE_490'],
-['tasks', 'Bitrix\Tasks\Integration\Bizproc\Document\Task', 'TASK_PROJECT_13'].
-```
+В ссылке должен быть тот же домен, на котором установлено приложение  ||
+|| **AUTH_USER_ID**
+[`integer`](../../data-types.md) | Идентификатор пользователя, токен которого будет передан приложению ||
+|| **USE_SUBSCRIPTION**
+[`boolean`](../../data-types.md) | Должно ли действие ожидать ответа от приложения. Возможные значения:
+- `Y` — да
+- `N` — нет
 
 ||
-|| **FILTER**        | Правила ограничения действия по типу документа и редакции. ||
-|| **USE_PLACEMENT** | Дает возможность открывать дополнительные настройки действия в слайдере приложения. Принимает значения (Y/N).  ||
-|#
+|| **NAME***
+[`string` \| `object`](../../data-types.md) | Название действия.
 
-\* - обязательные параметры
-
-## Примеры
+Может быть строкой или ассоциативным массивом локализированных строк вида:
 
 ```js
-var params = {
-    'CODE': 'md5',
-    'HANDLER': 'http://yanzh.net16.net/ping.php',
-    'AUTH_USER_ID': 1,
-    'USE_SUBSCRIPTION': 'Y',
-    'NAME': {
-        'ru': 'MD5 генератор',
-        'en': 'MD5 generator'
-    },
-    'DESCRIPTION': {
-        'ru': 'Действие возвращает MD5 хеш от входящего параметра',
-        'en': 'Activity returns MD5 hash of input parameter'
-    },
-    'PROPERTIES': {
-        'inputString': {
-            'Name': {
-                'ru': 'Входящая строка',
-                'en': 'Input string'
-            },
-            'Description': {
-                'ru': 'Введите строку, которую вы хотите хешировать',
-                'en': 'Input string for hashing'
-            },
-            'Type': 'string',
-            'Required': 'Y',
-            'Multiple': 'N',
-            'Default': '{=Document:NAME}'
-        }
-    },
-    'RETURN_PROPERTIES': {
-        'outputString': {
-            'Name': {
-                'ru': 'MD5',
-                'en': 'MD5'
-            },
-            'Type': 'string',
-            'Multiple': 'N',
-            'Default': null
-        }
-    },
-    'DOCUMENT_TYPE': ['lists', 'BizprocDocument', 'iblock_1'],
-    'FILTER': {
+'NAME': {
+    'ru': 'название действия',
+    'en': 'action name',
+    ...
+},
+```
+
+ ||
+|| **DESCRIPTION**
+[`string` \| `object`](../../data-types.md) | Описание действия.
+
+Может быть строкой или ассоциативным массивом локализированных строк вида:
+
+```js
+'DESCRIPTION': {
+    'ru': 'описание действия',
+    'en': 'action description',
+    ...
+},
+```
+ ||
+|| **PROPERTIES**
+[`object`](../../data-types.md) | Объект с параметрами действия. Содержит объекты, каждый из которых описывает [параметр действия](#property).
+
+Системное название параметра должно начинаться с буквы и может содержать символы `a-z`, `A-Z`, `0-9` и нижнее подчеркивание `_` ||
+|| **RETURN_PROPERTIES**
+[`object`](../../data-types.md) | Объект с дополнительными результатами действия. Содержит объекты, каждый из которых описывает [параметр действия](#property).
+
+Параметр управляет возможностью действия ожидать ответа приложения и работать с данными, которые [придут в ответе](../bizproc-robot/bizproc-event-send.md).
+
+Системное название параметра должно начинаться с буквы и может содержать символы `a-z`, `A-Z`, `0-9` и нижнее подчеркивание `_`
+||
+|| **DOCUMENT_TYPE**
+[`array`](../../data-types.md) | Тип документа, который будет определять типы данных для параметров `PROPERTIES` и `RETURN_PROPERTIES`. Состоит из трех элементов типа строка: 
+- идентификатор модуля
+- идентификатор объекта
+- тип документа
+
+Возможные варианты значений:
+
+- Модуль CRM
+    `['crm', 'CCrmDocumentLead', 'LEAD']` — лиды
+    `['crm', 'CCrmDocumentContact', 'CONTACT']` — контакты
+    `['crm', 'CCrmDocumentCompany', 'COMPANY']` — компании
+    `['crm', 'CCrmDocumentDeal', 'DEAL']` — сделки
+    `['crm', 'Bitrix\Crm\Integration\BizProc\Document\Quote', 'QUOTE']` — коммерческие предложения
+    `['crm', 'Bitrix\Crm\Integration\BizProc\Document\SmartInvoice', 'SMART_INVOICE']` — счета
+    `['crm', 'Bitrix\Crm\Integration\BizProc\Document\Dynamic', 'DYNAMIC_XXX']` — смарт-процессы, где XXX — идентификатор смарт-процесса
+
+- Модуль Списки
+    `['lists', 'BizprocDocument', 'iblock_XXX']` — процессы в ленте новостей, где XXX — идентификатор информационного блока
+    `['lists', 'Bitrix\Lists\BizprocDocumentLists', 'iblock_XXX']` — списки в группах, где XXX — идентификатор информационного блока
+
+- Модуль Диск
+    `['disk', 'Bitrix\Disk\BizProcDocument', 'STORAGE_XXX']`, где XXX — идентификатор хранилища
+
+||
+|| **FILTER**
+[`object`](../../data-types.md) | Объект с правилами ограничения действия по типу документа и редакции.
+
+Может содержать ключи:
+- `INCLUDE` — массив правил, где действие будет отображено
+- `EXCLUDE` — массив правил, где действие будет скрыто
+
+Каждое правило в массиве может быть строкой или массивом типа документа в полном или частичном варианте.
+
+Чтобы ограничить действие по редакции Битрикс24 укажите:
+- `b24` — для облака
+- `box` — для коробки
+
+Примеры:
+1. Исключить действие для коробочного Битрикс24
+    ```js
+    FILTER: {
+        EXCLUDE: [ 'box' ]
+    }
+    ```
+2. Отображать действие только для модуля Списки
+    ```js
+    FILTER: {
         INCLUDE: [
             ['lists']
         ]
     }
-};
-
-BX24.callMethod(
-    'bizproc.activity.add',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Success: " + result.data());
+    ```
+3. Отображать действие только для модуля Списки и сделок из CRM
+    ```js
+    FILTER: {
+        INCLUDE: [
+            ['lists'],
+            ['crm', 'CCrmDocumentDeal']
+        ]
     }
-);
+    ```
+||
+|| **USE_PLACEMENT**
+[`boolean`](../../data-types.md) | Дает возможность открывать дополнительные настройки действия в слайдере приложения. Возможные значения:
+- `Y` — да
+- `N` — нет  ||
+|#
+
+### Объект PROPERTY {#property}
+
+#|
+|| **Название**
+`тип` | **Описание**||
+|| **Name**
+[`string` \| `object`](../../data-types.md) | Наименование параметра ||
+|| **Description**
+[`string` \| `object`](../../data-types.md) | Описание параметра ||
+|| **Type**
+[`string`](../../data-types.md) | Тип параметра. Базовые значения: 
+  - `bool` — да или нет
+  - `date` — дата
+  - `datetime` — дата и время
+  - `double` — число
+  - `int` — целое число 
+  - `select` — список
+  - `string` — строка
+  - `text` — текст
+  - `user` — пользователь  ||
+|| **Options**
+[`array`](../../data-types.md) | Массив значений параметра типа список `'TYPE': select'` вида:
+
+```js
+[
+    'value1': 'title1',
+    'value2': 'title2',
+    'value3': 'title3',
+    'value4': 'title4'
+]
 ```
+||
+|| **Required**
+[`boolean`](../../data-types.md) | Обязательность параметра. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **Multiple**
+[`boolean`](../../data-types.md) | Множественность параметра. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **Default**
+[`any`](../../data-types.md) | Значение параметра по умолчанию ||
+|#
 
-Пример параметров Бизнес-процесса
+#### Примеры объектов
 
-```json
-select
+```js
+// пример для типа select
 'docType': {
-	'Name': {
-		'ru': 'Тип документа',
-		'en': 'Document type'
-	},
-	'Required': 'Y',
-	'Multiple': 'N',
-	'Default': 'PDF',
-	'Type': 'select',
-	'Options': {
-		'pdf': 'PDF',
-		'docx': 'DOCX'
-	}
+    'Name': {
+        'ru': 'Тип документа',
+        'en': 'Document type'
+    },
+    'Required': 'Y',
+    'Multiple': 'N',
+    'Default': 'PDF',
+    'Type': 'select',
+    'Options': {
+        'pdf': 'PDF',
+        'docx': 'DOCX'
+    }
 }
-bool
+
+// пример для типа bool
 'saveDoc': {
-	'Name': {
-		'ru': 'Сохранить документ',
-		'en': 'Save document'
-	},
-	'Description': {
-		'ru': 'Присвоить порядковый номер',
-		'en': 'Assign a sequential number'
-	},
-	'Type': 'bool',
-	'Required': 'Y',
-	'Multiple': 'N',
-	'Default': 'Y'
+    'Name': {
+        'ru': 'Сохранить документ',
+        'en': 'Save document'
+    },
+    'Description': {
+        'ru': 'Присвоить порядковый номер',
+        'en': 'Assign a sequential number'
+    },
+    'Type': 'bool',
+    'Required': 'Y',
+    'Multiple': 'N',
+    'Default': 'Y'
 }
-string
+
+// пример для типа string
 'Parameters': {
-	'Name': {
-		'ru': 'Параметры шаблона',
-		'en': 'Template\'s parameters'
-	},
-	 'Description': {
-		'ru': 'ParamID={=ParamValue}',
-		'en': 'ParamID={=ParamValue}'
-	},
-	'Type': 'string',
-	'Required': 'N',
-	'Multiple': 'Y'
+    'Name': {
+        'ru': 'Параметры шаблона',
+        'en': 'Template\'s parameters'
+    },
+    'Description': {
+        'ru': 'ParamID={=ParamValue}',
+        'en': 'ParamID={=ParamValue}'
+    },
+    'Type': 'string',
+    'Required': 'N',
+    'Multiple': 'Y'
 }
 ```
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"CODE":"md5_action","HANDLER":"https://your_domain/ping.php","AUTH_USER_ID":1,"USE_SUBSCRIPTION":"Y","NAME":{"ru":"MD5 генератор","en":"MD5 generator"},"DESCRIPTION":{"ru":"Действие возвращает MD5 хеш от входящего параметра","en":"Activity returns MD5 hash of input parameter"},"PROPERTIES":{"inputString":{"Name":{"ru":"Входящая строка","en":"Input string"},"Description":{"ru":"Введите строку, которую вы хотите хешировать","en":"Input string for hashing"},"Type":"string","Required":"Y","Multiple":"N","Default":"{=Document:NAME}"}},"RETURN_PROPERTIES":{"outputString":{"Name":{"ru":"MD5","en":"MD5"},"Type":"string","Multiple":"N","Default":null}},"DOCUMENT_TYPE":["lists","BizprocDocument","iblock_164"],"FILTER":{"INCLUDE":[["lists"]]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/bizproc.activity.add
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'bizproc.activity.add',
+        {
+            'CODE': 'md5_action',
+            'HANDLER': 'https://your_domain/ping.php',
+            'AUTH_USER_ID': 1,
+            'USE_SUBSCRIPTION': 'Y',
+            'NAME': {
+                'ru': 'MD5 генератор',
+                'en': 'MD5 generator'
+            },
+            'DESCRIPTION': {
+                'ru': 'Действие возвращает MD5 хеш от входящего параметра',
+                'en': 'Activity returns MD5 hash of input parameter'
+            },
+            'PROPERTIES': {
+                'inputString': {
+                    'Name': {
+                        'ru': 'Входящая строка',
+                        'en': 'Input string'
+                    },
+                    'Description': {
+                        'ru': 'Введите строку, которую вы хотите хешировать',
+                        'en': 'Input string for hashing'
+                    },
+                    'Type': 'string',
+                    'Required': 'Y',
+                    'Multiple': 'N',
+                    'Default': '{=Document:NAME}'
+                }
+            },
+            'RETURN_PROPERTIES': {
+                'outputString': {
+                    'Name': {
+                        'ru': 'MD5',
+                        'en': 'MD5'
+                    },
+                    'Type': 'string',
+                    'Multiple': 'N',
+                    'Default': null
+                }
+            },
+            'DOCUMENT_TYPE': ['lists', 'BizprocDocument', 'iblock_164'],
+            'FILTER': {
+                INCLUDE: [
+                    ['lists']
+                ]
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.activity.add',
+        [
+            'CODE' => 'md5_action',
+            'HANDLER' => 'https://your_domain/ping.php',
+            'AUTH_USER_ID' => 1,
+            'USE_SUBSCRIPTION' => 'Y',
+            'NAME' => [
+                'ru' => 'MD5 генератор',
+                'en' => 'MD5 generator'
+            ],
+            'DESCRIPTION' => [
+                'ru' => 'Действие возвращает MD5 хеш от входящего параметра',
+                'en' => 'Activity returns MD5 hash of input parameter'
+            ],
+            'PROPERTIES' => [
+                'inputString' => [
+                    'Name' => [
+                        'ru' => 'Входящая строка',
+                        'en' => 'Input string'
+                    ],
+                    'Description' => [
+                        'ru' => 'Введите строку, которую вы хотите хешировать',
+                        'en' => 'Input string for hashing'
+                    ],
+                    'Type' => 'string',
+                    'Required' => 'Y',
+                    'Multiple' => 'N',
+                    'Default' => '{=Document:NAME}'
+                ]
+            ],
+            'RETURN_PROPERTIES' => [
+                'outputString' => [
+                    'Name' => [
+                        'ru' => 'MD5',
+                        'en' => 'MD5'
+                    ],
+                    'Type' => 'string',
+                    'Multiple' => 'N',
+                    'Default' => null
+                ]
+            ],
+            'DOCUMENT_TYPE' => ['lists', 'BizprocDocument', 'iblock_164'],
+            'FILTER' => [
+                'INCLUDE' => [
+                    ['lists']
+                ]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1738148752.692647,
+        "finish": 1738148752.749058,
+        "duration": 0.056411027908325195,
+        "processing": 0.018677949905395508,
+        "date_start": "2025-01-29T14:05:52+03:00",
+        "date_finish": "2025-01-29T14:05:52+03:00",
+        "operating_reset_at": 1738149352,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true`, если действие добавлено успешно ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_ACTIVITY_VALIDATION_FAILURE",
+    "error_description": "Empty activity code!"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Сообщение об ошибке** | **Описание** ||
+|| `ACCESS_DENIED` | Application context required | Необходим контекст приложения ||
+|| `ACCESS_DENIED` | Access denied! | Метод выполнил не администратор ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Empty data! | Не указаны поля с информацией ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Empty activity code! | Не указан код действия ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity code! | Некорректный код действия ||
+|| `ERROR_UNSUPPORTED_PROTOCOL` | Unsupported handler protocol | Некорректный протокол хендлера http, https ||
+|| `ERROR_WRONG_HANDLER_URL` | Wrong handler URL | Невалидный урл хендлера ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Empty activity NAME! | Не указано название действия ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong properties array! | Некорректно заполнены параметры `PROPERTIES` или `RETURN_PROPERTIES` ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong property key <ключ>! | Некорректный идентификатор свойства ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Empty property NAME <ключ>! | Не указано название свойства ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity FILTER! | Некорректный фильтр ||
+|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity DOCUMENT_TYPE! | Некорректный `DOCUMENT_TYPE` ||
+|| `ERROR_ACTIVITY_ALREADY_INSTALLED` | Activity or Robot already installed! | Действие с таким кодом уже установлено ||
+|| `ERROR_ACTIVITY_ADD_FAILURE` | Activity or Robot already added! | Действие уже было добавлено ||
+|| `ERROR_ACTIVITY_ADD_FAILURE` | Activity save error! | Не удалось сохранить действие, системная ошибка ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./bizproc-activity-update.md)
+- [{#T}](./bizproc-activity-list.md)
+- [{#T}](./bizproc-activity-delete.md)
+- [{#T}](./bizproc-activity-log.md)

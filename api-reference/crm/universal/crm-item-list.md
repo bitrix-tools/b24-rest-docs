@@ -98,6 +98,14 @@
 
 `start = (N-1) * 50`, где `N` — номер нужной страницы
 ||
+|| **useOriginalUfNames**
+[`boolean`][1] | Параметр для управления форматом имен пользовательских полей в запросе и ответе.   
+Возможные значения:
+
+- `Y` — оригинальные имена пользовательских полей, например `UF_CRM_2_1639669411830`
+- `N` — имена пользовательских полей в camelCase, например `ufCrm2_1639669411830`
+
+По умолчанию — `N` ||
 |#
 
 ## Примеры кода
@@ -248,6 +256,34 @@
     echo '</PRE>';
     ```
 
+- PHP (B24PhpSdk)
+  
+    ```php        
+    try {
+        $entityTypeId = 1; // Replace with actual entity type ID
+        $order = []; // Replace with actual order array
+        $filter = []; // Replace with actual filter array
+        $select = []; // Replace with actual select array
+        $startItem = 0; // Optional, can be adjusted as needed
+        $itemsResult = $serviceBuilder
+            ->getCRMScope()
+            ->item()
+            ->list($entityTypeId, $order, $filter, $select, $startItem);
+        foreach ($itemsResult->getItems() as $item) {
+            print("ID: " . $item->id . PHP_EOL);
+            print("XML ID: " . $item->xmlId . PHP_EOL);
+            print("Title: " . $item->title . PHP_EOL);
+            print("Created By: " . $item->createdBy . PHP_EOL);
+            print("Updated By: " . $item->updatedBy . PHP_EOL);
+            print("Created Time: " . $item->createdTime->format(DATE_ATOM) . PHP_EOL);
+            print("Updated Time: " . $item->updatedTime->format(DATE_ATOM) . PHP_EOL);
+            // Add more fields as necessary
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . PHP_EOL);
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -338,6 +374,13 @@ HTTP-статус: **200**
 [`time`][1] | Информация о времени выполнения запроса ||
 |#
 
+{% note info " " %}
+
+По умолчанию имена пользовательских полей передаются и возвращаются в camelCase, например `ufCrm2_1639669411830`.
+При передаче параметра `useOriginalUfNames` со значением `Y` пользовательские поля будут возвращаться с оригинальными именами, например `UF_CRM_2_1639669411830`.
+
+{% endnote %}
+
 ## Обработка ошибок
 
 HTTP-статус: **400**, **403**
@@ -372,5 +415,7 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-get.md)
 - [{#T}](crm-item-delete.md)
 - [{#T}](crm-item-fields.md)
+- [{#T}](../../../tutorials/tasks/how-to-connect-task-to-spa.md)
+- [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 
 [1]: ../data-types.md

@@ -122,6 +122,8 @@
 
 В зависимости от настроек портала у контактов может быть набор пользовательских полей определенных типов. 
 
+Для изменения файловых полей рекомендуется использовать метод [crm.item.update](../universal/crm-item-update.md).
+
 Добавить пользовательское поле в контакт можно с помощью метода [crm.contact.userfield.add](./userfield/crm-contact-userfield-add.md) ||
 ||**PARENT_ID_...** | Поля связей. 
 
@@ -294,6 +296,38 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php        
+    try {
+        $contactId = 123; // Example contact ID
+        $fields = [
+            'NAME' => 'John',
+            'LAST_NAME' => 'Doe',
+            'BIRTHDATE' => (new DateTime('1990-01-01'))->format(DateTime::ATOM),
+            'PHONE' => '123456789',
+            'EMAIL' => 'john.doe@example.com',
+            'ADDRESS' => '123 Main St',
+            'ADDRESS_CITY' => 'Anytown',
+            'ADDRESS_COUNTRY' => 'USA',
+        ];
+        $params = [
+            'REGISTER_SONET_EVENT' => 'Y',
+        ];
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->contact()
+            ->update($contactId, $fields, $params);
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print('Update failed.');
+        }
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
     ```
 
 {% endlist %}
@@ -496,6 +530,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-list.md)
 - [{#T}](./crm-contact-delete.md)
 - [{#T}](./crm-contact-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
 
 [1]: ../../data-types.md
 [2]: ../status/crm-status-list.md

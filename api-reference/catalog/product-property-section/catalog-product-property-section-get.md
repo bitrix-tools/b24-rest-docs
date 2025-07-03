@@ -29,21 +29,25 @@
 catalog.productPropertySection.get(propertyId)
 ```
 
-Метод для доступа к значению секционных настроек свойства товаров или торговых предложений.
+Метод для доступа к значению секционных настроек свойства товаров или вариаций.
 
 ## Параметры
 
 #|
 || **Параметр** | **Описание** ||
 || **propertyId** 
-[`integer`](../../data-types.md)| Идентификатор свойства товаров или торговых предложений. ||
+[`integer`](../../data-types.md)| Идентификатор свойства товаров или вариаций. ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 ## Примеры
 
-```javascript
+{% list tabs %}
+
+- JS
+
+```js
 BX24.callMethod(
     'catalog.productPropertySection.get',
     {
@@ -58,4 +62,7 @@ BX24.callMethod(
     }
 );
 ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

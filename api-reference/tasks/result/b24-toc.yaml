@@ -1,0 +1,11 @@
+title: Результат задачи
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить комментарий в результат
+    href: tasks-task-result-add-from-comment.md
+  - name: Получить список результатов задачи
+    href: tasks-task-result-list.md
+  - name: Удалить комментарий из результата
+    href: tasks-task-result-delete-from-comment.md

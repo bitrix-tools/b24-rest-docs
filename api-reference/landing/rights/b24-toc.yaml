@@ -1,0 +1,20 @@
+title: Права
+href: index.md
+items:
+  - name: Основные положения
+    href: index.md
+  - name: Отличия моделей
+    href: distinction.md
+  - name: Переключить модели
+    href: landing-role-enable.md
+  - name: Определить модели прав
+    href: landing-role-is-enabled.md
+  - name: Расширенная модель
+    include:
+      path: extended-model/b24-toc.yaml
+      mode: link
+  - name: Ролевая модель
+    include:
+      path: role-model/b24-toc.yaml
+      mode: link
+

@@ -1,37 +1,50 @@
 # Удалить лид crm.lead.delete
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с правом удаления лидов
 
-Метод `crm.lead.delete` удаляет лид и все связанные с ним объекты, такие как связи с другими элементами, историю лида, записи таймлайна и т.д. 
+Метод `crm.lead.delete` удаляет лид и все связанные с ним объекты: дела, история, записи таймлайна и другие. 
 
-#|
-|| **Параметр** | **Описание** ||
-|| **id**^*^
-[`integer`](../../data-types.md) | Целочисленный идентификатор лида. ||
-|#
+Объекты удаляются, если они не привязаны к другим объектам или элементам. В случае, если объекты привязаны к другим элементам, удалится только привязка к удаляемому лиду.
+
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Примеры
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор лида.
+
+Идентификатор можно получить с помощью методов [crm.lead.list](./crm-lead-list.md) или [crm.lead.add](./crm-lead-add.md) ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- cURL
+- cURL (Webhook)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{ "id": "123" }' \
-    https://xxx.bitrix24.com/rest/crm.lead.delete
+    -d '{"id":"123"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.lead.delete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":"123","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.lead.delete
     ```
 
 - JS
@@ -51,35 +64,52 @@
         
         console.info(result.data());
       }
-);
+    );
     ```
 
 - PHP
 
     ```php
-    $id = 123;
-        
+    require_once('crest.php');
+
+    $id = readline("Введите ID: ");
+
     $result = CRest::call(
         'crm.lead.delete',
         [
-            'id' => $id,
+            'id' => $id
         ]
     );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
-- HTTPS
+- PHP (B24PhpSdk)
 
-    ```http
-    https://xxx.bitrix24.com/rest/1/5***/crm.lead.delete.json?id=123
+    ```php        
+    try {
+        $id = 123; // Example lead ID to delete
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->lead()
+            ->delete($id);
+        if ($result->isSuccess()) {
+            print("Lead with ID $id has been successfully deleted.");
+        } else {
+            print("Failed to delete lead with ID $id.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
 {
@@ -100,34 +130,34 @@
 ### Возвращаемые данные
 
 #|
-|| **Значение** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **result**
-`boolean`| Результат запроса ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
 || **time**
-[`array`](../../data-types.md) | Информация о времени выполнения запроса ||
-|| **start**
-[`double`](../../data-types.md) | Timestamp момента инициализации запроса ||
-|| **finish**
-[`double`](../../data-types.md) | Timestamp момента завершения выполнения запроса ||
-|| **duration**
-[`double`](../../data-types.md) | Как долго в миллисекундах выполнялся запрос (finish - start) ||
-|| **date_start**
-[`string`](../../data-types.md) | Строковое представление даты и времени момента инициализации запроса ||
-|| **date_finish**
-[`double`](../../data-types.md) | Строковое представление даты и времени момента завершения запроса ||
-|| **operating_reset_at**
-[`timestamp`](../../data-types.md) | Timestamp момента, когда будет сброшен лимит на ресурсы REST API. Читайте подробности в статье [лимит на операции](../../../limits.md) ||
-|| **operating**
-[`double`](../../data-types.md) | Через сколько миллисекунд будет сброшен лимит на ресурсы REST API? Читайте подробности в статье [лимит на операции](../../../limits.md) ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-## Пример ответа в случае ошибки
+## Обработка ошибок
 
 > 40x, 50x Error
 
 ```json
 {
   "error": "",
-  "error_description": "Лид #123: недостаточно прав для удаления"
+  "error_description": "ID is not defined or invalid."
 }
 ```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Описание** | **Значение** ||
+|| `ID is not defined or invalid` | В параметр `id` либо не передано значение, либо оно является не целым числом больше нуля ||
+|| `Access denied` | У пользователя нет прав на удаление лидов ||
+|| `Not found` | Лид с переданным `id` не существует ||
+|#
+
+{% include [системные ошибки](./../../../_includes/system-errors.md) %}

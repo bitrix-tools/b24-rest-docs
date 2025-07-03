@@ -1,0 +1,25 @@
+title: Взаимодействие с UI из виджетов
+href: index.md
+items: 
+  - name: Взаимодействие с UI из виджетов
+    href: index.md
+  - name: Особые возможности некоторых виджетов
+    href: special-js-tools.md
+  - name: Получить контекст выполнения
+    href: bx24-placement-info.md
+  - name: Получить список методов и событий
+    href: bx24-placement-get-interface.md
+  - name: Вызвать метод виджета
+    href: bx24-placement-call.md
+  - name: Зарегистрировать обработчик события
+    href: bx24-placement-bind-event.md
+  - name: Взаимодействие с карточкой CRM
+    href: crm-card.md
+  - name: Взаимодействие c карточкой звонка
+    include:
+      path: call-card/b24-toc.yaml
+      mode: link
+  - name: WebRTC - управление карточкой звонка
+    include:
+      path: page-background-worker/b24-toc.yaml
+      mode: link

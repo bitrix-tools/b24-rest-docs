@@ -22,55 +22,113 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.message.add` отправляет сообщения в чат.
+Метод `im.message.add` отправляет сообщение от текущего пользователя в чат.
 
 #|
 || **Параметр** | **Пример** | **Описание** | **Ревизия** ||
 || **DIALOG_ID^*^**
-[`unknown`](../../data-types.md) | `chat13`
+[`string`](../../data-types.md) | `chat13`
 или
 `256` | Идентификатор диалога. Формат:
 - **chatXXX** – чат получателя, если сообщение для чатах
 - **XXX** – идентификатор получателя, если сообщение для приватного диалога | 18 ||
 || **MESSAGE^*^**
-[`unknown`](../../data-types.md) | `Текст сообщения` | Текст сообщения | 18 ||
+[`text`](../../data-types.md) | `Текст сообщения` | Текст сообщения.
+Поддерживается [форматирование](./index.html) | 18 ||
 || **SYSTEM**
-[`unknown`](../../data-types.md) | `N` | Отображать сообщения в виде системного сообщения или нет, необязательное поле, по умолчанию 'N' | 18 ||
+[`boolean`](../../data-types.md) | `N` | Отображать сообщения в виде системного сообщения или нет, необязательное поле, по умолчанию 'N' | 18 ||
 || **ATTACH**
-[`unknown`](../../data-types.md) | | Вложение | 18 ||
+[`object`](../../data-types.md) | [Пример](./attachments/index.html) | Вложение | 18 ||
 || **URL_PREVIEW**
-[`unknown`](../../data-types.md) | `Y` | Преобразовывать ссылки в rich-ссылки, необязательное поле, по умолчанию 'Y' | 18 ||
+[`boolean`](../../data-types.md) | `Y` | Преобразовывать ссылки в rich-ссылки, необязательное поле, по умолчанию 'Y' | 18 ||
 || **KEYBOARD**
-[`unknown`](../../data-types.md)d | | Клавиатура | 18 ||
+[`object`](../../data-types.md) | [Пример](./keyboards.html) | Клавиатура | 18 ||
 || **MENU**
-[`unknown`](../../data-types.md) | | Контекстное меню | 18 ||
+[`object`](../../data-types.md) | [Пример](./menu.html) | Контекстное меню | 18 ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 ## Примеры
 
-{% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
-```php
-$result = restCommand(
-    'im.message.add',
-    Array(
-        'DIALOG_ID' => 'chat13',
-        'MESSAGE' => 'Текст сообщения',
-        'SYSTEM' => 'N',
-        'ATTACH' => '',
-        'URL_PREVIEW' => 'Y',
-        'KEYBOARD' => '',
-        'MENU' => '',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
-
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{DIALOG_ID: "chat5",MESSAGE: "Сообщение [B]с вложением[/B] цвета primary и поддержкой [I]bb-кодов[/I]",ATTACH: [{MESSAGE: "API будет доступно в обновлении [B]im 24.0.0[/B]"}]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/im.message.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{DIALOG_ID: "chat5",MESSAGE: "Сообщение [B]с вложением[/B] цвета primary и поддержкой [I]bb-кодов[/I]",ATTACH: [{MESSAGE: "API будет доступно в обновлении [B]im 24.0.0[/B]"}]}' \
+    https://**put_your_bitrix24_address**/rest/im.message.add
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(    
+        'im.message.add',
+        {
+            DIALOG_ID: "chat5",
+            MESSAGE: "Сообщение [B]с вложением[/B] цвета primary и поддержкой [I]bb-кодов[/I]",
+            ATTACH: [
+                {
+                    MESSAGE: "API будет доступно в обновлении [B]im 24.0.0[/B]"
+                },
+            ],
+        },
+        function(result) {
+            console.log('response', result.answer);
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+            console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.message.add',
+        [
+            "DIALOG_ID" => "chat20921",
+            "MESSAGE"   => "Сообщение [B]с вложением[/B] цвета primary и поддержкой [I]bb-кодов[/I]",
+            "ATTACH":   => [
+                [
+                    "MESSAGE" => "API будет доступно в обновлении [B]im 24.0.0[/B]"
+                ],
+            ],
+        ]
+    );
+
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
+    ```
+
+{% endlist %}
+
+{% note tip "Частые кейсы и сценарии" %}
+
+- [Пример использования метода в приложении «ЭхоБот»](https://github.com/bitrix24com/bots)
+
+{% endnote %}
 
 ## Ответ в случае успеха
 
@@ -113,9 +171,9 @@ $result = restCommand(
 || **PARAMS_ERROR** | Что-то пошло не так ||
 |#
 
-## Ссылки по теме:
+## Ссылки по теме
 
-- [Как работать с набираемыми клавиатурами](.)
-- [Как работать с вложениями](.)
-- [Форматирование сообщений](.)
-- [Работа с контекстным меню](.)
+- [Как работать с набираемыми клавиатурами](./keyboards.html)
+- [Как работать с вложениями](./attachments/index.html)
+- [Форматирование сообщений](./index.html)
+- [Работа с контекстным меню](./menu.html)

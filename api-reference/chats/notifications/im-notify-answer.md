@@ -1,4 +1,4 @@
-# Ответить на уведомление, поддерживающее быстрый ответ im.notify.answer
+# Ответить на уведомление, которое поддерживает быстрый ответ im.notify.answer
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -36,25 +36,53 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.notify.answer',
-    {
-        ID: 270,
-        ANSWER_TEXT: 'Hello'
-    },
-    res => {
-        if (res.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'im.notify.answer',
         {
-        console.error(result.error().ex);
+            ID: 270,
+            ANSWER_TEXT: 'Hello'
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
         }
-        else
-        {
-        console.log(res.data())
+    )
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php
+    try {
+        $notificationId = 123; // Replace with your actual notification ID
+        $answerText = "This is an answer text"; // Replace with your actual answer text
+
+        $result = $serviceBuilder
+            ->getIMScope()
+            ->notify()
+            ->answer($notificationId, $answerText);
+
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print("Failed to send answer.");
         }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
     }
-)
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

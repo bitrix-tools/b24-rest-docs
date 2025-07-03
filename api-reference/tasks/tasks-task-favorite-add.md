@@ -35,9 +35,15 @@
 
 ## Пример
 
-```js
-BX24.callMethod('tasks.task.favorite.add', {taskId: 119}, (res)=>{console.log(res.answer.result);});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('tasks.task.favorite.add', {taskId: 119}, (res)=>{console.log(res.answer.result);});
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

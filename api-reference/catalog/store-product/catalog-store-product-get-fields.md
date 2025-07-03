@@ -37,18 +37,25 @@ catalog.storeproduct.getFields()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.storeproduct.getFields',
-    {},
-    function(result) {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.storeproduct.getFields',
+        {},
+        function(result) {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Возвращаемые поля
@@ -56,15 +63,15 @@ BX24.callMethod(
 #|
 || **Поле** | **Описание** | **Примечание** ||
 || **amount** 
-[`double`](../../data-types.md) | Количество. | Только для чтения. ||
+[`double`](../../data-types.md) | Количество | Только для чтения. ||
 || **id** 
-[`integer`](../../data-types.md) | Первичный ключ записи. | Только для чтения. ||
+[`integer`](../../data-types.md) | Первичный ключ записи | Только для чтения. ||
 || **productId** 
-[`integer`](../../data-types.md) | Идентификатор товара или торгового предложения. | Только для чтения. ||
+[`integer`](../../data-types.md) | Идентификатор товара или вариации | Только для чтения. ||
 || **quantityReserved** 
-[`double`](../../data-types.md) | Зарезервированное количество. | Только для чтения. ||
+[`double`](../../data-types.md) | Зарезервированное количество | Только для чтения. ||
 || **storeId** 
-[`integer`](../../data-types.md) | Идентификатор склада. | Только для чтения. ||
+[`integer`](../../data-types.md) | Идентификатор склада | Только для чтения. ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}

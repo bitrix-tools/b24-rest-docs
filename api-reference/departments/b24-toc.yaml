@@ -1,0 +1,15 @@
+title: Структура компании
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать подразделение
+    href: department-add.md
+  - name: Изменить подразделение
+    href: department-update.md
+  - name: Получить список подразделений
+    href: department-get.md
+  - name: Удалить подразделение
+    href: department-delete.md
+  - name: Получить справочник полей подразделений
+    href: department-fields.md

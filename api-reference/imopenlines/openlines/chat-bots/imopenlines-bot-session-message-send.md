@@ -48,17 +48,23 @@
 
 {% include [Пояснение о restCommand](../../../chat-bots/_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imopenlines.bot.session.message.send',
-    Array(
-        'CHAT_ID' => 2,
-        'MESSAGE' => 'message text',
-        'NAME' => 'WELCOME'
-    ),
-    $_REQUEST["auth"]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imopenlines.bot.session.message.send',
+        Array(
+            'CHAT_ID' => 2,
+            'MESSAGE' => 'message text',
+            'NAME' => 'WELCOME'
+        ),
+        $_REQUEST["auth"]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 

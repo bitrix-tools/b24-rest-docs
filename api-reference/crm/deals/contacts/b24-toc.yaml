@@ -1,7 +1,7 @@
 title: Контакты у сделки
 href: index.md
 items:
-  - name: О контактах сделки 
+  - name: Обзор методов 
     href: index.md
   - name: Добавить один контакт
     href: crm-deal-contact-add.md

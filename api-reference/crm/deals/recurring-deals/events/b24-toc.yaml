@@ -1,0 +1,13 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При создании новой регулярной сделки
+    href: on-crm-deal-recurring-add.md
+  - name: При изменении регулярной сделки
+    href: on-crm-deal-recurring-update.md
+  - name: При удалении регулярной сделки
+    href: on-crm-deal-recurring-delete.md
+  - name: При создании новой сделки из регулярной сделки
+    href: on-crm-deal-recurring-expose.md

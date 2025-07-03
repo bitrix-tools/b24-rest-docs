@@ -53,19 +53,20 @@ Array
 || **viewRangeFrom***
 [`date`](../data-types.md) | Начало диапазона дат, отображаемых сейчас в календаре.
 
-Может быть использован для получения списка событий для отображения в виджете с помощью метода [calendar.event.get](../calendar/calendar-event-get.md).
+Может быть использован для получения списка событий для отображения в виджете с помощью метода [calendar.event.get](../calendar/calendar-event/calendar-event-get.md).
 
 ||
 || **viewRangeTo***
 [`date`](../data-types.md) | Конец диапазона дат, отображаемых сейчас в календаре.
 
-Может быть использован для получения списка событий для отображения в виджете с помощью метода [calendar.event.get](../calendar/calendar-event-get.md).
+Может быть использован для получения списка событий для отображения в виджете с помощью метода [calendar.event.get](../calendar/calendar-event//calendar-event-get.md).
 
 ||
 |#
 
 ## Продолжите изучение
 
+- [{#T}](../calendar/calendar-grid-veiw.md)
 - [{#T}](./placement-bind.md)
 - [{#T}](./ui-interaction/index.md)
 - [{#T}](./ui-interaction/crm-card.md)

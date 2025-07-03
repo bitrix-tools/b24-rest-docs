@@ -42,36 +42,42 @@
 
 В примере дан метод получения списка страниц, но правило распространяется на любой другой метод, в том числе на работу с правами и изменениями сущностей.
 
-```js
-BX24.callMethod(
-    'landing.landing.getList',
-    {
-        params: {
-            select: [
-                'ID', 'TITLE'
-            ],
-            filter: {
-                TITLE: '%услуги%',
-                SITE_ID: 205
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.landing.getList',
+        {
+            params: {
+                select: [
+                    'ID', 'TITLE'
+                ],
+                filter: {
+                    TITLE: '%услуги%',
+                    SITE_ID: 205
+                },
+                order: {
+                    ID: 'DESC'
+                }
             },
-            order: {
-                ID: 'DESC'
-            }
+            scope: 'knowledge'
         },
-        scope: 'knowledge'
-    },
-    function(result)
-    {
-        if(result.error())
+        function(result)
         {
-            console.error(result.error());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

@@ -106,4 +106,4 @@ URL состоит из:
 
 ## Продолжите изучение
 
-- [Инструмент для определения нагрузки REST'ом](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=20392)
+- [Разработчикам: как проверить нагрузку REST в Битрикс24](https://helpdesk.bitrix24.ru/open/20986032/)

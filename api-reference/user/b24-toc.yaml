@@ -17,5 +17,5 @@ items:
     href: user-fields.md
   - name: Пользовательские поля
     include:
-      path: userfields/toc.yaml
+      path: userfields/b24-toc.yaml
       mode: link

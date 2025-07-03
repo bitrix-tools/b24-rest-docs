@@ -1,0 +1,17 @@
+title: Пользовательские поля
+href: index.md
+items: 
+  - name: Работа с пользовательскими полями 
+    href: index.md
+  - name: Добавить пользовательское поле
+    href: userfieldconfig-add.md
+  - name: Удалить настройки пользовательского поля
+    href: userfieldconfig-delete.md
+  - name: Получить данные о настройках пользовательского поля
+    href: userfieldconfig-get.md
+  - name: Получить доступные типы пользовательских полей
+    href: userfieldconfig-get-types.md
+  - name: Получить список настроек пользовательских полей
+    href: userfieldconfig-list.md
+  - name: Изменить значения пользовательского поля
+    href: userfieldconfig-update.md

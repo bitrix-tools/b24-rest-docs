@@ -1,4 +1,4 @@
-# Добавить свойство товаров или торговых предложений catalog.productProperty.add
+# Добавить свойство товаров или вариаций catalog.productProperty.add
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -29,7 +29,7 @@
 catalog.productProperty.add(fields)
 ```
 
-Метод добавляет свойство товаров или торговых предложений.
+Метод добавляет свойство товаров или вариаций.
 
 ## Параметры
 
@@ -43,28 +43,35 @@ catalog.productProperty.add(fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productProperty.add',
-    {
-        fields: {
-            name: "Размер",
-            active: "Y",
-            code: "SIZE1",
-            iblockId: 16,
-            propertyType: "L",
-            isRequired: "N",
-            listType: "L",
-            filtrable: "Y",
-            multiple: "N"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productProperty.add',
+        {
+            fields: {
+                name: "Размер",
+                active: "Y",
+                code: "SIZE1",
+                iblockId: 16,
+                propertyType: "L",
+                isRequired: "N",
+                listType: "L",
+                filtrable: "Y",
+                multiple: "N"
+            }
+        },
+        function(result) {
+            if (result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result) {
-        if (result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

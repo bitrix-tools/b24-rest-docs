@@ -1,0 +1,33 @@
+title: Список методов работы с компаниями
+href: index.md
+items:
+  - name: Обзор методов 
+    href: index.md
+  - name: Создать новую компанию
+    href: crm-company-add.md
+  - name: Удалить компанию
+    href: crm-company-delete.md
+  - name: Получить описание полей компании
+    href: crm-company-fields.md
+  - name: Получить информацию о компании
+    href: crm-company-get.md
+  - name: Получить список компаний по фильтру
+    href: crm-company-list.md
+  - name: Обновить существующую компанию
+    href: crm-company-update.md
+  - name: Контакты компаний
+    include:
+      path: contacts/b24-toc.yaml
+      mode: link
+  - name: Пользовательские поля
+    include:
+      path: userfields/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: Управление карточками компаний
+    include:
+      path: custom-form/b24-toc.yaml
+      mode: link

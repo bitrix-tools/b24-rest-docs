@@ -133,13 +133,13 @@
 || **previewPicture**
 [`object`](../../data-types.md)| Картинка для анонса.
 
-Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате base64.
+Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате [base64](../../files/how-to-upload-files.md).
 
 Для удаления картинки используется объект в формате `{remove: 'Y'}` ||
 || **detailPicture**
 [`object`](../../data-types.md)| Детальная картинка.
 
-Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате base64
+Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате [base64](../../files/how-to-upload-files.md).
 
 Для удаления картинки используется объект в формате `{remove: 'Y'}` ||
 || **previewTextType**
@@ -259,9 +259,10 @@
 
 Если свойство множественное, то все существующие значения свойства, для которых не был указан `valueId`, будут удалены.
 
-Идентификаторы `valueId` всех свойств товара можно получить, используя методы [catalog.product.get](./catalog-product-get.md) и [catalog.product.list](./catalog-product-list.md)
+Идентификаторы `valueId` всех свойств товара можно получить, используя методы [catalog.product.get](./catalog-product-get.md) и [catalog.product.list](./catalog-product-list.md).
 
- ||
+Изменение файловых полей описано в статье [Как обновить и удалить файлы](../../files/how-to-update-files.md)
+||
 |#
 
 ## Примеры кода

@@ -1,0 +1,13 @@
+title: Ролевая модель
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список ролей
+    href: landing-role-get-list.md
+  - name: Получить список сайтов с правами для роли
+    href: landing-role-get-rights.md
+  - name: Установить коды доступа для роли
+    href: landing-role-set-access-codes.md
+  - name: Установить права роли для списка сайтов
+    href: landing-role-set-rights.md

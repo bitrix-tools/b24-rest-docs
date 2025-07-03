@@ -204,3 +204,15 @@
 
 Добавить пользовательское поле реквизитов можно методом [crm.requisite.userfield.add](../user-fields/crm-requisite-userfield-add.md) | Да | Да | Нет | Нет ||
 |#
+
+## Обзор методов
+
+#|
+|| **Метод** | **Описание** ||
+|| [crm.requisite.add](./crm-requisite-add.md) | Создает новый реквизит ||
+|| [crm.requisite.update](./crm-requisite-update.md) | Обновляет существующий реквизит ||
+|| [crm.requisite.get](./crm-requisite-get.md) | Возвращает реквизит по идентификатору ||
+|| [crm.requisite.list](./crm-requisite-list.md) | Возвращает список реквизитов по фильтру ||
+|| [crm.requisite.delete](./crm-requisite-delete.md) | Удаляет реквизит и все связанные с ним объекты ||
+|| [crm.requisite.fields](./crm-requisite-fields.md) | Возвращает описание полей реквизита ||
+|#

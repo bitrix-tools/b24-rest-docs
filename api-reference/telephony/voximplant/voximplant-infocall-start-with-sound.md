@@ -24,7 +24,7 @@
 
 Метод `voximplant.infocall.startwithsound` осуществляет звонок на указанный номер с проигрыванием файла формата mp3 по URL. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Исходящий звонок - Выполнение - любые`.
 
-Для доступа к методу приложение должно запросить право доступа `Совершение звонков (call)`. Право указывается при [регистрации приложения](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&CHAPTER_ID=05380).
+Для доступа к методу приложение должно запросить право доступа `Совершение звонков (call)`. Право указывается при [регистрации приложения](../../app-installation/index.md).
 
 #|
 || **Параметр** | **Описание** ||
@@ -35,22 +35,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'voximplant.infocall.startwithsound',
-    {
-        "FROM_LINE": "reg1332",
-        "TO_NUMBER": "7911xxxxxxx",
-        "URL": "http://your.domain/path/file.mp3",
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'voximplant.infocall.startwithsound',
+        {
+            "FROM_LINE": "reg1332",
+            "TO_NUMBER": "7911xxxxxxx",
+            "URL": "http://your.domain/path/file.mp3",
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

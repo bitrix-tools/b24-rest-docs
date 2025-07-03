@@ -1,24 +1,33 @@
-# Список событий при работе с компаниями
+# Обзор событий при работе с компаниями
 
-{% note warning "Мы еще обновляем эту страницу" %}
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении компаний.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
-{% endnote %}
+> Быстрый переход: [все события](#all-events) 
 
-{% note info " " %}
+## Как получать события
 
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
+Подписаться на события компании можно через:
 
-{% endnote %}
+- [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
+- [приложение](../../../app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
+
+Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
+
+## Доступность серверов для отправки и получения событий
+
+{% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
+
+## Обзор событий {#all-events}
+
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmCompanyAdd](./on-crm-company-add.md) | при создании компании ||
-|| [onCrmCompanyUpdate](./on-crm-company-update.md) | при обновлении компании ||
-|| [onCrmCompanyDelete](./on-crm-company-delete.md) | при удалении компании ||
-|| [onCrmCompanyUserFieldAdd](../userfields/events/on-crm-company-user-field-add.md) | при добавлении пользовательского поля ||
-|| [onCrmCompanyUserFieldUpdate](../userfields/events/on-crm-company-user-field-update.md) | при изменении пользовательского поля ||
-|| [onCrmCompanyUserFieldDelete](../userfields/events/on-crm-company-user-field-delete.md) | при удалении пользовательского поля ||
-|| [onCrmCompanyUserFieldSetEnumValues](../userfields/events/on-crm-company-user-field-set-enum-values.md) | при изменении набора значений для пользовательского поля списочного типа ||
+|| [onCrmCompanyAdd](./on-crm-company-add.md) | При создании компании вручную или методом [crm.company.add](../crm-company-add.md) ||
+|| [onCrmCompanyUpdate](./on-crm-company-update.md) | При обновлении компании вручную или методом [crm.company.update](../crm-company-update.md) ||
+|| [onCrmCompanyDelete](./on-crm-company-delete.md) | При удалении компании вручную или методом [crm.company.delete](../crm-company-delete.md) ||
 |#

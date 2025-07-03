@@ -29,21 +29,27 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.repo.unbind',
-    {
-        code: 'LANDING_SETTINGS',
-//        handler: 'https://site.ru/rt/placement.php?version=3'
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.repo.unbind',
+        {
+            code: 'LANDING_SETTINGS',
+    //        handler: 'https://site.ru/rt/placement.php?version=3'
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

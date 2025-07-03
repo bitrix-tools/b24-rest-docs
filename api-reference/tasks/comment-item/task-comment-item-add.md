@@ -64,15 +64,26 @@
 
 ## Пример
 
-```js
-// Добавляем новый комментарий с текстом "HELLO" для задачи с ID=13
-BX24.callMethod(
-    'task.commentitem.add',
-    [13, {'POST_MESSAGE': 'HELLO'}],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Добавляем новый комментарий с текстом "HELLO" для задачи с ID=13
+    BX24.callMethod(
+        'task.commentitem.add',
+        [13, {'POST_MESSAGE': 'HELLO'}],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)

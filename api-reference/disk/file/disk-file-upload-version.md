@@ -31,27 +31,34 @@
 || **id**
 [`unknown`](../../data-types.md) | Идентификатор файла. ||
 || **fileContent**
-[`unknown`](../../data-types.md) | Аналогично `DETAIL_PICTURE` в примере [Обработка файлов](../../bx24-js-sdk/how-to-call-rest-methods/files.md). ||
+[`unknown`](../../data-types.md) | Загрузка файла в формате [Base64](../../files/how-to-upload-files.md). ||
 |#
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.file.uploadversion",
-    {
-        id: 4,
-        fileContent: document.getElementById('test_file_input')
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.file.uploadversion",
+        {
+            id: 4,
+            fileContent: document.getElementById('test_file_input')
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

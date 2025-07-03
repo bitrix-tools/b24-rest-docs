@@ -1,0 +1,17 @@
+title: Хранилище данных
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Хранилища
+    include:
+      path: entities/b24-toc.yaml
+      mode: link
+  - name: Разделы
+    include:
+      path: sections/b24-toc.yaml
+      mode: link
+  - name: Элементы
+    include:
+      path: items/b24-toc.yaml
+      mode: link

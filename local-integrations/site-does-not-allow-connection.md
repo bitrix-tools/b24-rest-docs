@@ -2,7 +2,11 @@
 
 В серверных приложениях может появляться ошибка при загрузке страниц: 
 
-> Сайт «адрес_сайта_приложения» не позволяет установить соединение.
+{% note info "" %}
+
+Сайт «адрес_сайта_приложения» не позволяет установить соединение.
+
+{% endnote %}
 
 ![Сайт не позволяет установить соединение](./_images/not_allow_connection.png)
 
@@ -12,7 +16,11 @@
 
 ![Refused to display in a frame](./_images/refused_to_display.png)
 
-> Refused to display 'https://адрес_сайта_приложения/'; in a frame because it set 'X-Frame-Options' to 'sameorigin'.
+{% note info "" %}
+
+Refused to display 'https://адрес_сайта_приложения/'; in a frame because it set 'X-Frame-Options' to 'sameorigin'.
+
+{% endnote %}
 
 Ошибка означает, что на сервере приложения стоит запрет на открытие страниц сайта во фрейме с других сайтов. Запрет регулируется заголовком  `X-Frame-Options` . Заголовок указывает браузеру, можно ли загружать страницы сайта через `<frame>/<iframe>`. 
 
@@ -20,7 +28,11 @@
 
 Заголовок  `X-Frame-Options`  для одного сайта может быть указан на нескольких серверах: основном сервере приложения и промежуточных прокси-серверах. При наличии разных заголовков `X-Frame-Options` текст ошибки будет содержать детали конфликтующих заголовков: 
 
-> Refused to display 'https://адрес_сайта_приложения/'; in a frame because it set multiple 'X-Frame-Options' headers with conflicting values ('ALLOW-FROM https://your-domain.bitrix24.ru/, SAMEORIGIN'). Falling back to 'deny'.
+{% note info "" %}
+
+Refused to display 'https://адрес_сайта_приложения/'; in a frame because it set multiple 'X-Frame-Options' headers with conflicting values ('ALLOW-FROM https://your-domain.bitrix24.ru/, SAMEORIGIN'). Falling back to 'deny'.
+
+{% endnote %}
 
 ## Как исправить ошибку
 
@@ -85,6 +97,4 @@
 2.	Включите защиту от фреймов на странице «Защита от фреймов» (Настройки > Проактивная защита > Защита от фреймов) и задайте необходимые исключения на действие защиты.
 
     ![anti-frame-protection](./_images/anti-frame-protection.png)
-
-
 

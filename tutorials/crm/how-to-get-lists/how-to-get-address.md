@@ -16,16 +16,12 @@
 
 ## 1. Получаем реквизиты, связанные с контактом
 
+Получение ID реквизита — необходимый шаг, так как адрес не имеет прямой привязки к контакту или компании. Адрес привязан к объекту реквизита. 
+
 Для получения реквизитов используем метод crm.requisite.list с фильтром:
 
 * в `ENTITY_TYPE_ID` укажем значение `3` — идентификатор для [типа контакт](../../../api-reference/crm/data-types.md#object_type). Для типа компании используйте  идентификатор `4`
 * в `ENTITY_ID` —  ID контакта, в примере `2429`. Получить ID можно методом [crm.contact.list](../../../api-reference/crm/contacts/crm-contact-list.md) с фильтром по любому известному полю контакта. Чтобы получить ID компании, используйте [crm.company.list](../../../api-reference/crm/companies/crm-company-list.md). Если необходимо получить ID контакта или компании по номеру телефона или почте, используйте туториал [«Поиск дубликатов по номеру телефона»](./search-by-phone-and-email.md)  
-
-{% note info "" %}
-
-Получение ID реквизита — необходимый шаг, так как адрес не имеет прямой привязки к контакту или компании. Адрес привязан к объекту реквизита. 
-
-{% endnote %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -78,21 +74,21 @@
 
 Мы получили ID реквизита `361` — параметр, необходимый для следующего запроса. 
 
-    ```json
+ ```json
     Array
+    (
+     [result] => Array
         (
-        [result] => Array
-            (
-                [0] => Array
-                    (
-                        [ID] => 361
-                        [ENTITY_TYPE_ID] => 3
-                        [ENTITY_ID] => 2429
-                    )
-            )
-        [total] => 1  
+            [0] => Array
+                (
+                    [ID] => 361
+                    [ENTITY_TYPE_ID] => 3
+                    [ENTITY_ID] => 2429
+                )
         )
-    ```
+     [total] => 1      
+    )
+ ```
 
 ## 2.  Получаем адрес
 
@@ -101,8 +97,6 @@
 * в `ENTITY_TYPE_ID`  укажем значение `8` — идентификатор для [типа реквизит](../../../api-reference/crm/data-types.md#object_type)
 * в `ENTITY_ID`  — ID реквизита, полученный в предыдущем запросе, в примере `361`
 * в `TYPE_ID` —  [тип адреса](../../../api-reference/crm/auxiliary/enum/crm-enum-address-type.md), если необходимо получить конкретный. Например, тип адрес доставки — `11`, юридический адрес — `6`.
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -145,36 +139,34 @@
 
 Мы получили данные адреса для доставки контакта. 
 
-    ```json
+```json
     Array
-        (
-            [result] => Array
-                (
-                    [0] => Array
-                        (
-                            [TYPE_ID] => 11
-                            [ENTITY_TYPE_ID] => 8
-                            [ENTITY_ID] => 361
-                            [ADDRESS_1] => Гранатный переулок, 10 c1
-                            [ADDRESS_2] => 
-                            [CITY] => Москва
-                            [POSTAL_CODE] => 123001
-                            [REGION] => Пресненский район
-                            [PROVINCE] => Москва
-                            [COUNTRY] => Россия
-                            [COUNTRY_CODE] => 
-                            [LOC_ADDR_ID] => 571
-                            [ANCHOR_TYPE_ID] => 3
-                            [ANCHOR_ID] => 2429
-                        )
-                )
-            [total] => 1  
-        )
-    ```
+    (
+        [result] => Array
+            (
+                [0] => Array
+                    (
+                        [TYPE_ID] => 11
+                        [ENTITY_TYPE_ID] => 8
+                        [ENTITY_ID] => 361
+                        [ADDRESS_1] => Гранатный переулок, 10 c1
+                        [ADDRESS_2] => 
+                        [CITY] => Москва
+                        [POSTAL_CODE] => 123001
+                        [REGION] => Пресненский район
+                        [PROVINCE] => Москва
+                        [COUNTRY] => Россия
+                        [COUNTRY_CODE] => 
+                        [LOC_ADDR_ID] => 571
+                        [ANCHOR_TYPE_ID] => 3
+                        [ANCHOR_ID] => 2429
+                    )
+            )
+        [total] => 1       
+    )
+ ```
 
 ## Пример кода
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %} 
 
 {% list tabs %}
 

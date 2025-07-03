@@ -1,23 +1,45 @@
-# Методы работы с правилами округления цен
+# Правила округления цен в Торговом каталоге: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Правило округления цен — это набор настроек, которые определяют, как изменять цену товара или услуги в корзине. Они помогают автоматически округлять цены, например до ближайшего целого числа или до определенной дробной части.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Есть три типа округления цен:
+- математическое округление
+- округление вверх: цена увеличивается, что выгодно магазину
+- округление вниз: цена уменьшается, что выгодно клиенту
 
-{% endnote %}
+> Быстрый переход: [все методы и события](#all-methods) 
+
+## Связь правила округления цен с другими объектами
+
+**Типы цен.** Чтобы создать разные типы цен: оптовую, розничную и партнерскую, используйте методы группы [catalog.priceType.* ](../price-type/index.md). Для каждого типа цены можно установить свои правила округления. Это позволит контролировать, как цены будут показываться и применяться.
+
+## Обзор методов и событий {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
-Методы работы с правилами округления цен:
+{% list tabs %}
 
-#|
-|| **Метод** | **Описание** ||
-|| [catalog.roundingRule.add](./catalog-rounding-rule-add.md) | Метод добавляет правило округления цен. ||
-|| [catalog.roundingRule.delete](./catalog-rounding-rule-delete.md) | Метод удаляет правило округления цен. ||
-|| [catalog.roundingRule.get](./catalog-rounding-rule-get.md) | Метод для получения значений полей правил округления по ID. ||
-|| [catalog.roundingRule.getFields](./catalog-rounding-rule-get-fields.md) | Метод возвращает поля правил округления цен. ||
-|| [catalog.roundingRule.list](./catalog-rounding-rule-list.md) | Метод получает список правил округления цен по фильтру. ||
-|| [catalog.roundingRule.update](./catalog-rounding-rule-update.md) | Метод обновляет поля правила округления цен. ||
-|#
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [catalog.roundingRule.add](./catalog-rounding-rule-add.md) | Добавляет правило округления цен ||
+    || [catalog.roundingRule.update](./catalog-rounding-rule-update.md) | Изменяет правило округления цен ||
+    || [catalog.roundingRule.get](./catalog-rounding-rule-get.md) | Возвращает информацию о правиле округления цен по его идентификатору ||
+    || [catalog.roundingRule.list](./catalog-rounding-rule-list.md) | Возвращает список правил округления цен ||
+    || [catalog.roundingRule.delete](./catalog-rounding-rule-delete.md) | Удаляет правило округления цен ||
+    || [catalog.roundingRule.getFields](./catalog-rounding-rule-get-fields.md) | Возвращает поля правила округления цен ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [CATALOG.ROUNDING.ON.ADD](./events/catalog-rounding-on-add.md) | При добавлении правила округления цен ||
+    || [CATALOG.ROUNDING.ON.UPDATE](./events/catalog-rounding-on-update.md) | При обновлении правила округления цен ||
+    || [CATALOG.ROUNDING.ON.DELETE](./events/catalog-rounding-on-delete.md) | При удалении правила округления цен ||
+    |#
+
+{% endlist %}

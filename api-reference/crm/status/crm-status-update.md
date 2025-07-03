@@ -39,27 +39,33 @@ crm.status.update(id, fields)
 
 ## Пример
 
-```javascript
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.status.update",
-    {
-        id: id,
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.status.update",
         {
-            "SORT": 75
-        }                
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+            id: id,
+            fields:
+            {
+                "SORT": 75
+            }                
+        },
+        function(result)
         {
-            console.info(result.data());                        
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.info(result.data());                        
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

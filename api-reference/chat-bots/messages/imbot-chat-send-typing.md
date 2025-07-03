@@ -40,18 +40,24 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.chat.sendTyping',
-    Array(
-        'BOT_ID' => 39,
-        'DIALOG_ID' => 1,
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.chat.sendTyping',
+        Array(
+            'BOT_ID' => 39,
+            'DIALOG_ID' => 1,
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -73,5 +79,5 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/index.md)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/on-imbot-message-add.md)
 - [Событие на получение информации чат-ботом о включении его в чат (или личную переписку) ONIMJOINCHAT](../chats/events/on-imbot-join-chat.md)

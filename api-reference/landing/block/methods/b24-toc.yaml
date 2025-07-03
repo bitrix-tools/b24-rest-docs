@@ -1,0 +1,42 @@
+title: Интерактивные блоки
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Клонировать карточку блока
+    href: landing-block-clone-card.md
+  - name: Удалить карточку блока
+    href: landing-block-remove-card.md
+  - name: Изменить контент блока
+    href: landing-block-update-nodes.md
+  - name: Изменить атрибуты ноды блока
+    href: landing-block-update-attrs.md
+  - name: Добавить карточку с измененным контентом
+    href: landing-block-add-card.md
+  - name: Изменить символьный код якоря
+    href: landing-block-change-anchor.md
+  - name: Изменить название тега
+    href: landing-block-change-node-name.md
+  - name: Получить контент блока из репозитория
+    href: landing-block-get-content-from-repository.md
+  - name: Получить контент блока
+    href: landing-block-get-content.md
+  - name: Выполнить массовое изменение карточек блока
+    href: landing-block-update-cards.md
+  - name: Изменить стили блока
+    href: landing-block-update-styles.md
+  - name: Изменить контент блока
+    href: landing-block-update-content.md
+  - name: Загрузить и привязать картинку к блоку
+    href: landing-block-upload-file.md
+  - name: Получить список блоков страницы
+    href: landing-block-get-list.md
+  - name: Получить блок по идентификатору
+    href: landing-block-get-by-id.md
+  - name: Получить манифест блока
+    href: landing-block-get-manifest.md
+  - name: Получить манифест блока из репозитория
+    href: landing-block-get-manifest-file.md
+  - name: Получить список блоков из репозитория
+    href: landing-block-get-repository.md
+

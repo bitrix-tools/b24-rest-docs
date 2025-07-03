@@ -1,0 +1,25 @@
+title: Бронирование
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить бронирование
+    href: booking-v1-booking-add.md
+  - name: Создать бронирование из листа ожидания
+    href: booking-v1-booking-createfromwaitlist.md      
+  - name: Обновить бронирование 
+    href: booking-v1-booking-update.md
+  - name: Получить информацию о бронировании
+    href: booking-v1-booking-get.md
+  - name: Получить список бронирований 
+    href: booking-v1-booking-list.md
+  - name: Удалить бронирование 
+    href: booking-v1-booking-delete.md                    
+  - name: Связь с дополнительными объектами
+    include:
+      path: external-data/b24-toc.yaml
+      mode: link
+  - name: Клиент бронирования
+    include:
+      path: client/b24-toc.yaml
+      mode: link

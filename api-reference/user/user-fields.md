@@ -92,7 +92,6 @@ HTTP-статус: **200**
             "DATE_REGISTER":"Дата регистрации",
             "TIME_ZONE":"TIME_ZONE",
             "IS_ONLINE":"IS_ONLINE",
-            "TIME_ZONE_OFFSET":"TIME_ZONE_OFFSET",
             "TIMESTAMP_X":"TIMESTAMP_X",
             "LAST_ACTIVITY_DATE":"LAST_ACTIVITY_DATE",
             "PERSONAL_GENDER":"Пол",

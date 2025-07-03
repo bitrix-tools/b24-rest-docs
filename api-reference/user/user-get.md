@@ -37,7 +37,37 @@
     - `email` — почтовый пользователь
 - `ACTIVE` — при значении *true* исключает из запроса уволенных пользователей.
   
-Параметры фильтрации могут принимать значение массивов ||
+Параметры фильтрации могут принимать значение массивов.
+Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+
+- `>=` — больше либо равно
+- `>` — больше
+- `<=` — меньше либо равно
+- `<` — меньше
+- `@` — IN (в качестве значения передаётся массив)
+- `!@`— NOT IN (в качестве значения передаётся массив)
+- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
+- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
+    - "мол%" — ищем значения, начинающиеся с «мол»
+    - "%мол" — ищем значения, заканчивающиеся на «мол»
+    - "%мол%" — ищем значения, где «мол» может быть в любой позиции
+
+- `%=` — LIKE (см. описание выше)
+
+- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+
+- `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
+    - "мол%" — ищем значения, не начинающиеся с «мол»
+    - "%мол" — ищем значения, не заканчивающиеся на «мол»
+    - "%мол%" — ищем значения, где подстроки «мол» нет в любой позиции
+
+- `!%=` — NOT LIKE (см. описание выше)
+
+- `=` — равно, точное совпадение (используется по умолчанию)
+- `!=` - не равно
+- `!` — не равно
+
+ ||
 || **ADMIN_MODE**
 [`boolean`](../data-types.md) | [Ключ для работы](*ключ_Ключ для работы) в режиме администратора. Служит для получения данных о любых пользователях ||
 || **start**
@@ -132,6 +162,201 @@
 
 {% endlist %}
 
+### Фильтрация по имени, начинающемуся с «Ива»
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"NAME":"Ива%"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"NAME":"Ива%"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/user.get
+    ```
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "user.get",
+        {
+            filter: {
+                "NAME": "Ива%"
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'user.get',
+        [
+            'filter' => [
+                'NAME' => 'Ива%'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+### Фильтрация по фамилии, не содержащей «ов»
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"!%LAST_NAME":"ов"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"!%LAST_NAME":"ов"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/user.get
+    ```
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        "user.get",
+        {
+            filter: {
+                "!%LAST_NAME": "ов"
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'user.get',
+        [
+            'filter' => [
+                '!%LAST_NAME' => 'ов'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+### Фильтрация по нескольким городам проживания
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"@PERSONAL_CITY":["Москва","Санкт-Петербург"]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"@PERSONAL_CITY":["Москва","Санкт-Петербург"]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/user.get
+    ```
+
+- JS
+  
+    ```javascript
+    BX24.callMethod(
+        "user.get",
+        {
+            filter: {
+                "@PERSONAL_CITY": ["Москва", "Санкт-Петербург"]
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'user.get',
+        [
+            'filter' => [
+                '@PERSONAL_CITY' => ['Москва', 'Санкт-Петербург']
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
 ## Обработка ответа
 
 HTTP-статус: **200**
@@ -150,7 +375,6 @@ HTTP-статус: **200**
                 "DATE_REGISTER": "2024-07-15T00:00:00+00:00",
                 "TIME_ZONE": "",
                 "IS_ONLINE": "Y",
-                "TIME_ZONE_OFFSET": "7200",
                 "TIMESTAMP_X": {
                 },
                 "LAST_ACTIVITY_DATE": {
@@ -175,7 +399,6 @@ HTTP-статус: **200**
                 "LAST_LOGIN": "2024-07-24T09:01:55+00:00",
                 "DATE_REGISTER": "2024-07-22T00:00:00+00:00",
                 "IS_ONLINE": "N",
-                "TIME_ZONE_OFFSET": "7200",
                 "TIMESTAMP_X": {
                 },
                 "LAST_ACTIVITY_DATE": {
@@ -225,5 +448,7 @@ HTTP-статус: **200**
 - [{#T}](./user-current.md)
 - [{#T}](./user-search.md)
 - [{#T}](./user-fields.md)
+- [{#T}](../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+- [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
 
 [*ключ_Ключ для работы]: `'ADMIN_MODE': 'True'`

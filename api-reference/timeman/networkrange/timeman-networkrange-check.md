@@ -1,47 +1,55 @@
 # Проверить IP-адрес timeman.networkrange.check
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод `timeman.networkrange.check` для проверки IP-адреса на вхождение в диапазоны сетевых адресов офисной сети.
+Метод `timeman.networkrange.check` проверяет IP-адрес на вхождение в диапазоны сетевых адресов офисной сети.
 
-## Параметры
+Для корректной работы метода должен быть установлен хотя бы один диапазон.
+
+## Параметры метода
 
 #|
-|| **Параметр** | **Пример** | **Обязательный** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **IP**
-[`unknown`](../../data-types.md) | 10.10.255.255 | Нет | IP-адрес. ||
+[`string`](../../data-types.md) | IP-адрес, который нужно проверить. Например `10.10.255.25`.
+
+Если не указать — проверка будет выполнена для текущего IP-адреса ||
 |#
 
-Если не указать параметр `IP`, то проверка будет выполнена для текущего IP-адреса.
+## Примеры кода
 
-## Пример вызова
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"IP":"10.10.255.255"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/timeman.networkrange.check
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"IP":"10.10.255.255","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/timeman.networkrange.check
+    ```
+
 - JS
 
-    ```javascript
-    BX24.callMethod('timeman.networkrange.check',
+    ```js
+    BX24.callMethod(
+        'timeman.networkrange.check',
         {
             'IP': '10.10.255.255'
         },
@@ -61,41 +69,71 @@
 - PHP
 
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'timeman.networkrange.check',
-        Array(
+        [
             'IP' => '10.10.255.255'
-        ),
-        $_REQUEST["auth"]
+        ]
     );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-> 200 OK
 ```json
 {
     "result": {
         "ip": "10.10.255.255",
         "range": "10.0.0.0-10.255.255.255",
-        "name": "Офисная сеть 10.x.x.x"
+        "name": "10.x.x.x"
+    },
+    "time": {
+        "start": 1742997578.1675889,
+        "finish": 1742997578.205729,
+        "duration": 0.038140058517456055,
+        "processing": 0.0028028488159179688,
+        "date_start": "2025-03-26T16:59:38+03:00",
+        "date_finish": "2025-03-26T16:59:38+03:00",
+        "operating_reset_at": 1742998178,
+        "operating": 0
     }
 }
 ```
 
-### Описание ключей
+### Возвращаемые данные
 
-- **ip** - IP-адрес, который был проверен.
-- **range** - диапазон в который входит указанный IP-адрес.
-- **name** - название диапазона в который входит указанный IP-адрес.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа.
 
-## Ответ в случае ошибки
+Содержит объект c описанием диапазона, в который входит IP-адрес.
 
-> 200 Error, 50x Error
+Вернет `false` если IP-адрес не входит ни в один диапазон офисной сети ||
+|| **ip**
+ [`string`](../../data-types.md) | IP-адрес, который был проверен ||
+|| **range**
+ [`string`](../../data-types.md) | Диапазон, в который входит IP-адрес ||
+|| **name**
+ [`string`](../../data-types.md) | Название диапазона, в который входит IP-адрес ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
 ```json
 {
     "error": "ACCESS_ERROR",
@@ -103,14 +141,19 @@
 }
 ```
 
-### Описание ключей
-
-- Ключ **error** - код возникшей ошибки.
-- Ключ **error_description** - краткое описание возникшей ошибки.
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ACCESS_ERROR** | Указанный метод доступен только администраторам. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_ERROR` | You don't have access to user this method | Метод доступен только администратору ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./timeman-networkrange-get.md)
+- [{#T}](./timeman-networkrange-set.md)

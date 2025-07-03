@@ -42,27 +42,33 @@
 
 ## Примеры
 
-```javascript
-B24.callMethod(
-    'im.message.command',
-    {
-        MESSAGE_ID: 278,
-        BOT_ID: 1,
-        COMMAND: 'KEYBOARD',
-        COMMAND_PARAMS: 'stop'
-    },
-    res => {
-        if (res.error())
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    B24.callMethod(
+        'im.message.command',
         {
-        console.error(result.error().ex);
+            MESSAGE_ID: 278,
+            BOT_ID: 1,
+            COMMAND: 'KEYBOARD',
+            COMMAND_PARAMS: 'stop'
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
         }
-        else
-        {
-        console.log(res.data())
-        }
-    }
-)
-```
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

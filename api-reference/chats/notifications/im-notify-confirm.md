@@ -1,4 +1,4 @@
-# Как взаимодействовать с кнопками нотификаций im.notify.confirm
+# Взаимодействовать с кнопками нотификаций im.notify.confirm
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -43,25 +43,53 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.notify.confirm',
-    {
-        ID: 288,
-        NOTIFY_VALUE: 'Y'
-    },
-    res => {
-        if (res.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'im.notify.confirm',
         {
-        console.error(result.error().ex);
+            ID: 288,
+            NOTIFY_VALUE: 'Y'
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
         }
-        else
-        {
-        console.log(res.data())
+    );
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php
+    try {
+        $notificationId = 123; // Example notification ID
+        $isAccept = true; // Example acceptance status
+
+        $result = $serviceBuilder
+            ->getIMScope()
+            ->notify()
+            ->confirm($notificationId, $isAccept);
+
+        if ($result->isSuccess()) {
+            print_r($result->getCoreResponse()->getResponseData()->getResult());
+        } else {
+            print("Confirmation failed.");
         }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
     }
-);
-```
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

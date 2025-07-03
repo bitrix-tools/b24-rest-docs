@@ -4,6 +4,8 @@
 
 Метод `event.get` позволяет получить список зарегистрированных обработчиков событий.
 
+Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
+
 Без параметров.
 
 ## Примеры кода
@@ -11,16 +13,6 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/event.get
-    ```
 
 - cURL (OAuth)
 
@@ -61,6 +53,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php        
+    try {
+        $eventService = $serviceBuilder->getMainScope()->event();
+        $result = $eventService->get();
+        $eventHandlers = $result->getEventHandlers();
+        foreach ($eventHandlers as $handler) {
+            print("Event: " . $handler->event . "\n");
+            print("Handler: " . $handler->handler . "\n");
+            print("Auth Type: " . $handler->auth_type . "\n");
+            print("Offline: " . $handler->offline . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}

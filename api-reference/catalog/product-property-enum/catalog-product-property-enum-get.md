@@ -35,26 +35,33 @@ catalog.productPropertyEnum.get(id)
 #|
 || **Параметр** | **Описание** ||
 || **id** 
-[`integer`](../../data-types.md)| Идентификатор списочного свойства. ||
+[`integer`](../../data-types.md)| Идентификатор значения списочного свойства. ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyEnum.get',
-    {
-        id: 121
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'catalog.productPropertyEnum.get',
+        {
+            id: 121
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

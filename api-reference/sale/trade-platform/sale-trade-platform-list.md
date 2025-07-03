@@ -1,10 +1,10 @@
-# Получить список торговых платформ sale.tradePlatform.list
+# Получить список список источников заказов sale.tradePlatform.list
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с правом «Просмотр каталога товаров»
 
-Метод получает список торговых платформ.
+Метод `sale.tradePlatform.list` получает список список источников заказов.
 
 ## Параметры метода
 
@@ -12,8 +12,7 @@
 || **Название**
 `Тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Массив содержащий список полей, которые необходимо выбрать (смотрите поля объекта [sale_order_trade_platform](../data-types.md#sale_order_trade_platform))
-  ||
+[`array`](../../data-types.md) | Массив содержащий список полей, которые необходимо выбрать (смотрите поля объекта [sale_order_trade_platform](../data-types.md#sale_order_trade_platform)) ||
 || **filter**
 [`object`](../../data-types.md) | Список полей для фильтрации. При указании нескольких полей используется логика AND.
 
@@ -131,8 +130,6 @@
 
 ## Обработка ответа
 
-Метод возвращает объект, содержащий ключ `tradePlatforms` — список торговых платформ.
-
 HTTP-статус: **200**
 
 ```json
@@ -167,7 +164,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **tradePlatforms**
-[`sale_order_trade_platform[]`](../data-types.md) | Массив объектов с информацией о торговых платформах ||
+[`sale_order_trade_platform[]`](../data-types.md#sale_order_trade_platform) | Массив объектов с информацией об источниках заказов ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**

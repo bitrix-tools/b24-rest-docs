@@ -1,10 +1,10 @@
-# Событие на обновление контакта onCrmContactUpdate
+# Событие при обновлении контакта onCrmContactUpdate
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 > 
 > Кто может подписаться: любой пользователь
 
-Событие сработает при обновлении контакта.
+Событие `onCrmContactUpdate` сработает при обновлении контакта.
 
 ## Что получает обработчик
 
@@ -25,7 +25,7 @@
         "expires_in": "3600",
         "scope": "crm",
         "domain": "some-domain.bitrix24.com",
-        "server_endpoint": "https://oauth.bitrix.info/rest/",
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "F",
         "client_endpoint": "https://some-domain.bitrix24.com/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",

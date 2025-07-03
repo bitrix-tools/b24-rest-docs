@@ -1,0 +1,91 @@
+title: Торговый каталог
+href: index.md
+items: 
+  - name: Список методов
+    href: index.md
+  - name: Типы данных и структура объектов в REST API Каталога
+    href: data-types.md
+  - name: Торговый каталог
+    include:
+      path: catalog/b24-toc.yaml
+      mode: link
+  - name: Перечисления
+    include:
+      path: enum/b24-toc.yaml
+      mode: link
+  - name: Наценка
+    include:
+      path: extra/b24-toc.yaml
+      mode: link
+  - name: Единица измерения
+    include:
+      path: measure/b24-toc.yaml
+      mode: link
+  - name: Цена
+    include:
+      path: price/b24-toc.yaml
+      mode: link
+  - name: Типы цен
+    include:
+      path: price-type/b24-toc.yaml
+      mode: link
+  - name: Товары
+    include:
+      path: product/b24-toc.yaml
+      mode: link
+  - name: Свойства товаров и вариаций
+    include:
+      path: product-property/b24-toc.yaml
+      mode: link
+  - name: Значения списочных свойств
+    include:
+      path: product-property-enum/b24-toc.yaml
+      mode: link
+  - name: Параметры свойств товаров и вариаций
+    include:
+      path: product-property-feature/b24-toc.yaml
+      mode: link
+  - name: Секционные настройки свойств
+    include:
+      path: product-property-section/b24-toc.yaml
+      mode: link
+  - name: Изображения товаров и вариаций
+    include:
+      path: product-image/b24-toc.yaml
+      mode: link
+  - name: Коэффициент единицы измерения
+    include:
+      path: ratio/b24-toc.yaml
+      mode: link
+  - name: Правила округления цен
+    include:
+      path: rounding-rule/b24-toc.yaml
+      mode: link
+  - name: Разделы каталога
+    include:
+      path: section/b24-toc.yaml
+      mode: link
+  - name: Склады
+    include:
+      path: store/b24-toc.yaml
+      mode: link
+  - name: Остатки по складам
+    include:
+      path: store-product/b24-toc.yaml
+      mode: link
+  - name: Складской учет
+    include:
+      path: document/b24-toc.yaml
+      mode: link
+  - name: Пользовательские поля документов складского учёта
+    include:
+      path: userfield-document/b24-toc.yaml
+      mode: link
+  - name: Работа с CRM-поставщиками
+    include:
+      path: documentcontractor/b24-toc.yaml
+      mode: link
+  - name: Ставки НДС
+    include:
+      path: vat/b24-toc.yaml
+      mode: link

@@ -1,24 +1,33 @@
-# События
+# Обзор событий при работе с коммерческими предложениями
 
-{% note warning "Мы еще обновляем эту страницу" %}
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении коммерческих предложений.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
-{% endnote %}
+> Быстрый переход: [все события](#all-events)
 
-{% note info "Права" %}
+## Как получать события
 
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
+Подписаться на события коммерческого предложения можно через:
 
-{% endnote %}
+- [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
+- [приложение](../../../app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
+
+Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
+
+## Доступность серверов для отправки и получения событий
+
+{% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
+
+## Обзор событий {#all-events}
+
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmQuoteAdd](./on-crm-quote-add.md) | при создании предложения ||
-|| [onCrmQuoteUpdate](./on-crm-quote-update.md) | при обновлении предложения ||
-|| [onCrmQuoteDelete](./on-crm-quote-delete.md) | при удалении предложения ||
-|| [onCrmQuoteUserFieldAdd](./on-crm-quote-user-field-add.md) | при добавлении пользовательского поля ||
-|| [onCrmQuoteUserFieldDelete](./on-crm-quote-user-field-delete.md) | при удалении пользовательского поля ||
-|| [onCrmQuoteUserFieldUpdate](./on-crm-quote-user-field-update.md) | при изменении пользовательского поля ||
-|| [onCrmQuoteUserFieldSetEnumValues](./on-crm-quote-user-field-set-enum-values.md) | при изменении набора значений для пользовательского поля списочного типа ||
+|| [onCrmQuoteAdd](./on-crm-quote-add.md) | При создании коммерческого предложения вручную или методом [crm.quote.add](../crm-quote-add.md) ||
+|| [onCrmQuoteUpdate](./on-crm-quote-update.md) | При обновлении коммерческого предложения вручную или методом [crm.quote.update](../crm-quote-update.md) ||
+|| [onCrmQuoteDelete](./on-crm-quote-delete.md) | При удалении коммерческого предложения вручную или методом [crm.quote.delete](../crm-quote-delete.md) ||
 |#

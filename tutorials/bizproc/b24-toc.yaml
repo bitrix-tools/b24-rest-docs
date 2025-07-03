@@ -3,7 +3,11 @@ href: index.md
 items: 
   - name: Типовые кейсы использования REST API в бизнес-процессах и роботах
     href: index.md
-  - name: Как добавить действие или робота для создания счета
+  - name: Как добавить действие для создания счета на основании
     href: activity.md
   - name: Как встроить свой UI в параметры робота 
     href: setting-robot.md
+  - name: Как завершить бизнес-процессы уволенного сотрудника
+    href: how-to-kill-workflows.md
+  - name: Как массово завершить бизнес-процессы с фильтром по дате
+    href: how-to-filter-and-kill-workflows.md    

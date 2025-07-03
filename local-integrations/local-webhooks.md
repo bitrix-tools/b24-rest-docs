@@ -141,13 +141,20 @@
             (
                 [domain] => ххх.bitrix24.ru
                 [client_endpoint] => https://ххх.bitrix24.ru/rest/
-                [server_endpoint] => https://oauth.bitrix.info/rest/
+                [server_endpoint] => https://oauth.bitrix24.tech/rest/
                 [member_id] => ххх
                 [application_token] => ххх
             )
 
     )
     ```
+
+{% note info %}
+
+Для работы исходящего вебхука убедитесь, что на вашем сервере открыты необходимые [сетевые доступы](../api-reference/cloud-and-on-premise/network-access.md).
+
+{% endnote %}
+
 
 ## Продолжите изучение
 

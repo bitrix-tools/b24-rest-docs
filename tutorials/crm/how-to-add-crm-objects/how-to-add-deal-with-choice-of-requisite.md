@@ -1,355 +1,408 @@
-# Добавить сделку с выбором реквизитов существующей компании или контакта
+# Добавить сделку и компанию с реквизитами
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователи с административным доступом к разделу CRM
 
-Пример размещения на странице сайта формы, после заполнения которой в Битрикс24 создается новая сделка с прикреплением компании с реквизитами.
+С помощью веб-формы можно автоматически добавлять новые сделки и компании с реквизитами в Битрикс24. Когда клиент заполняет форму, данные попадают в обработчик. Скрипт-обработчик создает объекты в CRM через API.
 
-- Создайте форму на нужной странице:
+Настройка состоит из двух этапов.
 
-{% list tabs %}
+1. Подготавливаем поля и размещаем веб-форму на странице.
 
-- JS
+2. Создаем файл-обработчик, который вызывает последовательно методы [crm.company.add](../../../api-reference/crm/companies/crm-company-add.md), [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md), [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md) и [crm.deal.add](../../../api-reference/crm/deals/crm-deal-add.md).
 
-    ```javascript
-    BX24.callMethod(
-        'crm.address.fields',
-        {},
-        function(arAddressFields) {
-            BX24.callMethod(
-                'crm.requisite.preset.list',
-                {
-                    'select': ["ID", "NAME"]
-                },
-                function(arRequisiteType) {
-                    if (arRequisiteType.error()) {
-                        console.error(arRequisiteType.error());
-                        return;
-                    }
+## 1\. Создаем веб-форму
 
-                    arRequisiteType = arRequisiteType.data().reduce((acc, item) => {
-                        acc[item.ID] = item.NAME;
-                        return acc;
-                    }, {});
+Для формирования полей используем два метода:
 
-                    delete arAddressFields.result.TYPE_ID;
-                    delete arAddressFields.result.ENTITY_TYPE_ID;
-                    delete arAddressFields.result.ENTITY_ID;
-                    delete arAddressFields.result.COUNTRY_CODE;
-                    delete arAddressFields.result.ANCHOR_TYPE_ID;
-                    delete arAddressFields.result.ANCHOR_ID;
+-  [crm.address.fields](../../../api-reference/crm/requisites/addresses/crm-address-fields.md) — получаем список полей адреса. Результат сохраняем в массив `$arAddressFields`,
 
-                    let formHtml = '<fo rm id="form_to_crm">';
-                    formHtml += '<select name="REQ_TYPE" required>';
-                    formHtml += '<option value="" disabled selected>Select</option>';
-                    for (let id in arRequisiteType) {
-                        formHtml += `<option value="${id}">${arRequisiteType[id]}</option>`;
-                    }
-                    formHtml += '</select>';
-                    formHtml += '<input type="text" name="TITLE" placeholder="Org name" required>';
-                    formHtml += '<input type="text" name="INN" placeholder="INN">';
-                    formHtml += '<input type="text" name="PHONE" placeholder="Phone">';
+-  [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md) — получаем список шаблонов реквизитов по полям `ID` и `NAME`. Результат сохраняем в массив `$arRequisiteType`.
 
-                    if (Array.isArray(arAddressFields.result)) {
-                        for (let key in arAddressFields.result) {
-                            let arField = arAddressFields.result[key];
-                            formHtml += `<input type="text" name="ADDRESS[${key}]" placeholder="${arField.title}" ${arField.isRequired ? 'required' : ''}>`;
-                        }
-                    }
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-                    formHtml += '<input type="submit" value="Submit">';
-                    formHtml += '</form>';
-
-                    document.body.innerHTML = formHtml;
-
-                    document.getElementById('form_to_crm').addEventListener('submit', function(el) {
-                        el.preventDefault();
-                        let formData = new FormData(this);
-                        fetch('form.php', {
-                            method: 'POST',
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert(data.message);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                    });
-                }
-            );
-        }
-    );
-    ```
-
-- PHP
-
-    {% note info %}
-
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../how-to-use-examples.md)
-
-    {% endnote %}
-
-    ```php
-    <?php
-    $arAddressFields = CRest::call('crm.address.fields',[]);
-    /*
-    crm.address.fields return: https://dev.1c-bitrix.ru/rest_help/crm/requisite/requisite_fields.php#address
-    */
-    $arRequisiteType = CRest::call('crm.requisite.preset.list',
-        [
-            'select'=>[
-                "ID", "NAME"
-            ]
+```php
+$arAddressFields = CRest::call('crm.address.fields',[]);
+$arRequisiteType = CRest::call('crm.requisite.preset.list',
+    [
+        'select'=>[
+            "ID", "NAME"
         ]
-    );
-    if(!empty($arRequisiteType['result'])):
-        $arRequisiteType = array_column($arRequisiteType['result'],'NAME','ID');
-        //unset system address fields
-        unset($arAddressFields['result']['TYPE_ID']);
-        unset($arAddressFields['result']['ENTITY_TYPE_ID']);
-        unset($arAddressFields['result']['ENTITY_ID']);
-        //unset uninteresting address fields
-        unset($arAddressFields['result']['COUNTRY_CODE']);
-        unset($arAddressFields['result']['ANCHOR_TYPE_ID']);
-        unset($arAddressFields['result']['ANCHOR_ID']);
-        ?>
-        <form id="form_to_crm">
-            <select name="REQ_TYPE" required>
-                <option value="" disabled selected>Select</option>
-                <?php foreach($arRequisiteType as $id=>$name):?>
-                    <option value="<?=$id?>"><?=$name?></option>
-                <?php endforeach;?>
-            </select>
-            <input type="text" name="TITLE" placeholder="Org name" required>
-            <input type="text" name="INN" placeholder="INN">
-            <input type="text" name="PHONE" placeholder="Phone">
-            <?php if(is_array($arAddressFields['result'])):?>
-                <?php foreach($arAddressFields['result'] as $key=>$arField):?>
-                    <input type="text" name="ADDRESS[<?=$key?>]" placeholder="<?=$arField['title']?>" <?=($arField['isRequired'])?'required':'';?>>
-                <?php endforeach;?>
-            <?php endif;?>
-            <input type="submit" value="Submit">
-        </form>
-    <?php else:?>
-        No requisite types.
+    ]
+);
+```
+
+Из массива `$arAddressFields` удаляем ненужные поля адреса, чтобы они не отображались в форме.
+
+```php
+unset($arAddressFields['result']['TYPE_ID']);
+unset($arAddressFields['result']['ENTITY_TYPE_ID']);
+unset($arAddressFields['result']['ENTITY_ID']);
+unset($arAddressFields['result']['COUNTRY_CODE']);
+unset($arAddressFields['result']['ANCHOR_TYPE_ID']);
+unset($arAddressFields['result']['ANCHOR_ID']);
+```
+
+Создаем HTML-форму с полями:
+
+- `REQ_TYPE` — выпадающий список с шаблонами реквизитов из массива `$arRequisiteType`. Обязательное поле.
+
+- `TITLE` — название компании. Обязательное поле.
+
+- `INN` — ИНН компании.
+
+- `PHONE` — номер телефона.
+
+- `ADDRESS` — поля для адреса создаются динамически из `$arAddressFields`. Если поле обязательное, добавляется атрибут `required`.
+
+Форма собирает данные в строку и отправляет их методом `POST` в файл `form.php`.
+
+```html
+<form id="form_to_crm">
+    <select name="REQ_TYPE" required>
+        <option value="" disabled selected>Select</option>
+        <?php foreach($arRequisiteType as $id=>$name):?>
+            <option value="<?=$id?>"><?=$name?></option>
+        <?php endforeach;?>
+    </select>
+    <input type="text" name="TITLE" placeholder="Org name" required>
+    <input type="text" name="INN" placeholder="INN">
+    <input type="text" name="PHONE" placeholder="Phone">
+    <?php if(is_array($arAddressFields['result'])):?>
+        <?php foreach($arAddressFields['result'] as $key=>$arField):?>
+            <input type="text" name="ADDRESS[<?=$key?>]" placeholder="<?=$arField['title']?>" <?=($arField['isRequired'])?'required':'';?>>
+        <?php endforeach;?>
     <?php endif;?>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $('#form_to_crm').on( 'submit', function(el) {//event submit form
-            el.preventDefault();//the default action of the event will not be triggered
-            var formData = $(this).serialize();
-            $.ajax({
-                'method': 'POST',
-                'dataType': 'json',
-                'url': 'form.php', // файл для сохранения заполненных форм
-                'data': formData,
-                success: function(data){//success callback
-                    alert(data.message);
-                }
-            });
+    <input type="submit" value="Submit">
+</form>
+```
+
+### Полный пример кода
+
+```php
+<?php
+require_once('crest.php');
+
+$arAddressFields = CRest::call('crm.address.fields',[]);
+
+$arRequisiteType = CRest::call('crm.requisite.preset.list',
+    [
+        'select'=>[
+            "ID", "NAME"
+        ]
+    ]
+);
+if(!empty($arRequisiteType['result'])):
+    $arRequisiteType = array_column($arRequisiteType['result'],'NAME','ID');
+    //unset system address fields
+    unset($arAddressFields['result']['TYPE_ID']);
+    unset($arAddressFields['result']['ENTITY_TYPE_ID']);
+    unset($arAddressFields['result']['ENTITY_ID']);
+    //unset uninteresting address fields
+    unset($arAddressFields['result']['COUNTRY_CODE']);
+    unset($arAddressFields['result']['ANCHOR_TYPE_ID']);
+    unset($arAddressFields['result']['ANCHOR_ID']);
+    ?>
+    <form id="form_to_crm">
+        <select name="REQ_TYPE" required>
+            <option value="" disabled selected>Select</option>
+            <?php foreach($arRequisiteType as $id=>$name):?>
+                <option value="<?=$id?>"><?=$name?></option>
+            <?php endforeach;?>
+        </select>
+        <input type="text" name="TITLE" placeholder="Org name" required>
+        <input type="text" name="INN" placeholder="INN">
+        <input type="text" name="PHONE" placeholder="Phone">
+        <?php if(is_array($arAddressFields['result'])):?>
+            <?php foreach($arAddressFields['result'] as $key=>$arField):?>
+                <input type="text" name="ADDRESS[<?=$key?>]" placeholder="<?=$arField['title']?>" <?=($arField['isRequired'])?'required':'';?>>
+            <?php endforeach;?>
+        <?php endif;?>
+        <input type="submit" value="Submit">
+    </form>
+<?php else:?>
+    No requisite types.
+<?php endif;?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#form_to_crm').on( 'submit', function(el) {//event submit form
+        el.preventDefault();//the default action of the event will not be triggered
+        var formData = $(this).serialize();
+        $.ajax({
+            'method': 'POST',
+            'dataType': 'json',
+            'url': 'form.php', // файл для сохранения заполненных форм
+            'data': formData,
+            success: function(data){//success callback
+                alert(data.message);
+            }
         });
     });
-    </script>
-    ```
+});
+</script>
+```
 
-{% endlist %}
+## 2\. Создаем обработчик формы
 
+Создаем файл `form.php`, который будет обрабатывать данные и сохранять их в CRM.
 
+### Получаем данные
 
-- Создайте файл для сохранения заполненных форм:
+Получаем и обрабатываем данные из формы.
 
-{% list tabs %}
+```php
+$iRequisitePresetID = intval($_POST["REQ_TYPE"]); 
+$sTitle = htmlspecialchars($_POST["TITLE"]); 
+$sINN = htmlspecialchars($_POST["INN"]); 
+$sPhone = htmlspecialchars($_POST["PHONE"]);
+$arAddress = [];
+foreach ($_POST["ADDRESS"] as $key => $val) {
+ $arAddress[$key] = htmlspecialchars($val); 
+}
+```
 
-- JS
+-  `$iRequisitePresetID` — преобразуем идентификатор шаблона реквизитов `REQ_TYPE` в целое число.
 
-    ```js
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('form_to_crm').addEventListener('submit', function(el) {
-            el.preventDefault();
-            let formData = new FormData(this);
-            let iRequisitePresetID = parseInt(formData.get("REQ_TYPE"));
-            let sTitle = formData.get("TITLE");
-            let sINN = formData.get("INN");
-            let sPhone = formData.get("PHONE");
-            let arAddress = {};
+-  `$sTitle`, `$sINN`, `$sPhone` — безопасно обрабатываем данные из `TITLE`, `INN`, `PHONE`, чтобы избежать XSS-атак.
 
-            formData.forEach((value, key) => {
-                if (key.startsWith("ADDRESS[")) {
-                    let addressKey = key.match(/ADDRESS\[(.*)\]/)[1];
-                    arAddress[addressKey] = value;
-                }
-            });
+-  `$arAddress` — сохраняем данные из массива с адресными полями `ADDRESS`.
 
-            arAddress['TYPE_ID'] = 1;
-            arAddress['ENTITY_TYPE_ID'] = 8;
+### Подготавливаем данные
 
-            let arPhone = sPhone ? [{ 'VALUE': sPhone, 'VALUE_TYPE': 'WORK' }] : [];
+Добавляем в массив `$arAddress` два обязательных системных поля.
 
-            BX24.callMethod(
-                'crm.company.add',
-                {
-                    'fields': {
-                        'TITLE': sTitle,
-                        'COMPANY_TYPE': 'CUSTOMER',
-                        'PHONE': arPhone
-                    }
-                },
-                function(result) {
-                    if (result.error()) {
-                        console.error(result.error());
-                        alert('not added: ' + result.error_description());
-                        return;
-                    }
+-  `TYPE_ID` — тип адреса. Укажем `1` — фактический адрес. Список типов адресов можно получить с помощью метода [crm.enum.addresstype](../../../api-reference/crm/auxiliary/enum/crm-enum-address-type.md).
 
-                    let companyId = result.data();
-                    BX24.callMethod(
-                        'crm.requisite.add',
-                        {
-                            'fields': {
-                                'ENTITY_TYPE_ID': 4,
-                                'ENTITY_ID': companyId,
-                                'PRESET_ID': iRequisitePresetID,
-                                'TITLE': sTitle,
-                                'ACTIVE': 'Y',
-                                'NAME': sTitle,
-                                'RQ_INN': sINN
-                            }
-                        },
-                        function(resultRequisite) {
-                            if (resultRequisite.error()) {
-                                console.error(resultRequisite.error());
-                                alert('not added: ' + resultRequisite.error_description());
-                                return;
-                            }
+-  `ENTITY_TYPE_ID` — [идентификатор типа объекта CRM](../../../api-reference/crm/data-types.md#object_type). Передаем `8` — реквизиты. Полный список типов объектов можно получить с помощью метода [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md).
 
-                            let requisiteId = resultRequisite.data();
-                            let arDealFields = {
-                                'TITLE': sTitle,
-                                'COMPANY_ID': companyId
-                            };
+```php
+$arAddress['TYPE_ID'] = 1;
+$arAddress['ENTITY_TYPE_ID'] = 8;
+```
 
-                            if (requisiteId) {
-                                arDealFields['REQUISITE_ID'] = requisiteId;
-                                arAddress['ENTITY_ID'] = requisiteId;
+Система хранит телефон как массив объектов [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield), поэтому значение `$sPhone` нужно привести к формату массива:
 
-                                BX24.callMethod(
-                                    'crm.address.add',
-                                    {
-                                        'fields': arAddress
-                                    },
-                                    function(resultAddress) {
-                                        if (resultAddress.error()) {
-                                            console.error(resultAddress.error());
-                                            alert('not added: ' + resultAddress.error_description());
-                                            return;
-                                        }
-                                    }
-                                );
-                            }
+-  в первый элемент `VALUE` записываем `$sPhone`,
 
-                            BX24.callMethod(
-                                'crm.deal.add',
-                                {
-                                    'fields': arDealFields
-                                },
-                                function(resultDeal) {
-                                    if (resultDeal.error()) {
-                                        console.error(resultDeal.error());
-                                        alert('not added: ' + resultDeal.error_description());
-                                        return;
-                                    }
+-  во второй элемент `VALUE_TYPE` передаем, например, `WORK`.
 
-                                    alert('add');
-                                }
-                            );
-                        }
-                    );
-                }
-            );
-        });
-    });
-    ```
+Если в переменной `$sPhone` нет значения, то указываем пустой массив.
 
-- PHP
+```php
+$arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
+```
 
-    {% note info %}
+### Добавляем компанию
 
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../how-to-use-examples.md)
+Чтобы добавить компанию, используем метод [crm.company.add](../../../api-reference/crm/companies/crm-company-add.md). В него нужно передать следующие данные:
 
-    {% endnote %}
+-  `TITLE` — название компании. Передаем `$sTitle`, который получили из формы.
 
-    ```php
-    <?php
-    $iRequisitePresetID = intVal($_POST["REQ_TYPE"]);
-    $sTitle = htmlspecialchars($_POST["TITLE"]);
-    $sINN = htmlspecialchars($_POST["INN"]);
-    $sPhone = htmlspecialchars($_POST["PHONE"]);
-    $arAddress = [];
+-  `COMPANY_TYPE` — тип компании. Укажем `CUSTOMER` — клиент. Список типов можно получить с помощью метода [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) с фильтром `'filter'=>['ENTITY_ID'=>’COMPANY_TYPE']`.
 
-    foreach($_POST["ADDRESS"] as $key=>$val){
-        $arAddress[$key] = htmlspecialchars($val);
-    }
-    $arAddress['TYPE_ID'] = 1;//1 is actual address in CRest::call('crm.enum.addresstype');
-    $arAddress['ENTITY_TYPE_ID'] = 8;//8 - is requisite in CRest::call('crm.enum.ownertype');
+-  `PHONE` — массив с телефоном `$arPhone`, который получили из формы.
 
-    $arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
+{% note warning "" %}
 
-    $result = CRest::call(
-        'crm.company.add',
+Проверьте, какие обязательные поля настроены для компаний в вашем Битрикс24. Все обязательные поля нужно передать в метод [crm.company.add](../../../api-reference/crm/companies/crm-company-add.md).
+
+{% endnote %}
+
+```php
+$result = CRest::call(
+    'crm.company.add',
+    [
+        'fields' =>[
+            'TITLE' => $sTitle,
+            'COMPANY_TYPE' => 'CUSTOMER',
+            'PHONE' => $arPhone,
+        ]
+    ]
+);
+```
+
+Если компания успешно создана, метод вернет ее идентификатор в `$result`. Если вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.company.add](../../../api-reference/crm/companies/crm-company-add.md).
+
+### Добавляем реквизиты
+
+Чтобы добавить реквизиты, используем метод [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md). В него нужно передать следующие данные:
+
+-  `ENTITY_TYPE_ID` — [идентификатор типа объекта CRM](../../../api-reference/crm/data-types.md#object_type). Передаем `4` — компания. Полный список типов объектов можно получить с помощью метода [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md).
+
+-  `ENTITY_ID` — идентификатор компании. Передаем `$result`, который получили при создании компании.
+
+-  `PRESET_ID` — идентификатор шаблона реквизитов. Указываем `$iRequisitePresetID`, который получили из формы.
+
+-  `NAME` — название реквизита. Передаем `$sTitle`, который получили из формы.
+
+-  `RQ_INN` — ИНН компании. Передаем `$sINN`, который получили из формы.
+
+-  `ACTIVE` — флаг активности, укажем `Y`.
+
+```php
+$resultRequisite = CRest::call(
+    'crm.requisite.add',
+    [
+        'fields' =>[
+            'ENTITY_TYPE_ID' => 4,
+            'ENTITY_ID' => $result['result'],
+            'PRESET_ID' => $iRequisitePresetID,
+            'ACTIVE' => 'Y',
+            'NAME' => $sTitle,
+            'RQ_INN' => $sINN,
+        ]
+    ]
+);
+```
+
+Если реквизиты успешно добавлены, метод вернет идентификатор записи в `$resultRequisite`. Если вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md).
+
+### Добавляем адрес к реквизитам
+
+1. Добавляем в массив `$arAddress` поле `ENTITY_ID` — идентификатор реквизита. Передаем `$resultRequisite`, который получили при создании реквизита.
+
+   ```php
+   $arAddress['ENTITY_ID'] = $resultRequisite['result'];
+   ```
+
+2. Используем метод [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md). В него нужно передать массив `$arAddress`.
+
+   ```php
+   $resultAddress = CRest::call(
+       'crm.address.add',
+       [
+           'fields' =>$arAddress
+       ]
+   );
+   ```
+
+Метод возвращает в переменной `$resultAddress` одно из значений:
+
+-  `true` — адрес добавлен,
+
+-  `false` — адрес не добавлен.
+
+### **Добавляем сделку**
+
+Создаем массив `$arDealFields` с данными для сделки.
+
+-  `TITLE`  — название сделки. Укажем название компании `$sTitle`, которое получено из формы,
+
+-  `COMPANY_ID` — идентификатор компании, которая привязана к сделке. Передаем `$result`, который получили при создании компании,
+
+-  `REQUISITE_ID` — идентификатор реквизита. Если реквизит создан, передаем `$resultRequisite`.
+
+```php
+$arDealFields = [
+    'TITLE' => $sTitle,
+    'COMPANY_ID' => $result['result']
+];
+if(!empty($resultRequisite['result'])){
+    $arDealFields['REQUISITE_ID'] = $resultRequisite['result'];
+}
+```
+
+Чтобы добавить сделку, используем метод [crm.deal.add](../../../api-reference/crm/deals/crm-deal-add.md). В него передаем массив `$arDealFields`.
+
+```php
+$resultDeal = CRest::call(
+    'crm.deal.add',
+    [
+        'fields' => $arDealFields
+    ]
+);
+```
+
+Если сделка создана успешно, метод вернет ее идентификатор. Если вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.deal.add](../../../api-reference/crm/deals/crm-deal-add.md).
+
+```json
+{
+    "result": 1789,
+}
+```
+
+### Полный пример кода обработчика
+
+```php
+<?php
+require_once('crest.php');
+
+$iRequisitePresetID = intVal($_POST["REQ_TYPE"]);
+$sTitle = htmlspecialchars($_POST["TITLE"]);
+$sINN = htmlspecialchars($_POST["INN"]);
+$sPhone = htmlspecialchars($_POST["PHONE"]);
+$arAddress = [];
+
+foreach($_POST["ADDRESS"] as $key=>$val){
+    $arAddress[$key] = htmlspecialchars($val);
+}
+$arAddress['TYPE_ID'] = 1;//1 is actual address in CRest::call('crm.enum.addresstype');
+$arAddress['ENTITY_TYPE_ID'] = 8;//8 - is requisite in CRest::call('crm.enum.ownertype');
+
+$arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
+
+$result = CRest::call(
+    'crm.company.add',
+    [
+        'fields' =>[
+            'TITLE' => $sTitle,
+            'COMPANY_TYPE' => 'CUSTOMER',//is Client in CRest::call('crm.status.list',['filter'=>['ENTITY_ID'=>'COMPANY_TYPE']])
+            'PHONE' => $arPhone,
+        ]
+    ]
+);
+if(!empty($result['result'])){
+    $resultRequisite = CRest::call(
+        'crm.requisite.add',
         [
             'fields' =>[
-                'TITLE' => $sTitle,
-                'COMPANY_TYPE' => 'CUSTOMER',//is Client in CRest::call('crm.status.list',['filter'=>['ENTITY_ID'=>'COMPANY_TYPE']])
-                'PHONE' => $arPhone,
+                'ENTITY_TYPE_ID' => 4,//4 - is company in CRest::call('crm.enum.ownertype');
+                'ENTITY_ID' => $result['result'],//company id
+                'PRESET_ID' => $iRequisitePresetID,
+                'ACTIVE' => 'Y',
+                'NAME' => $sTitle,
+                'RQ_INN' => $sINN,
             ]
         ]
     );
-    if(!empty($result['result'])){
-        $resultRequisite = CRest::call(
-            'crm.requisite.add',
+    $arDealFields = [
+        'TITLE' => $sTitle,
+        'COMPANY_ID' => $result['result']
+    ];
+    if(!empty($resultRequisite['result'])){
+        $arDealFields['REQUISITE_ID'] = $resultRequisite['result'];//add requisite to deal is analogue "crm.requisite.link.list"
+        $arAddress['ENTITY_ID'] = $resultRequisite['result'];//id requisite
+        $resultAddress = CRest::call(
+            'crm.address.add',
             [
-                'fields' =>[
-                    'ENTITY_TYPE_ID' => 4,//4 - is company in CRest::call('crm.enum.ownertype');
-                    'ENTITY_ID' => $result['result'],//company id
-                    'PRESET_ID' => $iRequisitePresetID,
-                    'TITLE' => $sTitle,
-                    'ACTIVE' => 'Y',
-                    'NAME' => $sTitle,
-                    'RQ_INN' => $sINN,
-                ]
+                'fields' =>$arAddress
             ]
         );
-        $arDealFields = [
-            'TITLE' => $sTitle,
-            'COMPANY_ID' => $result['result']
-        ];
-        if(!empty($resultRequisite['result'])){
-            $arDealFields['REQUISITE_ID'] = $resultRequisite['result'];//add requisite to deal is analogue "crm.requisite.link.list"
-            $arAddress['ENTITY_ID'] = $resultRequisite['result'];//id requisite
-            $resultAddress = CRest::call(
-                'crm.address.add',
-                [
-                    'fields' =>$arAddress
-                ]
-            );
-        }
-        $resultDeal = CRest::call(
-            'crm.deal.add',
-            [
-                'fields' => $arDealFields
-            ]
-        );
-        echo json_encode(['message' => 'add']);
-    }elseif(!empty($result['error_description'])){
-        echo json_encode(['message' => 'not added: '.$result['error_description']]);
-    }else{
-        echo json_encode(['message' => 'not added']);
     }
-    ?>
-    ```
+    $resultDeal = CRest::call(
+        'crm.deal.add',
+        [
+            'fields' => $arDealFields
+        ]
+    );
+    echo json_encode(['message' => 'add']);
+}elseif(!empty($result['error_description'])){
+    echo json_encode(['message' => 'not added: '.$result['error_description']]);
+}else{
+    echo json_encode(['message' => 'not added']);
+}
+?>
+```
 
-{% endlist %}
+## Продолжите изучение 
+
+- [{#T}](../../../api-reference/crm/companies/crm-company-add.md)
+- [{#T}](../../../api-reference/crm/requisites/universal/crm-requisite-add.md)
+- [{#T}](../../../api-reference/crm/requisites/addresses/crm-address-add.md)
+- [{#T}](../../../api-reference/crm/deals/crm-deal-add.md)
+- [{#T}](../../../api-reference/crm/requisites/addresses/crm-address-fields.md)
+- [{#T}](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md)
+- [{#T}](../../../api-reference/crm/auxiliary/enum/crm-enum-address-type.md)
+- [{#T}](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)

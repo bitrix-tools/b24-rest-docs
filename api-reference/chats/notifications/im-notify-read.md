@@ -1,4 +1,4 @@
-# Установить отмену прочитанных уведомлений im.notify.read
+# Прочитать уведомление или все уведомления с указанного im.notify.read
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -82,6 +82,25 @@
             "auth"
         ]
     );    
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php       
+    try {
+        $notificationIds = [1, 2, 3]; // Example notification IDs
+        $result = $serviceBuilder
+            ->getIMScope()
+            ->notify()
+            ->markMessagesAsUnread($notificationIds);
+        if ($result->isSuccess()) {
+            print_r($result->getCoreResponse()->getResponseData()->getResult());
+        } else {
+            print("Failed to mark messages as unread.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}

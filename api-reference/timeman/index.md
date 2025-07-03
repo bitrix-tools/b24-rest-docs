@@ -1,86 +1,88 @@
-# REST-методы для модуля Учёт рабочего времени
+# Учет рабочего времени: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Учет рабочего времени в Битрикс24 помогает организовать рабочий процесс и контролировать соблюдение графика сотрудниками.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+> Быстрый переход: [все методы и события](#all-methods) 
+> 
+> Пользовательская документация: [время и отчеты в Битрикс24](https://helpdesk.bitrix24.ru/open/17832334/)
+
+## Рабочий день
+
+Учет рабочего времени фиксирует отработанные часы сотрудника. Для этого сотрудник отмечает начало и конец рабочего дня в системе. Управлять рабочим днем можно группой методов [timeman.*](./base/index.md).
+
+{% note tip "Пользовательская документация" %}
+
+-  [Как вести учет рабочего времени в Битрикс24](https://helpdesk.bitrix24.ru/open/21604602)
 
 {% endnote %}
+
+## Рабочий график
+
+Рабочий график задает режим и продолжительность работы сотрудников. Получить настройки рабочего графика можно методом [timeman.schedule.get](./schedule/timeman-schedule-get.md)
+
+{% note tip "Пользовательская документация" %}
+
+-  [Рабочие графики](https://helpdesk.bitrix24.ru/open/17937890/)
+
+{% endnote %}
+
+## Контроль времени
+
+Учет рабочего времени проверяет соответствие рабочего времени сотрудника установленному графику. Система записывает нарушения графика и руководитель может просматривать отчеты о нарушениях.
+
+Работать с отчетами и настраивать контроль времени можно с помощью группы методов [timeman.timecontrol.*](./timecontrol/index.md).
+
+{% note tip "Пользовательская документация" %}
+
+-  [Как контролировать рабочее время сотрудников](https://helpdesk.bitrix24.ru/open/17921146/)
+
+{% endnote %}
+
+## Офисные сети
+
+Офисная сеть — это группа IP-адресов, используемых в локальной сети организации. Работа с диапазонами IP-адресов офисной сети выполняется методами группы [timeman.networkrange.*](./networkrange/index.md).
+
+## Обзор методов {#all-methods}
 
 > Scope: [`timeman`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: в зависимости от метода
 
-## Список методов
+### Рабочий день
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| **Базовые методы** | | ||
-|| [timeman.settings](./base/timeman-settings.md) | Получение настроек рабочего времени пользователя | 17.0.2 ||
-|| [timeman.status](./base/timeman-status.md) | Получение информации о текущем рабочем дне пользователя | 17.0.2 ||
-|| [timeman.open](./base/timeman-open.md) | Начать новый рабочий день либо возобновить закрытый или приостановленный | 17.0.2 ||
-|| [timeman.close](./base/timeman-close.md) | Закрыть рабочий день | 17.0.2 ||
-|| [timeman.pause](./base/timeman-pause.md) | Приостановить рабочий день | 17.0.2 ||
-|| **Офисные сети** | | ||
-|| [timeman.networkrange.check](./networkrange/timeman-networkrange-check.md) | Метод для проверки IP-адреса на вхождение в диапазоны сетевых адресов офисной сети. | 18.5.0 ||
-|| [timeman.networkrange.get](./networkrange/timeman-networkrange-get.md) | Метод для получения диапазонов сетевых адресов, входящих в офисную сеть. | 18.5.0 ||
-|| [timeman.networkrange.set](./networkrange/timeman-networkrange-set.md) | Метод для установки диапазонов сетевых адресов, входящих в офисную сеть. | 18.5.0 ||
-|| **Контроль времени** | | ||
-|| [timeman.timecontrol.report.add](./timecontrol/timeman-timecontrol-report-add.md) | Метод для отправки отчета о выявленном отсутствии. | 18.5.0 ||
-|| [timeman.timecontrol.reports.get](./timecontrol/timeman-timecontrol-reports-get.md) | Метод для получения отчета о выявленных отсутствиях. | 18.5.0 ||
-|| [timeman.timecontrol.reports.settings.get](./timecontrol/timeman-timecontrol-reports-settings-get.md) | Метод для получения пользовательских настроек для построения интерфейса отчетов инструмента контроля времени. | 18.5.0 ||
-|| [timeman.timecontrol.reports.users.get](./timecontrol/timeman-timecontrol-reports-users-get.md) | Метод для получения списка пользователей, относящихся к указанному подразделению. | 18.5.0 ||
-|| [timeman.timecontrol.settings.get](./timecontrol/timeman-timecontrol-settings-get.md) | Метод для получения настроек инструмента контроля времени. | 18.5.0 ||
-|| [timeman.timecontrol.settings.set](./timecontrol/timeman-timecontrol-settings-set.md) | Метод для установки настроек инструмента контроля времени. | 18.5.0 ||
-|| **Рабочий график** | | ||
-|| [timeman.schedule.get](./schedule/timeman-schedule-get.md) | Метод позволяет получить рабочий график по его идентификатору. | ||
+|| **Метод** | **Описание** ||
+|| [timeman.open](./base/timeman-open.md) | Начать новый рабочий день или возобновить закрытый ||
+|| [timeman.pause](./base/timeman-pause.md) | Поставить паузу в рабочем дне ||
+|| [timeman.close](./base/timeman-close.md) | Закрыть рабочий день ||
+|| [timeman.status](./base/timeman-status.md) | Получить информацию о текущем рабочем дне пользователя ||
+|| [timeman.settings](./base/timeman-settings.md) | Получить настройки рабочего времени пользователя ||
 |#
 
-## Несколько примеров
+### Рабочий график
 
-Примеры работы на старом ядре.
+#|
+|| **Метод** | **Описание** ||
+|| [timeman.schedule.get](./schedule/timeman-schedule-get.md) | Получает рабочий график по идентификатору ||
+|#
 
-Подтверждение рабочего отчета с положительной оценкой на странице `/timeman/work_report.php`:
+### Контроль времени
 
-```php
-CModule::IncludeModule('timeman');
+#|
+|| **Метод** | **Описание** ||
+|| [timeman.timecontrol.report.add](./timecontrol/timeman-timecontrol-report-add.md) | Отправляет отчет о выявленном отсутствии ||
+|| [timeman.timecontrol.reports.get](./timecontrol/timeman-timecontrol-reports-get.md) | Получает отчет о выявленных отсутствиях ||
+|| [timeman.timecontrol.settings.get](./timecontrol/timeman-timecontrol-settings-get.md) | Получает настройки инструмента контроля времени ||
+|| [timeman.timecontrol.settings.set](./timecontrol/timeman-timecontrol-settings-set.md) | Устанавливает настройки инструмента контроля времени ||
+|| [timeman.timecontrol.reports.settings.get](./timecontrol/timeman-timecontrol-reports-settings-get.md) | Получает пользовательские настройки для построения интерфейса отчетов инструмента контроля времени ||
+|| [timeman.timecontrol.reports.users.get](./timecontrol/timeman-timecontrol-reports-users-get.md) | Получает список пользователей указанного подразделения ||
+|#
 
-$ID = 8;
-$arFields = array(
-    "MARK" => "G", // "G" - положительно, "B" - отрицательно, "N" - нет оценки, "X" - без подтверждения
-);
+### Офисные сети
 
-if ($arFields["MARK"] != "X")
-{
-    $arFields["APPROVER"] = $USER->GetID();
-    $arFields["APPROVE"] = "Y";
-    $arFields["APPROVE_DATE"] = ConvertTimeStamp(time(), "FULL");
-}
-else
-{
-    $arFields["APPROVE"] = "N";
-    $arFields["APPROVER"] = 0;
-    $arFields["APPROVE_DATE"] = "";
-}
-
-$result = CTimeManReportFull::Update($ID, $arFields);
-var_dump($result);
-```
-
-Работа с рабочим днём сотрудника
-
-```php
-CModule::IncludeModule('timeman');
-$USER_ID = 1;
-$report = "";
-$obUser = new CTimeManUser($USER_ID);
-
-$obUser->OpenDay($timestamp, $report); // открыть рабочий день
-$obUser->CloseDay($timestamp, $report); // закрыть рабочий день
-$state = $oTimeManUser->State(); // узнать статус рабочего дня сотрудника $USER_ID
-$arInfo = $oTimeManUser->GetCurrentInfo(); // информация о рабочем дне сотрудника $USER_ID
-
-// Данные об активной задаче
-CModule::IncludeModule('tasks');
-$oTaskTimer = CTaskTimerManager::getInstance($USER_ID);
-$rs = $oTaskTimer->getLastTimer();
-```
+#|
+|| **Метод** | **Описание** ||
+|| [timeman.networkrange.get](./networkrange/timeman-networkrange-get.md) | Получает диапазоны сетевых адресов, входящие в офисную сеть ||
+|| [timeman.networkrange.set](./networkrange/timeman-networkrange-set.md) | Устанавливает диапазоны сетевых адресов, входящие в офисную сеть ||
+|| [timeman.networkrange.check](./networkrange/timeman-networkrange-check.md) | Проверяет входит ли IP-адрес в диапазоны сетевых адресов офисной сети ||
+|#

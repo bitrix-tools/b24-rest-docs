@@ -44,24 +44,31 @@ Cм. также описание [списочных методов](../../how-t
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "disk.folder.getchildren",
-    {
-        id: 8,
-        filter: {
-            CREATED_BY: 1
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "disk.folder.getchildren",
+        {
+            id: 8,
+            filter: {
+                CREATED_BY: 1
+            }
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Ответ в случае успеха

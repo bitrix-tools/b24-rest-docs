@@ -1,5 +1,102 @@
 # Митапы, трансляции и записи выступлений для разработчиков
 
+## Митап про готовый шаблон тиражного приложения с библиотекой роботов {#app-template-automation-rules}
+
+Спикеры:
+
+- Игорь Шевчик, разработчик (автор шаблона, B24JsSDK, Bitrix24 UI Kit)
+- Сергей Востриков, руководитель направления Маркетплейс и интеграций Битрикс24
+
+[Получить шаблон](https://github.com/bitrix24/app-template-automation-rules)
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240208&hd=1&autoplay=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+## Митап про создание коннекторов для Битрикс24 BI-Конструктор {#biconnectorMeetup}
+
+27.05.2025
+
+Запись выступления Сергея Вострикова на митапе про создание коннекторов для Битрикс24 BI-Конструктор.
+
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456240207&hd=1&autoplay=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+[Получить пример](https://github.com/bitrix24/b24sdk-examples/tree/main/php/special/biconnector)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
+## Презентации B24PhpSdk, B24JsSDK и UI-Kit во время митапов на партнерской конференции
+
+26.11.2024
+
+Записи выступления Сергея Вострикова на митапах во время партнерской конференции с рассказом о новых SDK для PHP и JS, а также о новом UI-Kit
+
+**B24PHPSdk**
+
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456240183&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+**B24JsSdk**
+
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456240184&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+**UI Kit**
+
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456240185&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+## Создание виджетов и шаблонов для Битрикс24 Вайб - Разработка на Битрикс24 REST API, эпизод 3
+
+08.11.2024
+
+Приветствуем вас на онлайн-встрече, где мы поговорили про Битрикс24 Вайб, а именно, как разработать крутые виджеты и шаблоны, которые помогут клиентам настроить быстрый доступ, чтобы все важное и нужное было в одном месте.
+
+Вместе с экспертами обсудили:
+- Frontend и backend виджетов
+- Интерактивные виджеты
+- Экспорт шаблонов и публикация в Битрикс24 Маркет.Плюс
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-vibe24-widgets.zip)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
+Спикеры:
+
+- Дмитрий Самойлов, ведущий разработчик Битрикс24
+- Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240176&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+## B24PHPSdk, Быстрый старт, Локальное приложение - Разработка на Битрикс24 REST API, эпизод 2
+
+29.10.2024
+
+- Как подключить SDK к своему проекту
+- Как использовать SDK в локальном приложении
+- Какие инструменты разработчика использовать 
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-local-app-example.zip)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
+Спикер:
+
+- Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+## B24PHPSdk, Быстрый старт - Разработка на Битрикс24 REST API, эпизод 1
+
+21.10.2024
+
+- Преимущества использования B24PhpSdk для работы с REST API Битрикс24
+- Как подключить SDK к своему проекту
+- Как использовать входящие вебхуки
+- Как работает автокомплит и приведение типов в среде разработки
+- Как использовать batch с помощью SDK
+
+[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-webhook-example.zip)
+[Скачайте B24PhpSdk](https://github.com/bitrix24/b24phpsdk)
+
+Спикер:
+
+- Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
+
+<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
 ## Bitrix Talks Tech. Новый чат в Битрикс24
 
 13.12.2023
@@ -13,7 +110,7 @@
 
 - Евгений Шеленков, ведущий разработчик, тимлид команды «1С-Битрикс»
 
-@[youtube](https://www.youtube.com/watch?v=rZ487evFazw)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/a14343edbd4eb1d4eab1168cda2e3d89/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Bitrix Talks Tech. E-commerce. Создаём приложение для оплаты через REST API в сделках/смарт-процессах
 
@@ -27,7 +124,7 @@
 
 - Максим Лашков, ведущий разработчик «1С-Битрикс», тимлид команды «1С-Битрикс
 
-@[youtube](https://www.youtube.com/watch?v=h3m42MF4TXo)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/75c4a43985d9ca82cd6d73305c030d90/?p=-Yrp9RF2dSF9jL0uVTrnQw" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Bitrix Talks Tech. AI. CoPilot
 
@@ -42,7 +139,7 @@
 - Тарас Вишник, разработчик «1С-Битрикс»
 - Сергей Востриков, руководитель направления Маркетплейс и интеграций Битрикс24
 
-@[youtube](https://www.youtube.com/watch?v=xIkqDVJObdM)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/db5e6cf437d28bcd32ce50a72a50f931/?p=oGDZho4T7zQCAfw9xXMhPg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Bitrix Talks Tech. Разбор механизма событий REST API
 
@@ -56,7 +153,7 @@
 
 - Владислав Бажанов, ведущий разработчик «1С-Битрикс»
   
-@[youtube](https://www.youtube.com/watch?v=3WSH9kJl-4c)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/ad1a1cd389f5b65d9609037591619898/?p=azvDTzgKv95G71gZTJzfEQ" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Преимущества оффлайн-событий, или как их правильно использовать
 
@@ -73,7 +170,7 @@
 
 [Скачать презентацию](https://video.1c-bitrix.ru/meet21/denisyuk.pptx)
 
-@[youtube](https://www.youtube.com/watch?v=O0iTxYew3b4)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/64d852b521780c31238061edbac8a8f6/?p=3ahdlK3HwqveYWoD1WlH7g" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Разработка REST-приложений. Полезное
 
@@ -89,7 +186,7 @@
 
 [Скачать презентацию](https://video.1c-bitrix.ru/meet21/vostrikov-bazhanov.pptx)
 
-@[youtube](https://www.youtube.com/watch?v=UiGgSn7_igg)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/bae0f19dc003d842858f4f956b67cb9e/?p=PxAB7Cs-2EgwqLfNhFgY1w" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Умные сценарии и развитие роботов
 
@@ -106,7 +203,7 @@
 - Антон Янжула, ведущий разработчик «1С-Битрикс»
 - Сергей Востриков, руководитель направления Маркет и интеграций в «1С-Битрикс»
 
-@[youtube](https://www.youtube.com/watch?v=ntSqIxJk-lY)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/d348f3c78040cd9ce07fd831950679bd/?p=CDceQ1-pw2ot-UCbKUVRWg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Как разрабатывать для облака. Архитектура rest-приложений для высоких нагрузок
 
@@ -114,7 +211,7 @@
 
 Ведущий разработчик REST API Владислав Бажанов рассказал, как правильно проектировать облачную архитектуру для приложений, чтобы они смогли работать с большим количеством порталов Битрикс24 и при этом соответствовать системным требованиям REST API
 
-@[youtube](https://www.youtube.com/watch?v=lgdoJJpRFDI)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/29242dde3149a5d8303f52ac36928220/?p=_likQDVraFKEvaf19olSBg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Современный JS в разработке на BitrixFramework
 
@@ -122,7 +219,7 @@
 
 Этот доклад не про технологии 1С-Битрикс. Но если вы хотите заниматься разработкой front-end в том числе для приложений Битрикс24, то без правильного подхода не обойтись. Доклад Евгения Шеленкова как раз про это - как использовать современные frameworks, и в частности, vue.js для разработки сложных интерфейсов и как это уже используется в Битрикс24 в новом CRM-виджете
 
-@[youtube](https://www.youtube.com/watch?v=0bZGKbNgxqw)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/34dbc8e840c09e074f480502b47e1748/?p=oVkOTOjdAmccg3MwaMo2EA" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Виджеты в Битрикс24 и синхронизация данных
 
@@ -130,7 +227,7 @@
 
 Смотрите запись доклада Сергея Вострикова на партнерской конференции посвященного новым местам встройки виджетов в Битрикс24 (на примере встраивания в задачи), а также большой теме синхронизации данных Битрикс24 с внешними источниками на основе оффлайн-событий
 
-@[youtube](https://www.youtube.com/watch?v=JtHzrvs4IiY)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/75a1b6eb957c010e64c728dc95b6f1f0/?p=_T5FSNMj430kRwdBUDADyA" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## Приложения "под колпаком"
 
@@ -138,7 +235,7 @@
 
 REST API работает и в коробочном Битрикс24. Но при этом сервер OAuth-авторизации и очередь REST-событий все равно находятся на облачных серверах Битрикс. Но есть способ, который позволит при необходимости продолжать пользоваться REST без обращения к внешним ресурсам. Смотрите запись доклада Максима Сидоренко на Битрикс24.Идея
 
-@[youtube](https://www.youtube.com/watch?v=MtTVF9Vf0Wo)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/0becef7c826427edd5e05e55ffb24144/?p=6tgNGVLNFCycVzj1phG1xg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 ## REST для триггеров CRM
 

@@ -41,13 +41,21 @@
 
 ## Пример
 
-```js
-// Отправляем запрос на вступление в группу с ID=17
-BX24.callMethod('sonet_group.user.request', {
-    'GROUP_ID': 17,
-    'MESSAGE': 'Request'
-});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    // Отправляем запрос на вступление в группу с ID=17
+    BX24.callMethod('sonet_group.user.request', {
+        'GROUP_ID': 17,
+        'MESSAGE': 'Request'
+    });
+    ```
+
+{% endlist %}
+
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Запрос:

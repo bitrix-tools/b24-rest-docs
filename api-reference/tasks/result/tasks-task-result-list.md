@@ -33,12 +33,26 @@
 
 ## Пример
 
-```js
-BX.ajax.runAction("tasks.task.result.list", {
-    data: {
-        taskId: 100500
-    }
-}).then(function (response) { console.log(response);});
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.result.list',
+        {
+            "taskId" : 7811
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

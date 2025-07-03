@@ -81,33 +81,39 @@
 
 {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.update',
-    Array(
-        'BOT_ID' => 39,
-        'CLIENT_ID' => '',
-        'FIELDS' => Array(
-            'CODE' => 'newbot',
-            'EVENT_HANDLER' => 'http://www.hazz/chatApi/event.php',
-            'PROPERTIES' => Array(
-                'NAME' => 'UpdatedBot',
-                'LAST_NAME' => '',
-                'COLOR' => 'MINT',
-                'EMAIL' => 'test2@test.ru',
-                'PERSONAL_BIRTHDAY' => '2016-03-12',
-                'WORK_POSITION' => 'Мой второй бот',
-                'PERSONAL_WWW' => 'http://test2.ru',
-                'PERSONAL_GENDER' => 'M',
-                'PERSONAL_PHOTO' => '/* base64 image */',
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.update',
+        Array(
+            'BOT_ID' => 39,
+            'CLIENT_ID' => '',
+            'FIELDS' => Array(
+                'CODE' => 'newbot',
+                'EVENT_HANDLER' => 'http://www.hazz/chatApi/event.php',
+                'PROPERTIES' => Array(
+                    'NAME' => 'UpdatedBot',
+                    'LAST_NAME' => '',
+                    'COLOR' => 'MINT',
+                    'EMAIL' => 'test2@test.ru',
+                    'PERSONAL_BIRTHDAY' => '2016-03-12',
+                    'WORK_POSITION' => 'Мой второй бот',
+                    'PERSONAL_WWW' => 'http://test2.ru',
+                    'PERSONAL_GENDER' => 'M',
+                    'PERSONAL_PHOTO' => '/* base64 image */',
+                )
             )
-        )
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

@@ -4,5 +4,5 @@
 
 #|
 || **Пространство** | **Описание** ||
-|| [RPA](./rpa/index.md) | Методы роботизации. Рекомендуется перейти на использование [универсальных типов CRM](../crm/universal/user-defined-object-types/index.md) (смарт-процессы) ||
+|| [RPA](./rpa/index.md) | Методы роботизации. Рекомендуем использовать [универсальные типы CRM](../crm/universal/user-defined-object-types/index.md) ||
 |#

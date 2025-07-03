@@ -50,53 +50,59 @@
 
 ## Примеры
 
-```js
-//--
-//Запрос личных настроек карточки сделок для пользователя с идентификатором 1.
-BX24.callMethod(
-    "crm.deal.details.configuration.get",
-    {
-        scope: "P",
-        userId: 1
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//Запрос общих настроек карточки сделок для общего направления.
-BX24.callMethod(
-    "crm.deal.details.configuration.get",
-    {
-        scope: "C"
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//Запрос общих настроек карточки сделок для направления с идентификатором 1.
-BX24.callMethod(
-    "crm.deal.details.configuration.get",
-    {
-        scope: "C",
-        extras: { dealCategoryId: 1 }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-//--
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    //--
+    //Запрос личных настроек карточки сделок для пользователя с идентификатором 1.
+    BX24.callMethod(
+        "crm.deal.details.configuration.get",
+        {
+            scope: "P",
+            userId: 1
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //Запрос общих настроек карточки сделок для общего направления.
+    BX24.callMethod(
+        "crm.deal.details.configuration.get",
+        {
+            scope: "C"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //Запрос общих настроек карточки сделок для направления с идентификатором 1.
+    BX24.callMethod(
+        "crm.deal.details.configuration.get",
+        {
+            scope: "C",
+            extras: { dealCategoryId: 1 }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    //--
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

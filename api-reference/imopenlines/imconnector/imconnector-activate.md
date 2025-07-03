@@ -29,7 +29,7 @@
 
 {% note info "Примечание" %}
 
-Если нужно чтобы коннектор отображался в общем списке коннекторов в виджете на сайте, нужно использовать метод [imconnector.connector.data.set](.). [Пример использования](.).
+Если нужно чтобы коннектор отображался в общем списке коннекторов в виджете на сайте, нужно использовать метод [imconnector.connector.data.set](./imconnector-connector-data-set.md). [Пример использования](../../../tutorials/openlines/example-connector.md).
 
 {% endnote %}
 

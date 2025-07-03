@@ -1,0 +1,17 @@
+title: Свойства товаров и вариаций
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить свойство
+    href: catalog-product-property-add.md
+  - name: Удалить свойство
+    href: catalog-product-property-delete.md
+  - name: Получить значения полей свойства
+    href: catalog-product-property-get.md
+  - name: Получить поля свойства
+    href: catalog-product-property-get-fields.md
+  - name: Получить список свойств
+    href: catalog-product-property-list.md
+  - name: Изменить свойство
+    href: catalog-product-property-update.md

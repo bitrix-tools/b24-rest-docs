@@ -1,7 +1,7 @@
 title: Шаблоны документов 
 href: index.md
 items:
-  - name: Шаблоны документов
+  - name: Обзор методов
     href: index.md
   - name: Получить поля шаблона документа
     href: crm-document-generator-template-get-fields.md

@@ -40,7 +40,7 @@
 - money
 - url
 
-Также будут возвращены [типы](../user-defined-field-types/index.md) пользовательских полей, зарегистрированные текущим приложением.
+Также будут возвращены [типы](../user-defined-fields/userfield-type.md) пользовательских полей, зарегистрированные текущим приложением.
 
 ## Пример
 
@@ -48,7 +48,7 @@
 
 - JS
   
-    ```
+    ```js
     BX24.callMethod(
         "crm.userfield.types",
         {},
@@ -64,7 +64,7 @@
 
 - PHP
   
-    ```
+    ```php
     require_once('crest.php');
 
     $result = CRest::call(
@@ -98,6 +98,26 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.userfield.types
     ```
 
+- PHP (B24PhpSdk)
+
+    ```php
+    try {
+        $userfieldService = $serviceBuilder->getCRMScope()->userfield();
+        $userfieldTypesResult = $userfieldService->types();
+
+        foreach ($userfieldTypesResult->getTypes() as $item) {
+            print("ID: " . $item->ID . "\n");
+            print("Title: " . $item->title . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . "\n");
+    }
+    ```
+
 {% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)

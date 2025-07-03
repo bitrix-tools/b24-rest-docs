@@ -1,0 +1,17 @@
+title: Значения списочных свойств
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить значения списочных свойств
+    href: catalog-product-property-enum-add.md
+  - name: Удалить значения списочных свойств
+    href: catalog-product-property-enum-delete.md
+  - name: Получить значение списочного свойства по идентификатору
+    href: catalog-product-property-enum-get.md
+  - name: Получить поля значений списочных свойств
+    href: catalog-product-property-enum-get-fields.md
+  - name: Получить список списочных свойств
+    href: catalog-product-property-enum-list.md
+  - name: Изменить значения списочных свойств
+    href: catalog-product-property-enum-update.md

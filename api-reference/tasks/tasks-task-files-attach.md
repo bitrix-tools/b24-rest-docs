@@ -38,17 +38,28 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.files.attach',
-    {
-        taskId: 1,
-        fileId: 1065,
-    },
-    function(res) {
-        console.log(res.answer.result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.files.attach',
+        {
+            taskId: 1,
+            fileId: 1065,
+        },
+        function(res) {
+            console.log(res.answer.result);
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
+
+## Продолжить изучение
+
+- [{#T}](../../tutorials/tasks/how-to-upload-file-to-task.md)
+- [{#T}](./deprecated/task-item/task-item-get-files.md)

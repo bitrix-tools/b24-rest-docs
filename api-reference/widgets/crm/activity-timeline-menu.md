@@ -1,15 +1,8 @@
-# Пункт контекстного меню дела в карточке элемента CRM_XXX_ACTIVITY_TIMELINE_MENU
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Пункт контекстного меню дела в карточке элемента CRM_XXX_ACTIVITY_TIMELINE_MENU, CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-
-Вы можете добавлять свой пункт контекстного меню дела в карточке таких объектов CRM как [лиды](../../crm/leads/) и [сделки](../../crm/deals/)
+Вы можете добавить свой пункт контекстного меню дела в карточке объектов CRM: [лиды](../../crm/leads/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md), [пользовательские типы объектов](../../crm/universal/index.md).
 
 ![Виджет в виде пункта контекстного меню дела в лиде](./_images/CRM__ACTIVITY_TIMELINE_MENU.png "Виджет в виде пункта контекстного меню дела в лиде")
 
@@ -19,10 +12,11 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CRM_LEAD_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [лиде](../../crm/leads/) ||
-|| `CRM_DEAL_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [сделке](../../crm/deals/) ||
-|| `CRM_QUOTE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [коммерческом предложении](../../crm/quote/) ||
-|| `CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [пользовательском типе объектов](../../crm/universal/) ||
+|| `CRM_LEAD_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [лиде](../../crm/leads/index.md) ||
+|| `CRM_DEAL_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [сделке](../../crm/deals/index.md) ||
+|| `CRM_QUOTE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [коммерческом предложении](../../crm/quote/index.md) ||
+|| `CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [новых счетах](../../crm/universal/invoice.md) ||
+|| `CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU` |  Пункт контекстного меню дела в пользовательских типах объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_LIST_MENU` ||
 |#
 
 ## Что получает обработчик
@@ -94,6 +88,27 @@
     
     ```
 
+- CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU
+
+    ```php
+
+    Array
+    (
+        [DOMAIN] => xxx.bitrix24.com
+        [PROTOCOL] => 1
+        [LANG] => en
+        [APP_SID] => a2032d292bcc91a22022db330433a933
+        [AUTH_ID] => ee2ad0670076a4b8006f518000000001201c07383646b2116914be86aecd467ade5a3e
+        [AUTH_EXPIRES] => 3600
+        [REFRESH_ID] => dea9f7670076a4b8006f518000000001201c07e183b89e2613ce88ba7c56f8f80f19d9
+        [member_id] => e8857f161a1a8288f312b6cc6ad67995
+        [status] => L
+        [PLACEMENT] => CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU
+        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"32","ASSOCIATED_ENTITY_ID":"238","ASSOCIATED_ENTITY_TYPE_ID":"6"}
+    )
+    
+    ```
+
 - CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU
 
     ```php
@@ -137,33 +152,31 @@
 - любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [т.д.](../../crm/data-types.md#object_type)
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
-- контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
-- компания [crm.comany.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
 
-В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`.
+В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`
 
 ||
 || **ASSOCIATED_ENTITY_ID***
 [`string`](../../data-types.md) | Идентификатор дела CRM, для которого был открыт виджет.
 
-Может быть использован для получения дополнительной информации с помощью метода [crm.activity.get](../../crm/timeline/activities/crm-activity-get.md)
+Может быть использован для получения дополнительной информации с помощью метода [crm.activity.get](../../crm/timeline/activities/activity-base/crm-activity-get.md)
 
 ||
 || **ASSOCIATED_ENTITY_TYPE_ID***
-[`string`](../../data-types.md) | Идентификатор типа дела CRM, для которого был открыт виджет.
+[`string`](../../data-types.md) | Идентификатор типа сущности дела (Activity)
 
 ||
 || **TYPE_ID***
-[`string`](../../data-types.md) | _будет дополнено позже_
+[`string`](../../data-types.md) | Идентификатор типа события
 
 ||
 || **TYPE_CATEGORY_ID***
-[`string`](../../data-types.md) | _будет дополнено позже_
+[`string`](../../data-types.md) | Идентификатор типа записи таймлайна
 
 ||
 || **TIMELINE_ITEM_ID***
-[`string`](../../data-types.md) | _будет дополнено позже_
+[`string`](../../data-types.md) | Идентификатор записи таймлайна
 
 ||
 |#

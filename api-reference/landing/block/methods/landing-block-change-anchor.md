@@ -40,26 +40,32 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.changeAnchor',
-    {
-        lid: 3496,
-        block: 29356,
-        data: 'about'
-    },
-    function (result)
-    {
-        if (result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.changeAnchor',
         {
-            console.error(result.error());
-        }
-        else
+            lid: 3496,
+            block: 29356,
+            data: 'about'
+        },
+        function (result)
         {
-            console.info(result.data());
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

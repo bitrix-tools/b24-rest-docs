@@ -37,7 +37,7 @@ fields:
 }
 ```
 
-Содержимое файла передается в виде base64-строки
+Содержимое файла передается в виде [base64-строки](../../../files/how-to-upload-files.md)
 
 {% note warning %}
 
@@ -66,7 +66,7 @@ fields:
 || **COMMENT***
 [`string`](../../../data-types.md) | Текст комментария ||
 || **FILES**
-[`attached_diskfile`](../../../data-types.md) | Список файлов. Массив значений, описанный по [правилам](../../../bx24-js-sdk/how-to-call-rest-methods/files.md) ||
+[`attached_diskfile`](../../../data-types.md) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-upload-files.md) ||
 |#
 
 ## Примеры кода
@@ -217,3 +217,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-timeline-comment-list.md)
 - [{#T}](./crm-timeline-comment-delete.md)
 - [{#T}](./crm-timeline-comment-fields.md)
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-comment-to-spa.md)

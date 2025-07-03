@@ -1,28 +1,36 @@
-# События
+# Обзор событий при работе со сделками
 
-{% note warning "Мы еще обновляем эту страницу" %}
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении, удалении и перемещении сделок.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
-{% endnote %}
+> Быстрый переход: [все события](#all-events)
 
-{% note info "Права" %}
+## Как получать события
 
-**Scope**: [`crm`](../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
+Подписаться на события [onCrmDealAdd](./on-crm-deal-add.md), [onCrmDealUpdate](./on-crm-deal-update.md) и [onCrmDealDelete](./on-crm-deal-delete.md) можно через:
 
-{% endnote %}
+- [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
+- [приложение](../../../app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
+
+Подписаться на событие [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md) можно только через [приложение](../../../app-installation/index.md) и метод [event.bind](../../../events/event-bind.md).
+
+Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
+
+## Доступность серверов для отправки и получения событий
+
+{% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
+
+## Обзор событий {#all-events}
+
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmDealAdd](./on-crm-deal-add.md) | На создание сделки. ||
-|| [onCrmDealUpdate](./on-crm-deal-update.md) | На изменение сделки. ||
-|| [onCrmDealDelete](./on-crm-deal-delete.md) | На удаление сделки. ||
-|| [onCrmDealUserFieldAdd](./on-crm-deal-user-field-add.md) | На добавление пользовательского поля. ||
-|| [onCrmDealUserFieldUpdate](./on-crm-deal-user-field-update.md) | На изменение пользовательского поля. ||
-|| [onCrmDealUserFieldDelete](./on-crm-deal-user-field-delete.md) | На удаление пользовательского поля. ||
-|| [onCrmDealUserFieldSetEnumValues](./on-crm-deal-user-field-set-enum-values.md) | На изменение набора значений для пользовательского поля списочного типа. ||
-|| [onCrmDealRecurringAdd](./on-crm-deal-recurring-add.md) | На создание новой регулярной сделки. ||
-|| [onCrmDealRecurringUpdate](./on-crm-deal-recurring-update.md) | На изменение регулярной сделки. ||
-|| [onCrmDealRecurringDelete](./on-crm-deal-recurring-delete.md) | На удаление регулярной сделки. ||
-|| [onCrmDealRecurringExpose](./on-crm-deal-recurring-expose.md) | На создание новой сделки из регулярной сделки. ||
+|| [onCrmDealAdd](./on-crm-deal-add.md) | При создании сделки вручную или методом [crm.deal.add](../crm-deal-add.md) ||
+|| [onCrmDealUpdate](./on-crm-deal-update.md) | При изменении сделки вручную или методом [crm.deal.update](../crm-deal-update.md) ||
+|| [onCrmDealDelete](./on-crm-deal-delete.md) | При удалении сделки вручную или методом [crm.deal.delete](../crm-deal-delete.md) ||
+|| [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md) | При изменении воронки сделки вручную или методом [crm.item.update](../../universal/crm-item-update.md) ||
 |#

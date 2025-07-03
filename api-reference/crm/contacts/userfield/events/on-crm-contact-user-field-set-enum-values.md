@@ -1,10 +1,10 @@
-# Событие на изменение набора значений для пользовательского поля списочного типа onCrmContactUserFieldSetEnumValues
+# Событие при изменении набора значений для пользовательского поля списочного типа onCrmContactUserFieldSetEnumValues
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 > 
 > Кто может подписаться: любой пользователь
 
-Событие срабатывает при изменении набора значений для пользовательского поля списочного типа у контактов.
+Событие `onCrmContactUserFieldSetEnumValues` срабатывает при изменении набора значений для пользовательского поля списочного типа у контактов.
 
 ## Что получает обработчик
 
@@ -27,7 +27,7 @@
     "expires_in": "3600",
     "scope": "crm",
     "domain": "some-domain.bitrix24.com",
-    "server_endpoint": "https://oauth.bitrix.info/rest/",
+    "server_endpoint": "https://oauth.bitrix24.tech/rest/",
     "status": "F",
     "client_endpoint": "https://some-domain.bitrix24.com/rest/",
     "member_id": "a223c6b3710f85df22e9377d6c4f7553",

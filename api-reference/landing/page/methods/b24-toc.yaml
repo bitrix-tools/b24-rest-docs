@@ -1,0 +1,38 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить страницу
+    href: landing-landing-add.md
+  - name: Добавить страницу по шаблону
+    href: landing-landing-add-by-template.md
+  - name: Копировать страницу
+    href: landing-landing-copy.md
+  - name: Удалить страницу
+    href: landing-landing-delete.md
+  - name: Получить дополнительные поля
+    href: landing-landing-get-additional-fields.md
+  - name: Получить список страниц
+    href: landing-landing-get-list.md
+  - name: Получить путь до превью страницы
+    href: landing-landing-get-preview.md
+  - name: Получить веб-адрес страницы
+    href: landing-landing-get-public-url.md
+  - name: Пометить страницу как удаленную
+    href: landing-landing-mark-delete.md
+  - name: Пометить страницу как неудаленную
+    href: landing-landing-mark-undelete.md
+  - name: Переместить страницу
+    href: landing-landing-move.md
+  - name: Опубликовать страницу
+    href: landing-landing-publication.md
+  - name: Удалить связанные сущности
+    href: landing-landing-remove-entities.md
+  - name: Получить идентификатор страницы по URL
+    href: landing-landing-resolve-id-by-public-url.md
+  - name: Снять страницу с публикации
+    href: landing-landing-unpublic.md
+  - name: Изменить страницу
+    href: landing-landing-update.md
+

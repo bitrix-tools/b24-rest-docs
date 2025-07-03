@@ -55,7 +55,7 @@
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/on-im-command-add.md).
 
 {% endnote %}
 
@@ -63,26 +63,32 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.command.answer',
-    Array(
-        'COMMAND_ID' => 13,
-        'COMMAND' => 'echo',
-        'MESSAGE_ID' => 1122,
-        'MESSAGE' => 'answer text',
-        'ATTACH' => '',
-        'KEYBOARD' => '',
-        'MENU' => '',
-        'SYSTEM' => 'N',
-        'URL_PREVIEW' => 'Y',
-        'CLIENT_ID' => '',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.command.answer',
+        Array(
+            'COMMAND_ID' => 13,
+            'COMMAND' => 'echo',
+            'MESSAGE_ID' => 1122,
+            'MESSAGE' => 'answer text',
+            'ATTACH' => '',
+            'KEYBOARD' => '',
+            'MENU' => '',
+            'SYSTEM' => 'N',
+            'URL_PREVIEW' => 'Y',
+            'CLIENT_ID' => '',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

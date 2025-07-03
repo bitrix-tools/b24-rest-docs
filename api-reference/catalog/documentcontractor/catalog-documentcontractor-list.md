@@ -50,9 +50,9 @@ catalog.documentcontractor.list(select, filter, order, start)
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX.callMethod(
         'catalog.documentcontractor.list',
         {
@@ -74,7 +74,7 @@ catalog.documentcontractor.list(select, filter, order, start)
     ```
 - Для HTTPS:
 
-    ```
+    ```http
     https://ваш_портал/rest/catalog.documentcontractor.list?auth=_ключ_авторизации_&start=50
     ```
 

@@ -27,10 +27,18 @@
 || [`catalog_catalog.id`](#catalog_catalog) | Целочисленный идентификатор торгового каталога (например, `1`). Получить идентификаторы торговых каталогов можно с помощью метода [catalog.catalog.list](./catalog/catalog-catalog-list.md) ||
 || [`catalog_product.id`](#catalog_product) | Целочисленный идентификатор товара (например, `1`). Получить идентификаторы товаров можно с помощью метода [catalog.product.list](./product/catalog-product-list.md) ||
 || [`catalog_product_sku.id`](#catalog_product_sku) | Целочисленный идентификатор головного товара (например, `1`). Получить идентификаторы головных товаров можно с помощью метода [catalog.product.sku.list](./product/sku/catalog-product-sku-list.md) ||
-|| [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор торгового предложения (например, `1`). Получить идентификаторы торговых предложений можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
+|| [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор вариации товара (например, `1`). Получить идентификаторы вариаций товаров можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
+|| [`catalog_product_image.id`](#catalog_product_image) | Целочисленный идентификатор изображения товара (например, `1`). Получить идентификаторы изображений товаров можно с помощью метода [catalog.productImage.list](./product-image/catalog-product-image-list.md) ||
+|| [`catalog_store.id`](#catalog_store) | Целочисленный идентификатор склада (например, `1`). Получить идентификаторы складов можно с помощью метода [catalog.store.list](./store/catalog-store-list.md) ||
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
-|| [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор секции каталога (например, `1`). Получить идентификаторы разделов товаров можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
+|| [`catalog_ratio.id`](#catalog_ratio) | Целочисленный идентификатор коэффициента единицы измерения (например, `1`). Получить идентификаторы коэффициентов единиц измерения можно с помощью метода [catalog.ratio.list](./ratio/catalog-ratio-list.md) ||
+|| [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
+|| [`catalog_price_type_lang.id`](#catalog_price_type_lang) | Целочисленный идентификатор перевода названий типов цен (например, `1`). Получить идентификаторы переводов можно с помощью метода [catalog.priceTypeLang.list](./price-type/price-type-lang/catalog-price-type-lang-list.md) ||
+|| [`catalog_language.lid`](#catalog_language) | Строковый идентификатор языка, состоящий из двух символов (например, `ru`). Получить идентификаторы языков можно с помощью метода [catalog.priceTypeLang.getLanguages](./price-type/price-type-lang/catalog-price-type-lang-get-languages.md) ||
+|| [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
+|| [`catalog_extra.id`](#catalog_extra) | Целочисленный идентификатор наценки (например, `1`). Получить идентификаторы наценок можно с помощью метода [catalog.extra.list](./extra/catalog-extra-list.md) ||
+|| [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор раздела каталога (например, `1`). Получить идентификаторы разделов каталога можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
 || [`catalog_vat.id`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
 |#
 
@@ -52,12 +60,12 @@
 || **name**
 [`string`](../data-types.md) | Название торгового каталога ||
 || **productIblockId**
-[`integer`](../data-types.md) | Идентификатор родительского информационного блока торгового каталога. Заполняется только для торгового каталога торговых предложений.
+[`integer`](../data-types.md) | Идентификатор родительского информационного блока торгового каталога. Заполняется только для торгового каталога вариаций.
 
 Для получения существующих идентификаторов информационных блоков необходимо использовать [catalog.catalog.list](./catalog/catalog-catalog-list.md)
 ||
 || **skuPropertyId**
-[`integer`](../data-types.md) | Идентификатор свойства, в котором хранится идентификатор родительского товара. Заполняется только для торгового каталога торговых предложений
+[`integer`](../data-types.md) | Идентификатор свойства, в котором хранится идентификатор родительского товара. Заполняется только для торгового каталога вариаций.
 
 Для получения существующих идентификаторов свойств необходимо использовать [catalog.productProperty.list](./product-property/catalog-product-property-list.md)
 ||
@@ -368,8 +376,8 @@
 Для головных товаров возможность редактирования данного поля доступна только в коробочной версии при включенной опции «Показывать вкладку Торговый каталог для товаров, имеющих торговые предложения» ||
 || **type**
 [`integer`](../data-types.md) | Тип товара. Только для чтения. Возможные значения:
-- `3` — головной товар с предложениями
-- `6` — головной товар без предложений
+- `3` — головной товар с вариациями
+- `6` — головной товар без вариаций
 ||
 || **purchasingCurrency**
 [`string`](../data-types.md) | Валюта закупочной цены.
@@ -411,14 +419,14 @@
 || **Значение**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../data-types.md) | Идентификатор торгового предложения ||
+[`integer`](../data-types.md) | Идентификатор вариации товара ||
 || **iblockId**
 [`catalog_catalog.id`](#catalog_catalog) | Идентификатор информационного блока торгового каталога.
 
 Для получения существующих идентификаторов информационных блоков необходимо использовать [catalog.catalog.list](./catalog/catalog-catalog-list.md)
 ||
 || **name**
-[`string`](../data-types.md) | Наименование торгового предложения ||
+[`string`](../data-types.md) | Наименование вариации товара ||
 || **active**
 [`string`](../data-types.md) | Признак активности. Возможные значения:
 - `Y` — да
@@ -444,7 +452,7 @@
 - `N` — нет 
 ||
 || **canBuyZero**
-[`string`](../data-types.md) | Разрешается ли покупка товара при его отсутствии. Возможные значения:
+[`string`](../data-types.md) | Разрешается ли покупка вариации товара при ее отсутствии. Возможные значения:
 - `Y` — да
 - `N` — нет 
 ||
@@ -489,7 +497,7 @@
 || **sort**
 [`integer`](../data-types.md) | Сортировка ||
 || **subscribe**
-[`string`](../data-types.md) | Разрешение подписки на торговое предложение. Возможные значения:
+[`string`](../data-types.md) | Разрешение подписки на вариацию товара. Возможные значения:
 - `Y` — да
 - `N` — нет
 - `D` — по умолчанию
@@ -517,8 +525,8 @@
 ||
 || **type**
 [`integer`](../data-types.md) | Тип товара. Только для чтения. Возможные значения:
-- `4` — предложение
-- `5` — предложение без товара
+- `4` — вариация
+- `5` — вариация без товара
 ||
 || **purchasingCurrency**
 [`string`](../data-types.md) | Валюта закупочной цены.
@@ -570,7 +578,7 @@
 Используется только в коробочной версии для продажи контента
 ||
 || **propertyN**
-[`object\|array`](../data-types.md) | Значение свойства торгового предложения, где `N` — идентификатор свойства. Свойств может быть несколько. 
+[`object\|array`](../data-types.md) | Значение свойства вариации товара, где `N` — идентификатор свойства. Свойств может быть несколько. 
 
 Значение указывается в формате `{valueId: valueId, value: value}` либо в формате `[{valueId: valueId1, value: value1}, ..., {valueId: valueIdN, value: valueN}]`, если свойство множественное. Здесь `valueId` — идентификатор значения свойства, а `value` — значение свойства. 
 
@@ -627,6 +635,8 @@
 [`datetime`](../data-types.md) | Дата изменения. Только для чтения ||
 || **iblockSectionId**
 [`catalog_section.id`](#catalog_section) | Идентификатор раздела информационного блока ||
+|| **measure**
+[`catalog_measure.id`](#catalog_measure) | Единица измерения ||
 || **previewText**
 [`string`](../data-types.md) | Описание для анонса ||
 || **detailText**
@@ -673,6 +683,86 @@
 ||
 |#
 
+### catalog_product_image
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор изображения ||
+|| **name**
+[`string`](../data-types.md) | Наименование изображения ||
+|| **productId**
+[`integer`](../data-types.md) | Идентификатор товара ||
+|| **type**
+[`string`](../data-types.md) | Тип изображения:
+- `DETAIL_PICTURE` — детальная картинка
+- `PREVIEW_PICTURE` — картинка для анонса
+- `MORE_PHOTO` — картинки товара
+||
+|| **createTime**
+[`datetime`](../data-types.md) | Дата создания изображения ||
+|| **downloadUrl**
+[`string`](../data-types.md) | Ссылка для скачивания, подписанная текущим токеном доступа ||
+|| **detailUrl**
+[`string`](../data-types.md) | Ссылка на изображение ||
+|#
+
+### catalog_store
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор склада ||
+|| **address**
+[`string`](../data-types.md) | Адрес склада ||
+|| **title**
+[`string`](../data-types.md) | Название склада ||
+|| **active**
+[`string`](../data-types.md) | Активность. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **description**
+[`string`](../data-types.md) | Описание ||
+|| **gpsN**
+[`double`](../data-types.md) | GPS-широта ||
+|| **gpsS**
+[`double`](../data-types.md) | GPS-долгота ||
+|| **imageId**
+[`object`](../data-types.md) | Изображение. Объект в формате `{fileData: [value1, value2]}`, где:
+- `value1` – название файла картинки с расширением
+- `value2` – картинка в формате base64
+
+Для удаления картинки используйте объект в формате `{remove: ‘Y’}` ||
+|| **dateModify**
+[`datetime`](../data-types.md) | Дата изменения ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания ||
+|| **userId**
+[`user.id`](../data-types.md) | Кем создан ||
+|| **modifiedBy**
+[`user.id`](../data-types.md) | Кем изменен ||
+|| **phone**
+[`string`](../data-types.md) | Телефон ||
+|| **schedule**
+[`string`](../data-types.md) | График работы ||
+|| **xmlId**
+[`string`](../data-types.md) | Внешний код.
+
+Можно использовать для синхронизации текущего склада с аналогичной позицией во внешней системе ||
+|| **sort**
+[`integer`](../data-types.md) | Сортировка ||
+|| **email**
+[`string`](../data-types.md) | E-mail ||
+|| **issuingCenter**
+[`string`](../data-types.md) | Является ли пунктом выдачи. Возможные значения:
+- `Y` – да
+- `N` – нет ||
+|| **code**
+[`string`](../data-types.md) | Символьный код ||
+|#
+
 ### catalog_measure
 
 #|
@@ -699,13 +789,134 @@
 [`string`](../data-types.md) | Международное кодовое буквенное обозначение ||
 |#
 
+### catalog_ratio
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор коэффициента единицы измерения ||
+|| **productId**
+[`integer`](../data-types.md) | Идентификатор товара ||
+|| **ratio**
+[`double`](../data-types.md) | Коэффициент единицы измерения ||
+|| **isDefault**
+[`string`](../data-types.md) | Является ли данный коэффициент единицы измерения коэффициентом по умолчанию. Возможные значения:
+- `Y` — да
+- `N` — нет
+||
+|#
+
+### catalog_price_type
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор типа цены ||
+|| **name**
+[`string`](../data-types.md) | Код типа цены ||
+|| **base**
+[`string`](../data-types.md) | Является ли тип цены базовым. Возможные значения:
+- `Y` — да
+- `N` — нет
+||
+|| **sort**
+[`integer`](../data-types.md) | Сортировка ||
+|| **xmlId**
+[`string`](../data-types.md) | Внешний код.
+
+Можно использовать для синхронизации текущего типа цены с аналогичной позицией во внешней системе ||
+|| **timestampX**
+[`datetime`](../data-types.md) | Дата изменения ||
+|| **createdBy**
+[`user.id`](../data-types.md) | Кем создан ||
+|| **modifiedBy**
+[`user.id`](../data-types.md) | Кем изменен ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания ||
+|#
+
+### catalog_price_type_lang
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор перевода названия типа цены ||
+|| **catalogGroupId**
+[`catalog_price_type.id`](#catalog_price_type) | Идентификатор типа цены ||
+|| **name**
+[`string`](../data-types.md) | Перевод названия типа цены ||
+|| **lang**
+[`catalog_language.lid`](#catalog_language) | Идентификатор языка ||
+|#
+
+### catalog_language
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **lid**
+[`string`](../data-types.md) | Идентификатор языка ||
+|| **name**
+[`string`](../data-types.md) | Название языка ||
+|| **active**
+[`string`](../data-types.md) | Признак активности. Возможные значения:
+- `Y` — да
+- `N` — нет
+||
+|#
+
+### catalog_rounding_rule
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор правила округления цен ||
+|| **catalogGroupId**
+[`catalog_price_type.id`](#catalog_price_type) | Тип цены ||
+|| **price**
+[`double`](../data-types.md) | Минимальная цена для округления ||
+|| **roundType**
+[`integer`](../data-types.md) | Тип округления. Возможные значения:
+- `1` — математическое округление
+- `2` — округление вверх (в пользу магазина)
+- `4` — округление вниз (в пользу клиента)
+||
+|| **roundPrecision**
+[`double`](../data-types.md) | Точность округления ||
+|| **createdBy**
+[`user.id`](../data-types.md) | Кем создано ||
+|| **modifiedBy**
+[`user.id`](../data-types.md) | Кем изменено ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания ||
+|| **dateModify**
+[`datetime`](../data-types.md) | Дата изменения ||
+|#
+
+### catalog_extra
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор наценки ||
+|| **name**
+[`string`](../data-types.md) | Название наценки ||
+|| **percentage**
+[`double`](../data-types.md) | Величина наценки ||
+|#
+
 ### catalog_section
 
 #|
 || **Значение**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../data-types.md) | Идентификатор секции каталога ||
+[`integer`](../data-types.md) | Идентификатор раздела каталога ||
 || **iblockId**
 [`catalog_catalog.id`](#catalog_catalog) | Идентификатор инфоблока.
 
@@ -717,17 +928,17 @@
 
 По умолчанию выбирается верхний уровень ||
 || **name**
-[`string`](../data-types.md) | Название секции каталога ||
+[`string`](../data-types.md) | Название раздела каталога ||
 || **xmlId**
 [`string`](../data-types.md) | Внешний идентификатор.
 
-Можно использовать для синхронизации текущего раздела товаров с аналогичной позицией во внешней системе ||
+Можно использовать для синхронизации текущего раздела каталога с аналогичной позицией во внешней системе ||
 || **code**
-[`string`](../data-types.md) | Код секции каталога ||
+[`string`](../data-types.md) | Код раздела каталога ||
 || **sort**
 [`integer`](../data-types.md) | Сортировка ||
 || **active**
-[`string`](../data-types.md) | Индикатор активности секции каталога:
+[`string`](../data-types.md) | Индикатор активности раздела каталога:
 - `Y` — активен
 - `N` — неактивен ||
 || **description**

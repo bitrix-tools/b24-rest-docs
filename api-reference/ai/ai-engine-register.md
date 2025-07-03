@@ -60,33 +60,39 @@ REST-метод для добавления пользовательского �
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'ai.engine.register',
-    {
-        name: 'Ivanov GPT',
-        code: 'ivanov_gpt',
-        category: 'text',
-        completions_url: 'https://antonds.ru/ai/aul/completions/',
-        settings: {
-            code_alias: 'ChatGPT',
-            model_context_type: 'token',
-            model_context_limit: 16*1024,
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'ai.engine.register',
+        {
+            name: 'Ivanov GPT',
+            code: 'ivanov_gpt',
+            category: 'text',
+            completions_url: 'https://antonds.ru/ai/aul/completions/',
+            settings: {
+                code_alias: 'ChatGPT',
+                model_context_type: 'token',
+                model_context_limit: 16*1024,
+            },
         },
-    },
-    function(result)
-    {
-        if(result.error())
+        function(result)
         {
-            console.error(result.error());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 ## Endpoint
 
@@ -97,12 +103,13 @@ BX24.callMethod(
 {% endnote %}
 
 
-[Шаблон](https://dev.1c-bitrix.ru/docs/chm_files/endpoint.rar) для создания пользовательского endpoint можно использовать для кастомизации собственного сервиса.
+[Шаблон](https://helpdesk.bitrix24.ru/examples/endpoint.zip) для создания пользовательского endpoint можно использовать для кастомизации собственного сервиса.
 
 ## Важные моменты:
 
 1. Скрипт должен принять запрос, отработать его быстро, принять и добавить в свою внутреннюю очередь.
-2. Уметь возвращать различные статусы ответа (есть в примере):
+2. Сервис с типом "image" должен отправлять асинхронные запросы.
+3. Уметь возвращать различные статусы ответа (есть в примере):
   - 200 — обычный переход по ссылке;
   - 202 — если вы приняли запрос и добавили в очередь;
   - 503 — если сервис недоступен.

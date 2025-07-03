@@ -43,32 +43,39 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.block.updatenodes',
-    {
-        lid: 311,
-        block: 6058,
-        data: {
-            '.landing-block-node-text': 'Текст, с html',
-            '.landing-block-node-img': {src: '/some/path/picture.png', alt: 'Моя картинка'},
-            '.landing-block-node-link': {text: 'Моя ссылка', href: 'https://bitrix24.com', target: '_blank'},
-            '.landing-block-node-icon': ['fa-telegram', 'fa-skype'],
-            '.landing-block-node-embed': {src: '//www.youtube.com/embed/q4d8g9Dn3ww?autoplay=1&controls=0&loop=1&mute=1&rel=0', source: 'https://www.youtube.com/watch?v=q4d8g9Dn3ww'},
-        },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.updatenodes',
         {
-            console.error(result.error());
+            lid: 311,
+            block: 6058,
+            data: {
+                '.landing-block-node-text': 'Текст, с html',
+                '.landing-block-node-img': {src: '/some/path/picture.png', alt: 'Моя картинка'},
+                '.landing-block-node-link': {text: 'Моя ссылка', href: 'https://bitrix24.com', target: '_blank'},
+                '.landing-block-node-icon': ['fa-telegram', 'fa-skype'],
+                '.landing-block-node-embed': {src: '//www.youtube.com/embed/q4d8g9Dn3ww?autoplay=1&controls=0&loop=1&mute=1&rel=0', source: 'https://www.youtube.com/watch?v=q4d8g9Dn3ww'},
+            },
         }
-        else
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -93,30 +100,37 @@ BX24.callMethod(
 
 2. Через метод `landing.block.updatenodes` изменяем необходимые параметры. Так сложилось исторически, что динамические параметры (атрибуты) изменяются именно через этот метод.
 
-    ```js
-    BX24.callMethod(
-        'landing.block.updatenodes',
-        {
-            lid: 5597,
-            block: 44131,
-            data: {
-                'bitrix:catalog.section': {
-                    attrs: {
-                        'MESS_BTN_BUY': 'Add to my cart'
+    {% list tabs %}
+
+    - JS
+
+        ```js
+        BX24.callMethod(
+            'landing.block.updatenodes',
+            {
+                lid: 5597,
+                block: 44131,
+                data: {
+                    'bitrix:catalog.section': {
+                        attrs: {
+                            'MESS_BTN_BUY': 'Add to my cart'
+                        }
+                    }
+                },
+                function(result)
+                {
+                    if (result.error())
+                    {
+                        console.error(result.error());
+                    }
+                    else
+                    {
+                        console.info(result.data());
                     }
                 }
-            },
-            function(result)
-            {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.info(result.data());
-                }
             }
-        }
-    );
-    ```
+        );
+        ```
+
+    {% endlist %}
+

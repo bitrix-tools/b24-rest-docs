@@ -1,4 +1,4 @@
-# Пользовательские поля задач task.item.userfield.getfields
+# Получить поля пользовательского поля task.item.userfield.getfields
 
 {% if build == 'dev' %}
 
@@ -30,17 +30,24 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.item.userfield.getfields',
-    {},
-    function(result)
-    {
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.item.userfield.getfields',
+        {},
+        function(result)
+        {
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Список полей

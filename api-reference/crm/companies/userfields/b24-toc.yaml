@@ -1,0 +1,19 @@
+title: Пользовательские поля компаний
+href: index.md
+items:
+  - name: Обзор методов 
+    href: index.md
+  - name: Создать новое поле
+    href: crm-company-userfield-add.md
+  - name: Удалить поле
+    href: crm-company-userfield-delete.md
+  - name: Получить поле по идентификатору
+    href: crm-company-userfield-get.md
+  - name: Получить список полей по фильтру
+    href: crm-company-userfield-list.md
+  - name: Обновить существующее поле
+    href: crm-company-userfield-update.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

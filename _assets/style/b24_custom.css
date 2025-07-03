@@ -91,5 +91,5 @@ blockquote:first-of-type {
 }
 
 .pc-page-constructor .dc-doc-layout__toc {
-    ont-feature-settings: unset;
+    font-feature-settings: unset !important;
 }

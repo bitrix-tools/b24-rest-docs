@@ -1,0 +1,43 @@
+title: Телефония
+href: index.md
+items: 
+  - name: О телефонии в Битрикс24
+    href: index.md
+  - name: Зарегистрировать линию/номер
+    href: telephony-external-line-add.md
+  - name: Изменить линию/номер
+    href: telephony-external-line-update.md  
+  - name: Получить список линий/номеров
+    href: telephony-external-line-get.md
+  - name: Удалить линию/номер
+    href: telephony-external-line-delete.md
+  - name: Найти клиента в CRM по телефонному номеру
+    href: telephony-external-call-search-crm-entities.md
+  - name: Зарегистрировать начало звонка
+    href: telephony-external-call-register.md
+  - name: Открыть карточку звонка у пользователя
+    href: telephony-external-call-show.md
+  - name: Скрыть карточку звонка у пользователя
+    href: telephony-external-call-hide.md
+  - name: Завершить звонок
+    href: telephony-external-call-finish.md
+  - name: Прикрепить запись звонка
+    href: telephony-external-call-attach-record.md
+  - name: Добавить расшифровку записи к звонку
+    href: telephony-call-attach-transcription.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: SIP и встроенная телефония
+    include:
+      path: voximplant/b24-toc.yaml
+      mode: link
+  - name: Виджеты
+    href: widgets.md
+  - name: Получить список звонков
+    href: voximplant-statistic-get.md
+
+
+
+

@@ -1,0 +1,35 @@
+title: Календарь
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить новый календарь
+    href: calendar-section-add.md
+  - name: Обновить календарь
+    href: calendar-section-update.md
+  - name: Получить список календарей
+    href: calendar-section-get.md
+  - name: Удалить календарь
+    href: calendar-section-delete.md
+  - name: Получить основные настройки календаря
+    href: calendar-settings-get.md
+  - name: Получить пользовательские настройки календаря
+    href: calendar-user-settings-get.md
+  - name: Установить пользовательские настройки календаря
+    href: calendar-user-settings-set.md
+  - name: Как встроить приложение в календарь
+    href: calendar-grid-veiw.md
+  - name: События календаря
+    include:
+      path: calendar-event/b24-toc.yaml
+      mode: link
+  - name: Бронирование ресурсов
+    include:
+      path: resource/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+
+

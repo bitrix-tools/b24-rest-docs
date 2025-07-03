@@ -1,0 +1,19 @@
+title: Пользовательские поля
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить пользовательское поле
+    href: task-item-user-field-add.md
+  - name: Обновить пользовательское поле
+    href: task-item-user-field-update.md
+  - name: Получить пользовательское поле по id
+    href: task-item-user-field-get.md
+  - name: Получить список пользовательских полей
+    href: task-item-user-field-get-list.md
+  - name: Удалить пользовательское поле
+    href: task-item-user-field-delete.md
+  - name: Получить список доступных типов данных
+    href: task-item-user-field-get-types.md
+  - name: Получить поля пользовательских полей
+    href: task-item-user-field-get-fields.md

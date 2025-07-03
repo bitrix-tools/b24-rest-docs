@@ -1,0 +1,13 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список блоков
+    href: landing-repo-get-list.md
+  - name: Добавить блок в репозиторий
+    href: landing-repo-register.md
+  - name: Удалить блок
+    href: landing-repo-unregister.md
+  - name: Проверить контент на опасные подстроки
+    href: landing-repo-check-content.md

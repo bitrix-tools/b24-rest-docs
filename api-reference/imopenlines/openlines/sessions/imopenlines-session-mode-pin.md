@@ -1,4 +1,4 @@
-# Забрать или отдать диалог по Id imopenlines.session.mode.pin
+# Закрепить или открепить диалог imopenlines.session.mode.pin
 
 {% note warning "Мы еще обновляем эту страницу" %}
 

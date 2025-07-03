@@ -41,19 +41,26 @@ crm.vat.delete(id)
 
 ## Примеры
 
-```javascript
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.vat.delete",
-    { "id": id },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+  
+    ```javascript
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.vat.delete",
+        { "id": id },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

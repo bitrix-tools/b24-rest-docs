@@ -42,9 +42,9 @@ catalog.document.mode.status()
 
 {% list tabs %}
 
-- js
+- JS
   
-    ```
+    ```js
     BX24.callMethod(
         'catalog.document.mode.status',
         {},
@@ -58,9 +58,9 @@ catalog.document.mode.status()
     );
     ```
 
-- php
+- PHP
   
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.mode.status'
     );

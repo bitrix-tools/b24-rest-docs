@@ -1,0 +1,35 @@
+title: Склад
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить документ складского учета
+    href: catalog-document-add.md
+  - name: Отменить проведение документа
+    href: catalog-document-cancel.md
+  - name: Выполнить групповую отмену проведения документов
+    href: catalog-document-cancel-list.md
+  - name: Провести документ
+    href: catalog-document-conduct.md
+  - name: Выполнить групповое проведение документов
+    href: catalog-document-conduct-list.md 
+  - name: Удалить документ
+    href: catalog-document-delete.md
+  - name: Выполнить групповое удаление документов
+    href: catalog-document-delete-list.md
+  - name: Получить поля документа складского учета
+    href: catalog-document-get-fields.md
+  - name: Получить список документов
+    href: catalog-document-list.md
+  - name: Получить информацию о режиме складского учета
+    href: catalog-document-mode-status.md
+  - name: Изменить документ
+    href: catalog-document-update.md
+  - name: Товары документа складского учета
+    include:
+      path: document-element/b24-toc.yaml
+      mode: link
+  - name: Устаревшие методы складского учета
+    include:
+      path: outdated/b24-toc.yaml
+      mode: link

@@ -1,0 +1,17 @@
+title: Провайдеры сообщений, SMS-провайдеры
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Зарегистрировать провайдер
+    href: messageservice-sender-add.md
+  - name: Обновить провайдер
+    href: messageservice-sender-update.md
+  - name: Получить список провайдеров
+    href: messageservice-sender-list.md
+  - name: Удалить провайдер
+    href: messageservice-sender-delete.md
+  - name: Обновить статус доставки сообщения
+    href: messageservice-message-status-update.md
+  - name: Пример провайдера сообщений
+    href: tutorial.md

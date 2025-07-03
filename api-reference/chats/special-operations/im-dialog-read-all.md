@@ -28,13 +28,19 @@
 
 ## Примеры
 
-```js
-B24.callMethod(
-    'im.dialog.read.all',
-    {},
-    res => console.log(res.data())
-)
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'im.dialog.read.all',
+        {},
+        res => console.log(res.data())
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

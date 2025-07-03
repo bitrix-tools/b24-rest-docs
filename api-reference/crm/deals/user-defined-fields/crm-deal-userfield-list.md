@@ -33,35 +33,52 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "crm.deal.userfield.list",
-    {
-        order: { "SORT": "ASC" },
-        filter: { "MANDATORY": "N" }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.deal.userfield.list",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            order: { "SORT": "ASC" },
+            filter: { "MANDATORY": "N" }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 Как получить список полей с названиями:
 
-```js
-crm.deal.userfield.list
-{
-    order: { "SORT": "ASC" },
-    filter: { LANG: 'ru' }
-}
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    crm.deal.userfield.list
+    {
+        order: { "SORT": "ASC" },
+        filter: { LANG: 'ru' }
+    }
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
+- [{#T}](../../../../tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-date-to-deal.md)

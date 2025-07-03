@@ -39,22 +39,30 @@
 
 ### Пример
 
-```js
-BX24.callMethod(
-    'messageservice.message.status.update',
-    {
-        CODE: 'provider1',
-        message_id: 1,
-        status: 'delivered'
-    },
-    function(result)
-    {
-        if(result.error())
-            alert("Ошибка: " + result.error());
-        else
-            alert("Успешно: " + result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'messageservice.message.status.update',
+        {
+            CODE: 'provider1',
+            message_id: 1,
+            status: 'delivered'
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Ошибка: " + result.error());
+            else
+                alert("Успешно: " + result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
+
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

@@ -57,7 +57,7 @@ fields:
 || **COMMENT**
 [`string`](../../../data-types.md) | Текст комментария ||
 || **FILES**
-[`attached_diskfile`](../../../data-types.md) | Список файлов. Массив значений, описанный по [правилам](../../../bx24-js-sdk/how-to-call-rest-methods/files.md) ||
+[`attached_diskfile`](../../../data-types.md) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-update-files.md) ||
 |#
 
 ## Примеры кода

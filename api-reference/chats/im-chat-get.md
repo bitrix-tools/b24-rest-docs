@@ -28,17 +28,17 @@
 Метод `im.chat.get` получает идентификатор чата.
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
+|| **Параметр** | **Пример** | **Описание** ||
 || **ENTITY_TYPE^*^**
-[`unknown`]../data-types.md) | `CRM` | Идентификатор сущности. Может быть использован для поиска чата и для легкого определения контекста в обработчиках событий:
-- [ONIMBOTMESSAGEADD](.),
-- [ONIMBOTMESSAGEUPDATE](.),
-- [ONIMBOTMESSAGEDELETE](.) | 18 ||
+[`unknown`](../data-types.md) | `CRM`, `LINES`, `LIVECHAT` | Идентификатор сущности. Может быть использован для поиска чата и для легкого определения контекста в обработчиках событий:
+- [ONIMBOTMESSAGEADD](../chat-bots/messages/events/on-imbot-message-add.md),
+- [ONIMBOTMESSAGEUPDATE](../chat-bots/messages/events/on-imbot-message-update.md),
+- [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) ||
 || **ENTITY_ID^*^**
 [`unknown`](../data-types.md) | `LEAD`\|`13` | Числовой идентификатор сущности. Может быть использован для поиска чата и для легкого определения контекста в обработчиках событий:
-- [ONIMBOTMESSAGEADD](.),
-- [ONIMBOTMESSAGEUPDATE](.),
-- [ONIMBOTMESSAGEDELETE](.) | 18 ||
+- [ONIMBOTMESSAGEADD](../chat-bots/messages/events/on-imbot-message-add.md),
+- [ONIMBOTMESSAGEUPDATE](../chat-bots/messages/events/on-imbot-message-update.md),
+- [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) ||
 |#
 
 {% include [Сноска о параметрах](../../_includes/required.md) %}
@@ -47,18 +47,43 @@
 
 {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.chat.get',
-    Array(
-        'ENTITY_TYPE' => 'CRM',
-        'ENTITY_ID' => 'LEAD|13',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'im.chat.get',
+        {
+            ENTITY_TYPE: "LINES",
+            ENTITY_ID: "telegrambot|2|209607941|744"
+        
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
+    ```
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.chat.get',
+        Array(
+            'ENTITY_TYPE' => 'CRM',
+            'ENTITY_ID' => 'LEAD|13',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

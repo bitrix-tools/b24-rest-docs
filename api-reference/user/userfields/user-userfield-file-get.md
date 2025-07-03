@@ -2,6 +2,8 @@
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
+страница скрыта из меню, метод не работает
+
 Тут может не хватать некоторых данных — дополним в ближайшее время
 
 {% endnote %}
@@ -45,13 +47,19 @@
         )
 )
 ```
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 Запрос вебхуком:
 
-```http
-/rest/1/a2ebx1rfao5pq5cr/user.userfield.file.get?id=1&field=UF_USR_1604998606834&value=774
-```
+{% list tabs %}
+
+- URL-запрос
+
+    ```http
+    /rest/1/a2ebx1rfao5pq5cr/user.userfield.file.get?id=1&field=UF_USR_1604998606834&value=774
+    ```
+
+{% endlist %}
+
 {% note info "" %}
 
 Метод возвращает файл как контент на загрузку, а не json/xml.

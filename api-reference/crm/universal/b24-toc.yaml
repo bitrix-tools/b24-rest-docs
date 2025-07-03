@@ -37,11 +37,7 @@ items:
       mode: link
   - name: Настройки пользовательских полей
     include:
-      path: userfieldconfig/toc.yaml
-      mode: link
-  - name: Пользовательские типы полей
-    include:
-      path: user-defined-field-types/toc.yaml
+      path: userfieldconfig/b24-toc.yaml
       mode: link
   - name: Воронки CRM
     include:

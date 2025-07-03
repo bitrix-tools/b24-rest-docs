@@ -81,6 +81,25 @@
     echo '</PRE>';
     ```
 
+- PHP (B24PhpSdk)
+  
+    ```php       
+    try {
+        $productId = 123; // Replace with the actual product ID you want to delete
+        $result = $serviceBuilder
+            ->getCatalogScope()
+            ->product()
+            ->delete($productId);
+        if ($result->isSuccess()) {
+            print("Product with ID {$productId} was deleted successfully.");
+        } else {
+            print("Failed to delete product with ID {$productId}.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

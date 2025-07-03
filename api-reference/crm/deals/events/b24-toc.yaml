@@ -1,27 +1,13 @@
 title: События
 href: index.md
 items: 
-  - name: События 
+  - name: Обзор событий
     href: index.md
-  - name: На создание сделки 
+  - name: При создании сделки 
     href: on-crm-deal-add.md
-  - name: На изменение сделки 
+  - name: При изменении сделки 
     href: on-crm-deal-update.md
-  - name: На удаление сделки 
+  - name: При удалении сделки 
     href: on-crm-deal-delete.md
-  - name: На добавление пользовательского поля 
-    href: on-crm-deal-user-field-add.md
-  - name: На изменение пользовательского поля 
-    href: on-crm-deal-user-field-update.md
-  - name: На удаление пользовательского поля 
-    href: on-crm-deal-user-field-delete.md
-  - name: На изменение набора значений для пользовательского поля списочного типа
-    href: on-crm-deal-user-field-set-enum-values.md
-  - name: На создание новой регулярной сделки
-    href: on-crm-deal-recurring-add.md
-  - name: На изменение регулярной сделки
-    href: on-crm-deal-recurring-update.md
-  - name: На удаление регулярной сделки
-    href: on-crm-deal-recurring-delete.md
-  - name: На создание новой сделки из регулярной сделки
-    href: on-crm-deal-recurring-expose.md
+  - name: При изменении воронки сделки
+    href: on-crm-deal-move-to-category.md

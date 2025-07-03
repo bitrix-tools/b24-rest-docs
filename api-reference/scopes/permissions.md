@@ -17,7 +17,9 @@
 #|
 || **Код скоупа** | **Название скоупа**| **Инструмент Битрикс24**||
 || **ai_admin** | [Канал для регистрации пользовательского сервиса для обработки запросов](../ai/index.md)| Копилот ||
+|| **biconnector** | [Коннектор BI-аналитики](../biconnector/index.md) | BIconnector ||
 || **bizproc** | [Бизнес-процессы](../bizproc/index.md) | Бизнес-процессы, RPA, роботы CRM ||
+|| **booking** | [Онлайн-запись](../booking/index.md) | Онлайн-запись ||
 || **calendar** | [Календарь](../calendar/index.md) | Календарь ||
 || **call** | Телефония (совершение звонков). В скоуп входят методы: [voximplant.infocall.startwithsound](../telephony/voximplant/voximplant-infocall-start-with-sound.md), [voximplant.infocall.startwithtext](../telephony/voximplant/voximplant-infocall-start-with-text.md)| Телефония ||
 || **cashbox** | [Кассы](../sale/cashbox/index.md) | Кассы ||
@@ -40,6 +42,7 @@
 || **pull** | [Pull&Push](../interactivity/push-and-pull/index.md) | Pull&Push ||
 || **rpa** | [Роботизация бизнеса](../outdated/rpa/index.md) | Роботизация бизнеса ||
 || **sale** | [Интернет-магазин](../sale/index.md) | Интернет-магазин ||
+|| **sign.b2e** | [КЭДО + Госключ](../sign/index.md) | КЭДО, Подпись ||
 || **sonet_group, socialnetwork** | [Рабочие группы соцсети](../sonet-group/sonet-group-create.md) | Рабочие группы соцсети ||
 || **task** | [Задачи](../tasks/index.md) | Задачи ||
 || **telephony** | [Телефония](../telephony/index.md) | Телефония ||

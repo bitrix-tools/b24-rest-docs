@@ -38,35 +38,41 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.fullExport',
-    {
-        id: 326,
-        params: {
-            edit_mode: 'Y',
-            //scope: 'knowledge',//передаем scope, если требуется ([подробнее](.))
-            hooks_disable: ['B24BUTTON_CODE'],//коды доп.полей, которые не надо экспртировать
-            code: 'myfirstsite',//симв.код сайта
-            name: 'Сайт автомастерской',//имя сайта (страницы)
-            description: 'Сайт для вашего автосервиса. Под капотом все самое нужное.',//описание сайта
-            preview: 'http://site.ru/preview.jpg',//основная превью-картинка для списка шаблонов (реком. 280x115)
-            preview2x: 'http://site.ru/preview.jpg',//увеличенная превью-картинка (рекомен. 560x230)
-            preview3x: 'http://site.ru/preview.jpg'//ретина-размер превью картинки (рекомен. 845x345)
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.fullExport',
         {
-            console.error(result.error());
-        }
-        else
+            id: 326,
+            params: {
+                edit_mode: 'Y',
+                //scope: 'knowledge',//передаем scope, если требуется ([подробнее](.))
+                hooks_disable: ['B24BUTTON_CODE'],//коды доп.полей, которые не надо экспртировать
+                code: 'myfirstsite',//симв.код сайта
+                name: 'Сайт автомастерской',//имя сайта (страницы)
+                description: 'Сайт для вашего автосервиса. Под капотом все самое нужное.',//описание сайта
+                preview: 'http://site.ru/preview.jpg',//основная превью-картинка для списка шаблонов (реком. 280x115)
+                preview2x: 'http://site.ru/preview.jpg',//увеличенная превью-картинка (рекомен. 560x230)
+                preview3x: 'http://site.ru/preview.jpg'//ретина-размер превью картинки (рекомен. 845x345)
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

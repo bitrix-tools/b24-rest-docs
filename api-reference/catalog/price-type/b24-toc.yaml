@@ -1,0 +1,29 @@
+title: Типы цен
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать тип цены
+    href: catalog-price-type-add.md
+  - name: Обновить тип цены
+    href: catalog-price-type-update.md
+  - name: Получить значения полей типа цены
+    href: catalog-price-type-get.md
+  - name: Получить список типов цен
+    href: catalog-price-type-list.md
+  - name: Удалить тип цены
+    href: catalog-price-type-delete.md
+  - name: Получить поля типа цены
+    href: catalog-price-type-get-fields.md
+  - name: Переводы названий типов цен
+    include:
+      path: price-type-lang/b24-toc.yaml
+      mode: link
+  - name: Привязка типов цен к группам покупателей
+    include:
+      path: price-type-group/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

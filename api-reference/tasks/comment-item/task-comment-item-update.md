@@ -1,4 +1,4 @@
-# Измененить комментарий task.commentitem.update
+# Обновить комментарий task.commentitem.update
 
 {% if build == 'dev' %}
 
@@ -48,16 +48,23 @@
 
 ## Пример
 
-```js
-// Обновить комментарий с ID=1205, задав текст "HI"
+{% list tabs %}
 
-BX24.callMethod(
-    'task.commentitem.update',
-    [13, 1205, {'POST_MESSAGE': 'HI'}],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+- JS
+
+    ```js
+    // Обновить комментарий с ID=1205, задав текст "HI"
+
+    BX24.callMethod(
+        'task.commentitem.update',
+        [13, 1205, {'POST_MESSAGE': 'HI'}],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

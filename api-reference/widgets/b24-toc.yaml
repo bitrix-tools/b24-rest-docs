@@ -1,0 +1,71 @@
+title: Виджеты
+href: index.md
+items: 
+  - name: Механизм встройки виджетов 
+    href: index.md
+  - name: UI Kit 
+    include:
+      path: ui-kit/b24-toc.yaml
+      mode: link
+  - name: Частые кейсы 
+    href: tutorials.md
+  - name: Места для встройки виджетов 
+    href: placements.md
+  - name: Виджеты в главном меню
+    href: left-menu.md
+  - name: Виджеты в CRM
+    include:
+      path: crm/b24-toc.yaml
+      mode: link
+  - name: Виджеты в задачах
+    include:
+      path: task/b24-toc.yaml
+      mode: link
+  - name: Виджеты в рабочих группах/проектах
+    include:
+      path: workgroups/b24-toc.yaml
+      mode: link
+  - name: Виджеты в профиле пользователя
+    include:
+      path: user-profile/b24-toc.yaml
+      mode: link
+  - name: Виджет в календаре
+    href: calendar.md
+  - name: Виджеты в телефонии
+    include:
+      path: telephony/b24-toc.yaml
+      mode: link
+  - name: Виджеты в мессенджере
+    include:
+      path: im/b24-toc.yaml
+      mode: link
+  - name: Виджет в контакт-центре
+    href: contact-center.md
+  - name: Универсальные виджеты
+    include:
+      path: universal/b24-toc.yaml
+      mode: link
+  - name: Встройка в мобильное приложение Битрикс24
+    href: mobile-app.md
+  - name: Зарегистрировать виджет
+    href: placement-bind.md
+  - name: Получить информацию о виджете по Id
+    href: placement-get.md
+  - name: Получить список виджетов
+    href: placement-list.md
+  - name: Отменить регистрацию виджета
+    href: placement-unbind.md
+  - name: Вызвать стандартные слайдеры
+    href: open-path.md
+  - name: Открыть кастомный слайдер
+    href: open-application.md
+  - name: Закрыть кастомный слайдер
+    href: close-application.md
+  - name: Взаимодействие с UI из виджетов
+    include:
+      path: ui-interaction/b24-toc.yaml
+      mode: link
+  - name: Встраивание в виде пользовательских типов полей
+    include:
+      path: user-field/b24-toc.yaml
+      mode: link

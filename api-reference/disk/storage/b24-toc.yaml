@@ -1,0 +1,23 @@
+title: Хранилище
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать папку в корне хранилища
+    href: disk-storage-add-folder.md
+  - name: Список файлов и папок в корне хранилища
+    href: disk-storage-get-children.md
+  - name: Получить поля хранилища
+    href: disk-storage-get-fields.md
+  - name: Получить описание хранилища для приложения
+    href: disk-storage-get-for-app.md
+  - name: Получить список доступных хранилищ
+    href: disk-storage-get-list.md
+  - name: Получить типы хранилищ
+    href: disk-storage-get-types.md
+  - name: Получить описание хранилища
+    href: disk-storage-get.md
+  - name: Переименовать хранилище
+    href: disk-storage-rename.md
+  - name: Загрузить файл в хранилище
+    href: disk-storage-upload-file.md

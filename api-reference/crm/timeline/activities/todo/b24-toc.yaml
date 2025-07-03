@@ -1,0 +1,17 @@
+title: Универсальное дело
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить универсальное дело
+    href: crm-activity-todo-add.md
+  - name: Обновить универсальное дело
+    href: crm-activity-todo-update.md
+  - name: Обновить цвет универсального дела
+    href: crm-activity-todo-update-color.md   
+  - name: Обновить крайний срок универсального дела
+    href: crm-activity-todo-update-deadline.md
+  - name: Обновить описание универсального дела
+    href: crm-activity-todo-update-description.md
+  - name: Обновить ответственного за универсальное дело
+    href: crm-activity-todo-update-responsible-user.md

@@ -1,10 +1,10 @@
-# Проверить существование потока tasks.flow.flow.isExists
+# Проверить существование потока tasks.flow.Flow.isExists
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.flow.flow.isExists` проверяет, существует ли поток с указанным именем. Если указан `id`, проверяет, существуют ли потоки с таким же именем, кроме указанного.
+Метод `tasks.flow.Flow.isExists` проверяет, существует ли поток с указанным именем. Если указан `id`, проверяет, существуют ли потоки с таким же именем, кроме указанного.
 
 ## Параметры метода
 
@@ -20,7 +20,7 @@
 || **id** 
 [`integer`](../../data-types.md) | Идентификатор потока для исключения из проверки (необязательный). 
 
-Получить идентификатор можно при помощи метода [tasks.task.get](../tasks-task-get.md) для задачи, уже добавленной в поток, либо создать новый поток при помощи метода [tasks.flow.flow.create](./tasks-flow-flow-create.md) ||
+Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
 |#
 
 ## Примеры кода
@@ -39,7 +39,7 @@
             "name": "Flow Name"
         }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.flow.isExists
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.isExists
     ```
 
 - cURL (oAuth)
@@ -53,14 +53,14 @@
             "name": "Flow Name"
         }
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.flow.isExists
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.isExists
     ```
 
 - JS
 
     ```js
     BX24.callMethod(
-        'tasks.flow.flow.isExists',
+        'tasks.flow.Flow.isExists',
         {
             flowData: {
                 name: 'Flow Name'
@@ -87,7 +87,7 @@
 
     // выполнение запроса к REST API
     $result = CRest::call(
-        'tasks.flow.flow.isExists',
+        'tasks.flow.Flow.isExists',
         [
             'flowData' => $flowData
         ]
@@ -143,7 +143,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Дополнительная информация** ||
-|| `0` | Доступ запрещен или поток не найден | Возможно, тариф портала не позволяет работать с потоками или у пользователя нет прав на выполнение проверки ||
+|| `0` | Доступ запрещен или поток не найден | Тариф портала не позволяет работать с потоками или у пользователя нет прав на выполнение проверки ||
 || `0` | `Unknown error` | Неизвестная ошибка ||
 |#
 
@@ -152,7 +152,8 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./tasks-flow-flow-create.md)
-- [{#T}](./tasks-flow-flow-get.md)
 - [{#T}](./tasks-flow-flow-update.md)
+- [{#T}](./tasks-flow-flow-get.md)
 - [{#T}](./tasks-flow-flow-delete.md)
 - [{#T}](./tasks-flow-flow-activate.md)
+- [{#T}](./tasks-flow-flow-pin.md)

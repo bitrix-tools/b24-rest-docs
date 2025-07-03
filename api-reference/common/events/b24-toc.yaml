@@ -1,0 +1,15 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: После успешной установки приложения
+    href: on-app-install.md
+  - name: При удалении приложения
+    href: on-app-uninstall.md
+  - name: При оплате приложения
+    href: on-app-payment.md
+  - name: При получении разрешения на использование методов
+    href: on-app-method-confirm.md
+  - name: При добавлении пользователя
+    href: on-user-add.md

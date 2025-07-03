@@ -9,6 +9,8 @@ items:
     href: crm-type-update.md
   - name: Получить пользовательский тип по id
     href: crm-type-get.md
+  - name: Получить пользовательский тип по entityTypeId
+    href: crm-type-get-by-entity-type-id.md
   - name: Получить список пользовательских типов
     href: crm-type-list.md
   - name: Удалить пользовательский тип

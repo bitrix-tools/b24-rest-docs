@@ -1,0 +1,23 @@
+title: Элементы
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Создать новый элемент процесса
+    href: rpa-item-add.md
+  - name: Изменить элемент процессса
+    href: rpa-item-update.md
+  - name: Получить информацию об элементе
+    href: rpa-item-get.md
+  - name: Получить массив элементов процесса
+    href: rpa-item-list.md
+  - name: Получить данные о текущих заданиях элемента
+    href: rpa-item-get-tasks.md
+  - name: Удалить элемент
+    href: rpa-item-delete.md
+
+
+
+
+
+

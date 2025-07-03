@@ -1,0 +1,13 @@
+title: Связь с дополнительными объектами
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Установить связи для записи в лист ожидания 
+    href: booking-v1-waitlist-externaldata-set.md
+  - name: Удалить связи для записи в лист ожидания
+    href: booking-v1-waitlist-externaldata-unset.md      
+  - name: Получить связи записи в лист ожидания
+    href: booking-v1-waitlist-externaldata-list.md
+                 
+

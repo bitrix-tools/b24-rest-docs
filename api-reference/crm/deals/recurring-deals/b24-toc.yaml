@@ -1,9 +1,9 @@
-title: Рекурентные сделки
+title: Регулярные сделки
 href: index.md
 items: 
-  - name: Что такое рекурентная сделка?
+  - name: Обзор методов
     href: index.md
-  - name: Создать новую рекурентную сделку
+  - name: Создать новую регулярную сделку
     href: crm-deal-recurring-add.md
   - name: Получить список полей шаблона регулярной сделки
     href: crm-deal-recurring-fields.md
@@ -17,3 +17,7 @@ items:
     href: crm-deal-recurring-list.md
   - name: Удалить существующую настройку для шаблона регулярной сделки
     href: crm-deal-recurring-delete.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

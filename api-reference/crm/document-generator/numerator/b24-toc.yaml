@@ -1,7 +1,7 @@
 title: Нумераторы 
 href: index.md
 items:
-  - name: Нумераторы
+  - name: Обзор методов
     href: index.md
   - name: Добавить новый нумератор
     href: crm-document-generator-numerator-add.md

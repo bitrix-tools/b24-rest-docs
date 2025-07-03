@@ -65,7 +65,7 @@ Array(
 
 {% note warning %}
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/index.md).
+Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/on-im-command-add.md).
 
 {% endnote %}
 
@@ -88,30 +88,36 @@ Array(
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.command.register',
-    Array(
-        'BOT_ID' => 62,
-        'COMMAND' => 'echo',
-        'COMMON' => 'Y',
-        'HIDDEN' => 'N',
-        'EXTRANET_SUPPORT' => 'N',
-        'CLIENT_ID' => '',
-        'LANG' => Array(
-            Array(
-                'LANGUAGE_ID' => 'en',
-                'TITLE' => 'Get echo message',
-                'PARAMS' => 'some text'
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.command.register',
+        Array(
+            'BOT_ID' => 62,
+            'COMMAND' => 'echo',
+            'COMMON' => 'Y',
+            'HIDDEN' => 'N',
+            'EXTRANET_SUPPORT' => 'N',
+            'CLIENT_ID' => '',
+            'LANG' => Array(
+                Array(
+                    'LANGUAGE_ID' => 'en',
+                    'TITLE' => 'Get echo message',
+                    'PARAMS' => 'some text'
+                ),
             ),
+            'EVENT_COMMAND_ADD' => 'http://www.hazz/chatApi/bot.php',
         ),
-        'EVENT_COMMAND_ADD' => 'http://www.hazz/chatApi/bot.php',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -137,5 +143,5 @@ $result = restCommand(
 
 ## Ссылки по теме
 
-- [Событие на получение чат-ботом команды ONIMCOMMANDADD](./events/index.md)
+- [Событие на получение чат-ботом команды ONIMCOMMANDADD](./events/on-im-command-add.md)
 

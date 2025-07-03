@@ -1,0 +1,39 @@
+title: Товары
+href: index.md
+items:
+  - name: Список методов
+    href: index.md
+  - name: Добавить товар
+    href: crm-product-add.md
+  - name: Удалить товар
+    href: crm-product-delete.md
+  - name: Получить поля товара
+    href: crm-product-fields.md
+  - name: Получить товар по идентификатору
+    href: crm-product-get.md
+  - name: Получить список товаров по фильтру
+    href: crm-product-list.md
+  - name: Изменить товар
+    href: crm-product-update.md
+  - name: Получить список типов свойств товаров
+    href: crm-product-property-types.md
+  - name: Получить поля свойств товаров
+    href: crm-product-property-fields.md
+  - name: Получить поля дополнительных настроек свойств пользовательского типа
+    href: crm-product-property-settings-fields.md
+  - name: Получить поля элемента свойства списочного типа
+    href: crm-product-property-enumeration-fields.md
+  - name: Добавить свойство товаров
+    href: crm-product-property-add.md
+  - name: Получить свойство товаров по идентификатору
+    href: crm-product-property-get.md
+  - name: Получить список свойств товаров
+    href: crm-product-property-list.md
+  - name: Изменить свойство товаров
+    href: crm-product-property-update.md
+  - name: Удалить свойство товаров
+    href: crm-product-property-delete.md
+  - name: События 
+    include:
+      path: events-custom/b24-toc.yaml
+      mode: link

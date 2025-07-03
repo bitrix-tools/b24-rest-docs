@@ -26,46 +26,50 @@
 catalog.productPropertySection.list(select, filter, order, start)
 ```
 
-Метод получает список секционных настроек свойств товаров или торговых предложений по фильтру.
+Метод получает список секционных настроек свойств товаров или вариаций по фильтру.
 
 ## Параметры
 
 #|
 || **Параметр** | **Описание** ||
 || **select** 
-[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-section-set.md), а также **propertyId** (идентификатор свойства товаров или торговых предложений).||
+[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-section-set.md), а также **propertyId** (идентификатор свойства товаров или вариаций) ||
 || **filter** 
-[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-section-set.md), а также **propertyId** (идентификатор свойства товаров или торговых предложений). ||
+[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-section-set.md), а также **propertyId** (идентификатор свойства товаров или вариаций) ||
 || **order**
-[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-section-set.md), а также **propertyId** (идентификатор свойства товаров или торговых предложений). ||
+[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-section-set.md), а также **propertyId** (идентификатор свойства товаров или вариаций) ||
 || **start** 
-[`string`](../../data-types.md)| Номер страницы вывода. Работает для https запросов. ||
+[`string`](../../data-types.md)| Номер страницы вывода. Работает для https запросов ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 ## Примеры
 
-Для JS
+{% list tabs %}
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertySection.list',
-    {
-        filter:{
-            propertyId: 128
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productPropertySection.list',
+        {
+            filter:{
+                propertyId: 128
+            },
         },
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-        result.next();
-    }
-);
-```
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+            result.next();
+        }
+    );
+    ```
+
+{% endlist %}
 
 Пример HTTPS запроса
 

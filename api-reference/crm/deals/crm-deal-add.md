@@ -340,6 +340,34 @@
     echo '</PRE>';
     ```
 
+- PHP (B24PhpSdk)
+  
+    ```php        
+    try {
+        $fields = [
+            'TITLE' => 'New Deal',
+            'TYPE_ID' => 'GIG',
+            'CATEGORY_ID' => '1',
+            'STAGE_ID' => 'C1:NEW',
+            'CURRENCY_ID' => 'USD',
+            'OPPORTUNITY' => '10000',
+            'BEGINDATE' => (new DateTime())->format(DateTime::ATOM),
+            'CLOSEDATE' => (new DateTime('+1 month'))->format(DateTime::ATOM),
+            'COMMENTS' => 'This is a test deal.',
+        ];
+        $params = [
+            'REGISTER_SONET_EVENT' => 'Y',
+        ];
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->deal()
+            ->add($fields, $params);
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -405,3 +433,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-list.md)
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)

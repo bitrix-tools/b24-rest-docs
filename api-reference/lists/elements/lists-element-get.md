@@ -62,38 +62,67 @@ S:Money, PREVIEW_TEXT, DETAIL_TEXT, S:ECrm, S:map_yandex, PREVIEW_PICTURE, DETAI
 }
 ```
 Так же есть возможность использовать полнотекстовый поиск. Для этого Нужно использовать поле SEARCHABLE_CONTENT с префиксом "*"; ||
+|| **SELECT**
+[`array`](../../data-types.md) | Массив содержит список [полей](../fields/lists-field-get.md), которые необходимо выбрать.
+
+Можно указать только те поля, которые необходимы.
+
+Значение по умолчанию: `['ID']`||
 |#
 
 ## Примеры
 
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists_socnet',
-    'IBLOCK_CODE': 'rest_1',
-    'ELEMENT_CODE': 'element_1'
-};
-BX24.callMethod(
-    'lists.element.get',
-    params,
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
 
-```js
-var params = {
-    'IBLOCK_TYPE_ID': 'lists',
-    'IBLOCK_ID': '41',
-    'FILTER': {
-        '>=DATE_CREATE': '27.03.2018 00:00:00',
-        '<=DATE_CREATE': '27.03.2018 23:59:59',
-    }
-};
-```
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists_socnet',
+        'IBLOCK_CODE': 'rest_1',
+        'ELEMENT_CODE': 'element_1'
+    };
+    BX24.callMethod(
+        'lists.element.get',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    var params = {
+        'IBLOCK_TYPE_ID': 'lists',
+        'IBLOCK_ID': '41',
+        'FILTER': {
+            '>=DATE_CREATE': '27.03.2018 00:00:00',
+            '<=DATE_CREATE': '27.03.2018 23:59:59',
+        }
+    };
+    BX24.callMethod(
+        'lists.element.get',
+        params,
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

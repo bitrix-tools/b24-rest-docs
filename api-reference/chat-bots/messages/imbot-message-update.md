@@ -52,23 +52,29 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.message.update',
-    Array(
-        'BOT_ID' => 39,
-        'MESSAGE_ID' => 1,
-        'MESSAGE' => 'answer text',
-        'ATTACH' => '',
-        'KEYBOARD' => '',
-        'MENU' => '',
-        'URL_PREVIEW' => 'Y'
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.message.update',
+        Array(
+            'BOT_ID' => 39,
+            'MESSAGE_ID' => 1,
+            'MESSAGE' => 'answer text',
+            'ATTACH' => '',
+            'KEYBOARD' => '',
+            'MENU' => '',
+            'URL_PREVIEW' => 'Y'
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -101,4 +107,4 @@ $result = restCommand(
 - [Как работать с набираемыми клавиатурами](../../chats/messages/keyboards.md)
 - [Как работать с вложениями](../../chats/messages/attachments/index.md)
 - [Форматирование сообщения](../../chats/messages/index.md)
-- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/index.md)
+- [Событие на получение чат-ботом сообщения ONIMBOTMESSAGEADD](./events/on-imbot-message-add.md)

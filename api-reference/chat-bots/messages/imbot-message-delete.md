@@ -43,19 +43,25 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'imbot.message.delete',
-    Array(
-        'BOT_ID' => 39,
-        'MESSAGE_ID' => 1,
-        'COMPLETE' => 'N',
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'imbot.message.delete',
+        Array(
+            'BOT_ID' => 39,
+            'MESSAGE_ID' => 1,
+            'COMPLETE' => 'N',
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

@@ -88,7 +88,6 @@ HTTP-статус: **200**
             "LAST_LOGIN":"2024-07-23T08:07:26+00:00",
             "DATE_REGISTER":"2024-07-22T00:00:00+00:00",
             "IS_ONLINE":"Y",
-            "TIME_ZONE_OFFSET":"7200",
             "LAST_ACTIVITY_DATE":"2024-07-23 08:08:50",
             "PERSONAL_GENDER":"",
             "PERSONAL_BIRTHDAY":"",

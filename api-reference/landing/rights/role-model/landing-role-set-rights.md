@@ -54,29 +54,35 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.role.setRights',
-    {
-        id: 11,
-        rights: {
-            '0': ['read'],
-            '66': ['read','edit','sett']
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.role.setRights',
+        {
+            id: 11,
+            rights: {
+                '0': ['read'],
+                '66': ['read','edit','sett']
+            },
+            additional: ['menu24', 'create']
         },
-        additional: ['menu24', 'create']
-    },
-    function(result)
-    {
-        if(result.error())
+        function(result)
         {
-            console.error(result.error());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-        else
-        {
-            console.info(result.data());
-        }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

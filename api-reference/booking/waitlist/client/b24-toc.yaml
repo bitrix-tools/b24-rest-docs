@@ -1,0 +1,13 @@
+title: Клиент листа ожидания
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить клиентов к записи в лист ожидания
+    href: booking-v1-waitlist-client-set.md
+  - name: Удалить клиентов из записи в лист ожидания
+    href: booking-v1-waitlist-client-unset.md      
+  - name: Получить список клиентов записи в лист ожидания
+    href: booking-v1-waitlist-client-list.md
+                 
+

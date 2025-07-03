@@ -1,4 +1,4 @@
-# Получить поля свойства товаров или торговых предложений catalog.productProperty.getFields
+# Получить поля свойства товаров или вариаций catalog.productProperty.getFields
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -28,7 +28,7 @@
 catalog.productProperty.getFields()
 ```
 
-Метод возвращает поля свойств товаров или торговых предложений.
+Метод возвращает поля свойств товаров или вариаций.
 
 ## Параметры
 
@@ -36,21 +36,62 @@ catalog.productProperty.getFields()
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productProperty.getFields',
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.productProperty.getFields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.productProperty.getFields
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productProperty.getFields',
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.productProperty.getFields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
 
 ## Возвращаемые поля
 

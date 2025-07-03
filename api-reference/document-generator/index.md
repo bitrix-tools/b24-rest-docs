@@ -6,9 +6,7 @@
 
 {% endnote %}
 
-Описание модуля [Генератор документов](https://dev.1c-bitrix.ru/api_d7/bitrix/documentgenerator/index.php) приведено в документации по D7.
-
-Архитектурно REST-api большей частью соответствует PHP-api модуля. Сам набор REST-методов покрывает все возможности модуля.
+> Быстрый переход: [все методы](#all-methods) 
 
 На данный момент есть **два scope** для работы с генератором документов:
 - Методы `crm.documentgenerator.*`. Результаты работы этих методов отображаются в интерфейсе CRM;
@@ -82,3 +80,64 @@
 - Вставить таблицы и изображения из html;
 - Вставить векторные изображения;
 - Передача форматирование выполняется не полностью.
+
+## Обзор методов и событий {#all-methods}
+
+### Документы
+
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.document.add](./document-generator-document-add.md) | Создает новый документ на основании шаблона ||
+|| [documentgenerator.document.delete](./document-generator-document-delete.md) | Удаляет документ ||
+|| [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md) | Включает/выключает публичную ссылку на документ ||
+|| [documentgenerator.document.getfields](./document-generator-document-get-fields.md) | Получает список полей документов ||
+|| [documentgenerator.document.get](./document-generator-document-get.md) | Получает документ по идентификатору ||
+|| [documentgenerator.document.list](./document-generator-document-list.md) | Получает список документов ||
+|| [documentgenerator.document.update](./document-generator-document-update.md) | Изменяет существующий документ ||
+|#
+
+### Нумератор
+
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.numerator.add](./numerators/document-generator-numerator-add.md) | Добавляет нумератор ||
+|| [documentgenerator.numerator.delete](./numerators/document-generator-numerator-delete.md) | Удаляет нумератор ||
+|| [documentgenerator.numerator.get](./numerators/document-generator-numerator-get.md) | Получает нумератор по идентификатору ||
+|| [documentgenerator.numerator.list](./numerators/document-generator-numerator-list.md) | Получает список нумераторов ||
+|| [documentgenerator.numerator.update](./numerators/document-generator-numerator-update.md) | Изменяет нумератор ||
+|#
+
+### Регионы
+
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.region.get](./region/document-generator-region-get.md) | Возвращает информацию о регионе по его идентификатору ||
+|| [documentgenerator.region.list](./region/document-generator-region-list.md) | Возвращает список регионов, как установленных по умолчанию, так и пользовательских ||
+|| [documentgenerator.region.delete](./region/document-generator-region-delete.md) | Удаляет регион ||
+|| [documentgenerator.region.add](./region/document-generator-region-add.md) | Добавляет новый регион ||
+|| [documentgenerator.region.update](./region/document-generator-region-update.md) | Обновляет существующую страну ||
+|#
+
+### Роли
+
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.role.get](./role/document-generator-role-get.md) | Отдает информацию о роли и её правах доступа ||
+|| [documentgenerator.role.list](./role/document-generator-role-list.md) | Возвращает список ролей без их прав доступа ||
+|| [documentgenerator.role.delete](./role/document-generator-role-delete.md) | Удаляет роль ||
+|| [documentgenerator.role.add](./role/document-generator-role-add.md) | Добавляет новую роль ||
+|| [documentgenerator.role.update](./role/document-generator-role-update.md) | Обновляет роли ||
+|| [documentgenerator.role.fillaccesses](./role/document-generator-role-fill-accesses.md) | Устанавливает набор ролей и их привязок ||
+|#
+
+### Шаблоны
+
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.template.add](./templates/document-generator-template-add.md) | Загружает новый шаблон документа ||
+|| [documentgenerator.template.update](./templates/document-generator-template-update.md) | Обновляет существующий шаблон документа ||
+|| [documentgenerator.template.get](./templates/document-generator-template-get.md) | Возвращает шаблон документа по идентификатору ||
+|| [documentgenerator.template.list](./templates/document-generator-template-list.md) | Возвращает список шаблонов документов по фильтру ||
+|| [documentgenerator.template.delete](./templates/document-generator-template-delete.md) | Удаляет шаблон документа ||
+|| [documentgenerator.template.getfields](./templates/document-generator-template-get-fields.md) | Возвращает перечень полей шаблонов документов ||
+|#

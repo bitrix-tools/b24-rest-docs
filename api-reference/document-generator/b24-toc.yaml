@@ -1,0 +1,43 @@
+title: Генератор документов
+href: index.md
+items: 
+  - name: О генераторе документов 
+    href: index.md
+  - name: Частые кейсы и сценарии
+    include:
+      path: examples/b24-toc.yaml
+      mode: link
+  - name: Создать новый документ
+    href: document-generator-document-add.md
+  - name: Изменить существующий документ
+    href: document-generator-document-update.md
+  - name: Получить документ по идентификатору
+    href: document-generator-document-get.md
+  - name: Получить список документов
+    href: document-generator-document-list.md
+  - name: Удалить документ
+    href: document-generator-document-delete.md
+  - name: Включить/выключить публичную ссылку на документ
+    href: document-generator-document-enable-public-url.md
+  - name: Получить список полей документов
+    href: document-generator-document-get-fields.md
+  - name: Шаблоны
+    include:
+      path: templates/b24-toc.yaml
+      mode: link
+  - name: Нумераторы
+    include:
+      path: numerators/b24-toc.yaml
+      mode: link
+  - name: Страны
+    include:
+      path: region/b24-toc.yaml
+      mode: link
+  - name: Роли и права
+    include:
+      path: role/b24-toc.yaml
+      mode: link
+
+
+
+

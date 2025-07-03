@@ -1,0 +1,21 @@
+title: Правила округления цен
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить правило округления цен
+    href: catalog-rounding-rule-add.md
+  - name: Изменить правило округления цен
+    href: catalog-rounding-rule-update.md
+  - name: Получить значения полей правила округления
+    href: catalog-rounding-rule-get.md
+  - name: Получить список правил округления
+    href: catalog-rounding-rule-list.md
+  - name: Удалить правило округления цен
+    href: catalog-rounding-rule-delete.md
+  - name: Получить поля правила округления цен
+    href: catalog-rounding-rule-get-fields.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

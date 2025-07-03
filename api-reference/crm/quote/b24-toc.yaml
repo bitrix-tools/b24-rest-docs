@@ -1,7 +1,7 @@
 title: Коммерческие предложения
 href: index.md
 items:
-  - name: Список методов
+  - name: Обзор методов
     href: index.md
   - name: Добавить коммерческое предложение
     href: crm-quote-add.md
@@ -19,16 +19,10 @@ items:
     href: crm-quote-product-rows-get.md
   - name: Создать/изменить товарные позиции предложения
     href: crm-quote-product-rows-set.md
-  - name: Создать пользовательское поле для предложений
-    href: crm-quote-user-field-add.md
-  - name: Удалить пользовательское поле предложений
-    href: crm-quote-user-field-delete.md
-  - name: Получить пользовательские поля предложений по идентификатору
-    href: crm-quote-user-field-get.md
-  - name: Получить список пользовательских полей предложений по фильтру
-    href: crm-quote-user-field-list.md
-  - name: Изменить пользовательское поле предложений
-    href: crm-quote-user-field-update.md
+  - name: Пользовательские поля 
+    include:
+      path: user-field/b24-toc.yaml
+      mode: link
   - name: События 
     include:
       path: events/b24-toc.yaml

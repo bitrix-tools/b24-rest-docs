@@ -42,7 +42,7 @@
 - JS
 
     ```js
-    BX24.callMethod("crm.settings.mode.get", result => {
+    BX24.callMethod("crm.settings.mode.get", {}, result => {
         if (result.error())
             console.error(result.error());
         else

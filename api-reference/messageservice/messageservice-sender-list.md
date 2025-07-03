@@ -1,4 +1,4 @@
-# Получить список SMS-провайдеров или провайдеров сообщений messageservice.sender.list
+# Получить список СМС-провайдеров или провайдеров сообщений messageservice.sender.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -27,17 +27,24 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'messageservice.sender.list',
-    {},
-    function(result)
-    {
-        if(result.error())
-            alert("Error: " + result.error());
-        else
-            alert("Успешно: " + result.data().join(', '));
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'messageservice.sender.list',
+        {},
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Успешно: " + result.data().join(', '));
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}

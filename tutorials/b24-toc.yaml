@@ -31,3 +31,7 @@ items:
     include:
       path: tasks/b24-toc.yaml
       mode: link
+  - name: Открытые линии
+    include:
+      path: openlines/b24-toc.yaml
+      mode: link

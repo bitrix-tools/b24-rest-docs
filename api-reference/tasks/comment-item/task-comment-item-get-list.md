@@ -74,14 +74,21 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'task.commentitem.getlist',
-    [1, {'ID': 'asc'}, {'>AUTHOR_ID': 2}],
-    function(result){
-        console.info(result.data());
-        console.log(result);
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'task.commentitem.getlist',
+        [1, {'ID': 'asc'}, {'>AUTHOR_ID': 2}],
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

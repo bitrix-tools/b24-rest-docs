@@ -1,0 +1,13 @@
+title: Управление линиями
+href: voximplant-line-get.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список линий
+    href: voximplant-line-get.md
+  - name: Получить текущую линию для исходящих звонков
+    href: voximplant-line-outgoing-get.md
+  - name: Установить линию для исходящих звонков
+    href: voximplant-line-outgoing-set.md
+  - name: Установить SIP-линию для исходящих звонков
+    href: voximplant-line-outgoing-sip-set.md

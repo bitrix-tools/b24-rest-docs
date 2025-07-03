@@ -30,26 +30,32 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    "crm.deal.recurring.list",
-    {
-        order: { "DEAL_ID": "ASC" },
-        filter: { ">COUNTER_REPEAT": 5 },
-        select: [ "ID", "DEAL_ID ", "NEXT_EXECUTION", "LAST_EXECUTION", "CATEGORY_ID", "IS_LIMIT" ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
+{% list tabs %}
+
+- JS
+  
+    ```js
+    BX24.callMethod(
+        "crm.deal.recurring.list",
         {
-            console.dir(result.data());
-            if(result.more())
-                result.next();
+            order: { "DEAL_ID": "ASC" },
+            filter: { ">COUNTER_REPEAT": 5 },
+            select: [ "ID", "DEAL_ID ", "NEXT_EXECUTION", "LAST_EXECUTION", "CATEGORY_ID", "IS_LIMIT" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

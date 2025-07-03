@@ -35,26 +35,32 @@
 
 ## Пример
 
-```js
-var id = prompt("Введите ID");
-BX24.callMethod(
-    "crm.lead.productrows.set",
-    {
-        id: id,
-        rows:
-        [
-            { "PRODUCT_ID": 689, "PRICE": 100.00, "QUANTITY": 2 },
-            { "PRODUCT_ID": 690, "PRICE": 200.00, "QUANTITY": 1 }
-        ]
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.info(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.lead.productrows.set",
+        {
+            id: id,
+            rows:
+            [
+                { "PRODUCT_ID": 689, "PRICE": 100.00, "QUANTITY": 2 },
+                { "PRODUCT_ID": 690, "PRICE": 200.00, "QUANTITY": 1 }
+            ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

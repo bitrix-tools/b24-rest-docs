@@ -26,7 +26,7 @@
 Пример подключения для websocket для облачного push-сервера:
 
 ```bash
-wss://rtc-cloud-ms1.bitrix.info/subws/?CHANNEL_ID=beb502091dfc9b93d7fd648aa4ec332e%3A7cc478c89de71ec78bf4820d3d814a3e.4f5466742ca1e59e263fee732a7dbe002889ba91%2F1ab4f7a440cea35a1abccd5c2566c688.b33914ef342e5cd21e4fbcf4ac92acd2e9ea3755&clientId=fcda45d0859442735f07b8bb5825ded1
+wss://rtc-cloud-ms1.bitrix24.tech/subws/?CHANNEL_ID=beb502091dfc9b93d7fd648aa4ec332e%3A7cc478c89de71ec78bf4820d3d814a3e.4f5466742ca1e59e263fee732a7dbe002889ba91%2F1ab4f7a440cea35a1abccd5c2566c688.b33914ef342e5cd21e4fbcf4ac92acd2e9ea3755&clientId=fcda45d0859442735f07b8bb5825ded1
 ```
 
 Пример подключения для websocket для коробочного push-сервера:

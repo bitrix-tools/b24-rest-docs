@@ -2,9 +2,15 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
-Метод удаляет свойство товаров.
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.product.property.delete` продолжает работать, но у него есть более актуальный аналог [catalog.productProperty.delete](../../../catalog/product-property/catalog-product-property-delete.md).
+
+{% endnote %}
+
+Метод `crm.product.property.delete` удаляет свойство товаров.
 
 ## Параметры метода
 

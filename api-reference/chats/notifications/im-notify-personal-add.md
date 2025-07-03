@@ -47,22 +47,28 @@
 
 {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
-```php
-$result = restCommand(
-    'im.notify.personal.add',
-    Array(
-        'USER_ID' => 1,
-        'MESSAGE' => 'Персональное уведомление',
-        'MESSAGE_OUT' => 'Текст персонального уведомления для почты',
-        'TAG' => 'TEST',
-        'SUB_TAG' => 'SUB|TEST',
-        'ATTACH' => ''
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+{% list tabs %}
+
+- PHP
+
+    ```php
+    $result = restCommand(
+        'im.notify.personal.add',
+        Array(
+            'USER_ID' => 1,
+            'MESSAGE' => 'Персональное уведомление',
+            'MESSAGE_OUT' => 'Текст персонального уведомления для почты',
+            'TAG' => 'TEST',
+            'SUB_TAG' => 'SUB|TEST',
+            'ATTACH' => ''
+        ),
+        $_REQUEST[
+            "auth"
+        ]
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

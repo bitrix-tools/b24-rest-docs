@@ -42,14 +42,20 @@
 
 ## Пример
 
-```javascript
-BX24.callMethod(
-    'entity.rights',
-    {
-        'ENTITY': 'dish'
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    BX24.callMethod(
+        'entity.rights',
+        {
+            'ENTITY': 'dish'
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 

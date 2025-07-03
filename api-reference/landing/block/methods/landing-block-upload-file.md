@@ -49,26 +49,32 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'landing.block.uploadfile',
-    {
-        block: 12294,
-        picture: 'https://site.com/******.jpg'
-//        picture: document.getElementById('file')
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.block.uploadfile',
         {
-            console.error(result.error());
-        }
-        else
+            block: 12294,
+            picture: 'https://site.com/******.jpg'
+    //        picture: document.getElementById('file')
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

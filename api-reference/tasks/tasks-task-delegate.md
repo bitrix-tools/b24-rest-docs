@@ -36,12 +36,18 @@
 
 ## Пример
 
-```js
-BX24.callMethod(
-    'tasks.task.delegate',
-    {taskId:1, userId: 2},
-    function(res){console.log(res.answer.result);}
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'tasks.task.delegate',
+        {taskId:1, userId: 2},
+        function(res){console.log(res.answer.result);}
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}

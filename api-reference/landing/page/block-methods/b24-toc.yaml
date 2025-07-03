@@ -1,0 +1,30 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Список методов работы с блоками
+    href: index.md
+  - name: Добавление нового блока
+    href: landing-landing-add-block.md
+  - name: Копирование блока
+    href: landing-landing-copy-block.md
+  - name: Удаление блока со страницы
+    href: landing-landing-delete-block.md
+  - name: Перемещение блока вниз
+    href: landing-landing-down-block.md
+  - name: Добавление блока в Мои блоки
+    href: landing-landing-favorite-block.md
+  - name: Скрывание блока со страницы
+    href: landing-landing-hide-block.md
+  - name: Отметка блока удалённым
+    href: landing-landing-mark-deleted-block.md
+  - name: Снятие отметки удалённый
+    href: landing-landing-mark-undeleted-block.md
+  - name: Перенос блока
+    href: landing-landing-move-block.md
+  - name: Показ блока на странице
+    href: landing-landing-show-block.md
+  - name: Удаление блока из Мои блоки
+    href: landing-landing-unfavorite-block.md
+  - name: Поднятие блока вверх
+    href: landing-landing-up-block.md
+

@@ -48,7 +48,7 @@ catalog.document.element.update(id, fields)
 
 - js
   
-    ```
+    ```js
     BX24.callMethod(
     'catalog.document.element.update',
     {
@@ -70,7 +70,7 @@ catalog.document.element.update(id, fields)
 
 - php
 
-    ```
+    ```php
     $result = CRest::call(
         'catalog.document.element.update',
         [

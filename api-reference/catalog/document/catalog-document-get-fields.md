@@ -37,19 +37,25 @@ catalog.document.getFields()
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'catalog.document.getFields',
-    {},
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.log(result.data());
-    }
-);
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.document.getFields',
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -59,8 +65,6 @@ BX24.callMethod(
 || **Поле** | **Описание** | **Примечание** ||
 || **commentary** 
 [`char`](../../data-types.md) | Комментарий. |  ||
-|| **contractorId** 
-[`integer`](../../data-types.md) | Поставщик. |  ||
 || **createdBy** 
 [`integer`](../../data-types.md) | Кем создан. |  Неизменяемое поле. ||
 || **currency^*^** 

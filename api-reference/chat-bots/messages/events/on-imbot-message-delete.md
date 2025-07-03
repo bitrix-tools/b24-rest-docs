@@ -117,41 +117,47 @@
 
 ## Примеры
 
-```js
-[BOT] => Array (
-    [39] => Array (
-        [AUTH] => Array (
-            [domain] => b24.hazz
-            [member_id] => d41d8cd98f00b204e9800998ecf8427e
-            [application_token] => 8006ddd764e69deb28af0c768b10ed65
+{% list tabs %}
+
+- JS
+
+    ```js
+    [BOT] => Array (
+        [39] => Array (
+            [AUTH] => Array (
+                [domain] => b24.hazz
+                [member_id] => d41d8cd98f00b204e9800998ecf8427e
+                [application_token] => 8006ddd764e69deb28af0c768b10ed65
+            )
+            [BOT_ID] => 39    
+            [BOT_CODE] => newbot
         )
-        [BOT_ID] => 39    
-        [BOT_CODE] => newbot
     )
-)
-[PARAMS] => Array (
-    [DIALOG_ID] => 1    
-    [CHAT_TYPE] => P    
-    [CHAT_ENTITY_TYPE] => 'LINES'    
-    [CHAT_ENTITY_ID] => 13    
-    [MESSAGE_ID] => 392
-    [MESSAGE] => test3
-    [FROM_USER_ID] => 1
-    [TO_CHAT_ID] => 6
-    [LANGUAGE] => ru    
-)
-[USER] => Array (
-    [ID] => 1
-    [NAME] => Евгений Шеленков
-    [FIRST_NAME] => Евгений
-    [LAST_NAME] => Шеленков
-    [WORK_POSITION] =>
-    [GENDER] => M
-    [IS_BOT] => 'Y'
-    [IS_CONNECTOR] => 'Y'
-    [IS_NETWORK] => 'Y'
-    [IS_EXTRANET] => 'Y'
-)
-```
+    [PARAMS] => Array (
+        [DIALOG_ID] => 1    
+        [CHAT_TYPE] => P    
+        [CHAT_ENTITY_TYPE] => 'LINES'    
+        [CHAT_ENTITY_ID] => 13    
+        [MESSAGE_ID] => 392
+        [MESSAGE] => test3
+        [FROM_USER_ID] => 1
+        [TO_CHAT_ID] => 6
+        [LANGUAGE] => ru    
+    )
+    [USER] => Array (
+        [ID] => 1
+        [NAME] => Евгений Шеленков
+        [FIRST_NAME] => Евгений
+        [LAST_NAME] => Шеленков
+        [WORK_POSITION] =>
+        [GENDER] => M
+        [IS_BOT] => 'Y'
+        [IS_CONNECTOR] => 'Y'
+        [IS_NETWORK] => 'Y'
+        [IS_EXTRANET] => 'Y'
+    )
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

@@ -4,9 +4,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает описание полей для свойств товаров.
+{% note warning "Развитие метода остановлено" %}
 
-Для полного понимания назначения полей свойств товаров рекомендуем почитать про [свойства элементов инфоблока](http://dev.1c-bitrix.ru/api_help/iblock/index.php) в документации для разработчиков. 
+Метод `crm.product.property.fields` продолжает работать, но у него есть более актуальный аналог [catalog.productProperty.getFields](../../../catalog/product-property/catalog-product-property-get-fields.md).
+
+{% endnote %}
+
+Метод `crm.product.property.fields` возвращает описание полей для свойств товаров.
 
 Без параметров.
 

@@ -52,61 +52,74 @@
 
 **Пример #1: Создание текстового поля**
 
-```js
-BX24.callMethod(
-    "crm.company.userfield.add",
-    {
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.company.userfield.add",
         {
-            "FIELD_NAME": "MY_STRING",
-            "EDIT_FORM_LABEL": "Моя строка",
-            "LIST_COLUMN_LABEL": "Моя строка",
-            "USER_TYPE_ID": "string",
-            "XML_ID": "MY_STRING",
-            "SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
+            fields:
+            {
+                "FIELD_NAME": "MY_STRING",
+                "EDIT_FORM_LABEL": "Моя строка",
+                "LIST_COLUMN_LABEL": "Моя строка",
+                "USER_TYPE_ID": "string",
+                "XML_ID": "MY_STRING",
+                "SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 
 **Пример #2: Создание списка**
 
-```js
-BX24.callMethod(
-    "crm.company.userfield.add",
-    {
-        fields:
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.company.userfield.add",
         {
-            "FIELD_NAME": "MY_LIST",
-            "EDIT_FORM_LABEL": "Мой список",
-            "LIST_COLUMN_LABEL": "Мой список",
-            "USER_TYPE_ID": "enumeration",
-            "LIST": [
-                { "VALUE": "Элемент #1" },
-                { "VALUE": "Элемент #2" },
-                { "VALUE": "Элемент #3" },
-                { "VALUE": "Элемент #4" },
-                { "VALUE": "Элемент #5" }
-                ],
-            "XML_ID": "MY_LIST",
-            "SETTINGS": { "LIST_HEIGHT": 3 }
+            fields:
+            {
+                "FIELD_NAME": "MY_LIST",
+                "EDIT_FORM_LABEL": "Мой список",
+                "LIST_COLUMN_LABEL": "Мой список",
+                "USER_TYPE_ID": "enumeration",
+                "LIST": [
+                    { "VALUE": "Элемент #1" },
+                    { "VALUE": "Элемент #2" },
+                    { "VALUE": "Элемент #3" },
+                    { "VALUE": "Элемент #4" },
+                    { "VALUE": "Элемент #5" }
+                    ],
+                "XML_ID": "MY_LIST",
+                "SETTINGS": { "LIST_HEIGHT": 3 }
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);    
-```
+    );    
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}

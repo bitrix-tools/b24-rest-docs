@@ -3,8 +3,6 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Таблица статусов по умолчанию
-    href: default-status-table.md
   - name: Создать статус
     href: sale-status-add.md
   - name: Обновить статус

@@ -1,4 +1,4 @@
-# Получить список свойств товаров или торговых предложений catalog.productProperty.list
+# Получить список свойств товаров или вариаций catalog.productProperty.list
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -26,8 +26,8 @@
 catalog.productProperty.list(select, filter, order, start)
 ```
 
-Метод получает список свойств товаров или торговых предложений.
-Если операция успешна, возвращается список свойств товаров или торговых предложений в теле ответа.
+Метод получает список свойств товаров или вариаций.
+Если операция успешна, возвращается список свойств товаров или вариаций в теле ответа.
 
 
 ## Параметры
@@ -48,27 +48,31 @@ catalog.productProperty.list(select, filter, order, start)
 
 ## Примеры
 
-Для JS
+{% list tabs %}
 
-```javascript
-BX24.callMethod(
-    'catalog.productProperty.list',
-    {
-        select: ['id'],
-        filter: {
-            iblockId: 16
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productProperty.list',
+        {
+            select: ['id'],
+            filter: {
+                iblockId: 16
+            },
         },
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-        result.next();
-    }
-);
-```
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+            result.next();
+        }
+    );
+    ```
+
+{% endlist %}
 
 Пример HTTPS запроса
 

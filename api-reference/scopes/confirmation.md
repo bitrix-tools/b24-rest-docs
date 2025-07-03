@@ -36,7 +36,7 @@ array (
     array (
         'domain' => 'portal.bitrix24.ru',
         'client_endpoint' => 'https://portal.bitrix24.ru/rest/',
-        'server_andpoint' => 'https://oauth.bitrix.info/rest/',
+        'server_andpoint' => 'https://oauth.bitrix24.tech/rest/',
         'member_id' => '74ef8a46a75104de55d5d4a61b98ab6d',
         'application_token' => 'c289487163b58658eae5e8b42eaf11b8',
 	),
@@ -75,4 +75,4 @@ HTTP/1.1 403 Forbidden
 
 ## Список методов, требующих подтверждения
 
-- [{#T}](../telephony/voximplant/users/voximplant-user-get.md)
+- [{#T}](../../api-reference/telephony/voximplant/users/voximplant-user-get.md)

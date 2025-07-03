@@ -1,0 +1,11 @@
+title: Коэффициент единицы измерения
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md
+  - name: Получить значения полей коэффициента единицы измерения
+    href: catalog-ratio-get.md
+  - name: Получить список коэффициентов единиц измерения
+    href: catalog-ratio-list.md
+  - name: Получить поля коэффициента единицы измерения
+    href: catalog-ratio-get-fields.md

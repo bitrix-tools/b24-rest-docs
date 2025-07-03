@@ -1,10 +1,46 @@
-# Список методов работы с контролем времени
+# Контроль времени: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Учет рабочего времени в Битрикс24 проверяет соответствие рабочего времени сотрудника установленному графику. В рабочем графике фиксируются:
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+-  начало и завершение рабочего дня
+-  количество рабочих часов в день
+-  допустимое редактирование рабочего дня сотрудником
+-  допустимая недоработка за отчетный период
 
-{% endnote %}
+Система записывает нарушения графика и руководитель может просматривать отчеты о нарушениях.
+
+> Быстрый переход: [все методы и события](#all-methods) 
+> 
+> Пользовательская документация: [как контролировать рабочее время сотрудников](https://helpdesk.bitrix24.ru/open/17921146/)
+
+## Связь контроля времени с другими объектами
+
+**Пользователь.** Отчет о выявленном отсутствии имеет привязку к пользователю по идентификатору `USER_ID`. В настройках инструмента контроля времени задаются списки пользователей:
+
+-  у кого запрашивать отчет
+-  кто имеет доступ к упрощенному или расширенному отчету
+
+Получить идентификатор пользователя можно с помощью метода [user.get](../../user/user-get.md).
+
+## Настройки инструмента контроля времени
+
+Включить и настроить инструмент контроля времени можно методом [timeman.timecontrol.settings.set](./timeman-timecontrol-settings-set.md). Настройки задают:
+
+-  какие активности пользователя фиксировать
+-  пользователей, у которых нужно запрашивать отчет
+-  пользователей, которым доступен упрощенный и расширенный отчеты
+
+Настройки обычно одинаковы для сотрудников одного подразделения. Чтобы получить идентификаторы пользователей подразделения используйте метод [timeman.timecontrol.reports.users.get](./timeman-timecontrol-reports-users-get.md)**.**
+
+Получить текущие настройки инструмента можно методом [timeman.timecontrol.settings.get](./timeman-timecontrol-settings-get.md).
+
+## Отчеты о выявленных отсутствиях
+
+Чтобы получить отчет об отсутствиях сотрудника за календарный месяц, используйте метод [timeman.timecontrol.reports.get](./timeman-timecontrol-reports-get.md). Если метод возвращает пустой массив `days`, настройте инструмент контроля времени методом [timeman.timecontrol.settings.set](./timeman-timecontrol-settings-set.md).
+
+Метод [timeman.timecontrol.report.add](./timeman-timecontrol-report-add.md) отправляет отчет об отсутствии и добавляет его в календарь.
+
+## Обзор методов {#all-methods}
 
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
@@ -12,10 +48,10 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [timeman.timecontrol.report.add](./timeman-timecontrol-report-add.md) | Метод для отправки отчета о выявленном отсутствии. ||
-|| [timeman.timecontrol.reports.get](./timeman-timecontrol-reports-get.md) | Метод для получения отчета о выявленных отсутствиях. ||
-|| [timeman.timecontrol.reports.settings.get](./timeman-timecontrol-reports-settings-get.md) | Метод для получения пользовательских настроек для построения интерфейса отчетов инструмента контроля времени. ||
-|| [timeman.timecontrol.reports.users.get](./timeman-timecontrol-reports-users-get.md) | Метод для получения списка пользователей, относящихся к указанному подразделению. ||
-|| [timeman.timecontrol.settings.get](./timeman-timecontrol-settings-get.md) | Метод для получения настроек инструмента контроля времени. ||
-|| [timeman.timecontrol.settings.set](./timeman-timecontrol-settings-set.md) | Метод для установки настроек инструмента контроля времени. ||
+|| [timeman.timecontrol.report.add](./timeman-timecontrol-report-add.md) | Отправляет отчет о выявленном отсутствии ||
+|| [timeman.timecontrol.reports.get](./timeman-timecontrol-reports-get.md) | Получает отчет о выявленных отсутствиях ||
+|| [timeman.timecontrol.settings.get](./timeman-timecontrol-settings-get.md) | Получает настройки инструмента контроля времени ||
+|| [timeman.timecontrol.settings.set](./timeman-timecontrol-settings-set.md) | Устанавливает настройки инструмента контроля времени ||
+|| [timeman.timecontrol.reports.settings.get](./timeman-timecontrol-reports-settings-get.md) | Получает настройки отчетов для построения интерфейса отчетов инструмента контроля времени ||
+|| [timeman.timecontrol.reports.users.get](./timeman-timecontrol-reports-users-get.md) | Получает список пользователей указанного подразделения ||
 |#

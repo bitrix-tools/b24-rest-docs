@@ -1,4 +1,4 @@
-# Изменить значения параметров свойств товаров или торговых предложений catalog.productPropertyFeature.update
+# Изменить значения параметров свойств товаров или вариаций catalog.productPropertyFeature.update
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -27,14 +27,14 @@
 catalog.productPropertyFeature.update(id, fields)
 ```
 
-Метод для обновления значений параметров свойств товаров или торговых предложений.
+Метод для обновления значений параметров свойств товаров или вариаций.
 
 ## Параметры
 
 #|
 || **Параметр** | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) | Идентификатор свойства товаров или торговых предложенийн. ||
+[`integer`](../../data-types.md) | Идентификатор свойства товаров или вариаций ||
 || **fields** 
 [`object`](../../data-types.md)|  Поля, соответствующие доступному списку полей [`fields`](catalog-product-property-feature-get-fields.md). ||
 |#
@@ -43,25 +43,32 @@ catalog.productPropertyFeature.update(id, fields)
 
 ## Примеры
 
-```javascript
-BX24.callMethod(
-    'catalog.productPropertyFeature.update',
-    {
-        id: 144,
-        fields: {
-            propertyId: 128,
-            featureId: "IN_BASKET",
-            moduleId: "catalog",
-            isEnabled: "Y"
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'catalog.productPropertyFeature.update',
+        {
+            id: 144,
+            fields: {
+                propertyId: 128,
+                featureId: "IN_BASKET",
+                moduleId: "catalog",
+                isEnabled: "Y"
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
         }
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

@@ -1,0 +1,9 @@
+title: Расширенная модель
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить права доступа
+    href: landing-site-get-rights.md
+  - name: Установить права доступа
+    href: landing-site-set-rights.md

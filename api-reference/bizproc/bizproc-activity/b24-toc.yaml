@@ -1,17 +1,17 @@
 title: Действия приложений бизнес-процессов
 href: index.md
 items:
-  - name: Действия приложений
+  - name: Обзор методов
     href: index.md
   - name: Добавить новое действие
     href: bizproc-activity-add.md
-  - name: Получить список установленных действий
-    href: bizproc-activity-list.md
-  - name: Обновить поля действия
+  - name: Обновить действие
     href: bizproc-activity-update.md
-  - name: Записать информацию в лог
-    href: bizproc-activity-log.md
+  - name: Получить список действий приложения
+    href: bizproc-activity-list.md
   - name: Удалить действие
     href: bizproc-activity-delete.md
+  - name: Записать информацию в журнал
+    href: bizproc-activity-log.md
 
 

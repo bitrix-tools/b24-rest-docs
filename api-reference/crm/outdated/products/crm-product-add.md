@@ -2,9 +2,15 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
-Метод создает новый товар.
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.product.add` продолжает работать, но у него есть более актуальные аналоги [catalog.product.*](../../../catalog/product/index.md).
+
+{% endnote %}
+
+Метод `crm.product.add` создает новый товар. 
 
 ## Параметры метода
 
@@ -21,7 +27,7 @@
 
 {% note info %}
 
-С версии **CRM 21.700.0** включена поддержка автогенерации символьного кода товара, при условии, что в настройках инфоблока для символьного кода включена генерация и не используется внешний сервис. Задействован метод [generateMnemonicCode](https://dev.1c-bitrix.ru/api_help/iblock/classes/ciblockelement/generatemnemoniccode.php).
+С версии **CRM 21.700.0** включена поддержка автогенерации символьного кода товара.
 
 Если сгенерированный символьный код более 100 символов, то он автоматически обрезается до 100 знаков. Это требуется учитывать при создании запросов, передавая уникальное значение в начале/середине названия товара для избежания совпадения символьных кодов.
 
@@ -97,6 +103,35 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php        
+    try {
+        $fields = [
+            'NAME' => 'Sample Product',
+            'PRICE' => '100.00',
+            'CURRENCY_ID' => 'USD',
+            'ACTIVE' => 'Y',
+            'DATE_CREATE' => (new DateTime())->format(DateTime::ATOM),
+            'TIMESTAMP_X' => (new DateTime())->format(DateTime::ATOM),
+            'CREATED_BY' => 1,
+            'MODIFIED_BY' => 1,
+            'CATALOG_ID' => 1,
+            'DESCRIPTION' => 'This is a sample product.',
+            'VAT_ID' => 1,
+            'VAT_INCLUDED' => 'Y',
+            'MEASURE' => 1,
+            'SECTION_ID' => 1,
+            'SORT' => 100,
+            'XML_ID' => 'sample_product_001',
+        ];
+        $result = $serviceBuilder->getCRMScope()->product()->add($fields);
+        print($result->getId());
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}

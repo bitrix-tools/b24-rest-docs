@@ -1,0 +1,15 @@
+title: Устаревшие методы
+href: index.md
+items:  
+  - name: «Типы дел»
+    href: crm-enum-activity-type.md
+  - name: «Направление активности»
+    href: crm-enum-activity-direction.md
+  - name: «Приоритеты дел»
+    href: crm-enum-activity-priority.md
+  - name: «Тип уведомления о начале активности»
+    href: crm-enum-activity-notify-type.md
+  - name: «Тип описания»
+    href: crm-enum-content-type.md    
+  - name: «Статус»
+    href: crm-enum-activity-status.md

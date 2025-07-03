@@ -2,9 +2,15 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
-Метод удаляет товар.
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.product.delete` продолжает работать, но у него есть более актуальные аналоги [catalog.product.*](../../../catalog/product/index.md).
+
+{% endnote %}
+
+Метод `crm.product.delete` удаляет товар.
 
 ## Параметры метода
 
@@ -77,6 +83,23 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- PHP (B24PhpSdk)
+
+    ```php        
+    try {
+        $productId = 123; // Example product ID
+        $result = $serviceBuilder->getCRMScope()->product()->delete($productId);
+        
+        if ($result->isSuccess()) {
+            print("Item deleted successfully.");
+        } else {
+            print("Failed to delete item.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
     ```
 
 {% endlist %}

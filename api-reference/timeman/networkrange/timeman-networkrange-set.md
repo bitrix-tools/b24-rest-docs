@@ -1,139 +1,234 @@
 # Установить диапазон сетевых адресов timeman.networkrange.set
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод `timeman.networkrange.set` для установки диапазонов сетевых адресов, входящих в офисную сеть.
+Метод `timeman.networkrange.set` устанавливает диапазоны сетевых адресов для офисной сети.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Обязательный** | **Описание** ||
-|| **RANGES^*^**
-[`unknown`](../../data-types.md) | `[{"ip_range":"10.0.0.0-10.255.255.255","name":"Офисная сеть 10.x.x.x"}]` | Да | Диапазоны сетевых адресов. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **RANGES***
+[`string`](../../data-types.md) | Диапазоны сетевых адресов в виде списка объектов. Каждый объект содержит описание [диапазона сетевых адресов](#ip_range).
+
+```php
+ranges: [
+    {
+        "ip_range": "10.0.0.0-10.255.255.255",
+        "name": "Офисная сеть 10.x.x.x"
+    },
+    {
+        "ip_range": "10.10.0.1",
+        "name": "Адрес 10.10.0.1"
+    },
+    ...
+]
+```
+
+Диапазон может содержать:
+- блок адресов, например, `10.0.0.0-10.255.255.255`
+- один адрес, например, `10.10.0.1` ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-Диапазон может содержать блок адресов, например `10.0.0.0-10.255.255.255` или всего один адрес `10.10.0.1`.
-
-## Пример вызова
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ranges":[{"ip_range":"10.0.0.0-10.255.255.255","name":"Офисная сеть 10.x.x.x"},{"ip_range":"172.16.0.0-172.31.255.255","name":"Офисная сеть 172.x.x.x"},{"ip_range":"192.168.0.0-192.168.255.255","name":"Офисная сеть 192.168.x.x"}]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/timeman.networkrange.set
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ranges":[{"ip_range":"10.0.0.0-10.255.255.255","name":"Офисная сеть 10.x.x.x"},{"ip_range":"172.16.0.0-172.31.255.255","name":"Офисная сеть 172.x.x.x"},{"ip_range":"192.168.0.0-192.168.255.255","name":"Офисная сеть 192.168.x.x"}],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/timeman.networkrange.set
+    ```
+
 - JS
 
-    ```javascript
-    BX24.callMethod('timeman.networkrange.set', {
-        ranges: '[{"ip_range":"10.0.0.0-10.255.255.255","name":"Офисная сеть 10.x.x.x"},{"ip_range":"172.16.0.0-172.31.255.255","name":"Офисная сеть 172.x.x.x"},{"ip_range":"192.168.0.0-192.168.255.255","name":"Офисная сеть 192.168.x.x"}]'
-    }, function(result){
-        if(result.error())
+    ```js
+    BX24.callMethod(
+        'timeman.networkrange.set',
         {
-            console.error(result.error().ex);
-        }
-        else
-        {
-            var answer = result.data();
-            if (answer.result)
+            ranges: [
+                {
+                    "ip_range": "10.0.0.0-10.255.255.255",
+                    "name": "Офисная сеть 10.x.x.x"
+                },
+                {
+                    "ip_range": "172.16.0.0-172.31.255.255",
+                    "name": "Офисная сеть 172.x.x.x"
+                },
+                {
+                    "ip_range": "192.168.0.0-192.168.255.255",
+                    "name": "Офисная сеть 192.168.x.x"
+                }
+            ]
+        },
+        function(result){
+            if(result.error())
             {
-                console.log('range saved');
+                console.error(result.error().ex);
             }
             else
             {
-                console.warn('An error occurred while saving, the following ranges are incorrect', answer.error_ranges);
+                console.log(result.data());
             }
         }
-    });
+    );
     ```
 
 - PHP
 
     ```php
-    $result = restCommand('timeman.networkrange.set', Array(
-        'RANGES' => Array(
-            Array("ip_range" => "10.0.0.0-10.255.255.255", "name" => "Офисная сеть 10.x.x.x"),
-            Array("ip_range" => "172.16.0.0-172.31.255.255", "name" => "Офисная сеть 172.x.x.x"),
-            Array("ip_range" => "192.168.0.0-192.168.255.255", "name" => "Офисная сеть 192.168.x.x")
-        )
-    ), $_REQUEST["auth"]);
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'timeman.networkrange.set',
+        [
+            'ranges' => [
+                [
+                    'ip_range' => '10.0.0.0-10.255.255.255',
+                    'name' => 'Офисная сеть 10.x.x.x'
+                ],
+                [
+                    'ip_range' => '172.16.0.0-172.31.255.255',
+                    'name' => 'Офисная сеть 172.x.x.x'
+                ],
+                [
+                    'ip_range' => '192.168.0.0-192.168.255.255',
+                    'name' => 'Офисная сеть 192.168.x.x'
+                ]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-**При успешном сохранении**
-
-> 200 OK
 ```json
 {
     "result": {
         "result": true
+    },
+    "time": {
+        "start": 1742999863.0244141,
+        "finish": 1742999863.057137,
+        "duration": 0.03272294998168945,
+        "processing": 0.0023658275604248047,
+        "date_start": "2025-03-26T17:37:43+03:00",
+        "date_finish": "2025-03-26T17:37:43+03:00",
+        "operating_reset_at": 1743000463,
+        "operating": 0
     }
 }
 ```
 
-**При возникновении ошибки разбора диапазонов**
+### При возникновении ошибки разбора диапазонов
 
-> 200 OK
+HTTP-статус: **200**
+
 ```json
 {
     "result": {
         "result": false,
-        "error_range": [
-            {"ip_range": "a10.0.0.0-10.255.255.255", "name": "Офисная сеть 10.x.x.x"}
+        "error_ranges": [
+            {
+                "ip_range": "a172.16.0.0-172.31.255.255",
+                "name": "Офисная сеть 172.x.x.x"
+            }
         ]
+    },
+    "time": {
+        "start": 1743058773.526674,
+        "finish": 1743058773.5625639,
+        "duration": 0.035889863967895508,
+        "processing": 0.0005609989166259766,
+        "date_start": "2025-03-27T09:59:33+03:00",
+        "date_finish": "2025-03-27T09:59:33+03:00",
+        "operating_reset_at": 1743059373,
+        "operating": 0
     }
 }
 ```
 
-### Описание ключей
 
-- **result** - результат сохранения.
-- **error_range** - массив диапазонов в которых были найдены ошибки:
-    - **ip_range** - диапазон сетевых адресов.
-    - **name** - название диапазона.
+### Возвращаемые данные
 
-## Ответ в случае ошибки
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Корневой элемент ответа. Может иметь значения:
+- `true` — все диапазоны успешно установлены
+- `false` — есть диапазоны с ошибками ||
+|| **error_range**
+ [`array`](../../data-types.md) | Массив [диапазонов](#ip_range), в которых были найдены ошибки ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
-> 200 Error, 50x Error
+#### Объект диапазона {#ip_range}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ip_range**
+ [`string`](../../data-types.md) | Диапазон сетевых адресов ||
+|| **name**
+ [`string`](../../data-types.md) | Название диапазона ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
 ```json
 {
-    "error": "ACCESS_ERROR",
-    "error_description": "You don't have access to user this method"
+    "error": "INVALID_FORMAT",
+    "error_description": "A wrong format for the RANGES field is passed"
 }
 ```
 
-### Описание ключей
-
-- Ключ **error** - код возникшей ошибки.
-- Ключ **error_description** - краткое описание возникшей ошибки.
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ACCESS_ERROR** | Указанный метод доступен только администраторам. ||
-|| **INVALID_FORMAT** | Передан не корректный формат в поле RANGE. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_ERROR` | You don't have access to user this method | Метод доступен только администратору ||
+|| `INVALID_FORMAT` | A wrong format for the RANGES field is passed | Передан некорректный формат в параметре `RANGES` ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./timeman-networkrange-get.md)
+- [{#T}](./timeman-networkrange-check.md)

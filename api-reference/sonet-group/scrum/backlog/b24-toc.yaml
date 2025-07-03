@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Добавить бэклог в Скрам
     href: tasks-api-scrum-backlog-add.md
-  - name: Изменить бэклог
+  - name: Обновить бэклог
     href: tasks-api-scrum-backlog-update.md
   - name: Получить поля бэклога по идентификатору Скрама
     href: tasks-api-scrum-backlog-get.md

@@ -1,52 +1,138 @@
 # Удалить подразделение department.delete
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указан тип параметра
-- отсутствует ответ в случае ошибки
-- нет примеров
-  
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`department`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на изменение структуры
 
-Удаляет указанное подразделение
+Метод `department.delete` удаляет отдел в структуре компании. 
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **ID^*^** | идентификатор подразделения ||
+|| **Название**
+`тип` | **Описание** ||
+|| **ID***
+[`int`](../data-types.md) | Идентификатор отдела ||
 |#
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+## Примеры кода
 
-## Вызов
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
-```js
-BX24.callMethod('department.delete', {"ID": 222});
-```
+{% list tabs %}
 
-## Запрос
+- cURL (Webhook)
 
-```
-https://my.bitrix24.ru/rest/department.delete.json?ID=222&auth=70a32986f1bf204dec4567147ca6a2af
-```
+    ```curl
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ID":18}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/department.delete
+    ```
 
-## Ответ
+- cURL (OAuth)
 
-> 200 OK
+    ```curl
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ID":18,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/department.delete
+    ```
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "department.delete", {
+            "ID": 18
+        },
+        function(result) {
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'department.delete',
+        [
+            'ID' => 18
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
 
 ```json
-{"result":true}
+{
+  "result": true,
+  "time": {
+    "start": 1736929002.119324,
+    "finish": 1736929002.469626,
+    "duration": 0.35030198097229004,
+    "processing": 0.13488411903381348,
+    "date_start": "2025-01-15T08:16:42+00:00",
+    "date_finish": "2025-01-15T08:16:42+00:00",
+    "operating": 0.13484978675842285
+  }
+}
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../data-types.md) | Результат удаления отдела в структуре компании ||
+|| **time**
+[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ERROR_CORE",
+    "error_description":"Department not found"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Cообщение об ошибке** | **Описание** ||
+|| `ERROR_CORE` | Department not found | Удаляемый отдел не найден ||
+|| `ERROR_CORE` | Access denied | Недостаточно прав для удаления отдела ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./department-add.md)
+- [{#T}](./department-update.md)
+- [{#T}](./department-get.md)
+- [{#T}](./department-fields.md)

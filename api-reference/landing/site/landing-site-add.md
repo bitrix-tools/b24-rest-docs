@@ -36,28 +36,34 @@
 
 ## Примеры
 
-```js
-BX24.callMethod(
-    'landing.site.add',
-    {
-        fields: {
-            TITLE: 'My first site!',
-            CODE: 'firstsite',
-            DOMAIN_ID: 'my.bitrix24.site'
-        }
-    },
-    function(result)
-    {
-        if(result.error())
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        'landing.site.add',
         {
-            console.error(result.error());
-        }
-        else
+            fields: {
+                TITLE: 'My first site!',
+                CODE: 'firstsite',
+                DOMAIN_ID: 'my.bitrix24.site'
+            }
+        },
+        function(result)
         {
-            console.info(result.data());
+            if(result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
         }
-    }
-);
-```
+    );
+    ```
+
+{% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

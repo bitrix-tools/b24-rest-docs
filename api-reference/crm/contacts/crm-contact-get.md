@@ -81,6 +81,27 @@
     echo '</PRE>';
     ```
 
+- PHP (B24PhpSdk)
+
+    ```php        
+    try {
+        $contactId = 123; // Example contact ID
+        $contactResult = $serviceBuilder
+            ->getCRMScope()
+            ->contact()
+            ->get($contactId);
+        $itemResult = $contactResult->contact();
+        print("ID: " . $itemResult->ID . PHP_EOL);
+        print("Name: " . $itemResult->NAME . PHP_EOL);
+        print("Last Name: " . $itemResult->LAST_NAME . PHP_EOL);
+        print("Birthday: " . $itemResult->BIRTHDATE?->format(DATE_ATOM) . PHP_EOL);
+        print("Created Date: " . $itemResult->DATE_CREATE->format(DATE_ATOM) . PHP_EOL);
+        print("Modified Date: " . $itemResult->DATE_MODIFY->format(DATE_ATOM) . PHP_EOL);
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . PHP_EOL);
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -360,5 +381,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-list.md)
 - [{#T}](./crm-contact-delete.md)
 - [{#T}](./crm-contact-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
 
 [1]: ../../data-types.md

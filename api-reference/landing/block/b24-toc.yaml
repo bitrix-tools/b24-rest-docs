@@ -1,0 +1,28 @@
+title: Сущность Блоки
+href: index.md
+items:
+  - name: О сущности Блоки
+    href: index.md
+  - name: Файл манифеста
+    href: manifest.md
+  - name: Атрибуты
+    href: attributes.md
+  - name: Типы нод
+    href: node-types.md
+  - name: Расширенное описание карточек
+    href: extended-description.md
+  - name: Локализация блока
+    href: localization.md
+  - name: Специальные блоки
+    include:
+      path: special/b24-toc.yaml
+      mode: link
+  - name: Интерактивные блоки
+    include:
+      path: interactive/b24-toc.yaml
+      mode: link
+  - name: Методы работы с блоками
+    include:
+      path: methods/b24-toc.yaml
+      mode: link
+

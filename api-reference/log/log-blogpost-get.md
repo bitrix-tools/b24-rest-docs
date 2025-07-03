@@ -38,16 +38,29 @@
 
 ## Примеры
 
-```js
-BX24.callMethod('log.blogpost.get', { POST_ID: 755 });
-```
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod('log.blogpost.get', { POST_ID: 755 });
+    ```
+
+{% endlist %}
+
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Запрос
 
-```http
-https://my.bitrix24.ru/rest/log.blogpost.get.xml?auth=xxxxxxx
-```
+{% list tabs %}
+
+- URL-запрос
+
+    ```http
+    https://my.bitrix24.ru/rest/log.blogpost.get.xml?auth=xxxxxxx
+    ```
+
+{% endlist %}
 
 ## Ответ:
 

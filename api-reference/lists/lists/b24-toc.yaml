@@ -1,0 +1,16 @@
+title: Общие методы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать список
+    href: lists-add.md
+  - name: Удалить список
+    href: lists-delete.md
+  - name: Получить данные инфоблока
+    href: lists-get.md
+  - name: Получить идентификатор типа инфоблока
+    href: lists-get-iblock-type-id.md
+  - name: Обновить список
+    href: lists-update.md
+

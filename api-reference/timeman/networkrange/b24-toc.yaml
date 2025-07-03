@@ -1,0 +1,12 @@
+title: Офисные сети
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Проверить IP-адрес
+    href: timeman-networkrange-check.md
+  - name: Получить диапазон сетевых адресов
+    href: timeman-networkrange-get.md
+  - name: Установить диапазон сетевых адресов
+    href: timeman-networkrange-set.md
+
