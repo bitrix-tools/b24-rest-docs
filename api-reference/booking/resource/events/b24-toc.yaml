@@ -1,0 +1,13 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При создании ресурса
+    href: on-booking-resource-add.md 
+  - name: При обновлении ресурса
+    href: on-booking-resource-update.md
+  - name: При удалении ресурса
+    href: on-booking-resource-delete.md                
+
+
