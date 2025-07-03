@@ -6,6 +6,7 @@
 
 - Обновлена главная страница раздела [Вариации товара](./api-reference/catalog/product/offer/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
 - Обновлен туториал [Как найти дубликаты в CRM по телефону и email](./tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
+- Обновлены главные страницы событий в разделах: [Задачи](./api-reference/tasks/events-tasks/index.md), [Комментарии](./api-reference/tasks/comment-item/events-comment/index.md). Добавили вводную информацию, а также обзор событий
 
 ### 02 июля, 2025
 

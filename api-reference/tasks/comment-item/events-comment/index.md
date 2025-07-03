@@ -1,14 +1,33 @@
-# События
+# Обзор событий при работе с комментариями задач
 
-> Название событий: **OnTaskComment\***
->
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о добавлении, обновлении или удалении комментария в задаче.
+
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
+
+> Быстрый переход: [все события](#all-events)
+
+## Как получать события
+
+Подписаться на события задач можно через:
+
+-  [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
+-  [приложение](../../../app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
+
+Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
+
+## Доступность серверов для отправки и получения событий
+
+{% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
+
+## Обзор событий {#all-events}
+
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
 #|
 || **Событие** | **Вызывается** ||
-|| [OnTaskCommentAdd](./on-task-comment-add.md) | При добавлении комментария к задаче ||
-|| [OnTaskCommentUpdate](./on-task-comment-update.md) | При обновления комментария принадлежащего задаче ||
-|| [OnTaskCommentDelete](./on-task-comment-delete.md) | При удалении комментария принадлежащего задаче ||
+|| [OnTaskCommentAdd](./on-task-comment-add.md) | При добавлении комментария в задаче вручную или методом [task.commentitem.add](../task-comment-item-add.md) ||
+|| [OnTaskCommentUpdate](./on-task-comment-update.md) | При обновлении комментария в задаче вручную или методом [task.commentitem.update](../task-comment-item-update.md) ||
+|| [OnTaskCommentDelete](./on-task-comment-delete.md) | При удалении комментария в задаче вручную или методом [task.commentitem.delete](../task-comment-item-delete.md) ||
 |#

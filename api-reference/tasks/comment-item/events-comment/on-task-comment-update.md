@@ -1,4 +1,4 @@
-# Событие на изменение комментария OnTaskCommentUpdate
+# Событие при изменении комментария OnTaskCommentUpdate
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >
