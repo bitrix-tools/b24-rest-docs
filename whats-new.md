@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 08 июля, 2025
+
+- Добавлены события для модуля Онлайн-записи: [onBooking*](./api-reference/booking/booking/events/index.md), [onBookingResource*](./api-reference/booking/resource/events/index.md), [onBookingResourceType*](./api-reference/booking/resource/resource-type/events/index.md), [onBookingWaitListItem*](./api-reference/booking/waitlist/events/index.md)
+
 ### 04 июля, 2025
 
 - Обновлена главная страница раздела [Головные товары](./api-reference/catalog/product/sku/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
@@ -100,7 +104,7 @@
 
 ### 14 мая, 2025
 
-- Добавлены методы для модуя BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)
+- Добавлены методы для модуля BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)
 
 ### 13 мая, 2025
 

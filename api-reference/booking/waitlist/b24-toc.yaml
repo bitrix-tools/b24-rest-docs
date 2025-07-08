@@ -14,7 +14,11 @@ items:
   - name: Получить список записей из листа ожидания 
     href: booking-v1-waitlist-list.md
   - name: Удалить запись из листа ожидания 
-    href: booking-v1-waitlist-delete.md                    
+    href: booking-v1-waitlist-delete.md   
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link                      
   - name: Связь с дополнительными объектами
     include:
       path: external-data/b24-toc.yaml
