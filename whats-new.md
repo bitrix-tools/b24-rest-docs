@@ -5,6 +5,7 @@
 ### 08 июля, 2025
 
 - Добавлены события для модуля Онлайн-записи: [onBooking*](./api-reference/booking/booking/events/index.md), [onBookingResource*](./api-reference/booking/resource/events/index.md), [onBookingResourceType*](./api-reference/booking/resource/resource-type/events/index.md), [onBookingWaitListItem*](./api-reference/booking/waitlist/events/index.md)
+- Обновлен туториал [Добавить лид через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-lead.md)
 
 ### 04 июля, 2025
 
