@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 09 июля, 2025
+
+- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/auxiliary/vat/index.md) в CRM
+
 ### 08 июля, 2025
 
 - Добавлены события для модуля Онлайн-записи: [onBooking*](./api-reference/booking/booking/events/index.md), [onBookingResource*](./api-reference/booking/resource/events/index.md), [onBookingResourceType*](./api-reference/booking/resource/resource-type/events/index.md), [onBookingWaitListItem*](./api-reference/booking/waitlist/events/index.md)
