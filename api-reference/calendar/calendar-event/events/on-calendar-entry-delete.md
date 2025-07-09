@@ -1,25 +1,25 @@
-# При изменении события OnCalendarEntryUpdate
+# При удалении события OnCalendarEntryDelete
 
-> Scope: [`calendar`](../../scopes/permissions.md)
+> Scope: [`calendar`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие вызывается при изменении события календаря.
+Событие вызывается при удалении события календаря.
 
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}
 
-Пример: событие на изменение объекта события календаря с `id = 1414`.
+Пример: событие на удаление объекта события календаря с `id = 1412`.
 
 ```json
 {
-    "event": "ONCALENDARENTRYUPDATE",
-    "event_handler_id": "4",
+    "event": "ONCALENDARENTRYDELETE",
+    "event_handler_id": "5",
     "data": {
-        "id": "1414"
+        "id": "1412"
     },
-    "ts": "1734608349",
+    "ts": "1734608570",
     "auth": {
         "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
         "expires_in": "3600",
@@ -41,17 +41,17 @@
 || **event**
 [`string`][1] | Символьный код события.
 
-В данном случае — `ONCALENDARENTRYUPDATE`||
+В данном случае — `ONCALENDARENTRYDELETE`||
 || **event_handler_id**
 [`integer`][1] | Идентификатор обработчика события ||
 || **data**
-[`object`][1] | Объект, содержащий информацию о измененном объекте события календаря.
+[`object`][1] | Объект, содержащий информацию о удаленном объекте события календаря.
 
 Содержит единственный ключ — `id` ||
 || **data.id**
 [`string`][1] | Идентификатор объекта события календаря ||
 || **ts**
-[`timestamp`][1] | Дата и время отправки события из [очереди событий](../../events/index.md) ||
+[`timestamp`][1] | Дата и время отправки события из [очереди событий](../../../events/index.md) ||
 || **auth**
 [`object`][1] | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
 
@@ -60,14 +60,15 @@
 
 ### Параметр auth {#auth}
 
-{% include notitle [Таблица с ключами в массиве auth](../../../_includes/auth-params-in-events.md) %}
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение 
 
-- [{#T}](../../events/index.md)
-- [{#T}](../../events/event-bind.md)
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./index.md)
 - [{#T}](./on-calendar-entry-add.md)
-- [{#T}](./on-calendar-entry-delete.md)
+- [{#T}](./on-calendar-entry-update.md)
 
-[1]: ../../data-types.md
+
+[1]: ../../../data-types.md

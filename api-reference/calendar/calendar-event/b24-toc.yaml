@@ -20,4 +20,8 @@ items:
   - name: Установить статус участия в событии для текущего пользователя
     href: calendar-meeting-status-set.md
   - name: Получить занятость пользователей из списка
-    href: calendar-accessibility-get.md 
+    href: calendar-accessibility-get.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link 
