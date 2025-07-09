@@ -46,7 +46,7 @@
 - [Как прикрепить задачу к смарт-процессу](../../../../tutorials/tasks/how-to-connect-task-to-spa.md)
 - [Как создать пользовательское поле в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
 - [Как добавить комментарий в таймлайн смарт-процесса](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-comment-to-spa.md)
-  
+- [Как создать новую воронку со стадиями в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)  
 
 {% endnote %}
 

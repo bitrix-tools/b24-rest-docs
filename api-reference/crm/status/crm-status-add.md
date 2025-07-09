@@ -110,3 +110,7 @@ crm.status.add(fields)
 Во втором примере поле STATUS_ID будет сохранено как `С1:DECISION`, где будет добавлен префикс "C1:", соответствующий идентификатору направления сделок.
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)

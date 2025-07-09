@@ -65,5 +65,6 @@ Cмотри описание [списочных методов](../../../api-re
 ## Продолжите изучение
 
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

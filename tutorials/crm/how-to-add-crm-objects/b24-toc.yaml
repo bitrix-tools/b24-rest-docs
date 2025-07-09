@@ -31,6 +31,8 @@ items:
     href: how-to-add-user-field-to-spa.md
   - name: Настроить округление для пользовательского поля типа «Число»
     href: how-to-add-precision-to-user-field.md
+  - name: Как создать новую воронку со стадиями в смарт-процессе
+    href: how-to-add-category-to-spa.md
     
 
     
