@@ -1,4 +1,4 @@
-# Событие при удалении ресурса `onBookingResourceDelete`
+# Событие при удалении ресурса onBookingResourceDelete
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >

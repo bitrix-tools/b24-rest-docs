@@ -37,7 +37,7 @@
 - [Карточка CRM: возможности и настройки](https://helpdesk.bitrix24.ru/open/22804914/)
 - [Системные поля в CRM](https://helpdesk.bitrix24.ru/open/18478840/)
 - [Пользовательские поля в CRM](https://helpdesk.bitrix24.ru/open/22048980/)
-- [Таймлайн в элементе CRM](https://helpdesk.bitrix24.ru/open/16749348/)
+- [Таймлайн в элементе CRM](https://helpdesk.bitrix24.ru/open/23960160/)
 
 {% endnote %}
 

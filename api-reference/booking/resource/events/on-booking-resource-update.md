@@ -1,4 +1,4 @@
-# Событие при обновлении ресурса `onBookingResourceUpdate`
+# Событие при обновлении ресурса onBookingResourceUpdate
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >

@@ -1,4 +1,4 @@
-# Событие при обновлении бронирования `onBookingUpdate`
+# Событие при обновлении бронирования onBookingUpdate
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >

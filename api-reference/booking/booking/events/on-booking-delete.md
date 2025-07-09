@@ -1,4 +1,4 @@
-# Событие при удалении бронирования `onBookingDelete`
+# Событие при удалении бронирования onBookingDelete
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >

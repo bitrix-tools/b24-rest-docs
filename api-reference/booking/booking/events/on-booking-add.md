@@ -1,4 +1,4 @@
-# Событие при создании бронирования `onBookingAdd`
+# Событие при создании бронирования onBookingAdd
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >

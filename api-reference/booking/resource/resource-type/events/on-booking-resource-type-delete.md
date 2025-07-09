@@ -1,4 +1,4 @@
-# Событие при удалении типа ресурса `onBookingResourceTypeDelete`
+# Событие при удалении типа ресурса onBookingResourceTypeDelete
 
 > Scope: [`booking`](../../../../scopes/permissions.md)
 >

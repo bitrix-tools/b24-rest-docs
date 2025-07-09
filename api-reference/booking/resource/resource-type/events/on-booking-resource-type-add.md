@@ -1,4 +1,4 @@
-# Событие при создании типа ресурса `onBookingResourceTypeAdd`
+# Событие при создании типа ресурса onBookingResourceTypeAdd
 
 > Scope: [`booking`](../../../../scopes/permissions.md)
 >

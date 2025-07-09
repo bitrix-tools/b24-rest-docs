@@ -1,4 +1,4 @@
-# Событие при удалении записи из листа ожидания `onBookingWaitListItemDelete`
+# Событие при удалении записи из листа ожидания onBookingWaitListItemDelete
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >
