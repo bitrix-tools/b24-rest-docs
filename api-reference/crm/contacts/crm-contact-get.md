@@ -382,5 +382,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-delete.md)
 - [{#T}](./crm-contact-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
 
 [1]: ../../data-types.md

@@ -2,9 +2,13 @@ title: Универсальные методы CRM
 href: index.md
 items:
   - name: Универсальные методы для основных элементов
-    href: index.md
+    href: index.md 
   - name: Универсальные методы для счетов
     href: invoice.md
+  - name: Смарт-процессы
+    include:
+      path: user-defined-object-types/b24-toc.yaml
+      mode: link             
   - name: Создать новый элемент CRM
     href: crm-item-add.md
   - name: Обновить элемент
@@ -21,15 +25,9 @@ items:
     include:
       path: events/b24-toc.yaml
       mode: link
-  - name: Виджеты
-    href: widgets.md
   - name: Товарные позиции
     include:
       path: product-rows/b24-toc.yaml
-      mode: link
-  - name: Свои типы объектов
-    include:
-      path: user-defined-object-types/b24-toc.yaml
       mode: link
   - name: Пользовательские поля
     include:
@@ -38,10 +36,6 @@ items:
   - name: Настройки пользовательских полей
     include:
       path: userfieldconfig/b24-toc.yaml
-      mode: link
-  - name: Пользовательские типы полей
-    include:
-      path: user-defined-field-types/b24-toc.yaml
       mode: link
   - name: Воронки CRM
     include:
@@ -67,3 +61,5 @@ items:
     include:
       path: item-details-configuration/b24-toc.yaml
       mode: link
+  - name: Виджеты
+    href: widgets.md      

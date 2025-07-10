@@ -1,4 +1,4 @@
-# Событие на изменение комментария OnTaskCommentUpdate
+# Событие при изменении комментария OnTaskCommentUpdate
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >
@@ -12,7 +12,7 @@
 
 ```json
 array(
-    'event' => 'ONTASKCOMMENUPDATE',
+    'event' => 'ONTASKCOMMENTUPDATE',
     'data' => array(
         'FIELDS_BEFORE' => array('ID' => 123, 'TASK_ID' => 555),
         'FIELDS_AFTER' => array('ID' => 123, 'TASK_ID' => 555, 'ACTION' => 'EDIT'),

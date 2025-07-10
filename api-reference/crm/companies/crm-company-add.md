@@ -87,3 +87,4 @@
 - [{#T}](./index.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-company.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-company-with-requisite.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)

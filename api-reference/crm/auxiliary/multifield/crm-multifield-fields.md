@@ -1,55 +1,28 @@
 # Получить описание множественных полей crm.multifield.fields
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры (на других языках)
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
->
+> 
 > Кто может выполнять метод: любой пользователь
 
-```http
-crm.multifield.fields()
-```
+Метод `crm.multifield.fields` возвращает описание множественных полей, используемых для хранения телефонов, email-адресов и другой контактной информации в лидах, контактах и компаниях.
 
-Возвращает описание множественных полей. Множественные поля применяются для хранения телефонов, email-адресов и другой контактной информации. В лидах, контактах и компаниях полями этого типа являются PHONE, EMAIL, WEB и IM.
-
-## Параметры
+## Параметры метода
 
 Без параметров.
 
-## Пример
+## Примеры кода
 
-```json
-{'LEAD': [1, 2, 3], 'CONTACT': [4, 5, 6], 'COMPANY': [7, 8, 9]}
-```
-
-## Пример поиска контакта по телефону:
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
-  
-    ```javascript
+
+    ```js
     BX24.callMethod(
         "crm.multifield.fields",
         {},
-        function(result)
-        {
+        function(result) {
             if(result.error())
                 console.error(result.error());
             else
@@ -58,7 +31,133 @@ crm.multifield.fields()
     );
     ```
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.multifield.fields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"auth":"**put_access_token_here**"}' \
+         https://**put_your_bitrix24_address**/rest/crm.multifield.fields
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.multifield.fields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
+## Обработка ответа
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "ID": {
+            "type": "int",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "ID"
+        },
+        "TYPE_ID": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Тип поля"
+        },
+        "VALUE": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Значение"
+        },
+        "VALUE_TYPE": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Тип значения"
+        }
+    },
+    "time": {
+        "start": 1750684622.069806,
+        "finish": 1750684622.120529,
+        "duration": 0.05072283744812012,
+        "processing": 0.00037217140197753906,
+        "date_start": "2025-06-23T16:17:02+03:00",
+        "date_finish": "2025-06-23T16:17:02+03:00",
+        "operating_reset_at": 1750685222,
+        "operating": 0
+    }
+}
+```
+
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Объект с описанием полей [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Поля объекта result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор ||
+|| **TYPE_ID**
+[`string`](../../../data-types.md) | Тип поля ||
+|| **VALUE**
+[`string`](../../../data-types.md) | Значение ||
+|| **VALUE_TYPE**
+[`string`](../../../data-types.md) | Тип значения ||
+|#
+
+## Обработка ошибок
+
+Метод не возвращает ошибки.
+
+{% include [системные ошибки](./../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../index.md)

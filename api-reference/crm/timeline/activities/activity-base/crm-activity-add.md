@@ -318,3 +318,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-list.md)
 - [{#T}](./crm-activity-communication-fields.md)
 - [{#T}](./crm-activity-fields.md)
+- [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
+- [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)

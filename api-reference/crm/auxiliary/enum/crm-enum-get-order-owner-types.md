@@ -1,79 +1,139 @@
-# Получить id объектов, к которым можно привязать заказ crm.enum.getorderownertypes
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
+# Получить типы объектов для привязки заказа crm.enum.getorderownertypes
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-## Описание
+Метод `crm.enum.getorderownertypes` возвращает список типов объектов, к которым можно привязать заказ.  `id` типа объекта используйте в значении параметра `ownerTypeId` методов [crm.orderentity.*](../../universal/order-entity/crm-order-entity-add.md).
 
-```js
-crm.enum.getorderownertypes()
-```
+{% note info " " %}
 
-Метод возвращает идентификаторы типов сущностей, к которым доступна привязка заказа.
-
-## Возможные значения
-
-{% note info "Примечание" %}
-
-В настоящий момент [привязку заказа](../../universal/order-entity/crm-order-entity-add.md) можно осуществить только к **Сделке**.
+В настоящий момент [привязку заказа](../../universal/order-entity/crm-order-entity-add.md) можно осуществить только к [сделке](../../deals/index.md).
 
 {% endnote %}
 
-```
-"result": [
-    {
-     "attribute": "DYN",
-     "code": "DEAL",
-     "id": "2",
-     "name": "Сделка"
-}
-]
-```
-
-## Параметры
+## Параметры метода
 
 Без параметров.
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
-  
-    ```javascript
+
+    ```js
     BX24.callMethod(
         "crm.enum.getorderownertypes",
         {},
-        function(result)
-        {
-            if(result.error())
+        function(result) {
+            if (result.error())
                 console.error(result.error());
             else
                 console.dir(result.data());
         }
-    );    
+    );
+    ```
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.enum.getorderownertypes
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"auth":"**put_access_token_here**"}' \
+         https://**put_your_bitrix24_address**/rest/crm.enum.getorderownertypes
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.enum.getorderownertypes',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
+## Обработка ответа
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+HTTP-статус: **200**
+
+```json
+{
+"result": [
+    {
+     "attribute": "DYN",
+     "code": "DEAL",
+     "id": 2,
+     "name": "Сделка"
+    }
+],
+"time": {
+    "start": 1750152924.723585,
+    "finish": 1750152924.781251,
+    "duration": 0.05766606330871582,
+    "processing": 0.020370960235595703,
+    "date_start": "2025-06-17T12:35:24+03:00",
+    "date_finish": "2025-06-17T12:35:24+03:00",
+    "operating_reset_at": 1750153524,
+    "operating": 0
+}
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../../data-types.md) | Массив с типами объектов [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Поля массива result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **attribute**
+[`string`](../../../data-types.md) | Атрибут типа объекта ||
+|| **code**
+[`string`](../../../data-types.md) | Код типа объекта ||
+|| **id**
+[`integer`](../../../data-types.md) | Идентификатор типа объекта ||
+|| **name**
+[`string`](../../../data-types.md) | Название типа объекта ||
+|#
+
+## Обработка ошибок
+
+Метод не возвращает ошибки.
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](../../universal/order-entity/crm-order-entity-add.md)

@@ -14,7 +14,11 @@ items:
   - name: Получить список бронирований 
     href: booking-v1-booking-list.md
   - name: Удалить бронирование 
-    href: booking-v1-booking-delete.md                    
+    href: booking-v1-booking-delete.md  
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link                      
   - name: Связь с дополнительными объектами
     include:
       path: external-data/b24-toc.yaml

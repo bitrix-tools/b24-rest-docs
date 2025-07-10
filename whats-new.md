@@ -2,6 +2,53 @@
 
 ## 2025
 
+### 09 июля, 2025
+
+- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/auxiliary/vat/index.md) в CRM
+- Добавлен новый туториал [Как создать новую воронку со стадиями в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
+- Обновлены главные страницы событий в разделах: [События календаря](./api-reference/calendar/calendar-event/events/index.md), [Календарь](./api-reference/calendar/events/index.md). Добавили вводную информацию, а также обзор событий
+
+### 08 июля, 2025
+
+- Добавлены события для модуля Онлайн-записи: [onBooking*](./api-reference/booking/booking/events/index.md), [onBookingResource*](./api-reference/booking/resource/events/index.md), [onBookingResourceType*](./api-reference/booking/resource/resource-type/events/index.md), [onBookingWaitListItem*](./api-reference/booking/waitlist/events/index.md)
+- Обновлен туториал [Добавить лид через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-lead.md)
+
+### 04 июля, 2025
+
+- Обновлена главная страница раздела [Головные товары](./api-reference/catalog/product/sku/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Смарт-процессы](./api-reference/crm/universal/user-defined-object-types/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+
+### 03 июля, 2025
+
+- Обновлена главная страница раздела [Вариации товара](./api-reference/catalog/product/offer/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+- Обновлен туториал [Как найти дубликаты в CRM по телефону и email](./tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
+- Обновлены главные страницы событий в разделах: [Задачи](./api-reference/tasks/events-tasks/index.md), [Комментарии](./api-reference/tasks/comment-item/events-comment/index.md). Добавили вводную информацию, а также обзор событий
+
+### 02 июля, 2025
+
+- Обновлена документация по методам работы с настройками [timeman.timecontrol.reports.settings.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-settings-get.md), [timeman.timecontrol.settings.get](./api-reference/timeman/timecontrol/timeman-timecontrol-settings-get.md), [timeman.timecontrol.settings.set](./api-reference/timeman/timecontrol/timeman-timecontrol-settings-set.md) в разделе Контроль времени.
+
+### 27 июня, 2025
+
+- Обновлена главная страница раздела [Услуги](./api-reference/catalog/product/service/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+
+### 26 июня, 2025
+
+- Обновлена документация по методам [crm.duplicate.volatileType.*](./api-reference/crm/duplicates/volatile-type/index.md) в CRM 
+
+### 24 июня, 2025
+
+- Обновлена документация по методам [crm.duplicate.findbycomm](./api-reference/crm/duplicates/crm-duplicate-find-by-comm.md), [crm.entity.mergeBatch](./api-reference/crm/duplicates/crm-entity-merge-batch.md), [crm.multifield.fields](./api-reference/crm/auxiliary/multifield/crm-multifield-fields.md) в CRM 
+
+### 20 июня, 2025
+
+- Добавлена статья [Пользовательские типы полей в CRM](./api-reference/crm/universal/user-defined-fields/userfield-type.md)
+- Обновлен туториал [Как отправить письмо клиенту от имени сотрудника](./tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
+
+### 18 июня, 2025
+
+- Обновлена документация по методам перечислений [crm.enum.*](./api-reference/crm/auxiliary/enum/index.md) в CRM
+
 ### 11 июня, 2025
 
 - Обновлены страницы [системных событий](./api-reference/common/events/index.md) и событие [onOfflineEvent](./api-reference/events/on-offline-event.md)
@@ -64,7 +111,7 @@
 
 ### 14 мая, 2025
 
-- Добавлены методы для модуя BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)
+- Добавлены методы для модуля BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)
 
 ### 13 мая, 2025
 

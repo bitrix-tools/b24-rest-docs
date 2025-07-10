@@ -12,7 +12,11 @@ items:
   - name: Получить список ресурсов
     href: booking-v1-resource-list.md
   - name: Удалить ресурс
-    href: booking-v1-resource-delete.md                
+    href: booking-v1-resource-delete.md  
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link                  
   - name: Тип ресурса
     include:
       path: resource-type/b24-toc.yaml

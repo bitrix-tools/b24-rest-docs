@@ -52,6 +52,6 @@
 || [timeman.timecontrol.reports.get](./timeman-timecontrol-reports-get.md) | Получает отчет о выявленных отсутствиях ||
 || [timeman.timecontrol.settings.get](./timeman-timecontrol-settings-get.md) | Получает настройки инструмента контроля времени ||
 || [timeman.timecontrol.settings.set](./timeman-timecontrol-settings-set.md) | Устанавливает настройки инструмента контроля времени ||
-|| [timeman.timecontrol.reports.settings.get](./timeman-timecontrol-reports-settings-get.md) | Получает пользовательские настройки для построения интерфейса отчетов инструмента контроля времени ||
+|| [timeman.timecontrol.reports.settings.get](./timeman-timecontrol-reports-settings-get.md) | Получает настройки отчетов для построения интерфейса отчетов инструмента контроля времени ||
 || [timeman.timecontrol.reports.users.get](./timeman-timecontrol-reports-users-get.md) | Получает список пользователей указанного подразделения ||
 |#

@@ -1,4 +1,4 @@
-# Событие на добавление задачи OnTaskAdd
+# Событие при добавлении задачи OnTaskAdd
 
 > Scope: [`task`](../../scopes/permissions.md)
 >

@@ -1,0 +1,13 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При создании бронирования
+    href: on-booking-add.md 
+  - name: При обновлении бронирования
+    href: on-booking-update.md
+  - name: При удалении бронирования
+    href: on-booking-delete.md                
+
+

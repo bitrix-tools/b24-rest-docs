@@ -1,0 +1,13 @@
+title: События
+href: index.md
+items: 
+  - name: Обзор событий
+    href: index.md
+  - name: При создании записи в листе ожидания
+    href: on-booking-waitlistitem-add.md 
+  - name: При обновлении записи в листе ожидания
+    href: on-booking-waitlistitem-update.md
+  - name: При удалении записи в листе ожидания
+    href: on-booking-waitlistitem-delete.md                
+
+

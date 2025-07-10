@@ -1,36 +1,82 @@
-# Получить элементы перечисления «Тип владельца» crm.enum.ownertype
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
+# Получить типы объектов CRM crm.enum.ownertype
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-## Описание
+Метод `crm.enum.ownertype` возвращает идентификаторы типов объектов CRM и смарт-процессов. `ID` типа объекта используйте в значении параметра `entityTypeId` методов [crm.item.*](../../universal/index.md), [crm.activity.*](../../timeline/activities/index.md).
 
-```js
-crm.enum.ownertype()
-```
+{% note info " " %}
 
-Метод возвращает идентификаторы типов сущностей CRM и смарт-процессов.
+Идентификаторы смарт-процессов в каждом Битрикс24 уникальны и могут отличаться от указанных в примере.
 
-## Возможные значения
+{% endnote %}
+
+## Параметры метода
+
+Без параметров.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    BX24.callMethod(
+        "crm.enum.ownertype",
+        {},
+        function(result) {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.enum.ownertype
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"auth":"**put_access_token_here**"}' \
+         https://**put_your_bitrix24_address**/rest/crm.enum.ownertype
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.enum.ownertype',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
 
 ```json
 {
@@ -40,96 +86,120 @@ crm.enum.ownertype()
      "NAME": "Лид",
      "SYMBOL_CODE": "LEAD",
      "SYMBOL_CODE_SHORT": "L"
-},
-{
+    },
+    {
      "ID": 2,
      "NAME": "Сделка",
      "SYMBOL_CODE": "DEAL",
      "SYMBOL_CODE_SHORT": "D"
-},
-{
+    },
+    {
      "ID": 3,
      "NAME": "Контакт",
      "SYMBOL_CODE": "CONTACT",
      "SYMBOL_CODE_SHORT": "C"
-},
-{
+    },
+    {
      "ID": 4,
      "NAME": "Компания",
      "SYMBOL_CODE": "COMPANY",
      "SYMBOL_CODE_SHORT": "CO"
-},
-{
+    },
+    {
      "ID": 5,
      "NAME": "Счёт (старая версия)",
      "SYMBOL_CODE": "INVOICE",
      "SYMBOL_CODE_SHORT": "I"
-},
-{
+    },
+    {
      "ID": 31,
      "NAME": "Счёт",
      "SYMBOL_CODE": "SMART_INVOICE",
      "SYMBOL_CODE_SHORT": "SI"
-},
-{
+    },
+    {
      "ID": 7,
      "NAME": "Предложение",
      "SYMBOL_CODE": "QUOTE",
      "SYMBOL_CODE_SHORT": "Q"
-},
-{
+    },
+    {
      "ID": 8,
      "NAME": "Реквизиты",
      "SYMBOL_CODE": "REQUISITE",
      "SYMBOL_CODE_SHORT": "RQ"
-},
-{
-     "ID": 130,
-     "NAME": "Всё включено",
-     "SYMBOL_CODE": "DYNAMIC_130",
-     "SYMBOL_CODE_SHORT": "T82"
-}
+    },
+    {
+     "ID": 36,
+     "NAME": "Документ",
+     "SYMBOL_CODE": "SMART_DOCUMENT",
+     "SYMBOL_CODE_SHORT": "DO"
+    },
+    {
+     "ID": 39,
+     "NAME": "Документ компании",
+     "SYMBOL_CODE": "SMART_B2E_DOC",
+     "SYMBOL_CODE_SHORT": "SBD"
+    },
+    {
+     "ID": 177,
+     "NAME": "Закупка оборудования",
+     "SYMBOL_CODE": "DYNAMIC_177",
+     "SYMBOL_CODE_SHORT": "Tb1"
+    },
+    {
+     "ID": 156,
+     "NAME": "Закупка",
+     "SYMBOL_CODE": "DYNAMIC_156",
+     "SYMBOL_CODE_SHORT": "T9c"
+    },
 ],
 "time": {
-"start": 1652769631.135543,
-"finish": 1652769631.151046,
-"duration": 0.0155029296875,
-"processing": 0.0014200210571289062,
-"date_start": "2022-05-17T09:40:31+03:00",
-"date_finish": "2022-05-17T09:40:31+03:00",
-"operating": 0
+    "start": 1750153184.228934,
+    "finish": 1750153184.262921,
+    "duration": 0.03398704528808594,
+    "processing": 0.0008471012115478516,
+    "date_start": "2025-06-17T12:39:44+03:00",
+    "date_finish": "2025-06-17T12:39:44+03:00",
+    "operating_reset_at": 1750153784,
+    "operating": 0
 }
 }
 ```
 
-## Параметры
+### Возвращаемые данные
 
-Без параметров.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../../data-types.md) | Массив с типами владельцев [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
-## Примеры
+#### Поля массива result {#result}
 
-{% list tabs %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор типа владельца ||
+|| **NAME**
+[`string`](../../../data-types.md) | Название типа владельца ||
+|| **SYMBOL_CODE**
+[`string`](../../../data-types.md) | Символьный код ||
+|| **SYMBOL_CODE_SHORT**
+[`string`](../../../data-types.md) | Краткий символьный код ||
+|#
 
-- JS
-  
-     ```javascript
-     BX24.callMethod(
-     "crm.enum.ownertype",
-     {},
-     function(result)
-     {
-          if(result.error())
-               console.error(result.error());
-          else
-               console.dir(result.data());
-     }
-     );     
-     ```
+## Обработка ошибок
 
-{% endlist %}
+Метод не возвращает ошибки.
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжить изучение
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../../../../tutorials/tasks/how-to-connect-task-to-spa.md)

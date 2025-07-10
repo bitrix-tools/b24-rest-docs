@@ -97,6 +97,6 @@ userfieldconfig.getTypes({moduleId: string})
 - `string_formatted` - Шаблон
 - `vote` - Опрос
 - `url_preview` - Содержимое ссылки
-- [Пользовательские типы полей](../../../universal/user-defined-field-types/index.md)
+- [Пользовательские типы полей](../../../universal/user-defined-fields/userfield-type.md)
 
 {% endif %}

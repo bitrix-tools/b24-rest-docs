@@ -34,6 +34,6 @@ REST-методы из семейства **crm.item.productrow.\*** позво�
 || [crm.item.productrow.set](./crm-item-productrow-set.md) | Привязывает товарную позицию к объекту CRM ||
 || [crm.item.productrow.list](./crm-item-productrow-list.md) | Получает список товарных позиций ||
 || [crm.item.productrow.getAvailableForPayment](./crm-item-productrow-get-available-for-payment.md) | Получает список неоплаченных товаров ||
-|| [crm.item.productrow.delete](./crm-item-productrow-update.md) | Удаляет товарную позицию ||
+|| [crm.item.productrow.delete](./crm-item-productrow-delete.md) | Удаляет товарную позицию ||
 || [crm.item.productrow.fields](./crm-item-productrow-fields.md) | Получает список полей товарных позиций ||
 |#
