@@ -46,3 +46,7 @@
 |#
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)

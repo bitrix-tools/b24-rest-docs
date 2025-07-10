@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 10 июля, 2025
+
+- Обновлен туториал [Как добавить шаблон и создать документ на его основе](./tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)
+
 ### 09 июля, 2025
 
 - Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/auxiliary/vat/index.md) в CRM
