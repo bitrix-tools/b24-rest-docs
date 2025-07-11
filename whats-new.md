@@ -4,6 +4,10 @@
 
 ### 10 июля, 2025
 
+- Обновлена докуменатция по методам справочников [crm.status.*](./api-reference/crm/status/index.md) в CRM
+
+### 10 июля, 2025
+
 - Обновлен туториал [Как добавить шаблон и создать документ на его основе](./tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)
 
 ### 09 июля, 2025
