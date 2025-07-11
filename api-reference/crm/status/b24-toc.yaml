@@ -5,17 +5,17 @@ items:
     href: index.md
   - name: Создать новый элемент в справочнике
     href: crm-status-add.md
-  - name: Удалить элемент справочника
-    href: crm-status-delete.md
-  - name: Получить элемент справочника по ID
-    href: crm-status-entity-items.md
+  - name: Обновить элемент справочника
+    href: crm-status-update.md    
   - name: Получить типы справочников
-    href: crm-status-entity-types.md
-  - name: Получить поля справочника
-    href: crm-status-fields.md
+    href: crm-status-entity-types.md    
+  - name: Получить элементы справочника по типу
+    href: crm-status-entity-items.md
   - name: Получить элемент справочника по ID
     href: crm-status-get.md
   - name: Получить список элементов по фильтру
     href: crm-status-list.md
-  - name: Обновить элемент справочника
-    href: crm-status-update.md
+  - name: Удалить элемент справочника
+    href: crm-status-delete.md   
+  - name: Получить поля справочника
+    href: crm-status-fields.md     
