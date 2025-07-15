@@ -1,71 +1,168 @@
-# Обновить существующий элемент справочника crm.status.update
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указан тип параметра
-- отсутствуют примеры (на других языках)
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Обновить элемент справочника crm.status.update
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правами администратора CRM
 
-```http
-crm.status.update(id, fields)
-```
+Метод `crm.status.update` обновляет параметры существующего элемента справочника.
 
-Метод обновляет существующий элемент справочника.
-
-#|
-|| **Параметр** | **Описание** ||
-|| **id^*^** | Идентификатор элемента справочника. ||
-|| **fields^*^** | Набор полей - массив вида `array("обновляемое поле"=>"значение"[, ...])`, где "обновляемое поле" может принимать значения из возвращаемых методом [crm.status.fields](crm-status-fields.md) ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Пример
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id*** 
+[`integer`](../../data-types.md) | Идентификатор элемента справочника, который нужно обновить. Получить список можно методом [crm.status.list](./crm-status-list.md) ||
+|| **fields*** 
+[`object`](../../data-types.md) | Массив полей для обновления. Список доступных полей описан [ниже](#fields)  ||
+|#
+
+### Параметр fields {#fields}
+
+#|
+|| **Название**
+ `тип` | **Описание** ||
+|| **NAME**
+[`string`](../../data-types.md) | Название ||
+|| **SORT**
+[`integer`](../../data-types.md) | Сортировка ||
+|| **COLOR**
+[`string`](../../data-types.md) | Цвет hex-код, например `#39A8EF` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    var id = prompt("Введите ID");
+    ```js
     BX24.callMethod(
         "crm.status.update",
         {
-            id: id,
-            fields:
-            {
-                "SORT": 75
-            }                
+            id: 123,
+            fields: {
+                NAME: "Новое название",
+                COLOR: "#00A9F4"
+            }
         },
-        function(result)
-        {
+        function(result) {
             if(result.error())
                 console.error(result.error());
             else
-            {
-                console.info(result.data());                        
-            }
+                console.dir(result.data());
         }
     );
     ```
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"id":123,"fields":{"NAME":"Новое название","COLOR":"#00A9F4"}}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.status.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":123,"fields":{"NAME":"Новое название","COLOR":"#00A9F4"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.status.update
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.status.update',
+        [
+            'id' => 123,
+            'fields' => [
+                'NAME' => 'Новое название',
+                'COLOR' => '#00A9F4'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1752149050.805837,
+        "finish": 1752149050.842422,
+        "duration": 0.036585092544555664,
+        "processing": 0.009345054626464844,
+        "date_start": "2025-07-10T15:04:10+03:00",
+        "date_finish": "2025-07-10T15:04:10+03:00",
+        "operating_reset_at": 1752149650,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "Invalid identifier.",
+    "error_description": "Передан некорректный идентификатор."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `400`     | `Access denied.` | Нет прав на выполнение операции ||
+|| `400`     | `Invalid identifier.` | Передан некорректный идентификатор ||
+|| `400`     | `Status is not found.` | Элемент не найден ||
+|| `400`     | `Error on updating status.` | Ошибка при обновлении элемента ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./crm-status-fields.md)
+- [{#T}](./crm-status-list.md)
+- [{#T}](./crm-status-get.md)
+- [{#T}](./crm-status-add.md)
+- [{#T}](./crm-status-delete.md) 
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)

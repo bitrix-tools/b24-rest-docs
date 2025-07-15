@@ -24,7 +24,7 @@
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM, к которому привязана запись таймлайна ||
 || **entityId***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM, к которому привязана запись таймлайна ||
-|| **activityId***
+|| **timelineId***
 [`integer`](../../../data-types.md) | Идентификатор записи таймлайна ||
 || **layout***
 [`RestAppLayoutDto`](../activities/configurable/structure/rest-app-layout-dto.md) | Объект, описывающий набор дополнительных контентных блоков ||

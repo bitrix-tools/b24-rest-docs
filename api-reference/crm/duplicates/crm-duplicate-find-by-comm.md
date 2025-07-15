@@ -165,3 +165,4 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-entity-merge-batch.md)
+- [{#T}](../../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)

@@ -114,9 +114,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [OnCalendarEntryAdd](./events/on-calendar-entry-add.md) | При добавлении события ||
-    || [OnCalendarEntryUpdate](./events/on-calendar-entry-update.md) | При изменении события ||
-    || [OnCalendarEntryDelete](./events/on-calendar-entry-delete.md) | При удалении события ||
+    || [OnCalendarEntryAdd](./calendar-event/events/on-calendar-entry-add.md) | При добавлении события ||
+    || [OnCalendarEntryUpdate](./calendar-event/events/on-calendar-entry-update.md) | При изменении события ||
+    || [OnCalendarEntryDelete](./calendar-event/events/on-calendar-entry-delete.md) | При удалении события ||
     |#
 
 {% endlist %}

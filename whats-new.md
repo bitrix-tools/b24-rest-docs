@@ -2,6 +2,40 @@
 
 ## 2025
 
+### 15 июля, 2025
+
+- Добавлена документация по методам списков обзвона [crm.calllist.*](./api-reference/crm/call-list/index.md) в CRM
+
+### 10 июля, 2025
+
+- Обновлена докуменатция по методам справочников [crm.status.*](./api-reference/crm/status/index.md) в CRM
+
+### 10 июля, 2025
+
+- Обновлен туториал [Как добавить шаблон и создать документ на его основе](./tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)
+
+### 09 июля, 2025
+
+- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/auxiliary/vat/index.md) в CRM
+- Добавлен новый туториал [Как создать новую воронку со стадиями в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
+- Обновлены главные страницы событий в разделах: [События календаря](./api-reference/calendar/calendar-event/events/index.md), [Календарь](./api-reference/calendar/events/index.md). Добавили вводную информацию, а также обзор событий
+
+### 08 июля, 2025
+
+- Добавлены события для модуля Онлайн-записи: [onBooking*](./api-reference/booking/booking/events/index.md), [onBookingResource*](./api-reference/booking/resource/events/index.md), [onBookingResourceType*](./api-reference/booking/resource/resource-type/events/index.md), [onBookingWaitListItem*](./api-reference/booking/waitlist/events/index.md)
+- Обновлен туториал [Добавить лид через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-lead.md)
+
+### 04 июля, 2025
+
+- Обновлена главная страница раздела [Головные товары](./api-reference/catalog/product/sku/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Смарт-процессы](./api-reference/crm/universal/user-defined-object-types/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+
+### 03 июля, 2025
+
+- Обновлена главная страница раздела [Вариации товара](./api-reference/catalog/product/offer/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+- Обновлен туториал [Как найти дубликаты в CRM по телефону и email](./tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
+- Обновлены главные страницы событий в разделах: [Задачи](./api-reference/tasks/events-tasks/index.md), [Комментарии](./api-reference/tasks/comment-item/events-comment/index.md). Добавили вводную информацию, а также обзор событий
+
 ### 02 июля, 2025
 
 - Обновлена документация по методам работы с настройками [timeman.timecontrol.reports.settings.get](./api-reference/timeman/timecontrol/timeman-timecontrol-reports-settings-get.md), [timeman.timecontrol.settings.get](./api-reference/timeman/timecontrol/timeman-timecontrol-settings-get.md), [timeman.timecontrol.settings.set](./api-reference/timeman/timecontrol/timeman-timecontrol-settings-set.md) в разделе Контроль времени.

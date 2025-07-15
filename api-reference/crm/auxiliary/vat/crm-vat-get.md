@@ -1,57 +1,37 @@
 # Получить ставку НДС по идентификатору crm.vat.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки и успеха
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-## Описание
+Метод `crm.vat.get` возвращает параметры ставки НДС по идентификатору.
 
-```http
-crm.vat.get(id)
-```
-
-Возвращает ставку НДС по идентификатору.
-
-## Параметры
-
-#|
-|| **Параметр** | **Описание** ||
-|| **id** | Идентификатор ставки НДС. ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
-## Примеры
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id*** 
+[`integer`](../../../data-types.md) | Идентификатор ставки НДС. Получить список ставок можно методом [crm.vat.list](./crm-vat-list.md) ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
-  
-    ```javascript
-    var id = prompt("Введите ID");
+
+    ```js
     BX24.callMethod(
         "crm.vat.get",
-        { "id": id },
-        function(result)
         {
+            id: 7
+        },
+        function(result) {
             if(result.error())
                 console.error(result.error());
             else
@@ -60,7 +40,119 @@ crm.vat.get(id)
     );
     ```
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"id":7}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.vat.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":7,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.vat.get
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.vat.get',
+        [
+            'id' => 7
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
+## Обработка ответа
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "ID": "13",
+        "ACTIVE": "Y",
+        "NAME": "НДС 20%",
+        "RATE": "20.00",
+        "C_SORT": "100"
+    },
+    "time": {
+        "start": 1752043855.534128,
+        "finish": 1752043855.598301,
+        "duration": 0.06417298316955566,
+        "processing": 0.008214235305786133,
+        "date_start": "2025-07-09T09:50:55+03:00",
+        "date_finish": "2025-07-09T09:50:55+03:00",
+        "operating_reset_at": 1752044455,
+        "operating": 0
+    }
+}
+```
+
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+ `тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор ставки НДС ||
+|| **ACTIVE**
+[`string`](../../../data-types.md) | Активность ставки ||
+|| **C_SORT**
+[`integer`](../../../data-types.md) | Сортировка ||
+|| **NAME**
+[`string`](../../../data-types.md) | Название ставки ||
+|| **RATE**
+[`double`](../../../data-types.md) | Значение ставки НДС, % ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "VAT rate not found.",
+    "error_description": "Ставка НДС не найдена."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `400`     | `The Commercial Catalog module is not installed.` | Модуль catalog не установлен ||
+|| `400`     | `Access denied.` | Нет прав на выполнение операции ||
+|| `400`     | `VAT rate not found.` | Ставка НДС не найдена ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./crm-vat-fields.md)
+- [{#T}](./crm-vat-list.md)
+- [{#T}](./crm-vat-add.md)
+- [{#T}](./crm-vat-update.md)
+- [{#T}](./crm-vat-delete.md) 

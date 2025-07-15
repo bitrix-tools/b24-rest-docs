@@ -29,5 +29,5 @@
 || **Событие** | **Вызывается** ||
 || [onBookingWaitListItemAdd](./on-booking-waitlistitem-add.md) | При создании записи в лист ожидания вручную или методами [booking.v1.waitlist.add](../booking-v1-waitlist-add.md), [booking.v1.waitlist.createfrombooking](../booking-v1-waitlist-createfrombooking.md) ||
 || [onCrmDealUpdate](./on-booking-waitlistitem-update.md) | При изменении записи в лист ожидания вручную или методом [booking.v1.waitlist.update](../booking-v1-waitlist-update.md) ||
-|| [onBookingWaitListItemUpdate](./on-booking-waitlistitem-delete.md) | При удалении записи в лист ожидания вручную или методом [booking.v1.waitlist.delete](../booking-v1-waitlist-delete.md) ||
+|| [onBookingWaitListItemUpdate](./on-booking-waitlistitem-delete.md) | При удалении записи из листа ожидания вручную или методом [booking.v1.waitlist.delete](../booking-v1-waitlist-delete.md) ||
 |#

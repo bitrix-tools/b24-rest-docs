@@ -1,4 +1,4 @@
-# Событие на обновление задачи OnTaskUpdate
+# Событие при обновлении задачи OnTaskUpdate
 
 > Scope: [`task`](../../scopes/permissions.md)
 >

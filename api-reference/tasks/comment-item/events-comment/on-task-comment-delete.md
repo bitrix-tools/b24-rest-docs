@@ -1,4 +1,4 @@
-# Событие на удаление комментария OnTaskCommentDelete
+# Событие при удалении комментария OnTaskCommentDelete
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >

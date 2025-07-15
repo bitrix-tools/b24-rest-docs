@@ -1,0 +1,17 @@
+title: Списки обзвона
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать новый список обзвона
+    href: crm-calllist-add.md
+  - name: Получить информацию о списке обзвона
+    href: crm-calllist-get.md
+  - name: Получить участников списка обзвона
+    href: crm-calllist-items-get.md
+  - name: Получить список всех обзвонов
+    href: crm-calllist-list.md
+  - name: Получить список статусов обзвона
+    href: crm-calllist-statuslist.md
+  - name: Обновить состав списка обзвона
+    href: crm-calllist-update.md 

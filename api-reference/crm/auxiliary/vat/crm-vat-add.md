@@ -1,84 +1,187 @@
-# Добавить ставку НДС crm.vat.add
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указан тип и обязательность параметров
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
+# Создать ставку НДС crm.vat.add
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правами администратора CRM
 
-## Описание
+Метод `crm.vat.add` создает новую ставку НДС в CRM.
 
-```http
-crm.vat.add(fields)
-```
-
-Метод создает новую ставку НДС.
-
-## Параметры
-
-#|
-|| **Параметр** | **Описание** ||
-|| **fields** | Набор полей - массив вида `array("поле"=>"значение"[, ...])`, содержащий значения ставки НДС. ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
-## Примеры
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **fields*** 
+[`object`](../../../data-types.md) | Объект формата:
+
+```
+{
+    field_1: value_1,
+    field_2: value_2,
+    ...,
+    field_n: value_n,
+}
+```
+
+- `field_n` — название поля
+- `value_n` — значение поля
+
+Список доступных полей описан [ниже](#fields) ||
+|#
+
+### Параметр fields {#fields}
+
+#|
+|| **Название**
+ `тип` | **Описание** ||
+|| **ACTIVE** 
+[`string`](../../../data-types.md) | Активность ставки:
+- `Y` — активна,
+- `N` — неактивна.
+
+По умолчанию — `Y` ||
+|| **C_SORT** 
+[`integer`](../../../data-types.md) | Сортировка. 
+По умолчанию — 100 ||
+|| **NAME***
+[`string`](../../../data-types.md) | Название ставки ||
+|| **RATE*** 
+[`double`](../../../data-types.md) | Значение ставки НДС, % ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    var current = new Date();
-    var date2str = function(d)
-    {
-        return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours())
-            + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
-    };
-    var paddatepart = function(part)
-    {
-        return part >= 10 ? part.toString() : '0' + part.toString();
-    };
+    ```js
     BX24.callMethod(
         "crm.vat.add",
         {
-            "fields":
-            {
-                "TIMESTAMP_X": date2str(current),
-                "ACTIVE": "Y",
-                "C_SORT": 110,
-                "NAME": "НДС 18%",
-                "RATE": 18.00
+            fields: {
+                ACTIVE: "Y",
+                C_SORT: 100,
+                NAME: "НДС 20%",
+                RATE: 20.0
             }
         },
-        function(result)
-        {
+        function(result) {
             if(result.error())
                 console.error(result.error());
             else
-                console.info("Создана новая ставка НДС с ID " + result.data());
+                console.dir(result.data());
         }
     );
     ```
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"fields":{"ACTIVE":"Y","C_SORT":100,"NAME":"НДС 20%","RATE":20.0}}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.vat.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"ACTIVE":"Y","C_SORT":100,"NAME":"НДС 20%","RATE":20.0},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.vat.add
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.vat.add',
+        [
+            'fields' => [
+                'ACTIVE' => 'Y',
+                'C_SORT' => 100,
+                'NAME' => 'НДС 20%',
+                'RATE' => 20.0
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": 13,
+    "time": {
+        "start": 1751982588.245153,
+        "finish": 1751982588.287266,
+        "duration": 0.04211306571960449,
+        "processing": 0.005285978317260742,
+        "date_start": "2025-07-08T16:49:48+03:00",
+        "date_finish": "2025-07-08T16:49:48+03:00",
+        "operating_reset_at": 1751983188,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result** 
+[`integer`](../../../data-types.md) | Корневой элемент ответа, содержит идентификатор созданной ставки НДС ||
+|| **time** 
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "Invalid parameters.",
+    "error_description": "Переданы некорректные параметры."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `400`     | `The Commercial Catalog module is not installed.` | Модуль catalog не установлен ||
+|| `400`     | `Invalid parameters.` | Переданы некорректные параметры ||
+|| `400`     | `Access denied.` | Нет прав на выполнение операции ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./crm-vat-list.md)
+- [{#T}](./crm-vat-get.md)
+- [{#T}](./crm-vat-update.md)
+- [{#T}](./crm-vat-delete.md) 
+- [{#T}](./crm-vat-fields.md)

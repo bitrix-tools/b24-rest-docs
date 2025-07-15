@@ -3,9 +3,9 @@ href: index.md
 items:
   - name: Обзор событий
     href: index.md
-  - name: На добавление задачи
+  - name: При добавлении задачи
     href: on-task-add.md
-  - name: На изменение задачи
+  - name: При обновлении задачи
     href: on-task-update.md
-  - name: На удаление задачи
+  - name: При удалении задачи
     href: on-task-delete.md

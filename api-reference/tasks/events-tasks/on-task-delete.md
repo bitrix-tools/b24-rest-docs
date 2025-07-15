@@ -1,4 +1,4 @@
-# Событие на удаление задачи OnTaskDelete
+# Событие при удалении задачи OnTaskDelete
 
 > Scope: [`task`](../../scopes/permissions.md)
 >

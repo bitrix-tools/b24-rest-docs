@@ -12,3 +12,4 @@
 - [{#T}](./how-to-add-comment-to-spa.md)
 - [{#T}](./how-to-add-user-field-to-spa.md)
 - [{#T}](./how-to-add-precision-to-user-field.md)
+- [{#T}](./how-to-add-category-to-spa.md)

@@ -1,10 +1,10 @@
-# Событие при удалении записи в листе ожидания `onBookingWaitListItemDelete`
+# Событие при удалении записи из листа ожидания onBookingWaitListItemDelete
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONBOOKINGWAITLISTITEMDELETE` сработает при удалении записи в листе ожидания вручную или методом [booking.v1.waitlist.delete](../booking-v1-waitlist-delete.md).
+Событие `ONBOOKINGWAITLISTITEMDELETE` сработает при удалении записи из листа ожидания вручную или методом [booking.v1.waitlist.delete](../booking-v1-waitlist-delete.md).
 
 ## Что получает обработчик
 

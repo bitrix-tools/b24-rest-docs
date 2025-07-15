@@ -3,15 +3,16 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Создать новую ставку НДС
+  - name: Создать ставку НДС
     href: crm-vat-add.md
-  - name: Удалить ставку НДС
-    href: crm-vat-delete.md
+  - name: Обновить ставку НДС
+    href: crm-vat-update.md    
   - name: Получить ставку НДС
     href: crm-vat-get.md
+  - name: Получить список ставок НДС
+    href: crm-vat-list.md    
+  - name: Удалить ставку НДС
+    href: crm-vat-delete.md    
   - name: Получить поля ставки НДС
     href: crm-vat-fields.md
-  - name: Получить список ставок НДС
-    href: crm-vat-list.md
-  - name: Обновить ставку НДС
-    href: crm-vat-update.md
+

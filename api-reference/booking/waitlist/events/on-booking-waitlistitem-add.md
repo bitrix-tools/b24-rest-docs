@@ -1,4 +1,4 @@
-# Событие при создании записи в листе ожидания `onBookingWaitListItemAdd`
+# Событие при создании записи в листе ожидания onBookingWaitListItemAdd
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >

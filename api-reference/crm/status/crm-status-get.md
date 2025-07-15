@@ -1,54 +1,37 @@
 # Получить элемент справочника по идентификатору crm.status.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указан тип параметра
-- отсутствуют примеры (на других языках)
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-```http
-crm.status.get(id)
-```
+Метод `crm.status.get` возвращает параметры элемента справочника по идентификатору.
 
-Метод возвращает элемент справочника по идентификатору.
-
-#|
-|| **Параметр** | **Описание** ||
-|| **id^*^** | Идентификатор элемента справочника. ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Примеры
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id*** 
+[`integer`](../../data-types.md) | Идентификатор элемента справочника. Получить список элементов с идентификаторами можно методом [crm.status.list](./crm-status-list.md) ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
-  
-    ```javascript
-    var id = prompt("Введите ID");
+
+    ```js
     BX24.callMethod(
         "crm.status.get",
-        { id: id },
-        function(result)
         {
+            id: 123
+        },
+        function(result) {
             if(result.error())
                 console.error(result.error());
             else
@@ -57,6 +40,132 @@ crm.status.get(id)
     );
     ```
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"id":123}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.status.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":123,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.status.get
+    ```
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.status.get',
+        [
+            'id' => 123
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "ID": "733",
+        "ENTITY_ID": "DYNAMIC_1038_STAGE_37",
+        "STATUS_ID": "DT1038_37:SUCCESS",
+        "NAME": "Успех",
+        "NAME_INIT": "Успех",
+        "SORT": "40",
+        "SYSTEM": "Y",
+        "CATEGORY_ID": "37",
+        "COLOR": "#00ff00",
+        "SEMANTICS": "S"
+    },
+    "time": {
+        "start": 1752133970.651926,
+        "finish": 1752133970.690207,
+        "duration": 0.03828096389770508,
+        "processing": 0.0060749053955078125,
+        "date_start": "2025-07-10T10:52:50+03:00",
+        "date_finish": "2025-07-10T10:52:50+03:00",
+        "operating_reset_at": 1752134570,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор элемента справочника ||
+|| **ENTITY_ID**
+[`string`](../../data-types.md) | Идентификатор объекта, к которому относится справочник ||
+|| **STATUS_ID**
+[`string`](../../data-types.md) | Код значения статуса ||
+|| **NAME**
+[`string`](../../data-types.md) | Название ||
+|| **NAME_INIT**
+[`string`](../../data-types.md) | Изначальное название ||
+|| **SORT**
+[`integer`](../../data-types.md) | Сортировка ||
+|| **SYSTEM**
+[`string`](../../data-types.md) | Признак системного значения ||
+|| **CATEGORY_ID**
+[`integer`](../../data-types.md) | Идентификатор воронки, к которой относится статус ||
+|| **COLOR**
+[`string`](../../data-types.md) | Цвет статуса для канбана ||
+|| **SEMANTICS**
+[`string`](../../data-types.md) | Группа стадий ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "Status is not found.",
+    "error_description": "Элемент справочника не найден."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `400`     | `Access denied.` | Нет прав на выполнение операции ||
+|| `400`     | `Status is not found.` | Элемент справочника не найден ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./crm-status-fields.md)
+- [{#T}](./crm-status-list.md)
+- [{#T}](./crm-status-add.md)
+- [{#T}](./crm-status-update.md)
+- [{#T}](./crm-status-delete.md) 

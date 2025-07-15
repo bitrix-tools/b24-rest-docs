@@ -446,3 +446,4 @@ HTTP-статус: **200**
 ## Продолжите изучение 
 
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-repeat-lead.md)
+- [{#T}](../../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
