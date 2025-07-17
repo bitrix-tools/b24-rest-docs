@@ -1,6 +1,8 @@
 title: События
 href: on-external-call-start.md
 items: 
+  - name: Обзор событий
+    href: index.md
   - name: При нажатии на телефонный номер
     href: on-external-call-start.md
   - name: При заполнении crm-формы

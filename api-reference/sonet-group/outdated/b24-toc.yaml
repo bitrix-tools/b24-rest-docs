@@ -1,5 +1,7 @@
 title: Устаревшее
 items: 
+  - name: Устаревшие методы
+    href: index.md
   - name: На создание темы группы/проекта 
     href: on-sonet-group-subject-add.md
   - name: На изменение темы группы/проекта

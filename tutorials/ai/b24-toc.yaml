@@ -1,5 +1,7 @@
 title: Туториалы и кейсы использования REST в модуле AI
 href: index.md
 items: 
+  - name: Туториалы и кейсы использования REST в модуле AI
+    href: index.md
   - name: Добавить новый промпт «Анекдот»
     href: add-joke-prompt.md

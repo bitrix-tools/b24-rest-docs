@@ -1,6 +1,8 @@
 title: Как вызывать методы REST API
 href: authorization.md
 items: 
+  - name: Как вызывать методы REST API
+    href: index.md
   - name: Авторизация в REST  
     href: authorization.md
   - name: Как выполняется запрос 
