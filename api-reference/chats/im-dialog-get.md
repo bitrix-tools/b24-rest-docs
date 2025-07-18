@@ -24,25 +24,23 @@
 
 Метод `im.dialog.get` получает информацию о диалоге.
 
+{% include [Сноска о параметрах](../../_includes/required.md) %}
+
 #|
 || **Параметр** | **Пример** | **Описание** | **Ревизия** ||
 || **DIALOG_ID^*^**
-[`unknown`](../data-types.md) | `chat29`
+[`string`](../data-types.md) | `chat29`
 или
 `256` | Идентификатор диалога. Формат:
 - **chatXXX** – чат получателя, если сообщение для чата
 - **XXX** – идентификатор получателя, если сообщение для приватного диалога | 24 ||
 |#
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
-
 ## Примеры
 
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
 {% list tabs %}
-
-- cURL
-
-    // пример для cURL
 
 - JS
 
@@ -50,7 +48,7 @@
     BX24.callMethod(
         'im.dialog.get',
         {
-            DIALOG_ID: 'chat29'
+            DIALOG_ID: 'chat1'
         },
         function(result){
             if(result.error())
@@ -65,25 +63,36 @@
     );
     ```
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"DIALOG_ID":"chat1"}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/im.dialog.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"DIALOG_ID":"chat1","auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/im.dialog.get
+    ```
+
 - PHP
 
-    {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.dialog.get',
-        Array(
-            'DIALOG_ID': 'chat29'
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'DIALOG_ID' => 'chat1'
         ]
     );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
-
-{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## Ответ в случае успеха
 
