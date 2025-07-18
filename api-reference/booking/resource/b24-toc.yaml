@@ -21,7 +21,7 @@ items:
     include:
       path: resource-type/b24-toc.yaml
       mode: link
-  - name: Слоты ресурса
+  - name: Слоты
     include:
       path: slots/b24-toc.yaml
       mode: link

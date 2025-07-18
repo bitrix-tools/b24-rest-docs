@@ -24,6 +24,7 @@
 > Кто может выполнять метод: любой пользователь
 
 #|
+|| **Метод** | **Описание** ||
 || [booking.v1.resourceType.add](./booking-v1-resourcetype-add.md) | Добавляет новый тип ресурса ||
 || [booking.v1.resourceType.update](./booking-v1-resourcetype-update.md) | Обновляет тип ресурса ||
 || [booking.v1.resourceType.get](./booking-v1-resourcetype-get.md) | Получает тип ресурса ||
