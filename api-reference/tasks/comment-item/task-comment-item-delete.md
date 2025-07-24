@@ -1,59 +1,69 @@
 # Удалить комментарий task.commentitem.delete
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-- добавить описание, что можно проверять право на изменение специальным методом
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `task.commentitem.delete`удаляет комментарий. Требуется обязательная авторизация через oauth и получение auth кода.
+Метод `task.commentitem.delete` удаляет комментарий. 
 
-## Параметры
+## Параметры метода
 
-#|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **TASKID^*^**
-[`unknown`](../../data-types.md) | Идентификатор задачи. ||
-|| **ITEMID^*^**
-[`unknown`](../../data-types.md) | Идентификатор комментария. ||
-|#
+{% note warning "" %}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
-
-{% note info %}
-
-Соблюдение порядка следования параметров в запросе обязательно. При его нарушении запрос будет выполнен с ошибками.
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку.
 
 {% endnote %}
 
-## Пример
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **TASKID***
+[`integer`](../../data-types.md) | Идентификатор задачи.
+
+Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
+|| **ITEMID***
+[`integer`](../../data-types.md) | Идентификатор комментария.
+
+Идентификатор комментария можно получить при [добавлении нового комментария](./task-comment-item-add.md) или методом [получения списка комментариев](./task-comment-item-get-list.md) ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASKID":8017,"ITEMID":3155}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.commentitem.delete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASKID":8017,"ITEMID":3155,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/task.commentitem.delete
+    ```
 
 - JS
 
     ```js
     BX24.callMethod(
         'task.commentitem.delete',
-        [13, 1205],
+        {
+            "TASKID": 8017,
+            "ITEMID": 3155
+        },
         function(result){
             console.info(result.data());
             console.log(result);
@@ -61,6 +71,91 @@
     );
     ```
 
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'task.commentitem.delete',
+        [
+            'TASKID' => 8017,
+            'ITEMID' => 3155
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1753274713.135909,
+        "finish": 1753274713.503945,
+        "duration": 0.36803603172302246,
+        "processing": 0.32417798042297363,
+        "date_start": "2025-07-23T15:45:13+03:00",
+        "date_finish": "2025-07-23T15:45:13+03:00",
+        "operating_reset_at": 1753275313,
+        "operating": 0.32415318489074707
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true` если комментарий удален успешно ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ERROR_CORE",
+    "error_description":"TASKS_ERROR_EXCEPTION_#4; Action is not allowed; 4/TE/ACTION_NOT_ALLOWED.<br>"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskcommentitem::delete(), but not given.; 256/TE/WRONG_ARGUMENTS | Не указан обязательный параметр, например, `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#4; Action is not allowed; 4/TE/ACTION_NOT_ALLOWED | Ошибка возвращается в нескольких случаях:
+- Неверный порядок параметров
+- Нет прав доступа к задаче
+- Нельзя удалить комментарий другого пользователя, если вы не администратор
+- Указанной задачи или комментария не существует ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskcommentitem::delete() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS | Указан неверный тип значения для параметра, например, для `TASKID` ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./task-comment-item-add.md)
+- [{#T}](./task-comment-item-update.md)
+- [{#T}](./task-comment-item-get.md)
+- [{#T}](./task-comment-item-get-list.md)
+- [{#T}](./task-comment-item-is-action-allowed.md)
+- [{#T}](./task-comment-item-get-manifest.md)

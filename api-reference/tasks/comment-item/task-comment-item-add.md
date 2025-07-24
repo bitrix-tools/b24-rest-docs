@@ -1,78 +1,87 @@
 # Добавить комментарий task.commentitem.add
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-- добавить описание, что можно проверять право на изменение специальным методом
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `task.commentitem.add`создает новый комментарий к задаче. Возвращает идентификатор добавленного комментария.
+Метод `task.commentitem.add` добавляет новый комментарий к задаче.
 
-## Параметры
-
-#|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **TASKID^*^**
-[`unknown`](../../data-types.md) | Идентификатор задачи. ||
-|| **FIELDS^*^**
-[`unknown`](../../data-types.md) | Массив полей данных по задаче (`POST_MESSAGE` — обязательное поле). ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-{% note info %}
-
-Соблюдение порядка следования параметров в запросе обязательно. При его нарушении запрос будет выполнен с ошибками.
-
-{% endnote %}
-
-### Поля
-
 #|
-|| **Поле** / **Тип** | **Описание** ||
-|| **AUTHOR_ID**
-[`unknown`](../../data-types.md) | Идентификатор пользователя, от имени которого создается комментарий. ||
-|| **AUTHOR_NAME**
-[`unknown`](../../data-types.md) | Имя пользователя (опционально). ||
-|| **AUTHOR_EMAIL**
-[`unknown`](../../data-types.md) | E-mail пользователя (опционально). ||
-|| **USE_SMILES**
-[`unknown`](../../data-types.md) | (Y\|N) — парсить или нет комментарии на наличие смайлов. ||
-|| **POST_MESSAGE**
-[`unknown`](../../data-types.md) | Текст сообщения. ||
-|| **UF_FORUM_MESSAGE_DOC**
-[`unknown`](../../data-types.md) | Массив файлов с диска для прикрепления вида `['n123', ...]` ||
+|| **Название**
+`тип` | **Описание** ||
+|| **TASKID***
+[`integer`](../../data-types.md) | Идентификатор задачи.
+
+Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
+|| **FIELDS***
+[`object`](../../data-types.md) | Объект с [полями комментария](#fields) ||
 |#
 
-## Пример
+### Параметр FIELDS {#fields}
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **POST_MESSAGE***
+[`string`](../../data-types.md) | Текст сообщения ||
+|| **AUTHOR_ID**
+[`integer`](../../data-types.md) | Идентификатор пользователя, от имени которого нужно создать комментарий.
+
+Получить идентификатор пользователя можно с помощью метода [user.get](../../user/user-get.md) ||
+|| **POST_DATE**
+[`string`](../../data-types.md) | Дата сообщения ||
+|| **UF_FORUM_MESSAGE_DOC**
+[`array`](../../data-types.md) | Массив с идентификаторами файлов с Диска. Перед каждым идентификатором укажите префикс `n`, например, `['n123', 'n456', ... ]`.
+
+У автора комментария должен быть доступ к прикрепляемым файлам, иначе метод вернет ошибку ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASKID":8017,"FIELDS":{"POST_MESSAGE":"Текст нового комментария к задаче","AUTHOR_ID":503,"POST_DATE":"2025-07-15T14:30:00+03:00","UF_FORUM_MESSAGE_DOC":["n4755","n4753"]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.commentitem.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASKID":8017,"FIELDS":{"POST_MESSAGE":"Текст нового комментария к задаче","AUTHOR_ID":503,"POST_DATE":"2025-07-15T14:30:00+03:00","UF_FORUM_MESSAGE_DOC":["n4755","n4753"]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/task.commentitem.add
+    ```
 
 - JS
 
     ```js
-    // Добавляем новый комментарий с текстом "HELLO" для задачи с ID=13
     BX24.callMethod(
         'task.commentitem.add',
-        [13, {'POST_MESSAGE': 'HELLO'}],
+        {
+            "TASKID": 8017,
+            "FIELDS": {
+                "POST_MESSAGE": "Текст нового комментария к задаче",
+                "AUTHOR_ID": 503,
+                "POST_DATE": "2025-07-15T14:30:00+03:00",
+                "UF_FORUM_MESSAGE_DOC": ["n4755", "n4753"]
+            }
+        },
         function(result){
             console.info(result.data());
             console.log(result);
@@ -80,10 +89,97 @@
     );
     ```
 
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'task.commentitem.add',
+        [
+            'TASKID' => 8017,
+            'FIELDS' => [
+                'POST_MESSAGE' => 'Текст нового комментария к задаче',
+                'AUTHOR_ID' => 503,
+                'POST_DATE' => '2025-07-15T14:30:00+03:00',
+                'UF_FORUM_MESSAGE_DOC' => ['n4755', 'n4753']
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": 3141,
+    "time": {
+        "start": 1753262861.683775,
+        "finish": 1753262862.001611,
+        "duration": 0.31783604621887207,
+        "processing": 0.27428317070007324,
+        "date_start": "2025-07-23T12:27:41+03:00",
+        "date_finish": "2025-07-23T12:27:42+03:00",
+        "operating_reset_at": 1753263461,
+        "operating": 0.2742629051208496
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Идентификатор нового комментария ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ERROR_CODE",
+    "error_description":"Недостаточно прав для добавления комментария.<br>"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+error: "ERROR_CORE"
+error_description: "Не удалось найти файл.<br><br>"
+#|
+|| **Код** | **Описание** | **Значение**  ||
+|| `ERROR_CORE` | Не указан текст комментария | Обязательный параметр `POST_MESSAGE` не передан или пустой ||
+|| `ERROR_CORE` | Недостаточно прав для добавления комментария | Нет прав доступа к задаче ||
+|| `ERROR_CORE` | Не удалось найти файл | Файл из параметра `UF_FORUM_MESSAGE_DOC` не найден или у автора нет к нему доступа ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (arFields) for method ctaskcommentitem::add() must not contain key `<FIELD_NAME>`.; 256/TE/WRONG_ARGUMENTS | Поле `<FIELD_NAME>` нельзя использовать в методе ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskcommentitem::add() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS | Указан неверный тип значения для параметра, например, для `TASKID` ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./task-comment-item-update.md)
+- [{#T}](./task-comment-item-get.md)
+- [{#T}](./task-comment-item-get-list.md)
+- [{#T}](./task-comment-item-delete.md)
+- [{#T}](./task-comment-item-is-action-allowed.md)
+- [{#T}](./task-comment-item-get-manifest.md)
 - [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
