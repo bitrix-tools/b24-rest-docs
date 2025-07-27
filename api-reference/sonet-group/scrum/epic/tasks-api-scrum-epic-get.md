@@ -23,7 +23,7 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **epicId***
+|| **id***
 [`integer`](../../../data-types.md) | Идентификатор эпика.
 
 Получить идентификаторы эпиков можно методом [`tasks.api.scrum.epic.list`](./tasks-api-scrum-epic-list.md) ||
