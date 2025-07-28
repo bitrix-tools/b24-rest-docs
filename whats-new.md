@@ -2,6 +2,31 @@
 
 ## 2025
 
+### 28 июля, 2025
+
+- Добавлена документация по методам списков обзвона [crm.calllist.*](./api-reference/crm/call-list/index.md) в CRM
+
+### 24 июля, 2025
+
+- Обновлена документация по методам работы с комментариями [task.commentitem.*](./api-reference/tasks/comment-item/index.md) в Задачах
+
+### 18 июля, 2025
+
+- Обновлена главная страница раздела [Слоты](./api-reference/booking/resource/slots/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+
+### 16 июля, 2025
+
+- Обновлена главная страница раздела [Работа с CRM-поставщиками](./api-reference/catalog/documentcontractor/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+
+### 15 июля, 2025
+
+- Обновлена главная страница раздела [Типы ресурсов](./api-reference/booking/resource/resource-type/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+
+### 10 июля, 2025
+
+- Обновлена докуменатция по методам справочников [crm.status.*](./api-reference/crm/status/index.md) в CRM
+- Обновлен туториал [Как добавить шаблон и создать документ на его основе](./tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)
+
 ### 09 июля, 2025
 
 - Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/auxiliary/vat/index.md) в CRM

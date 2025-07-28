@@ -21,7 +21,7 @@ items:
     href: how-to-add-deal-with-choice-of-requisite.md
   - name: Добавить событие календаря для работы с клиентами
     href: how-to-add-activity-to-contact.md
-  - name: Создать свой шаблон документа и документ на его основе
+  - name: Добавить шаблон и создать документ на его основе
     href: how-to-generate-documents.md
   - name: Отправить письмо клиенту от имени сотрудника
     href: how-to-send-email.md

@@ -133,8 +133,6 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение 

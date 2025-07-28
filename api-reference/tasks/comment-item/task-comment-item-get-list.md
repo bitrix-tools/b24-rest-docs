@@ -1,87 +1,103 @@
 # Получить список комментариев task.commentitem.getlist
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `task.commentitem.getlist` возвращает список комментариев к задаче.
+Метод `task.commentitem.getlist` получает список комментариев задачи.
 
-## Параметры
+## Параметры метода
 
-#|
-||  **Параметр** / **Тип**| **Описание** ||
-|| **TASKID^*^**
-[`unknown`](../../data-types.md) | Идентификатор задачи. ||
-|| **ORDER**
-[`unknown`](../../data-types.md) | Массив для сортировки результата. Поле для сортировки может принимать значения:
-- `ID` — идентификатор комментария; 
-- `AUTHOR_ID` — идентификатор автора комментария; 
-- `AUTHOR_NAME` — имя автора;
-- `AUTHOR_EMAIL` — почтовый адрес автора; 
-- `POST_DATE` — дата публикации комментария. 
+{% note warning "" %}
 
-Направление сортировки может принимать значения:
-- `asc` — по возрастанию; 
-- `desc` — по убыванию.
-
-По умолчанию фильтруется по убыванию идентификатора комментария. ||
-|| **FILTER**
-[`unknown`](../../data-types.md) | Массив вида `{"фильтруемое_поле": "значение фильтра" [, ...]}`. Фильтруемое поле может принимать значения: 
-- `ID` — идентификатор комментария; 
-- `AUTHOR_ID` — идентификатор автора комментария; 
-- `AUTHOR_NAME` — имя автора; 
-- `POST_DATE` — дата публикации комментария.
-
-Перед названием фильтруемого поля может указать тип фильтрации:
-- "!" — не равно; 
-- "<" — меньше; 
-- "<=" — меньше либо равно;  
-- ">" — больше;  
-- ">=" — больше либо равно.  
-
-"значения фильтра" — одиночное значение или массив.
-
-По умолчанию записи не фильтруются. ||
-|#
-
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
-
-{% note info %}
-
-Соблюдение порядка следования параметров в запросе обязательно. При его нарушении запрос будет выполнен с ошибками.
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку.
 
 {% endnote %}
 
-## Пример
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **TASKID***
+[`integer`](../../data-types.md) | Идентификатор задачи.
+
+Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
+|| **ORDER**
+[`object`](../../data-types.md) | Объект для сортировки результата вида `{"поле": "значение сортировки", ... }`.
+
+Сортировать можно по полям:
+- `ID` — идентификатор комментария 
+- `AUTHOR_ID` — идентификатор автора комментария 
+- `AUTHOR_NAME` — имя автора
+- `AUTHOR_EMAIL` — почтовый адрес автора
+- `POST_DATE` — дата публикации комментария 
+
+Направление сортировки может принимать значения:
+- `asc` — по возрастанию
+- `desc` — по убыванию
+
+По умолчанию результат сортируется по убыванию идентификатора комментария ||
+|| **FILTER**
+[`object`](../../data-types.md) | Объект для фильтрации результата вида `{"поле": "значение фильтра", ... }`. Значением фильтруемого поля может быть одиночное значение или массив значений.
+
+Фильтровать можно по полям: 
+- `ID` — идентификатор комментария
+- `AUTHOR_ID` — идентификатор автора комментария
+- `AUTHOR_NAME` — имя автора
+- `POST_DATE` — дата публикации комментария
+
+Перед названием фильтруемого поля можно указать префикс с типом фильтрации:
+- `!` — не равно
+- `<=`— меньше либо равно
+- `<` — меньше
+- `>=`— больше либо равно
+- `>` — больше
+ 
+По умолчанию записи не фильтруются ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASKID":8017,"ORDER":{"POST_DATE":"asc"},"FILTER":{"AUTHOR_ID":503,">=POST_DATE":"2025-01-01"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.commentitem.getlist
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASKID":8017,"ORDER":{"POST_DATE":"asc"},"FILTER":{"AUTHOR_ID":503,">=POST_DATE":"2025-01-01"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/task.commentitem.getlist
+    ```
 
 - JS
 
     ```js
     BX24.callMethod(
         'task.commentitem.getlist',
-        [1, {'ID': 'asc'}, {'>AUTHOR_ID': 2}],
+        {
+            "TASKID": 8017,
+            "ORDER": {
+                "POST_DATE": "asc",
+            },
+            "FILTER": {
+                "AUTHOR_ID": 503,
+                ">=POST_DATE": "2025-01-01",
+            }
+        },
         function(result){
             console.info(result.data());
             console.log(result);
@@ -89,6 +105,167 @@
     );
     ```
 
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'task.commentitem.getlist',
+        [
+            'TASKID' => 8017,
+            'ORDER' => [
+                'POST_DATE' => 'asc',
+            ],
+            'FILTER' => [
+                'AUTHOR_ID' => 503,
+                '>=POST_DATE' => '2025-01-01',
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": [
+        {
+            "POST_MESSAGE_HTML": null,
+            "ID": "3157",
+            "AUTHOR_ID": "503",
+            "AUTHOR_NAME": "Иван Иванов",
+            "AUTHOR_EMAIL": "",
+            "POST_DATE": "2025-07-15T14:31:00+03:00",
+            "POST_MESSAGE": "Фотографии во вложении",
+            "ATTACHED_OBJECTS": {
+                "973": {
+                    "ATTACHMENT_ID": "973",
+                    "NAME": "photo1.png",
+                    "SIZE": "1495700",
+                    "FILE_ID": "4755",
+                    "DOWNLOAD_URL": "/bitrix/tools/disk/uf.php?attachedId=973&auth%5Bauth%5D=3edf7ca92&action=download&ncc=1",
+                    "VIEW_URL": "/bitrix/tools/disk/uf.php?attachedId=973&auth%5Bauth%5D=3edf7ca92&action=show&ncc=1"
+                },
+                "975": {
+                    "ATTACHMENT_ID": "975",
+                    "NAME": "photo2.png",
+                    "SIZE": "1017053",
+                    "FILE_ID": "4753",
+                    "DOWNLOAD_URL": "/bitrix/tools/disk/uf.php?attachedId=975&auth%5Bauth%5D=3edf7ca92&action=download&ncc=1",
+                    "VIEW_URL": "/bitrix/tools/disk/uf.php?attachedId=975&auth%5Bauth%5D=3edf7ca92&action=show&ncc=1"
+                }
+            }
+        },
+        {
+            "POST_MESSAGE_HTML": null,
+            "ID": "3155",
+            "AUTHOR_ID": "503",
+            "AUTHOR_NAME": "Иван Иванов",
+            "AUTHOR_EMAIL": "",
+            "POST_DATE": "2025-07-15T14:30:00+03:00",
+            "POST_MESSAGE": "Подготовил новые фотографии",
+            "ATTACHED_OBJECTS": {}
+        }
+    ],
+    "time": {
+        "start": 1753270901.224447,
+        "finish": 1753270901.343166,
+        "duration": 0.11871910095214844,
+        "processing": 0.06380701065063477,
+        "date_start": "2025-07-23T14:41:41+03:00",
+        "date_finish": "2025-07-23T14:41:41+03:00",
+        "operating_reset_at": 1753271501,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Массив объектов. Каждый объект содержит описание комментария ||
+|| **POST_MESSAGE_HTML**
+[`string`](../../data-types.md) | HTML-код комментария ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор комментария ||
+|| **AUTHOR_ID**
+[`string`](../../data-types.md) | Идентификатор автора комментария ||
+|| **AUTHOR_NAME**
+[`string`](../../data-types.md) | Имя автора комментария ||
+|| **AUTHOR_EMAIL**
+[`string`](../../data-types.md) | Email автора комментария ||
+|| **POST_DATE**
+[`string`](../../data-types.md) | Дата и время создания комментария ||
+|| **POST_MESSAGE**
+[`string`](../../data-types.md) | Текст комментария ||
+|| **ATTACHED_OBJECTS**
+[`object`](../../data-types.md) | Объект, содержащий информацию о вложениях. Ключ объекта — идентификатор вложения, а значение — объект с [описанием файла](#attached-objects) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект ATTACHED_OBJECTS {#attached-objects}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ATTACHMENT_ID**
+[`string`](../../data-types.md) | Идентификатор вложения ||
+|| **NAME**
+[`string`](../../data-types.md) | Имя файла ||
+|| **SIZE**
+[`string`](../../data-types.md) | Размер файла в байтах ||
+|| **FILE_ID**
+[`string`](../../data-types.md) | Идентификатор файла на Диске ||
+|| **DOWNLOAD_URL**
+[`string`](../../data-types.md) | URL для скачивания файла ||
+|| **VIEW_URL**
+[`string`](../../data-types.md) | URL для просмотра файла ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ERROR_CORE",
+    "error_description":"TASKS_ERROR_EXCEPTION_#256; Param #1 (arOrder) for method ctaskcommentitem::getlist() must not contain key ">=POST_DATE".; 256/TE/WRONG_ARGUMENTS.<br>"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание**  | **Значение** ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Action failed; 8/TE/ACTION_FAILED_TO_BE_PROCESSED | Указано неверное значение параметра или нет прав доступа к задаче ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskcommentitem::getlist() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS | Указан неверный тип значения для параметра, например, для `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (arOrder) for method ctaskcommentitem::getlist() must not contain key ">=POST_DATE".; 256/TE/WRONG_ARGUMENTS | Параметры указаны в неверном порядке ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (arFilter) for method ctaskcommentitem::getlist() must not contain key "%POST_DATE".; 256/TE/WRONG_ARGUMENTS | Неверно указано название параметра или префикс для фильтра ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./task-comment-item-add.md)
+- [{#T}](./task-comment-item-update.md)
+- [{#T}](./task-comment-item-get.md)
+- [{#T}](./task-comment-item-delete.md)
+- [{#T}](./task-comment-item-is-action-allowed.md)
+- [{#T}](./task-comment-item-get-manifest.md)

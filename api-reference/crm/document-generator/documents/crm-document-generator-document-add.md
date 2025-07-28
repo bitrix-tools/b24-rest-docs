@@ -49,3 +49,7 @@
 - [Примеры генерации документа](../../../document-generator/examples/index.md)
 - [Презентация по генератору документов](https://dev.1c-bitrix.ru/upload/doc_gen_04_10_2019.pdf)
 - [Шаблоны документов](https://helpdesk.bitrix24.ru/open/7622241/)
+
+## Продолжите изучение
+
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)

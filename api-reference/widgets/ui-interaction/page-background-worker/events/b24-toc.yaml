@@ -1,6 +1,8 @@
 title: События
 href: initialized.md
 items: 
+  - name: Обзор событий
+    href: index.md
   - name: После создания карточки звонка
     href: initialized.md
   - name: При сохранении комментария в карточке звонка

@@ -17,11 +17,11 @@ items:
     include:
       path: events/b24-toc.yaml
       mode: link                  
-  - name: Тип ресурса
+  - name: Типы ресурсов
     include:
       path: resource-type/b24-toc.yaml
       mode: link
-  - name: Слоты ресурса
+  - name: Слоты
     include:
       path: slots/b24-toc.yaml
       mode: link
