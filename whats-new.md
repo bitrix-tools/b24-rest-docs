@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 28 июля, 2025
+
+- Добавлена документация по методам списков обзвона [crm.calllist.*](./api-reference/crm/call-list/index.md) в CRM
+
 ### 24 июля, 2025
 
 - Обновлена документация по методам работы с комментариями [task.commentitem.*](./api-reference/tasks/comment-item/index.md) в Задачах
