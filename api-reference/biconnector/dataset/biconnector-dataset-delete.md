@@ -26,7 +26,7 @@
 - JS
 
     ```js
-    BX.rest.callMethod(
+    BX24.callMethod(
         'biconnector.dataset.delete',
         {
             id: 4,

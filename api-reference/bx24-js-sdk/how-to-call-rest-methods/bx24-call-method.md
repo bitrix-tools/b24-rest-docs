@@ -55,7 +55,7 @@ BX24.init(() => {
 
 {% note warning %}
 
-В коробочных версиях методы REST вызываются через метод `BX.rest.callMethod()`, а не через `BX24.callMethod()`.
+В коробочных версиях методы REST вызываются через метод `BX24.callMethod()`, а не через `BX24.callMethod()`.
 
 {% endnote %}
 
