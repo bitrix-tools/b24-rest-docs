@@ -2,7 +2,7 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
 Метод `task.commentitem.update` обновляет комментарий.
 
@@ -40,18 +40,19 @@
 `тип` | **Описание** ||
 || **POST_MESSAGE***
 [`string`](../../data-types.md) | Текст сообщения ||
-|| **AUTHOR_ID**
-[`integer`](../../data-types.md) | Идентификатор пользователя, от имени которого создается комментарий.
-
-Получить идентификатор пользователя можно с помощью метода [user.get](../../user/user-get.md) ||
-|| **POST_DATE**
-[`string`](../../data-types.md) | Дата сообщения ||
 || **UF_FORUM_MESSAGE_DOC**
 [`array`](../../data-types.md) | Массив с идентификаторами файлов с Диска. Перед каждым идентификатором укажите префикс `n`, например, `['n123', 'n456', ... ]`.
 
-У автора комментария должен быть доступ к прикрепляемым файлам, иначе метод вернет ошибку ||
-|#
+У автора комментария должен быть доступ к прикрепляемым файлам, иначе метод вернет ошибку.
 
+{% note info "" %}
+
+Поле перезаписывается полностью. Чтобы добавить файл к уже загруженным, передайте в массиве идентификаторы всех файлов — как старых, так и новых
+
+{% endnote %}
+||
+
+|#
 
 ## Примеры кода
 
@@ -63,7 +64,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID":8017,"ITEMID":3167,"FIELDS":{"POST_MESSAGE":"Комментарий обновлен","AUTHOR_ID":547,"UF_FORUM_MESSAGE_DOC":["n4755"]}}' \
+    -d '{"TASKID":8017,"ITEMID":3167,"FIELDS":{"POST_MESSAGE":"Комментарий обновлен","UF_FORUM_MESSAGE_DOC":["n4755"]}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.comm
 
 - cURL (OAuth)
@@ -72,7 +73,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID":8017,"ITEMID":3167,"FIELDS":{"POST_MESSAGE":"Комментарий обновлен","AUTHOR_ID":547,"UF_FORUM_MESSAGE_DOC":["n4755"]},"auth":"**put_access_token_here**"}' \
+    -d '{"TASKID":8017,"ITEMID":3167,"FIELDS":{"POST_MESSAGE":"Комментарий обновлен","UF_FORUM_MESSAGE_DOC":["n4755"]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/task.commentitem.update
     ```
 
@@ -86,7 +87,6 @@
             "ITEMID": 3167,
             "FIELDS": {
                 "POST_MESSAGE": "Комментарий обновлен",
-                "AUTHOR_ID": 547,
                 "UF_FORUM_MESSAGE_DOC": ["n4755"]
             }
         },
@@ -109,7 +109,6 @@
             'ITEMID' => 3167,
             'FIELDS' => [
                 'POST_MESSAGE' => 'Комментарий обновлен',
-                'AUTHOR_ID' => 547,
                 'UF_FORUM_MESSAGE_DOC' => ['n4755']
             ]
         ]
@@ -190,5 +189,3 @@ HTTP-статус: **400**
 - [{#T}](./task-comment-item-get.md)
 - [{#T}](./task-comment-item-get-list.md)
 - [{#T}](./task-comment-item-delete.md)
-- [{#T}](./task-comment-item-is-action-allowed.md)
-- [{#T}](./task-comment-item-get-manifest.md)

@@ -2,7 +2,7 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с правом доступа на чтение задачи или выше
 
 Метод `task.commentitem.get` получает комментарий по идентификатору.
 
@@ -217,6 +217,4 @@ HTTP-статус: **400**
 - [{#T}](./task-comment-item-update.md)
 - [{#T}](./task-comment-item-get-list.md)
 - [{#T}](./task-comment-item-delete.md)
-- [{#T}](./task-comment-item-is-action-allowed.md)
-- [{#T}](./task-comment-item-get-manifest.md)
 - [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
