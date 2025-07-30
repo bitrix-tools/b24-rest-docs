@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 30 июля, 2025
+
+- Обновлена документация по методам пользовательских полей сделок [crm.deal.userfield.*](./api-reference/crm/deals/user-defined-fields/index.md) в CRM
+
 ### 28 июля, 2025
 
 - Добавлена документация по методам списков обзвона [crm.calllist.*](./api-reference/crm/call-list/index.md) в CRM
@@ -24,7 +28,7 @@
 
 ### 10 июля, 2025
 
-- Обновлена докуменатция по методам справочников [crm.status.*](./api-reference/crm/status/index.md) в CRM
+- Обновлена документация по методам справочников [crm.status.*](./api-reference/crm/status/index.md) в CRM
 - Обновлен туториал [Как добавить шаблон и создать документ на его основе](./tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)
 
 ### 09 июля, 2025

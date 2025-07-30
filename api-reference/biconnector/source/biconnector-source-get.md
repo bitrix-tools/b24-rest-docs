@@ -26,7 +26,7 @@
 - JS
 
     ```js
-    BX.rest.callMethod(
+    BX24.callMethod(
         'biconnector.source.get',
         {
             id: 6,

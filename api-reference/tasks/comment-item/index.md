@@ -36,14 +36,6 @@
 
 {% endnote %}
 
-## Кто может добавлять или менять комментарий
-
-Чтобы добавить, изменить или удалить комментарий, нужны права доступа к задаче и комментарию. Проверить права можно методом [task.commentitem.isactionallowed](./task-comment-item-is-action-allowed.md).
-
-## Справочная информация о методах
-
-Узнать актуальную информацию о методах работы с комментариями задачи вы можете с помощью метода [task.commentitem.getmanifest](./task-comment-item-get-manifest.md). Рекомендуем использовать его только в качестве справочника, так как структуру ответа метода разработчик может изменить в любой момент.
-
 ## Результаты выполнения задачи
 
 Комментарий можно закрепить как результат выполнения задачи. Управляйте результатами задачи группой методов [tasks.task.result.*](../result/index.md).
@@ -67,8 +59,6 @@
     || [task.commentitem.get](./task-comment-item-get.md) | Получить комментарий задачи по `id` ||
     || [task.commentitem.getlist](./task-comment-item-get-list.md) | Получить список комментариев к задаче ||
     || [task.commentitem.delete](./task-comment-item-delete.md) | Удалить комментарий ||
-    || [task.commentitem.isactionallowed](./task-comment-item-is-action-allowed.md) | Проверить, разрешено ли действие с комментарием ||
-    || [task.commentitem.getmanifest](./task-comment-item-get-manifest.md) | Получить список методов работы с комментариями и их описание ||
     |#
 
 - События

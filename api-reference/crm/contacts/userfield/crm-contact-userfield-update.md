@@ -575,7 +575,7 @@
 - JS
 
     ```js
-    BX.rest.callMethod(
+    BX24.callMethod(
         'crm.contact.userfield.update',
         {
             fields: {

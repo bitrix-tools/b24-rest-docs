@@ -255,7 +255,7 @@
 - JS
 
     ```js
-    BX.rest.callMethod(
+    BX24.callMethod(
         'lists.element.get', {IBLOCK_TYPE_ID: 'bitrix_processes', IBLOCK_ID: 47}
     );
     ```
@@ -329,7 +329,7 @@
 - JS
 
     ```js
-    BX.rest.callMethod(
+    BX24.callMethod(
         'lists.element.update', {
         IBLOCK_TYPE_ID: 'bitrix_processes',
         IBLOCK_ID: 47,

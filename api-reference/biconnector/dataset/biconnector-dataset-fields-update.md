@@ -54,7 +54,7 @@
 - JS
 
     ```js
-    BX.rest.callMethod(
+    BX24.callMethod(
         'biconnector.dataset.fields.update',
         {
             id: 10,

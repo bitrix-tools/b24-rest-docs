@@ -67,7 +67,7 @@
 - JS
 
     ```js
-    BX.rest.callMethod(
+    BX24.callMethod(
         'biconnector.connector.update',
         {
             id: 4,
