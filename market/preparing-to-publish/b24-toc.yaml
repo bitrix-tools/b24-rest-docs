@@ -21,6 +21,8 @@ items:
     href: requirements-smart-scripts.md
   - name: Требования к отчетам BI-Конструктора
     href: requirements-superset.md
+  - name: Гайд для разработки BI-Отчетов
+    href: guide-bi-reports.md
   - name: Требования к отраслевым CRM
     href: requirements-vertical-crm.md
   - name: Чеклист перед модерацией
