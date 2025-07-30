@@ -297,7 +297,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Описание методов `task.elapseditem.*` ||
+[`object`](../../data-types.md) | Описание методов `task.commentitem.*` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

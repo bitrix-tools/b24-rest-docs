@@ -2,7 +2,7 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с правом доступа на чтение задачи или выше
 
 Метод `task.commentitem.add` добавляет новый комментарий к задаче.
 
@@ -33,7 +33,15 @@
 || **AUTHOR_ID**
 [`integer`](../../data-types.md) | Идентификатор пользователя, от имени которого нужно создать комментарий.
 
-Получить идентификатор пользователя можно с помощью метода [user.get](../../user/user-get.md) ||
+Получить идентификатор пользователя можно с помощью метода [user.get](../../user/user-get.md).
+
+{% note alert "" %}
+
+Метод `task.commentitem.add` позволяет любому пользователю добавить комментарий от чужого имени
+
+{% endnote %}
+
+ ||
 || **POST_DATE**
 [`string`](../../data-types.md) | Дата сообщения ||
 || **UF_FORUM_MESSAGE_DOC**
@@ -179,6 +187,4 @@ HTTP-статус: **400**
 - [{#T}](./task-comment-item-get.md)
 - [{#T}](./task-comment-item-get-list.md)
 - [{#T}](./task-comment-item-delete.md)
-- [{#T}](./task-comment-item-is-action-allowed.md)
-- [{#T}](./task-comment-item-get-manifest.md)
 - [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)

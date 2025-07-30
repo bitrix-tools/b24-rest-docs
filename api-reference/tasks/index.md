@@ -240,8 +240,6 @@
 || [task.commentitem.get](./comment-item/task-comment-item-get.md) | Получает комментарий к задаче ||
 || [task.commentitem.getlist](./comment-item/task-comment-item-get-list.md) | Получает список комментариев к задаче ||
 || [task.commentitem.delete](./comment-item/task-comment-item-delete.md) | Удаляет комментарий ||
-|| [task.commentitem.isactionallowed](./comment-item/task-comment-item-is-action-allowed.md) | Проверяет, разрешено ли действие ||
-|| [task.commentitem.getmanifest](./comment-item/task-comment-item-get-manifest.md) | Получает список методов и их описание ||
 |#
 
 ### Затраченное время

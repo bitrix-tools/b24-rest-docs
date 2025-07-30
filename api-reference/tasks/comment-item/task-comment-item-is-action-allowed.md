@@ -146,6 +146,7 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение** ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (actionId) expected by method ctaskcommentitem::isactionallowed(), but not given.; 256/TE/WRONG_ARGUMENTS | Не указан обязательный параметр, например, `ACTIONID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskcommentitem::isactionallowed() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS | Указан неверный тип значения для параметра, например, для `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION | Указанного комментария или задачи не существует ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
