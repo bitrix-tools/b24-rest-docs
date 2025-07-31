@@ -49,7 +49,7 @@
 
 В SQL-запросе датасета должна быть шаблон, который подставляет значения временного фильтра с отчета. Такой подход называется шаблонизация (описание ниже). Примеры таких конструкций: 
 
-```
+```SQL
 {% if from_dttm is not none %}
 and created_date >= from_iso8601_timestamp('{{ from_dttm }}')
 {% endif %}
@@ -58,7 +58,7 @@ and created_date <= from_iso8601_timestamp('{{ to_dttm }}')
 {% endif %}
 ````
 
-```
+```SQL
 {% if from_dttm is not none and from_dttm != '' and from_dttm != 'None' %}
 AND date  >= '{{ from_dttm }}'::TIMESTAMP
 {% endif %}
@@ -67,7 +67,7 @@ AND date  < '{{ to_dttm }}'::TIMESTAMP
 {% endif %}
 ````
 
-```
+```SQL
 {% if from_dttm is not none %}
 and created_date >= toDate('{{ from_dttm }}')
 {% endif %}
@@ -81,7 +81,7 @@ WHERE order_date >= '{{ start_date }}'
 AND order_date <= '{{ end_date }}'
 ````
 
-![alt-текст](_images/tem_virtual_dataset)
+![alt-текст](_images/temp_virtual_dataset.jpg)
 
 **Что такое шаблонизация в Superset и зачем она нужна.**
 
@@ -135,7 +135,7 @@ WHERE department IN ('HR', 'IT')
 
 Обработка пустого фильтра:
 
-```
+```SQL
 {% if filter_values(dep) %}
   department IN ({{ filter_values(dep) | join(", ") }})
 {% else %}
@@ -145,9 +145,9 @@ WHERE department IN ('HR', 'IT')
 
 Или короткая форма 
 
-```
+```SQL
 Where 1=1
-{% if filter_values('dep')|length  != 0 %}
+ {% if filter_values('dep')|length  != 0 %}
   and departament in {{ filter_values('dep')|where_in }}
   {% endif %}
 ````
@@ -180,9 +180,9 @@ WHERE 1=1
 
 Полезные ссылки:
 
-Пример и описание Jinja-шаблонов в Superset (на русском): https://superset-bi.ru/examples-of-using-jinja-templates-in-apache-superset/
+Пример и описание Jinja-шаблонов в Superset [на русском](https://superset-bi.ru/examples-of-using-jinja-templates-in-apache-superset/)
 
-Официальная документация Superset (на англ.): https://superset.apache.org/docs/creating-charts/jinja-templating
+Официальная документация Superset [на англ.](https://superset.apache.org/docs/creating-charts/jinja-templating)
 
 ## 3. Использование конструкции select * from … в датасетах
 
@@ -193,7 +193,7 @@ WHERE 1=1
 
 На рисунке выше представлен хороший пример запроса, поскольку в результате запроса запрашивается 5 полей из таблицы, которые потом используются в дальнейшем в отчете. На рисунке ниже – плохой пример запроса, поскольку мы видим, что количество столбцов возросло уже до 26.
 
-![alt-текст](_images/example_bad_query)
+![alt-текст](_images/example_bad_query.jpg)
 
 **Крупные таблицы (особенно чувствительны к SELECT *):**
 
@@ -357,7 +357,7 @@ Superset предоставляет встроенные средства ана
 
 ### 7.2	Через функцию в суперсете
 
-Документация – https://helpdesk.bitrix24.ru/open/24771356/:
+[Документация](https://helpdesk.bitrix24.ru/open/24771356/)
 
 1. Зайдите в BI Конструкторе или через КП на нужный дашборд.
 2. Выполните несколько видов фильтраций по дате и другим полям.
@@ -382,7 +382,7 @@ and TIMESTAMP >= date_add('minute', -5, current_timestamp)
 
 ## 8. Использование функции EXPLAIN 
 
-Перед финальной публикацией отчета на клиента рекомендуется протестировать SQL-запрос через команду EXPLAIN (документация – https://helpdesk.bitrix24.ru/open/24771356/ ). 
+Перед финальной публикацией отчета на клиента рекомендуется протестировать SQL-запрос через команду EXPLAIN [документация](https://helpdesk.bitrix24.ru/open/24771356/) 
 
 Зачем:
 
@@ -392,7 +392,7 @@ and TIMESTAMP >= date_add('minute', -5, current_timestamp)
 
 Если в таблице более 100 000 строк и фильтрация идет по колонке без индекса, возможны серьезные проблемы с производительностью. При необходимости индексы можно добавить, но перед этим необходимо уведомить клиента и проконсультироваться с техподдержкой, если не знаете, как это сделать.
 
-## 9. Советы от Битрикс24:
+## 9. Советы от Битрикс24
 
 * Всегда **тестируйте отчеты на большом объеме данных** (приближенном к боевому).
 * Используйте **статистику BI-запросов**, чтобы отследить количество возвращаемых КП строк.
