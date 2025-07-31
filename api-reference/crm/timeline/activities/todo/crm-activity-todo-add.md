@@ -178,3 +178,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-todo-update-description.md)
 - [{#T}](./crm-activity-todo-update-color.md)
 - [{#T}](./crm-activity-todo-update-responsible-user.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)

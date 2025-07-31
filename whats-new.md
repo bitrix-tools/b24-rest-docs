@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 31 июля, 2025
+
+- Обновлен туториал [Добавить лид или сделку с делом с учетом режима CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
+
 ### 30 июля, 2025
 
 - Обновлена документация по методам пользовательских полей сделок [crm.deal.userfield.*](./api-reference/crm/deals/user-defined-fields/index.md) в CRM
