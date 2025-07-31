@@ -382,3 +382,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-get.md)
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
