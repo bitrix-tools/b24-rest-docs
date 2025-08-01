@@ -50,12 +50,12 @@
 В SQL-запросе датасета должна быть шаблон, который подставляет значения временного фильтра с отчета. Такой подход называется шаблонизация (описание ниже). Примеры таких конструкций: 
 
 ```sql
-{% if from_dttm is not none %}
+not_var {% if from_dttm is not none %}
 and created_date >= from_iso8601_timestamp('{{ from_dttm }}')
-{% endif %}
-{% if to_dttm is not none %}
+not_var {% endif %}
+not_var {% if to_dttm is not none %}
 and created_date <= from_iso8601_timestamp('{{ to_dttm }}')
-{% endif %}
+not_var {% endif %}
 
 ````
 
