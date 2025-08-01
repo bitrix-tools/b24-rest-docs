@@ -89,7 +89,7 @@ fields:
 || **RESPONSIBLE_ID***
 [`user`](../../../data-types.md) | Идентификатор пользователя, ответственного за дело ||
 || **SETTINGS**
-[`object`](../../../data-types.md) | Доболнительные настройки ||
+[`object`](../../../data-types.md) | Дополнительные настройки ||
 || **START_TIME**
 [`datetime`](../../../data-types.md) | Время начала выполнения дела ||
 || **STATUS**
