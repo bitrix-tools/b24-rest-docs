@@ -49,38 +49,7 @@
 
 В SQL-запросе датасета должна быть шаблон, который подставляет значения временного фильтра с отчета. Такой подход называется шаблонизация (описание ниже). Примеры таких конструкций: 
 
-```sql
-not_var {% if from_dttm is not none %}
-and created_date >= from_iso8601_timestamp('{{ from_dttm }}')
-not_var {% endif %}
-not_var {% if to_dttm is not none %}
-and created_date <= from_iso8601_timestamp('{{ to_dttm }}')
-not_var {% endif %}
-
-````
-
-```sql
-{% if from_dttm is not none and from_dttm != '' and from_dttm != 'None' %}
-AND date  >= '{{ from_dttm }}'::TIMESTAMP
-{% endif %}
-{% if to_dttm is not none and to_dttm != '' and to_dttm != 'None' %}
-AND date  < '{{ to_dttm }}'::TIMESTAMP
-{% endif %}
-````
-
-```sql
-{% if from_dttm is not none %}
-and created_date >= toDate('{{ from_dttm }}')
-{% endif %}
-{% if to_dttm is not none %}
-and created_date <= toDate('{{ to_dttm }}')
-{% endif %}
-````
-
-```
-WHERE order_date >= '{{ start_date }}'
-AND order_date <= '{{ end_date }}'
-````
+![alt-текст](_images/examples_sql.JPG)
 
 ![alt-текст](_images/temp_virtual_dataset.jpg)
 
@@ -134,24 +103,7 @@ WHERE department IN ({{ filter_values('dep') }})
 WHERE department IN ('HR', 'IT')
 ````
 
-Обработка пустого фильтра:
-
-```SQL
-{% if filter_values(dep) %}
-  department IN ({{ filter_values(dep) | join(", ") }})
-{% else %}
-  1=1  -- если фильтр не выбран, показываем всё
-{% endif %} 
-````
-
-Или короткая форма 
-
-```SQL
-Where 1=1
- {% if filter_values('dep')|length  != 0 %}
-  and departament in {{ filter_values('dep')|where_in }}
-  {% endif %}
-````
+![alt-текст](_images/filtering_by_values.JPG)
 
 **_Фильтрация по дате_**
 
@@ -163,14 +115,7 @@ WHERE date_create BETWEEN '{{ from_dttm }}' AND '{{ to_dttm }}'
 
 **_Условие на текущего пользователя из url_**
 
-```
-SELECT *
-FROM task
-WHERE 1=1
-{% if url_param('current_user') is not none %}
-  and responsible_id = {{ url_param('current_user') }}
-  {% endif %}
-````
+![alt-текст](_images/condition_user_url.jpg)
 
 **Важные замечания:**
 
@@ -267,57 +212,8 @@ WHERE 1=1
 
 Пример корректного запроса с несколькими таблицами и фильтрацией:
 
-```
-with split_flow as (
-    select
-    f.id,
-    f.name
-from flow f
-where 1=1
-  {% if url_param('tasks_flows_flow_id') is not none %}
-  and f.id = {{ url_param('tasks_flows_flow_id') }}
-  {% endif %}
-),
-task_efficiency as (
-  SELECT 
-    task_id,
-    is_violation
-  FROM task_efficiency
-  where 1=1 
-  {% if from_dttm is not none %}
-  and datetime >= from_iso8601_timestamp('{{ from_dttm }}')
-  {% endif %}
-  {% if to_dttm is not none %}
-  and datetime <= from_iso8601_timestamp('{{ to_dttm }}')
-  {% endif %}
-  group by task_id, is_violation
-)
-select
-  t.id,
-  created_date,
-  status,
-  responsible_name,
-  closed_date,
-  deadline,
-  created_by_name,
-  case
-    when deadline is not null then deadline
-    else current_date
-  end as actual_deadline,
-  flow_id,
-  f.name as flow_name,
-  te.is_violation
-from task t
-left join split_flow f on f.id = t.flow_id
-left join task_efficiency te on te.task_id = t.id
-where 1=1 
-  {% if from_dttm is not none %}
-  and created_date >= from_iso8601_timestamp('{{ from_dttm }}')
-  {% endif %}
-  {% if to_dttm is not none %}
-  and created_date <= from_iso8601_timestamp('{{ to_dttm }}')
-  {% endif %}
-````
+![alt-текст](_images/query_multiple_tables_and_filtering.JPG)
+![alt-текст](_images/query_multiple_tables_and_filtering_2.JPG)
 
 ## 7. Проверка запросов к дашборду через «специальные возможности»:
 
