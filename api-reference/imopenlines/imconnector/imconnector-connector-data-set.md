@@ -133,3 +133,4 @@
 - [{#T}](./imconnector-delete-messages.md)
 - [{#T}](./imconnector-send-status-delivery.md)
 - [{#T}](./imconnector-send-status-reading.md)
+- [{#T}](../../../tutorials/openlines/example-connector.md)

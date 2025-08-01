@@ -12,7 +12,7 @@
 
 ```
 {
-    "event": "ONAPPSUNINSTALL",
+    "event": "ONAPPUNINSTALL",
     "data": {
         "LANGUAGE_ID" => "ru",
         "CLEAN": 1
@@ -36,7 +36,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../data-types.md) | Символьный код события — `ONAPPSUNINSTAL` ||
+[`string`](../../data-types.md) | Символьный код события — `ONAPPUNINSTAL` ||
 || **data***
 [`array`](../../data-types.md) | Данные об удаленном приложении.
 

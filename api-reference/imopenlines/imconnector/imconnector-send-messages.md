@@ -201,3 +201,7 @@ HTTP-статус: **200**
 || `100` | The MESSAGES parameter must be an array of messages (arrays) | Значение параметра `MESSAGES` должно быть массивом сообщений ||
 || `100` | The incorrect structure of a message inside MESSAGES parameter. | Некорректная структура сообщений ||
 |#
+
+## Продолжите изучение 
+
+- [{#T}](../../../tutorials/openlines/example-connector.md)

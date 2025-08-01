@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 01 августа, 2025
+
+- Обновлен туториал [Как создать коннектор открытых линий для чата на сайте](./tutorials/openlines/example-connector.md)
+
 ### 31 июля, 2025
 
 - Обновлен туториал [Добавить лид или сделку с делом с учетом режима CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
@@ -37,7 +41,7 @@
 
 ### 09 июля, 2025
 
-- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/auxiliary/vat/index.md) в CRM
+- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/outdated/vat/index.md) в CRM
 - Добавлен новый туториал [Как создать новую воронку со стадиями в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
 - Обновлены главные страницы событий в разделах: [События календаря](./api-reference/calendar/calendar-event/events/index.md), [Календарь](./api-reference/calendar/events/index.md). Добавили вводную информацию, а также обзор событий
 
@@ -228,7 +232,7 @@
 
 ### 25 марта, 2025
 
-- Обновлена главная страница раздела [Ставки НДС в CRM](./api-reference/crm/auxiliary/vat/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Ставки НДС в CRM](./api-reference/crm/outdated/vat/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновлены страницы событий при работе c лидами [onCrmLead*](./api-reference/crm/leads/events/index.md)
 
 ### 24 марта, 2025

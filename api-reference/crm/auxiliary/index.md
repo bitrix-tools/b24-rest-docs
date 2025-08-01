@@ -38,7 +38,7 @@ PHONE: [
 
 ## Ставки НДС 
 
-Группа методов [crm.vat.*](./vat/index.md) управляет ставками НДС. Методы позволяют [создавать](./vat/crm-vat-add.md), [удалять](./vat/crm-vat-delete.md), [изменять](./vat/crm-vat-update.md) и [получать](./vat/crm-vat-list.md) значения ставок. 
+Группа методов [catalog.vat.*](../../catalog/vat/index.md) управляет ставками НДС. Методы позволяют [создавать](../../catalog/vat/catalog-vat-add.md), [удалять](../../catalog/vat/catalog-vat-delete.md), [изменять](../../catalog/vat/catalog-vat-update.md) и [получать](../../catalog/vat/catalog-vat-list.md) значения ставок. 
 
 Чтобы задать НДС товара в сделке или другом объекте CRM, используйте параметр `taxRate` группы методов  [crm.item.productrow.*](../universal/product-rows/index.md). 
 
@@ -72,16 +72,4 @@ PHONE: [
 || [crm.enum.activitynotifytype](./enum/outdated/crm-enum-activity-notify-type.md) | Возвращает элементы перечисления «Тип уведомления о начале активности», для встреч и звонков ||
 || [crm.enum.activitystatus](./enum/outdated/crm-enum-activity-status.md) | Возвращает элементы перечисления «Статус» ||
 || [crm.enum.contenttype](./enum/outdated/crm-enum-content-type.md) Возвращает элементы перечисления «Тип описания» ||
-|#
-
-### Ставки НДС
-
-#|
-|| **Метод** | **Описание** ||
-|| [crm.vat.add](./vat/crm-vat-add.md) | Создает новую ставку НДС ||
-|| [crm.vat.delete](./vat/crm-vat-delete.md) | Удаляет ставку НДС ||
-|| [crm.vat.get](./vat/crm-vat-get.md) | Возвращает ставку НДС по идентификатору ||
-|| [crm.vat.fields](./vat/crm-vat-fields.md) | Возвращает описание полей ставки НДС ||
-|| [crm.vat.list](./vat/crm-vat-list.md) | Возвращает список ставок НДС ||
-|| [crm.vat.update](./vat/crm-vat-update.md) | Обновляет существующую ставку НДС ||
 |#

@@ -23,7 +23,7 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **epicId***
+|| **id***
 [`integer`](../../../data-types.md) | Идентификатор эпика.
 
 Получить идентификаторы эпиков можно методом [`tasks.api.scrum.epic.list`](./tasks-api-scrum-epic-list.md) ||
@@ -40,12 +40,9 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -d '{
-    "fields": {
-      "id": "1"
-    }
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.get
+    -H "Accept: application/json" \
+    -d '{"id":1}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.api.scrum.epic.get
     ```
 
 - cURL (OAuth)
@@ -53,13 +50,9 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -d '{
-    "fields": {
-      "id": "1"
-    },
-    auth=YOUR_ACCESS_TOKEN
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.get
+    -H "Accept: application/json" \
+    -d '{"id":1,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/tasks.api.scrum.epic.get
     ```
 
 - JS
@@ -81,25 +74,18 @@
 - PHP
 
     ```php
-    require_once('crest.php'); // подключение CRest PHP SDK
+    require_once('crest.php');
 
-    // выполнение запроса к REST API
     $result = CRest::call(
-    'tasks.api.scrum.epic.get',
-    [
-        'fields' => [
-            'id' => 1,
+        'tasks.api.scrum.epic.get',
+        [
+            'id' => 1
         ]
-    ]
     );
 
-    // Обработка ответа от Битрикс24
-    if ($result['error']) {
-        echo 'Error: '.$result['error_description'];
-    }
-    else {
-        print_r($result['result']);
-    }
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

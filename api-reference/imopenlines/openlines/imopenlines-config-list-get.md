@@ -59,10 +59,10 @@
     {
         var params = {
             PARAMS: {
-                select: {
+                select: [
                     'ID',
                     ...
-                },
+                ],
                 order: {
                     ID: 'ASC',
                     ...
