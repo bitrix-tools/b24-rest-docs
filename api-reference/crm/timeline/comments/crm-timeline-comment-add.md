@@ -60,7 +60,7 @@ fields:
 
 Значение можно получить методом [`crm.item.list`](../../universal/crm-item-list.md) или при создании элемента с помощью [`crm.item.add`](../../universal/crm-item-add.md) ||
 || **ENTITY_TYPE***
-[`string`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../../universal/user-defined-object-types/index.md) объекта CRM, к элементу которого привязан комментарий. Например: `lead`, `deal`, `contact`, `company`, `order` ||
+[`string`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../../universal/user-defined-object-types/index.md) объекта CRM, к элементу которого привязан комментарий. Например: `lead`, `deal`, `contact`, `company`, `order`, `dynamic_1046` ||
 || **AUTHOR_ID**
 [`user`](../../../data-types.md#standart-objects) | Идентификатор пользователя, добавляющего комментарий ||
 || **COMMENT***
