@@ -37,7 +37,7 @@
 
 ### 09 июля, 2025
 
-- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/auxiliary/vat/index.md) в CRM
+- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/outdated/vat/index.md) в CRM
 - Добавлен новый туториал [Как создать новую воронку со стадиями в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
 - Обновлены главные страницы событий в разделах: [События календаря](./api-reference/calendar/calendar-event/events/index.md), [Календарь](./api-reference/calendar/events/index.md). Добавили вводную информацию, а также обзор событий
 

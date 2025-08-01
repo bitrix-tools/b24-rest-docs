@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.vat.list` продолжает работать, но у него есть более актуальный аналог [catalog.vat.list](../../../catalog/vat/catalog-vat-list.md).
+
+{% endnote %}
+
 Метод `crm.vat.list` возвращает список ставок НДС по фильтру. 
 Является реализацией [списочного метода](../../../../api-reference/how-to-call-rest-api/list-methods-pecularities.md) для ставок НДС.
 
