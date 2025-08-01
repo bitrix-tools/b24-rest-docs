@@ -160,3 +160,4 @@ HTTP-статус: **400**
 - [{#T}](./event-offline-clear.md)
 - [{#T}](./event-offline-error.md)
 - [{#T}](./on-offline-event.md)
+- [{#T}](../../tutorials/openlines/example-connector.md)s

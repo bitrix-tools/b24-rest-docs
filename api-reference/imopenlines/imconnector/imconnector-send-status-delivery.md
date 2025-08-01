@@ -55,3 +55,7 @@
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](../../../tutorials/openlines/example-connector.md)
