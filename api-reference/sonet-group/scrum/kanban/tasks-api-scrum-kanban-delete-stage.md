@@ -15,7 +15,7 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **sprintId***
+|| **stageId***
 [`integer`](../../../data-types.md) | Идентификатор стадии. Получить идентификатор можно при помощи метода [tasks.api.scrum.kanban.getStages](./tasks-api-scrum-kanban-get-stages.md) ||
 |#
 
