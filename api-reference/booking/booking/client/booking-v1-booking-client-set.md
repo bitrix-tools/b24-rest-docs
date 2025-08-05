@@ -1,4 +1,4 @@
-# Добавить клиентав к бронированию booking.v1.booking.client.set
+# Добавить клиентов к бронированию booking.v1.booking.client.set
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >
