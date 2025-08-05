@@ -5,12 +5,12 @@ items:
     href: index.md
   - name: Получить данные о пользователе
     href: im-user-get.md
-  - name: Получить данные о пользователях
+  - name: Получить данные о о списке пользователей
     href: im-user-list-get.md
-  - name: Получить информацию об установленном статусе пользователя
-    href: im-user-status-get.md
-  - name: Установить статус пользователя
+  - name: Установить статус пользователя в чате
     href: im-user-status-set.md
+  - name: Получить информацию о статусе пользователя
+    href: im-user-status-get.md
   - name: Установить автоматический статус «Отошел»
     href: im-user-status-idle-start.md
   - name: Отключить автоматический статус «Отошел»
