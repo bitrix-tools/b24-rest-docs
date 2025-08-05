@@ -16,7 +16,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **attachId***
-[`integer`](../../_includes/data-types.md) | Идентификатор прикрепленного голосования ||
+[`integer`](../_includes/data-types.md) | Идентификатор прикрепленного голосования ||
 |#
 
 Альтернативный вариант вызова:
@@ -25,11 +25,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **moduleId***
-[`string`](../../_includes/data-types.md) | Идентификатор модуля ||
+[`string`](../_includes/data-types.md) | Идентификатор модуля ||
 || **entityType***
-[`string`](../../_includes/data-types.md) | Тип сущности ||
+[`string`](../_includes/data-types.md) | Тип сущности ||
 || **entityId***
-[`integer`](../../_includes/data-types.md) | Идентификатор сущности ||
+[`integer`](../_includes/data-types.md) | Идентификатор сущности ||
 |#
 
 Или через подписанный идентификатор:
@@ -38,12 +38,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **signedAttachId***
-[`string`](../../_includes/data-types.md) | Подписанный идентификатор прикрепления ||
+[`string`](../_includes/data-types.md) | Подписанный идентификатор прикрепления ||
 |#
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -73,7 +73,7 @@
     BX24.callMethod(
         "vote.AttachedVote.get",
         {
-            "attachId": **put_vote_id**
+            "attachId": **put_attach_id**
         },
         function(result)
         {
@@ -95,7 +95,7 @@
     <?php
     require_once('src/crest.php');
 
-    $result = CRest::call('vote.AttachedVote.get', ['attachId' => **put_vote_id**]);
+    $result = CRest::call('vote.AttachedVote.get', ['attachId' => **put_attach_id**]);
 
     echo '<pre>';
         print_r($result);
