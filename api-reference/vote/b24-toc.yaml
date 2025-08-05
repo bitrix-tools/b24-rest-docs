@@ -1,1 +1,4 @@
 title: Опросы, голосования
+items:
+  - name: Скачать отчет по голосованию
+    href: vote.attachedvote.download.md
