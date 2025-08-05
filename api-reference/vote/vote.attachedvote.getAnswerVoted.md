@@ -1,6 +1,6 @@
 # Получить список проголосовавших за ответ
 
-> Название метода: **vote.attachedvote.getAnswerVoted**
+> Название метода: **vote.AttachedVote.getAnswerVoted**
 >
 > Scope: [`vote`](../scopes/permissions.md)
 >
@@ -47,7 +47,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"attachId":**put_attach_id**,"answerId":**put_answer_id**,"pageNavigation":{"pageSize":**put_page_size**,"currentPage":**put_page**},"userForMobileFormat":false, auth: "**put_access_token_here**"}' \
+    -d '{"attachId":**put_attach_id**,"answerId":**put_answer_id**,"pageNavigation":{"pageSize":**put_page_size**,"currentPage":**put_page**},"userForMobileFormat":false,auth:"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/vote.AttachedVote.getAnswerVoted
     ```
 
