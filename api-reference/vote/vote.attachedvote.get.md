@@ -1,6 +1,6 @@
 # Получить данные прикрепленного голосования
 
-> Название метода: **vote.attachedvote.get**
+> Название метода: **vote.AttachedVote.get**
 >
 > Scope: [`vote`](../scopes/permissions.md)
 >
