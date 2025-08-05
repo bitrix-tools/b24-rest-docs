@@ -4,3 +4,5 @@ items:
     href: vote.attachedvote.download.md
   - name: Получить данные прикрепленного голосования
     href: vote.attachedvote.get.md
+  - name: Получить список проголосовавших за ответ
+    href: vote.attachedvote.getAnswerVoted.md
