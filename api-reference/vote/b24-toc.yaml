@@ -6,3 +6,5 @@ items:
     href: vote.attachedvote.get.md
   - name: Получить список проголосовавших за ответ
     href: vote.attachedvote.getAnswerVoted.md
+  - name: Получить несколько голосований
+    href: vote.attachedvote.getMany.md
