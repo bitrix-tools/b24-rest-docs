@@ -115,14 +115,7 @@ WHERE date_create BETWEEN '{{ from_dttm }}' AND '{{ to_dttm }}'
 
 **_Условие на текущего пользователя из url_**
 
-```markdown
-SELECT *
-FROM task
-WHERE 1=1
-{% if url_param('current_user') is not none %}
-  and responsible_id = {{ url_param('current_user') }}
-  {% endif %}
-````
+![alt-текст](_images/condition_user_url.jpg)
 
 **Важные замечания:**
 
