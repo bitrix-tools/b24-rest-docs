@@ -95,7 +95,7 @@
     <?php
     require_once('src/crest.php');
 
-    $result = CRest::call('vote.AttachedVote.get', ['attachId' => 1]);
+    $result = CRest::call('vote.AttachedVote.get', ['attachId' => **put_vote_id**]);
 
     echo '<pre>';
         print_r($result);
