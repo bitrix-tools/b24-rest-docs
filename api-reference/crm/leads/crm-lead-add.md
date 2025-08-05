@@ -359,5 +359,6 @@ HTTP-статус: **200**
 - [{#T}](./crm-lead-delete.md)
 - [{#T}](./crm-lead-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-lead.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-lead-with-files.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-repeat-lead.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
