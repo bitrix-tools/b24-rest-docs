@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Добавить лид
     href: how-to-add-lead.md
+  - name: Добавить лид c файлами
+    href: how-to-add-lead-with-files.md
   - name: Добавить лид или сделку с делом с учетом режима CRM
     href: how-to-add-objects-with-crm-mode.md
   - name: Добавить повторный лид

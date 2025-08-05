@@ -21,7 +21,7 @@ Max batch length exceeded | Превышена максимальная длин
 || `401` | `NO_AUTH_FOUND`
 Wrong authorization data | Неверный [access-токен](/api-reference/oauth/index.html) или [код вебхука](/local-integrations/local-webhooks.html) ||
 || `400` | `INVALID_REQUEST`
-Https required. | Для вызовов REST методов требуется использовать протокол HTTPS ||
+Https required. | Для вызовов методов требуется использовать протокол HTTPS ||
 || `503` | `OVERLOAD_LIMIT`
 REST API is blocked due to overload | REST API заблокирован из-за перегрузки. Это ручная индивидуальная блокировка, для снятия необходимо обращаться в [техническую поддержку Битрикс24](../bitrix-support.md) ||
 || `403` | `ACCESS_DENIED`

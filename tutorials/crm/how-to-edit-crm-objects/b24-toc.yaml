@@ -3,8 +3,6 @@ href: index.md
 items: 
   - name: Редактировать данные
     href: index.md
-  - name: Добавить картинки в поля лида
-    href: how-to-upload-images-to-lead.md
   - name: Как сделать свою карточку редактирования лида
     href: how-to-generate-edit-form-for-lead.md
   - name: Как сделать свою карточку редактирования контакта
