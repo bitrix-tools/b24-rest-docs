@@ -119,22 +119,6 @@
 
 {% endlist %}
 
-Для получения тэгов конкретной задачи:
-
-{% list tabs %}
-
-- JS
-
-    ```js
-    BX24.callMethod(
-        'tasks.task.get',
-        {taskId:1367, select:['TAGS']},
-        function(res){console.log(res.answer.result);}
-    );
-    ```
-
-{% endlist %}
-
 Синтаксис для выборки всех полей:
 
 {% list tabs %}
