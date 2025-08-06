@@ -59,7 +59,7 @@
 || **SHOW** 
 [`int`](../data-types.md) | [0/1] Показывать ли карточку звонка (по умолчанию 1). ||
 || **CALL_LIST_ID** 
-[`int`](../data-types.md) | Идентификатор списка обзвона, к которому должен быть привязан звонок. ||
+[`int`](../data-types.md) | Идентификатор [списка обзвона](../crm/call-list/index.md), к которому должен быть привязан звонок. ||
 || **LINE_NUMBER** 
 [`string`](../data-types.md) | Номер внешней линии, через который совершался звонок (см. [telephony.externalLine.add](telephony-external-line-add.md)).
 
