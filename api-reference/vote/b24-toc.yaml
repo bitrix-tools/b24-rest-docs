@@ -12,3 +12,5 @@ items:
     href: vote.attachedvote.getWithVoted.md
   - name: Отозвать свой голос
     href: vote.attachedvote.recall.md
+  - name: Возобновить голосование
+    href: vote.attachedvote.resume.md
