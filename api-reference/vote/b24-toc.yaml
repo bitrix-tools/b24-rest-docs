@@ -14,3 +14,5 @@ items:
     href: vote.attachedvote.recall.md
   - name: Возобновить голосование
     href: vote.attachedvote.resume.md
+  - name: Остановить голосование
+    href: vote.attachedvote.stop.md
