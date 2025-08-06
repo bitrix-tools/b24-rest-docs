@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 06 августа, 2025
+
+- Обновлены главные страницы событий в разделах: [Телефония](./api-reference/telephony/events/index.md), [SIP и встроенная телефония](./api-reference/telephony/voximplant/events/index.md), [Рабочие группы и проекты](./api-reference/sonet-group/events/index.md). Добавили вводную информацию, а также обзор событий
+
 ### 05 августа, 2025
 
 - Обновлен туториал [Добавить лид с файлами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-lead-with-files.md)
