@@ -8,3 +8,5 @@ items:
     href: vote.attachedvote.getAnswerVoted.md
   - name: Получить несколько голосований
     href: vote.attachedvote.getMany.md
+  - name: Получить данные голосования с информацией о проголосовавших
+    href: vote.attachedvote.getWithVoted.md
