@@ -69,7 +69,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"attachId":**put_attach_id**,auth:"**put_access_token_here**}' \
+    -d '{"attachId":**put_attach_id**,"auth":"**put_access_token_here**}' \
     https://**put_your_bitrix24_address**/rest/vote.AttachedVote.recall
     ```
 
