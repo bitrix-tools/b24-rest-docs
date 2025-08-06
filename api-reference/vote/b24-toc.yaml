@@ -18,3 +18,5 @@ items:
     href: vote.attachedvote.stop.md
   - name: Проголосовать в прикрепленном голосовании
     href: vote.attachedvote.vote.md
+  - name: Отправить голосование в чат
+    href: vote.integration.im.send.md
