@@ -1,6 +1,8 @@
 title: Чаты
-href: imopenlines-crm-chat-get.md
+href: index.md
 items: 
+  - name: Обзор методов
+    href: index.md
   - name: Получить чат для объекта CRM
     href: imopenlines-crm-chat-get.md
   - name: Получить Id последнего чата

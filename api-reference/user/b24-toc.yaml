@@ -3,6 +3,8 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Версии User Scope
+    href: user-scope.md    
   - name: Пригласить пользователя
     href: user-add.md
   - name: Обновить данные пользователя

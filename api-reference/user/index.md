@@ -1,193 +1,157 @@
-# Методы работы с пользователями Битрикс24
+# Пользователи: обзор методов
+
+Профиль пользователя — это ключевой объект Битрикс24. Без профиля пользователя сотрудник не сможет использовать корпоративный портал и CRM. По идентификатору пользователя можно:
+- настраивать доступы,
+- распределять работу между сотрудниками,
+- получать информацию о действиях сотрудников.
+
+> Быстрый переход: [все методы](#all-methods)
+> 
+> Пользовательская документация: [Как пригласить сотрудников в Битрикс24](https://helpdesk.bitrix24.ru/open/21141922/)
+
+## Как работать с пользователями
+
+Используйте метод:
+
+- [user.add](./user-add.md), чтобы пригласить новых пользователей. Длина имени пользователя не должна превышать 25 символов.
+- [user.update](./user-update.md), чтобы редактировать профили существующих пользователей.
+
+Уволить пользователя методами `user.*` нельзя. Увольнение доступно только в интерфейсе Битрикс24.
+
+{% note tip "Пользователськая документация" %}
+
+- [Как уволить сотрудника из Битрикс24](https://helpdesk.bitrix24.ru/open/26213326/)
+
+{% endnote %}
+
+## Связь с другими объектами
+
+**CRM.** `ID` пользователя используется в системных полях:
+
+- редактируемые: ответственный, наблюдатели,
+- только для чтения: кто создал, кто изменил, кто передвинул на стадию.
+
+Используйте методы [crm.item.*](../crm/universal/index.md) для чтения или изменения полей.
+
+**Календарь.** Для работы с календарем сотрудника, укажите `ID` пользователя в поле `ownerID` в методах [calendar.section.*](../calendar/index.md). Чтобы создать или изменить встречу с несколькими участниками, укажите `ID` пользователей в полях `host` и `attendees` в методах [calendar.event.*](../calendar/calendar-event/index.md).
+
+**Лента новостей.** Используйте `ID` пользователей в методах:
+
+- [log.blogpost.*](../log/index.md), чтобы адресовать пост конкретным сотрудникам,
+- [log.blogpost.getusers.important](../log/log-blogpost-getusers-important.md), чтобы проверить, кто из сотрудников прочитал важный пост.
+
+**Интернет-магазин.** `ID` пользователя используется в системных полях:
+
+- редактируемые: ответственный за заказ, отгрузку, оплату,
+- только для чтения: кто изменил статус, кто промаркировал, кто отменил, кто оформил возврат.
+
+Используйте методы [sale.order.*](../sale/order/index.md), [sale.payment.*](../sale/payment/index.md), [sale.shipment.*](../sale/shipment/index.md) для чтения или изменения полей.
+
+**Чаты.** Используйте `ID` пользователей в методах [im.chat.*](../chats/index.md), [im.chat.user.*](../chats/chat-users/index.md), [im.user.*](../chats/users/index.md), чтобы назначить владельца чата, отредактировать список участников или получить информацию об участниках чата.
+
+**Открытые линии.** Используйте `ID` пользователей:
+
+- чтобы настроить очередь ответственных сотрудников в методах [imopenlines.config.*](../imopenlines/openlines/index.md),
+- назначать диалоги на сотрудников в  методах [imopenlines.bot.session.*](../imopenlines/openlines/chat-bots/index.md), [imopenlines.crm.chat.user.*](../imopenlines/openlines/chats/index.md), [imopenlines.operator.*](../imopenlines/openlines/operators/index.md).
+
+**Телефония.** Используйте `ID` пользователя:
+
+- чтобы направить на него телефонный звонок в методах [telephony.externalcall.*](../telephony/index.md),
+- получить статистику по звонкам сотрудника методом [voximplant.statistic.get](../telephony/voximplant-statistic-get.md),
+- настроить SIP-aппарат в методах [voximplant.user.*](../telephony/voximplant/users/index.md).
+
+**Учет рабочего времени.** Используйте `ID` пользователей:
+
+- чтобы управлять рабочим днем пользователя в методах [timeman.*](../timeman/base/index.md),
+- настраивать инструмент для контроля рабочего времени в методах [timeman.timecontrol.*](../timeman/timecontrol/index.md),
+- получать информацию о рабочем графике методом [timeman.schedule.get](../timeman/schedule/index.md).
+
+**Задачи.** `ID` пользователя используется в системных полях:
+
+- редактируемые: постановщик, исполнитель, соисполнители, наблюдатели,
+- только для чтения: кто изменил задачу, кто изменил статус, кто завершил задачу,
+
+Используйте методы [tasks.task.*](../tasks/index.md) для чтения или изменения полей. Чтобы узнать или отредактировать затраченное время по задаче для пользователя — [task.elapseditem.*](../tasks/elapsed-item/index.md).
+
+**Рабочие группы и проекты.** Используйте `ID` пользователей в методах [sonet_group.user.*](../sonet-group/members/index.md), чтобы изменять состав участников группы и их роли. Укажите `ID` пользователя в поле `SCRUM_MASTER_ID`, чтобы сделать из группы [Скрам](../sonet-group/scrum/index.md).
+
+**Структура компании.** Используйте `ID` пользователей, чтобы управлять привязкой сотрудников к отделам компании в методах [department.*](../departments/index.md).
+
+### Тип «привязка к пользователю»
+
+В Битрикс24 можно создавать пользовательские поля с типом «привязка к пользователю». Поля принимают `ID` пользователя, если они простые, и массив из `ID`, если множественные.
+
+- Пользовательские поля доступны в разделах [CRM](../crm/index.md) и [интернет-магазин](../sale/index.md).
+- Пользовательские свойства доступны в разделах [универсальных списков](../lists/index.md), [хранилищ данных](../entity/index.md) и в [торговом каталоге](../catalog/index.md).
+- Параметры и переменные доступны в [бизнес-процессах](../bizproc/index.md).
+
+### Права доступа пользователя
+
+Используйте `ID` пользователя, чтобы настроить права доступа в методах:
+
+- файлов диска [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md) и [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md),
+- генератора документов [documentgenerator.role.fillaccesses](../document-generator/role/document-generator-role-fill-accesses.md),
+- сайтов [landing.site.setRights](../landing/rights/role-model/landing-role-set-rights.md).
+
+## Работа с экстранет-пользователями
+
+Экстранет-пользователи — это пользователи, которые имеют ограниченный доступ к функционалу Битрикс24. CRM недоступна для экстранет-пользователей, но доступны чаты, группы, календарь.
+
+{% note tip "Пользователськая документация" %}
+
+-  [Экстранет-пользователи в Битрикс24](https://helpdesk.bitrix24.ru/open/17983050/)
+
+{% endnote %}
+
+Чтобы пригласить экстранет-пользователя, используйте метод [user.add](./user-add.md) с параметрами:
+
+- `EXTRANET: Y` — отметка внешнего пользователя,
+- `SONET_GROUP_ID: [...]` — `ID` групп, в которых будет состоять пользователь.
+
+При добавлении экстранет-пользователя в группу методом [sonet_group.user.add](../sonet-group/members/sonet-group-user-add.md), группа автоматически меняет тип на внешнюю.
+
+## **Виджеты**
+
+В профиль пользователя можно встроить приложение. Благодаря встраиванию можно будет использовать приложение и не покидать карточку пользователя.
+
+- [Пункт контекстного меню в профиле](../widgets/user-profile/profile-menu.md) `USER_PROFILE_MENU`
+
+- [Пункт контекстного меню верхней кнопки профиля](../widgets/user-profile/profile-toolbar.md) `USER_PROFILE_TOOLBAR`
+
+{% note tip " " %}
+
+-  [Механизм встройки виджетов](../widgets/index.md)
+
+{% endnote %}
+
+## Уровни доступа к данным пользователей
+
+Чтобы обеспечить безопасность данных сотрудников, для приложений и вебхуков доступны разные версии скоупа User.
+
+-  `user_brief` дает доступ к информации о пользователях без контактных данных. Этого достаточно для сценариев, в которых требуется отобразить ФИО пользователя в интерфейсе стороннего приложения.
+
+-  `user_basic` открывает базовую информацию и контактные данные пользователей. Это требуется сценариям, связанным с совершением звонков или отправкой e-mail сообщений.
+
+-  `user` дает полный доступ к информации пользователей, возможность приглашать новых пользователей и изменять данные существующих.
+
+{% note tip " " %}
+
+-  [Версии User Scope](user-scope.md)
+
+{% endnote %}
+
+## Обзор методов {#all-methods}
 
 > Scope: [`user`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: в зависимости от метода
 
-Методы работы с пользователями Битрикс24 позволяют приглашать новых пользователей, изменять данные существующих пользователей и выбирать пользователей при помощи условий. Приложения, которые используют эти методы в своих сценариях, должны обеспечивать максимальную безопасность пользовательских данных и получать только ту информацию о пользователях, которая действительно необходима для работы приложения.
-
-Чтобы гарантировать пользователям безопасность их персональной информации, существует несколько уровней доступа через методы работы с пользователями:
-
-- **Ограниченные версии доступа**:
-    - `user_brief`, который позволяет получать базовую информацию о пользователях, без их контактных данных и пользовательских полей. Этот скоуп необходим и достаточен для сценариев, в которых требуется отобразить ФИО пользователя в интерфейсе приложения.
-    - `user_basic`, который позволяет получать не только базовую информацию, но и контактные данные пользователей Битрикс24. Этот скоуп нужен для сценариев, связанных с совершением звонков, или отправкой e-mail сообщений при помощи вашего приложения.
-
-- **Полные версии доступа**:
-    - `user`, который позволяет получить все стандартные поля, а кроме того, делает доступной возможность приглашения новых пользователей и изменение данных существующих пользователей.
-    - `user.userfield`, который открывает доступ к методам для работы с пользовательскими полями пользователей (расширяет перечень доступных полей в методах чтения, доступных в скоупах выше) для получения, добавления, изменения и удаления пользовательских полей.
-
-{% note info "Внимание!" %}
-
-Это максимальный уровень доступа к персональной информации, запрашивать его нужно очень ответственно.
-
-{% endnote %}
-
-{% note info "Внимание!" %}
-
-Длина имени пользователя не должна превышать 25 символов.
-
-{% endnote %}
-
-## Ограниченные версии скоупа user
-
-В этих скоупах нельзя добавлять/обновлять пользователей: не доступны методы [user.add](./user-add.md) и [user.update](./user-update.md). Во всех остальных методах получения информации о пользователе доступны только эти поля (с версии **Rest 21.600.0**):
-
-| user_basic | user_brief |
-|------------|------------|
-| ID | ID |
-| XML_ID | XML_ID |
-| ACTIVE | ACTIVE |
-| NAME | NAME |
-| LAST_NAME | LAST_NAME |
-| SECOND_NAME | SECOND_NAME |
-| TITLE | TITLE |
-| EMAIL | IS_ONLINE |
-| PERSONAL_PHONE | TIME_ZONE |
-| WORK_PHONE | PERSONAL_PHOTO |
-| WORK_POSITION | TIMESTAMP_X |
-| WORK_COMPANY | DATE_REGISTER |
-| IS_ONLINE | PERSONAL_PROFESSION |
-| TIME_ZONE | PERSONAL_GENDER |
-| TIMESTAMP_X | PERSONAL_BIRTHDAY |
-| DATE_REGISTER | PERSONAL_CITY |
-| LAST_ACTIVITY_DATE | PERSONAL_STATE |
-| PERSONAL_PROFESSION | PERSONAL_COUNTRY |
-| PERSONAL_GENDER | WORK_POSITION |
-| PERSONAL_BIRTHDAY | WORK_CITY |
-| PERSONAL_PHOTO | WORK_STATE |
-| PERSONAL_PHONE | WORK_COUNTRY |
-| PERSONAL_FAX | LAST_ACTIVITY_DATE |
-| PERSONAL_MOBILE | UF_EMPLOYMENT_DATE |
-| PERSONAL_PAGER | UF_TIMEMAN |
-| PERSONAL_STREET | UF_SKILLS |
-| PERSONAL_MAILBOX | UF_INTERESTS |
-| PERSONAL_CITY | UF_DEPARTMENT |
-| PERSONAL_STATE | UF_PHONE_INNER |
-| PERSONAL_ZIP | |
-| PERSONAL_COUNTRY | |
-| PERSONAL_NOTES | |
-| WORK_COMPANY | |
-| WORK_DEPARTMENT | |
-| WORK_POSITION | |
-| WORK_WWW | |
-| WORK_PHONE | |
-| WORK_FAX | |
-| WORK_PAGER | |
-| WORK_STREET | |
-| WORK_MAILBOX | |
-| WORK_CITY | |
-| WORK_STATE | |
-| WORK_ZIP | |
-| WORK_COUNTRY | |
-| WORK_PROFILE | |
-| WORK_LOGO | |
-| WORK_NOTES | |
-| UF_DEPARTMENT | |
-| UF_DISTRICT | |
-| UF_SKYPE | |
-| UF_SKYPE_LINK | |
-| UF_ZOOM | |
-| UF_TWITTER | |
-| UF_FACEBOOK* | |
-| UF_LINKEDIN | |
-| UF_XING | |
-| UF_WEB_SITES | |
-| UF_PHONE_INNER | |
-| UF_EMPLOYMENT_DATE | |
-| UF_TIMEMAN | |
-| UF_SKILLS | |
-| UF_INTERESTS | |
-
-{% note info "" %}
-
-*Социальная сеть признана экстремистской и запрещена на территории Российской Федерации.
-
-{% endnote %}
-
-## Полная версия скоупа user
-
-В полной версии доступны поля (с версии **Rest 21.600.0**):
-
-#|
-|| **user** ||
-|| ID ||
-|| XML_ID ||
-|| ACTIVE ||
-|| NAME ||
-|| LAST_NAME ||
-|| SECOND_NAME ||
-|| TITLE ||
-|| EMAIL ||
-|| LAST_LOGIN ||
-|| DATE_REGISTER ||
-|| TIME_ZONE ||
-|| IS_ONLINE ||
-|| TIMESTAMP_X ||
-|| LAST_ACTIVITY_DATE ||
-|| PERSONAL_PROFESSION ||
-|| PERSONAL_GENDER ||
-|| PERSONAL_WWW ||
-|| PERSONAL_BIRTHDAY ||
-|| PERSONAL_PHOTO ||
-|| PERSONAL_ICQ ||
-|| PERSONAL_PHONE ||
-|| PERSONAL_FAX ||
-|| PERSONAL_MOBILE ||
-|| PERSONAL_PAGER ||
-|| PERSONAL_STREET ||
-|| PERSONAL_MAILBOX ||
-|| PERSONAL_CITY ||
-|| PERSONAL_STATE ||
-|| PERSONAL_ZIP ||
-|| PERSONAL_COUNTRY ||
-|| PERSONAL_NOTES ||
-|| WORK_COMPANY ||
-|| WORK_DEPARTMENT ||
-|| WORK_POSITION ||
-|| WORK_WWW ||
-|| WORK_PHONE ||
-|| WORK_FAX ||
-|| WORK_PAGER ||
-|| WORK_STREET ||
-|| WORK_MAILBOX ||
-|| WORK_CITY ||
-|| WORK_STATE ||
-|| WORK_ZIP ||
-|| WORK_COUNTRY ||
-|| WORK_PROFILE ||
-|| WORK_LOGO ||
-|| WORK_NOTES ||
-|| UF_DEPARTMENT ||
-|| UF_DISTRICT ||
-|| UF_SKYPE ||
-|| UF_SKYPE_LINK ||
-|| UF_ZOOM ||
-|| UF_TWITTER ||
-|| UF_FACEBOOK* ||
-|| UF_LINKEDIN ||
-|| UF_XING ||
-|| UF_WEB_SITES ||
-|| UF_PHONE_INNER ||
-|| UF_EMPLOYMENT_DATE ||
-|| UF_TIMEMAN ||
-|| UF_SKILLS ||
-|| UF_INTERESTS ||
-|#
-
-{% note info "" %}
-
-*Социальная сеть признана экстремистской и запрещена на территории Российской Федерации.
-
-{% endnote %}
-
-## Методы
-
 #|
 || **Метод** | **Описание** ||
-|| [user.fields](user-fields.md) | Получение списка названий полей пользователя ||
-|| [user.current](user-current.md) | Получение информации о текущем пользователе ||
-|| [user.add](user-add.md) | Приглашение пользователя ||
-|| [user.update](user-update.md) | Обновление данных пользователя ||
-|| [user.get](user-get.md) | Получение фильтрованного списка пользователей ||
-|| [user.search](user-search.md) | Получение списка пользователей с ускоренным поиском по персональным данным ||
+|| [user.add](user-add.md) | Приглашает пользователя ||
+|| [user.update](user-update.md) | Обновляет данные пользователя ||
+|| [user.current](user-current.md) | Получает информацию о текущем пользователе ||
+|| [user.get](user-get.md) | Получает фильтрованный список пользователей ||
+|| [user.search](user-search.md) | Получает список пользователей с ускоренным поиском по персональным данным ||
+|| [user.fields](user-fields.md) | Получает список полей профиля пользователя ||
 |#
