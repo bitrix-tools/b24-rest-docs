@@ -63,12 +63,12 @@
 
 ```js
 [
-    {
-        "department": 3
-    },
-    {
-        "department": "17:F"
-    }
+    [
+        'department','3'
+    ],
+    [
+        'department','17:F'
+    ]
 ]
 ``` 
 
@@ -78,12 +78,12 @@
 
 ```js
 [
-    {
-        "user": 3
-    },
-    {
-        "department": "17:F"
-    }
+    [
+        'user','3'
+    ],
+    [
+        'department','17:F'
+    ]
 ]
 ```
 
@@ -138,8 +138,8 @@
             "description": "Updated description",
             "plannedCompletionTime": 7200,
             "distributionType": "manually",
-            "responsibleList": [{"user":"3"}],
-            "taskCreators": [{"meta-user":"all-users"}],
+            "responsibleList": [["user","3"]],
+            "taskCreators": [["meta-user","all-users"]],
             "matchWorkTime": 1,
             "notifyAtHalfTime": 0
         }
@@ -160,8 +160,8 @@
             "description": "Updated description",
             "plannedCompletionTime": 7200,
             "distributionType": "manually",
-            "responsibleList": [{"user":"3"}],
-            "taskCreators": [{"meta-user":"all-users"}],
+            "responsibleList": [["user","3"]],
+            "taskCreators": [["meta-user","all-users"]],
             "matchWorkTime": 1,
             "notifyAtHalfTime": 0
         }
@@ -182,14 +182,14 @@
                 plannedCompletionTime: 7200,
                 distributionType: 'manually',
                 responsibleList: [
-                    {
-                        'user':'3'
-                    }
+                    [
+                        'user','3'
+                    ]
                 ],
                 taskCreators: [
-                    {
-                        'meta-user':'all-users'
-                    }
+                    [
+                        'meta-user','all-users'
+                    ]
                 ],
                 matchWorkTime: 1,
                 notifyAtHalfTime: 0
