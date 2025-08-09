@@ -35,6 +35,172 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+        const getCatalogId = async () =>
+        {
+            try
+            {
+                const catalogListResponse = await $b24.callMethod(
+                    "crm.catalog.list",
+                    {filter: {"ORIGINATOR_ID": "", "ORIGIN_ID": ""}}
+                );
+    
+                if (catalogListResponse.error())
+                {
+                    console.error(catalogListResponse.error());
+                }
+                else
+                {
+                    let catalogId = 0;
+                    if (catalogListResponse.total() !== 1)
+                    {
+                        catalogId = 0;
+                    }
+                    else
+                    {
+                        const data = catalogListResponse.getData().result;
+                        if (data && data instanceof Array && typeof(data[0]) === "object" && data[0]["ID"])
+                        {
+                            catalogId = parseInt(data[0]["ID"]);
+                        }
+                    }
+                    if (catalogId <= 0)
+                    {
+                        console.error("Не удалось получить идентификатор товарного каталога CRM");
+                    }
+                    else
+                    {
+                        await addPropertyExample(catalogId);
+                    }
+                }
+            }
+            catch (error)
+            {
+                console.error(error);
+            }
+        };
+    
+        const addPropertyExample = async (catalogId) =>
+        {
+            try
+            {
+                const propertyAddResponse = await $b24.callMethod(
+                    "crm.product.property.add",
+                    {
+                        fields: {
+                            "ACTIVE": "Y",
+                            "IBLOCK_ID": catalogId,
+                            "NAME": "Свойство - HTML/текст",
+                            "SORT": 500,
+                            "DEFAULT_VALUE": {
+                                "TYPE": "html",
+                                "TEXT": "<u><b>Вкусные</b> \"<span style=\"color: #00a650;\">африканские бананы</span>\"</u>"
+                            },
+                            "USER_TYPE_SETTINGS": {
+                                "HEIGHT": 300
+                            },
+                            "USER_TYPE": "HTML",
+                            "PROPERTY_TYPE": "S"
+                        }
+                    }
+                );
+    
+                const result = propertyAddResponse.getData().result;
+                console.dir(result);
+            }
+            catch (error)
+            {
+                console.error(error);
+            }
+        };
+    
+        const start = async () =>
+        {
+            await getCatalogId();
+        };
+    
+        start();
+    }
+    catch (error)
+    {
+        console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $responseCatalog = $b24Service
+            ->core
+            ->call(
+                'crm.catalog.list',
+                [
+                    'filter' => ['ORIGINATOR_ID' => '', 'ORIGIN_ID' => ''],
+                ]
+            );
+    
+        $catalogId = 0;
+        $resultCatalog = $responseCatalog
+            ->getResponseData()
+            ->getResult();
+    
+        if ($resultCatalog->total() !== 1) {
+            $catalogId = 0;
+        } else {
+            $data = $resultCatalog->data();
+            if ($data && is_array($data) && is_object($data[0]) && isset($data[0]["ID"])) {
+                $catalogId = (int)$data[0]["ID"];
+            }
+        }
+    
+        if ($catalogId <= 0) {
+            throw new Exception("Не удалось получить идентификатор товарного каталога CRM");
+        } else {
+            $responseProperty = $b24Service
+                ->core
+                ->call(
+                    'crm.product.property.add',
+                    [
+                        'fields' => [
+                            'ACTIVE'          => 'Y',
+                            'IBLOCK_ID'       => $catalogId,
+                            'NAME'            => 'Свойство - HTML/текст',
+                            'SORT'            => 500,
+                            'DEFAULT_VALUE'   => [
+                                'TYPE' => 'html',
+                                'TEXT' => '<u><b>Вкусные</b> "<span style="color: #00a650;">африканские бананы</span>"</u>',
+                            ],
+                            'USER_TYPE_SETTINGS' => [
+                                'HEIGHT' => 300,
+                            ],
+                            'USER_TYPE'       => 'HTML',
+                            'PROPERTY_TYPE'   => 'S',
+                        ],
+                    ]
+                );
+    
+            $resultProperty = $responseProperty
+                ->getResponseData()
+                ->getResult();
+    
+            echo 'Success: ' . print_r($resultProperty, true);
+            // Нужная вам логика обработки данных
+            processData($resultProperty);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding product property: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Создание свойства пользовательского типа S:HTML
     function addPropertyExample(catalogId)
@@ -115,7 +281,7 @@
     start();
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -178,6 +344,7 @@
     // Start the process
     getCatalogId();
     ```
+
 {% endlist %}
 
 ### Пример 2
@@ -185,7 +352,260 @@
 {% list tabs %}
 
 - JS
-  
+
+
+    ```js
+    try
+    {
+        const getCatalogId = async () =>
+        {
+            try
+            {
+                const response = await $b24.callMethod(
+                    "crm.catalog.list",
+                    {filter: {"ORIGINATOR_ID": "", "ORIGIN_ID": ""}}
+                );
+    
+                if(response.error())
+                {
+                    console.error(response.error());
+                }
+                else
+                {
+                    let catalogId = 0;
+                    if (response.total() !== 1)
+                    {
+                        catalogId = 0;
+                    }
+                    else
+                    {
+                        const data = response.getData().result;
+                        if (data && data instanceof Array && typeof(data[0]) === "object" && data[0]["ID"])
+                        {
+                            catalogId = parseInt(data[0]["ID"]);
+                        }
+                    }
+                    if (catalogId <= 0)
+                    {
+                        console.error("Не удалось получить идентификатор товарного каталога CRM");
+                    }
+                    else
+                    {
+                        await addPropertyExample(catalogId);
+                    }
+                }
+            }
+            catch(error)
+            {
+                console.error(error);
+            }
+        };
+    
+        const addPropertyExample = async (catalogId) =>
+        {
+            try
+            {
+                const response = await $b24.callMethod(
+                    "crm.product.property.add",
+                    {
+                        fields: {
+                            "ACTIVE": "Y",
+                            "IBLOCK_ID": catalogId,
+                            "NAME": "Свойство - Список",
+                            "SORT": 510,
+                            "MULTIPLE": "Y",
+                            "ROW_COUNT": 7,
+                            "LIST_TYPE": "L",
+                            "PROPERTY_TYPE": "L",
+                            "VALUES": {
+                                "n0": {
+                                    "ID": "n0",
+                                    "VALUE": "Значение списка 1",
+                                    "SORT": 100,
+                                    "DEF": "Y"
+                                },
+                                "n1": {
+                                    "ID": "n1",
+                                    "VALUE": "Значение списка 2",
+                                    "SORT": 200,
+                                    "DEF": "N"
+                                },
+                                "n2": {
+                                    "ID": "n2",
+                                    "VALUE": "Значение списка 3",
+                                    "SORT": 300,
+                                    "DEF": "Y"
+                                },
+                                "n3": {
+                                    "ID": "n3",
+                                    "VALUE": "Значение списка 4",
+                                    "SORT": 400,
+                                    "DEF": "N"
+                                },
+                                "n4": {
+                                    "ID": "n4",
+                                    "VALUE": "Значение списка 5",
+                                    "SORT": 500,
+                                    "DEF": "N"
+                                },
+                                "n5": {
+                                    "ID": "n5",
+                                    "VALUE": "Значение списка 6",
+                                    "SORT": 600,
+                                    "DEF": "N"
+                                },
+                                "n6": {
+                                    "ID": "n6",
+                                    "VALUE": "Значение списка 7",
+                                    "SORT": 700,
+                                    "DEF": "N"
+                                },
+                                "n7": {
+                                    "ID": "n7",
+                                    "VALUE": "Значение списка 8",
+                                    "SORT": 800,
+                                    "DEF": "N"
+                                }
+                            }
+                        }
+                    }
+                );
+    
+                console.dir(response.getData().result);
+            }
+            catch(error)
+            {
+                console.error(error);
+            }
+        };
+    
+        const start = async () =>
+        {
+            await getCatalogId();
+        };
+    
+        start();
+    }
+    catch(error)
+    {
+        console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.catalog.list',
+                [
+                    'filter' => ['ORIGINATOR_ID' => '', 'ORIGIN_ID' => ''],
+                ]
+            );
+    
+        if ($response->getError()) {
+            error_log($response->getError());
+            echo 'Error getting catalog list: ' . $response->getError();
+        } else {
+            $catalogId = 0;
+            $result = $response->getResponseData()->getResult();
+    
+            if ($result->total() !== 1) {
+                $catalogId = 0;
+            } else {
+                $data = $result->getData();
+                if ($data && is_array($data) && is_object($data[0]) && isset($data[0]["ID"])) {
+                    $catalogId = (int)$data[0]["ID"];
+                }
+            }
+    
+            if ($catalogId <= 0) {
+                error_log("Не удалось получить идентификатор товарного каталога CRM");
+                echo "Не удалось получить идентификатор товарного каталога CRM";
+            } else {
+                $response = $b24Service
+                    ->core
+                    ->call(
+                        'crm.product.property.add',
+                        [
+                            'fields' => [
+                                'ACTIVE'       => 'Y',
+                                'IBLOCK_ID'    => $catalogId,
+                                'NAME'         => 'Свойство - Список',
+                                'SORT'         => 510,
+                                'MULTIPLE'     => 'Y',
+                                'ROW_COUNT'    => 7,
+                                'LIST_TYPE'    => 'L',
+                                'PROPERTY_TYPE' => 'L',
+                                'VALUES'       => [
+                                    'n0' => [
+                                        'ID'    => 'n0',
+                                        'VALUE' => 'Значение списка 1',
+                                        'SORT'  => 100,
+                                        'DEF'   => 'Y',
+                                    ],
+                                    'n1' => [
+                                        'ID'    => 'n1',
+                                        'VALUE' => 'Значение списка 2',
+                                        'SORT'  => 200,
+                                        'DEF'   => 'N',
+                                    ],
+                                    'n2' => [
+                                        'ID'    => 'n2',
+                                        'VALUE' => 'Значение списка 3',
+                                        'SORT'  => 300,
+                                        'DEF'   => 'Y',
+                                    ],
+                                    'n3' => [
+                                        'ID'    => 'n3',
+                                        'VALUE' => 'Значение списка 4',
+                                        'SORT'  => 400,
+                                        'DEF'   => 'N',
+                                    ],
+                                    'n4' => [
+                                        'ID'    => 'n4',
+                                        'VALUE' => 'Значение списка 5',
+                                        'SORT'  => 500,
+                                        'DEF'   => 'N',
+                                    ],
+                                    'n5' => [
+                                        'ID'    => 'n5',
+                                        'VALUE' => 'Значение списка 6',
+                                        'SORT'  => 600,
+                                        'DEF'   => 'N',
+                                    ],
+                                    'n6' => [
+                                        'ID'    => 'n6',
+                                        'VALUE' => 'Значение списка 7',
+                                        'SORT'  => 700,
+                                        'DEF'   => 'N',
+                                    ],
+                                    'n7' => [
+                                        'ID'    => 'n7',
+                                        'VALUE' => 'Значение списка 8',
+                                        'SORT'  => 800,
+                                        'DEF'   => 'N',
+                                    ],
+                                ],
+                            ],
+                        ]
+                    );
+    
+                $result = $response->getResponseData()->getResult();
+                echo 'Success: ' . print_r($result, true);
+            }
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     function addPropertyExample(catalogId)
     {
@@ -310,7 +730,7 @@
     start();
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -382,4 +802,5 @@
 
     getCatalogId();
     ```
+
 {% endlist %}

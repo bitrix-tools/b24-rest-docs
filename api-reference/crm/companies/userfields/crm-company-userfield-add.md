@@ -56,6 +56,73 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.company.userfield.add",
+    		{
+    			fields:
+    			{
+    				"FIELD_NAME": "MY_STRING",
+    				"EDIT_FORM_LABEL": "Моя строка",
+    				"LIST_COLUMN_LABEL": "Моя строка",
+    				"USER_TYPE_ID": "string",
+    				"XML_ID": "MY_STRING",
+    				"SETTINGS": { "DEFAULT_VALUE": "Привет, мир!" }
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.company.userfield.add',
+                [
+                    'fields' => [
+                        'FIELD_NAME'       => 'MY_STRING',
+                        'EDIT_FORM_LABEL'  => 'Моя строка',
+                        'LIST_COLUMN_LABEL' => 'Моя строка',
+                        'USER_TYPE_ID'     => 'string',
+                        'XML_ID'           => 'MY_STRING',
+                        'SETTINGS'         => ['DEFAULT_VALUE' => 'Привет, мир!'],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding company user field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.company.userfield.add",
@@ -88,6 +155,83 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.company.userfield.add",
+    		{
+    			fields:
+    			{
+    				"FIELD_NAME": "MY_LIST",
+    				"EDIT_FORM_LABEL": "Мой список",
+    				"LIST_COLUMN_LABEL": "Мой список",
+    				"USER_TYPE_ID": "enumeration",
+    				"LIST": [
+    					{ "VALUE": "Элемент #1" },
+    					{ "VALUE": "Элемент #2" },
+    					{ "VALUE": "Элемент #3" },
+    					{ "VALUE": "Элемент #4" },
+    					{ "VALUE": "Элемент #5" }
+    				],
+    				"XML_ID": "MY_LIST",
+    				"SETTINGS": { "LIST_HEIGHT": 3 }
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.company.userfield.add',
+                [
+                    'fields' => [
+                        'FIELD_NAME'       => 'MY_LIST',
+                        'EDIT_FORM_LABEL'  => 'Мой список',
+                        'LIST_COLUMN_LABEL' => 'Мой список',
+                        'USER_TYPE_ID'     => 'enumeration',
+                        'LIST'             => [
+                            ['VALUE' => 'Элемент #1'],
+                            ['VALUE' => 'Элемент #2'],
+                            ['VALUE' => 'Элемент #3'],
+                            ['VALUE' => 'Элемент #4'],
+                            ['VALUE' => 'Элемент #5'],
+                        ],
+                        'XML_ID'           => 'MY_LIST',
+                        'SETTINGS'         => ['LIST_HEIGHT' => 3],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding company user field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(

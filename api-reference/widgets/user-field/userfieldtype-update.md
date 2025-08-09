@@ -75,6 +75,56 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'userfieldtype.update',
+    		{
+    			USER_TYPE_ID: 'test_type',
+    			HANDLER: 'https://www.myapplication.com/handler/',
+    			TITLE: 'Updated test type',
+    			DESCRIPTION: 'Test userfield type for documentation with updated description',
+    			OPTIONS: {
+    				height: 60,
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $result = $serviceBuilder->getPlacementScope()
+            ->userFieldType()
+            ->update(
+                'custom_user_type',  // userTypeId
+                'https://example.com/handler',  // handlerUrl
+                'Custom User Type',  // title
+                'Description of custom user type'  // description
+            );
+        if ($result->isSuccess()) {
+            print("Update successful.");
+        } else {
+            print("Update failed.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'userfieldtype.update',
@@ -97,7 +147,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -118,28 +168,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php        
-    try {
-        $result = $serviceBuilder->getPlacementScope()
-            ->userFieldType()
-            ->update(
-                'custom_user_type',  // userTypeId
-                'https://example.com/handler',  // handlerUrl
-                'Custom User Type',  // title
-                'Description of custom user type'  // description
-            );
-        if ($result->isSuccess()) {
-            print("Update successful.");
-        } else {
-            print("Update failed.");
-        }
-    } catch (Throwable $e) {
-        print("An error occurred: " . $e->getMessage());
-    }
     ```
 
 {% endlist %}

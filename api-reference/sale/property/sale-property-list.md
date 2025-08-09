@@ -93,6 +93,222 @@
 
 - JS
 
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    try {
+      const response = await $b24.callListMethod(
+        'sale.property.list',
+        {
+          "select": [
+            "id",
+            "active",
+            "code",
+            "defaultValue",
+            "description",
+            "inputFieldLocation",
+            "isAddress",
+            "isAddressFrom",
+            "isAddressTo",
+            "isEmail",
+            "isFiltered",
+            "isLocation",
+            "isLocation4tax",
+            "isPayer",
+            "isPhone",
+            "isProfileName",
+            "isZip",
+            "multiple",
+            "name",
+            "personTypeId",
+            "propsGroupId",
+            "required",
+            "settings",
+            "sort",
+            "type",
+            "userProps",
+            "util",
+            "xmlId",
+          ],
+          "filter": {
+            "@type": "STRING",
+            "%code": "EMAIL",
+          },
+          "order": {
+            "id": "desc",
+          }
+        },
+        (progress) => { console.log('Progress:', progress) }
+      )
+      const items = response.getData() || []
+      for (const entity of items) { console.log('Entity:', entity) }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    try {
+      const generator = $b24.fetchListMethod('sale.property.list', {
+        "select": [
+          "id",
+          "active",
+          "code",
+          "defaultValue",
+          "description",
+          "inputFieldLocation",
+          "isAddress",
+          "isAddressFrom",
+          "isAddressTo",
+          "isEmail",
+          "isFiltered",
+          "isLocation",
+          "isLocation4tax",
+          "isPayer",
+          "isPhone",
+          "isProfileName",
+          "isZip",
+          "multiple",
+          "name",
+          "personTypeId",
+          "propsGroupId",
+          "required",
+          "settings",
+          "sort",
+          "type",
+          "userProps",
+          "util",
+          "xmlId",
+        ],
+        "filter": {
+          "@type": "STRING",
+          "%code": "EMAIL",
+        },
+        "order": {
+          "id": "desc",
+        }
+      }, 'id')
+      for await (const page of generator) {
+        for (const entity of page) { console.log('Entity:', entity) }
+      }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    try {
+      const response = await $b24.callMethod('sale.property.list', {
+        "select": [
+          "id",
+          "active",
+          "code",
+          "defaultValue",
+          "description",
+          "inputFieldLocation",
+          "isAddress",
+          "isAddressFrom",
+          "isAddressTo",
+          "isEmail",
+          "isFiltered",
+          "isLocation",
+          "isLocation4tax",
+          "isPayer",
+          "isPhone",
+          "isProfileName",
+          "isZip",
+          "multiple",
+          "name",
+          "personTypeId",
+          "propsGroupId",
+          "required",
+          "settings",
+          "sort",
+          "type",
+          "userProps",
+          "util",
+          "xmlId",
+        ],
+        "filter": {
+          "@type": "STRING",
+          "%code": "EMAIL",
+        },
+        "order": {
+          "id": "desc",
+        }
+      }, 0)
+      const result = response.getData().result || []
+      for (const entity of result) { console.log('Entity:', entity) }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.property.list',
+                [
+                    'select' => [
+                        'id',
+                        'active',
+                        'code',
+                        'defaultValue',
+                        'description',
+                        'inputFieldLocation',
+                        'isAddress',
+                        'isAddressFrom',
+                        'isAddressTo',
+                        'isEmail',
+                        'isFiltered',
+                        'isLocation',
+                        'isLocation4tax',
+                        'isPayer',
+                        'isPhone',
+                        'isProfileName',
+                        'isZip',
+                        'multiple',
+                        'name',
+                        'personTypeId',
+                        'propsGroupId',
+                        'required',
+                        'settings',
+                        'sort',
+                        'type',
+                        'userProps',
+                        'util',
+                        'xmlId',
+                    ],
+                    'filter' => [
+                        '@type' => 'STRING',
+                        '%code' => 'EMAIL',
+                    ],
+                    'order' => [
+                        'id' => 'desc',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching sale properties: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.property.list", {
@@ -144,7 +360,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

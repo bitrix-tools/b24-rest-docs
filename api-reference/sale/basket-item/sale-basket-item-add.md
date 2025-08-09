@@ -95,8 +95,6 @@
 
 {% list tabs %}
 
-Создание позиции с товаром из каталога в количестве 2 единиц:
-
 - cURL (Webhook)
 
     ```bash
@@ -118,6 +116,64 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.basketitem.add",
+    		{
+    			fields: { // минимальный набор необходимых полей
+    				orderId: 5147,
+    				quantity: 2,
+    				productId: 6544,
+    				currency: 'RUB',
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.basketitem.add',
+                [
+                    'fields' => [
+                        'orderId'   => 5147,
+                        'quantity'  => 2,
+                        'productId' => 6544,
+                        'currency'  => 'RUB',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding basket item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -150,7 +206,7 @@
         );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

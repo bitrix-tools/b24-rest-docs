@@ -73,6 +73,75 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const catalogId = prompt("Введите ID каталога");
+    	const sectionId = prompt("Введите ID родительской секции (если в корне, то 0))");
+    	const sectionName = prompt("Введите название секции");
+    
+    	const response = await $b24.callMethod(
+    		"crm.productsection.add",
+    		{
+    			fields:
+    			{
+    				CATALOG_ID: catalogId,
+    				NAME: sectionName,
+    				SECTION_ID: sectionId
+    			}
+    		}
+    	);
+    
+    	const result = response.getData().result;
+    	console.info("Создан новый раздел с ID " + result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $catalogId = readline("Введите ID каталога");
+        $sectionId = readline("Введите ID родительской секции (если в корне, то 0)");
+        $sectionName = readline("Введите название секции");
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                "crm.productsection.add",
+                [
+                    'fields' => [
+                        'CATALOG_ID' => $catalogId,
+                        'NAME' => $sectionName,
+                        'SECTION_ID' => $sectionId
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo "Создан новый раздел с ID " . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error creating product section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var catalogId = prompt("Введите ID каталога");
     var sectionId = prompt("Введите ID родительской секции (если в корне, то 0))");
@@ -97,7 +166,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

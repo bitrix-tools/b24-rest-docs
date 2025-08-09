@@ -143,28 +143,85 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.create
     ```
 
-- cURL (oAuth)
+- JS
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-    -d '{
-        "flowData": {
-            "name": "Unique Flow Name",
-            "description": "Описание потока",
-            "plannedCompletionTime": 7200,
-            "distributionType": "manually",
-            "responsibleList": [["user","3"]],
-            "taskCreators": [["meta-user","all-users"]],
-            "matchWorkTime": 1,
-            "notifyAtHalfTime": 0
-        }
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.create
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.flow.Flow.create',
+    		{
+    			flowData: {
+    				name: 'Unique Flow Name',
+    				description: 'Описание потока',
+    				plannedCompletionTime: 7200,
+    				distributionType: 'manually',
+    				responsibleList: [
+    					[
+    						'user','3'
+    					]
+    				],
+    				taskCreators: [
+    					[
+    						'meta-user','all-users'
+    					]
+    				],
+    				matchWorkTime: 1,
+    				notifyAtHalfTime: 0
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
     ```
 
-- JS
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.flow.Flow.create',
+                [
+                    'flowData' => [
+                        'name'                  => 'Unique Flow Name',
+                        'description'           => 'Описание потока',
+                        'plannedCompletionTime' => 7200,
+                        'distributionType'      => 'manually',
+                        'responsibleList'       => [
+                            ['user', '3']
+                        ],
+                        'taskCreators'          => [
+                            ['meta-user', 'all-users']
+                        ],
+                        'matchWorkTime'         => 1,
+                        'notifyAtHalfTime'      => 0
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error creating flow: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -199,7 +256,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
@@ -229,6 +286,27 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -d '{
+        "flowData": {
+            "name": "Unique Flow Name",
+            "description": "Описание потока",
+            "plannedCompletionTime": 7200,
+            "distributionType": "manually",
+            "responsibleList": [["user","3"]],
+            "taskCreators": [["meta-user","all-users"]],
+            "matchWorkTime": 1,
+            "notifyAtHalfTime": 0
+        }
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.create
     ```
 
 {% endlist %}

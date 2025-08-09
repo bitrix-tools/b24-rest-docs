@@ -46,6 +46,66 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.block.changeNodeName',
+    		{
+    			lid: 2006,
+    			block: 20476,
+    			data: {
+    				'.landing-block-node-small-title@0': 'i',
+    				'.landing-block-node-small-title@1': 'u'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.block.changeNodeName',
+                [
+                    'lid'   => 2006,
+                    'block' => 20476,
+                    'data'  => [
+                        '.landing-block-node-small-title@0' => 'i',
+                        '.landing-block-node-small-title@1' => 'u'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error changing node name: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.block.changeNodeName',

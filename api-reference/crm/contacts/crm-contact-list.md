@@ -148,6 +148,221 @@
 
 - JS
 
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    const sixMonthAgo = new Date();
+    sixMonthAgo.setMonth(new Date().getMonth() - 6);
+    
+    try {
+      const response = await $b24.callListMethod(
+        'crm.contact.list',
+        {
+          filter: {
+            "SOURCE_ID": "CRM_FORM",
+            "!=NAME": "",
+            "!=LAST_NAME": "",
+            "0": {
+              "LOGIC": "OR",
+              "0": {
+                "=%NAME": "И%",
+              },
+              "1": {
+                "=%LAST_NAME": "И%",
+              },
+            },
+            "EMAIL": "special-for@example.com",
+            "@ASSIGNED_BY_ID": [1, 6],
+            "IMPORT": "Y",
+            ">=DATE_CREATE": sixMonthAgo.toISOString(),
+          },
+          order: {
+            LAST_NAME: "ASC",
+            NAME: "ASC",
+          },
+          select: [
+            "ID",
+            "NAME",
+            "LAST_NAME",
+            "EMAIL",
+            "EXPORT",
+            "ASSIGNED_BY_ID",
+            "DATE_CREATE",
+          ],
+        },
+        (result) => {
+          result.error()
+            ? console.error(result.error())
+            : console.info(result.data())
+          ;
+        }
+      );
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    const sixMonthAgo = new Date();
+    sixMonthAgo.setMonth(new Date().getMonth() - 6);
+    
+    try {
+      const generator = $b24.fetchListMethod('crm.contact.list', {
+        filter: {
+          "SOURCE_ID": "CRM_FORM",
+          "!=NAME": "",
+          "!=LAST_NAME": "",
+          "0": {
+            "LOGIC": "OR",
+            "0": {
+              "=%NAME": "И%",
+            },
+            "1": {
+              "=%LAST_NAME": "И%",
+            },
+          },
+          "EMAIL": "special-for@example.com",
+          "@ASSIGNED_BY_ID": [1, 6],
+          "IMPORT": "Y",
+          ">=DATE_CREATE": sixMonthAgo.toISOString(),
+        },
+        order: {
+          LAST_NAME: "ASC",
+          NAME: "ASC",
+        },
+        select: [
+          "ID",
+          "NAME",
+          "LAST_NAME",
+          "EMAIL",
+          "EXPORT",
+          "ASSIGNED_BY_ID",
+          "DATE_CREATE",
+        ],
+      }, 'ID');
+      for await (const page of generator) {
+        for (const entity of page) {
+          console.log('Entity:', entity);
+        }
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    const sixMonthAgo = new Date();
+    sixMonthAgo.setMonth(new Date().getMonth() - 6);
+    
+    try {
+      const response = await $b24.callMethod('crm.contact.list', {
+        filter: {
+          "SOURCE_ID": "CRM_FORM",
+          "!=NAME": "",
+          "!=LAST_NAME": "",
+          "0": {
+            "LOGIC": "OR",
+            "0": {
+              "=%NAME": "И%",
+            },
+            "1": {
+              "=%LAST_NAME": "И%",
+            },
+          },
+          "EMAIL": "special-for@example.com",
+          "@ASSIGNED_BY_ID": [1, 6],
+          "IMPORT": "Y",
+          ">=DATE_CREATE": sixMonthAgo.toISOString(),
+        },
+        order: {
+          LAST_NAME: "ASC",
+          NAME: "ASC",
+        },
+        select: [
+          "ID",
+          "NAME",
+          "LAST_NAME",
+          "EMAIL",
+          "EXPORT",
+          "ASSIGNED_BY_ID",
+          "DATE_CREATE",
+        ],
+      }, 0);
+      const result = response.getData().result || [];
+      for (const entity of result) {
+        console.log('Entity:', entity);
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $sixMonthAgo = new DateTime();
+        $sixMonthAgo->setDate((new DateTime())->getMonth() - 6);
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.contact.list',
+                [
+                    'filter' => [
+                        'SOURCE_ID'      => 'CRM_FORM',
+                        '!=NAME'         => '',
+                        '!=LAST_NAME'    => '',
+                        '0'              => [
+                            'LOGIC'    => 'OR',
+                            '0'        => [
+                                '=%NAME'     => 'И%',
+                            ],
+                            '1'        => [
+                                '=%LAST_NAME' => 'И%',
+                            ],
+                        ],
+                        'EMAIL'          => 'special-for@example.com',
+                        '@ASSIGNED_BY_ID' => [1, 6],
+                        'IMPORT'         => 'Y',
+                        '>=DATE_CREATE'  => $sixMonthAgo->format('Y-m-d\TH:i:s'),
+                    ],
+                    'order'  => [
+                        'LAST_NAME' => 'ASC',
+                        'NAME'      => 'ASC',
+                    ],
+                    'select' => [
+                        'ID',
+                        'NAME',
+                        'LAST_NAME',
+                        'EMAIL',
+                        'EXPORT',
+                        'ASSIGNED_BY_ID',
+                        'DATE_CREATE',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching contact list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const sixMonthAgo = new Date();
     sixMonthAgo.setMonth((new Date()).getMonth() - 6);
@@ -196,7 +411,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

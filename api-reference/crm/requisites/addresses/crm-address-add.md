@@ -88,7 +88,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.address.add
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -99,6 +99,76 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.address.add",
+    		{
+    			fields:
+    			{
+    				"TYPE_ID": 1,            // Тип адреса, см. crm.enum.addresstype
+    				"ENTITY_TYPE_ID": 8,     // Тип объекта (реквизит или лид)
+    				"ENTITY_ID": 1,          // Идентификатор реквизита
+    				"ADDRESS_1": "проспект Мира, 4",
+    				"ADDRESS_2": "Калининградский областной драматический театр",
+    				"CITY": "Калининград",
+    				"POSTAL_CODE": "236036",
+    				"REGION": "городской округ Калининград",
+    				"PROVINCE": "Калининградская область",
+    				"COUNTRY": "Россия",
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.address.add',
+                [
+                    'fields' => [
+                        'TYPE_ID'        => 1,
+                        'ENTITY_TYPE_ID' => 8,
+                        'ENTITY_ID'      => 1,
+                        'ADDRESS_1'      => 'проспект Мира, 4',
+                        'ADDRESS_2'      => 'Калининградский областной драматический театр',
+                        'CITY'           => 'Калининград',
+                        'POSTAL_CODE'    => '236036',
+                        'REGION'         => 'городской округ Калининград',
+                        'PROVINCE'       => 'Калининградская область',
+                        'COUNTRY'        => 'Россия',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding address: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -126,7 +196,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -52,6 +52,89 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"disk.storage.uploadFile",
+    		{
+    			id: 4,
+    			data: {
+    				NAME: "avatar.jpg"
+    			},
+    			fileContent: document.getElementById('test_file_input'),
+    			generateUniqueName: true,
+    			rights: [
+    				{
+    					TASK_ID: 42,
+    					ACCESS_CODE: 'U35' //доступ для пользователя с ID=35
+    				},
+    				{
+    					TASK_ID: 38,
+    					ACCESS_CODE: 'U2' //доступ для пользователя с ID=2
+    				}
+    			]
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'disk.storage.uploadFile',
+                [
+                    'id'               => 4,
+                    'data'             => [
+                        'NAME' => 'avatar.jpg',
+                    ],
+                    'fileContent'      => $_FILES['test_file_input'],
+                    'generateUniqueName' => true,
+                    'rights'           => [
+                        [
+                            'TASK_ID'     => 42,
+                            'ACCESS_CODE' => 'U35', //доступ для пользователя с ID=35
+                        ],
+                        [
+                            'TASK_ID'     => 38,
+                            'ACCESS_CODE' => 'U2', //доступ для пользователя с ID=2
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error uploading file: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "disk.storage.uploadFile",

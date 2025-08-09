@@ -52,7 +52,80 @@
 
 {% list tabs %}
 
-- JS
+- PHP
+
+
+    ```php
+    try {
+        //Запрос личных настроек карточки сделок для пользователя с идентификатором 1.
+        $response1 = $b24Service
+            ->core
+            ->call(
+                "crm.deal.details.configuration.get",
+                [
+                    'scope'  => "P",
+                    'userId' => 1
+                ]
+            );
+    
+        $result1 = $response1
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Personal deal details configuration for user 1: ' . print_r($result1, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting personal deal details configuration: ' . $e->getMessage();
+    }
+    
+    try {
+        //Запрос общих настроек карточки сделок для общего направления.
+        $response2 = $b24Service
+            ->core
+            ->call(
+                "crm.deal.details.configuration.get",
+                [
+                    'scope' => "C"
+                ]
+            );
+    
+        $result2 = $response2
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Common deal details configuration for general direction: ' . print_r($result2, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting common deal details configuration: ' . $e->getMessage();
+    }
+    
+    try {
+        //Запрос общих настроек карточки сделок для направления с идентификатором 1.
+        $response3 = $b24Service
+            ->core
+            ->call(
+                "crm.deal.details.configuration.get",
+                [
+                    'scope'  => "C",
+                    'extras' => ['dealCategoryId' => 1]
+                ]
+            );
+    
+        $result3 = $response3
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Common deal details configuration for direction with ID 1: ' . print_r($result3, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting common deal details configuration for direction with ID 1: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     //--

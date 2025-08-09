@@ -49,6 +49,73 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const title = prompt("Введите новое наименование для единицы измерения");
+    	
+    	const response = await $b24.callMethod(
+    		"crm.measure.update",
+    		{
+    			id: id,
+    			fields: {
+    				"MEASURE_TITLE": title
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		console.error(result.error());
+    	else
+    		console.info(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = readline("Введите ID");
+    $title = readline("Введите новое наименование для единицы измерения");
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.measure.update',
+                [
+                    'id' => $id,
+                    'fields' => [
+                        'MEASURE_TITLE' => $title
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating measure: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     var title = prompt("Введите новое наименование для единицы измерения");
@@ -70,7 +137,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

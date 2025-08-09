@@ -56,36 +56,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        'biconnector.dataset.add',
-        {
-            fields: {
-                "sourceId": 3,
-                "name": "rest_dataset",
-                "externalName": "extranalName",
-                "externalCode": "extrnalCode",
-                "description": "Описание датасета",
-                "fields": [
-                    { "type": "int", "name": "ID", "externalCode": "ID" },
-                    { "type": "string", "name": "NAME", "externalCode": "NAME" },
-                    { "type": "string", "name": "SURNAME", "externalCode": "SURNAME" },
-                    { "type": "double", "name": "SCORE", "externalCode": "SCORE" },
-                    { "type": "date", "name": "DATA", "externalCode": "DATA" },
-                    { "type": "datetime", "name": "TIME", "externalCode": "TIME" }
-                ]
-            }
-        },
-        (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -139,7 +109,120 @@
     https://**put_your_bitrix24_address**/rest/biconnector.dataset.add
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'biconnector.dataset.add',
+    		{
+    			fields: {
+    				"sourceId": 3,
+    				"name": "rest_dataset",
+    				"externalName": "extranalName",
+    				"externalCode": "extrnalCode",
+    				"description": "Описание датасета",
+    				"fields": [
+    					{ "type": "int", "name": "ID", "externalCode": "ID" },
+    					{ "type": "string", "name": "NAME", "externalCode": "NAME" },
+    					{ "type": "string", "name": "SURNAME", "externalCode": "SURNAME" },
+    					{ "type": "double", "name": "SCORE", "externalCode": "SCORE" },
+    					{ "type": "date", "name": "DATA", "externalCode": "DATA" },
+    					{ "type": "datetime", "name": "TIME", "externalCode": "TIME" }
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'biconnector.dataset.add',
+                [
+                    'fields' => [
+                        'sourceId'      => 3,
+                        'name'          => 'rest_dataset',
+                        'externalName'  => 'extranalName',
+                        'externalCode'  => 'extrnalCode',
+                        'description'   => 'Описание датасета',
+                        'fields'        => [
+                            ['type' => 'int', 'name' => 'ID', 'externalCode' => 'ID'],
+                            ['type' => 'string', 'name' => 'NAME', 'externalCode' => 'NAME'],
+                            ['type' => 'string', 'name' => 'SURNAME', 'externalCode' => 'SURNAME'],
+                            ['type' => 'double', 'name' => 'SCORE', 'externalCode' => 'SCORE'],
+                            ['type' => 'date', 'name' => 'DATA', 'externalCode' => 'DATA'],
+                            ['type' => 'datetime', 'name' => 'TIME', 'externalCode' => 'TIME'],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding dataset: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'biconnector.dataset.add',
+        {
+            fields: {
+                "sourceId": 3,
+                "name": "rest_dataset",
+                "externalName": "extranalName",
+                "externalCode": "extrnalCode",
+                "description": "Описание датасета",
+                "fields": [
+                    { "type": "int", "name": "ID", "externalCode": "ID" },
+                    { "type": "string", "name": "NAME", "externalCode": "NAME" },
+                    { "type": "string", "name": "SURNAME", "externalCode": "SURNAME" },
+                    { "type": "double", "name": "SCORE", "externalCode": "SCORE" },
+                    { "type": "date", "name": "DATA", "externalCode": "DATA" },
+                    { "type": "datetime", "name": "TIME", "externalCode": "TIME" }
+                ]
+            }
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

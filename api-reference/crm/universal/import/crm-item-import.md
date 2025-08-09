@@ -109,7 +109,7 @@
         https://**put_your_bitrix24_address**/rest/crm.item.import
         ```
 
-    - JS
+    - BX24.js
 
         ```js
         const formatDate = (date) => {
@@ -193,7 +193,7 @@
         );
         ```
 
-    - PHP
+    - PHP CRest
 
         ```php
         require_once('crest.php');
@@ -313,7 +313,7 @@
         https://**put_your_bitrix24_address**/rest/crm.item.import
         ```
 
-    - JS
+    - BX24.js
 
         ```js
         const greenPixelInBase64 = "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg==";
@@ -349,7 +349,7 @@
         );
         ```
 
-    - PHP
+    - PHP CRest
 
         ```php
         require_once('crest.php');

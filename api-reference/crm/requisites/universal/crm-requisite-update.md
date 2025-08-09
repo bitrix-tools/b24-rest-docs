@@ -211,6 +211,71 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.requisite.update",
+    		{
+    			id: 27,
+    			fields:
+    			{
+    				"RQ_OKPO": "80715150",
+    				"RQ_OKTMO": "45381000000",
+    				"UF_CRM_1707997209": "78",
+    				"UF_CRM_1708012333": "Категория 3"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.update',
+                [
+                    'id' => 27,
+                    'fields' => [
+                        'RQ_OKPO'         => '80715150',
+                        'RQ_OKTMO'        => '45381000000',
+                        'UF_CRM_1707997209' => '78',
+                        'UF_CRM_1708012333' => 'Категория 3',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating requisite: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.requisite.update",
@@ -236,7 +301,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

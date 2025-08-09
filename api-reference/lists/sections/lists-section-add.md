@@ -55,6 +55,73 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const params = {
+    		'IBLOCK_TYPE_ID': 'lists',
+    		'IBLOCK_CODE': 'rest_1',
+    		'SECTION_CODE': 'Section_code_1',
+    		'FIELDS': {
+    			'NAME': 'Section_1',
+    		}
+    	};
+    	
+    	const response = await $b24.callMethod(
+    		'lists.section.add',
+    		params
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		console.log(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.section.add',
+                [
+                    'IBLOCK_TYPE_ID' => 'lists',
+                    'IBLOCK_CODE'   => 'rest_1',
+                    'SECTION_CODE'  => 'Section_code_1',
+                    'FIELDS'        => [
+                        'NAME' => 'Section_1',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     /* lists.section.add */
     var params = {

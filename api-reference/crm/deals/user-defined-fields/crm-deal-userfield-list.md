@@ -163,7 +163,56 @@
 
 - JS
 
+
     ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    BX24.callMethod(
+        'crm.deal.userfield.list',
+        {
+            filter: {
+                MULTIPLE: "Y",
+                MANDATORY: "Y",
+                LANG: "ru",
+            },
+            order: {
+                USER_TYPE_ID: "ASC",
+                SORT: "ASC",
+            },
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    BX24.callMethod(
+        'crm.deal.userfield.list',
+        {
+            filter: {
+                MULTIPLE: "Y",
+                MANDATORY: "Y",
+                LANG: "ru",
+            },
+            order: {
+                USER_TYPE_ID: "ASC",
+                SORT: "ASC",
+            },
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
     BX24.callMethod(
         'crm.deal.userfield.list',
         {
@@ -187,6 +236,69 @@
     ```
 
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.deal.userfield.list',
+                [
+                    'filter' => [
+                        'MULTIPLE' => 'Y',
+                        'MANDATORY' => 'Y',
+                        'LANG' => 'ru',
+                    ],
+                    'order' => [
+                        'USER_TYPE_ID' => 'ASC',
+                        'SORT' => 'ASC',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching deal user fields: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'crm.deal.userfield.list',
+        {
+            filter: {
+                MULTIPLE: "Y",
+                MANDATORY: "Y",
+                LANG: "ru",
+            },
+            order: {
+                USER_TYPE_ID: "ASC",
+                SORT: "ASC",
+            },
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

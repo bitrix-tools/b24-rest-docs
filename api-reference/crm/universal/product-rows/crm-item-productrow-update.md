@@ -82,6 +82,75 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.item.productrow.update', {
+    			id: 17648,
+    			fields: {
+    				productId: 9621,
+    				price: 90000.000000,
+    				quantity: 3,
+    				discountTypeId: 2,
+    				discountRate: 10,
+    				taxRate: 10,
+    				taxIncluded: 'Y',
+    				measureCode: 796,
+    				sort: 20,
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.productrow.update',
+                [
+                    'id' => 17648,
+                    'fields' => [
+                        'productId'      => 9621,
+                        'price'          => 90000.000000,
+                        'quantity'       => 3,
+                        'discountTypeId' => 2,
+                        'discountRate'   => 10,
+                        'taxRate'        => 10,
+                        'taxIncluded'    => 'Y',
+                        'measureCode'    => 796,
+                        'sort'           => 20,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating product row: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.item.productrow.update', {
@@ -108,7 +177,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

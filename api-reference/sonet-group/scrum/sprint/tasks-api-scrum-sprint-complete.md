@@ -36,19 +36,57 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.complete
     ```
 
-- cURL (oAuth)
+- JS
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "id": 1
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.complete
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.sprint.complete',
+    		{
+    			id: groupId
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
     ```
 
-- JS
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.sprint.complete',
+                [
+                    'id' => $groupId
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error completing sprint: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     const groupId = 1;
@@ -64,7 +102,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
@@ -83,6 +121,18 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "id": 1
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.complete
     ```
 
 {% endlist %}

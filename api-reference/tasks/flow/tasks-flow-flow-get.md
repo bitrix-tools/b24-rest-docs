@@ -35,19 +35,57 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.get
     ```
 
-- cURL (oAuth)
+- JS
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-    -d '{
-        "flowId": 517
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.get
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.flow.Flow.get',
+    		{
+    			flowId: 517
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
     ```
 
-- JS
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.flow.Flow.get',
+                [
+                    'flowId' => 517
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting flow: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -65,7 +103,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
@@ -86,6 +124,18 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -d '{
+        "flowId": 517
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.get
     ```
 
 {% endlist %}
