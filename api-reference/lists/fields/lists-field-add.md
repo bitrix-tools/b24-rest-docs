@@ -86,6 +86,103 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.field.add',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists_socnet',
+    			'IBLOCK_CODE': 'rest_1',
+    			'SOCNET_GROUP_ID': '7',
+    			'FIELDS': {
+    				'NAME': 'List field',
+    				'IS_REQUIRED': 'Y',
+    				'MULTIPLE': 'N',
+    				'TYPE': 'L',
+    				'SORT': '20',
+    				'CODE': 'fieldList',
+    				'LIST_TEXT_VALUES': 'one\ntwo\nthree',
+    				'SETTINGS': {
+    					'SHOW_ADD_FORM': 'Y',
+    					'SHOW_EDIT_FORM': 'Y',
+    					'ADD_READ_ONLY_FIELD': 'N',
+    					'EDIT_READ_ONLY_FIELD': 'N',
+    					'SHOW_FIELD_PREVIEW': 'N'
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		alert("Error: " + result.error());
+    	}
+    	else
+    	{
+    		alert("Success: " + result);
+    	}
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID'   => 'lists_socnet',
+            'IBLOCK_CODE'      => 'rest_1',
+            'SOCNET_GROUP_ID'  => '7',
+            'FIELDS'           => [
+                'NAME'             => 'List field',
+                'IS_REQUIRED'      => 'Y',
+                'MULTIPLE'         => 'N',
+                'TYPE'             => 'L',
+                'SORT'             => '20',
+                'CODE'             => 'fieldList',
+                'LIST_TEXT_VALUES' => 'one\ntwo\nthree',
+                'SETTINGS'         => [
+                    'SHOW_ADD_FORM'       => 'Y',
+                    'SHOW_EDIT_FORM'      => 'Y',
+                    'ADD_READ_ONLY_FIELD' => 'N',
+                    'EDIT_READ_ONLY_FIELD' => 'N',
+                    'SHOW_FIELD_PREVIEW'  => 'N',
+                ],
+            ],
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.field.add',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists_socnet',

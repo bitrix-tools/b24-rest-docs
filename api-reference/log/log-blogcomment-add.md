@@ -42,6 +42,58 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'log.blogcomment.add',
+    		{
+    			POST_ID: 10,
+    			TEXT: 'Комментарий к посту'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'log.blogcomment.add',
+                [
+                    'POST_ID' => 10,
+                    'TEXT'    => 'Комментарий к посту',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding blog comment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Пример добавления
     BX24.callMethod('log.blogcomment.add', {
@@ -57,6 +109,62 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'log.blogcomment.user.get',
+    		{
+    			FIRST_ID: 893,
+    			LAST_ID: 894
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'FIRST_ID' => 893, // id из таблицы b_sonet_log_comment
+            'LAST_ID'  => 894,
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'log.blogcomment.user.get',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting blog comments: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     // Получает комментарий в ленте новостей. Если не передавать id в фильтр, вернёт все доступные по правам комментарии
@@ -83,6 +191,60 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'log.blogcomment.delete',
+    		{
+    			COMMENT_ID: 261, //id из таблицы b_blog_comment
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'COMMENT_ID' => 261, //id из таблицы b_blog_comment
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'log.blogcomment.delete',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting comment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     // Удаляет комментарий в ленте новостей

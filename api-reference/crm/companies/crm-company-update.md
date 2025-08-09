@@ -59,6 +59,81 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		"crm.company.update",
+    		{
+    			id: id,
+    			fields:
+    			{
+    				"CURRENCY_ID": "RUB",
+    				"REVENUE" : 500000,
+    				"EMPLOYEES": "EMPLOYEES_3"
+    			},
+    			params: { "REGISTER_SONET_EVENT": "Y" }
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.info(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = readline("Введите ID");
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.company.update',
+                [
+                    'id' => $id,
+                    'fields' => [
+                        'CURRENCY_ID' => 'RUB',
+                        'REVENUE' => 500000,
+                        'EMPLOYEES' => 'EMPLOYEES_3',
+                    ],
+                    'params' => ['REGISTER_SONET_EVENT' => 'Y'],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating company: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     BX24.callMethod(

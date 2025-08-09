@@ -257,6 +257,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.activity.update',
+    		{
+    			'CODE': 'action_test_code',
+    			'FIELDS': {
+    				'AUTH_USER_ID': 1,
+    				'USE_SUBSCRIPTION': 'N',
+    				'FILTER': {
+    					'INCLUDE': [
+    						['lists'],
+    						['crm', 'CCrmDocumentDeal']
+    					]
+    				}
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->activity()
+            ->update(
+                'activity_code',
+                'https://example.com/handler',
+                1,
+                ['en' => 'Activity Name', 'ru' => 'Название Активности'],
+                ['en' => 'Activity Description', 'ru' => 'Описание Активности'],
+                true,
+                ['param1' => 'value1'],
+                false,
+                ['returnParam1' => 'value1'],
+                null,
+                null
+            );
+
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print('Update failed.');
+        }
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'bizproc.activity.update',
@@ -308,37 +371,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php
-    try {
-        $result = $serviceBuilder
-            ->getBizProcScope()
-            ->activity()
-            ->update(
-                'activity_code',
-                'https://example.com/handler',
-                1,
-                ['en' => 'Activity Name', 'ru' => 'Название Активности'],
-                ['en' => 'Activity Description', 'ru' => 'Описание Активности'],
-                true,
-                ['param1' => 'value1'],
-                false,
-                ['returnParam1' => 'value1'],
-                null,
-                null
-            );
-
-        if ($result->isSuccess()) {
-            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
-        } else {
-            print('Update failed.');
-        }
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
     ```
 
 {% endlist %}

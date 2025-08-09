@@ -48,7 +48,87 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -d '{"LIST_ID":123,"ENTITY_TYPE":"CONTACT","ENTITIES":[1,2,3],"WEBFORM_ID":5}' \
+         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -d '{"LIST_ID":123,"ENTITY_TYPE":"CONTACT","ENTITIES":[1,2,3],"WEBFORM_ID":5,"auth":"**put_access_token_here**"}' \
+         https://**your_bitrix24**/rest/crm.calllist.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.calllist.update',
+    		{
+    			LIST_ID: 123,
+    			ENTITY_TYPE: 'CONTACT',
+    			ENTITIES: [1, 2, 3],
+    			WEBFORM_ID: 5
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error()) {
+    		console.error(result.error());
+    	} else {
+    		console.dir(result);
+    	}
+    }
+    catch (error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.calllist.update',
+                [
+                    'LIST_ID'     => 123,
+                    'ENTITY_TYPE' => 'CONTACT',
+                    'ENTITIES'    => [1, 2, 3],
+                    'WEBFORM_ID'  => 5,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating call list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -68,25 +148,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -d '{"LIST_ID":123,"ENTITY_TYPE":"CONTACT","ENTITIES":[1,2,3],"WEBFORM_ID":5}' \
-         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -d '{"LIST_ID":123,"ENTITY_TYPE":"CONTACT","ENTITIES":[1,2,3],"WEBFORM_ID":5,"auth":"**put_access_token_here**"}' \
-         https://**your_bitrix24**/rest/crm.calllist.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

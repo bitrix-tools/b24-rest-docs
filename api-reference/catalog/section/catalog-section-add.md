@@ -111,6 +111,74 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.section.add', 
+    		{
+    			fields: {
+    				name: 'Детские игрушки',
+    				iblockId: 14,
+    				iblockSectionId: 13,
+    				sort: '100',
+    				active: 'Y',
+    				code: 'toys',
+    				xmlId: 'myXmlId',
+    				description: "Товары для детей - игрушки",
+    				descriptionType: "text"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.section.add',
+                [
+                    'fields' => [
+                        'name'            => 'Детские игрушки',
+                        'iblockId'        => 14,
+                        'iblockSectionId' => 13,
+                        'sort'            => '100',
+                        'active'          => 'Y',
+                        'code'            => 'toys',
+                        'xmlId'           => 'myXmlId',
+                        'description'     => "Товары для детей - игрушки",
+                        'descriptionType' => "text",
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding catalog section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.section.add', 
@@ -137,7 +205,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

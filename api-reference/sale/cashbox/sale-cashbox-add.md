@@ -109,6 +109,104 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.cashbox.add",
+    		{
+    			"NAME": 'Rest-касса',
+    			"REST_CODE": 'restcashbox01',
+    			"EMAIL": "user@example.com",
+    			"NUMBER_KKM": "123",
+    			"ACTIVE": "Y",
+    			"SORT": 100,
+    			"OFD": "bx_ofdruofd",
+    			"OFD_SETTINGS":
+    			{
+    				"OFD_MODE":
+    				{
+    					"IS_TEST": "N"
+    				}
+    			},
+    			"SETTINGS":
+    			{
+    				"AUTH":
+    				{
+    					"KEYWORD": "top_secret!",
+    					"PREFERENCE": "SECOND"
+    				},
+    				"INTERACTION":
+    				{
+    					"MODE": "ACTIVE"
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.cashbox.add',
+                [
+                    'NAME'       => 'Rest-касса',
+                    'REST_CODE'  => 'restcashbox01',
+                    'EMAIL'      => 'user@example.com',
+                    'NUMBER_KKM' => '123',
+                    'ACTIVE'     => 'Y',
+                    'SORT'       => 100,
+                    'OFD'        => 'bx_ofdruofd',
+                    'OFD_SETTINGS' => [
+                        'OFD_MODE' => [
+                            'IS_TEST' => 'N'
+                        ]
+                    ],
+                    'SETTINGS' => [
+                        'AUTH' => [
+                            'KEYWORD'    => 'top_secret!',
+                            'PREFERENCE' => 'SECOND'
+                        ],
+                        'INTERACTION' => [
+                            'MODE' => 'ACTIVE'
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding cashbox: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.cashbox.add",
@@ -150,7 +248,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

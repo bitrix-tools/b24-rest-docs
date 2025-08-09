@@ -67,6 +67,79 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.todo.update',
+    		{
+    			id: 999,
+    			ownerTypeId: 2,
+    			ownerId: 1,
+    			deadline: (new Date()),
+    			title: 'Новый заголовок дела',
+    			description: 'Новое описание дела',
+    			responsibleId: 1,
+    			pingOffsets: [15, 30],
+    			colorId: 7
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.todo.update',
+                [
+                    'id'            => 999,
+                    'ownerTypeId'   => 2,
+                    'ownerId'       => 1,
+                    'deadline'      => (new DateTime()),
+                    'title'         => 'Новый заголовок дела',
+                    'description'   => 'Новое описание дела',
+                    'responsibleId' => 1,
+                    'pingOffsets'   => [15, 30],
+                    'colorId'       => 7
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+            // Нужная вам логика обработки данных
+            processData($result->data());
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating todo activity: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.activity.todo.update",
@@ -90,7 +163,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -48,6 +48,66 @@ catalog.priceTypeGroup.add(fields)
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.priceTypeGroup.add',
+    		{
+    			fields: {
+    				catalogGroupId: 14,
+    				groupId: 16,
+    				access: "Y"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.priceTypeGroup.add',
+                [
+                    'fields' => [
+                        'catalogGroupId' => 14,
+                        'groupId'        => 16,
+                        'access'         => "Y",
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error()->ex);
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding price type group: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.priceTypeGroup.add',

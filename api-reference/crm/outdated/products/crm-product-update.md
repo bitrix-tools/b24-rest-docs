@@ -60,6 +60,67 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.product.update",
+    		{
+    			id: id,
+    			fields:
+    			{
+    				"CURRENCY_ID": "RUB",
+    				"PRICE": 5000
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.product.update',
+                [
+                    'id' => $id,
+                    'fields' => [
+                        'CURRENCY_ID' => 'RUB',
+                        'PRICE' => 5000
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Info: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating product: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.product.update",
@@ -83,7 +144,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -113,6 +174,79 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.product.update",
+    		{
+    			id: 4611,
+    			fields:
+    			{
+    				"PROPERTY_186": [
+    					{
+    						"valueId": 0,
+    						"fileData": ["1.jpg", "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYH"+"BwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMD"+"AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAARABEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAA"+"AAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fA"+"kM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWW"+"l5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBA"+"QEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRob"+"HBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYa"+"HiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oA"+"DAMBAAIRAxEAPwDqvg78Hf8Ahawjt7eO+n1Ce5NvDDbso3YVWycg4xkkkkAAZOACa0vjF+z3J8ILO6j1CHULXULdI5Fjl"+"kR0dWYDIKjDDkjIPUEdQRR+z38YofhBcQ6hHdR2+oWt20sayQtIrqyBCDgdCNw4IPPBBwa2P2hv2ho/jdbXV1dXVu140U"+"UEMMFu8caIrhsDcM9SzZYk5PpgD+OcViuKVxTGlSi/qN1d2le/MtFpbl5d366q2vDk2TeGUvDJ4jEPBfXvqVaXvVoLEfW"+"FCfIlDnvzX5bLlu38k/F6KKK/Xj+EQooooAKKKKAP/9k="]
+    					},
+    					{
+    						"valueId": 124,
+    						"value": {"remove": "Y"}
+    					}
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.product.update',
+                [
+                    'id'     => 4611,
+                    'fields' => [
+                        'PROPERTY_186' => [
+                            [
+                                'valueId' => 0,
+                                'fileData' => ['1.jpg', '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYH'.'BwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMD'.'AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAARABEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAA'.'AAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fA'.'kM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWW'.'l5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBA'.'QEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRob'.'HBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYa'.'HiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oA'.'DAMBAAIRAxEAPwDqvg78Hf8Ahawjt7eO+n1Ce5NvDDbso3YVWycg4xkkkkAAZOACa0vjF+z3J8ILO6j1CHULXULdI5Fjl'.'kR0dWYDIKjDDkjIPUEdQRR+z38YofhBcQ6hHdR2+oWt20sayQtIrqyBCDgdCNw4IPPBBwa2P2hv2ho/jdbXV1dXVu140U'.'UEMMFu8caIrhsDcM9SzZYk5PpgD+OcViuKVxTGlSi/qN1d2le/MtFpbl5d366q2vDk2TeGUvDJ4jEPBfXvqVaXvVoLEfW'.'FCfIlDnvzX5bLlu38k/F6KKK/Xj+EQooooAKKKKAP/9k=']
+                            ],
+                            [
+                                'valueId' => 124,
+                                'value'   => ['remove' => 'Y']
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating product: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -144,7 +278,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

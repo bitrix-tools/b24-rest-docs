@@ -79,6 +79,67 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'task.commentitem.update',
+    		{
+    			"TASKID": 8017,
+    			"ITEMID": 3167,
+    			"FIELDS": {
+    				"POST_MESSAGE": "Комментарий обновлен",
+    				"UF_FORUM_MESSAGE_DOC": ["n4755"]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.commentitem.update',
+                [
+                    'TASKID' => 8017,
+                    'ITEMID' => 3167,
+                    'FIELDS' => [
+                        'POST_MESSAGE'         => 'Комментарий обновлен',
+                        'UF_FORUM_MESSAGE_DOC' => ['n4755'],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating task comment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'task.commentitem.update',
@@ -97,7 +158,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

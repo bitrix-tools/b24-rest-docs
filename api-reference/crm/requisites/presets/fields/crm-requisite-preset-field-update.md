@@ -65,7 +65,7 @@ API требует указать значение в этом поле. Есл�
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.preset.field.update
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -76,6 +76,74 @@ API требует указать значение в этом поле. Есл�
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.requisite.preset.field.update",
+    		{
+    			ID: 1,
+    			preset:
+    			{
+    				"ID": 27
+    			},
+    			fields:
+    			{
+    				"FIELD_NAME": "RQ_NAME",
+    				"FIELD_TITLE": "Имя",
+    				"IN_SHORT_LIST": "Y",
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.preset.field.update',
+                [
+                    'ID'     => 1,
+                    'preset' => [
+                        'ID' => 27,
+                    ],
+                    'fields' => [
+                        'FIELD_NAME'    => 'RQ_NAME',
+                        'FIELD_TITLE'   => 'Имя',
+                        'IN_SHORT_LIST' => 'Y',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating preset field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -106,7 +174,7 @@ API требует указать значение в этом поле. Есл�
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

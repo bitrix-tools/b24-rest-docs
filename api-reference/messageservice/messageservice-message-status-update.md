@@ -43,6 +43,62 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'messageservice.message.status.update',
+    		{
+    			CODE: 'provider1',
+    			message_id: 1,
+    			status: 'delivered'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	alert("Ошибка: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'messageservice.message.status.update',
+                [
+                    'CODE'      => 'provider1',
+                    'message_id' => 1,
+                    'status'     => 'delivered',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Ошибка: ' . $result->error();
+        } else {
+            echo 'Успешно: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating message status: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'messageservice.message.status.update',

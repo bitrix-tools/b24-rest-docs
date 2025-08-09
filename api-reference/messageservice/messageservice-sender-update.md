@@ -57,6 +57,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'messageservice.sender.update',
+    		{
+    			CODE: 'provider',
+    			HANDLER: 'https://newhandler.com/',
+    			NAME: 'Новое имя провайдера',
+    			DESCRIPTION: 'Новое описание провайдера'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'CODE'        => 'provider',
+            'HANDLER'     => 'https://newhandler.com/',
+            'NAME'        => 'Новое имя провайдера',
+            'DESCRIPTION' => 'Новое описание провайдера',
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'messageservice.sender.update',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Успешно: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating sender: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         CODE: 'provider',
@@ -77,7 +140,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -125,6 +188,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'messageservice.sender.update',
+    		{
+    			CODE: 'provider',
+    			NAME: {"en":"New Name","de":"Neuer Name"},
+    			DESCRIPTION: {"en":"New Description"}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'CODE'        => 'provider',
+            'NAME'        => ['en' => 'New Name', 'de' => 'Neuer Name'],
+            'DESCRIPTION' => ['en' => 'New Description'],
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'messageservice.sender.update',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Успешно: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating sender: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         CODE: 'provider',
@@ -144,7 +265,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

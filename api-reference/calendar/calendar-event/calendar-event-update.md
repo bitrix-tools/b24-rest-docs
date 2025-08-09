@@ -203,6 +203,134 @@ Cимвол `#` в цвете необходимо передавать в фо�
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'calendar.event.update',
+    		{
+    			id: 699,
+    			type: 'user',
+    			ownerId: 2,
+    			name: 'Changed Event Name',
+    			description: 'New description for event',
+    			from: '2024-06-17',
+    			to: '2024-06-17',
+    			skip_time: 'Y',
+    			section: 5,
+    			color: '#9cbe1c',
+    			text_color: '#283033',
+    			accessibility: 'free',
+    			importance: 'normal',
+    			is_meeting: 'Y',
+    			private_event: 'Y',
+    			recurrence_mode: 'next',
+    			current_date_from: '2024-12-04',
+    			remind: [
+    				{
+    					type: 'min',
+    					count: 10
+    				}
+    			],
+    			location: 'London',
+    			attendees: [1, 2, 3],
+    			host: 2,
+    			meeting: {
+    				notify: true,
+    				reinvite: false,
+    				allow_invite: false,
+    				hide_guests: false,
+    			},
+    			rrule: {
+    				FREQ: 'WEEKLY',
+    				BYDAY: ['MO', 'WE'],
+    				COUNT: 10,
+    				INTERVAL: 1,
+    			},
+    			crm_fields: ['C_5', 'L_11']
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Updated event with ID:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'calendar.event.update',
+                [
+                    'id'              => 699,
+                    'type'            => 'user',
+                    'ownerId'         => 2,
+                    'name'            => 'Changed Event Name',
+                    'description'     => 'New description for event',
+                    'from'            => '2024-06-17',
+                    'to'              => '2024-06-17',
+                    'skip_time'       => 'Y',
+                    'section'         => 5,
+                    'color'           => '#9cbe1c',
+                    'text_color'      => '#283033',
+                    'accessibility'   => 'free',
+                    'importance'      => 'normal',
+                    'is_meeting'      => 'Y',
+                    'private_event'   => 'Y',
+                    'recurrence_mode' => 'next',
+                    'current_date_from' => '2024-12-04',
+                    'remind'          => [
+                        [
+                            'type'  => 'min',
+                            'count' => 10
+                        ]
+                    ],
+                    'location'        => 'London',
+                    'attendees'       => [1, 2, 3],
+                    'host'            => 2,
+                    'meeting'         => [
+                        'notify'      => true,
+                        'reinvite'    => false,
+                        'allow_invite' => false,
+                        'hide_guests' => false,
+                    ],
+                    'rrule'           => [
+                        'FREQ'     => 'WEEKLY',
+                        'BYDAY'    => ['MO', 'WE'],
+                        'COUNT'    => 10,
+                        'INTERVAL' => 1,
+                    ],
+                    'crm_fields'      => ['C_5', 'L_11']
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating calendar event: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'calendar.event.update',
@@ -250,7 +378,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

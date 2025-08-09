@@ -51,7 +51,59 @@
     }' \
     https://your-domain.bitrix24.com/rest/task.stages.delete
     ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'task.stages.delete',
+    		{
+    			id: stageId,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $stageId = 5;
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.stages.delete',
+                [
+                    'id' => $stageId,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting task stage: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     const stageId = 5;
@@ -67,7 +119,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

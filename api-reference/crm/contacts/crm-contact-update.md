@@ -228,6 +228,82 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.contact.update',
+    		{
+    			id: 43,
+    			fields: {
+    				NAME: "Сергей",
+    				BIRTHDATE: '11.11.1999',
+    				TYPE_ID: "RECOMMENDATION",
+    				SOURCE_ID: "WEB",
+    				POST: "Администратор компьютерных сетей",
+    				COMMENTS: "Новый комментарий",
+    				OPENED: "N",
+    				EXPORT: "Y",
+    				ASSIGNED_BY_ID: 1,
+    				COMPANY_ID: 12,
+    				COMPANY_IDS: [13, 15],
+    				UF_CRM_1720697698689: "Пример нового значения пользовательского поля с типом \"Строка\"",
+    				PARENT_ID_1224: 14,
+    			},
+    			params: {
+    				REGISTER_SONET_EVENT: "N",
+    				REGISTER_HISTORY_EVENT: "N",
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result)
+    	;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $contactId = 123; // Example contact ID
+        $fields = [
+            'NAME' => 'John',
+            'LAST_NAME' => 'Doe',
+            'BIRTHDATE' => (new DateTime('1990-01-01'))->format(DateTime::ATOM),
+            'PHONE' => '123456789',
+            'EMAIL' => 'john.doe@example.com',
+            'ADDRESS' => '123 Main St',
+            'ADDRESS_CITY' => 'Anytown',
+            'ADDRESS_COUNTRY' => 'USA',
+        ];
+        $params = [
+            'REGISTER_SONET_EVENT' => 'Y',
+        ];
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->contact()
+            ->update($contactId, $fields, $params);
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print('Update failed.');
+        }
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.contact.update',
@@ -262,7 +338,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -296,38 +372,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php        
-    try {
-        $contactId = 123; // Example contact ID
-        $fields = [
-            'NAME' => 'John',
-            'LAST_NAME' => 'Doe',
-            'BIRTHDATE' => (new DateTime('1990-01-01'))->format(DateTime::ATOM),
-            'PHONE' => '123456789',
-            'EMAIL' => 'john.doe@example.com',
-            'ADDRESS' => '123 Main St',
-            'ADDRESS_CITY' => 'Anytown',
-            'ADDRESS_COUNTRY' => 'USA',
-        ];
-        $params = [
-            'REGISTER_SONET_EVENT' => 'Y',
-        ];
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->contact()
-            ->update($contactId, $fields, $params);
-        if ($result->isSuccess()) {
-            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
-        } else {
-            print('Update failed.');
-        }
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
     ```
 
 {% endlist %}

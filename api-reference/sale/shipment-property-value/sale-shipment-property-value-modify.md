@@ -82,6 +82,80 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.shipmentpropertyvalue.modify', {
+    			fields: {
+    				shipment: {
+    					id: 4120,
+    					propertyValues: [{
+    							shipmentPropsId: 105,
+    							value: 'Comments value'
+    						},
+    						{
+    							shipmentPropsId: 106,
+    							value: 'Description value'
+    						},
+    					],
+    				},
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.shipmentpropertyvalue.modify',
+                [
+                    'fields' => [
+                        'shipment' => [
+                            'id'            => 4120,
+                            'propertyValues' => [
+                                [
+                                    'shipmentPropsId' => 105,
+                                    'value'           => 'Comments value'
+                                ],
+                                [
+                                    'shipmentPropsId' => 106,
+                                    'value'           => 'Description value'
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error modifying shipment property value: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.shipmentpropertyvalue.modify', {
@@ -110,7 +184,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

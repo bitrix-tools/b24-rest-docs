@@ -96,6 +96,79 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.shipment.add', {
+    			fields: {
+    				orderId: 2068,
+    				allowDelivery: 'Y',
+    				deducted: 'Y',
+    				deliveryId: 2,
+    				statusId: 'DN',
+    				deliveryDocDate: '2024-02-13T14:05:48',
+    				deliveryDocNum: 'DocumentNumber123456',
+    				trackingNumber: 'trackingNumber',
+    				basePriceDelivery: 999.99,
+    				comments: 'My comment for manager',
+    				responsibleId: 25,
+    				xmlId: 'myXmlId',
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.shipment.add',
+                [
+                    'fields' => [
+                        'orderId'           => 2068,
+                        'allowDelivery'     => 'Y',
+                        'deducted'          => 'Y',
+                        'deliveryId'        => 2,
+                        'statusId'          => 'DN',
+                        'deliveryDocDate'   => '2024-02-13T14:05:48',
+                        'deliveryDocNum'    => 'DocumentNumber123456',
+                        'trackingNumber'    => 'trackingNumber',
+                        'basePriceDelivery' => 999.99,
+                        'comments'          => 'My comment for manager',
+                        'responsibleId'     => 25,
+                        'xmlId'             => 'myXmlId',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding shipment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.shipment.add', {
@@ -124,7 +197,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

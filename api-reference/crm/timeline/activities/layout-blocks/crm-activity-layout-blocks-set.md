@@ -64,6 +64,101 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.layout.blocks.set',
+    		{
+    			entityTypeId: 2, // Сделка
+    			entityId: 4,     // ID Сделки
+    			activityId: 8,   // ID Дела привязанного к данной сделке
+    			layout: layout,  // Объект, описывающий набор дополнительных контентных блоков
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.layout.blocks.set',
+                [
+                    'entityTypeId' => 2, // Сделка
+                    'entityId'     => 4, // ID Сделки
+                    'activityId'   => 8, // ID Дела привязанного к данной сделке
+                    'layout'       => [
+                        'blocks' => [
+                            'block_1' => [
+                                'type'       => "text",
+                                'properties' => [
+                                    'value'     => "Здравствуйте!\nМы начинаем.",
+                                    'multiline' => true,
+                                    'bold'      => true,
+                                    'color'     => "base_90",
+                                ],
+                            ],
+                            'block_2' => [
+                                'type'       => "largeText",
+                                'properties' => [
+                                    'value' => "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания.",
+                                ],
+                            ],
+                            'block_3' => [
+                                'type'       => "link",
+                                'properties' => [
+                                    'text'     => "Открыть сделку",
+                                    'bold'     => true,
+                                    'action'   => [
+                                        'type' => "redirect",
+                                        'uri'  => "/crm/deal/details/123/",
+                                    ],
+                                ],
+                            ],
+                            'block_4' => [
+                                'type'       => "withTitle",
+                                'properties' => [
+                                    'title'  => "Заголовок",
+                                    'block'  => [
+                                        'type'       => "text",
+                                        'properties' => [
+                                            'value' => "Какое-то значение",
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting activity layout blocks: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const layout = {
         blocks: {
@@ -125,7 +220,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

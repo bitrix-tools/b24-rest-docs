@@ -49,6 +49,80 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.landing.removeEntities',
+    		{
+    			lid: 648,
+    			data: {
+    				blocks: [12167, 123],
+    				images: [
+    					{
+    						block: 12269,
+    						image: 6866
+    					},
+    					{
+    						block: 12268,
+    						image: 6861
+    					}
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.landing.removeEntities',
+                [
+                    'lid' => 648,
+                    'data' => [
+                        'blocks' => [12167, 123],
+                        'images' => [
+                            [
+                                'block' => 12269,
+                                'image' => 6866
+                            ],
+                            [
+                                'block' => 12268,
+                                'image' => 6861
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error removing entities: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.landing.removeEntities',

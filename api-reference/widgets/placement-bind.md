@@ -92,6 +92,99 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"placement.bind",
+    		{ 
+    			"PLACEMENT": "PLACEMENT_CODE",
+    			"HANDLER": "http://myapp.com/handler/?type=1",
+    			"OPTIONS": {
+    				"errorHandlerUrl": "http://myapp.com/error/"
+    			},
+    			"TITLE": "title",
+    			"DESCRIPTION": "description",
+    			"GROUP_NAME": "group",
+    			"LANG_ALL": {
+    				"en": {
+    					"TITLE": "title",
+    					"DESCRIPTION": "description",
+    					"GROUP_NAME": "group",
+    				},
+    				"ru": {
+    					"TITLE": "заголовок",
+    					"DESCRIPTION": "описание",
+    					"GROUP_NAME": "группа",
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.info(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'PLACEMENT_CODE',
+                    'HANDLER' => 'http://myapp.com/handler/?type=1',
+                    'OPTIONS' => [
+                        'errorHandlerUrl' => 'http://myapp.com/error/'
+                    ],
+                    'TITLE' => 'title',
+                    'DESCRIPTION' => 'description',
+                    'GROUP_NAME' => 'group',
+                    'LANG_ALL' => [
+                        'en' => [
+                            'TITLE' => 'title',
+                            'DESCRIPTION' => 'description',
+                            'GROUP_NAME' => 'group',
+                        ],
+                        'ru' => [
+                            'TITLE' => 'заголовок',
+                            'DESCRIPTION' => 'описание',
+                            'GROUP_NAME' => 'группа',
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "placement.bind",
@@ -127,7 +220,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

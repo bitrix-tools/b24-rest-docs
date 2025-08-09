@@ -54,6 +54,65 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.dealcategory.add',
+    		{
+    			fields:
+    			{
+    				"NAME": "Новое направление",
+    				"SORT": "20"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info('Создано направление с ID ' + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.dealcategory.add',
+                [
+                    'fields' => [
+                        'NAME' => 'Новое направление',
+                        'SORT' => '20',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Создано направление с ID ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error creating deal category: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.dealcategory.add",
@@ -74,7 +133,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -65,27 +65,73 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.add
     ```
 
-- cURL (oAuth)
+- JS
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "fields": {
-        "name": "Sprint 1",
-        "groupId": 1,
-        "createdBy": 1,
-        "sort": 1,
-        "status": "planned",
-        "dateStart": "2021-11-22T00:00:00+02:00",
-        "dateEnd": "2021-11-29T00:00:00+02:00"
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.sprint.add',
+    		{
+    			fields: {
+    				name: name,
+    				groupId: groupId,
+    				createdBy: createdBy,
+    				sort: sort,
+    				status: status,
+    				dateStart: dateStart,
+    				dateEnd: dateEnd,
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
     }
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.add
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
     ```
 
-- JS
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.sprint.add',
+                [
+                    'fields' => [
+                        'name'      => $name,
+                        'groupId'   => $groupId,
+                        'createdBy' => $createdBy,
+                        'sort'      => $sort,
+                        'status'    => $status,
+                        'dateStart' => $dateStart,
+                        'dateEnd'   => $dateEnd,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding sprint: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     const groupId = 1;
@@ -115,7 +161,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
@@ -150,6 +196,26 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "fields": {
+        "name": "Sprint 1",
+        "groupId": 1,
+        "createdBy": 1,
+        "sort": 1,
+        "status": "planned",
+        "dateStart": "2021-11-22T00:00:00+02:00",
+        "dateEnd": "2021-11-29T00:00:00+02:00"
+    }
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.add
     ```
 
 {% endlist %}

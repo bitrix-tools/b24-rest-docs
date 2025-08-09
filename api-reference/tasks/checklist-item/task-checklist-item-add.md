@@ -49,6 +49,56 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'task.checklistitem.add',
+    		[13, {'TITLE': 'Пункт выполнен', 'IS_COMPLETE': 'Y'}]
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.checklistitem.add',
+                [
+                    13,
+                    ['TITLE' => 'Пункт выполнен', 'IS_COMPLETE' => 'Y']
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding checklist item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Добавляем к задаче с ID=13 новый "выполненный" элемент чек-листа с текстом "Пункт выполнен"
     BX24.callMethod(
@@ -61,7 +111,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     // Для добавления пользователя к элементу чек-листа:

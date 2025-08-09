@@ -40,6 +40,42 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.lead.fields',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+  ```php      
+  try {
+      $fieldsResult = $serviceBuilder
+          ->getCRMScope()
+          ->lead()
+          ->fields();
+      $fieldsDescription = $fieldsResult->getFieldsDescription();
+      // Assuming you want to print the fields description
+      print_r($fieldsDescription);
+  } catch (Throwable $e) {
+      print("Error: " . $e->getMessage());
+  }
+  ```
+
+- BX24.js
+
     ```javascript 
     BX24.callMethod(
       'crm.lead.fields',
@@ -57,7 +93,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
    ```php
     require_once('crest.php');
@@ -70,22 +106,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-  ```
-
-- PHP (B24PhpSdk)
-
-  ```php      
-  try {
-      $fieldsResult = $serviceBuilder
-          ->getCRMScope()
-          ->lead()
-          ->fields();
-      $fieldsDescription = $fieldsResult->getFieldsDescription();
-      // Assuming you want to print the fields description
-      print_r($fieldsDescription);
-  } catch (Throwable $e) {
-      print("Error: " . $e->getMessage());
-  }
   ```
 
 {% endlist %}

@@ -51,6 +51,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.section.delete',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists',
+    			'IBLOCK_CODE': 'rest_1',
+    			'SECTION_CODE': 'Section_code_1'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_CODE'    => 'rest_1',
+            'SECTION_CODE'   => 'Section_code_1',
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.section.delete',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     /* lists.section.delete */
     var params = {

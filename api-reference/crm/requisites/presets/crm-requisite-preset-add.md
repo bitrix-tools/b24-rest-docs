@@ -63,7 +63,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.requisite.preset.add
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -74,6 +74,69 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.requisite.preset.add",
+    		{
+    			fields:
+    			{
+    				"ENTITY_TYPE_ID": 8,    // Для шаблона реквизитов всегда указывается "Реквизит" (идентификатор 8), см. crm.enum.ownertype
+    				"COUNTRY_ID": 1,        // Россия
+    				"NAME": "ИП",
+    				"XML_ID": "EXAMPLE_COMPANY__VALUE_1",    // Уникальный внешний идентификатор
+    				"ACTIVE": "Y",
+    				"SORT": 520    // Порядок в списке шаблонов
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("Создан шаблон с ID " + result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.preset.add',
+                [
+                    'fields' => [
+                        'ENTITY_TYPE_ID' => 8,
+                        'COUNTRY_ID'     => 1,
+                        'NAME'           => 'ИП',
+                        'XML_ID'         => 'EXAMPLE_COMPANY__VALUE_1',
+                        'ACTIVE'         => 'Y',
+                        'SORT'           => 520,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Создан шаблон с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при создании шаблона: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -99,7 +162,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -41,6 +41,73 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		"crm.quote.productrows.set",
+    		{
+    			id: id,
+    			rows:
+    			[
+    				{ "PRODUCT_ID": 1, "PRICE": 100.00, "QUANTITY": 2 },
+    				{ "PRODUCT_ID": 2, "PRICE": 200.00, "QUANTITY": 1 }
+    			]
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.info(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = readline("Введите ID");
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.quote.productrows.set',
+                [
+                    'id'   => $id,
+                    'rows' => [
+                        ['PRODUCT_ID' => 1, 'PRICE' => 100.00, 'QUANTITY' => 2],
+                        ['PRODUCT_ID' => 2, 'PRICE' => 200.00, 'QUANTITY' => 1],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting quote product rows: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     BX24.callMethod(

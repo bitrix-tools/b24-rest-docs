@@ -63,25 +63,69 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.update
     ```
 
-- cURL (oAuth)
+- JS
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "id": 2,
-    "fields": {
-        "name": "Sprint 2",
-        "groupId": 1,
-        "dateStart": "2021-11-22T00:00:00+02:00",
-        "dateEnd": "2021-11-29T00:00:00+02:00"
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.sprint.update',
+    		{
+    			id: sprintId,
+    			fields: {
+    				name: name,
+    				groupId: groupId,
+    				dateStart: dateStart,
+    				dateEnd: dateEnd,
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
     }
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.update
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
     ```
 
-- JS
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.sprint.update',
+                [
+                    'id' => $sprintId,
+                    'fields' => [
+                        'name'      => $name,
+                        'groupId'   => $groupId,
+                        'dateStart' => $dateStart,
+                        'dateEnd'   => $dateEnd,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating sprint: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     const sprintId = 2;
@@ -107,7 +151,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
@@ -132,6 +176,24 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "id": 2,
+    "fields": {
+        "name": "Sprint 2",
+        "groupId": 1,
+        "dateStart": "2021-11-22T00:00:00+02:00",
+        "dateEnd": "2021-11-29T00:00:00+02:00"
+    }
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.update
     ```
 
 {% endlist %}

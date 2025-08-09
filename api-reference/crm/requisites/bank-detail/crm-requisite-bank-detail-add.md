@@ -107,7 +107,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.bankdetail.add
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -118,6 +118,81 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.requisite.bankdetail.add",
+    		{
+    			fields:
+    			{
+    				"ENTITY_ID": 27,                 // Идентификатор реквизита
+    				"COUNTRY_ID": 1,                 // Код страны (Россия)
+    				"NAME": "Супербанк",              // Название банковского реквизита
+    				"RQ_BANK_NAME": "ПАО Супербанк",  // Наименование банка
+    				"RQ_BANK_ADDR": "117312, г. Москва, улица Вавилова, дом 19",
+    				"RQ_BIK": "044525225",
+    				"RQ_ACC_NUM": "40702810938000060473",
+    				"RQ_ACC_CURRENCY": "RUR",
+    				"RQ_COR_ACC_NUM": "30101810400000000225",
+    				"XML_ID":"1e4641fd-2dd9-31e6-b2f2-105056c00008",
+    				"ACTIVE":"Y",
+    				"SORT":600
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("Создан банковский реквизит с ID " + result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.bankdetail.add',
+                [
+                    'fields' => [
+                        'ENTITY_ID'       => 27,
+                        'COUNTRY_ID'      => 1,
+                        'NAME'            => 'Супербанк',
+                        'RQ_BANK_NAME'    => 'ПАО Супербанк',
+                        'RQ_BANK_ADDR'    => '117312, г. Москва, улица Вавилова, дом 19',
+                        'RQ_BIK'          => '044525225',
+                        'RQ_ACC_NUM'      => '40702810938000060473',
+                        'RQ_ACC_CURRENCY' => 'RUR',
+                        'RQ_COR_ACC_NUM'  => '30101810400000000225',
+                        'XML_ID'          => '1e4641fd-2dd9-31e6-b2f2-105056c00008',
+                        'ACTIVE'          => 'Y',
+                        'SORT'            => 600,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Создан банковский реквизит с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error creating bank detail: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -149,7 +224,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

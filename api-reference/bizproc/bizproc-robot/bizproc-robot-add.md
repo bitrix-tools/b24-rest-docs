@@ -235,6 +235,81 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.robot.add',
+    		{
+    			'CODE': 'test_robot',
+    			'HANDLER': 'https://your_domain/robot.php',
+    			'AUTH_USER_ID': 1,
+    			'USE_SUBSCRIPTION': 'Y',
+    			'NAME': 'Отправить сообщение',
+    			'PROPERTIES': {
+    				'datetime': {
+    					'Name': 'Во сколько',
+    					'Type': 'datetime'
+    				},
+    				'text': {
+    					'Name': 'Текст',
+    					'Type': 'text'
+    				},
+    				'user': {
+    					'Name': 'Кому',
+    					'Type': 'user',
+    					'Default': 'Автор;'
+    				}
+    			},
+    			'FILTER': {
+    				INCLUDE: [
+    					['crm', 'CCrmDocumentDeal'],
+    					['crm', 'CCrmDocumentLead']
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->robot()
+            ->add(
+                'robot_code', // string $code
+                'https://example.com/handler', // string $handlerUrl
+                1, // int $b24AuthUserId
+                ['en' => 'Robot Name'], // array $localizedRobotName
+                true, // bool $isUseSubscription
+                [], // array $properties
+                false, // bool $isUsePlacement
+                [] // array $returnProperties
+            );
+
+        if ($result->isSuccess()) {
+            print_r($result->getCoreResponse()->getResponseData()->getResult());
+        } else {
+            print("Failed to add robot.");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
 	```js
     BX24.callMethod(
         'bizproc.robot.add',
@@ -276,7 +351,7 @@
     );
 	```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -316,34 +391,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-  
-    ```php
-    try {
-        $result = $serviceBuilder
-            ->getBizProcScope()
-            ->robot()
-            ->add(
-                'robot_code', // string $code
-                'https://example.com/handler', // string $handlerUrl
-                1, // int $b24AuthUserId
-                ['en' => 'Robot Name'], // array $localizedRobotName
-                true, // bool $isUseSubscription
-                [], // array $properties
-                false, // bool $isUsePlacement
-                [] // array $returnProperties
-            );
-
-        if ($result->isSuccess()) {
-            print_r($result->getCoreResponse()->getResponseData()->getResult());
-        } else {
-            print("Failed to add robot.");
-        }
-    } catch (Throwable $e) {
-        print("Error: " . $e->getMessage());
-    }
     ```
 
 {% endlist %}

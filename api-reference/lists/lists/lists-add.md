@@ -60,6 +60,123 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.add',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists_socnet',
+    			'IBLOCK_CODE': 'rest_1',
+    			'SOCNET_GROUP_ID': '4',
+    			'FIELDS': {
+    				'NAME': 'List 1',
+    				'DESCRIPTION': 'Test list',
+    				'SORT': '10',
+    				'PICTURE': document.getElementById('iblock-image-add'),
+    				'BIZPROC': 'Y'
+    			},
+    			'MESSAGES': {
+    				'ELEMENT_NAME': 'Element',
+    				'ELEMENTS_NAME': 'Elements',
+    				'ELEMENT_ADD': 'Add element',
+    				'ELEMENT_EDIT': 'Edit element',
+    				'ELEMENT_DELETE': 'Delete element',
+    				'SECTION_NAME': 'Section',
+    				'SECTIONS_NAME': 'Sections',
+    				'SECTION_ADD': 'Add section',
+    				'SECTION_EDIT': 'Edit section',
+    				'SECTION_DELETE': 'Delete section'
+    			},
+    			'RIGHTS': {
+    				'SG4_A': 'W',
+    				'SG4_E': 'W',
+    				'SG4_K': 'W',
+    				'AU': 'D',
+    				'G2': 'D'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		alert("Error: " + result.error());
+    	}
+    	else
+    	{
+    		alert("Success: " + result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID'   => 'lists_socnet',
+            'IBLOCK_CODE'      => 'rest_1',
+            'SOCNET_GROUP_ID'  => '4',
+            'FIELDS'           => [
+                'NAME'        => 'List 1',
+                'DESCRIPTION' => 'Test list',
+                'SORT'        => '10',
+                'PICTURE'     => $_POST['iblock-image-add'], // Assuming this is a form field value
+                'BIZPROC'     => 'Y',
+            ],
+            'MESSAGES'         => [
+                'ELEMENT_NAME'     => 'Element',
+                'ELEMENTS_NAME'    => 'Elements',
+                'ELEMENT_ADD'      => 'Add element',
+                'ELEMENT_EDIT'     => 'Edit element',
+                'ELEMENT_DELETE'   => 'Delete element',
+                'SECTION_NAME'     => 'Section',
+                'SECTIONS_NAME'    => 'Sections',
+                'SECTION_ADD'      => 'Add section',
+                'SECTION_EDIT'     => 'Edit section',
+                'SECTION_DELETE'   => 'Delete section',
+            ],
+            'RIGHTS'           => [
+                'SG4_A' => 'W',
+                'SG4_E' => 'W',
+                'SG4_K' => 'W',
+                'AU'    => 'D',
+                'G2'    => 'D',
+            ],
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.add',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists_socnet',

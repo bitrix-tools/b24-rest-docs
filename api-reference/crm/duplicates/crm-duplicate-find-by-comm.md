@@ -40,25 +40,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        "crm.duplicate.findbycomm",
-        {
-            entity_type: "CONTACT",
-            type: "PHONE",
-            values: ["8976543", "11223355"]
-        },
-        function(result) {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -79,7 +60,86 @@
          https://**put_your_bitrix24_address**/rest/crm.duplicate.findbycomm
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.duplicate.findbycomm',
+    		{
+    			entity_type: 'CONTACT',
+    			type: 'PHONE',
+    			values: ['8976543', '11223355']
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error()) {
+    		console.error(result.error());
+    	} else {
+    		console.dir(result);
+    	}
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.duplicate.findbycomm',
+                [
+                    'entity_type' => 'CONTACT',
+                    'type'        => 'PHONE',
+                    'values'      => ['8976543', '11223355'],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Duplicate data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error finding duplicates by communication: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.duplicate.findbycomm",
+        {
+            entity_type: "CONTACT",
+            type: "PHONE",
+            values: ["8976543", "11223355"]
+        },
+        function(result) {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

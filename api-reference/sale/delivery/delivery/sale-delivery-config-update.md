@@ -64,6 +64,105 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.delivery.config.update', {
+    			ID: 196,
+    			CONFIG: [{
+    					CODE: "SETTING_1",
+    					VALUE: "New SETTING_1 string value",
+    				},
+    				{
+    					CODE: "SETTING_2",
+    					VALUE: "N",
+    				},
+    				{
+    					CODE: "SETTING_3",
+    					VALUE: 999.99,
+    				},
+    				{
+    					CODE: "SETTING_4",
+    					VALUE: "Option2Code",
+    				},
+    				{
+    					CODE: "SETTING_5",
+    					VALUE: "25.03.2023",
+    				},
+    				{
+    					CODE: "SETTING_6",
+    					VALUE: "0000144962",
+    				},
+    			],
+    
+    		}
+    	);
+    
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.delivery.config.update',
+                [
+                    'ID'     => 196,
+                    'CONFIG' => [
+                        [
+                            'CODE'  => "SETTING_1",
+                            'VALUE' => "New SETTING_1 string value",
+                        ],
+                        [
+                            'CODE'  => "SETTING_2",
+                            'VALUE' => "N",
+                        ],
+                        [
+                            'CODE'  => "SETTING_3",
+                            'VALUE' => 999.99,
+                        ],
+                        [
+                            'CODE'  => "SETTING_4",
+                            'VALUE' => "Option2Code",
+                        ],
+                        [
+                            'CODE'  => "SETTING_5",
+                            'VALUE' => "25.03.2023",
+                        ],
+                        [
+                            'CODE'  => "SETTING_6",
+                            'VALUE' => "0000144962",
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating delivery config: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.delivery.config.update', {
@@ -105,7 +204,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

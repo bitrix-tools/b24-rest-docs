@@ -34,7 +34,167 @@
 {% list tabs %}
 
 - JS
-  
+
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    try {
+      const response = await $b24.callListMethod(
+        'crm.activity.list',
+        {
+          filter: {
+            "SUBJECT": "Обзвон #13",
+          },
+          select: ["ID"]
+        }
+      )
+      const deals = response.getData() || []
+    
+      if (deals.length === 0) {
+        console.log("Дел с названием 'Обзвон #13' не найдено.");
+        return;
+      }
+    
+      let dealId = deals[0].ID;
+    
+      await $b24.callMethod(
+        'crm.activity.delete',
+        {
+          id: dealId,
+        }
+      )
+      console.log("Дело ID " + dealId + " успешно удалено.");
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    try {
+      const generator = $b24.fetchListMethod('crm.activity.list', {
+        filter: {
+          "SUBJECT": "Обзвон #13",
+        },
+        select: ["ID"]
+      }, 'ID')
+    
+      for await (const page of generator) {
+        if (page.length === 0) {
+          console.log("Дел с названием 'Обзвон #13' не найдено.");
+          return;
+        }
+    
+        let dealId = page[0].ID;
+    
+        await $b24.callMethod(
+          'crm.activity.delete',
+          {
+            id: dealId,
+          }
+        )
+        console.log("Дело ID " + dealId + " успешно удалено.");
+      }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    try {
+      const response = await $b24.callMethod('crm.activity.list', {
+        filter: {
+          "SUBJECT": "Обзвон #13",
+        },
+        select: ["ID"]
+      }, 0)
+    
+      const deals = response.getData().result || []
+    
+      if (deals.length === 0) {
+        console.log("Дел с названием 'Обзвон #13' не найдено.");
+        return;
+      }
+    
+      let dealId = deals[0].ID;
+    
+      await $b24.callMethod(
+        'crm.activity.delete',
+        {
+          id: dealId,
+        }
+      )
+      console.log("Дело ID " + dealId + " успешно удалено.");
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'filter' => [
+                        'SUBJECT' => 'Обзвон #13',
+                    ],
+                    'select' => ['ID']
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            return;
+        }
+    
+        $deals = $result->data();
+    
+        // Если дел нет, выходим
+        if (count($deals) === 0) {
+            echo "Дел с названием 'Обзвон #13' не найдено.";
+            return;
+        }
+    
+        // Берем ID первого дела
+        $dealId = $deals[0]['ID'];
+    
+        // Вызываем метод удаления
+        $deleteResponse = $b24Service
+            ->core
+            ->call(
+                'crm.activity.delete',
+                [
+                    'id' => $dealId,
+                ]
+            );
+    
+        $deleteResult = $deleteResponse
+            ->getResponseData()
+            ->getResult();
+    
+        if ($deleteResult->error()) {
+            error_log("Ошибка при удалении дела ID " . $dealId . ": " . $deleteResult->error());
+        } else {
+            echo "Дело ID " . $dealId . " успешно удалено.";
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         "crm.activity.list",
@@ -79,8 +239,8 @@
     );
     ```
 
-- PHP
-  
+- PHP CRest
+
     ```php
     <?php
     require_once('crest.php');

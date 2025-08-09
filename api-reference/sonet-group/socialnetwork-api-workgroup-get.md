@@ -53,19 +53,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod('socialnetwork.api.workgroup.get', {
-        params: {
-            groupId: 622,
-            select: [ 'DEPARTMENTS', 'TAGS' ],
-        },
-    }, result => {
-        console.log(result);
-    });
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -86,7 +73,74 @@
     https://**put_your_bitrix24_address**/rest/socialnetwork.api.workgroup.get
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'socialnetwork.api.workgroup.get',
+    		{
+    			params: {
+    				groupId: 622,
+    				select: [ 'DEPARTMENTS', 'TAGS' ],
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'socialnetwork.api.workgroup.get',
+                [
+                    'params' => [
+                        'groupId' => 622,
+                        'select'  => [ 'DEPARTMENTS', 'TAGS' ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting workgroup info: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod('socialnetwork.api.workgroup.get', {
+        params: {
+            groupId: 622,
+            select: [ 'DEPARTMENTS', 'TAGS' ],
+        },
+    }, result => {
+        console.log(result);
+    });
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

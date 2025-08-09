@@ -55,6 +55,76 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const propertyName = prompt("Введите новое название");
+    
+    	const response = await $b24.callMethod(
+    		"crm.product.property.update",
+    		{
+    			id: id,
+    			fields:
+    			{
+    				"NAME": propertyName
+    			}
+    		}
+    	);
+    
+    	const result = response.getData().result;
+    	console.dir(result);
+    	if(response.more())
+    		response.next();
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = readline("Введите ID");
+    $propertyName = readline("Введите новое название");
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.product.property.update',
+                [
+                    'id' => $id,
+                    'fields' => [
+                        'NAME' => $propertyName
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+            if ($result->more()) {
+                $result->next();
+            }
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating product property: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     var propertyName = prompt("Введите новое название");
@@ -81,7 +151,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

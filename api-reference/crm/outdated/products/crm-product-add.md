@@ -61,51 +61,33 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        "crm.product.add",
-        {
-            fields:
-            {
-                "NAME": "Стул пластиковый",
-                "CURRENCY_ID": "RUB",
-                "PRICE": 4900,
-                "SORT": 500
-            }
-        },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.info("Создан новый товар с ID " + result.data());
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.product.add',
+    		{
+    			fields:
+    			{
+    				"NAME": "Стул пластиковый",
+    				"CURRENCY_ID": "RUB",
+    				"PRICE": 4900,
+    				"SORT": 500
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info('Создан новый товар с ID ' + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.product.add',
-        [
-            'fields' => [
-                'NAME' => 'Стул пластиковый',
-                'CURRENCY_ID' => 'RUB',
-                'PRICE' => 4900,
-                'SORT' => 500
-            ]
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
     ```php        
     try {
@@ -132,6 +114,52 @@
     } catch (Throwable $e) {
         print("Error: " . $e->getMessage());
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.product.add",
+        {
+            fields:
+            {
+                "NAME": "Стул пластиковый",
+                "CURRENCY_ID": "RUB",
+                "PRICE": 4900,
+                "SORT": 500
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.info("Создан новый товар с ID " + result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.product.add',
+        [
+            'fields' => [
+                'NAME' => 'Стул пластиковый',
+                'CURRENCY_ID' => 'RUB',
+                'PRICE' => 4900,
+                'SORT' => 500
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

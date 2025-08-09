@@ -84,6 +84,78 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.element.update',
+    		params
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		alert("Error: " + result.error());
+    	}
+    	else
+    	{
+    		alert("Success: " + result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists_socnet',
+            'IBLOCK_CODE'    => 'rest_1',
+            'ELEMENT_CODE'   => 'element_1',
+            'FIELDS'         => [
+                'NAME'       => 'Test element (Update)',
+                'PROPERTY_62' => [
+                    '599' => 'Text string (Update)'
+                ],
+                'PROPERTY_63' => [
+                    '600' => '73',
+                    '601' => '97',
+                    '602' => '17'
+                ]
+            ]
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.update',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating list element: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists_socnet',
@@ -114,7 +186,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -176,6 +248,72 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.element.update',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists',
+    			'IBLOCK_ID': '41',
+    			'ELEMENT_CODE': 'element1',
+    			'FIELDS': {
+    				'NAME': 'Test element 1',
+    				'PROPERTY_121': {'4754': ['50', 'n1582']} // либо без id 'PROPERTY_121': {'n0': ['50', 'n1582']}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Success: " + result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_ID'      => '41',
+            'ELEMENT_CODE'   => 'element1',
+            'FIELDS'         => [
+                'NAME'       => 'Test element 1',
+                'PROPERTY_121' => ['4754' => ['50', 'n1582']] // либо без id 'PROPERTY_121' => ['n0' => ['50', 'n1582']]
+            ]
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.update',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating list element: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists',
@@ -199,7 +337,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -254,13 +392,62 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.element.get', {IBLOCK_TYPE_ID: 'bitrix_processes', IBLOCK_ID: 47}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.get',
+                [
+                    'IBLOCK_TYPE_ID' => 'bitrix_processes',
+                    'IBLOCK_ID'      => 47,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting list elements: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'lists.element.get', {IBLOCK_TYPE_ID: 'bitrix_processes', IBLOCK_ID: 47}
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -328,6 +515,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.element.update', {
+    		IBLOCK_TYPE_ID: 'bitrix_processes',
+    		IBLOCK_ID: 47,
+    		ELEMENT_ID: 480,
+    		FIELDS: { NAME: '1', PROPERTY_133_DEL: {"2857": "Y"} }
+    	});
+    
+    	const result = response.getData().result;
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.update',
+                [
+                    'IBLOCK_TYPE_ID' => 'bitrix_processes',
+                    'IBLOCK_ID'      => 47,
+                    'ELEMENT_ID'     => 480,
+                    'FIELDS'         => [
+                        'NAME'           => '1',
+                        'PROPERTY_133_DEL' => ["2857" => "Y"],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating list element: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'lists.element.update', {
@@ -339,7 +584,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

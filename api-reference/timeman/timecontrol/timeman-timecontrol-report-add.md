@@ -67,6 +67,62 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'timeman.timecontrol.report.add',
+    		{
+    			'REPORT_ID': 123,
+    			'TEXT': 'Работал над проектом',
+    			'TYPE': 'WORK',
+    			'CALENDAR': 'Y'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'timeman.timecontrol.report.add',
+                [
+                    'REPORT_ID' => 123,
+                    'TEXT'      => 'Работал над проектом',
+                    'TYPE'      => 'WORK',
+                    'CALENDAR'  => 'Y',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding time control report: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'timeman.timecontrol.report.add',
@@ -86,7 +142,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

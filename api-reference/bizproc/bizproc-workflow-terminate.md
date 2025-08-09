@@ -49,6 +49,53 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.workflow.terminate',
+    		{
+    			ID: '65e5a449e8f135.21284909',
+    			STATUS: 'Terminated by rest app.',
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('response', result.answer);
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php       
+    try {
+        $workflowId = 'your_workflow_id'; // Replace with actual workflow ID
+        $message = 'Workflow terminated'; // Replace with actual message
+        $result = $serviceBuilder
+            ->getBizProcScope()
+            ->workflow()
+            ->terminate($workflowId, $message);
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print('Termination failed.');
+        }
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'bizproc.workflow.terminate',
@@ -66,7 +113,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -82,26 +129,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-  
-    ```php       
-    try {
-        $workflowId = 'your_workflow_id'; // Replace with actual workflow ID
-        $message = 'Workflow terminated'; // Replace with actual message
-        $result = $serviceBuilder
-            ->getBizProcScope()
-            ->workflow()
-            ->terminate($workflowId, $message);
-        if ($result->isSuccess()) {
-            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
-        } else {
-            print('Termination failed.');
-        }
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
     ```
 
 {% endlist %}

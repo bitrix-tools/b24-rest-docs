@@ -47,7 +47,65 @@ catalog.document.update(id, fields)
 {% list tabs %}
 
 - JS
-  
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.document.update',
+    		{
+    			'id': 42,
+    			'fields': {
+    				'total': '1000', // общая сумма всех PURCHASING_PRICE умноженных на AMOUNT
+    				'commentary': 'first document.',
+    				'title': 'Новый документ', //заголовок (поле доступно с версии catalog 22.200.0)
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.document.update',
+                [
+                    'id'     => 42,
+                    'fields' => [
+                        'total'      => '1000', // общая сумма всех PURCHASING_PRICE умноженных на AMOUNT
+                        'commentary' => 'first document.',
+                        'title'      => 'Новый документ', //заголовок (поле доступно с версии catalog 22.200.0)
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating document: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.document.update',
@@ -69,7 +127,7 @@ catalog.document.update(id, fields)
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     $result = CRest::call(

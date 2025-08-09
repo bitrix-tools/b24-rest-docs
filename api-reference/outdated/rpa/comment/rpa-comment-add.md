@@ -36,6 +36,83 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'rpa.comment.add',
+    		{
+    			"typeId": 24,
+    			"itemId": 10,
+    			"fields": {
+    				"description": "Упоминание пользователя с ид 1 ",
+    				"files": [
+    					[
+    						"document.pdf", "...base64_decoded_content..."
+    					]
+    				]    
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('response', result.answer);
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'rpa.comment.add',
+                [
+                    'typeId' => 24,
+                    'itemId' => 10,
+                    'fields' => [
+                        'description' => 'Упоминание пользователя с ид 1',
+                        'files'      => [
+                            [
+                                'document.pdf', '...base64_decoded_content...'
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        echo 'response: ' . $result['answer'];
+    
+        if ($result['error']) {
+            echo 'Error: ' . $result['error'];
+        } else {
+            echo 'Data: ' . print_r($result['data'], true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding comment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'rpa.comment.add',

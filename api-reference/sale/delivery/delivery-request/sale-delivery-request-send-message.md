@@ -112,6 +112,83 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.delivery.request.sendmessage', {
+    			DELIVERY_ID: 225,
+    			REQUEST_ID: "4757aca4931a4f029f49c0db4374d13d",
+    			ADDRESSEE: "MANAGER",
+    			MESSAGE: {
+    				SUBJECT: "Your order is on its way",
+    				BODY: "Estimated delivery price: #MONEY#",
+    				MONEY_VALUES: {
+    					"#MONEY#": 351.2,
+    				},
+    				STATUS: {
+    					MESSAGE: "Success",
+    					SEMANTIC: "success",
+    				},
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error()) {
+    		console.error(result.error());
+    	} else {
+    		console.info(result);
+    	}
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.delivery.request.sendmessage',
+                [
+                    'DELIVERY_ID' => 225,
+                    'REQUEST_ID' => "4757aca4931a4f029f49c0db4374d13d",
+                    'ADDRESSEE' => "MANAGER",
+                    'MESSAGE' => [
+                        'SUBJECT' => "Your order is on its way",
+                        'BODY' => "Estimated delivery price: #MONEY#",
+                        'MONEY_VALUES' => [
+                            "#MONEY#" => 351.2,
+                        ],
+                        'STATUS' => [
+                            'MESSAGE' => "Success",
+                            'SEMANTIC' => "success",
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error sending delivery message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.delivery.request.sendmessage', {
@@ -140,7 +217,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

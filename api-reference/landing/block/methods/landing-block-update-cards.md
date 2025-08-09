@@ -38,6 +38,100 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.block.updateCards',
+    		{
+    			lid: 2856,
+    			block: 25458,
+    			data: {
+    				//воздействуем на данный селектор карточки
+    				// (можно передавать и другие селекторы одновременно)
+    				'.landing-block-card': {
+    					//останется только данное кол-во карточек, у которых
+    					//будут изменены только указанные ноды;
+    					//для клонирования будет браться первая карточка
+    					'values': [
+    						{
+    							'.landing-block-node-title': 'New title 0'
+    						},
+    						{
+    							'.landing-block-node-title': 'New title 1'
+    						},
+    						{
+    							'.landing-block-node-title': 'New title 2'
+    						}
+    					],
+    					//опционально можно применить пресеты карточек (ключ - порядковый номер карточки, начиная с 0)
+    					'presets': {
+    						'1': 'preset_h2'
+    					}
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.block.updateCards',
+                [
+                    'lid'   => 2856,
+                    'block' => 25458,
+                    'data'  => [
+                        '.landing-block-card' => [
+                            'values'  => [
+                                [
+                                    '.landing-block-node-title' => 'New title 0'
+                                ],
+                                [
+                                    '.landing-block-node-title' => 'New title 1'
+                                ],
+                                [
+                                    '.landing-block-node-title' => 'New title 2'
+                                ]
+                            ],
+                            'presets' => [
+                                '1' => 'preset_h2'
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating landing block cards: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.block.updateCards',

@@ -97,6 +97,81 @@ fields:
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.timeline.comment.add",
+    		{
+    			fields:
+    			{
+    				"ENTITY_ID": 10,
+    				"ENTITY_TYPE": "deal",
+    				"COMMENT": "New comment was added",
+    				"AUTHOR_ID": 5,
+    				"FILES": [
+    					[
+    						"1.gif", 
+    						"R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+    					],
+    					[
+    						"2.gif",
+    						"R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+    					],
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.timeline.comment.add',
+                [
+                    'fields' => [
+                        'ENTITY_ID'   => 10,
+                        'ENTITY_TYPE' => 'deal',
+                        'COMMENT'     => 'New comment was added',
+                        'AUTHOR_ID'   => 5,
+                        'FILES'       => [
+                            ['1.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
+                            ['2.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding timeline comment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.timeline.comment.add",
@@ -127,7 +202,7 @@ fields:
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

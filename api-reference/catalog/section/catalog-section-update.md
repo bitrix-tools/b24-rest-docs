@@ -100,6 +100,66 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.section.update', 
+    		{
+    			id: 32,
+    			fields: {
+    				iblockId: 14,
+    				name: 'Детские игрушки',
+    				description: "<H1>Детские игрушки</H1> <p>Товары для детей</p>",
+    				descriptionType: "html"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.section.update',
+                [
+                    'id' => 32,
+                    'fields' => [
+                        'iblockId'        => 14,
+                        'name'            => 'Детские игрушки',
+                        'description'     => "<H1>Детские игрушки</H1> <p>Товары для детей</p>",
+                        'descriptionType' => "html",
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating catalog section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.section.update', 
@@ -122,7 +182,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -240,58 +240,36 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        'bizproc.robot.update',
-        {
-            'CODE': 'test_robot',
-            'FIELDS': {
-                'NAME': 'Отправить сообщение автору',
-                'USE_SUBSCRIPTION': 'N',
-                'FILTER': {
-                    INCLUDE: [
-                        ['crm', 'CCrmDocumentDeal']
-                    ]
-                }
-            },
-        },
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Успешно: " + result.data());
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.robot.update',
+    		{
+    			'CODE': 'test_robot',
+    			'FIELDS': {
+    				'NAME': 'Отправить сообщение автору',
+    				'USE_SUBSCRIPTION': 'N',
+    				'FILTER': {
+    					INCLUDE: [
+    						['crm', 'CCrmDocumentDeal']
+    					]
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'bizproc.robot.update',
-        [
-            'CODE' => 'test_robot',
-            'FIELDS' => [
-                'NAME' => 'Отправить сообщение автору',
-                'USE_SUBSCRIPTION' => 'N',
-                'FILTER' => [
-                    'INCLUDE' => [
-                        ['crm', 'CCrmDocumentDeal']
-                    ]
-                ]
-            ]
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
     ```php
     try {
@@ -318,6 +296,59 @@
     } catch (Throwable $e) {
         print("An error occurred: " . $e->getMessage());
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'bizproc.robot.update',
+        {
+            'CODE': 'test_robot',
+            'FIELDS': {
+                'NAME': 'Отправить сообщение автору',
+                'USE_SUBSCRIPTION': 'N',
+                'FILTER': {
+                    INCLUDE: [
+                        ['crm', 'CCrmDocumentDeal']
+                    ]
+                }
+            },
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Успешно: " + result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.robot.update',
+        [
+            'CODE' => 'test_robot',
+            'FIELDS' => [
+                'NAME' => 'Отправить сообщение автору',
+                'USE_SUBSCRIPTION' => 'N',
+                'FILTER' => [
+                    'INCLUDE' => [
+                        ['crm', 'CCrmDocumentDeal']
+                    ]
+                ]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

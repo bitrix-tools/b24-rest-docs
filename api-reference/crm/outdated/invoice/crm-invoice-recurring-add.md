@@ -54,6 +54,111 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const current = new Date();
+    	const nextMonth = new Date();
+    	nextMonth.setMonth(current.getMonth() + 1);
+    
+    	const date2str = function(d)
+    	{
+    		return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
+    	};
+    
+    	const paddatepart = function(part)
+    	{
+    		return part >= 10 ? part.toString() : '0' + part.toString();
+    	};
+    
+    	const response = await $b24.callMethod(
+    		"crm.invoice.recurring.add",
+    		{
+    			fields:
+    			{
+    				"INVOICE_ID": "10",
+    				"IS_LIMIT": "N",
+    				"START_DATE": date2str(nextMonth),
+    				"PARAMS": {
+    					"PERIOD": "day",
+    					"IS_WORKING_ONLY": "N",
+    					"INTERVAL": 30,
+    					"DATE_PAY_BEFORE_OFFSET_TYPE": "month",
+    					"DATE_PAY_BEFORE_OFFSET_VALUE": 1,
+    				}
+    			}
+    		}
+    	);
+    
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.info("Добавлены настройки регулярного счета. ID записи - " + result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $current = new DateTime();
+        $nextMonth = new DateTime();
+        $nextMonth->setDate($current->format('Y'), $current->format('m') + 1, $current->format('d'));
+    
+        $date2str = function($d) {
+            return $d->format('Y-m-d\TH:i:sP');
+        };
+    
+        $paddatepart = function($part) {
+            return $part >= 10 ? $part : '0' . $part;
+        };
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.invoice.recurring.add',
+                [
+                    'fields' => [
+                        'INVOICE_ID'                 => '10',
+                        'IS_LIMIT'                   => 'N',
+                        'START_DATE'                 => $date2str($nextMonth),
+                        'PARAMS' => [
+                            'PERIOD'                     => 'day',
+                            'IS_WORKING_ONLY'            => 'N',
+                            'INTERVAL'                   => 30,
+                            'DATE_PAY_BEFORE_OFFSET_TYPE' => 'month',
+                            'DATE_PAY_BEFORE_OFFSET_VALUE' => 1,
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: Добавлены настройки регулярного счета. ID записи - ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding recurring invoice settings: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var current = new Date();
     var nextMonth = new Date();
@@ -93,7 +198,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

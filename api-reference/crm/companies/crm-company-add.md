@@ -49,6 +49,79 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.company.add",
+    		{
+    			fields:
+    			{
+    				"TITLE": "ИП Титов",
+    				"COMPANY_TYPE": "CUSTOMER",
+    				"INDUSTRY": "MANUFACTURING",
+    				"EMPLOYEES": "EMPLOYEES_2",
+    				"CURRENCY_ID": "RUB",
+    				"REVENUE" : 3000000,
+    				"LOGO": { "fileData": document.getElementById('logo') },
+    				"OPENED": "Y",
+    				"ASSIGNED_BY_ID": 1,
+    				"PHONE": [ { "VALUE": "555888", "VALUE_TYPE": "WORK" } ]     
+    			},
+    			params: { "REGISTER_SONET_EVENT": "Y" }        
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("Создана компания с ID " + result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.company.add',
+                [
+                    'fields' => [
+                        'TITLE'         => 'ИП Титов',
+                        'COMPANY_TYPE'  => 'CUSTOMER',
+                        'INDUSTRY'      => 'MANUFACTURING',
+                        'EMPLOYEES'     => 'EMPLOYEES_2',
+                        'CURRENCY_ID'   => 'RUB',
+                        'REVENUE'       => 3000000,
+                        'LOGO'          => ['fileData' => $_POST['logo']],
+                        'OPENED'        => 'Y',
+                        'ASSIGNED_BY_ID' => 1,
+                        'PHONE'         => [['VALUE' => '555888', 'VALUE_TYPE' => 'WORK']],
+                    ],
+                    'params' => ['REGISTER_SONET_EVENT' => 'Y'],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Создана компания с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при создании компании: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.company.add",

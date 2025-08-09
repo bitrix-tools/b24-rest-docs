@@ -82,7 +82,6 @@ fields: {
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.add
     ```
 
-
 - cURL (OAuth)
 
     ```bash
@@ -102,6 +101,68 @@ fields: {
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.epic.add',
+    		{
+    			fields: {
+    				name: name,
+    				groupId: groupId,
+    				description: description,
+    				color: color,
+    				files: files
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.epic.add',
+                [
+                    'fields' => [
+                        'name'        => $name,
+                        'groupId'     => $groupId,
+                        'description' => $description,
+                        'color'       => $color,
+                        'files'       => $files,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding epic: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     const groupId = 1;
@@ -128,7 +189,7 @@ fields: {
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

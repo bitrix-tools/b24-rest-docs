@@ -92,6 +92,68 @@ fields: {
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.category.update",
+    		{
+    			entityTypeId: 1152,
+    			id: 4,
+    			fields: {
+    				name: "Новое название воронки",
+    				sort: 1000,
+    				isDefault: "Y",
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.category.update',
+                [
+                    'entityTypeId' => 1152,
+                    'id'          => 4,
+                    'fields'      => [
+                        'name'     => 'Новое название воронки',
+                        'sort'     => 1000,
+                        'isDefault' => 'Y',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating category: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.category.update",
@@ -118,7 +180,7 @@ fields: {
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

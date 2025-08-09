@@ -78,6 +78,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'task.commentitem.add',
+    		{
+    			"TASKID": 8017,
+    			"FIELDS": {
+    				"POST_MESSAGE": "Текст нового комментария к задаче",
+    				"AUTHOR_ID": 503,
+    				"POST_DATE": "2025-07-15T14:30:00+03:00",
+    				"UF_FORUM_MESSAGE_DOC": ["n4755", "n4753"]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.commentitem.add',
+                [
+                    'TASKID' => 8017,
+                    'FIELDS' => [
+                        'POST_MESSAGE'         => 'Текст нового комментария к задаче',
+                        'AUTHOR_ID'            => 503,
+                        'POST_DATE'            => '2025-07-15T14:30:00+03:00',
+                        'UF_FORUM_MESSAGE_DOC' => ['n4755', 'n4753'],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding task comment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'task.commentitem.add',
@@ -97,7 +160,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

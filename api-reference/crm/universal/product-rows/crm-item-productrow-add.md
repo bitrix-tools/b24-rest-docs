@@ -89,6 +89,77 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.item.productrow.add', {
+    			fields: {
+    				ownerId: 13142,
+    				ownerType: 'D',
+    				productId: 9621,
+    				price: 80000.000000,
+    				quantity: 2,
+    				discountTypeId: 2,
+    				discountRate: 20,
+    				taxRate: 20,
+    				taxIncluded: 'Y',
+    				measureCode: 796,
+    				sort: 10,
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.productrow.add',
+                [
+                    'fields' => [
+                        'ownerId'        => 13142,
+                        'ownerType'      => 'D',
+                        'productId'      => 9621,
+                        'price'          => 80000.000000,
+                        'quantity'       => 2,
+                        'discountTypeId' => 2,
+                        'discountRate'   => 20,
+                        'taxRate'        => 20,
+                        'taxIncluded'    => 'Y',
+                        'measureCode'    => 796,
+                        'sort'           => 10,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding product row: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.item.productrow.add', {
@@ -116,7 +187,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

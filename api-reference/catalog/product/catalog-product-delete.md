@@ -48,6 +48,47 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.product.delete',
+    		{
+    			id: 1242,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+    ```php       
+    try {
+        $productId = 123; // Replace with the actual product ID you want to delete
+        $result = $serviceBuilder
+            ->getCatalogScope()
+            ->product()
+            ->delete($productId);
+        if ($result->isSuccess()) {
+            print("Product with ID {$productId} was deleted successfully.");
+        } else {
+            print("Failed to delete product with ID {$productId}.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.product.delete',
@@ -64,7 +105,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -79,25 +120,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-  
-    ```php       
-    try {
-        $productId = 123; // Replace with the actual product ID you want to delete
-        $result = $serviceBuilder
-            ->getCatalogScope()
-            ->product()
-            ->delete($productId);
-        if ($result->isSuccess()) {
-            print("Product with ID {$productId} was deleted successfully.");
-        } else {
-            print("Failed to delete product with ID {$productId}.");
-        }
-    } catch (Throwable $e) {
-        print("An error occurred: " . $e->getMessage());
-    }
     ```
 
 {% endlist %}

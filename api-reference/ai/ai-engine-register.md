@@ -64,6 +64,72 @@ REST-метод для добавления пользовательского �
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'ai.engine.register',
+    		{
+    			name: 'Ivanov GPT',
+    			code: 'ivanov_gpt',
+    			category: 'text',
+    			completions_url: 'https://antonds.ru/ai/aul/completions/',
+    			settings: {
+    				code_alias: 'ChatGPT',
+    				model_context_type: 'token',
+    				model_context_limit: 16*1024,
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'ai.engine.register',
+                [
+                    'name'            => 'Ivanov GPT',
+                    'code'            => 'ivanov_gpt',
+                    'category'        => 'text',
+                    'completions_url' => 'https://antonds.ru/ai/aul/completions/',
+                    'settings'        => [
+                        'code_alias'          => 'ChatGPT',
+                        'model_context_type'  => 'token',
+                        'model_context_limit' => 16 * 1024,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error registering AI engine: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'ai.engine.register',

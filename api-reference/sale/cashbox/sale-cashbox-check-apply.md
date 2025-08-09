@@ -59,6 +59,77 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.cashbox.check.apply",
+    		{
+    			'UUID':'check|example.com|1',
+    			'PRINT_END_TIME':'1609459200',
+    			'REG_NUMBER_KKT':'1234567891011121',
+    			'FISCAL_DOC_ATTR':'1234567890',
+    			'FISCAL_DOC_NUMBER':'12345',
+    			'FISCAL_RECEIPT_NUMBER':'123',
+    			'FN_NUMBER':'1234567891011121',
+    			'SHIFT_NUMBER':'1'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.cashbox.check.apply',
+                [
+                    'UUID'                => 'check|example.com|1',
+                    'PRINT_END_TIME'      => '1609459200',
+                    'REG_NUMBER_KKT'      => '1234567891011121',
+                    'FISCAL_DOC_ATTR'     => '1234567890',
+                    'FISCAL_DOC_NUMBER'   => '12345',
+                    'FISCAL_RECEIPT_NUMBER' => '123',
+                    'FN_NUMBER'           => '1234567891011121',
+                    'SHIFT_NUMBER'        => '1',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+            // Нужная вам логика обработки данных
+            processData($result->data());
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error applying cashbox check: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.cashbox.check.apply",
@@ -82,7 +153,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
