@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 13 августа, 2025
+
+- Добавлен новый метод делегирования заданий бизнес-процесса [bizproc.task.delegate](./api-reference/bizproc/bizproc-task/bizproc-task-delegate.md)
+
 ### 12 августа, 2025
 
 - Обновлен метод получения истории движения по стадиям [crm.stagehistory.list](./api-reference/crm/crm-stage-history-list.md) в CRM. Добавили поддержку всех объектов CRM со стадиями и воронками
@@ -30,7 +34,7 @@
 
 ### 31 июля, 2025
 
-- Обновлен туториал [Добавить лид или сделку с делом с учетом режима CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
+- Обновлен туториал [Добавить дело в новый лид или сделку в зависимости от режима CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
 
 ### 30 июля, 2025
 

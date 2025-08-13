@@ -24,7 +24,6 @@
 ## Как заменить устаревший номер телефона у существующего клиента; как обновить информацию о товаре и другие примеры
 
 - [{#T}](../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
-- [{#T}](../../tutorials/crm/how-to-edit-crm-objects/how-to-change-date-in-activity.md)
 - [{#T}](../../tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-lead.md)
 - [{#T}](../../tutorials/crm/how-to-edit-crm-objects/how-to-make-contact-edit-card.md)
 - [{#T}](../../tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-company.md)

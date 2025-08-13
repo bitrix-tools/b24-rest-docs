@@ -477,5 +477,6 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./bizproc-task-complete.md)
+- [{#T}](./bizproc-task-delegate.md)
 - [{#T}](../../../tutorials/bizproc/how-to-kill-workflows.md)
 - [{#T}](../../../tutorials/bizproc/how-to-filter-and-kill-workflows.md)
