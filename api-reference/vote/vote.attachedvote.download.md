@@ -16,6 +16,10 @@
 
 ## Параметры метода
 
+Доступно три варианта вызова метода.
+
+### 1. Через идентификатор прикрепленного опроса
+
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
@@ -25,13 +29,36 @@
 [`integer`](../data-types.md) | Идентификатор прикрепленного голосования, получить можно методами [vote.AttachedVote.get](./vote.attachedvote.get.md) или [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md) ||
 |#
 
-Альтернативный вариант с подписанным идентификатором:
+### 2. Через элемент с опросом
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **moduleId***
+[`string`](../data-types.md) | Идентификатор модуля, возможные значения:
+- `Im` для опроса в чате,
+- `blog` для опроса в ленте ||
+|| **entityType***
+[`string`](../data-types.md) | Тип объекта, возможные значения:
+- `Bitrix\\Vote\\Attachment\\ImMessageConnector` для опроса в чате,
+- `Bitrix\\Vote\\Attachment\\BlogPostConnector` для опроса в ленте ||
+|| **entityId***
+[`integer`](../data-types.md) | Идентификатор элемента, возможные значения:
+- `id` сообщения чата с опросом, получить можно методом [vote.Integration.Im.send](./vote.integration.im.send.md),
+- `id` поста с опросом в ленте, получить можно методом [log.blogpost.get](../log/log-blogpost-get.md) ||
+|#
+
+### 3. Через подписанный идентификатор
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **signedAttachId***
-[`string`](../data-types.md) | Подписанный идентификатор прикрепления ||
+[`string`](../data-types.md) | Подписанный идентификатор прикрепления, получить можно методом [vote.AttachedVote.get](./vote.attachedvote.get.md), параметр ответа `signedAttachId` ||
 |#
 
 ## Примеры кода

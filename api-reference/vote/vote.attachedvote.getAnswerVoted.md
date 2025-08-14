@@ -62,7 +62,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **signedAttachId***
-[`string`](../data-types.md) | Подписанный идентификатор прикрепления ||
+[`string`](../data-types.md) | Подписанный идентификатор прикрепления, получить можно методом [vote.AttachedVote.get](./vote.attachedvote.get.md), параметр ответа `signedAttachId` ||
 || **answerId***
 [`integer`](../data-types.md) | Идентификатор ответа, получить можно методами [vote.AttachedVote.get](./vote.attachedvote.get.md) или [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md) ||
 || **pageNavigation**
