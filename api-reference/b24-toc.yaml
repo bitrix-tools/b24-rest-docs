@@ -113,6 +113,10 @@ items:
     include:
       path: booking/b24-toc.yaml
       mode: link
+  - name: Опросы
+    include:
+      path: vote/b24-toc.yaml
+      mode: link      
   - name: Открытые линии
     include:
       path: imopenlines/b24-toc.yaml

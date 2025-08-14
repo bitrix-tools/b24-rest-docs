@@ -1,0 +1,24 @@
+title: Опросы, голосования
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать и отправить голосование в чат
+    href: vote.integration.im.send.md
+  - name: Проголосовать в прикрепленном голосовании
+    href: vote.attachedvote.vote.md
+  - name: Отозвать свой голос
+    href: vote.attachedvote.recall.md
+  - name: Возобновить голосование
+    href: vote.attachedvote.resume.md
+  - name: Остановить голосование
+    href: vote.attachedvote.stop.md
+  - name: Получить данные прикрепленного голосования
+    href: vote.attachedvote.get.md
+  - name: Получить список проголосовавших за ответ
+    href: vote.attachedvote.getAnswerVoted.md
+  - name: Получить несколько голосований
+    href: vote.attachedvote.getMany.md
+  - name: Получить данные голосования с информацией о проголосовавших
+    href: vote.attachedvote.getWithVoted.md    
+  - name: Скачать отчет по голосованию
+    href: vote.attachedvote.download.md    
