@@ -2,6 +2,26 @@
 
 ## 2025
 
+### 13 августа, 2025
+
+- Обновлена главная страница раздела [Изменить чат](./api-reference/chats/chat-update/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
+### 13 августа, 2025
+
+- Добавлен новый метод делегирования заданий бизнес-процесса [bizproc.task.delegate](./api-reference/bizproc/bizproc-task/bizproc-task-delegate.md)
+
+### 12 августа, 2025
+
+- Обновлен метод получения истории движения по стадиям [crm.stagehistory.list](./api-reference/crm/crm-stage-history-list.md) в CRM. Добавили поддержку всех объектов CRM со стадиями и воронками
+
+### 06 августа, 2025
+
+- Обновлена главная страница раздела [Пользователи](./api-reference/user/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 06 августа, 2025
+
+- Обновлены главные страницы событий в разделах: [Телефония](./api-reference/telephony/events/index.md), [SIP и встроенная телефония](./api-reference/telephony/voximplant/events/index.md), [Рабочие группы и проекты](./api-reference/sonet-group/events/index.md). Добавили вводную информацию, а также обзор событий
+
 ### 05 августа, 2025
 
 - Обновлен туториал [Добавить лид с файлами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-lead-with-files.md)
@@ -18,7 +38,7 @@
 
 ### 31 июля, 2025
 
-- Обновлен туториал [Добавить лид или сделку с делом с учетом режима CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
+- Обновлен туториал [Добавить дело в новый лид или сделку в зависимости от режима CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
 
 ### 30 июля, 2025
 

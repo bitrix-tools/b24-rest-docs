@@ -97,7 +97,7 @@
 - Добавьте [своего робота](bizproc-robot/bizproc-robot-add.md) в Битрикс24
 - Научитесь [запускать готовый бизнес-процесс](bizproc-workflow-start.md) или [останавливать](bizproc-workflow-kill.md) уже запущенный
 - Узнайте, как [добавлять свой шаблон](./template/bizproc-workflow-template-add.md)
-- Узнайте, как получить список текущих [заданий бизнес-процесса](bizproc-task/bizproc-task-list.md) и как автоматически их [завершать](bizproc-task/bizproc-task-complete.md) за пользователя
+- Узнайте, как получить список текущих [заданий бизнес-процесса](bizproc-task/bizproc-task-list.md), автоматически их [завершать](bizproc-task/bizproc-task-complete.md) за пользователя и [делегировать](./bizproc-task/bizproc-task-delegate.md) другому пользователю
 
 ## Обзор методов {#all-methods}
 
@@ -123,8 +123,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [bizproc.task.complete](./bizproc-task/bizproc-task-complete.md) | Выполняет указанное задание бизнес-процесса||
-|| [bizproc.task.list](./bizproc-task/bizproc-task-list.md) | Возвращает список заданий бизнес-процессов ||
+|| [bizproc.task.list](./bizproc-task/bizproc-task-list.md) | Получает список заданий бизнес-процессов ||
+|| [bizproc.task.complete](./bizproc-task/bizproc-task-complete.md) | Выполняет задание бизнес-процесса ||
+|| [bizproc.task.delegate](./bizproc-task/bizproc-task-delegate.md) | Делегирует задание бизнес-процесса ||
 |#
 
 ### Роботы приложений
