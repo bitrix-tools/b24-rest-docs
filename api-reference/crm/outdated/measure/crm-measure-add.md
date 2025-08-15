@@ -69,6 +69,68 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.measure.add',
+    		{
+    			fields: {
+    				"CODE": "212",
+    				"MEASURE_TITLE": "Ватт",
+    				"SYMBOL_RUS": "Вт",
+    				"SYMBOL_INTL": "W",
+    				"SYMBOL_LETTER_INTL": "WTT",
+    				"IS_DEFAULT": "N"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info('Создана единица измерения с ID ' + result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.measure.add',
+                [
+                    'fields' => [
+                        'CODE'              => '212',
+                        'MEASURE_TITLE'     => 'Ватт',
+                        'SYMBOL_RUS'        => 'Вт',
+                        'SYMBOL_INTL'       => 'W',
+                        'SYMBOL_LETTER_INTL' => 'WTT',
+                        'IS_DEFAULT'        => 'N',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Создана единица измерения с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при создании единицы измерения: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.measure.add",
@@ -92,7 +154,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

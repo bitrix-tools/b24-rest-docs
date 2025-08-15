@@ -100,7 +100,125 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":10,"fields":{"name":"Новое название","description":"Новое описание","typeId":1,"isMain":"N","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.resource.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":10,"fields":{"name":"Новое название","description":"Новое описание","typeId":1,"isMain":"N","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/booking.v1.resource.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"booking.v1.resource.update",
+    		{
+    			id: 10,
+    			fields: {
+    				name: "Новое название",
+    				description: "Новое описание",
+    				typeId: 1,
+    				isMain: "N",
+    				isInfoNotificationOn: "Y",
+    				templateTypeInfo: "inanimate",
+    				isConfirmationNotificationOn: "Y",
+    				templateTypeConfirmation: "animate",
+    				isReminderNotificationOn: "Y",
+    				templateTypeReminder: "base",
+    				isFeedbackNotificationOn: "N",
+    				templateTypeFeedback: "animate",
+    				isDelayedNotificationOn: "N",
+    				templateTypeDelayed: "animate",
+    				infoDelay: 300,
+    				reminderDelay: -1,
+    				delayedDelay: 300,
+    				delayedCounterDelay: 7200,
+    				confirmationDelay: 86400,
+    				confirmationRepetitions: 0,
+    				confirmationRepetitionsInterval: 0,
+    				confirmationCounterDelay: 7200
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'booking.v1.resource.update',
+                [
+                    'id' => 10,
+                    'fields' => [
+                        'name' => 'Новое название',
+                        'description' => 'Новое описание',
+                        'typeId' => 1,
+                        'isMain' => 'N',
+                        'isInfoNotificationOn' => 'Y',
+                        'templateTypeInfo' => 'inanimate',
+                        'isConfirmationNotificationOn' => 'Y',
+                        'templateTypeConfirmation' => 'animate',
+                        'isReminderNotificationOn' => 'Y',
+                        'templateTypeReminder' => 'base',
+                        'isFeedbackNotificationOn' => 'N',
+                        'templateTypeFeedback' => 'animate',
+                        'isDelayedNotificationOn' => 'N',
+                        'templateTypeDelayed' => 'animate',
+                        'infoDelay' => 300,
+                        'reminderDelay' => -1,
+                        'delayedDelay' => 300,
+                        'delayedCounterDelay' => 7200,
+                        'confirmationDelay' => 86400,
+                        'confirmationRepetitions' => 0,
+                        'confirmationRepetitionsInterval' => 0,
+                        'confirmationCounterDelay' => 7200,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating resource: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -141,27 +259,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"id":10,"fields":{"name":"Новое название","description":"Новое описание","typeId":1,"isMain":"N","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.resource.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"id":10,"fields":{"name":"Новое название","description":"Новое описание","typeId":1,"isMain":"N","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.resource.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

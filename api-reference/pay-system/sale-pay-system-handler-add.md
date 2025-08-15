@@ -283,6 +283,240 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.paysystem.handler.add",
+    		{
+    			"NAME": "Обработчик.Rest FORM",
+    			"CODE": "resthandlerform",
+    			"SORT": 100,
+    			"SETTINGS": {
+    				"CURRENCY": [
+    					"RUB"
+    				],
+    				"CLIENT_TYPE": "b2c",
+    				"FORM_DATA": {
+    					"ACTION_URI": "http://example.com/payment_form.php",
+    					"METHOD": "POST",
+    					"FIELDS": {
+    						"phone": {
+    							"VISIBLE": "Y",
+    							"CODE": {
+    								"NAME": "Номер телефона",
+    								"TYPE": "STRING"
+    							}
+    						},
+    						"selection": {
+    							"VISIBLE": "Y",
+    							"CODE": {
+    								"NAME": "Иллюзия выбора",
+    								"INPUT": {
+    									"TYPE": "Y/N"
+    								}
+    							}
+    						},
+    						"paymentId": {
+    							"CODE": "PAYMENT_ID",
+    							"VISIBLE": "Y"
+    						},
+    						"serviceid": {
+    							"CODE": "REST_SERVICE_ID"
+    						}
+    					}
+    				},
+    				"CODES": {
+    					"REST_SERVICE_ID": {
+    						"NAME": "Номер магазина",
+    						"DESCRIPTION": "Номер магазина",
+    						"SORT": "100"
+    					},
+    					"REST_SERVICE_KEY": {
+    						"NAME": "Секретный ключ",
+    						"DESCRIPTION": "Секретный ключ",
+    						"SORT": "300"
+    					},
+    					"PAYMENT_ID": {
+    						"NAME": "Номер оплаты",
+    						"SORT": "400",
+    						"GROUP": "PAYMENT",
+    						"DEFAULT": {
+    							"PROVIDER_KEY": "PAYMENT",
+    							"PROVIDER_VALUE": "ACCOUNT_NUMBER"
+    						}
+    					},
+    					"PAYMENT_SHOULD_PAY": {
+    						"NAME": "Сумма оплаты",
+    						"SORT": "600",
+    						"GROUP": "PAYMENT",
+    						"DEFAULT": {
+    							"PROVIDER_KEY": "PAYMENT",
+    							"PROVIDER_VALUE": "SUM"
+    						}
+    					},
+    					"PS_CHANGE_STATUS_PAY": {
+    						"NAME": "Автоматическая смена статуса оплаты",
+    						"SORT": "700",
+    						"INPUT": {
+    							"TYPE": "Y/N"
+    						}
+    					},
+    					"PAYMENT_BUYER_ID": {
+    						"NAME": "Код покупателя",
+    						"SORT": "1000",
+    						"GROUP": "PAYMENT",
+    						"DEFAULT": {
+    							"PROVIDER_KEY": "ORDER",
+    							"PROVIDER_VALUE": "USER_ID"
+    						}
+    					},
+    					"PS_WORK_MODE": {
+    						"NAME": "Режим работы платёжной системы",
+    						"SORT": "1100",
+    						"INPUT": {
+    							"TYPE": "ENUM",
+    							"OPTIONS": {
+    								"TEST": "Тестовый",
+    								"REGULAR": "Рабочий"
+    							}
+    						}
+    					}
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.paysystem.handler.add',
+                [
+                    'NAME'     => 'Обработчик.Rest FORM',
+                    'CODE'     => 'resthandlerform',
+                    'SORT'     => 100,
+                    'SETTINGS' => [
+                        'CURRENCY'    => ['RUB'],
+                        'CLIENT_TYPE' => 'b2c',
+                        'FORM_DATA'   => [
+                            'ACTION_URI' => 'http://example.com/payment_form.php',
+                            'METHOD'     => 'POST',
+                            'FIELDS'     => [
+                                'phone'     => [
+                                    'VISIBLE' => 'Y',
+                                    'CODE'    => [
+                                        'NAME' => 'Номер телефона',
+                                        'TYPE' => 'STRING',
+                                    ],
+                                ],
+                                'selection' => [
+                                    'VISIBLE' => 'Y',
+                                    'CODE'    => [
+                                        'NAME' => 'Иллюзия выбора',
+                                        'INPUT' => [
+                                            'TYPE' => 'Y/N',
+                                        ],
+                                    ],
+                                ],
+                                'paymentId' => [
+                                    'CODE'    => 'PAYMENT_ID',
+                                    'VISIBLE' => 'Y',
+                                ],
+                                'serviceid' => [
+                                    'CODE' => 'REST_SERVICE_ID',
+                                ],
+                            ],
+                        ],
+                        'CODES'      => [
+                            'REST_SERVICE_ID'    => [
+                                'NAME'        => 'Номер магазина',
+                                'DESCRIPTION' => 'Номер магазина',
+                                'SORT'        => '100',
+                            ],
+                            'REST_SERVICE_KEY'   => [
+                                'NAME'        => 'Секретный ключ',
+                                'DESCRIPTION' => 'Секретный ключ',
+                                'SORT'        => '300',
+                            ],
+                            'PAYMENT_ID'         => [
+                                'NAME'    => 'Номер оплаты',
+                                'SORT'    => '400',
+                                'GROUP'   => 'PAYMENT',
+                                'DEFAULT' => [
+                                    'PROVIDER_KEY'   => 'PAYMENT',
+                                    'PROVIDER_VALUE' => 'ACCOUNT_NUMBER',
+                                ],
+                            ],
+                            'PAYMENT_SHOULD_PAY' => [
+                                'NAME'    => 'Сумма оплаты',
+                                'SORT'    => '600',
+                                'GROUP'   => 'PAYMENT',
+                                'DEFAULT' => [
+                                    'PROVIDER_KEY'   => 'PAYMENT',
+                                    'PROVIDER_VALUE' => 'SUM',
+                                ],
+                            ],
+                            'PS_CHANGE_STATUS_PAY' => [
+                                'NAME'  => 'Автоматическая смена статуса оплаты',
+                                'SORT'  => '700',
+                                'INPUT' => [
+                                    'TYPE' => 'Y/N',
+                                ],
+                            ],
+                            'PAYMENT_BUYER_ID'     => [
+                                'NAME'    => 'Код покупателя',
+                                'SORT'    => '1000',
+                                'GROUP'   => 'PAYMENT',
+                                'DEFAULT' => [
+                                    'PROVIDER_KEY'   => 'ORDER',
+                                    'PROVIDER_VALUE' => 'USER_ID',
+                                ],
+                            ],
+                            'PS_WORK_MODE'        => [
+                                'NAME'  => 'Режим работы платёжной системы',
+                                'SORT'  => '1100',
+                                'INPUT' => [
+                                    'TYPE'    => 'ENUM',
+                                    'OPTIONS' => [
+                                        'TEST'    => 'Тестовый',
+                                        'REGULAR' => 'Рабочий',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding payment system handler: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.paysystem.handler.add",
@@ -397,7 +631,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -600,6 +834,136 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.paysystem.handler.add",
+    		{
+    			"NAME": "Обработчик.Rest CHECKOUT",
+    			"CODE": "resthandlercheckout",
+    			"SORT": 100,
+    			"SETTINGS": {
+    				"CURRENCY": [
+    					"RUB"
+    				],
+    				"CLIENT_TYPE": "b2c",
+    				"CHECKOUT_DATA": {
+    					"ACTION_URI": "http://example.com/payment_checkout.php",
+    					"FIELDS": {
+    						"serviceKey": {
+    							"CODE": "REST_SERVICE_KEY_CHECKOUT",
+    						},
+    						"serviceid": {
+    							"CODE": "REST_SERVICE_ID_CHECKOUT"
+    						}
+    					}
+    				},
+    				"CODES": {
+    					"REST_SERVICE_ID_CHECKOUT": {
+    						"NAME": "Номер магазина",
+    						"DESCRIPTION": "Номер магазина",
+    						"SORT": "100"
+    					},
+    					"REST_SERVICE_KEY_CHECKOUT": {
+    						"NAME": "Секретный ключ",
+    						"DESCRIPTION": "Секретный ключ",
+    						"SORT": "300"
+    					},
+    					"PS_WORK_MODE_CHECKOUT": {
+    						"NAME": "Режим работы платёжной системы",
+    						"SORT": "1100",
+    						"INPUT": {
+    							"TYPE": "ENUM",
+    							"OPTIONS": {
+    								"TEST": "Тестовый",
+    								"REGULAR": "Рабочий"
+    							}
+    						}
+    					}
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("Обработчик добавлен с ID " + result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.paysystem.handler.add',
+                [
+                    'NAME'     => 'Обработчик.Rest CHECKOUT',
+                    'CODE'     => 'resthandlercheckout',
+                    'SORT'     => 100,
+                    'SETTINGS' => [
+                        'CURRENCY'    => ['RUB'],
+                        'CLIENT_TYPE' => 'b2c',
+                        'CHECKOUT_DATA' => [
+                            'ACTION_URI' => 'http://example.com/payment_checkout.php',
+                            'FIELDS'     => [
+                                'serviceKey' => [
+                                    'CODE' => 'REST_SERVICE_KEY_CHECKOUT',
+                                ],
+                                'serviceid'  => [
+                                    'CODE' => 'REST_SERVICE_ID_CHECKOUT'
+                                ]
+                            ]
+                        ],
+                        'CODES' => [
+                            'REST_SERVICE_ID_CHECKOUT' => [
+                                'NAME'        => 'Номер магазина',
+                                'DESCRIPTION' => 'Номер магазина',
+                                'SORT'        => '100'
+                            ],
+                            'REST_SERVICE_KEY_CHECKOUT' => [
+                                'NAME'        => 'Секретный ключ',
+                                'DESCRIPTION' => 'Секретный ключ',
+                                'SORT'        => '300'
+                            ],
+                            'PS_WORK_MODE_CHECKOUT'     => [
+                                'NAME'  => 'Режим работы платёжной системы',
+                                'SORT'  => '1100',
+                                'INPUT' => [
+                                    'TYPE'    => 'ENUM',
+                                    'OPTIONS' => [
+                                        'TEST'    => 'Тестовый',
+                                        'REGULAR' => 'Рабочий'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Обработчик добавлен с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding paysystem handler: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.paysystem.handler.add",
@@ -662,7 +1026,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -834,6 +1198,136 @@ document.addEventListener("DOMContentLoaded", function() {
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.paysystem.handler.add",
+    		{
+    			"NAME": "Обработчик.Rest IFrame",
+    			"CODE": "resthandleriframe",
+    			"SORT": 100,
+    			"SETTINGS": {
+    				"CURRENCY": [
+    					"RUB"
+    				],
+    				"CLIENT_TYPE": "b2c",
+    				"IFRAME_DATA": {
+    					"ACTION_URI": "http://example.com/payment_iframe.php",
+    					"FIELDS": {
+    						"serviceKey": {
+    							"CODE": "REST_SERVICE_KEY_IFRAME",
+    						},
+    						"serviceid": {
+    							"CODE": "REST_SERVICE_ID_IFRAME"
+    						}
+    					}
+    				},
+    				"CODES": {
+    					"REST_SERVICE_ID_IFRAME": {
+    						"NAME": "Номер магазина",
+    						"DESCRIPTION": "Номер магазина",
+    						"SORT": "100"
+    					},
+    					"REST_SERVICE_KEY_IFRAME": {
+    						"NAME": "Секретный ключ",
+    						"DESCRIPTION": "Секретный ключ",
+    						"SORT": "300"
+    					},
+    					"PS_WORK_MODE_IFRAME": {
+    						"NAME": "Режим работы платёжной системы",
+    						"SORT": "1100",
+    						"INPUT": {
+    							"TYPE": "ENUM",
+    							"OPTIONS": {
+    								"TEST": "Тестовый",
+    								"REGULAR": "Рабочий"
+    							}
+    						}
+    					}
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.paysystem.handler.add',
+                [
+                    'NAME'     => 'Обработчик.Rest IFrame',
+                    'CODE'     => 'resthandleriframe',
+                    'SORT'     => 100,
+                    'SETTINGS' => [
+                        'CURRENCY'    => ['RUB'],
+                        'CLIENT_TYPE' => 'b2c',
+                        'IFRAME_DATA' => [
+                            'ACTION_URI' => 'http://example.com/payment_iframe.php',
+                            'FIELDS'     => [
+                                'serviceKey' => [
+                                    'CODE' => 'REST_SERVICE_KEY_IFRAME',
+                                ],
+                                'serviceid'  => [
+                                    'CODE' => 'REST_SERVICE_ID_IFRAME'
+                                ]
+                            ]
+                        ],
+                        'CODES'      => [
+                            'REST_SERVICE_ID_IFRAME' => [
+                                'NAME'        => 'Номер магазина',
+                                'DESCRIPTION' => 'Номер магазина',
+                                'SORT'        => '100'
+                            ],
+                            'REST_SERVICE_KEY_IFRAME' => [
+                                'NAME'        => 'Секретный ключ',
+                                'DESCRIPTION' => 'Секретный ключ',
+                                'SORT'        => '300'
+                            ],
+                            'PS_WORK_MODE_IFRAME'     => [
+                                'NAME'  => 'Режим работы платёжной системы',
+                                'SORT'  => '1100',
+                                'INPUT' => [
+                                    'TYPE'    => 'ENUM',
+                                    'OPTIONS' => [
+                                        'TEST'    => 'Тестовый',
+                                        'REGULAR' => 'Рабочий'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding payment system handler: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.paysystem.handler.add",
@@ -896,7 +1390,7 @@ document.addEventListener("DOMContentLoaded", function() {
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

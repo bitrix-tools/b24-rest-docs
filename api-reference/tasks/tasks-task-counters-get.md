@@ -53,6 +53,54 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.task.counters.get',
+    		{userId: 1, groupId: 0, type: 'view_all'}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.task.counters.get',
+                [
+                    'userId' => 1,
+                    'groupId' => 0,
+                    'type'    => 'view_all',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result['answer']['result'], true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting task counters: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod('tasks.task.counters.get', {userId:1, groupId:0, type:'view_all'}, (res)=>{console.log(res.answer.result);});
     ```

@@ -83,7 +83,161 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"select":["id","title","active","dateCreate"],"filter":{"%=title":"Sql%","!description":"","@connectorId":[2,4]},"order":{"dateCreate":"DESC"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/biconnector.source.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"select":["id","title","active","dateCreate"],"filter":{"%=title":"Sql%","!description":"","@connectorId":[2,4]},"order":{"dateCreate":"DESC"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/biconnector.source.list
+    ```
+
 - JS
+
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    const selectFields = [
+        "id",
+        "title",
+        "active",
+        "dateCreate"
+    ];
+    
+    try {
+        const response = await $b24.callListMethod(
+            'biconnector.source.list',
+            {
+                select: selectFields,
+                filter: {
+                    '%=title': "Sql%",
+                    '!description': "",
+                    "@connectorId": [2, 4]
+                },
+                order: {
+                    dateCreate: "DESC"
+                }
+            },
+            (progress) => { console.log('Progress:', progress) }
+        );
+        const items = response.getData() || [];
+        for (const entity of items) { console.log('Entity:', entity); }
+    } catch (error) {
+        console.error('Request failed', error);
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    const selectFields = [
+        "id",
+        "title",
+        "active",
+        "dateCreate"
+    ];
+    
+    try {
+        const generator = $b24.fetchListMethod('biconnector.source.list', {
+            select: selectFields,
+            filter: {
+                '%=title': "Sql%",
+                '!description': "",
+                "@connectorId": [2, 4]
+            },
+            order: {
+                dateCreate: "DESC"
+            }
+        }, 'ID');
+        for await (const page of generator) {
+            for (const entity of page) { console.log('Entity:', entity); }
+        }
+    } catch (error) {
+        console.error('Request failed', error);
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    const selectFields = [
+        "id",
+        "title",
+        "active",
+        "dateCreate"
+    ];
+    
+    try {
+        const response = await $b24.callMethod('biconnector.source.list', {
+            select: selectFields,
+            filter: {
+                '%=title': "Sql%",
+                '!description': "",
+                "@connectorId": [2, 4]
+            },
+            order: {
+                dateCreate: "DESC"
+            }
+        }, 0);
+        const result = response.getData().result || [];
+        for (const entity of result) { console.log('Entity:', entity); }
+    } catch (error) {
+        console.error('Request failed', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'biconnector.source.list',
+                [
+                    'select' => [
+                        "id",
+                        "title",
+                        "active",
+                        "dateCreate"
+                    ],
+                    'filter' => [
+                        '%=title'      => "Sql%",
+                        '!description' => "",
+                        "@connectorId" => [2, 4]
+                    ],
+                    'order'  => [
+                        'dateCreate' => "DESC"
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching source list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -112,27 +266,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"select":["id","title","active","dateCreate"],"filter":{"%=title":"Sql%","!description":"","@connectorId":[2,4]},"order":{"dateCreate":"DESC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/biconnector.source.list
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"select":["id","title","active","dateCreate"],"filter":{"%=title":"Sql%","!description":"","@connectorId":[2,4]},"order":{"dateCreate":"DESC"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/biconnector.source.list
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -161,7 +295,6 @@
     print_r($result);
     echo '</PRE>';
     ```
-
 
 {% endlist %}
 

@@ -37,7 +37,61 @@
 {% list tabs %}
 
 - JS
-  
+
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		"crm.deal.recurring.get",
+    		{ id: id }
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = $_POST['id'];
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.deal.recurring.get',
+                [
+                    'id' => $id,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling crm.deal.recurring.get: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     BX24.callMethod(

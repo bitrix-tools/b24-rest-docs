@@ -73,7 +73,95 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"fields":{"ENTITY_ID":"DEAL_STAGE_1","STATUS_ID":"DECISION","NAME":"Принятие решения","SORT":70,"COLOR":"#FFA900"}}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.status.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"ENTITY_ID":"DEAL_STAGE_1","STATUS_ID":"DECISION","NAME":"Принятие решения","SORT":70,"COLOR":"#FFA900"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.status.add
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.status.add',
+    		{
+    			fields: {
+    				ENTITY_ID: 'DEAL_STAGE_1',
+    				STATUS_ID: 'DECISION',
+    				NAME: 'Принятие решения',
+    				SORT: 70,
+    				COLOR: '#FFA900'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.status.add',
+                [
+                    'fields' => [
+                        'ENTITY_ID' => 'DEAL_STAGE_1',
+                        'STATUS_ID' => 'DECISION',
+                        'NAME'     => 'Принятие решения',
+                        'SORT'     => 70,
+                        'COLOR'    => '#FFA900',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding status: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -96,27 +184,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -H "Accept: application/json" \
-         -d '{"fields":{"ENTITY_ID":"DEAL_STAGE_1","STATUS_ID":"DECISION","NAME":"Принятие решения","SORT":70,"COLOR":"#FFA900"}}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.status.add
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"fields":{"ENTITY_ID":"DEAL_STAGE_1","STATUS_ID":"DECISION","NAME":"Принятие решения","SORT":70,"COLOR":"#FFA900"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/crm.status.add
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

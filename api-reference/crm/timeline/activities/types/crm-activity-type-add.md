@@ -74,6 +74,70 @@ fields:
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.activity.type.add",
+    		{
+    			fields:
+    			{
+    				"TYPE_ID": '1C',
+    				"NAME": "Дело 1C",
+    				'ICON_FILE': document.getElementById('type-icon'), // file input node
+    				"IS_CONFIGURABLE_TYPE": "N"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.type.add',
+                [
+                    'fields' => [
+                        'TYPE_ID'            => '1C',
+                        'NAME'               => 'Дело 1C',
+                        'ICON_FILE'          => $_FILES['type-icon'], // file input node
+                        'IS_CONFIGURABLE_TYPE' => 'N',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding activity type: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.activity.type.add",
@@ -120,7 +184,7 @@ fields:
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -167,8 +231,6 @@ fields:
     print_r($result);
     echo '</PRE>';
     ```
-
-
 
 {% endlist %}
 

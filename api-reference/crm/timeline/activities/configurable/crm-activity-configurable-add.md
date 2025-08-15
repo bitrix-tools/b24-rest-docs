@@ -78,7 +78,7 @@ fields:
 {% list tabs %}
 
 - cURL (OAuth)
-  
+
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
@@ -88,6 +88,184 @@ fields:
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.activity.configurable.add",
+    		{
+    			ownerTypeId: 1,
+    			ownerId: 999,
+    			fields:
+    			{
+    				typeId: 'CONFIGURABLE',
+    				completed: true,
+    				deadline: new Date(),
+    				pingOffsets: [60, 300],
+    				isIncomingChannel: 'N',
+    				responsibleId: 1,
+    				badgeCode: 'CUSTOM',
+    			},
+    			layout:
+    			{
+    				"icon": {
+    					"code": "call-completed"
+    				},
+    				"header": {
+    					"title": "Входящий звонок"
+    				},
+    				"body": {
+    					"logo": {
+    						"code": "call-incoming"
+    					},
+    					"blocks": {
+    						"responsible": {
+    							"type": "lineOfBlocks",
+    							"properties": {
+    								"blocks": {
+    									"client": {
+    										"type": "link",
+    										"properties": {
+    											"text": "Сергей Востриков",
+    											"bold": true,
+    											"action": {
+    												"type": "redirect",
+    												"uri": "/crm/lead/details/789/"
+    											}
+    										}
+    									},
+    									"phone": {
+    										"type": "text",
+    										"properties": {
+    											"value": "+7 999 888 7777"
+    										}
+    									}
+    								}
+    							}
+    						}
+    					}
+    				},
+    				"footer": {
+    					"buttons": {
+    						"startCall": {
+    							"title": "О клиенте",
+    							"action": {
+    								"type": "openRestApp",
+    								"actionParams": {
+    									"clientId": 456
+    								}
+    							},
+    							"type": "primary"
+    						}
+    					}
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.configurable.add',
+                [
+                    'ownerTypeId' => 1,
+                    'ownerId' => 999,
+                    'fields' => [
+                        'typeId' => 'CONFIGURABLE',
+                        'completed' => true,
+                        'deadline' => new DateTime(),
+                        'pingOffsets' => [60, 300],
+                        'isIncomingChannel' => 'N',
+                        'responsibleId' => 1,
+                        'badgeCode' => 'CUSTOM',
+                    ],
+                    'layout' => [
+                        'icon' => [
+                            'code' => 'call-completed',
+                        ],
+                        'header' => [
+                            'title' => 'Входящий звонок',
+                        ],
+                        'body' => [
+                            'logo' => [
+                                'code' => 'call-incoming',
+                            ],
+                            'blocks' => [
+                                'responsible' => [
+                                    'type' => 'lineOfBlocks',
+                                    'properties' => [
+                                        'blocks' => [
+                                            'client' => [
+                                                'type' => 'link',
+                                                'properties' => [
+                                                    'text' => 'Сергей Востриков',
+                                                    'bold' => true,
+                                                    'action' => [
+                                                        'type' => 'redirect',
+                                                        'uri' => '/crm/lead/details/789/',
+                                                    ],
+                                                ],
+                                            ],
+                                            'phone' => [
+                                                'type' => 'text',
+                                                'properties' => [
+                                                    'value' => '+7 999 888 7777',
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'footer' => [
+                            'buttons' => [
+                                'startCall' => [
+                                    'title' => 'О клиенте',
+                                    'action' => [
+                                        'type' => 'openRestApp',
+                                        'actionParams' => [
+                                            'clientId' => 456,
+                                        ],
+                                    ],
+                                    'type' => 'primary',
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding configurable activity: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -168,7 +346,7 @@ fields:
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

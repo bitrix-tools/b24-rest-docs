@@ -79,6 +79,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.status.add', {
+    			fields: {
+    				id: 'MS',
+    				type: 'O',
+    				notify: 'Y',
+    				sort: 500,
+    				color: '#FF0000',
+    				xmlId: 'myStatusXmlId',
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.status.add',
+                [
+                    'fields' => [
+                        'id'     => 'MS',
+                        'type'   => 'O',
+                        'notify' => 'Y',
+                        'sort'   => 500,
+                        'color'  => '#FF0000',
+                        'xmlId'  => 'myStatusXmlId',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding status: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.status.add', {
@@ -101,7 +164,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

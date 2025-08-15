@@ -76,6 +76,62 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imopenlines.crm.chat.get',
+    		{
+    			CRM_ENTITY_TYPE: 'deal',
+    			CRM_ENTITY: 288,
+    			ACTIVE_ONLY: 'N'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imopenlines.crm.chat.get',
+                [
+                    'CRM_ENTITY_TYPE' => 'deal',
+                    'CRM_ENTITY'      => 288,
+                    'ACTIVE_ONLY'     => 'N',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error()->ex);
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting CRM chat: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'imopenlines.crm.chat.get',
@@ -97,7 +153,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -61,6 +61,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'timeman.close',
+    		{
+    			'USER_ID' : 503,
+    			'TIME': '2025-03-27T17:00:01+00:00',
+    			'REPORT': 'Забыла закрыть рабочий день',
+    			'LAT': 53.548841, 
+    			'LON': 9.987274
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'timeman.close',
+                [
+                    'USER_ID' => 503,
+                    'TIME'    => '2025-03-27T17:00:01+00:00',
+                    'REPORT'  => 'Забыла закрыть рабочий день',
+                    'LAT'     => 53.548841,
+                    'LON'     => 9.987274,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error closing timeman: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'timeman.close',
@@ -81,7 +139,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

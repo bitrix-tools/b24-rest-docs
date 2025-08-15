@@ -46,6 +46,62 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'entity.item.property.add',
+    		{
+    			ENTITY: 'menu_new',
+    			PROPERTY: 'new_prop',
+    			NAME: 'Новое свойство',
+    			TYPE: 'S'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Created element with ID:', result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'entity.item.property.add',
+                [
+                    'ENTITY'   => 'menu_new',
+                    'PROPERTY' => 'new_prop',
+                    'NAME'     => 'Новое свойство',
+                    'TYPE'     => 'S',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding entity item property: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'entity.item.property.add',

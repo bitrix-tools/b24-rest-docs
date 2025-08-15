@@ -29,11 +29,55 @@
 
 {% list tabs %}
 
-- cURL
-
-    // пример для cURL
-
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imopenlines.revision.get',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imopenlines.revision.get',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error()->ex;
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting revision: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -52,7 +96,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     {% include [Пояснение о restCommand](../../chat-bots/_includes/rest-command.md) %}
 
@@ -63,6 +107,10 @@
         $_REQUEST["auth"]
     );
     ```
+
+- cURL
+
+    // пример для cURL
 
 {% endlist %}
 

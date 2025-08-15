@@ -172,6 +172,177 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.contact.details.configuration.set',
+    		{
+    			userId: 1,
+    			data: [
+    				{
+    					name: "section_1",
+    					title: "Личные данные",
+    					type: "section",
+    					elements: [
+    						{
+    							name: "NAME",
+    							optionFlags: 1,
+    						},
+    						{
+    							name: "LAST_NAME",
+    							optionFlags: 1,
+    						},
+    						{
+    							name: "SECOND_NAME",
+    						},
+    						{
+    							name: "BIRTHDATE",
+    						},
+    						{
+    							name: "PHONE",
+    							optionFlags: 1,
+    							options: {
+    								defaultCountry: "GB",
+    							},
+    						},
+    						{
+    							name: "ADDRESS",
+    							optionFlags: 1,
+    							options: {
+    								defaultAddressType: 4,
+    							},
+    						},
+    					],
+    				},
+    				{
+    					name: "section_2",
+    					title: "Основная информация",
+    					type: "section",
+    					elements: [
+    						{ name: "TYPE_ID" },
+    						{ name: "SOURCE_ID" },
+    						{ name: "POST" },
+    					],
+    				},
+    				{
+    					name: "section_3",
+    					title: "Дополнительная информация",
+    					type: "section",
+    					elements: [
+    						{ name: "PHOTO" },
+    						{ name: "COMMENTS" },
+    						{ name: "UF_CRM_1720697698689" },
+    					],
+    				},
+    			],
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result)
+    	;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.contact.details.configuration.set',
+                [
+                    'userId' => 1,
+                    'data'   => [
+                        [
+                            'name'     => "section_1",
+                            'title'    => "Личные данные",
+                            'type'     => "section",
+                            'elements' => [
+                                [
+                                    'name'        => "NAME",
+                                    'optionFlags' => 1,
+                                ],
+                                [
+                                    'name'        => "LAST_NAME",
+                                    'optionFlags' => 1,
+                                ],
+                                [
+                                    'name' => "SECOND_NAME",
+                                ],
+                                [
+                                    'name' => "BIRTHDATE",
+                                ],
+                                [
+                                    'name'    => "PHONE",
+                                    'optionFlags' => 1,
+                                    'options' => [
+                                        'defaultCountry' => "GB",
+                                    ],
+                                ],
+                                [
+                                    'name'    => "ADDRESS",
+                                    'optionFlags' => 1,
+                                    'options' => [
+                                        'defaultAddressType' => 4,
+                                    ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'name'     => "section_2",
+                            'title'    => "Основная информация",
+                            'type'     => "section",
+                            'elements' => [
+                                ['name' => "TYPE_ID"],
+                                ['name' => "SOURCE_ID"],
+                                ['name' => "POST"],
+                            ],
+                        ],
+                        [
+                            'name'     => "section_3",
+                            'title'    => "Дополнительная информация",
+                            'type'     => "section",
+                            'elements' => [
+                                ['name' => "PHOTO"],
+                                ['name' => "COMMENTS"],
+                                ['name' => "UF_CRM_1720697698689"],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($response->getError()) {
+            echo 'Error: ' . $response->getError();
+        } else {
+            echo 'Success: ' . print_r($result, true);
+            // Нужная вам логика обработки данных
+            processData($result);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting contact details configuration: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.contact.details.configuration.set',
@@ -244,7 +415,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

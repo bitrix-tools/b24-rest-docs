@@ -38,6 +38,59 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		"crm.quote.productrows.get",
+    		{ id: id }
+    	);
+    
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = $_POST['id'];
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.quote.productrows.get',
+                [
+                    'id' => $id,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting quote product rows: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     BX24.callMethod(

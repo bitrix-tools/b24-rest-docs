@@ -29,7 +29,7 @@
 {% list tabs %}
 
 - cURL (OAuth)
-  
+
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
@@ -39,7 +39,68 @@
     ```
 
 - JS
-  
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.badge.add',
+    		{
+    			code: 'missedCall',
+    			title: 'Статус звонка',
+    			value: 'Пропущен',
+    			type: 'failure'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.badge.add',
+                [
+                    'code'  => 'missedCall',
+                    'title' => 'Статус звонка',
+                    'value' => 'Пропущен',
+                    'type'  => 'failure'
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding activity badge: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.activity.badge.add",
@@ -57,7 +118,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

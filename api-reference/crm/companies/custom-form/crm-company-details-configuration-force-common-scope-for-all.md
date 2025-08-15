@@ -31,7 +31,55 @@
 {% list tabs %}
 
 - JS
-  
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.company.details.configuration.forceCommonScopeForAll",
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.company.details.configuration.forceCommonScopeForAll',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting common company card for all users: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     //---
     //Установить общую карточку компаний для всех пользователей.

@@ -66,6 +66,77 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'entity.item.update',
+    		{
+    			ENTITY: 'menu_new',
+    			ID: 842,
+    			DATE_ACTIVE_FROM: new Date(),
+    			DETAIL_PICTURE: '',
+    			NAME: 'Goodbye Cruel World',
+    			PROPERTY_VALUES: {
+    				test: 11,
+    				test1: 22,
+    				test_file: ''
+    			},
+    			SECTION: 219
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'entity.item.update',
+                [
+                    'ENTITY'          => 'menu_new',
+                    'ID'              => 842,
+                    'DATE_ACTIVE_FROM' => new DateTime(),
+                    'DETAIL_PICTURE'  => '',
+                    'NAME'            => 'Goodbye Cruel World',
+                    'PROPERTY_VALUES' => [
+                        'test'     => 11,
+                        'test1'    => 22,
+                        'test_file' => ''
+                    ],
+                    'SECTION'         => 219
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating entity item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'entity.item.update',

@@ -63,7 +63,92 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -d '{"fields":{"ACTIVE":"Y","C_SORT":100,"NAME":"НДС 20%","RATE":20.0}}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.vat.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"ACTIVE":"Y","C_SORT":100,"NAME":"НДС 20%","RATE":20.0},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.vat.add
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.vat.add",
+    		{
+    			fields: {
+    				ACTIVE: "Y",
+    				C_SORT: 100,
+    				NAME: "НДС 20%",
+    				RATE: 20.0
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.vat.add',
+                [
+                    'fields' => [
+                        'ACTIVE' => 'Y',
+                        'C_SORT' => 100,
+                        'NAME'   => 'НДС 20%',
+                        'RATE'   => 20.0
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding VAT: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -85,27 +170,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -H "Accept: application/json" \
-         -d '{"fields":{"ACTIVE":"Y","C_SORT":100,"NAME":"НДС 20%","RATE":20.0}}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.vat.add
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"fields":{"ACTIVE":"Y","C_SORT":100,"NAME":"НДС 20%","RATE":20.0},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/crm.vat.add
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -51,6 +51,67 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		"crm.dealcategory.get",
+    		{ id: id }
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.dir(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = $_POST['id'];
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.dealcategory.get',
+                [
+                    'id' => $id,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting deal category: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     BX24.callMethod(
@@ -66,7 +127,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

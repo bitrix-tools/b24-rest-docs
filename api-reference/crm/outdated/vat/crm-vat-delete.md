@@ -30,23 +30,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        "crm.vat.delete",
-        {
-            id: 7
-        },
-        function(result) {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -67,7 +50,79 @@
     https://**put_your_bitrix24_address**/rest/crm.vat.delete
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.vat.delete",
+    		{
+    			id: 7
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.vat.delete',
+                [
+                    'id' => 7
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting VAT: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.vat.delete",
+        {
+            id: 7
+        },
+        function(result) {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

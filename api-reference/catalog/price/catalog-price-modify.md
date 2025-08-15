@@ -54,6 +54,108 @@ catalog.price.modify(fields)
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.price.modify',
+    		{
+    			fields: {
+    				product: {
+    					id: 8,
+    					prices: [
+    						{
+    							catalogGroupId: 1,
+    							currency: 'RUB',
+    							price: 2001,
+    							quantityFrom: 1,
+    							quantityTo: 2
+    						},
+    						{
+    							catalogGroupId: 1,
+    							currency: 'RUB',
+    							price: 2001,                
+    							quantityFrom: 3,
+    							quantityTo: 4
+    						},
+    						{
+    							catalogGroupId: 1,
+    							currency: 'RUB',
+    							price: 2001,                
+    							quantityFrom: 5,
+    							id: 122
+    						},
+    					]
+    				},
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch(error)
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.price.modify',
+                [
+                    'fields' => [
+                        'product' => [
+                            'id'     => 8,
+                            'prices' => [
+                                [
+                                    'catalogGroupId' => 1,
+                                    'currency'       => 'RUB',
+                                    'price'          => 2001,
+                                    'quantityFrom'   => 1,
+                                    'quantityTo'     => 2
+                                ],
+                                [
+                                    'catalogGroupId' => 1,
+                                    'currency'       => 'RUB',
+                                    'price'          => 2001,
+                                    'quantityFrom'   => 3,
+                                    'quantityTo'     => 4
+                                ],
+                                [
+                                    'catalogGroupId' => 1,
+                                    'currency'       => 'RUB',
+                                    'price'          => 2001,
+                                    'quantityFrom'   => 5,
+                                    'id'             => 122
+                                ],
+                            ]
+                        ],
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error modifying price: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.price.modify',

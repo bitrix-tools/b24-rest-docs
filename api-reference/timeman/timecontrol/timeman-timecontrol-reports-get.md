@@ -61,6 +61,63 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'timeman.timecontrol.reports.get',
+    		{
+    			'USER_ID': 3,
+    			'MONTH': 5,
+    			'YEAR': 2025,
+    			'IDLE_MINUTES': 15,
+    			'WORKDAY_HOURS': 8
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'timeman.timecontrol.reports.get',
+                [
+                    'USER_ID'       => 3,
+                    'MONTH'         => 5,
+                    'YEAR'          => 2025,
+                    'IDLE_MINUTES'  => 15,
+                    'WORKDAY_HOURS' => 8
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        echo 'Info: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting time control reports: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'timeman.timecontrol.reports.get',
@@ -81,7 +138,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

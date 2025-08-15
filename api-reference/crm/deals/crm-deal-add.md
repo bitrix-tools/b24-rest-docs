@@ -243,6 +243,94 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const day = 60 * 60 * 24 * 1000;
+    	
+    	const now = new Date();
+    	const after10Days = new Date(now.getTime() + 10 * day);
+    	
+    	const response = await $b24.callMethod(
+    		'crm.deal.add',
+    		{
+    			fields: {
+    				TITLE: "Новая сделка #1",
+    				TYPE_ID: "COMPLEX",
+    				CATEGORY_ID: 0,
+    				STAGE_ID: "PREPARATION",
+    				IS_RECURRING: "N",
+    				IS_RETURN_CUSTOMER: "Y",
+    				IS_REPEATED_APPROACH: "Y",
+    				PROBABILITY: 99,
+    				CURRENCY_ID: "EUR",
+    				OPPORTUNITY: 1000000,
+    				IS_MANUAL_OPPORTUNITY: "Y",
+    				TAX_VALUE: 0.10,
+    				COMPANY_ID: 9,
+    				CONTACT_IDS: [84, 83],
+    				BEGINDATE: now.toISOString(),
+    				CLOSEDATE: after10Days.toISOString(),
+    				OPENED: "Y",
+    				CLOSED: "N",
+    				COMMENTS: "[B]Пример комментария[/B]",
+    				SOURCE_ID: "CALLBACK",
+    				SOURCE_DESCRIPTION: "Дополнительно об источнике",
+    				ADDITIONAL_INFO: "Дополнительная информация",
+    				UTM_SOURCE: "google",
+    				UTM_MEDIUM: "CPC",
+    				PARENT_ID_1220: 22,
+    				UF_CRM_1721244482250: "Привет мир!",
+    			},
+    			params: {
+    				REGISTER_SONET_EVENT: "N",
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result)
+    	;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $fields = [
+            'TITLE' => 'New Deal',
+            'TYPE_ID' => 'GIG',
+            'CATEGORY_ID' => '1',
+            'STAGE_ID' => 'C1:NEW',
+            'CURRENCY_ID' => 'USD',
+            'OPPORTUNITY' => '10000',
+            'BEGINDATE' => (new DateTime())->format(DateTime::ATOM),
+            'CLOSEDATE' => (new DateTime('+1 month'))->format(DateTime::ATOM),
+            'COMMENTS' => 'This is a test deal.',
+        ];
+        $params = [
+            'REGISTER_SONET_EVENT' => 'Y',
+        ];
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->deal()
+            ->add($fields, $params);
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     const day = 60 * 60 * 24 * 1000;
   
@@ -293,7 +381,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -338,34 +426,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-  
-    ```php        
-    try {
-        $fields = [
-            'TITLE' => 'New Deal',
-            'TYPE_ID' => 'GIG',
-            'CATEGORY_ID' => '1',
-            'STAGE_ID' => 'C1:NEW',
-            'CURRENCY_ID' => 'USD',
-            'OPPORTUNITY' => '10000',
-            'BEGINDATE' => (new DateTime())->format(DateTime::ATOM),
-            'CLOSEDATE' => (new DateTime('+1 month'))->format(DateTime::ATOM),
-            'COMMENTS' => 'This is a test deal.',
-        ];
-        $params = [
-            'REGISTER_SONET_EVENT' => 'Y',
-        ];
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->deal()
-            ->add($fields, $params);
-        print($result->getId());
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
     ```
 
 {% endlist %}

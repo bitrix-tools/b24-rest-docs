@@ -77,6 +77,80 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'calendar.section.update',
+    		{
+    			id: 325,
+    			type: 'user',
+    			ownerId: 2,
+    			name: 'Changed Section Name',
+    			description: 'New description for section',
+    			color: '#9cbeAA',
+    			text_color: '#283099',
+    			export: [
+    				{
+    					ALLOW: false
+    				}
+    			]
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Updated calendar section with ID:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'calendar.section.update',
+                [
+                    'id'          => 325,
+                    'type'        => 'user',
+                    'ownerId'     => 2,
+                    'name'        => 'Changed Section Name',
+                    'description' => 'New description for section',
+                    'color'       => '#9cbeAA',
+                    'text_color'  => '#283099',
+                    'export'      => [
+                        [
+                            'ALLOW' => false
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating calendar section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'calendar.section.update',
@@ -97,7 +171,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

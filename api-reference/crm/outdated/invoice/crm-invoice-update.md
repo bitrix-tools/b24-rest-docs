@@ -53,6 +53,169 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const current = new Date();
+    	const date2str = function(d)
+    	{
+    		return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
+    	};
+    	const paddatepart = function(part)
+    	{
+    		return part >= 10 ? part.toString() : '0' + part.toString();
+    	};
+    	const id = prompt("Введите ID");
+    	
+    	const response = await $b24.callMethod('crm.invoice.get', {"id": id});
+    	const result = response.getData().result;
+    	
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		const fields = clone(result.data());
+    		const n = fields['PRODUCT_ROWS'].length;
+    		let productUpdated = false;
+    		
+    		fields["DATE_BILL"] = date2str(current);
+    		fields["USER_DESCRIPTION"] = "Комментарий для клиента (обновленный).";
+    		
+    		for (let i in fields['PRODUCT_ROWS'])
+    		{
+    			if (fields['PRODUCT_ROWS'][i]["PRODUCT_ID"] == 703)
+    			{
+    				const rowId = fields['PRODUCT_ROWS'][i]["ID"];
+    				fields['PRODUCT_ROWS'][i] = {
+    					"ID": rowId, "PRODUCT_ID": 703, "QUANTITY": 4, "PRICE": 779.60
+    				};
+    				productUpdated = true;
+    				break;
+    			}
+    		}
+    		
+    		if (!productUpdated && n > 0)
+    		{
+    			fields['PRODUCT_ROWS'][n] = {
+    				"ID": 0, "PRODUCT_ID": 703, "QUANTITY": 5, "PRICE": 779.60
+    			};
+    		}
+    		
+    		const updateResponse = await $b24.callMethod('crm.invoice.update', {"id": id, "fields": fields});
+    		const updateResult = updateResponse.getData().result;
+    		
+    		console.info("Обновлен счет с ID " + updateResult);
+    	}
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    
+    function clone(src)
+    {
+    	let dst;
+    	if (src instanceof Object)
+    	{
+    		dst = {};
+    		for (let i in src)
+    		{
+    			if (src[i] instanceof Object)
+    				dst[i] = clone(src[i]);
+    			else
+    				dst[i] = src[i];
+    		}
+    	}
+    	else dst = src;
+    	return dst;
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $current = new DateTime();
+        $date2str = function($d) {
+            return $d->format('Y-m-d\TH:i:sP');
+        };
+        $id = readline("Введите ID");
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.invoice.get',
+                ["id" => $id]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error getting invoice: ' . $result->error();
+        } else {
+            $fields = clone($result->data());
+            $n = count($fields['PRODUCT_ROWS']);
+            $productUpdated = false;
+    
+            $fields["DATE_BILL"] = $date2str($current);
+            $fields["USER_DESCRIPTION"] = "Комментарий для клиента (обновленный).";
+    
+            foreach ($fields['PRODUCT_ROWS'] as $key => $row) {
+                if ($row["PRODUCT_ID"] == 703) {
+                    $rowId = $row["ID"];
+                    $fields['PRODUCT_ROWS'][$key] = [
+                        "ID"         => $rowId,
+                        "PRODUCT_ID" => 703,
+                        "QUANTITY"   => 4,
+                        "PRICE"      => 779.60
+                    ];
+                    $productUpdated = true;
+                    break;
+                }
+            }
+    
+            if (!$productUpdated && $n > 0) {
+                $fields['PRODUCT_ROWS'][$n] = [
+                    "ID"         => 0,
+                    "PRODUCT_ID" => 703,
+                    "QUANTITY"   => 5,
+                    "PRICE"      => 779.60
+                ];
+            }
+    
+            $responseUpdate = $b24Service
+                ->core
+                ->call(
+                    'crm.invoice.update',
+                    ["id" => $id, "fields" => $fields]
+                );
+    
+            $resultUpdate = $responseUpdate
+                ->getResponseData()
+                ->getResult();
+    
+            if ($resultUpdate->error()) {
+                error_log($resultUpdate->error());
+                echo 'Error updating invoice: ' . $resultUpdate->error();
+            } else {
+                echo 'Invoice updated with ID: ' . $resultUpdate->data();
+            }
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Добавление или обновление товара в счете.
     var current = new Date();
@@ -133,7 +296,7 @@
     }
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

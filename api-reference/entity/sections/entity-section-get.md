@@ -77,6 +77,59 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'entity.section.get',
+    		{
+    			ENTITY: 'menu_new',
+    			SORT: {
+    				'NAME': 'ASC'
+    			}
+    		}
+    	);
+    	
+    	const sections = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'entity.section.get',
+                [
+                    'ENTITY' => 'menu_new',
+                    'SORT'   => [
+                        'NAME' => 'ASC'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        $sections = $result->data();
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting entity sections: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'entity.section.get',

@@ -77,6 +77,122 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.repo.register',
+    		<?= \CUtil::PhpToJSObject($data) ?>
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.info(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.repo.register',
+                [
+                    'code' => 'myblockx',
+                    'fields' => [
+                        'NAME'        => 'Test block',
+                        'DESCRIPTION' => 'Just try!',
+                        'SECTIONS'    => 'cover,about',
+                        'PREVIEW'     => 'https://www.bitrix24.ru/images/b24_screen.png',
+                        'CONTENT'     => '
+        <section class="landing-block">
+            <div class="text-center g-color-gray-dark-v3 g-pa-10">
+                <div class="g-width-600 mx-auto">
+                    <div class="landing-block-node-text g-font-size-12 ">
+                        <p>© 2017 All right reserved. Developed by
+                        <a href="#" class="landing-block-node-link g-color-primary">Bitrix24</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>'
+                    ],
+                    'manifest' => [
+                        'assets' => [
+                            'css' => [
+                                'https://site.com/aaa.css'
+                            ],
+                            'js'  => [
+                                'https://site.com/aaa.js'
+                            ]
+                        ],
+                        'nodes'  => [
+                            '.landing-block-node-text' => [
+                                'name' => 'Text',
+                                'type' => 'text',
+                            ],
+                            '.landing-block-node-link' => [
+                                'name' => 'Link',
+                                'type' => 'link',
+                            ],
+                        ],
+                        'style'  => [
+                            '.landing-block-node-text' => [
+                                'name' => 'Text',
+                                'type' => 'typo',
+                            ],
+                            '.landing-block-node-link' => [
+                                'name' => 'Link',
+                                'type' => 'typo',
+                            ],
+                        ],
+                        'attrs'  => [
+                            '.landing-block-node-text' => [
+                                'name'      => 'Настройка копирайта',
+                                'type'      => 'dropdown',
+                                'attribute' => 'data-copy',
+                                'items'     => [
+                                    'val1' => 'Значение 1',
+                                    'val2' => 'Значение 2'
+                                ]
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling landing.repo.register: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     <?
     //для наглядности, передадим PHP-массив на исполнение JS

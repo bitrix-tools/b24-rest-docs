@@ -76,7 +76,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.link.register
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -87,6 +87,67 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.requisite.link.register", {
+    			fields: {
+    				ENTITY_TYPE_ID: 31,
+    				ENTITY_ID: 315,
+    				REQUISITE_ID: 60,
+    				BANK_DETAIL_ID: 24,
+    				MC_REQUISITE_ID: 2,
+    				MC_BANK_DETAIL_ID: 2
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.link.register',
+                [
+                    'fields' => [
+                        'ENTITY_TYPE_ID'  => 31,
+                        'ENTITY_ID'       => 315,
+                        'REQUISITE_ID'    => 60,
+                        'BANK_DETAIL_ID'  => 24,
+                        'MC_REQUISITE_ID' => 2,
+                        'MC_BANK_DETAIL_ID' => 2,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error registering requisite link: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -110,7 +171,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -76,6 +76,66 @@ fields: {
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.timeline.bindings.bind",
+    		{
+    			fields: {
+    				"OWNER_ID": 1110,
+    				"ENTITY_ID": 10,
+    				"ENTITY_TYPE": "deal",
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.timeline.bindings.bind',
+                [
+                    'fields' => [
+                        'OWNER_ID'    => 1110,
+                        'ENTITY_ID'   => 10,
+                        'ENTITY_TYPE' => 'deal',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding timeline: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.timeline.bindings.bind",
@@ -94,7 +154,7 @@ fields: {
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

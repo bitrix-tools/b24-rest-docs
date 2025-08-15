@@ -62,6 +62,184 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.paysystem.handler.update",
+    		{
+    			'ID': 3,
+    			'FIELDS': {
+    				'CODE': 'newresthandlercode',
+    				'NAME': 'Новое название обработчика',
+    				'SORT': 200,
+    				'SETTINGS': {
+    					"CURRENCY": [
+    						"RUB", "BYN"
+    					],
+    					"FORM_DATA": {
+    						"ACTION_URI": "http://example.com/payment_form.php",
+    						"METHOD": "POST",
+    						"PARAMS": {
+    							"serviceid": "REST_SERVICE_ID_2",
+    							"invoiceNumber": "PAYMENT_ID_2",
+    							"Sum": "PAYMENT_SHOULD_PAY_2",
+    							"customer": "PAYMENT_BUYER_ID_2"
+    						}
+    					},
+    					"CODES": {
+    						"REST_SERVICE_ID_2": {
+    							"NAME": "Номер магазина",
+    							"DESCRIPTION": "Номер магазина",
+    							"SORT": "100"
+    						},
+    						"REST_SERVICE_KEY_2": {
+    							"NAME": "Секретный ключ",
+    							"DESCRIPTION": "Секретный ключ",
+    							"SORT": "300"
+    						},
+    						"PAYMENT_ID_2": {
+    							"NAME": "Номер оплаты",
+    							"SORT": "400",
+    							"GROUP": "PAYMENT",
+    							"DEFAULT": {
+    								"PROVIDER_KEY": "PAYMENT",
+    								"PROVIDER_VALUE": "ACCOUNT_NUMBER"
+    							}
+    						},
+    						"PAYMENT_SHOULD_PAY_2": {
+    							"NAME": "Сумма оплаты",
+    							"SORT": "600",
+    							"GROUP": "PAYMENT",
+    							"DEFAULT": {
+    								"PROVIDER_KEY": "PAYMENT",
+    								"PROVIDER_VALUE": "SUM"
+    							}
+    						},
+    						"PS_CHANGE_STATUS_PAY_2": {
+    							"NAME": "Автоматическая смена статуса оплаты",
+    							"SORT": "700",
+    							"INPUT": {
+    								"TYPE": "Y/N"
+    							}
+    						},
+    						"PAYMENT_BUYER_ID_2": {
+    							"NAME": "Код покупателя",
+    							"SORT": "1000",
+    							"GROUP": "PAYMENT",
+    							"DEFAULT": {
+    								"PROVIDER_KEY": "ORDER",
+    								"PROVIDER_VALUE": "USER_ID"
+    							}
+    						}
+    					}
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.paysystem.handler.update',
+                [
+                    'ID'     => 3,
+                    'FIELDS' => [
+                        'CODE'     => 'newresthandlercode',
+                        'NAME'     => 'Новое название обработчика',
+                        'SORT'     => 200,
+                        'SETTINGS' => [
+                            'CURRENCY'  => ['RUB', 'BYN'],
+                            'FORM_DATA' => [
+                                'ACTION_URI' => 'http://example.com/payment_form.php',
+                                'METHOD'     => 'POST',
+                                'PARAMS'     => [
+                                    'serviceid'    => 'REST_SERVICE_ID_2',
+                                    'invoiceNumber' => 'PAYMENT_ID_2',
+                                    'Sum'          => 'PAYMENT_SHOULD_PAY_2',
+                                    'customer'     => 'PAYMENT_BUYER_ID_2',
+                                ],
+                            ],
+                            'CODES'    => [
+                                'REST_SERVICE_ID_2' => [
+                                    'NAME'        => 'Номер магазина',
+                                    'DESCRIPTION' => 'Номер магазина',
+                                    'SORT'        => '100',
+                                ],
+                                'REST_SERVICE_KEY_2' => [
+                                    'NAME'        => 'Секретный ключ',
+                                    'DESCRIPTION' => 'Секретный ключ',
+                                    'SORT'        => '300',
+                                ],
+                                'PAYMENT_ID_2' => [
+                                    'NAME'   => 'Номер оплаты',
+                                    'SORT'   => '400',
+                                    'GROUP'  => 'PAYMENT',
+                                    'DEFAULT' => [
+                                        'PROVIDER_KEY'  => 'PAYMENT',
+                                        'PROVIDER_VALUE' => 'ACCOUNT_NUMBER',
+                                    ],
+                                ],
+                                'PAYMENT_SHOULD_PAY_2' => [
+                                    'NAME'   => 'Сумма оплаты',
+                                    'SORT'   => '600',
+                                    'GROUP'  => 'PAYMENT',
+                                    'DEFAULT' => [
+                                        'PROVIDER_KEY'  => 'PAYMENT',
+                                        'PROVIDER_VALUE' => 'SUM',
+                                    ],
+                                ],
+                                'PS_CHANGE_STATUS_PAY_2' => [
+                                    'NAME'  => 'Автоматическая смена статуса оплаты',
+                                    'SORT'  => '700',
+                                    'INPUT' => [
+                                        'TYPE' => 'Y/N',
+                                    ],
+                                ],
+                                'PAYMENT_BUYER_ID_2' => [
+                                    'NAME'   => 'Код покупателя',
+                                    'SORT'   => '1000',
+                                    'GROUP'  => 'PAYMENT',
+                                    'DEFAULT' => [
+                                        'PROVIDER_KEY'  => 'ORDER',
+                                        'PROVIDER_VALUE' => 'USER_ID',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating payment system handler: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.paysystem.handler.update",
@@ -146,7 +324,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

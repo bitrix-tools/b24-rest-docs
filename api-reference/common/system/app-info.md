@@ -38,36 +38,25 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        "app.info",
-        {},
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.log(result.data());
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'app.info',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'app.info',
-        []
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
     ```php        
     try {
@@ -85,6 +74,37 @@
     } catch (Throwable $e) {
         print("Error: " . $e->getMessage() . PHP_EOL);
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "app.info",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'app.info',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

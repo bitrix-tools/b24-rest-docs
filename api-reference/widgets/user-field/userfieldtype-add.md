@@ -75,6 +75,70 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'userfieldtype.add',
+    		{
+    			USER_TYPE_ID: 'test_type',
+    			HANDLER: 'https://www.myapplication.com/handler/',
+    			TITLE: 'Updated test type',
+    			DESCRIPTION: 'Test userfield type for documentation with updated description',
+    			OPTIONS: {
+    				height: 60,
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'userfieldtype.add',
+                [
+                    'USER_TYPE_ID' => 'test_type',
+                    'HANDLER'      => 'https://www.myapplication.com/handler/',
+                    'TITLE'        => 'Updated test type',
+                    'DESCRIPTION'  => 'Test userfield type for documentation with updated description',
+                    'OPTIONS'      => [
+                        'height' => 60,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding user field type: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'userfieldtype.add',
@@ -97,7 +161,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

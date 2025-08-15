@@ -72,6 +72,83 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.livefeedmessage.add",
+    		{
+    			fields:
+    			{
+    				"POST_TITLE": "Немного о сервисе",
+    				"MESSAGE": "Битрикс24 создан на базе платформы Bitrix Framework.",
+    				"SPERM": {
+    					"CRMCONTACT": ["CRMCONTACT3", "CRMCONTACT7"],
+    					"CRMCOMPANY": ["CRMCOMPANY1", "CRMCOMPANY3"],
+    					"CRMDEAL": ["CRMDEAL3", "CRMDEAL5"],
+    					"CRMLEAD": ["CRMLEAD9", "CRMLEAD11"],
+    					"SG": ["SG5", "SG9"],
+    					"U": ["U1", "U3"],
+    					"DR": ["DR1", "DR7"],
+    				},
+    				"ENTITYTYPEID": 3,
+    				"ENTITYID": 3,
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("Создано сообщение с ID " + result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.livefeedmessage.add',
+                [
+                    'fields' => [
+                        'POST_TITLE'   => 'Немного о сервисе',
+                        'MESSAGE'      => 'Битрикс24 создан на базе платформы Bitrix Framework.',
+                        'SPERM'        => [
+                            'CRMCONTACT'  => ['CRMCONTACT3', 'CRMCONTACT7'],
+                            'CRMCOMPANY'  => ['CRMCOMPANY1', 'CRMCOMPANY3'],
+                            'CRMDEAL'     => ['CRMDEAL3', 'CRMDEAL5'],
+                            'CRMLEAD'     => ['CRMLEAD9', 'CRMLEAD11'],
+                            'SG'          => ['SG5', 'SG9'],
+                            'U'           => ['U1', 'U3'],
+                            'DR'          => ['DR1', 'DR7'],
+                        ],
+                        'ENTITYTYPEID' => 3,
+                        'ENTITYID'     => 3,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Создано сообщение с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error creating live feed message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.livefeedmessage.add",
@@ -103,7 +180,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -162,6 +239,81 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.livefeedmessage.add",
+    		{
+    			fields:
+    			{
+    				"POST_TITLE": "POST_TITLE",
+    				"MESSAGE": "MESSAGE",
+    				"SPERM": {
+    					"CRMLEAD": ["CRMLEAD9", "CRMLEAD11"],
+    					"U": ["U1"],
+    				},
+    				"ENTITYTYPEID": 1,
+    				"ENTITYID": 56374,
+    				"FILES": [
+    					["1.gif", "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="],
+    					["2.gif", "..."]
+    				],
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("Создано сообщение с ID " + result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.livefeedmessage.add',
+                [
+                    'fields' => [
+                        'POST_TITLE'   => 'POST_TITLE',
+                        'MESSAGE'      => 'MESSAGE',
+                        'SPERM'        => [
+                            'CRMLEAD' => ['CRMLEAD9', 'CRMLEAD11'],
+                            'U'       => ['U1'],
+                        ],
+                        'ENTITYTYPEID' => 1,
+                        'ENTITYID'     => 56374,
+                        'FILES'        => [
+                            ['1.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
+                            ['2.gif', '...'],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Создано сообщение с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при создании сообщения: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.livefeedmessage.add",
@@ -192,7 +344,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

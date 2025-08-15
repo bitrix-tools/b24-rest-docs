@@ -28,11 +28,55 @@
 
 {% list tabs %}
 
-- cURL
-
-    // пример для cURL
-
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'im.revision.get',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'im.revision.get',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error()->ex);
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting IM revision: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```javascript
     BX24.callMethod(
@@ -51,8 +95,8 @@
     );
     ```
 
-- PHP
-    
+- PHP CRest
+
     {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
     ```php
@@ -66,6 +110,10 @@
         ]
     );
     ```
+
+- cURL
+
+    // пример для cURL
 
 {% endlist %}
 

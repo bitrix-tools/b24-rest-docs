@@ -47,6 +47,66 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.block.getContent',
+    		{
+    			lid: 4858,
+    			block: 39556,
+    			editMode: 1,
+    			params: {
+    				wrapper_show: 0
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.block.getContent',
+                [
+                    'lid'      => 4858,
+                    'block'    => 39556,
+                    'editMode' => 1,
+                    'params'   => [
+                        'wrapper_show' => 0
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting landing block content: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.block.getContent',

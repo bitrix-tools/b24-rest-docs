@@ -257,6 +257,105 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.contact.add',
+    		{
+    			fields: {
+    				HONORIFIC: "HNR_RU_1",
+    				NAME: "Иван",
+    				SECOND_NAME: "Иванович",
+    				LAST_NAME: "Иванов",
+    				PHOTO: {
+    					fileData: document.getElementById('photo'),
+    				},
+    				BIRTHDATE: '11.11.2001',
+    				TYPE_ID: "PARTNER",
+    				SOURCE_ID: "WEB",
+    				SOURCE_DESCRIPTION: "*Дополнительно об источнике*",
+    				POST: "Администратор",
+    				COMMENTS: comment,
+    				OPENED: "Y",
+    				EXPORT: "N",
+    				ASSIGNED_BY_ID: 6,
+    				COMPANY_ID: 12,
+    				COMPANY_IDS: [12, 13, 15],
+    				UTM_SOURCE: "yandex",
+    				UTM_MEDIUM: "CPC",
+    				UTM_CAMPAIGN: "summer_sale",
+    				UTM_CONTENT: "header_banner",
+    				UTM_TERM: "discount",
+    				PHONE: [
+    					{
+    						VALUE: "+7333333555",
+    						VALUE_TYPE: "WORK",
+    					},
+    					{
+    						VALUE: "+35599888666",
+    						VALUE_TYPE: "HOME",
+    					}
+    				],
+    				EMAIL: [
+    					{
+    						VALUE: "ivanov@example.mailing",
+    						VALUE_TYPE: "MAILING",
+    					},
+    					{
+    						VALUE: "ivanov@example.work",
+    						VALUE_TYPE: "WORK",
+    					}
+    				],
+    				UF_CRM_1720697698689: "Пример значения пользовательского поля с типом \"Строка\"",
+    				PARENT_ID_1224: 12,
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result)
+    	;
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $fields = [
+            'NAME' => 'John',
+            'LAST_NAME' => 'Doe',
+            'BIRTHDATE' => (new DateTime('1990-01-01'))->format(DateTime::ATOM),
+            'PHONE' => '+1234567890',
+            'EMAIL' => 'john.doe@example.com',
+            'ADDRESS' => '123 Main St',
+            'ADDRESS_CITY' => 'Anytown',
+            'ADDRESS_COUNTRY' => 'USA',
+            'ASSIGNED_BY_ID' => '1',
+            'COMPANY_ID' => '2',
+        ];
+        $params = [
+            'REGISTER_SONET_EVENT' => 'N',
+        ];
+        $result = $serviceBuilder->getCRMScope()
+            ->contact()
+            ->add($fields, $params);
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     const comment = `
     Пример комментария внутри контакта
@@ -340,7 +439,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -401,34 +500,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php        
-    try {
-        $fields = [
-            'NAME' => 'John',
-            'LAST_NAME' => 'Doe',
-            'BIRTHDATE' => (new DateTime('1990-01-01'))->format(DateTime::ATOM),
-            'PHONE' => '+1234567890',
-            'EMAIL' => 'john.doe@example.com',
-            'ADDRESS' => '123 Main St',
-            'ADDRESS_CITY' => 'Anytown',
-            'ADDRESS_COUNTRY' => 'USA',
-            'ASSIGNED_BY_ID' => '1',
-            'COMPANY_ID' => '2',
-        ];
-        $params = [
-            'REGISTER_SONET_EVENT' => 'N',
-        ];
-        $result = $serviceBuilder->getCRMScope()
-            ->contact()
-            ->add($fields, $params);
-        print($result->getId());
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
     ```
 
 {% endlist %}

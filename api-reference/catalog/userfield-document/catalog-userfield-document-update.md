@@ -49,6 +49,66 @@ catalog.userfield.document.update(documentId, fields)
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.userfield.document.update',
+    		{
+    			documentId: 64,
+    			fields: {
+    				'documentType': 'S',
+    				'field287': 'new value'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.userfield.document.update',
+                [
+                    'documentId' => 64,
+                    'fields'     => [
+                        'documentType' => 'S',
+                        'field287'     => 'new value'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error()->ex);
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating document user field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.userfield.document.update',

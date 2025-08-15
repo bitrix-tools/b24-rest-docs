@@ -205,6 +205,128 @@ fields: {
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.payment.add',
+    		{
+    			fields: {
+    				orderId: 200,
+    				paySystemId: 1,
+    				paid: 'Y',
+    				datePaid: '2024-04-10T10:00:00',
+    				empPaidId: 1,
+    				psStatus: 'Y',
+    				psStatusCode: '',
+    				psStatusDescription: '',
+    				psStatusMessage: '',
+    				psSum: 100,
+    				psCurrency: 'RUB',
+    				psResponseDate: '2024-04-10T10:00:00',
+    				payVoucherNum: '',
+    				payVoucherDate: '2024-04-10T10:00:00',
+    				datePayBefore: '2024-04-10T10:00:00',
+    				dateBill: '2024-04-10T10:00:00',
+    				xmlId: '',
+    				sum: 100,
+    				companyId: 1,
+    				payReturnNum: '',
+    				priceCod: 100,
+    				payReturnDate: '2024-04-10T10:00:00',
+    				empReturnId: 1,
+    				payReturnComment: '',
+    				responsibleId: 1,
+    				empResponsibleId: 1,
+    				isReturn: 'N',
+    				comments: '',
+    				updated1c: 'N',
+    				id1c: '',
+    				version1c: '',
+    				externalPayment: 'N',
+    				psInvoiceId: 1,
+    				marked: 'N',
+    				reasonMarked: '',
+    				empMarkedId: 1,
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.payment.add',
+                [
+                    'fields' => [
+                        'orderId'             => 200,
+                        'paySystemId'         => 1,
+                        'paid'               => 'Y',
+                        'datePaid'           => '2024-04-10T10:00:00',
+                        'empPaidId'          => 1,
+                        'psStatus'           => 'Y',
+                        'psStatusCode'       => '',
+                        'psStatusDescription' => '',
+                        'psStatusMessage'    => '',
+                        'psSum'              => 100,
+                        'psCurrency'         => 'RUB',
+                        'psResponseDate'     => '2024-04-10T10:00:00',
+                        'payVoucherNum'      => '',
+                        'payVoucherDate'     => '2024-04-10T10:00:00',
+                        'datePayBefore'      => '2024-04-10T10:00:00',
+                        'dateBill'           => '2024-04-10T10:00:00',
+                        'xmlId'              => '',
+                        'sum'                => 100,
+                        'companyId'          => 1,
+                        'payReturnNum'       => '',
+                        'priceCod'           => 100,
+                        'payReturnDate'      => '2024-04-10T10:00:00',
+                        'empReturnId'        => 1,
+                        'payReturnComment'   => '',
+                        'responsibleId'      => 1,
+                        'empResponsibleId'   => 1,
+                        'isReturn'           => 'N',
+                        'comments'           => '',
+                        'updated1c'          => 'N',
+                        'id1c'               => '',
+                        'version1c'          => '',
+                        'externalPayment'    => 'N',
+                        'psInvoiceId'        => 1,
+                        'marked'             => 'N',
+                        'reasonMarked'       => '',
+                        'empMarkedId'        => 1,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding payment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.payment.add',
@@ -258,7 +380,7 @@ fields: {
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

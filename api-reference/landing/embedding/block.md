@@ -54,6 +54,69 @@ $placement = isset($_REQUEST['PLACEMENT_OPTIONS'])
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.repo.bind',
+    		{
+    			fields: {
+    				PLACEMENT: 'LANDING_BLOCK_04.1.one_col_fix_with_title',
+    				PLACEMENT_HANDLER: 'https://cpe/rt/placement.php',
+    				TITLE: 'My block'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.info(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.repo.bind',
+                [
+                    'fields' => [
+                        'PLACEMENT'        => 'LANDING_BLOCK_04.1.one_col_fix_with_title',
+                        'PLACEMENT_HANDLER' => 'https://cpe/rt/placement.php',
+                        'TITLE'            => 'My block',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding landing block: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.repo.bind',
@@ -83,6 +146,69 @@ $placement = isset($_REQUEST['PLACEMENT_OPTIONS'])
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.repo.bind',
+    		{
+    			fields: {
+    				PLACEMENT: 'LANDING_BLOCK_*',
+    				PLACEMENT_HANDLER: 'https://cpe/rt/placement.php',
+    				TITLE: 'My block'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.info(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.repo.bind',
+                [
+                    'fields' => [
+                        'PLACEMENT'        => 'LANDING_BLOCK_*',
+                        'PLACEMENT_HANDLER' => 'https://cpe/rt/placement.php',
+                        'TITLE'            => 'My block',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding landing repository: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -115,6 +241,59 @@ $placement = isset($_REQUEST['PLACEMENT_OPTIONS'])
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'placement.call',
+    		{
+    			type: 'refreshBlock',
+    			params: {
+    				id: 123 // блок с идентификатором 123
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Блок успешно обновлен');
+    	// закрываем слайдер
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->placement
+            ->call(
+                'refreshBlock',
+                [
+                    'id' => 123, // блок с идентификатором 123
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Блок успешно обновлен';
+        // закрываем слайдер
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при обновлении блока: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.placement.call(

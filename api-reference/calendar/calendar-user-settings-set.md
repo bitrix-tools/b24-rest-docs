@@ -130,6 +130,124 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'calendar.user.settings.set',
+    		{
+    			settings: {
+    				view: 'month',
+    				meetSection: '4',
+    				crmSection: '4',
+    				showDeclined: true,
+    				denyBusyInvitation: false,
+    				collapseOffHours: 'N',
+    				showWeekNumbers: 'N',
+    				showTasks: 'Y',
+    				syncTasks: 'N',
+    				showCompletedTasks: 'N',
+    				lastUsedSection: 'false',
+    				sendFromEmail: '',
+    				defaultSections: {
+    					user1: '4',
+    					group6: '49'
+    				},
+    				syncPeriodPast: '3',
+    				syncPeriodFuture: '12',
+    				defaultReminders: {
+    					fullDay: [
+    						{
+    							type: 'min',
+    							count: 15
+    						}
+    					],
+    					withTime: [
+    						{
+    							type: 'min',
+    							count: 50
+    						}
+    					]
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Result:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'calendar.user.settings.set',
+                [
+                    'settings' => [
+                        'view'              => 'month',
+                        'meetSection'       => '4',
+                        'crmSection'        => '4',
+                        'showDeclined'      => true,
+                        'denyBusyInvitation' => false,
+                        'collapseOffHours'  => 'N',
+                        'showWeekNumbers'   => 'N',
+                        'showTasks'         => 'Y',
+                        'syncTasks'         => 'N',
+                        'showCompletedTasks' => 'N',
+                        'lastUsedSection'   => 'false',
+                        'sendFromEmail'     => '',
+                        'defaultSections'   => [
+                            'user1'  => '4',
+                            'group6' => '49'
+                        ],
+                        'syncPeriodPast'    => '3',
+                        'syncPeriodFuture'  => '12',
+                        'defaultReminders'  => [
+                            'fullDay'  => [
+                                [
+                                    'type'  => 'min',
+                                    'count' => 15
+                                ]
+                            ],
+                            'withTime' => [
+                                [
+                                    'type'  => 'min',
+                                    'count' => 50
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting user calendar settings: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'calendar.user.settings.set',
@@ -172,7 +290,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

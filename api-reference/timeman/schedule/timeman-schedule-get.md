@@ -45,6 +45,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"timeman.schedule.get",
+    		{
+    			id: 1
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    	if(response.more())
+    		response.next();
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'timeman.schedule.get',
+                [
+                    'id' => 1
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            var_dump($result->data());
+            if ($result->more()) {
+                $result->next();
+            }
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting schedule: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "timeman.schedule.get",
@@ -65,7 +123,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

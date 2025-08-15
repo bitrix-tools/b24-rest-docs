@@ -56,6 +56,57 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'entity.section.update',
+    		{
+    			ENTITY: 'menu_new',
+    			ID: 220,
+    			NAME: 'Не очень тестовый раздел'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'entity.section.update',
+                [
+                    'ENTITY' => 'menu_new',
+                    'ID'     => 220,
+                    'NAME'   => 'Не очень тестовый раздел',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating entity section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'entity.section.update',

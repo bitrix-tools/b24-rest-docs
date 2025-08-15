@@ -59,48 +59,30 @@
 
 - JS
 
+
     ```js
-        BX24.callMethod(
-            'crm.item.get',
-            {
-                entityTypeId: 1,
-                id: 250,
-                useOriginalUfNames: 'N',
-            },
-            (result) => {
-                if (result.error())
-                {
-                    console.error(result.error());
-
-                    return;
-                }
-
-                console.info(result.data());
-            },
-        );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.item.get',
+    		{
+    			entityTypeId: 1,
+    			id: 250,
+    			useOriginalUfNames: 'N',
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
     ```
 
 - PHP
 
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.item.get',
-        [
-            'entityTypeId' => 1,
-            'id' => 250,
-            'useOriginalUfNames' => 'N',
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-  
     ```php        
     try {
         $entityTypeId = 1; // Example entity type ID
@@ -151,6 +133,48 @@
     } catch (Throwable $e) {
         print("Error: " . $e->getMessage() . PHP_EOL);
     }
+    ```
+
+- BX24.js
+
+    ```js
+        BX24.callMethod(
+            'crm.item.get',
+            {
+                entityTypeId: 1,
+                id: 250,
+                useOriginalUfNames: 'N',
+            },
+            (result) => {
+                if (result.error())
+                {
+                    console.error(result.error());
+
+                    return;
+                }
+
+                console.info(result.data());
+            },
+        );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.item.get',
+        [
+            'entityTypeId' => 1,
+            'id' => 250,
+            'useOriginalUfNames' => 'N',
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

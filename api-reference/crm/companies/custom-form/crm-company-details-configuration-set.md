@@ -47,6 +47,116 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.company.details.configuration.set",
+    		{
+    			scope: "P",
+    			userId: 1,
+    			data:
+    			[
+    				{
+    					name: "main",
+    					title: "О компании",
+    					type: "section",
+    					elements:
+    					[
+    						{ name: "TITLE" },
+    						{ name: "LOGO" },
+    						{ name: "COMPANY_TYPE" },
+    						{ name: "POST" },
+    						{ name: "PHONE" },
+    						{ name: "EMAIL" },
+    						{ name: "CONTACT" }
+    					]
+    				},
+    				{
+    					name: "additional",
+    					title: "Дополнительно",
+    					type: "section",
+    					elements:
+    					[
+    						{ name: "INDUSTRY" },
+    						{ name: "OPENED" },
+    						{ name: "ASSIGNED_BY_ID" },
+    						{ name: "COMMENTS" }
+    					]
+    				}
+    			]
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.company.details.configuration.set',
+                [
+                    'scope' => 'P',
+                    'userId' => 1,
+                    'data' => [
+                        [
+                            'name' => 'main',
+                            'title' => 'О компании',
+                            'type' => 'section',
+                            'elements' => [
+                                ['name' => 'TITLE'],
+                                ['name' => 'LOGO'],
+                                ['name' => 'COMPANY_TYPE'],
+                                ['name' => 'POST'],
+                                ['name' => 'PHONE'],
+                                ['name' => 'EMAIL'],
+                                ['name' => 'CONTACT']
+                            ]
+                        ],
+                        [
+                            'name' => 'additional',
+                            'title' => 'Дополнительно',
+                            'type' => 'section',
+                            'elements' => [
+                                ['name' => 'INDUSTRY'],
+                                ['name' => 'OPENED'],
+                                ['name' => 'ASSIGNED_BY_ID'],
+                                ['name' => 'COMMENTS']
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting company details configuration: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     //Установка личных настроек карточки компаний для пользователя с идентификатором 1.
     BX24.callMethod(

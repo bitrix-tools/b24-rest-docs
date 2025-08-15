@@ -59,7 +59,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.preset.field.add
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -70,6 +70,72 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.requisite.preset.field.add",
+    		{
+    			preset:
+    			{
+    				"ID": 27    // Идентификатор шаблона
+    			},
+    			fields:        // Объект с описанием настраиваемого поля
+    			{
+    				"FIELD_NAME": "RQ_NAME",
+    				"FIELD_TITLE": "TEST",
+    				"IN_SHORT_LIST": "N",
+    				"SORT": 580
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("В шаблон добавлено настраиваемое поле с ID " + result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.preset.field.add',
+                [
+                    'preset' => [
+                        'ID' => 27, // Идентификатор шаблона
+                    ],
+                    'fields' => [ // Объект с описанием настраиваемого поля
+                        'FIELD_NAME'    => 'RQ_NAME',
+                        'FIELD_TITLE'   => 'TEST',
+                        'IN_SHORT_LIST' => 'N',
+                        'SORT'          => 580,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'В шаблон добавлено настраиваемое поле с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при добавлении настраиваемого поля: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -97,7 +163,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -218,6 +218,92 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.deal.update',
+    		{
+    			id: 123,
+    			fields: {
+    				TITLE: "Новое название сделки!",
+    				TYPE_ID: "GOODS",
+    				STAGE_ID: "WON",
+    				IS_RECCURING: "Y",
+    				IS_RETURN_CUSTOMER: "Y",
+    				OPPORTUNITY: 9999.99,
+    				IS_MANUAL_OPPORTUNITY: "Y",
+    				ASSIGNED_BY_ID: 1,
+    				UF_CRM_1725365197310: "Строка",
+    				PARENT_ID_1032: 1,
+    			},
+    			params: {
+    				REGISTER_SONET_EVENT: "N",
+    				REGISTER_HISTORY_EVENT: "N",
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error() ? console.error(result.error()) : console.info(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.deal.update',
+                [
+                    'id' => 123,
+                    'fields' => [
+                        'TITLE'              => "Новое название сделки!",
+                        'TYPE_ID'            => "GOODS",
+                        'STAGE_ID'           => "WON",
+                        'IS_RECCURING'       => "Y",
+                        'IS_RETURN_CUSTOMER' => "Y",
+                        'OPPORTUNITY'        => 9999.99,
+                        'IS_MANUAL_OPPORTUNITY' => "Y",
+                        'ASSIGNED_BY_ID'     => 1,
+                        'UF_CRM_1725365197310' => "Строка",
+                        'PARENT_ID_1032'     => 1,
+                    ],
+                    'params' => [
+                        'REGISTER_SONET_EVENT'   => "N",
+                        'REGISTER_HISTORY_EVENT' => "N",
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($response->getError()) {
+            echo 'Error: ' . $response->getError();
+        } else {
+            echo 'Success: ' . print_r($result, true);
+            // Нужная вам логика обработки данных
+            processData($result);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating deal: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.deal.update',
@@ -249,7 +335,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

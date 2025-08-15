@@ -109,6 +109,136 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.propertyvalue.modify', {
+    			fields: {
+    				order: {
+    					id: 2066,
+    					propertyValues: [{
+    							orderPropsId: 20,
+    							value: 'John Smith'
+    						},
+    						{
+    							orderPropsId: 21,
+    							value: 'johnsmith@example.com'
+    						},
+    						{
+    							orderPropsId: 22,
+    							value: '+10907996161'
+    						},
+    						{
+    							orderPropsId: 25,
+    							value: '0000073738'
+    						},
+    						{
+    							orderPropsId: 26,
+    							value: '900 S Holland Ave, Springfield, MO 65806, United States'
+    						},
+    						{
+    							orderPropsId: 51,
+    							value: '17.04.2024'
+    						},
+    						{
+    							orderPropsId: 52,
+    							value: 'Y'
+    						},
+    						{
+    							orderPropsId: 53,
+    							value: '948'
+    						},
+    						{
+    							orderPropsId: 54,
+    							value: '10'
+    						},
+    					],
+    				},
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.propertyvalue.modify',
+                [
+                    'fields' => [
+                        'order' => [
+                            'id'            => 2066,
+                            'propertyValues' => [
+                                [
+                                    'orderPropsId' => 20,
+                                    'value'        => 'John Smith'
+                                ],
+                                [
+                                    'orderPropsId' => 21,
+                                    'value'        => 'johnsmith@example.com'
+                                ],
+                                [
+                                    'orderPropsId' => 22,
+                                    'value'        => '+10907996161'
+                                ],
+                                [
+                                    'orderPropsId' => 25,
+                                    'value'        => '0000073738'
+                                ],
+                                [
+                                    'orderPropsId' => 26,
+                                    'value'        => '900 S Holland Ave, Springfield, MO 65806, United States'
+                                ],
+                                [
+                                    'orderPropsId' => 51,
+                                    'value'        => '17.04.2024'
+                                ],
+                                [
+                                    'orderPropsId' => 52,
+                                    'value'        => 'Y'
+                                ],
+                                [
+                                    'orderPropsId' => 53,
+                                    'value'        => '948'
+                                ],
+                                [
+                                    'orderPropsId' => 54,
+                                    'value'        => '10'
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error modifying sale property value: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.propertyvalue.modify', {
@@ -165,7 +295,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

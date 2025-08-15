@@ -79,6 +79,71 @@ fields: {
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.persontype.add', 
+    		{
+    			fields: {
+    				name: 'Физическое лицо',
+    				sort: '100',
+    				active: 'Y',
+    				code: 'MY_CRM_COMPANY',
+    				xmlId: 'myXmlId'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.persontype.add',
+                [
+                    'fields' => [
+                        'name'   => 'Физическое лицо',
+                        'sort'   => '100',
+                        'active' => 'Y',
+                        'code'   => 'MY_CRM_COMPANY',
+                        'xmlId'  => 'myXmlId',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding person type: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.persontype.add', 
@@ -101,7 +166,7 @@ fields: {
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

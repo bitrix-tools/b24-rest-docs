@@ -12,6 +12,58 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'placement.bind',
+    		{
+    			PLACEMENT: 'CALENDAR_GRIDVIEW',
+    			HANDLER: 'http://your_site/handler.php',
+    			TITLE: 'Custom tab'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'CALENDAR_GRIDVIEW',
+                    'HANDLER'   => 'http://your_site/handler.php',
+                    'TITLE'     => 'Custom tab',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'placement.bind',
@@ -30,7 +82,7 @@
 
 {% list tabs %}
 
-- PHP
+- PHP CRest
 
     ```php
     echo "<pre>";
@@ -44,7 +96,7 @@
 
 {% list tabs %}
 
-- PHP
+- PHP CRest
 
     ```php
     [PLACEMENT_OPTIONS] => {
@@ -66,6 +118,68 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const dateFrom = new Date();
+    	const dateTo = new Date(dateFrom.getTime() + 86400 * 30 * 1000); // Умножаем на 1000, чтобы преобразовать секунды в миллисекунды
+    	dateFrom.setHours(0, 0, 0, 0);
+    	dateTo.setHours(0, 0, 0, 0);
+    
+    	const response = await $b24.callMethod(
+    		'placement.getEvents',
+    		{
+    			dateFrom: dateFrom,
+    			dateTo: dateTo
+    		}
+    	);
+    
+    	const events = response.getData().result;
+    	console.log('getEvents response:');
+    	console.dir(events);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $dateFrom = new DateTime();
+        $dateTo = new DateTime($dateFrom->getTimestamp() + 86400 * 30 * 1000);
+        $dateFrom->setTime(0, 0, 0, 0);
+        $dateTo->setTime(0, 0, 0, 0);
+    
+        $response = $b24Service
+            ->placement
+            ->call(
+                'getEvents',
+                [
+                    'dateFrom' => $dateFrom,
+                    'dateTo' => $dateTo
+                ]
+            );
+    
+        $events = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'getEvents response:';
+        print_r($events);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting events: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     var dateFrom = new Date();
@@ -96,6 +210,55 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'placement.call',
+    		{
+    			id: "1431170", // идентификатор события
+    			dateFrom: "11.07.2018" // дата события. Не обязательна, но важна для регулярных событий
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->placement
+            ->call(
+                'viewEvent',
+                [
+                    'id'      => "1431170", // идентификатор события
+                    'dateFrom' => "11.07.2018" // дата события. Не обязательна, но важна для регулярных событий
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        // Не требуется никакой логики обработки данных
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling viewEvent placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.placement.call(
         'viewEvent',
@@ -117,6 +280,47 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'placement.addEvent',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Нужная вам логика обработки данных
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->placement
+            ->call('addEvent', []);
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling addEvent: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.placement.call(
         'addEvent',
@@ -133,6 +337,56 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'placement.call',
+    		{
+    			placement: 'editEvent',
+    			params: {
+    				uid: "1431171|19.07.2018"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->placement
+            ->call(
+                'editEvent',
+                [
+                    'uid' => "1431171|19.07.2018"
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling editEvent placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.placement.call(
@@ -153,6 +407,53 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'placement.deleteEvent',
+    		{
+    			id: "1431169"
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->placement
+            ->call(
+                'deleteEvent',
+                [
+                    'id' => "1431169"
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling deleteEvent: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.placement.call(

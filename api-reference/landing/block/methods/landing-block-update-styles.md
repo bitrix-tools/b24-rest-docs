@@ -59,6 +59,70 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.block.updateStyles',
+    		{
+    			lid: 311,
+    			block: 6058,
+    			data: {
+    				'.landing-block-node-text': {
+    					classList: ['landing-block-node-text', 'g-color-gray-light-v2', 'text-right'],
+    					affect: ['text-align']
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.block.updateStyles',
+                [
+                    'lid'   => 311,
+                    'block' => 6058,
+                    'data'  => [
+                        '.landing-block-node-text' => [
+                            'classList' => ['landing-block-node-text', 'g-color-gray-light-v2', 'text-right'],
+                            'affect'    => ['text-align']
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating block styles: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.block.updateStyles',

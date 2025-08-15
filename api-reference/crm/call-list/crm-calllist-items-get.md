@@ -26,7 +26,81 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -d '{"LIST_ID":13,"FILTER":{"STATUS":"IN_WORK"}}' \
+         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.items.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+         -H "Content-Type: application/json" \
+         -d '{"LIST_ID":13,"FILTER":{"STATUS":"IN_WORK"},"auth":"**put_access_token_here**"}' \
+         https://**your_bitrix24**/rest/crm.calllist.items.get
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.calllist.items.get",
+    		{
+    			LIST_ID: 13,
+    			FILTER: {
+    				STATUS: "IN_WORK"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.calllist.items.get',
+                [
+                    'LIST_ID' => 13,
+                    'FILTER' => [
+                        'STATUS' => 'IN_WORK'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting call list items: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -47,25 +121,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -d '{"LIST_ID":13,"FILTER":{"STATUS":"IN_WORK"}}' \
-         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.items.get
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -d '{"LIST_ID":13,"FILTER":{"STATUS":"IN_WORK"},"auth":"**put_access_token_here**"}' \
-         https://**your_bitrix24**/rest/crm.calllist.items.get
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

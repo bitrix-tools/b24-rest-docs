@@ -60,6 +60,83 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.update',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists_socnet',
+    			'IBLOCK_CODE': 'rest_1',
+    			'FIELDS': {
+    				'NAME': 'List 1 (Update)',
+    				'DESCRIPTION': 'Test list (Update)',
+    				'SORT': '20',
+    				'PICTURE': document.getElementById('iblock-image-update')
+    			},
+    			'RIGHTS': {
+    				'G1': 'X'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Success: " + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists_socnet',
+            'IBLOCK_CODE'    => 'rest_1',
+            'FIELDS'         => [
+                'NAME'        => 'List 1 (Update)',
+                'DESCRIPTION' => 'Test list (Update)',
+                'SORT'        => '20',
+                'PICTURE'     => $_POST['iblock-image-update'], // Assuming this is coming from a form POST request
+            ],
+            'RIGHTS'         => [
+                'G1' => 'X',
+            ],
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.update',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists_socnet',

@@ -55,6 +55,73 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const params = {
+    		CONFIG_ID: 1,
+    		PARAMS: {
+    			LINE_NAME: 'New line name',
+    			...
+    		}
+    	};
+    	
+    	const response = await $b24.callMethod(
+    		'imopenlines.config.update',
+    		params
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'CONFIG_ID' => 1,
+            'PARAMS'    => [
+                'LINE_NAME' => 'New line name',
+                // Другие параметры
+            ],
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'imopenlines.config.update',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Успешно: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating config: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     //imopenlines.config.update
     function configUpdate()
@@ -79,7 +146,7 @@
     }
     ```
 
-- PHP
+- PHP CRest
 
     // пример для php
 

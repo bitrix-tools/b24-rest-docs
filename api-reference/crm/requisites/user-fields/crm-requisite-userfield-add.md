@@ -118,7 +118,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.requisite.userfield.add
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -129,6 +129,79 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.requisite.userfield.add",
+    		{
+    			fields:
+    			{
+    				"USER_TYPE_ID": "string",
+    				"ENTITY_ID": "CRM_REQUISITE",
+    				"SORT": 100,
+    				"MULTIPLE": "N",
+    				"MANDATORY": "N",
+    				"SHOW_FILTER": "E",
+    				"SHOW_IN_LIST": "Y",
+    				"EDIT_FORM_LABEL": "ПП - Строка",
+    				"LIST_COLUMN_LABEL": "ПП - Строка",
+    				"LIST_FILTER_LABEL": "ПП - Строка",
+    				"FIELD_NAME": "NEWTECH_v1_STRING"
+    			}
+    		}
+    	);
+    
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.userfield.add',
+                [
+                    'fields' => [
+                        'USER_TYPE_ID'      => 'string',
+                        'ENTITY_ID'         => 'CRM_REQUISITE',
+                        'SORT'              => 100,
+                        'MULTIPLE'          => 'N',
+                        'MANDATORY'         => 'N',
+                        'SHOW_FILTER'       => 'E',
+                        'SHOW_IN_LIST'      => 'Y',
+                        'EDIT_FORM_LABEL'   => 'ПП - Строка',
+                        'LIST_COLUMN_LABEL' => 'ПП - Строка',
+                        'LIST_FILTER_LABEL' => 'ПП - Строка',
+                        'FIELD_NAME'        => 'NEWTECH_v1_STRING',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding user field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -159,7 +232,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

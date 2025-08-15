@@ -83,6 +83,93 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.contact.company.items.set',
+    		{
+    			id: 82,
+    			items: [
+    				{
+    					COMPANY_ID: 8,
+    					IS_PRIMARY: "Y",
+    					SORT: 100,
+    				},
+    				{
+    					COMPANY_ID: 9,
+    					SORT: 200,
+    				},
+    				{
+    					COMPANY_ID: 10,
+    					SORT: 400,
+    				}
+    			],
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result)
+    	;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.contact.company.items.set',
+                [
+                    'id'    => 82,
+                    'items' => [
+                        [
+                            'COMPANY_ID' => 8,
+                            'IS_PRIMARY' => 'Y',
+                            'SORT'       => 100,
+                        ],
+                        [
+                            'COMPANY_ID' => 9,
+                            'SORT'       => 200,
+                        ],
+                        [
+                            'COMPANY_ID' => 10,
+                            'SORT'       => 400,
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+            // Нужная вам логика обработки данных
+            processData($result->data());
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting company items for contact: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.contact.company.items.set',
@@ -113,7 +200,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

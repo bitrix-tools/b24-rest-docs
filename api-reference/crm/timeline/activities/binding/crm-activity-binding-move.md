@@ -53,6 +53,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.binding.move',
+    		{
+    			activityId: 999, // ID дела
+    			sourceEntityTypeId: 2, // Тип объекта, к которому дело привязано
+    			sourceEntityId: 1, // ID элемента, к которому дело привязано
+    			targetEntityTypeId: 2, // Тип объекта, к которому дело будет привязано
+    			targetEntityId: 100 // ID элемента, к которому дело будет привязано
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Результат:', result);
+    }
+    catch( error )
+    {
+    	console.error('Ошибка:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.binding.move',
+                [
+                    'activityId'         => 999,
+                    'sourceEntityTypeId' => 2,
+                    'sourceEntityId'     => 1,
+                    'targetEntityTypeId' => 2,
+                    'targetEntityId'     => 100,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error moving activity binding: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'crm.activity.binding.move',
@@ -73,7 +131,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

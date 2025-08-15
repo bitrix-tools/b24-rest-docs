@@ -42,6 +42,55 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sonet_group.user.add',
+    		{
+    			GROUP_ID: 15,
+    			USER_ID: [ 10, 21 ]
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.user.add',
+                [
+                    'GROUP_ID' => 15,
+                    'USER_ID'  => [10, 21],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding users to social network group: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Добавляем пользователей с ID=10 и 21 в группу соцсети с ID=15
     BX24.callMethod('sonet_group.user.add', {

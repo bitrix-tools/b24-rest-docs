@@ -136,6 +136,110 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.deal.productrows.set',
+    		{
+    			id: 5,
+    			rows: [
+    				{
+    					PRODUCT_ID: 456,
+    					PRICE: 1000,
+    					QUANTITY: 10,
+    					DISCOUNT_TYPE_ID: 1,
+    					DISCOUNT_SUM: 100,
+    					TAX_RATE: 13,
+    					MEASURE_CODE: 796,
+    					MEASURE_NAME: "шт",
+    					SORT: 10,
+    				},
+    				{
+    					PRODUCT_NAME: "Товар #2",
+    					PRICE: 500,
+    					QUANTITY: 5,
+    					DISCOUNT_TYPE_ID: 2,
+    					DISCOUNT_RATE: 10,
+    					TAX_RATE: 10,
+    					MEASURE_CODE: 166,
+    					MEASURE_NAME: "кг",
+    					SORT: 20,
+    				},
+    			],
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result)
+    	;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.deal.productrows.set',
+                [
+                    'id'   => 5,
+                    'rows' => [
+                        [
+                            'PRODUCT_ID'       => 456,
+                            'PRICE'           => 1000,
+                            'QUANTITY'        => 10,
+                            'DISCOUNT_TYPE_ID' => 1,
+                            'DISCOUNT_SUM'    => 100,
+                            'TAX_RATE'        => 13,
+                            'MEASURE_CODE'    => 796,
+                            'MEASURE_NAME'    => "шт",
+                            'SORT'            => 10,
+                        ],
+                        [
+                            'PRODUCT_NAME'     => "Товар #2",
+                            'PRICE'           => 500,
+                            'QUANTITY'        => 5,
+                            'DISCOUNT_TYPE_ID' => 2,
+                            'DISCOUNT_RATE'   => 10,
+                            'TAX_RATE'        => 10,
+                            'MEASURE_CODE'    => 166,
+                            'MEASURE_NAME'    => "кг",
+                            'SORT'            => 20,
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting deal product rows: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.deal.productrows.set',
@@ -175,7 +279,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

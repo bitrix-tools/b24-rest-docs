@@ -58,6 +58,59 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'task.stages.canmovetask',
+    		{
+    			entityId: entityId,
+    			entityType: entityType
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $entityId = 1;
+        $entityType = 'U';
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.stages.canmovetask',
+                [
+                    'entityId' => $entityId,
+                    'entityType' => $entityType
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling task.stages.canmovetask: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const entityId = 1;
     const entityType = 'U';
@@ -74,7 +127,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

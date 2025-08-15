@@ -53,6 +53,82 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const sort = prompt("Введите сортировку");
+    	const parsedSort = parseInt(sort);
+    	
+    	if(isNaN(parsedSort) || parsedSort < 0)
+    	{
+    		parsedSort = 0;
+    	}
+    	
+    	const response = await $b24.callMethod(
+    		"crm.dealcategory.update",
+    		{
+    			id: id,
+    			fields: { "SORT": parsedSort }
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.info(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = (int)readline("Введите ID");
+    $sort = (int)readline("Введите сортировку");
+    if (is_nan($sort) || $sort < 0) {
+        $sort = 0;
+    }
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.dealcategory.update',
+                [
+                    'id'     => $id,
+                    'fields' => ['SORT' => $sort],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating deal category: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     var sort = prompt("Введите сортировку");
@@ -80,7 +156,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

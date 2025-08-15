@@ -12,7 +12,83 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"ID":525,"FIELDS":{"TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.workflow.template.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"ID":525,"FIELDS":{"TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/bizproc.workflow.template.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.workflow.template.update',
+    		{
+    			ID: 525,
+    			FIELDS: {
+    				// Контент файла с новым шаблоном бизнес-процесса
+    				TEMPLATE_DATA: [
+    					"bp-379.bpt", // Первый элемент массива - имя файла
+    					"base64_encoded_content_here" // Второй элемент массива - контент файла, закодированный в base64
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Необходимая логика обработки результата
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'bizproc.workflow.template.update',
+                [
+                    'ID'     => 525,
+                    'FIELDS' => [
+                        'TEMPLATE_DATA' => [
+                            "bp-379.bpt", // Первый элемент массива - имя файла
+                            "base64_encoded_content_here" // Второй элемент массива - контент файла, закодированный в base64
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating workflow template: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -30,19 +106,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"ID":525,"FIELDS":{"TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.workflow.template.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"ID":525,"FIELDS":{"TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/bizproc.workflow.template.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -72,7 +136,75 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":9,"entityTypeId":177,"fields":{"ufCrm_7_1739432938":[]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":9,"entityTypeId":177,"fields":{"ufCrm_7_1739432938":[]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/crm.item.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.item.update",
+    		{
+    			id: 9,
+    			entityTypeId: 177,
+    			fields: {
+    				ufCrm_7_1739432938: [ // пустое значение для удаления файла из поля
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.update',
+                [
+                    'id'           => 9,
+                    'entityTypeId' => 177,
+                    'fields'       => [
+                        'ufCrm_7_1739432938' => [], // пустое значение для удаления файла из поля
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating CRM item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -88,19 +220,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":9,"entityTypeId":177,"fields":{"ufCrm_7_1739432938":[]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":9,"entityTypeId":177,"fields":{"ufCrm_7_1739432938":[]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/crm.item.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -143,7 +263,101 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"entityTypeId":177,"select":["ufCrm_7_1739432938"],"filter":{"id":"29"}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"entityTypeId":177,"select":["ufCrm_7_1739432938"],"filter":{"id":"29"},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/crm.item.list
+    ```
+
 - JS
+
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    try {
+      const response = await $b24.callListMethod(
+        'crm.item.list',
+        {
+          entityTypeId: 177,
+          select: [
+            "ufCrm_7_1739432938", // поле типа «файл»
+          ],
+          filter: {
+            "id": "29",
+          },
+        },
+        (progress) => { console.log('Progress:', progress) }
+      )
+      const items = response.getData() || []
+      for (const entity of items) { console.log('Entity:', entity) }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    try {
+      const generator = $b24.fetchListMethod('crm.item.list', { entityTypeId: 177, select: ["ufCrm_7_1739432938"], filter: { "id": "29" } }, 'ID')
+      for await (const page of generator) {
+        for (const entity of page) { console.log('Entity:', entity) }
+      }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    try {
+      const response = await $b24.callMethod('crm.item.list', { entityTypeId: 177, select: ["ufCrm_7_1739432938"], filter: { "id": "29" } }, 0)
+      const result = response.getData().result || []
+      for (const entity of result) { console.log('Entity:', entity) }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.list',
+                [
+                    'entityTypeId' => 177,
+                    'select' => [
+                        "ufCrm_7_1739432938", // поле типа «файл»
+                    ],
+                    'filter' => [
+                        "id" => "29",
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching CRM items: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -160,19 +374,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"entityTypeId":177,"select":["ufCrm_7_1739432938"],"filter":{"id":"29"}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.list
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"entityTypeId":177,"select":["ufCrm_7_1739432938"],"filter":{"id":"29"},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/crm.item.list
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -236,7 +438,94 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":9,"entityTypeId":177,"fields":{"ufCrm_7_1739432938":[{"id":30577},["myNewFile.pdf","base64_encoded_content_here"]]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":9,"entityTypeId":177,"fields":{"ufCrm_7_1739432938":[{"id":30577},["myNewFile.pdf","base64_encoded_content_here"]]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/crm.item.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.item.update",
+    		{
+    			id: 9,
+    			entityTypeId: 177,
+    			fields: {
+    				ufCrm_7_1739432938: [
+    					{
+    						id: 30577 // id старого файла, который будет сохранен в поле
+    					},
+    					[
+    						"myNewFile.pdf", // Имя нового файла
+    						"base64_encoded_content_here" // Контент нового файла в формате base64
+    					]
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Необходимая логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.update',
+                [
+                    'id'           => 9,
+                    'entityTypeId' => 177,
+                    'fields'       => [
+                        'ufCrm_7_1739432938' => [
+                            [
+                                'id' => 30577 // id старого файла, который будет сохранен в поле
+                            ],
+                            [
+                                'myNewFile.pdf', // Имя нового файла
+                                'base64_encoded_content_here' // Контент нового файла в формате base64
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating CRM item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -259,19 +548,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":9,"entityTypeId":177,"fields":{"ufCrm_7_1739432938":[{"id":30577},["myNewFile.pdf","base64_encoded_content_here"]]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":9,"entityTypeId":177,"fields":{"ufCrm_7_1739432938":[{"id":30577},["myNewFile.pdf","base64_encoded_content_here"]]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/crm.item.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -312,7 +589,75 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":62589,"fields":{"COMMENT":"Comment was changed","FILES":[]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.timeline.comment.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":62589,"fields":{"COMMENT":"Comment was changed","FILES":[]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/crm.timeline.comment.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.timeline.comment.update',
+    		{
+    			id: 62589,
+    			fields: {
+    				"COMMENT": "Comment was changed",
+    				"FILES": [ // пустое значение для удаления файлов
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.timeline.comment.update',
+                [
+                    'id' => 62589,
+                    'fields' => [
+                        'COMMENT' => 'Comment was changed',
+                        'FILES' => [], // пустое значение для удаления файлов
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating timeline comment: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -328,19 +673,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":62589,"fields":{"COMMENT":"Comment was changed","FILES":[]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.timeline.comment.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":62589,"fields":{"COMMENT":"Comment was changed","FILES":[]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/crm.timeline.comment.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -375,19 +708,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        'lists.element.get',
-        {
-            IBLOCK_TYPE_ID: 'lists',
-            IBLOCK_ID: '37',
-            ELEMENT_ID: '6783'
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -400,7 +720,75 @@
     curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":"37","ELEMENT_ID":"6783","auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/lists.element.get
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.element.get',
+    		{
+    			IBLOCK_TYPE_ID: 'lists',
+    			IBLOCK_ID: '37',
+    			ELEMENT_ID: '6783'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.get',
+                [
+                    'IBLOCK_TYPE_ID' => 'lists',
+                    'IBLOCK_ID'      => '37',
+                    'ELEMENT_ID'     => '6783',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting list element: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'lists.element.get',
+        {
+            IBLOCK_TYPE_ID: 'lists',
+            IBLOCK_ID: '37',
+            ELEMENT_ID: '6783'
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -453,7 +841,86 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":37,"ELEMENT_ID":6783,"FIELDS":{"NAME":"файлы реста","PROPERTY_1075_DEL":{"3693":"Y"}}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.element.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":37,"ELEMENT_ID":6783,"FIELDS":{"NAME":"файлы реста","PROPERTY_1075_DEL":{"3693":"Y"}},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/lists.element.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"lists.element.update",
+    		{
+    			IBLOCK_TYPE_ID: "lists",
+    			IBLOCK_ID: 37,
+    			ELEMENT_ID: 6783,
+    			FIELDS: {
+    				NAME: "файлы реста",
+    				PROPERTY_1075_DEL: { // постфикс _DEL для операции удаления
+    					3693: "Y" // список значений для удаления
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Необходимая логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.update',
+                [
+                    'IBLOCK_TYPE_ID' => 'lists',
+                    'IBLOCK_ID'      => 37,
+                    'ELEMENT_ID'     => 6783,
+                    'FIELDS'         => [
+                        'NAME'            => 'файлы реста',
+                        'PROPERTY_1075_DEL' => [ // постфикс _DEL для операции удаления
+                            3693 => 'Y' // список значений для удаления
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating list element: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -472,19 +939,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":37,"ELEMENT_ID":6783,"FIELDS":{"NAME":"файлы реста","PROPERTY_1075_DEL":{"3693":"Y"}}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.element.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":37,"ELEMENT_ID":6783,"FIELDS":{"NAME":"файлы реста","PROPERTY_1075_DEL":{"3693":"Y"}},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/lists.element.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -524,17 +979,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        "log.blogpost.get",
-        {
-            POST_ID: 211
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -547,7 +991,68 @@
     curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"POST_ID":211,"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/log.blogpost.get
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"log.blogpost.get",
+    		{
+    			POST_ID: 211
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'log.blogpost.get',
+                [
+                    'POST_ID' => 211
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting blog post: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "log.blogpost.get",
+        {
+            POST_ID: 211
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -590,7 +1095,76 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"POST_ID":211,"POST_TITLE":"Новый заголовок поста","FILES":{"445":"del"}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/log.blogpost.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"POST_ID":211,"POST_TITLE":"Новый заголовок поста","FILES":{"445":"del"},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/log.blogpost.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"log.blogpost.update",
+    		{
+    			POST_ID: 211,
+    			POST_TITLE: "Новый заголовок поста",
+    			FILES: {
+    				"445": "del" // id файлов для удаления
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'log.blogpost.update',
+                [
+                    'POST_ID'    => 211,
+                    'POST_TITLE' => 'Новый заголовок поста',
+                    'FILES'      => [
+                        '445' => 'del' // id файлов для удаления
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating blog post: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -605,19 +1179,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"POST_ID":211,"POST_TITLE":"Новый заголовок поста","FILES":{"445":"del"}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/log.blogpost.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"POST_ID":211,"POST_TITLE":"Новый заголовок поста","FILES":{"445":"del"},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/log.blogpost.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -645,19 +1207,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        "log.blogpost.update",
-        {
-            POST_ID: 211,
-            POST_TITLE: "Новый заголовок поста",
-            UF_BLOG_POST_FILE: ["empty"] // удаление всех файлов поста
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -670,7 +1219,73 @@
     curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"POST_ID":211,"POST_TITLE":"Новый заголовок поста","UF_BLOG_POST_FILE":["empty"],"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/log.blogpost.update
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"log.blogpost.update",
+    		{
+    			POST_ID: 211,
+    			POST_TITLE: "Новый заголовок поста",
+    			UF_BLOG_POST_FILE: ["empty"] // удаление всех файлов поста
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'log.blogpost.update',
+                [
+                    'POST_ID'         => 211,
+                    'POST_TITLE'      => 'Новый заголовок поста',
+                    'UF_BLOG_POST_FILE' => ['empty'], // удаление всех файлов поста
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating blog post: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "log.blogpost.update",
+        {
+            POST_ID: 211,
+            POST_TITLE: "Новый заголовок поста",
+            UF_BLOG_POST_FILE: ["empty"] // удаление всех файлов поста
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -703,17 +1318,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        'catalog.product.get',
-        {
-            'id': 541
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -726,7 +1330,68 @@
     curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":541,"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/catalog.product.get
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.product.get',
+    		{
+    			'id': 541
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.product.get',
+                [
+                    'id' => 541
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting product information: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'catalog.product.get',
+        {
+            'id': 541
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -791,7 +1456,91 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":541,"fields":{"property1077":[{"value":{"remove":"Y"},"valueId":"3705"}]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.product.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":541,"fields":{"property1077":[{"value":{"remove":"Y"},"valueId":"3705"}]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/catalog.product.update
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.product.update',
+    		{
+    			id: 541,
+    			fields: {
+    				property1077: [
+    					{
+    						"value": {
+    							'remove': 'Y', // операция удаления файла
+    						},
+    						'valueId': '3705', // id значения для удаления
+    					}
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Updated product with ID:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.product.update',
+                [
+                    'id' => 541,
+                    'fields' => [
+                        'property1077' => [
+                            [
+                                'value' => [
+                                    'remove' => 'Y', // операция удаления файла
+                                ],
+                                'valueId' => '3705', // id значения для удаления
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating product: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -812,19 +1561,7 @@
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":541,"fields":{"property1077":[{"value":{"remove":"Y"},"valueId":"3705"}]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.product.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"id":541,"fields":{"property1077":[{"value":{"remove":"Y"},"valueId":"3705"}]},"auth":"**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/catalog.product.update
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

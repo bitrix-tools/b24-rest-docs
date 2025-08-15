@@ -207,7 +207,7 @@
 {% list tabs %}
 
 - cURL (Webhook)
-  
+
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
@@ -227,6 +227,85 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.lead.update",
+    		{
+    			id: 1608,
+    			fields:
+    			{
+    				TITLE: "ИП Титов",
+    				NAME: "Глеб",
+    				SECOND_NAME: "Егорович",
+    				LAST_NAME: "Титов",
+    				STATUS_ID: "NEW",
+    				OPENED: "Y",
+    				ASSIGNED_BY_ID: 1,
+    				CURRENCY_ID: "USD",
+    				OPPORTUNITY: 12500,
+    				PHONE: [
+    					{
+    						VALUE: "555888",
+    						VALUE_TYPE: "WORK",
+    					},
+    				],
+    				WEB: [
+    					{
+    						VALUE: "www.mysite.com",
+    						VALUE_TYPE: "WORK",
+    					}
+    				],
+    			},
+    			params: {
+    				REGISTER_SONET_EVENT: "Y",
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $id = 123; // Example lead ID
+        $fields = [
+            'TITLE' => 'Updated Lead Title',
+            'NAME' => 'John',
+            'LAST_NAME' => 'Doe',
+            'BIRTHDATE' => (new DateTime('1980-01-01'))->format(DateTime::ATOM),
+            'COMPANY_TITLE' => 'Example Company',
+            'STATUS_ID' => 'NEW',
+            'COMMENTS' => 'Updated comments for the lead.',
+            'PHONE' => '1234567890',
+            'EMAIL' => 'john.doe@example.com',
+        ];
+        $params = [
+            'REGISTER_SONET_EVENT' => 'Y',
+        ];
+        $result = $serviceBuilder->getCRMScope()->lead()->update($id, $fields, $params);
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print("Update failed.");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
+    ```
+
+- BX24.js
 
     ```javascript
     BX24.callMethod(
@@ -272,7 +351,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     $fields = [
@@ -296,36 +375,6 @@
             'REGISTER_SONET_EVENT' => 'Y',
         ]     
     );
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php        
-    try {
-        $id = 123; // Example lead ID
-        $fields = [
-            'TITLE' => 'Updated Lead Title',
-            'NAME' => 'John',
-            'LAST_NAME' => 'Doe',
-            'BIRTHDATE' => (new DateTime('1980-01-01'))->format(DateTime::ATOM),
-            'COMPANY_TITLE' => 'Example Company',
-            'STATUS_ID' => 'NEW',
-            'COMMENTS' => 'Updated comments for the lead.',
-            'PHONE' => '1234567890',
-            'EMAIL' => 'john.doe@example.com',
-        ];
-        $params = [
-            'REGISTER_SONET_EVENT' => 'Y',
-        ];
-        $result = $serviceBuilder->getCRMScope()->lead()->update($id, $fields, $params);
-        if ($result->isSuccess()) {
-            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
-        } else {
-            print("Update failed.");
-        }
-    } catch (Throwable $e) {
-        print("Error: " . $e->getMessage());
-    }
     ```
 
 {% endlist %}

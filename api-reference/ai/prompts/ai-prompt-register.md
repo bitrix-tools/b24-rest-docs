@@ -83,6 +83,74 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'ai.prompt.register',
+    		{
+    			category: [
+    				"livefeed",
+    				"livefeed_comments"
+    			],
+    			code: 'rest_joke',
+    			icon: 'smile',
+    			prompt: 'Расскажи анекдот',
+    			translate: {
+    				"en":"A joke",
+    				"ru":"Анекдот"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'ai.prompt.register',
+                [
+                    'category' => [
+                        "livefeed",
+                        "livefeed_comments"
+                    ],
+                    'code' => 'rest_joke',
+                    'icon' => 'smile',
+                    'prompt' => 'Расскажи анекдот',
+                    'translate' => [
+                        "en" => "A joke",
+                        "ru" => "Анекдот"
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error registering AI prompt: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'ai.prompt.register',
@@ -113,7 +181,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     // пример для php
 

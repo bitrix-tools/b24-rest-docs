@@ -63,7 +63,7 @@
         https://**put_your_bitrix24_address**/rest/crm.item.batchImport
         ```
 
-    - JS
+    - BX24.js
 
         ```js
         const formatDate = (date) => {
@@ -185,7 +185,7 @@
         );
         ```
 
-    - PHP
+    - PHP CRest
 
         ```php
         require_once('crest.php');

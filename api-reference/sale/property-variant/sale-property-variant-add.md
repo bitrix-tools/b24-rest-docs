@@ -64,6 +64,67 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.propertyvariant.add", {
+    			"fields": {
+    				"name": "Красный",
+    				"orderPropsId": 49,
+    				"value": "red",
+    				"sort": 10,
+    				"description": "Описание значения для красного цвета"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.propertyvariant.add',
+                [
+                    'fields' => [
+                        'name'         => 'Красный',
+                        'orderPropsId' => 49,
+                        'value'        => 'red',
+                        'sort'         => 10,
+                        'description'  => 'Описание значения для красного цвета',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding property variant: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.propertyvariant.add", {
@@ -85,7 +146,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

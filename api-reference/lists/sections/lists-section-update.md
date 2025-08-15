@@ -50,6 +50,68 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.section.update',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists',
+    			'IBLOCK_CODE': 'rest_1',
+    			'SECTION_CODE': 'Section_code_1',
+    			'FIELDS': {
+    				'NAME': 'Section_1 (Updated)'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.section.update',
+                [
+                    'IBLOCK_TYPE_ID' => 'lists',
+                    'IBLOCK_CODE'    => 'rest_1',
+                    'SECTION_CODE'   => 'Section_code_1',
+                    'FIELDS'         => [
+                        'NAME' => 'Section_1 (Updated)'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     /* lists.section.update */
     var params = {

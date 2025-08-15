@@ -66,6 +66,66 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'department.update',
+    		{
+    			"ID": 18,
+    			"NAME": "Отдел тайн",
+    			"SORT": 500,
+    			"UF_HEAD": 1,
+    			"PARENT": 1
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'department.update',
+                [
+                    'ID'     => 18,
+                    'NAME'   => 'Отдел тайн',
+                    'SORT'   => 500,
+                    'UF_HEAD' => 1,
+                    'PARENT' => 1
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error()->ex);
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating department: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'department.update',
@@ -86,7 +146,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
