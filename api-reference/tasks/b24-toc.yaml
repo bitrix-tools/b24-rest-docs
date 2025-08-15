@@ -85,7 +85,7 @@ items:
     include:
       path: stages/b24-toc.yaml
       mode: link
-  - name: План рабочего дня
+  - name: Задачи в «Плане на день»
     include:
       path: planner/b24-toc.yaml
       mode: link
