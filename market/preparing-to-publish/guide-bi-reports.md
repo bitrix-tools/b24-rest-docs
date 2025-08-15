@@ -49,7 +49,7 @@
 
 В SQL-запросе датасета должна быть шаблон, который подставляет значения временного фильтра с отчета. Такой подход называется шаблонизация (описание ниже). Примеры таких конструкций: 
 
-![alt-текст](_images/examples_sql.JPG)
+![alt-текст](_images/examples_sql.jpg)
 
 ![alt-текст](_images/temp_virtual_dataset.jpg)
 
@@ -89,29 +89,25 @@
 
 **Примеры использования:**
 
-**_Фильтрация по значениям фильтра._**
+**_Фильтрация по значениям фильтра_**
 
-```
-SELECT *
-FROM users
-WHERE department IN ({{ filter_values('dep') }})
-````
+![alt-текст](_images/filtering_filter_values.jpg)
 
-Если выбраны "HR" и "IT", запрос превратится в:
+Если выбраны "HR" и "IT", запрос превратится в
 
-```
-WHERE department IN ('HR', 'IT')
-````
+![alt-текст](_images/if_hr_selected.jpg)
 
-![alt-текст](_images/filtering_by_values.JPG)
+**_Обработка пустого фильтра_**
+
+![alt-текст](_images/if_filter_values.jpg)
+
+**_Или короткая форма_**
+
+![alt-текст](_images/where_1.jpg)
 
 **_Фильтрация по дате_**
 
-```
-SELECT *
-FROM crm_deal
-WHERE date_create BETWEEN '{{ from_dttm }}' AND '{{ to_dttm }}'
-````
+![alt-текст](_images/filter_by_date_2.jpg)
 
 **_Условие на текущего пользователя из url_**
 
@@ -212,8 +208,7 @@ WHERE date_create BETWEEN '{{ from_dttm }}' AND '{{ to_dttm }}'
 
 Пример корректного запроса с несколькими таблицами и фильтрацией:
 
-![alt-текст](_images/query_multiple_tables_and_filtering.JPG)
-![alt-текст](_images/query_multiple_tables_and_filtering_2.JPG)
+![alt-текст](_images/query_multiple_tables_and_filtering.jpg)
 
 ## 7. Проверка запросов к дашборду через «специальные возможности»:
 
