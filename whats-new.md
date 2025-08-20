@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 20 августа, 2025
+
+- Добавлены методы для работы с опросами, голосованиями [vote*](./api-reference/vote/index.md)
+
 ### 15 августа, 2025
 
 - Обновлена документация по методу [task.planner.getlist](./api-reference/tasks/planner/task-planner-get-list.md) в Задачах

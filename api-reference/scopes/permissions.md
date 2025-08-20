@@ -40,6 +40,7 @@
 || **user.userfield** | [Пользовательские поля пользователя](../user/userfields/index.md) | Пользовательские поля ||
 || **userfieldconfig** | [Настройки пользовательских полей](../crm/universal/userfieldconfig/index.md) | Настройки пользовательских полей ||
 || **userconsent** | [Работа с соглашениями](../user-consent/index.md) | Работа с соглашениями ||
+|| **vote** | [Опросы](../vote/index.md) | Работа с опросами, голосованиями ||
 |#
 
 [*ключ_task]: Кроме этого, доступны еще три устаревших скоупа — tasks, tasks_extended, tasksmobile. Их не нужно использовать.
