@@ -102,21 +102,21 @@ catalog.price.get(id)
 
 - BX24.js
 
-```js
-BX24.callMethod(
-    'catalog.price.get',
-    {
-        id: 122
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    ```js
+    BX24.callMethod(
+        'catalog.price.get',
+        {
+            id: 122
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
 
 {% endlist %}
 
