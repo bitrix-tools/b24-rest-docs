@@ -346,7 +346,7 @@
     );
     ```
 
-- PHP (CRest)
+- PHP CRest
 
     ```php
     require_once('crest.php');
