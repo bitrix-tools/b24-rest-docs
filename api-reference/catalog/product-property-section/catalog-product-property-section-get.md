@@ -99,21 +99,21 @@ catalog.productPropertySection.get(propertyId)
 
 - BX24.js
 
-```js
-BX24.callMethod(
-    'catalog.productPropertySection.get',
-    {
-        propertyId: 128
-    },
-    function(result)
-    {
-        if(result.error())
-            console.error(result.error().ex);
-        else
-            console.log(result.data());
-    }
-);
-```
+    ```js
+    BX24.callMethod(
+        'catalog.productPropertySection.get',
+        {
+            propertyId: 128
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error().ex);
+            else
+                console.log(result.data());
+        }
+    );
+    ```
 
 {% endlist %}
 
