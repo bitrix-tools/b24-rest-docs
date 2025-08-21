@@ -63,6 +63,24 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.update
     ```
 
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "id": 2,
+    "fields": {
+        "name": "Sprint 2",
+        "groupId": 1,
+        "dateStart": "2021-11-22T00:00:00+02:00",
+        "dateEnd": "2021-11-29T00:00:00+02:00"
+    }
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.update
+    ```
+
 - JS
 
 
@@ -176,24 +194,6 @@
     } else {
         print_r($result['result']);
     }
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "id": 2,
-    "fields": {
-        "name": "Sprint 2",
-        "groupId": 1,
-        "dateStart": "2021-11-22T00:00:00+02:00",
-        "dateEnd": "2021-11-29T00:00:00+02:00"
-    }
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.update
     ```
 
 {% endlist %}
