@@ -147,6 +147,28 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.update
     ```
 
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -d '{
+        "flowData": {
+            "id": 517,
+            "name": "Updated Flow Name",
+            "description": "Updated description",
+            "plannedCompletionTime": 7200,
+            "distributionType": "manually",
+            "responsibleList": [["user","3"]],
+            "taskCreators": [["meta-user","all-users"]],
+            "matchWorkTime": 1,
+            "notifyAtHalfTime": 0
+        }
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.update
+    ```
+
 - JS
 
 
@@ -294,28 +316,6 @@
     } else {
         print_r($result['result']);
     }
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-    -d '{
-        "flowData": {
-            "id": 517,
-            "name": "Updated Flow Name",
-            "description": "Updated description",
-            "plannedCompletionTime": 7200,
-            "distributionType": "manually",
-            "responsibleList": [["user","3"]],
-            "taskCreators": [["meta-user","all-users"]],
-            "matchWorkTime": 1,
-            "notifyAtHalfTime": 0
-        }
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.update
     ```
 
 {% endlist %}
