@@ -31,7 +31,7 @@
 ## Как найти клиентов по телефону, как получить все дела клиента и другие примеры работы со списками элементов
 
 - [{#T}](how-to-get-lists/search-by-phone-and-email.md)
-- [{#T}](how-to-get-lists/get-activity-list-by-contact.md)
+- [{#T}](how-to-get-lists/get-activity-list-by-deals.md)
 - [{#T}](how-to-get-lists/lead-statuses-with-semantics.md)
 - [{#T}](how-to-get-lists/quote-statuses-with-semantics.md)
 - [{#T}](how-to-get-lists/how-to-get-deal-funnels.md)
