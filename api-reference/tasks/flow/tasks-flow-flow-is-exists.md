@@ -42,6 +42,20 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.isExists
     ```
 
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -d '{
+        "flowData": {
+            "name": "Flow Name"
+        }
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.isExists
+    ```
+
 - JS
 
 
@@ -141,20 +155,6 @@
     } else {
         print_r($result['result']);
     }
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-    -d '{
-        "flowData": {
-            "name": "Flow Name"
-        }
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.isExists
     ```
 
 {% endlist %}
