@@ -36,6 +36,18 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.complete
     ```
 
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -d '{
+    "id": 1
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.complete
+    ```
+
 - JS
 
 
@@ -121,18 +133,6 @@
     } else {
         print_r($result['result']);
     }
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
-    -d '{
-    "id": 1
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.complete
     ```
 
 {% endlist %}
