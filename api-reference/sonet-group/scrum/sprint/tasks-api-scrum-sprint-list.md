@@ -80,6 +80,21 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.list
     ```
 
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    "filter": {
+        "GROUP_ID": 1,
+        ">=DATE_END": "2024-07-19T15:03:01+00:00"
+    },
+    "auth": "YOUR_ACCESS_TOKEN"
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.list
+    ```
+
 - JS
 
 
@@ -210,21 +225,6 @@
     } else {
         print_r($result['result']);
     }
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    "filter": {
-        "GROUP_ID": 1,
-        ">=DATE_END": "2024-07-19T15:03:01+00:00"
-    },
-    "auth": "YOUR_ACCESS_TOKEN"
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.list
     ```
 
 {% endlist %}
