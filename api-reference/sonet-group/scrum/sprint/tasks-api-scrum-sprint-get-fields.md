@@ -14,6 +14,27 @@
 
 {% list tabs %}
 
+- cUrl (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    }' \
+    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.getFields
+    ```
+
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+    auth=YOUR_ACCESS_TOKEN
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.getFields
+    ```
+
 - JS
 
 
@@ -88,27 +109,6 @@
     } else {
     print_r($result['result']);
     }
-    ```
-
-- cUrl (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.getFields
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -d '{
-    auth=YOUR_ACCESS_TOKEN
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.getFields
     ```
 
 {% endlist %}
