@@ -35,6 +35,18 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.get
     ```
 
+- cURL (oAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -d '{
+        "flowId": 517
+    }' \
+    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.get
+    ```
+
 - JS
 
 
@@ -124,18 +136,6 @@
     } else {
         print_r($result['result']);
     }
-    ```
-
-- cURL (oAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-    -d '{
-        "flowId": 517
-    }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.get
     ```
 
 {% endlist %}
