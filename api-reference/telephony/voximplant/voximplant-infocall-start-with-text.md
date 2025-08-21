@@ -40,6 +40,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'voximplant.infocall.startwithtext',
+    		{
+    			"FROM_LINE": "reg1332",
+    			"TO_NUMBER": "7911xxxxxxx",
+    			"PRONOUNCE": "Добрый день. Ваша заявка выполнена",
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.info(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'voximplant.infocall.startwithtext',
+                [
+                    'FROM_LINE' => 'reg1332',
+                    'TO_NUMBER' => '7911xxxxxxx',
+                    'PRONOUNCE' => 'Добрый день. Ваша заявка выполнена',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Info: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error starting info call: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'voximplant.infocall.startwithtext',

@@ -35,7 +35,7 @@
     }' \
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.delete
     ```
-
+    
 - cURL (oAuth)
 
     ```bash
@@ -47,8 +47,56 @@
     }' \
     https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.delete
     ```
-
+    
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.sprint.delete',
+    		{
+    			id: sprintId
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.sprint.delete',
+                [
+                    'id' => $sprintId
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting sprint: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     const sprintId = 1;
@@ -64,7 +112,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

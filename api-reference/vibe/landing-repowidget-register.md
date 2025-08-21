@@ -100,6 +100,91 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.repowidget.register',
+    		data
+    	);
+    	
+    	const result = response.getData().result;
+    	
+    	if (result.error())
+    	{
+    		console.error(result.error());
+    		return;
+    	}
+    	
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.repowidget.register',
+                [
+                    'code'    => 'my_widget',
+                    'fields'  => [
+                        'NAME'         => 'My widget',
+                        'PREVIEW'      => 'https://my-app.com/vibe_preview.jpg',
+                        'CONTENT'      => $content,
+                        'SECTIONS'     => 'widgets_company_life',
+                        'WIDGET_PARAMS' => [
+                            'rootNode' => '.my-app-w-container',
+                            'lang'     => [
+                                'ru' => [
+                                    'W_TITLE' => 'Люди и их возраст',
+                                    'W_EMPTY' => 'Нет людей',
+                                ],
+                                'en' => [
+                                    'W_TITLE' => 'People and their ages',
+                                    'W_EMPTY' => 'Empty',
+                                ],
+                            ],
+                            'handler'   => 'https://my-app.com/vibe.php',
+                            'style'     => 'https://my-app.com/vibe.css',
+                            'demoData'  => [
+                                'desc'    => 'Just a test widget',
+                                'count'   => 420,
+                                'persons' => [
+                                    ['name' => 'Person 1', 'age' => 21],
+                                    ['name' => 'Person 2', 'age' => 42],
+                                    ['name' => 'Person 3', 'age' => 123],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error registering repowidget: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const content = `
         <div class="my-app-w-container">
@@ -183,7 +268,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

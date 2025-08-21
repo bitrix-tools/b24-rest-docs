@@ -65,6 +65,59 @@ https://my.bitrix24.ru/rest/log.blogpost.add.json?POST_MESSAGE=Hello%2C%20world!
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'log.blogpost.add',
+    		{
+    			POST_TITLE: 'Заголовок',
+    			POST_MESSAGE: 'Текст',
+    			DEST: ['SG1', 'U2']
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert('OK!');
+    }
+    catch( error )
+    {
+    	console.log(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'log.blogpost.add',
+                [
+                    'POST_TITLE'   => 'Заголовок',
+                    'POST_MESSAGE' => 'Текст',
+                    'DEST'         => ['SG1', 'U2']
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        alert('OK!');
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding blog post: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod('log.blogpost.add', {
         POST_TITLE: 'Заголовок',

@@ -113,6 +113,72 @@ fields: {
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.epic.update',
+    		{
+    			id: epicId,
+    			fields:{
+    				name: name,
+    				description: description,
+    				color: color,
+    				files: files
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $epicId = 1;
+        $name = 'Updated epic name';
+        $description = 'Updated description text';
+        $color = '#bbecf1';
+        $files = ['n429', 'n243'];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.epic.update',
+                [
+                    'id' => $epicId,
+                    'fields' => [
+                        'name' => $name,
+                        'description' => $description,
+                        'color' => $color,
+                        'files' => $files
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating epic: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const epicId = 1;
     const name = 'Updated epic name';
@@ -137,7 +203,7 @@ fields: {
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

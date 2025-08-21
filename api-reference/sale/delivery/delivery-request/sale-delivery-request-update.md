@@ -114,6 +114,104 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.delivery.request.update', {
+    			DELIVERY_ID: 225,
+    			REQUEST_ID: "4757aca4931a4f029f49c0db4374d13d",
+    			STATUS: {
+    				TEXT: "Performer found",
+    				SEMANTIC: "process",
+    			},
+    			PROPERTIES: [{
+    					NAME: "Car",
+    					VALUE: "Gray Skoda Octavia, a777zn",
+    				},
+    				{
+    					NAME: "Driver",
+    					VALUE: "John Smith",
+    				},
+    				{
+    					NAME: "Phone Number",
+    					VALUE: "+11111111111",
+    					TAGS: [
+    						"phone"
+    					],
+    				},
+    				{
+    					NAME: "Something else",
+    					VALUE: "Some value",
+    				},
+    			],
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.delivery.request.update',
+                [
+                    'DELIVERY_ID' => 225,
+                    'REQUEST_ID' => "4757aca4931a4f029f49c0db4374d13d",
+                    'STATUS' => [
+                        'TEXT' => "Performer found",
+                        'SEMANTIC' => "process",
+                    ],
+                    'PROPERTIES' => [
+                        [
+                            'NAME' => "Car",
+                            'VALUE' => "Gray Skoda Octavia, a777zn",
+                        ],
+                        [
+                            'NAME' => "Driver",
+                            'VALUE' => "John Smith",
+                        ],
+                        [
+                            'NAME' => "Phone Number",
+                            'VALUE' => "+11111111111",
+                            'TAGS' => [
+                                "phone"
+                            ],
+                        ],
+                        [
+                            'NAME' => "Something else",
+                            'VALUE' => "Some value",
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating delivery request: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.delivery.request.update', {
@@ -154,7 +252,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -45,6 +45,58 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.category.fields",
+    		{
+    			entityTypeId: 2,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.category.fields',
+                [
+                    'entityTypeId' => 2,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling crm.category.fields: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
 	```js
     BX24.callMethod(
         "crm.category.fields",
@@ -64,7 +116,7 @@
     );
 	```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

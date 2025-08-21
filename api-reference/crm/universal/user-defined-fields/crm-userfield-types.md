@@ -46,8 +46,71 @@
 
 {% list tabs %}
 
+- CURL (webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.userfield.types
+    ```
+
+- CURL (oauth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/crm.userfield.types?auth=**put_access_token_here**
+    ```    
+
 - JS
-  
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.userfield.types",
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.dir(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $userfieldService = $serviceBuilder->getCRMScope()->userfield();
+        $userfieldTypesResult = $userfieldService->types();
+
+        foreach ($userfieldTypesResult->getTypes() as $item) {
+            print("ID: " . $item->ID . "\n");
+            print("Title: " . $item->title . "\n");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . "\n");
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.userfield.types",
@@ -62,8 +125,8 @@
     );
     ```
 
-- PHP
-  
+- PHP CRest
+
     ```php
     require_once('crest.php');
 
@@ -75,43 +138,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- CURL (oauth)
-
-    ```
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/crm.userfield.types?auth=**put_access_token_here**
-
-    ```
-
-- CURL (webhook)
-
-    ```
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.userfield.types
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php
-    try {
-        $userfieldService = $serviceBuilder->getCRMScope()->userfield();
-        $userfieldTypesResult = $userfieldService->types();
-
-        foreach ($userfieldTypesResult->getTypes() as $item) {
-            print("ID: " . $item->ID . "\n");
-            print("Title: " . $item->title . "\n");
-        }
-    } catch (Throwable $e) {
-        print("Error: " . $e->getMessage() . "\n");
-    }
     ```
 
 {% endlist %}

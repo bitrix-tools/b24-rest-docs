@@ -70,6 +70,60 @@ https://mydomain.bitrix24.com/rest/1/not_var{{PASSWORD}}/crm.automation.trigger/
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.automation.trigger",
+    		{
+    			target: 'DEAL_57',
+    			code: 'c5u4m',
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.automation.trigger',
+                [
+                    'target' => 'DEAL_57',
+                    'code'   => 'c5u4m',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error triggering automation: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.automation.trigger",
@@ -87,7 +141,7 @@ https://mydomain.bitrix24.com/rest/1/not_var{{PASSWORD}}/crm.automation.trigger/
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -64,6 +64,60 @@ https://mydomain.bitrix24.ru/rest/sonet_group.feature.access.json?auth=52423d4a5
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sonet_group.feature.access',
+    		{
+    			'GROUP_ID': 1,
+    			'FEATURE': 'blog',
+    			'OPERATION': 'write_post'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Нужная вам логика обработки данных
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.feature.access',
+                [
+                    'GROUP_ID' => 1,
+                    'FEATURE' => 'blog',
+                    'OPERATION' => 'write_post'
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting group list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Получаем список групп текущего пользователя
 

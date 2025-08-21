@@ -156,6 +156,176 @@
 
 - JS
 
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    try {
+      const response = await $b24.callListMethod(
+        'crm.item.list',
+        {
+          entityTypeId: 1,
+          select: [
+            "id",
+            "title",
+            "lastName",
+            "name",
+            "stageId",
+            "sourceId",
+            "assignedById",
+            "opportunity",
+            "isManualOpportunity",
+          ],
+          filter: {
+            "0": {
+              logic: "OR",
+              "0": {
+                "!=name": "",
+              },
+              "1": {
+                "!=lastName": "",
+              },
+            },
+            "@stageId": ["NEW", "IN_PROCESS"],
+            "@sourceId": ['WEB', "ADVERTISING"],
+            "@assignedById": [1, 6],
+            ">=opportunity": 5000,
+            "<=opportunity": 20000,
+            "isManualOpportunity": "Y",
+          },
+          order: {
+            lastName: 'ASC',
+            name: 'ASC',
+          },
+        },
+        (progress) => { console.log('Progress:', progress) }
+      );
+      const items = response.getData() || [];
+      for (const entity of items) { console.log('Entity:', entity); }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    try {
+      const generator = $b24.fetchListMethod('crm.item.list', {
+        entityTypeId: 1,
+        select: [
+          "id",
+          "title",
+          "lastName",
+          "name",
+          "stageId",
+          "sourceId",
+          "assignedById",
+          "opportunity",
+          "isManualOpportunity",
+        ],
+        filter: {
+          "0": {
+            logic: "OR",
+            "0": {
+              "!=name": "",
+            },
+            "1": {
+              "!=lastName": "",
+            },
+          },
+          "@stageId": ["NEW", "IN_PROCESS"],
+          "@sourceId": ['WEB', "ADVERTISING"],
+          "@assignedById": [1, 6],
+          ">=opportunity": 5000,
+          "<=opportunity": 20000,
+          "isManualOpportunity": "Y",
+        },
+        order: {
+          lastName: 'ASC',
+          name: 'ASC',
+        },
+      }, 'ID');
+      for await (const page of generator) {
+        for (const entity of page) { console.log('Entity:', entity); }
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    try {
+      const response = await $b24.callMethod('crm.item.list', {
+        entityTypeId: 1,
+        select: [
+          "id",
+          "title",
+          "lastName",
+          "name",
+          "stageId",
+          "sourceId",
+          "assignedById",
+          "opportunity",
+          "isManualOpportunity",
+        ],
+        filter: {
+          "0": {
+            logic: "OR",
+            "0": {
+              "!=name": "",
+            },
+            "1": {
+              "!=lastName": "",
+            },
+          },
+          "@stageId": ["NEW", "IN_PROCESS"],
+          "@sourceId": ['WEB', "ADVERTISING"],
+          "@assignedById": [1, 6],
+          ">=opportunity": 5000,
+          "<=opportunity": 20000,
+          "isManualOpportunity": "Y",
+        },
+        order: {
+          lastName: 'ASC',
+          name: 'ASC',
+        },
+      }, 0);
+      const result = response.getData().result || [];
+      for (const entity of result) { console.log('Entity:', entity); }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $entityTypeId = 1; // Replace with actual entity type ID
+        $order = []; // Replace with actual order array
+        $filter = []; // Replace with actual filter array
+        $select = []; // Replace with actual select array
+        $startItem = 0; // Optional, can be adjusted as needed
+        $itemsResult = $serviceBuilder
+            ->getCRMScope()
+            ->item()
+            ->list($entityTypeId, $order, $filter, $select, $startItem);
+        foreach ($itemsResult->getItems() as $item) {
+            print("ID: " . $item->id . PHP_EOL);
+            print("XML ID: " . $item->xmlId . PHP_EOL);
+            print("Title: " . $item->title . PHP_EOL);
+            print("Created By: " . $item->createdBy . PHP_EOL);
+            print("Updated By: " . $item->updatedBy . PHP_EOL);
+            print("Created Time: " . $item->createdTime->format(DATE_ATOM) . PHP_EOL);
+            print("Updated Time: " . $item->updatedTime->format(DATE_ATOM) . PHP_EOL);
+            // Add more fields as necessary
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . PHP_EOL);
+    }
+    ```
+
+- BX24.js
+
     ```js
         BX24.callMethod(
             'crm.item.list',
@@ -207,7 +377,7 @@
         );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -254,34 +424,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-  
-    ```php        
-    try {
-        $entityTypeId = 1; // Replace with actual entity type ID
-        $order = []; // Replace with actual order array
-        $filter = []; // Replace with actual filter array
-        $select = []; // Replace with actual select array
-        $startItem = 0; // Optional, can be adjusted as needed
-        $itemsResult = $serviceBuilder
-            ->getCRMScope()
-            ->item()
-            ->list($entityTypeId, $order, $filter, $select, $startItem);
-        foreach ($itemsResult->getItems() as $item) {
-            print("ID: " . $item->id . PHP_EOL);
-            print("XML ID: " . $item->xmlId . PHP_EOL);
-            print("Title: " . $item->title . PHP_EOL);
-            print("Created By: " . $item->createdBy . PHP_EOL);
-            print("Updated By: " . $item->updatedBy . PHP_EOL);
-            print("Created Time: " . $item->createdTime->format(DATE_ATOM) . PHP_EOL);
-            print("Updated Time: " . $item->updatedTime->format(DATE_ATOM) . PHP_EOL);
-            // Add more fields as necessary
-        }
-    } catch (Throwable $e) {
-        print("Error: " . $e->getMessage() . PHP_EOL);
-    }
     ```
 
 {% endlist %}

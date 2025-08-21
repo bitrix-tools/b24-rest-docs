@@ -82,6 +82,63 @@ https://mydomain.bitrix24.ru/rest/sonet_group.get.json?auth=bbc392f317df617d02c9
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod('sonet_group.get', {
+    		'ORDER': {
+    			'NAME': 'ASC'
+    		},
+    		'FILTER': {
+    			'%NAME': 'Прод'
+    		}
+    	});
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.get',
+                [
+                    'ORDER' => [
+                        'NAME' => 'ASC'
+                    ],
+                    'FILTER' => [
+                        '%NAME' => 'Прод'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting social network groups: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Получим список всех доступных групп соцсети, название которых начинается с подстроки "Прод", отсортированный по названию в алфавитном порядке
     BX24.callMethod('sonet_group.get', {

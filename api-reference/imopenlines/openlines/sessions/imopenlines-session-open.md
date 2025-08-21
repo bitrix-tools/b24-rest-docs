@@ -51,7 +51,61 @@
     // пример для cURL (OAuth)
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imopenlines.session.open',
+    		{
+    			CHAT_ID: 2024
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.warn(error.ex);
+    	return false;
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imopenlines.session.open',
+                [
+                    'CHAT_ID' => 2024
+                ]
+            );
     
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Warning: ' . $result->error()->ex;
+            return false;
+        }
+    
+        echo 'Success: ' . print_r($result->data(), true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error opening session: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'imopenlines.session.open',
@@ -70,7 +124,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     // пример для php
 

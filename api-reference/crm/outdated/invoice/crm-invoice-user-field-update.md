@@ -56,6 +56,73 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const label = prompt("Введите новое название");
+    
+    	const response = await $b24.callMethod(
+    		"crm.invoice.userfield.update",
+    		{
+    			id: id,
+    			fields: {
+    				"EDIT_FORM_LABEL": label,
+    				"LIST_COLUMN_LABEL": label
+    			}
+    		}
+    	);
+    
+    	const result = response.getData().result;
+    	console.dir(result);
+    	if (response.more())
+    		response.next();
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $id = $_POST['id'];
+    $label = $_POST['label'];
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.invoice.userfield.update',
+                [
+                    'id' => $id,
+                    'fields' => [
+                        'EDIT_FORM_LABEL'   => $label,
+                        'LIST_COLUMN_LABEL' => $label
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        if ($response->more()) {
+            $response->next();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating user field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     var label = prompt("Введите новое название");
@@ -82,7 +149,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

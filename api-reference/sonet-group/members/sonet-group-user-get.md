@@ -50,6 +50,51 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod('sonet_group.user.get', {
+    		'ID': 15
+    	});
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.user.get',
+                [
+                    'ID' => 15
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting group users: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Получаем список участников группы соцсети с ID=15
     BX24.callMethod('sonet_group.user.get', {

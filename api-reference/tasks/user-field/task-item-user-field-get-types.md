@@ -45,13 +45,56 @@
 
 {% list tabs %}
 
-- cURL
+- JS
 
-    ```http
-    $request = 'http://your-domain.ru/rest/task.item.userfield.gettypes.xml?' . http_build_query($appParams);
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'task.item.userfield.gettypes',
+    		{'auth': 'q21g8vhcqmxdrbhqlbd2wh6ev1debppa'}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
     ```
 
-- JS
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.item.userfield.gettypes',
+                [
+                    'auth' => 'q21g8vhcqmxdrbhqlbd2wh6ev1debppa',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting user field types: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -64,6 +107,12 @@
             console.log(result);
         }
     );
+    ```
+
+- cURL
+
+    ```http
+    $request = 'http://your-domain.ru/rest/task.item.userfield.gettypes.xml?' . http_build_query($appParams);
     ```
 
 {% endlist %}

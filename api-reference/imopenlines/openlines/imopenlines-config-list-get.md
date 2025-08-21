@@ -53,6 +53,95 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imopenlines.config.list.get',
+    		{
+    			PARAMS: {
+    				select: [
+    					'ID',
+    					...
+    				],
+    				order: {
+    					ID: 'ASC',
+    					...
+    				},
+    				filter: {
+    					ID: 1,
+    					...
+    				}
+    			},
+    			OPTIONS: {
+    				QUEUE: 'Y'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'PARAMS' => [
+                'select' => [
+                    'ID',
+                    ...
+                ],
+                'order' => [
+                    'ID' => 'ASC',
+                    ...
+                ],
+                'filter' => [
+                    'ID' => 1,
+                    ...
+                ]
+            ],
+            'OPTIONS' => [
+                'QUEUE' => 'Y'
+            ]
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'imopenlines.config.list.get',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Успешно: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling imopenlines.config.list.get: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     //imopenlines.config.list.get
     function configListGet()
@@ -89,7 +178,7 @@
     }
     ```
 
-- PHP
+- PHP CRest
 
     // пример для php
 

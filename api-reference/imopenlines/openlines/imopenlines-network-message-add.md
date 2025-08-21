@@ -58,6 +58,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imopenlines.network.message.add',
+    		{
+    			'CODE': 'ab515f5d85a8b844d484f6ea75a2e494',
+    			'USER_ID': 2,
+    			'MESSAGE': 'message text',
+    			'ATTACH': '',
+    			'KEYBOARD': '',
+    			'URL_PREVIEW': 'Y'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Success:', result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imopenlines.network.message.add',
+                [
+                    'CODE'        => 'ab515f5d85a8b844d484f6ea75a2e494',
+                    'USER_ID'     => 2,
+                    'MESSAGE'     => 'message text',
+                    'ATTACH'      => '',
+                    'KEYBOARD'    => '',
+                    'URL_PREVIEW' => 'Y',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding network message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'imopenlines.network.message.add',
@@ -79,8 +137,7 @@
     );
     ```
 
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

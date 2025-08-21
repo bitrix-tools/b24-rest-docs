@@ -57,6 +57,56 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const epicId = 1;
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.epic.get',
+    		{
+    			id: epicId,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $epicId = 1;
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.epic.get',
+                [
+                    'id' => $epicId,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting epic: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const epicId = 1;
     BX24.callMethod(
@@ -71,7 +121,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

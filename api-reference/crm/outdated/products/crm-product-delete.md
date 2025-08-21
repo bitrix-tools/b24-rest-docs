@@ -51,6 +51,47 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		"crm.product.delete",
+    		{ id: id }
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.info(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $productId = 123; // Example product ID
+        $result = $serviceBuilder->getCRMScope()->product()->delete($productId);
+        
+        if ($result->isSuccess()) {
+            print("Item deleted successfully.");
+        } else {
+            print("Failed to delete item.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     BX24.callMethod(
@@ -66,7 +107,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -83,23 +124,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php        
-    try {
-        $productId = 123; // Example product ID
-        $result = $serviceBuilder->getCRMScope()->product()->delete($productId);
-        
-        if ($result->isSuccess()) {
-            print("Item deleted successfully.");
-        } else {
-            print("Failed to delete item.");
-        }
-    } catch (Throwable $e) {
-        print("An error occurred: " . $e->getMessage());
-    }
     ```
 
 {% endlist %}

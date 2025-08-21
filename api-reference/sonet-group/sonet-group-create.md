@@ -77,6 +77,60 @@ https://mydomain.bitrix24.ru/rest/sonet_group.create.json?auth=803f65e30340ff397
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod('sonet_group.create', {
+    		'NAME': 'Test sonet group',
+    		'VISIBLE': 'Y',
+    		'OPENED': 'N',
+    		'INITIATE_PERMS': 'K'
+    	});
+    
+    	const result = response.getData().result;
+    	console.log('Created social network group with ID:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.create',
+                [
+                    'NAME'          => 'Test sonet group',
+                    'VISIBLE'       => 'Y',
+                    'OPENED'        => 'N',
+                    'INITIATE_PERMS' => 'K',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error creating sonet group: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Создадим видимую и открытую для вступления группу соцсети с именем 'Test sonet group' с правом приглашать новых членов группы для всех текущих членов группы
 

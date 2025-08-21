@@ -96,6 +96,67 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.delivery.extra.service.add', {
+    			DELIVERY_ID: 197,
+    			ACTIVE: "Y",
+    			CODE: "door_delivery",
+    			NAME: "Door Delivery",
+    			DESCRIPTION: "Door Delivery Description",
+    			TYPE: "checkbox",
+    			SORT: 100,
+    			PRICE: 99.99,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.delivery.extra.service.add',
+                [
+                    'DELIVERY_ID'  => 197,
+                    'ACTIVE'       => "Y",
+                    'CODE'         => "door_delivery",
+                    'NAME'         => "Door Delivery",
+                    'DESCRIPTION'  => "Door Delivery Description",
+                    'TYPE'         => "checkbox",
+                    'SORT'         => 100,
+                    'PRICE'        => 99.99,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding extra service: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.delivery.extra.service.add', {
@@ -118,7 +179,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -172,6 +233,88 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.delivery.extra.service.add', {
+    			DELIVERY_ID: 198,
+    			ACTIVE: "Y",
+    			CODE: "cargo_type",
+    			NAME: "Cargo Type",
+    			DESCRIPTION: "Cargo Type Description",
+    			TYPE: "enum",
+    			SORT: 100,
+    			ITEMS: [{
+    					TITLE: "Small Package(s)",
+    					CODE: "small_package",
+    					PRICE: 129.99,
+    				},
+    				{
+    					TITLE: "Documents",
+    					CODE: "documents",
+    					PRICE: 69.99,
+    				},
+    			],
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.delivery.extra.service.add',
+                [
+                    'DELIVERY_ID'  => 198,
+                    'ACTIVE'       => "Y",
+                    'CODE'         => "cargo_type",
+                    'NAME'         => "Cargo Type",
+                    'DESCRIPTION'  => "Cargo Type Description",
+                    'TYPE'         => "enum",
+                    'SORT'         => 100,
+                    'ITEMS'        => [
+                        [
+                            'TITLE' => "Small Package(s)",
+                            'CODE'  => "small_package",
+                            'PRICE' => 129.99,
+                        ],
+                        [
+                            'TITLE' => "Documents",
+                            'CODE'  => "documents",
+                            'PRICE' => 69.99,
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding extra service: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.delivery.extra.service.add', {
@@ -204,7 +347,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

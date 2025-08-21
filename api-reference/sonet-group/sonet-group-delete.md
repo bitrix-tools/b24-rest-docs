@@ -42,6 +42,53 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sonet_group.delete',
+    		{
+    			'GROUP_ID': 11
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.delete',
+                [
+                    'GROUP_ID' => 11
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting social network group: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Удаляем группы соцсети с ID=11
 
