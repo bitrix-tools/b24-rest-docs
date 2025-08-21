@@ -53,6 +53,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imconnector.chat.name.set',
+    		{
+    			CONNECTOR: 'connector',
+    			LINE: '105',
+    			CHAT_ID: '47e007b1-ee15-43db-bcba-1c26e5884d3f',
+    			NAME: 'Новое имя диалога'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'CONNECTOR' => 'connector',
+            'LINE'      => '105',
+            'CHAT_ID'   => '47e007b1-ee15-43db-bcba-1c26e5884d3f',
+            'NAME'      => 'Новое имя диалога',
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'imconnector.chat.name.set',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Успешно: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting chat name: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         CONNECTOR: 'connector',
@@ -73,7 +136,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

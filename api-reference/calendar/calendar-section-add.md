@@ -81,6 +81,76 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'calendar.section.add',
+    		{
+    			type: 'user',
+    			ownerId: 2,
+    			name: 'New Section',
+    			description: 'Description for section',
+    			color: '#9cbeee',
+    			text_color: '#283000',
+    			export: {
+    				ALLOW: false,
+    				SET: '3_9'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Created element with ID:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'calendar.section.add',
+                [
+                    'type'        => 'user',
+                    'ownerId'     => 2,
+                    'name'        => 'New Section',
+                    'description' => 'Description for section',
+                    'color'       => '#9cbeee',
+                    'text_color'  => '#283000',
+                    'export'      => [
+                        'ALLOW' => false,
+                        'SET'   => '3_9',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding calendar section: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'calendar.section.add',
@@ -99,7 +169,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

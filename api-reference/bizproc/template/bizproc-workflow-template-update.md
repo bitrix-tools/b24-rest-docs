@@ -65,6 +65,68 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.workflow.template.update',
+    		{
+    			ID: 525,
+    			FIELDS: {
+    				NAME: 'Вывести время',
+    				DESCRIPTION: 'Шаблон показывает сообщение с локальным и серверным временем',
+    				AUTO_EXECUTE: 0,
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'bizproc.workflow.template.update',
+                [
+                    'ID'     => 525,
+                    'FIELDS' => [
+                        'NAME'        => 'Вывести время',
+                        'DESCRIPTION' => 'Шаблон показывает сообщение с локальным и серверным временем',
+                        'AUTO_EXECUTE' => 0,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating workflow template: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'bizproc.workflow.template.update',
@@ -86,7 +148,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

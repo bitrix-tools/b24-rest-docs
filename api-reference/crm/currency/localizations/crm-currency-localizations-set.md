@@ -56,6 +56,86 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.currency.localizations.set",
+    		{
+    			id: 'CLF',
+    			localizations: {
+    				en: {
+    					FULL_NAME: 'Unidad de Fomento',
+    					FORMAT_STRING: 'CLF#VALUE#',
+    					DEC_POINT: '.',
+    					THOUSANDS_VARIANT: 'C',
+    					DECIMALS: 4,
+    				},
+    				ru: {
+    					FULL_NAME: 'Единица развития',
+    					FORMAT_STRING: '#VALUE# CLF',
+    					DEC_POINT: '.',
+    					THOUSANDS_VARIANT: 'B',
+    					DECIMALS: 4,
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.currency.localizations.set',
+                [
+                    'id' => 'CLF',
+                    'localizations' => [
+                        'en' => [
+                            'FULL_NAME'        => 'Unidad de Fomento',
+                            'FORMAT_STRING'    => 'CLF#VALUE#',
+                            'DEC_POINT'        => '.',
+                            'THOUSANDS_VARIANT' => 'C',
+                            'DECIMALS'         => 4,
+                        ],
+                        'ru' => [
+                            'FULL_NAME'        => 'Единица развития',
+                            'FORMAT_STRING'    => '#VALUE# CLF',
+                            'DEC_POINT'        => '.',
+                            'THOUSANDS_VARIANT' => 'B',
+                            'DECIMALS'         => 4,
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting currency localizations: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.currency.localizations.set",
@@ -98,7 +178,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

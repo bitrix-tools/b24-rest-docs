@@ -80,6 +80,63 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'task.stages.update',
+    		{
+    			id: stageId,
+    			fields: fields
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $stageId = 5;
+        $fields = [
+            'TITLE' => "Новая стадия",
+            'SORT' => 200,
+            'COLOR' => "FF5733"
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.stages.update',
+                [
+                    'id' => $stageId,
+                    'fields' => $fields
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating task stage: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const stageId = 5;
     const fields = {
@@ -100,7 +157,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

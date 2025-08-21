@@ -51,6 +51,61 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const dt = new Date();
+    	const response = await $b24.callMethod(
+    		'task.item.add',
+    		[{TITLE: 'created via REST API at ' + dt.toLocaleString(), RESPONSIBLE_ID: 1, DEADLINE: '2013-05-13T16:06:06+03:00'}]
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $dt = new DateTime();
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.item.add',
+                [
+                    [
+                        'TITLE'         => 'created via REST API at ' . $dt->format('Y-m-d H:i:s'),
+                        'RESPONSIBLE_ID' => 1,
+                        'DEADLINE'      => '2013-05-13T16:06:06+03:00',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding task item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var dt = new Date();
     BX24.callMethod(
@@ -64,7 +119,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -116,6 +171,56 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'task.item.update',
+    		[1, {UF_CRM_TASK: ["L_4", "C_7", "CO_5", "D_10"]}]
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'task.item.update',
+                [
+                    1,
+                    ['UF_CRM_TASK' => ["L_4", "C_7", "CO_5", "D_10"]],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating task item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'task.item.update',
@@ -128,7 +233,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

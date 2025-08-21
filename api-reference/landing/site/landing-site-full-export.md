@@ -42,6 +42,78 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.site.fullExport',
+    		{
+    			id: 326,
+    			params: {
+    				edit_mode: 'Y',
+    				//scope: 'knowledge',//передаем scope, если требуется ([подробнее](.))
+    				hooks_disable: ['B24BUTTON_CODE'],//коды доп.полей, которые не надо экспртировать
+    				code: 'myfirstsite',//симв.код сайта
+    				name: 'Сайт автомастерской',//имя сайта (страницы)
+    				description: 'Сайт для вашего автосервиса. Под капотом все самое нужное.',//описание сайта
+    				preview: 'http://site.ru/preview.jpg',//основная превью-картинка для списка шаблонов (реком. 280x115)
+    				preview2x: 'http://site.ru/preview.jpg',//увеличенная превью-картинка (рекомен. 560x230)
+    				preview3x: 'http://site.ru/preview.jpg'//ретина-размер превью картинки (рекомен. 845x345)
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.site.fullExport',
+                [
+                    'id' => 326,
+                    'params' => [
+                        'edit_mode'    => 'Y',
+                        //scope: 'knowledge',//передаем scope, если требуется ([подробнее](.))
+                        'hooks_disable' => ['B24BUTTON_CODE'],//коды доп.полей, которые не надо экспртировать
+                        'code'         => 'myfirstsite',//симв.код сайта
+                        'name'         => 'Сайт автомастерской',//имя сайта (страницы)
+                        'description'  => 'Сайт для вашего автосервиса. Под капотом все самое нужное.',//описание сайта
+                        'preview'      => 'http://site.ru/preview.jpg',//основная превью-картинка для списка шаблонов (реком. 280x115)
+                        'preview2x'    => 'http://site.ru/preview.jpg',//увеличенная превью-картинка (рекомен. 560x230)
+                        'preview3x'    => 'http://site.ru/preview.jpg'//ретина-размер превью картинки (рекомен. 845x345)
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error exporting site: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.site.fullExport',

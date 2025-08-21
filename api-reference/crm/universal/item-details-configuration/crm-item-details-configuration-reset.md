@@ -88,6 +88,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.item.details.configuration.reset',
+    		{
+    			entityTypeId: 2,
+    			userId: 1,
+    			scope: "C",
+    			extras: {
+    				dealCategoryId: 9,
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.details.configuration.reset',
+                [
+                    'entityTypeId' => 2,
+                    'userId'       => 1,
+                    'scope'        => "C",
+                    'extras'       => [
+                        'dealCategoryId' => 9,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            return;
+        }
+    
+        echo 'Success: ' . print_r($result->data(), true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error resetting details configuration: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
         BX24.callMethod(
             'crm.item.details.configuration.reset',
@@ -112,7 +175,7 @@
         );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

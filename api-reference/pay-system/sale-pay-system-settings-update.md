@@ -63,6 +63,70 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.paysystem.settings.update',
+    		{
+    			'ID': 11,
+    			'PERSON_TYPE_ID': 1,
+    			'SETTINGS': {
+    				'REST_SERVICE_KEY_IFRAME': {
+    					'TYPE': 'VALUE',
+    					'VALUE': 'NEW_KEY',
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.paysystem.settings.update',
+                [
+                    'ID'            => 11,
+                    'PERSON_TYPE_ID' => 1,
+                    'SETTINGS'      => [
+                        'REST_SERVICE_KEY_IFRAME' => [
+                            'TYPE'  => 'VALUE',
+                            'VALUE' => 'NEW_KEY',
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating payment system settings: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod('sale.paysystem.settings.update', {
         'ID': 11,
@@ -86,7 +150,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

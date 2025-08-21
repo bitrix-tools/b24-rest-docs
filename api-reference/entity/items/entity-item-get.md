@@ -46,6 +46,72 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'entity.item.get',
+    		{
+    			ENTITY: 'menu',
+    			SORT: {
+    				DATE_ACTIVE_FROM: 'ASC',
+    				ID: 'ASC'
+    			},
+    			FILTER: {
+    				'>=DATE_ACTIVE_FROM': dateStart,
+    				'<DATE_ACTIVE_FROM': dateFinish
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	this.buildData(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'entity.item.get',
+                [
+                    'ENTITY' => 'menu',
+                    'SORT' => [
+                        'DATE_ACTIVE_FROM' => 'ASC',
+                        'ID' => 'ASC'
+                    ],
+                    'FILTER' => [
+                        '>=DATE_ACTIVE_FROM' => $dateStart,
+                        '<DATE_ACTIVE_FROM' => $dateFinish
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        $this->buildData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting entity items: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'entity.item.get',
@@ -80,6 +146,79 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'entity.item.get',
+    		{
+    			ENTITY: 'menu',
+    			SORT: {
+    				DATE_ACTIVE_FROM: 'ASC',
+    				ID: 'ASC'
+    			},
+    			FILTER: {
+    				'1':{
+    					'LOGIC':'OR',
+    					'PROPERTY_MYPROP1':'value1',
+    					'PROPERTY_MYPROP2':'value2'
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	// Необходимая вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'entity.item.get',
+                [
+                    'ENTITY' => 'menu',
+                    'SORT' => [
+                        'DATE_ACTIVE_FROM' => 'ASC',
+                        'ID' => 'ASC'
+                    ],
+                    'FILTER' => [
+                        '1' => [
+                            'LOGIC' => 'OR',
+                            'PROPERTY_MYPROP1' => 'value1',
+                            'PROPERTY_MYPROP2' => 'value2'
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting entity items: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(

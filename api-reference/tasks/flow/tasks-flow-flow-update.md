@@ -171,6 +171,86 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.flow.Flow.update',
+    		{
+    			flowData: {
+    				id: 517,
+    				name: 'Updated Flow Name',
+    				description: 'Updated description',
+    				plannedCompletionTime: 7200,
+    				distributionType: 'manually',
+    				responsibleList: [
+    					[
+    						'user','3'
+    					]
+    				],
+    				taskCreators: [
+    					[
+    						'meta-user','all-users'
+    					]
+    				],
+    				matchWorkTime: 1,
+    				notifyAtHalfTime: 0
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.flow.Flow.update',
+                [
+                    'flowData' => [
+                        'id'                   => 517,
+                        'name'                 => 'Updated Flow Name',
+                        'description'          => 'Updated description',
+                        'plannedCompletionTime' => 7200,
+                        'distributionType'     => 'manually',
+                        'responsibleList'      => [
+                            ['user', '3']
+                        ],
+                        'taskCreators'         => [
+                            ['meta-user', 'all-users']
+                        ],
+                        'matchWorkTime'        => 1,
+                        'notifyAtHalfTime'     => 0
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating flow: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'tasks.flow.Flow.update',
@@ -205,7 +285,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

@@ -195,6 +195,128 @@ Cимвол `#` в цвете необходимо передавать в фо�
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'calendar.event.add',
+    		{
+    			type: 'user',
+    			ownerId: 2,
+    			name: 'New Event Name',
+    			description: 'Description for event',
+    			from: '2024-06-14',
+    			to: '2024-06-14',
+    			skip_time: 'Y',
+    			section: 5,
+    			color: '#9cbe1c',
+    			text_color: '#283033',
+    			accessibility: 'absent',
+    			importance: 'normal',
+    			is_meeting: 'Y',
+    			private_event: 'N',
+    			remind: [
+    				{
+    					type: 'min',
+    					count: 20
+    				}
+    			],
+    			location: 'London',
+    			attendees: [1, 2, 3],
+    			host: 2,
+    			meeting: {
+    				notify: true,
+    				reinvite: false,
+    				allow_invite: false,
+    				hide_guests: false,
+    			},
+    			rrule: {
+    				FREQ: 'WEEKLY',
+    				BYDAY: ['MO', 'WE'],
+    				COUNT: 10,
+    				INTERVAL: 1,
+    			},
+    			crm_fields: ['C_5', 'L_11']
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Created event with ID:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'calendar.event.add',
+                [
+                    'type'          => 'user',
+                    'ownerId'       => 2,
+                    'name'          => 'New Event Name',
+                    'description'   => 'Description for event',
+                    'from'          => '2024-06-14',
+                    'to'            => '2024-06-14',
+                    'skip_time'     => 'Y',
+                    'section'       => 5,
+                    'color'         => '#9cbe1c',
+                    'text_color'    => '#283033',
+                    'accessibility' => 'absent',
+                    'importance'    => 'normal',
+                    'is_meeting'    => 'Y',
+                    'private_event' => 'N',
+                    'remind'        => [
+                        [
+                            'type'  => 'min',
+                            'count' => 20
+                        ]
+                    ],
+                    'location'      => 'London',
+                    'attendees'     => [1, 2, 3],
+                    'host'          => 2,
+                    'meeting'       => [
+                        'notify'      => true,
+                        'reinvite'    => false,
+                        'allow_invite' => false,
+                        'hide_guests' => false,
+                    ],
+                    'rrule'         => [
+                        'FREQ'     => 'WEEKLY',
+                        'BYDAY'    => ['MO', 'WE'],
+                        'COUNT'    => 10,
+                        'INTERVAL' => 1,
+                    ],
+                    'crm_fields'    => ['C_5', 'L_11']
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding calendar event: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'calendar.event.add',
@@ -239,7 +361,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -320,6 +442,120 @@ Cимвол `#` в цвете необходимо передавать в фо�
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'calendar.event.add',
+    		{
+    			type: 'company_calendar',
+    			ownerId: '',
+    			from: '2025-01-31T18:00:00',
+    			to: '2025-01-31T20:00:00',
+    			section: 1,
+    			name: 'Важная встреча',
+    			skip_time: 'N',
+    			timezone_from: 'Europe/Moscow',
+    			timezone_to: 'Europe/Moscow',
+    			description: 'Описание события',
+    			color: '%23FF0000',
+    			text_color: '%23000000',
+    			accessibility: 'busy',
+    			importance: 'high',
+    			private_event: 'N',
+    			rrule: {
+    				FREQ: 'WEEKLY',
+    				COUNT: 10,
+    				INTERVAL: 1,
+    				BYDAY: ['MO', 'WE', 'FR']
+    			},
+    			is_meeting: 'Y',
+    			location: 'Конференц-зал',
+    			remind: [
+    				{ type: 'min', count: 30 }
+    			],
+    			attendees: [29, 93],
+    			host: 1,
+    			meeting: {
+    				notify: true,
+    				reinvite: false,
+    				allow_invite: true,
+    				hide_guests: false
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Event added successfully', result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'calendar.event.add',
+                [
+                    'type'           => 'company_calendar',
+                    'ownerId'        => '',
+                    'from'           => '2025-01-31T18:00:00',
+                    'to'             => '2025-01-31T20:00:00',
+                    'section'        => 1,
+                    'name'           => 'Важная встреча',
+                    'skip_time'      => 'N',
+                    'timezone_from'  => 'Europe/Moscow',
+                    'timezone_to'    => 'Europe/Moscow',
+                    'description'    => 'Описание события',
+                    'color'          => '%23FF0000',
+                    'text_color'     => '%23000000',
+                    'accessibility'  => 'busy',
+                    'importance'     => 'high',
+                    'private_event'  => 'N',
+                    'rrule'          => [
+                        'FREQ'     => 'WEEKLY',
+                        'COUNT'    => 10,
+                        'INTERVAL' => 1,
+                        'BYDAY'    => ['MO', 'WE', 'FR']
+                    ],
+                    'is_meeting'     => 'Y',
+                    'location'       => 'Конференц-зал',
+                    'remind'         => [
+                        ['type' => 'min', 'count' => 30]
+                    ],
+                    'attendees'      => [29, 93],
+                    'host'           => 1,
+                    'meeting'        => [
+                        'notify'       => true,
+                        'reinvite'     => false,
+                        'allow_invite' => true,
+                        'hide_guests'  => false
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Event added successfully: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding event: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'calendar.event.add',
@@ -369,7 +605,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -421,7 +657,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
         print_r($result['result']); // Успешное добавление события
     }
     ```
-
 
 {% endlist %}
 

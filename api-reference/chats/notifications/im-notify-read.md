@@ -43,11 +43,48 @@
 
 {% list tabs %}
 
-- cURL
-
-    // пример для cURL
-
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'im.notify.read',
+    		{
+    			'ID': 17,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+    ```php       
+    try {
+        $notificationIds = [1, 2, 3]; // Example notification IDs
+        $result = $serviceBuilder
+            ->getIMScope()
+            ->notify()
+            ->markMessagesAsUnread($notificationIds);
+        if ($result->isSuccess()) {
+            print_r($result->getCoreResponse()->getResponseData()->getResult());
+        } else {
+            print("Failed to mark messages as unread.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -68,7 +105,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
@@ -84,24 +121,9 @@
     );    
     ```
 
-- PHP (B24PhpSdk)
+- cURL
 
-    ```php       
-    try {
-        $notificationIds = [1, 2, 3]; // Example notification IDs
-        $result = $serviceBuilder
-            ->getIMScope()
-            ->notify()
-            ->markMessagesAsUnread($notificationIds);
-        if ($result->isSuccess()) {
-            print_r($result->getCoreResponse()->getResponseData()->getResult());
-        } else {
-            print("Failed to mark messages as unread.");
-        }
-    } catch (Throwable $e) {
-        print("An error occurred: " . $e->getMessage());
-    }
-    ```
+    // пример для cURL
 
 {% endlist %}
 

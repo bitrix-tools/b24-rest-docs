@@ -63,6 +63,87 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.element.add',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists_socnet',
+    			'IBLOCK_CODE': 'rest_1',
+    			'ELEMENT_CODE': 'element_1',
+    			'LIST_ELEMENT_URL': '#list_id#/element/#section_id#/#element_id#/',
+    			'FIELDS': {
+    				'NAME': 'Test element',
+    				'PROPERTY_62': 'Text string',
+    				'PROPERTY_63': {
+    					'0': '7',
+    					'1': '9',
+    					'2': '10'
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Success: " + result.data());
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID'   => 'lists_socnet',
+            'IBLOCK_CODE'      => 'rest_1',
+            'ELEMENT_CODE'     => 'element_1',
+            'LIST_ELEMENT_URL' => '#list_id#/element/#section_id#/#element_id#/',
+            'FIELDS'           => [
+                'NAME'       => 'Test element',
+                'PROPERTY_62' => 'Text string',
+                'PROPERTY_63' => [
+                    '0' => '7',
+                    '1' => '9',
+                    '2' => '10'
+                ]
+            ]
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.add',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding list element: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists_socnet',
@@ -99,6 +180,75 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.element.add',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists',
+    			'IBLOCK_ID': '41',
+    			'ELEMENT_CODE': 'element1',
+    			'FIELDS': {
+    				'NAME': 'Test element 1',
+    				'PROPERTY_122': document.getElementById('fileInputId') // PROPERTY_122 - Пользовательское свойство типа "Файл"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Success: " + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_ID'      => '41',
+            'ELEMENT_CODE'   => 'element1',
+            'FIELDS'         => [
+                'NAME'       => 'Test element 1',
+                'PROPERTY_122' => $_POST['fileInputId'] // PROPERTY_122 - Пользовательское свойство типа "Файл"
+            ]
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.add',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding list element: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     var params = {

@@ -47,27 +47,28 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        'im.notify.confirm',
-        {
-            ID: 288,
-            NOTIFY_VALUE: 'Y'
-        },
-        res => {
-            if (res.error())
-            {
-            console.error(result.error().ex);
-            }
-            else
-            {
-            console.log(res.data())
-            }
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'im.notify.confirm',
+    		{
+    			ID: 288,
+    			NOTIFY_VALUE: 'Y'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
     ```
 
-- PHP (B24PhpSdk)
+- PHP
 
     ```php
     try {
@@ -87,6 +88,28 @@
     } catch (Throwable $e) {
         print("An error occurred: " . $e->getMessage());
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'im.notify.confirm',
+        {
+            ID: 288,
+            NOTIFY_VALUE: 'Y'
+        },
+        res => {
+            if (res.error())
+            {
+            console.error(result.error().ex);
+            }
+            else
+            {
+            console.log(res.data())
+            }
+        }
+    );
     ```
 
 {% endlist %}

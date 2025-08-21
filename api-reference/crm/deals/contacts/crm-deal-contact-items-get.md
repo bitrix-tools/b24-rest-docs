@@ -37,24 +37,28 @@
 
 - JS
 
+
     ```js
-    var id = prompt("Введите ID");
-    BX24.callMethod(
-        "crm.deal.contact.items.get",
-        {
-            id: id
-        },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		"crm.deal.contact.items.get",
+    		{
+    			id: id
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
     ```
 
-- PHP (B24PhpSdk)
+- PHP
 
     ```php
     try {
@@ -73,6 +77,25 @@
     } catch (Throwable $e) {
         print("Error: " . $e->getMessage());
     }
+    ```
+
+- BX24.js
+
+    ```js
+    var id = prompt("Введите ID");
+    BX24.callMethod(
+        "crm.deal.contact.items.get",
+        {
+            id: id
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
     ```
 
 {% endlist %}
