@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 22 августа, 2025
+
+- Обновлена документация по методам работы с результатами задачи [tasks.task.result.*](./api-reference/tasks/planner/task-planner-get-list.md) в Задачах
+
 ### 21 августа, 2025
 
 - Добавлен новый туториал [Как получить список дел из сделок](./tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
