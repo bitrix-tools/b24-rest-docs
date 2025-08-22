@@ -1,6 +1,8 @@
 title: Операторы
 href: imopenlines-operator-answer.md
 items: 
+  - name: Обзор методов
+    href: index.md
   - name: Забрать диалог себе
     href: imopenlines-operator-answer.md
   - name: Завершить свой диалог

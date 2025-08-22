@@ -8,7 +8,7 @@
 
 {% note warning %}
 
-Удалить лог-запись можно только в контексте того [Rest приложения](https://dev.1c-bitrix.ru/docs/chm_files/app.zip), которое ее создало.
+Удалить лог-запись можно только в контексте того [приложения](https://dev.1c-bitrix.ru/docs/chm_files/app.zip), которое ее создало.
 
 Это означает, что удалить запись может только то приложение, которое ее добавило. Так обеспечивается безопасность и контроль над данными.
 
@@ -55,6 +55,61 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.timeline.logmessage.delete',
+    		{
+    			id: 1,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.timeline.logmessage.delete',
+                [
+                    'id' => 1,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting log message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.timeline.logmessage.delete",
@@ -70,7 +125,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

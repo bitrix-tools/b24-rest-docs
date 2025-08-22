@@ -31,11 +31,55 @@
 
 {% list tabs %}
 
-- cURL
-
-    // пример для cURL
-
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'im.user.status.get',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'im.user.status.get',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error()->ex);
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting user status: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```javascript
     BX24.callMethod(
@@ -54,7 +98,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
@@ -67,6 +111,10 @@
         ]
     );
     ```
+
+- cURL
+
+    // пример для cURL
 
 {% endlist %}
 
@@ -85,4 +133,11 @@
 - `online` – Онлайн
 - `dnd` – Не беспокоить
 - `away` – Отсутствую
+
+{% note info "" %}
+
+Статус `away` использовался в предыдущей версии чата. В текущей версии чата М1 он не отображается в интерфейсе.
+[Битрикс24 Чат: новый мессенджер](https://helpdesk.bitrix24.ru/open/19071750/)
+
+{% endnote %}
 

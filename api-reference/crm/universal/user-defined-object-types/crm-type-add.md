@@ -159,6 +159,147 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.type.add',
+    		{
+    			fields: {
+    				title: "Смарт-процесс",
+    				entityTypeId: 2024,
+    				isAutomationEnabled: "Y",
+    				isBeginCloseDatesEnabled: "Y",
+    				isBizProcEnabled: "Y",
+    				isCategoriesEnabled: "Y",
+    				isClientEnabled: "Y",
+    				isDocumentsEnabled: "Y",
+    				isLinkWithProductsEnabled: "Y",
+    				isMycompanyEnabled: "Y",
+    				isObserversEnabled: "Y",
+    				isRecyclebinEnabled: "Y",
+    				isSetOpenPermissions: "Y",
+    				isSourceEnabled: "Y",
+    				isStagesEnabled: "Y",
+    				isUseInUserfieldEnabled: "Y",
+    				linkedUserFields: {
+    					"CALENDAR_EVENT|UF_CRM_CAL_EVENT": "true",
+    					"TASKS_TASK|UF_CRM_TASK": "true",
+    				},
+    				relations: {
+    					parent: [
+    						{
+    							entityTypeId: 1,
+    							isChildrenListEnabled: "true",
+    						},
+    						{
+    							entityTypeId: 2,
+    							isChildrenListEnabled: "true",
+    						},
+    						{
+    							entityTypeId: 31,
+    							isChildrenListEnabled: "true",
+    							
+    						},
+    					],
+    					child: [
+    						{
+    							entityTypeId: 3,
+    							isChildrenListEnabled: "true",
+    						},
+    						{
+    							entityTypeId: 4,
+    						},
+    					],
+    				},
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.type.add',
+                [
+                    'fields' => [
+                        'title'                     => "Смарт-процесс",
+                        'entityTypeId'              => 2024,
+                        'isAutomationEnabled'       => "Y",
+                        'isBeginCloseDatesEnabled'  => "Y",
+                        'isBizProcEnabled'          => "Y",
+                        'isCategoriesEnabled'       => "Y",
+                        'isClientEnabled'           => "Y",
+                        'isDocumentsEnabled'        => "Y",
+                        'isLinkWithProductsEnabled' => "Y",
+                        'isMycompanyEnabled'        => "Y",
+                        'isObserversEnabled'        => "Y",
+                        'isRecyclebinEnabled'       => "Y",
+                        'isSetOpenPermissions'      => "Y",
+                        'isSourceEnabled'           => "Y",
+                        'isStagesEnabled'           => "Y",
+                        'isUseInUserfieldEnabled'   => "Y",
+                        'linkedUserFields'          => [
+                            "CALENDAR_EVENT|UF_CRM_CAL_EVENT" => "true",
+                            "TASKS_TASK|UF_CRM_TASK"          => "true",
+                        ],
+                        'relations'                 => [
+                            'parent' => [
+                                [
+                                    'entityTypeId'           => 1,
+                                    'isChildrenListEnabled'  => "true",
+                                ],
+                                [
+                                    'entityTypeId'           => 2,
+                                    'isChildrenListEnabled'  => "true",
+                                ],
+                                [
+                                    'entityTypeId'           => 31,
+                                    'isChildrenListEnabled'  => "true",
+                                ],
+                            ],
+                            'child'  => [
+                                [
+                                    'entityTypeId'           => 3,
+                                    'isChildrenListEnabled'  => "true",
+                                ],
+                                [
+                                    'entityTypeId'           => 4,
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding CRM type: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.type.add',
@@ -225,7 +366,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

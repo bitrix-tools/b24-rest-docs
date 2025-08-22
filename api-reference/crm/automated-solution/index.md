@@ -6,7 +6,7 @@
 
 Узнать больше информации о цифровых рабочих местах вы можете на [helpdesk.bitrix24.ru](https://helpdesk.bitrix24.ru/open/18913896).
 
-REST методы для управления цифровыми рабочими местами:
+Методы для управления цифровыми рабочими местами:
 
 - [{#T}](./crm-automated-solution-add.md)
 - [{#T}](./crm-automated-solution-update.md)

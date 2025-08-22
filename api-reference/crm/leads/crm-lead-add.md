@@ -211,6 +211,105 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.lead.add',
+    		{
+    			fields:
+    			{
+    				TITLE: 'ИП Титов',
+    				NAME: 'Глеб',
+    				SECOND_NAME: 'Егорович',
+    				LAST_NAME: 'Титов',
+    				STATUS_ID: 'NEW',
+    				OPENED: 'Y',
+    				ASSIGNED_BY_ID: 1,
+    				CURRENCY_ID: 'USD',
+    				OPPORTUNITY: 12500,
+    				PHONE: [
+    					{ 
+    						VALUE: '555888',
+    						VALUE_TYPE: 'WORK',
+    					},
+    				],
+    				WEB: [
+    					{
+    						VALUE: 'www.mysite.com',
+    						VALUE_TYPE: 'WORK',
+    					}
+    				],
+    			},
+    			params: {
+    				REGISTER_SONET_EVENT: 'Y',
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(`Создан лид с ID ${result}`);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.lead.add',
+                [
+                    'fields' => [
+                        'TITLE'          => 'ИП Титов',
+                        'NAME'           => 'Глеб',
+                        'SECOND_NAME'    => 'Егорович',
+                        'LAST_NAME'      => 'Титов',
+                        'STATUS_ID'      => 'NEW',
+                        'OPENED'         => 'Y',
+                        'ASSIGNED_BY_ID' => 1,
+                        'CURRENCY_ID'    => 'USD',
+                        'OPPORTUNITY'    => 12500,
+                        'PHONE'          => [
+                            [
+                                'VALUE'      => '555888',
+                                'VALUE_TYPE' => 'WORK',
+                            ],
+                        ],
+                        'WEB'            => [
+                            [
+                                'VALUE'      => 'www.mysite.com',
+                                'VALUE_TYPE' => 'WORK',
+                            ],
+                        ],
+                    ],
+                    'params' => [
+                        'REGISTER_SONET_EVENT' => 'Y',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Создан лид с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при создании лида: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.lead.add",
@@ -256,7 +355,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -359,5 +458,6 @@ HTTP-статус: **200**
 - [{#T}](./crm-lead-delete.md)
 - [{#T}](./crm-lead-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-lead.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-lead-with-files.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-repeat-lead.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)

@@ -42,6 +42,54 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"user.current",
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'user.current',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Current user data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting current user data: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "user.current",
@@ -56,7 +104,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -129,5 +177,6 @@ HTTP-статус: **200**
 - [{#T}](./user-get.md)
 - [{#T}](./user-search.md)
 - [{#T}](./user-fields.md)
+- [{#T}](../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
 
 [*ключ_текущем]: Тот, чей токен вы использовали при вызове REST. Если вы используете сохраненный админский токен, то выведется администратор. Если используете токен, который приходит в POST-запросе во фрейм приложения, то будет пользователь, который зашел в приложение.

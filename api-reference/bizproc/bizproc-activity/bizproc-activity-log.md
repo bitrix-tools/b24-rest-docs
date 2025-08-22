@@ -68,41 +68,28 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        'bizproc.activity.log',
-        {
-            event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
-            log_message: 'Please wait for answer!'
-        },
-        function(result) {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Success: " + result.data());
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.activity.log',
+    		{
+    			event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
+    			log_message: 'Please wait for answer!'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Success: " + result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'bizproc.activity.log',
-        [
-            'event_token' => '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
-            'log_message' => 'Please wait for answer!'
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
     ```php
     try {
@@ -122,6 +109,42 @@
     } catch (Throwable $e) {
         print('Error: ' . $e->getMessage());
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'bizproc.activity.log',
+        {
+            event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
+            log_message: 'Please wait for answer!'
+        },
+        function(result) {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Success: " + result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.activity.log',
+        [
+            'event_token' => '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
+            'log_message' => 'Please wait for answer!'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

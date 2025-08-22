@@ -53,6 +53,66 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.element.get.file.url',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists',
+    			'IBLOCK_ID': '41',
+    			'ELEMENT_ID': '683',
+    			'FIELD_ID': '120'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_ID'      => '41',
+            'ELEMENT_ID'     => '683',
+            'FIELD_ID'       => '120',
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.element.get.file.url',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error calling lists.element.get.file.url: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists',

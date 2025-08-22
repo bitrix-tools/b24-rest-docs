@@ -28,7 +28,7 @@
 
 {% note warning %}
 
-Вызов методов `crm.activity.configurable.add`, `crm.activity.configurable.update`, `crm.activity.configurable.get` возможен только в контексте [Rest приложения](https://helpdesk.bitrix24.ru/examples/app.zip).
+Вызов методов `crm.activity.configurable.add`, `crm.activity.configurable.update`, `crm.activity.configurable.get` возможен только в контексте [приложения](https://helpdesk.bitrix24.ru/examples/app.zip).
 
 {% endnote %}
 

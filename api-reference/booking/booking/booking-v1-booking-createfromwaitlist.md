@@ -55,7 +55,109 @@ ID ресурсов можно получить методом [booking.v1.resou
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"waitListId":10,"fields":{"resourceIds":[1,2,3],"datePeriod":{"from":{"timestamp":1723446900,"timezone":"Europe/Moscow"},"to":{"timestamp":1723447800,"timezone":"Europe/Moscow"}}}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.createfromwaitlist
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"waitListId":10,"fields":{"resourceIds":[1,2,3],"datePeriod":{"from":{"timestamp":1723446900,"timezone":"Europe/Moscow"},"to":{"timestamp":1723447800,"timezone":"Europe/Moscow"}}},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/booking.v1.booking.createfromwaitlist
+    ```
+
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"booking.v1.booking.createfromwaitlist",
+    		{
+    			waitListId: 10,
+    			fields: {
+    				resourceIds: [1, 2, 3],
+    				datePeriod: {
+    					from: {
+    						timestamp: 1723446900,
+    						timezone: "Europe/Moscow"
+    					},
+    					to: {
+    						timestamp: 1723447800,
+    						timezone: "Europe/Moscow"
+    					}
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		console.error(result.error());
+    	else
+    		console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'booking.v1.booking.createfromwaitlist',
+                [
+                    'waitListId' => 10,
+                    'fields'     => [
+                        'resourceIds' => [1, 2, 3],
+                        'datePeriod'  => [
+                            'from' => [
+                                'timestamp' => 1723446900,
+                                'timezone'  => 'Europe/Moscow',
+                            ],
+                            'to'   => [
+                                'timestamp' => 1723447800,
+                                'timezone'  => 'Europe/Moscow',
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error creating booking from waitlist: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -85,27 +187,7 @@ ID ресурсов можно получить методом [booking.v1.resou
     );
     ```
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"waitListId":10,"fields":{"resourceIds":[1,2,3],"datePeriod":{"from":{"timestamp":1723446900,"timezone":"Europe/Moscow"},"to":{"timestamp":1723447800,"timezone":"Europe/Moscow"}}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.createfromwaitlist
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"waitListId":10,"fields":{"resourceIds":[1,2,3],"datePeriod":{"from":{"timestamp":1723446900,"timezone":"Europe/Moscow"},"to":{"timestamp":1723447800,"timezone":"Europe/Moscow"}}},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.booking.createfromwaitlist
-    ```
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

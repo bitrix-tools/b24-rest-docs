@@ -2,11 +2,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: REST Приложение
+> Кто может выполнять метод: администратор
 
-Метод позволяет REST приложению получать установленный им же набор дополнительных контентных блоков для записи таймлайна.
+Метод `crm.timeline.layout.blocks.get` получает набор дополнительных контентных блоков для записи таймлайна.
 
-REST приложение может получить только тот набор дополнительных контентных блоков, который был установлен им же.
+В рамках приложения можно получить только тот набор дополнительных контентных блоков, который был установлен через это приложение.
 
 ## Параметры метода
 
@@ -53,6 +53,63 @@ REST приложение может получить только тот наб
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.timeline.layout.blocks.get',
+    		{
+    			entityTypeId: 2, // Сделка
+    			entityId: 4,     // ID Сделки
+    			timelineId: 8,   // ID Записи таймлайна привязанного к данной сделке
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.timeline.layout.blocks.get',
+                [
+                    'entityTypeId' => 2, // Сделка
+                    'entityId'     => 4, // ID Сделки
+                    'timelineId'   => 8, // ID Записи таймлайна привязанного к данной сделке
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting timeline layout blocks: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.timeline.layout.blocks.get',
@@ -71,7 +128,7 @@ REST приложение может получить только тот наб
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -161,7 +218,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения ||
-|| `OWNER_NOT_FOUND` | Сущность, к которой привязана запись таймлайна, не найдена ||
+|| `OWNER_NOT_FOUND` | Элемент, к которому привязана запись таймлайна, не найден ||
 || `NOT_FOUND` | Запись таймлайна не найдена ||
 || `ACCESS_DENIED` | Доступ запрещен ||
 |#

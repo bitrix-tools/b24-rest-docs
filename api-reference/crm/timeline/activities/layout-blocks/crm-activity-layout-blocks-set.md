@@ -2,15 +2,15 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: REST Приложение
+> Кто может выполнять метод: администратор
 
-Метод позволяет REST приложениям устанавливать набор дополнительных контентных блоков в дело.
+Метод `crm.activity.layout.blocks.set` устанавливает набор дополнительных контентных блоков для дела.
 
 Установка нового набора дополнительных контентных блоков в дело будет стирать ранее добавленный набор в рамках одного приложения.
 
 Установка набора дополнительных контентных блоков не может быть применена к:
-- Конфигурируемому делу
-- Делу, тип которого является устаревшим
+- [конфигурируемому делу](../configurable/index.md),
+- делу, тип которого является устаревшим.
 
 ## Параметры метода
 
@@ -63,6 +63,101 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.layout.blocks.set',
+    		{
+    			entityTypeId: 2, // Сделка
+    			entityId: 4,     // ID Сделки
+    			activityId: 8,   // ID Дела привязанного к данной сделке
+    			layout: layout,  // Объект, описывающий набор дополнительных контентных блоков
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.layout.blocks.set',
+                [
+                    'entityTypeId' => 2, // Сделка
+                    'entityId'     => 4, // ID Сделки
+                    'activityId'   => 8, // ID Дела привязанного к данной сделке
+                    'layout'       => [
+                        'blocks' => [
+                            'block_1' => [
+                                'type'       => "text",
+                                'properties' => [
+                                    'value'     => "Здравствуйте!\nМы начинаем.",
+                                    'multiline' => true,
+                                    'bold'      => true,
+                                    'color'     => "base_90",
+                                ],
+                            ],
+                            'block_2' => [
+                                'type'       => "largeText",
+                                'properties' => [
+                                    'value' => "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания.",
+                                ],
+                            ],
+                            'block_3' => [
+                                'type'       => "link",
+                                'properties' => [
+                                    'text'     => "Открыть сделку",
+                                    'bold'     => true,
+                                    'action'   => [
+                                        'type' => "redirect",
+                                        'uri'  => "/crm/deal/details/123/",
+                                    ],
+                                ],
+                            ],
+                            'block_4' => [
+                                'type'       => "withTitle",
+                                'properties' => [
+                                    'title'  => "Заголовок",
+                                    'block'  => [
+                                        'type'       => "text",
+                                        'properties' => [
+                                            'value' => "Какое-то значение",
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting activity layout blocks: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     const layout = {
@@ -125,7 +220,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -194,9 +289,9 @@
 
 Если дело содержит более одного набора дополнительных контентных блоков, то они будут выводиться в порядке их добавления.
 
-В html верстке с помощью data-атрибутов явно выделено то, каким REST приложением был добавлен набор дополнительных контентных блоков:
-- `data-app-name`: название REST приложения
-- `data-rest-client-id`: идентификатор REST приложения
+В html верстке с помощью data-атрибутов явно выделено то, каким приложением был добавлен набор дополнительных контентных блоков:
+- `data-app-name`: название приложения,
+- `data-rest-client-id`: идентификатор приложения.
 
 ## Обработка ответа
 
@@ -228,7 +323,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения ||
-|| `OWNER_NOT_FOUND` | Сущность, к которой привязано дело, не найдена ||
+|| `OWNER_NOT_FOUND` | Элемент, к которому привязано дело, не найден ||
 || `NOT_FOUND` | Дело не найдено ||
 || `ACCESS_DENIED` | Доступ запрещен ||
 || `UNSUITABLE_ACTIVITY_TYPE_ERROR` | Тип данного дела не подходит для добавления набора дополнительных контентных блоков ||

@@ -24,7 +24,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод отправляет сообщение от имени пользователя в чат сущности CRM.
+Метод `imopenlines.crm.message.add` отправляет сообщение от имени пользователя в чат элемента CRM.
 
 ## Параметры метода
 
@@ -34,14 +34,14 @@
 || **Название**
 `Тип` | **Описание** ||
 || **CRM_ENTITY_TYPE***
-[`unknown`](../../../data-types.md) | Тип CRM сущности:
+[`unknown`](../../../data-types.md) | Тип объекта CRM:
 - lead — лид
 - deal — сделка
 - company — компания
 - contact — контакт
  ||
-|| **CRM_ENTITY_ID***
-[`unknown`](../../../data-types.md) | Идентификатор CRM сущности ||
+|| **CRM_ENTITY***
+[`unknown`](../../../data-types.md) | Идентификатор элемента CRM ||
 || **USER_ID***
 [`unknown`](../../../data-types.md) | Идентификатор пользователя или бота, которого мы хотим добавить в чат ||
 || **CHAT_ID***
@@ -66,6 +66,62 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imopenlines.crm.message.add',
+    		{
+    			CRM_ENTITY_TYPE: 'deal',
+    			CRM_ENTITY: 288,
+    			USER_ID: 12,
+    			CHAT_ID: 8773,
+    			MESSAGE: 'Текст сообщения'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imopenlines.crm.message.add',
+                [
+                    'CRM_ENTITY_TYPE' => 'deal',
+                    'CRM_ENTITY'      => 288,
+                    'USER_ID'         => 12,
+                    'CHAT_ID'         => 8773,
+                    'MESSAGE'         => 'Текст сообщения',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding CRM message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'imopenlines.crm.message.add',
@@ -88,7 +144,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     // пример для php
 
@@ -110,6 +166,6 @@
 || **Код** | **Описание** ||
 || **ACCESS_DENIED** | У пользователя нет доступа ||
 || **ERROR_ARGUMENT** | Один из аргументов не указан или указан неверно ||
-|| **CHAT_NOT_IN_CRM** | Чат не относится к сущности CRM ||
+|| **CHAT_NOT_IN_CRM** | Чат не относится к элементу CRM ||
 || **MESSAGE_ADD_ERROR** | Ошибка отправки сообщения ||
 |#

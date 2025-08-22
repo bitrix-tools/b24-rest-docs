@@ -94,7 +94,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.userfield.update
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -105,6 +105,71 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.requisite.userfield.update",
+    		{
+    			id: 235,
+    			fields:
+    			{
+    				"EDIT_FORM_LABEL": title,
+    				"LIST_COLUMN_LABEL": title,
+    				"LIST_FILTER_LABEL": title
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $title = "Категория";
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.userfield.update',
+                [
+                    'id' => 235,
+                    'fields' => [
+                        'EDIT_FORM_LABEL'   => $title,
+                        'LIST_COLUMN_LABEL' => $title,
+                        'LIST_FILTER_LABEL' => $title
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating user field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     const title = "Категория";
@@ -131,7 +196,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

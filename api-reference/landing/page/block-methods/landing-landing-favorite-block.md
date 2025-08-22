@@ -57,6 +57,68 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.landing.favoriteBlock',
+    		{
+    			lid: 11262,
+    			block: 81827,
+    			meta: {
+    				name: 'Мой блок',
+    				section: ['text', 'text_image'],
+    				preview: 'https://mycdn.com/pic/1.jpg'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.landing.favoriteBlock',
+                [
+                    'lid'   => 11262,
+                    'block' => 81827,
+                    'meta'  => [
+                        'name'    => 'Мой блок',
+                        'section' => ['text', 'text_image'],
+                        'preview' => 'https://mycdn.com/pic/1.jpg'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error favorite block: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.landing.favoriteBlock',

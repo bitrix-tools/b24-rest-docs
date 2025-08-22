@@ -44,6 +44,120 @@ Cм. описание [списочных методов](../../../how-to-call-r
 
 - JS
 
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    var ownerType = prompt("Введите тип владельца (D, L)");
+    var ownerId = prompt("Введите ID владельца");
+    
+    try {
+      const response = await $b24.callListMethod(
+        'crm.productrow.list',
+        {
+          filter: {
+            "OWNER_TYPE": ownerType,
+            "OWNER_ID": ownerId
+          }
+        },
+        (progress) => { 
+          if(progress.error())
+            console.error(progress.error());
+          else
+          {
+            console.dir(progress.data());
+            if(progress.more())
+              progress.next();
+          }
+        }
+      );
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    var ownerType = prompt("Введите тип владельца (D, L)");
+    var ownerId = prompt("Введите ID владельца");
+    
+    try {
+      const generator = $b24.fetchListMethod('crm.productrow.list', {
+        filter: {
+          "OWNER_TYPE": ownerType,
+          "OWNER_ID": ownerId
+        }
+      }, 'ID');
+      for await (const page of generator) {
+        for (const entity of page) { 
+          console.log('Entity:', entity);
+        }
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    var ownerType = prompt("Введите тип владельца (D, L)");
+    var ownerId = prompt("Введите ID владельца");
+    
+    try {
+      const response = await $b24.callMethod('crm.productrow.list', {
+        filter: {
+          "OWNER_TYPE": ownerType,
+          "OWNER_ID": ownerId
+        }
+      }, 0);
+      const result = response.getData().result || [];
+      for (const entity of result) { 
+        console.log('Entity:', entity);
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    $ownerType = readline("Введите тип владельца (D, L): ");
+    $ownerId = readline("Введите ID владельца: ");
+    
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.productrow.list',
+                [
+                    'filter' => [
+                        'OWNER_TYPE' => $ownerType,
+                        'OWNER_ID'   => $ownerId,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Data: ' . print_r($result->data(), true);
+            if ($result->more()) {
+                $result->next();
+            }
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var ownerType = prompt("Введите тип владельца (D, L)");
     var ownerId = prompt("Введите ID владельца");
@@ -70,7 +184,7 @@ Cм. описание [списочных методов](../../../how-to-call-r
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

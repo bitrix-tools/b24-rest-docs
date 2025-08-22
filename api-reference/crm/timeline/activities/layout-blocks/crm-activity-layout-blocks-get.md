@@ -2,11 +2,11 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: REST Приложение
+> Кто может выполнять метод: администратор
 
-Метод позволяет REST приложению получать установленный им же набор дополнительных контентных блоков в деле.
+Метод `crm.activity.layout.blocks.get` получает набор дополнительных контентных блоков для дела.
 
-REST приложение может получить только тот набор дополнительных контентных блоков, который был установлен им же.
+В рамках приложения можно получить только тот набор дополнительных контентных блоков, который был установлен через это приложение.
 
 ## Параметры метода
 
@@ -53,6 +53,62 @@ REST приложение может получить только тот наб
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.layout.blocks.get',
+    		{
+    			entityTypeId: 2,
+    			entityId: 4,
+    			activityId: 8,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.layout.blocks.get',
+                [
+                    'entityTypeId' => 2,
+                    'entityId'     => 4,
+                    'activityId'   => 8,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Info: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity layout blocks: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.activity.layout.blocks.get',
@@ -71,7 +127,7 @@ REST приложение может получить только тот наб
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -161,7 +217,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения ||
-|| `OWNER_NOT_FOUND` | Сущность, к которой привязано дело, не найдена ||
+|| `OWNER_NOT_FOUND` | Элемент, к которому привязано дело, не найден ||
 || `NOT_FOUND` | Дело не найдено ||
 || `ACCESS_DENIED` | Доступ запрещен ||
 |#

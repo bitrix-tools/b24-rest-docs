@@ -28,36 +28,45 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    try {
+      const response = await $b24.callListMethod(
         'bizproc.robot.list',
         {},
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Успешно: " + result.data().join(', '));
-        }
-    );
+        (progress) => { console.log('Progress:', progress) }
+      )
+      const items = response.getData() || []
+      for (const entity of items) { console.log('Entity:', entity) }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    try {
+      const generator = $b24.fetchListMethod('bizproc.robot.list', {}, 'ID')
+      for await (const page of generator) {
+        for (const entity of page) { console.log('Entity:', entity) }
+      }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    try {
+      const response = await $b24.callMethod('bizproc.robot.list', {}, 0)
+      const result = response.getData().result || []
+      for (const entity of result) { console.log('Entity:', entity) }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'bizproc.robot.list',
-        []
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
 	```php
     try {
@@ -82,6 +91,37 @@
         print('Error: ' . $e->getMessage());
     }
 	```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'bizproc.robot.list',
+        {},
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                alert("Успешно: " + result.data().join(', '));
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.robot.list',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 

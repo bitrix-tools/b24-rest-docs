@@ -127,6 +127,141 @@
 
 - JS
 
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    const groupId = 143;
+    try {
+      const response = await $b24.callListMethod(
+        'tasks.api.scrum.epic.list',
+        {
+          filter: {
+            GROUP_ID: groupId,
+            '>=ID': 1,
+            '<=ID': 50,
+            'NAME': '%эпик%',
+            '!=DESCRIPTION': 'old epic',
+            'CREATED_BY': 1,
+            'MODIFIED_BY': 3,
+            'COLOR': '#69dafc'
+          },
+          order: {
+            'ID': 'asc',
+            'NAME': 'desc'
+          },
+          select: ['ID', 'NAME', 'DESCRIPTION', 'CREATED_BY', 'MODIFIED_BY', 'COLOR'],
+          start: 0
+        },
+        (progress) => { console.log('Progress:', progress) }
+      );
+      const items = response.getData() || [];
+      for (const entity of items) { console.log('Entity:', entity); }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    const groupId = 143;
+    try {
+      const generator = $b24.fetchListMethod('tasks.api.scrum.epic.list', {
+        filter: {
+          GROUP_ID: groupId,
+          '>=ID': 1,
+          '<=ID': 50,
+          'NAME': '%эпик%',
+          '!=DESCRIPTION': 'old epic',
+          'CREATED_BY': 1,
+          'MODIFIED_BY': 3,
+          'COLOR': '#69dafc'
+        },
+        order: {
+          'ID': 'asc',
+          'NAME': 'desc'
+        },
+        select: ['ID', 'NAME', 'DESCRIPTION', 'CREATED_BY', 'MODIFIED_BY', 'COLOR'],
+        start: 0
+      }, 'ID');
+      for await (const page of generator) {
+        for (const entity of page) { console.log('Entity:', entity); }
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    const groupId = 143;
+    try {
+      const response = await $b24.callMethod('tasks.api.scrum.epic.list', {
+        filter: {
+          GROUP_ID: groupId,
+          '>=ID': 1,
+          '<=ID': 50,
+          'NAME': '%эпик%',
+          '!=DESCRIPTION': 'old epic',
+          'CREATED_BY': 1,
+          'MODIFIED_BY': 3,
+          'COLOR': '#69dafc'
+        },
+        order: {
+          'ID': 'asc',
+          'NAME': 'desc'
+        },
+        select: ['ID', 'NAME', 'DESCRIPTION', 'CREATED_BY', 'MODIFIED_BY', 'COLOR'],
+        start: 0
+      }, 0);
+      const result = response.getData().result || [];
+      for (const entity of result) { console.log('Entity:', entity); }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.epic.list',
+                [
+                    'filter' => [
+                        'GROUP_ID'      => $groupId,
+                        '>=ID'          => 1,
+                        '<=ID'          => 50,
+                        'NAME'          => '%эпик%',
+                        '!=DESCRIPTION' => 'old epic',
+                        'CREATED_BY'    => 1,
+                        'MODIFIED_BY'   => 3,
+                        'COLOR'         => '#69dafc'
+                    ],
+                    'order'  => [
+                        'ID'   => 'asc',
+                        'NAME' => 'desc'
+                    ],
+                    'select' => ['ID', 'NAME', 'DESCRIPTION', 'CREATED_BY', 'MODIFIED_BY', 'COLOR'],
+                    'start'  => 0
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const groupId = 143;
     BX24.callMethod(
@@ -156,7 +291,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

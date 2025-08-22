@@ -2,11 +2,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: REST Приложение
+> Кто может выполнять метод: администратор
 
-Метод позволяет REST приложению удалить установленный им же набор дополнительных контентных блоков для записи таймлайна.
+Метод `crm.timeline.layout.blocks.delete` удаляет набор дополнительных контентных блоков для записи таймлайна.
 
-REST Приложение может удалить только тот набор дополнительных контентных блоков, который был установлен им же.
+В рамках приложения можно удалить только тот набор дополнительных контентных блоков, который был установлен через это приложение.
 
 ## Параметры метода
 
@@ -53,6 +53,60 @@ REST Приложение может удалить только тот набо
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.timeline.layout.blocks.delete',
+    		{
+    			entityTypeId: 2, // Сделка
+    			entityId: 4,     // ID Сделки
+    			timelineId: 8,   // ID Записи таймлайна привязанного к данной сделке
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.timeline.layout.blocks.delete',
+                [
+                    'entityTypeId' => 2, // Сделка
+                    'entityId'     => 4, // ID Сделки
+                    'timelineId'   => 8, // ID Записи таймлайна привязанного к данной сделке
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting timeline layout block: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.timeline.layout.blocks.delete',
@@ -71,7 +125,7 @@ REST Приложение может удалить только тот набо
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -121,7 +175,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения ||
-|| `OWNER_NOT_FOUND` | Сущность, к которой привязана запись таймлайна, не найдена ||
+|| `OWNER_NOT_FOUND` | Элемент, к которому привязана запись таймлайна, не найден ||
 || `NOT_FOUND` | Не найдена запись таймлайна или набор дополнительных контентных блоков ||
 || `ACCESS_DENIED` | Доступ запрещен ||
 |#

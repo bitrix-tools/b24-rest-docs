@@ -71,6 +71,62 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'voximplant.statistic.get',
+    		{
+    			"FILTER": {">CALL_DURATION":60},
+    			"SORT": "CALL_DURATION",
+    			"ORDER": "DESC",
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'voximplant.statistic.get',
+                [
+                    'FILTER' => ['>CALL_DURATION' => 60],
+                    'SORT'   => 'CALL_DURATION',
+                    'ORDER'  => 'DESC',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting Voximplant statistics: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'voximplant.statistic.get',

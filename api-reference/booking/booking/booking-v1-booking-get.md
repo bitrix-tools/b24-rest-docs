@@ -23,23 +23,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        "booking.v1.booking.get",
-        {
-            id: 15
-        },
-        result => {
-            if (result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -60,7 +43,83 @@
     https://**put_your_bitrix24_address**/rest/booking.v1.booking.get
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'booking.v1.booking.get',
+    		{
+    			id: 15
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.dir(result);
+    	}
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'booking.v1.booking.get',
+                [
+                    'id' => 15,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting booking: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "booking.v1.booking.get",
+        {
+            id: 15
+        },
+        result => {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

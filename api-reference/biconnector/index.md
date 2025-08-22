@@ -1,5 +1,11 @@
 # BIconnector: обзор методов
 
+{% note info "" %}
+
+Методы работают только в контексте [приложения](../app-installation/index.md)
+
+{% endnote %}
+
 > Scope: [`biconnector`](../scopes/permissions.md)
 >
 > Кто может выполнять методы: пользователь с доступом к разделу «Рабочее место аналитика»

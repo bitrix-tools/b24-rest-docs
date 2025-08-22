@@ -50,6 +50,155 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.cashbox.handler.update",
+    		{
+    			"ID": 1,
+    			"FIELDS":
+    			{
+    				"NAME": "Моя REST-касса с новым именем",
+    				"SORT": 200,
+    				"SETTINGS": {
+    					"PRINT_URL": "http://setagaya.bx/receipt_print.php",
+    					"CHECK_URL": "http://setagaya.bx/receipt_check.php",
+    					"CONFIG": {
+    						"AUTH": {
+    							"LABEL": "Авторизация",
+    							"ITEMS": {
+    								"LOGIN": {
+    									"TYPE": "STRING",
+    									"REQUIRED": "Y",
+    									"LABEL": "Логин"
+    								},
+    								"PASSWORD": {
+    									"TYPE": "STRING",
+    									"REQUIRED": "Y",
+    									"LABEL": "Пароль"
+    								}
+    							}
+    						},
+    						"COMPANY": {
+    							"LABEL": "Данные об организации",
+    							"ITEMS": {
+    								"INN": {
+    									"TYPE": "STRING",
+    									"REQUIRED": "Y",
+    									"LABEL": "ИНН организации"
+    								}
+    							}
+    						},
+    						"INTERACTION": {
+    							"LABEL": "Настройки взаимодействия с кассой",
+    							"ITEMS": {
+    								"MODE": {
+    									"TYPE": "ENUM",
+    									"LABEL": "Режим работы с кассой",
+    									"OPTIONS": {
+    										"ACTIVE": "боевой",
+    										"TEST": "тестовый"
+    									}
+    								}
+    							}
+    						}
+    					},
+    					"SUPPORTS_FFD105": "N"
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.cashbox.handler.update',
+                [
+                    'ID'     => 1,
+                    'FIELDS' => [
+                        'NAME'     => 'Моя REST-касса с новым именем',
+                        'SORT'     => 200,
+                        'SETTINGS' => [
+                            'PRINT_URL'      => 'http://setagaya.bx/receipt_print.php',
+                            'CHECK_URL'      => 'http://setagaya.bx/receipt_check.php',
+                            'CONFIG'         => [
+                                'AUTH'        => [
+                                    'LABEL' => 'Авторизация',
+                                    'ITEMS' => [
+                                        'LOGIN'    => [
+                                            'TYPE'     => 'STRING',
+                                            'REQUIRED' => 'Y',
+                                            'LABEL'    => 'Логин',
+                                        ],
+                                        'PASSWORD' => [
+                                            'TYPE'     => 'STRING',
+                                            'REQUIRED' => 'Y',
+                                            'LABEL'    => 'Пароль',
+                                        ],
+                                    ],
+                                ],
+                                'COMPANY'      => [
+                                    'LABEL' => 'Данные об организации',
+                                    'ITEMS' => [
+                                        'INN' => [
+                                            'TYPE'     => 'STRING',
+                                            'REQUIRED' => 'Y',
+                                            'LABEL'    => 'ИНН организации',
+                                        ],
+                                    ],
+                                ],
+                                'INTERACTION'  => [
+                                    'LABEL' => 'Настройки взаимодействия с кассой',
+                                    'ITEMS' => [
+                                        'MODE' => [
+                                            'TYPE'    => 'ENUM',
+                                            'LABEL'   => 'Режим работы с кассой',
+                                            'OPTIONS' => [
+                                                'ACTIVE' => 'боевой',
+                                                'TEST'   => 'тестовый',
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'SUPPORTS_FFD105' => 'N',
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating cashbox handler: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod( 
     "sale.cashbox.handler.update", 
@@ -116,7 +265,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

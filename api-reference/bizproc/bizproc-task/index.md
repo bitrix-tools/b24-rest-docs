@@ -22,7 +22,15 @@
 -  `field_N` — символьный идентификатор поля задания
 -  `value_N` — значение поля
 
-Какие поля нужно заполнить, можно узнать из ответа метода [bizproc.task.list.](./bizproc-task-list.md) Объект `"PARAMETERS": "Fields"` содержит описания всех полей задания.
+Какие поля нужно заполнить, можно узнать из ответа метода [bizproc.task.list](./bizproc-task-list.md) Объект `"PARAMETERS": "Fields"` содержит описания всех полей задания.
+
+## Делегировать задание
+
+Задание можно делегировать другому сотруднику методом [bizproc.task.delegate](./bizproc-task-delegate.md). Для этого укажите в методе идентификатор задания `TASK_IDS` и идентификаторы пользователей:
+- текущего исполнителя `FROM_USER_ID`
+- нового исполнителя `TO_USER_ID`
+
+Получить идентификатор задания можно методом [bizproc.task.list](./bizproc-task-list.md), а идентификатор пользователя — методом [user.get](../../user/user-get.md).
 
 ## Обзор методов {#all-methods}
 
@@ -33,5 +41,6 @@
 #|
 || **Метод** | **Описание** ||
 || [bizproc.task.list](./bizproc-task-list.md) | Получает список заданий бизнес-процессов ||
-|| [bizproc.task.complete](./bizproc-task-complete.md) | Выполняет задание бизнес-процесса||
+|| [bizproc.task.complete](./bizproc-task-complete.md) | Выполняет задание бизнес-процесса ||
+|| [bizproc.task.delegate](./bizproc-task-delegate.md) | Делегирует задание бизнес-процесса ||
 |#

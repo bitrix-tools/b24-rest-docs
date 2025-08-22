@@ -33,6 +33,60 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'landing.syspage.set',
+    		{
+    			id: 1390,// ИД сайта
+    			type: 'personal',// тип страницы
+    			lid: 8593// ИД страницы, которая в рамках сайта будет считаться данного типа
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'landing.syspage.set',
+                [
+                    'id'   => 1390, // ИД сайта
+                    'type' => 'personal', // тип страницы
+                    'lid'  => 8593 // ИД страницы, которая в рамках сайта будет считаться данного типа
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting system page: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'landing.syspage.set',

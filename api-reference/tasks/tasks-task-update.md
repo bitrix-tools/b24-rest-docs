@@ -61,6 +61,84 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"tasks.task.update",
+    		{
+    			taskId: 11, // Идентификатор задачи, которую вы хотите обновить
+    			fields: {
+    				// Пример передачи нескольких значений в поле UF_CRM_TASK
+    				UF_CRM_TASK: [
+    					"L_4", // Привязка к лиду с id 4
+    					"C_7", // Привязка к контакту с id 7
+    					"CO_5", // Привязка к компании с id 5
+    					"D_10" // Привязка к сделке с id 10
+    				],
+    				// Пример передачи нескольких файлов в поле UF_TASK_WEBDAV_FILES
+    				UF_TASK_WEBDAV_FILES: [
+    					"n12345", // Идентификатор первого файла диска
+    					"n67890" // Идентификатор второго файла диска
+    				],
+    				RESPONSIBLE_ID: 123 // Идентификатор нового исполнителя
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("Задача успешно обновлена");
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.task.update',
+                [
+                    'taskId' => 11, // Идентификатор задачи, которую вы хотите обновить
+                    'fields' => [
+                        // Пример передачи нескольких значений в поле UF_CRM_TASK
+                        'UF_CRM_TASK' => [
+                            'L_4', // Привязка к лиду с id 4
+                            'C_7', // Привязка к контакту с id 7
+                            'CO_5', // Привязка к компании с id 5
+                            'D_10' // Привязка к сделке с id 10
+                        ],
+                        // Пример передачи нескольких файлов в поле UF_TASK_WEBDAV_FILES
+                        'UF_TASK_WEBDAV_FILES' => [
+                            'n12345', // Идентификатор первого файла диска
+                            'n67890' // Идентификатор второго файла диска
+                        ],
+                        'RESPONSIBLE_ID' => 123 // Идентификатор нового исполнителя
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Задача успешно обновлена';
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при обновлении задачи: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
    ```javascript
     BX24.callMethod(
         "tasks.task.update",
@@ -92,7 +170,7 @@
     );
     ```
 
-- PHP 
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -126,7 +204,7 @@
     }
     ```
 
-- HTTP 
+- HTTP
 
     ```bash
     POST /rest/tasks.task.update.json
@@ -165,6 +243,86 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.task.add',
+    		{
+    			data: {
+    				fields: {
+    					"TITLE": 'REST',
+    					"RESPONSIBLE_ID": 1,
+    					"SE_PARAMETER": [
+    						{
+    							'VALUE': 'Y',
+    							'CODE': 3
+    						},
+    						{
+    							'VALUE': 'Y',
+    							'CODE': 2
+    						},
+    					]
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.task.add',
+                [
+                    'data' => [
+                        'fields' => [
+                            'TITLE'          => 'REST',
+                            'RESPONSIBLE_ID' => 1,
+                            'SE_PARAMETER'   => [
+                                [
+                                    'VALUE' => 'Y',
+                                    'CODE'  => 3
+                                ],
+                                [
+                                    'VALUE' => 'Y',
+                                    'CODE'  => 2
+                                ],
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding task: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX.ajax.runAction("tasks.task.add", {

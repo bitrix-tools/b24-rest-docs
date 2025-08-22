@@ -47,6 +47,56 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'ai.prompt.unregister',
+    		{
+    			code: 'rest_joke_wolf'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'ai.prompt.unregister',
+                [
+                    'code' => 'rest_joke_wolf'
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error unregistering AI prompt: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'ai.prompt.unregister',
@@ -67,7 +117,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     // пример для php
 

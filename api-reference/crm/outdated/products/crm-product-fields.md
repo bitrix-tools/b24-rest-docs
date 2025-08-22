@@ -42,36 +42,32 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        "crm.product.fields",
-        {},
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.product.fields",
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.dir(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.product.fields',
-        []
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
     ```php        
     try {
@@ -91,6 +87,37 @@
     } catch (Throwable $e) {
         print('Error: ' . $e->getMessage() . PHP_EOL);
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.product.fields",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.product.fields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
