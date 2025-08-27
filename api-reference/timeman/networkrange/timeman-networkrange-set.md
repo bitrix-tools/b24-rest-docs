@@ -295,7 +295,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_ERROR` | You don't have access to user this method | Метод доступен только администратору ||
+|| `ACCESS_ERROR` | You don't have access to use this method | Метод доступен только администратору ||
 || `INVALID_FORMAT` | A wrong format for the RANGES field is passed | Передан некорректный формат в параметре `RANGES` ||
 |#
 

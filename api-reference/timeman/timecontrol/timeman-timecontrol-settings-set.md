@@ -234,7 +234,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_ERROR",
-    "error_description": "You don't have access to user this method"
+    "error_description": "You don't have access to use this method"
 }
 ```
 
@@ -244,7 +244,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_ERROR` | You don't have access to user this method | У вас нет доступа к этому методу ||
+|| `ACCESS_ERROR` | You don't have access to use this method | У вас нет доступа к этому методу ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
