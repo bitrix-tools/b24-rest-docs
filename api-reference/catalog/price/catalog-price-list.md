@@ -35,7 +35,7 @@ catalog.price.list(select, filter, order, start)
 #|
 || **Параметр** | **Описание** ||
 || **select** 
-[`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-price-get-fields.md).||
+[`array`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-price-get-fields.md).||
 || **filter** 
 [`object`](../../data-types.md)| Поля, соответствующие доступному списку полей [`fields`](catalog-price-get-fields.md). ||
 || **order**
@@ -60,9 +60,9 @@ catalog.price.list(select, filter, order, start)
       const response = await $b24.callListMethod(
         'catalog.price.list',
         {
-          select: {
-            id
-          },
+          select: [
+            'id'
+          ],
           filter: {
             productId: 8
           },
@@ -81,7 +81,7 @@ catalog.price.list(select, filter, order, start)
     // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
     
     try {
-      const generator = $b24.fetchListMethod('catalog.price.list', { select: { id }, filter: { productId: 8 }, order: { id: 'ASC' } }, 'ID')
+      const generator = $b24.fetchListMethod('catalog.price.list', { select: [ 'id' ], filter: { productId: 8 }, order: { id: 'ASC' } }, 'ID')
       for await (const page of generator) {
         for (const entity of page) { console.log('Entity:', entity) }
       }
@@ -92,7 +92,7 @@ catalog.price.list(select, filter, order, start)
     // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
     
     try {
-      const response = await $b24.callMethod('catalog.price.list', { select: { id }, filter: { productId: 8 }, order: { id: 'ASC' } }, 0)
+      const response = await $b24.callMethod('catalog.price.list', { select: [ 'id' ], filter: { productId: 8 }, order: { id: 'ASC' } }, 0)
       const result = response.getData().result || []
       for (const entity of result) { console.log('Entity:', entity) }
     } catch (error) {
@@ -145,9 +145,9 @@ catalog.price.list(select, filter, order, start)
     BX24.callMethod(
         'catalog.price.list',
         {
-            select: {
-                id
-            },
+            select: [
+                'id'
+            ],
             filter: {
                 productId: 8
             },
