@@ -9,6 +9,8 @@ items:
     href: detail-tab.md
   - name: Кнопка над таймлайном карточки элемента
     href: detail-activity.md
+  - name: Расширенные возможности кнопки над таймлайном
+    href: detail-activity-area.md 
   - name: Пункт выпадающего меню верхней кнопки карточки элемента
     href: detail-toolbar.md
   - name: Пункт контекстного меню дела в карточке элемента

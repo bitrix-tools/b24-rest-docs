@@ -8,6 +8,8 @@
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
+Расширенные возможности кнопки над таймлайном описаны в статье [Дополнительные возможности встройки CRM_XXX_DETAIL_ACTIVITY](./detail-activity-area.md)
+
 ## Куда встраивается виджет
 
 #|
@@ -207,6 +209,7 @@
 
 ## Продолжите изучение
 
+- [{#T}](./detail-activity-area.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../ui-interaction/crm-card.md)

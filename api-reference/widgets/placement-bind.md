@@ -51,7 +51,7 @@
 
 ||
 || **OPTIONS**
-[`object`](../data-types.md) | Дополнительные параметры отображения виджета. Конкретные значения зависит от места встройки виджета. На текущий момент используется во виджетах для мессенджера и в виджете [`PAGE_BACKGROUND_WORKER`](./universal/background-worker.md)
+[`object`](../data-types.md) | Дополнительные параметры отображения виджета. Конкретные значения зависит от места встройки виджета. На текущий момент используется в виджетах для мессенджера, в виджете [`PAGE_BACKGROUND_WORKER`](./universal/background-worker.md) и в виджете [CRM_XXX_DETAIL_ACTIVITY](../widgets/crm/detail-activity-area.md)
 
 ||
 || **USER_ID**
