@@ -32,13 +32,151 @@
 
 В каждой воронке будут свои стадии. Ими можно управлять  через группу методов справочников CRM — [crm.status.*](../status/index.md). `ENTITY_ID` статусов сделок оригинальный у каждого направления — `DEAL_STAGE_xx`. 
 
-Получить историю движения сделки по стадиям текущей воронки можно через метод [crm.stagehistory.list](../crm-stage-history-list.md). 
+Получить историю движения сделки по стадиям можно через метод [crm.stagehistory.list](../crm-stage-history-list.md). 
 
 {% note tip "Пользовательская документация" %}
 
 - [Воронки продаж: как в CRM разделить работу по отделам](https://helpdesk.bitrix24.ru/open/20732764/)
 
 {% endnote %}
+
+### Как изменить воронку сделки
+
+Метод [crm.deal.update](./crm-deal-update.md) может изменить только стадию сделки внутри текущей воронки. Если передать `STAGE_ID`, который не принадлежит текущей воронке, ничего не изменится. 
+
+Чтобы переместить сделку на стадию в другую воронку, используйте метод [crm.item.update](../universal/crm-item-update.md) с параметрами:
+
+- `entityTypeId` — `2` для сделки,
+- `id` — `id` сделки, которую перемещаете,
+- `categoryId` — `id` воронки, куда перемещаете сделку. Получить можно методом [crm.category.list](../universal/category/crm-category-list.md)
+- `stageId` — `id` стадии в новой воронке. Получить можно методом [crm.status.list](../status/crm-status-list.md)
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":2,"id":233,"fields":{"STAGE_ID":"EXECUTING","categoryId":0}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":2,"id":233,"fields":{"STAGE_ID":"EXECUTING","categoryId":0},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.item.update
+    ```
+
+- JS
+
+    ```js  
+    try
+    {
+        const response = await $b24.callMethod(
+            'crm.item.update',
+            {
+                entityTypeId: 2,
+                id: 233,
+                fields: {
+                    STAGE_ID: 'EXECUTING',
+                    categoryId: 0
+                }
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Updated item with ID:', result);
+        
+        processResult(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php  
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.update',
+                [
+                    'entityTypeId' => 2,
+                    'id' => 233,
+                    'fields' => [
+                        'STAGE_ID' => 'EXECUTING',
+                        'categoryId' => 0
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.item.update",
+        {
+            entityTypeId: 2,
+            id: 233,
+            fields:
+            {
+                "STAGE_ID": "EXECUTING",
+                "categoryId": 0
+            },
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data());
+        }
+    );
+    ```	
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.item.update',
+        [
+            'entityTypeId' => 2,
+            'id' => 233,
+            'fields' => [
+                'STAGE_ID' => 'EXECUTING',
+                'categoryId' => 0
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
 
 ## Карточка сделки
 
