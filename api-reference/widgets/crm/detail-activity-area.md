@@ -127,8 +127,8 @@ BX24.callMethod(
 
 Нажатие на активные кнопки вызывает коллбеки: 
 
-- `primaryButton` — коллеб `BX24.placement.call('bindPrimaryButtonClickCallback', null, cb)`,
-- `secondaryButton` — коллбек `BX24.placement.call('bindSecondaryButtonClickCallback', null, коллбек)`.
+- `primaryButton` — коллеб `BX24.placement.call('bindPrimaryButtonClickCallback', null, callback)`,
+- `secondaryButton` — коллбек `BX24.placement.call('bindSecondaryButtonClickCallback', null, callback)`.
 
 ### ContentBlockDto {#contentblockdto}
 
@@ -749,20 +749,6 @@ BX24.callMethod(
 [`int`](../../data-types.md) | Ширина слайдера, px. Не может быть использовано одновременно с `leftBoundary` ||
 || **leftBoundary**
 [`int`](../../data-types.md) | Слайдер во всю ширину окна браузера с отступом слева, px. Не может быть использовано одновременно с `width` ||
-|| **labelBgColor**
-[`string`](../../data-types.md) | Код цвета фона кнопки закрытия слайдера. Доступные значения:
-- `aqua`,
-- `green`,
-- `orange`,
-- `brown`,
-- `pink`,
-- `blue`,
-- `grey`,
-- `violet` ||
-|| **labelColor**
-[`string`](../../data-types.md) | Код цвета кнопки закрытия слайдера. В формате #112233 ||
-|| **labelText**
-[`string`](../../data-types.md) | Текст кнопки закрытия слайдера ||
 || **title**
 [`string`](../../data-types.md) | Текст заголовка окна браузера при открытии слайдера ||
 |#
@@ -775,9 +761,6 @@ BX24.callMethod(
     "someImportant": "qwerty"
   },
   "sliderParams": {
-    "labelText": "это приложение",
-    "labelColor": "#c3b3ff",
-    "labelBgColor": "violet",
     "title": "Это заголовок слайдера приложения",
     "width": 700
   }
