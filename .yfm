@@ -9,3 +9,9 @@ resources:
     - _assets/b24addons.js?20241208-01
 
 search: true
+
+extensions:
+  - './extensions/feedback-control'
+
+feedbackControl:
+  endpoint: https://util.1c-bitrix.ru/rest-doc/feedback-control.php
