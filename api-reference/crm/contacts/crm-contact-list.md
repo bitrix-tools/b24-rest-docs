@@ -64,7 +64,9 @@
 
 Также фильтр `LIKE` не работает с полями типа `crm_status`, `crm_contact`, `crm_company` — например, Тип контакта (`TYPE_ID`), Обращение (`HONORIFIC`) и так далее.
 
-Список доступных полей для фильтрации можно узнать с помощью метода [`crm.contact.fields`](crm-contact-fields.md)
+Список доступных полей для фильтрации можно узнать с помощью метода [`crm.contact.fields`](crm-contact-fields.md).
+
+Ключ `logic` в фильтре не поддерживается. Для использования сложной логики в фильтре используйте метод [crm.item.list](../universal/crm-item-list.md)
 ||
 || **order**
 [`object`][1] | Объект формата:
@@ -113,7 +115,7 @@
 6. идентификатор ответственного или 1, или 6
 7. создан менее 6 месяцев назад
 
-Задать следующий порядок сортировки у данной выборки: имя и фамилия в порядке возрастания.
+Задать  порядок сортировки выборки: имя и фамилия в порядке возрастания.
 
 Для наглядности выбрать только необходимые поля:
 - Идентификатор контакта
@@ -132,7 +134,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"FILTER":{"SOURCE_ID":"CRM_FORM","!=NAME":"","!=LAST_NAME":"","LOGIC":"OR","0":{"=%NAME":"И%"},"1":{"=%LAST_NAME":"И%"},"EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"IMPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"]}' \
+    -d '{"FILTER":{"SOURCE_ID":"CRM_FORM","!=NAME":"","!=LAST_NAME":"","=%NAME":"И%","=%LAST_NAME":"И%","EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"IMPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.list
     ```
 
@@ -142,12 +144,11 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"FILTER":{"SOURCE_ID":"CRM_FORM","!=NAME":"","!=LAST_NAME":"","LOGIC":"OR","0":{"=%NAME":"И%"},"1":{"=%LAST_NAME":"И%"},"EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"IMPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"],"auth":"**put_access_token_here**"}' \
+    -d '{"FILTER":{"SOURCE_ID":"CRM_FORM","!=NAME":"","!=LAST_NAME":"","=%NAME":"И%","=%LAST_NAME":"И%","EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"IMPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.contact.list
     ```
 
 - JS
-
 
     ```js
     // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
@@ -163,15 +164,8 @@
             "SOURCE_ID": "CRM_FORM",
             "!=NAME": "",
             "!=LAST_NAME": "",
-            "0": {
-              "LOGIC": "OR",
-              "0": {
-                "=%NAME": "И%",
-              },
-              "1": {
-                "=%LAST_NAME": "И%",
-              },
-            },
+            "=%NAME": "И%",
+            "=%LAST_NAME": "И%",
             "EMAIL": "special-for@example.com",
             "@ASSIGNED_BY_ID": [1, 6],
             "IMPORT": "Y",
@@ -213,15 +207,8 @@
           "SOURCE_ID": "CRM_FORM",
           "!=NAME": "",
           "!=LAST_NAME": "",
-          "0": {
-            "LOGIC": "OR",
-            "0": {
-              "=%NAME": "И%",
-            },
-            "1": {
-              "=%LAST_NAME": "И%",
-            },
-          },
+          "=%NAME": "И%",
+          "=%LAST_NAME": "И%",
           "EMAIL": "special-for@example.com",
           "@ASSIGNED_BY_ID": [1, 6],
           "IMPORT": "Y",
@@ -261,15 +248,8 @@
           "SOURCE_ID": "CRM_FORM",
           "!=NAME": "",
           "!=LAST_NAME": "",
-          "0": {
-            "LOGIC": "OR",
-            "0": {
-              "=%NAME": "И%",
-            },
-            "1": {
-              "=%LAST_NAME": "И%",
-            },
-          },
+          "=%NAME": "И%",
+          "=%LAST_NAME": "И%",
           "EMAIL": "special-for@example.com",
           "@ASSIGNED_BY_ID": [1, 6],
           "IMPORT": "Y",
@@ -300,7 +280,6 @@
 
 - PHP
 
-
     ```php
     try {
         $sixMonthAgo = new DateTime();
@@ -315,15 +294,8 @@
                         'SOURCE_ID'      => 'CRM_FORM',
                         '!=NAME'         => '',
                         '!=LAST_NAME'    => '',
-                        '0'              => [
-                            'LOGIC'    => 'OR',
-                            '0'        => [
-                                '=%NAME'     => 'И%',
-                            ],
-                            '1'        => [
-                                '=%LAST_NAME' => 'И%',
-                            ],
-                        ],
+                        '=%NAME'         => 'И%',
+                        '=%LAST_NAME'    => 'И%',
                         'EMAIL'          => 'special-for@example.com',
                         '@ASSIGNED_BY_ID' => [1, 6],
                         'IMPORT'         => 'Y',
@@ -374,15 +346,8 @@
                 "SOURCE_ID": "CRM_FORM",
                 "!=NAME": "",
                 "!=LAST_NAME": "",
-                "0": {
-                    "LOGIC": "OR",
-                    "0": {
-                        "=%NAME": "И%",
-                    },
-                    "1": {
-                        "=%LAST_NAME": "И%",
-                    },
-                },
+                "=%NAME": "И%",
+                "=%LAST_NAME": "И%",
                 "EMAIL": "special-for@example.com",
                 "@ASSIGNED_BY_ID": [1, 6],
                 "IMPORT": "Y",
@@ -426,13 +391,8 @@
                 'SOURCE_ID' => 'CRM_FORM',
                 '!=NAME' => '',
                 '!=LAST_NAME' => '',
-                'LOGIC' => 'OR',
-                [
-                    '=%NAME' => 'И%',
-                ],
-                [
-                    '=%LAST_NAME' => 'И%',
-                ],
+                '=%NAME' => 'И%',
+                '=%LAST_NAME' => 'И%',
                 'EMAIL' => 'special-for@example.com',
                 '@ASSIGNED_BY_ID' => [1, 6],
                 'IMPORT' => 'Y',
