@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 05 сентября, 2025
+
+- Обновили документацию по методам цен [catalog.price.*](./api-reference/catalog/price/index.md) в Торговом каталоге
+
 ### 04 сентября, 2025
 
 - Добавлены новые возможности для встройки [CRM_XXX_DETAIL_ACTIVITY](./api-reference/widgets/crm/detail-activity-area.md)
