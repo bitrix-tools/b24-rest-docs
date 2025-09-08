@@ -20,6 +20,12 @@
  ||
 |#
 
+{% note warning "Работа с ценой товара" %}
+
+Чтобы получить цены товара, используйте методы [catalog.price.*](../price/index.md).
+
+{% endnote %}
+
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
