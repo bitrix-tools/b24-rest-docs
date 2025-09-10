@@ -1,6 +1,8 @@
 # Что нового?
 
-## 2025
+### 10 сентября, 2025
+
+- Обновили документацию по методам смены статуса задачи [tasks.task.complete](./api-reference/tasks/tasks-task-complete.md), [tasks.task.pause](./api-reference/tasks/tasks-task-pause.md), [tasks.task.start](./api-reference/tasks/tasks-task-start.md), [tasks.task.defer](./api-reference/tasks/tasks-task-defer.md), [tasks.task.renew](./api-reference/tasks/tasks-task-renew.md) в Задачах
 
 ### 05 сентября, 2025
 

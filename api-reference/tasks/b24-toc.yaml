@@ -17,12 +17,8 @@ items:
     href: tasks-task-files-attach.md
   - name: Принять задачу
     href: tasks-task-approve.md
-  - name: Перевести задачу в статус «завершена»
-    href: tasks-task-complete.md
   - name: Получить счетчики пользователя
     href: tasks-task-counters-get.md
-  - name: Перевести задачу в статус «отложена»
-    href: tasks-task-defer.md
   - name: Делегировать задачу
     href: tasks-task-delegate.md
   - name: Удалить задачу
@@ -39,16 +35,20 @@ items:
     href: tasks-task-get-access.md
   - name: История задачи
     href: tasks-task-history-list.md
-  - name: Перевести задачу в статус «ждет выполнения»
-    href: tasks-task-pause.md
-  - name: Возобновить задачу после ее завершения
-    href: tasks-task-renew.md
-  - name: Перевести задачу в статус «выполняется»
-    href: tasks-task-start.md
   - name: Включить наблюдение за задачей
     href: tasks-task-start-watch.md
   - name: Отключить наблюдение за задачей
     href: tasks-task-stop-watch.md
+  - name: Перевести задачу в статус Выполняется
+    href: tasks-task-start.md
+  - name: Перевести задачу в статус Ждет выполнения
+    href: tasks-task-pause.md
+  - name: Перевести задачу в статус Отложена
+    href: tasks-task-defer.md
+  - name: Перевести задачу в статус Завершена
+    href: tasks-task-complete.md
+  - name: Возобновить задачу после ее завершения
+    href: tasks-task-renew.md
   - name: Включить режим «Без звука»
     href: tasks-task-mute.md
   - name: Отключить режим «Без звука»
