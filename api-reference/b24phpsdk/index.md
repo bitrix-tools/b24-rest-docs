@@ -96,7 +96,7 @@ $result = $B24->core->call('crm.deal.add', [
 
 В этом случае не работает автокомплит кода в IDE и не происходит приведение типов в получаемых данных.
 
-<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
 [Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-webhook-example.zip)
 
@@ -141,6 +141,6 @@ $result = $B24->getCRMScope()->deal()->add([
 ])->getId();
 ```
 
-<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
 [Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-local-app-example.zip)

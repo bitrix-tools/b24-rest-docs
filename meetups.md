@@ -9,7 +9,7 @@
 
 [Получить шаблон](https://github.com/bitrix24/app-template-automation-rules)
 
-<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240208&hd=1&autoplay=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240208&hd=1&autoplay=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
 ## Митап про создание коннекторов для Битрикс24 BI-Конструктор {#biconnectorMeetup}
 
@@ -59,7 +59,7 @@
 - Дмитрий Самойлов, ведущий разработчик Битрикс24
 - Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
 
-<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240176&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240176&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
 ## B24PHPSdk, Быстрый старт, Локальное приложение - Разработка на Битрикс24 REST API, эпизод 2
 
@@ -76,7 +76,7 @@
 
 - Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
 
-<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
 ## B24PHPSdk, Быстрый старт - Разработка на Битрикс24 REST API, эпизод 1
 
@@ -95,7 +95,7 @@
 
 - Сергей Востриков, руководитель направления Маркет и интеграций Битрикс24
 
-<iframe src="https://vk.com/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
 ## Bitrix Talks Tech. Новый чат в Битрикс24
 

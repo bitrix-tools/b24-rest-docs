@@ -69,7 +69,7 @@
 
 {% note warning "Работа с ценой услуг" %}
 
-Чтобы получить цены услуг, используйте методы [catalog.price.*](../price/index.md).
+Чтобы получить цены услуг, используйте методы [catalog.price.*](../../price/index.md).
 
 {% endnote %}
 
