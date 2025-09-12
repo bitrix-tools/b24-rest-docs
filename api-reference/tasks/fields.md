@@ -24,7 +24,7 @@
 || **id**
 [`string`](../data-types.md) | Идентификатор задачи ||
 || **parentId**
-[`string`](../data-types.md)\|`null` | Идентификатор родительской задачи.
+[`string`](../data-types.md) | Идентификатор родительской задачи.
 
 Имеет значение `null`, если родительской задачи нет ||
 || **title**
@@ -32,7 +32,7 @@
 || **description**
 [`string`](../data-types.md) | Описание задачи ||
 || **mark**
-[`string`](../data-types.md)\|`null` | Оценка задачи. Возможные значения:
+[`string`](../data-types.md) | Оценка задачи. Возможные значения:
 `N` — отрицательная
 `P` — положительная
 `null` — без оценки ||
@@ -42,7 +42,7 @@
 - `1` — средний
 - `0` — низкий ||
 || **multitask**
-[`string`](../data-types.md) | Признак «мультизадача». Возможные значения: 
+[`string`](../data-types.md) | Признак «базовая задача с подзадачами». Возможные значения: 
 - `Y` — да
 - `N` — нет  ||
 || **notViewed**
@@ -50,15 +50,15 @@
 - `Y` — не просмотрено
 - `N` — просмотрено  ||
 || **replicate**
-[`string`](../data-types.md) | Признак «копируется по шаблону». Возможные значения: 
-- `Y` — копируется
-- `N` — не копируется ||
+[`string`](../data-types.md) | Признак «повторять задачу». Возможные значения: 
+- `Y` — да, сделать задачу регулярной
+- `N` — не повторять ||
 || **stageId**
 [`string`](../data-types.md) | Идентификатор стадии ||
 || **sprintId**
-[`string`](../data-types.md)\|`null` | Идентификатор спринта ||
+[`string`](../data-types.md) | Идентификатор спринта ||
 || **backlogId**
-[`string`](../data-types.md)\|`null` | Идентификатор бэклога ||
+[`string`](../data-types.md) | Идентификатор бэклога ||
 || **createdBy**
 [`string`](../data-types.md) | Идентификатор постановщика ||
 || **createdDate**
@@ -74,27 +74,27 @@
 || **closedBy**
 [`string`](../data-types.md) | Идентификатор пользователя, завершившего задачу. Имеет значение `0`, если задача не завершена ||
 || **closedDate**
-[`string`](../data-types.md)\|`null` | Дата завершения в формате `ISO 8601`. Имеет значение `null`, если задача не завершена ||
+[`string`](../data-types.md) | Дата завершения в формате `ISO 8601`. Имеет значение `null`, если задача не завершена ||
 || **activityDate**
 [`string`](../data-types.md) | Дата последней активности в формате `ISO 8601` ||
 || **dateStart**
-[`string`](../data-types.md)\|`null` | Дата начала ||
+[`string`](../data-types.md) | Дата начала ||
 || **deadline**
-[`string`](../data-types.md)\|`null` | Дедлайн ||
+[`string`](../data-types.md) | Крайний срок ||
 || **startDatePlan**
-[`string`](../data-types.md)\|`null` | Плановая дата начала ||
+[`string`](../data-types.md) | Плановая дата начала ||
 || **endDatePlan**
-[`string`](../data-types.md)\|`null` | Плановая дата окончания ||
+[`string`](../data-types.md) | Плановая дата окончания ||
 || **guid**
 [`string`](../data-types.md) | Идентификатор `GUID` задачи ||
 || **xmlId**
-[`string`](../data-types.md)\|`null` | Внешний идентификатор ||
+[`string`](../data-types.md) | Внешний идентификатор ||
 || **commentsCount**
 [`string`](../data-types.md) | Количество комментариев ||
 || **serviceCommentsCount**
 [`string`](../data-types.md) | Количество системных комментариев ||
 || **allowChangeDeadline**
-[`string`](../data-types.md) | Разрешено менять дедлайн. Возможные значения: 
+[`string`](../data-types.md) | Разрешено менять крайний срок. Возможные значения: 
 - `Y` — разрешено
 - `N` — не разрешено ||
 || **allowTimeTracking**
@@ -110,11 +110,11 @@
 - `Y` — добавлять 
 - `N` — не добавлять  ||
 || **forkedByTemplateId**
-[`string`](../data-types.md)\|`null` | Идентификатор шаблона, если задача создана из шаблона ||
+[`string`](../data-types.md) | Идентификатор шаблона, если задача создана из шаблона ||
 || **timeEstimate**
 [`string`](../data-types.md) | Оценка времени в секундах ||
 || **timeSpentInLogs**
-[`string`](../data-types.md)\|`null` | Фактически затраченное время ||
+[`string`](../data-types.md) | Фактически затраченное время ||
 || **matchWorkTime**
 [`string`](../data-types.md) | Учитывать рабочее время. Возможные значения: 
 - `Y` — да
@@ -126,21 +126,21 @@
 || **siteId**
 [`string`](../data-types.md) | Идентификатор сайта ||
 || **subordinate**
-[`string`](../data-types.md) | Признак подчиненности. Возможные значения: 
+[`string`](../data-types.md) | Признак того, что задача я вляется подзадачей. Возможные значения: 
 - `Y` — да
 - `N` — нет ||
 || **exchangeModified**
-[`string`](../data-types.md)\|`null` | Дата изменения синхронизацией в формате `ISO 8601` ||
+[`string`](../data-types.md) | Дата изменения синхронизацией в формате `ISO 8601` ||
 || **exchangeId**
-[`string`](../data-types.md)\|`null` | Идентификатор синхронизации ||
+[`string`](../data-types.md) | Идентификатор синхронизации ||
 || **outlookVersion**
 [`string`](../data-types.md) | Версия ||
 || **viewedDate**
 [`string`](../data-types.md) | Дата просмотра задачи в формате `ISO 8601` ||
 || **sorting**
-[`string`](../data-types.md)\|`null` | Значение сортировки ||
+[`string`](../data-types.md) | Значение сортировки ||
 || **durationFact**
-[`string`](../data-types.md)\|`null` | Фактическая длительность ||
+[`string`](../data-types.md) | Фактическая длительность ||
 || **isMuted**
 [`string`](../data-types.md) | Признак «без звука». Возможные значения: 
 - `Y` — включен
@@ -154,7 +154,7 @@
 - `Y` — закреплена
 - `N` — не закреплена  ||
 || **flowId**
-[`string`](../data-types.md)\|`null` | Идентификатор потока ||
+[`string`](../data-types.md) | Идентификатор потока ||
 || **descriptionInBbcode**
 [`string`](../data-types.md) | Описание в формате BBCode. Возможные значения: 
 - `Y` — включено
@@ -206,7 +206,29 @@
 [`object`](../data-types.md) | Объект с [описанием дерева чек-листа](#checklisttree) ||
 || **checkListCanAdd**
 [`boolean`](../data-types.md) | Можно ли добавлять пункты чек-листа ||
+|| **UF_CRM_TASK**
+[`array`](../data-types.md) | Список привязок к элементам CRM в формате:
+- `L_XX` — лид,
+- `D_XX` — сделка
+- `C_XX` — контакт
+- `CO_XX` — компания
+- `SI_XX` — счет
+- `TXX_XX` — смарт-процесс | ||
+|| **UF_TASK_WEBDAV_FILES**
+[`array`](../data-types.md) | Список файлов с Диска | ||
+|| **UF_MAIL_MESSAGE**
+[`string`](../data-types.md) | Письмо email | ||
+|| **UF_\***
+[`any`](../data-types.md) | Пользовательские поля. 
+
+Подробнее в статье [{#T}](./user-field/index.md) | ||
 |#
+
+{% note info "" %}
+
+Чтобы получить пользовательские поля задачи, используйте методы выборки [tasks.task.get](./tasks-task-get.md) и [tasks.task.list](./tasks-task-list.md). Укажите нужные поля в параметре `SELECT`. Таким же образом можно получить системные пользовательские поля: `UF_CRM_TASK`, `UF_TASK_WEBDAV_FILES`, `UF_MAIL_MESSAGE`.
+
+{% endnote %}
 
 ## Объект checklist.item {#checklist-item}
 
@@ -234,9 +256,9 @@
 - `Y` — важный
 - `N` — не важный ||
 || **toggledBy**
-[`string`](../data-types.md)\|`null` | Идентификатор пользователя, изменившего статус пункта ||
+[`string`](../data-types.md) | Идентификатор пользователя, изменившего статус пункта ||
 || **toggledDate**
-[`string`](../data-types.md)\|`null` | Дата изменения статуса пункта в формате `ISO 8601` ||
+[`string`](../data-types.md) | Дата изменения статуса пункта в формате `ISO 8601` ||
 || **ufChecklistFiles**
 [`boolean`](../data-types.md) | Признак наличия файлов в пункте ||
 || **members**
@@ -244,7 +266,7 @@
 || **attachments**
 [`array`](../data-types.md) | Список вложений пункта ||
 || **entityId**
-[`string`](../data-types.md) | Идентификатор сущности (задачи) ||
+[`string`](../data-types.md) | Идентификатор задачи ||
 || **action**
 [`object`](../data-types.md) | Объект с [описанием доступных действий](#checklist-item-action) над пунктом ||
 |#
@@ -314,9 +336,9 @@
 || **complete**
 [`boolean`](../data-types.md) | Доступно завершить задачу ||
 || **approve**
-[`boolean`](../data-types.md) | Доступно утвердить задачу ||
+[`boolean`](../data-types.md) | Доступно принять работу исполнителя по задаче при включенном контроле `taskControl` ||
 || **disapprove**
-[`boolean`](../data-types.md) | Доступно отклонить утверждение ||
+[`boolean`](../data-types.md) | Доступно выбрать, что исполнителю нужно доделать работу по задаче при включенном контроле `taskControl` ||
 || **start**
 [`boolean`](../data-types.md) | Доступно начать выполнение ||
 || **pause**
@@ -332,9 +354,9 @@
 || **renew**
 [`boolean`](../data-types.md) | Доступно возобновление ||
 || **create**
-[`boolean`](../data-types.md) | Доступно создание связанных сущностей ||
+[`boolean`](../data-types.md) | Доступно создание связанных задач ||
 || **changeDeadline**
-[`boolean`](../data-types.md) | Доступно изменение дедлайна ||
+[`boolean`](../data-types.md) | Доступно изменение крайнего срока ||
 || **checklistAddItems**
 [`boolean`](../data-types.md) | Доступно добавление пунктов чек-листа ||
 || **addFavorite**
@@ -344,7 +366,7 @@
 || **rate**
 [`boolean`](../data-types.md) | Доступно выставление оценки ||
 || **take**
-[`boolean`](../data-types.md) | Доступно «взять задачу» ||
+[`boolean`](../data-types.md) | Доступно взять задачу в работу ||
 || **edit.originator**
 [`boolean`](../data-types.md) | Доступно редактирование постановщика ||
 || **checklist.reorder**
@@ -384,21 +406,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`string`](../data-types.md)\|`null` | Идентификатор пункта для корня ||
+[`string`](../data-types.md) | Идентификатор пункта для корня ||
 || **copiedId**
-[`string`](../data-types.md)\|`null` | Идентификатор источника при копировании ||
+[`string`](../data-types.md) | Идентификатор источника при копировании ||
 || **entityId**
-[`string`](../data-types.md)\|`null` | Идентификатор сущности ||
+[`string`](../data-types.md) | Идентификатор задачи ||
 || **userId**
 [`integer`](../data-types.md) | Идентификатор пользователя, формирующего дерево ||
 || **createdBy**
-[`string`](../data-types.md)\|`null` | Идентификатор автора пункта ||
+[`string`](../data-types.md) | Идентификатор автора пункта ||
 || **parentId**
-[`string`](../data-types.md)\|`null` | Идентификатор родителя ||
+[`string`](../data-types.md) | Идентификатор родителя ||
 || **title**
 [`string`](../data-types.md) | Заголовок пункта ||
 || **sortIndex**
-[`string`](../data-types.md)\|`null` | Индекс сортировки ||
+[`string`](../data-types.md) | Индекс сортировки ||
 || **displaySortIndex**
 [`string`](../data-types.md) | Отображаемый индекс сортировки ||
 || **isComplete**
@@ -412,7 +434,7 @@
 || **attachments**
 [`array`](../data-types.md) | Массив вложений пункта ||
 || **nodeId**
-[`string`](../data-types.md)\|`null` | Идентификатор узла ||
+[`string`](../data-types.md) | Идентификатор узла ||
 |#
 
 {% if build == 'dev' %}
@@ -424,45 +446,45 @@
 || **ID**
 [`integer`](../data-types.md) | Идентификатор задачи. | ||
 || **PARENT_ID**
-[`integer`](../data-types.md) | ID родительской задачи. | По умолчанию - 0 ||
+[`integer`](../data-types.md) | ID родительской задачи. | По умолчанию — 0 ||
 || **TITLE^*^**
 [`string`](../data-types.md) | Название. Длина поля TITLE не должна превышать 460 символов. В противном случае название задачи без предупреждения будет обрезано с конца. | ||
 || **DESCRIPTION**
 [`string`](../data-types.md) | Описание. | ||
 || **MARK**
-[`enum`](../data-types.md) | Оценка. | N - Отрицательная,
-P - Положительная.
-По умолчанию - null ||
+[`enum`](../data-types.md) | Оценка. | N — Отрицательная,
+P — Положительная.
+По умолчанию — null ||
 || **PRIORITY**
-[`enum`](../data-types.md) | Приоритет. | 2 - Высокий,
-1 - Средний,
-0 - Низкий.
-По умолчанию - 1 ||
+[`enum`](../data-types.md) | Приоритет. | 2 — Высокий,
+1 — Средний,
+0 — Низкий.
+По умолчанию — 1 ||
 || **STATUS**
-[`enum`](../data-types.md) | Статус. | 2 - Ждет выполнения,
-3 - Выполняется,
-4 - Ожидает контроля,
-5 - Завершена,
-6 - Отложена.
-По умолчанию - 2 ||
+[`enum`](../data-types.md) | Статус. | 2 — Ждет выполнения,
+3 — Выполняется,
+4 — Ожидает контроля,
+5 — Завершена,
+6 — Отложена.
+По умолчанию — 2 ||
 || **MULTITASK**
-[`enum`](../data-types.md) | Множественная задача. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Множественная задача. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **NOT_VIEWED**
-[`enum`](../data-types.md) | NOT_VIEWED | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | NOT_VIEWED | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **REPLICATE**
-[`enum`](../data-types.md) | Повторяемая задача. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Повторяемая задача. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **GROUP_ID**
-[`integer`](../data-types.md) | Группа или проект | По умолчанию - 0 ||
+[`integer`](../data-types.md) | Группа или проект | По умолчанию — 0 ||
 || **FLOW_ID**
 [`integer`](../data-types.md) | Поток | null ||
 || **STAGE_ID**
-[`integer`](../data-types.md) | Стадия. | По умолчанию - 0 ||
+[`integer`](../data-types.md) | Стадия. | По умолчанию — 0 ||
 || **CREATED_BY^*^**
 [`integer`](../data-types.md) | Постановщик. | ||
 || **CREATED_DATE**
@@ -500,25 +522,25 @@ N - Нет.
 || **NEW_COMMENTS_COUNT**
 [`integer`](../data-types.md) | Кол-во новых комментариев. | ||
 || **ALLOW_CHANGE_DEADLINE**
-[`enum`](../data-types.md) | Разрешить менять сроки. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Разрешить менять сроки. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **ALLOW_TIME_TRACKING**
-[`enum`](../data-types.md) | Разрешить учет времени для задачи | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Разрешить учет времени для задачи | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **TASK_CONTROL**
-[`enum`](../data-types.md) | Принять работу. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Принять работу. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **ADD_IN_REPORT**
-[`enum`](../data-types.md) | Добавить в отчёт. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Добавить в отчёт. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **FORKED_BY_TEMPLATE_ID**
-[`enum`](../data-types.md) | Создано из шаблона. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Создано из шаблона. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **TIME_ESTIMATE**
 [`integer`](../data-types.md) | Время, выделенное на задачу. | ||
 || **TIME_SPENT_IN_LOGS**
@@ -532,9 +554,9 @@ N - Нет.
 || **SITE_ID**
 [`string`](../data-types.md) | Идентификатор сайта. | ||
 || **SUBORDINATE**
-[`enum`](../data-types.md) | Задача подчиненного. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Задача подчиненного. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **FAVORITE**
 [`enum`](../data-types.md) | Добавлен в Избранное. | ||
 || **EXCHANGE_MODIFIED**
@@ -561,28 +583,28 @@ N - Нет.
 \[4\] => weeks
 \[5\] => monts
 \[6\] => years.
-По умолчанию - 3 ||
+По умолчанию — 3 ||
 || **UF_CRM_TASK**
 [`crm`](../data-types.md) | Привязка к элементам CRM
-L_XX - lead,
-C_XX - contact ,
-D_XX - deal | ||
+L_XX — lead,
+C_XX — contact ,
+D_XX — deal | ||
 || **UF_TASK_WEBDAV_FILES**
 [`disk_file`](../data-types.md) | Файл (Диск). | ||
 || **UF_MAIL_MESSAGE**
 [`mail_message`](../data-types.md) | Письмо (email). | ||
 || **IS_MUTED**
-[`enum`](../data-types.md) | Уведомления. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Уведомления. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **IS_PINNED**
-[`enum`](../data-types.md) | Закреплён. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Закреплён. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **IS_PINNED_IN_GROUP**
-[`enum`](../data-types.md) | Закреплён в группе. | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
+[`enum`](../data-types.md) | Закреплён в группе. | Y — Да,
+N — Нет.
+По умолчанию — Нет. ||
 || **SERVICE_COMMENTS_COUNT**
 [`integer`](../data-types.md) | SERVICE_COMMENTS_COUNT | ||
 |#
