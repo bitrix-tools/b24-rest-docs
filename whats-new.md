@@ -2,6 +2,14 @@
 
 ## 2025
 
+### 11 сентября, 2025
+
+- Обновили документацию по методам [tasks.task.mute](./api-reference/tasks/tasks-task-mute.md), [tasks.task.unmute](./api-reference/tasks/tasks-task-unmute.md), [tasks.task.startwatch](./api-reference/tasks/tasks-task-start-watch.md), [tasks.task.stopwatch](./api-reference/tasks/tasks-task-stop-watch.md) в Задачах
+
+### 10 сентября, 2025
+
+- Обновили документацию по методам смены статуса задачи [tasks.task.complete](./api-reference/tasks/tasks-task-complete.md), [tasks.task.pause](./api-reference/tasks/tasks-task-pause.md), [tasks.task.start](./api-reference/tasks/tasks-task-start.md), [tasks.task.defer](./api-reference/tasks/tasks-task-defer.md), [tasks.task.renew](./api-reference/tasks/tasks-task-renew.md) в Задачах
+
 ### 05 сентября, 2025
 
 - Обновили документацию по методам цен [catalog.price.*](./api-reference/catalog/price/index.md) в Торговом каталоге
