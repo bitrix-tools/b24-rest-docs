@@ -21,24 +21,7 @@
 
 Протокол состоит из нескольких шагов:
 
-```mermaid
-%%{init: { "theme": "forest" } }%%
-sequenceDiagram
-    actor Пользователь
-    Пользователь->>Приложение: сообщает адрес своего Битрикс24
-    Note over Пользователь,Приложение: https://xxx.bitrix24.yyy
-    Приложение-->>Пользователь: перенаправляет пользователя в его Битрикс24 для авторизации
-    Note over Пользователь,Приложение: https://xxx.bitrix24.yyy/oauth/authorize/?client_id=app.zzz
-    Пользователь->>Битрикс24: Авторизуется
-    Битрикс24-->>Приложение: Передает на url приложения код авторизации
-    Note over Битрикс24,Приложение: https://myapp.com/?code=1232311&domain=xxx.bitrix24.yyy&...
-    Приложение-->>Сервер авторизации: Передает код авторизации, client_id и client_secret
-    Note over Приложение,Сервер авторизации: https://oauth.bitrix24.tech/oauth/token/?grant_type=authorization_code<br/>&client_id=app.zzz&client_secret=LJSl0lNB76B5YY<br/>&code=1232311
-    Сервер авторизации-->>Приложение: Возвращает приложению access_token и refresh_token
-    Note over Сервер авторизации,Приложение: "access_token": "s1morf609228iwyjjpvfv6wsvuja4p8u",<br/>"refresh_token": "4f9k4jpmg13usmybzuqknt2v9fh0q6rl"
-    Приложение-->>Битрикс24: Использует access_token для вызовов REST API
-    Note over Приложение,Битрикс24: https://xxx.bitrix24.yyy/rest/<br/>app.info?auth=s1morf609228iwyjjpvfv6wsvuja4p8u
-```
+![Как работает протокол](./_images/how_the_protocol_works.png "Как работает протокол")
 
 1. Пользователь сообщает вашему приложению адрес своего Битрикс24.
 2. Приложение отправляет пользователя в его Битрикс24, чтобы тот авторизовался там, добавляя к запросу свой `client_id`.
