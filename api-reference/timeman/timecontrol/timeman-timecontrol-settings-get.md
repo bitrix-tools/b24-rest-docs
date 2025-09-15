@@ -37,6 +37,55 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'timeman.timecontrol.settings.get',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'timeman.timecontrol.settings.get',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting time control settings: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'timeman.timecontrol.settings.get',
@@ -51,7 +100,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -155,7 +204,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_ERROR",
-    "error_description": "You don't have access to user this method"
+    "error_description": "You don't have access to use this method"
 }
 ```
 
@@ -165,7 +214,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_ERROR` | You don't have access to user this method | У вас нет доступа к этому методу ||
+|| `ACCESS_ERROR` | You don't have access to use this method | У вас нет доступа к этому методу ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

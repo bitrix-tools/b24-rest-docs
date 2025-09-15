@@ -39,6 +39,61 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'messageservice.sender.delete',
+    		{
+    			'CODE': provider
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	alert('Error: ' + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    function uninstallProvider($provider)
+    {
+        try {
+            $response = $b24Service
+                ->core
+                ->call(
+                    'messageservice.sender.delete',
+                    [
+                        'CODE' => $provider
+                    ]
+                );
+    
+            $result = $response
+                ->getResponseData()
+                ->getResult();
+    
+            if ($result->error()) {
+                echo 'Error: ' . $result->error();
+            } else {
+                echo 'Успешно: ' . $result->data();
+            }
+    
+        } catch (Throwable $e) {
+            error_log($e->getMessage());
+            echo 'Error calling messageservice.sender.delete: ' . $e->getMessage();
+        }
+    }
+    ```
+
+- BX24.js
+
     ```js
     function uninstallProvider(provider)
     {

@@ -2,6 +2,35 @@
 
 ## 2025
 
+### 11 сентября, 2025
+
+- Обновили документацию по методам [tasks.task.mute](./api-reference/tasks/tasks-task-mute.md), [tasks.task.unmute](./api-reference/tasks/tasks-task-unmute.md), [tasks.task.startwatch](./api-reference/tasks/tasks-task-start-watch.md), [tasks.task.stopwatch](./api-reference/tasks/tasks-task-stop-watch.md) в Задачах
+
+### 10 сентября, 2025
+
+- Обновили документацию по методам смены статуса задачи [tasks.task.complete](./api-reference/tasks/tasks-task-complete.md), [tasks.task.pause](./api-reference/tasks/tasks-task-pause.md), [tasks.task.start](./api-reference/tasks/tasks-task-start.md), [tasks.task.defer](./api-reference/tasks/tasks-task-defer.md), [tasks.task.renew](./api-reference/tasks/tasks-task-renew.md) в Задачах
+
+### 05 сентября, 2025
+
+- Обновили документацию по методам цен [catalog.price.*](./api-reference/catalog/price/index.md) в Торговом каталоге
+
+### 04 сентября, 2025
+
+- Добавлены новые возможности для встройки [CRM_XXX_DETAIL_ACTIVITY](./api-reference/widgets/crm/detail-activity-area.md)
+
+### 22 августа, 2025
+
+- Обновлена главная страница раздела [Клиент в листе ожидания](./api-reference/booking/waitlist/client/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена документация по методам работы с результатами задачи [tasks.task.result.*](./api-reference/tasks/result/index.md) в Задачах
+
+### 21 августа, 2025
+
+- Добавлен новый туториал [Как получить список дел из сделок](./tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
+
+### 20 августа, 2025
+
+- Добавлены методы для работы с опросами, голосованиями [vote*](./api-reference/vote/index.md)
+
 ### 15 августа, 2025
 
 - Обновлена документация по методу [task.planner.getlist](./api-reference/tasks/planner/task-planner-get-list.md) в Задачах

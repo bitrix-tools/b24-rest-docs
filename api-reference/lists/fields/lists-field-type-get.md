@@ -51,6 +51,75 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.field.type.get',
+    		params
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		alert("getFieldTypes: " + result.error());
+    	}
+    	else
+    	{
+    		var types = result.data(), html = '';
+    		for(var typeId in types)
+    		{
+    			if(!types.hasOwnProperty(typeId)) continue;
+    			html += ''+types[typeId]+'';
+    		}
+    		$('#field-type').html(html);
+    	}
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists_socnet',
+            'IBLOCK_CODE'    => 'rest_1',
+        ];
+    
+        if (!empty($params['IBLOCK_CODE']) || !empty($params['IBLOCK_ID'])) {
+            $response = $b24Service
+                ->core
+                ->call(
+                    'lists.field.type.get',
+                    $params
+                );
+    
+            $result = $response
+                ->getResponseData()
+                ->getResult();
+    
+            $html = '';
+            foreach ($result as $typeId => $type) {
+                $html .= '' . $type . '';
+            }
+    
+            echo 'Success: ' . $html;
+            $('#field-type').html($html);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting field types: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists_socnet',

@@ -45,11 +45,59 @@
 
 {% list tabs %}
 
-- cURL
-
-    // пример для cURL
-
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'im.recent.get',
+    		{
+    			'SKIP_OPENLINES': 'Y'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch(error)
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'im.recent.get',
+                [
+                    'SKIP_OPENLINES' => 'Y'
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error()->ex);
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting recent messages: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -70,7 +118,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
@@ -85,6 +133,10 @@
         ]
     );
     ```
+
+- cURL
+
+    // пример для cURL
 
 {% endlist %}
 

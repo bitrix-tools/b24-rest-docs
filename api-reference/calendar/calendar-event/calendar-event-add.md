@@ -48,11 +48,15 @@
 || **timezone_from**
 [`string`](../../data-types.md) | Часовой пояс даты и времени начала события. По умолчанию — таймзона текущего пользователя.
 
-Значение нужно передавать в виде строки, например, `Europe/Riga` ||
+Значение нужно передавать в виде строки, например, `Europe/Riga`.
+
+[Особенности работы с часовыми поясами](#timezone-features) ||
 || **timezone_to**
 [`string`](../../data-types.md) | Часовой пояс даты и времени окончания события. Значение по умолчанию — таймзона текущего пользователя.
 
-Значение нужно передавать в виде строки, например, `Europe/Riga` ||
+Значение нужно передавать в виде строки, например, `Europe/Riga`.
+
+[Особенности работы с часовыми поясами](#timezone-features) ||
 || **description**
 [`text`](../../data-types.md) | Описание события ||
 || **color**
@@ -108,6 +112,39 @@ Cимвол `#` в цвете необходимо передавать в фо�
  - `L_` — лид
  - `D_` — сделка ||
 |#
+
+### Особенности работы с часовыми поясами {#timezone-features}
+
+При работе с датами и временем событий можно использовать два подхода:
+
+1. Полный формат даты с часовым поясом.
+
+    Используйте формат ISO-8601 с указанием часового пояса в параметрах `from` и `to`:
+    - `2025-03-20T15:00:00+02:00` — с указанием смещения
+    - `2025-08-05T10:00:00+11:00` — с указанием смещения
+    - `2025-08-04T23:00:00Z` — с указанием UTC
+
+    Параметры `timezone_from` и `timezone_to` игнорируются, так как часовой пояс уже указан в дате.
+
+2. Простой формат даты с отдельными параметрами часового пояса.
+
+    Используйте простой формат в параметрах `from` и `to`:
+    - `2025-03-20 15:00:00`
+    - `2025-08-05 10:00:00`
+    - `2025-08-05T10:00:00`
+
+    Укажите часовой пояс в параметрах `timezone_from` и `timezone_to`:
+    - `Europe/Moscow`
+    - `America/New_York`
+    - `Asia/Tokyo`
+
+    Если указан только `timezone_from`, его значение будет использовано и для `timezone_to`.
+
+Приоритет обработки параметров часового пояса:
+
+- **Высший приоритет.** Если в параметрах `from` и `to` указан полный формат с часовым поясом, параметры `timezone_from` и `timezone_to` игнорируются
+- **Средний приоритет.** Если используется простой формат даты и указаны параметры `timezone_from` и `timezone_to`, используются они
+- **Низший приоритет.** Если формат даты простой и параметры часового пояса не заданы, используется часовой пояс текущего пользователя
 
 ### Параметр rrule {#rrule}
 
@@ -195,6 +232,128 @@ Cимвол `#` в цвете необходимо передавать в фо�
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'calendar.event.add',
+    		{
+    			type: 'user',
+    			ownerId: 2,
+    			name: 'New Event Name',
+    			description: 'Description for event',
+    			from: '2024-06-14',
+    			to: '2024-06-14',
+    			skip_time: 'Y',
+    			section: 5,
+    			color: '#9cbe1c',
+    			text_color: '#283033',
+    			accessibility: 'absent',
+    			importance: 'normal',
+    			is_meeting: 'Y',
+    			private_event: 'N',
+    			remind: [
+    				{
+    					type: 'min',
+    					count: 20
+    				}
+    			],
+    			location: 'London',
+    			attendees: [1, 2, 3],
+    			host: 2,
+    			meeting: {
+    				notify: true,
+    				reinvite: false,
+    				allow_invite: false,
+    				hide_guests: false,
+    			},
+    			rrule: {
+    				FREQ: 'WEEKLY',
+    				BYDAY: ['MO', 'WE'],
+    				COUNT: 10,
+    				INTERVAL: 1,
+    			},
+    			crm_fields: ['C_5', 'L_11']
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Created event with ID:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'calendar.event.add',
+                [
+                    'type'          => 'user',
+                    'ownerId'       => 2,
+                    'name'          => 'New Event Name',
+                    'description'   => 'Description for event',
+                    'from'          => '2024-06-14',
+                    'to'            => '2024-06-14',
+                    'skip_time'     => 'Y',
+                    'section'       => 5,
+                    'color'         => '#9cbe1c',
+                    'text_color'    => '#283033',
+                    'accessibility' => 'absent',
+                    'importance'    => 'normal',
+                    'is_meeting'    => 'Y',
+                    'private_event' => 'N',
+                    'remind'        => [
+                        [
+                            'type'  => 'min',
+                            'count' => 20
+                        ]
+                    ],
+                    'location'      => 'London',
+                    'attendees'     => [1, 2, 3],
+                    'host'          => 2,
+                    'meeting'       => [
+                        'notify'      => true,
+                        'reinvite'    => false,
+                        'allow_invite' => false,
+                        'hide_guests' => false,
+                    ],
+                    'rrule'         => [
+                        'FREQ'     => 'WEEKLY',
+                        'BYDAY'    => ['MO', 'WE'],
+                        'COUNT'    => 10,
+                        'INTERVAL' => 1,
+                    ],
+                    'crm_fields'    => ['C_5', 'L_11']
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding calendar event: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'calendar.event.add',
@@ -239,7 +398,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -320,6 +479,120 @@ Cимвол `#` в цвете необходимо передавать в фо�
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'calendar.event.add',
+    		{
+    			type: 'company_calendar',
+    			ownerId: '',
+    			from: '2025-01-31T18:00:00',
+    			to: '2025-01-31T20:00:00',
+    			section: 1,
+    			name: 'Важная встреча',
+    			skip_time: 'N',
+    			timezone_from: 'Europe/Moscow',
+    			timezone_to: 'Europe/Moscow',
+    			description: 'Описание события',
+    			color: '%23FF0000',
+    			text_color: '%23000000',
+    			accessibility: 'busy',
+    			importance: 'high',
+    			private_event: 'N',
+    			rrule: {
+    				FREQ: 'WEEKLY',
+    				COUNT: 10,
+    				INTERVAL: 1,
+    				BYDAY: ['MO', 'WE', 'FR']
+    			},
+    			is_meeting: 'Y',
+    			location: 'Конференц-зал',
+    			remind: [
+    				{ type: 'min', count: 30 }
+    			],
+    			attendees: [29, 93],
+    			host: 1,
+    			meeting: {
+    				notify: true,
+    				reinvite: false,
+    				allow_invite: true,
+    				hide_guests: false
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Event added successfully', result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'calendar.event.add',
+                [
+                    'type'           => 'company_calendar',
+                    'ownerId'        => '',
+                    'from'           => '2025-01-31T18:00:00',
+                    'to'             => '2025-01-31T20:00:00',
+                    'section'        => 1,
+                    'name'           => 'Важная встреча',
+                    'skip_time'      => 'N',
+                    'timezone_from'  => 'Europe/Moscow',
+                    'timezone_to'    => 'Europe/Moscow',
+                    'description'    => 'Описание события',
+                    'color'          => '%23FF0000',
+                    'text_color'     => '%23000000',
+                    'accessibility'  => 'busy',
+                    'importance'     => 'high',
+                    'private_event'  => 'N',
+                    'rrule'          => [
+                        'FREQ'     => 'WEEKLY',
+                        'COUNT'    => 10,
+                        'INTERVAL' => 1,
+                        'BYDAY'    => ['MO', 'WE', 'FR']
+                    ],
+                    'is_meeting'     => 'Y',
+                    'location'       => 'Конференц-зал',
+                    'remind'         => [
+                        ['type' => 'min', 'count' => 30]
+                    ],
+                    'attendees'      => [29, 93],
+                    'host'           => 1,
+                    'meeting'        => [
+                        'notify'       => true,
+                        'reinvite'     => false,
+                        'allow_invite' => true,
+                        'hide_guests'  => false
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Event added successfully: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding event: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'calendar.event.add',
@@ -369,7 +642,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -421,7 +694,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
         print_r($result['result']); // Успешное добавление события
     }
     ```
-
 
 {% endlist %}
 

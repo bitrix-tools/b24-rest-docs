@@ -45,6 +45,55 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sonet_group.user.request',
+    		{
+    			'GROUP_ID': 17,
+    			'MESSAGE': 'Request'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.user.request',
+                [
+                    'GROUP_ID' => 17,
+                    'MESSAGE'  => 'Request',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error sending request to join group: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Отправляем запрос на вступление в группу с ID=17
     BX24.callMethod('sonet_group.user.request', {

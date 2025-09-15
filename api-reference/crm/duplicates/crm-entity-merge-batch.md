@@ -68,26 +68,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX24.callMethod(
-        'crm.entity.mergeBatch',
-        {
-            params: {
-                entityTypeId: 3,
-                entityIds: [100, 101, 102]
-            }
-        },
-        function(result) {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -108,7 +88,85 @@
          https://**put_your_bitrix24_address**/rest/crm.entity.mergeBatch
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.entity.mergeBatch',
+    		{
+    			params: {
+    				entityTypeId: 3,
+    				entityIds: [100, 101, 102]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.entity.mergeBatch',
+                [
+                    'params' => [
+                        'entityTypeId' => 3,
+                        'entityIds'    => [100, 101, 102]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error merging entities: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'crm.entity.mergeBatch',
+        {
+            params: {
+                entityTypeId: 3,
+                entityIds: [100, 101, 102]
+            }
+        },
+        function(result) {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

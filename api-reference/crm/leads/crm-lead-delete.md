@@ -49,6 +49,52 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		'crm.lead.delete',
+    		{ id }
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    		return;
+    	}
+    	
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $id = 123; // Example lead ID to delete
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->lead()
+            ->delete($id);
+        if ($result->isSuccess()) {
+            print("Lead with ID $id has been successfully deleted.");
+        } else {
+            print("Failed to delete lead with ID $id.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```javascript 
     const id = prompt("Введите ID");
     BX24.callMethod(
@@ -67,7 +113,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -84,25 +130,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php        
-    try {
-        $id = 123; // Example lead ID to delete
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->lead()
-            ->delete($id);
-        if ($result->isSuccess()) {
-            print("Lead with ID $id has been successfully deleted.");
-        } else {
-            print("Failed to delete lead with ID $id.");
-        }
-    } catch (Throwable $e) {
-        print("An error occurred: " . $e->getMessage());
-    }
     ```
 
 {% endlist %}

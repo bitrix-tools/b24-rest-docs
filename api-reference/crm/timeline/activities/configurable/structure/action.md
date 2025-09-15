@@ -113,9 +113,6 @@
         "someImportant": "qwerty"
     },
     "sliderParams": {
-        "labelText": "это приложение",
-        "labelColor": "#c3b3ff",
-        "labelBgColor": "violet",
         "title": "Это заголовок слайдера приложения",
         "width": 700
     }
@@ -132,12 +129,6 @@
 [`int`](../../../../data-types.md) | Ширина слайдера, `px` | Не может быть использовано одновременно с `leftBoundary` ||
 || **leftBoundary**
 [`int`](../../../../data-types.md) | Слайдер во всю ширину окна браузера с отступом слева, `px` | Не может быть использовано одновременно с `width` ||
-|| **labelBgColor**
-[`string`](../../../../data-types.md) | Код цвета фона кнопки закрытия слайдера | Может принимать только значения `aqua`, `green`, `orange`, `brown`, `pink`, `blue`, `grey`, `violet` ||
-|| **labelColor**
-[`string`](../../../../data-types.md) | Код цвета кнопки закрытия слайдера | В `hex` формате ||
-|| **labelText**
-[`string`](../../../../data-types.md) | Текст кнопки закрытия слайдера | ||
 || **title**
 [`string`](../../../../data-types.md) | Текст заголовка окна браузера при открытии слайдера | ||
 |#

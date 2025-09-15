@@ -68,6 +68,68 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.kanban.addStage',
+    		{
+    			"fields": {
+    				"sprintId": 1,
+    				"name": "Первая стадия",
+    				"type": "NEW",
+    				"color": "00C4FB",
+    				"sort": 100,
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.kanban.addStage',
+                [
+                    'fields' => [
+                        'sprintId' => 1,
+                        'name' => 'Первая стадия',
+                        'type' => 'NEW',
+                        'color' => '00C4FB',
+                        'sort' => 100,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding stage: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'tasks.api.scrum.kanban.addStage',
@@ -90,7 +152,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

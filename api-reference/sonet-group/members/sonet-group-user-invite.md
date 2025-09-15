@@ -46,6 +46,57 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sonet_group.user.invite',
+    		{
+    			'GROUP_ID': 15,
+    			'USER_ID': 3,
+    			'MESSAGE': 'Invitation'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.user.invite',
+                [
+                    'GROUP_ID' => 15,
+                    'USER_ID' => 3,
+                    'MESSAGE' => 'Invitation',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error inviting user to group: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Приглашаем пользователя с ID=3 в группу соцсети с ID=15
     BX24.callMethod('sonet_group.user.invite', {

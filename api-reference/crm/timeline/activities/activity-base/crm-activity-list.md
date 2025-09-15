@@ -580,3 +580,4 @@ HTTP-статус: **200**
 
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
+- [{#T}](../../../../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)

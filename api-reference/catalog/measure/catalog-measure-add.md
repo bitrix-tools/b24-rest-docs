@@ -77,6 +77,68 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.measure.add', 
+    		{
+    			fields: {
+    				code: 715,
+    				measureTitle: "Пара",
+    				symbol: 'пар',
+    				symbolLetterIntl: 'NPR',
+    				symbolIntl: 'pr; 2',
+    				isDefault: 'N'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.measure.add',
+                [
+                    'fields' => [
+                        'code'            => 715,
+                        'measureTitle'    => "Пара",
+                        'symbol'          => 'пар',
+                        'symbolLetterIntl' => 'NPR',
+                        'symbolIntl'      => 'pr; 2',
+                        'isDefault'       => 'N',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding measure: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.measure.add', 
@@ -99,7 +161,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

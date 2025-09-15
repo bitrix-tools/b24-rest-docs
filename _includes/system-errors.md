@@ -13,7 +13,7 @@ Internal server error | Возникла внутренняя ошибка се�
 || `500` | `ERROR_UNEXPECTED_ANSWER`
 Server returned an unexpected response | Возникла внутренняя ошибка сервера ||
 || `503` | `QUERY_LIMIT_EXCEEDED`
-Too many requestes | Превышен [лимит на интенсивность запросов](/limits.html) ||
+Too many requests | Превышен [лимит на интенсивность запросов](/limits.html) ||
 || `405` | `ERROR_BATCH_METHOD_NOT_ALLOWED`
 Method is not allowed for batch usage | Текущий метод не разрешен для вызове с помощью [batch](/api-reference/how-to-call-rest-api/batch.html) ||
 || `400` | `ERROR_BATCH_LENGTH_EXCEEDED`

@@ -53,6 +53,71 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'messageservice.sender.add',
+    		{
+    			CODE: 'provider1',
+    			TYPE: 'SMS',
+    			HANDLER: 'http:///',
+    			NAME: 'Провайдер ***.ru',
+    			DESCRIPTION: 'Провайдер ***.ru'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'CODE'        => 'provider1',
+            'TYPE'        => 'SMS',
+            'HANDLER'     => 'http:///',
+            'NAME'        => 'Провайдер ***.ru',
+            'DESCRIPTION' => 'Провайдер ***.ru',
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'messageservice.sender.add',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Успешно: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding sender: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         CODE: 'provider1',

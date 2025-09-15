@@ -51,6 +51,58 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.binding.delete',
+    		{
+    			activityId: 999, // ID дела
+    			entityTypeId: 2, // ID типа объекта CRM
+    			entityId: 1 // ID элемента CRM
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Результат:', result);
+    }
+    catch( error )
+    {
+    	console.error('Ошибка:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.binding.delete',
+                [
+                    'activityId'   => 999, // ID дела
+                    'entityTypeId' => 2, // ID типа объекта CRM
+                    'entityId'     => 1 // ID элемента CRM
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Результат: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'crm.activity.binding.delete',
@@ -69,7 +121,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

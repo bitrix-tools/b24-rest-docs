@@ -146,6 +146,104 @@ fields:
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.activity.add",
+    		{
+    			fields: {
+    				"OWNER_TYPE_ID": 2,
+    				"OWNER_ID": 102,
+    				"TYPE_ID": 2,
+    				"COMMUNICATIONS": [
+    					{ VALUE: "+79832322323", ENTITY_ID: 134, ENTITY_TYPE_ID: 3 }
+    				],
+    				"SUBJECT": "Новый звонок",
+    				"START_TIME": "2023-12-31T12:00:00+00:00", // Пример даты и времени
+    				"END_TIME": "2023-12-31T12:30:00+00:00", // Пример даты и времени
+    				"COMPLETED": "N",
+    				"PRIORITY": 3,
+    				"RESPONSIBLE_ID": 1,
+    				"DESCRIPTION": "Важный звонок",
+    				"DESCRIPTION_TYPE": 3,
+    				"DIRECTION": 2,
+    				"FILES": [
+    					{
+    						fileData: [
+    							"example.jpg", // Имя файла
+    							"base64_encoded_content_here" // Контент файла в формате base64
+    						]
+    					}
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.add',
+                [
+                    'fields' => [
+                        'OWNER_TYPE_ID'    => 2,
+                        'OWNER_ID'         => 102,
+                        'TYPE_ID'          => 2,
+                        'COMMUNICATIONS'   => [
+                            ['VALUE' => '+79832322323', 'ENTITY_ID' => 134, 'ENTITY_TYPE_ID' => 3]
+                        ],
+                        'SUBJECT'          => 'Новый звонок',
+                        'START_TIME'       => '2023-12-31T12:00:00+00:00',
+                        'END_TIME'         => '2023-12-31T12:30:00+00:00',
+                        'COMPLETED'        => 'N',
+                        'PRIORITY'         => 3,
+                        'RESPONSIBLE_ID'   => 1,
+                        'DESCRIPTION'      => 'Важный звонок',
+                        'DESCRIPTION_TYPE' => 3,
+                        'DIRECTION'        => 2,
+                        'FILES'            => [
+                            [
+                                'fileData' => [
+                                    'example.jpg',
+                                    'base64_encoded_content_here'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding activity: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         "crm.activity.add",
@@ -186,7 +284,7 @@ fields:
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

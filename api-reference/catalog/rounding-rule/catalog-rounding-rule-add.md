@@ -66,6 +66,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.roundingRule.add',
+    		{
+    			fields: {
+    				catalogGroupId: 14,
+    				price: 1000,
+    				roundType: 4,
+    				roundPrecision: 100
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.roundingRule.add',
+                [
+                    'fields' => [
+                        'catalogGroupId' => 14,
+                        'price'          => 1000,
+                        'roundType'      => 4,
+                        'roundPrecision' => 100
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding rounding rule: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
     'catalog.roundingRule.add',
@@ -86,7 +149,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

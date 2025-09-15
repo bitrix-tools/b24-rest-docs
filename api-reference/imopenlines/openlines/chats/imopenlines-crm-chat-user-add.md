@@ -62,6 +62,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imopenlines.crm.chat.user.add',
+    		{
+    			CRM_ENTITY_TYPE: 'deal',
+    			CRM_ENTITY: 288,
+    			USER_ID: 12,
+    			CHAT_ID: 8773
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imopenlines.crm.chat.user.add',
+                [
+                    'CRM_ENTITY_TYPE' => 'deal',
+                    'CRM_ENTITY'      => 288,
+                    'USER_ID'         => 12,
+                    'CHAT_ID'         => 8773,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error()->ex);
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding user to chat: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'imopenlines.crm.chat.user.add',
@@ -84,7 +142,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     // пример для php
 

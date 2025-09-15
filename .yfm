@@ -3,8 +3,15 @@ allowHTML: true
 resources:
   style:
     - _assets/style/b24_custom.css?20241023-01
+    - _assets/style/highlight_custom.css
   script:
     - _assets/b24loc.js?20240925-02
     - _assets/b24addons.js?20241208-01
 
 search: true
+
+extensions:
+  - './extensions/feedback-control'
+
+feedbackControl:
+  endpoint: https://util.1c-bitrix.ru/rest-doc/feedback-control.php

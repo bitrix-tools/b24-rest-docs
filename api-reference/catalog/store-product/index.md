@@ -14,7 +14,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.storeproduct.get](./catalog-store-product-get.md) | Метод для доаступа к значениям полей остатков по складам. ||
+|| [catalog.storeproduct.get](./catalog-store-product-get.md) | Метод для доступа к значениям полей остатков по складам. ||
 || [catalog.storeproduct.getFields](./catalog-store-product-get-fields.md) | Метод возвращает поля остатков по складам. ||
 || [catalog.storeproduct.list](./catalog-store-product-list.md) | Метод получает остатки по складам, отобранные по фильтру. ||
 |#

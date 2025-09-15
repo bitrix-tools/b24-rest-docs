@@ -148,6 +148,171 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.delivery.handler.add', {
+    			CODE: "uber",
+    			NAME: "Uber",
+    			DESCRIPTION: "Uber Description",
+    			SORT: 250,
+    			SETTINGS: {
+    				CALCULATE_URL: "http://gateway.bx/calculate.php",
+    				CREATE_DELIVERY_REQUEST_URL: "http://gateway.bx/create_delivery_request.php",
+    				CANCEL_DELIVERY_REQUEST_URL: "http://gateway.bx/cancel_delivery_request.php",
+    				HAS_CALLBACK_TRACKING_SUPPORT: "Y",
+    				CONFIG: [{
+    						TYPE: "STRING",
+    						CODE: "SETTING_1",
+    						NAME: "String Example",
+    					},
+    					{
+    						TYPE: "Y/N",
+    						CODE: "SETTING_2",
+    						NAME: "Checkbox Example",
+    					},
+    					{
+    						TYPE: "NUMBER",
+    						CODE: "SETTING_3",
+    						NAME: "Number Example",
+    					},
+    					{
+    						TYPE: "ENUM",
+    						CODE: "SETTING_4",
+    						NAME: "Enum Example",
+    						OPTIONS: {
+    							"Option1Code": "Option1Value",
+    							"Option2Code": "Option2Value",
+    							"Option3Code": "Option3Value",
+    							"Option4Code": "Option4Value",
+    							"Option5Code": "Option5Value",
+    						},
+    					},
+    					{
+    						TYPE: "DATE",
+    						CODE: "SETTING_5",
+    						NAME: "Date Example",
+    					},
+    					{
+    						TYPE: "LOCATION",
+    						CODE: "SETTING_6",
+    						NAME: "Location Example",
+    					},
+    				],
+    			},
+    			PROFILES: [{
+    					NAME: "Taxi",
+    					CODE: "TAXI",
+    					DESCRIPTION: "Taxi Delivery",
+    				},
+    				{
+    					NAME: "Cargo",
+    					CODE: "CARGO",
+    					DESCRIPTION: "Cargo Delivery",
+    				},
+    			],
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.delivery.handler.add',
+                [
+                    'CODE'        => "uber",
+                    'NAME'        => "Uber",
+                    'DESCRIPTION' => "Uber Description",
+                    'SORT'        => 250,
+                    'SETTINGS'    => [
+                        'CALCULATE_URL'                => "http://gateway.bx/calculate.php",
+                        'CREATE_DELIVERY_REQUEST_URL'  => "http://gateway.bx/create_delivery_request.php",
+                        'CANCEL_DELIVERY_REQUEST_URL'  => "http://gateway.bx/cancel_delivery_request.php",
+                        'HAS_CALLBACK_TRACKING_SUPPORT' => "Y",
+                        'CONFIG'                       => [
+                            [
+                                'TYPE' => "STRING",
+                                'CODE' => "SETTING_1",
+                                'NAME' => "String Example",
+                            ],
+                            [
+                                'TYPE' => "Y/N",
+                                'CODE' => "SETTING_2",
+                                'NAME' => "Checkbox Example",
+                            ],
+                            [
+                                'TYPE' => "NUMBER",
+                                'CODE' => "SETTING_3",
+                                'NAME' => "Number Example",
+                            ],
+                            [
+                                'TYPE'    => "ENUM",
+                                'CODE'    => "SETTING_4",
+                                'NAME'    => "Enum Example",
+                                'OPTIONS' => [
+                                    "Option1Code" => "Option1Value",
+                                    "Option2Code" => "Option2Value",
+                                    "Option3Code" => "Option3Value",
+                                    "Option4Code" => "Option4Value",
+                                    "Option5Code" => "Option5Value",
+                                ],
+                            ],
+                            [
+                                'TYPE' => "DATE",
+                                'CODE' => "SETTING_5",
+                                'NAME' => "Date Example",
+                            ],
+                            [
+                                'TYPE' => "LOCATION",
+                                'CODE' => "SETTING_6",
+                                'NAME' => "Location Example",
+                            ],
+                        ],
+                    ],
+                    'PROFILES'    => [
+                        [
+                            'NAME'        => "Taxi",
+                            'CODE'        => "TAXI",
+                            'DESCRIPTION' => "Taxi Delivery",
+                        ],
+                        [
+                            'NAME'        => "Cargo",
+                            'CODE'        => "CARGO",
+                            'DESCRIPTION' => "Cargo Delivery",
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding delivery handler: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.delivery.handler.add', {
@@ -221,7 +386,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

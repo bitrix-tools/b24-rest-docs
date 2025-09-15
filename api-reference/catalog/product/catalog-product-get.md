@@ -20,6 +20,12 @@
  ||
 |#
 
+{% note warning "Работа с ценой товара" %}
+
+Чтобы получить цены товара, используйте методы [catalog.price.*](../price/index.md).
+
+{% endnote %}
+
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
@@ -48,41 +54,28 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        'catalog.product.get',
-        {
-            'id': 1243
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.product.get',
+    		{
+    			'id': 1243
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
     ```
 
 - PHP
 
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'catalog.product.get',
-        [
-            'id' => 1243
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-  
     ```php       
     try {
         $productId = 123; // Replace with the actual product ID you want to retrieve
@@ -108,6 +101,41 @@
     } catch (Throwable $e) {
         print("An error occurred: " . $e->getMessage() . PHP_EOL);
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'catalog.product.get',
+        {
+            'id': 1243
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.product.get',
+        [
+            'id' => 1243
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

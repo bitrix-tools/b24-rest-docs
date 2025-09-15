@@ -117,6 +117,142 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"sale.cashbox.handler.add",
+    		{
+    			"CODE": "restcashbox01",
+    			"NAME": "REST-касса 01",
+    			"SORT": 100,
+    			"SUPPORTS_FFD105": "Y",
+    			"SETTINGS":
+    			{
+    				"PRINT_URL": "http://example.com/rest_print.php",
+    				"CHECK_URL": "http://example.com/rest_check.php",
+    				"HTTP_VERSION": "1.1",
+    				"CONFIG":
+    				{
+    					"AUTH": {
+    						"LABEL": "Авторизация",
+    						"ITEMS": {
+    							"KEYWORD": {
+    								"TYPE": "STRING",
+    								"LABEL": "Кодовое слово"
+    							},
+    							"PREFERENCE": {
+    								"TYPE": "ENUM",
+    								"LABEL": "Множественный выбор",
+    								"REQUIRED": "Y",
+    								"OPTIONS": {
+    									"FIRST": "Первый",
+    									"SECOND": "Второй",
+    									"THIRD": "Третий",
+    								}
+    							}
+    						}
+    					},
+    					"INTERACTION": {
+    						"LABEL": "Настройки взаимодействия с кассой",
+    						"ITEMS": {
+    							"MODE": {
+    								"TYPE": "ENUM",
+    								"LABEL": "Режим работы с кассой",
+    								"OPTIONS": {
+    									"ACTIVE": "боевой",
+    									"TEST": "тестовый"
+    								}
+    							}
+    						}
+    					}
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.cashbox.handler.add',
+                [
+                    'CODE'          => 'restcashbox01',
+                    'NAME'          => 'REST-касса 01',
+                    'SORT'          => 100,
+                    'SUPPORTS_FFD105' => 'Y',
+                    'SETTINGS'      => [
+                        'PRINT_URL'    => 'http://example.com/rest_print.php',
+                        'CHECK_URL'    => 'http://example.com/rest_check.php',
+                        'HTTP_VERSION' => '1.1',
+                        'CONFIG'       => [
+                            'AUTH'       => [
+                                'LABEL' => 'Авторизация',
+                                'ITEMS' => [
+                                    'KEYWORD'    => [
+                                        'TYPE'  => 'STRING',
+                                        'LABEL' => 'Кодовое слово',
+                                    ],
+                                    'PREFERENCE' => [
+                                        'TYPE'     => 'ENUM',
+                                        'LABEL'    => 'Множественный выбор',
+                                        'REQUIRED' => 'Y',
+                                        'OPTIONS'  => [
+                                            'FIRST'  => 'Первый',
+                                            'SECOND' => 'Второй',
+                                            'THIRD'  => 'Третий',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'INTERACTION' => [
+                                'LABEL' => 'Настройки взаимодействия с кассой',
+                                'ITEMS' => [
+                                    'MODE' => [
+                                        'TYPE'    => 'ENUM',
+                                        'LABEL'   => 'Режим работы с кассой',
+                                        'OPTIONS' => [
+                                            'ACTIVE' => 'боевой',
+                                            'TEST'   => 'тестовый',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding cashbox handler: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "sale.cashbox.handler.add",
@@ -177,7 +313,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     сюда мы сами вставим нужный код, перегенерированный из вашего примера на JS
 

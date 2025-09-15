@@ -84,6 +84,208 @@
 
 - JS
 
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    const parameters = {
+        select: [
+            'ID',
+            'WORKFLOW_ID',
+            'DOCUMENT_NAME',
+            'DESCRIPTION',
+            'NAME',
+            'MODIFIED',
+            'WORKFLOW_STARTED',
+            'WORKFLOW_STARTED_BY',
+            'OVERDUE_DATE',
+            'WORKFLOW_TEMPLATE_ID',
+            'WORKFLOW_TEMPLATE_NAME',
+            'WORKFLOW_STATE',
+            'STATUS',
+            'USER_ID',
+            'USER_STATUS',
+            'MODULE_ID',
+            'ENTITY',
+            'DOCUMENT_ID',
+            'ACTIVITY',
+            'ACTIVITY_NAME',
+            'DOCUMENT_URL',
+            'PARAMETERS'
+        ],
+        order: {
+            ID: 'DESC'
+        },
+        filter: {
+            'USER_ID': 1,
+            'STATUS': 0,
+            'ACTIVITY': 'RequestInformationOptionalActivity'
+        }
+    };
+    
+    try {
+        const response = await $b24.callListMethod('bizproc.task.list', parameters);
+        const items = response.getData() || [];
+        for (const entity of items) { console.log('Entity:', entity); }
+    } catch (error) {
+        console.error('Request failed', error);
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    const parameters = {
+        select: [
+            'ID',
+            'WORKFLOW_ID',
+            'DOCUMENT_NAME',
+            'DESCRIPTION',
+            'NAME',
+            'MODIFIED',
+            'WORKFLOW_STARTED',
+            'WORKFLOW_STARTED_BY',
+            'OVERDUE_DATE',
+            'WORKFLOW_TEMPLATE_ID',
+            'WORKFLOW_TEMPLATE_NAME',
+            'WORKFLOW_STATE',
+            'STATUS',
+            'USER_ID',
+            'USER_STATUS',
+            'MODULE_ID',
+            'ENTITY',
+            'DOCUMENT_ID',
+            'ACTIVITY',
+            'ACTIVITY_NAME',
+            'DOCUMENT_URL',
+            'PARAMETERS'
+        ],
+        order: {
+            ID: 'DESC'
+        },
+        filter: {
+            'USER_ID': 1,
+            'STATUS': 0,
+            'ACTIVITY': 'RequestInformationOptionalActivity'
+        }
+    };
+    
+    try {
+        const generator = $b24.fetchListMethod('bizproc.task.list', parameters, 'ID');
+        for await (const page of generator) {
+            for (const entity of page) { console.log('Entity:', entity); }
+        }
+    } catch (error) {
+        console.error('Request failed', error);
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    const parameters = {
+        select: [
+            'ID',
+            'WORKFLOW_ID',
+            'DOCUMENT_NAME',
+            'DESCRIPTION',
+            'NAME',
+            'MODIFIED',
+            'WORKFLOW_STARTED',
+            'WORKFLOW_STARTED_BY',
+            'OVERDUE_DATE',
+            'WORKFLOW_TEMPLATE_ID',
+            'WORKFLOW_TEMPLATE_NAME',
+            'WORKFLOW_STATE',
+            'STATUS',
+            'USER_ID',
+            'USER_STATUS',
+            'MODULE_ID',
+            'ENTITY',
+            'DOCUMENT_ID',
+            'ACTIVITY',
+            'ACTIVITY_NAME',
+            'DOCUMENT_URL',
+            'PARAMETERS'
+        ],
+        order: {
+            ID: 'DESC'
+        },
+        filter: {
+            'USER_ID': 1,
+            'STATUS': 0,
+            'ACTIVITY': 'RequestInformationOptionalActivity'
+        }
+    };
+    
+    try {
+        const response = await $b24.callMethod('bizproc.task.list', parameters, 0);
+        const result = response.getData().result || [];
+        for (const entity of result) { console.log('Entity:', entity); }
+    } catch (error) {
+        console.error('Request failed', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'bizproc.task.list',
+                [
+                    'select' => [
+                        'ID',
+                        'WORKFLOW_ID',
+                        'DOCUMENT_NAME',
+                        'DESCRIPTION',
+                        'NAME',
+                        'MODIFIED',
+                        'WORKFLOW_STARTED',
+                        'WORKFLOW_STARTED_BY',
+                        'OVERDUE_DATE',
+                        'WORKFLOW_TEMPLATE_ID',
+                        'WORKFLOW_TEMPLATE_NAME',
+                        'WORKFLOW_STATE',
+                        'STATUS',
+                        'USER_ID',
+                        'USER_STATUS',
+                        'MODULE_ID',
+                        'ENTITY',
+                        'DOCUMENT_ID',
+                        'ACTIVITY',
+                        'ACTIVITY_NAME',
+                        'DOCUMENT_URL',
+                        'PARAMETERS'
+                    ],
+                    'order' => [
+                        'ID' => 'DESC'
+                    ],
+                    'filter' => [
+                        'USER_ID'  => 1,
+                        'STATUS'   => 0,
+                        'ACTIVITY' => 'RequestInformationOptionalActivity'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'bizproc.task.list',
@@ -131,7 +333,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -36,7 +36,9 @@
 [`text`](../../data-types.md) | `Текст сообщения` | Текст сообщения.
 Поддерживается [форматирование](./index.html) | 18 ||
 || **SYSTEM**
-[`boolean`](../../data-types.md) | `N` | Отображать сообщения в виде системного сообщения или нет, необязательное поле, по умолчанию 'N' | 18 ||
+[`boolean`](../../data-types.md) | `N` | Отображать сообщения в виде системного сообщения. По умолчанию 'N'.
+ 
+Сообщение с признаком системного нельзя изменить или удалить | 18 ||
 || **ATTACH**
 [`object`](../../data-types.md) | [Пример](./attachments/index.html) | Вложение | 18 ||
 || **URL_PREVIEW**
@@ -77,6 +79,77 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'im.message.add',
+    		{
+    			DIALOG_ID: "chat5",
+    			MESSAGE: "Сообщение [B]с вложением[/B] цвета primary и поддержкой [I]bb-кодов[/I]",
+    			ATTACH: [
+    				{
+    					MESSAGE: "API будет доступно в обновлении [B]im 24.0.0[/B]"
+    				},
+    			],
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('response', result.answer);
+    	if (result.error())
+    		alert("Error: " + result.error());
+    	else
+    		console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'im.message.add',
+                [
+                    'DIALOG_ID' => "chat5",
+                    'MESSAGE' => "Сообщение [B]с вложением[/B] цвета primary и поддержкой [I]bb-кодов[/I]",
+                    'ATTACH' => [
+                        [
+                            'MESSAGE' => "API будет доступно в обновлении [B]im 24.0.0[/B]"
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        echo 'response: ' . $result['answer'];
+    
+        if ($result['error']) {
+            echo 'Error: ' . $result['error'];
+        } else {
+            echo 'Data: ' . print_r($result['data'], true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(    
         'im.message.add',
@@ -99,7 +172,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
