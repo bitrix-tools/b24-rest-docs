@@ -54,7 +54,7 @@
 
 ## Структура объектов
 
-### crm_multifield
+### crm_multifield {#crm_multifield}
 
 #|
 || **Значение**
