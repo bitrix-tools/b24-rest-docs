@@ -11,4 +11,6 @@ items:
     href: change-legal-entity.md
   - name: Порядок выплат 
     href: payments.md
+  - name: НДС и счет-фактуры 
+    href: vat-invoice.md
   
