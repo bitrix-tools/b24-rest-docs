@@ -12,5 +12,5 @@ items:
   - name: Порядок выплат 
     href: payments.md
   - name: НДС и счет-фактуры 
-    href: vat-invoice.md
+    href: vat-invoice.md 
   

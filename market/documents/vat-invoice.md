@@ -63,4 +63,4 @@
 [Диадок] (https://support.kontur.ru/diadoc/40472-formirovanie_i_otpravka_schetov_faktur_i_upd)
 [СБИС] (https://saby.ru/help/account/nds/account) 
 [Калуга] (https://astral.ru/help/astral-onlayn/sozdanie-dokumentov/universalnyy-peredatochnyy-dokument/)
-[Такском] (https://invoice.taxcom.ru/help/module_9_1.html) 
+[Такском] (https://invoice.taxcom.ru/help/module_9_1.html)
