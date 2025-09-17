@@ -21,6 +21,8 @@ items:
     href: crm-item-delete.md
   - name: Получить поля элемента
     href: crm-item-fields.md
+  - name: Поля объектов CRM
+    href: object-fields.md   
   - name: События
     include:
       path: events/b24-toc.yaml

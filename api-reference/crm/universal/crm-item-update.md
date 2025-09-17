@@ -1194,7 +1194,7 @@ HTTP-статус: **200**
 || **result**
 [`object`][1] | Корневой элемент ответа, содержит единственный ключ `item` ||
 || **item**
-[`item`](./crm-item-add.md#item) | Информация об обновленном элементе ||
+[`item`](./object-fields.md) | Информация об обновленном элементе ||
 || **time**
 [`time`][1] | Информация о времени выполнения запроса ||
 |#
@@ -1241,6 +1241,7 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-list.md)
 - [{#T}](crm-item-delete.md)
 - [{#T}](crm-item-fields.md)
+- [{#T}](./object-fields.md)
 
 [1]: ../../data-types.md
 [2]: ../data-types.md
