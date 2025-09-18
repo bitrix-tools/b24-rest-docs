@@ -5,6 +5,7 @@
 ### 18 сентября, 2025
 
 - Добавили статью [Завершение установки приложений](./api-reference/app-installation/installation-finish.md)
+- Обновили документацию по методам [tasks.task.favorite.add](./api-reference/tasks/tasks-task-favorite-add.md), [tasks.task.favorite.remove](./api-reference/tasks/tasks-task-favorite-remove.md), [tasks.task.getaccess](./api-reference/tasks/tasks-task-get-access.md) в Задачах
 
 ### 17 сентября, 2025
 
