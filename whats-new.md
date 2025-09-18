@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 17 сентября, 2025
+
+- Обновили документацию по методам [catalog.storeproduct.*](./api-reference/catalog/store-product/index.md) в Торговом каталоге
+
 ### 11 сентября, 2025
 
 - Обновили документацию по методам [tasks.task.mute](./api-reference/tasks/tasks-task-mute.md), [tasks.task.unmute](./api-reference/tasks/tasks-task-unmute.md), [tasks.task.startwatch](./api-reference/tasks/tasks-task-start-watch.md), [tasks.task.stopwatch](./api-reference/tasks/tasks-task-stop-watch.md) в Задачах

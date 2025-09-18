@@ -503,9 +503,9 @@ HTTP-статус: **200**
 || **result**
 [`object`][1] | Корневой элемент ответа. Содержит единственный ключ `items` ||
 || **items**
-[`item[]`](./crm-item-add.md#item) | Массив, содержащий информацию о найденных элементах.
+[`item[]`](./object-fields.md) | Массив, содержащий информацию о найденных элементах.
 
-Поля отдельно взятого [`item`](./crm-item-add.md#item) конфигурируются параметром `select` ||
+Поля отдельно взятого `item` конфигурируются параметром `select` ||
 || **total**
 [`integer`][1] | Общее количество найденных элементов ||
 || **next**
@@ -557,6 +557,7 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-get.md)
 - [{#T}](crm-item-delete.md)
 - [{#T}](crm-item-fields.md)
+- [{#T}](./object-fields.md)
 - [{#T}](../../../tutorials/tasks/how-to-connect-task-to-spa.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)

@@ -40,6 +40,7 @@
 || [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
 || [`catalog_extra.id`](#catalog_extra) | Целочисленный идентификатор наценки (например, `1`). Получить идентификаторы наценок можно с помощью метода [catalog.extra.list](./extra/catalog-extra-list.md) ||
 || [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор раздела каталога (например, `1`). Получить идентификаторы разделов каталога можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
+|| [`catalog_storeproduct.id`](#catalog_storeproduct) | Целочисленный идентификатор записи остатков товара на складе, например `1`. Получить идентификаторы можно с помощью метода [catalog.storeproduct.list](./store-product/catalog-store-product-list.md) ||
 || [`catalog_vat.id`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
 |#
 
@@ -974,6 +975,24 @@
 || **descriptionType**
 [`string`](../data-types.md) | Тип описания. Доступные типы: `text`, `html` ||
 |#
+
+### catalog_storeproduct
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор записи остатка ||
+|| **productId**
+[`catalog_product.id`](#catalog_product) | Идентификатор товара ||
+|| **storeId**
+[`catalog_store.id`](#catalog_store) | Идентификатор склада ||
+|| **amount**
+[`double`](../data-types.md) | Доступное количество товара ||
+|| **quantityReserved**
+[`double`](../data-types.md) | Количество товара в резерве ||
+|#
+
 
 ### catalog_vat
 

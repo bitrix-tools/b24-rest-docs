@@ -213,5 +213,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-get.md)
 - [{#T}](crm-item-list.md)
 - [{#T}](crm-item-fields.md)
+- [{#T}](./object-fields.md)
 
 [1]: ./../data-types.md
