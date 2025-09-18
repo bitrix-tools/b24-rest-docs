@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 18 сентября, 2025
+
+- Добавили статью [Завершение установки приложений](./api-reference/app-installation/installation-finish.md)
+
 ### 17 сентября, 2025
 
 - Обновили документацию по методам [catalog.storeproduct.*](./api-reference/catalog/store-product/index.md) в Торговом каталоге
