@@ -30,10 +30,10 @@
     || [imbot.chat.add](./imbot-chat-add.md) | Создает новый чат ||
     || [imbot.chat.get](./imbot-chat-get.md) | Возвращает информацию о чате ||
     || [imbot.chat.leave](./imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
-    || [imbot.chat.setOwner](./imbot-chat-setOwner.md) | Устанавливает нового владельца чата ||
-    || [imbot.chat.updateAvatar](./imbot-chat-updateAvatar.md) | Обновляет аватар чата ||
-    || [imbot.chat.updateColor](./imbot-chat-updateColor.md) | Обновляет цвет чата ||
-    || [imbot.chat.updateTitle](./imbot-chat-updateTitle.md) | Обновляет название чата ||
+    || [imbot.chat.setOwner](./imbot-chat-set-owner.md) | Устанавливает нового владельца чата ||
+    || [imbot.chat.updateAvatar](./imbot-chat-update-avatar.md) | Обновляет аватар чата ||
+    || [imbot.chat.updateColor](./imbot-chat-update-color.md) | Обновляет цвет чата ||
+    || [imbot.chat.updateTitle](./imbot-chat-update-title.md) | Обновляет название чата ||
     || [imbot.chat.user.add](./imbot-chat-user-add.md) | Добавляет пользователя в чат ||
     || [imbot.chat.user.list](./imbot-chat-user-list.md) | Возвращает список пользователей в чате ||
     || [imbot.chat.user.delete](./imbot-chat-user-delete.md) | Удаляет пользователя из чата ||

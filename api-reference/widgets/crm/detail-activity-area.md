@@ -155,7 +155,7 @@ BX24.callMethod(
 | `text` | [Текст](#text) |
 | `link` | [Ссылка](#link) |
 | `withTitle` | [Блок с заголовком](#withTitle) |
-| `lineOfBlocks` | [Несколько контент-блоков в одну строку](lineOfBlocks) |
+| `lineOfBlocks` | [Несколько контент-блоков в одну строку](#lineOfBlocks) |
 | `dropdownMenu` | [Выпадающий список](#dropdownMenu) |
 | `input` | [Поле с вводом текста](#input) |
 | `textarea` | [Поле ввода многострочного текста](#textarea) |
