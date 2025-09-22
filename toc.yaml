@@ -2,15 +2,11 @@ title: REST API Битрикс24 и приложения для Маркет
 href: index.yaml
 items: 
   - name: Что позволяет REST API Битрикс24
-    href: developing-with-rest-api.md
-  - name: С чего начать
-    href: about.md
-  - name: Как получить доступ к REST API 
-    href: access-to-rest-api.md
-  - name: Как выполнить свой первый запрос к API 
-    href: first-rest-api-call.md
-  - name: Как использовать примеры 
-    href: how-to-use-examples.md
+    href: developing-with-rest-api.md  
+  - name: Первые шаги 
+    include:
+      path: first-steps/b24-toc.yaml
+      mode: link      
   - name: Страница 404
     href: 404.yaml
     hidden: true
@@ -27,6 +23,7 @@ items:
     href: error-codes.md       
   - name: Что нового
     href: whats-new.md
+    hidden: true
   - name: Митапы для разработчиков
     href: meetups.md
   - name: Поддержка и коммьюнити для разработчиков
@@ -63,15 +60,15 @@ navigation:
       - text: 'С чего начать'
         type: 'link'
         url: '/about.html'
+      - text: 'Справочник API'
+        type: 'link'
+        url: '/api-reference/index.html'        
       - text: 'Что нового'
         type: 'link'
         url: '/whats-new.html'     
       - text: 'Частые кейсы'
         type: 'link'
         url: '/tutorials/index.html'  
-      - text: 'Методы API'
-        type: 'link'
-        url: '/api-reference/index.html'
       - text: 'GitHub'
         type: 'link'
         url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
