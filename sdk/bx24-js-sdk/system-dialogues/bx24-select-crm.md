@@ -14,16 +14,16 @@ BX24.selectCRM({entityType: value, multiple: true, value:value}): void;
 || **Название**
 `тип` | **Описание** ||
 || **entityType**
-[`array`](../../data-types.md) | Какие типы объектов выводить в диалоге. Варианты значений: 
+[`array`](../../../api-reference/data-types.md) | Какие типы объектов выводить в диалоге. Варианты значений: 
 - lead — Лиды
 - contact — Контакты
 - company — Компании
 - deal — Сделки
 - quote — Предложения ||
 || **multiple**
-[`boolean`](../../data-types.md) | Можно ли выбирать несколько объектов. По умолчанию — `false`. ||
+[`boolean`](../../../api-reference/data-types.md) | Можно ли выбирать несколько объектов. По умолчанию — `false`. ||
 || **value**
-[`array`](../../data-types.md) | Какие объекты сразу добавить в выбранные в диалоге. Работает только в случае `multiple = true`. ||
+[`array`](../../../api-reference/data-types.md) | Какие объекты сразу добавить в выбранные в диалоге. Работает только в случае `multiple = true`. ||
 |#
 
 Что приходит обработчику:

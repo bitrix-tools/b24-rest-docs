@@ -12,7 +12,7 @@ BX24.refreshAuth(someCallback: function): object
 || **Название**
 `тип` | **Описание** ||
 || **someCallback**
-[`function`](../../data-types.md) | Принимает на вход функцию, которую в случае успеха выполняет ||
+[`function`](../../../api-reference/data-types.md) | Принимает на вход функцию, которую в случае успеха выполняет ||
 |#
 
 

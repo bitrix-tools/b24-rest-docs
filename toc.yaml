@@ -6,17 +6,33 @@ items:
   - name: Первые шаги 
     include:
       path: first-steps/b24-toc.yaml
-      mode: link      
+      mode: link
+  - name: Частые кейсы и сценарии 
+    include:
+      path: tutorials/b24-toc.yaml
+      mode: link
+  - name: Локальные решения
+    include:
+      path: local-integrations/b24-toc.yaml
+      mode: link
+  - name: Библиотеки для разработки
+    include:
+      path: sdk/b24-toc.yaml
+      mode: link  
+  - name: Битрикс24 Маркетплейс
+    include:
+      path: market/b24-toc.yaml
+      mode: link
+  - name: Справочник API
+    include:
+      path: api-reference/b24-toc.yaml
+      mode: link                  
   - name: Страница 404
     href: 404.yaml
     hidden: true
 #  - name: Опрос по документации REST
 #    href: poll-bar.md
 #    hidden: true
-  - name: Частые кейсы и сценарии 
-    include:
-      path: tutorials/b24-toc.yaml
-      mode: link
   - name: Лимиты REST API
     href: limits.md
   - name: Коды ошибок
@@ -36,18 +52,6 @@ items:
     hidden: true    
   - name: Обратная связь
     href: feedback.md
-  - name: Локальные интеграции и кастомизация 
-    include:
-      path: local-integrations/b24-toc.yaml
-      mode: link
-  - name: Битрикс24 Маркетплейс
-    include:
-      path: market/b24-toc.yaml
-      mode: link
-  - name: Справочник API
-    include:
-      path: api-reference/b24-toc.yaml
-      mode: link 
 navigation:
   logo:
     url: '/'

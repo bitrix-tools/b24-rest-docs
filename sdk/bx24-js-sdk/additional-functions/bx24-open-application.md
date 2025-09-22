@@ -36,17 +36,17 @@ void BX24.openApplication([
 #|
 || **Параметр** | **Описание** ||
 || **parameters**
-[`unknown`](../../data-types.md) | Объект с параметрами, которые будут переданы открываемому приложению в виде JSON-строки ||
+[`unknown`](../../../api-reference/data-types.md) | Объект с параметрами, которые будут переданы открываемому приложению в виде JSON-строки ||
 || **closeCallback**
-[`unknown`](../../data-types.md) | Обработчик закрытия приложения ||
+[`unknown`](../../../api-reference/data-types.md) | Обработчик закрытия приложения ||
 || **bx24_width**
-[`unknown`](../../data-types.md) | Ширина слайда ||
+[`unknown`](../../../api-reference/data-types.md) | Ширина слайда ||
 || **bx24_label**
-[`unknown`](../../data-types.md) | Заголовок плашки ||
+[`unknown`](../../../api-reference/data-types.md) | Заголовок плашки ||
 || **bx24_title**
-[`unknown`](../../data-types.md) | Заголовок страницы ||
+[`unknown`](../../../api-reference/data-types.md) | Заголовок страницы ||
 || **bx24_leftBoundary**
-[`unknown`](../../data-types.md) | Слайдер во всю ширину с отступом слева. Не может быть одновременно с bx24_width. ||
+[`unknown`](../../../api-reference/data-types.md) | Слайдер во всю ширину с отступом слева. Не может быть одновременно с bx24_width. ||
 |#
 
 Для плейсментов `CRM_*_LIST_MENU` заблокировано.

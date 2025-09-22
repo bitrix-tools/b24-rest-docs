@@ -26,4 +26,4 @@ Boolean BX24.isAdmin()
 
 ## Смотри также
 
-- [user.admin](../../common/users/user-admin.md)
+- [user.admin](../../../api-reference/common/users/user-admin.md)

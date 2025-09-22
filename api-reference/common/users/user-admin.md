@@ -158,4 +158,4 @@ HTTP-статус: **200**
 
 ## Смотрите также
 
-- [BX24.isAdmin](../../bx24-js-sdk/additional-functions/bx24-is-admin.md)
+- [BX24.isAdmin](../../../sdk/bx24-js-sdk/additional-functions/bx24-is-admin.md)

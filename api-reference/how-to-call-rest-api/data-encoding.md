@@ -55,8 +55,8 @@ https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/batch?cmd[0]=crm.lead.add%3Ffields
 
 Битрикс24 предлагает разработчикам несколько SDK для работы с REST API на разных языках программирования:
 
-* [B24PhpSdk](../b24phpsdk/index.md) и [CRest PHP SDK](../crest-php-sdk/index.md) для PHP;
-* [B24JsSDK](../b24jssdk/index.md) для JavaScript;
+* [B24PhpSdk](../../sdk/b24phpsdk/index.md) и [CRest PHP SDK](../../sdk/crest-php-sdk/index.md) для PHP;
+* [B24JsSDK](../../sdk/b24jssdk/index.md) для JavaScript;
 
 {% endnote %}
 

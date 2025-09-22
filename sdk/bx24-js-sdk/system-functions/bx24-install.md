@@ -14,9 +14,9 @@ BX24.install(someCallback: function|string): void;
 || **Название**
 `тип` | **Описание** ||
 || **someCallback**
-[`function`](../../data-types.md) | Принимает на вход функцию, которую в случае успеха выполняет ||
+[`function`](../../../api-reference/data-types.md) | Принимает на вход функцию, которую в случае успеха выполняет ||
 || **someCallback**
-[`string`](../../data-types.md)  | Если передана строка, то это путь к js-файлу. Сначала будет загружен файл, потом вызвана функция [BX24.installFinish](./bx24-install-finish.md) ||
+[`string`](../../../api-reference/data-types.md)  | Если передана строка, то это путь к js-файлу. Сначала будет загружен файл, потом вызвана функция [BX24.installFinish](./bx24-install-finish.md) ||
 |#
 
 

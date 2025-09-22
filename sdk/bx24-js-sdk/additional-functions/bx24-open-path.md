@@ -39,13 +39,13 @@
 #|
 || **Параметр** | **Описание** | **С версии** ||
 || **path**
-[`unknown`](../../data-types.md) | Путь внутри портала, может начинаться с: 
+[`unknown`](../../../api-reference/data-types.md) | Путь внутри портала, может начинаться с: 
 ```
 ^\/(crm\/(deal|lead|contact|company|type)|marketplace|company\/personal\/user\/[0-9]+|workgroups\/group\/[0-9]+)\/
 ```
  | ||
 || **callback**
-[`unknown`](../../data-types.md) | функция вызывается в 2 случаях:
+[`unknown`](../../../api-reference/data-types.md) | функция вызывается в 2 случаях:
 - при ошибке открытия
 - если указанный путь нет возможности открыть: `{result: "error", errorCode: "PATH_NOT_AVAILABLE"}`
 - в мобильном приложении: `{result: "error", errorCode: "METHOD_NOT_SUPPORTED_ON_DEVICE"}`

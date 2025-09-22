@@ -14,7 +14,7 @@ BX24.selectUser(callback: callable): void;
 || **Название**
 `тип` | **Описание** ||
 || **callback***
-[`callable`](../../data-types.md) | Функция обратного вызова.
+[`callable`](../../../api-reference/data-types.md) | Функция обратного вызова.
 
 Обработчик `callback` получит объект вида `{id: integer, name: string}`, где: 
 - `id` — идентификатор пользователя

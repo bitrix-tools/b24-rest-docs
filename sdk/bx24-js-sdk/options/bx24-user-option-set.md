@@ -14,9 +14,9 @@ BX24.userOption.set(string name, string value): void;
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Код параметра ||
+[`string`](../../../api-reference/data-types.md) | Код параметра ||
 || **value***
-[`mixed`](../../data-types.md) | Значение параметра ||
+[`mixed`](../../../api-reference/data-types.md) | Значение параметра ||
 |#
 
 

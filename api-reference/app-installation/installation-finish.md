@@ -154,7 +154,7 @@
 
 - BX24.js
 
-    [BX24.installFinish()](../bx24-js-sdk/system-functions/bx24-install-finish.md)
+    [BX24.installFinish()](../../sdk/bx24-js-sdk/system-functions/bx24-install-finish.md)
 
     ```javascript
         BX24.init(function() {

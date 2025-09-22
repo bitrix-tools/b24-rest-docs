@@ -15,7 +15,7 @@
 
 {% endnote %}
 
-Интерфейс для данного метода — [BX24.callBind](../bx24-js-sdk/how-to-call-rest-methods/bx24-call-bind.md).
+Интерфейс для данного метода — [BX24.callBind](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-bind.md).
 
 {% note info %}
 

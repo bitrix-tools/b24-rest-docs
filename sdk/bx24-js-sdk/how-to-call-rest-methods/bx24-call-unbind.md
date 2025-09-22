@@ -11,7 +11,7 @@ BX24.callUnbind(
 );
 ```
 
-Интерфейс для метода [event.unbind](../../events/event-unbind.md), удаляющего зарегистрированный обработчик [события](../../common/events/index.md).
+Интерфейс для метода [event.unbind](../../../api-reference/events/event-unbind.md), удаляющего зарегистрированный обработчик [события](../../../api-reference/common/events/index.md).
 
 {% note info %}
 
@@ -27,11 +27,11 @@ BX24.callUnbind(
 || **Название**
 `тип` | **Описание** ||
 || **event**
-[`string`](../../data-types.md) | Имя события ||
+[`string`](../../../api-reference/data-types.md) | Имя события ||
 || **handler**
-[`string`](../../data-types.md) | Ссылка на обработчик события||
+[`string`](../../../api-reference/data-types.md) | Ссылка на обработчик события||
 || **auth_type**
-[`integer`](../../data-types.md) | Идентификатор пользователя, под которым авторизуется обработчик события. 
+[`integer`](../../../api-reference/data-types.md) | Идентификатор пользователя, под которым авторизуется обработчик события. 
 
 {% note info %}
 
@@ -41,7 +41,7 @@ BX24.callUnbind(
 
  ||
 || **callback**
-[`function`](../../data-types.md) | Функция-обработчик результата вызова метода ||
+[`function`](../../../api-reference/data-types.md) | Функция-обработчик результата вызова метода ||
 |#
 
 ## Пример

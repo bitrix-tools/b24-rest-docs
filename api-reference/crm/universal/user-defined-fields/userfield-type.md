@@ -45,7 +45,7 @@
 
    - Если метод вернул `INSTALLED = true`, приложение установлено корректно.
 
-   - Если метод вернул `INSTALLED = false`, выполните на странице приложения метод [BX24.installFinish](../../../bx24-js-sdk/system-functions/bx24-install-finish.md). Метод завершит установку приложения с интерфейсом.
+   - Если метод вернул `INSTALLED = false`, выполните на странице приложения метод [BX24.installFinish](../../../../sdk/bx24-js-sdk/system-functions/bx24-install-finish.md). Метод завершит установку приложения с интерфейсом.
 
     ```javascript
     BX24.init(function(){

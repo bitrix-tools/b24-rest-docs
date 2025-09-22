@@ -14,7 +14,7 @@ BX24.appOption.get(string name, mixed value): mixed;
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Код параметра ||
+[`string`](../../../api-reference/data-types.md) | Код параметра ||
 |#
 
 ## Примеры кода

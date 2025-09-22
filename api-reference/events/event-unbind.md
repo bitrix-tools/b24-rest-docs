@@ -141,7 +141,7 @@ HTTP-статус: **200**
 
 ## Смотрите также
 
-- [{#T}](../bx24-js-sdk/how-to-call-rest-methods/bx24-call-unbind.md)
+- [{#T}](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-unbind.md)
 
 ## Продолжите изучение
 

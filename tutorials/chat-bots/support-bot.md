@@ -44,6 +44,6 @@ $result = restCommand(
 
 {% note info %}
 
-`restCommand` — это метод отправки данных в *Битрикс24*, данный метод есть в [ЭхоБоте](https://github.com/bitrix24com/bots) и представлен здесь в качестве примера. Вы можете использовать свою функцию или javascript-метод [BX24.callMethod](../../first-steps/how-to-use-examples.md), а также [bitrix24-php-sdk](https://github.com/mesilov/bitrix24-php-sdk). Еще можно открыть такой канал поддержки через javascript-метод [BX24.im.openMessenger](../../api-reference/bx24-js-sdk/additional-functions/bx24-im-open-messenger.md).
+`restCommand` — это метод отправки данных в *Битрикс24*, данный метод есть в [ЭхоБоте](https://github.com/bitrix24com/bots) и представлен здесь в качестве примера. Вы можете использовать свою функцию или javascript-метод [BX24.callMethod](../../first-steps/how-to-use-examples.md), а также [bitrix24-php-sdk](https://github.com/mesilov/bitrix24-php-sdk). Еще можно открыть такой канал поддержки через javascript-метод [BX24.im.openMessenger](../../sdk/bx24-js-sdk/additional-functions/bx24-im-open-messenger.md).
 
 {% endnote %}
