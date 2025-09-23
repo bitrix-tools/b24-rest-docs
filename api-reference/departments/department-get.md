@@ -45,7 +45,7 @@
 
 `start = (N-1) * 50`, где `N` — номер нужной страницы.
 
-Подробности в статье [{#T}](../how-to-call-rest-api/list-methods-pecularities.md) ||
+Подробности в статье [{#T}](../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
 ## Примеры кода

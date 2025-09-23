@@ -2,7 +2,7 @@
 
 {% note info "" %}
 
-Методы работают только в контексте [приложения](../app-installation/index.md)
+Методы работают только в контексте [приложения](../../settings/app-installation/index.md)
 
 {% endnote %}
 

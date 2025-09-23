@@ -14,7 +14,7 @@
 
 ## Параметры метода
 
-Cм. описание [списочных методов](../../../how-to-call-rest-api/list-methods-pecularities.md)
+Cм. описание [списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md)
 
 ## Примеры кода
 

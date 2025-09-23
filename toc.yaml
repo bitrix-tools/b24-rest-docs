@@ -19,6 +19,10 @@ items:
     include:
       path: sdk/b24-toc.yaml
       mode: link  
+  - name: Настройка и использование REST
+    include:
+      path: settings/b24-toc.yaml
+      mode: link      
   - name: Битрикс24 Маркетплейс
     include:
       path: market/b24-toc.yaml

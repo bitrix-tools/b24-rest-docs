@@ -128,7 +128,7 @@
 || **member_id***
 [`string`](../../data-types.md) | Идентификатор Битрикс24, на котором произошло событие ||
 || **refresh_token***
-[`string`](../../data-types.md) | Токен продления авторизации [OAuth 2.0](../../oauth/index.md) ||
+[`string`](../../data-types.md) | Токен продления авторизации [OAuth 2.0](../../../settings/oauth/index.md) ||
 || **application_token***
 [`string`](../../data-types.md) | Токен для безопасной обработки событий ||
 |#

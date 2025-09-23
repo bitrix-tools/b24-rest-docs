@@ -44,7 +44,7 @@ restCommand(
 
 {% note info %}
 
-Эта функция используется в качестве примера. Вы можете использовать свою функцию, основанную на [протоколе взаимодействия](../how-to-call-rest-api/general-principles.md), или javascript-метод [BX24.callMethod](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-method.md), или партнерскую разработку [bitrix24-php-sdk](https://github.com/mesilov/bitrix24-php-sdk).
+Эта функция используется в качестве примера. Вы можете использовать свою функцию, основанную на [протоколе взаимодействия](../../settings/how-to-call-rest-api/general-principles.md), или javascript-метод [BX24.callMethod](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-method.md), или партнерскую разработку [bitrix24-php-sdk](https://github.com/mesilov/bitrix24-php-sdk).
 
 {% endnote %}
 

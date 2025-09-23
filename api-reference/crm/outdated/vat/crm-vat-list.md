@@ -11,7 +11,7 @@
 {% endnote %}
 
 Метод `crm.vat.list` возвращает список ставок НДС по фильтру. 
-Является реализацией [списочного метода](../../../../api-reference/how-to-call-rest-api/list-methods-pecularities.md) для ставок НДС.
+Является реализацией [списочного метода](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md) для ставок НДС.
 
 ## Параметры метода
 

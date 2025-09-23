@@ -33,12 +33,12 @@
 [`unknown`](../../data-types.md) | Идентификатор папки. ||
 || **filter**
 [`unknown`](../../data-types.md) |  Необязательный параметр. Поддерживает фильтрацию по полям, которые указаны в [disk.folder.getfields](./disk-folder-get-fields.md) как `USE_IN_FILTER: true`. ||
-|| **START** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../how-to-call-rest-api/list-methods-pecularities.md) ||
+|| **START** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
 {% note info %}
 
-Cм. также описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Cм. также описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% endnote %}
 

@@ -100,7 +100,7 @@
 ||
 |#
 
-Также смотрите описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Также смотрите описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 ## Примеры кода
 

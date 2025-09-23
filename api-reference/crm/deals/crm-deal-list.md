@@ -95,7 +95,7 @@
 ||
 |#
 
-Так же смотрите описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Так же смотрите описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% note tip "Связанные методы и темы" %}
 

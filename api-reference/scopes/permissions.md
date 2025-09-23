@@ -25,7 +25,7 @@
 || **mailservice** | [Почтовые сервисы](../mailservice/index.md) | Почтовые сервисы ||
 || **messageservice** | [Служба сообщений](../messageservice/index.md) | Служба сообщений ||
 || **pay_system** | [Платежные системы](../pay-system/index.md) | Платежные системы ||
-|| **pull** | [Pull&Push](../interactivity/push-and-pull/index.md) | Pull&Push ||
+|| **pull** | [Pull&Push](../../settings/interactivity/push-and-pull/index.md) | Pull&Push ||
 || **rpa** | [Роботизация бизнеса](../outdated/rpa/index.md) | Роботизация бизнеса ||
 || **sale** | [Интернет-магазин](../sale/index.md) | Интернет-магазин ||
 || **sign.b2e** | [КЭДО + Госключ](../sign/index.md) | КЭДО, Подпись ||

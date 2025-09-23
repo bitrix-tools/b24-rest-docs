@@ -22,7 +22,7 @@
 
 ## Параметры метода
 
-См. описание [списочных методов](../../../how-to-call-rest-api/list-methods-pecularities.md).
+См. описание [списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 

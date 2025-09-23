@@ -2,7 +2,7 @@
 
 {% note info "Права" %}
 
-**Scope**: [`pull`](../../scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
+**Scope**: [`pull`](../../../api-reference/scopes/permissions.md) | **Кто может выполнять метод**: `администратор`
 
 {% endnote %}
 

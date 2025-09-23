@@ -202,6 +202,6 @@
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../ui-interaction/crm-card.md)
-- [{#T}](../../interactivity/index.md)
+- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../open-application.md)
 - [{#T}](../open-path.md)

@@ -18,7 +18,7 @@
 
 {% endif %}
 
-> Scope: [`pull`](../../scopes/permissions.md)
+> Scope: [`pull`](../../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 

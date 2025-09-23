@@ -6,7 +6,7 @@
 
 Метод возвращает список товарных каталогов. Является реализацией списочного метода для товарных каталогов.
 
-Cмотрите описание [списочных методов](../../../../api-reference/how-to-call-rest-api/list-methods-pecularities.md).
+Cмотрите описание [списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 ## Примеры кода
 

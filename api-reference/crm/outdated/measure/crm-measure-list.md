@@ -6,7 +6,7 @@
 
 Метод возвращает список единиц измерения.
 
-Cмотрите описание [списочных методов](../../../how-to-call-rest-api/list-methods-pecularities.md).
+Cмотрите описание [списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 ## Примеры кода
 

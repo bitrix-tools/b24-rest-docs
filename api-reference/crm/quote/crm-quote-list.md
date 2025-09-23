@@ -27,7 +27,7 @@
 
 Метод `crm.quote.list` возвращает список предложений по фильтру. Является реализацией списочного метода для предложений.
 
-Cм. описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Cм. описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 ## Пример
 

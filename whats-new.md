@@ -9,7 +9,7 @@
 
 ### 18 сентября, 2025
 
-- Добавили статью [Завершение установки приложений](./api-reference/app-installation/installation-finish.md)
+- Добавили статью [Завершение установки приложений](./settings/app-installation/installation-finish.md)
 - Обновили документацию по методам [tasks.task.favorite.add](./api-reference/tasks/tasks-task-favorite-add.md), [tasks.task.favorite.remove](./api-reference/tasks/tasks-task-favorite-remove.md), [tasks.task.getaccess](./api-reference/tasks/tasks-task-get-access.md) в Задачах
 - Обновили документацию по методам [tasks.task.delete](./api-reference/tasks/tasks-task-delete.md), [tasks.task.delegate](./api-reference/tasks/tasks-task-delegate.md), [tasks.task.approve](./api-reference/tasks/tasks-task-approve.md), [tasks.task.disapprove](./api-reference/tasks/tasks-task-disapprove.md) в Задачах
 
@@ -589,7 +589,7 @@
 ### 27 ноября, 2024
 
 - Обновлена главная страница раздела [Корзина](./api-reference/sale/basket-item/index.md). Добавили вводную информацию, а также обзор методов и связей
-- Добавлена статья [Особенности вызовов REST при изменении адреса Битрикс24](./api-reference/how-to-call-rest-api/change-domen.md)
+- Добавлена статья [Особенности вызовов REST при изменении адреса Битрикс24](./settings/how-to-call-rest-api/change-domen.md)
 - Добавлен туториал [Как создать коннектор Открытых линий для онлайн-чата на сайте](./tutorials/openlines/example-connector.md), а также ссылка на этот туториал из раздела [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/tutorials.md)
 - Добавлена статья [Как проверить свой обработчик для обработки событий Битрикс24](./api-reference/events/test-handler.md)
 
@@ -721,7 +721,7 @@
 
 ### 1 октября, 2024
 
-- Добавлен [список ошибок сервера OAuth](./api-reference/oauth/error-codes.md)
+- Добавлен [список ошибок сервера OAuth](./settings/oauth/error-codes.md)
 - Добавлена документация по [Виджетам для Вайбов](./api-reference/vibe/index.md)
 
 ### 26 сентября, 2024
@@ -757,7 +757,7 @@
 
 ### 29 августа, 2024
 
-- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./api-reference/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./api-reference/how-to-call-rest-api/batch.md)
+- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./settings/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./settings/how-to-call-rest-api/batch.md)
   
 - Обновлены статьи [раздела событий контактов](./api-reference/crm/contacts/events/index.md)
 - Обновлены статьи [раздела универсальных событий CRM](./api-reference/crm/universal/events/index.md)

@@ -69,7 +69,7 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-Cм. описание [списочных методов](../../../../how-to-call-rest-api/list-methods-pecularities.md).
+Cм. описание [списочных методов](../../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% note info "" %}
 
