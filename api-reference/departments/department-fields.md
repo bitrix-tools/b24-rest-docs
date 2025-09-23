@@ -36,6 +36,54 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"department.fields", {}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'department.fields',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching department fields: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "department.fields", {},
@@ -49,7 +97,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

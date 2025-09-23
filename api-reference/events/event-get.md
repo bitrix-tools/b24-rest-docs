@@ -4,7 +4,7 @@
 
 Метод `event.get` позволяет получить список зарегистрированных обработчиков событий.
 
-Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
 
 Без параметров.
 
@@ -26,36 +26,25 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        "event.get",
-        {},
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.log(result.data());
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'event.get',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'event.get',
-        []
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
     ```php        
     try {
@@ -71,6 +60,37 @@
     } catch (Throwable $e) {
         print("Error: " . $e->getMessage());
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "event.get",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'event.get',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

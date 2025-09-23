@@ -140,6 +140,110 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.order.update',
+    		{
+    			id: 300,
+    			fields: {
+    				price: 100,
+    				discountValue: 10,
+    				statusId: 'N',
+    				empStatusId: 1,
+    				dateInsert: '2024-03-01T14:00:00',
+    				marked: 'Y',
+    				empMarkedId: 1,
+    				reasonMarked: '',
+    				userDescription: '',
+    				additionalInfo: '',
+    				comments: '',
+    				companyId: 1,
+    				responsibleId: 1,
+    				recurringId: 1,
+    				lockedBy: 1,
+    				recountFlag: 'N',
+    				affiliateId: 1,
+    				updated1c: 'N',
+    				orderTopic: '',
+    				xmlId: '',
+    				id1c: '',
+    				version1c: '',
+    				externalOrder: 'N',
+    				canceled: 'Y',
+    				empCanceledId: 1,
+    				reasonCanceled: '',
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.order.update',
+                [
+                    'id' => 300,
+                    'fields' => [
+                        'price'           => 100,
+                        'discountValue'   => 10,
+                        'statusId'        => 'N',
+                        'empStatusId'     => 1,
+                        'dateInsert'      => '2024-03-01T14:00:00',
+                        'marked'          => 'Y',
+                        'empMarkedId'     => 1,
+                        'reasonMarked'    => '',
+                        'userDescription' => '',
+                        'additionalInfo'  => '',
+                        'comments'        => '',
+                        'companyId'       => 1,
+                        'responsibleId'   => 1,
+                        'recurringId'     => 1,
+                        'lockedBy'        => 1,
+                        'recountFlag'     => 'N',
+                        'affiliateId'     => 1,
+                        'updated1c'       => 'N',
+                        'orderTopic'      => '',
+                        'xmlId'           => '',
+                        'id1c'            => '',
+                        'version1c'       => '',
+                        'externalOrder'   => 'N',
+                        'canceled'        => 'Y',
+                        'empCanceledId'   => 1,
+                        'reasonCanceled'  => '',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating sale order: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.order.update',
@@ -184,7 +288,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

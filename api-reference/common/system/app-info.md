@@ -38,36 +38,25 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        "app.info",
-        {},
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.log(result.data());
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'app.info',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'app.info',
-        []
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
     ```php        
     try {
@@ -85,6 +74,37 @@
     } catch (Throwable $e) {
         print("Error: " . $e->getMessage() . PHP_EOL);
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "app.info",
+        {},
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'app.info',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -138,7 +158,7 @@ HTTP-статус: **200**
     - `P` (Paid) — оплаченное приложение
     - `L` (Local) — локальное приложение
     - `S` (Subscription) — подписное приложение 
-- `INSTALLED` — [true\|false] cтатус установленности приложения. Если приложение не установлено, оно доступно только администраторам портала и должно сигнализировать об окончании установки при помощи вызова [BX24.installFinish](../../bx24-js-sdk/system-functions/bx24-install-finish.md)
+- `INSTALLED` — [true\|false] cтатус установленности приложения. Если приложение не установлено, оно доступно только администраторам портала и должно сигнализировать об окончании установки при помощи вызова [BX24.installFinish](../../../sdk/bx24-js-sdk/system-functions/bx24-install-finish.md)
 - `PAYMENT_EXPIRED` — [Y\|N] флаг, показывающий, истек ли оплаченный период или период триального использования
 - `DAYS` — количество дней, оставшееся до конца оплаченного периода или периода триального использования
 - `LICENSE` — обозначение тарифа с указанием региона в виде префикса.Состоит из базового языка портала и идентификатора тарифного плана. В случае с тарифами, состав которых менялся при сохранении публичного наименования (как CRM+, Команда и Компания), понять, какой именно тариф действует по этому полю нельзя. Примеры вариантов значений:

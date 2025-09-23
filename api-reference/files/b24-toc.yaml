@@ -1,6 +1,8 @@
 title: Работа с файлами
 href: how-to-upload-files.md
 items: 
+  - name: Как работать с файлами
+    href: index.md
   - name: Как загрузить файлы
     href: how-to-upload-files.md
   - name: Как обновить и удалить файлы

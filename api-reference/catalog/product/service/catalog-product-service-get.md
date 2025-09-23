@@ -20,6 +20,12 @@
 ||
 |#
 
+{% note warning "Работа с ценой услуг" %}
+
+Чтобы получить цены услуги, используйте методы [catalog.price.*](../../price/index.md).
+
+{% endnote %}
+
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
@@ -48,6 +54,55 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'catalog.product.service.get', {
+    			id: 1265
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.product.service.get',
+                [
+                    'id' => 1265
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting product service: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'catalog.product.service.get', {
@@ -63,7 +118,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

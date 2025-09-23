@@ -57,31 +57,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX.rest.callMethod(
-        'biconnector.source.update',
-        {
-            id: 4,
-            fields: {
-                "title": "Новое название источника",
-                "description": "Обновленное описание источника",
-                "active": false,
-                "settings": {
-                    "login": "new_admin",
-                    "password": "new_password"
-                }
-            }
-        },
-        (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -125,7 +100,105 @@
     https://**put_your_bitrix24_address**/rest/biconnector.source.update
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'biconnector.source.update',
+    		{
+    			id: 4,
+    			fields: {
+    				"title": "Новое название источника",
+    				"description": "Обновленное описание источника",
+    				"active": false,
+    				"settings": {
+    					"login": "new_admin",
+    					"password": "new_password"
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'biconnector.source.update',
+                [
+                    'id' => 4,
+                    'fields' => [
+                        "title"       => "Новое название источника",
+                        "description" => "Обновленное описание источника",
+                        "active"      => false,
+                        "settings"    => [
+                            "login"    => "new_admin",
+                            "password" => "new_password"
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating source: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'biconnector.source.update',
+        {
+            id: 4,
+            fields: {
+                "title": "Новое название источника",
+                "description": "Обновленное описание источника",
+                "active": false,
+                "settings": {
+                    "login": "new_admin",
+                    "password": "new_password"
+                }
+            }
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

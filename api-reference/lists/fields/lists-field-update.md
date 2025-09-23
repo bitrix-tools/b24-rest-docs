@@ -67,6 +67,128 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.field.update',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists_socnet',
+    			'IBLOCK_CODE': 'rest_1',
+    			'FIELD_ID': 'PROPERTY_61',
+    			'FIELDS': {
+    				'NAME': 'List field (Update)',
+    				'IS_REQUIRED': 'N',
+    				'MULTIPLE': 'N',
+    				'TYPE': 'L',
+    				'SORT': '20',
+    				'CODE': 'fieldList',
+    				'LIST': {
+    					'58': {
+    						'SORT': '10',
+    						'VALUE': 'one'
+    					},
+    					'59': {
+    						'SORT': '20',
+    						'VALUE': 'two'
+    					},
+    					'60': {
+    						'SORT': '30',
+    						'VALUE': 'three'
+    					}
+    				},
+    				'LIST_DEF': {
+    					'0': '59'
+    				},
+    				'SETTINGS': {
+    					'SHOW_ADD_FORM': 'Y',
+    					'SHOW_EDIT_FORM': 'Y',
+    					'ADD_READ_ONLY_FIELD': 'N',
+    					'EDIT_READ_ONLY_FIELD': 'Y',
+    					'SHOW_FIELD_PREVIEW': 'N'
+    				}
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Success: " + result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists_socnet',
+            'IBLOCK_CODE' => 'rest_1',
+            'FIELD_ID' => 'PROPERTY_61',
+            'FIELDS' => [
+                'NAME' => 'List field (Update)',
+                'IS_REQUIRED' => 'N',
+                'MULTIPLE' => 'N',
+                'TYPE' => 'L',
+                'SORT' => '20',
+                'CODE' => 'fieldList',
+                'LIST' => [
+                    '58' => [
+                        'SORT' => '10',
+                        'VALUE' => 'one'
+                    ],
+                    '59' => [
+                        'SORT' => '20',
+                        'VALUE' => 'two'
+                    ],
+                    '60' => [
+                        'SORT' => '30',
+                        'VALUE' => 'three'
+                    ]
+                ],
+                'LIST_DEF' => [
+                    '0' => '59'
+                ],
+                'SETTINGS' => [
+                    'SHOW_ADD_FORM' => 'Y',
+                    'SHOW_EDIT_FORM' => 'Y',
+                    'ADD_READ_ONLY_FIELD' => 'N',
+                    'EDIT_READ_ONLY_FIELD' => 'Y',
+                    'SHOW_FIELD_PREVIEW' => 'N'
+                ]
+            ]
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.field.update',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . $result->data();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating list field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var params = {
         'IBLOCK_TYPE_ID': 'lists_socnet',

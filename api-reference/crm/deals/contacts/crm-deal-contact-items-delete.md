@@ -38,6 +38,53 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const id = prompt("Введите ID");
+    	const response = await $b24.callMethod(
+    		"crm.deal.contact.items.delete",
+    		{
+    			id: id
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.info(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $dealId = 123; // Replace with the actual deal ID you want to delete contacts from
+        $result = $serviceBuilder->getCRMScope()->dealContact()->itemsDelete($dealId);
+
+        if ($result->isSuccess()) {
+            print("Successfully deleted contacts from deal ID: $dealId");
+        } else {
+            print("Failed to delete contacts. Result: " . json_encode($result));
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
+    ```
+
+- BX24.js
+
     ```js
     var id = prompt("Введите ID");
     BX24.callMethod(
@@ -53,23 +100,6 @@
                 console.info(result.data());
         }
     );
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php
-    try {
-        $dealId = 123; // Replace with the actual deal ID you want to delete contacts from
-        $result = $serviceBuilder->getCRMScope()->dealContact()->itemsDelete($dealId);
-
-        if ($result->isSuccess()) {
-            print("Successfully deleted contacts from deal ID: $dealId");
-        } else {
-            print("Failed to delete contacts. Result: " . json_encode($result));
-        }
-    } catch (Throwable $e) {
-        print("An error occurred: " . $e->getMessage());
-    }
     ```
 
 {% endlist %}

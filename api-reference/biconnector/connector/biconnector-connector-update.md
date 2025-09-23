@@ -64,44 +64,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX.rest.callMethod(
-        'biconnector.connector.update',
-        {
-            id: 4,
-            fields: {
-                "title": "UPDATED REST CONNECTOR",
-                "logo": "data:image/svg+xml;base64,NEWLOGODATA",
-                "description": "Updated description",
-                "urlCheck": "http://example.com/api/new_check",
-                "urlTableList": "http://example.com/api/new_table_list",
-                "urlTableDescription": "http://example.com/api/new_table_description",
-                "urlData": "http://example.com/api/new_data",
-                "settings": [
-                    {
-                        "name": "Идентификатор сотрудника",
-                        "type": "STRING",
-                        "code": "id"
-                    },
-                    {
-                        "name": "Пароль",
-                        "type": "STRING",
-                        "code": "password"
-                    }
-                ],
-                "sort": 200
-            }
-        },
-        (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -171,7 +133,143 @@
          https://**put_your_bitrix24_address**/rest/biconnector.connector.update
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'biconnector.connector.update',
+    		{
+    			id: 4,
+    			fields: {
+    				"title": "UPDATED REST CONNECTOR",
+    				"logo": "data:image/svg+xml;base64,NEWLOGODATA",
+    				"description": "Updated description",
+    				"urlCheck": "http://example.com/api/new_check",
+    				"urlTableList": "http://example.com/api/new_table_list",
+    				"urlTableDescription": "http://example.com/api/new_table_description",
+    				"urlData": "http://example.com/api/new_data",
+    				"settings": [
+    					{
+    						"name": "Идентификатор сотрудника",
+    						"type": "STRING",
+    						"code": "id"
+    					},
+    					{
+    						"name": "Пароль",
+    						"type": "STRING",
+    						"code": "password"
+    					}
+    				],
+    				"sort": 200
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error()
+    		? console.error(result.error())
+    		: console.info(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'biconnector.connector.update',
+                [
+                    'id' => 4,
+                    'fields' => [
+                        "title"               => "UPDATED REST CONNECTOR",
+                        "logo"                => "data:image/svg+xml;base64,NEWLOGODATA",
+                        "description"         => "Updated description",
+                        "urlCheck"            => "http://example.com/api/new_check",
+                        "urlTableList"        => "http://example.com/api/new_table_list",
+                        "urlTableDescription" => "http://example.com/api/new_table_description",
+                        "urlData"             => "http://example.com/api/new_data",
+                        "settings"            => [
+                            [
+                                "name" => "Идентификатор сотрудника",
+                                "type" => "STRING",
+                                "code" => "id"
+                            ],
+                            [
+                                "name" => "Пароль",
+                                "type" => "STRING",
+                                "code" => "password"
+                            ]
+                        ],
+                        "sort"                => 200
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating connector: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'biconnector.connector.update',
+        {
+            id: 4,
+            fields: {
+                "title": "UPDATED REST CONNECTOR",
+                "logo": "data:image/svg+xml;base64,NEWLOGODATA",
+                "description": "Updated description",
+                "urlCheck": "http://example.com/api/new_check",
+                "urlTableList": "http://example.com/api/new_table_list",
+                "urlTableDescription": "http://example.com/api/new_table_description",
+                "urlData": "http://example.com/api/new_data",
+                "settings": [
+                    {
+                        "name": "Идентификатор сотрудника",
+                        "type": "STRING",
+                        "code": "id"
+                    },
+                    {
+                        "name": "Пароль",
+                        "type": "STRING",
+                        "code": "password"
+                    }
+                ],
+                "sort": 200
+            }
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

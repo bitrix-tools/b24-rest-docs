@@ -28,45 +28,25 @@
 
 ### Особенности работы метода
 
-Метод перезаписывает массив `ENTITIES`:
+Метод перезаписывает массив `ENTITIES`. Чтобы добавить элемент, включите в запрос и текущие, и новые `ID`:
 
-Чтобы добавить элемент, включите в запрос и текущие, и новые `ID`:
-
-1. Текущие ID: [1,2,3] 
-2. Новые ID: [4] 
-3. Передать: [1,2,3,4]
+1. Текущие ID: [1,2,3].
+2. Новые ID: [4].
+3. Передать: [1,2,3,4].
 
 Чтобы удалить элемент, передайте только те `ID`, которые должны остаться в списке:
 
-1. Текущие ID: [1,2,3] 
-2. Удалить: [2]  
-3. Передать: [1,3]
+4. Текущие ID: [1,2,3].
+5. Удалить: [2].
+6. Передать: [1,3].
+
+Метод перезаписывает поле `WEBFORM_ID`. Если при вызове метода не передавать поле `WEBFORM_ID`, поле будет очищено.
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- JS
-
-    ```js
-    BX24.callMethod(
-        "crm.calllist.update",
-        {
-            LIST_ID: 123,
-            ENTITY_TYPE: "CONTACT",
-            ENTITIES: [1,2,3],
-            WEBFORM_ID: 5
-        },
-        function(result) {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
-    ```
 
 - cURL (Webhook)
 
@@ -86,7 +66,89 @@
          https://**your_bitrix24**/rest/crm.calllist.update
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.calllist.update',
+    		{
+    			LIST_ID: 123,
+    			ENTITY_TYPE: 'CONTACT',
+    			ENTITIES: [1, 2, 3],
+    			WEBFORM_ID: 5
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error()) {
+    		console.error(result.error());
+    	} else {
+    		console.dir(result);
+    	}
+    }
+    catch (error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.calllist.update',
+                [
+                    'LIST_ID'     => 123,
+                    'ENTITY_TYPE' => 'CONTACT',
+                    'ENTITIES'    => [1, 2, 3],
+                    'WEBFORM_ID'  => 5,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating call list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.calllist.update",
+        {
+            LIST_ID: 123,
+            ENTITY_TYPE: "CONTACT",
+            ENTITIES: [1,2,3],
+            WEBFORM_ID: 5
+        },
+        function(result) {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

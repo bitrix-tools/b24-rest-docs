@@ -97,7 +97,7 @@
 || **scope***
 [`string`](../data-types.md) | [Скоуп](../scopes/permissions.md), в рамках которого произошло событие ||
 || **domain***
-[`string`](../data-types.mdd) | Адрес Битрикс24, на котором произошло событие ||
+[`string`](../data-types.md) | Адрес Битрикс24, на котором произошло событие ||
 || **server_endpoint***
 [`string`](../data-types.md) | Адрес сервера авторизации Битрикс24, необходимый для обновления токенов OAuth 2.0 ||
 || **status***
@@ -113,7 +113,7 @@
 || **member_id***
 [`string`](../data-types.md) | Идентификатор Битрикс24, на котором произошло событие ||
 || **refresh_token***
-[`string`](../data-types.md) | Токен продления авторизации [OAuth 2.0](../oauth/index.md) ||
+[`string`](../data-types.md) | Токен продления авторизации [OAuth 2.0](../../settings/oauth/index.md) ||
 || **application_token***
 [`string`](../data-types.md) | Токен для безопасной обработки событий ||
 |#

@@ -4,7 +4,7 @@
 
 Метод `event.offline.get` возвращает приложению первые в очереди офлайн-события согласно установкам фильтра. Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
 
-Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
 
 ## Параметры метода
 
@@ -67,6 +67,71 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'event.offline.get',
+    		{
+    			'filter': {
+    				'=MESSAGE_ID': 1,
+    				'=EVENT_NAME': 'ONCRMLEADADD',
+    				'>=ID': 1
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error()) {
+    		console.error(result.error());
+    	} else {
+    		console.dir(result);
+    	}
+    }
+    catch (error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'event.offline.get',
+                [
+                    'filter' => [
+                        '=MESSAGE_ID' => 1,
+                        '=EVENT_NAME' => 'ONCRMLEADADD',
+                        '>=ID'       => 1,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting offline events: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "event.offline.get",
@@ -87,7 +152,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -2,31 +2,48 @@ title: REST API Битрикс24 и приложения для Маркет
 href: index.yaml
 items: 
   - name: Что позволяет REST API Битрикс24
-    href: developing-with-rest-api.md
-  - name: С чего начать
-    href: about.md
-  - name: Как получить доступ к REST API 
-    href: access-to-rest-api.md
-  - name: Как выполнить свой первый запрос к API 
-    href: first-rest-api-call.md
-  - name: Как использовать примеры 
-    href: how-to-use-examples.md
+    href: developing-with-rest-api.md  
+  - name: Первые шаги 
+    include:
+      path: first-steps/b24-toc.yaml
+      mode: link
+  - name: Частые кейсы и сценарии 
+    include:
+      path: tutorials/b24-toc.yaml
+      mode: link
+  - name: Локальные решения
+    include:
+      path: local-integrations/b24-toc.yaml
+      mode: link
+  - name: Библиотеки для разработки
+    include:
+      path: sdk/b24-toc.yaml
+      mode: link  
+  - name: Настройка и использование REST
+    include:
+      path: settings/b24-toc.yaml
+      mode: link      
+  - name: Битрикс24 Маркетплейс
+    include:
+      path: market/b24-toc.yaml
+      mode: link
+  - name: Справочник API
+    include:
+      path: api-reference/b24-toc.yaml
+      mode: link                  
   - name: Страница 404
     href: 404.yaml
     hidden: true
 #  - name: Опрос по документации REST
 #    href: poll-bar.md
 #    hidden: true
-  - name: Частые кейсы и сценарии 
-    include:
-      path: tutorials/b24-toc.yaml
-      mode: link
   - name: Лимиты REST API
     href: limits.md
   - name: Коды ошибок
     href: error-codes.md       
   - name: Что нового
     href: whats-new.md
+    hidden: true
   - name: Митапы для разработчиков
     href: meetups.md
   - name: Поддержка и коммьюнити для разработчиков
@@ -39,18 +56,6 @@ items:
     hidden: true    
   - name: Обратная связь
     href: feedback.md
-  - name: Локальные интеграции и кастомизация 
-    include:
-      path: local-integrations/b24-toc.yaml
-      mode: link
-  - name: Битрикс24 Маркетплейс
-    include:
-      path: market/b24-toc.yaml
-      mode: link
-  - name: Справочник API
-    include:
-      path: api-reference/b24-toc.yaml
-      mode: link 
 navigation:
   logo:
     url: '/'
@@ -63,15 +68,15 @@ navigation:
       - text: 'С чего начать'
         type: 'link'
         url: '/about.html'
+      - text: 'Справочник API'
+        type: 'link'
+        url: '/api-reference/index.html'        
       - text: 'Что нового'
         type: 'link'
         url: '/whats-new.html'     
       - text: 'Частые кейсы'
         type: 'link'
         url: '/tutorials/index.html'  
-      - text: 'Методы API'
-        type: 'link'
-        url: '/api-reference/index.html'
       - text: 'GitHub'
         type: 'link'
         url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'

@@ -89,7 +89,7 @@ fields:
 || **RESPONSIBLE_ID***
 [`user`](../../../data-types.md) | Идентификатор пользователя, ответственного за дело ||
 || **SETTINGS**
-[`object`](../../../data-types.md) | Доболнительные настройки ||
+[`object`](../../../data-types.md) | Дополнительные настройки ||
 || **START_TIME**
 [`datetime`](../../../data-types.md) | Время начала выполнения дела ||
 || **STATUS**
@@ -130,7 +130,65 @@ fields:
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.update',
+    		{
+    			id: 999,
+    			fields: {
+    				"RESPONSIBLE_ID": 1, 
+    				"DESCRIPTION": "Новое описание дела"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.update',
+                [
+                    'id' => 999,
+                    'fields' => [
+                        "RESPONSIBLE_ID" => 1,
+                        "DESCRIPTION" => "Новое описание дела"
+                    ]
+                ]
+            );
     
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating activity: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'crm.activity.update',
@@ -151,8 +209,7 @@ fields:
     );
     ```
 
-
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

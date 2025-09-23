@@ -45,7 +45,7 @@
 
 `start = (N-1) * 50`, где `N` — номер нужной страницы.
 
-Подробности в статье [{#T}](../how-to-call-rest-api/list-methods-pecularities.md) ||
+Подробности в статье [{#T}](../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
 ## Примеры кода
@@ -85,6 +85,59 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"department.get", {
+    			"sort": "NAME",
+    			"order": "DESC",
+    			"PARENT": 1
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'department.get',
+                [
+                    'sort'   => 'NAME',
+                    'order'  => 'DESC',
+                    'PARENT' => 1,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting departments: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "department.get", {
@@ -102,7 +155,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

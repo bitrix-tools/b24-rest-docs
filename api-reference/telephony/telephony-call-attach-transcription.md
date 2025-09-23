@@ -56,6 +56,87 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"telephony.call.attachTranscription",
+    		{
+    			CALL_ID: callId,
+    			MESSAGES: messages
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'telephony.call.attachTranscription',
+                [
+                    'CALL_ID' => $callId,
+                    'MESSAGES' => [
+                        [
+                            'SIDE' => 'User',
+                            'START_TIME' => 1,
+                            'STOP_TIME' => 3,
+                            'MESSAGE' => 'Добрый день, чем могу помочь'
+                        ],
+                        [
+                            'SIDE' => 'Client',
+                            'START_TIME' => 4,
+                            'STOP_TIME' => 8,
+                            'MESSAGE' => 'Здравствуйте, вы продаете пылесосы?'
+                        ],
+                        [
+                            'SIDE' => 'User',
+                            'START_TIME' => 9,
+                            'STOP_TIME' => 11,
+                            'MESSAGE' => 'К сожалению, нет'
+                        ],
+                        [
+                            'SIDE' => 'Client',
+                            'START_TIME' => 11,
+                            'STOP_TIME' => 13,
+                            'MESSAGE' => 'Понятно, до свидания'
+                        ],
+                        [
+                            'SIDE' => 'User',
+                            'START_TIME' => 13,
+                            'STOP_TIME' => 15,
+                            'MESSAGE' => 'До свидания'
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error attaching transcription: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     var callId = '<Id of the call>';
     var messages = [

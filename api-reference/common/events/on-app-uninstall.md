@@ -12,7 +12,7 @@
 
 ```
 {
-    "event": "ONAPPSUNINSTALL",
+    "event": "ONAPPUNINSTALL",
     "data": {
         "LANGUAGE_ID" => "ru",
         "CLEAN": 1
@@ -36,7 +36,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../data-types.md) | Символьный код события — `ONAPPSUNINSTAL` ||
+[`string`](../../data-types.md) | Символьный код события — `ONAPPUNINSTAL` ||
 || **data***
 [`array`](../../data-types.md) | Данные об удаленном приложении.
 
@@ -70,7 +70,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **domain***
-[`string`](../../data-types.mdd) | Адрес портала Битрикс24 ||
+[`string`](../../data-types.md) | Адрес портала Битрикс24 ||
 || **server_endpoint***
 [`string`](../../data-types.md) | Адрес сервера авторизации для обновления токена||
 || **client_endpoint***

@@ -69,7 +69,7 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-Cм. описание [списочных методов](../../../../how-to-call-rest-api/list-methods-pecularities.md).
+Cм. описание [списочных методов](../../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% note info "" %}
 
@@ -580,3 +580,4 @@ HTTP-статус: **200**
 
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
+- [{#T}](../../../../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)

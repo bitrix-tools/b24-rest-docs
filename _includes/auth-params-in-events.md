@@ -5,7 +5,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **access_token**
-[`string`](/api-reference/data-types.html) |  Токен авторизации [OAuth 2.0](/api-reference/oauth/index.html) ||
+[`string`](/api-reference/data-types.html) |  Токен авторизации [OAuth 2.0](/settings/oauth/index.html) ||
 || **expires_in**
 [`integer`](/api-reference/data-types.html) | Время в секундах до истечения срока действия токена ||
 || **scope***
@@ -27,7 +27,7 @@
 || **member_id***
 [`string`](/api-reference/data-types.html) | Идентификатор Битрикс24, на котором произошло событие ||
 || **refresh_token**
-[`string`](/api-reference/data-types.html) | Токен продления авторизации [OAuth 2.0](/api-reference/oauth/index.html) ||
+[`string`](/api-reference/data-types.html) | Токен продления авторизации [OAuth 2.0](/settings/oauth/index.html) ||
 || **application_token***
 [`string`](/api-reference/data-types.html) | Токен для безопасной обработки событий ||
 |#

@@ -32,7 +32,7 @@
 #|
 || **Параметр** | **Описание** ||
 || **ENTITY**^*^
-[`string`](../../data-types.md) | Обязательный. Строковой идентификатор хранилища, уникальны для данного приложения (максимальная длина - 13 символов). ||
+[`string`](../../data-types.md) | Обязательный. Строковой идентификатор хранилища, уникален для данного приложения (максимальная длина - 13 символов). ||
 || **NAME**^*^
 [`string`](../../data-types.md) | Обязательный. Название хранилища ||
 || **ACCESS**
@@ -49,6 +49,68 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'entity.add',
+    		{
+    			'ENTITY': 'dish',
+    			'NAME': 'Dishes',
+    			'ACCESS': {
+    				U1:'W',
+    				AU:'R'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Created element with ID:', result);
+    	// Нужная вам логика обработки данных
+    	processResult(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'entity.add',
+                [
+                    'ENTITY' => 'dish',
+                    'NAME'   => 'Dishes',
+                    'ACCESS' => [
+                        'U1' => 'W',
+                        'AU' => 'R'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding entity: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```javascript
     BX24.callMethod(

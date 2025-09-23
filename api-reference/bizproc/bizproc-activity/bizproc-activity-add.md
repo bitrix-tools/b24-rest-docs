@@ -6,7 +6,7 @@
 
 Добавляет новое действие для использования в бизнес-процессах. 
 
-Метод работает только в контексте [приложения](../../app-installation/index.md).
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
 Каждый документ генерирует свой набор типов полей. Например, в CRM есть поле типа Адрес `UF:address`. Чтобы использовать этот тип поля в своих действиях, укажите тип документа CRM в `DOCUMENT_TYPE` и опишите свойства типа в `PROPERTIES`.
 
@@ -253,6 +253,142 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.activity.add',
+    		{
+    			'CODE': 'md5_action',
+    			'HANDLER': 'https://your_domain/ping.php',
+    			'AUTH_USER_ID': 1,
+    			'USE_SUBSCRIPTION': 'Y',
+    			'NAME': {
+    				'ru': 'MD5 генератор',
+    				'en': 'MD5 generator'
+    			},
+    			'DESCRIPTION': {
+    				'ru': 'Действие возвращает MD5 хеш от входящего параметра',
+    				'en': 'Activity returns MD5 hash of input parameter'
+    			},
+    			'PROPERTIES': {
+    				'inputString': {
+    					'Name': {
+    						'ru': 'Входящая строка',
+    						'en': 'Input string'
+    					},
+    					'Description': {
+    						'ru': 'Введите строку, которую вы хотите хешировать',
+    						'en': 'Input string for hashing'
+    					},
+    					'Type': 'string',
+    					'Required': 'Y',
+    					'Multiple': 'N',
+    					'Default': '{=Document:NAME}'
+    				}
+    			},
+    			'RETURN_PROPERTIES': {
+    				'outputString': {
+    					'Name': {
+    						'ru': 'MD5',
+    						'en': 'MD5'
+    					},
+    					'Type': 'string',
+    					'Multiple': 'N',
+    					'Default': null
+    				}
+    			},
+    			'DOCUMENT_TYPE': ['lists', 'BizprocDocument', 'iblock_164'],
+    			'FILTER': {
+    				INCLUDE: [
+    					['lists']
+    				]
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Success: " + result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'bizproc.activity.add',
+                [
+                    'CODE'            => 'md5_action',
+                    'HANDLER'         => 'https://your_domain/ping.php',
+                    'AUTH_USER_ID'    => 1,
+                    'USE_SUBSCRIPTION' => 'Y',
+                    'NAME'            => [
+                        'ru' => 'MD5 генератор',
+                        'en' => 'MD5 generator'
+                    ],
+                    'DESCRIPTION'     => [
+                        'ru' => 'Действие возвращает MD5 хеш от входящего параметра',
+                        'en' => 'Activity returns MD5 hash of input parameter'
+                    ],
+                    'PROPERTIES'      => [
+                        'inputString' => [
+                            'Name'        => [
+                                'ru' => 'Входящая строка',
+                                'en' => 'Input string'
+                            ],
+                            'Description' => [
+                                'ru' => 'Введите строку, которую вы хотите хешировать',
+                                'en' => 'Input string for hashing'
+                            ],
+                            'Type'        => 'string',
+                            'Required'    => 'Y',
+                            'Multiple'    => 'N',
+                            'Default'     => '{=Document:NAME}'
+                        ]
+                    ],
+                    'RETURN_PROPERTIES' => [
+                        'outputString' => [
+                            'Name'     => [
+                                'ru' => 'MD5',
+                                'en' => 'MD5'
+                            ],
+                            'Type'     => 'string',
+                            'Multiple' => 'N',
+                            'Default'  => null
+                        ]
+                    ],
+                    'DOCUMENT_TYPE'    => ['lists', 'BizprocDocument', 'iblock_164'],
+                    'FILTER'           => [
+                        'INCLUDE' => [
+                            ['lists']
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'bizproc.activity.add',
@@ -313,7 +449,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

@@ -118,6 +118,70 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.task.complete',
+    		{
+    			'TASK_ID': 1501,
+    			'STATUS': 1,
+    			'COMMENT': 'Добавлено',
+    			"Fields": {
+    				'contractor': 'C_607',
+    				'phone_number': '89991234567'
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'bizproc.task.complete',
+                [
+                    'TASK_ID' => 1501,
+                    'STATUS' => 1,
+                    'COMMENT' => 'Добавлено',
+                    'Fields' => [
+                        'contractor' => 'C_607',
+                        'phone_number' => '89991234567'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error completing task: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'bizproc.task.complete',
@@ -140,7 +204,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -227,3 +291,4 @@ HTTP-статус: **400**
  
  - [{#T}](./index.md)
  - [{#T}](./bizproc-task-list.md)
+ - [{#T}](./bizproc-task-delegate.md)

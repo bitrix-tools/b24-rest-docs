@@ -5,8 +5,8 @@ items:
     href: index.md
   - name: Как найти дубликаты в CRM по телефону и email
     href: search-by-phone-and-email.md
-  - name: Как получить список дел
-    href: get-activity-list-by-contact.md
+  - name: Как получить список дел из сделок
+    href: get-activity-list-by-deals.md
   - name: Как получить список статусов лидов с семантикой
     href: lead-statuses-with-semantics.md
   - name: Как получить список статусов коммерческих предложений

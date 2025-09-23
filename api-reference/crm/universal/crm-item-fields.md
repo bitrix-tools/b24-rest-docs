@@ -4,7 +4,7 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «чтения» элементов объекта CRM
 
-Метод получает список полей и их конфигурацию для элементов типа `entityTypeId`
+Метод получает список полей и их конфигурацию для элементов типа `entityTypeId`.
 
 {% note warning %}
 
@@ -61,6 +61,61 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.item.fields',
+    		{
+    			entityTypeId: 1268,
+    			useOriginalUfNames: 'N',
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.fields',
+                [
+                    'entityTypeId'      => 1268,
+                    'useOriginalUfNames' => 'N',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            return;
+        }
+    
+        echo 'Success: ' . print_r($result->data(), true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching CRM item fields: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
         BX24.callMethod(
             'crm.item.fields',
@@ -81,7 +136,7 @@
         );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -550,5 +605,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-get.md)
 - [{#T}](crm-item-list.md)
 - [{#T}](crm-item-delete.md)
+- [{#T}](./object-fields.md)
 
 [1]: ../data-types.md

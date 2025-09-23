@@ -1,6 +1,7 @@
 # Как добавить лиды и другие сущности
 
 - [{#T}](./how-to-add-lead.md)
+- [{#T}](./how-to-add-lead-with-files.md)
 - [{#T}](./how-to-add-objects-with-crm-mode.md)
 - [{#T}](./how-to-add-repeat-lead.md)
 - [{#T}](./how-to-add-contact.md)

@@ -24,6 +24,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.fields
     ```
   
+
 - cURL (OAuth)
 
     ```bash
@@ -35,6 +36,55 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.contact.fields',
+    		{}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info('Поля контакта', result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.contact.fields',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Поля контакта: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching contact fields: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -49,7 +99,7 @@
     );    
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

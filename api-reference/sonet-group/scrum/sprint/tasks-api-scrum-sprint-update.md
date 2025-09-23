@@ -83,6 +83,68 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'tasks.api.scrum.sprint.update',
+    		{
+    			id: sprintId,
+    			fields: {
+    				name: name,
+    				groupId: groupId,
+    				dateStart: dateStart,
+    				dateEnd: dateEnd,
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'tasks.api.scrum.sprint.update',
+                [
+                    'id' => $sprintId,
+                    'fields' => [
+                        'name'      => $name,
+                        'groupId'   => $groupId,
+                        'dateStart' => $dateStart,
+                        'dateEnd'   => $dateEnd,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating sprint: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const sprintId = 2;
     const groupId = 1;
@@ -107,7 +169,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK

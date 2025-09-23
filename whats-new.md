@@ -2,21 +2,125 @@
 
 ## 2025
 
-### 15 июля, 2025
+### 19 сентября, 2025
+
+- Обновлена главная страница раздела [Чаты](./api-reference/imopenlines/openlines/chats/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница событий в разделе [Валюты](./api-reference/crm/currency/events/index.md). Добавили вводную информацию, а также обзор событий
+
+### 18 сентября, 2025
+
+- Добавили статью [Завершение установки приложений](./settings/app-installation/installation-finish.md)
+- Обновили документацию по методам [tasks.task.favorite.add](./api-reference/tasks/tasks-task-favorite-add.md), [tasks.task.favorite.remove](./api-reference/tasks/tasks-task-favorite-remove.md), [tasks.task.getaccess](./api-reference/tasks/tasks-task-get-access.md) в Задачах
+- Обновили документацию по методам [tasks.task.delete](./api-reference/tasks/tasks-task-delete.md), [tasks.task.delegate](./api-reference/tasks/tasks-task-delegate.md), [tasks.task.approve](./api-reference/tasks/tasks-task-approve.md), [tasks.task.disapprove](./api-reference/tasks/tasks-task-disapprove.md) в Задачах
+
+### 17 сентября, 2025
+
+- Обновили документацию по методам [catalog.storeproduct.*](./api-reference/catalog/store-product/index.md) в Торговом каталоге
+
+### 11 сентября, 2025
+
+- Обновили документацию по методам [tasks.task.mute](./api-reference/tasks/tasks-task-mute.md), [tasks.task.unmute](./api-reference/tasks/tasks-task-unmute.md), [tasks.task.startwatch](./api-reference/tasks/tasks-task-start-watch.md), [tasks.task.stopwatch](./api-reference/tasks/tasks-task-stop-watch.md) в Задачах
+
+### 10 сентября, 2025
+
+- Обновили документацию по методам смены статуса задачи [tasks.task.complete](./api-reference/tasks/tasks-task-complete.md), [tasks.task.pause](./api-reference/tasks/tasks-task-pause.md), [tasks.task.start](./api-reference/tasks/tasks-task-start.md), [tasks.task.defer](./api-reference/tasks/tasks-task-defer.md), [tasks.task.renew](./api-reference/tasks/tasks-task-renew.md) в Задачах
+
+### 05 сентября, 2025
+
+- Обновили документацию по методам цен [catalog.price.*](./api-reference/catalog/price/index.md) в Торговом каталоге
+
+### 04 сентября, 2025
+
+- Добавлены новые возможности для встройки [CRM_XXX_DETAIL_ACTIVITY](./api-reference/widgets/crm/detail-activity-area.md)
+
+### 22 августа, 2025
+
+- Обновлена главная страница раздела [Клиент в листе ожидания](./api-reference/booking/waitlist/client/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена документация по методам работы с результатами задачи [tasks.task.result.*](./api-reference/tasks/result/index.md) в Задачах
+
+### 21 августа, 2025
+
+- Добавлен новый туториал [Как получить список дел из сделок](./tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
+
+### 20 августа, 2025
+
+- Добавлены методы для работы с опросами, голосованиями [vote*](./api-reference/vote/index.md)
+
+### 15 августа, 2025
+
+- Обновлена документация по методу [task.planner.getlist](./api-reference/tasks/planner/task-planner-get-list.md) в Задачах
+- Обновлена главная страница раздела [План рабочего дня](./api-reference/tasks/planner/index.md) в Задачах. Добавили вводную информацию, а также обзор методов и связей
+
+### 14 августа, 2025
+
+- Обновлена главная страница раздела [Изменить чат](./api-reference/chats/chat-update/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+
+### 13 августа, 2025
+
+- Добавлен новый метод делегирования заданий бизнес-процесса [bizproc.task.delegate](./api-reference/bizproc/bizproc-task/bizproc-task-delegate.md)
+
+### 12 августа, 2025
+
+- Обновлен метод получения истории движения по стадиям [crm.stagehistory.list](./api-reference/crm/crm-stage-history-list.md) в CRM. Добавили поддержку всех объектов CRM со стадиями и воронками
+
+### 06 августа, 2025
+
+- Обновлена главная страница раздела [Пользователи](./api-reference/user/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 06 августа, 2025
+
+- Обновлены главные страницы событий в разделах: [Телефония](./api-reference/telephony/events/index.md), [SIP и встроенная телефония](./api-reference/telephony/voximplant/events/index.md), [Рабочие группы и проекты](./api-reference/sonet-group/events/index.md). Добавили вводную информацию, а также обзор событий
+
+### 05 августа, 2025
+
+- Обновлен туториал [Добавить лид с файлами через веб-форму](./tutorials/crm/how-to-add-crm-objects/how-to-add-lead-with-files.md)
+- Обновлена главная страница раздела [Клиент бронирования](./api-reference/booking/booking/client/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Пользователи](./api-reference/chats/users/index.md) в Чатах. Добавили вводную информацию, а также обзор методов и связей
+  
+### 04 августа, 2025
+
+- Обновлена главная страница раздела [Список обзвона](./api-reference/crm/call-list/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+
+### 01 августа, 2025
+
+- Обновлен туториал [Как создать коннектор открытых линий для чата на сайте](./tutorials/openlines/example-connector.md)
+
+### 31 июля, 2025
+
+- Обновлен туториал [Добавить дело в новый лид или сделку в зависимости от режима CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
+
+### 30 июля, 2025
+
+- Обновлена документация по методам пользовательских полей сделок [crm.deal.userfield.*](./api-reference/crm/deals/user-defined-fields/index.md) в CRM
+
+### 28 июля, 2025
 
 - Добавлена документация по методам списков обзвона [crm.calllist.*](./api-reference/crm/call-list/index.md) в CRM
 
+### 24 июля, 2025
+
+- Обновлена документация по методам работы с комментариями [task.commentitem.*](./api-reference/tasks/comment-item/index.md) в Задачах
+
+### 18 июля, 2025
+
+- Обновлена главная страница раздела [Слоты](./api-reference/booking/resource/slots/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+
+### 16 июля, 2025
+
+- Обновлена главная страница раздела [Работа с CRM-поставщиками](./api-reference/catalog/documentcontractor/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+
+### 15 июля, 2025
+
+- Обновлена главная страница раздела [Типы ресурсов](./api-reference/booking/resource/resource-type/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+
 ### 10 июля, 2025
 
-- Обновлена докуменатция по методам справочников [crm.status.*](./api-reference/crm/status/index.md) в CRM
-
-### 10 июля, 2025
-
+- Обновлена документация по методам справочников [crm.status.*](./api-reference/crm/status/index.md) в CRM
 - Обновлен туториал [Как добавить шаблон и создать документ на его основе](./tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)
 
 ### 09 июля, 2025
 
-- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/auxiliary/vat/index.md) в CRM
+- Обновлена документация по методам ставок НДС [crm.vat.*](./api-reference/crm/outdated/vat/index.md) в CRM
 - Добавлен новый туториал [Как создать новую воронку со стадиями в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
 - Обновлены главные страницы событий в разделах: [События календаря](./api-reference/calendar/calendar-event/events/index.md), [Календарь](./api-reference/calendar/events/index.md). Добавили вводную информацию, а также обзор событий
 
@@ -123,7 +227,7 @@
 
 ### 14 мая, 2025
 
-- Добавлены методы для модуя BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)
+- Добавлены методы для модуля BIconnector: [Коннектор](./api-reference/biconnector/connector/index.md), [Источники](./api-reference/biconnector/source/index.md), [Датасеты](./api-reference/biconnector/dataset/index.md)
 
 ### 13 мая, 2025
 
@@ -207,7 +311,7 @@
 
 ### 25 марта, 2025
 
-- Обновлена главная страница раздела [Ставки НДС в CRM](./api-reference/crm/auxiliary/vat/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Ставки НДС в CRM](./api-reference/crm/outdated/vat/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновлены страницы событий при работе c лидами [onCrmLead*](./api-reference/crm/leads/events/index.md)
 
 ### 24 марта, 2025
@@ -485,7 +589,7 @@
 ### 27 ноября, 2024
 
 - Обновлена главная страница раздела [Корзина](./api-reference/sale/basket-item/index.md). Добавили вводную информацию, а также обзор методов и связей
-- Добавлена статья [Особенности вызовов REST при изменении адреса Битрикс24](./api-reference/how-to-call-rest-api/change-domen.md)
+- Добавлена статья [Особенности вызовов REST при изменении адреса Битрикс24](./settings/how-to-call-rest-api/change-domen.md)
 - Добавлен туториал [Как создать коннектор Открытых линий для онлайн-чата на сайте](./tutorials/openlines/example-connector.md), а также ссылка на этот туториал из раздела [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/tutorials.md)
 - Добавлена статья [Как проверить свой обработчик для обработки событий Битрикс24](./api-reference/events/test-handler.md)
 
@@ -617,7 +721,7 @@
 
 ### 1 октября, 2024
 
-- Добавлен [список ошибок сервера OAuth](./api-reference/oauth/error-codes.md)
+- Добавлен [список ошибок сервера OAuth](./settings/oauth/error-codes.md)
 - Добавлена документация по [Виджетам для Вайбов](./api-reference/vibe/index.md)
 
 ### 26 сентября, 2024
@@ -653,7 +757,7 @@
 
 ### 29 августа, 2024
 
-- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./api-reference/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./api-reference/how-to-call-rest-api/batch.md)
+- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./settings/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./settings/how-to-call-rest-api/batch.md)
   
 - Обновлены статьи [раздела событий контактов](./api-reference/crm/contacts/events/index.md)
 - Обновлены статьи [раздела универсальных событий CRM](./api-reference/crm/universal/events/index.md)

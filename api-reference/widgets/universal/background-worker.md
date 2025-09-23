@@ -4,7 +4,7 @@
 
 Вы можете добавить "невидимый" виджет, который будет выводиться на всех страницах Битрикс24. Именно этот виджет позволяет реализовывать сценарий с внешним [WebRTC-клиентом](../ui-interaction/page-background-worker/index.md) в интеграциях с телефониями, однако это не единственный возможный сценарий использования.
 
-Например, с помощью механизма [интерактивного взаимодействия](../../interactivity/index.md) backend- и frontend-приложения, можно отправлять "сигнал" в виджет `PAGE_BACKGROUND_WORKER`, а по получении "сигнала", открывать слайдер приложения с помощью метода [openApplication](../open-application.md).
+Например, с помощью механизма [интерактивного взаимодействия](../../../settings/interactivity/index.md) backend- и frontend-приложения, можно отправлять "сигнал" в виджет `PAGE_BACKGROUND_WORKER`, а по получении "сигнала", открывать слайдер приложения с помощью метода [openApplication](../open-application.md).
 
 Код места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -40,6 +40,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"placement.bind",
+    		{ 
+    			PLACEMENT: "PAGE_BACKGROUND_WORKER",
+    			HANDLER: "http://myapp.com/handler/?type=1",
+    			OPTIONS: {
+    				errorHandlerUrl: "http://myapp.com/error/"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		console.error(result.error());
+    	else
+    		console.info(result);
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'PAGE_BACKGROUND_WORKER',
+                    'HANDLER'   => 'http://myapp.com/handler/?type=1',
+                    'OPTIONS'   => [
+                        'errorHandlerUrl' => 'http://myapp.com/error/'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "placement.bind",
@@ -60,7 +123,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -140,6 +203,6 @@ Array
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../ui-interaction/crm-card.md)
-- [{#T}](../../interactivity/index.md)
+- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../open-application.md)
 - [{#T}](../open-path.md)

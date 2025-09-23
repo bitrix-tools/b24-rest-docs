@@ -95,7 +95,7 @@
 ||
 |#
 
-Так же смотрите описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Так же смотрите описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% note tip "Связанные методы и темы" %}
 
@@ -154,6 +154,201 @@
 
 - JS
 
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    const now = new Date();
+    const sixMonthAgo = new Date();
+    sixMonthAgo.setMonth(now.getMonth() - 6);
+    
+    try {
+      const response = await $b24.callListMethod(
+        'crm.deal.list',
+        {
+          select: [
+            'ID',
+            'TITLE',
+            'TYPE_ID',
+            'CATEGORY_ID',
+            'STAGE_ID',
+            'OPPORTUNITY',
+            'IS_MANUAL_OPPORTUNITY',
+            'ASSIGNED_BY_ID',
+            'DATE_CREATE',
+          ],
+          filter: {
+            '=%TITLE': '%а',
+            CATEGORY_ID: 1,
+            TYPE_ID: 'COMPLEX',
+            STAGE_ID: 'C1:NEW',
+            '>OPPORTUNITY': 10000,
+            '<=OPPORTUNITY': 20000,
+            IS_MANUAL_OPPORTUNITY: 'Y',
+            '@ASSIGNED_BY_ID': [1, 6],
+            '>DATE_CREATE': sixMonthAgo,
+          },
+          order: {
+            TITLE: 'ASC',
+            OPPORTUNITY: 'ASC',
+          },
+        },
+        (result) => {
+          result.error()
+            ? console.error(result.error())
+            : console.info(result.data())
+          ;
+        },
+      );
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    const now = new Date();
+    const sixMonthAgo = new Date();
+    sixMonthAgo.setMonth(now.getMonth() - 6);
+    
+    try {
+      const generator = $b24.fetchListMethod('crm.deal.list', {
+        select: [
+          'ID',
+          'TITLE',
+          'TYPE_ID',
+          'CATEGORY_ID',
+          'STAGE_ID',
+          'OPPORTUNITY',
+          'IS_MANUAL_OPPORTUNITY',
+          'ASSIGNED_BY_ID',
+          'DATE_CREATE',
+        ],
+        filter: {
+          '=%TITLE': '%а',
+          CATEGORY_ID: 1,
+          TYPE_ID: 'COMPLEX',
+          STAGE_ID: 'C1:NEW',
+          '>OPPORTUNITY': 10000,
+          '<=OPPORTUNITY': 20000,
+          IS_MANUAL_OPPORTUNITY: 'Y',
+          '@ASSIGNED_BY_ID': [1, 6],
+          '>DATE_CREATE': sixMonthAgo,
+        },
+        order: {
+          TITLE: 'ASC',
+          OPPORTUNITY: 'ASC',
+        },
+      }, 'ID');
+      for await (const page of generator) {
+        for (const entity of page) {
+          console.log('Entity:', entity);
+        }
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    const now = new Date();
+    const sixMonthAgo = new Date();
+    sixMonthAgo.setMonth(now.getMonth() - 6);
+    
+    try {
+      const response = await $b24.callMethod('crm.deal.list', {
+        select: [
+          'ID',
+          'TITLE',
+          'TYPE_ID',
+          'CATEGORY_ID',
+          'STAGE_ID',
+          'OPPORTUNITY',
+          'IS_MANUAL_OPPORTUNITY',
+          'ASSIGNED_BY_ID',
+          'DATE_CREATE',
+        ],
+        filter: {
+          '=%TITLE': '%а',
+          CATEGORY_ID: 1,
+          TYPE_ID: 'COMPLEX',
+          STAGE_ID: 'C1:NEW',
+          '>OPPORTUNITY': 10000,
+          '<=OPPORTUNITY': 20000,
+          IS_MANUAL_OPPORTUNITY: 'Y',
+          '@ASSIGNED_BY_ID': [1, 6],
+          '>DATE_CREATE': sixMonthAgo,
+        },
+        order: {
+          TITLE: 'ASC',
+          OPPORTUNITY: 'ASC',
+        },
+      }, 0);
+      const result = response.getData().result || [];
+      for (const entity of result) {
+        console.log('Entity:', entity);
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.deal.list',
+                [
+                    'select' => [
+                        'ID',
+                        'TITLE',
+                        'TYPE_ID',
+                        'CATEGORY_ID',
+                        'STAGE_ID',
+                        'OPPORTUNITY',
+                        'IS_MANUAL_OPPORTUNITY',
+                        'ASSIGNED_BY_ID',
+                        'DATE_CREATE',
+                    ],
+                    'filter' => [
+                        '=%TITLE'              => '%а',
+                        'CATEGORY_ID'          => 1,
+                        'TYPE_ID'              => 'COMPLEX',
+                        'STAGE_ID'             => 'C1:NEW',
+                        '>OPPORTUNITY'         => 10000,
+                        '<=OPPORTUNITY'        => 20000,
+                        'IS_MANUAL_OPPORTUNITY' => 'Y',
+                        '@ASSIGNED_BY_ID'      => [1, 6],
+                        '>DATE_CREATE'         => $sixMonthAgo,
+                    ],
+                    'order' => [
+                        'TITLE'       => 'ASC',
+                        'OPPORTUNITY' => 'ASC',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching deal list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     const now = new Date();
     const sixMonthAgo = new Date();
@@ -198,7 +393,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -382,3 +577,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-get.md)
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)

@@ -11,8 +11,5 @@ items:
     include:
       path: enum/b24-toc.yaml
       mode: link
-  - name: Ставки НДС
-    include:
-      path: vat/b24-toc.yaml
-      mode: link
+
 

@@ -1,7 +1,9 @@
 title: Скоупы
 href: permissions.md
-items: 
+items:
   - name: Права на методы 
+    href: index.md 
+  - name: Доступные скоупы 
     href: permissions.md
   - name: Методы с подтверждением
     href: confirmation.md

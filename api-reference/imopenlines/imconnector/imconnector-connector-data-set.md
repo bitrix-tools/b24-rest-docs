@@ -66,6 +66,82 @@
 
 - JS
 
+
+    ```js
+    async function connectorDataSet()
+    {
+        try
+        {
+            var params = {
+                CONNECTOR: 'myrestconnector',
+                LINE: 1,
+                DATA: {
+                    id: 123,
+                    url: 'http://localhost',
+                    url_im: 'http://localhost',
+                    name: 'My rest connector name'
+                }
+            };
+            
+            const response = await $b24.callMethod(
+                'imconnector.connector.data.set',
+                params
+            );
+            
+            const result = response.getData().result;
+            alert("Успешно: " + result);
+        }
+        catch(error)
+        {
+            alert("Error: " + error);
+        }
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    function connectorDataSet()
+    {
+        try {
+            $params = [
+                'CONNECTOR' => 'myrestconnector',
+                'LINE' => 1,
+                'DATA' => [
+                    'id' => 123,
+                    'url' => 'http://localhost',
+                    'url_im' => 'http://localhost',
+                    'name' => 'My rest connector name'
+                ]
+            ];
+    
+            $response = $b24Service
+                ->core
+                ->call(
+                    'imconnector.connector.data.set',
+                    $params
+                );
+    
+            $result = $response
+                ->getResponseData()
+                ->getResult();
+    
+            if ($result->error()) {
+                echo 'Error: ' . $result->error();
+            } else {
+                echo 'Успешно: ' . $result->data();
+            }
+    
+        } catch (Throwable $e) {
+            error_log($e->getMessage());
+            echo 'Error setting connector data: ' . $e->getMessage();
+        }
+    }
+    ```
+
+- BX24.js
+
     ```js
     function connectorDataSet()
     {
@@ -92,7 +168,7 @@
     }
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -133,3 +209,4 @@
 - [{#T}](./imconnector-delete-messages.md)
 - [{#T}](./imconnector-send-status-delivery.md)
 - [{#T}](./imconnector-send-status-reading.md)
+- [{#T}](../../../tutorials/openlines/example-connector.md)

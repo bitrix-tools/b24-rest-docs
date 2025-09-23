@@ -47,6 +47,57 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.lead.get',
+    		{ id: 123 }
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.lead.get',
+                [
+                    'id' => 123,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            return;
+        }
+    
+        echo 'Lead data: ' . print_r($result->data(), true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting lead data: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript 
     BX24.callMethod(
       'crm.lead.get',
@@ -64,7 +115,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -326,3 +377,7 @@ HTTP-статус: **200**
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)

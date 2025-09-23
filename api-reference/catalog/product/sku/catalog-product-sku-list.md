@@ -29,8 +29,6 @@
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
-- `@` — IN, в качестве значения передается массив
-- `!@` — NOT IN, в качестве значения передается массив
 - `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
 - `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
     - `"мол%"` — ищет значения, начинающиеся с «мол»
@@ -43,9 +41,9 @@
     - `"%мол"` — ищет значения, не заканчивающиеся на «мол»
     - `"%мол%"` — ищет значения, где подстроки «мол» нет в любой позиции
 - `!%=` — NOT LIKE (аналогично `!=%`)
-- `=` — равно, точное совпадение (используется по умолчанию)
+- `=` — равно, точное совпадение (используется по умолчанию). Для поиска IN можно передавать несколько значений массивом 
 - `!=` — не равно
-- `!` — не равно ||
+- `!` — не равно. Для поиска NOT IN можно передавать несколько значений массивом ||
 || **order**
 [`object`](../../../data-types.md) | 
 Объект для сортировки выбранных головных товаров в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
@@ -81,7 +79,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","iblockId","name","active","available","bundle","canBuyZero","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","height","iblockSectionId","length","measure","modifiedBy","previewPicture","previewText","previewTextType","purchasingCurrency","purchasingPrice","quantity","sort","subscribe","timestampX","type","vatId","vatIncluded","weight","width","xmlId","property258","property259"],"filter":{"iblockId":23,">id":10,"@vatId":[1,2]},"order":{"id":"desc"}}' \
+    -d '{"select":["id","iblockId","name","active","available","bundle","canBuyZero","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","height","iblockSectionId","length","measure","modifiedBy","previewPicture","previewText","previewTextType","purchasingCurrency","purchasingPrice","quantity","sort","subscribe","timestampX","type","vatId","vatIncluded","weight","width","xmlId","property258","property259"],"filter":{"iblockId":23,">id":10,"vatId":[1,2]},"order":{"id":"desc"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.product.sku.list
     ```
 
@@ -91,11 +89,267 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","iblockId","name","active","available","bundle","canBuyZero","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","height","iblockSectionId","length","measure","modifiedBy","previewPicture","previewText","previewTextType","purchasingCurrency","purchasingPrice","quantity","sort","subscribe","timestampX","type","vatId","vatIncluded","weight","width","xmlId","property258","property259"],"filter":{"iblockId":23,">id":10,"@vatId":[1,2]},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","iblockId","name","active","available","bundle","canBuyZero","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","height","iblockSectionId","length","measure","modifiedBy","previewPicture","previewText","previewTextType","purchasingCurrency","purchasingPrice","quantity","sort","subscribe","timestampX","type","vatId","vatIncluded","weight","width","xmlId","property258","property259"],"filter":{"iblockId":23,">id":10,"vatId":[1,2]},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.sku.list
     ```
 
 - JS
+
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    try {
+      const response = await $b24.callListMethod(
+        'catalog.product.sku.list',
+        {
+          "select": [
+            "id",
+            "iblockId",
+            "name",
+            "active",
+            "available",
+            "bundle",
+            "canBuyZero",
+            "code",
+            "createdBy",
+            "dateActiveFrom",
+            "dateActiveTo",
+            "dateCreate",
+            "detailPicture",
+            "detailText",
+            "detailTextType",
+            "height",
+            "iblockSectionId",
+            "length",
+            "measure",
+            "modifiedBy",
+            "previewPicture",
+            "previewText",
+            "previewTextType",
+            "purchasingCurrency",
+            "purchasingPrice",
+            "quantity",
+            "sort",
+            "subscribe",
+            "timestampX",
+            "type",
+            "vatId",
+            "vatIncluded",
+            "weight",
+            "width",
+            "xmlId",
+            "property258",
+            "property259",
+          ],
+          "filter": {
+            "iblockId": 23,
+            ">id": 10,
+            "vatId": [1, 2],
+          },
+          "order": {
+            "id": "desc",
+          }
+        },
+        (progress) => { console.log('Progress:', progress) }
+      );
+      const items = response.getData() || [];
+      for (const entity of items) { console.log('Entity:', entity); }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // fetchListMethod предпочтительно использовать при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    try {
+      const generator = $b24.fetchListMethod('catalog.product.sku.list', {
+        "select": [
+          "id",
+          "iblockId",
+          "name",
+          "active",
+          "available",
+          "bundle",
+          "canBuyZero",
+          "code",
+          "createdBy",
+          "dateActiveFrom",
+          "dateActiveTo",
+          "dateCreate",
+          "detailPicture",
+          "detailText",
+          "detailTextType",
+          "height",
+          "iblockSectionId",
+          "length",
+          "measure",
+          "modifiedBy",
+          "previewPicture",
+          "previewText",
+          "previewTextType",
+          "purchasingCurrency",
+          "purchasingPrice",
+          "quantity",
+          "sort",
+          "subscribe",
+          "timestampX",
+          "type",
+          "vatId",
+          "vatIncluded",
+          "weight",
+          "width",
+          "xmlId",
+          "property258",
+          "property259",
+        ],
+        "filter": {
+          "iblockId": 23,
+          ">id": 10,
+          "vatId": [1, 2],
+        },
+        "order": {
+          "id": "desc",
+        }
+      }, 'id');
+      for await (const page of generator) {
+        for (const entity of page) { console.log('Entity:', entity); }
+      }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    try {
+      const response = await $b24.callMethod('catalog.product.sku.list', {
+        "select": [
+          "id",
+          "iblockId",
+          "name",
+          "active",
+          "available",
+          "bundle",
+          "canBuyZero",
+          "code",
+          "createdBy",
+          "dateActiveFrom",
+          "dateActiveTo",
+          "dateCreate",
+          "detailPicture",
+          "detailText",
+          "detailTextType",
+          "height",
+          "iblockSectionId",
+          "length",
+          "measure",
+          "modifiedBy",
+          "previewPicture",
+          "previewText",
+          "previewTextType",
+          "purchasingCurrency",
+          "purchasingPrice",
+          "quantity",
+          "sort",
+          "subscribe",
+          "timestampX",
+          "type",
+          "vatId",
+          "vatIncluded",
+          "weight",
+          "width",
+          "xmlId",
+          "property258",
+          "property259",
+        ],
+        "filter": {
+          "iblockId": 23,
+          ">id": 10,
+          "vatId": [1, 2],
+        },
+        "order": {
+          "id": "desc",
+        }
+      }, 0);
+      const result = response.getData().result || [];
+      for (const entity of result) { console.log('Entity:', entity); }
+    } catch (error) {
+      console.error('Request failed', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.product.sku.list',
+                [
+                    'select' => [
+                        'id',
+                        'iblockId',
+                        'name',
+                        'active',
+                        'available',
+                        'bundle',
+                        'canBuyZero',
+                        'code',
+                        'createdBy',
+                        'dateActiveFrom',
+                        'dateActiveTo',
+                        'dateCreate',
+                        'detailPicture',
+                        'detailText',
+                        'detailTextType',
+                        'height',
+                        'iblockSectionId',
+                        'length',
+                        'measure',
+                        'modifiedBy',
+                        'previewPicture',
+                        'previewText',
+                        'previewTextType',
+                        'purchasingCurrency',
+                        'purchasingPrice',
+                        'quantity',
+                        'sort',
+                        'subscribe',
+                        'timestampX',
+                        'type',
+                        'vatId',
+                        'vatIncluded',
+                        'weight',
+                        'width',
+                        'xmlId',
+                        'property258',
+                        'property259',
+                    ],
+                    'filter' => [
+                        'iblockId' => 23,
+                        '>id'      => 10,
+                        'vatId'    => [1, 2],
+                    ],
+                    'order'  => [
+                        'id' => 'desc',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching product SKUs: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -142,7 +396,7 @@
             "filter": {
                 "iblockId": 23,
                 ">id": 10,
-                "@vatId": [1, 2],
+                "vatId": [1, 2],
             },
             "order": {
                 "id": "desc",
@@ -158,7 +412,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -208,7 +462,7 @@
             'filter' => [
                 "iblockId" => 23,
                 ">id" => 10,
-                "@vatId" => [1, 2],
+                "vatId" => [1, 2],
             ],
             'order' => [
                 "id" => "desc",

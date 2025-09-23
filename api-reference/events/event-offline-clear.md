@@ -4,7 +4,7 @@
 
 Метод `event.offline.clear` производит очистку записей в очереди офлайн-событий. Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
 
-Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
 
 ## Параметры метода
 
@@ -43,6 +43,67 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'event.offline.clear',
+    		{
+    			'process_id': 'yh3gu929sf0d32lsfysqas2y1hlpp09q',
+    			'id': [2]
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.dir(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'event.offline.clear',
+                [
+                    'process_id' => 'yh3gu929sf0d32lsfysqas2y1hlpp09q',
+                    'id'        => [2],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error clearing offline event: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "event.offline.clear",
@@ -60,7 +121,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

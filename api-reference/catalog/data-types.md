@@ -33,12 +33,14 @@
 || [`catalog_store.id`](#catalog_store) | Целочисленный идентификатор склада (например, `1`). Получить идентификаторы складов можно с помощью метода [catalog.store.list](./store/catalog-store-list.md) ||
 || [`catalog_measure.id`](#catalog_measure) | Целочисленный идентификатор единицы измерения (например, `1`). Получить идентификаторы единиц измерения можно с помощью метода [catalog.measure.list](./measure/catalog-measure-list.md) ||
 || [`catalog_ratio.id`](#catalog_ratio) | Целочисленный идентификатор коэффициента единицы измерения (например, `1`). Получить идентификаторы коэффициентов единиц измерения можно с помощью метода [catalog.ratio.list](./ratio/catalog-ratio-list.md) ||
+|| [`catalog_price.id`](#catalog_price) | Целочисленный идентификатор цены, например `1`. Получить идентификаторы цен можно с помощью метода [catalog.price.list](./price/catalog-price-list.md) ||
 || [`catalog_price_type.id`](#catalog_price_type) | Целочисленный идентификатор типа цены (например, `1`). Получить идентификаторы типов цены можно с помощью метода [catalog.priceType.list](./price-type/catalog-price-type-list.md) ||
 || [`catalog_price_type_lang.id`](#catalog_price_type_lang) | Целочисленный идентификатор перевода названий типов цен (например, `1`). Получить идентификаторы переводов можно с помощью метода [catalog.priceTypeLang.list](./price-type/price-type-lang/catalog-price-type-lang-list.md) ||
 || [`catalog_language.lid`](#catalog_language) | Строковый идентификатор языка, состоящий из двух символов (например, `ru`). Получить идентификаторы языков можно с помощью метода [catalog.priceTypeLang.getLanguages](./price-type/price-type-lang/catalog-price-type-lang-get-languages.md) ||
 || [`catalog_rounding_rule.id`](#catalog_rounding_rule) | Целочисленный идентификатор правила округления цен (например, `1`). Получить идентификаторы правил округления цен можно с помощью метода [catalog.roundingRule.list](./rounding-rule/catalog-rounding-rule-list.md) ||
 || [`catalog_extra.id`](#catalog_extra) | Целочисленный идентификатор наценки (например, `1`). Получить идентификаторы наценок можно с помощью метода [catalog.extra.list](./extra/catalog-extra-list.md) ||
 || [`catalog_section.id`](#catalog_section) | Целочисленный идентификатор раздела каталога (например, `1`). Получить идентификаторы разделов каталога можно с помощью метода [catalog.section.list](./section/catalog-section-list.md) ||
+|| [`catalog_storeproduct.id`](#catalog_storeproduct) | Целочисленный идентификатор записи остатков товара на складе, например `1`. Получить идентификаторы можно с помощью метода [catalog.storeproduct.list](./store-product/catalog-store-product-list.md) ||
 || [`catalog_vat.id`](#catalog_vat) | Целочисленный идентификатор ставки НДС (например, `1`). Получить идентификаторы ставки НДС можно с помощью метода [catalog.vat.list](./vat/catalog-vat-list.md) ||
 |#
 
@@ -807,6 +809,33 @@
 ||
 |#
 
+### catalog_price
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор цены ||
+|| **productId**
+[`catalog_product.id`](#catalog_product) | Идентификатор товара ||
+|| **catalogGroupId**
+[`catalog_price_type.id`](#catalog_price_type) | Идентификатор типа цены ||
+|| **price**
+[`double`](../data-types.md) | Значение цены ||
+|| **priceScale**
+[`double`](../data-types.md) | Значение базовой цены ||
+|| **currency**
+[`string`](../data-types.md) | Валюта цены ||
+|| **quantityFrom**
+[`double`](../data-types.md) | Минимальное количество для применения цены. Устаревший параметр ||
+|| **quantityTo**
+[`double`](../data-types.md) | Максимальное количество для применения цены. Устаревший параметр  ||
+|| **extraId**
+[`catalog_extra.id`](#catalog_extra) | Идентификатор наценки. Устаревший параметр  ||
+|| **timestampX**
+[`datetime`](../data-types.md) | Дата изменения ||
+|#
+
 ### catalog_price_type
 
 #|
@@ -946,6 +975,24 @@
 || **descriptionType**
 [`string`](../data-types.md) | Тип описания. Доступные типы: `text`, `html` ||
 |#
+
+### catalog_storeproduct
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор записи остатка ||
+|| **productId**
+[`catalog_product.id`](#catalog_product) | Идентификатор товара ||
+|| **storeId**
+[`catalog_store.id`](#catalog_store) | Идентификатор склада ||
+|| **amount**
+[`double`](../data-types.md) | Доступное количество товара ||
+|| **quantityReserved**
+[`double`](../data-types.md) | Количество товара в резерве ||
+|#
+
 
 ### catalog_vat
 

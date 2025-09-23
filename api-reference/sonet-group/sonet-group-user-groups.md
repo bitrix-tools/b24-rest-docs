@@ -40,6 +40,49 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod('sonet_group.user.groups', {});
+    	
+    	const result = response.getData().result;
+    	console.log('Result:', result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.user.groups',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting user groups: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Получаем список групп текущего пользователя
     BX24.callMethod('sonet_group.user.groups', {});

@@ -63,6 +63,80 @@ ranges: [
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'timeman.networkrange.set',
+    		{
+    			ranges: [
+    				{
+    					"ip_range": "10.0.0.0-10.255.255.255",
+    					"name": "Офисная сеть 10.x.x.x"
+    				},
+    				{
+    					"ip_range": "172.16.0.0-172.31.255.255",
+    					"name": "Офисная сеть 172.x.x.x"
+    				},
+    				{
+    					"ip_range": "192.168.0.0-192.168.255.255",
+    					"name": "Офисная сеть 192.168.x.x"
+    				}
+    			]
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'timeman.networkrange.set',
+                [
+                    'ranges' => [
+                        [
+                            "ip_range" => "10.0.0.0-10.255.255.255",
+                            "name"     => "Офисная сеть 10.x.x.x"
+                        ],
+                        [
+                            "ip_range" => "172.16.0.0-172.31.255.255",
+                            "name"     => "Офисная сеть 172.x.x.x"
+                        ],
+                        [
+                            "ip_range" => "192.168.0.0-192.168.255.255",
+                            "name"     => "Офисная сеть 192.168.x.x"
+                        ]
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting network ranges: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'timeman.networkrange.set',
@@ -95,7 +169,7 @@ ranges: [
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -221,7 +295,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_ERROR` | You don't have access to user this method | Метод доступен только администратору ||
+|| `ACCESS_ERROR` | You don't have access to use this method | Метод доступен только администратору ||
 || `INVALID_FORMAT` | A wrong format for the RANGES field is passed | Передан некорректный формат в параметре `RANGES` ||
 |#
 

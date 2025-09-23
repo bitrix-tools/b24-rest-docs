@@ -52,6 +52,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'voximplant.callback.start',
+    		{
+    			"FROM_LINE": "reg1332",
+    			"TO_NUMBER": "7911xxxxxxx",
+    			"TEXT_TO_PRONOUNCE": "Вам поступил запрос на обратный звонок, соединяю с клиентом.",
+    			"VOICE": "ruinternalfemale"
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch(error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'voximplant.callback.start',
+                [
+                    'FROM_LINE'         => 'reg1332',
+                    'TO_NUMBER'         => '7911xxxxxxx',
+                    'TEXT_TO_PRONOUNCE' => 'Вам поступил запрос на обратный звонок, соединяю с клиентом.',
+                    'VOICE'             => 'ruinternalfemale',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error starting callback: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'voximplant.callback.start',

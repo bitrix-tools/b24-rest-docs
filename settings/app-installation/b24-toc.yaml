@@ -1,0 +1,21 @@
+title: Установка приложений
+href: index.md
+items: 
+  - name: Варианты установки 
+    href: index.md
+  - name: Локальные приложения
+    include:
+      path: local-apps/b24-toc.yaml
+      mode: link
+  - name: Тиражные приложения
+    include:
+      path: mass-market-apps/b24-toc.yaml
+      mode: link
+  - name: Завершение установки приложений
+    href: installation-finish.md     
+  - name: Установка отраслевых CRM
+    href: vertical-crm-installation.md
+  - name: Установка "умных сценариев"
+    href: smart-scripts-installation.md
+  - name: Установка шаблонов сайтов
+    href: site-templates-installation.md

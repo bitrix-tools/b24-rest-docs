@@ -121,6 +121,64 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'user.get',
+    		{
+    			'UF_DEPARTMENT': 1,
+    			'SORT': 'ID',
+    			'ORDER': 'asc',
+    			'start': 10
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'user.get',
+                [
+                    'UF_DEPARTMENT' => 1,
+                    'SORT'         => 'ID',
+                    'ORDER'        => 'asc',
+                    'start'        => 10,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting users: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "user.get",
@@ -140,7 +198,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -188,6 +246,58 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'user.get',
+    		{
+    			filter: {
+    				"NAME": "Ива%"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'user.get',
+                [
+                    'filter' => [
+                        'NAME' => 'Ива%'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching user data: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         "user.get",
@@ -206,7 +316,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -253,6 +363,58 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"user.get",
+    		{
+    			filter: {
+    				"!%LAST_NAME": "ов"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'user.get',
+                [
+                    'filter' => [
+                        '!%LAST_NAME' => 'ов',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting users: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         "user.get",
@@ -271,7 +433,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -317,7 +479,59 @@
     ```
 
 - JS
-  
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'user.get',
+    		{
+    			filter: {
+    				'@PERSONAL_CITY': ['Москва', 'Санкт-Петербург']
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'user.get',
+                [
+                    'filter' => [
+                        '@PERSONAL_CITY' => ['Москва', 'Санкт-Петербург']
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting users: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         "user.get",
@@ -336,7 +550,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -450,5 +664,6 @@ HTTP-статус: **200**
 - [{#T}](./user-fields.md)
 - [{#T}](../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 - [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
+- [{#T}](../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
 
 [*ключ_Ключ для работы]: `'ADMIN_MODE': 'True'`

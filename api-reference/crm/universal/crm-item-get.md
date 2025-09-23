@@ -59,48 +59,30 @@
 
 - JS
 
+
     ```js
-        BX24.callMethod(
-            'crm.item.get',
-            {
-                entityTypeId: 1,
-                id: 250,
-                useOriginalUfNames: 'N',
-            },
-            (result) => {
-                if (result.error())
-                {
-                    console.error(result.error());
-
-                    return;
-                }
-
-                console.info(result.data());
-            },
-        );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.item.get',
+    		{
+    			entityTypeId: 1,
+    			id: 250,
+    			useOriginalUfNames: 'N',
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
     ```
 
 - PHP
 
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.item.get',
-        [
-            'entityTypeId' => 1,
-            'id' => 250,
-            'useOriginalUfNames' => 'N',
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-  
     ```php        
     try {
         $entityTypeId = 1; // Example entity type ID
@@ -151,6 +133,48 @@
     } catch (Throwable $e) {
         print("Error: " . $e->getMessage() . PHP_EOL);
     }
+    ```
+
+- BX24.js
+
+    ```js
+        BX24.callMethod(
+            'crm.item.get',
+            {
+                entityTypeId: 1,
+                id: 250,
+                useOriginalUfNames: 'N',
+            },
+            (result) => {
+                if (result.error())
+                {
+                    console.error(result.error());
+
+                    return;
+                }
+
+                console.info(result.data());
+            },
+        );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.item.get',
+        [
+            'entityTypeId' => 1,
+            'id' => 250,
+            'useOriginalUfNames' => 'N',
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -261,7 +285,7 @@ HTTP-статус: **200**
 || **result**
 [`object`][1] | Корневой элемент ответа. Содержит единственный ключ `item` ||
 || **item**
-[`item`](./crm-item-add.md#item) | Информация об элементе ||
+[`item`](./object-fields.md) | Информация об элементе, [описание полей](./object-fields.md) ||
 || **time**
 [`time`][1] | Объект, содержащий в себе информацию о времени выполнения запроса ||
 |#
@@ -305,5 +329,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](./crm-item-list.md)
 - [{#T}](./crm-item-delete.md)
 - [{#T}](./crm-item-fields.md)
+- [{#T}](./object-fields.md)
 
 [1]: ../data-types.md

@@ -23,20 +23,6 @@
 
 {% list tabs %}
 
-- JS
-
-    ```js
-    BX.rest.callMethod(
-        'biconnector.source.get',
-        {
-            id: 6,
-        },
-        (result) => {
-            result.error() ? console.error(result.error()) : console.info(result.data());
-        }
-    );
-    ```
-
 - cURL (Webhook)
 
     ```bash
@@ -57,7 +43,73 @@
     https://**put_your_bitrix24_address**/rest/biconnector.source.get
     ```
 
+- JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'biconnector.source.get',
+    		{
+    			id: 6,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	result.error() ? console.error(result.error()) : console.info(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
 - PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'biconnector.source.get',
+                [
+                    'id' => 6,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting source: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'biconnector.source.get',
+        {
+            id: 6,
+        },
+        (result) => {
+            result.error() ? console.error(result.error()) : console.info(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

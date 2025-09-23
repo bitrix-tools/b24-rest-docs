@@ -63,6 +63,32 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'timeman.open',
+    		{
+    			'USER_ID' : 503,
+    			'TIME': '2025-03-27T08:00:01+00:00',
+    			'REPORT': 'Забыла открыть рабочий день',
+    			'LAT': 53.548841, 
+    			'LON': 9.987274
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'timeman.open',
@@ -83,7 +109,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

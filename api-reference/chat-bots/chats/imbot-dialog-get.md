@@ -40,11 +40,57 @@
 
 {% list tabs %}
 
-- cURL
-
-    // пример для cURL
-
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'imbot.dialog.get',
+    		{
+    			DIALOG_ID: 'chat29'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.dialog.get',
+                [
+                    'DIALOG_ID' => 'chat29',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting dialog: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```javascript
     BX24.callMethod(
@@ -65,7 +111,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
@@ -80,6 +126,10 @@
         ]
     );
     ```
+
+- cURL
+
+    // пример для cURL
 
 {% endlist %}
 

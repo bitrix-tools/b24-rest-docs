@@ -25,6 +25,16 @@
 
 Метод `im.user.status.idle.start` устанавливает автоматический статус «Отошел».
 
+Метод разработан для предыдущей версии чата. В текущей версии чата М1 он работает, но результаты не отображаются в интерфейсе.
+
+{% note tip "Пользовательская документация" %}
+
+- [Битрикс24 Чат: новый мессенджер](https://helpdesk.bitrix24.ru/open/19071750/)
+
+{% endnote %}
+
+## Параметры метода
+
 #|
 || **Параметр** | **Пример** | **Описание** | **Ревизия** ||
 || **AGO**
@@ -37,11 +47,29 @@
 
 {% list tabs %}
 
-- cURL
-
-    // пример для cURL
-
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'im.user.status.idle.start',
+    		{
+    			'AGO': 10
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error(error.ex);
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -62,7 +90,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
 
@@ -77,6 +105,10 @@
         ]
     );
     ```
+
+- cURL
+
+    // пример для cURL
 
 {% endlist %}
 

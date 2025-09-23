@@ -24,7 +24,7 @@
 
 Метод `voximplant.infocall.startwithtext` осуществляет звонок на указанный номер с автоматическим произнесением заданного текста. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Исходящий звонок - Выполнение - любые`.
 
-Для доступа к методу приложение должно запросить право доступа Совершение звонков (call). Право указывается при [регистрации приложения](../../app-installation/index.md).
+Для доступа к методу приложение должно запросить право доступа Совершение звонков (call). Право указывается при [регистрации приложения](../../../settings/app-installation/index.md).
 
 #|
 || **Параметр** | **Описание** ||
@@ -39,6 +39,69 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'voximplant.infocall.startwithtext',
+    		{
+    			"FROM_LINE": "reg1332",
+    			"TO_NUMBER": "7911xxxxxxx",
+    			"PRONOUNCE": "Добрый день. Ваша заявка выполнена",
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.info(result);
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'voximplant.infocall.startwithtext',
+                [
+                    'FROM_LINE' => 'reg1332',
+                    'TO_NUMBER' => '7911xxxxxxx',
+                    'PRONOUNCE' => 'Добрый день. Ваша заявка выполнена',
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Info: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error starting info call: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(

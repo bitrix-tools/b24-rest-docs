@@ -22,7 +22,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Возвращает список сообщений Ленты новостей, доступных [текущему пользователю](../how-to-call-rest-api/authorization.md#понятие-текущего-пользователя).
+Возвращает список сообщений Ленты новостей, доступных [текущему пользователю](../../settings/how-to-call-rest-api/authorization.md).
 
 #|
 || **Параметр** | **Описание** ||
@@ -41,6 +41,52 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'log.blogpost.get',
+    		{ POST_ID: 755 }
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'log.blogpost.get',
+                [
+                    'POST_ID' => 755,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting blog post: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod('log.blogpost.get', { POST_ID: 755 });

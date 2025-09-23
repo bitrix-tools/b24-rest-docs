@@ -66,7 +66,7 @@
 - **MODIFIED_BY** - по коду пользователя изменившему раздел;
 - **CREATED_BY** - по создателю;
 Все фильтруемые поля могут содержать перед названием тип проверки фильтра. Необязательное. По умолчанию записи не фильтруются. ||
-|| **START** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../how-to-call-rest-api/list-methods-pecularities.md) ||
+|| **start** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
@@ -76,6 +76,59 @@
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'entity.section.get',
+    		{
+    			ENTITY: 'menu_new',
+    			SORT: {
+    				'NAME': 'ASC'
+    			}
+    		}
+    	);
+    	
+    	const sections = response.getData().result;
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'entity.section.get',
+                [
+                    'ENTITY' => 'menu_new',
+                    'SORT'   => [
+                        'NAME' => 'ASC'
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        $sections = $result->data();
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting entity sections: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(

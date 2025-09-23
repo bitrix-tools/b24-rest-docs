@@ -65,6 +65,77 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.todo.add',
+    		{
+    			ownerTypeId: 2,
+    			ownerId: 1,
+    			deadline: (new Date()),
+    			title: 'Заголовок дела',
+    			description: 'Описание дела',
+    			responsibleId: 5,
+    			pingOffsets: [0, 15],
+    			colorId: 2
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    	{
+    		console.error(result.error());
+    	}
+    	else
+    	{
+    		console.dir(result);
+    	}
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.todo.add',
+                [
+                    'ownerTypeId'   => 2,
+                    'ownerId'       => 1,
+                    'deadline'      => (new DateTime()),
+                    'title'         => 'Заголовок дела',
+                    'description'   => 'Описание дела',
+                    'responsibleId' => 5,
+                    'pingOffsets'   => [0, 15],
+                    'colorId'       => 2
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding todo activity: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.activity.todo.add",
@@ -87,7 +158,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -178,3 +249,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-todo-update-description.md)
 - [{#T}](./crm-activity-todo-update-color.md)
 - [{#T}](./crm-activity-todo-update-responsible-user.md)
+- [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)

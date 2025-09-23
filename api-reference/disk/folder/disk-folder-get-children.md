@@ -33,12 +33,12 @@
 [`unknown`](../../data-types.md) | Идентификатор папки. ||
 || **filter**
 [`unknown`](../../data-types.md) |  Необязательный параметр. Поддерживает фильтрацию по полям, которые указаны в [disk.folder.getfields](./disk-folder-get-fields.md) как `USE_IN_FILTER: true`. ||
-|| **START** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../how-to-call-rest-api/list-methods-pecularities.md) ||
+|| **START** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
 {% note info %}
 
-Cм. также описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Cм. также описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% endnote %}
 
@@ -47,6 +47,64 @@ Cм. также описание [списочных методов](../../how-t
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"disk.folder.getchildren",
+    		{
+    			id: 8,
+    			filter: {
+    				CREATED_BY: 1
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'disk.folder.getchildren',
+                [
+                    'id' => 8,
+                    'filter' => [
+                        'CREATED_BY' => 1
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting folder children: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(

@@ -23,7 +23,7 @@ items:
     include:
       path: external-data/b24-toc.yaml
       mode: link
-  - name: Клиент бронирования
+  - name: Клиент в бронировании
     include:
       path: client/b24-toc.yaml
       mode: link

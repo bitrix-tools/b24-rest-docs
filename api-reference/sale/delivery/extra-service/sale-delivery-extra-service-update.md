@@ -88,6 +88,67 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.delivery.extra.service.update', {
+    			ID: 128,
+    			ACTIVE: "N",
+    			CODE: "door_delivery",
+    			NAME: "Door Delivery New Name",
+    			DESCRIPTION: "Door Delivery New Description",
+    			SORT: 200,
+    			PRICE: 399.99,
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.delivery.extra.service.update',
+                [
+                    'ID'          => 128,
+                    'ACTIVE'      => "N",
+                    'CODE'        => "door_delivery",
+                    'NAME'        => "Door Delivery New Name",
+                    'DESCRIPTION' => "Door Delivery New Description",
+                    'SORT'        => 200,
+                    'PRICE'       => 399.99,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating delivery service: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.delivery.extra.service.update', {
@@ -109,7 +170,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -160,6 +221,98 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sale.delivery.extra.service.update', {
+    			ID: 129,
+    			ACTIVE: "N",
+    			CODE: "cargo_type",
+    			NAME: "Cargo Type New Name",
+    			DESCRIPTION: "Cargo Type New Description",
+    			TYPE: "enum",
+    			SORT: 500,
+    			ITEMS: [{
+    					TITLE: "Small Package(s)",
+    					CODE: "small_package",
+    					PRICE: 129.99,
+    				},
+    				{
+    					TITLE: "Documents",
+    					CODE: "documents",
+    					PRICE: 69.99,
+    				},
+    				{
+    					TITLE: "Large Package(s)",
+    					CODE: "large_package",
+    					PRICE: 1290.99,
+    				},
+    			],
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.delivery.extra.service.update',
+                [
+                    'ID'          => 129,
+                    'ACTIVE'      => "N",
+                    'CODE'        => "cargo_type",
+                    'NAME'        => "Cargo Type New Name",
+                    'DESCRIPTION' => "Cargo Type New Description",
+                    'TYPE'        => "enum",
+                    'SORT'        => 500,
+                    'ITEMS'       => [
+                        [
+                            'TITLE' => "Small Package(s)",
+                            'CODE'  => "small_package",
+                            'PRICE' => 129.99,
+                        ],
+                        [
+                            'TITLE' => "Documents",
+                            'CODE'  => "documents",
+                            'PRICE' => 69.99,
+                        ],
+                        [
+                            'TITLE' => "Large Package(s)",
+                            'CODE'  => "large_package",
+                            'PRICE' => 1290.99,
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating delivery extra service: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'sale.delivery.extra.service.update', {
@@ -197,7 +350,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

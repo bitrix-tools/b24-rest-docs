@@ -37,7 +37,7 @@
 
 {% note info %}
 
-Cм. также описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Cм. также описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% endnote %}
 
@@ -46,6 +46,64 @@ Cм. также описание [списочных методов](../../how-t
 {% list tabs %}
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"disk.storage.getchildren",
+    		{
+    			id: 4,
+    			filter: {
+    				CREATED_BY: 1
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'disk.storage.getchildren',
+                [
+                    'id' => 4,
+                    'filter' => [
+                        'CREATED_BY' => 1
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting children from storage: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(

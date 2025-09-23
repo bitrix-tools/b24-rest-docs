@@ -6,7 +6,7 @@
 
 Метод `sign.b2e.personal.tail` возвращает список подписанных документов пользователя из раздела КЭДО.
 
-Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
 
 ## Параметры метода
 
@@ -22,7 +22,7 @@
 
 По умолчанию выводится 20 записей на странице ||
 || **offset**
-[`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией. Аналогичен стандартному параметру [start](../performance/huge-data.md).
+[`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией. Аналогичен стандартному параметру [start](../../settings/performance/huge-data.md).
  
 Размер страницы результатов зависит от параметра **limit**
 ||
@@ -46,6 +46,62 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sign.b2e.personal.tail',
+    		{
+    			// Количество записей на странице. Значение от 1 до 50. По умолчанию 20.
+    			limit: 2,
+    			
+    			// Параметр для управления постраничной навигацией.
+    			// Используется для указания смещения от начала списка.
+    			offset: 0
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.dir(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sign.b2e.personal.tail',
+                [
+                    'limit'  => 2,
+                    'offset' => 0
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'sign.b2e.personal.tail',
@@ -67,7 +123,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

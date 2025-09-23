@@ -89,7 +89,7 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.address.update
     ```
 
-- cURL (OAuth) 
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
@@ -100,6 +100,68 @@
     ```
 
 - JS
+
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.address.update",
+    		{
+    			fields:
+    			{
+    				"TYPE_ID": 1,           //
+    				"ENTITY_TYPE_ID": 3,    // - Идентифицирующие поля.
+    				"ENTITY_ID": 1,         //
+    				"ADDRESS_1": "Московский проспект, 261", // - Поля, значения которых меняются.
+    				"CITY": "Калининград"                    //
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    	{
+    		console.error(result.error());
+    	}
+    }
+    catch(error)
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.address.update',
+                [
+                    'fields' => [
+                        'TYPE_ID'        => 1,
+                        'ENTITY_TYPE_ID' => 3,
+                        'ENTITY_ID'      => 1,
+                        'ADDRESS_1'      => 'Московский проспект, 261',
+                        'CITY'           => 'Калининград',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating address: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -122,7 +184,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

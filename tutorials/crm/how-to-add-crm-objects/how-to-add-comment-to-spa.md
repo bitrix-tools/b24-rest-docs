@@ -162,7 +162,7 @@
         var SPAtitle = 'название_вашего_смарт_процесса';
 
         // Вызываем метод crm.type.list для получения entityTypeId
-        BX.rest.callMethod(
+        BX24.callMethod(
             'crm.type.list',
             {
                 filter: {
@@ -194,7 +194,7 @@
         var commentText = 'ваш_комментарий';
 
         // Вызываем метод crm.timeline.comment.add для добавления комментария
-        BX.rest.callMethod(
+        BX24.callMethod(
             "crm.timeline.comment.add",
             {
                 fields: {

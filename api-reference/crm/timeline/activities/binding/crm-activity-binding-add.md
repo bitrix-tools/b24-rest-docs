@@ -49,6 +49,60 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.binding.add',
+    		{
+    			activityId: 999, // ID дела
+    			entityTypeId: 2, // ID типа объекта CRM
+    			entityId: 1 // ID элемента CRM
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Результат:', result);
+    }
+    catch( error )
+    {
+    	console.error('Ошибка:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.binding.add',
+                [
+                    'activityId'   => 999, // ID дела
+                    'entityTypeId' => 2, // ID типа объекта CRM
+                    'entityId'     => 1 // ID элемента CRM
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding activity binding: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```javascript
     BX24.callMethod(
         'crm.activity.binding.add',
@@ -67,8 +121,8 @@
     );
     ```
 
-- PHP
-  
+- PHP CRest
+
     ```php
     require_once('crest.php');
 

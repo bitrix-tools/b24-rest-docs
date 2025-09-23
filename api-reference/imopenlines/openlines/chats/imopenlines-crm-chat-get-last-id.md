@@ -59,6 +59,69 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const params = {
+    		CRM_ENTITY_TYPE: 'LEAD',
+    		CRM_ENTITY: 1,
+    	};
+    	
+    	const response = await $b24.callMethod(
+    		'imopenlines.crm.chat.getLastId',
+    		params
+    	);
+    	
+    	const result = response.getData().result;
+    	if (result.error())
+    		alert("Error: " + result.error());
+    	else
+    		alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    function crmChatGetLastId() {
+        try {
+            $params = [
+                'CRM_ENTITY_TYPE' => 'LEAD',
+                'CRM_ENTITY'      => 1,
+            ];
+    
+            $response = $b24Service
+                ->core
+                ->call(
+                    'imopenlines.crm.chat.getLastId',
+                    $params
+                );
+    
+            $result = $response
+                ->getResponseData()
+                ->getResult();
+    
+            if ($result->error()) {
+                echo 'Error: ' . $result->error();
+            } else {
+                echo 'Успешно: ' . $result->data();
+            }
+    
+        } catch (Throwable $e) {
+            error_log($e->getMessage());
+            echo 'Error getting last chat ID: ' . $e->getMessage();
+        }
+    }
+    ```
+
+- BX24.js
+
     ```js
     function crmChatGetLastId() {
         var params = {
@@ -78,7 +141,7 @@
     }
     ```
 
-- PHP
+- PHP CRest
 
     // пример для php
 

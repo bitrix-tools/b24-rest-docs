@@ -3,8 +3,6 @@ href: index.md
 items: 
   - name: Редактировать данные
     href: index.md
-  - name: Добавить картинки в поля лида
-    href: how-to-upload-images-to-lead.md
   - name: Как сделать свою карточку редактирования лида
     href: how-to-generate-edit-form-for-lead.md
   - name: Как сделать свою карточку редактирования контакта
@@ -15,8 +13,6 @@ items:
     href: how-to-generate-edit-form-for-deal.md
   - name: Как изменить или удалить номера телефонов и email
     href: how-to-change-email-or-phone.md
-  - name: Как изменить время запланированного дела
-    href: how-to-change-date-in-activity.md
   - name: Как перенести дело между элементами одного типа
     href: how-to-move-activity.md
   - name: Как перенести дело из одного типа объекта в другой

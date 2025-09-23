@@ -2,11 +2,11 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: REST Приложение
+> Кто может выполнять метод: администратор
 
-Методпозволяет REST приложению удалить установленный им же набор дополнительных контентных блоков для дела.
+Метод `crm.activity.layout.blocks.delete` удаляет набор дополнительных контентных блоков для дела.
 
-REST Приложение может удалить только тот набор дополнительных контентных блоков, который был установлен им же.
+В рамках приложения можно удалить только тот набор дополнительных контентных блоков, который был установлен через это приложение.
 
 ## Параметры метода
 
@@ -53,6 +53,60 @@ REST Приложение может удалить только тот набо
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'crm.activity.layout.blocks.delete',
+    		{
+    			entityTypeId: 2, // Сделка
+    			entityId: 4,     // ID Сделки
+    			activityId: 8,   // ID Дела привязанного к данной сделке
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.layout.blocks.delete',
+                [
+                    'entityTypeId' => 2, // Сделка
+                    'entityId'     => 4, // ID Сделки
+                    'activityId'   => 8, // ID Дела привязанного к данной сделке
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error deleting activity layout block: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         'crm.activity.layout.blocks.delete',
@@ -71,7 +125,7 @@ REST Приложение может удалить только тот набо
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -120,7 +174,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения ||
-|| `OWNER_NOT_FOUND` | Сущность, к которой привязано дело, не найдена ||
+|| `OWNER_NOT_FOUND` | Элемент, к которому привязано дело, не найден ||
 || `NOT_FOUND` | Дело не найдено ||
 || `ACCESS_DENIED` | Доступ запрещен ||
 |#

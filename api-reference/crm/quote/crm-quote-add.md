@@ -53,6 +53,77 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		"crm.quote.add",
+    		{
+    			fields:
+    			{
+    				"TITLE": "Черновик",
+    				"STATUS_ID": "DRAFT",
+    				"OPENED": "Y",
+    				"ASSIGNED_BY_ID": 1,
+    				"CURRENCY_ID": "USD",
+    				"OPPORTUNITY": 5000,
+    				"COMPANY_ID": 1,
+    				"COMMENTS": "Новое коммерческое предложение.",
+    				"BEGINDATE": "2016-03-01T12:00:00",
+    				"CLOSEDATE": "2016-04-01T12:00:00"
+    			}
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info("Создано предложение с ID " + result);
+    }
+    catch( error )
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.quote.add',
+                [
+                    'fields' => [
+                        'TITLE'          => 'Черновик',
+                        'STATUS_ID'      => 'DRAFT',
+                        'OPENED'         => 'Y',
+                        'ASSIGNED_BY_ID' => 1,
+                        'CURRENCY_ID'    => 'USD',
+                        'OPPORTUNITY'    => 5000,
+                        'COMPANY_ID'     => 1,
+                        'COMMENTS'       => 'Новое коммерческое предложение.',
+                        'BEGINDATE'      => '2016-03-01T12:00:00',
+                        'CLOSEDATE'      => '2016-04-01T12:00:00',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Создано предложение с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error creating quote: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     BX24.callMethod(
         "crm.quote.add",

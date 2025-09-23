@@ -53,6 +53,70 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'lists.section.get',
+    		{
+    			'IBLOCK_TYPE_ID': 'lists',
+    			'IBLOCK_CODE': 'rest_1',
+    			'FILTER': {
+    				'NAME': 'section_%'
+    			},
+    			'SELECT': ['ID', 'NAME']
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log(result);
+    }
+    catch( error )
+    {
+    	alert("Error: " + error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $params = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_CODE'    => 'rest_1',
+            'FILTER'         => [
+                'NAME' => 'section_%'
+            ],
+            'SELECT'         => ['ID', 'NAME']
+        ];
+    
+        $response = $b24Service
+            ->core
+            ->call(
+                'lists.section.get',
+                $params
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting section list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     /* lists.section.get */
     var params = {

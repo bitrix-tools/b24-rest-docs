@@ -6,7 +6,7 @@
 
 Метод удаляет шаблон бизнес-процесса. 
 
-С его помощью можно удалить шаблоны, которые были созданы методом [bizproc.workflow.template.add](./bizproc-workflow-template-add.md). Эти шаблоны привязаны к приложению и могут быть удалены только в контексте того же [приложения](../../app-installation/index.md), которым они были созданы.
+С его помощью можно удалить шаблоны, которые были созданы методом [bizproc.workflow.template.add](./bizproc-workflow-template-add.md). Эти шаблоны привязаны к приложению и могут быть удалены только в контексте того же [приложения](../../../settings/app-installation/index.md), которым они были созданы.
 
 ## Параметры метода
 
@@ -37,40 +37,30 @@
 
 - JS
 
-	```js
-    BX24.callMethod(
-        'bizproc.workflow.template.delete',
-        {
-            ID: 525
-        },
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                console.log(result.data());
-        }
-    );
-	```
 
-- PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'bizproc.workflow.template.delete',
-        [
-            'ID' => 525
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.workflow.template.delete',
+    		{
+    			ID: 525
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	if(result.error())
+    		alert("Error: " + result.error());
+    	else
+    		console.log(result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
     ```
 
-- PHP (B24PhpSdk)
+- PHP
 
 	```php
 	try {
@@ -88,6 +78,41 @@
 		print("An error occurred: " . $e->getMessage() . "\n");
 	}
 	```
+
+- BX24.js
+
+	```js
+    BX24.callMethod(
+        'bizproc.workflow.template.delete',
+        {
+            ID: 525
+        },
+        function(result)
+        {
+            if(result.error())
+                alert("Error: " + result.error());
+            else
+                console.log(result.data());
+        }
+    );
+	```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.workflow.template.delete',
+        [
+            'ID' => 525
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 

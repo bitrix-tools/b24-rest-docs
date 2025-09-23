@@ -1,26 +1,10 @@
 title: Справочник REST API
 href: index.md
 items: 
-  - name: Основные положения
-    href: index.md 
   - name: Инструменты и сценарии
-    href: tools.md 
-  - name: Как вызывать методы REST
-    include:
-      path: how-to-call-rest-api/b24-toc.yaml
-      mode: link
+    href: index.md 
   - name: Типы данных и форматы параметров
     href: data-types.md 
-  - name: OAuth в Битрикс24
-    include:
-      path: oauth/b24-toc.yaml
-      mode: link
-  - name: Установка приложений
-    include:
-      path: app-installation/b24-toc.yaml
-      mode: link
-  - name: Удаление приложений
-    href: app-uninstallation.md 
   - name: Скоупы методов
     include:
       path: scopes/b24-toc.yaml
@@ -32,34 +16,6 @@ items:
   - name: События
     include:
       path: events/b24-toc.yaml
-      mode: link
-  - name: Интерактивность
-    include:
-      path: interactivity/b24-toc.yaml
-      mode: link
-  - name: Производительность
-    include:
-      path: performance/b24-toc.yaml
-      mode: link
-  - name: B24 JS SDK
-    include:
-      path: b24jssdk/b24-toc.yaml
-      mode: link
-  - name: BX24 JS library
-    include:
-      path: bx24-js-sdk/b24-toc.yaml
-      mode: link
-  - name: B24 PHP SDK
-    include:
-      path: b24phpsdk/b24-toc.yaml
-      mode: link
-  - name: CRest PHP SDK
-    include:
-      path: crest-php-sdk/b24-toc.yaml
-      mode: link
-  - name: Облако и коробка Битрикс24
-    include:
-      path: cloud-and-on-premise/b24-toc.yaml
       mode: link
   - name: Общие методы и события
     include:
@@ -113,7 +69,7 @@ items:
     include:
       path: booking/b24-toc.yaml
       mode: link
-  - name: Опросы
+  - name: Опросы, голосования
     include:
       path: vote/b24-toc.yaml
       mode: link      

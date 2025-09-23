@@ -13,42 +13,42 @@ items:
     href: tasks-task-get.md
   - name: Получить список задач
     href: tasks-task-list.md
-  - name: Прикрепить файлы к задаче
-    href: tasks-task-files-attach.md
-  - name: Принять задачу
-    href: tasks-task-approve.md
-  - name: Перевести задачу в статус «завершена»
-    href: tasks-task-complete.md
-  - name: Получить счетчики пользователя
-    href: tasks-task-counters-get.md
-  - name: Перевести задачу в статус «отложена»
-    href: tasks-task-defer.md
-  - name: Делегировать задачу
-    href: tasks-task-delegate.md
   - name: Удалить задачу
     href: tasks-task-delete.md
+  - name: Получить список полей
+    href: tasks-task-get-fields.md
+  - name: Проверить доступ к задаче
+    href: tasks-task-get-access.md
+  - name: Прикрепить файлы к задаче
+    href: tasks-task-files-attach.md
+  - name: Получить счетчики пользователя
+    href: tasks-task-counters-get.md
+  - name: Делегировать задачу
+    href: tasks-task-delegate.md
+  - name: Принять задачу
+    href: tasks-task-approve.md
   - name: Отклонить задачу
     href: tasks-task-disapprove.md
   - name: Добавить задачу в Избранное
     href: tasks-task-favorite-add.md
   - name: Удалить задачу из Избранного
     href: tasks-task-favorite-remove.md
-  - name: Получить список полей
-    href: tasks-task-get-fields.md
-  - name: Проверить доступ к задаче
-    href: tasks-task-get-access.md
   - name: История задачи
     href: tasks-task-history-list.md
-  - name: Перевести задачу в статус «ждет выполнения»
-    href: tasks-task-pause.md
-  - name: Возобновить задачу после ее завершения
-    href: tasks-task-renew.md
-  - name: Перевести задачу в статус «выполняется»
-    href: tasks-task-start.md
   - name: Включить наблюдение за задачей
     href: tasks-task-start-watch.md
   - name: Отключить наблюдение за задачей
     href: tasks-task-stop-watch.md
+  - name: Перевести задачу в статус Выполняется
+    href: tasks-task-start.md
+  - name: Перевести задачу в статус Ждет выполнения
+    href: tasks-task-pause.md
+  - name: Перевести задачу в статус Отложена
+    href: tasks-task-defer.md
+  - name: Перевести задачу в статус Завершена
+    href: tasks-task-complete.md
+  - name: Возобновить задачу после ее завершения
+    href: tasks-task-renew.md
   - name: Включить режим «Без звука»
     href: tasks-task-mute.md
   - name: Отключить режим «Без звука»
@@ -85,7 +85,7 @@ items:
     include:
       path: stages/b24-toc.yaml
       mode: link
-  - name: План рабочего дня
+  - name: Задачи в «Плане на день»
     include:
       path: planner/b24-toc.yaml
       mode: link

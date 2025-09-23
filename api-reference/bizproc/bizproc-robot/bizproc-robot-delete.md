@@ -6,7 +6,7 @@
 
 Метод удаляет робота, зарегистрированного приложением.
 
-Работает только в контексте [приложения](../../app-installation/index.md).
+Работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
 При удалении или обновлении приложения связанные с ним роботы удаляются из списка роботов. Если робот используется, он блокируется и может быть только удален из схемы. При повторной установке приложения робот снова становится доступным.
 
@@ -37,39 +37,27 @@
 
 - JS
 
+
     ```js
-    BX24.callMethod(
-        'bizproc.robot.delete',
-        {
-            'CODE': 'test_robot'
-        },
-        function(result) {
-            if(result.error())
-                alert('Error: ' + result.error());
-            else
-                alert("Успешно: " + result.data());
-        }
-    );
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'bizproc.robot.delete',
+    		{
+    			'CODE': 'test_robot'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	alert("Успешно: " + result);
+    }
+    catch( error )
+    {
+    	alert('Error: ' + error);
+    }
     ```
 
 - PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'bizproc.robot.delete',
-        [
-            'CODE' => 'test_robot'
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
 
     ```php
     try {
@@ -87,6 +75,40 @@
     } catch (Throwable $e) {
         print("Error: " . $e->getMessage());
     }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'bizproc.robot.delete',
+        {
+            'CODE': 'test_robot'
+        },
+        function(result) {
+            if(result.error())
+                alert('Error: ' + result.error());
+            else
+                alert("Успешно: " + result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'bizproc.robot.delete',
+        [
+            'CODE' => 'test_robot'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}

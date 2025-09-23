@@ -38,6 +38,56 @@
 
 - JS
 
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'sonet_group.update',
+    		{
+    			'GROUP_ID': 11,
+    			'NAME': 'Test sonet group XXX'
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.log('Updated group with ID:', result);
+    }
+    catch( error )
+    {
+    	console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sonet_group.update',
+                [
+                    'GROUP_ID' => 11,
+                    'NAME' => 'Test sonet group XXX'
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating social network group: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
     // Изменяем название группы соцсети с ID=11 на 'Test sonet group XXX'
     BX24.callMethod('sonet_group.update', {

@@ -71,7 +71,7 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-Так же смотрите описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Так же смотрите описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 ## Примеры кода
 
@@ -101,57 +101,69 @@
 
 - JS
 
-    ```javascript 
-    BX24.callMethod(
-      'crm.lead.list',
-      {
-        select: ['*', 'UF_*'],
-        start: 50,
-        filter: {
+
+    ```js
+    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    
+    try {
+      const response = await $b24.callListMethod(
+        'crm.lead.list',
+        {
+          select: ['*', 'UF_*'],
+          filter: {
             '=OPPORTUNITY': 15000,
+          },
+          order: {
+            STATUS_ID: 'ASC',
+          },
+        },
+        (progress) => { console.log('Progress:', progress) }
+      )
+      const items = response.getData() || []
+      for (const entity of items) { console.log('Entity:', entity) }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    
+    try {
+      const generator = $b24.fetchListMethod('crm.lead.list', {
+        select: ['*', 'UF_*'],
+        filter: {
+          '=OPPORTUNITY': 15000,
         },
         order: {
-            STATUS_ID: 'ASC',
-        }, 
-      },
-      (result) => {
-        if(result.error())
-        {
-          console.error(result.error());
-  
-          return;
-        }
-        
-        console.info(result.data());
+          STATUS_ID: 'ASC',
+        },
+      }, 'ID')
+      for await (const page of generator) {
+        for (const entity of page) { console.log('Entity:', entity) }
       }
-    );
+    } catch (error) {
+      console.error('Request failed', error)
+    }
+    
+    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    
+    try {
+      const response = await $b24.callMethod('crm.lead.list', {
+        select: ['*', 'UF_*'],
+        filter: {
+          '=OPPORTUNITY': 15000,
+        },
+        order: {
+          STATUS_ID: 'ASC',
+        },
+      }, 50)
+      const result = response.getData().result || []
+      for (const entity of result) { console.log('Entity:', entity) }
+    } catch (error) {
+      console.error('Request failed', error)
+    }
     ```
 
 - PHP
-
-  ```php
-  require_once('crest.php');
-
-  $result = CRest::call(
-      'crm.lead.list',
-      [
-          'select' => ['*', 'UF_*'],
-          'start' => 50,
-          'filter' => [
-              '=OPPORTUNITY' => 15000,
-          ],
-          'order' => [
-              'STATUS_ID' => 'ASC',
-          ],
-      ]
-  );
-
-  echo '<PRE>';
-  print_r($result);
-  echo '</PRE>';
-  ```
-
-- PHP (B24PhpSdk)
 
   ```php      
   try {
@@ -183,6 +195,58 @@
   } catch (Throwable $e) {
       print("Error: " . $e->getMessage());
   }
+  ```
+
+- BX24.js
+
+    ```javascript 
+    BX24.callMethod(
+      'crm.lead.list',
+      {
+        select: ['*', 'UF_*'],
+        start: 50,
+        filter: {
+            '=OPPORTUNITY': 15000,
+        },
+        order: {
+            STATUS_ID: 'ASC',
+        }, 
+      },
+      (result) => {
+        if(result.error())
+        {
+          console.error(result.error());
+  
+          return;
+        }
+        
+        console.info(result.data());
+      }
+    );
+    ```
+
+- PHP CRest
+
+  ```php
+  require_once('crest.php');
+
+  $result = CRest::call(
+      'crm.lead.list',
+      [
+          'select' => ['*', 'UF_*'],
+          'start' => 50,
+          'filter' => [
+              '=OPPORTUNITY' => 15000,
+          ],
+          'order' => [
+              'STATUS_ID' => 'ASC',
+          ],
+      ]
+  );
+
+  echo '<PRE>';
+  print_r($result);
+  echo '</PRE>';
   ```
 
 {% endlist %}
@@ -261,6 +325,7 @@
       ]
   );
   ```
+
 {% endlist %}
 
 ## Обработка ответа

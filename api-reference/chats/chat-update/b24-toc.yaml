@@ -1,14 +1,15 @@
 title: Изменить чат
 href: index.md
 items:
-  - name: Об изменении чата
+  - name: Обзор методов
     href: index.md
+  - name: Сменить владельца чата
+    href: im-chat-set-owner.md
   - name: Изменить заголовок чата
     href: im-chat-update-title.md
   - name: Изменить аватарку чата
     href: im-chat-update-avatar.md
   - name: Изменить цвет чата
     href: im-chat-update-color.md
-  - name: Сменить владельца чата
-    href: im-chat-set-owner.md
+
 

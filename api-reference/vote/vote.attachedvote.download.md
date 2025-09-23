@@ -91,53 +91,6 @@
     "https://**put_your_bitrix24_address**/rest/vote.AttachedVote.download"
     ```
 
-- JS
-
-    ```js
-    try {
-        const response = await $b24.callMethod(
-            'vote.AttachedVote.download',
-            {
-                attachId: attachId,
-                auth: auth.access_token
-            }
-        );
-
-        const result = response.getData().result;
-        console.log('Downloaded report:', result);
-        processResult(result);
-    } catch (error) {
-        console.error('Error:', error);
-    }    
-    ```
-
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'vote.AttachedVote.download',
-                [
-                    'attachId' => $attachId,
-                    'auth' => $auth['access_token']
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        echo 'Success: ' . print_r($result, true);
-        processData($result);
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error downloading vote report: ' . $e->getMessage();
-    }
-    ```
-
 - BX24.js
 
     ```js
