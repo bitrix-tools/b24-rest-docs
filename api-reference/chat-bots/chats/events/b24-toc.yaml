@@ -1,7 +1,9 @@
 title: События
 href: index.md
 items:
-  - name: На подключение чат-бота к чату
+  - name: Обзор событий
+    href: index.md
+  - name: При подключении бота к чату
     href: on-imbot-join-chat.md
-  - name: На удаление чат-бота
+  - name: При удалении чат-бота
     href: on-imbot-delete.md
