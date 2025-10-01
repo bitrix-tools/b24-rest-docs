@@ -67,7 +67,7 @@ navigation:
     leftItems:
       - text: 'С чего начать'
         type: 'link'
-        url: '/first-steps/.html'
+        url: '/first-steps/index.html'
       - text: 'Справочник API'
         type: 'link'
         url: '/api-reference/index.html'        
