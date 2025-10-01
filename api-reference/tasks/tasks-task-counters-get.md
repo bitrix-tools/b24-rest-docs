@@ -1,78 +1,92 @@
 # Получить счетчики пользователя tasks.task.counters.get
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
- 
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.task.counters.get` получения счетчиков пользователя.
+Метод `tasks.task.counters.get` получает значения счетчиков задач для указанного пользователя.
 
-Можно отфильтровать по:
-- userId
-- groupId
-- type
+## Параметры метода
+
+{% include [Сноска о параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **userId**
-[`unknown`](../data-types.md) | Идентификатор пользователя (пространство имен). Если `userId` не указан, то берется текущий пользователь. ||
+[`integer`](../data-types.md) | Идентификатор пользователя, для которого нужно получить счетчики.
+
+По умолчанию используется текущий пользователь.
+
+Идентификатор пользователя можно получить методом [получения списка пользователей](../user/user-get.md) ||
 || **groupId**
-[`unknown`](../data-types.md) | Идентификатор группы пользователя. ||
+[`integer`](../data-types.md) | Идентификатор группы, для задач которой нужно получилось счетчики.
+
+Передайте `0` или не указывайте параметр, чтобы учитывать все группы.
+
+Получить идентификатор можно методом [создания новой группы](../sonet-group/sonet-group-create.md) или методом [получения списка групп](../sonet-group/socialnetwork-api-workgroup-list.md). ||
 || **type**
-[`unknown`](../data-types.md) |Роль счетчиков: 
-- **view_all** - все роли; 
-- **view_role_responsible** - роль "Делаю"; 
-- **view_role_accomplice** - роль "Помогаю"; 
-- **view_role_auditor** - роль "Наблюдаю"; 
-- **view_role_originator** - роль "Поручил". 
-||
+[`string`](../data-types.md) | Роль, для которой нужно получить счетчики. Возможные роли:
+- `view_all` — все роли
+- `view_role_responsible` — делаю
+- `view_role_accomplice` — помогаю
+- `view_role_auditor` — наблюдаю
+- `view_role_originator` — поручил
+ 
+По умолчанию используется роль `view_all` ||
 |#
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"userId":547,"groupId":0,"type":"view_all"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.counters.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"userId":547,"groupId":0,"type":"view_all","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/tasks.task.counters.get
+    ```
+
 - JS
 
-
-    ```js
+    ```javascript
     try
     {
-    	const response = await $b24.callMethod(
-    		'tasks.task.counters.get',
-    		{userId: 1, groupId: 0, type: 'view_all'}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+        const response = await $b24.callMethod(
+            'tasks.task.counters.get',
+            {
+                userId: 547,
+                groupId: 0,
+                type: 'view_all',
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Task counters:', result);
+        processResult(result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -81,70 +95,149 @@
             ->call(
                 'tasks.task.counters.get',
                 [
-                    'userId' => 1,
+                    'userId' => 547,
                     'groupId' => 0,
-                    'type'    => 'view_all',
+                    'type' => 'view_all'
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result['answer']['result'], true);
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting task counters: ' . $e->getMessage();
+        echo 'Error fetching task counters: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
     ```js
-    BX24.callMethod('tasks.task.counters.get', {userId:1, groupId:0, type:'view_all'}, (res)=>{console.log(res.answer.result);});
+    BX24.callMethod(
+        'tasks.task.counters.get',
+        {
+            userId: 547,
+            groupId: 0,
+            type: 'view_all'
+        },
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'tasks.task.counters.get',
+        [
+            'userId' => 547,
+            'groupId' => 0,
+            'type' => 'view_all'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
 {
     "result": {
-        "wo_deadline": {
-            "counter": 0,
-            "code": 10485760
-        },
         "expired": {
             "counter": 1,
             "code": 6291456
         },
-        "expired_soon": {
-            "counter": 0,
-            "code": 9437184
-        },
-        "not_viewed": {
-            "counter": 0,
-            "code": 1048576
-        },
-        "wait_ctrl": {
-            "counter": 0,
-            "code": 8388608
+        "new_comments": {
+            "counter": 7,
+            "code": 12582912
         }
     },
     "total": 1,
     "time": {
-        "start": 1552383141.526606,
-        "finish": 1552383141.576861,
-        "duration": 0.05025482177734375,
-        "processing": 0.002279996871948242,
-        "date_start": "2019-03-12T11:32:21+02:00",
-        "date_finish": "2019-03-12T11:32:21+02:00"
+        "start": 1758868152,
+        "finish": 1758868152.929809,
+        "duration": 0.9298090934753418,
+        "processing": 0,
+        "date_start": "2025-09-26T09:29:12+03:00",
+        "date_finish": "2025-09-26T09:29:12+03:00",
+        "operating_reset_at": 1758868752,
+        "operating": 0
     }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md) | Объект, в котором ключ — название счетчика, а значение — объект с [описанием счетчика](#counter).
+
+Значения счетчиков:
+- `new_comments` — непрочитанные комментарии
+- `expired` — просроченные задачи
+
+Возвращает пустой массив `"result":[]`, если пользователь не существует или нет прав на получение счетчиков указанного пользователя
+ ||
+|| **total**
+[`integer`](../data-types.md) | На текущий момент не используется. Всегда возвращает значение `1` ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект счетчика {#counter}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **counter**
+[`integer`](../data-types.md) | Количество ||
+|| **code**
+[`integer`](../data-types.md) | Внутренний код счетчика ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "0",
+    "error_description": "Group not found or access denied. (internal error)"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | Argument #1 ($userId) must be of type int, string given, called in \/var\/www\/html\/bitrix\/modules\/tasks\/lib\/internals\/counter.php on line 78 (internal error) | В параметре `userId` указано значение неверно типа ||
+|| `0` | Group not found or access denied. (internal error) | Группа не существует или к ней нет прав доступа ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./tasks-task-get.md)
+- [{#T}](./tasks-task-list.md)

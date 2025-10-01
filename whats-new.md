@@ -4,8 +4,10 @@
 
 ### 01 октября, 2025
 
+- Обновлены главные страницы событий в разделах [Чаты](./api-reference/chat-bots/chats/events/index.md) и [Сообщения](./api-reference/chat-bots/messages/events/index.md) в Чат-ботах. Добавили вводную информацию, а также обзор событий
 - Обновлена главная страница раздела [Остатки по складам](./api-reference/catalog/store-product/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
 - Обновлена главная страница раздела [Привязка объектов к бронированию](./api-reference/booking/booking/external-data/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+- Обновили документацию по методам [tasks.task.getFields](./api-reference/tasks/tasks-task-get-fields.md), [tasks.task.files.attach](./api-reference/tasks/tasks-task-files-attach.md), [tasks.task.counters.get](./api-reference/tasks/tasks-task-counters-get.md), [tasks.task.history.list](./api-reference/tasks/tasks-task-history-list.md) в Задачах
 
 ### 19 сентября, 2025
 

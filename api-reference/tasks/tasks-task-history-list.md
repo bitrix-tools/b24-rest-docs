@@ -1,158 +1,143 @@
-# История задачи tasks.task.history.list
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Получить историю задачи tasks.task.history.list
 
 > Scope: [`task`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с доступом к задаче на чтение
 
-Метод `tasks.task.history.list` получения истории задачи.
+Метод `tasks.task.history.list` получает историю изменений задачи.
 
-Возвращаем массив данных (см. примеры ниже).
+## Параметры метода
 
-Можно фильтровать и сортировать по всем полям (см. [tasks.task.list](./tasks-task-list.md)). По умолчанию отдает всю историю без разбивки по страницам.
+{% include [Сноска о параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **taskId**
-[`unknown`](../data-types.md) | Идентификатор задачи. ||
-|| **start**
-[`unknown`](../data-types.md) | Сколько первых записей пропускать в результате. В связи с техническими ограничениями значение этого параметра всегда должно быть кратно 50. Например, при значении 50 в результате будут отображаться 51-я запись и последующие, а первые 50 записей будут пропущены.
+|| **Название**
+`тип` | **Описание** ||
+|| **taskId***
+[`integer`](../data-types.md) | Идентификатор задачи, для которой нужно получить историю.
 
-При значении -1 будет отключён подсчёт количества. 
+Идентификатор задачи можно получить при [создании новой задачи](./tasks-task-add.md) или методом [получения списка задач](./tasks-task-list.md) ||
+|| **filter**
+[`object`](../data-types.md) | Фильтр по типу события в формате `{FIELD: 'EVENT'}`. Список возможных значений для `FIELD` описан [ниже](#lists)
+||
+|| **order**
+[`object`](../data-types.md) | Объект для сортировки результата вида `{"поле": "значение сортировки", ... }`.
 
-Работает для https запросов.||
+Направление сортировки может принимать значения:
+
+- `asc` — по возрастанию
+- `desc` — по убыванию
+
+По умолчанию записи сортируются по убыванию по времени создания, то есть от новых к старым ||
 |#
 
-## Пример 1
+## Примеры кода
 
-Вывод истории конкретной задачи с использованием фильтра `NEW` (т.е. когда была создана задача):
-```js
-BX24.callMethod('tasks.task.history.list', {taskId: 119, filter:{FIELD:'NEW'}}, (res)=>{console.log(res.answer.result);});
-```
-
-## Ответ в случае успеха
-
-> 200 OK
-
-```json
-{
-    "result": {
-        "list": [
-            {
-                "id": "1230",
-                "createdDate": "01.03.2019 15:29:28",
-                "field": "NEW",
-                "value": {
-                    "from": null,
-                    "to": null
-                },
-                "user": {
-                    "id": "1",
-                    "name": "Максим",
-                    "lastName": "Гречушников",
-                    "secondName": "",
-                    "login": "admin"
-                }
-            }
-        ]
-    },
-    "time": {
-        "start": 1552382093.81029,
-        "finish": 1552382093.927268,
-        "duration": 0.11697793006896973,
-        "processing": 0.018744230270385742,
-        "date_start": "2019-03-12T11:14:53+02:00",
-        "date_finish": "2019-03-12T11:14:53+02:00"
-    }
-}
-```
-
-## Пример 2
-
-Вывод истории конкретной задачи без использования фильтров:
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"taskId":8137,"filter":{"FIELD":"COMMENT"},"order":{"createdDate":"ASC"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.history.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"taskId":8137,"filter":{"FIELD":"COMMENT"},"order":{"createdDate":"ASC"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/tasks.task.history.list
+    ```
+
 - JS
 
+    ```javascript
+    // callListMethod: Получает все данные сразу.
+    // Используйте только для небольших выборок (< 1000 элементов) из-за высокой
+    // нагрузки на память.
 
-    ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
-    
     try {
-      const response = await $b24.callListMethod(
-        'task.planner.getlist',
-        {},
+    const response = await $b24.callListMethod(
+        'tasks.task.history.list',
+        {
+            taskId: 8137,
+            filter: { FIELD: 'COMMENT' },
+            order: { createdDate: 'ASC' }
+        },
         (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
+    );
+    const items = response.getData() || [];
+    for (const entity of items) { console.log('Entity:', entity) }
     } catch (error) {
-      console.error('Request failed', error)
+    console.error('Request failed', error)
     }
-    
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
-    
+
+    // fetchListMethod: Выбирает данные по частям с помощью итератора.
+    // Используйте для больших объемов данных для эффективного потребления памяти.
+
     try {
-      const generator = $b24.fetchListMethod('task.planner.getlist', {}, 'ID')
-      for await (const page of generator) {
+    const generator = $b24.fetchListMethod('tasks.task.history.list', {
+        taskId: 8137,
+        filter: { FIELD: 'COMMENT' },
+        order: { createdDate: 'ASC' }
+    }, 'ID');
+    for await (const page of generator) {
         for (const entity of page) { console.log('Entity:', entity) }
-      }
-    } catch (error) {
-      console.error('Request failed', error)
     }
-    
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('task.planner.getlist', {}, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
     } catch (error) {
-      console.error('Request failed', error)
+    console.error('Request failed', error)
+    }
+
+    // callMethod: Ручное управление постраничной навигацией через параметр start.
+    // Используйте для точного контроля над пакетами запросов.
+    // Для больших данных менее эффективен, чем fetchListMethod.
+
+    try {
+    const response = await $b24.callMethod('tasks.task.history.list', {
+        taskId: 8137,
+        filter: { FIELD: 'COMMENT' },
+        order: { createdDate: 'ASC' }
+    }, 0);
+    const result = response.getData().result || [];
+    for (const entity of result) { console.log('Entity:', entity) }
+    } catch (error) {
+    console.error('Request failed', error)
     }
     ```
 
 - PHP
-
 
     ```php
     try {
         $response = $b24Service
             ->core
             ->call(
-                'task.planner.getlist',
-                []
+                'tasks.task.history.list',
+                [
+                    'taskId' => 8137,
+                    'filter' => ['FIELD' => 'COMMENT'],
+                    'order' => ['createdDate' => 'ASC']
+                ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting task planner list: ' . $e->getMessage();
+        echo 'Error fetching task history: ' . $e->getMessage();
     }
     ```
 
@@ -160,18 +145,325 @@ BX24.callMethod('tasks.task.history.list', {taskId: 119, filter:{FIELD:'NEW'}}, 
 
     ```js
     BX24.callMethod(
-        'task.planner.getlist',
-        [],
-        function(result)
+        'tasks.task.history.list',
         {
+            taskId: 8137,
+            filter: { FIELD: 'COMMENT' },
+            order: {createdDate: 'ASC'},
+        },
+        function(result){
             console.info(result.data());
             console.log(result);
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'tasks.task.history.list',
+        [
+            'taskId' => 8137,
+            'filter' => ['FIELD' => 'COMMENT'],
+            'order' => ['createdDate' => 'ASC']
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-![Результат](_images/tasks_task_history_list-2.png =865x)
+## Обработка ответа
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "list": [
+            {
+                "id": 16359,
+                "createdDate": "2025-09-25T14:09:45+03:00",
+                "field": "NEW",
+                "value": {
+                    "from": null,
+                    "to": null
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            },
+            {
+                "id": 16361,
+                "createdDate": "2025-09-25T14:09:45+03:00",
+                "field": "COMMENT",
+                "value": {
+                    "from": null,
+                    "to": "3409"
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            },
+            {
+                "id": 16363,
+                "createdDate": "2025-09-25T14:09:45+03:00",
+                "field": "CHECKLIST_ITEM_CREATE",
+                "value": {
+                    "from": "",
+                    "to": "Что сделать"
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            },
+            {
+                "id": 16365,
+                "createdDate": "2025-09-25T14:09:45+03:00",
+                "field": "CHECKLIST_ITEM_CREATE",
+                "value": {
+                    "from": "",
+                    "to": "Связаться с клиентом"
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            },
+            {
+                "id": 16367,
+                "createdDate": "2025-09-25T14:09:45+03:00",
+                "field": "CHECKLIST_ITEM_CREATE",
+                "value": {
+                    "from": "",
+                    "to": "Подготовить договор"
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            },
+            {
+                "id": 16369,
+                "createdDate": "2025-09-25T14:09:45+03:00",
+                "field": "CHECKLIST_ITEM_CREATE",
+                "value": {
+                    "from": "",
+                    "to": "Подписать договор"
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            },
+            {
+                "id": 16371,
+                "createdDate": "2025-09-25T14:09:57+03:00",
+                "field": "AUDITORS",
+                "value": {
+                    "from": "",
+                    "to": "547"
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            },
+            {
+                "id": 16375,
+                "createdDate": "2025-09-25T14:09:57+03:00",
+                "field": "COMMENT",
+                "value": {
+                    "from": null,
+                    "to": "3411"
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            },
+            {
+                "id": 16373,
+                "createdDate": "2025-09-25T14:09:58+03:00",
+                "field": "COMMENT",
+                "value": {
+                    "from": null,
+                    "to": "3413"
+                },
+                "user": {
+                    "id": 503,
+                    "name": "Мария",
+                    "lastName": "Иванова",
+                    "secondName": "",
+                    "login": "maria@mysite.ru"
+                }
+            }
+        ],
+    },
+    "time": {
+        "start": 1758798620,
+        "finish": 1758798620.969019,
+        "duration": 0.9690189361572266,
+        "processing": 0,
+        "date_start": "2025-09-25T14:10:20+03:00",
+        "date_finish": "2025-09-25T14:10:20+03:00",
+        "operating_reset_at": 1758799220,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md) | Корневой элемент ответа. Содержит массив `list`, который содержит объекты с [описанием событий](#lists) в задаче.
+
+Возвращает пустой массив `"list":[]`, если задача не существует ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объекты lists {#lists}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор события истории ||
+|| **createdDate**
+[`string`](../data-types.md) | Дата и время создания события в формате ISO 8601 ||
+|| **field**
+[`string`](../data-types.md) | Тип события истории. Возможные значения `field`:
+
+- `TITLE` — изменение названия задачи
+- `DESCRIPTION` — изменение описания задачи
+- `REAL_STATUS` — изменение фактического статуса
+- `STATUS` — изменение статуса задачи
+- `PRIORITY` — изменение приоритета
+- `MARK` — изменение оценки задачи
+- `COMMENT` — добавление комментария
+- `DELETE` — удаление задачи
+- `NEW` — создание новой задачи
+- `RENEW` — восстановление задачи
+- `MOVE_TO_BACKLOG` — перемещение задачи в бэклог
+- `MOVE_TO_SPRINT` — перемещение задачи в спринт
+- `PARENT_ID` — изменение родительской задачи
+- `GROUP_ID` — изменение рабочей группы/проекта
+- `STAGE_ID` — изменение стадии
+- `CREATED_BY` — изменение автора задачи
+- `RESPONSIBLE_ID` — изменение ответственного
+- `ACCOMPLICES` — изменение соисполнителей
+- `AUDITORS` — изменение наблюдателей
+- `DEADLINE` — изменение крайнего срока
+- `START_DATE_PLAN` — изменение плановой даты начала
+- `END_DATE_PLAN` — изменение плановой даты окончания
+- `DURATION_PLAN` — изменение плановой длительности
+- `DURATION_PLAN_SECONDS` — изменение плановой длительности в секундах
+- `DURATION_FACT` — изменение фактической длительности
+- `TIME_ESTIMATE` — изменение оценки времени
+- `TIME_SPENT_IN_LOGS` — изменение фактически затраченного времени по логу
+- `TAGS` — изменение тегов задачи
+- `DEPENDS_ON` — изменение зависимостей задачи
+- `FILES` — изменение списка файлов
+- `UF_TASK_WEBDAV_FILES` — изменение пользовательского поля с файлами
+- `CHECKLIST_ITEM_CREATE` — создание пункта чек-листа
+- `CHECKLIST_ITEM_RENAME` — переименование пункта чек-листа
+- `CHECKLIST_ITEM_REMOVE` — удаление пункта чек-листа
+- `CHECKLIST_ITEM_CHECK` — отметка пункта чек-листа как выполненного
+- `CHECKLIST_ITEM_UNCHECK` — снятие отметки выполнения пункта чек-листа
+- `ADD_IN_REPORT` — изменение признака «добавлять в отчет»
+- `TASK_CONTROL` — изменение контроля результата
+- `ALLOW_TIME_TRACKING` — включение или выключение учета времени
+- `ALLOW_CHANGE_DEADLINE` — разрешение или запрет изменения дедлайна
+- `FLOW_ID` — изменение потока ||
+|| **value**
+[`object`](../data-types.md) | Объект описывает, какое изменение произошло:
+- `from` — значение до изменения
+- `to` — значение после изменения
+
+Тип значения зависит от события: для нового комментария — `ID` комментария, для изменения пункта чек-листа — текст пункта, для добавления наблюдателя — идентификатор пользователя, и так далее ||
+|| **user**
+[`object`](../data-types.md) | Объект с [описанием пользователя](#user), который выполнил действие ||
+|#
+
+#### Объект user {#user}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор пользователя ||
+|| **name**
+[`string`](../data-types.md) | Имя ||
+|| **lastName**
+[`string`](../data-types.md) | Фамилия ||
+|| **secondName**
+[`string`](../data-types.md) | Отчество ||
+|| **login**
+[`string`](../data-types.md) | Логин ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "0",
+    "error_description": "Access denied. (internal error)"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `100` | CTaskItem All parameters in the constructor must have real class type (internal error) | Не указан обязательный параметр `taskId` ||
+|| `0` | wrong task id (internal error) | В параметре `taskId` указано значение неверного типа ||
+|| `0` | Access denied. (internal error) | У пользователя нет доступа к задаче ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./tasks-task-get.md)
+- [{#T}](./tasks-task-list.md)
