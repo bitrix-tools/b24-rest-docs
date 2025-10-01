@@ -700,7 +700,7 @@
 [`string`](../data-types.md) | Тип изображения:
 - `DETAIL_PICTURE` — детальная картинка
 - `PREVIEW_PICTURE` — картинка для анонса
-- `MORE_PHOTO` — картинки товара
+- `MORE_PHOTO` — картинка
 ||
 || **createTime**
 [`datetime`](../data-types.md) | Дата создания изображения ||
