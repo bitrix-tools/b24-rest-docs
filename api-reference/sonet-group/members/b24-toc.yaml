@@ -13,7 +13,5 @@ items:
     href: sonet-group-user-update.md
   - name: Получить список участников
     href: sonet-group-user-get.md
-  - name: Получить расширенный список участников
-    href: sonet-group-user-get-expanded.md
   - name: Удалить пользователей из группы
     href: sonet-group-user-delete.md

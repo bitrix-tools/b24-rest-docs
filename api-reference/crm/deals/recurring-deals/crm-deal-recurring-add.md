@@ -39,6 +39,8 @@
 
 ## Пример
 
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
 {% list tabs %}
 
 - JS
@@ -204,4 +206,6 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}

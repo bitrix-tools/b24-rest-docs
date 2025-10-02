@@ -7,5 +7,3 @@ items:
     href: installation-master.md
   - name: Callback установки
     href: installation-callback.md
-  - name: Мастер настройки
-    href: settings-master.md
