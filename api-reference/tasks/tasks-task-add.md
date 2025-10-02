@@ -35,6 +35,8 @@
 
 ## Примеры
 
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
 {% list tabs %}
 
 - cURL (Webhook)
@@ -426,7 +428,145 @@
 2. автоматически завершать задачу при завершении подзадач (и наоборот)
 3. обязательный отчет при завершении задачи
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "task": {
+            "id": "3711",
+            "parentId": null,
+            "title": "task for test",
+            "description": "",
+            "mark": null,
+            "priority": "1",
+            "multitask": "N",
+            "notViewed": "N",
+            "replicate": "N",
+            "stageId": "0",
+            "createdBy": "1",
+            "createdDate": "2024-11-02T10:06:08+02:00",
+            "responsibleId": "1",
+            "changedBy": "1",
+            "changedDate": "2024-11-02T10:06:08+02:00",
+            "statusChangedBy": null,
+            "closedBy": null,
+            "closedDate": null,
+            "activityDate": "2024-11-02T10:06:08+02:00",
+            "dateStart": null,
+            "deadline": null,
+            "startDatePlan": null,
+            "endDatePlan": null,
+            "guid": "{c2794da9-c7fe-404d-a709-ddab4578717a}",
+            "xmlId": null,
+            "commentsCount": null,
+            "serviceCommentsCount": null,
+            "allowChangeDeadline": "N",
+            "allowTimeTracking": "N",
+            "taskControl": "N",
+            "addInReport": "N",
+            "forkedByTemplateId": null,
+            "timeEstimate": "0",
+            "timeSpentInLogs": null,
+            "matchWorkTime": "N",
+            "forumTopicId": null,
+            "forumId": null,
+            "siteId": "s1",
+            "subordinate": "Y",
+            "exchangeModified": null,
+            "exchangeId": null,
+            "outlookVersion": "1",
+            "viewedDate": null,
+            "sorting": null,
+            "durationFact": null,
+            "isMuted": "N",
+            "isPinned": "N",
+            "isPinnedInGroup": "N",
+            "flowId": null,
+            "descriptionInBbcode": "Y",
+            "status": "2",
+            "statusChangedDate": "2024-11-02T10:06:08+02:00",
+            "durationPlan": null,
+            "durationType": "days",
+            "favorite": "N",
+            "groupId": "0",
+            "auditors": [],
+            "accomplices": [],
+            "checklist": [],
+            "group": [],
+            "creator": {
+                "id": "1",
+                "name": "Viola",
+                "link": "/company/personal/user/1/",
+                "icon": "https://your-domain.bitrix24.com/b13743910/resize_cache/2267/c0120a8d7c10d63c83e32398d1ec4d9e/main/c7b/c7bd44b1babaa5448125dd97d038ce1b/d5fb56b94dc2c3cd8c006a2c595a4895.jpg",
+                "workPosition": ""
+            },
+            "responsible": {
+                "id": "1",
+                "name": "Viola",
+                "link": "/company/personal/user/1/",
+                "icon": "https://your-domain.bitrix24.com/b13743910/resize_cache/2267/c0120a8d7c10d63c83e32398d1ec4d9e/main/c7b/c7bd44b1babaa5448125dd97d038ce1b/d5fb56b94dc2c3cd8c006a2c595a4895.jpg",
+                "workPosition": ""
+            },
+            "accomplicesData": [],
+            "auditorsData": [],
+            "newCommentsCount": 0,
+            "action": {
+                "accept": false,
+                "decline": false,
+                "complete": true,
+                "approve": false,
+                "disapprove": false,
+                "start": true,
+                "pause": false,
+                "delegate": true,
+                "remove": true,
+                "edit": true,
+                "defer": true,
+                "renew": false,
+                "create": true,
+                "changeDeadline": true,
+                "checklistAddItems": true,
+                "addFavorite": true,
+                "deleteFavorite": false,
+                "rate": true,
+                "edit.originator": false,
+                "checklist.reorder": true,
+                "elapsedtime.add": true,
+                "dayplan.timer.toggle": false,
+                "edit.plan": true,
+                "checklist.add": true,
+                "favorite.add": true,
+                "favorite.delete": false
+            },
+            "checkListTree": {
+                "nodeId": 0,
+                "fields": {
+                    "id": null,
+                    "copiedId": null,
+                    "entityId": null,
+                    "userId": 1,
+                    "createdBy": null,
+                    "parentId": null,
+                    "title": "",
+                    "sortIndex": null,
+                    "displaySortIndex": "",
+                    "isComplete": false,
+                    "isImportant": false,
+                    "completedCount": 0,
+                    "members": [],
+                    "attachments": []
+                },
+                "action": [],
+                "descendants": []
+            },
+            "checkListCanAdd": true
+        }
+    }
+}
+```
 
 ## Продолжить изучение
 
