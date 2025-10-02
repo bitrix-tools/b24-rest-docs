@@ -40,7 +40,7 @@
 
 {% note info %}
 
-Вместо `USER_ID` можно указать `QUEUE_ID` для переключения на другую открытую линию.
+Вместо `USER_ID` можно указать `QUEUE_ID` для переключения на другую открытую линию. `ID` открытой линии можно получить методом [imopenlines.config.list.get](../imopenlines-config-list-get.md).
 
 {% endnote %}
 
