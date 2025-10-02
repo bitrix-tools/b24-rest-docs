@@ -136,7 +136,7 @@
     BX24.callMethod(
         'imopenlines.crm.chat.get',
         {
-            CRM_ENTITY_TYPE: 'deal'
+            CRM_ENTITY_TYPE: 'deal',
             CRM_ENTITY: 288,
             ACTIVE_ONLY: 'N'
         },
