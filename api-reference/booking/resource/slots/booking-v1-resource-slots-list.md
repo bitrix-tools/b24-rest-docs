@@ -13,7 +13,7 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **resourceID***
+|| **resourceId***
 [`integer`](../../../data-types.md) | Идентификатор ресурса.
 Можно получить методами [booking.v1.resource.add](../booking-v1-resource-add.md) и [booking.v1.resource.list](../booking-v1-resource-list.md) ||
 |#
