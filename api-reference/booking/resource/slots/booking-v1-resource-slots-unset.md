@@ -13,7 +13,7 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **resourceID***
+|| **resourceId***
 [`integer`](../../../data-types.md) | Идентификатор ресурса.
 Можно получить методами [booking.v1.resource.add](../booking-v1-resource-add.md) и [booking.v1.resource.list](../booking-v1-resource-list.md) ||
 |#
@@ -30,7 +30,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"resourceID":14}' \
+    -d '{"resourceId":14}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.resource.slots.unset
     ```
 
@@ -40,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"resourceID":14,"auth":"**put_access_token_here**"}' \
+    -d '{"resourceId":14,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.resource.slots.unset
     ```
 
@@ -53,7 +53,7 @@
     	const response = await $b24.callMethod(
     		'booking.v1.resource.slots.unset',
     		{
-    			resourceID: 14,
+    			resourceId: 14,
     		}
     	);
     	
@@ -83,7 +83,7 @@
             ->call(
                 'booking.v1.resource.slots.unset',
                 [
-                    'resourceID' => 14,
+                    'resourceId' => 14,
                 ]
             );
     
@@ -109,7 +109,7 @@
     BX24.callMethod(
         "booking.v1.resource.slots.unset",
         {
-            resourceID: 14,
+            resourceId: 14,
         },
         result => {
             if (result.error())
@@ -128,7 +128,7 @@
     $result = CRest::call(
         'booking.v1.resource.slots.unset',
         [
-            'resourceID' => 14
+            'resourceId' => 14
         ]
     );
 
