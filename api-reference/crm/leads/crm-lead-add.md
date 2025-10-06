@@ -63,25 +63,25 @@
 || **COMMENTS**
 [`string`](../../data-types.md) | Комментарии ||
 || **COMPANY_ID**
-[`crm_company`](../../data-types.md) | Привязка лида к компании ||
+[`crm_company`](../data-types.md) | Привязка лида к компании ||
 || **COMPANY_TITLE**
 [`string`](../../data-types.md) | Название компании, указанное в соответствующем поле лида. Для привязки существующей компании стоит передавать её id в поле COMPANY_ID ||
 || **CONTACT_ID**
-[`crm_contact`](../../data-types.md) | Привязка лида к контакту ||
+[`crm_contact`](../data-types.md) | Привязка лида к контакту ||
 || **CONTACT_IDS**
-[`crm_contact`](../../data-types.md) | Список привязанных к лиду контактов.
+[`crm_contact`](../data-types.md) | Список привязанных к лиду контактов.
 
 Контакты можно добавлять или удалять группой методов [crm.lead.contact.*](./management-communication/index.md) ||
 || **CURRENCY_ID**
-[`crm_currency`](../../data-types.md) | Идентификатор валюты ||
+[`crm_currency`](../data-types.md) | Идентификатор валюты ||
 || **EMAIL**
-[`crm_multifield`](../../data-types.md) | Адрес электронной почты. Множественное ||
+[`crm_multifield`](../data-types.md) | Адрес электронной почты. Множественное ||
 || **HONORIFIC**
-[`crm_status`](../../data-types.md) | Вид обращения ||
+[`crm_status`](../data-types.md) | Вид обращения ||
 || **IM**
-[`crm_multifield`](../../data-types.md) | Мессенджер. Множественное ||
+[`crm_multifield`](../data-types.md) | Мессенджер. Множественное ||
 || **LINK**
-[`crm_multifield`](../../data-types.md) | ID пользователя, привязанного через открытую линию. Множественное ||
+[`crm_multifield`](../data-types.md) | ID пользователя, привязанного через открытую линию. Множественное ||
 || **LAST_NAME**
 [`string`](../../data-types.md) | Фамилия ||
 || **NAME**
@@ -101,13 +101,13 @@
 || **ORIGIN_ID**
 [`string`](../../data-types.md) | Идентификатор элемента в источнике данных. Используется только для привязки к внешнему источнику ||
 || **PHONE**
-[`crm_multifield`](../../data-types.md) | Телефон. Множественное ||
+[`crm_multifield`](../data-types.md) | Телефон. Множественное ||
 || **POST**
 [`string`](../../data-types.md) | Должность ||
 || **SOURCE_DESCRIPTION**
 [`string`](../../data-types.md) | Описание источника ||
 || **SOURCE_ID**
-[`crm_status`](../../data-types.md) | Идентификатор источника. 
+[`crm_status`](../data-types.md) | Идентификатор источника. 
 Значения по умолчанию:
 
 #|
@@ -130,7 +130,7 @@
 || **STATUS_DESCRIPTION**
 [`string`](../../data-types.md) | Дополнительно о стадии ||
 || **STATUS_ID**
-[`crm_status`](../../data-types.md) | Идентификатор стадии лида. Стадии по умолчанию:
+[`crm_status`](../data-types.md) | Идентификатор стадии лида. Стадии по умолчанию:
 
 #|
 ||STATUS_ID|Название||
@@ -155,7 +155,7 @@
 || **UTM_TERM**
 [`string`](../../data-types.md) | Условие поиска кампании. Например, ключевые слова контекстной рекламы ||
 || **WEB**
-[`crm_multifield`](../../data-types.md) | Сайт. Множественное ||
+[`crm_multifield`](../data-types.md) | Сайт. Множественное ||
 || **UF_...** | Пользовательские поля. Например, `UF_CRM_25534736`.  
 
 В зависимости от настроек портала у лидов может быть набор пользовательских полей определенных типов. 

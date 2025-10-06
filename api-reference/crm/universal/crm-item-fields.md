@@ -607,4 +607,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-delete.md)
 - [{#T}](./object-fields.md)
 
-[1]: ../data-types.md
+[1]: ../../data-types.md

@@ -243,7 +243,7 @@ HTTP-статус: **200**
 || **TITLE**
 [`string`](../../data-types.md) | Название лида ||
 || **HONORIFIC**
-[`crm_status`](../../data-types.md) | Вид обращения. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=HONORIFIC` ||
+[`crm_status`](../data-types.md) | Вид обращения. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=HONORIFIC` ||
 || **NAME**
 [`string`](../../data-types.md) |  Имя контакта ||
 || **SECOND_NAME**
@@ -251,21 +251,21 @@ HTTP-статус: **200**
 || **LAST_NAME**
 [`string`](../../data-types.md) |  Фамилия контакта ||
 || **COMPANY_ID**
-[`crm_company`](../../data-types.md) | Привязка лида к компании ||
+[`crm_company`](../data-types.md) | Привязка лида к компании ||
 || **COMPANY_TITLE**
 [`string`](../../data-types.md) | Название компании ||
 || **CONTACT_ID**
-[`crm_contact`](../../data-types.md) | Привязка лида к контакту ||
+[`crm_contact`](../data-types.md) | Привязка лида к контакту ||
 || **IS_RETURN_CUSTOMER**
 [`char`](../../data-types.md) | Признак повторного лида. Допустимые значения Y или N ||
 || **BIRTHDATE**
 [`date`](../../data-types.md) | Дата рождения ||
 || **SOURCE_ID**
-[`crm_status`](../../data-types.md) | Идентификатор источника. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=SOURCE` ||
+[`crm_status`](../data-types.md) | Идентификатор источника. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=SOURCE` ||
 || **SOURCE_DESCRIPTION**
 [`string`](../../data-types.md) | Описание источника ||
 || **STATUS_ID**
-[`crm_status`](../../data-types.md) | Идентификатор стадии лида. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=STATUS` ||
+[`crm_status`](../data-types.md) | Идентификатор стадии лида. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=STATUS` ||
 || **STATUS_DESCRIPTION**
 [`string`](../../data-types.md) | Дополнительно о стадии ||
 || **POST**
@@ -273,7 +273,7 @@ HTTP-статус: **200**
 || **COMMENTS**
 [`string`](../../data-types.md) | Комментарии ||
 || **CURRENCY_ID**
-[`crm_currency`](../../data-types.md) | Идентификатор валюты ||
+[`crm_currency`](../data-types.md) | Идентификатор валюты ||
 || **OPPORTUNITY**
 [`double`](../../data-types.md) | Предполагаемая сумма ||
 || **IS_MANUAL_OPPORTUNITY**
@@ -349,9 +349,9 @@ HTTP-статус: **200**
 
 Для создания, изменения или удаления пользовательских полей в лидах используйте методы [crm.lead.userfield.*](./userfield/index.md) ||
 || **PHONE**
-[`crm_multifield`](../../data-types.md) | Массив телефонов ||
+[`crm_multifield`](../data-types.md) | Массив телефонов ||
 || **IM**
- [`crm_multifield`](../../data-types.md) | Массив мессенджеров ||
+ [`crm_multifield`](../data-types.md) | Массив мессенджеров ||
 |#
 
 ## Обработка ошибок

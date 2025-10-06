@@ -562,4 +562,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
 
-[1]: ../data-types.md
+[1]: ../../data-types.md
