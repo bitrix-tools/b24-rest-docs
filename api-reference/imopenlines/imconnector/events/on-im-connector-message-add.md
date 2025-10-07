@@ -25,6 +25,12 @@
 
 Обязательно нужно вызвать в ответ метод [**imconnector.send.status.delivery**](../imconnector-send-status-delivery.md), иначе в мессенджере сообщение будет значиться как недоставленное.
 
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Параметры
 
 #|

@@ -6,6 +6,13 @@
 
 Событие `onCrmAddressRegister` вызывается при регистрации адреса.
 
+
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}
@@ -120,4 +127,3 @@
 - [{#T}](./on-crm-bank-detail-add.md)
 - [{#T}](./on-crm-bank-detail-update.md)
 - [{#T}](./on-crm-bank-detail-delete.md)
-
