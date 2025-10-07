@@ -53,7 +53,10 @@ items:
     hidden: true
   - name: Как написать в поддержку
     href: bitrix-support.md
-    hidden: true    
+    hidden: true
+  - name: MCP-сервер
+    href: mcp.md
+    hidden: true        
   - name: Обратная связь
     href: feedback.md
 navigation:
@@ -76,7 +79,10 @@ navigation:
         url: '/whats-new.html'     
       - text: 'Частые кейсы'
         type: 'link'
-        url: '/tutorials/index.html'  
+        url: '/tutorials/index.html' 
+      - text: 'MCP'
+        type: 'link'
+        url: '/mcp.html'         
       - text: 'GitHub'
         type: 'link'
         url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
