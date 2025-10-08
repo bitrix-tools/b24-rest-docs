@@ -49,7 +49,7 @@ items:
     href: mobile-app.md
   - name: Зарегистрировать виджет
     href: placement-bind.md
-  - name: Получить информацию о виджете по Id
+  - name: Получить список зарегистрированных виджетов
     href: placement-get.md
   - name: Получить список виджетов
     href: placement-list.md
