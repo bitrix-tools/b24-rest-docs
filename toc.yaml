@@ -22,7 +22,7 @@ items:
   - name: Настройка и использование REST
     include:
       path: settings/b24-toc.yaml
-      mode: link      
+      mode: link  
   - name: Битрикс24 Маркетплейс
     include:
       path: market/b24-toc.yaml
@@ -53,10 +53,7 @@ items:
     hidden: true
   - name: Как написать в поддержку
     href: bitrix-support.md
-    hidden: true
-  - name: MCP-сервер
-    href: mcp.md
-    hidden: true        
+    hidden: true       
   - name: Обратная связь
     href: feedback.md
 navigation:
@@ -82,7 +79,7 @@ navigation:
         url: '/tutorials/index.html' 
       - text: 'MCP'
         type: 'link'
-        url: '/mcp.html'         
+        url: '/sdk/mcp.html'         
       - text: 'GitHub'
         type: 'link'
         url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
