@@ -38,7 +38,7 @@
 || **size**
 [`string`](../../../../data-types.md) | Размер текста. Может принимать значения `xs`, `sm`, `md` (по-умолчанию `md`) ||
 || **color**
-[`string`](../../../../data-types.md) | Цвет текста. Может принимать значения `base_50`, `base_60`, `base_70`, `base_90`, `green`, `purple` ||
+[`string`](../../../../data-types.md) | Цвет текста. Может принимать значения `base_50`, `base_60`, `base_70`, `base_90` ||
 || **scope**
 [`string`](../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 |#
