@@ -144,7 +144,7 @@
 || **DESCRIPTION_TYPE**
 [`string`](../../../data-types.md) | Тип описания  ||
 || **DETAIL_PICTURE**
-[`product_file`](../../../data-types.md) | Детальная картинка  ||
+[`product_file`](../../../data-types.md) | Детальная картинка, поле доступно в старой карточке товара  ||
 || **ID**
 [`integer`](../../../data-types.md) | Идентификатор товара  ||
 || **MEASURE**
@@ -154,7 +154,7 @@
 || **NAME***
 [`string`](../../../data-types.md) | Название  ||
 || **PREVIEW_PICTURE**
-[`product_file`](../../../data-types.md) | Картинка для анонса  ||
+[`product_file`](../../../data-types.md) | Картинка для анонса, поле доступно в старой карточке товара  ||
 || **PRICE**
 [`double`](../../../data-types.md) | Цена  ||
 || **SECTION_ID**
