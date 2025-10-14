@@ -77,19 +77,19 @@
 || **SETTINGS**
 [`object`](../../data-types.md)| Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}` для передачи дополнительных настроек пользовательских полей. Настройки описаны [ниже](#settings) ||
 || **EDIT_FORM_LABEL**
-[`string`](../../data-types.md)| Подпись в форме редактирования ||
+[`string`](../../data-types.md)| Подпись в форме редактирования. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **LIST_COLUMN_LABEL**
-[`string`](../../data-types.md)| Заголовок столбца в списке ||
+[`string`](../../data-types.md)| Заголовок столбца в списке. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **LIST_FILTER_LABEL**
-[`string`](../../data-types.md)| Заголовок фильтра в списке ||
+[`string`](../../data-types.md)| Заголовок фильтра в списке. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **ERROR_MESSAGE**
-[`string`](../../data-types.md)| Сообщение об ошибке при невалидном вводе ||
+[`string`](../../data-types.md)| Сообщение об ошибке при невалидном вводе. Можно передать строку или объект с текстами по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **HELP_MESSAGE**
-[`string`](../../data-types.md)| Текст подсказки к полю ||
+[`string`](../../data-types.md)| Текст подсказки к полю. Можно передать строку или объект с текстами по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **LABEL**
-[`string`](../../data-types.md)| Название пользовательского поля по умолчанию.
+[`string`](../../data-types.md)| Название пользовательского поля по умолчанию. 
 
-Переданное значение будет выставлено в следующие поля: `LIST_FILTER_LABEL`, `LIST_COLUMN_LABEL`, `EDIT_FORM_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE`, если в них не передано значение ||
+Значение будет выставлено в поля `LIST_FILTER_LABEL`, `LIST_COLUMN_LABEL`, `EDIT_FORM_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE`, если в них не передано значение ||
 |#
 
 ### Параметр SETTINGS {#settings}
@@ -328,6 +328,7 @@
             "SETTINGS": {
                 "DEAL": "Y"
             },
+            "LABEL": "Привязка к сделкам CRM",
             "EDIT_FORM_LABEL": {
                 "ru": "Привязка к сделкам CRM"
             }
@@ -355,6 +356,7 @@
             "SETTINGS": {
                 "DEAL": "Y"
             },
+            "LABEL": "Привязка к сделкам CRM",
             "EDIT_FORM_LABEL": {
                 "ru": "Привязка к сделкам CRM"
             }
@@ -363,8 +365,90 @@
     }' \
     https://**put_your_bitrix24_address**/rest/user.userfield.add
     ```
-
+    
 - JS
+
+    ```javascript
+    try
+    {
+        const response = await $b24.callMethod(
+            'user.userfield.add',
+            {
+                fields: {
+                    FIELD_NAME: 'UF_USER_DEALS',
+                    USER_TYPE_ID: 'crm',
+                    XML_ID: 'UF_CRM_DEALS',
+                    SORT: 100,
+                    MULTIPLE: 'Y',
+                    MANDATORY: 'N',
+                    SHOW_FILTER: 'N',
+                    SHOW_IN_LIST: 'Y',
+                    EDIT_IN_LIST: 'Y',
+                    SETTINGS: {
+                        DEAL: 'Y',
+                    },
+                    LABEL: 'Привязка к сделкам CRM',
+                    EDIT_FORM_LABEL: {
+                        ru: 'Привязка к сделкам CRM'
+                    },
+                }
+            }
+        );
+
+        const result = response.getData().result;
+        console.log('Created element with ID:', result);
+        processResult(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'user.userfield.add',
+                [
+                    'fields' => [
+                        'FIELD_NAME' => 'UF_USER_DEALS',
+                        'USER_TYPE_ID' => 'crm',
+                        'XML_ID' => 'UF_CRM_DEALS',
+                        'SORT' => 100,
+                        'MULTIPLE' => 'Y',
+                        'MANDATORY' => 'N',
+                        'SHOW_FILTER' => 'N',
+                        'SHOW_IN_LIST' => 'Y',
+                        'EDIT_IN_LIST' => 'Y',
+                        'SETTINGS' => [
+                            'DEAL' => 'Y',
+                        ],
+                        'LABEL' => 'Привязка к сделкам CRM',
+                        'EDIT_FORM_LABEL' => [
+                            'ru' => 'Привязка к сделкам CRM'
+                        ],
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding user field: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -383,6 +467,7 @@
                 SETTINGS: {
                     DEAL: "Y",
                 },
+                LABEL: "Привязка к сделкам CRM",
                 EDIT_FORM_LABEL: {
                     ru: "Привязка к сделкам CRM"
                 },
@@ -398,7 +483,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -419,6 +504,7 @@
                 'SETTINGS' => [
                     'DEAL' => 'Y',
                 ],
+                'LABEL' => 'Привязка к сделкам CRM',
                 'EDIT_FORM_LABEL' => [
                     'ru' => 'Привязка к сделкам CRM'
                 ],
