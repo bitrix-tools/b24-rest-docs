@@ -1,41 +1,46 @@
 # Добавить задачу tasks.task.add
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- Нужен доп. пример с пояснением по привязке задачи к crm
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.task.add` создает задачу. 
+Метод `tasks.task.add` добавляет новую задачу. 
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **fields**
-[`unknown`](../data-types.md) | Поля, соответствующие доступному списку полей [tasks.task.getfields](./tasks-task-get-fields.md). ||
+|| **Название**
+`тип` | **Описание** ||
+|| **fields***
+[`object`](../data-types.md) | Значения [полей задачи](./fields.md).
+
+В метод можно передать параметр `SE_PARAMETER` — список объектов с дополнительными параметрами задачи. Возможные значения кодов `CODE`:
+- `1` — сроки определяются сроками подзадач
+- `2` — автоматически завершать задачу при завершении подзадач (и наоборот)
+- `3` — не завершать задачу без результата
+
+```js
+SE_PARAMETER: [
+    {
+        VALUE: 'Y',
+        CODE: 3
+    },
+    {
+        VALUE: 'Y',
+        CODE: 2
+    }
+]
+```
+||
 |#
 
-## Примеры
+## Примеры кода
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
+
+Добавим задачу с файлами и привязками объектов CRM. Чтобы прикрепить файл к задаче, нужно добавить символ `n` перед идентификатором файла.
 
 {% list tabs %}
 
@@ -45,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"TITLE":"Название задачи","DEADLINE":"2023-12-31T23:59:59","CREATED_BY":456,"RESPONSIBLE_ID":123,"UF_CRM_TASK":["L_4","C_7","CO_5","D_10"],"UF_TASK_WEBDAV_FILES":["n12345","n67890"]}}' \
+    -d '{"fields":{"TITLE":"Название задачи","DEADLINE":"2025-12-31T23:59:59","CREATED_BY":456,"RESPONSIBLE_ID":123,"UF_CRM_TASK":["L_4","C_7","CO_5","D_10"],"UF_TASK_WEBDAV_FILES":["n12345","n67890"]}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.add
     ```
 
@@ -55,46 +60,45 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"TITLE":"Название задачи","DEADLINE":"2023-12-31T23:59:59","CREATED_BY":456,"RESPONSIBLE_ID":123,"UF_CRM_TASK":["L_4","C_7","CO_5","D_10"],"UF_TASK_WEBDAV_FILES":["n12345","n67890"]},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"TITLE":"Название задачи","DEADLINE":"2025-12-31T23:59:59","CREATED_BY":456,"RESPONSIBLE_ID":123,"UF_CRM_TASK":["L_4","C_7","CO_5","D_10"],"UF_TASK_WEBDAV_FILES":["n12345","n67890"]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/tasks.task.add
     ```
 
 - JS
 
-
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		"tasks.task.add",
-    		{
-    			fields: {               
-    				TITLE: "Название задачи", // Название задачи
-    				DEADLINE: "2023-12-31T23:59:59", // Крайний срок
-    				CREATED_BY: 456, // Идентификатор постановщика
-    				RESPONSIBLE_ID: 123, // Идентификатор исполнителя
-    				// Пример передачи нескольких значений в поле UF_CRM_TASK
-    				UF_CRM_TASK: [
-    					"L_4", // Привязка к лиду
-    					"C_7", // Привязка к контакту
-    					"CO_5", // Привязка к компании
-    					"D_10" // Привязка к сделке
-    				],
-    				// Пример передачи нескольких файлов в поле UF_TASK_WEBDAV_FILES
-    				UF_TASK_WEBDAV_FILES: [
-    					"n12345", // Идентификатор первого файла диска
-    					"n67890" // Идентификатор второго файла диска
-    				]
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info("Задача успешно создана с ID " + result.task.id);
+        const response = await $b24.callMethod(
+            "tasks.task.add",
+            {
+                fields: {               
+                    TITLE: "Название задачи", // Название задачи
+                    DEADLINE: "2025-12-31T23:59:59", // Крайний срок
+                    CREATED_BY: 456, // Идентификатор постановщика
+                    RESPONSIBLE_ID: 123, // Идентификатор исполнителя
+                    // Пример передачи нескольких значений в поле UF_CRM_TASK
+                    UF_CRM_TASK: [
+                        "L_4", // Привязка к лиду
+                        "C_7", // Привязка к контакту
+                        "CO_5", // Привязка к компании
+                        "D_10" // Привязка к сделке
+                    ],
+                    // Пример передачи нескольких файлов в поле UF_TASK_WEBDAV_FILES
+                    UF_TASK_WEBDAV_FILES: [
+                        "n12345", // Идентификатор первого файла диска
+                        "n67890" // Идентификатор второго файла диска
+                    ]
+                }
+            }
+        );
+        
+        const result = response.getData().result;
+        console.info("Задача успешно создана с ID " + result.task.id);
     }
     catch( error )
     {
-    	console.error(error);
+        console.error(error);
     }
     ```
 
@@ -110,7 +114,7 @@
                 [
                     'fields' => [
                         'TITLE'         => 'Название задачи',
-                        'DEADLINE'      => '2023-12-31T23:59:59',
+                        'DEADLINE'      => '2025-12-31T23:59:59',
                         'CREATED_BY'    => 456,
                         'RESPONSIBLE_ID' => 123,
                         'UF_CRM_TASK'   => [
@@ -147,7 +151,7 @@
         {
             fields: {               
                 TITLE: "Название задачи", // Название задачи
-                DEADLINE: "2023-12-31T23:59:59", // Крайний срок
+                DEADLINE: "2025-12-31T23:59:59", // Крайний срок
                 CREATED_BY: 456, // Идентификатор постановщика
                 RESPONSIBLE_ID: 123, // Идентификатор исполнителя
                 // Пример передачи нескольких значений в поле UF_CRM_TASK
@@ -184,7 +188,7 @@
         [
             'fields' => [
                 'TITLE' => 'Название задачи', // Название задачи
-                'DEADLINE' => '2023-12-31T23:59:59', // Крайний срок
+                'DEADLINE' => '2025-12-31T23:59:59', // Крайний срок
                 'CREATED_BY' => 456, // Идентификатор постановщика
                 'RESPONSIBLE_ID' => 123, // Идентификатор исполнителя
                 // Пример передачи нескольких значений в поле UF_CRM_TASK
@@ -210,223 +214,7 @@
     }
     ```
 
-- HTTP
-
-    ```bash
-    POST /rest/tasks.task.add.json
-    Host: your_bitrix24_domain
-    Authorization: Bearer your_access_token
-    Content-Type: application/x-www-form-urlencoded
-
-    fields[TITLE]=Название задачи&
-    fields[DEADLINE]=2023-12-31T23:59:59&
-    fields[CREATED_BY]=456&
-    fields[RESPONSIBLE_ID]=123&
-    fields[UF_CRM_TASK][0]=L_4&
-    fields[UF_CRM_TASK][1]=C_7&
-    fields[UF_CRM_TASK][2]=CO_5&
-    fields[UF_CRM_TASK][3]=D_10&
-    fields[UF_TASK_WEBDAV_FILES][0]=n12345&
-    fields[UF_TASK_WEBDAV_FILES][1]=n67890
-    ```
-
 {% endlist %}
-
-Для прикрепления файла к задаче перед идентификатором файла должен быть символ `n`
-
-{% list tabs %}
-
-- JS
-
-
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'task.item.update',
-    		{
-    			taskId: '76',
-    			fields: {
-    				UF_TASK_WEBDAV_FILES: [
-    					'n96'
-    				]
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log('Updated task with ID:', result);
-    	// Нужная вам логика обработки данных
-    	processResult(result);
-    }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
-    ```
-
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'tasks.task.update',
-                [
-                    'taskId' => '76',
-                    'fields' => [
-                        'UF_TASK_WEBDAV_FILES' => [
-                            'n96'
-                        ]
-                    ]
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating task: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    {
-        "taskId":"76",
-        "fields": {
-            "UF_TASK_WEBDAV_FILES": [
-                "n96"
-            ]
-        }
-    }
-    ```
-
-{% endlist %}
-
-**С версии 22.1300.0** в метод можно передать параметр `SE_PARAMETER` — список объектов с дополнительными параметрами задачи.
-
-{% list tabs %}
-
-- JS
-
-
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'tasks.task.add',
-    		{
-    			data: {
-    				fields: {
-    					"TITLE": 'REST',
-    					"RESPONSIBLE_ID": 1,
-    					"SE_PARAMETER": [
-    						{
-    							'VALUE': 'Y',
-    							'CODE': 3
-    						},
-    						{
-    							'VALUE': 'Y',
-    							'CODE': 2
-    						},
-    					]
-    				}
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
-    ```
-
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'tasks.task.add',
-                [
-                    'data' => [
-                        'fields' => [
-                            'TITLE'          => 'REST',
-                            'RESPONSIBLE_ID' => 1,
-                            'SE_PARAMETER'   => [
-                                [
-                                    'VALUE' => 'Y',
-                                    'CODE'  => 3
-                                ],
-                                [
-                                    'VALUE' => 'Y',
-                                    'CODE'  => 2
-                                ],
-                            ]
-                        ]
-                    ]
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding task: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX.ajax.runAction("tasks.task.add", {
-        data: {
-            fields: {
-                "TITLE": 'REST',
-                "RESPONSIBLE_ID": 1,
-                "SE_PARAMETER": [
-                    {
-                        'VALUE': 'Y',
-                        'CODE': 3
-                    },
-                    {
-                        'VALUE': 'Y',
-                        'CODE': 2
-                    },
-                ]
-            }
-        }
-    }).then(function (response) { console.log(response);});
-    ```
-
-{% endlist %}
-
-Значения кодов:
-
-1. сроки определяются сроками подзадач
-2. автоматически завершать задачу при завершении подзадач (и наоборот)
-3. обязательный отчет при завершении задачи
 
 ## Обработка ответа
 
@@ -567,9 +355,56 @@ HTTP-статус: **200**
     }
 }
 ```
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md) | Объект с данными ответа ||
+|| **task**
+[`object`](../data-types.md) | Объект с [описанием задачи](./fields.md) после выполнения операции ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_CORE",
+    "error_description": "Не указано название задачи\u003Cbr\u003E"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `100` | Could not find value for parameter {fields} (internal error) | Не передан параметр `fields` или передан пустой ||
+|| `ERROR_CORE` | Пользователь указанный в поле \u0026quot;Исполнитель\u0026quot; не найден\u003Cbr\u003E | В поле `RESPONSIBLE_ID` указан идентификатор несуществующего пользователя ||
+|| `ERROR_CORE` | Не указан исполнитель\u003Cbr\u003E | Не заполнено поле `RESPONSIBLE_ID` ||
+|| `ERROR_CORE` | Не указано название задачи\u003Cbr\u003E | Не заполнено поле `TITLE` ||
+|| `ERROR_CORE` | Некорректный статус\u003Cbr\u003E | Указано некорректное значение в поле `STATUS` ||
+|| `ERROR_CORE` | Задача указанная в поле \u0026quot;Надзадача\u0026quot; не найдена\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор несуществующей задачи ||
+|| `ERROR_CORE` | В планировании сроков указана дата окончания меньшая даты старта\u003Cbr\u003E | Дата и время в поле `END_DATE_PLAN` указано меньше, чем в `START_DATE_PLAN` ||
+|| `ERROR_CORE` | В планировании сроков указана слишком большая длительность задачи\u003Cbr\u003E | В значении поля `END_DATE_PLAN` указана слишком большая дата ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
+- [{#T}](./tasks-task-update.md)
+- [{#T}](./tasks-task-get.md)
+- [{#T}](./tasks-task-list.md)
+- [{#T}](./tasks-task-delete.md)
+- [{#T}](./tasks-task-get-fields.md)
 - [{#T}](../../tutorials/tasks/how-to-create-task-with-file.md)
 - [{#T}](../../tutorials/tasks/how-to-connect-task-to-spa.md)
 - [{#T}](../../tutorials/tasks/how-to-create-comment-with-file.md)

@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 16 октября, 2025
+
+- Обновили документацию по методам [tasks.task.add](./api-reference/tasks/tasks-task-add.md), [tasks.task.update](./api-reference/tasks/tasks-task-update.md), [tasks.task.get](./api-reference/tasks/tasks-task-get.md), [tasks.task.list](./api-reference/tasks/tasks-task-list.md) в Задачах
+
 ### 15 октября, 2025
 
 - Добавили статью [SDK для разработки под Битрикс24](./sdk/index.md)

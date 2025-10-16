@@ -11,7 +11,7 @@ HTTP-статус: **20х**, **40x**, **50x**
 || `500` | `INTERNAL_SERVER_ERROR`
 Internal server error | Возникла внутренняя ошибка сервера, обратитесь к администратору сервера или в [техническую поддержку Битрикс24](/bitrix-support.html) ||
 || `500` | `ERROR_UNEXPECTED_ANSWER`
-Server returned an unexpected response | Возникла внутренняя ошибка сервера, обратитесь обратитесь к администратору сервера или в [техническую поддержку Битрикс24](/bitrix-support.html) ||
+Server returned an unexpected response | Возникла внутренняя ошибка сервера, обратитесь к администратору сервера или в [техническую поддержку Битрикс24](/bitrix-support.html) ||
 || `503` | `QUERY_LIMIT_EXCEEDED`
 Too many requests | Превышен [лимит на интенсивность запросов](/limits.html) ||
 || `405` | `ERROR_BATCH_METHOD_NOT_ALLOWED`

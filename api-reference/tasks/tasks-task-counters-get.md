@@ -230,7 +230,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `0` | Argument #1 ($userId) must be of type int, string given, called in \/var\/www\/html\/bitrix\/modules\/tasks\/lib\/internals\/counter.php on line 78 (internal error) | В параметре `userId` указано значение неверного типа ||
+|| `0` | Invalid value {value} to match with parameter {userId}. Should be value of type int. | В параметре `userId` указано значение неверного типа ||
 || `0` | Group not found or access denied. (internal error) | Группа не существует или к ней нет прав доступа ||
 |#
 
