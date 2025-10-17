@@ -21,15 +21,15 @@ Max batch length exceeded | Превышена максимальная длин
 || `401` | `NO_AUTH_FOUND`
 Wrong authorization data | Неверный [access-токен](/settings/oauth/index.html) или [код вебхука](/local-integrations/local-webhooks.html) ||
 || `400` | `INVALID_REQUEST`
-Https required. | Для вызовов методов требуется использовать протокол HTTPS ||
+Https required | Для вызовов методов требуется использовать протокол HTTPS ||
 || `503` | `OVERLOAD_LIMIT`
 REST API is blocked due to overload | REST API заблокирован из-за перегрузки. Это ручная индивидуальная блокировка, для снятия необходимо обращаться в [техническую поддержку Битрикс24](/bitrix-support.html) ||
 || `403` | `ACCESS_DENIED`
-REST API is available only on commercial plans | REST API доступен только на коммерческих планах. ||
+REST API is available only on commercial plans | REST API доступен только на коммерческих планах ||
 || `403` | `INVALID_CREDENTIALS`
 Invalid request credentials | У пользователя, с чьим [access-токеном](/settings/oauth/index.html) или [вебхуком](/local-integrations/local-webhooks.html) был вызван метод, не хватает прав ||
 || `404` | `ERROR_MANIFEST_IS_NOT_AVAILABLE`
-Manifest is not available. | Манифест недоступен. ||
+Manifest is not available | Манифест недоступен ||
 || `403` | `insufficient_scope`
 The request requires higher privileges than provided by the webhook token | Запрос требует более высоких привилегий, чем предоставляет токен [веб-хука](/local-integrations/local-webhooks.html) ||
 || `401` | `expired_token`
