@@ -2,6 +2,10 @@
 
 ## 2025
 
+## 17 октября, 2025
+
+- Обновили главную страницу раздела [Пользовательские соглашения](./api-reference/user-consent/index.md). Добавили вводную информацию, а также обзор методов и связей.
+
 ### 16 октября, 2025
 
 - Обновили документацию по методам [userconsent.agreement.list](./api-reference/user-consent/user-consent-agreement-list.md), [userconsent.agreement.text](./api-reference/user-consent/user-consent-agreement-text.md), [userconsent.consent.add](./api-reference/user-consent/user-consent-consent-add.md) в Пользовательских соглашениях
