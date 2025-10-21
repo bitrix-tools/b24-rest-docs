@@ -7,10 +7,8 @@ items:
     href: search-by-phone-and-email.md
   - name: Как получить список дел из сделок
     href: get-activity-list-by-deals.md
-  - name: Как получить список статусов лидов с семантикой
-    href: lead-statuses-with-semantics.md
-  - name: Как получить список статусов коммерческих предложений
-    href: quote-statuses-with-semantics.md
+  - name: Как получить список стадий c семантикой для объектов CRM
+    href: how-to-get-stages-with-semantics.md
   - name: Как получить воронку заданного направления
     href: how-to-get-deal-funnels.md
   - name: Как получить адрес клиента из CRM

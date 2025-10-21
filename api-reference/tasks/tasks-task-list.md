@@ -4,11 +4,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.task.list` возвращает список задач с постраничной навигацией.
+Метод `tasks.task.list` получает список задач с постраничной навигацией.
 
 Доступ к данным зависит от прав:
 - администратор видит все задачи,
-- руководитель — задачи в своей ветке,
+- руководитель — задачи своих сотрудников,
 - остальные видят только доступные им задачи.
 
 ## Параметры метода
@@ -106,7 +106,7 @@
 || **select**
 [`array`](../data-types.md) | Массив содержит [список полей](./fields.md), которые необходимо выбрать. 
 
-По умолчанию система возвращает все невычисляемые поля.
+По умолчанию система возвращает только те поля, которые хранятся в записи — без дополнительных данных, рассчитываемых на лету.
 
 {% note warning %}
 
@@ -419,9 +419,6 @@ HTTP-статус: **200**
                 "responsibleId": "547",
                 "priority": "2",
                 "mark": "",
-                "allowChangeDeadline": "Y",
-                "taskControl": "Y",
-                "allowTimeTracking": "Y",
                 "descriptionInBbcode": "Y",
                 "lengthDeadline": "1",
                 "status": "2",
@@ -430,35 +427,6 @@ HTTP-статус: **200**
                     "103"
                 ],
                 "accomplices": [],
-                "action": {
-                    "accept": false,
-                    "decline": false,
-                    "complete": true,
-                    "approve": false,
-                    "disapprove": false,
-                    "start": true,
-                    "pause": false,
-                    "delegate": true,
-                    "remove": true,
-                    "edit": true,
-                    "defer": true,
-                    "renew": false,
-                    "create": true,
-                    "changeDeadline": true,
-                    "checklistAddItems": true,
-                    "addFavorite": false,
-                    "deleteFavorite": true,
-                    "rate": true,
-                    "take": false,
-                    "edit.originator": false,
-                    "checklist.reorder": true,
-                    "elapsedtime.add": true,
-                    "dayplan.timer.toggle": true,
-                    "edit.plan": true,
-                    "checklist.add": true,
-                    "favorite.add": false,
-                    "favorite.delete": true
-                },
                 "group": [],
                 "responsible": {
                     "id": "547",
@@ -505,27 +473,22 @@ HTTP-статус: **200**
                 "tags": {
                     "35": {
                         "id": 35,
-                        "title": "b2b"
+                        "title": "арпар"
                     }
                 },
                 "subStatus": "2"
-            },
-            {
-                "id": "8019",
-                // ...,
-            },
-            // ...,
+            }
         ]
     },
-    "total": 3,
+    "total": 1,
     "time": {
-        "start": 1760534062,
-        "finish": 1760534062.575277,
-        "duration": 0.5752770900726318,
+        "start": 1761054322,
+        "finish": 1761054322.348041,
+        "duration": 0.3480410575866699,
         "processing": 0,
-        "date_start": "2025-10-15T16:14:22+03:00",
-        "date_finish": "2025-10-15T16:14:22+03:00",
-        "operating_reset_at": 1760534662,
+        "date_start": "2025-10-21T16:45:22+03:00",
+        "date_finish": "2025-10-21T16:45:22+03:00",
+        "operating_reset_at": 1761054922,
         "operating": 0
     }
 }
@@ -539,7 +502,9 @@ HTTP-статус: **200**
 || **result**
 [`object`](../data-types.md) | Объект с данными ответа ||
 || **tasks**
-[`object`](../data-types.md) | Массив объектов, где каждый объект содержит [описание задачи](./fields.md) ||
+[`object`](../data-types.md) | Массив объектов, где каждый объект содержит [описание задачи](./fields.md).
+
+Набор полей зависит от параметра `select` ||
 || **total**
 [`integer`](../data-types.md) | Общее количество найденных записей ||
 || **time**

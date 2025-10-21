@@ -387,4 +387,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-status-update.md)
 - [{#T}](./crm-status-delete.md) 
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+- [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-stages-with-semantics.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
