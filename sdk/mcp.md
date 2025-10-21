@@ -61,9 +61,9 @@ MCP позволяет:
 
 ### Claude Desktop, Anthropic
 
-1. Перейдите в *Settings > Integrations*.
+1. Перейдите в *Settings > Connectors*.
 
-2. Нажмите `Add integration`.
+2. Нажмите `Add custom connector`.
 
 3. Заполните поля:
 
