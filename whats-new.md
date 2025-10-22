@@ -2,6 +2,10 @@
 
 ## 2025
 
+## 22 октября, 2025
+
+- Обновили документацию по методам [catalog.document.element.add](./api-reference/catalog/document/document-element/catalog-document-element-add.md), [catalog.document.element.update](./api-reference/catalog/document/document-element/catalog-document-element-update.md), [catalog.document.element.list](./api-reference/catalog/document/document-element/catalog-document-element-list.md), [catalog.document.element.delete](./api-reference/catalog/document/document-element/catalog-document-element-delete.md), [catalog.document.element.getFields](./api-reference/catalog/document/document-element/catalog-document-element-get-fields.md) в Торговом каталоге
+
 ## 21 октября, 2025
 
 - Добавлен новый туториал [Как получить список стадий c семантикой для объектов CRM](./tutorials/crm/how-to-get-lists/how-to-get-stages-with-semantics.md)

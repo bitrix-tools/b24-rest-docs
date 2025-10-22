@@ -25,6 +25,7 @@
 #|
 || **Тип** | **Описания и значения** ||
 || [`catalog_catalog.id`](#catalog_catalog) | Целочисленный идентификатор торгового каталога (например, `1`). Получить идентификаторы торговых каталогов можно с помощью метода [catalog.catalog.list](./catalog/catalog-catalog-list.md) ||
+|| [`catalog_document_element.id`](#catalog_document_element) | Целочисленный идентификатор товара документа складского учета, например `1`. Получить идентификаторы товаров в документах можно с помощью метода [catalog.document.element.list](./document/document-element/catalog-document-element-list.md) ||
 || [`catalog_product.id`](#catalog_product) | Целочисленный идентификатор товара (например, `1`). Получить идентификаторы товаров можно с помощью метода [catalog.product.list](./product/catalog-product-list.md) ||
 || [`catalog_product_sku.id`](#catalog_product_sku) | Целочисленный идентификатор головного товара (например, `1`). Получить идентификаторы головных товаров можно с помощью метода [catalog.product.sku.list](./product/sku/catalog-product-sku-list.md) ||
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор вариации товара (например, `1`). Получить идентификаторы вариаций товаров можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
@@ -84,6 +85,27 @@
 Для получения существующих идентификаторов НДС необходимо использовать [catalog.vat.list](./vat/catalog-vat-list.md)
 ||
 |#
+
+### catalog_document_element
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор товара документа складского учета ||
+|| **docId**
+[`catalog_document.id`](#catalog_document) | Идентификатор документа складского учета ||
+|| **elementId**
+[`catalog_product.id`](#catalog_product) | Идентификатор товара каталога ||
+|| **storeFrom**
+[`catalog_store.id`](#catalog_store) | Идентификатор склада-источника. Используется для документов, где требуется списание ||
+|| **storeTo**
+[`catalog_store.id`](#catalog_store) | Идентификатор склада-получателя. Используется для документов поступления и перемещения ||
+|| **amount**
+[`double`](../data-types.md) | Количество товара ||
+|| **purchasingPrice**
+[`double`](../data-types.md) | Закупочная цена ||
+|#м
 
 ### catalog_product
 
