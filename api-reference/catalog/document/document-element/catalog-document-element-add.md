@@ -66,7 +66,7 @@
     https://**put_your_bitrix24_address**/rest/catalog.document.element.add
     ```
 
-- JSс
+- JS
 
     ```js
     try

@@ -1,7 +1,7 @@
 title: Настройка и использование REST
 href: index.md
 items: 
-  - name: Основные положения
+  - name: Обзор раздела
     href: index.md 
   - name: Как вызывать методы REST
     include:
