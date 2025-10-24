@@ -496,3 +496,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./sale-delivery-handler-update.md)
 - [{#T}](./sale-delivery-handler-delete.md)
 - [{#T}](./sale-delivery-handler-list.md)
+- [{#T}](../../../../tutorials/sale/delivery-in-crm.md)

@@ -25,9 +25,9 @@
 || **Параметр**
 `тип` | **Описание** ||
 || **entityId***
-[`integer`](../../data-types.md) | Идентификатор сущности ||
+[`integer`](../../data-types.md) | Идентификатор объекта ||
 || **entityType***
-[`string`](../../data-types.md) | Тип сущности:
+[`string`](../../data-types.md) | Тип объекта:
 - `P` — платежная система
 - `D` — доставка
 - `L` — лендинг
@@ -237,3 +237,4 @@ HTTP-статус: **400**
 - [{#T}](./sale-property-relation-list.md)
 - [{#T}](./sale-property-relation-delete-by-filter.md)
 - [{#T}](./sale-property-relation-get-fields.md)
+- [{#T}](../../../tutorials/sale/delivery-in-crm.md)

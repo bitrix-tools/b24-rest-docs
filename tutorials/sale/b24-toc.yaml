@@ -9,5 +9,5 @@ items:
     href: example-position-with-custom-price.md
   - name: Создать позицию с товаром, которого не существует на сайте
     href: example-position-that-is-not-on-the-site.md
-  - name: Настроить доставку для использования в CRM
+  - name: Настроить службу доставки для CRM
     href: delivery-in-crm.md

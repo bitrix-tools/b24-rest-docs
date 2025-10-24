@@ -613,3 +613,4 @@ HTTP-статус: **400**
 - [{#T}](./sale-shipment-property-list.md)
 - [{#T}](./sale-shipment-property-delete.md)
 - [{#T}](./sale-shipment-property-get-fields-by-type.md)
+- [{#T}](../../../tutorials/sale/delivery-in-crm.md)
