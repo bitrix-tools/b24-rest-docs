@@ -10,8 +10,3 @@ resources:
 
 search: true
 
-extensions:
-  - './extensions/feedback-control'
-
-feedbackControl:
-  endpoint: https://util.1c-bitrix.ru/rest-doc/feedback-control.php

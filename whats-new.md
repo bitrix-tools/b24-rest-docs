@@ -4,6 +4,11 @@
 
 ### 24 октября, 2025
 
+- Обновили документацию по методам [lists.section.add](./api-reference/lists/sections/lists-section-add.md), [lists.section.update](./api-reference/lists/sections/lists-section-update.md), [lists.section.get](./api-reference/lists/sections/lists-section-get.md), [lists.section.delete](./api-reference/lists/sections/lists-section-delete.md) в Работе с разделами
+- Обновили главную страницу раздела [Работа с разделами](./api-reference/lists/sections/index.md). Добавили вводную информацию, а также обзор методов и связей.
+
+### 24 октября, 2025
+
 - Обновлен туториал [Настроить службу доставки для CRM](./tutorials/sale/delivery-in-crm.md)
 
 ### 22 октября, 2025
