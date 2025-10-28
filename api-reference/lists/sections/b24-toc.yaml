@@ -10,4 +10,4 @@ items:
   - name: Получить параметры раздела или список разделов
     href: lists-section-get.md
   - name: Удалить раздел
-    href: lists-section-delete.md
+    href: lists-section-delete.md 
