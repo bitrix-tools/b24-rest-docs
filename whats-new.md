@@ -5,6 +5,7 @@
 ### 30 октября, 2025
 
 - Обновили главную страницу раздела [Товары в документе складского учета](./api-reference/catalog/document/document-element/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили документацию по методам [catalog.document.add](./api-reference/catalog/document/catalog-document-add.md), [catalog.document.update](./api-reference/catalog/document/catalog-document-update.md), [catalog.document.getFields](./api-reference/catalog/document/catalog-document-get-fields.md) в Складском учете Торгового каталога
 
 ### 24 октября, 2025
 

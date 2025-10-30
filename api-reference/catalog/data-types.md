@@ -25,6 +25,7 @@
 #|
 || **Тип** | **Описания и значения** ||
 || [`catalog_catalog.id`](#catalog_catalog) | Целочисленный идентификатор торгового каталога (например, `1`). Получить идентификаторы торговых каталогов можно с помощью метода [catalog.catalog.list](./catalog/catalog-catalog-list.md) ||
+|| [`catalog_document.id`](#catalog_document) | Целочисленный идентификатор документа складского учета, например `1`. Получить идентификаторы документов можно с помощью метода [catalog.document.list](./document/catalog-document-list.md) ||
 || [`catalog_document_element.id`](#catalog_document_element) | Целочисленный идентификатор товара документа складского учета, например `1`. Получить идентификаторы товаров в документах можно с помощью метода [catalog.document.element.list](./document/document-element/catalog-document-element-list.md) ||
 || [`catalog_product.id`](#catalog_product) | Целочисленный идентификатор товара (например, `1`). Получить идентификаторы товаров можно с помощью метода [catalog.product.list](./product/catalog-product-list.md) ||
 || [`catalog_product_sku.id`](#catalog_product_sku) | Целочисленный идентификатор головного товара (например, `1`). Получить идентификаторы головных товаров можно с помощью метода [catalog.product.sku.list](./product/sku/catalog-product-sku-list.md) ||
@@ -84,6 +85,52 @@
 
 Для получения существующих идентификаторов НДС необходимо использовать [catalog.vat.list](./vat/catalog-vat-list.md)
 ||
+|#
+
+### catalog_document
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор документа складского учета ||
+|| **docType**
+[`string`](../data-types.md) | Тип документа. Доступные типы можно получить методом  [catalog.enum.getStoreDocumentTypes](./enum/catalog-enum-get-store-document-types.md) ||
+|| **docNumber**
+[`string`](../data-types.md) | Внутренний номер документа. Если не передать, генерируется автоматически ||
+|| **title**
+[`string`](../data-types.md) | Название документа ||
+|| **siteId**
+[`string`](../data-types.md) | Код сайта, к которому относится документ. По умолчанию — `s1` ||
+|| **responsibleId**
+[`integer`](../data-types.md) | Идентификатор ответственного ||
+|| **createdBy**
+[`integer`](../data-types.md) | Идентификатор пользователя, создавшего документ ||
+|| **modifiedBy**
+[`integer`](../data-types.md) | Идентификатор пользователя, изменившего документ ||
+|| **status**
+[`string`](../data-types.md) | Статус документа:
+- `N` — черновик,
+- `Y` — проведен,
+- `C` — отменен.
+  
+Значение изменяется автоматически при проведении или отмене документа ||
+|| **statusBy**
+[`integer`](../data-types.md) | Пользователь, изменивший статус документа ||
+|| **dateStatus**
+[`datetime`](../data-types.md) | Дата изменения статуса ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания документа ||
+|| **dateModify**
+[`datetime`](../data-types.md) | Дата последнего изменения документа ||
+|| **dateDocument**
+[`datetime`](../data-types.md) | Дата проведения документа ||
+|| **currency**
+[`string`](../data-types.md) | Валюта документа ||
+|| **total**
+[`double`](../data-types.md) | Общая сумма по товарам документа. Значение рассчитывается автоматически после проведения, но может быть задано вручную ||
+|| **commentary**
+[`string`](../data-types.md) | Комментарий к документу ||
 |#
 
 ### catalog_document_element
