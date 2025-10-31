@@ -245,3 +245,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./sale-cashbox-update.md)
 - [{#T}](./sale-cashbox-list.md)
 - [{#T}](./sale-cashbox-delete.md)
+- [{#T}](../../../tutorials/sale/cashbox-add-example.md)

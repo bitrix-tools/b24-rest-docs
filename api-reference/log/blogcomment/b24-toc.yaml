@@ -1,0 +1,11 @@
+title: Комментарии
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить комментарий
+    href: log-blogcomment-add.md
+  - name: Получить комментарии пользователя
+    href: log-blogcomment-user-get.md
+  - name: Удалить комментарий
+    href: log-blogcomment-delete.md
