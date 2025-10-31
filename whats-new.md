@@ -2,6 +2,12 @@
 
 ## 2025
 
+### 31 октября, 2025
+
+- Обновлен туториал [Как подключить кассу к Битрикс24](./tutorials/sale/cashbox-add-example.md)
+- Обновлена документация по методам [log.blogcomment.add](./api-reference/log/blogcomment/log-blogcomment-add.md), [log.blogcomment.user.get](./api-reference/log/blogcomment/log-blogcomment-user-get.md), [log.blogcomment.delete](./api-reference/log/blogcomment/log-blogcomment-delete.md) в Ленте новостей
+- Обновлена главная страница раздела [Комментарии](./api-reference/log/blogcomment/index.md) в Ленте новостей. Добавили вводную информацию, а также обзор методов и связей
+
 ### 30 октября, 2025
 
 - Обновили главную страницу раздела [Товары в документе складского учета](./api-reference/catalog/document/document-element/index.md). Добавили вводную информацию, а также обзор методов и связей
