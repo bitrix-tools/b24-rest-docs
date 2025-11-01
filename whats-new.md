@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 01 ноября, 2025
+
+- Обновили документацию по методам [catalog.document.list](./api-reference/catalog/document/catalog-document-list.md), [catalog.document.delete](./api-reference/catalog/document/catalog-document-delete.md), [catalog.document.deleteList](./api-reference/catalog/document/catalog-document-delete-list.md) в Складском учете Торгового каталога
+
 ### 31 октября, 2025
 
 - Обновлен туториал [Как подключить кассу к Битрикс24](./tutorials/sale/cashbox-add-example.md)
