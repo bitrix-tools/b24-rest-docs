@@ -102,7 +102,7 @@ $result[идентификатор_запроса][поле_ответа]
     });
     ```
 
-    Подробнее о [callBatch методе в статье BX24.JS SDK](/api-reference/bx24-js-sdk/how-to-call-rest-methods/bx24-call-batch.html).
+    Подробнее о [callBatch методе в статье BX24.JS SDK](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-batch.md).
 
 - PHP
 
