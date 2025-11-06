@@ -1,80 +1,72 @@
 # Отменить проведение документа складского учета catalog.document.cancel
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может подписаться: любой пользователь
+> Кто может выполнять метод:
+> - пользователь с правом «Отмена проведения» на тип документа в запросе,
+> - и «Просмотр и выбор склада» на склад прихода или списания.
 
-## Описание
+Метод `catalog.document.cancel` отменяет проведение документа складского учета:
+- статус документа изменяется на `C` — отменен,
+- складские остатки товаров обновляются согласно позициям документа.
 
-```http
-catalog.document.cancel(id)
-```
+## Параметры метода
 
-Метод отменяет проведение документа по ID.
-
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **id**
-[`integer`](../../data-types.md)| Идентификатор документа складского учёта. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор документа, получить можно методом [catalog.document.list](./catalog-document-list.md) ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":142}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.document.cancel
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":142,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.document.cancel
+    ```
+
+- JS
 
     ```js
     try
     {
     	const response = await $b24.callMethod(
     		'catalog.document.cancel',
-    		{
-    			id: 112
-    		}
+    		{ id: 142 }
     	);
-    	
+
     	const result = response.getData().result;
-    	if(result.error())
-    	{
-    		console.error(result.error().ex);
-    	}
-    	else
-    	{
-    		console.log(result);
-    	}
+    	console.log(result);
     }
-    catch(error)
+    catch (error)
     {
-    	console.error('Error:', error);
+    	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -83,23 +75,20 @@ catalog.document.cancel(id)
             ->call(
                 'catalog.document.cancel',
                 [
-                    'id' => 112
+                    'id' => 142,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+
+        if ($result === true) {
+            echo 'Document cancellation succeeded';
         }
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error canceling document: ' . $e->getMessage();
+        echo 'Error cancelling document: ' . $e->getMessage();
     }
     ```
 
@@ -108,19 +97,95 @@ catalog.document.cancel(id)
     ```js
     BX24.callMethod(
         'catalog.document.cancel',
-        {
-            id: 112
-        },
+        { id: 142 },
         function(result)
         {
-            if(result.error())
-                console.error(result.error().ex);
+            if (result.error())
+                console.error(result.error());
             else
                 console.log(result.data());
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.document.cancel',
+        [
+            'id' => 142,
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-код: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1762411074,
+        "finish": 1762411074.877169,
+        "duration": 0.8771688938140869,
+        "processing": 0,
+        "date_start": "2025-11-06T09:37:54+03:00",
+        "date_finish": "2025-11-06T09:37:54+03:00",
+        "operating_reset_at": 1762411674,
+        "operating": 0.2729671001434326
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true`, если проведение документа отменено  ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+HTTP-код: **400**
+
+```json
+{
+    "error": "0",
+    "error_description": "Ошибка отмены проведения документа: Документ еще не проведен"
+}
+```
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | Недостаточно прав для сохранения документа | Нет прав к каталогу товаров, складскому учету, нет права отмены проведения документа или указан несуществующий идентификатор документа ||
+|| `0` | Не удалось завершить действие, так как у вас недостаточно прав для просмотра и выбора складов | Нет прав на работу со складом товара из документа ||
+|| `0` | Ошибка отмены проведения документа: Документ еще не проведен | Нельзя отменить проведение документа, если он не в статусе проведен ||
+|#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./catalog-document-conduct.md)
+- [{#T}](./catalog-document-cancel-list.md)
+- [{#T}](./catalog-document-list.md)
+
+
