@@ -45,7 +45,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14,"externalData":{"moduleId":"crm","entityTypeId":"DEAL","value":"1"},"auth":"**put_access_token_here**"}' \
+    -d '{"bookingId":14,"externalData":[{"moduleId":"crm","entityTypeId":"DEAL","value":"1"}],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.booking.externalData.set
     ```
 
@@ -55,7 +55,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14,"externalData":{"moduleId":"crm","entityTypeId":"DEAL","value":"1"}}' \
+    -d '{"bookingId":14,"externalData":[{"moduleId":"crm","entityTypeId":"DEAL","value":"1"}]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.booking.externalData.set
     ```
 
@@ -69,11 +69,13 @@
     		"booking.v1.booking.externalData.set",
     		{
     			bookingId: 14,
-    			externalData: {
-    				moduleId: "crm",
-    				entityTypeId: "DEAL",
-    				value: "1"
-    			}
+    			externalData: [
+    				{
+    					moduleId: "crm",
+    					entityTypeId: "DEAL",
+    					value: "1"
+    				}
+    			]
     		}
     	);
     	
@@ -101,9 +103,11 @@
                 [
                     'bookingId'    => 14,
                     'externalData' => [
-                        'moduleId'     => 'crm',
-                        'entityTypeId' => 'DEAL',
-                        'value'        => '1',
+                        [
+                            'moduleId'     => 'crm',
+                            'entityTypeId' => 'DEAL',
+                            'value'        => '1',
+                        ],
                     ],
                 ]
             );
@@ -131,11 +135,13 @@
         "booking.v1.booking.externalData.set",
         {
             bookingId: 14,
-            externalData: {
-                moduleId: "crm",
-                entityTypeId: "DEAL",
-                value: "1"
-            }
+            externalData: [
+                {
+                    moduleId: "crm",
+                    entityTypeId: "DEAL",
+                    value: "1"
+                }
+            ]
         },
         result => {
             if (result.error())
@@ -156,9 +162,11 @@
         [
             'bookingId' => 14,
             'externalData' => [
-                'moduleId' => 'crm',
-                'entityTypeId' => 'DEAL',
-                'value' => '1'
+                [
+                    'moduleId' => 'crm',
+                    'entityTypeId' => 'DEAL',
+                    'value' => '1'
+                ]
             ]
         ]
     );
