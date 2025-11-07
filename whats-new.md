@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 07 ноября, 2025
+
+- Обновлена документация по методам [imopenlines.crm.message.add](./api-reference/imopenlines/openlines/messages/imopenlines-crm-message-add.md), [imopenlines.message.quick.save](./api-reference/imopenlines/openlines/messages/imopenlines-message-quick-save.md) в Сообщениях Открытых линий
+
 ### 01 ноября, 2025
 
 - Обновили документацию по методам [catalog.document.list](./api-reference/catalog/document/catalog-document-list.md), [catalog.document.delete](./api-reference/catalog/document/catalog-document-delete.md), [catalog.document.deleteList](./api-reference/catalog/document/catalog-document-delete-list.md) в Складском учете Торгового каталога
