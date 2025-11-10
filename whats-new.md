@@ -2,10 +2,14 @@
 
 ## 2025
 
+### 10 ноября, 2025
+
+- Обновлена документация по методам [task.checklistitem.get](./api-reference/tasks/checklist-item/task-checklist-item-get.md), [task.checklistitem.getlist](./api-reference/tasks/checklist-item/task-checklist-item-get-list.md) в Чек-листах задач
+
 ### 07 ноября, 2025
 
 - Обновлена документация по методам [imopenlines.crm.message.add](./api-reference/imopenlines/openlines/messages/imopenlines-crm-message-add.md), [imopenlines.message.quick.save](./api-reference/imopenlines/openlines/messages/imopenlines-message-quick-save.md) в Сообщениях Открытых линий
-- Обновлена документацию по методам [task.checklistitem.add](./api-reference/tasks/checklist-item/task-checklist-item-add.md), [task.checklistitem.update](./api-reference/tasks/checklist-item/task-checklist-item-update.md) в Чек-листах задач
+- Обновлена документация по методам [task.checklistitem.add](./api-reference/tasks/checklist-item/task-checklist-item-add.md), [task.checklistitem.update](./api-reference/tasks/checklist-item/task-checklist-item-update.md) в Чек-листах задач
 
 ### 06 ноября, 2025
 
