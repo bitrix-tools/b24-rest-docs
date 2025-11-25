@@ -4,7 +4,7 @@
 
 ### 25 ноября, 2025
 
-- - Обновили документацию по методам [lists.element.add](./api-reference/lists/elements/lists-element-add.md), [lists.element.update](./api-reference/lists/elements/lists-element-update.md), [lists.element.get](./api-reference/lists/elements/lists-element-get.md), [lists.element.delete](./api-reference/lists/elements/lists-element-delete.md), [lists.element.get.file.url](./api-reference/lists/elements/lists-element-get-file-url.md) в Работе с элементами
+- Обновили документацию по методам [lists.element.add](./api-reference/lists/elements/lists-element-add.md), [lists.element.update](./api-reference/lists/elements/lists-element-update.md), [lists.element.get](./api-reference/lists/elements/lists-element-get.md), [lists.element.delete](./api-reference/lists/elements/lists-element-delete.md), [lists.element.get.file.url](./api-reference/lists/elements/lists-element-get-file-url.md) в Работе с элементами
 - Обновили главную страницу раздела [Работа с элементами](./api-reference/lists/elements/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 10 ноября, 2025
