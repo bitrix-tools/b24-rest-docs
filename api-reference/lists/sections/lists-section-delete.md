@@ -214,11 +214,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ERROR_REQUIRED_PARAMETERS_MISSING` |  Обязательный параметр не передан ||
-|| `ACCESS_DENIED` | Недостаточно прав для удаления раздела ||
-|| `ERROR_SECTION_NOT_FOUND` |  Раздел с указанным `SECTION_ID` или `SECTION_CODE` не найден ||
-|| `ERROR_DELETE_SECTION` |  Ошибка при удалении раздела ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_REQUIRED_PARAMETERS_MISSING` | Required parameter `X` is missing | Обязательный параметр не передан ||
+|| `ERROR_SECTION_NOT_FOUND`| Section not found | Раздел с указанным `SECTION_ID` или `SECTION_CODE` не найден ||
+|| `ERROR_DELETE_SECTION` | — | Ошибка при удалении раздела ||
+|| `ACCESS_DENIED` | Access denied | Недостаточно прав для удаления раздела ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

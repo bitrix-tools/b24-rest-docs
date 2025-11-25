@@ -52,7 +52,7 @@
 [Подробное описание](#parametr-fields) ||
 |# 
 
-### Параметр fields {#parametr-fields}
+### Параметр FIELDS {#parametr-fields}
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
@@ -296,11 +296,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ERROR_REQUIRED_PARAMETERS_MISSING` |  Обязательный параметр не передан ||
-|| `ACCESS_DENIED` | Недостаточно прав для редактирования раздела ||
-|| `ERROR_SECTION_NOT_FOUND` |  Раздел с указанным `SECTION_ID` или `SECTION_CODE` не найден ||
-|| `ERROR_UPDATE_SECTION` |  Ошибка при сохранении изменений раздела ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_REQUIRED_PARAMETERS_MISSING` | Required parameter `X` is missing | Обязательный параметр не передан ||
+|| `ERROR_SECTION_NOT_FOUND`| Section not found | Раздел с указанным `SECTION_ID` или `SECTION_CODE` не найден ||
+|| `ERROR_UPDATE_SECTION` | — | Ошибка при обновлении раздела ||
+|| `ACCESS_DENIED` | Access denied | Недостаточно прав для обновления раздела ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
