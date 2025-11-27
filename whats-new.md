@@ -2,6 +2,11 @@
 
 ## 2025
 
+### 27 ноября, 2025
+
+- Добавили статью [Новая карточка задач: комментарии и события](./api-reference/tasks/tasks-new.md)
+- Добавили метод [tasks.task.chat.message.send](./api-reference/tasks/tasks-task-chat-message-send.md)
+
 ### 10 ноября, 2025
 
 - Обновлена документация по методам [task.checklistitem.get](./api-reference/tasks/checklist-item/task-checklist-item-get.md), [task.checklistitem.getlist](./api-reference/tasks/checklist-item/task-checklist-item-get-list.md) в Чек-листах задач

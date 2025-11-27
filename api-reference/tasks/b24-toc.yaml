@@ -3,6 +3,8 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
+  - name: Новая карточка задач
+    href: tasks-new.md    
   - name: Поля задачи
     href: fields.md
   - name: Добавить задачу
@@ -15,6 +17,8 @@ items:
     href: tasks-task-list.md
   - name: Удалить задачу
     href: tasks-task-delete.md
+  - name: Отправить сообщение в чат задачи
+    href: tasks-task-chat-message-send.md    
   - name: Получить список полей
     href: tasks-task-get-fields.md
   - name: Проверить доступ к задаче
