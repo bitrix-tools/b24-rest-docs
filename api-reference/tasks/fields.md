@@ -31,6 +31,8 @@
 [`string`](../data-types.md) | Название задачи ||
 || **description**
 [`string`](../data-types.md) | Описание задачи ||
+|| **chatId**
+[`integer`](../data-types.md) | Идентификатор чата для [новой карточки задачи](tasks-new.md) ||
 || **mark**
 [`string`](../data-types.md) | Оценка задачи. Возможные значения:
 `N` — отрицательная
