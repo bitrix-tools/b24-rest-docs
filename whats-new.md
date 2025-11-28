@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 28 ноября, 2025
+
+- Обновили события [OnTaskComment*](./api-reference/tasks/comment-item/events-comment/index.md), добавили информацию по работе с новой карточкой задач
+
 ### 27 ноября, 2025
 
 - Добавили статью [Новая карточка задач: комментарии и события](./api-reference/tasks/tasks-new.md)

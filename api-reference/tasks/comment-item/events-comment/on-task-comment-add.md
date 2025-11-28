@@ -16,12 +16,41 @@
 
 Данные передаются в виде POST-запроса {.b24-info}
 
+При работе со старой карточкой задачи до версии модуля `tasks 25.700.0`:
+
 ```json
 array(
     'event' => 'ONTASKCOMMENTADD',
     'data' => array(
         'FIELDS_BEFORE' => 'undefined',
         'FIELDS_AFTER' => array('ID' => 123, 'TASK_ID' => 555),
+        'IS_ACCESSIBLE_BEFORE' => 'undefined',
+        'IS_ACCESSIBLE_AFTER' => 'undefined',
+    ),
+    'ts' => '1466439714',
+    'auth' => array(
+        'access_token' => 's6p6eclrvim6da22ft9ch94ekreb52lv',
+        'expires_in' => '3600',
+        'scope' => 'crm',
+        'domain' => 'some-domain.bitrix24.com',
+        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/',
+        'status' => 'F',
+        'client_endpoint' => 'https://some-domain.bitrix24.com/rest/',
+        'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',
+        'refresh_token' => '4s386p3q0tr8dy89xvmt96234v3dljg8',
+        'application_token' => '51856fefc120afa4b628cc82d3935cce',
+        ),
+)
+```
+
+При работе с новой карточкой задачи с чатом с версии модуля `tasks 25.700.0`:
+
+```json
+array(
+    'event' => 'ONTASKCOMMENTADD',
+    'data' => array(
+        'FIELDS_BEFORE' => 'undefined',
+        'FIELDS_AFTER' => array('ID' => 0, 'TASK_ID' => 555, 'MESSAGE_ID' => 1458),
         'IS_ACCESSIBLE_BEFORE' => 'undefined',
         'IS_ACCESSIBLE_AFTER' => 'undefined',
     ),
@@ -81,9 +110,11 @@ array(
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`integer`](../../../data-types.md) | Идентификатор созданного комментария ||
+[`integer`](../../../data-types.md) | Идентификатор созданного комментария. `'ID' => 0` возвращается при активной [новой карточке задач](../../tasks-new.md) с версии модуля `tasks 25.700.0` ||
 || **TASK_ID***
 [`integer`](../../../data-types.md) | Идентификатор задачи, к которой был добавлен комментарий ||
+|| **MESSAGE_ID**
+[`integer`](../../../data-types.md) | Идентификатор отправленного сообщения в чат задачи, возвращается при активной [новой карточке задач](../../tasks-new.md) с версии модуля `tasks 25.700.0` ||
 |#
 
 ### Поле FIELDS_AFTER {#fields_after}
@@ -94,9 +125,11 @@ array(
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`integer`](../../../data-types.md) | Идентификатор созданного комментария ||
+[`integer`](../../../data-types.md) | Идентификатор созданного комментария. `'ID' => 0` возвращается при активной [новой карточке задач](../../tasks-new.md) с версии модуля `tasks 25.700.0` ||
 || **TASK_ID***
 [`integer`](../../../data-types.md) | Идентификатор задачи, к которой был добавлен комментарий ||
+|| **MESSAGE_ID**
+[`integer`](../../../data-types.md) | Идентификатор отправленного сообщения в чат задачи, возвращается при активной [новой карточке задач](../../tasks-new.md) с версии модуля `tasks 25.700.0` ||
 |#
 
 ### Поле IS_ACCESSIBLE_BEFORE {#is_accessible_before}
