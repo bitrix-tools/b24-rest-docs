@@ -101,7 +101,9 @@ POST https://{адрес_установки}/rest/api/{id_пользовател
 
 ## События
 
-- События [OnTaskComment*](./comment-item/events-comment/index.md) по комментариям задач работают. При работе с новой карточкой задачи в обработчик будут приходить параметры: 
+- Событие [OnTaskCommentAdd](./comment-item/events-comment/on-task-comment-add.md) работает. При работе с новой карточкой задачи в обработчик будут приходить параметры: 
     - `MESSAGE_ID` с идентификатором сообщения в чате задачи,
     - `TASK_ID` с идентификатором задачи, 
     - `'ID' => 0` идентификатор комментария будет равен нулю. 
+
+- События [OnTaskCommentUpdate](./comment-item/events-comment/on-task-comment-update.md) и [OnTaskCommentDelete](./comment-item/events-comment/on-task-comment-delete.md) не работают в новой карточке.

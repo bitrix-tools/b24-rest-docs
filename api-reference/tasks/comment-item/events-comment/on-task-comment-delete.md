@@ -43,32 +43,11 @@ array(
 )
 ```
 
-При работе с новой карточкой задачи с чатом с версии модуля `tasks 25.700.0`:
+{% note warning " " %}
 
-```json
-array(
-    'event' => 'ONTASKCOMMENDELETE',
-    'data' => array(
-        'FIELDS_BEFORE' => array('ID' => 0, 'TASK_ID' => 555, 'MESSAGE_ID' => 1458),
-        'FIELDS_AFTER' => array('ID' => 0, 'TASK_ID' => 555, 'MESSAGE_ID' => 1458, 'ACTION' => 'DEL'),
-        'IS_ACCESSIBLE_BEFORE' => 'undefined',
-        'IS_ACCESSIBLE_AFTER' => 'undefined',
-    ),
-    'ts' => '1466439714',
-    'auth' => array(
-        'access_token' => 's6p6eclrvim6da22ft9ch94ekreb52lv',
-        'expires_in' => '3600',
-        'scope' => 'crm',
-        'domain' => 'some-domain.bitrix24.com',
-        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/',
-        'status' => 'F',
-        'client_endpoint' => 'https://some-domain.bitrix24.com/rest/',
-        'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',
-        'refresh_token' => '4s386p3q0tr8dy89xvmt96234v3dljg8',
-        'application_token' => '51856fefc120afa4b628cc82d3935cce',
-        ),
-)
-```
+При работе с новой карточкой задачи с чатом с версии модуля `tasks 25.700.0` событие не работает.
+
+{% endnote %}
 
 {% include notitle [Сноска о параметрах](../../../../_includes/required.md) %}
 
@@ -110,11 +89,9 @@ array(
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`integer`](../../../data-types.md) | Идентификатор удаленного комментария. `'ID' => 0` возвращается при активной [новой карточке задач](../../tasks-new.md) с версии модуля `tasks 25.700.0` ||
+[`integer`](../../../data-types.md) | Идентификатор удаленного комментария ||
 || **TASK_ID***
 [`integer`](../../../data-types.md) | Идентификатор задачи, к которой принадлежал комментарий ||
-|| **MESSAGE_ID**
-[`integer`](../../../data-types.md) | Идентификатор удаленного сообщения из чата задачи, возвращается при активной [новой карточке задач](../../tasks-new.md) с версии модуля `tasks 25.700.0` ||
 |#
 
 ### Поле FIELDS_AFTER {#fields_after}
@@ -125,13 +102,11 @@ array(
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`integer`](../../../data-types.md) | Идентификатор удаленного комментария. `'ID' => 0` возвращается при активной [новой карточке задач](../../tasks-new.md) с версии модуля `tasks 25.700.0` ||
+[`integer`](../../../data-types.md) | Идентификатор удаленного комментария ||
 || **TASK_ID***
 [`integer`](../../../data-types.md) | Идентификатор задачи, к которой принадлежал комментарий ||
 || **ACTION***
 [`string`](../../../data-types.md) | Действие, в данном случае будет всегда `DEL` ||
-|| **MESSAGE_ID**
-[`integer`](../../../data-types.md) | Идентификатор удаленного сообщения из чата задачи, возвращается при активной [новой карточке задач](../../tasks-new.md) с версии модуля `tasks 25.700.0` ||
 |#
 
 ### Поле IS_ACCESSIBLE_BEFORE {#is_accessible_before}

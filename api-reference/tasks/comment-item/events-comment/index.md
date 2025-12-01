@@ -28,6 +28,6 @@
 #|
 || **Событие** | **Вызывается** ||
 || [OnTaskCommentAdd](./on-task-comment-add.md) | При добавлении комментария в задаче вручную или методом [task.commentitem.add](../task-comment-item-add.md) для старой карточки. При добавлении сообщения в чат задачи для новой карточки ||
-|| [OnTaskCommentUpdate](./on-task-comment-update.md) | При обновлении комментария в задаче вручную или методом [task.commentitem.update](../task-comment-item-update.md) для старой карточки. При изменении сообщения в чате задачи для новой карточки ||
-|| [OnTaskCommentDelete](./on-task-comment-delete.md) | При удалении комментария в задаче вручную или методом [task.commentitem.delete](../task-comment-item-delete.md) для старой карточки. При удалении сообщения из чата задачи для новой карточки ||
+|| [OnTaskCommentUpdate](./on-task-comment-update.md) | При обновлении комментария в задаче вручную или методом [task.commentitem.update](../task-comment-item-update.md) для старой карточки ||
+|| [OnTaskCommentDelete](./on-task-comment-delete.md) | При удалении комментария в задаче вручную или методом [task.commentitem.delete](../task-comment-item-delete.md) для старой карточки ||
 |#
