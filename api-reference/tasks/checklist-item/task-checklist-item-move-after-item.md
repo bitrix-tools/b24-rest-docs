@@ -1,77 +1,91 @@
 # Перенести пункт чек-листа task.checklistitem.moveafteritem
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не хватает примеров (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Права на выполнение метода:
+> - любой пользователь с доступом к редактированию задачи
+> - постановщик, исполнитель и соисполнители задачи
 
-Метод `task.checklistitem.moveafteritem` помещает элемент чек-листа в списке после указанного.
+Метод `task.checklistitem.moveafteritem` перемещает пункт чек-листа `itemId` в позицию после элемента `afterItemId`.
 
-## Параметры
+Оба элемента должны быть в одной задаче `taskId`. Элементы могут быть в разных подсписках, но после перемещения `itemId` получит тот же `PARENT_ID`, что и `afterItemId`.
+
+Проверить права на изменение пункта можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md).
+
+## Параметры метода
+
+{% include [Обязательные параметры](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип**| **Описание** ||
-|| **TASKID^*^**
-[`unknown`](../../data-types.md) | Идентификатор задачи. ||
-|| **ITEMID^*^**
-[`unknown`](../../data-types.md) | Идентификатор элемента чек-листа. ||
-|| **AFTERITEMID^*^**
-[`unknown`](../../data-types.md) | Идентификатор элемента чек-листа, после которого будет помещен заданный элемент. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **TASKID***
+[`integer`](../../data-types.md) | Идентификатор задачи.
+
+Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получить список задач](../tasks-task-list.md) ||
+|| **ITEMID***
+[`integer`](../../data-types.md) | Идентификатор перемещаемого пункта чек-листа.
+
+Идентификатор пункта чек-листа можно получить при [создании пункта](./task-checklist-item-add.md) или методом [получить список пунктов чек-листа](./task-checklist-item-get-list.md) ||
+|| **AFTERITEMID***
+[`integer`](../../data-types.md) | Идентификатор пункта чек-листа, после которого нужно расположить перемещаемый элемент.
+
+Элемент должен относиться к той же задаче, что и `ITEMID`.
+
+Идентификатор пункта чек-листа можно получить при [создании пункта](./task-checklist-item-add.md) или методом [получить список пунктов чек-листа](./task-checklist-item-get-list.md) ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-{% note info %}
-
-Соблюдение порядка следования параметров в запросе обязательно. При его нарушении запрос будет выполнен с ошибками.
-
-{% endnote %}
-
-## Пример
+{% include [Обязательные параметры в примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASKID":13,"ITEMID":475,"AFTERITEMID":447}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.checklistitem.moveafteritem
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"TASKID":13,"ITEMID":475,"AFTERITEMID":447,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/task.checklistitem.moveafteritem
+    ```
+
 - JS
 
-
-    ```js
+    ```javascript
     try
     {
-    	const response = await $b24.callMethod(
-    		'task.checklistitem.moveafteritem',
-    		[13, 21, 9]
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
-    	console.log(result);
+        const response = await $b24.callMethod(
+            'task.checklistitem.moveafteritem',
+            {
+                TASKID: 13,
+                ITEMID: 475,
+                AFTERITEMID: 447
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Moved checklist item:', result);
+        processResult(result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -79,17 +93,20 @@
             ->core
             ->call(
                 'task.checklistitem.moveafteritem',
-                [13, 21, 9]
+                [
+                    'TASKID' => 13,
+                    'ITEMID' => 475,
+                    'AFTERITEMID' => 447
+                ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error moving checklist item: ' . $e->getMessage();
@@ -101,7 +118,11 @@
     ```js
     BX24.callMethod(
         'task.checklistitem.moveafteritem',
-        [13, 21, 9],
+        {
+            TASKID: 13,
+            ITEMID: 475,
+            AFTERITEMID: 447
+        },
         function(result){
             console.info(result.data());
             console.log(result);
@@ -109,6 +130,90 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'task.checklistitem.moveafteritem',
+        [
+            'TASKID' => 13,
+            'ITEMID' => 475,
+            'AFTERITEMID' => 447
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": null,
+    "time": {
+        "start": 1764597401,
+        "finish": 1764597401.936492,
+        "duration": 0.9364919662475586,
+        "processing": 0,
+        "date_start": "2025-12-01T16:56:41+03:00",
+        "date_finish": "2025-12-01T16:56:41+03:00",
+        "operating_reset_at": 1764598001,
+        "operating": 0.29050707817077637
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+`null` | Возвращает `null`, если пункт успешно перемещен ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_CORE",
+    "error_description": "TASKS_ERROR_EXCEPTION_#8; Перемещение элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br>"
+}
+```
+
+{% include notitle [Ответ с ошибкой](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Значение** | **Как решить**  ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::moveafteritem(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `TASKID`, `ITEMID` или `AFTERITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::moveafteritem() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID`, `ITEMID` или `AFTERITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Перемещение элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | У пользователя нет прав доступа к задаче или не хватает прав на выполнение действия ||
+|#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Смотрите также
+
+- [{#T}](./index.md)
+- [{#T}](./task-checklist-item-add.md)
+- [{#T}](./task-checklist-item-update.md)
+- [{#T}](./task-checklist-item-get.md)
+- [{#T}](./task-checklist-item-get-list.md)
+- [{#T}](./task-checklist-item-delete.md)
+- [{#T}](./task-checklist-item-complete.md)
+- [{#T}](./task-checklist-item-renew.md)
+- [{#T}](./task-checklist-item-is-action-allowed.md)

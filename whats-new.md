@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 03 декабря, 2025
+
+- Обновили документацию по методам [task.checklistitem.delete](./api-reference/tasks/checklist-item/task-checklist-item-delete.md), [task.checklistitem.moveafteritem](./api-reference/tasks/checklist-item/task-checklist-item-move-after-item.md) в Чек-листах задач
+
 ### 28 ноября, 2025
 
 - Обновили события [OnTaskComment*](./api-reference/tasks/comment-item/events-comment/index.md), добавили информацию по работе с новой карточкой задач
