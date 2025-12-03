@@ -13,7 +13,9 @@
   - [im.message.update](../chats/messages/im-message-update.md) для изменения текста,
   - [im.message.delete](../chats/messages/im-message-delete.md) для удаления сообщения.
 - Получение списка комментариев через task.commentitem.getlist не работает. Получайте сообщения чата задачи через [im.dialog.messages.get](../chats/messages/im-dialog-messages-get.md).
+- Используйте метод [im.disk.file.commit](../chats/files/im-disk-file-commit.md) для отправки файлов в чат задачи.
 - Чат, связанный с задачей, возвращается в ответе [tasks.task.get](./tasks-task-get.md). Используйте его идентификатор для запросов в методах чатов.
+  
 
 ### Как получить ID чата задачи через tasks.task.get
 
@@ -97,8 +99,8 @@ POST https://{адрес_установки}/rest/api/{id_пользовател
 ## Как отправлять сообщения в задачу
 
 - Старый метод [task.commentitem.add](./comment-item/task-comment-item-add.md).
-- Новый метод [tasks.task.chat.message.send](./tasks-task-chat-message-send.md).
-
+- Новый метод [tasks.task.chat.message.send](./tasks-task-chat-message-send.md). Чтобы отправить файл в чат задачи, используйте метод [im.disk.file.commit](../chats/files/im-disk-file-commit.md).
+  
 ## События
 
 - Событие [OnTaskCommentAdd](./comment-item/events-comment/on-task-comment-add.md) работает. При работе с новой карточкой задачи в обработчик будут приходить параметры: 
