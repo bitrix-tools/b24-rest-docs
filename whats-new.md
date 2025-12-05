@@ -2,6 +2,11 @@
 
 ## 2025
 
+### 05 декабря, 2025
+
+- Обновили документацию по методам [lists.add](./api-reference/lists/lists/lists-add.md), [lists.update](./api-reference/lists/lists/lists-update.md), [lists.get](./api-reference/lists/lists/lists-get.md), [lists.delete](./api-reference/lists/lists/lists-delete.md), [lists.get.iblock.type.id](./api-reference/lists/lists/lists-get-iblock-type-id.md) в Работе со списками
+- Обновили главную страницу раздела [Работа со списками](./api-reference/lists/lists/index.md). Добавили вводную информацию, а также обзор методов и связей
+
 ### 03 декабря, 2025
 
 - Обновили документацию по методам [task.checklistitem.delete](./api-reference/tasks/checklist-item/task-checklist-item-delete.md), [task.checklistitem.moveafteritem](./api-reference/tasks/checklist-item/task-checklist-item-move-after-item.md) в Чек-листах задач
