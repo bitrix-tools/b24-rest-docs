@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 09 декабря, 2025
+
+- Обновлена главная страница раздела [Сообщения](./api-reference/imopenlines/openlines/messages/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
+
 ### 05 декабря, 2025
 
 - Обновили документацию по методам [lists.add](./api-reference/lists/lists/lists-add.md), [lists.update](./api-reference/lists/lists/lists-update.md), [lists.get](./api-reference/lists/lists/lists-get.md), [lists.delete](./api-reference/lists/lists/lists-delete.md), [lists.get.iblock.type.id](./api-reference/lists/lists/lists-get-iblock-type-id.md) в Работе со списками
