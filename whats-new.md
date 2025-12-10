@@ -2,6 +2,10 @@
 
 ## 2025
 
+### 10 декабря, 2025
+
+- Обновили документацию по методам [task.checklistitem.renew](./api-reference/tasks/checklist-item/task-checklist-item-renew.md), [task.checklistitem.complete](./api-reference/tasks/checklist-item/task-checklist-item-complete.md) в Чек-листах задач
+
 ### 09 декабря, 2025
 
 - Обновлена главная страница раздела [Сообщения](./api-reference/imopenlines/openlines/messages/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
