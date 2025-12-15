@@ -555,7 +555,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| Пустое значение | Parameter 'entityTypeID' is not defined | Не передан обязательный параметр `entityTypeId` ||
+|| Пустое значение | Parameter 'entityTypeId' is not defined | Не передан обязательный параметр `entityTypeId` ||
 || Пустое значение | The entity type '`entityTypeName`' is not supported in current context. | Метод не поддерживает данный тип сущности ||
 || Пустое значение | Access denied. | У пользователя нет административных прав ||
 || Пустое значение | Parameter 'data' must be array. | В `data` передан не массив ||
