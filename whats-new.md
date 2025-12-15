@@ -4,7 +4,7 @@
 
 ### 12 декабря, 2025
 
-- Обновили документацию по методам [lists.field.add](./api-reference/lists/fields/lists-field-add.md), [lists.field.update](./api-reference/lists/fields/lists-field-update.md), [lists.field.get](./api-reference/lists/fields/lists-field-get.md), [lists.field.delete](./api-reference/lists/fields/lists-fields-delete.md), [lists.field.type.get](./api-reference/lists/fields/lists-field-type-get.md) в Работе с полями
+- Обновили документацию по методам [lists.field.add](./api-reference/lists/fields/lists-field-add.md), [lists.field.update](./api-reference/lists/fields/lists-field-update.md), [lists.field.get](./api-reference/lists/fields/lists-field-get.md), [lists.field.delete](./api-reference/lists/fields/lists-field-delete.md), [lists.field.type.get](./api-reference/lists/fields/lists-field-type-get.md) в Работе с полями
 
 ### 10 декабря, 2025
 
