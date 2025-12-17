@@ -2,6 +2,12 @@
 
 ## 2025
 
+### 17 декабря, 2025
+
+- Добавили раздел [REST 3.0](./api-reference/rest-v3/index.md)
+- Добавили новые методы задач для REST 3.0 [tasks.task.access.get](./api-reference/rest-v3/tasks/tasks-task-access-get.md), [tasks.task.add](./api-reference/rest-v3/tasks/tasks-task-add.md), [tasks.task.chat.message.send](./api-reference/rest-v3/tasks/tasks-task-chat-message-send.md), [tasks.task.delete](./api-reference/rest-v3/tasks/tasks-task-delete.md), [tasks.task.file.attach](./api-reference/rest-v3/tasks/tasks-task-file-attach.md), [tasks.task.get](./api-reference/rest-v3/tasks/tasks-task-get.md), [tasks.task.update](./api-reference/rest-v3/tasks/tasks-task-update.md)
+- Добавили статью с описанием полей задачи и связанных объектов [Поля задачи в REST 3.0](./api-reference/rest-v3/tasks/fields.md)
+
 ### 12 декабря, 2025
 
 - Обновили документацию по методам [lists.field.add](./api-reference/lists/fields/lists-field-add.md), [lists.field.update](./api-reference/lists/fields/lists-field-update.md), [lists.field.get](./api-reference/lists/fields/lists-field-get.md), [lists.field.delete](./api-reference/lists/fields/lists-field-delete.md), [lists.field.type.get](./api-reference/lists/fields/lists-field-type-get.md) в Работе с полями
@@ -30,7 +36,7 @@
 ### 27 ноября, 2025
 
 - Добавили статью [Новая карточка задач: комментарии и события](./api-reference/tasks/tasks-new.md)
-- Добавили метод [tasks.task.chat.message.send](./api-reference/tasks/tasks-task-chat-message-send.md)
+- Добавили метод [tasks.task.chat.message.send](./api-reference/rest-v3/tasks/tasks-task-chat-message-send.md)
 
 ### 25 ноября, 2025
 

@@ -1,0 +1,9 @@
+title: REST 3.0
+href: index.md
+items:
+  - name: Обзор REST 3.0
+    href: index.md
+  - name: Задачи
+    include:
+      path: tasks/b24-toc.yaml
+      mode: link

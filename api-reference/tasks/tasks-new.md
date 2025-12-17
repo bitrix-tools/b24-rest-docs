@@ -7,7 +7,7 @@
 - [task.*](index.md) методы для создания и обновления задач, файлов, чек-листов работают как раньше.
 - Добавление комментария через [task.commentitem.add](./comment-item/task-comment-item-add.md) работает.
 
-## Что изменилось в комментариях
+## Что изменилось в комментариях {#comments}
 
 - Обновление и удаление комментариев методами task.commentitem.update и task.commentitem.delete больше не работает. Используйте методы Чата: 
   - [im.message.update](../chats/messages/im-message-update.md) для изменения текста,
@@ -24,7 +24,7 @@
 ```http
 POST https://{адрес_установки}/rest/{id_пользователя}/{пароль_rest-приложения}/tasks.task.get
 {
-    "id": 51,
+    "taskId": 51,
     "select": ["CHAT_ID"]
 }
 ```
@@ -99,7 +99,7 @@ POST https://{адрес_установки}/rest/api/{id_пользовател
 ## Как отправлять сообщения в задачу
 
 - Старый метод [task.commentitem.add](./comment-item/task-comment-item-add.md).
-- Новый метод [tasks.task.chat.message.send](./tasks-task-chat-message-send.md). Чтобы отправить файл в чат задачи, используйте метод [im.disk.file.commit](../chats/files/im-disk-file-commit.md).
+- Новый метод [tasks.task.chat.message.send](../rest-v3/tasks/tasks-task-chat-message-send.md). Чтобы отправить файл в чат задачи, используйте метод [im.disk.file.commit](../chats/files/im-disk-file-commit.md).
   
 ## События
 

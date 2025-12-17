@@ -8,7 +8,7 @@
 
 {% note warning "Развитие метода остановлено с версии модуля `tasks 25.700.0` " %}
 
-Метод `task.commentitem.add` продолжает работать, но у него есть более актуальный аналог [tasks.task.chat.message.send](../tasks-task-chat-message-send.md).
+Метод `task.commentitem.add` продолжает работать, но у него есть более актуальный аналог [tasks.task.chat.message.send](../../rest-v3/tasks/tasks-task-chat-message-send.md).
 
 {% endnote %}
 
