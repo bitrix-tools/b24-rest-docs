@@ -1,6 +1,8 @@
 title: Задачи
 href: index.md
 items:
+  - name: Обзор методов
+    href: index.md
   - name: Поля задачи
     href: fields.md
   - name: Добавить задачу
