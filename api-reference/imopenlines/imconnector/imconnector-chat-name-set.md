@@ -238,7 +238,6 @@ HTTP-статус: **400**
 - [{#T}](./tutorials.md)
 - [{#T}](./imconnector-register.md)
 - [{#T}](./imconnector-activate.md)
-- [{#T}](./imconnector-deactivate.md)
 - [{#T}](./imconnector-status.md)
 - [{#T}](./imconnector-connector-data-set.md)
 - [{#T}](./imconnector-list.md)

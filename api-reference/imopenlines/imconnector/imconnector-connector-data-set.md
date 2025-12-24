@@ -200,7 +200,6 @@
 
 - [{#T}](./imconnector-register.md)
 - [{#T}](./imconnector-activate.md)
-- [{#T}](./imconnector-deactivate.md)
 - [{#T}](./imconnector-status.md)
 - [{#T}](./imconnector-list.md)
 - [{#T}](./imconnector-unregister.md)

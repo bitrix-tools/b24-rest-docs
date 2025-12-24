@@ -9,8 +9,6 @@ items:
     href: imconnector-register.md
   - name: Активировать коннектор
     href: imconnector-activate.md
-  - name: Деактивировать коннектор
-    href: imconnector-deactivate.md
   - name: Получить статус коннектора
     href: imconnector-status.md
   - name: Изменить настройки коннектора
