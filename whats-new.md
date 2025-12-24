@@ -2,6 +2,12 @@
 
 ## 2025
 
+### 24 декабря, 2025
+
+- Обновили главную страницу раздела [События](./api-reference/events/index.md)
+- Добавили статью [Задачи в REST 3.0: обзор методов](./api-reference/rest-v3/tasks/index.md)
+- Обновили документацию по методам [catalog.documentcontractor.add](./api-reference/catalog/documentcontractor/catalog-documentcontractor-add.md), [catalog.documentcontractor.delete](./api-reference/catalog/documentcontractor/catalog-documentcontractor-delete.md), [catalog.documentcontractor.getFields](./api-reference/catalog/documentcontractor/catalog-documentcontractor-get-fields.md), [catalog.documentcontractor.list](./api-reference/catalog/documentcontractor/catalog-documentcontractor-list.md)
+
 ### 17 декабря, 2025
 
 - Добавили раздел [REST 3.0](./api-reference/rest-v3/index.md)
