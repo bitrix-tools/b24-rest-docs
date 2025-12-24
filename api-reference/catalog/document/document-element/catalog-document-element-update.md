@@ -16,7 +16,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор товара документа, можно получить методом [catalog.document.element.list](./catalog-document-element-list.md) ||
+[`catalog_document_element.id`](../../data-types.md#catalog_document_element) | Идентификатор товара документа, можно получить методом [catalog.document.element.list](./catalog-document-element-list.md) ||
 || **fields***
 [`object`](../../../data-types.md) | Поля, которые нужно изменить (подробное описание ниже) ||
 |#
@@ -29,9 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **storeFrom**
-[`integer`](../../../data-types.md) | Идентификатор склада-источника, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Используйте для документов списания. Если параметр не передавать, сохранится текущее значение ||
+[`catalog_store.id`](../../data-types.md#catalog_store) | Идентификатор склада-источника, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Используйте для документов списания. Если параметр не передавать, сохранится текущее значение ||
 || **storeTo**
-[`integer`](../../../data-types.md) | Идентификатор склада-получателя, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Подходит для документов поступления и перемещения. Если параметр не передавать, сохранится текущее значение ||
+[`catalog_store.id`](../../data-types.md#catalog_store) | Идентификатор склада-получателя, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Подходит для документов поступления и перемещения. Если параметр не передавать, сохранится текущее значение ||
 || **amount**
 [`double`](../../../data-types.md) | Количество товара в единицах учета документа. Если параметр не передавать, сохранится текущее значение ||
 || **purchasingPrice**
@@ -208,7 +208,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **documentElement**
-[`object`](../../data-types.md#catalog_document_element) | Обновленные данные товара документа. ||
+[`catalog_document_element`](../../data-types.md#catalog_document_element) | Обновленные данные товара документа. ||
 || **time**
 [`time`](../../../data-types.md#time) | Служебная информация о времени обработки запроса. ||
 |#

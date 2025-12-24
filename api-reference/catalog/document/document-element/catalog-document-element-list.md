@@ -321,7 +321,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **documentElement**
-[`object`](../../data-types.md#catalog_document_element) | Объект с информацией о товарах документа, структура ответа зависит от параметра `select` ||
+[`catalog_document_element[]`](../../data-types.md#catalog_document_element) | Объект с информацией о товарах документа, структура ответа зависит от параметра `select` ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество записей ||
 || **time**

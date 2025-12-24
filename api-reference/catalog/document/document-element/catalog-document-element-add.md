@@ -27,13 +27,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **docId***
-[`integer`](../../../data-types.md) | Идентификатор документа складского учета, можно получить методом [catalog.document.list](../catalog-document-list.md). Документ должен иметь статус `N` — не проведен ||
+[`catalog_document.id`](../../data-types.md#catalog_document) | Идентификатор документа складского учета, можно получить методом [catalog.document.list](../catalog-document-list.md). Документ должен иметь статус `N` — не проведен ||
 || **elementId***
-[`integer`](../../../data-types.md) | Идентификатор товара каталога. Значение можно получить методами [catalog.product.*](../../product/index.md) ||
+[`catalog_product.id`](../../data-types.md#catalog_product) | Идентификатор товара каталога. Значение можно получить методами [catalog.product.*](../../product/index.md) ||
 || **storeFrom**
-[`integer`](../../../data-types.md) | Идентификатор склада-источника, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Используется для документов списания ||
+[`catalog_store.id`](../../data-types.md#catalog_store) | Идентификатор склада-источника, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Используется для документов списания ||
 || **storeTo**
-[`integer`](../../../data-types.md) | Идентификатор склада-получателя, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Используется для документов поступления и перемещения ||
+[`catalog_store.id`](../../data-types.md#catalog_store) | Идентификатор склада-получателя, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Используется для документов поступления и перемещения ||
 || **amount**
 [`double`](../../../data-types.md) | Количество товара. Значение указывается в единицах учета документа ||
 || **purchasingPrice**
@@ -214,7 +214,7 @@ HTTP-код: **200**
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **documentElement**
-[`object`](../../data-types.md#catalog_document_element) | Объект с информацией о добавленном товаре ||
+[`catalog_document_element`](../../data-types.md#catalog_document_element) | Объект с информацией о добавленном товаре ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

@@ -305,7 +305,7 @@ HTTP-код: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **documents**
-[`array`](../data-types.md#catalog_document) | Список документов, структура ответа зависит от параметра `select` ||
+[`catalog_document[]`](../data-types.md#catalog_document) | Список документов, структура ответа зависит от параметра `select` ||
 || **next**
 [`integer`](../../data-types.md) | Указатель смещения для следующей страницы. Передайте значение в параметр `start`, чтобы получить следующие 50 записей ||
 || **total**

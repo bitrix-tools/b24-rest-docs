@@ -346,10 +346,12 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `200040300030` | Access Denied | Недостаточно прав ||
+|| `200040300020` | Access Denied | Недостаточно прав на редактирование цены ||
+|| `200040300030` | Access Denied | Недостаточно прав на редактирование товара ||
 || `100` | Could not find value for parameter {fields} | Не указан или пустой параметр `fields` ||
 || `0` | Required fields:  | Не переданы обязательные поля ||
 || `0` | Validate price error. Catalog price group is wrong | Неправильный тип цены ||
+|| `0` | Validate price error. Catalog product is allowed has only single price without ranges in price group | Дублирование типа цены. Были переданы в массиве `prices` две или более записей с одинаковым `catalogGroupId` || 
 || `0` | | Другие ошибки || 
 |#
 

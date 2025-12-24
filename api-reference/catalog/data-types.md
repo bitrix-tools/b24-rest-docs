@@ -27,6 +27,7 @@
 || [`catalog_catalog.id`](#catalog_catalog) | Целочисленный идентификатор торгового каталога (например, `1`). Получить идентификаторы торговых каталогов можно с помощью метода [catalog.catalog.list](./catalog/catalog-catalog-list.md) ||
 || [`catalog_document.id`](#catalog_document) | Целочисленный идентификатор документа складского учета, например `1`. Получить идентификаторы документов можно с помощью метода [catalog.document.list](./document/catalog-document-list.md) ||
 || [`catalog_document_element.id`](#catalog_document_element) | Целочисленный идентификатор товара документа складского учета, например `1`. Получить идентификаторы товаров в документах можно с помощью метода [catalog.document.element.list](./document/document-element/catalog-document-element-list.md) ||
+|| [`catalog_documentcontractor.id`](#catalog_documentcontractor) | Целочисленный идентификатор привязки поставщика к документу складского учета, например `1`. Получить идентификаторы привязок можно с помощью метода [catalog.documentcontractor.list](./documentcontractor/catalog-documentcontractor-list.md) ||
 || [`catalog_product.id`](#catalog_product) | Целочисленный идентификатор товара (например, `1`). Получить идентификаторы товаров можно с помощью метода [catalog.product.list](./product/catalog-product-list.md) ||
 || [`catalog_product_sku.id`](#catalog_product_sku) | Целочисленный идентификатор головного товара (например, `1`). Получить идентификаторы головных товаров можно с помощью метода [catalog.product.sku.list](./product/sku/catalog-product-sku-list.md) ||
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор вариации товара (например, `1`). Получить идентификаторы вариаций товаров можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
@@ -152,7 +153,24 @@
 [`double`](../data-types.md) | Количество товара ||
 || **purchasingPrice**
 [`double`](../data-types.md) | Закупочная цена ||
-|#м
+|#
+
+### catalog_documentcontractor
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор привязки поставщика к документу складского учета ||
+|| **documentId**
+[`catalog_document.id`](#catalog_document) | Идентификатор документа складского учета, к которому привязан поставщик ||
+|| **entityTypeId**
+[`integer`](../data-types.md) | Идентификатор типа объекта CRM:
+`3` — контакт 
+`4` — компания  ||
+|| **entityId**
+[`integer`](../data-types.md) | Идентификатор поставщика: контакта или компании ||
+|#
 
 ### catalog_product
 

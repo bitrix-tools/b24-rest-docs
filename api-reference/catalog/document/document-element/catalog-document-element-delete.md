@@ -16,7 +16,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор записи товара в документе, можно получить методом [catalog.document.element.list](./catalog-document-element-list.md) ||
+[`catalog_document_element.id`](../../data-types.md#catalog_document_element) | Идентификатор записи товара в документе, можно получить методом [catalog.document.element.list](./catalog-document-element-list.md) ||
 |#
 
 ## Примеры кода
