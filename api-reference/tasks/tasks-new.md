@@ -110,6 +110,12 @@ POST https://{адрес_установки}/rest/api/{id_пользовател
 
 - События [OnTaskCommentUpdate](./comment-item/events-comment/on-task-comment-update.md) и [OnTaskCommentDelete](./comment-item/events-comment/on-task-comment-delete.md) не работают в новой карточке.
 
+## Результат задачи
+
+- Метод [tasks.task.result.list](./result/tasks-task-result-list.md) работает. При работе с новой карточкой задачи все результаты задачи будут возвращаться с параметром `commentId: 0`.
+
+- Методы [tasks.task.result.addFromComment](./result/tasks-task-result-add-from-comment.md) и [tasks.task.result.deleteFromComment](./result/tasks-task-result-delete-from-comment.md) не работают в новой карточке.
+
 ## Встройки
 
 Расположение мест встроек [TASK_VIEW_SIDEBAR](../widgets/task/view-sidebar.md), [TASK_VIEW_TOP_PANEL](../widgets/task/view-top-panel.md), [TASK_VIEW_TAB](../widgets/task/view-tab.md) не актуально в новой карточке задач. В новой карточке все встройки выводятся в едином блоке «Приложения».
