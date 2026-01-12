@@ -1943,6 +1943,7 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-delete.md)
 - [{#T}](crm-item-fields.md)
 - [{#T}](./object-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)
 
 [1]: ../../data-types.md
 [2]: ../status/crm-status-list.md

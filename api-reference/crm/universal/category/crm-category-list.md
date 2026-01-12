@@ -266,5 +266,6 @@ HTTP-статус: **400**
 - [{#T}](./crm-category-delete.md)
 - [{#T}](./crm-category-fields.md)
 - [{#T}](../../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)
 
 [1]: ../../../data-types.md
