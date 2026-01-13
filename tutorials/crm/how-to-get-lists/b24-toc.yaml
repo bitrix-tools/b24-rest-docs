@@ -13,6 +13,8 @@ items:
     href: how-to-get-deal-funnels.md
   - name: Как получить адрес клиента из CRM
     href: how-to-get-address.md
+  - name: Как получить список поставщиков
+    href: how-to-get-contractors.md
   - name: Как отфильтровать элементы по названию стадии
     href: how-to-get-elements-by-stage-filter.md    
     

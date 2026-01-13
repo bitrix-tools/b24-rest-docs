@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 13 января, 2026
+
+- Добавили туториал [Как получить список поставщиков](./tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
+
 ### 12 января, 2026
 
 - Добавили туториал [Как создать поставщика в CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)

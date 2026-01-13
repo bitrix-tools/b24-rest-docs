@@ -737,5 +737,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](../../../tutorials/tasks/how-to-connect-task-to-spa.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
-
+- [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
+  
 [1]: ../../data-types.md
