@@ -56,7 +56,9 @@ fields:
 || **OWNER_TYPE_ID***
 [`integer`](../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) ||
 || **TYPE_ID***
-[`crm_enum_activitytype`](../../../data-types.md) | Тип дела ||
+[`crm_enum_activitytype`](../../../data-types.md) | Тип дела. Чтобы получить доступные типы дел, используйте метод [crm.enum.activitytype](../../../auxiliary/enum/outdated/crm-enum-activity-type.md). 
+
+Чтобы создать дело с типом «задача», используйте метод [создания](../../../../tasks/tasks-task-add.md) или [изменения](../../../../tasks/tasks-task-update.md) задачи и укажите элемент CRM в поле `UF_CRM_TASK` ||
 || **ASSOCIATED_ENTITY_ID**
 [`integer`](../../../../data-types.md) | Идентификатор связанного с делом элемента ||
 || **COMMUNICATIONS***
