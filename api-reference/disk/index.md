@@ -93,16 +93,16 @@
 || **Метод** | **Описание** ||
 || [disk.folder.getfields](folder/disk-folder-get-fields.md) | Возвращает описание полей папки ||
 || [disk.folder.get](folder/disk-folder-get.md) | Возвращает папку по идентификатору ||
-|| [disk.folder.getchildren](folder/disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся непосредственно в папке ||
+|| [disk.folder.getchildren](folder/disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
 || [disk.folder.addsubfolder](folder/disk-folder-add-subfolder.md) | Создает дочернюю папку ||
 || [disk.folder.copyto](folder/disk-folder-copy-to.md) | Копирует папку в указанную папку ||
 || [disk.folder.moveto](folder/disk-folder-move-to.md) | Перемещает папку в указанную папку ||
 || [disk.folder.rename](folder/disk-folder-rename.md) | Переименовывает папку ||
-|| [disk.folder.deletetree](folder/disk-folder-delete-tree.md) | Уничтожает папку и все ее дочерние элементы навсегда ||
+|| [disk.folder.deletetree](folder/disk-folder-delete-tree.md) | Удаляет папку и все ее содержимое навсегда ||
 || [disk.folder.markdeleted](folder/disk-folder-mark-deleted.md) | Перемещает папку в корзину ||
 || [disk.folder.restore](folder/disk-folder-restore.md) | Восстанавливает папку из корзины ||
 || [disk.folder.uploadfile](folder/disk-folder-upload-file.md) | Загружает новый файл в указанную папку ||
-|| [disk.folder.getExternalLink](folder/disk-folder-get-external-link.md) | Возвращает публичную ссылку ||
+|| [disk.folder.getexternallink](folder/disk-folder-get-external-link.md) | Возвращает публичную ссылку на папку ||
 |#
 
 ### Права доступа
