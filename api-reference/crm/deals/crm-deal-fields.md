@@ -557,6 +557,13 @@ HTTP-статус: **200**
 }
 ```
 
+{% note info "" %}
+
+Поле `CONTACT_IDS` недоступно в методах [crm.deal.get](./crm-deal-get.md) и [crm.deal.list](./crm-deal-list.md).
+Чтобы получить список контактов сделки, используйте методы [crm.deal.contact.items.*](./contacts/index.md) или универсальные методы [crm.item.*](../universal/index.md).
+
+{% endnote %}
+
 ### Возвращаемые данные
 
 #|

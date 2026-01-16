@@ -99,9 +99,9 @@
 || **CONTACT_ID**
 [`crm_contact`](../data-types.md) | Контакт. Устаревшее ||
 || **CONTACT_IDS**
-[`crm_contact[]`](../data-types.md) | Список привязанных к сделке контактов.
+[`crm_contact[]`](../data-types.md) | Список привязанных к сделке контактов. Поле изменяется полностью.
 
-Список контактов можно узнать с помощью метода [crm.item.list](../universal/crm-item-list.md), передав `entityTypeId = 3`
+Чтобы изменить отдельные связанные контакты, используйте методы [crm.deal.contact.items.*](./contacts/index.md).
 ||
 || **BEGINDATE**
 [`date`](../../data-types.md) | Дата начала ||
