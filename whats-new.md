@@ -2,12 +2,16 @@
 
 ## 2026
 
+### 15 января, 2026
+
+- Обновили документацию по методам [disk.folder.addsubfolder](./api-reference/disk/folder/disk-folder-add-subfolder.md), [disk.folder.copyto](./api-reference/disk/folder/disk-folder-copy-to.md), [disk.folder.deletetree](./api-reference/disk/folder/disk-folder-delete-tree.md), [disk.folder.getchildren](./api-reference/disk/folder/disk-folder-get-children.md), [disk.folder.getexternallink](./api-reference/disk/folder/disk-folder-get-external-link.md), [disk.folder.getfields](./api-reference/disk/folder/disk-folder-get-fields.md)
+
 ### 13 января, 2026
 
 - Добавили туториал [Как получить список поставщиков](./tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
 - Обновили статью [С чего начать](./first-steps/index.md)
-- Обновили главную страницу раздела [Права доступа к диску](./api-reference/disk/rights/index.md). Добавили вводную информацию, а также обзор методов.
-- Обновили главную страницу раздела [Версия файла](./api-reference/disk/version/index.md). Добавили вводную информацию, а также обзор методов.
+- Обновили главную страницу раздела [Права доступа к диску](./api-reference/disk/rights/index.md). Добавили вводную информацию, а также обзор методов
+- Обновили главную страницу раздела [Версия файла](./api-reference/disk/version/index.md). Добавили вводную информацию, а также обзор методов
 
 ### 12 января, 2026
 
