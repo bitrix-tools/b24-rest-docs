@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 19 января, 2026
+
+- Обновили статью [Как получить доступ к REST API](./first-steps/access-to-rest-api.md)
+
 ### 15 января, 2026
 
 - Обновили документацию по методам [disk.folder.addsubfolder](./api-reference/disk/folder/disk-folder-add-subfolder.md), [disk.folder.copyto](./api-reference/disk/folder/disk-folder-copy-to.md), [disk.folder.deletetree](./api-reference/disk/folder/disk-folder-delete-tree.md), [disk.folder.getchildren](./api-reference/disk/folder/disk-folder-get-children.md), [disk.folder.getexternallink](./api-reference/disk/folder/disk-folder-get-external-link.md), [disk.folder.getfields](./api-reference/disk/folder/disk-folder-get-fields.md)
