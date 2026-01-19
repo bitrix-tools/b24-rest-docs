@@ -5,8 +5,6 @@ items:
     href: index.md
   - name: Общая информация по всем точкам встраивания
     href: placement-info.md
-  - name: Виджет в левом меню чата
-    href: im-navigation.md
   - name: Виджет панели над полем ввода сообщения
     href: im-textarea.md
   - name: Виджет сайдбара чата
