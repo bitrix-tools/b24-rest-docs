@@ -177,7 +177,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":"123","FIELDS":{"NAME":"Проект","IS_REQUIRED":"Y","MULTIPLE":"N","TYPE":"L","SORT":"10","CODE":"PROJECT","LIST":{"10":{"VALUE":"Планирование","SORT":10,"DEF":"Y"},"20":{"VALUE":"В разработке","SORT":20,"DEF":"N"}},"LIST_TEXT_VALUES":"Тестирование\nЗавершен\nОтложен","SETTINGS":{"SHOW_ADD_FORM":"Y","SHOW_EDIT_FORM":"Y","ADD_READ_ONLY_FIELD":"N","EDIT_READ_ONLY_FIELD":"N","SHOW_FIELD_PREVIEW":"N"}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.field.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.field.add
     ```
 
 - cURL (OAuth)

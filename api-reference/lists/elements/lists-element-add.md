@@ -89,7 +89,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":47,"ELEMENT_CODE":"test_element","LIST_ELEMENT_URL":"#list_id#/element/#section_id#/#element_id#/","FIELDS":{"NAME":"Тестовый элемент","PROPERTY_951":["1269","1271"],"PROPERTY_1003":"2024-12-31 23:59:59"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.element.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.element.add
     ```
 
 - cURL (OAuth)

@@ -129,7 +129,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '[{"ID": "desc"},{">=CREATED_DATE": "2024-02-16"}]' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.elapseditem.getlist
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.elapseditem.getlist
     ```
 
 - cURL (OAuth)

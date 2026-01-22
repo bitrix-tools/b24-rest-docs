@@ -71,7 +71,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"entityTypeId":2,"order":{"ID":"ASC"},"filter":{"OWNER_ID":1},"select":["ID","STAGE_ID","CREATED_TIME"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.stagehistory.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.stagehistory.list
     ```
 
 - cURL (OAuth)
@@ -222,7 +222,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"entityTypeId":130,"order":{"ID":"ASC"},"filter":{"OWNER_ID":29},"select":["ID","STAGE_ID","CREATED_TIME"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.stagehistory.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.stagehistory.list
     ```
 
 - cURL (OAuth)

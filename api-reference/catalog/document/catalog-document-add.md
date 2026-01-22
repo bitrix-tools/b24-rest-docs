@@ -77,7 +77,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"docType":"A","currency":"RUB","responsibleId":29,"docNumber":"IN-00042","title":"Поступление от Поставщик-1","commentary":"Плановое пополнение склада"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.document.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.add
     ```
 
 - cURL (OAuth)

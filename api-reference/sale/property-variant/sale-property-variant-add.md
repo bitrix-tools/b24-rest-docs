@@ -49,7 +49,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"name":"Красный","orderPropsId":49,"value":"red","sort":10,"description":"Описание значения для красного цвета"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.propertyvariant.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.propertyvariant.add
     ```
 
 - cURL (OAuth)

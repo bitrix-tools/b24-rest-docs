@@ -84,7 +84,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"chatId":**put_chat_id**,"IM_MESSAGE_VOTE_DATA":{"QUESTIONS":[{"QUESTION":"**put_question_title**","FIELD_TYPE":0,"ANSWERS":[{"MESSAGE":"**put_message_content**"},{"MESSAGE":"**put_message_content**"},{"MESSAGE":"**put_message_content**"}]}],"ANONYMITY":0,"OPTIONS":0},"templateId":null}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/vote.Integration.Im.send
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/vote.Integration.Im.send
     ```
 
 - cURL (OAuth)

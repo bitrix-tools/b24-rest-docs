@@ -44,7 +44,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"AGREEMENT_ID":19,"USER_ID":123,"IP":"192.168.1.100","URL":"https://example.com/contact-form","ORIGIN_ID":"my_contact_form","ORIGINATOR_ID":"user@example.com"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/userconsent.consent.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userconsent.consent.add
     ```
 
 - cURL (OAuth)

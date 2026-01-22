@@ -152,7 +152,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":47,"ELEMENT_ID":6999,"SELECT":["ID","CODE","NAME","IBLOCK_SECTION_ID","DATE_CREATE","PROPERTY_951","PROPERTY_1003"],"FILTER":{"NAME":"%Тестовый%","<=DATE_CREATE":"2025-12-31",">=DATE_CREATE":"2025-01-01"},"ELEMENT_ORDER":{"NAME":"asc"},"start":0}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.element.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.element.get
     ```
 
 - cURL (OAuth)

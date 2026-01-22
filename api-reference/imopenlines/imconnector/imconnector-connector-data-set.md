@@ -51,7 +51,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"CONNECTOR":"myrestconnector","LINE":1,"DATA":{"id":123,"url":"http://localhost","url_im":"http://localhost","name":"My rest connector name"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/imconnector.connector.data.set
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imconnector.connector.data.set
     ```
 
 - cURL (OAuth)

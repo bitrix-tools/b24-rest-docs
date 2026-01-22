@@ -52,7 +52,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"**put_current_date_here**","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":"7"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.todo.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.todo.update
     ```
 
 - cURL (OAuth)

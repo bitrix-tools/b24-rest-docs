@@ -334,7 +334,7 @@
             }
         }
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.userfield.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.userfield.add
     ```
 
 - cURL (OAuth)

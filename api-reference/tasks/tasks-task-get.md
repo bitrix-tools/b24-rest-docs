@@ -43,7 +43,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"taskId":8017,"select":["ID","TITLE","DESCRIPTION","CREATED_BY","RESPONSIBLE_ID","DEADLINE","UF_CRM_TASK","UF_TASK_WEBDAV_FILES"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.get
     ```
 
 - cURL (OAuth)

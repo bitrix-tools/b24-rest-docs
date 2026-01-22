@@ -52,7 +52,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"taskId":8017,"fileIds":[1065,1077]}' \
-    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.file.attach
+    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.file.attach
     ```
 
 - cURL (OAuth)

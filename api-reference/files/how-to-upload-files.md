@@ -99,7 +99,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"fields":{"name":"Пример шаблона","file":"base64_encoded_content_here","code":"example_template_code"}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/documentgenerator.template.add
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/documentgenerator.template.add
         ```
 
     {% endlist %}
@@ -176,7 +176,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"DOCUMENT_TYPE":["lists","BizprocDocument","iblock_164"],"NAME":"App template","TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"]}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.workflow.template.add
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/bizproc.workflow.template.add
         ```
 
     {% endlist %}
@@ -256,7 +256,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"fields":{"iblockId":"24","name":"Пример товара","previewPicture":{"fileData":["example.jpg","base64_encoded_content_here"]}}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.product.add
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.add
         ```
 
     {% endlist %}
@@ -325,7 +325,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"id":4,"fileContent":["1.gif","base64_encoded_content_here"]}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/disk.file.uploadversion
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.uploadversion
         ```
 
     {% endlist %}
@@ -423,7 +423,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"entityTypeId":2,"fields":{"title":"Новая сделка (специально для примера REST методов)","ufCrm_123456":[["green_pixel.png","base64_encoded_content_here"],["blue_pixel.png","base64_encoded_content_here"],["red_pixel.png","base64_encoded_content_here"]]}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.add
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.add
         ```
 
     {% endlist %}
@@ -507,7 +507,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     - cURL (Webhook)
 
         ```bash
-        curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"fields": {"iblockId": 1, "name": "Пример товара", "PROPERTY_1077": [{"value": {"fileData": ["blue_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}, {"value": {"fileData": ["red_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.product.add
+        curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"fields": {"iblockId": 1, "name": "Пример товара", "PROPERTY_1077": [{"value": {"fileData": ["blue_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}, {"value": {"fileData": ["red_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.add
         ```
 
     - cURL (OAuth)
@@ -615,7 +615,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"fields":{"TITLE":"Пример лида","UF_CRM_1711610801":[{"fileData":["file1.png","base64_1"]},{"fileData":["file2.png","base64_2"]},{"fileData":["file3.png","base64_3"]}]}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.lead.add
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.lead.add
         ```
 
     {% endlist %}

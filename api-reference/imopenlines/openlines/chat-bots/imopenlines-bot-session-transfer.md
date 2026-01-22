@@ -57,7 +57,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"CHAT_ID":112,"USER_ID":12,"LEAVE":"N"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/imopenlines.bot.session.transfer
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.bot.session.transfer
     ```
 
 - cURL (OAuth)

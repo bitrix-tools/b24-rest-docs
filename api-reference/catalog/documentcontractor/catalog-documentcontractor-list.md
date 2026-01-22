@@ -85,7 +85,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["id","documentId"],"filter":{"documentId":7},"order":{"id":"ASC"},"start":0}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.documentcontractor.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.documentcontractor.list
     ```
 
 - cURL (OAuth)

@@ -31,7 +31,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"PLACEMENT":"PAGE_BACKGROUND_WORKER","HANDLER":"http://myapp.com/handler/?type=1","OPTIONS":{"errorHandlerUrl":"http://myapp.com/error/"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/placement.bind
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/placement.bind
     ```
 
 - cURL (OAuth)

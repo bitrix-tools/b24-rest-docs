@@ -42,7 +42,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"CODE":"provider","HANDLER":"https://newhandler.com/","NAME":"Новое имя провайдера","DESCRIPTION":"Новое описание провайдера"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/messageservice.sender.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/messageservice.sender.update
     ```
 
 - cURL (OAuth)
@@ -173,7 +173,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"CODE":"provider","NAME":{"en":"New Name","de":"Neuer Name"},"DESCRIPTION":{"en":"New Description"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/messageservice.sender.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/messageservice.sender.update
     ```
 
 - cURL (OAuth)

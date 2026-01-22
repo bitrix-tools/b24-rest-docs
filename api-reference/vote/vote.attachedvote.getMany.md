@@ -42,7 +42,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"moduleId":"im","entityType":"Bitrix\\Vote\\Attachment\\ImMessageConnector","entityIds":[1,2,3]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/vote.AttachedVote.getMany
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/vote.AttachedVote.getMany
     ```
 
 - cURL (OAuth)

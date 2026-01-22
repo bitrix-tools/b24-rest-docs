@@ -57,7 +57,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":142,"fields":{"title":"Поступление от Поставщик-1 (корректировка)","commentary":"Обновили ответсвенного","responsibleId":21}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.document.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.update
     ```
 
 - cURL (OAuth)

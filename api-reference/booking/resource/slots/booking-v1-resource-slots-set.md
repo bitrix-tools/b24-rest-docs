@@ -71,7 +71,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"resourceId":10,"slots":[{"from":540,"to":1080,"timezone":"Europe/Kaliningrad","weekDays":["Mon","Tue","Wed","Thu","Fri"],"slotSize":30}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.resource.slots.set
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.resource.slots.set
     ```
 
 - JS

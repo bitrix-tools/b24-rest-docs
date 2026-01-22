@@ -127,7 +127,7 @@ RIGHTS: {
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":109,"FIELDS":{"NAME":"Обновленный список задач","DESCRIPTION":"Обновленное описание: список для управления ежедневными задачами","SORT":600,"BIZPROC":"N"},"MESSAGES":{"ELEMENTS_NAME":"Пункты","ELEMENT_NAME":"Пункт","ELEMENT_ADD":"Создать пункт","ELEMENT_EDIT":"Редактировать пункт","ELEMENT_DELETE":"Удалить пункт","SECTIONS_NAME":"Категории","SECTION_NAME":"Категория","SECTION_ADD":"Добавить категорию","SECTION_EDIT":"Редактировать категорию","SECTION_DELETE":"Удалить категорию"},"RIGHTS":{"D15":"W"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.update
     ```
 
 - cURL (OAuth)

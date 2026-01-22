@@ -70,7 +70,7 @@
          -H "Content-Type: application/json" \
          -H "Accept: application/json" \
          -d '{"fields":{"ACTIVE":"Y","C_SORT":100,"NAME":"НДС 20%","RATE":20.0}}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.vat.add
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.vat.add
     ```
 
 - cURL (OAuth)

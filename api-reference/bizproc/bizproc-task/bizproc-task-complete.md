@@ -103,7 +103,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"TASK_ID":1501,"STATUS":1,"COMMENT":"Добавлено","Fields":{"contractor":"C_607","phone_number":"89991234567"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.task.complete
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/bizproc.task.complete
     ```
 
 - cURL (OAuth)

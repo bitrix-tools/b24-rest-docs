@@ -62,7 +62,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":19,"replace":{"button_caption":"Я согласен","fields":{"COMPANY_NAME":"ООО Пример","COMPANY_ADDRESS":"г. Москва, ул. Примерная, д. 1","PURPOSES":"Обработка персональных данных для улучшения сервиса","THIRD_PARTIES":"Партнеры компании для аналитики","EMAIL":"info@example.com"}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/userconsent.agreement.text
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userconsent.agreement.text
     ```
 
 - cURL (OAuth)
