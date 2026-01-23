@@ -193,20 +193,20 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Ответ с ошибкой](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Значение** | **Как решить**  ||
+|| **Код** | **Описание** | **Значение**  ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::moveafteritem(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `TASKID`, `ITEMID` или `AFTERITEMID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::moveafteritem() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID`, `ITEMID` или `AFTERITEMID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Перемещение элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | У пользователя нет прав доступа к задаче или не хватает прав на выполнение действия ||
 |#
 
-{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Смотрите также
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./task-checklist-item-add.md)

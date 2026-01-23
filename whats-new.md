@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 23 января, 2026
+
+- Обновили документацию по методам [task.checklistitem.isactionallowed](./api-reference/tasks/checklist-item/task-checklist-item-is-action-allowed.md), [task.checklistitem.getmanifest](./api-reference/tasks/checklist-item/task-checklist-item-get-manifest.md) в Чек-листах задач
+
 ### 19 января, 2026
 
 - Обновили статью [Как получить доступ к REST API](./first-steps/access-to-rest-api.md)

@@ -21,5 +21,5 @@ items:
     href: task-checklist-item-renew.md
   - name: Проверить разрешение действия
     href: task-checklist-item-is-action-allowed.md
-  - name: Получить перечень методов и их описаний
+  - name: Получить список методов и их описание
     href: task-checklist-item-get-manifest.md
