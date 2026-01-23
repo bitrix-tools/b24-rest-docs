@@ -9,6 +9,7 @@
 - Обновили документацию по методам [disk.folder.get](./api-reference/disk/folder/disk-folder-get.md), [disk.folder.markdeleted](./api-reference/disk/folder/disk-folder-mark-deleted.md), [disk.folder.moveto](./api-reference/disk/folder/disk-folder-move-to.md), [disk.folder.rename](./api-reference/disk/folder/disk-folder-rename.md), [disk.folder.restore](./api-reference/disk/folder/disk-folder-restore.md)
 - Добавили метод [disk.folder.sharetouser](./api-reference/disk/folder/disk-folder-share-to-user.md)
 - Обновили главную страницу раздела [Прикрепленный файл](./api-reference/disk/attached-object/index.md). Добавили вводную информацию, а также обзор методов
+- Обновили статью [Как выполнить свой первый запрос к API](./first-steps/first-rest-api-call.md)
 
 ### 19 января, 2026
 
