@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 23 января, 2026
+
+- Добавили статью [Мастер настройки для REST-only приложений](./settings/app-installation/mass-market-apps/rest-only-installation-master.md)
+
 ### 19 января, 2026
 
 - Обновили статью [Как получить доступ к REST API](./first-steps/access-to-rest-api.md)
