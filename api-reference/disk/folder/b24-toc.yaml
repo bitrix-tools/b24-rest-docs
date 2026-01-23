@@ -19,11 +19,13 @@ items:
     href: disk-folder-get.md
   - name: Переместить папку в корзину
     href: disk-folder-mark-deleted.md
-  - name: Переместить папку в заданную папку
+  - name: Переместить папку в указанную папку
     href: disk-folder-move-to.md
   - name: Переименовать папку
     href: disk-folder-rename.md
   - name: Восстановить папку из корзины
     href: disk-folder-restore.md
+  - name: Назначить права доступа на папку
+    href: disk-folder-share-to-user.md
   - name: Загрузить файл в указанную папку
     href: disk-folder-upload-file.md

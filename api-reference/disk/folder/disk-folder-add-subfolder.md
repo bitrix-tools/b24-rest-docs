@@ -6,8 +6,6 @@
 
 Метод `disk.folder.addsubfolder` создает дочернюю папку.
 
-Папка получит те же права доступа, что и ее родительская папка.
-
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
@@ -23,6 +21,12 @@
 || **data***
 [`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя дочерней папки ||
 |#
+
+{% note info "" %}
+
+Для управления доступом к созданной папке используйте метод [disk.folder.sharetouser](./disk-folder-share-to-user.md)
+
+{% endnote %} 
 
 ## Примеры кода
 
@@ -264,4 +268,5 @@ HTTP-статус: **400**
 - [{#T}](./disk-folder-move-to.md)
 - [{#T}](./disk-folder-rename.md)
 - [{#T}](./disk-folder-restore.md)
+- [{#T}](./disk-folder-share-to-user.md)
 - [{#T}](./disk-folder-upload-file.md)

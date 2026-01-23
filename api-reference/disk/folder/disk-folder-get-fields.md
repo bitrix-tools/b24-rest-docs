@@ -264,4 +264,5 @@ HTTP-статус: **200**
 - [{#T}](./disk-folder-move-to.md)
 - [{#T}](./disk-folder-rename.md)
 - [{#T}](./disk-folder-restore.md)
+- [{#T}](./disk-folder-share-to-user.md)
 - [{#T}](./disk-folder-upload-file.md)

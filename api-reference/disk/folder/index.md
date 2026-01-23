@@ -16,6 +16,7 @@
 
 С папками Диска можно выполнить следующие операции:
 
+- назначить права доступа методом [disk.folder.sharetouser](./disk-folder-share-to-user.md)
 - переместить по структуре с помощью метода [disk.folder.moveto](./disk-folder-move-to.md) 
 - скопировать в другие папки Диска методом [disk.folder.copyto](./disk-folder-copy-to.md)
 - изменить название методом [disk.folder.rename](./disk-folder-rename.md)
@@ -48,6 +49,7 @@
 || [disk.folder.get](./disk-folder-get.md) | Возвращает папку по идентификатору ||
 || [disk.folder.getchildren](./disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
 || [disk.folder.addsubfolder](./disk-folder-add-subfolder.md) | Создает дочернюю папку ||
+|| [disk.folder.sharetouser](./disk-folder-share-to-user.md) | Назначает права доступа на папку ||
 || [disk.folder.copyto](./disk-folder-copy-to.md) | Копирует папку в указанную папку ||
 || [disk.folder.moveto](./disk-folder-move-to.md) | Перемещает папку в указанную папку ||
 || [disk.folder.rename](./disk-folder-rename.md) | Переименовывает папку ||

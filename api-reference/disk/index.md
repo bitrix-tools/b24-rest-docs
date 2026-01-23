@@ -51,7 +51,7 @@
 
 **Бизнес-процессы.** Можно запустить для документов общего диска. Управление бизнес-процессами выполняется методами [bizproc.workflow.*](../bizproc/index.md).
 
-**Задачи.** Файлы прикрепляются к описанию задачи и комментариям. Все участники задачи могут просматривать, редактировать и скачивать прикрепленные файлы. Работать с задачами и комментариями необходимо через методы групп [tasks.task.*](../tasks/index.md) и [task.commentitem.*](../tasks/comment-item/index.md). 
+**Задачи.** Файлы прикрепляются к описанию задачи. Все участники задачи могут просматривать, редактировать и скачивать прикрепленные файлы. Работать с задачами необходимо через методы [tasks.task.*](../tasks/index.md). 
 
 **Календарь.** Файлы добавляются к событию и становятся доступными всем участникам. Создать и изменить событие можно с помощью методов [calendar.event.*](../calendar/index.md).
 
@@ -95,6 +95,7 @@
 || [disk.folder.get](folder/disk-folder-get.md) | Возвращает папку по идентификатору ||
 || [disk.folder.getchildren](folder/disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
 || [disk.folder.addsubfolder](folder/disk-folder-add-subfolder.md) | Создает дочернюю папку ||
+|| [disk.folder.sharetouser](folder/disk-folder-share-to-user.md) | Назначает права доступа на папку ||
 || [disk.folder.copyto](folder/disk-folder-copy-to.md) | Копирует папку в указанную папку ||
 || [disk.folder.moveto](folder/disk-folder-move-to.md) | Перемещает папку в указанную папку ||
 || [disk.folder.rename](folder/disk-folder-rename.md) | Переименовывает папку ||
