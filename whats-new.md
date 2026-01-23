@@ -10,6 +10,7 @@
 - Добавили метод [disk.folder.sharetouser](./api-reference/disk/folder/disk-folder-share-to-user.md)
 - Обновили главную страницу раздела [Прикрепленный файл](./api-reference/disk/attached-object/index.md). Добавили вводную информацию, а также обзор методов
 - Обновили статью [Как выполнить свой первый запрос к API](./first-steps/first-rest-api-call.md)
+- Обновили статью [Обратная связь](./feedback.md)
 
 ### 19 января, 2026
 
