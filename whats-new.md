@@ -8,6 +8,7 @@
 - Обновили документацию по методам [task.checklistitem.isactionallowed](./api-reference/tasks/checklist-item/task-checklist-item-is-action-allowed.md), [task.checklistitem.getmanifest](./api-reference/tasks/checklist-item/task-checklist-item-get-manifest.md) в Чек-листах задач
 - Обновили документацию по методам [disk.folder.get](./api-reference/disk/folder/disk-folder-get.md), [disk.folder.markdeleted](./api-reference/disk/folder/disk-folder-mark-deleted.md), [disk.folder.moveto](./api-reference/disk/folder/disk-folder-move-to.md), [disk.folder.rename](./api-reference/disk/folder/disk-folder-rename.md), [disk.folder.restore](./api-reference/disk/folder/disk-folder-restore.md)
 - Добавили метод [disk.folder.sharetouser](./api-reference/disk/folder/disk-folder-share-to-user.md)
+- Обновили главную страницу раздела [Прикрепленный файл](./api-reference/disk/attached-object/index.md). Добавили вводную информацию, а также обзор методов
 
 ### 19 января, 2026
 
