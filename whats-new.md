@@ -4,6 +4,7 @@
 
 ### 23 января, 2026
 
+- Добавили статью [Мастер настройки для REST-only приложений](./settings/app-installation/mass-market-apps/rest-only-installation-master.md)
 - Обновили документацию по методам [task.checklistitem.isactionallowed](./api-reference/tasks/checklist-item/task-checklist-item-is-action-allowed.md), [task.checklistitem.getmanifest](./api-reference/tasks/checklist-item/task-checklist-item-get-manifest.md) в Чек-листах задач
 
 ### 19 января, 2026

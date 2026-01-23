@@ -53,7 +53,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"taskId":51,"text":"Сообщение из внешней системы"}}' \
-    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.chat.message.send
+    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.chat.message.send
     ```
 
 - cURL (OAuth)

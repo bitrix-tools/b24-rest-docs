@@ -113,7 +113,7 @@ RIGHTS: {
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_CODE":"my_custom_list","FIELDS":{"NAME":"Мой новый список","DESCRIPTION":"Список для отслеживания задач в проекте","SORT":500,"BIZPROC":"Y"},"MESSAGES":{"ELEMENTS_NAME":"Задачи","ELEMENT_NAME":"Задача","ELEMENT_ADD":"Добавить задачу","ELEMENT_EDIT":"Изменить задачу","ELEMENT_DELETE":"Удалить задачу","SECTIONS_NAME":"Разделы","SECTION_NAME":"Раздел","SECTION_ADD":"Добавить раздел","SECTION_EDIT":"Изменить раздел","SECTION_DELETE":"Удалить раздел"},"RIGHTS":{"U1271":"X"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.add
     ```
 
 - cURL (OAuth)

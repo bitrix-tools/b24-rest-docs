@@ -196,7 +196,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":27,"fields":{"RQ_OKPO":"80715150","RQ_OKTMO":"45381000000","UF_CRM_1707997209":"78","UF_CRM_1708012333":"Категория 3"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.requisite.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.update
     ```
 
 - cURL (OAuth)

@@ -63,7 +63,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"title":"CRM Source","description":"Источник данных CRM","connectorId":123,"settings":{"login":"admin","password":"qwerty"}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/biconnector.source.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.source.add
     ```
 
 - cURL (OAuth)

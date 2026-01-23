@@ -114,7 +114,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":95,"SECTION_ID":169,"FIELDS":{"NAME":"Обновленные документы маркетинга","EXTERNAL_ID":"ext_marketing_docs_002","XML_ID":"xml_marketing_docs_002","SORT":600,"ACTIVE":"Y"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.section.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.section.update
     ```
 
 - cURL (OAuth)

@@ -86,7 +86,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"TASKID":13,"ITEMID":475,"FIELDS":{"TITLE":"Подготовить отчет","PARENT_ID":447,"SORT_INDEX":100,"IS_COMPLETE":"N","IS_IMPORTANT":"N","MEMBERS":{"547":{"TYPE":"A"},"125":{"TYPE":"U"}}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.checklistitem.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.checklistitem.update
     ```
 
 - cURL (OAuth)

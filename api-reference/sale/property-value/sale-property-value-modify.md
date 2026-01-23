@@ -94,7 +94,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"order":{"id":2066,"propertyValues":[{"orderPropsId":20,"value":"John Smith"},{"orderPropsId":21,"value":"johnsmith@example.com"},{"orderPropsId":22,"value":"+10907996161"},{"orderPropsId":25,"value":"0000073738"},{"orderPropsId":26,"value":"900 S Holland Ave, Springfield, MO 65806, United States"},{"orderPropsId":51,"value":"17.04.2024"},{"orderPropsId":52,"value":"Y"},{"orderPropsId":53,"value":"948"},{"orderPropsId":54,"value":"10"}]}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.propertyvalue.modify
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.propertyvalue.modify
     ```
 
 - cURL (OAuth)

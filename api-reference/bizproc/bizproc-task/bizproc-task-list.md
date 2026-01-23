@@ -69,7 +69,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["ID","WORKFLOW_ID","DOCUMENT_NAME","DESCRIPTION","NAME","MODIFIED","WORKFLOW_STARTED","WORKFLOW_STARTED_BY","OVERDUE_DATE","WORKFLOW_TEMPLATE_ID","WORKFLOW_TEMPLATE_NAME","WORKFLOW_STATE","STATUS","USER_ID","USER_STATUS","MODULE_ID","ENTITY","DOCUMENT_ID","ACTIVITY","ACTIVITY_NAME","DOCUMENT_URL","PARAMETERS"],"order":{"ID":"DESC"},"filter":{"USER_ID":1,"STATUS":0,"ACTIVITY":"RequestInformationOptionalActivity"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.task.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/bizproc.task.list
     ```
 
 - cURL (OAuth)

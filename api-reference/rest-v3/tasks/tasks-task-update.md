@@ -43,7 +43,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":11,"fields":{"title":"Название задачи","deadline":"2025-12-31T23:59:59+02:00","creatorId":29,"responsibleId":1,"crmItemIds":["L_1000959"]}}' \
-    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.update
+    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.update
     ```
 
 - cURL (OAuth)

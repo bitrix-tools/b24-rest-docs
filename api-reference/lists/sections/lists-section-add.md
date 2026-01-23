@@ -108,7 +108,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":95,"IBLOCK_SECTION_ID":0,"SECTION_CODE":"marketing_documents","FIELDS":{"NAME":"Документы отдела маркетинга","EXTERNAL_ID":"ext_marketing_docs_001","XML_ID":"xml_marketing_docs_001","SORT":500,"ACTIVE":"Y"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.section.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.section.add
     ```
 
 - cURL (OAuth)

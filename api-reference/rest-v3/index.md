@@ -26,7 +26,7 @@ curl -X POST \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
 -d '{"fields":{"taskId":51,"text":"Сообщение из внешней системы"}}' \
-https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.chat.message.send
+https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.chat.message.send
 ```
 
 **Пример вызова нового метода с авторизацией приложения**
@@ -50,7 +50,7 @@ https://**put_your_bitrix24_address**/rest/api/tasks.task.chat.message.send
  -H "Content-Type: application/json" \
  -H "Accept: application/json" \
  -d '{"fields":{"taskId":51,"text":"Сообщение из внешней системы"}}' \
- https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.chat.message.send
+ https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.chat.message.send
  ```
 
 - Запросы без параметров можно отправлять как GET или POST, например метод без параметров `rest.documentation.openapi`.

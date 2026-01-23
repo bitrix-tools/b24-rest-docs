@@ -38,7 +38,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":"your_recurring_invoice_id","fields":{"SEND_BILL":"Y","EMAIL_ID":136,"PARAMS":{"MODE":"month","TYPE":2,"INTERVAL":3,"WEEKDAY":"Monday","NUM_WEEKDAY_IN_MONTH":4,"DATE_PAY_BEFORE_OFFSET_TYPE":"day","DATE_PAY_BEFORE_OFFSET_VALUE":15}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.invoice.recurring.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.invoice.recurring.update
     ```
 
 - cURL (OAuth)

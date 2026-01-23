@@ -72,7 +72,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001,"id":122}]}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.price.modify
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.price.modify
     ```
 
 - cURL (OAuth)

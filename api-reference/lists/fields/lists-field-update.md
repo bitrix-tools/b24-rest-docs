@@ -162,7 +162,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":"123","FIELD_ID":"PROPERTY_1151","FIELDS":{"NAME":"Статус задачи","SORT":"50","IS_REQUIRED":"N","MULTIPLE":"N","TYPE":"L","LIST":{"1669":{"VALUE":"Планирование","SORT":10},"1671":{"VALUE":"В активной работе","SORT":20},"1673":{"VALUE":"Тестирование","SORT":30},"1675":{"VALUE":"Завершен","SORT":40},"1677":{"VALUE":"Отложен","SORT":50}},"LIST_TEXT_VALUES":"Архив","LIST_DEF":["1671"],"SETTINGS":{"SHOW_ADD_FORM":"Y","SHOW_EDIT_FORM":"Y","ADD_READ_ONLY_FIELD":"N","EDIT_READ_ONLY_FIELD":"Y","SHOW_FIELD_PREVIEW":"N"}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.field.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.field.update
     ```
 
 - cURL (OAuth)

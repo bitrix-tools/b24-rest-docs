@@ -78,7 +78,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["id","productId","ratio","isDefault"],"filter":{"@productId":[1,2],">ratio":0.5,"isDefault":"Y"},"order":{"id":"desc"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.ratio.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.ratio.list
     ```
 
 - cURL (OAuth)

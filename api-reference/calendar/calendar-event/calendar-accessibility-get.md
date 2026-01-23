@@ -38,7 +38,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"from":"2024-06-20","to":"2024-12-20","users":[1,2,34]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.accessibility.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.accessibility.get
     ```
 
 - cURL (OAuth)

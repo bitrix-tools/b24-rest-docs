@@ -141,7 +141,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"entityTypeId":1,"select":["id","title","lastName","name","stageId","sourceId","assignedById","opportunity","isManualOpportunity"],"filter":{"0":{"logic":"OR","0":{"!=name":""},"1":{"!=lastName":""}},"@stageId":["NEW","IN_PROCESS"],"@sourceId":["WEB","ADVERTISING"],"@assignedById":[1,6],">=opportunity":5000,"<=opportunity":20000,"isManualOpportunity":"Y"},"order":{"lastName":"ASC","name":"ASC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.list
     ```
 
 - cURL (OAuth)
@@ -446,7 +446,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"entityTypeId":2,"select":["id","title","createdTime"],"filter":{"0":{"logic":"OR","0":{">=createdTime":"2025-10-31T00:00:00+02:00","<createdTime":"2025-11-01T00:00:00+02:00"},"1":{">=createdTime":"2025-02-28T00:00:00+02:00","<createdTime":"2025-03-01T00:00:00+02:00"}}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.list
     ```
 
 - cURL (OAuth)

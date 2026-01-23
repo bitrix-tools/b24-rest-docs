@@ -113,7 +113,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":95,"FILTER":{"ID":169,"ACTIVE":"Y","NAME":"%маркетинг%","<=DATE_CREATE":"2025-12-31",">=DATE_CREATE":"2025-01-01"},"SELECT":["ID","CODE","XML_ID","EXTERNAL_ID","IBLOCK_SECTION_ID","TIMESTAMP_X","SORT","NAME","ACTIVE","GLOBAL_ACTIVE","LEFT_MARGIN","RIGHT_MARGIN","DEPTH_LEVEL","SEARCHABLE_CONTENT","MODIFIED_BY","DATE_CREATE","CREATED_BY"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.section.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.section.get
     ```
 
 - cURL (OAuth)

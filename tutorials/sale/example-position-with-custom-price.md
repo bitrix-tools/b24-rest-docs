@@ -11,7 +11,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"orderId":5147,"quantity":4,"productId":6544,"currency":"RUB","price":1100,"discountPrice":-1070,"customPrice":"Y"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.basketitem.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.basketitem.add
     ```
 
 - cURL (OAuth)

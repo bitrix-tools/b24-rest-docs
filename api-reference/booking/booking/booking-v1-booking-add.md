@@ -59,7 +59,7 @@ ID ресурсов можно получить методом [booking.v1.resou
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"name":"Название","description":"Описание","resourceIds":[1,2,3],"datePeriod":{"from":{"timestamp":1723446900,"timezone":"Europe/Moscow"},"to":{"timestamp":1723447800,"timezone":"Europe/Moscow"}}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.booking.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.add
     ```
 
 - cURL (OAuth)

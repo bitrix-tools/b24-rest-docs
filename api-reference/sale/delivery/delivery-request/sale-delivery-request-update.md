@@ -99,7 +99,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"DELIVERY_ID":225,"REQUEST_ID":"4757aca4931a4f029f49c0db4374d13d","STATUS":{"TEXT":"Performer found","SEMANTIC":"process"},"PROPERTIES":[{"NAME":"Car","VALUE":"Gray Skoda Octavia, a777zn"},{"NAME":"Driver","VALUE":"John Smith"},{"NAME":"Phone Number","VALUE":"+11111111111","TAGS":["phone"]},{"NAME":"Something else","VALUE":"Some value"}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.delivery.request.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.delivery.request.update
     ```
 
 - cURL (OAuth)
