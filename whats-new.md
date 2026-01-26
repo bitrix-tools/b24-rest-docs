@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 26 января, 2026
+
+- Обновили документацию по методам управления карточками компаний [crm.company.details.configuration.*](./api-reference/crm/companies/custom-form/index.md)
+
 ### 23 января, 2026
 
 - Добавили статью [Мастер настройки для REST-only приложений](./settings/app-installation/mass-market-apps/rest-only-installation-master.md)
