@@ -45,7 +45,7 @@
 
 `start = (N-1) * 50`, где `N` — номер нужной страницы.
 
-Подробности в статье [{#T}](../how-to-call-rest-api/list-methods-pecularities.md) ||
+Подробности в статье [{#T}](../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
 ## Примеры кода
@@ -65,7 +65,7 @@
         "order": "DESC",
         "PARENT": 1
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/department.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/department.get
     ```
 
 - cURL (OAuth)

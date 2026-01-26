@@ -64,7 +64,7 @@ fields: {
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"name":"Физическое лицо","sort":"100","active":"Y","code":"MY_CRM_COMPANY","xmlId":"myXmlId"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.persontype.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.persontype.add
     ```
 
 - cURL (OAuth)

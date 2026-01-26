@@ -48,7 +48,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":54,"fields":{"COMPANY_ID":32}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.company.delete
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.company.delete
     ```
 
 - cURL (OAuth)

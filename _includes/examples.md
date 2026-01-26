@@ -1,1 +1,1 @@
-[Как использовать примеры в документации](/how-to-use-examples.html) {.b24-info}
+[Как использовать примеры в документации](/first-steps/how-to-use-examples.html) {.b24-info}

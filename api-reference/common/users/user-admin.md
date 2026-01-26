@@ -21,7 +21,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.admin
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.admin
     ```
 
 - cURL (OAuth)
@@ -158,4 +158,4 @@ HTTP-статус: **200**
 
 ## Смотрите также
 
-- [BX24.isAdmin](../../bx24-js-sdk/additional-functions/bx24-is-admin.md)
+- [BX24.isAdmin](../../../sdk/bx24-js-sdk/additional-functions/bx24-is-admin.md)

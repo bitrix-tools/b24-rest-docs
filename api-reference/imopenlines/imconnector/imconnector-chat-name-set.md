@@ -38,7 +38,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"CONNECTOR":"connector","LINE":"105","CHAT_ID":"47e007b1-ee15-43db-bcba-1c26e5884d3f","NAME":"Новое имя диалога"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/imconnector.chat.name.set
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imconnector.chat.name.set
     ```
 
 - cURL (OAuth)
@@ -238,7 +238,6 @@ HTTP-статус: **400**
 - [{#T}](./tutorials.md)
 - [{#T}](./imconnector-register.md)
 - [{#T}](./imconnector-activate.md)
-- [{#T}](./imconnector-deactivate.md)
 - [{#T}](./imconnector-status.md)
 - [{#T}](./imconnector-connector-data-set.md)
 - [{#T}](./imconnector-list.md)

@@ -23,7 +23,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.price.getFields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.price.getFields
     ```
 
 - cURL (OAuth)
@@ -124,7 +124,7 @@ HTTP-статус: **200**
     "result": {
         "price": {
             "catalogGroupId": {
-                "isImmutable": false,
+                "isImmutable": true,
                 "isReadOnly": false,
                 "isRequired": true,
                 "type": "integer"
@@ -153,8 +153,14 @@ HTTP-статус: **200**
                 "isRequired": true,
                 "type": "double"
             },
-            "productId": {
+            "priceScale": {
                 "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "double"
+            },
+            "productId": {
+                "isImmutable": true,
                 "isReadOnly": false,
                 "isRequired": true,
                 "type": "integer"
@@ -163,13 +169,13 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "type": "double"
+                "type": "integer"
             },
             "quantityTo": {
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "type": "double"
+                "type": "integer"
             },
             "timestampX": {
                 "isImmutable": false,
@@ -180,12 +186,12 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1712325642.686926,
-        "finish": 1712325642.949075,
-        "duration": 0.2621490955352783,
-        "processing": 0.004400968551635742,
-        "date_start": "2024-09-05T16:00:42+02:00",
-        "date_finish": "2024-09-05T16:00:42+02:00",
+        "start": 1766065411,
+        "finish": 1766065412.091394,
+        "duration": 1.0913939476013184,
+        "processing": 0,
+        "date_start": "2025-12-18T13:43:31+00:00",
+        "date_finish": "2025-12-18T13:43:32+00:00",
         "operating": 0
     }
 }
@@ -199,7 +205,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **price**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_price](../data-types.md#catalog_price), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+[`object`](../data-types.md#catalog_price) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_price](../data-types.md#catalog_price), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

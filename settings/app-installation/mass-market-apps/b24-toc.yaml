@@ -1,0 +1,11 @@
+title: Тиражные приложения
+href: index.md
+items: 
+  - name: Обзор 
+    href: index.md
+  - name: Мастер установки 
+    href: installation-master.md
+  - name: Мастер настройки REST-only приложения
+    href: rest-only-installation-master.md
+  - name: Callback установки
+    href: installation-callback.md

@@ -69,7 +69,7 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-Cм. описание [списочных методов](../../../../how-to-call-rest-api/list-methods-pecularities.md).
+Cм. описание [списочных методов](../../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% note info "" %}
 
@@ -103,7 +103,7 @@ Cм. описание [списочных методов](../../../../how-to-cal
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"order":{"ID":"DESC"},"filter":{"OWNER_TYPE_ID":3,"OWNER_ID":102},"select":["*","COMMUNICATIONS"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.list
     ```
 
 - cURL (OAuth)
@@ -294,7 +294,7 @@ HTTP-статус: **400**, **403**
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"order":{"ID":"DESC"},"filter":{"BINDINGS":[{"OWNER_TYPE_ID":2},{"OWNER_TYPE_ID":3}]},"select":["*","COMMUNICATIONS"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.list
     ```
 
 - cURL (OAuth)
@@ -374,7 +374,7 @@ HTTP-статус: **400**, **403**
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"filter":{"ID":"20"},"select":["*","COMMUNICATIONS"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.list
     ```
 
 - cURL (OAuth)
@@ -486,7 +486,7 @@ HTTP-статус: **200**
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"filter":{"ID":"101121"},"select":["*","STORAGE_ELEMENT_IDS"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.list
     ```
 
 - cURL (OAuth)

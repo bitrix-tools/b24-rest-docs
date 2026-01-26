@@ -10,6 +10,12 @@
 
 Расширенные возможности кнопки над таймлайном описаны в статье [Дополнительные возможности встройки CRM_XXX_DETAIL_ACTIVITY](./detail-activity-area.md)
 
+{% note info "" %}
+
+Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Куда встраивается виджет
 
 #|
@@ -213,6 +219,6 @@
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../ui-interaction/crm-card.md)
-- [{#T}](../../interactivity/index.md)
+- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../open-application.md)
 - [{#T}](../open-path.md)

@@ -34,7 +34,7 @@
          -d '{
              "id": 4
              }' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/biconnector.connector.delete
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.connector.delete
     ```
 
 - cURL (OAuth)

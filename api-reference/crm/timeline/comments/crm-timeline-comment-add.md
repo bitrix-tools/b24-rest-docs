@@ -23,7 +23,6 @@ fields:
     "ENTITY_ID": 'значение',
     "ENTITY_TYPE": 'значение',
     "COMMENT": 'значение',
-    "AUTHOR_ID": 'значение',
     "FILES": [
         [
             "название файла", 
@@ -61,8 +60,6 @@ fields:
 Значение можно получить методом [`crm.item.list`](../../universal/crm-item-list.md) или при создании элемента с помощью [`crm.item.add`](../../universal/crm-item-add.md) ||
 || **ENTITY_TYPE***
 [`string`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../../universal/user-defined-object-types/index.md) объекта CRM, к элементу которого привязан комментарий. Например: `lead`, `deal`, `contact`, `company`, `order`, `dynamic_1046` ||
-|| **AUTHOR_ID**
-[`user`](../../../data-types.md#standart-objects) | Идентификатор пользователя, добавляющего комментарий ||
 || **COMMENT***
 [`string`](../../../data-types.md) | Текст комментария ||
 || **FILES**
@@ -81,8 +78,8 @@ fields:
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"ENTITY_ID":10,"ENTITY_TYPE":"deal","COMMENT":"New comment was added","AUTHOR_ID":5,"FILES":[["1.gif","R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="],["2.gif","R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="]]}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.timeline.comment.add
+    -d '{"fields":{"ENTITY_ID":10,"ENTITY_TYPE":"deal","COMMENT":"New comment was added","FILES":[["1.gif","R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="],["2.gif","R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="]]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.timeline.comment.add
     ```
 
 - cURL (OAuth)
@@ -91,7 +88,7 @@ fields:
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"ENTITY_ID":10,"ENTITY_TYPE":"deal","COMMENT":"New comment was added","AUTHOR_ID":5,"FILES":[["1.gif","R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="],["2.gif","R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="]]},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"ENTITY_ID":10,"ENTITY_TYPE":"deal","COMMENT":"New comment was added","FILES":[["1.gif","R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="],["2.gif","R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="]]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.timeline.comment.add
     ```
 
@@ -109,7 +106,6 @@ fields:
     				"ENTITY_ID": 10,
     				"ENTITY_TYPE": "deal",
     				"COMMENT": "New comment was added",
-    				"AUTHOR_ID": 5,
     				"FILES": [
     					[
     						"1.gif", 
@@ -147,7 +143,6 @@ fields:
                         'ENTITY_ID'   => 10,
                         'ENTITY_TYPE' => 'deal',
                         'COMMENT'     => 'New comment was added',
-                        'AUTHOR_ID'   => 5,
                         'FILES'       => [
                             ['1.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
                             ['2.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
@@ -181,7 +176,6 @@ fields:
                 "ENTITY_ID": 10,
                 "ENTITY_TYPE": "deal",
                 "COMMENT": "New comment was added",
-                "AUTHOR_ID": 5,
                 "FILES": [
                     [
                         "1.gif", 
@@ -214,7 +208,6 @@ fields:
                 'ENTITY_ID' => 10,
                 'ENTITY_TYPE' => 'deal',
                 'COMMENT' => 'New comment was added',
-                'AUTHOR_ID' => 5,
                 'FILES' => [
                     ["1.gif", "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="],
                     ["2.gif", "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="]

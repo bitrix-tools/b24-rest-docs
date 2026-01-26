@@ -27,6 +27,8 @@
 
 Метод `im.chat.get` получает идентификатор чата.
 
+{% include [Сноска о параметрах](../../_includes/required.md) %}
+
 #|
 || **Параметр** | **Пример** | **Описание** ||
 || **ENTITY_TYPE^*^**
@@ -41,11 +43,13 @@
 - [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) ||
 |#
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% note info "" %}
+
+Как получить ID чата задачи описано в статье [Новая карточка задач: обзор изменений](../tasks/tasks-new.md)
+
+{% endnote %}
 
 ## Примеры
-
-{% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
 {% list tabs %}
 
@@ -126,6 +130,8 @@
     ```
 
 - PHP CRest
+
+    {% include [Пояснение о restCommand](./_includes/rest-command.md) %}
 
     ```php
     $result = restCommand(

@@ -1,49 +1,42 @@
-# Получить информациюи о том, включен ли складской учет catalog.document.mode.status
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
+# Проверить состояние складского учета catalog.document.mode.status
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может подписаться: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
 
-## Описание
+Метод `catalog.document.mode.status` проверяет активность складского учета. 
 
-```http
-catalog.document.mode.status()
-```
+## Параметры метода
 
-Метод для получения информации о том, включён ли складской учёт.
-Возвращается статус складского учёта:
+Без параметров.
 
-- `Y` - складской учёт включен;
-- `N` - складской учёт выключен.
-  
-## Параметры
+## Примеры кода
 
-Без параметров
-
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.mode.status
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.document.mode.status
+    ```
+
+- JS
 
     ```js
     try
@@ -52,11 +45,11 @@ catalog.document.mode.status()
     		'catalog.document.mode.status',
     		{}
     	);
-    	
+
     	const result = response.getData().result;
     	console.log(result);
     }
-    catch( error )
+    catch (error)
     {
     	console.error(error);
     }
@@ -64,29 +57,20 @@ catalog.document.mode.status()
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
             ->core
-            ->call(
-                'catalog.document.mode.status',
-                []
-            );
-    
+            ->call('catalog.document.mode.status', []);
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Status: ' . $result;
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error calling catalog document mode status: ' . $e->getMessage();
+        echo 'Error getting inventory mode: ' . $e->getMessage();
     }
     ```
 
@@ -98,7 +82,7 @@ catalog.document.mode.status()
         {},
         function(result)
         {
-            if(result.error())
+            if (result.error())
                 console.error(result.error());
             else
                 console.log(result.data());
@@ -109,14 +93,75 @@ catalog.document.mode.status()
 - PHP CRest
 
     ```php
-    $result = CRest::call(
-        'catalog.document.mode.status'
-    );
-    echo '<pre>';
+    require_once('crest.php');
+
+    $result = CRest::call('catalog.document.mode.status', []);
+
+    echo '<PRE>';
     print_r($result);
-    echo '</pre>';
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-код: **200**
+
+```json
+{
+    "result": "Y",
+    "time": {
+        "start": 1759484053.115812,
+        "finish": 1759484053.162347,
+        "duration": 0.04653501510620117,
+        "processing": 0.006915092468261719,
+        "date_start": "2025-11-02T12:54:13+03:00",
+        "date_finish": "2025-11-02T12:54:13+03:00",
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Активность складского учета. Возможные значения:
+- `'Y'` — включен,
+- `'N'` — отключен ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+HTTP-код: **400**
+
+```json
+{
+    "error": "0",
+    "error_description": "Access denied"
+}
+```
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | Access denied | У пользователя нет права на чтение каталога товаров ||
+|#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./catalog-document-list.md)
+- [{#T}](./catalog-document-add.md)
+- [{#T}](./catalog-document-delete.md)
+
+

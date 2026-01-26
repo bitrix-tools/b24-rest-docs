@@ -24,7 +24,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.lead.fields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.lead.fields
     ```
 
 - cURL (OAuth)
@@ -671,7 +671,7 @@ HTTP-статус: **200**
 || **TITLE**
 [`string`](../../data-types.md) | Название лида ||
 || **HONORIFIC**
-[`crm_status`](../../data-types.md) | Вид обращения. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=HONORIFIC` ||
+[`crm_status`](../data-types.md) | Вид обращения. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=HONORIFIC` ||
 || **NAME**
 [`string`](../../data-types.md) |  Имя контакта ||
 || **SECOND_NAME**
@@ -683,11 +683,11 @@ HTTP-статус: **200**
 || **COMPANY_TITLE**
 [`string`](../../data-types.md) | Название компании, привязанной к лиду ||
 || **SOURCE_ID**
-[`crm_status`](../../data-types.md) | Идентификатор источника. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=SOURCE` ||
+[`crm_status`](../data-types.md) | Идентификатор источника. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=SOURCE` ||
 || **SOURCE_DESCRIPTION**
 [`string`](../../data-types.md) | Описание источника ||
 || **STATUS_ID**
-[`crm_status`](../../data-types.md) | Идентификатор стадии лида. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=STATUS` ||
+[`crm_status`](../data-types.md) | Идентификатор стадии лида. Статус из справочника. Список возможных идентификаторов можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=STATUS` ||
 || **STATUS_DESCRIPTION**
 [`string`](../../data-types.md) | Дополнительно о стадии ||
 || **STATUS_SEMANTIC_ID**
@@ -716,7 +716,7 @@ HTTP-статус: **200**
 || **ADDRESS_LOC_ADDR_ID**
 [`string`](../../data-types.md) | Идентификатор адреса из модуля местоположений ||
 || **CURRENCY_ID**
-[`crm_currency`](../../data-types.md) | Идентификатор валюты ||
+[`crm_currency`](../data-types.md) | Идентификатор валюты ||
 || **OPPORTUNITY**
 [`double`](../../data-types.md) | Предполагаемая сумма ||
 || **IS_MANUAL_OPPORTUNITY**
@@ -746,9 +746,9 @@ HTTP-статус: **200**
 || **MOVED_TIME**
 [`datetime`](../../data-types.md) | Дата перемещения элемента на текущую стадию ||
 || **COMPANY_ID**
-[`crm_company`](../../data-types.md) | Привязка лида к компании (Поле Клиент->Компания) ||
+[`crm_company`](../data-types.md) | Привязка лида к компании (Поле Клиент->Компания) ||
 || **CONTACT_ID**
-[`crm_contact`](../../data-types.md) | Привязка лида к контакту (Поле Клиент->Контакт. В случае нескольких привязанных контактов в данном поле будет id первого привязанного контакта) ||
+[`crm_contact`](../data-types.md) | Привязка лида к контакту (Поле Клиент->Контакт. В случае нескольких привязанных контактов в данном поле будет id первого привязанного контакта) ||
 || **IS_RETURN_CUSTOMER**
 [`char`](../../data-types.md) | Признак повторного лида. Допустимые значения Y или N ||
 || **DATE_CLOSED**
@@ -772,15 +772,15 @@ HTTP-статус: **200**
 || **LAST_ACTIVITY_BY**
 [`string`](../../data-types.md) | Идентификатор пользователя ответственного за последнюю активность в этом лиде (например, создавшего новое дело в лиде) ||
 || **PHONE**
-[`crm_multifield`](../../data-types.md) | Телефон контакта ||
+[`crm_multifield`](../data-types.md) | Телефон контакта ||
 || **EMAIL**
-[`crm_multifield`](../../data-types.md) | Адрес электронной почты ||
+[`crm_multifield`](../data-types.md) | Адрес электронной почты ||
 || **WEB**
-[`crm_multifield`](../../data-types.md) | URL ресурсы лида ||
+[`crm_multifield`](../data-types.md) | URL ресурсы лида ||
 || **IM**
-[`crm_multifield`](../../data-types.md) | Мессенджеры ||
+[`crm_multifield`](../data-types.md) | Мессенджеры ||
 || **LINK**
-[`crm_multifield`](../../data-types.md) |  ||
+[`crm_multifield`](../data-types.md) |  ||
 || **UF_...** | [Пользовательские поля](./userfield/index.md) ||
 |#
 

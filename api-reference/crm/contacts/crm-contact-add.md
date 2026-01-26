@@ -242,7 +242,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"FIELDS":{"HONORIFIC":"HNR_RU_1","NAME":"Иван","SECOND_NAME":"Иванович","LAST_NAME":"Иванов","PHOTO":{"fileData":"**put_photo_data_here**"},"BIRTHDATE":"11.11.2001","TYPE_ID":"PARTNER","SOURCE_ID":"WEB","SOURCE_DESCRIPTION":"*Дополнительно об источнике*","POST":"Администратор","COMMENTS":"**put_comment_here**","OPENED":"Y","EXPORT":"N","ASSIGNED_BY_ID":6,"COMPANY_ID":12,"COMPANY_IDS":[12,13,15],"UTM_SOURCE":"yandex","UTM_MEDIUM":"CPC","UTM_CAMPAIGN":"summer_sale","UTM_CONTENT":"header_banner","UTM_TERM":"discount","PHONE":[{"VALUE":"+7333333555","VALUE_TYPE":"WORK"},{"VALUE":"+35599888666","VALUE_TYPE":"HOME"}],"EMAIL":[{"VALUE":"ivanov@example.mailing","VALUE_TYPE":"MAILING"},{"VALUE":"ivanov@example.work","VALUE_TYPE":"WORK"}],"UF_CRM_1720697698689":"Пример значения пользовательского поля с типом \"Строка\"","PARENT_ID_1224":12}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.add
     ```
 
 - cURL (OAuth)
@@ -261,68 +261,88 @@
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'crm.contact.add',
-    		{
-    			fields: {
-    				HONORIFIC: "HNR_RU_1",
-    				NAME: "Иван",
-    				SECOND_NAME: "Иванович",
-    				LAST_NAME: "Иванов",
-    				PHOTO: {
-    					fileData: document.getElementById('photo'),
-    				},
-    				BIRTHDATE: '11.11.2001',
-    				TYPE_ID: "PARTNER",
-    				SOURCE_ID: "WEB",
-    				SOURCE_DESCRIPTION: "*Дополнительно об источнике*",
-    				POST: "Администратор",
-    				COMMENTS: comment,
-    				OPENED: "Y",
-    				EXPORT: "N",
-    				ASSIGNED_BY_ID: 6,
-    				COMPANY_ID: 12,
-    				COMPANY_IDS: [12, 13, 15],
-    				UTM_SOURCE: "yandex",
-    				UTM_MEDIUM: "CPC",
-    				UTM_CAMPAIGN: "summer_sale",
-    				UTM_CONTENT: "header_banner",
-    				UTM_TERM: "discount",
-    				PHONE: [
-    					{
-    						VALUE: "+7333333555",
-    						VALUE_TYPE: "WORK",
-    					},
-    					{
-    						VALUE: "+35599888666",
-    						VALUE_TYPE: "HOME",
-    					}
-    				],
-    				EMAIL: [
-    					{
-    						VALUE: "ivanov@example.mailing",
-    						VALUE_TYPE: "MAILING",
-    					},
-    					{
-    						VALUE: "ivanov@example.work",
-    						VALUE_TYPE: "WORK",
-    					}
-    				],
-    				UF_CRM_1720697698689: "Пример значения пользовательского поля с типом \"Строка\"",
-    				PARENT_ID_1224: 12,
-    			},
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	result.error()
-    		? console.error(result.error())
-    		: console.info(result)
-    	;
+        const response = await $b24.callMethod(
+            'crm.contact.add',
+            {
+                fields: {
+                    HONORIFIC: "HNR_RU_1",
+                    NAME: "Иван",
+                    SECOND_NAME: "Иванович",
+                    LAST_NAME: "Иванов",
+                    PHOTO: {
+                        fileData: document.getElementById('photo'),
+                    },
+                    BIRTHDATE: '11.11.2001',
+                    TYPE_ID: "PARTNER",
+                    SOURCE_ID: "WEB",
+                    SOURCE_DESCRIPTION: "*Дополнительно об источнике*",
+                    POST: "Администратор",
+                    COMMENTS: `
+                        Пример комментария внутри контакта
+
+                        [B]Жирный текст[/B]
+                        [I]Курсив[/I]
+                        [U]Подчеркнутый[/U]
+                        [S]Зачеркнутый[/S]
+                        [B][I][U][S]Микс[/S][/U][/I][/B]
+
+                        [LIST]
+                        [*]Элемент списка #1
+                        [*]Элемент списка #2
+                        [*]Элемент списка #3
+                        [/LIST]
+
+                        [LIST=1]
+                        [*]Нумерованный элемент списка #1
+                        [*]Нумерованный элемент списка #2
+                        [*]Нумерованный элемент списка #3
+                        [/LIST]
+                    `,
+                    OPENED: "Y",
+                    EXPORT: "N",
+                    ASSIGNED_BY_ID: 6,
+                    COMPANY_ID: 12,
+                    COMPANY_IDS: [12, 13, 15],
+                    UTM_SOURCE: "yandex",
+                    UTM_MEDIUM: "CPC",
+                    UTM_CAMPAIGN: "summer_sale",
+                    UTM_CONTENT: "header_banner",
+                    UTM_TERM: "discount",
+                    PHONE: [
+                        {
+                            VALUE: "+7333333555",
+                            VALUE_TYPE: "WORK",
+                        },
+                        {
+                            VALUE: "+35599888666",
+                            VALUE_TYPE: "HOME",
+                        }
+                    ],
+                    EMAIL: [
+                        {
+                            VALUE: "ivanov@example.mailing",
+                            VALUE_TYPE: "MAILING",
+                        },
+                        {
+                            VALUE: "ivanov@example.work",
+                            VALUE_TYPE: "WORK",
+                        }
+                    ],
+                    UF_CRM_1720697698689: "Пример значения пользовательского поля с типом \"Строка\"",
+                    PARENT_ID_1224: 12,
+                },
+            }
+        );
+        
+        const result = response.getData().result;
+        result.error()
+            ? console.error(result.error())
+            : console.info(result)
+        ;
     }
     catch( error )
     {
-    	console.error(error);
+        console.error(error);
     }
     ```
 
@@ -330,55 +350,97 @@
 
     ```php        
     try {
-        $fields = [
-            'NAME' => 'John',
-            'LAST_NAME' => 'Doe',
-            'BIRTHDATE' => (new DateTime('1990-01-01'))->format(DateTime::ATOM),
-            'PHONE' => '+1234567890',
-            'EMAIL' => 'john.doe@example.com',
-            'ADDRESS' => '123 Main St',
-            'ADDRESS_CITY' => 'Anytown',
-            'ADDRESS_COUNTRY' => 'USA',
-            'ASSIGNED_BY_ID' => '1',
-            'COMPANY_ID' => '2',
-        ];
-        $params = [
-            'REGISTER_SONET_EVENT' => 'N',
-        ];
-        $result = $serviceBuilder->getCRMScope()
-            ->contact()
-            ->add($fields, $params);
-        print($result->getId());
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.contact.add',
+                [
+                    'fields' => [
+                        'HONORIFIC' => 'HNR_RU_1',
+                        'NAME' => 'Иван',
+                        'SECOND_NAME' => 'Иванович',
+                        'LAST_NAME' => 'Иванов',
+                        'PHOTO' => [
+                            'fileData' => document.getElementById('photo'),
+                        ],
+                        'BIRTHDATE' => '11.11.2001',
+                        'TYPE_ID' => 'PARTNER',
+                        'SOURCE_ID' => 'WEB',
+                        'SOURCE_DESCRIPTION' => '*Дополнительно об источнике*',
+                        'POST' => 'Администратор',
+                        'COMMENTS' => '
+                            Пример комментария внутри контакта
+
+                            [B]Жирный текст[/B]
+                            [I]Курсив[/I]
+                            [U]Подчеркнутый[/U]
+                            [S]Зачеркнутый[/S]
+                            [B][I][U][S]Микс[/S][/U][/I][/B]
+
+                            [LIST]
+                            [*]Элемент списка #1
+                            [*]Элемент списка #2
+                            [*]Элемент списка #3
+                            [/LIST]
+
+                            [LIST=1]
+                            [*]Нумерованный элемент списка #1
+                            [*]Нумерованный элемент списка #2
+                            [*]Нумерованный элемент списка #3
+                            [/LIST]
+                        ',
+                        'OPENED' => 'Y',
+                        'EXPORT' => 'N',
+                        'ASSIGNED_BY_ID' => 6,
+                        'COMPANY_ID' => 12,
+                        'COMPANY_IDS' => [12, 13, 15],
+                        'UTM_SOURCE' => 'yandex',
+                        'UTM_MEDIUM' => 'CPC',
+                        'UTM_CAMPAIGN' => 'summer_sale',
+                        'UTM_CONTENT' => 'header_banner',
+                        'UTM_TERM' => 'discount',
+                        'PHONE' => [
+                            [
+                                'VALUE' => '+7333333555',
+                                'VALUE_TYPE' => 'WORK',
+                            ],
+                            [
+                                'VALUE' => '+35599888666',
+                                'VALUE_TYPE' => 'HOME',
+                            ]
+                        ],
+                        'EMAIL' => [
+                            [
+                                'VALUE' => 'ivanov@example.mailing',
+                                'VALUE_TYPE' => 'MAILING',
+                            ],
+                            [
+                                'VALUE' => 'ivanov@example.work',
+                                'VALUE_TYPE' => 'WORK',
+                            ]
+                        ],
+                        'UF_CRM_1720697698689' => 'Пример значения пользовательского поля с типом "Строка"',
+                        'PARENT_ID_1224' => 12,
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
+        error_log($e->getMessage());
+        echo 'Error adding contact: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
     ```js
-    const comment = `
-    Пример комментария внутри контакта
-
-    [B]Жирный текст[/B]
-    [I]Курсив[/I]
-    [U]Подчеркнутый[/U]
-    [S]Зачеркнутый[/S]
-    [B][I][U][S]Микс[/S][/U][/I][/B]
-
-    [LIST]
-    [*]Элемент списка #1
-    [*]Элемент списка #2
-    [*]Элемент списка #3
-    [/LIST]
-
-    [LIST=1]
-    [*]Нумерованный элемент списка #1
-    [*]Нумерованный элемент списка #2
-    [*]Нумерованный элемент списка #3
-    [/LIST]
-    `;
-
     BX24.callMethod(
         'crm.contact.add',
         {
@@ -395,7 +457,27 @@
                 SOURCE_ID: "WEB",
                 SOURCE_DESCRIPTION: "*Дополнительно об источнике*",
                 POST: "Администратор",
-                COMMENTS: comment,
+                COMMENTS: `
+                    Пример комментария внутри контакта
+
+                    [B]Жирный текст[/B]
+                    [I]Курсив[/I]
+                    [U]Подчеркнутый[/U]
+                    [S]Зачеркнутый[/S]
+                    [B][I][U][S]Микс[/S][/U][/I][/B]
+
+                    [LIST]
+                    [*]Элемент списка #1
+                    [*]Элемент списка #2
+                    [*]Элемент списка #3
+                    [/LIST]
+
+                    [LIST=1]
+                    [*]Нумерованный элемент списка #1
+                    [*]Нумерованный элемент списка #2
+                    [*]Нумерованный элемент списка #3
+                    [/LIST]
+                `,
                 OPENED: "Y",
                 EXPORT: "N",
                 ASSIGNED_BY_ID: 6,
@@ -447,20 +529,40 @@
     $result = CRest::call(
         'crm.contact.add',
         [
-            'FIELDS' => [
+            'fields' => [
                 'HONORIFIC' => 'HNR_RU_1',
                 'NAME' => 'Иван',
                 'SECOND_NAME' => 'Иванович',
                 'LAST_NAME' => 'Иванов',
                 'PHOTO' => [
-                    'fileData' => $_FILES['photo']
+                    'fileData' => document.getElementById('photo'),
                 ],
                 'BIRTHDATE' => '11.11.2001',
                 'TYPE_ID' => 'PARTNER',
                 'SOURCE_ID' => 'WEB',
                 'SOURCE_DESCRIPTION' => '*Дополнительно об источнике*',
                 'POST' => 'Администратор',
-                'COMMENTS' => $comment,
+                'COMMENTS' => '
+                    Пример комментария внутри контакта
+
+                    [B]Жирный текст[/B]
+                    [I]Курсив[/I]
+                    [U]Подчеркнутый[/U]
+                    [S]Зачеркнутый[/S]
+                    [B][I][U][S]Микс[/S][/U][/I][/B]
+
+                    [LIST]
+                    [*]Элемент списка #1
+                    [*]Элемент списка #2
+                    [*]Элемент списка #3
+                    [/LIST]
+
+                    [LIST=1]
+                    [*]Нумерованный элемент списка #1
+                    [*]Нумерованный элемент списка #2
+                    [*]Нумерованный элемент списка #3
+                    [/LIST]
+                ',
                 'OPENED' => 'Y',
                 'EXPORT' => 'N',
                 'ASSIGNED_BY_ID' => 6,

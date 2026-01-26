@@ -30,7 +30,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":1}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/timeman.schedule.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/timeman.schedule.get
     ```
 
 - cURL (OAuth)
@@ -360,7 +360,7 @@ HTTP-статус: **200**
 || **WORK_TIME_END**
 [`integer`](../../data-types.md) | Время окончания рабочего дня в секундах от полуночи ||
 || **WORK_DAYS**
-[`string`](../../data-types.md) | Строка с кодами рабочих дней. Например, `01234` — с понедельника по пятницу ||
+[`string`](../../data-types.md) | Строка с кодами рабочих дней. Например, `12345` — с понедельника по пятницу ||
 || **SCHEDULE_ID**
 [`integer`](../../data-types.md) | Идентификатор графика работы ||
 || **DELETED**

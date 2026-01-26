@@ -155,7 +155,7 @@ BX24.callMethod(
 | `text` | [Текст](#text) |
 | `link` | [Ссылка](#link) |
 | `withTitle` | [Блок с заголовком](#withTitle) |
-| `lineOfBlocks` | [Несколько контент-блоков в одну строку](lineOfBlocks) |
+| `lineOfBlocks` | [Несколько контент-блоков в одну строку](#lineOfBlocks) |
 | `dropdownMenu` | [Выпадающий список](#dropdownMenu) |
 | `input` | [Поле с вводом текста](#input) |
 | `textarea` | [Поле ввода многострочного текста](#textarea) |
@@ -212,6 +212,8 @@ BX24.callMethod(
 }
 ```
 
+![text](_images/text.png)
+
 ##### Ссылка {#link}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -245,6 +247,8 @@ BX24.callMethod(
   }
 }
 ```
+
+![link](_images/link.png)
 
 ##### Блок с заголовком {#withTitle}
 
@@ -285,6 +289,8 @@ BX24.callMethod(
 }
 ```
 
+![withTitle1](_images/withTitle1.png)
+
 Пример с контент-блоком типа ссылка:
 
 ```json
@@ -306,6 +312,8 @@ BX24.callMethod(
   }
 }
 ```
+
+![withTitle2](_images/withTitle2.png)
 
 ##### Несколько контент-блоков в одну строку {#lineOfBlocks}
 
@@ -353,6 +361,8 @@ BX24.callMethod(
 }
 ```
 
+![lineOfBlocks](_images/lineOfBlocks.png)
+
 ##### Выпадающий список {#dropdownMenu}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -379,6 +389,8 @@ BX24.callMethod(
   }
 }
 ```
+
+![dropdownMenu](_images/dropdownMenu.png)
 
 Чтобы отслеживать изменения значений, зарегистрируйте коллбек:
 
@@ -418,6 +430,8 @@ BX24.callMethod(
 }
 ```
 
+![input](_images/input.png)
+
 Чтобы отслеживать изменения значений, зарегистрируйте коллбек:
 
 - `BX24.placement.call('bindValueChangeCallback', null, Callback)` для получения изменений в любом из блоков
@@ -453,6 +467,8 @@ BX24.callMethod(
   }
 }
 ```
+
+![textarea](_images/textarea.png)
 
 Чтобы отслеживать изменения значений, зарегистрируйте коллбек:
 
@@ -494,6 +510,9 @@ BX24.callMethod(
   }
 }
 ```
+
+![select](_images/select.png)
+
 Чтобы отслеживать изменения значений, зарегистрируйте коллбек:
 
 - `BX24.placement.call('bindValueChangeCallback', null, Callback)` для получения изменений в любом из блоков
@@ -546,6 +565,8 @@ BX24.callMethod(
   }
 }
 ```
+
+![list](_images/list.png)
 
 ##### Раздел {#section}
 
@@ -628,6 +649,8 @@ BX24.callMethod(
 }
 ```
 
+![section](_images/section.png)
+
 Пример с одним блоком без изображения:
 
 ```json
@@ -647,6 +670,8 @@ BX24.callMethod(
 	}
 }
 ```
+
+![section2](_images/section2.png)
 
 ### ButtonDto {#buttondto}
 
@@ -820,6 +845,9 @@ BX24.callMethod(
 }
 ```
 
+![example1](_images/example1.png)
+
+
 ```json
 {
 	"blocks": {
@@ -837,6 +865,8 @@ BX24.callMethod(
 }
 ```
 
+![example2](_images/example2.png)
+
 ```json
 {
 	"blocks": {
@@ -849,11 +879,13 @@ BX24.callMethod(
 }
 ```
 
+![example3](_images/example3.png)
+
 ## Продолжите изучение
 
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../ui-interaction/crm-card.md)
-- [{#T}](../../interactivity/index.md)
+- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](./detail-activity.md)
 

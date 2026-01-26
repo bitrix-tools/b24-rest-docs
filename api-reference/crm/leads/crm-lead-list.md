@@ -71,7 +71,7 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-Так же смотрите описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Так же смотрите описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 ## Примеры кода
 
@@ -86,7 +86,7 @@
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
   -d '{"select":["*","UF_*"],"start":50,"filter":{"=OPPORTUNITY":15000},"order":{"STATUS_ID":"ASC"}}' \
-  https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.lead.list
+  https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.lead.list
   ```
 
 - cURL (OAuth)

@@ -1,28 +1,50 @@
-# Методы работы с товарами документа складского учёта
+# Товары в документе складского учета: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Методы `catalog.document.element.*` добавляют, изменяют или удаляют товарные позиции в документах складского учета. Можно указать количество и закупочную цену товара, склад поступления или списания.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+> Быстрый переход: [все методы](#all-methods)
 
-{% endnote %}
+## Связь с другими объектами
+
+**Документы складского учета.** Укажите идентификатор документа в поле `docId`, чтобы оформить:
+- приход товара на склад,
+- оприходование товара,
+- перемещение товара между складами,
+- возврат товара,
+- списание товара со склада.
+
+Чтобы получить идентификатор документа, используйте метод [catalog.document.list](../catalog-document-list.md). Внести изменения в перечень товарных позиций можно только в документ, который еще не проведен.
+
+**Товары каталога.** Укажите идентификатор простого товара или вариации в поле `elementId`. 
+Услуги в складском учете не поддерживаются.
+
+Чтобы получить идентификаторы товаров, используйте методы:
+- [catalog.product.list](../../product/catalog-product-list.md) для простых товаров,
+- [catalog.product.offer.list](../../product/offer/catalog-product-offer-list.md) для вариаций.
+
+**Склады.** Укажите идентификатор склада поступления в поле `storeTo` или склада списания в поле `storeFrom`. Выбирайте поле в зависимости от типа документа складского учета:
+
+- приход — `storeTo`,
+- оприходование — `storeTo`,
+- перемещение — `storeTo` и `storeFrom`,
+- возврат — `storeFrom`,
+- списание — `storeFrom`.
+
+Чтобы получить идентификаторы складов, используйте метод [catalog.store.list](../../store/catalog-store-list.md).
+
+## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может подписаться: любой пользователь
-
-Методы работы со складами:
+> Кто может выполнять методы: в зависимости от метода
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.document.element.add](./catalog-document-element-add.md) | Добавляет товар документа складского учета ||
-|| [catalog.document.element.delete](./catalog-document-element-delete.md) | Удаляет товар документа складского учета ||
-|| [catalog.document.element.getFields](./catalog-document-element-get-fields.md) | Возвращает список полей товаров документа складского учета ||
-|| [catalog.document.element.list](./catalog-document-element-list.md) | Получает список товаров в документах складского учета ||
-|| [catalog.document.element.update](./catalog-document-element-update.md) | Обновляет товар документа складского учета ||
+|| [catalog.document.element.add](./catalog-document-element-add.md) | Добавляет товарную позицию в документ складского учета ||
+|| [catalog.document.element.update](./catalog-document-element-update.md) | Изменяет существующую товарную позицию в документе складского учета ||
+|| [catalog.document.element.list](./catalog-document-element-list.md) | Возвращает товарные позиции документов по фильтру ||
+|| [catalog.document.element.delete](./catalog-document-element-delete.md) | Удаляет товарную позицию из документа до проведения ||
+|| [catalog.document.element.getFields](./catalog-document-element-get-fields.md) | Возвращает описание полей товара из документа складского учета ||
 |#
 
-{% note info "Внимание!" %}
 
-До версии 22.400.0 модуля catalog входные параметры и результат передавались как UPPER_CASE.
-
-{% endnote %}

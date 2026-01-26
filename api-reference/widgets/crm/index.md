@@ -8,6 +8,12 @@
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
+{% note info "" %}
+
+Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Куда встраивается виджет
 
 #|
@@ -254,6 +260,6 @@
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../ui-interaction/crm-card.md)
-- [{#T}](../../interactivity/index.md)
+- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../open-application.md)
 - [{#T}](../open-path.md)

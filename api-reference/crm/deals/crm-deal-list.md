@@ -18,7 +18,8 @@
 - `'*'` — для выборки всех полей (без пользовательских и множественных)
 - `'UF_*'` — для выборки всех пользовательских полей (без множественных)
 
-Список доступных полей для выборки можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md).
+Список доступных полей для выборки можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md). 
+Метод не поддерживает поле `CONTACT_IDS`, для получения сделок со списком контактов используйте метод [crm.item.list](../universal/crm-item-list.md).
 
 По умолчанию берутся все поля — `'*'` + Пользовательские поля — `'UF_*'`
 ||
@@ -95,7 +96,7 @@
 ||
 |#
 
-Так же смотрите описание [списочных методов](../../how-to-call-rest-api/list-methods-pecularities.md).
+Так же смотрите описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% note tip "Связанные методы и темы" %}
 
@@ -139,7 +140,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"SELECT":["ID","TITLE","TYPE_ID","CATEGORY_ID","STAGE_ID","OPPORTUNITY","IS_MANUAL_OPPORTUNITY","ASSIGNED_BY_ID","DATE_CREATE"],"FILTER":{"=%TITLE":"%а","CATEGORY_ID":1,"TYPE_ID":"COMPLEX","STAGE_ID":"C1:NEW",">OPPORTUNITY":10000,"<=OPPORTUNITY":20000,"IS_MANUAL_OPPORTUNITY":"Y","@ASSIGNED_BY_ID":[1,6],">DATE_CREATE":"'"$(date --date='-6 months' +%Y-%m-%d)"'"},"ORDER":{"TITLE":"ASC","OPPORTUNITY":"ASC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.list
     ```
 
 - cURL (OAuth)

@@ -1,0 +1,32 @@
+title: Настройка и использование REST
+href: index.md
+items: 
+  - name: Обзор раздела
+    href: index.md 
+  - name: Как вызывать методы REST
+    include:
+      path: how-to-call-rest-api/b24-toc.yaml
+      mode: link
+  - name: OAuth в Битрикс24
+    include:
+      path: oauth/b24-toc.yaml
+      mode: link      
+  - name: Установка приложений
+    include:
+      path: app-installation/b24-toc.yaml
+      mode: link
+  - name: Удаление приложений
+    href: app-uninstallation.md  
+  - name: Интерактивность
+    include:
+      path: interactivity/b24-toc.yaml
+      mode: link         
+  - name: Производительность
+    include:
+      path: performance/b24-toc.yaml
+      mode: link
+  - name: Облако и коробка Битрикс24
+    include:
+      path: cloud-and-on-premise/b24-toc.yaml
+      mode: link      
+  

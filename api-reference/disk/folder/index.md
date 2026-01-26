@@ -16,13 +16,14 @@
 
 С папками Диска можно выполнить следующие операции:
 
+- назначить права доступа методом [disk.folder.sharetouser](./disk-folder-share-to-user.md)
 - переместить по структуре с помощью метода [disk.folder.moveto](./disk-folder-move-to.md) 
 - скопировать в другие папки Диска методом [disk.folder.copyto](./disk-folder-copy-to.md)
 - изменить название методом [disk.folder.rename](./disk-folder-rename.md)
 
 ## Доступ внешнему пользователю
 
-Чтобы предоставить доступ внешнему пользователю к папке, нужно создать публичную ссылку. Это позволит поделиться содержимым папки с людьми, не имеющими доступа к Битрикс24. Публичную ссылку для папки можно получить методом [disk.folder.getExternalLink](./disk-folder-get-external-link.md).
+Чтобы предоставить доступ внешнему пользователю к папке, нужно создать публичную ссылку. Это позволит поделиться содержимым папки с людьми, не имеющими доступа к Битрикс24. Публичную ссылку для папки можно получить методом [disk.folder.getexternallink](./disk-folder-get-external-link.md).
 
 ## Как удалить папки
 
@@ -46,14 +47,15 @@
 || **Метод** | **Описание** ||
 || [disk.folder.getfields](./disk-folder-get-fields.md) | Возвращает описание полей папки ||
 || [disk.folder.get](./disk-folder-get.md) | Возвращает папку по идентификатору ||
-|| [disk.folder.getchildren](./disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся непосредственно в папке ||
+|| [disk.folder.getchildren](./disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
 || [disk.folder.addsubfolder](./disk-folder-add-subfolder.md) | Создает дочернюю папку ||
+|| [disk.folder.sharetouser](./disk-folder-share-to-user.md) | Назначает права доступа на папку ||
 || [disk.folder.copyto](./disk-folder-copy-to.md) | Копирует папку в указанную папку ||
 || [disk.folder.moveto](./disk-folder-move-to.md) | Перемещает папку в указанную папку ||
 || [disk.folder.rename](./disk-folder-rename.md) | Переименовывает папку ||
-|| [disk.folder.deletetree](./disk-folder-delete-tree.md) | Уничтожает папку и все ее дочерние элементы навсегда ||
+|| [disk.folder.deletetree](./disk-folder-delete-tree.md) | Удаляет папку и все ее содержимое навсегда ||
 || [disk.folder.markdeleted](./disk-folder-mark-deleted.md) | Перемещает папку в корзину ||
 || [disk.folder.restore](./disk-folder-restore.md) | Восстанавливает папку из корзины ||
 || [disk.folder.uploadfile](./disk-folder-upload-file.md) | Загружает новый файл в указанную папку ||
-|| [disk.folder.getExternalLink](./disk-folder-get-external-link.md) | Возвращает публичную ссылку ||
+|| [disk.folder.getexternallink](./disk-folder-get-external-link.md) | Возвращает публичную ссылку на папку ||
 |#

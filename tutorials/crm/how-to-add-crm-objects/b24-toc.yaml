@@ -19,6 +19,8 @@ items:
     href: how-to-add-company.md
   - name: Добавить компанию с реквизитами
     href: how-to-add-company-with-requisite.md
+  - name: Создать поставщика в CRM
+    href: how-to-add-contractor.md
   - name: Добавить сделку и компанию с реквизитами
     href: how-to-add-deal-with-choice-of-requisite.md
   - name: Добавить событие календаря для работы с клиентами

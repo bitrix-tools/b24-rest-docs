@@ -21,7 +21,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.fields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.fields
     ```
   
 
@@ -463,15 +463,6 @@ HTTP-статус: **200**
         "isDynamic": false,
         "title": "Версия оригинала"
         },
-        "FACE_ID": {
-        "type": "integer",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Привязка к лицам из модуля faceid"
-        },
         "UTM_SOURCE": {
         "type": "string",
         "isRequired": false,
@@ -676,8 +667,6 @@ HTTP-статус: **200**
 В методах [`crm.contact.list`](./crm-contact-list.md) и [`crm.contact.get`](./crm-contact-get.md) поля нет и необходимо использовать [`crm.contact.company.items.get`](./company/crm-contact-company-items-get.md) для получения списка компаний  ||
 ||**LEAD_ID**
 [`crm_lead`](../data-types.md) | Идентификатор лида, связанного с контактом. Только для чтения ||
-||**FACE_ID**
-[`integer`](../../data-types.md) | Привязка к лицам из модуля faceid. Только для чтения ||
 ||**UTM_SOURCE**
 [`string`](../../data-types.md) | Рекламная система (Yandex-Direct, Google-Adwords и другие) ||
 ||**UTM_MEDIUM**

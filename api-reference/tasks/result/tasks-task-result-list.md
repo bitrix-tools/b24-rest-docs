@@ -32,7 +32,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"taskId":8017}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.result.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.result.list
     ```
 
 - cURL (OAuth)
@@ -218,7 +218,14 @@ HTTP-статус: **200**
 || **updatedAt**
 [`string`](../../data-types.md) | Дата и время последнего изменения результата в формате ISO 8601 ||
 || **status**
-[`integer`](../../data-types.md) | Статус результата ||
+[`integer`](../../data-types.md) | Статус результата. Возможные значения:
+- `0` — результат открыт
+- `1` — результат закрыт
+
+Результат становится закрытым после завершения задачи и сохраняет этот статус после возобновления задачи. Открытыми будут только новые результаты в незавершенной задаче.
+
+Комментарий с открытым результатом нельзя повторно добавить в результат. Если результат закрыт — добавление возможно
+ ||
 || **text**
 [`string`](../../data-types.md) | Текст результата ||
 || **formattedText**

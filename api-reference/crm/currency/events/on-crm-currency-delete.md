@@ -6,6 +6,13 @@
 
 Событие `ONCRMCURRENCYDELETE` сработает при удалении валюты.
 
+
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}
@@ -79,4 +86,3 @@
 - [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-crm-currency-add.md)
 - [{#T}](./on-crm-currency-update.md)
-

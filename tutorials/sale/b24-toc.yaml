@@ -3,11 +3,11 @@ href: index.md
 items: 
   - name: Типовые кейсы использования REST API в онлайн-продажах
     href: index.md
-  - name: Реализовать простую кассу на REST API
+  - name: Как подключить кассу к Битрикс24
     href: cashbox-add-example.md
   - name: Создать позицию с товаром из каталога в количестве 4 единиц с произвольной ценой
     href: example-position-with-custom-price.md
   - name: Создать позицию с товаром, которого не существует на сайте
     href: example-position-that-is-not-on-the-site.md
-  - name: Настроить доставку для использования в CRM
+  - name: Настроить службу доставки для CRM
     href: delivery-in-crm.md

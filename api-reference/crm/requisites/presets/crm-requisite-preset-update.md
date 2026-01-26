@@ -55,7 +55,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":347,"fields":{"NAME":"ИП (архив)","ACTIVE":"N"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.requisite.preset.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.preset.update
     ```
 
 - cURL (OAuth)

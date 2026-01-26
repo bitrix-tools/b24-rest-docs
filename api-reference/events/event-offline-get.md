@@ -4,7 +4,7 @@
 
 Метод `event.offline.get` возвращает приложению первые в очереди офлайн-события согласно установкам фильтра. Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
 
-Метод работает только в контексте авторизации [приложения](../app-installation/index.md).
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
 
 ## Параметры метода
 
@@ -32,6 +32,8 @@
 [`integer`](../data-types.md) |Значения: `0\|1` — удалять ли выбранные записи. По умолчанию `1` ||
 || **process_id**
 [`string`](../data-types.md) | Идентификатор процесса. Используется, если понадобится повторно выбрать еще необработанные текущим процессом записи ||
+|| **auth_connector**
+[`string`](../data-types.md) | Ключ источника. Используется, если значение `auth_connector` было указано в методе [event.bind](./event-bind.md) ||
 || **error**
 [`integer`](../data-types.md) | Значения: `0\|1` — возвращать ли ошибочные записи. По умолчанию `0` ||
 |#
@@ -54,14 +56,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{
-        "filter": {
-            "=MESSAGE_ID": 1,
-            "=EVENT_NAME": "ONCRMLEADADD",
-            ">=ID": 1
-        },
-        "auth": "**put_access_token_here**"
-    }' \
+    -d '{"filter":{"=MESSAGE_ID":1,"=EVENT_NAME":"ONCRMLEADADD",">=ID":1},"auth_connector":"BxTest","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/event.offline.get
     ```
 
@@ -71,27 +66,25 @@
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'event.offline.get',
-    		{
-    			'filter': {
-    				'=MESSAGE_ID': 1,
-    				'=EVENT_NAME': 'ONCRMLEADADD',
-    				'>=ID': 1
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	if (result.error()) {
-    		console.error(result.error());
-    	} else {
-    		console.dir(result);
-    	}
+        const response = await $b24.callMethod(
+            'event.offline.get',
+            {
+                filter: {
+                    '=MESSAGE_ID': 1,
+                    '=EVENT_NAME': 'ONCRMLEADADD',
+                    '>=ID': 1
+                },
+                auth_connector: 'BxTest'
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Result:', result);
+        processResult(result);
     }
-    catch (error)
+    catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
@@ -108,25 +101,22 @@
                     'filter' => [
                         '=MESSAGE_ID' => 1,
                         '=EVENT_NAME' => 'ONCRMLEADADD',
-                        '>=ID'       => 1,
+                        '>=ID' => 1
                     ],
+                    'auth_connector' => 'BxTest'
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting offline events: ' . $e->getMessage();
+        echo 'Error: ' . $e->getMessage();
     }
     ```
 
@@ -141,6 +131,7 @@
                 "=EVENT_NAME": "ONCRMLEADADD",
                 ">=ID": 1
             }
+            "auth_connector": "BxTest"
         },
         function(result)
         {
@@ -164,7 +155,8 @@
                 '=MESSAGE_ID' => 1,
                 '=EVENT_NAME' => 'ONCRMLEADADD',
                 '>=ID' => 1
-            ]
+            ],
+            'auth_connector' => 'BxTest'
         ]
     );
 

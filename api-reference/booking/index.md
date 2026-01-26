@@ -14,7 +14,7 @@
 
 {% note info "" %}
 
-В коробочных Битрикс24 методы можно использовать с [версии модуля](../cloud-and-on-premise/on-premise/versions.md) `booking 25.300.0`.
+В коробочных Битрикс24 методы можно использовать с [версии модуля](../../settings/cloud-and-on-premise/on-premise/versions.md) `booking 25.300.0`.
 
 {% endnote %}
 

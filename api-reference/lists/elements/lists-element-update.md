@@ -1,40 +1,18 @@
-# Изменить элемент списка lists.element.update
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы
-
-{% endnote %}
-
-{% endif %}
+# Изменить элемент универсального списка lists.element.update
 
 > Scope: [`lists`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Изменение» для нужного списка
 
-Метод `lists.element.update` обновляет элемент списка. В случае успешного обновления элемента ответ `true`, иначе *Exception*.
+Метод `lists.element.update` обновляет элемент списка.
 
-{% note warning %}
+{% note warning "" %}
 
-Все поля элемента и их значения должны передаваться в запросе.
+Метод перезаписывает элемент полностью. Поля, значения которых не передаются, будут очищаться
 
 {% endnote %}
 
-
-## Параметры
+## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -42,21 +20,73 @@
 || **Название**
 `тип` | **Описание** ||
 || **IBLOCK_TYPE_ID***
-[`unknown`](../../data-types.md) | `id` типа инфоблока:
-- `lists` — тип инфоблока списка
-- `bitrix_processes` — тип инфоблока процессов
+[`string`](../../data-types.md) | Идентификатор типа инфоблока. Возможные значения: 
+- `lists` — тип инфоблока списка 
+- `bitrix_processes` — тип инфоблока процессов 
 - `lists_socnet` — тип инфоблока списков групп ||
-|| **IBLOCK_CODE/IBLOCK_ID***
-[`unknown`](../../data-types.md) | Код или `id` инфоблока ||
-|| **ELEMENT_CODE/ELEMENT_ID***
-[`unknown`](../../data-types.md) | Код или `id` элемента ||
-|| **FIELDS**
-[`unknown`](../../data-types.md) | Массив полей и значений. В поле типа «Файл» `F` передавайте файл в формате [Base64](../../files/how-to-update-files.md)  ||
-|| **SOCNET_GROUP_ID***
-[`unknown`](../../data-types.md) | `id` группы. Параметр обязателен, если список создается для группы ||
+|| **IBLOCK_ID***
+[`integer`](../../data-types.md) | Идентификатор инфоблока.
+
+Идентификатор можно получить с помощью метода [lists.get](../lists/lists-get.md) ||
+|| **IBLOCK_CODE*** 
+[`string`](../../data-types.md) | Cимвольный код инфоблока.
+
+Код можно получить с помощью метода [lists.get](../lists/lists-get.md)
+
+{% note info "" %}
+
+Необходимо указать хотя бы один из параметров: `IBLOCK_ID` или `IBLOCK_CODE`
+
+{% endnote %} ||
+|| **ELEMENT_ID***
+[`integer`](../../data-types.md) | Идентификатор элемента.
+
+Идентификатор можно получить с помощью метода [lists.element.get](./lists-element-get.md) ||
+|| **ELEMENT_CODE***
+[`string`](../../data-types.md) | Символьный код элемента.
+
+Код можно получить с помощью метода [lists.element.get](./lists-element-get.md)
+
+{% note info "" %}
+
+Необходимо указать хотя бы один из параметров: `ELEMENT_ID` или `ELEMENT_CODE`
+
+{% endnote %} ||
+|| **FIELDS***
+[`array`](../../data-types.md) | Массив полей.
+
+[Подробное описание](#parametr-fields) ||
 |#
 
-## Примеры
+### Параметр FIELDS {#parametr-fields}
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME***
+[`string`](../../data-types.md) | Название элемента ||
+|| **PROPERTY_PropertyId** | Пользовательские свойства.
+
+Любое свойство элемента можно настроить как множественное. Для множественных свойств передавайте массив, даже если значение только одно.
+  
+Чтобы передать значение в поле типа Файл укажите:
+- для типа Файл — [base64](../../files/how-to-upload-files.md) или массив с названием и base64
+- для типа Файл (Диск) — идентификатор файла с Диска
+
+Подробнее о работе с файлами в статье [Как обновить и удалить файлы](../../files/how-to-update-files.md#listselementupdate-obnovit-pole-v-spiske)
+
+||
+|#
+
+{% note info "" %}
+
+Получить данные о полях списка можно с помощью метода [lists.field.get](../fields/lists-field-get.md)
+
+{% endnote %}
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -68,8 +98,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"IBLOCK_TYPE_ID":"lists_socnet","IBLOCK_CODE":"rest_1","ELEMENT_CODE":"element_1","FIELDS":{"NAME":"Test element (Update)","PROPERTY_62":{"599":"Text string (Update)"},"PROPERTY_63":{"600":"73","601":"97","602":"17"}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.element.update
+    -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":47,"ELEMENT_ID":6999,"FIELDS":{"NAME":"Тестовый элемент (обновлен)","PROPERTY_951":["1269"]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/lists.element.update
     ```
 
 - cURL (OAuth)
@@ -78,262 +108,91 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"IBLOCK_TYPE_ID":"lists_socnet","IBLOCK_CODE":"rest_1","ELEMENT_CODE":"element_1","FIELDS":{"NAME":"Test element (Update)","PROPERTY_62":{"599":"Text string (Update)"},"PROPERTY_63":{"600":"73","601":"97","602":"17"}},"auth":"**put_access_token_here**"}' \
+    -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":47,"ELEMENT_ID":6999,"FIELDS":{"NAME":"Тестовый элемент (обновлен)","PROPERTY_951":["1269"]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/lists.element.update
     ```
 
 - JS
 
-
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'lists.element.update',
-    		params
-    	);
-    	
-    	const result = response.getData().result;
-    	if(result.error())
-    	{
-    		alert("Error: " + result.error());
-    	}
-    	else
-    	{
-    		alert("Success: " + result);
-    	}
+        const response = await $b24.callMethod(
+            'lists.element.update',
+            {
+                IBLOCK_TYPE_ID: 'lists',
+                IBLOCK_ID: 47,
+                ELEMENT_ID: 6999,
+                FIELDS: {
+                    NAME: 'Тестовый элемент (обновлен)',
+                    PROPERTY_951: ["1269"]
+                }
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Updated element with ID:', result);
+        processResult(result);
     }
-    catch(error)
+    catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $params = [
-            'IBLOCK_TYPE_ID' => 'lists_socnet',
-            'IBLOCK_CODE'    => 'rest_1',
-            'ELEMENT_CODE'   => 'element_1',
-            'FIELDS'         => [
-                'NAME'       => 'Test element (Update)',
-                'PROPERTY_62' => [
-                    '599' => 'Text string (Update)'
-                ],
-                'PROPERTY_63' => [
-                    '600' => '73',
-                    '601' => '97',
-                    '602' => '17'
-                ]
-            ]
-        ];
-    
         $response = $b24Service
             ->core
             ->call(
                 'lists.element.update',
-                $params
+                [
+                    'IBLOCK_TYPE_ID' => 'lists',
+                    'IBLOCK_ID' => 47,
+                    'ELEMENT_ID' => 6999,
+                    'FIELDS' => [
+                        'NAME' => 'Тестовый элемент (обновлен)',
+                        'PROPERTY_951' => ["1269"]
+                    ]
+                ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . $result->data();
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error updating list element: ' . $e->getMessage();
+        echo 'Error updating element: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
     ```js
-    var params = {
-        'IBLOCK_TYPE_ID': 'lists_socnet',
-        'IBLOCK_CODE': 'rest_1',
-        'ELEMENT_CODE': 'element_1',
-        'FIELDS': {
-            'NAME': 'Test element (Update)',
-            'PROPERTY_62': {
-            '599': 'Text string (Update)'
-            },
-            'PROPERTY_63': {
-            '600': '73',
-            '601': '97',
-            '602': '17'
+    BX24.callMethod(
+        'lists.element.update',
+        {
+            IBLOCK_TYPE_ID: 'lists',
+            IBLOCK_ID: 47,
+            ELEMENT_ID: 6999,
+            FIELDS: {
+                NAME: 'Тестовый элемент (обновлен)',
+                PROPERTY_951: ["1269"]
+            }
+        },
+        function(res) {
+            if (res.error()) {
+                console.error('Ошибка обновления:', res.error());
+            } else {
+                console.log('Элемент успешно обновлён:', res.data());
             }
         }
-    };
-    BX24.callMethod(
-        'lists.element.update',
-        params,
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Success: " + result.data());
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'lists.element.update',
-        [
-            'IBLOCK_TYPE_ID' => 'lists_socnet',
-            'IBLOCK_CODE' => 'rest_1',
-            'ELEMENT_CODE' => 'element_1',
-            'FIELDS' => [
-                'NAME' => 'Test element (Update)',
-                'PROPERTY_62' => [
-                    '599' => 'Text string (Update)'
-                ],
-                'PROPERTY_63' => [
-                    '600' => '73',
-                    '601' => '97',
-                    '602' => '17'
-                ]
-            ]
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-{% endlist %}
-
-### Как загрузить файл в поле типа Файл (Диск)
-
-1. Используйте rest api модуля disk: `disk.folder.uploadfile` и `disk.storage.uploadfile`. В ответе при загрузке этих файлов вы получите `"ID": 290`.
-2. Получите список `ID` загруженных файлов.
-3. С помощью rest api модуля lists добавьте файлы в нужное поле. Если у поля уже есть прикрепленные файлы, вам нужно получить предыдущие значения из [lists.element.get](./lists-element-get.md) и передать их вместе с новыми.
-
-{% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":"41","ELEMENT_CODE":"element1","FIELDS":{"NAME":"Test element 1","PROPERTY_121":{"4754":["50","n1582"]}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.element.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"IBLOCK_TYPE_ID":"lists","IBLOCK_ID":"41","ELEMENT_CODE":"element1","FIELDS":{"NAME":"Test element 1","PROPERTY_121":{"4754":["50","n1582"]}},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/lists.element.update
-    ```
-
-- JS
-
-
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'lists.element.update',
-    		{
-    			'IBLOCK_TYPE_ID': 'lists',
-    			'IBLOCK_ID': '41',
-    			'ELEMENT_CODE': 'element1',
-    			'FIELDS': {
-    				'NAME': 'Test element 1',
-    				'PROPERTY_121': {'4754': ['50', 'n1582']} // либо без id 'PROPERTY_121': {'n0': ['50', 'n1582']}
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	alert("Success: " + result);
-    }
-    catch( error )
-    {
-    	alert("Error: " + error);
-    }
-    ```
-
-- PHP
-
-
-    ```php
-    try {
-        $params = [
-            'IBLOCK_TYPE_ID' => 'lists',
-            'IBLOCK_ID'      => '41',
-            'ELEMENT_CODE'   => 'element1',
-            'FIELDS'         => [
-                'NAME'       => 'Test element 1',
-                'PROPERTY_121' => ['4754' => ['50', 'n1582']] // либо без id 'PROPERTY_121' => ['n0' => ['50', 'n1582']]
-            ]
-        ];
-    
-        $response = $b24Service
-            ->core
-            ->call(
-                'lists.element.update',
-                $params
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . $result->data();
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating list element: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    var params = {
-        'IBLOCK_TYPE_ID': 'lists',
-        'IBLOCK_ID': '41',
-        'ELEMENT_CODE': 'element1',
-        'FIELDS': {
-            'NAME': 'Test element 1',
-            'PROPERTY_121': {'4754': ['50', 'n1582']} // либо без id 'PROPERTY_121': {'n0': ['50', 'n1582']}
-        }
-    };
-    BX24.callMethod(
-        'lists.element.update',
-        params,
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Success: " + result.data());
-        }
     );
     ```
 
@@ -346,11 +205,11 @@
         'lists.element.update',
         [
             'IBLOCK_TYPE_ID' => 'lists',
-            'IBLOCK_ID' => '41',
-            'ELEMENT_CODE' => 'element1',
+            'IBLOCK_ID' => 47,
+            'ELEMENT_ID' => 6999,
             'FIELDS' => [
-                'NAME' => 'Test element 1',
-                'PROPERTY_121' => ['4754' => ['50', 'n1582']]
+                'NAME' => 'Тестовый элемент (обновлен)',
+                'PROPERTY_951' => ["1269"]
             ]
         ]
     );
@@ -362,250 +221,67 @@
 
 {% endlist %}
 
-Значения в поле Файл (Диск) без префикса `"n"` — это уже прикрепленные файлы (`attachedId`), а с префиксом — ваши новые файлы, уже загруженные предварительно на диск.
+## Обработка ответа
 
-### Как удалить файл
-
-Узнайте ID значений файлов с помощью метода [lists.element.get](./lists-element-get.md).
-
-{% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"IBLOCK_TYPE_ID":"bitrix_processes","IBLOCK_ID":47}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.element.get
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"IBLOCK_TYPE_ID":"bitrix_processes","IBLOCK_ID":47,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/lists.element.get
-    ```
-
-- JS
-
-
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'lists.element.get', {IBLOCK_TYPE_ID: 'bitrix_processes', IBLOCK_ID: 47}
-    	);
-    	
-    	const result = response.getData().result;
-    	// Нужная вам логика обработки данных
-    	processResult(result);
-    }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
-    ```
-
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'lists.element.get',
-                [
-                    'IBLOCK_TYPE_ID' => 'bitrix_processes',
-                    'IBLOCK_ID'      => 47,
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting list elements: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'lists.element.get', {IBLOCK_TYPE_ID: 'bitrix_processes', IBLOCK_ID: 47}
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'lists.element.get',
-        [
-            'IBLOCK_TYPE_ID' => 'bitrix_processes',
-            'IBLOCK_ID' => 47
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-{% endlist %}
-
-Вы получите ответ следующего вида.
+HTTP-статус: **200**
 
 ```json
-"result": [
-    {
-        "ID": "480",
-        "IBLOCK_ID": "47",
-        "NAME": "1",
-        "IBLOCK_SECTION_ID": null,
-        "CREATED_BY": "1",
-        "BP_PUBLISHED": "Y",
-        "CODE": "",
-        "PROPERTY_133": {
-            "2857": "375",
-            "2858": "376"
-        }
+{
+    "result": true,
+    "time": {
+        "start": 1763658078,
+        "finish": 1763658078.767221,
+        "duration": 0.7672209739685059,
+        "processing": 0,
+        "date_start": "2025-11-19T15:01:18+03:00",
+        "date_finish": "2025-11-19T15:01:18+03:00",
+        "operating_reset_at": 1763658678,
+        "operating": 0.1465599536895752
     }
-],
+}
 ```
 
-Здесь `PROPERTY_133` — множественное поле типа Файл. Представляет собой объект, где ключ — это `ID` значения свойства, который понадобится для удаления, а значение — это `ID` файла.
+### Возвращаемые данные
 
-Чтобы удалить значение свойства, передайте в метод `lists.element.update` поле с постфиксом `_DEL`. В нем укажите список значений, которые нужно удалить. В качестве ключа пропишите `ID` значения свойства, а в качестве значения — `"Y"`.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true`, если элемент обновлен успешно ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
-{% list tabs %}
+## Обработка ошибок
 
-- cURL (Webhook)
+HTTP-статус: **400**
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"IBLOCK_TYPE_ID":"bitrix_processes","IBLOCK_ID":47,"ELEMENT_ID":480,"FIELDS":{"NAME":"1","PROPERTY_133_DEL":{"2857":"Y"}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/lists.element.update
-    ```
+```json
+{
+    "error":"ERROR_ELEMENT_FIELD_VALUE",
+    "error_description":"Writing file values by ID is not supported"
+}
+```
 
-- cURL (OAuth)
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"IBLOCK_TYPE_ID":"bitrix_processes","IBLOCK_ID":47,"ELEMENT_ID":480,"FIELDS":{"NAME":"1","PROPERTY_133_DEL":{"2857":"Y"}},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/lists.element.update
-    ```
+### Возможные коды ошибок
 
-- JS
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_REQUIRED_PARAMETERS_MISSING` | Required parameter `X` is missing | Обязательный параметр не передан ||
+|| `ERROR_IBLOCK_NOT_FOUND` | Iblock not found | Инфоблок не найден ||
+|| `ERROR_ELEMENT_NOT_FOUND` | Element not found |  Элемент с таким `ID`/`CODE` не найден ||
+|| `ERROR_UPDATE_ELEMENT` | — | Ошибка при обновлении элемента ||
+|| `ERROR_ELEMENT_FIELD_VALUE` | Writing file values by ID is not supported | Ошибка валидации значения поля ||
+|| `ACCESS_DENIED` | Access denied | Недостаточно прав для обновления элемента ||
+|#
 
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'lists.element.update', {
-    		IBLOCK_TYPE_ID: 'bitrix_processes',
-    		IBLOCK_ID: 47,
-    		ELEMENT_ID: 480,
-    		FIELDS: { NAME: '1', PROPERTY_133_DEL: {"2857": "Y"} }
-    	});
-    
-    	const result = response.getData().result;
-    	// Нужная вам логика обработки данных
-    	processResult(result);
-    }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
-    ```
+## Продолжите изучение 
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'lists.element.update',
-                [
-                    'IBLOCK_TYPE_ID' => 'bitrix_processes',
-                    'IBLOCK_ID'      => 47,
-                    'ELEMENT_ID'     => 480,
-                    'FIELDS'         => [
-                        'NAME'           => '1',
-                        'PROPERTY_133_DEL' => ["2857" => "Y"],
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating list element: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'lists.element.update', {
-        IBLOCK_TYPE_ID: 'bitrix_processes',
-        IBLOCK_ID: 47,
-        ELEMENT_ID: 480,
-        FIELDS: { NAME: '1', PROPERTY_133_DEL: {"2857": "Y"} }
-    }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'lists.element.update',
-        [
-            'IBLOCK_TYPE_ID' => 'bitrix_processes',
-            'IBLOCK_ID' => 47,
-            'ELEMENT_ID' => 480,
-            'FIELDS' => [
-                'NAME' => '1',
-                'PROPERTY_133_DEL' => ["2857" => "Y"]
-            ]
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-{% endlist %}
-
+- [{#T}](./lists-element-add.md)
+- [{#T}](./lists-element-get.md)
+- [{#T}](./lists-element-delete.md)
+- [{#T}](./lists-element-get-file-url.md)

@@ -8,6 +8,12 @@
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
+{% note info "" %}
+
+Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Куда встраивается виджет
 
 #|
@@ -69,7 +75,7 @@ Array
 
 ||
 || **CRM_ENTITY_TYPE**
-[`integer`](../../data-types.md) | [Тип элемента](../../crm/data-types.html#object_type) CRM, к которому привязан текущий звонок.
+[`integer`](../../data-types.md) | [Тип элемента](../../crm/data-types.md#object_type) CRM, к которому привязан текущий звонок.
 
 Зная тип и идентификатор элемента CRM (указывается в параметре `CRM_ENTITY_ID`), можно получать информацию об элементе.
 
@@ -124,6 +130,6 @@ Array
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../ui-interaction/crm-card.md)
-- [{#T}](../../interactivity/index.md)
+- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../open-application.md)
 - [{#T}](../open-path.md)

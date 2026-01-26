@@ -73,7 +73,7 @@ start = (N-1) * 50, где N – номер нужной страницы
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["id","basketId","value","name","code"],"filter":{"basketId":6806},"order":{"id":"desc"},"start":0}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.basketproperties.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.basketproperties.list
     ```
 
 - cURL (OAuth)

@@ -15,6 +15,10 @@
 `тип` | **Описание** ||
 || **ID***
 [`integer`](../data-types.md) | Идентификатор пользователя ||
+|| **ACTIVE**
+[`boolean`](../data-types.md) | Признак активности пользователя. Возможные значения: 
+- `Y` — сотрудник активен,
+- `N` — сотрудник уволен ||
 || **EMAIL**
 [`string`](../data-types.md) | E-mail пользователя ||
 || **NAME**
@@ -32,7 +36,7 @@
 || **PERSONAL_BIRTHDAY**
 [`string`](../data-types.md) | Дата рождения ||
 || **PERSONAL_PHOTO**
-[`array`](../data-types.md) | Фотография ||
+[`array`](../data-types.md) | Фотография, передавайте массив из имени файла и строки с [Bаse64](../files/how-to-upload-files.md) ||
 || **PERSONAL_ICQ**
 [`string`](../data-types.md) | ICQ ||
 || **PERSONAL_PHONE**
@@ -140,7 +144,7 @@
         "NAME": "Administrator",
         "LAST_NAME": "SomeLastName"
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.update
     ```
 
 - cURL (OAuth)

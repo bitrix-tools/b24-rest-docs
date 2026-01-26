@@ -31,7 +31,7 @@
 	-H "Content-Type: application/json" \
 	-H "Accept: application/json" \
 	-d '{"id":5}' \
-	https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.productrows.get
+	https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.productrows.get
     ```
 
 - cURL (OAuth)
@@ -275,14 +275,14 @@ HTTP-статус: **200**
 || **TAX_RATE**
 [`double`](../../data-types.md) | Ставка налога в процентах ||
 || **TAX_INCLUDED**
-[`boolean`](../../data-types.md) | Индикатор того, включен ли налог в стоимость
+[`char`](../../data-types.md) | Индикатор того, включен ли налог в стоимость
 Возможные значения:
 - `Y` – налог включен
 - `N` – налог не включен
 
 ||
 || **CUSTOMIZED**
-[`boolean`](../../data-types.md) | Изменен (Устаревшее)
+[`char`](../../data-types.md) | Изменен (Устаревшее)
 Возможные значения:
  - `Y` - Да
  - `N` - Нет

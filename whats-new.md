@@ -1,6 +1,177 @@
 # Что нового?
 
+## 2026
+
+### 26 января, 2026
+
+- Обновили документацию по методам управления карточками компаний [crm.company.details.configuration.*](./api-reference/crm/companies/custom-form/index.md)
+
+### 23 января, 2026
+
+- Добавили статью [Мастер настройки для REST-only приложений](./settings/app-installation/mass-market-apps/rest-only-installation-master.md)
+- Обновили документацию по методам [task.checklistitem.isactionallowed](./api-reference/tasks/checklist-item/task-checklist-item-is-action-allowed.md), [task.checklistitem.getmanifest](./api-reference/tasks/checklist-item/task-checklist-item-get-manifest.md) в Чек-листах задач
+- Обновили документацию по методам [disk.folder.get](./api-reference/disk/folder/disk-folder-get.md), [disk.folder.markdeleted](./api-reference/disk/folder/disk-folder-mark-deleted.md), [disk.folder.moveto](./api-reference/disk/folder/disk-folder-move-to.md), [disk.folder.rename](./api-reference/disk/folder/disk-folder-rename.md), [disk.folder.restore](./api-reference/disk/folder/disk-folder-restore.md)
+- Добавили метод [disk.folder.sharetouser](./api-reference/disk/folder/disk-folder-share-to-user.md)
+- Обновили главную страницу раздела [Прикрепленный файл](./api-reference/disk/attached-object/index.md). Добавили вводную информацию, а также обзор методов
+- Обновили статью [Как выполнить свой первый запрос к API](./first-steps/first-rest-api-call.md)
+- Обновили статью [Обратная связь](./feedback.md)
+
+### 19 января, 2026
+
+- Обновили статью [Как получить доступ к REST API](./first-steps/access-to-rest-api.md)
+
+### 15 января, 2026
+
+- Обновили документацию по методам [disk.folder.addsubfolder](./api-reference/disk/folder/disk-folder-add-subfolder.md), [disk.folder.copyto](./api-reference/disk/folder/disk-folder-copy-to.md), [disk.folder.deletetree](./api-reference/disk/folder/disk-folder-delete-tree.md), [disk.folder.getchildren](./api-reference/disk/folder/disk-folder-get-children.md), [disk.folder.getexternallink](./api-reference/disk/folder/disk-folder-get-external-link.md), [disk.folder.getfields](./api-reference/disk/folder/disk-folder-get-fields.md)
+
+### 13 января, 2026
+
+- Добавили туториал [Как получить список поставщиков](./tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
+- Обновили статью [С чего начать](./first-steps/index.md)
+- Обновили главную страницу раздела [Права доступа к диску](./api-reference/disk/rights/index.md). Добавили вводную информацию, а также обзор методов
+- Обновили главную страницу раздела [Версия файла](./api-reference/disk/version/index.md). Добавили вводную информацию, а также обзор методов
+
+### 12 января, 2026
+
+- Добавили туториал [Как создать поставщика в CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)
+
 ## 2025
+
+### 24 декабря, 2025
+
+- Обновили главную страницу раздела [События](./api-reference/events/index.md)
+- Добавили статью [Задачи в REST 3.0: обзор методов](./api-reference/rest-v3/tasks/index.md)
+- Обновили документацию по методам [catalog.documentcontractor.add](./api-reference/catalog/documentcontractor/catalog-documentcontractor-add.md), [catalog.documentcontractor.delete](./api-reference/catalog/documentcontractor/catalog-documentcontractor-delete.md), [catalog.documentcontractor.getFields](./api-reference/catalog/documentcontractor/catalog-documentcontractor-get-fields.md), [catalog.documentcontractor.list](./api-reference/catalog/documentcontractor/catalog-documentcontractor-list.md)
+- Обновили документацию по методам [disk.attachedObject.get](./api-reference/disk/attached-object/disk-attached-object-get.md), [disk.rights.getTasks](./api-reference/disk/rights/disk-rights-get-tasks.md), [disk.version.get](./api-reference/disk/version/disk-version-get.md)
+
+### 17 декабря, 2025
+
+- Добавили раздел [REST 3.0](./api-reference/rest-v3/index.md)
+- Добавили новые методы задач для REST 3.0 [tasks.task.access.get](./api-reference/rest-v3/tasks/tasks-task-access-get.md), [tasks.task.add](./api-reference/rest-v3/tasks/tasks-task-add.md), [tasks.task.chat.message.send](./api-reference/rest-v3/tasks/tasks-task-chat-message-send.md), [tasks.task.delete](./api-reference/rest-v3/tasks/tasks-task-delete.md), [tasks.task.file.attach](./api-reference/rest-v3/tasks/tasks-task-file-attach.md), [tasks.task.get](./api-reference/rest-v3/tasks/tasks-task-get.md), [tasks.task.update](./api-reference/rest-v3/tasks/tasks-task-update.md)
+- Добавили статью с описанием полей задачи и связанных объектов [Поля задачи в REST 3.0](./api-reference/rest-v3/tasks/fields.md)
+
+### 12 декабря, 2025
+
+- Обновили документацию по методам [lists.field.add](./api-reference/lists/fields/lists-field-add.md), [lists.field.update](./api-reference/lists/fields/lists-field-update.md), [lists.field.get](./api-reference/lists/fields/lists-field-get.md), [lists.field.delete](./api-reference/lists/fields/lists-field-delete.md), [lists.field.type.get](./api-reference/lists/fields/lists-field-type-get.md) в Работе с полями
+
+### 10 декабря, 2025
+
+- Обновили документацию по методам [task.checklistitem.renew](./api-reference/tasks/checklist-item/task-checklist-item-renew.md), [task.checklistitem.complete](./api-reference/tasks/checklist-item/task-checklist-item-complete.md) в Чек-листах задач
+
+### 09 декабря, 2025
+
+- Обновлена главная страница раздела [Сообщения](./api-reference/imopenlines/openlines/messages/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
+
+### 05 декабря, 2025
+
+- Обновили документацию по методам [lists.add](./api-reference/lists/lists/lists-add.md), [lists.update](./api-reference/lists/lists/lists-update.md), [lists.get](./api-reference/lists/lists/lists-get.md), [lists.delete](./api-reference/lists/lists/lists-delete.md), [lists.get.iblock.type.id](./api-reference/lists/lists/lists-get-iblock-type-id.md) в Работе со списками
+- Обновили главную страницу раздела [Работа со списками](./api-reference/lists/lists/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 03 декабря, 2025
+
+- Обновили документацию по методам [task.checklistitem.delete](./api-reference/tasks/checklist-item/task-checklist-item-delete.md), [task.checklistitem.moveafteritem](./api-reference/tasks/checklist-item/task-checklist-item-move-after-item.md) в Чек-листах задач
+
+### 28 ноября, 2025
+
+- Обновили события [OnTaskComment*](./api-reference/tasks/comment-item/events-comment/index.md), добавили информацию по работе с новой карточкой задач
+
+### 27 ноября, 2025
+
+- Добавили статью [Новая карточка задач: комментарии и события](./api-reference/tasks/tasks-new.md)
+- Добавили метод [tasks.task.chat.message.send](./api-reference/rest-v3/tasks/tasks-task-chat-message-send.md)
+
+### 25 ноября, 2025
+
+- Обновили документацию по методам [lists.element.add](./api-reference/lists/elements/lists-element-add.md), [lists.element.update](./api-reference/lists/elements/lists-element-update.md), [lists.element.get](./api-reference/lists/elements/lists-element-get.md), [lists.element.delete](./api-reference/lists/elements/lists-element-delete.md), [lists.element.get.file.url](./api-reference/lists/elements/lists-element-get-file-url.md) в Работе с элементами
+- Обновили главную страницу раздела [Работа с элементами](./api-reference/lists/elements/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 10 ноября, 2025
+
+- Обновлена документация по методам [task.checklistitem.get](./api-reference/tasks/checklist-item/task-checklist-item-get.md), [task.checklistitem.getlist](./api-reference/tasks/checklist-item/task-checklist-item-get-list.md) в Чек-листах задач
+
+### 07 ноября, 2025
+
+- Обновлена документация по методам [imopenlines.crm.message.add](./api-reference/imopenlines/openlines/messages/imopenlines-crm-message-add.md), [imopenlines.message.quick.save](./api-reference/imopenlines/openlines/messages/imopenlines-message-quick-save.md) в Сообщениях Открытых линий
+- Обновлена документация по методам [task.checklistitem.add](./api-reference/tasks/checklist-item/task-checklist-item-add.md), [task.checklistitem.update](./api-reference/tasks/checklist-item/task-checklist-item-update.md) в Чек-листах задач
+
+### 06 ноября, 2025
+
+- Обновили документацию по методам [catalog.document.catalog.document.conductList](./api-reference/catalog/document/catalog-document-conduct-list.md), [catalog.document.conduct](./api-reference/catalog/document/catalog-document-conduct.md),[catalog.document.cancel](./api-reference/catalog/document/catalog-document-cancel.md), [catalog.document.cancelList](./api-reference/catalog/document/catalog-document-cancel-list.md) в Складском учете Торгового каталога
+
+### 01 ноября, 2025
+
+- Обновили документацию по методам [catalog.document.list](./api-reference/catalog/document/catalog-document-list.md), [catalog.document.delete](./api-reference/catalog/document/catalog-document-delete.md), [catalog.document.deleteList](./api-reference/catalog/document/catalog-document-delete-list.md) в Складском учете Торгового каталога
+
+### 31 октября, 2025
+
+- Обновлен туториал [Как подключить кассу к Битрикс24](./tutorials/sale/cashbox-add-example.md)
+- Обновлена документация по методам [log.blogcomment.add](./api-reference/log/blogcomment/log-blogcomment-add.md), [log.blogcomment.user.get](./api-reference/log/blogcomment/log-blogcomment-user-get.md), [log.blogcomment.delete](./api-reference/log/blogcomment/log-blogcomment-delete.md) в Ленте новостей
+- Обновлена главная страница раздела [Комментарии](./api-reference/log/blogcomment/index.md) в Ленте новостей. Добавили вводную информацию, а также обзор методов и связей
+
+### 30 октября, 2025
+
+- Обновили главную страницу раздела [Товары в документе складского учета](./api-reference/catalog/document/document-element/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили документацию по методам [catalog.document.add](./api-reference/catalog/document/catalog-document-add.md), [catalog.document.update](./api-reference/catalog/document/catalog-document-update.md), [catalog.document.getFields](./api-reference/catalog/document/catalog-document-get-fields.md), [catalog.document.mode.status](./api-reference/catalog/document/catalog-document-mode-status.md) в Складском учете Торгового каталога
+- Обновили главную страницу раздела [Чек-листы](./api-reference/tasks/checklist-item/index.md) в Задачах. Добавили вводную информацию, а также обзор методов и связей
+
+### 24 октября, 2025
+
+- Обновили документацию по методам [lists.section.add](./api-reference/lists/sections/lists-section-add.md), [lists.section.update](./api-reference/lists/sections/lists-section-update.md), [lists.section.get](./api-reference/lists/sections/lists-section-get.md), [lists.section.delete](./api-reference/lists/sections/lists-section-delete.md) в Работе с разделами
+- Обновили главную страницу раздела [Работа с разделами](./api-reference/lists/sections/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 24 октября, 2025
+
+- Обновлен туториал [Настроить службу доставки для CRM](./tutorials/sale/delivery-in-crm.md)
+
+### 22 октября, 2025
+
+- Обновили документацию по методам [catalog.document.element.add](./api-reference/catalog/document/document-element/catalog-document-element-add.md), [catalog.document.element.update](./api-reference/catalog/document/document-element/catalog-document-element-update.md), [catalog.document.element.list](./api-reference/catalog/document/document-element/catalog-document-element-list.md), [catalog.document.element.delete](./api-reference/catalog/document/document-element/catalog-document-element-delete.md), [catalog.document.element.getFields](./api-reference/catalog/document/document-element/catalog-document-element-get-fields.md) в Торговом каталоге
+
+### 21 октября, 2025
+
+- Добавлен новый туториал [Как получить список стадий c семантикой для объектов CRM](./tutorials/crm/how-to-get-lists/how-to-get-stages-with-semantics.md)
+
+### 17 октября, 2025
+
+- Обновили главную страницу раздела [Пользовательские соглашения](./api-reference/user-consent/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 16 октября, 2025
+
+- Обновили документацию по методам [userconsent.agreement.list](./api-reference/user-consent/user-consent-agreement-list.md), [userconsent.agreement.text](./api-reference/user-consent/user-consent-agreement-text.md), [userconsent.consent.add](./api-reference/user-consent/user-consent-consent-add.md) в Пользовательских соглашениях
+
+### 16 октября, 2025
+
+- Обновили документацию по методам [tasks.task.add](./api-reference/tasks/tasks-task-add.md), [tasks.task.update](./api-reference/tasks/tasks-task-update.md), [tasks.task.get](./api-reference/tasks/tasks-task-get.md), [tasks.task.list](./api-reference/tasks/tasks-task-list.md) в Задачах
+
+### 15 октября, 2025
+
+- Добавили статью [SDK для разработки под Битрикс24](./sdk/index.md)
+
+### 08 октября, 2025
+
+- Обновлена главная страница раздела [Привязка объектов к записи в лист ожидания](./api-reference/booking/waitlist/external-data/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+
+### 07 октября, 2025
+
+- Добавили статью [MCP-сервер для работы с REST API Битрикс24](./sdk/mcp.md)
+
+### 01 октября, 2025
+
+- Обновлены главные страницы событий в разделах [Чаты](./api-reference/chat-bots/chats/events/index.md) и [Сообщения](./api-reference/chat-bots/messages/events/index.md) в Чат-ботах. Добавили вводную информацию, а также обзор событий
+- Обновлена главная страница раздела [Остатки по складам](./api-reference/catalog/store-product/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Привязка объектов к бронированию](./api-reference/booking/booking/external-data/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+- Обновили документацию по методам [tasks.task.getFields](./api-reference/tasks/tasks-task-get-fields.md), [tasks.task.files.attach](./api-reference/tasks/tasks-task-files-attach.md), [tasks.task.counters.get](./api-reference/tasks/tasks-task-counters-get.md), [tasks.task.history.list](./api-reference/tasks/tasks-task-history-list.md) в Задачах
+
+### 19 сентября, 2025
+
+- Обновлена главная страница раздела [Чаты](./api-reference/imopenlines/openlines/chats/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница событий в разделе [Валюты](./api-reference/crm/currency/events/index.md). Добавили вводную информацию, а также обзор событий
+
+### 18 сентября, 2025
+
+- Добавили статью [Завершение установки приложений](./settings/app-installation/installation-finish.md)
+- Обновили документацию по методам [tasks.task.favorite.add](./api-reference/tasks/tasks-task-favorite-add.md), [tasks.task.favorite.remove](./api-reference/tasks/tasks-task-favorite-remove.md), [tasks.task.getaccess](./api-reference/tasks/tasks-task-get-access.md) в Задачах
+- Обновили документацию по методам [tasks.task.delete](./api-reference/tasks/tasks-task-delete.md), [tasks.task.delegate](./api-reference/tasks/tasks-task-delegate.md), [tasks.task.approve](./api-reference/tasks/tasks-task-approve.md), [tasks.task.disapprove](./api-reference/tasks/tasks-task-disapprove.md) в Задачах
 
 ### 17 сентября, 2025
 
@@ -578,7 +749,7 @@
 ### 27 ноября, 2024
 
 - Обновлена главная страница раздела [Корзина](./api-reference/sale/basket-item/index.md). Добавили вводную информацию, а также обзор методов и связей
-- Добавлена статья [Особенности вызовов REST при изменении адреса Битрикс24](./api-reference/how-to-call-rest-api/change-domen.md)
+- Добавлена статья [Особенности вызовов REST при изменении адреса Битрикс24](./settings/how-to-call-rest-api/change-domen.md)
 - Добавлен туториал [Как создать коннектор Открытых линий для онлайн-чата на сайте](./tutorials/openlines/example-connector.md), а также ссылка на этот туториал из раздела [Коннекторы открытых линий](./api-reference/imopenlines/imconnector/tutorials.md)
 - Добавлена статья [Как проверить свой обработчик для обработки событий Битрикс24](./api-reference/events/test-handler.md)
 
@@ -710,7 +881,7 @@
 
 ### 1 октября, 2024
 
-- Добавлен [список ошибок сервера OAuth](./api-reference/oauth/error-codes.md)
+- Добавлен [список ошибок сервера OAuth](./settings/oauth/error-codes.md)
 - Добавлена документация по [Виджетам для Вайбов](./api-reference/vibe/index.md)
 
 ### 26 сентября, 2024
@@ -746,7 +917,7 @@
 
 ### 29 августа, 2024
 
-- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./api-reference/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./api-reference/how-to-call-rest-api/batch.md)
+- Спасибо [Andrey Nikolaev](https://github.com/gromdron)! Обновлена статья [Как выполняется запрос](./settings/how-to-call-rest-api/general-principles.md), добавлены важные нюансы и наглядные примеры, касающиеся использования метода [batch](./settings/how-to-call-rest-api/batch.md)
   
 - Обновлены статьи [раздела событий контактов](./api-reference/crm/contacts/events/index.md)
 - Обновлены статьи [раздела универсальных событий CRM](./api-reference/crm/universal/events/index.md)

@@ -45,17 +45,17 @@
 
 {% endnote %}
 
-## Связь Диска с другими объектами
+## Связь Диска с другими объектами {#diskconnection}
 
-**CRM.** Файлы можно прикрепить к делам и коммерческим предложениям. За работу с делами отвечает группа методов [crm.activity.*](../crm/timeline/activities/index.md), за работу с предложениями — [crm.quote.*](../crm/quote/crm-quote-add.md).
+**CRM.** Файлы можно прикрепить к делам и коммерческим предложениям. За работу с делами отвечает группа методов [crm.activity.*](../crm/timeline/activities/index.md), за работу с предложениями — [crm.quote.*](../crm/quote/index.md).
 
 **Бизнес-процессы.** Можно запустить для документов общего диска. Управление бизнес-процессами выполняется методами [bizproc.workflow.*](../bizproc/index.md).
 
-**Задачи.** Файлы прикрепляются к описанию задачи и комментариям. Все участники задачи могут просматривать, редактировать и скачивать прикрепленные файлы. Работать с задачами и комментариями необходимо через методы групп [tasks.task.*](../tasks/index.md) и [task.commentitem.*](../tasks/comment-item/index.md). 
+**Задачи.** Файлы прикрепляются к описанию задачи. Все участники задачи могут просматривать, редактировать и скачивать прикрепленные файлы. Работать с задачами необходимо через методы [tasks.task.*](../tasks/index.md). 
 
 **Календарь.** Файлы добавляются к событию и становятся доступными всем участникам. Создать и изменить событие можно с помощью методов [calendar.event.*](../calendar/index.md).
 
-**Лента новостей.** Файлы прикрепляются к сообщениям и комментариям. Метод [log.blogpost.add](../log/log-blogpost-add.md) создает новое сообщение, а метод [log.blogcomment.add](../log/log-blogcomment-add.md) — новый комментарий.
+**Лента новостей.** Файлы прикрепляются к сообщениям и комментариям. Метод [log.blogpost.add](../log/log-blogpost-add.md) создает новое сообщение, а метод [log.blogcomment.add](../log/blogcomment/log-blogcomment-add.md) — новый комментарий.
 
 **Почта.** Вложения из писем сохраняются на Диске. С письмами можно работать только через интерфейс Битрикс24. Если письмо сохранено в CRM, то с вложениями можно взаимодействовать методами [crm.activity.*](../crm/timeline/activities/index.md) через поле `FILES`. 
 
@@ -93,16 +93,17 @@
 || **Метод** | **Описание** ||
 || [disk.folder.getfields](folder/disk-folder-get-fields.md) | Возвращает описание полей папки ||
 || [disk.folder.get](folder/disk-folder-get.md) | Возвращает папку по идентификатору ||
-|| [disk.folder.getchildren](folder/disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся непосредственно в папке ||
+|| [disk.folder.getchildren](folder/disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
 || [disk.folder.addsubfolder](folder/disk-folder-add-subfolder.md) | Создает дочернюю папку ||
+|| [disk.folder.sharetouser](folder/disk-folder-share-to-user.md) | Назначает права доступа на папку ||
 || [disk.folder.copyto](folder/disk-folder-copy-to.md) | Копирует папку в указанную папку ||
 || [disk.folder.moveto](folder/disk-folder-move-to.md) | Перемещает папку в указанную папку ||
 || [disk.folder.rename](folder/disk-folder-rename.md) | Переименовывает папку ||
-|| [disk.folder.deletetree](folder/disk-folder-delete-tree.md) | Уничтожает папку и все ее дочерние элементы навсегда ||
+|| [disk.folder.deletetree](folder/disk-folder-delete-tree.md) | Удаляет папку и все ее содержимое навсегда ||
 || [disk.folder.markdeleted](folder/disk-folder-mark-deleted.md) | Перемещает папку в корзину ||
 || [disk.folder.restore](folder/disk-folder-restore.md) | Восстанавливает папку из корзины ||
 || [disk.folder.uploadfile](folder/disk-folder-upload-file.md) | Загружает новый файл в указанную папку ||
-|| [disk.folder.getExternalLink](folder/disk-folder-get-external-link.md) | Возвращает публичную ссылку ||
+|| [disk.folder.getexternallink](folder/disk-folder-get-external-link.md) | Возвращает публичную ссылку на папку ||
 |#
 
 ### Права доступа

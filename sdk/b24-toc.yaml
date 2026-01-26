@@ -1,0 +1,23 @@
+title: Библиотеки для разработки
+href: index.md
+items: 
+  - name: Обзор инструментов
+    href: index.md 
+  - name: B24 JS SDK
+    include:
+      path: b24jssdk/b24-toc.yaml
+      mode: link
+  - name: BX24 JS library
+    include:
+      path: bx24-js-sdk/b24-toc.yaml
+      mode: link
+  - name: B24 PHP SDK
+    include:
+      path: b24phpsdk/b24-toc.yaml
+      mode: link
+  - name: CRest PHP SDK
+    include:
+      path: crest-php-sdk/b24-toc.yaml
+      mode: link
+  - name: MCP-сервер для AI
+    href: mcp.md       

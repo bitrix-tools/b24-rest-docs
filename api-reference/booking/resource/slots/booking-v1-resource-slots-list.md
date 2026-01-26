@@ -13,7 +13,7 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **resourceID***
+|| **resourceId***
 [`integer`](../../../data-types.md) | Идентификатор ресурса.
 Можно получить методами [booking.v1.resource.add](../booking-v1-resource-add.md) и [booking.v1.resource.list](../booking-v1-resource-list.md) ||
 |#
@@ -31,7 +31,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"resourceId":257}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.resource.slots.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.resource.slots.list
     ```
 
 - cURL (OAuth)

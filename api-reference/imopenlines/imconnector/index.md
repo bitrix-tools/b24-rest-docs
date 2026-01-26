@@ -68,7 +68,6 @@
     || **Метод** | **Описание** ||
     || [imconnector.register](imconnector-register.md) | Зарегистрировать коннектор ||
     || [imconnector.activate](imconnector-activate.md) | Активировать коннектор ||
-    || [imconnector.deactivate](imconnector-deactivate.md) | Деактивировать коннектор  ||
     || [imconnector.status](imconnector-status.md) | Получить статус коннектора ||
     || [imconnector.connector.data.set](imconnector-connector-data-set.md) | Изменить настройки коннектора ||
     || [imconnector.list](imconnector-list.md) | Получить список коннекторов ||

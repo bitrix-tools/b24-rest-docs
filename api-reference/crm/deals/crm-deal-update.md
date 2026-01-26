@@ -99,9 +99,9 @@
 || **CONTACT_ID**
 [`crm_contact`](../data-types.md) | Контакт. Устаревшее ||
 || **CONTACT_IDS**
-[`crm_contact[]`](../data-types.md) | Список привязанных к сделке контактов.
+[`crm_contact[]`](../data-types.md) | Список привязанных к сделке контактов. Поле изменяется полностью.
 
-Список контактов можно узнать с помощью метода [crm.item.list](../universal/crm-item-list.md), передав `entityTypeId = 3`
+Чтобы изменить отдельные связанные контакты, используйте методы [crm.deal.contact.items.*](./contacts/index.md).
 ||
 || **BEGINDATE**
 [`date`](../../data-types.md) | Дата начала ||
@@ -203,7 +203,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"ID":123,"FIELDS":{"TITLE":"Новое название сделки!","TYPE_ID":"GOODS","STAGE_ID":"WON","IS_RECCURING":"Y","IS_RETURN_CUSTOMER":"Y","OPPORTUNITY":9999.99,"IS_MANUAL_OPPORTUNITY":"Y","ASSIGNED_BY_ID":1,"UF_CRM_1725365197310":"Строка","PARENT_ID_1032":1},"PARAMS":{"REGISTER_SONET_EVENT":"N","REGISTER_HISTORY_EVENT":"N"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.update
     ```
 
 - cURL (OAuth)

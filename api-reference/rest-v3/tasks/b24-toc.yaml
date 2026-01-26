@@ -1,0 +1,21 @@
+title: Задачи
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Поля задачи
+    href: fields.md
+  - name: Добавить задачу
+    href: tasks-task-add.md
+  - name: Обновить задачу
+    href: tasks-task-update.md
+  - name: Отправить сообщение в чат задачи
+    href: tasks-task-chat-message-send.md        
+  - name: Прикрепить файлы к задаче
+    href: tasks-task-file-attach.md    
+  - name: Получить задачу
+    href: tasks-task-get.md
+  - name: Удалить задачу
+    href: tasks-task-delete.md
+  - name: Проверить права доступа
+    href: tasks-task-access-get.md    

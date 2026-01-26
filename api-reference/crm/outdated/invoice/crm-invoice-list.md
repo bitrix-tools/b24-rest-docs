@@ -22,7 +22,7 @@
 
 ## Параметры метода
 
-См. описание [списочных методов](../../../how-to-call-rest-api/list-methods-pecularities.md).
+См. описание [списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -50,7 +50,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"order":{"DATE_INSERT":"ASC"},"filter":{">PRICE":100},"select":["ID","ACCOUNT_NUMBER","ORDER_TOPIC","DATE_INSERT","STATUS_ID","PRICE","CURRENCY_ID"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.invoice.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.invoice.list
     ```
 
 - cURL (OAuth)

@@ -44,7 +44,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"entityTypeId":1,"id":250,"useOriginalUfNames":"N"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.get
     ```
 
 - cURL (OAuth)
@@ -285,7 +285,7 @@ HTTP-статус: **200**
 || **result**
 [`object`][1] | Корневой элемент ответа. Содержит единственный ключ `item` ||
 || **item**
-[`item`](./object-fields.md) | Информация об элементе ||
+[`item`](./object-fields.md) | Информация об элементе, [описание полей](./object-fields.md) ||
 || **time**
 [`time`][1] | Объект, содержащий в себе информацию о времени выполнения запроса ||
 |#
@@ -331,4 +331,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./crm-item-fields.md)
 - [{#T}](./object-fields.md)
 
-[1]: ../data-types.md
+[1]: ../../data-types.md

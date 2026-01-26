@@ -25,6 +25,9 @@
 #|
 || **Тип** | **Описания и значения** ||
 || [`catalog_catalog.id`](#catalog_catalog) | Целочисленный идентификатор торгового каталога (например, `1`). Получить идентификаторы торговых каталогов можно с помощью метода [catalog.catalog.list](./catalog/catalog-catalog-list.md) ||
+|| [`catalog_document.id`](#catalog_document) | Целочисленный идентификатор документа складского учета, например `1`. Получить идентификаторы документов можно с помощью метода [catalog.document.list](./document/catalog-document-list.md) ||
+|| [`catalog_document_element.id`](#catalog_document_element) | Целочисленный идентификатор товара документа складского учета, например `1`. Получить идентификаторы товаров в документах можно с помощью метода [catalog.document.element.list](./document/document-element/catalog-document-element-list.md) ||
+|| [`catalog_documentcontractor.id`](#catalog_documentcontractor) | Целочисленный идентификатор привязки поставщика к документу складского учета, например `1`. Получить идентификаторы привязок можно с помощью метода [catalog.documentcontractor.list](./documentcontractor/catalog-documentcontractor-list.md) ||
 || [`catalog_product.id`](#catalog_product) | Целочисленный идентификатор товара (например, `1`). Получить идентификаторы товаров можно с помощью метода [catalog.product.list](./product/catalog-product-list.md) ||
 || [`catalog_product_sku.id`](#catalog_product_sku) | Целочисленный идентификатор головного товара (например, `1`). Получить идентификаторы головных товаров можно с помощью метода [catalog.product.sku.list](./product/sku/catalog-product-sku-list.md) ||
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор вариации товара (например, `1`). Получить идентификаторы вариаций товаров можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
@@ -83,6 +86,90 @@
 
 Для получения существующих идентификаторов НДС необходимо использовать [catalog.vat.list](./vat/catalog-vat-list.md)
 ||
+|#
+
+### catalog_document
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор документа складского учета ||
+|| **docType**
+[`string`](../data-types.md) | Тип документа. Доступные типы можно получить методом  [catalog.enum.getStoreDocumentTypes](./enum/catalog-enum-get-store-document-types.md) ||
+|| **docNumber**
+[`string`](../data-types.md) | Внутренний номер документа. Если не передать, генерируется автоматически ||
+|| **title**
+[`string`](../data-types.md) | Название документа ||
+|| **siteId**
+[`string`](../data-types.md) | Код сайта, к которому относится документ. По умолчанию — `s1` ||
+|| **responsibleId**
+[`integer`](../data-types.md) | Идентификатор ответственного ||
+|| **createdBy**
+[`integer`](../data-types.md) | Идентификатор пользователя, создавшего документ ||
+|| **modifiedBy**
+[`integer`](../data-types.md) | Идентификатор пользователя, изменившего документ ||
+|| **status**
+[`string`](../data-types.md) | Статус документа:
+- `N` — черновик,
+- `Y` — проведен,
+- `C` — отменен.
+  
+Значение изменяется автоматически при проведении или отмене документа ||
+|| **statusBy**
+[`integer`](../data-types.md) | Пользователь, изменивший статус документа ||
+|| **dateStatus**
+[`datetime`](../data-types.md) | Дата изменения статуса ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | Дата создания документа ||
+|| **dateModify**
+[`datetime`](../data-types.md) | Дата последнего изменения документа ||
+|| **dateDocument**
+[`datetime`](../data-types.md) | Дата проведения документа ||
+|| **currency**
+[`string`](../data-types.md) | Валюта документа ||
+|| **total**
+[`double`](../data-types.md) | Общая сумма по товарам документа. Значение рассчитывается автоматически после проведения, но может быть задано вручную ||
+|| **commentary**
+[`string`](../data-types.md) | Комментарий к документу ||
+|#
+
+### catalog_document_element
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор товара документа складского учета ||
+|| **docId**
+[`catalog_document.id`](#catalog_document) | Идентификатор документа складского учета ||
+|| **elementId**
+[`catalog_product.id`](#catalog_product) | Идентификатор товара каталога ||
+|| **storeFrom**
+[`catalog_store.id`](#catalog_store) | Идентификатор склада-источника. Используется для документов, где требуется списание ||
+|| **storeTo**
+[`catalog_store.id`](#catalog_store) | Идентификатор склада-получателя. Используется для документов поступления и перемещения ||
+|| **amount**
+[`double`](../data-types.md) | Количество товара ||
+|| **purchasingPrice**
+[`double`](../data-types.md) | Закупочная цена ||
+|#
+
+### catalog_documentcontractor
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор привязки поставщика к документу складского учета ||
+|| **documentId**
+[`catalog_document.id`](#catalog_document) | Идентификатор документа складского учета, к которому привязан поставщик ||
+|| **entityTypeId**
+[`integer`](../data-types.md) | Идентификатор типа объекта CRM:
+`3` — контакт 
+`4` — компания  ||
+|| **entityId**
+[`integer`](../data-types.md) | Идентификатор поставщика: контакта или компании ||
 |#
 
 ### catalog_product
@@ -698,9 +785,9 @@
 [`integer`](../data-types.md) | Идентификатор товара ||
 || **type**
 [`string`](../data-types.md) | Тип изображения:
-- `DETAIL_PICTURE` — детальная картинка
-- `PREVIEW_PICTURE` — картинка для анонса
-- `MORE_PHOTO` — картинки товара
+- `DETAIL_PICTURE` — детальная картинка, поле доступно в старой карточке товара
+- `PREVIEW_PICTURE` — картинка для анонса, поле доступно в старой карточке товара
+- `MORE_PHOTO` — картинка
 ||
 || **createTime**
 [`datetime`](../data-types.md) | Дата создания изображения ||

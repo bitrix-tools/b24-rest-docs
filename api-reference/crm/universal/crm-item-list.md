@@ -22,7 +22,7 @@
 
 Может содержать в себе только названия полей элемента или `'*'`.
 
-Список доступных полей для выборки можно узнать посредством метода [`crm.item.fields`](./crm-item-fields.md)
+Список всех доступных полей для выборки можно узнать методом [`crm.item.fields`](./crm-item-fields.md). Перечень стандартных полей доступен в статье [Поля объектов CRM](./object-fields.md)
 ||
 || **filter**
 [`object`][1] |
@@ -66,7 +66,7 @@
 - `!=` — не равно
 - `!` — не равно
 
-Список доступных полей для фильтрации можно узнать посредством метода [`crm.item.fields`](./crm-item-fields.md)
+Список всех доступных полей для фильтрации можно узнать методом [`crm.item.fields`](./crm-item-fields.md). Перечень стандартных полей доступен в статье [Поля объектов CRM](./object-fields.md)
 ||
 || **order**
 [`object`][1] |
@@ -85,7 +85,7 @@
   - `ASC` — сортировка по возрастанию
   - `DESC` — сортировка по убыванию
 
-Список доступных полей для сортировки можно узнать посредством метода [`crm.item.fields`](./crm-item-fields.md)
+Список всех доступных полей для сортировки можно узнать методом [`crm.item.fields`](./crm-item-fields.md). Перечень стандартных полей доступен в статье [Поля объектов CRM](./object-fields.md)
 ||
 || **start**
 [`integer`][1] | Параметр используется для управления постраничной навигацией.
@@ -110,7 +110,7 @@
 
 ## Примеры кода
 
-**Получить список лидов у которых:**
+Получить список лидов у которых:
 1. Имя или фамилия не пустые
 2. Находятся в статусе "В работе" или "Не обработан".
 3. Пришли из источников "Реклама" или "Сайт".
@@ -118,10 +118,10 @@
 5. Имеют сумму сделки от 5000 до 20000.
 6. Режим расчета суммы является ручным
 
-**Задать следующий порядок сортировки у данной выборки:**
+Задать следующий порядок сортировки у данной выборки:
 * Имя и фамилия в порядке возрастания
 
-**Для наглядности выберем только необходимые для нас поля:**
+Для наглядности выберем только необходимые для нас поля:
 * Идентификатор `id`
 * Название `title`
 * Имя `name`
@@ -141,7 +141,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"entityTypeId":1,"select":["id","title","lastName","name","stageId","sourceId","assignedById","opportunity","isManualOpportunity"],"filter":{"0":{"logic":"OR","0":{"!=name":""},"1":{"!=lastName":""}},"@stageId":["NEW","IN_PROCESS"],"@sourceId":["WEB","ADVERTISING"],"@assignedById":[1,6],">=opportunity":5000,"<=opportunity":20000,"isManualOpportunity":"Y"},"order":{"lastName":"ASC","name":"ASC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.item.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.list
     ```
 
 - cURL (OAuth)
@@ -428,6 +428,182 @@
 
 {% endlist %}
 
+### Пример запроса с фильтром по дате с логикой OR
+
+Фильтруем сделки `entityTypeId = 2` по двум датам создания. Для каждой даты задаем диапазон начала и конца суток.
+
+Для наглядности выберем только необходимые для нас поля:
+* Идентификатор `id`
+* Название `title`
+* Дата создания `createdTime`
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":2,"select":["id","title","createdTime"],"filter":{"0":{"logic":"OR","0":{">=createdTime":"2025-10-31T00:00:00+02:00","<createdTime":"2025-11-01T00:00:00+02:00"},"1":{">=createdTime":"2025-02-28T00:00:00+02:00","<createdTime":"2025-03-01T00:00:00+02:00"}}}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":2,"select":["id","title","createdTime"],"filter":{"0":{"logic":"OR","0":{">=createdTime":"2025-10-31T00:00:00+02:00","<createdTime":"2025-11-01T00:00:00+02:00"},"1":{">=createdTime":"2025-02-28T00:00:00+02:00","<createdTime":"2025-03-01T00:00:00+02:00"}}},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.item.list
+    ```
+
+- JS
+
+    ```js
+    try {
+        const response = await $b24.callMethod(
+            'crm.item.list',
+            {
+                entityTypeId: 2,
+                select: ['id', 'title', 'createdTime'],
+                filter: {
+                    '0': {
+                        logic: 'OR',
+                        '0': {
+                            '>=createdTime': '2025-10-31T00:00:00+02:00',
+                            '<createdTime': '2025-11-01T00:00:00+02:00',
+                        },
+                        '1': {
+                            '>=createdTime': '2025-02-28T00:00:00+02:00',
+                            '<createdTime': '2025-03-01T00:00:00+02:00',
+                        },
+                    },
+                },
+            },
+        );
+
+        const items = response.getData().items || [];
+        items.forEach((item) => {
+            console.info(`Deal #${item.id}: ${item.title} (${item.createdTime})`);
+        });
+    } catch (error) {
+        console.error('crm.item.list error', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $entityTypeId = 2;
+        $order = [];
+        $filter = [
+            "0" => [
+                "logic" => "OR",
+                "0" => [
+                    ">=createdTime" => "2025-10-31T00:00:00+02:00",
+                    "<createdTime" => "2025-11-01T00:00:00+02:00",
+                ],
+                "1" => [
+                    ">=createdTime" => "2025-02-28T00:00:00+02:00",
+                    "<createdTime" => "2025-03-01T00:00:00+02:00",
+                ],
+            ],
+        ];
+        $select = ['id', 'title', 'createdTime'];
+        $startItem = 0;
+
+        $itemsResult = $serviceBuilder
+            ->getCRMScope()
+            ->item()
+            ->list($entityTypeId, $order, $filter, $select, $startItem);
+
+        foreach ($itemsResult->getItems() as $item) {
+            print("ID: " . $item->id . PHP_EOL);
+            print("Title: " . $item->title . PHP_EOL);
+            print("Created Time: " . $item->createdTime->format(DATE_ATOM) . PHP_EOL);
+            print(PHP_EOL);
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . PHP_EOL);
+    }
+    ```
+
+- BX24.js
+
+    ```js
+        BX24.callMethod(
+            'crm.item.list',
+            {
+                entityTypeId: 2,
+                select: ['id', 'title', 'createdTime'],
+                filter: {
+                    '0': {
+                        logic: 'OR',
+                        '0': {
+                            '>=createdTime': '2025-10-31T00:00:00+02:00',
+                            '<createdTime': '2025-11-01T00:00:00+02:00',
+                        },
+                        '1': {
+                            '>=createdTime': '2025-02-28T00:00:00+02:00',
+                            '<createdTime': '2025-03-01T00:00:00+02:00',
+                        },
+                    },
+                },
+            },
+            function (result) {
+                if (result.error()) {
+                    console.error('crm.item.list error', result.error());
+                    return;
+                }
+
+                const { items } = result.data();
+                items.forEach((item) => {
+                    console.log(`Deal #${item.id}: ${item.title} (${item.createdTime})`);
+                });
+
+                if (result.more()) {
+                    result.next();
+                }
+            }
+        );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.item.list',
+        [
+            'entityTypeId' => 2,
+            'select' => ['id', 'title', 'createdTime'],
+            'filter' => [
+                "0" => [
+                    "logic" => "OR",
+                    "0" => [
+                        ">=createdTime" => "2025-10-31T00:00:00+02:00",
+                        "<createdTime" => "2025-11-01T00:00:00+02:00",
+                    ],
+                    "1" => [
+                        ">=createdTime" => "2025-02-28T00:00:00+02:00",
+                        "<createdTime" => "2025-03-01T00:00:00+02:00",
+                    ],
+                ],
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
 ## Обработка ответа
 
 HTTP-статус: **200**
@@ -503,9 +679,9 @@ HTTP-статус: **200**
 || **result**
 [`object`][1] | Корневой элемент ответа. Содержит единственный ключ `items` ||
 || **items**
-[`item[]`](./object-fields.md) | Массив, содержащий информацию о найденных элементах.
+[`item[]`](./object-fields.md) | Массив c информацией о найденных элементах.
 
-Поля отдельно взятого `item` конфигурируются параметром `select` ||
+Возвращаемые поля зависят от параметра `select`, [описание полей](./object-fields.md) ||
 || **total**
 [`integer`][1] | Общее количество найденных элементов ||
 || **next**
@@ -561,5 +737,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](../../../tutorials/tasks/how-to-connect-task-to-spa.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
-
-[1]: ../data-types.md
+- [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
+  
+[1]: ../../data-types.md

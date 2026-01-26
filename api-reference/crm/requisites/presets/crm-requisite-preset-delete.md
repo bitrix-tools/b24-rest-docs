@@ -32,7 +32,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":347}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.requisite.preset.delete
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.preset.delete
     ```
 
 - cURL (OAuth)
@@ -192,6 +192,7 @@ HTTP-статус: **40x**, **50x**
 #|  
 || **Код** | **Описание** ||
 || `The Preset with ID '347' is not found` | Шаблон с указанным идентификатором не найден ||
+|| `Вы не можете удалить шаблон, так как по нему уже созданы реквизиты` | Нельзя удалить шаблон, по которому созданы рекизиты. Чтобы удалить шаблон, сначала удалите реквизиты ||
 || `Access denied` | Недостаточно прав доступа для удаления шаблона ||
 |#
 

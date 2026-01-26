@@ -41,11 +41,11 @@
 || **SORT**
 [`unknown`](../../data-types.md) | Сортировочный вес элемента. ||
 || **PREVIEW_PICTURE**
-[`unknown`](../../data-types.md) | Картинка анонса элемента. ||
+[`unknown`](../../data-types.md) | Картинка анонса элемента. Как передать файл в поле описано в статье [Как загрузить файлы](../../files/how-to-upload-files.md). ||
 || **PREVIEW_TEXT**
 [`unknown`](../../data-types.md) | Анонс элемента. ||
 || **DETAIL_PICTURE**
-[`unknown`](../../data-types.md) | Детальная картинка элемента. ||
+[`unknown`](../../data-types.md) | Детальная картинка элемента. Как передать файл в поле описано в статье [Как загрузить файлы](../../files/how-to-upload-files.md). ||
 || **DETAIL_TEXT**
 [`unknown`](../../data-types.md) | Детальный текст элемента. ||
 || **CODE**

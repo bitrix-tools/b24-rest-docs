@@ -11,7 +11,7 @@
 {% endnote %}
 
 Метод `crm.vat.list` возвращает список ставок НДС по фильтру. 
-Является реализацией [списочного метода](../../../../api-reference/how-to-call-rest-api/list-methods-pecularities.md) для ставок НДС.
+Является реализацией [списочного метода](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md) для ставок НДС.
 
 ## Параметры метода
 
@@ -72,7 +72,7 @@
          -H "Content-Type: application/json" \
          -H "Accept: application/json" \
          -d '{"order":{"ID":"ASC"},"filter":{"ACTIVE":"Y"},"select":["ID","NAME","RATE"]}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.vat.list
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.vat.list
     ```
 
 - cURL (OAuth)

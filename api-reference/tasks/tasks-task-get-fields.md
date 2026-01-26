@@ -1,58 +1,63 @@
 # Получить список полей tasks.task.getFields
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не хватает примеров (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.task.getFields` возвращает все доступные поля.
+Метод `tasks.task.getFields` возвращает описание стандартных и пользовательских полей задачи.
+
+## Параметры метода
 
 Без параметров.
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.getFields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/tasks.task.getFields
+    ```
+
 - JS
 
-
-    ```js
+    ```javascript
     try
     {
-    	const response = await $b24.callMethod(
-    		'tasks.task.getFields',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
-    	console.log(result);
+        const response = await $b24.callMethod(
+            'tasks.task.getFields',
+            {}
+        );
+        
+        const result = response.getData().result;
+        console.log('Task fields:', result);
+        
+        processResult(result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -62,17 +67,17 @@
                 'tasks.task.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result->data(), true);
-        echo 'Full Result: ' . print_r($result, true);
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting task fields: ' . $e->getMessage();
+        echo 'Error fetching task fields: ' . $e->getMessage();
     }
     ```
 
@@ -82,187 +87,451 @@
     BX24.callMethod(
         'tasks.task.getFields',
         {},
-        function(result)
-        {
+        function(result){
             console.info(result.data());
             console.log(result);
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'tasks.task.getFields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+## Обработка ответа
 
-## Список полей
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "fields": {
+            "ID": {
+                "title": "ID",
+                "type": "integer",
+                "primary": true
+            },
+            "PARENT_ID": {
+                "title": "ID базовой задачи",
+                "type": "integer",
+                "default": 0
+            },
+            "TITLE": {
+                "title": "Название",
+                "type": "string",
+                "required": true
+            },
+            "DESCRIPTION": {
+                "title": "Описание",
+                "type": "string"
+            },
+            "MARK": {
+                "title": "Оценка",
+                "type": "enum",
+                "values": {
+                    "N": "Отрицательная",
+                    "P": "Положительная"
+                },
+                "default": null
+            },
+            "PRIORITY": {
+                "title": "Приоритет",
+                "type": "enum",
+                "values": {
+                    "2": "Высокий",
+                    "1": "Средний",
+                    "0": "Низкий"
+                },
+                "default": 1
+            },
+            "STATUS": {
+                "title": "Статус",
+                "type": "enum",
+                "values": {
+                    "2": "Ждёт выполнения",
+                    "3": "Выполняется",
+                    "4": "Ожидает контроля",
+                    "5": "Завершена",
+                    "6": "Отложена"
+                },
+                "default": 2
+            },
+            "MULTITASK": {
+                "title": "Множественная задача",
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "NOT_VIEWED": {
+                "title": null,
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "REPLICATE": {
+                "title": "Повторяемая задача",
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "GROUP_ID": {
+                "title": "Проект",
+                "type": "integer",
+                "default": 0
+            },
+            "STAGE_ID": {
+                "title": "Стадия",
+                "type": "integer",
+                "default": 0
+            },
+            "SPRINT_ID": {
+                "title": "Спринт",
+                "type": "integer",
+                "default": 0
+            },
+            "BACKLOG_ID": {
+                "title": "Бэклог",
+                "type": "integer",
+                "default": 0
+            },
+            "CREATED_BY": {
+                "title": "Постановщик",
+                "type": "integer",
+                "required": true
+            },
+            "CREATED_DATE": {
+                "title": null,
+                "type": "datetime"
+            },
+            "RESPONSIBLE_ID": {
+                "title": "Исполнитель",
+                "type": "integer",
+                "required": true
+            },
+            "ACCOMPLICES": {
+                "title": null,
+                "type": "array"
+            },
+            "AUDITORS": {
+                "title": null,
+                "type": "array"
+            },
+            "CHANGED_BY": {
+                "title": "Изменил",
+                "type": "integer"
+            },
+            "CHANGED_DATE": {
+                "title": "Дата изменения",
+                "type": "datetime"
+            },
+            "STATUS_CHANGED_BY": {
+                "title": "Изменил статус",
+                "type": "integer"
+            },
+            "STATUS_CHANGED_DATE": {
+                "title": "Дата изменения статуса",
+                "type": "datetime"
+            },
+            "CLOSED_BY": {
+                "title": "Закрыл задачу",
+                "type": "integer",
+                "default": null
+            },
+            "CLOSED_DATE": {
+                "title": "Дата закрытия",
+                "type": "datetime",
+                "default": null
+            },
+            "ACTIVITY_DATE": {
+                "title": null,
+                "type": "datetime",
+                "default": null
+            },
+            "DATE_START": {
+                "title": "Дата начала",
+                "type": "datetime",
+                "default": null
+            },
+            "DEADLINE": {
+                "title": "Крайний срок",
+                "type": "datetime",
+                "default": null
+            },
+            "START_DATE_PLAN": {
+                "title": "Плановое начало",
+                "type": "datetime",
+                "default": null
+            },
+            "END_DATE_PLAN": {
+                "title": "Плановое завершение",
+                "type": "datetime",
+                "default": null
+            },
+            "GUID": {
+                "title": "GUID",
+                "type": "string",
+                "default": null
+            },
+            "XML_ID": {
+                "title": "XML_ID",
+                "type": "string",
+                "default": null
+            },
+            "COMMENTS_COUNT": {
+                "title": "Кол-во комментариев",
+                "type": "integer",
+                "default": 0
+            },
+            "SERVICE_COMMENTS_COUNT": {
+                "title": null,
+                "type": "integer",
+                "default": 0
+            },
+            "NEW_COMMENTS_COUNT": {
+                "title": null,
+                "type": "integer",
+                "default": 0
+            },
+            "ALLOW_CHANGE_DEADLINE": {
+                "title": null,
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "ALLOW_TIME_TRACKING": {
+                "title": null,
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "TASK_CONTROL": {
+                "title": "Принять работу",
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "ADD_IN_REPORT": {
+                "title": "Добавить в отчет",
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "FORKED_BY_TEMPLATE_ID": {
+                "title": "Создано из шаблона",
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "TIME_ESTIMATE": {
+                "title": "Затраченое время",
+                "type": "integer"
+            },
+            "TIME_SPENT_IN_LOGS": {
+                "title": "Затраченое время из истории изменений",
+                "type": "integer"
+            },
+            "MATCH_WORK_TIME": {
+                "title": "Пропустить выходные дни",
+                "type": "integer"
+            },
+            "FORUM_TOPIC_ID": {
+                "title": "FORUM_TOPIC_ID",
+                "type": "integer"
+            },
+            "FORUM_ID": {
+                "title": "FORUM_ID",
+                "type": "integer"
+            },
+            "SITE_ID": {
+                "title": "SITE_ID",
+                "type": "string"
+            },
+            "SUBORDINATE": {
+                "title": "Задача подчиненного",
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": null
+            },
+            "FAVORITE": {
+                "title": null,
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": null
+            },
+            "EXCHANGE_MODIFIED": {
+                "title": "EXCHANGE_MODIFIED",
+                "type": "datetime",
+                "default": null
+            },
+            "EXCHANGE_ID": {
+                "title": "EXCHANGE_ID",
+                "type": "integer",
+                "default": null
+            },
+            "OUTLOOK_VERSION": {
+                "title": "OUTLOOK_VERSION",
+                "type": "integer",
+                "default": null
+            },
+            "VIEWED_DATE": {
+                "title": "Дата последнего просмотра",
+                "type": "datetime"
+            },
+            "SORTING": {
+                "title": "Индекс сортировки",
+                "type": "double"
+            },
+            "DURATION_PLAN": {
+                "title": "Затрачено (план)",
+                "type": "integer"
+            },
+            "DURATION_FACT": {
+                "title": "Затрачено (фактически)",
+                "type": "integer"
+            },
+            "CHECKLIST": {
+                "title": null,
+                "type": "array"
+            },
+            "DURATION_TYPE": {
+                "title": "DURATION_TYPE",
+                "type": "enum",
+                "values": [
+                    "secs",
+                    "mins",
+                    "hours",
+                    "days",
+                    "weeks",
+                    "monts",
+                    "years"
+                ],
+                "default": "days"
+            },
+            "IS_MUTED": {
+                "title": null,
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "IS_PINNED": {
+                "title": null,
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "IS_PINNED_IN_GROUP": {
+                "title": null,
+                "type": "enum",
+                "values": {
+                    "Y": "Да",
+                    "N": "Нет"
+                },
+                "default": "N"
+            },
+            "FLOW_ID": {
+                "title": "Поток",
+                "type": "integer",
+                "default": 0
+            },
+            "UF_CRM_TASK": {
+                "title": "Элементы CRM",
+                "type": "crm"
+            },
+            "UF_TASK_WEBDAV_FILES": {
+                "title": "Загрузить файлы",
+                "type": "disk_file"
+            },
+            "UF_MAIL_MESSAGE": {
+                "title": null,
+                "type": "mail_message"
+            },
+            "UF_NEW_TASKS_FIELD": {
+                "title": "Новое поле задач",
+                "type": "string"
+            }
+        }
+    },
+    "time": {
+        "start": 1758790899,
+        "finish": 1758790899.809331,
+        "duration": 0.809330940246582,
+        "processing": 0,
+        "date_start": "2025-09-25T12:01:39+03:00",
+        "date_finish": "2025-09-25T12:01:39+03:00",
+        "operating_reset_at": 1758791499,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
 
 #|
-|| **Поле** / **Тип** | **Описание** | Значение ||
-|| **ID**
-[`integer`](../data-types.md) | Идентификатор задачи | ||
-|| **PARENT_ID**
-[`integer`](../data-types.md) | ID родительской задачи | По умолчанию - 0 ||
-|| **TITLE^*^**
-[`string`](../data-types.md) | Название. Длина поля TITLE не должна превышать 460 символов. В противном случае название задачи без предупреждения будет обрезано с конца | ||
-|| **DESCRIPTION**
-[`string`](../data-types.md) | Описание | ||
-|| **MARK**
-[`enum`](../data-types.md) | Оценка | N - Отрицательная,
-P - Положительная.
-По умолчанию - null ||
-|| **PRIORITY**
-[`enum`](../data-types.md) | Приоритет | 2 - Высокий,
-1 - Средний,
-0 - Низкий.
-По умолчанию - 1 ||
-|| **STATUS**
-[`enum`](../data-types.md) | Статус | 2 - Ждет выполнения,
-3 - Выполняется,
-4 - Ожидает контроля,
-5 - Завершена,
-6 - Отложена.
-По умолчанию - 2 ||
-|| **MULTITASK**
-[`enum`](../data-types.md) | Множественная задача | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **NOT_VIEWED**
-[`enum`](../data-types.md) | NOT_VIEWED | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **REPLICATE**
-[`enum`](../data-types.md) | Повторяемая задача | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **GROUP_ID**
-[`integer`](../data-types.md) | Группа или проект | По умолчанию - 0 ||
-|| **FLOW_ID**
-[`integer`](../data-types.md) | Поток | null ||
-|| **STAGE_ID**
-[`integer`](../data-types.md) | Стадия | По умолчанию - 0 ||
-|| **CREATED_BY^*^**
-[`integer`](../data-types.md) | Постановщик | ||
-|| **CREATED_DATE**
-[`datetime`](../data-types.md) | Дата создания | ||
-|| **RESPONSIBLE_ID^*^**
-[`integer`](../data-types.md) | Исполнитель | ||
-|| **ACCOMPLICES**
-[`array`](../data-types.md) | Соисполнители | ||
-|| **AUDITORS**
-[`array`](../data-types.md) | Наблюдатели | ||
-|| **CHANGED_BY**
-[`integer`](../data-types.md) | Изменил | ||
-|| **CHANGED_DATE**
-[`integer`](../data-types.md) | Дата изменения | ||
-|| **STATUS_CHANGED_BY**
-[`integer`](../data-types.md) | Изменил статус | ||
-|| **CLOSED_BY**
-[`integer`](../data-types.md) | Закрыл задачу | ||
-|| **CLOSED_DATE**
-[`datetime`](../data-types.md) | Дата закрытия | ||
-|| **DATE_START**
-[`datetime`](../data-types.md) | Дата начала | null ||
-|| **DEADLINE**
-[`datetime`](../data-types.md) | Крайний срок | null ||
-|| **START_DATE_PLAN**
-[`datetime`](../data-types.md) | Плановое начало | null ||
-|| **END_DATE_PLAN**
-[`datetime`](../data-types.md) | Плановое завершение | null ||
-|| **GUID**
-[`string`](../data-types.md) | GUID | null ||
-|| **XML_ID**
-[`string`](../data-types.md) | XML_ID | null ||
-|| **COMMENTS_COUNT**
-[`integer`](../data-types.md) | Кол-во комментариев | ||
-|| **NEW_COMMENTS_COUNT**
-[`integer`](../data-types.md) | Кол-во новых комментариев | ||
-|| **ALLOW_CHANGE_DEADLINE**
-[`enum`](../data-types.md) | Разрешить менять сроки | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **ALLOW_TIME_TRACKING**
-[`enum`](../data-types.md) | Разрешить учет времени для задачи | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **TASK_CONTROL**
-[`enum`](../data-types.md) | Принять работу | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **ADD_IN_REPORT**
-[`enum`](../data-types.md) | Добавить в отчёт | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **FORKED_BY_TEMPLATE_ID**
-[`enum`](../data-types.md) | Создано из шаблона | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **TIME_ESTIMATE**
-[`integer`](../data-types.md) | Время, выделенное на задачу. | ||
-|| **TIME_SPENT_IN_LOGS**
-[`integer`](../data-types.md) | Затраченное время из истории изменений | ||
-|| **MATCH_WORK_TIME**
-[`integer`](../data-types.md) | Пропустить выходные дни | ||
-|| **FORUM_TOPIC_ID**
-[`integer`](../data-types.md) | Идентификатор темы форума | ||
-|| **FORUM_ID**
-[`integer`](../data-types.md) | Идентификатор форума | ||
-|| **SITE_ID**
-[`string`](../data-types.md) | Идентификатор сайта | ||
-|| **SUBORDINATE**
-[`enum`](../data-types.md) | Задача подчиненного | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **FAVORITE**
-[`enum`](../data-types.md) | Добавлен в Избранное | ||
-|| **EXCHANGE_MODIFIED**
-[`datetime`](../data-types.md) | EXCHANGE_MODIFIED | null ||
-|| **EXCHANGE_ID**
-[`integer`](../data-types.md) | EXCHANGE_ID | null ||
-|| **OUTLOOK_VERSION**
-[`integer`](../data-types.md) | OUTLOOK_VERSION | null ||
-|| **VIEWED_DATE**
-[`datetime`](../data-types.md) | Дата последнего просмотра | ||
-|| **SORTING**
-[`double`](../data-types.md) | Индекс сортировки | ||
-|| **DURATION_PLAN**
-[`integer`](../data-types.md) | Затрачено (план) | ||
-|| **DURATION_FACT**
-[`integer`](../data-types.md) | Затрачено (фактически) | ||
-|| **CHECKLIST**
-[`array`](../data-types.md) | Чеклист | ||
-|| **DURATION_TYPE**
-[`enum`](../data-types.md) | DURATION_TYPE | \[0\] => secs
-\[1\] => mins
-\[2\] => hours
-\[3\] => days
-\[4\] => weeks
-\[5\] => monts
-\[6\] => years.
-По умолчанию - 3 ||
-|| **UF_CRM_TASK**
-[`crm`](../data-types.md) | Привязка к элементам CRM. Значение состоит из 
-[Краткого символьного кода типа](../crm/data-types.md#object_type) и ID элемента | L_XX -  лид,
-C_XX - контакт,
-D_XX - сделка, 
-TXX_XX - смарт-процесс ||
-|| **UF_TASK_WEBDAV_FILES**
-[`disk_file`](../data-types.md) | Файл (Диск) | ||
-|| **UF_MAIL_MESSAGE**
-[`mail_message`](../data-types.md) | Письмо (email) | ||
-|| **IS_MUTED**
-[`enum`](../data-types.md) | Уведомления | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **IS_PINNED**
-[`enum`](../data-types.md) | Закреплён | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **IS_PINNED_IN_GROUP**
-[`enum`](../data-types.md) | Закреплён в группе | Y - Да,
-N - Нет.
-По умолчанию - Нет. ||
-|| **SERVICE_COMMENTS_COUNT**
-[`integer`](../data-types.md) | SERVICE_COMMENTS_COUNT | ||
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md) | Объект с [описанием полей задачи](./fields.md) ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+## Обработка ошибок
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./tasks-task-get.md)
+- [{#T}](./tasks-task-list.md)
+
+
+

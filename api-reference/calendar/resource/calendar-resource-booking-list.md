@@ -64,7 +64,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"filter":{"resourceTypeIdList":[10852,10888,10873,10871,10853],"from":"2024-06-20","to":"2024-08-20"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.resource.booking.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.resource.booking.list
     ```
 
 - cURL (OAuth)
@@ -219,7 +219,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"filter":{"resourceIdList":[10,18,17]}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.resource.booking.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.resource.booking.list
     ```
 
 - cURL (OAuth)

@@ -151,7 +151,7 @@
 
 {% note info %}
 
-Для работы исходящего вебхука убедитесь, что на вашем сервере открыты необходимые [сетевые доступы](../api-reference/cloud-and-on-premise/network-access.md).
+Для работы исходящего вебхука убедитесь, что на вашем сервере открыты необходимые [сетевые доступы](../settings/cloud-and-on-premise/network-access.md).
 
 {% endnote %}
 

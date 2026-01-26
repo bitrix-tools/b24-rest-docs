@@ -1,0 +1,11 @@
+title: Первые шаги
+href: index.md
+items:
+  - name: С чего начать
+    href: index.md
+  - name: Как получить доступ к REST API 
+    href: access-to-rest-api.md
+  - name: Как выполнить свой первый запрос к API 
+    href: first-rest-api-call.md
+  - name: Как использовать примеры 
+    href: how-to-use-examples.md

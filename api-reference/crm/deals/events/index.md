@@ -11,9 +11,9 @@
 Подписаться на события [onCrmDealAdd](./on-crm-deal-add.md), [onCrmDealUpdate](./on-crm-deal-update.md) и [onCrmDealDelete](./on-crm-deal-delete.md) можно через:
 
 - [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
-- [приложение](../../../app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
+- [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
 
-Подписаться на событие [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md) можно только через [приложение](../../../app-installation/index.md) и метод [event.bind](../../../events/event-bind.md).
+Подписаться на событие [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md) можно только через [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md).
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
 

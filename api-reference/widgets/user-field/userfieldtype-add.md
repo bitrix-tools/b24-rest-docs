@@ -4,7 +4,27 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `userfieldtype.add` регистрирует новый тип пользовательских полей. Возвращает `true` или ошибку с описанием причины.
+Метод `userfieldtype.add` регистрирует новый тип пользовательских полей. После регистрации типа, создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md).
+
+При открытии карточки с полем пользовательского типа на обработчик приложения передается массив `PLACEMENT_OPTIONS` с данными о поле и элементе.
+
+```json
+{
+    "MODE": "view",
+    "ENTITY_ID": "CRM_DEAL",
+    "FIELD_NAME": "UF_CRM_TEST_TYPE_1",
+    "ENTITY_VALUE_ID": "7303",
+    "VALUE": null,
+    "MULTIPLE": "N",
+    "MANDATORY": "N",
+    "XML_ID": null,
+    "ENTITY_DATA": {
+        "entityTypeId": 2,
+        "entityId": "7303",
+        "module": "crm"
+    }
+}
+```
 
 ## Параметры метода
 
@@ -38,7 +58,7 @@
 
 - cURL (Webhook)
 
-    ```curl
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -51,12 +71,12 @@
             "height": 60
         }
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/userfieldtype.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userfieldtype.add
     ```
 
 - cURL (OAuth)
 
-    ```curl
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -244,3 +264,5 @@ HTTP-статус: **400**
 - [{#T}](./userfieldtype-update.md)
 - [{#T}](./userfieldtype-list.md)
 - [{#T}](./userfieldtype-delete.md)
+- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md)
+- [{#T}](../../crm/universal/user-defined-fields/userfield-type.md)

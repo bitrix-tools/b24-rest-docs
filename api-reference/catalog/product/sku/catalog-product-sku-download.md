@@ -36,8 +36,8 @@
 ||
 || **fieldName***
 [`string`](../../../data-types.md) | Имя поля (свойства или поля элемента информационного блока), в котором хранится файл. Возможные значения:
-- `DETAIL_PICTURE` — детальная картинка
-- `PREVIEW_PICTURE` — картинка для анонса
+- `DETAIL_PICTURE` — детальная картинка, поле доступно в старой карточке товара
+- `PREVIEW_PICTURE` — картинка для анонса, поле доступно в старой карточке товара
 - `PROPERTY_N` — свойство, где `N` — идентификатор свойства либо код свойства
 
 Для получения существующих идентификаторов либо кодов свойств головных товаров необходимо использовать [catalog.productProperty.list](../../product-property/catalog-product-property-list.md)
@@ -57,7 +57,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"fileId":6546,"productId":1289,"fieldName":"detailPicture"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.product.sku.download
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.sku.download
     ```
 
 - cURL (OAuth)

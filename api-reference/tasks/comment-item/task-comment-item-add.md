@@ -6,6 +6,12 @@
 
 Метод `task.commentitem.add` добавляет новый комментарий к задаче.
 
+{% note warning "Развитие метода остановлено с версии модуля `tasks 25.700.0` " %}
+
+Метод `task.commentitem.add` продолжает работать, но у него есть более актуальный аналог [tasks.task.chat.message.send](../../rest-v3/tasks/tasks-task-chat-message-send.md).
+
+{% endnote %}
+
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
@@ -211,7 +217,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Идентификатор нового комментария ||
+[`integer`](../../data-types.md) | Идентификатор нового комментария ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

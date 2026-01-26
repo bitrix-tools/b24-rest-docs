@@ -62,7 +62,7 @@
          -H "Content-Type: application/json" \
          -H "Accept: application/json" \
          -d '{"order":{"SORT":"ASC"},"filter":{"ENTITY_ID":"DEAL_STAGE"}}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.status.list
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.status.list
     ```
 
 - cURL (OAuth)
@@ -387,4 +387,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-status-update.md)
 - [{#T}](./crm-status-delete.md) 
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
+- [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-stages-with-semantics.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)

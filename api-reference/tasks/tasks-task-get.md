@@ -1,199 +1,94 @@
 # Получить задачу по идентификатору tasks.task.get
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - **curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.task.get` возвращает информацию о конкретной задаче.
+Метод `tasks.task.get` возвращает информацию о задаче по идентификатору.
 
-{% note warning %}
+Доступ к данным зависит от прав:
+- администратор видит все задачи,
+- руководитель — задачи своих сотрудников,
+- остальные видят только доступные им задачи.
 
-Необходимо указать поля в `select`, т.к. поля по умолчанию могут быть изменены в будущем.
-
-{% endnote %}
+## Параметры метода
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **taskId**
-[`unknown`](../data-types.md) | Идентификатор задачи. ||
+[`integer`](../data-types.md) | Идентификатор задачи. 
+
+Идентификатор задачи можно получить при [создании новой задачи](./tasks-task-add.md) или методом [получения списка задач](./tasks-task-list.md) ||
 || **select**
-[`unknown`](../data-types.md) | Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы. 
+[`array`](../data-types.md) | Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы. Если в массиве присутствует значение `"*"`, то будут возвращены все доступные поля. 
 
-Поле может принимать значения: 
-- **ID** — идентификатор задачи; 
-- **PARENT_ID** — идентификатор родительской задачи; 
-- **TITLE** — название задачи; 
-- **DESCRIPTION** — описание; 
-- **MARK** — оценка; 
-- **PRIORITY** — приоритет:
-    - **0** — низкий;
-    - **1** — средний;
-    - **2** — высокий;
-- **STATUS** — статус; 
-- **MULTITASK** — множественная задача; 
-- **NOT_VIEWED** — непросмотренная задача; 
-- **REPLICATE** — повторяемая задача; 
-- **GROUP_ID** — рабочая группа; 
-- **STAGE_ID** — стадия; 
-- **CREATED_BY** — постановщик; 
-- **CREATED_DATE** — дата создания; 
-- **RESPONSIBLE_ID** — исполнитель; 
-- **ACCOMPLICE** — идентификатор соисполнителя; 
-- **AUDITOR** — идентификатор наблюдателя; 
-- **CHANGED_BY** — кем изменена задача; 
-- **CHANGED_DATE** — дата изменения; 
-- **STATUS_CHANGED_DATE** — кто изменил статус; 
-- **CLOSED_BY** — кто закрыл задачу; 
-- **CLOSED_DATE** — дата закрытия задачи; 
-- **DATE_START** — дата начала; 
-- **DEADLINE** — крайний срок; 
-- **START_DATE_PLAN** — плановое начало; 
-- **END_DATE_PLAN** —  плановое завершение; 
-- **GUID** — GUID (статистически уникальный 128-битный идентификатор); 
-- **XML_ID** — внешний код; 
-- **COMMENTS_COUNT** — количество комментариев; 
-- **NEW_COMMENTS_COUNT** — количество новых комментариев; 
-- **TASK_CONTROL** — принять в работу; 
-- **ADD_IN_REPORT** — добавить в отчет; 
-- **FORKED_BY_TEMPLATE_ID** — создано автоматически из шаблона; 
-- **TIME_ESTIMATE** — время, выделенное на задачу; 
-- **TIME_SPENT_IN_LOGS** — затраченное время из истории изменений; 
-- **MATCH_WORK_TIME** — пропустить выходные дни; 
-- **FORUM_TOPIC_ID** — идентификатор темы форума; 
-- **FORUM_ID** — идентификатор форума; 
-- **SITE_ID** — идентификатор сайта; 
-- **SUBORDINATE** — задача подчиненного; 
-- **FAVORITE** — Избранное; 
-- **VIEWED_DATE** — дата последнего просмотра; 
-- **SORTING** — индекс сортировки; 
-- **DURATION_PLAN** — затрачено (план); 
-- **DURATION_FACT** — затрачено (фактически); 
-- **DURATION_TYPE** — тип продолжительности:
-    - **0** — секунды
-    - **1** — минуты
-    - **2** — часы
-    - **3** — дни
-    - **4** — недели
-    - **5** — месяцы
-    - **6** — года
-- **UF_CRM_TASK** — привязка к элементам CRM.
+По умолчанию возвращает все поля, кроме пользовательских. Рекомендуем указывать конкретные поля в выборке, там как поля по умолчанию могут быть изменены.
 
-По умолчанию будут возвращены все невычисляемые поля основной таблицы запроса.
+Чтобы получить системные `UF_CRM_TASK`, `UF_TASK_WEBDAV_FILES`, `UF_MAIL_MESSAGE` и пользовательские поля, укажите их в `SELECT`. Узнать названия пользовательских полей можно методом [tasks.task.getFields](./tasks-task-get-fields.md) 
 
-Для получения пользовательских полей и поля привязки к CRM сущностям (`UF_CRM_TASK`), их нужно будет напрямую указать в `SELECT`. Список полей можно уточнить, отправив запрос [tasks.task.getFields](./tasks-task-get-fields.md). ||
+Укажите `CHAT_ID` в select, чтобы получить идентификатор чата для [новой карточки задачи](tasks-new.md)||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
-
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'tasks.task.get',
-    		{taskId: 1, select: ['ID', 'TITLE']}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch(error)
-    {
-    	console.error('Error:', error);
-    }
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"taskId":8017,"select":["ID","TITLE","DESCRIPTION","CREATED_BY","RESPONSIBLE_ID","DEADLINE","UF_CRM_TASK","UF_TASK_WEBDAV_FILES"]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.get
     ```
 
-- PHP
+- cURL (OAuth)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"taskId":8017,"select":["ID","TITLE","DESCRIPTION","CREATED_BY","RESPONSIBLE_ID","DEADLINE","UF_CRM_TASK","UF_TASK_WEBDAV_FILES"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/tasks.task.get
+    ```
 
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'tasks.task.get',
-                [
-                    'taskId' => 1,
-                    'select' => ['ID', 'TITLE'],
+- JS
+
+    ```javascript
+    try
+    {
+        const response = await $b24.callMethod(
+            'tasks.task.get',
+            {
+                taskId: 8017,
+                select: [
+                    'ID',
+                    'TITLE',
+                    'DESCRIPTION',
+                    'CREATED_BY',
+                    'RESPONSIBLE_ID',
+                    'DEADLINE',
+                    'UF_CRM_TASK',
+                    'UF_TASK_WEBDAV_FILES'
                 ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting task: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'tasks.task.get',
-        {taskId:1, select:['ID','TITLE']},
-        function(res){console.log(res.answer.result);}
-    );
-    ```
-
-{% endlist %}
-
-Синтаксис для выборки всех полей:
-
-{% list tabs %}
-
-- JS
-
-
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'tasks.task.get',
-    		{taskId:1367, select:['*']}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Fetched task:', result);
+        processResult(result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -202,20 +97,30 @@
             ->call(
                 'tasks.task.get',
                 [
-                    'taskId' => 1367,
-                    'select' => ['*'],
+                    'taskId' => 8017,
+                    'select' => [
+                        'ID',
+                        'TITLE',
+                        'DESCRIPTION',
+                        'CREATED_BY',
+                        'RESPONSIBLE_ID',
+                        'DEADLINE',
+                        'UF_CRM_TASK',
+                        'UF_TASK_WEBDAV_FILES'
+                    ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo $result;
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting task: ' . $e->getMessage();
+        echo 'Error fetching task: ' . $e->getMessage();
     }
     ```
 
@@ -224,16 +129,179 @@
     ```js
     BX24.callMethod(
         'tasks.task.get',
-        {taskId:1367, select:['*']},
-        function(res){console.log(res.answer.result);}
-    )
+        {
+            taskId: 8017,
+            select: [
+                'ID',
+                'TITLE',
+                'DESCRIPTION',
+                'CREATED_BY',
+                'RESPONSIBLE_ID',
+                'DEADLINE',
+                'UF_CRM_TASK',
+                'UF_TASK_WEBDAV_FILES'
+            ]
+        },
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'tasks.task.get',
+        [
+            'taskId' => 8017,
+            'select' => [
+                'ID',
+                'TITLE',
+                'DESCRIPTION',
+                'CREATED_BY',
+                'RESPONSIBLE_ID',
+                'DEADLINE',
+                'UF_CRM_TASK',
+                'UF_TASK_WEBDAV_FILES'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "task": {
+            "id": "8017",
+            "title": "Пример задачи",
+            "description": "Описание задачи с [B]форматированием[/B]",
+            "createdBy": "503",
+            "responsibleId": "547",
+            "deadline": "2025-10-24T19:00:00+03:00",
+            "ufCrmTask": ["C_627", "CO_591", "L_1177", "T88_3", "D_1723"],
+            "ufTaskWebdavFiles": [1065, 1077],
+            "ufMailMessage": null,
+            "descriptionInBbcode": "Y",
+            "favorite": "Y",
+            "group": [],
+            "creator": {
+                "id": "503",
+                "name": "Мария Иванова",
+                "link": "/company/personal/user/503/",
+                "icon": "https://mysite.ru/b17053/resize_cache/45749/c0120a8d7c10d63c83e32398d1ec4d9e/main/c89/c89c6b7301880958ea704b5a8470635c/4R5A1256.png",
+                "workPosition": "админ"
+            },
+            "responsible": {
+                "id": "547",
+                "name": "Мария",
+                "link": "/company/personal/user/547/",
+                "icon": "/bitrix/images/tasks/default_avatar.png",
+                "workPosition": "Тестировщик"
+            },
+            "action": {
+                "accept": false,
+                "decline": false,
+                "complete": true,
+                "approve": false,
+                "disapprove": false,
+                "start": true,
+                "pause": false,
+                "delegate": true,
+                "remove": true,
+                "edit": true,
+                "defer": true,
+                "renew": false,
+                "create": true,
+                "changeDeadline": true,
+                "checklistAddItems": true,
+                "addFavorite": false,
+                "deleteFavorite": true,
+                "rate": true,
+                "take": false,
+                "edit.originator": false,
+                "checklist.reorder": true,
+                "elapsedtime.add": true,
+                "dayplan.timer.toggle": true,
+                "edit.plan": true,
+                "checklist.add": true,
+                "favorite.add": false,
+                "favorite.delete": true
+            }
+        }
+    },
+    "time": {
+        "start": 1759759363,
+        "finish": 1759759363.155413,
+        "duration": 0.15541291236877441,
+        "processing": 0,
+        "date_start": "2025-10-06T17:02:43+03:00",
+        "date_finish": "2025-10-06T17:02:43+03:00",
+        "operating_reset_at": 1759759963,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md) | Объект с данными ответа.
+
+Возвращает пустой массив `"result":[],` если задачи не существует или у пользователя нет прав доступа к задаче ||
+|| **task**
+[`object`](../data-types.md) | Объект с [описанием задачи](./fields.md) после выполнения операции ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "100",
+    "error_description": "Invalid value {} to match with parameter {select}. Should be value of type array. (internal error)"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `0` | wrong task id | В параметре `taskId` указано значение неверного типа ||
+|| `100` | CTaskItem All parameters in the constructor must have real class type (internal error) | Не передан обязательный параметр `taskId` ||
+|| `100` | Invalid value {} to match with parameter {select}. Should be value of type array. (internal error) | Параметр `select` передан пустым или в нем указаны неверные значения ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
 ## Продолжить изучение
 
+- [{#T}](./index.md)
+- [{#T}](./tasks-task-add.md)
+- [{#T}](./tasks-task-update.md)
+- [{#T}](./tasks-task-list.md)
+- [{#T}](./tasks-task-delete.md)
+- [{#T}](./tasks-task-get-fields.md)
 - [{#T}](../../tutorials/tasks/how-to-create-task-with-file.md)
 - [{#T}](../../tutorials/tasks/how-to-connect-task-to-spa.md)
-
-{% include [Сноска о примерах](../../_includes/examples.md) %}

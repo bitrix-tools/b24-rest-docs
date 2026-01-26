@@ -11,7 +11,7 @@
 Подписаться на события задач можно через:
 
 -  [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
--  [приложение](../../../app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
+-  [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
 
@@ -27,7 +27,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [OnTaskCommentAdd](./on-task-comment-add.md) | При добавлении комментария в задаче вручную или методом [task.commentitem.add](../task-comment-item-add.md) ||
-|| [OnTaskCommentUpdate](./on-task-comment-update.md) | При обновлении комментария в задаче вручную или методом [task.commentitem.update](../task-comment-item-update.md) ||
-|| [OnTaskCommentDelete](./on-task-comment-delete.md) | При удалении комментария в задаче вручную или методом [task.commentitem.delete](../task-comment-item-delete.md) ||
+|| [OnTaskCommentAdd](./on-task-comment-add.md) | При добавлении комментария в задаче вручную или методом [task.commentitem.add](../task-comment-item-add.md) для старой карточки. При добавлении сообщения в чат задачи для новой карточки ||
+|| [OnTaskCommentUpdate](./on-task-comment-update.md) | При обновлении комментария в задаче вручную или методом [task.commentitem.update](../task-comment-item-update.md) для старой карточки ||
+|| [OnTaskCommentDelete](./on-task-comment-delete.md) | При удалении комментария в задаче вручную или методом [task.commentitem.delete](../task-comment-item-delete.md) для старой карточки ||
 |#

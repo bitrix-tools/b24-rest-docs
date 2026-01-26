@@ -46,7 +46,7 @@
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"scope":"C"}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.details.configuration.reset
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.details.configuration.reset
         ```
 
     - cURL (OAuth)
@@ -106,7 +106,7 @@
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"scope":"P","userId":6}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.details.configuration.reset
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.details.configuration.reset
         ```
 
     - cURL (OAuth)
