@@ -5,16 +5,16 @@ items:
     href: index.md
   - name: Создать новую компанию
     href: crm-company-add.md
-  - name: Удалить компанию
-    href: crm-company-delete.md
-  - name: Получить описание полей компании
-    href: crm-company-fields.md
+  - name: Обновить существующую компанию
+    href: crm-company-update.md    
   - name: Получить информацию о компании
     href: crm-company-get.md
   - name: Получить список компаний по фильтру
     href: crm-company-list.md
-  - name: Обновить существующую компанию
-    href: crm-company-update.md
+  - name: Удалить компанию
+    href: crm-company-delete.md    
+  - name: Получить описание полей компании
+    href: crm-company-fields.md
   - name: Контакты компаний
     include:
       path: contacts/b24-toc.yaml

@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 27 января, 2026
+
+- Обновили документацию по методам компаний в CRM [crm.company.*](./api-reference/crm/companies/index.md)
+
 ### 26 января, 2026
 
 - Обновили документацию по методам управления карточками компаний [crm.company.details.configuration.*](./api-reference/crm/companies/custom-form/index.md)
