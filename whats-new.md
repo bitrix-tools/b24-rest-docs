@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 29 января, 2026
+
+- Обновили документацию по методам [disk.folder.uploadfile](./api-reference/disk/folder/disk-folder-upload-file.md), [disk.storage.addfolder](./api-reference/disk/storage/disk-storage-add-folder.md), [disk.storage.getchildren](./api-reference/disk/storage/disk-storage-get-children.md), [disk.storage.getfields](./api-reference/disk/storage/disk-storage-get-fields.md), [disk.storage.gettypes](./api-reference/disk/storage/disk-storage-get-types.md), [disk.storage.get](./api-reference/disk/storage/disk-storage-get.md)
+
 ### 27 января, 2026
 
 - Обновили документацию по методам компаний в CRM [crm.company.*](./api-reference/crm/companies/index.md)

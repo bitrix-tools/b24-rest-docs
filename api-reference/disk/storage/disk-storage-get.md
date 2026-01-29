@@ -1,71 +1,74 @@
-# Получить описание хранилища по его идентификатору disk.storage.get
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Получить описание хранилища disk.storage.get
 
 > Scope: [`disk`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Чтение» для нужного хранилища
 
-Метод `disk.storage.get` возвращает хранилище по идентификатору.
+Метод `disk.storage.get` возвращает данные хранилища.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
-||  **Параметр** / **Тип**| **Описание** ||
-|| **id**
-[`unknown`](../../data-types.md) | Идентификатор хранилища. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор хранилища.
+
+Идентификатор можно получить с помощью метода [disk.storage.getlist](./disk-storage-get-list.md) ||
 |#
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":1357}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":1357,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/disk.storage.get
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		"disk.storage.get",
-    		{id: 2}
-    	);
-    	
-    	const result = response.getData().result;
-    	if (result.error())
-    	{
-    		console.error(result.error());
-    	}
-    	else
-    	{
-    		console.dir(result);
-    	}
+        const response = await $b24.callMethod(
+            'disk.storage.get',
+            {
+                id: 1357
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Retrieved storage:', result);
+        
+        processResult(result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -74,23 +77,20 @@
             ->call(
                 'disk.storage.get',
                 [
-                    'id' => 2,
+                    'id' => 1357
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting disk storage: ' . $e->getMessage();
+        echo 'Error retrieving storage: ' . $e->getMessage();
     }
     ```
 
@@ -99,7 +99,9 @@
     ```js
     BX24.callMethod(
         "disk.storage.get",
-        {id: 2},
+        {
+            id: 1357
+        },
         function (result)
         {
             if (result.error())
@@ -110,22 +112,116 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'disk.storage.get',
+        [
+            'id' => 1357
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
-"result": {
-    "ID": "2", //идентификатор
-    "NAME": "Маркетинг и реклама", //название
-    "CODE": null, //символьный код
-    "MODULE_ID": "disk",
-    "ENTITY_TYPE": "group", //тип сущности (см. disk.storage.gettypes)
-    "ENTITY_ID": "1", //идентификатор сущности
-    "ROOT_OBJECT_ID": "2" //идентификатор корневой папки
+{
+    "result": {
+        "ID": "1357",
+        "NAME": "Хранилище",
+        "CODE": null,
+        "MODULE_ID": "disk",
+        "ENTITY_TYPE": "user",
+        "ENTITY_ID": "1269",
+        "ROOT_OBJECT_ID": "8875"
+    },
+    "time": {
+        "start": 1769545048,
+        "finish": 1769545048.556574,
+        "duration": 0.5565741062164307,
+        "processing": 0,
+        "date_start": "2026-01-26T16:37:28+03:00",
+        "date_finish": "2026-01-26T16:37:28+03:00",
+        "operating_reset_at": 1769545648,
+        "operating": 0
+    }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Массив с данными о хранилище.
+
+Возвращает `null`, если `id` не число ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор хранилища ||
+|| **NAME**
+[`string`](../../data-types.md) | Имя хранилища ||
+|| **CODE**
+[`string`](../../data-types.md) | Символьный код хранилища ||
+|| **MODULE_ID**
+[`string`](../../data-types.md) | Идентификатор модуля, которому принадлежит хранилище ||
+|| **ENTITY_TYPE**
+[`string`](../../data-types.md) | Тип объекта, с которым связано хранилище.
+
+Возможные значения:
+- `user` — хранилище пользователя
+- `common` — хранилище общих документов
+- `group` — хранилище группы  ||
+|| **ENTITY_ID**
+[`string`](../../data-types.md) | Идентификатор объекта ||
+|| **ROOT_OBJECT_ID**
+[`integer`](../../data-types.md) | Идентификатор корневой папки хранилища ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ERROR_ARGUMENT",
+    "error_description":"Invalid value of parameter {Parameter #0}"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #0} | Не указан обязательный параметр `id` ||
+|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Хранилище с указанным `id` не найдено ||
+|| `ACCESS_DENIED` | Access denied | Недостаточно прав для чтения хранилища ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./disk-storage-add-folder.md)
+- [{#T}](./disk-storage-get-fields.md)
+- [{#T}](./disk-storage-get-children.md)
+- [{#T}](./disk-storage-get-for-app.md)
+- [{#T}](./disk-storage-get-list.md)
+- [{#T}](./disk-storage-get-types.md)
+- [{#T}](./disk-storage-rename.md)
+- [{#T}](./disk-storage-upload-file.md)
