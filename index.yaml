@@ -29,7 +29,7 @@ blocks:
       - text: 'GitHub'
         theme: 'outlined'
         size: 'promo'
-        url: 'https://github.com/bitrix-tools/b24-rest-docs/'
+        url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
 
   - type: 'extended-features-block'
     title:
