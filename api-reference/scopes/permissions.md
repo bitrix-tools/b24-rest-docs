@@ -23,6 +23,7 @@
 || **lists** | [Списки](../lists/index.md) | Универсальные списки ||
 || **log** | [Живая лента](../log/index.md) | Лента новостей ||
 || **mailservice** | [Почтовые сервисы](../mailservice/index.md) | Почтовые сервисы ||
+|| **main** | [Журнал событий](../rest-v3/main/index.md) | Журнал событий ||
 || **messageservice** | [Служба сообщений](../messageservice/index.md) | Служба сообщений ||
 || **pay_system** | [Платежные системы](../pay-system/index.md) | Платежные системы ||
 || **pull** | [Pull&Push](../../settings/interactivity/push-and-pull/index.md) | Pull&Push ||
