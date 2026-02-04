@@ -24,6 +24,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.quote.productrows.get` продолжает работать, но у него есть более актуальный аналог [crm.item.productrow.*](../universal/product-rows/index.md).
+
+{% endnote %}
+
 Метод `crm.quote.productrows.get` возвращает товарные позиции предложения.
 
 #|

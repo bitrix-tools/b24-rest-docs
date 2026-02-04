@@ -25,6 +25,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.deal.details.configuration.get` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.get](../../universal/item-details-configuration/crm-item-details-configuration-get.md).
+
+{% endnote %}
+
 Метод `crm.deal.details.configuration.get` получает настройки карточки сделок. Метод читает личные настройки карточки указанного пользователя или общие настройки, заданные для всех пользователей.
 
 {% note warning %}

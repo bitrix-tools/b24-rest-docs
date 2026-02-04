@@ -25,6 +25,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.lead.details.configuration.reset` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.reset](../../universal/item-details-configuration/crm-item-details-configuration-reset.md).
+
+{% endnote %}
+
 Метод `crm.lead.details.configuration.reset` сбрасывает настройки карточки лидов. Метод удаляет личные настройки карточки указанного пользователя или общие настройки, заданные для всех пользователей.
 
 {% note warning %}
