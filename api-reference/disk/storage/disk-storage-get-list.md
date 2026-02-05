@@ -1,97 +1,176 @@
 # Получить список доступных хранилищ disk.storage.getlist
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- нет подробного примера в случае успеха
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`disk`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
 Метод `disk.storage.getlist` возвращает список доступных хранилищ.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **filter**
-[`unknown`](../../data-types.md) | Необязательный параметр. Поддерживает фильтрацию по полям, которые указаны в [disk.storage.getfields](./disk-storage-get-fields.md) как `USE_IN_FILTER: true`. ||
-|| **start** | Порядковый номер элемента списка, начиная с которого необходимо возвращать следующие элементы при вызове текущего метода. Подробности в статье [{#T}](../../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
+[`array`](../../data-types.md) | Массив формата:
+
+```
+{
+    field_1: value_1,
+    field_2: value_2,
+    ...,
+    field_n: value_n,
+}
+```
+
+где:
+- `field_n` — название поля, по которому будет произведена фильтрация
+- `value_n` — значение фильтра
+
+К ключам `field_n` можно добавить префикс, уточняющий работу фильтра.
+Возможные значения префикса:
+- `>=` — больше либо равно
+- `>` — больше
+- `<=` — меньше либо равно
+- `<` — меньше
+- `@` — IN, в качестве значения передается массив
+- `!@` — NOT IN, в качестве значения передается массив
+- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
+- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
+    - `"мол%"` — ищет значения, начинающиеся с «мол»
+    - `"%мол"` — ищет значения, заканчивающиеся на «мол»
+    - `"%мол%"` — ищет значения, где «мол» может быть в любой позиции
+- `%=` — LIKE (аналогично `=%`)
+- `=` — равно, точное совпадение (используется по умолчанию)
+- `!=` — не равно
+- `!` — не равно
+
+Список доступных для фильтрации полей можно узнать с помощью метода [disk.storage.getfields](./disk-storage-get-fields.md) ||
+|| **order**
+[`array`](../../data-types.md) | Массив формата:
+
+```
+{
+    field_1: value_1,
+    field_2: value_2,
+    ...,
+    field_n: value_n,
+}
+```
+
+где:
+- `field_n` — название поля, по которому будет произведена сортировка
+- `value_n` — значение типа `string`, равное:
+    - `ASC` — сортировка по возрастанию
+    - `DESC` — сортировка по убыванию
+
+Список доступных для сортировки полей можно узнать с помощью метода [disk.storage.getfields](./disk-storage-get-fields.md) ||
+|| **start**
+[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
+
+Размер страницы результатов всегда статичный — 50 записей.
+
+Чтобы выбрать вторую страницу результатов, необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
+
+Формула расчета значения параметра `start`:
+
+`start = (N - 1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-{% note info %}
+## Примеры кода
 
-Cм. также описание [списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
-
-{% endnote %}
-
-## Пример
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"NAME":"%Битрикс24%"},"order":{"NAME":"DESC"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.getlist
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"filter":{"NAME":"%Битрикс24%"},"order":{"NAME":"DESC"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/disk.storage.getlist
+    ```
+
 - JS
 
-
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
-    
+    // callListMethod: Получает все данные сразу.
+    // Используйте только для небольших выборок (< 1000 элементов) из-за высокой
+    // нагрузки на память.
+
     try {
-      const response = await $b24.callListMethod(
+    const response = await $b24.callListMethod(
         'disk.storage.getlist',
         {
-          filter: {
-            'ENTITY_TYPE': 'group',
-            '%NAME': 'Фут'
-          }
+        filter: {
+            NAME: '%Битрикс24%',
+        },
+        order: {
+            NAME: 'DESC'
+        }
         },
         (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
+    );
+    const items = response.getData() || [];
+    for (const entity of items) { console.log('Entity:', entity) }
     } catch (error) {
-      console.error('Request failed', error)
+    console.error('Request failed', error)
     }
-    
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
-    
+
+    // fetchListMethod: Выбирает данные по частям с помощью итератора.
+    // Используйте для больших объемов данных для эффективного потребления памяти.
+
     try {
-      const generator = $b24.fetchListMethod('disk.storage.getlist', { filter: { 'ENTITY_TYPE': 'group', '%NAME': 'Фут' } }, 'ID')
-      for await (const page of generator) {
+    const generator = $b24.fetchListMethod('disk.storage.getlist', {
+        filter: {
+        NAME: '%Битрикс24%',
+        },
+        order: {
+        NAME: 'DESC'
+        }
+    }, 'ID');
+    for await (const page of generator) {
         for (const entity of page) { console.log('Entity:', entity) }
-      }
-    } catch (error) {
-      console.error('Request failed', error)
     }
-    
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('disk.storage.getlist', { filter: { 'ENTITY_TYPE': 'group', '%NAME': 'Фут' } }, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
     } catch (error) {
-      console.error('Request failed', error)
+    console.error('Request failed', error)
+    }
+
+    // callMethod: Ручное управление постраничной навигацией через параметр start.
+    // Используйте для точного контроля над пакетами запросов.
+    // Для больших данных менее эффективен, чем fetchListMethod.
+
+    try {
+    const response = await $b24.callMethod('disk.storage.getlist', {
+        filter: {
+        NAME: '%Битрикс24%',
+        },
+        order: {
+        NAME: 'DESC'
+        }
+    }, 0);
+    const result = response.getData().result || [];
+    for (const entity of result) { console.log('Entity:', entity) }
+    } catch (error) {
+    console.error('Request failed', error)
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -101,54 +180,159 @@ Cм. также описание [списочных методов](../../../se
                 'disk.storage.getlist',
                 [
                     'filter' => [
-                        'ENTITY_TYPE' => 'group',
-                        '%NAME'      => 'Фут'
+                        'NAME' => '%Битрикс24%',
+                    ],
+                    'order' => [
+                        'NAME' => 'DESC'
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error searching for group storage: ' . $e->getMessage();
+        echo 'Error fetching storage list: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
-```js
-//поиск хранилища группы с именем содержащем "Фут"
-BX24.callMethod(
-    "disk.storage.getlist",
-    {
-        filter: {
-            'ENTITY_TYPE': 'group',
-            '%NAME': 'Фут'
+    ```js
+    BX24.callMethod(
+        "disk.storage.getlist",
+        {
+            filter: {
+                NAME: '%Битрикс24%',
+            },
+            order: {
+                NAME: 'DESC'
+            }
+        },
+        function (result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
-    },
-    function (result)
-    {
-        if (result.error())
-            console.error(result.error());
-        else
-            console.dir(result.data());
-    }
-);
-```
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'disk.storage.getlist',
+        [
+            'filter' => [
+                'NAME' => '%Битрикс24%',
+            ],
+            'order' => [
+                'NAME' => 'DESC'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-В ответе массив объектов, структура которых аналогична [disk.storage.get](./disk-storage-get.md).
+```json
+{
+    "result": [
+        {
+        "ID": "13",
+        "NAME": "Поддержка Битрикс24",
+        "CODE": null,
+        "MODULE_ID": "disk",
+        "ENTITY_TYPE": "user",
+        "ENTITY_ID": "3",
+        "ROOT_OBJECT_ID": "21"
+        },
+        {
+        "ID": "1335",
+        "NAME": "Модуль интеграции Битрикс24",
+        "CODE": null,
+        "MODULE_ID": "disk",
+        "ENTITY_TYPE": "user",
+        "ENTITY_ID": "1255",
+        "ROOT_OBJECT_ID": "8755"
+        }
+    ],
+    "total": 2,
+    "time": {
+        "start": 1770044358,
+        "finish": 1770044358.241043,
+        "duration": 0.2410430908203125,
+        "processing": 0,
+        "date_start": "2026-02-02T11:29:18+03:00",
+        "date_finish": "2026-02-02T11:29:18+03:00",
+        "operating_reset_at": 1770044958,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Массив доступных хранилищ.
+
+Пустой массив означает, что у пользователя нет доступа к хранилищам или нет записей, удовлетворяющих фильтру ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор хранилища ||
+|| **NAME**
+[`string`](../../data-types.md) | Имя хранилища ||
+|| **CODE**
+[`string`](../../data-types.md) | Символьный код хранилища ||
+|| **MODULE_ID**
+[`string`](../../data-types.md) | Идентификатор модуля, которому принадлежит хранилище ||
+|| **ENTITY_TYPE**
+[`string`](../../data-types.md) | Тип объекта, с которым связано хранилище.
+
+Возможные значения:
+- `user` — хранилище пользователя
+- `common` — хранилище общих документов
+- `group` — хранилище группы  ||
+|| **ENTITY_ID**
+[`string`](../../data-types.md) | Идентификатор объекта, с которым связано хранилище ||
+|| **ROOT_OBJECT_ID**
+[`integer`](../../data-types.md) | Идентификатор корневой папки хранилища ||
+|| **total**
+[`integer`](../../data-types.md) | Общее количество найденных записей ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./disk-storage-add-folder.md)
+- [{#T}](./disk-storage-get-children.md)
+- [{#T}](./disk-storage-get-fields.md)
+- [{#T}](./disk-storage-get-for-app.md)
+- [{#T}](./disk-storage-get-types.md)
+- [{#T}](./disk-storage-get.md)
+- [{#T}](./disk-storage-rename.md)
+- [{#T}](./disk-storage-upload-file.md)

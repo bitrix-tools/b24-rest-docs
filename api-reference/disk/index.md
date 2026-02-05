@@ -144,11 +144,11 @@
 || **Метод** | **Описание** ||
 || [disk.storage.getfields](storage/disk-storage-get-fields.md) | Возвращает описание полей хранилища ||
 || [disk.storage.get](storage/disk-storage-get.md) | Возвращает хранилище по идентификатору ||
-|| [disk.storage.rename](storage/disk-storage-rename.md) | Переименовывает хранилище. Допустимо переименование только хранилища приложения (см. [disk.storage.getforapp](storage/disk-storage-get-for-app.md)) ||
+|| [disk.storage.rename](storage/disk-storage-rename.md) | Переименовывает хранилище приложения ||
 || [disk.storage.getlist](storage/disk-storage-get-list.md) | Возвращает список доступных хранилищ ||
 || [disk.storage.gettypes](storage/disk-storage-get-types.md) | Возвращает список типов хранилищ ||
 || [disk.storage.addfolder](storage/disk-storage-add-folder.md) | Создает папку в корне хранилища ||
 || [disk.storage.getchildren](storage/disk-storage-get-children.md) | Возвращает список файлов и папок, которые находятся непосредственно в корне хранилища ||
 || [disk.storage.uploadfile](storage/disk-storage-upload-file.md) | Загружает новый файл в корне хранилища ||
-|| [disk.storage.getforapp](storage/disk-storage-get-for-app.md) | Возвращает описание хранилища, с которым может работать приложение для хранения своих данных (файлов и папок) ||
+|| [disk.storage.getforapp](storage/disk-storage-get-for-app.md) | Возвращает описание хранилища приложения ||
 |#

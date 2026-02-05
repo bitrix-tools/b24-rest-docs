@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 05 февраля, 2026
+
+- Обновили документацию по методам [disk.storage.getforapp](./api-reference/disk/storage/disk-storage-get-for-app.md), [disk.storage.getlist](./api-reference/disk/storage/disk-storage-get-list.md), [disk.storage.rename](./api-reference/disk/storage/disk-storage-rename.md), [disk.storage.uploadfile](./api-reference/disk/storage/disk-storage-upload-file.md)
+
 ### 03 февраля, 2026
 
 - Добавили методы [main.eventlog.*](./api-reference/rest-v3/main/index.md) для получения записей журнала событий
