@@ -1,4 +1,4 @@
-# Удаление сообщения чат-бота im.message.delete
+# Удалить сообщение im.message.delete
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
