@@ -27,7 +27,7 @@ items:
     href: im-dialog-unread.md
   - name: Отправить признак «вам пишут...»
     href: im-dialog-writing.md
-  - name: Удаление сообщения чат-бота
+  - name: Удалить сообщение
     href: im-message-delete.md
   - name: Использование команды бота
     href: im-message-command.md
