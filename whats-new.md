@@ -5,6 +5,7 @@
 ### 05 февраля, 2026
 
 - Обновили документацию по методам [disk.storage.getforapp](./api-reference/disk/storage/disk-storage-get-for-app.md), [disk.storage.getlist](./api-reference/disk/storage/disk-storage-get-list.md), [disk.storage.rename](./api-reference/disk/storage/disk-storage-rename.md), [disk.storage.uploadfile](./api-reference/disk/storage/disk-storage-upload-file.md)
+- Обновили главную страницу раздела [Хранилище](./api-reference/disk/storage/index.md). Добавили вводную информацию, а также обзор методов
 
 ### 03 февраля, 2026
 
