@@ -31,7 +31,7 @@ Invalid request credentials | У пользователя, с чьим [access-�
 || `404` | `ERROR_MANIFEST_IS_NOT_AVAILABLE`
 Manifest is not available | Манифест недоступен ||
 || `403` | `insufficient_scope`
-The request requires higher privileges than provided by the webhook token | Запрос требует более высоких привилегий, чем предоставляет токен [веб-хука](/local-integrations/local-webhooks.html) ||
+The request requires higher privileges than provided by the webhook token | Запрос требует более высоких привилегий, чем предоставляет токен [вебхука](/local-integrations/local-webhooks.html) ||
 || `401` | `expired_token`
 The access token provided has expired | Предоставленный [access-токен](/settings/oauth/index.html) доступа истек ||
 || `403` | `user_access_error`

@@ -1,67 +1,74 @@
 # Получить публичную ссылку на файл disk.file.getExternalLink
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`disk`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Чтение» для нужного файла
 
-Метод `disk.file.getExternalLink`  возвращает публичную ссылку по идентификатору файла. Публичные ссылки отдают файл на скачивание только, если пользователь зашел в карточку публичной ссылки.
+Метод `disk.file.getExternalLink`  возвращает публичную ссылку на файл. 
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
-||  **Параметр** / **Тип**| **Описание** ||
-|| **id**
-[`unknown`](../../data-types.md) | Идентификатор файла. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор файла.
+
+Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getchildren](../folder/disk-folder-get-children.md), если файл находится в папке ||
 |#
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":8964}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.getExternalLink
+        ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":8964,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/disk.file.getExternalLink
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		"disk.file.getExternalLink",
-    		{
-    			id: 10
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.dir(result);
+        const response = await $b24.callMethod(
+            'disk.file.getExternalLink',
+            {
+                id: 8964,
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('External link:', result);
+        
+        processResult(result);
     }
     catch( error )
     {
-    	console.error(error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -70,23 +77,20 @@
             ->call(
                 'disk.file.getExternalLink',
                 [
-                    'id' => 10
+                    'id' => 8964
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting external link for file: ' . $e->getMessage();
+        echo 'Error getting external link: ' . $e->getMessage();
     }
     ```
 
@@ -96,7 +100,7 @@
     BX24.callMethod(
         "disk.file.getExternalLink",
         {
-            id: 10
+            id: 8964
         },
         function (result)
         {
@@ -108,14 +112,90 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'disk.file.getExternalLink',
+        [
+            'id' => 8964
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
-"result": "https://test.bitrix24.ru/~Fjruf2"
+{
+    "result": "https://test.bitrix24.ru/~4Pie9",
+    "time": {
+        "start": 1770651076,
+        "finish": 1770651076.172321,
+        "duration": 0.17232108116149902,
+        "processing": 0,
+        "date_start": "2026-02-09T15:31:16+03:00",
+        "date_finish": "2026-02-09T15:31:16+03:00",
+        "operating_reset_at": 1770651676,
+        "operating": 0
+    }
+}
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`string`](../../data-types.md) | Публичная ссылка на файл ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ERROR_ARGUMENT",
+    "error_description":"Invalid value of parameter {Parameter #0}"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #0} | Не указан обязательный параметр `id` ||
+|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Файл с указанным `id` не найден ||
+|| `ACCESS_DENIED` | Access denied | Недостаточно прав для получения ссылки на файл ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./disk-file-copy-to.md)
+- [{#T}](./disk-file-delete.md)
+- [{#T}](./disk-file-get-fields.md)
+- [{#T}](./disk-file-get-versions.md)
+- [{#T}](./disk-file-get.md)
+- [{#T}](./disk-file-mark-deleted.md)
+- [{#T}](./disk-file-move-to.md)
+- [{#T}](./disk-file-rename.md)
+- [{#T}](./disk-file-restore-from-version.md)
+- [{#T}](./disk-file-restore.md)
+- [{#T}](./disk-file-upload-version.md)

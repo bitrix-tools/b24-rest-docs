@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 10 февраля, 2026
+
+- Обновили документацию по методам [disk.file.copyto](./api-reference/disk/file/disk-file-copy-to.md), [disk.file.delete](./api-reference/disk/file/disk-file-delete.md), [disk.file.getExternalLink](./api-reference/disk/file/disk-file-get-external-link.md), [disk.file.getfields](./api-reference/disk/file/disk-file-get-fields.md)
+
 ### 05 февраля, 2026
 
 - Обновили документацию по методам [disk.storage.getforapp](./api-reference/disk/storage/disk-storage-get-for-app.md), [disk.storage.getlist](./api-reference/disk/storage/disk-storage-get-list.md), [disk.storage.rename](./api-reference/disk/storage/disk-storage-rename.md), [disk.storage.uploadfile](./api-reference/disk/storage/disk-storage-upload-file.md)
