@@ -1,0 +1,9 @@
+title: События КЭДО
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: При изменении статуса документа
+    href: on-sign-b2e-document-status-changed.md
+  - name: При изменении статуса участника
+    href: on-sign-b2e-member-status-changed.md

@@ -3,7 +3,17 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Отправить документ на подписание
+    href: sign-b2e-document-send.md
+  - name: Получить документ
+    href: sign-b2e-document-get.md
+  - name: Получить список провайдеров компании
+    href: sign-b2e-company-provider-list.md
   - name: Список подписанных документов пользователя
     href: sign-b2e-personal-tail.md
   - name: Список подписанных документов в сейфе компании
     href: sign-b2e-mysafe-tail.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
