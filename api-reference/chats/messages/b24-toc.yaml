@@ -21,6 +21,8 @@ items:
     href: im-message-share.md
   - name: Получить список последних сообщений
     href: im-dialog-messages-get.md
+  - name: Найти сообщение в чате
+    href: im-dialog-messages-search.md
   - name: Установить признак «прочитано» у сообщений
     href: im-dialog-read.md
   - name: Установить признак «не прочитано» у сообщений

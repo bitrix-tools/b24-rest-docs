@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 13 февраля, 2026
+
+- Добавили метод [im.dialog.messages.search](./api-reference/chats/messages/im-dialog-messages-search.md) для поиска сообщений в чате
+
 ### 10 февраля, 2026
 
 - Обновили документацию по методам [disk.file.copyto](./api-reference/disk/file/disk-file-copy-to.md), [disk.file.delete](./api-reference/disk/file/disk-file-delete.md), [disk.file.getExternalLink](./api-reference/disk/file/disk-file-get-external-link.md), [disk.file.getfields](./api-reference/disk/file/disk-file-get-fields.md)
