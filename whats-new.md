@@ -5,6 +5,7 @@
 ### 13 февраля, 2026
 
 - Добавили метод [im.dialog.messages.search](./api-reference/chats/messages/im-dialog-messages-search.md) для поиска сообщений в чате
+- Обновили статью [Инструменты для локальных интеграций](./local-integrations/index.md)
 
 ### 10 февраля, 2026
 
