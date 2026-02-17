@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 17 февраля, 2026
+
+- Обновили документацию по методам пользователських полей для компаний в CRM [crm.company.userfield.*](./api-reference/crm/companies/userfields/index.md)
+
 ### 13 февраля, 2026
 
 - Добавили метод [im.dialog.messages.search](./api-reference/chats/messages/im-dialog-messages-search.md) для поиска сообщений в чате
