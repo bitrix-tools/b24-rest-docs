@@ -369,7 +369,7 @@ function addAPILibraries() {
 
         const script = document.createElement('script');
 
-        script.src = '//api.bitrix24.com/api/v1/';
+        script.src = '//api.bitrix24.tech/api/v1/';
         script.onload = function() {
             try {
 
