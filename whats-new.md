@@ -2,9 +2,14 @@
 
 ## 2026
 
+### 19 февраля, 2026
+
+- Обновили документацию по методам пользовательских полей для лидов в CRM [crm.lead.userfield.*](./api-reference/crm/leads/userfield/index.md)
+- Обновили документацию по методам пользовательских полей для коммерческих предложений в CRM [crm.quote.userfield.*](./api-reference/crm/quote/user-field/index.md)
+
 ### 17 февраля, 2026
 
-- Обновили документацию по методам пользователських полей для компаний в CRM [crm.company.userfield.*](./api-reference/crm/companies/userfields/index.md)
+- Обновили документацию по методам пользовательских полей для компаний в CRM [crm.company.userfield.*](./api-reference/crm/companies/userfields/index.md)
 
 ### 13 февраля, 2026
 
