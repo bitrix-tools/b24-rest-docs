@@ -59,8 +59,8 @@
 
 ## Образец заполнения:
 
-![alt-текст](_images/cf_sample)
-![alt-текст](_images/upd_sample.jpg)
+![alt-текст](_images/cfsample)
+![alt-текст](_images/updsample.jpg)
 
 ## Инструкции для выставления счет-фактур в ЭДО:
 
