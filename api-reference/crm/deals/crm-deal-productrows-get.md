@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «чтения» сделки
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.deal.productrows.get` продолжает работать, но у него есть более актуальный аналог [crm.item.productrow.*](../universal/product-rows/index.md).
+
+{% endnote %}
+
 Метод `crm.deal.productrows.get` возвращает товарные позиции сделки.
 
 #|

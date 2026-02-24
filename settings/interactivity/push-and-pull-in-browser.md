@@ -8,8 +8,8 @@
 <head>
 	<title>Bitri24 application with Push & Pull</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<script src="//api.bitrix24.com/api/v1/"></script>
-	<script src="//api.bitrix24.com/api/v1/pull/"></script>
+	<script src="//api.bitrix24.tech/api/v1/"></script>
+	<script src="//api.bitrix24.tech/api/v1/pull/"></script>
 </head>
 <body>
 	<script>

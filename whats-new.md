@@ -2,6 +2,46 @@
 
 ## 2026
 
+### 19 февраля, 2026
+
+- Обновили документацию по методам пользовательских полей для лидов в CRM [crm.lead.userfield.*](./api-reference/crm/leads/userfield/index.md)
+- Обновили документацию по методам пользовательских полей для коммерческих предложений в CRM [crm.quote.userfield.*](./api-reference/crm/quote/user-field/index.md)
+- Обновили документацию по методам [disk.file.getVersions](./api-reference/disk/file/disk-file-get-versions.md), [disk.file.get](./api-reference/disk/file/disk-file-get.md), [disk.file.markdeleted](./api-reference/disk/file/disk-file-mark-deleted.md), [disk.file.moveto](./api-reference/disk/file/disk-file-move-to.md), [disk.file.rename](./api-reference/disk/file/disk-file-rename.md), [disk.file.restoreFromVersion](./api-reference/disk/file/disk-file-restore-from-version.md), [disk.file.restore](./api-reference/disk/file/disk-file-restore.md), [disk.file.uploadversion](./api-reference/disk/file/disk-file-upload-version.md)
+
+### 17 февраля, 2026
+
+- Обновили документацию по методам пользовательских полей для компаний в CRM [crm.company.userfield.*](./api-reference/crm/companies/userfields/index.md)
+
+### 13 февраля, 2026
+
+- Добавили метод [im.dialog.messages.search](./api-reference/chats/messages/im-dialog-messages-search.md) для поиска сообщений в чате
+- Обновили статью [Инструменты для локальных интеграций](./local-integrations/index.md)
+
+### 10 февраля, 2026
+
+- Обновили документацию по методам [disk.file.copyto](./api-reference/disk/file/disk-file-copy-to.md), [disk.file.delete](./api-reference/disk/file/disk-file-delete.md), [disk.file.getExternalLink](./api-reference/disk/file/disk-file-get-external-link.md), [disk.file.getfields](./api-reference/disk/file/disk-file-get-fields.md)
+
+### 05 февраля, 2026
+
+- Обновили документацию по методам [disk.storage.getforapp](./api-reference/disk/storage/disk-storage-get-for-app.md), [disk.storage.getlist](./api-reference/disk/storage/disk-storage-get-list.md), [disk.storage.rename](./api-reference/disk/storage/disk-storage-rename.md), [disk.storage.uploadfile](./api-reference/disk/storage/disk-storage-upload-file.md)
+- Обновили главную страницу раздела [Хранилище](./api-reference/disk/storage/index.md). Добавили вводную информацию, а также обзор методов
+
+### 03 февраля, 2026
+
+- Добавили методы [main.eventlog.*](./api-reference/rest-v3/main/index.md) для получения записей журнала событий
+
+### 30 января, 2026
+
+- Обновили статью [Поддержка и комьюнити для разработчиков](./support.md)
+
+### 29 января, 2026
+
+- Обновили документацию по методам [disk.folder.uploadfile](./api-reference/disk/folder/disk-folder-upload-file.md), [disk.storage.addfolder](./api-reference/disk/storage/disk-storage-add-folder.md), [disk.storage.getchildren](./api-reference/disk/storage/disk-storage-get-children.md), [disk.storage.getfields](./api-reference/disk/storage/disk-storage-get-fields.md), [disk.storage.gettypes](./api-reference/disk/storage/disk-storage-get-types.md), [disk.storage.get](./api-reference/disk/storage/disk-storage-get.md)
+
+### 27 января, 2026
+
+- Обновили документацию по методам компаний в CRM [crm.company.*](./api-reference/crm/companies/index.md)
+
 ### 26 января, 2026
 
 - Обновили документацию по методам управления карточками компаний [crm.company.details.configuration.*](./api-reference/crm/companies/custom-form/index.md)

@@ -25,6 +25,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.lead.productrows.set` продолжает работать, но у него есть более актуальный аналог [crm.item.productrow.*](../universal/product-rows/index.md).
+
+{% endnote %}
+
 Метод `crm.lead.productrows.set` устанавливает (создаёт или обновляет) товарные позиции лида.
 
 #|

@@ -1,45 +1,55 @@
 # Удалить компанию crm.company.delete
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Удаление» компаний
 
-Метод `crm.company.delete` удаляет компанию и все связанные с ней объекты.
+{% note warning "Развитие метода остановлено" %}
 
-## Параметры
+Метод `crm.company.delete` продолжает работать, но у него есть более актуальный аналог [crm.item.delete](../universal/crm-item-delete.md).
+
+{% endnote %}
+
+Метод `crm.company.delete` удаляет компанию.
+
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **id**
-[`unknown`](../../data-types.md) | Идентификатор компании. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор компании ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ID":50}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.company.delete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ID":50,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.company.delete
+    ```
+
+- JS
 
     ```js
     try
@@ -63,7 +73,6 @@
     ```
 
 - PHP
-
 
     ```php
     $id = readline("Введите ID");
@@ -111,6 +120,84 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.company.delete',
+        [
+            'ID' => 50
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1769497083,
+        "finish": 1769497084.786988,
+        "duration": 1.7869880199432373,
+        "processing": 1,
+        "date_start": "2026-01-27T09:58:03+03:00",
+        "date_finish": "2026-01-27T09:58:04+03:00",
+        "operating_reset_at": 1769497683,
+        "operating": 1.564450979232788
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Корневой элемент ответа, возвращает `true` в случае успеха ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `-` | `Access denied` | У пользователя нет права на «Удаление» компаний ||
+|| `-` | `Company is not found` | Компания не найдена ||
+|#
+
+{% include [системные ошибки](./../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./crm-company-add.md)
+- [{#T}](./crm-company-update.md)
+- [{#T}](./crm-company-get.md)
+- [{#T}](./crm-company-list.md)
+- [{#T}](./crm-company-fields.md)
+

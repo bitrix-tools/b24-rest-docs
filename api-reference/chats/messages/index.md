@@ -307,6 +307,7 @@ restCommand(
 #|
 || **Метод** | **Описание** ||
 || [im.dialog.messages.get](./im-dialog-messages-get.md) | Получает список последних сообщений ||
+|| [im.dialog.messages.search](./im-dialog-messages-search.md) | Ищет сообщения в чате ||
 || [im.dialog.read](./im-dialog-read.md) | Устанавливает признак «прочитано» у сообщений ||
 || [im.dialog.unread](./im-dialog-unread.md) | Устанавливает признак «не прочитано» у сообщений ||
 || [im.dialog.writing](./im-dialog-writing.md) | Отправляет признак «вам пишут...» ||

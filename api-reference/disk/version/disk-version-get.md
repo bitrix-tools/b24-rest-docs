@@ -176,7 +176,7 @@ HTTP-статус: **200**
 || **NAME**
 [`string`](../../data-types.md) | Название файла на момент создания версии ||
 || **GLOBAL_CONTENT_VERSION**
-[`string`](../../data-types.md) | Инкрементальный счетчик версии файла ||
+[`integer`](../../data-types.md) | Инкрементальный счетчик версии файла ||
 || **CREATE_TIME**
 [`string`](../../data-types.md) | Время создания версии ||
 || **CREATED_BY**

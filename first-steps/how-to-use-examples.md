@@ -50,13 +50,13 @@ https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/crm.deal.add.json
 Однако, когда вы разберетесь с понятием локального или даже тиражного приложение, использование примеров на JavaScript из документация станет очень простым. Для использования JavaScript примеров необходимо подключить только следующий скрипт:
 
 ```html
-<script src="//api.bitrix24.com/api/v1/"></script>
+<script src="//api.bitrix24.tech/api/v1/"></script>
 ```
 
 Пример использования bx24.js:
 
 ```js
-<script src="//api.bitrix24.com/api/v1/"></script>
+<script src="//api.bitrix24.tech/api/v1/"></script>
 
 <script>
 BX24.callMethod(

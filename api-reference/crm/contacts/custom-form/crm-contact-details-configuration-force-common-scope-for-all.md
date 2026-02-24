@@ -4,6 +4,12 @@
 > 
 > Кто может выполнять метод: Администратор
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.contact.details.configuration.forceCommonScopeForAll` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.forceCommonScopeForAll](../../universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md).
+
+{% endnote %}
+
 Метод позволяет принудительно установить общую карточку контактов для всех пользователей.
 
 Без параметров.

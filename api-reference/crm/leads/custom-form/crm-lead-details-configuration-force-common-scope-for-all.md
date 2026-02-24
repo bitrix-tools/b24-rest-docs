@@ -24,6 +24,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.lead.details.configuration.forceCommonScopeForAll` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.forceCommonScopeForAll](../../universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md).
+
+{% endnote %}
+
 Метод `crm.lead.details.configuration.forceCommonScopeForAll` принудительно устанавливает общую карточку лидов для всех пользователей.
 
 {% note warning %}
