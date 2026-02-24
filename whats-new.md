@@ -6,6 +6,7 @@
 
 - Обновили документацию по методам пользовательских полей для лидов в CRM [crm.lead.userfield.*](./api-reference/crm/leads/userfield/index.md)
 - Обновили документацию по методам пользовательских полей для коммерческих предложений в CRM [crm.quote.userfield.*](./api-reference/crm/quote/user-field/index.md)
+- Обновили документацию по методам [disk.file.getVersions](./api-reference/disk/file/disk-file-get-versions.md), [disk.file.get](./api-reference/disk/file/disk-file-get.md), [disk.file.markdeleted](./api-reference/disk/file/disk-file-mark-deleted.md), [disk.file.moveto](./api-reference/disk/file/disk-file-move-to.md), [disk.file.rename](./api-reference/disk/file/disk-file-rename.md), [disk.file.restoreFromVersion](./api-reference/disk/file/disk-file-restore-from-version.md), [disk.file.restore](./api-reference/disk/file/disk-file-restore.md), [disk.file.uploadversion](./api-reference/disk/file/disk-file-upload-version.md)
 
 ### 17 февраля, 2026
 
