@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 25 февраля, 2026
+
+- Обновили статью [Что позволяет REST API Битрикс24](./developing-with-rest-api.md)
+
 ### 19 февраля, 2026
 
 - Обновили документацию по методам пользовательских полей для лидов в CRM [crm.lead.userfield.*](./api-reference/crm/leads/userfield/index.md)
