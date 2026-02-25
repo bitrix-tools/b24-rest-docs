@@ -20,7 +20,7 @@
 - `bitrix_processes` — тип инфоблока процессов 
 - `lists_socnet` — тип инфоблока списков групп
 
-Идентификатор можно получить с помощью метода [lists.get-iblock-type-id](./lists-get-iblock-type-id.md) ||
+Идентификатор можно получить с помощью метода [lists.get.iblock.type.id](./lists-get-iblock-type-id.md) ||
 || **IBLOCK_ID**
 [`integer`](../../data-types.md) | Идентификатор инфоблока ||
 || **IBLOCK_CODE** 
