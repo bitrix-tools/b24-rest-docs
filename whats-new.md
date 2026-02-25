@@ -5,6 +5,7 @@
 ### 25 февраля, 2026
 
 - Обновили статью [Что позволяет REST API Битрикс24](./developing-with-rest-api.md)
+- Обновили статью [Кодирование данных](./settings/how-to-call-rest-api/data-encoding.md) 
 
 ### 19 февраля, 2026
 
