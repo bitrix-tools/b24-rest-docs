@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 25 февраля, 2026
+
+- Обновили документацию по методу [imbot.message.add](./api-reference/chat-bots/messages/imbot-message-add.md) и событию [ONIMBOTMESSAGEADD](./api-reference/chat-bots/messages/events/on-imbot-message-add.md)
+
 ### 19 февраля, 2026
 
 - Обновили документацию по методам пользовательских полей для лидов в CRM [crm.lead.userfield.*](./api-reference/crm/leads/userfield/index.md)
