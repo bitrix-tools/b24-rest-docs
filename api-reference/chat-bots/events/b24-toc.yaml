@@ -7,6 +7,5 @@ items:
     href: on-app-install.md
   - name: На обновление приложения
     href: on-app-update.md
-  - name: Пример кода обработчика для работы с событиями
-    href: example-handler-code.md
+
 
