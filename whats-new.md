@@ -4,6 +4,8 @@
 
 ### 25 февраля, 2026
 
+- Обновили статью [Что позволяет REST API Битрикс24](./developing-with-rest-api.md)
+- Обновили статью [Кодирование данных](./settings/how-to-call-rest-api/data-encoding.md)
 - Обновили документацию по методу [imbot.message.add](./api-reference/chat-bots/messages/imbot-message-add.md) и событию [ONIMBOTMESSAGEADD](./api-reference/chat-bots/messages/events/on-imbot-message-add.md)
 
 ### 19 февраля, 2026

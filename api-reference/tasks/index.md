@@ -284,7 +284,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [task.planer.getList](./planner/task-planner-get-list.md) | Получает список задач из «Плана на день» ||
+|| [task.planner.getList](./planner/task-planner-get-list.md) | Получает список задач из «Плана на день» ||
 |#
 
 ### Потоки
