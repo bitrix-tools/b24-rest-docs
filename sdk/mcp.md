@@ -41,11 +41,9 @@ MCP позволяет:
 
 4. При составлении запроса добавьте файл `mcp.json` в контекст.
 
-Альтернативный способ добавления MCP:
+**Альтернативный способ добавления MCP.** При нажатии на кнопку ниже, сработает перенаправление на Cursor. Он автоматически откроется и предложит добавить сервер с уже заполненной конфигурацией.
 
-```html
 <a href="https://cursor.com/en-US/install-mcp?name=b24-dev-mcp&config=eyJ1cmwiOiJodHRwczovL21jcC1kZXYuYml0cml4MjQuY29tL21jcCIsInRpbWVvdXQiOjMwMDAwfQ%3D%3D"><img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Add b24-dev-mcp MCP server to Cursor" height="32" /></a>
-```
 
 ### GitHub Copilot Chat, VS Code
 
