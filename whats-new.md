@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 26 февраля, 2026
+
+- Обновили документацию по методам чатов чат-ботов [imbot.chat.*](./api-reference/chat-bots/chats/index.md)
+
 ### 25 февраля, 2026
 
 - Обновили статью [Что позволяет REST API Битрикс24](./developing-with-rest-api.md)

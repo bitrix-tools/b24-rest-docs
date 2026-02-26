@@ -1,4 +1,4 @@
-# О чатах
+# Чаты чат-ботов: обзор методов
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -19,7 +19,7 @@
 
 > Scope: [`imbot`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: зависит от метода
 
 {% list tabs %}
 
@@ -30,7 +30,6 @@
     || [imbot.chat.add](./imbot-chat-add.md) | Создает новый чат ||
     || [imbot.chat.get](./imbot-chat-get.md) | Возвращает информацию о чате ||
     || [imbot.chat.leave](./imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
-    || [imbot.chat.setOwner](./imbot-chat-set-owner.md) | Устанавливает нового владельца чата ||
     || [imbot.chat.updateAvatar](./imbot-chat-update-avatar.md) | Обновляет аватар чата ||
     || [imbot.chat.updateColor](./imbot-chat-update-color.md) | Обновляет цвет чата ||
     || [imbot.chat.updateTitle](./imbot-chat-update-title.md) | Обновляет название чата ||
