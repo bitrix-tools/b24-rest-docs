@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 27 февраля, 2026
+
+- Обновили документацию по методам чатов [im.chat.add](./api-reference/chats/im-chat-add.md), [im.chat.get](./api-reference/chats/im-chat-get.md), [im.counters.get](./api-reference/chats/im-counters-get.md), [im.dialog.get](./api-reference/chats/im-dialog-get.md), [im.recent.get](./api-reference/chats/im-recent-get.md), [im.recent.list](./api-reference/chats/im-recent-list.md)
+
 ### 26 февраля, 2026
 
 - Обновили документацию по методам чатов чат-ботов [imbot.chat.*](./api-reference/chat-bots/chats/index.md)
