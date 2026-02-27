@@ -5,6 +5,7 @@
 ### 27 февраля, 2026
 
 - Обновили документацию по методам чатов [im.chat.add](./api-reference/chats/im-chat-add.md), [im.chat.get](./api-reference/chats/im-chat-get.md), [im.counters.get](./api-reference/chats/im-counters-get.md), [im.dialog.get](./api-reference/chats/im-dialog-get.md), [im.recent.get](./api-reference/chats/im-recent-get.md), [im.recent.list](./api-reference/chats/im-recent-list.md)
+- Обновили документацию по методам [imbot.command.register](./api-reference/chat-bots/commands/imbot-command-register.md), [imbot.command.update](./api-reference/chat-bots/commands/imbot-command-update.md), [imbot.command.answer](./api-reference/chat-bots/commands/imbot-command-answer.md), [imbot.command.unregister](./api-reference/chat-bots/commands/imbot-command-unregister.md)
 
 ### 26 февраля, 2026
 
