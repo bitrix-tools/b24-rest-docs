@@ -9,6 +9,4 @@ items:
     href: on-app-update.md
   - name: При удалении чат-бота
     href: on-imbot-delete.md
-  - name: Пример кода обработчика для работы с событиями
-    href: example-handler-code.md
 

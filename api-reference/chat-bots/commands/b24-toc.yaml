@@ -7,10 +7,10 @@ items:
     href: imbot-command-register.md
   - name: Изменить команду
     href: imbot-command-update.md
-  - name: Удалить команду
-    href: imbot-command-unregister.md
   - name: Отправить ответ на команду
     href: imbot-command-answer.md
+  - name: Удалить команду
+    href: imbot-command-unregister.md
   - name: События
     include:
       path: events/b24-toc.yaml
