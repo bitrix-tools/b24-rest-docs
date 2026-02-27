@@ -158,7 +158,7 @@ Slash-команды позволяют быстро создавать запр
 - [ONIMJOINCHAT](./chats/events/on-imbot-join-chat.md) — событие после приглашения чат-бота «к разговору», т.е. либо при вызове его пользователем в индивидуальном чате, либо при подключении его к групповому чату.
 - [ONIMBOTMESSAGEADD](./messages/events/on-imbot-message-add.md) — событие после отправки сообщения от пользователя к чат-боту (в групповом чате, при явном упоминании бота).
 - [ONIMCOMMANDADD](./commands/events/on-im-command-add.md) — событие после отправки команды от пользователя к чат-боту (в персональной переписке с ним, или в групповом чате (если команда глобальная, то он может не участвовать в чате)).
-- [ONIMBOTDELETE](./chats/events/on-imbot-delete.md) — событие после удаления приложения. Событие вызывается параллельно с [OnAppUninstall](../common/events/on-app-uninstall.md).
+- [ONIMBOTDELETE](./events/on-imbot-delete.md) — событие после удаления приложения. Событие вызывается параллельно с [OnAppUninstall](../common/events/on-app-uninstall.md).
 
 Иными словами, мы должны написать обработчики указанных событий, чтобы реализовать простую логику:
 
@@ -240,6 +240,7 @@ Slash-команды позволяют быстро создавать запр
     || **Событие** | **Вызывается** ||
     || [ONAPPINSTALL](./events/on-app-install.md) | При установке приложения ||
     || [ONAPPUPDATE](./events/on-app-update.md) | При обновлении приложения ||
+    || [ONIMBOTDELETE](./events/on-imbot-delete.md) | При удалении чат-бота ||
     |#
 
 {% endlist %}
@@ -255,7 +256,7 @@ Slash-команды позволяют быстро создавать запр
     || [imbot.chat.add](./chats/imbot-chat-add.md) | Создает новый чат ||
     || [imbot.chat.get](./chats/imbot-chat-get.md) | Возвращает информацию о чате ||
     || [imbot.chat.leave](./chats/imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
-    || [imbot.chat.setOwner](./chats/imbot-chat-set-owner.md) | Устанавливает нового владельца чата ||
+    || [imbot.chat.sendTyping](.//chats/imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
     || [imbot.chat.updateAvatar](./chats/imbot-chat-update-avatar.md) | Обновляет аватар чата ||
     || [imbot.chat.updateColor](./chats/imbot-chat-update-color.md) | Обновляет цвет чата ||
     || [imbot.chat.updateTitle](./chats/imbot-chat-update-title.md) | Обновляет название чата ||
@@ -269,7 +270,6 @@ Slash-команды позволяют быстро создавать запр
 
     #|
     || **Событие** | **Вызывается** ||
-    || [ONIMBOTDELETE](./chats/events/on-imbot-delete.md) | При удалении чат-бота ||
     || [ONIMBOTJOINCHAT](./chats/events/on-imbot-join-chat.md) | При получении информации чат-ботом о включении его в чат (или личную переписку) ||
     |#
 
@@ -310,7 +310,6 @@ Slash-команды позволяют быстро создавать запр
     || [imbot.message.update](./messages/imbot-message-update.md) | Обновляет существующее сообщение от чат-бота ||
     || [imbot.message.delete](./messages/imbot-message-delete.md) | Удаляет сообщение от чат-бота ||
     || [imbot.message.like](./messages/imbot-message-like.md) | Ставит "лайк" на сообщение от чат-бота ||
-    || [imbot.chat.sendTyping](./messages/imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
     |#
 
 - События

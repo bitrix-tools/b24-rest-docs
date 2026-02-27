@@ -1,177 +1,434 @@
-# На изменение сообщения ONIMBOTMESSAGEUPDATE
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- таблицы параметров сгенерированы по примеру. Что такое [39] в примере??? BOT_ID? И как это записать в таблицу?
-
-{% endnote %}
-
-{% endif %}
+# Событие при изменении сообщения ONIMBOTMESSAGEUPDATE
 
 > Scope: [`imbot`](../../../scopes/permissions.md)
 >
-> Кто может подписаться: любой пользователь
+> Кто может подписаться: пользователь приложения, которое зарегистрировало чат-бота
 
-Событие `ONIMBOTMESSAGEUPDATE`, возникающее при редактировании сообщения. Событие работает только в контекста приложения чат-бота.
+Событие `ONIMBOTMESSAGEUPDATE` срабатывает при изменении сообщения в диалоге с чат-ботом. Событие работает только в контексте приложения чат-бота.
 
-{% note warning %}
+Для ботов с `TYPE=B/H` и `OPENLINE=N` параметр `EVENT_MESSAGE_UPDATE` игнорируется в методе [imbot.register](../../imbot-register.md). Чтобы событие срабатывало для таких ботов, привяжите обработчик `EVENT_MESSAGE_UPDATE` с помощью метода [imbot.update](../../imbot-update.md).
 
-Описанные ниже поля - это содержимое поля [data] в событии. Данные авторизации в ключе [auth] содержат данные пользователя инициатора события, для получения данных авторизации бота, необходимо использовать [data][BOT][__BOT_CODE__].
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
-#|
-|| **Поле** | **Описание** | **Ревизия** ||
-|| **BOT** 
-[`unknown`](../../../data-types.md) | Массив кодов чат-ботов, которым предназначено сообщение | ||
-|| **PARAMS** 
-[`unknown`](../../../data-types.md) | Массив данных сообщения | ||
-|| **USER** 
-[`unknown`](../../../data-types.md) | Массив данных автора сообщения, может быть пустым, если ID = 0 | ||
-|#
+## Правило срабатывания события 
 
-## BOT/[39]???
+Событие срабатывает, если привязан обработчик `EVENT_MESSAGE_UPDATE` и сообщение соответствует логике типа бота:
+- `TYPE=B/H`:
+    - личный чат с ботом: событие срабатывает независимо от упоминаний,
+    - групповой чат: срабатывает только при упоминании бота,
+- `TYPE=S` — событие срабатывает независимо от упоминаний,
+- `TYPE=O` — событие срабатывает в чатах открытых линий, где участвует бот.
 
-#|
-|| **Поле** | **Описание** | **Ревизия** ||
-|| **AUTH** 
-[`unknown`](../../../data-types.md) | Параметры для авторизации под ботом, для выполнения действий | ||
-|| **BOT_ID** 
-[`unknown`](../../../data-types.md) | Идентификатор бота | ||
-|| **BOT_CODE** 
-[`unknown`](../../../data-types.md) | Код бота | ||
-|#
+Без `EVENT_MESSAGE_UPDATE` событие не сработает независимо от упоминаний.
 
-## AUTH
+## Что получает обработчик
 
-#|
-|| **Поле** | **Описание** | **Ревизия** ||
-|| **domain** 
-[`unknown`](../../../data-types.md) | Домен | ||
-|| **member_id** 
-[`unknown`](../../../data-types.md) | Уникальный идентификатор | ||
-|| **application_token** 
-[`unknown`](../../../data-types.md) | Токен приложения | ||
-|#
-
-## PARAMS
-
-#|
-|| **Поле** | **Описание** | **Ревизия** ||
-|| **DIALOG_ID** 
-[`unknown`](../../../data-types.md) | Идентификатор диалога | ||
-|| **CHAT_TYPE** 
-[`unknown`](../../../data-types.md) | Тип сообщения и чата, может быть P (чат один-на-один), C (с ограниченным количеством участников), O (публичный чат), S (чат-бот с повышенными привилегиями - supervisor) | ||
-|| **CHAT_ENTITY_TYPE** 
-[`unknown`](../../../data-types.md) | для идентификации чата (данные поле вы можете задать в момент создания), для чатов открытых линий в данном поле будет указано LINES | ||
-|| **CHAT_ENTITY_ID** 
-[`unknown`](../../../data-types.md) | для идентификации чата (данные поле вы можете задать в момент создания) | ||
-|| **MESSAGE_ID** 
-[`unknown`](../../../data-types.md) | Идентификатор сообщения | ||
-|| **MESSAGE** 
-[`unknown`](../../../data-types.md) | Сообщение | ||
-|| **MESSAGE_ORIGINAL** 
-[`unknown`](../../../data-types.md) | Оригинальное сообщение с BB-кодом чат-бота (параметр доступен только в групповых чатах) | ||
-|| **FROM_USER_ID** 
-[`unknown`](../../../data-types.md) | Идентификатор пользователя отправившего сообщение | ||
-|| **TO_USER_ID** 
-[`unknown`](../../../data-types.md) | Идентификатор бота или пользователя: в диалоге "один-на-один" это будет идентификатор бота, а в групповом чате - идентификатор пользователя, кому направлено обращение. Если указано 0 - значит всем участникам чата | ||
-|| **TO_CHAT_ID** 
-[`unknown`](../../../data-types.md) | Идентификатор чата (параметр доступен только в групповых чатах) | ||
-|| **LANGUAGE** 
-[`unknown`](../../../data-types.md) | Идентификатор языка портала по умолчанию | ||
-|#
-
-## USER
-
-#|
-|| **Поле** | **Описание** | **Ревизия** ||
-|| **ID** 
-[`unknown`](../../../data-types.md) | Идентификатор пользователя | ||
-|| **NAME** 
-[`unknown`](../../../data-types.md) | Имя и фамилия пользователя | ||
-|| **FIRST_NAME** 
-[`unknown`](../../../data-types.md) | Имя пользователя | ||
-|| **LAST_NAME** 
-[`unknown`](../../../data-types.md) | Фамилия пользователя | ||
-|| **WORK_POSITION** 
-[`unknown`](../../../data-types.md) | Занимаемая должность | ||
-|| **GENDER** 
-[`unknown`](../../../data-types.md) | Пол, может быть либо M (мужской), либо F (женский) | ||
-|| **IS_BOT** 
-[`unknown`](../../../data-types.md) | Это пользователь - бот (Y), иначе - N. | ||
-|| **IS_CONNECTOR** 
-[`unknown`](../../../data-types.md) | Это пользователь - коннектор (участник ОЛ-чата, клиент), иначе - N. | ||
-|| **IS_NETWORK** 
-[`unknown`](../../../data-types.md) | Это пользователь нетворка (может быть участником ОЛ-чата, клиент или просто внешний пользователь), иначе - N. | ||
-|| **IS_EXTRANET** 
-[`unknown`](../../../data-types.md) | Это пользователь экстранет (все пользователи, которые не-интранет), иначе - N. | ||
-|#
-
-## Примеры
-
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+Данные передаются в виде POST-запроса {.b24-info}
 
 {% list tabs %}
 
-- JS
+- Личный чат с ботом
 
-    ```js
-    [BOT] => Array (
-        [39] => Array (
-            [AUTH] => Array (
-                [domain] => b24.hazz
-                [member_id] => d41d8cd98f00b204e9800998ecf8427e
-                [application_token] => 8006ddd764e69deb28af0c768b10ed65
-            )
-            [BOT_ID] => 39    
-            [BOT_CODE] => newbot
-        )
-    )
-    [PARAMS] => Array (
-        [DIALOG_ID] => 1    
-        [CHAT_TYPE] => P    
-        [CHAT_ENTITY_TYPE] => 'LINES'    
-        [CHAT_ENTITY_ID] => 13    
-        [MESSAGE_ID] => 392
-        [MESSAGE] => test3
-        [MESSAGE_ORIGINAL] => [USER=39]NewBot[/USER] test3
-        [FROM_USER_ID] => 1
-        [TO_USER_ID] => 1
-        [TO_CHAT_ID] => 6
-        [LANGUAGE] => ru    
-    )
-    [USER] => Array (
-        [ID] => 1
-        [NAME] => Евгений Шеленков
-        [FIRST_NAME] => Евгений
-        [LAST_NAME] => Шеленков
-        [WORK_POSITION] =>
-        [GENDER] => M
-        [IS_BOT] => 'Y'
-        [IS_CONNECTOR] => 'Y'
-        [IS_NETWORK] => 'Y'
-        [IS_EXTRANET] => 'Y'
-    )
+    ```json
+    {
+        "event": "ONIMBOTMESSAGEUPDATE",
+        "event_handler_id": "455",
+        "data": {
+            "BOT": {
+                "571": {
+                    "access_token": "880aa0690000071b000008440000023bf0f107a4af72f200b757ece",
+                    "expires": "1772096136",
+                    "expires_in": "3600",
+                    "scope": "imbot",
+                    "domain": "some-domain.bitrix24.ru",
+                    "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+                    "status": "F",
+                    "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+                    "member_id": "bac1cd5c8940947a75e0d71b1a84e348",
+                    "refresh_token": "7889c7690000071b000008440000023bf0f107ad212748fb2268",
+                    "user_id": "571",
+                    "client_id": "a7eff906dd1d950269258a599214f69e",
+                    "application_token": "831c76b092f9f135d9b6b36c3a720757",
+                    "AUTH": {
+                        "access_token": "880aa0690000071b000008440000023bf0f107a4af72f200b757ece",
+                        "expires": "1772096136",
+                        "expires_in": "3600",
+                        "scope": "imbot",
+                        "domain": "some-domain.bitrix24.ru",
+                        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+                        "status": "F",
+                        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+                        "member_id": "bac1cd5c8940947a75e0d71b1a84e348",
+                        "refresh_token": "7889c7690000071b000008440000023bf0f107ad212748fb2268",
+                        "user_id": "571",
+                        "client_id": "a7eff906dd1d950269258a599214f69e",
+                        "application_token": "831c76b092f9f135d9b6b36c3a720757"
+                    },
+                    "BOT_ID": "571",
+                    "BOT_CODE": "BOT"
+                }
+            },
+            "PARAMS": {
+                "ID": "84531",
+                "CHAT_ID": "1453",
+                "AUTHOR_ID": "27",
+                "MESSAGE": "Как добавить наблюдателя в задачу?",
+                "MESSAGE_TYPE": "P",
+                "CHAT_AUTHOR_ID": "571",
+                "CHAT_ENTITY_ID": "",
+                "CHAT_ENTITY_DATA_1": "",
+                "CHAT_ENTITY_DATA_2": "",
+                "CHAT_ENTITY_DATA_3": "",
+                "FROM_USER_ID": "27",
+                "TO_USER_ID": "571",
+                "CHAT_USER_COUNT": "2",
+                "PLATFORM_CONTEXT": "web",
+                "DIALOG_ID": "27",
+                "MESSAGE_ID": "84531",
+                "CHAT_TYPE": "P",
+                "LANGUAGE": "ru"
+            },
+            "USER": {
+                "ID": "27",
+                "NAME": "Светлана Иванова",
+                "FIRST_NAME": "Светлана",
+                "LAST_NAME": "Иванова",
+                "WORK_POSITION": "",
+                "GENDER": "F",
+                "IS_BOT": "N",
+                "IS_CONNECTOR": "N",
+                "IS_NETWORK": "N",
+                "IS_EXTRANET": "N"
+            }
+        },
+        "ts": "1772092536",
+        "auth": {
+            "access_token": "880aa06900071b00084400001b0007dff360d21523410a45b4f7c12",
+            "expires": "1772096136",
+            "expires_in": "3600",
+            "scope": "imbot",
+            "domain": "some-domain.bitrix24.ru",
+            "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+            "status": "F",
+            "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+            "member_id": "bac1cd5c8940947a75e0d71b1a84e348",
+            "user_id": "27",
+            "refresh_token": "7889c769000071b000084400001b00007c0063d012b7284",
+            "application_token": "831c76b092f9f135d9b6b36c3a720757"
+        }
+    }
+    ```
+
+- Групповой чат
+
+    ```json
+    {
+        "event": "ONIMBOTMESSAGEUPDATE",
+        "event_handler_id": "455",
+        "data": {
+            "BOT": {
+                "571": {
+                    "access_token": "2c1da06900071b00084400023bf0f107464a9d34dc68a6b185f",
+                    "expires": "1772100908",
+                    "expires_in": "3600",
+                    "scope": "imbot",
+                    "domain": "some-domain.bitrix24.ru",
+                    "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+                    "status": "F",
+                    "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+                    "member_id": "bac1cd5c8940947a75e0d71b1a84e348",
+                    "refresh_token": "1c9cc76900071b00084400023bf0f107bbc698c8eca4b3e89099f4",
+                    "user_id": "571",
+                    "client_id": "a7eff906dd1d950269258a599214f69e",
+                    "application_token": "831c76b092f9f135d9b6b36c3a720757",
+                    "AUTH": {
+                        "access_token": "2c1da06900071b00084400023bf0f107464a9d34dc68a6b185f",
+                        "expires": "1772100908",
+                        "expires_in": "3600",
+                        "scope": "imbot",
+                        "domain": "some-domain.bitrix24.ru",
+                        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+                        "status": "F",
+                        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+                        "member_id": "bac1cd5c8940947a75e0d71b1a84e348",
+                        "refresh_token": "1c9cc76900071b00084400023bf0f107bbc698c8eca4b3e89099f4",
+                        "user_id": "571",
+                        "client_id": "a7eff906dd1d950269258a599214f69e",
+                        "application_token": "831c76b092f9f135d9b6b36c3a720757"
+                    },
+                    "BOT_ID": "571",
+                    "BOT_CODE": "BOT"
+                }
+            },
+            "PARAMS": {
+                "ID": "84537",
+                "CHAT_ID": "1157",
+                "AUTHOR_ID": "27",
+                "MESSAGE": "оформи список задач",
+                "MESSAGE_TYPE": "C",
+                "CHAT_AUTHOR_ID": "27",
+                "CHAT_ENTITY_TYPE": "THREAD",
+                "CHAT_ENTITY_ID": "",
+                "CHAT_ENTITY_DATA_1": "",
+                "CHAT_ENTITY_DATA_2": "",
+                "CHAT_ENTITY_DATA_3": "",
+                "CHAT_USER_COUNT": "2",
+                "MENTIONED_LIST": {
+                    "571": "571"
+                },
+                "PLATFORM_CONTEXT": "web",
+                "MESSAGE_ORIGINAL": "[USER=571]NewBot[/USER], оформи список задач",
+                "TO_USER_ID": "571",
+                "DIALOG_ID": "chat1157",
+                "MESSAGE_ID": "84537",
+                "CHAT_TYPE": "C",
+                "LANGUAGE": "ru"
+            }
+        },
+        "ts": "1772097308",
+        "auth": {
+            "access_token": "2c1da06900071b00084400001b00077e03d155e8",
+            "expires": "1772100908",
+            "expires_in": "3600",
+            "scope": "imbot",
+            "domain": "some-domain.bitrix24.ru",
+            "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+            "status": "F",
+            "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+            "member_id": "bac1cd5c8940947a75e0d71b1a84e348",
+            "user_id": "27",
+            "refresh_token": "1c9cc76900071b00084400001b00007b2dbee904c1",
+            "application_token": "831c76b092f9f135d9b6b36c3a720757"
+        }
+    }
     ```
 
 {% endlist %}
 
-{% note alert "" %}
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **event**
+[`string`](../../../data-types.md) | Символьный код события.
 
-Токены авторизации не всегда передаются в обработчик события. Если хит, инициировавший событие, не удалось привязать к конкретному пользователю Битрикс24, токены не передаются. Обязательно проверяйте содержимое ключа auth в коде.
+В данном случае — `ONIMBOTMESSAGEUPDATE` ||
+|| **event_handler_id**
+[`integer`](../../../data-types.md) | Идентификатор обработчика события. ||
+|| **data**
+[`object`](../../../data-types.md) | Объект с данными события.
 
-Рекомендуем хранить токены, полученные ранее при установке приложения. Используйте их при работе с интерфейсом приложения в виде встроек, виджетов и так далее.
+Структура описана [ниже](#data) ||
+|| **ts**
+[`timestamp`](../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../events/index.md) ||
+|| **auth**
+[`object`](../../../data-types.md) | Объект с параметрами авторизации пользователя, от имени которого сработало событие.
 
-{% endnote %}
+Структура описана [ниже](#auth) ||
+|#
+
+### Параметр data {#data}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **BOT**
+[`object`](../../../data-types.md) | Набор параметров авторизации ботов, которым адресовано событие. Ключ объекта — идентификатор бота `BOT_ID`.
+
+Структура описана [ниже](#bot) ||
+|| **PARAMS**
+[`object`](../../../data-types.md) | Параметры измененного сообщения.
+
+Структура описана [ниже](#params) ||
+|| **USER**
+[`object`](../../../data-types.md) | Данные автора сообщения. Может отсутствовать или быть пустым.
+
+Структура описана [ниже](#user) ||
+|#
+
+### Параметр BOT {#bot}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **{BOT_ID}**
+[`object`](../../../data-types.md) | Объект данных конкретного бота. Ключ соответствует идентификатору бота, например `571`.
+
+Структура описана [ниже](#bot-item) ||
+|#
+
+#### Элемент \{BOT_ID\} {#bot-item}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **access_token**
+[`string`](../../../data-types.md) | OAuth-токен авторизации бота ||
+|| **expires**
+[`timestamp`](../../../data-types.md) | Момент окончания действия токена ||
+|| **expires_in**
+[`integer`](../../../data-types.md) | Время жизни токена в секундах ||
+|| **scope**
+[`string`](../../../data-types.md) | Скоуп, в рамках которого произошло событие ||
+|| **domain**
+[`string`](../../../data-types.md) | Адрес Битрикс24, на котором произошло событие ||
+|| **server_endpoint**
+[`string`](../../../data-types.md) | Адрес OAuth-сервера для REST-запросов ||
+|| **status**
+[`string`](../../../data-types.md) | Признак состояния приложения на портале ||
+|| **client_endpoint**
+[`string`](../../../data-types.md) | Общий путь для вызовов методов REST API для портала, на котором произошло событие ||
+|| **member_id**
+[`string`](../../../data-types.md) | Уникальный идентификатор Битрикс24 ||
+|| **refresh_token**
+[`string`](../../../data-types.md) | OAuth-токен продления авторизации бота ||
+|| **user_id**
+[`integer`](../../../data-types.md) | Идентификатор пользователя-бота ||
+|| **client_id**
+[`string`](../../../data-types.md) | Идентификатор приложения, выданный при регистрации ||
+|| **application_token**
+[`string`](../../../data-types.md) | Токен приложения ||
+|| **AUTH**
+[`object`](../../../data-types.md) | Параметры авторизации бота в формате `auth`.
+
+Структура описана [ниже](#auth) ||
+|| **BOT_ID**
+[`integer`](../../../data-types.md) | Идентификатор бота ||
+|| **BOT_CODE**
+[`string`](../../../data-types.md) | Символьный код бота ||
+|#
+
+### Параметр PARAMS {#params}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор сообщения ||
+|| **CHAT_ID**
+[`integer`](../../../data-types.md) | Идентификатор чата ||
+|| **AUTHOR_ID**
+[`integer`](../../../data-types.md) | Идентификатор автора сообщения ||
+|| **MESSAGE**
+[`string`](../../../data-types.md) | Текст сообщения после изменения.
+
+В групповом чате текст передается без BB-кода упоминания бота ||
+|| **MESSAGE_TYPE**
+[`string`](../../../data-types.md) | Тип сообщения
+
+Возможные значения:
+- `P` — private, личный чат
+- `C` — group chat, групповой чат
+- `O` — open chat, открытый чат
+- `L` — open line, чат открытой линии
+- `S` — system/notify, системное уведомление
+- `N` — channel, канал
+- `J` — open channel, открытый канал
+- `T` — comment thread, ветка комментариев
+- `A` — copilot chat, чат CoPilot
+- `B` — collab, коллаб
+- `X` — external, внешний чат ||
+|| **CHAT_AUTHOR_ID**
+[`integer`](../../../data-types.md) | Идентификатор владельца чата ||
+|| **CHAT_ENTITY_TYPE**
+[`string`](../../../data-types.md) | Тип объекта, к которому привязан чат ||
+|| **CHAT_ENTITY_ID**
+[`string`](../../../data-types.md) | Идентификатор объекта, к которому привязан чат ||
+|| **CHAT_ENTITY_DATA_1**
+[`string`](../../../data-types.md) | Дополнительные данные объекта чата — поле 1 ||
+|| **CHAT_ENTITY_DATA_2**
+[`string`](../../../data-types.md) | Дополнительные данные объекта чата — поле 2 ||
+|| **CHAT_ENTITY_DATA_3**
+[`string`](../../../data-types.md) | Дополнительные данные объекта чата — поле 3 ||
+|| **FROM_USER_ID**
+[`integer`](../../../data-types.md) | Идентификатор отправителя сообщения. Поле заполняется для личного чата ||
+|| **TO_USER_ID**
+[`integer`](../../../data-types.md) | Идентификатор получателя.
+
+В личном чате это идентификатор бота, в групповом чате — идентификатор пользователя или бота, которому адресовано сообщение.
+
+Значение `0` — всем участникам чата ||
+|| **CHAT_USER_COUNT**
+[`integer`](../../../data-types.md) | Количество участников чата ||
+|| **MENTIONED_LIST**
+[`object`](../../../data-types.md) | Упоминания пользователей в сообщении. Параметр зависит от типа чата, в личном диалоге отсутствует.
+
+Структура описана [ниже](#mentioned-list) ||
+|| **PLATFORM_CONTEXT**
+[`string`](../../../data-types.md) | Платформа, из которой отправлено сообщение ||
+|| **MESSAGE_ORIGINAL**
+[`string`](../../../data-types.md) | Исходный текст сообщения с BB-кодом упоминаний. Параметр зависит от типа чата, в личном диалоге отсутствует ||
+|| **DIALOG_ID**
+[`string`](../../../data-types.md) | Идентификатор диалога ||
+|| **MESSAGE_ID**
+[`integer`](../../../data-types.md) | Идентификатор сообщения. Дублирует поле `ID` ||
+|| **CHAT_TYPE**
+[`string`](../../../data-types.md) | Тип чата. 
+
+Возможные значения:
+- `P` — private, личный чат
+- `C` — group chat, групповой чат
+- `O` — open chat, открытый чат
+- `L` — open line, чат открытой линии
+- `S` — system/notify, системное уведомление
+- `N` — channel, канал
+- `J` — open channel, открытый канал
+- `T` — comment thread, ветка комментариев
+- `A` — copilot chat, чат CoPilot
+- `B` — collab, коллаб
+- `X` — external, внешний чат ||
+|| **LANGUAGE**
+[`string`](../../../data-types.md) | Язык Битрикс24 по умолчанию ||
+|#
+
+#### Параметр MENTIONED_LIST {#mentioned-list}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **{USER_ID}**
+[`integer`](../../../data-types.md) | Идентификатор пользователя или бота, упомянутого в сообщении ||
+|#
+
+### Параметр USER {#user}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор пользователя ||
+|| **NAME**
+[`string`](../../../data-types.md) | Имя и фамилия пользователя ||
+|| **FIRST_NAME**
+[`string`](../../../data-types.md) | Имя пользователя ||
+|| **LAST_NAME**
+[`string`](../../../data-types.md) | Фамилия пользователя ||
+|| **WORK_POSITION**
+[`string`](../../../data-types.md) | Должность пользователя ||
+|| **GENDER**
+[`string`](../../../data-types.md) | Пол пользователя: `M` или `F` ||
+|| **IS_BOT**
+[`string`](../../../data-types.md) | Признак пользователя-бота: `Y` или `N` ||
+|| **IS_CONNECTOR**
+[`string`](../../../data-types.md) | Признак пользователя-коннектора: `Y` или `N` ||
+|| **IS_NETWORK**
+[`string`](../../../data-types.md) | Признак внешнего сетевого пользователя: `Y` или `N` ||
+|| **IS_EXTRANET**
+[`string`](../../../data-types.md) | Признак экстранет-пользователя: `Y` или `N` ||
+|#
+
+### Параметр auth {#auth}
+
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./on-imbot-message-add.md)
+- [{#T}](./on-imbot-message-delete.md)
+- [{#T}](../imbot-message-add.md)
+- [{#T}](../imbot-message-update.md)
+- [{#T}](../imbot-message-delete.md)
+- [{#T}](../../imbot-register.md)

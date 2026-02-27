@@ -1,10 +1,10 @@
-# Установить «Мне нравится» для сообщения imbot.message.like
+# Отправить признак «Чат-бот пишет» imbot.chat.sendTyping
 
 > Scope: [`imbot`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: авторизованный пользователь приложения, которое зарегистрировало чат-бота. Метод работает только с ботами этого приложения.
 
-Метод `imbot.message.like` ставит или снимает отметку «Мне нравится» для сообщения.
+Метод `imbot.chat.sendTyping` отправляет в диалог индикатор «Чат-бот пишет». Метод возвращает `true` сразу после отправки команды.
 
 ## Параметры метода
 
@@ -17,21 +17,12 @@
 [`integer`](../../data-types.md) | Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода [imbot.bot.list](../imbot-bot-list.md).
 
 Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением ||
-|| **MESSAGE_ID***
-[`integer`](../../data-types.md) | Идентификатор сообщения в личных диалогах или в групповых чатах, где присутствует чат-бот. Значение должно быть больше `0`.
+|| **DIALOG_ID***
+[`string`](../../data-types.md) | Идентификатор объекта, который получит сообщение: пользователь или чат.
 
-Для сообщений, которые отправлены ботом через REST, идентификатор возвращает метод [imbot.message.add](./imbot-message-add.md). 
-
-Идентификаторы сообщений, которые отправили в чат пользователи, можно получить с помощью метода [im.dialog.messages.get](../../chats/messages/im-dialog-messages-get.md) ||
-|| **ACTION**
-[`string`](../../data-types.md) | Действие с реакцией на сообщение.
-
-Допустимые значения:
-- `auto` — автоматически переключить текущий статус: если реакции «Мне нравится» нет, она будет установлена, если реакция есть — снята
-- `plus` — поставить «Мне нравится»
-- `minus` — снять «Мне нравится»
-
-Если параметр не передан, используется `auto` ||
+Поддерживаемые форматы:
+- `USER_ID` — идентификатор пользователя, который можно получить через [user.get](../../user/user-get.md) или [user.search](../../user/user-search.md)
+- `chatXXX`, где `XXX` — идентификатор чата, который можно получить через [imbot.chat.get](../chats/imbot-chat-get.md) ||
 || **CLIENT_ID**
 [`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
 
@@ -50,8 +41,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"BOT_ID":39,"MESSAGE_ID":19880117,"ACTION":"auto"}' \
-      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.message.like
+      -d '{"BOT_ID":39,"DIALOG_ID":"chat123"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.chat.sendTyping
     ```
 
 - cURL (OAuth)
@@ -60,24 +51,23 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"BOT_ID":39,"MESSAGE_ID":19880117,"ACTION":"auto","auth":"**put_access_token_here**"}' \
-      https://**put_your_bitrix24_address**/rest/imbot.message.like
+      -d '{"BOT_ID":39,"DIALOG_ID":"chat123","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imbot.chat.sendTyping
     ```
 
 - JS
 
     ```js
     try {
-      const response = await $b24.callMethod('imbot.message.like', {
+      const response = await $b24.callMethod('imbot.chat.sendTyping', {
         BOT_ID: 39,
-        MESSAGE_ID: 19880117,
-        ACTION: 'plus',
+        DIALOG_ID: 'chat123',
       });
 
       const { result } = response.getData();
-      console.log('Статус «Мне нравится» изменен:', result);
+      console.log('Typing sent:', result);
     } catch (error) {
-      console.error('Ошибка изменения статуса:', error);
+      console.error('Error sending typing:', error);
     }
     ```
 
@@ -88,11 +78,10 @@
         $response = $b24Service
             ->core
             ->call(
-                'imbot.message.like',
+                'imbot.chat.sendTyping',
                 [
                     'BOT_ID' => 39,
-                    'MESSAGE_ID' => 19880117,
-                    'ACTION' => 'auto',
+                    'DIALOG_ID' => 'chat123',
                 ]
             );
 
@@ -101,13 +90,13 @@
             ->getResult();
 
         if ($result->error()) {
-            echo 'Ошибка: ' . $result->error();
+            echo 'Error: ' . $result->error();
         } else {
-            echo 'Статус «Мне нравится» изменен: ' . ($result->data() ? 'true' : 'false');
+            echo 'Typing sent: ' . ($result->data() ? 'true' : 'false');
         }
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        echo 'Ошибка изменения статуса: ' . $exception->getMessage();
+        echo 'Error sending typing: ' . $exception->getMessage();
     }
     ```
 
@@ -115,11 +104,10 @@
 
     ```js
     BX24.callMethod(
-        'imbot.message.like',
+        'imbot.chat.sendTyping',
         {
             BOT_ID: 39,
-            MESSAGE_ID: 19880117,
-            ACTION: 'auto',
+            DIALOG_ID: 'chat123',
         },
         function(result) {
             if (result.error()) {
@@ -137,18 +125,17 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'imbot.message.like',
+        'imbot.chat.sendTyping',
         [
             'BOT_ID' => 39,
-            'MESSAGE_ID' => 19880117,
-            'ACTION' => 'auto',
+            'DIALOG_ID' => 'chat123',
         ]
     );
 
     if (!empty($result['error'])) {
-        echo 'Ошибка: ' . $result['error_description'];
+        echo 'Error: ' . $result['error_description'];
     } else {
-        echo 'Статус «Мне нравится» изменен: ' . ($result['result'] ? 'true' : 'false');
+        echo 'Typing sent: ' . ($result['result'] ? 'true' : 'false');
     }
     ```
 
@@ -180,7 +167,7 @@ HTTP-код: **200**
 || **Название**
 `Тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | `true`, если действие выполнено ||
+[`boolean`](../../data-types.md) | `true`, если команда отправки индикатора принята ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -191,8 +178,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "WITHOUT_CHANGES",
-    "error_description": "Action completed without changes"
+    "error": "DIALOG_ID_EMPTY",
+    "error_description": "Dialog ID can't be empty"
 }
 ```
 
@@ -204,14 +191,20 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение** ||
 || `BOT_ID_ERROR` | Bot not found | Бот не найден или у приложения нет доступного бота для автоподстановки `BOT_ID` ||
 || `APP_ID_ERROR` | Bot was installed by another rest application | Переданный `BOT_ID` принадлежит другому приложению ||
-|| `MESSAGE_ID_ERROR` | Message ID can't be empty | Не передан идентификатор сообщения ||
-|| `WITHOUT_CHANGES` | Action completed without changes | Состояние реакции не изменилось после вызова ||
+|| `DIALOG_ID_EMPTY` | Dialog ID can't be empty | Не передан идентификатор диалога ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./imbot-message-add.md)
-- [{#T}](./imbot-message-update.md)
-- [{#T}](./imbot-message-delete.md)
+- [{#T}](./imbot-chat-add.md)
+- [{#T}](./imbot-chat-user-add.md)
+- [{#T}](./imbot-chat-update-title.md)
+- [{#T}](./imbot-chat-update-avatar.md)
+- [{#T}](./imbot-chat-update-color.md)
+- [{#T}](./imbot-chat-get.md)
+- [{#T}](./imbot-dialog-get.md)
+- [{#T}](./imbot-chat-user-list.md)
+- [{#T}](./imbot-chat-user-delete.md)
+- [{#T}](./imbot-chat-leave.md)

@@ -30,7 +30,7 @@
     || [imbot.chat.add](./imbot-chat-add.md) | Создает новый чат ||
     || [imbot.chat.get](./imbot-chat-get.md) | Возвращает информацию о чате ||
     || [imbot.chat.leave](./imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
-    || [imbot.chat.setOwner](./imbot-chat-set-owner.md) | Устанавливает нового владельца чата ||
+    || [imbot.chat.sendTyping](./imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
     || [imbot.chat.updateAvatar](./imbot-chat-update-avatar.md) | Обновляет аватар чата ||
     || [imbot.chat.updateColor](./imbot-chat-update-color.md) | Обновляет цвет чата ||
     || [imbot.chat.updateTitle](./imbot-chat-update-title.md) | Обновляет название чата ||
@@ -44,7 +44,6 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [ONIMBOTDELETE](./events/on-imbot-delete.md) | При удалении чат-бота ||
     || [ONIMBOTJOINCHAT](./events/on-imbot-join-chat.md) | При получении информации чат-ботом о включении его в чат (или личную переписку) ||
     |#
 

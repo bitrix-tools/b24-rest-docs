@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 26 февраля, 2026
+
+- Обновили документацию по методам [imbot.register](./api-reference/chat-bots/imbot-register.md), [imbot.update](./api-reference/chat-bots/imbot-update.md), [imbot.unregister](./api-reference/chat-bots/imbot-unregister.md) и [imbot.bot.list](./api-reference/chat-bots/imbot-bot-list.md)
+- Обновили документацию по методам [imbot.chat.sendTyping](./api-reference/chat-bots/chats/imbot-chat-send-typing.md), [imbot.message.update](./api-reference/chat-bots/messages/imbot-message-update.md), [imbot.message.delete](./api-reference/chat-bots/messages/imbot-message-delete.md) и [imbot.message.like](./api-reference/chat-bots/messages/imbot-message-like.md)
+- Обновили документацию по событиям [ONIMBOTMESSAGEUPDATE](./api-reference/chat-bots/messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](./api-reference/chat-bots/messages/events/on-imbot-message-delete.md), [ONIMCOMMANDADD](./api-reference/chat-bots/commands/events/on-im-command-add.md), [ONIMBOTJOINCHAT](./api-reference/chat-bots/chats/events/on-imbot-join-chat.md) и [ONIMBOTDELETE](./api-reference/chat-bots/events/on-imbot-delete.md)
+
 ### 25 февраля, 2026
 
 - Обновили статью [Что позволяет REST API Битрикс24](./developing-with-rest-api.md)

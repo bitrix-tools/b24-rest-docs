@@ -5,5 +5,3 @@ items:
     href: index.md
   - name: При подключении бота к чату
     href: on-imbot-join-chat.md
-  - name: При удалении чат-бота
-    href: on-imbot-delete.md

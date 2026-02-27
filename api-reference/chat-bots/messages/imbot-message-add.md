@@ -268,4 +268,5 @@ HTTP-статус: **400**
 - [{#T}](./imbot-message-delete.md)
 - [{#T}](./imbot-message-like.md)
 - [{#T}](./events/on-imbot-message-add.md)
+- [{#T}](../../../tutorials/chat-bots/index.md)
 - [Пример ЭхоБота](https://dev.1c-bitrix.ru/~b24bots)

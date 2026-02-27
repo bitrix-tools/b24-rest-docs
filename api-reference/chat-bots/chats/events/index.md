@@ -29,5 +29,4 @@
 #|
 || **Событие** | **Вызывается** ||
 || [ONIMBOTJOINCHAT](./on-imbot-join-chat.md) | При добавлении бота в чат вручную или методом [imbot.chat.add](../imbot-chat-add.md), [imopenlines.crm.chat.user.add](../../../imopenlines/openlines/chats/imopenlines-crm-chat-user-add.md) и [im.chat.user.add](../../../chats/chat-users/im-chat-user-add.md) ||
-|| [ONIMBOTDELETE](./on-imbot-delete.md) | При удалении чат-бота  методом [imbot.unregister](../../imbot-unregister.md) ||
 |#

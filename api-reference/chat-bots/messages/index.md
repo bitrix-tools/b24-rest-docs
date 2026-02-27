@@ -37,7 +37,6 @@
     || [imbot.message.update](./imbot-message-update.md) | Обновляет существующее сообщение от чат-бота ||
     || [imbot.message.delete](./imbot-message-delete.md) | Удаляет сообщение от чат-бота ||
     || [imbot.message.like](./imbot-message-like.md) | Ставит "лайк" на сообщение от чат-бота ||
-    || [imbot.chat.sendTyping](./imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
     |#
 
 - События

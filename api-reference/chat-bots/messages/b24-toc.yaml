@@ -9,8 +9,6 @@ items:
     href: imbot-message-update.md
   - name: Удалить сообщение
     href: imbot-message-delete.md
-  - name: Отправить признак «Чат-бот пишет сообщение...»
-    href: imbot-chat-send-typing.md
   - name: Установить «Мне нравится» для сообщения
     href: imbot-message-like.md
   - name: События
