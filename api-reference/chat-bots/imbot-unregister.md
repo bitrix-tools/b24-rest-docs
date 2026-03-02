@@ -1,89 +1,200 @@
-# Удалить чат-бот imbot.unregister
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- не для всех параметров есть пример в таблице
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы
-
-{% endnote %}
-
-{% endif %}
+# Удалить чат-бота imbot.unregister
 
 > Scope: [`imbot`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: авторизованный пользователь приложения, которое зарегистрировало чат-бота
 
-Метод `imbot.unregister` удаляет чат-бота из системы.
+Метод `imbot.unregister` удаляет чат-бота.
 
-{% note warning %}
+{% note warning "" %}
 
-Все чаты один-на-один данного чат-бота с пользователями будут утеряны.
+При удалении бота личные чаты с пользователями удаляются.
 
 {% endnote %}
 
+## Параметры метода
+
+{% include [Сноска о параметрах](../../_includes/required.md) %}
+
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **BOT_ID**
-[`unknown`](../data-types.md) | `39` | числовой идентификатор бота | ||
+|| **Название**
+`Тип` | **Описание** ||
+|| **BOT_ID***
+[`integer`](../data-types.md) | Идентификатор чат-бота. Значение должно быть больше `0`.
+
+Получить идентификатор бота можно методом [imbot.bot.list](./imbot-bot-list.md) ||
 || **CLIENT_ID**
-[`unknown`](../data-types.md) | `''` | строковый идентификатор чат-бота, используется только в режиме Вебхуков | ||
+[`string`](../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации. Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
 |#
 
-## Примеры
+## Примеры кода
 
-{% include [Пояснение о restCommand](./_includes/rest-command.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"BOT_ID":39}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.unregister
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"BOT_ID":39,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imbot.unregister
+    ```
+
+- JS
+
+    ```js
+    try {
+      const response = await $b24.callMethod('imbot.unregister', {
+        BOT_ID: 39,
+      });
+
+      const { result } = response.getData();
+      console.log('Unregistered:', result);
+    } catch (error) {
+      console.error('Error unregistering bot:', error);
+    }
+    ```
 
 - PHP
 
     ```php
-    $result = restCommand(
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.unregister',
+                [
+                    'BOT_ID' => 39,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Unregistered: ' . ($result->data() ? 'true' : 'false');
+        }
+    } catch (Throwable $exception) {
+        error_log($exception->getMessage());
+        echo 'Error unregistering bot: ' . $exception->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
         'imbot.unregister',
-        Array(
+        {
+            BOT_ID: 39,
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imbot.unregister',
+        [
             'BOT_ID' => 39,
-            'CLIENT_ID' => '',
-        ),
-        $_REQUEST[
-            "auth"
         ]
     );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Unregistered: ' . ($result['result'] ? 'true' : 'false');
+    }
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
-`true`
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1728626400.123,
+        "finish": 1728626400.234,
+        "duration": 0.111,
+        "processing": 0.045,
+        "date_start": "2024-10-11T10:00:00+03:00",
+        "date_finish": "2024-10-11T10:00:00+03:00",
+        "operating_reset_at": 1762349466,
+        "operating": 0
+    }
+}
+```
 
-## Ответ в случае ошибки
+## Возвращаемые данные
 
-ошибка
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`boolean`](../data-types.md) | `true`, если чат-бот удален без ошибки ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": "BOT_ID_ERROR",
+    "error_description": "Bot not found"
+}
+```
+
+{% include notitle [Обработка ошибок](../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **BOT_ID_ERROR** | Чат-бот не найден. ||
-|| **APP_ID_ERROR** | Чат-бот не принадлежит этому приложению, работать можно только с чат-ботами, установленными в рамках приложения. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией вместо OAuth или вебхука ||
+|| `ACCESS_DENIED` | Access denied! Client ID not specified | Не удалось определить приложение: отсутствует `clientId` авторизации и не передан `CLIENT_ID` ||
+|| `BOT_ID_ERROR` | Bot not found | Бот не найден ||
+|| `APP_ID_ERROR` | Bot was installed by another rest application | Переданный `BOT_ID` принадлежит другому приложению ||
+|| `WRONG_REQUEST` | Bot can't be deleted | Бот не может быть удален ||
 |#
 
-## Ссылки по теме
+{% include [Системные ошибки](../../_includes/system-errors.md) %}
 
-[Rest API - События установки и обновления](./events/index.md)
+## Продолжите изучение
+
+- [{#T}](./imbot-register.md)
+- [{#T}](./imbot-update.md)
+- [{#T}](./imbot-bot-list.md)
+- [{#T}](./events/index.md)

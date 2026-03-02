@@ -1,16 +1,10 @@
-# Событие после успешной установки приложения OnAppInstall
+# Событие после обновления приложения OnAppUpdate
 
 > Scope: [`базовый`](../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnAppInstall` вызывается сразу после успешной установки приложения на Битрикс24. В обработчик передается `application_token`, который важно сохранить. Подробнее читайте в статье [{#T}](../../events/safe-event-handlers.md).
-
-{% note info "" %}
-
-События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
-
-{% endnote %}
+Событие `OnAppUpdate` вызывается после установки новой версии приложения в Битрикс24. Событие передает информацию о текущей и предыдущей версиях приложения, а также обновленный `application_token`. Подробнее читайте в статье [{#T}](../../events/safe-event-handlers.md).
 
 ## Что получает обработчик
 
@@ -18,21 +12,21 @@
 
 ```json
 {
-    "event": "ONAPPINSTALL",
+    "event": "ONAPPUPDATE",
     "data": {
-        "VERSION": "1.0.0",
-        "ACTIVE": "Y",
-        "INSTALLED": "Y",
+        "VERSION": "2.1.0",
+        "PREVIOUS_VERSION": "2.0.3",
         "LANGUAGE_ID": "ru"
     },
     "ts": "1696527000",
     "auth": {
         "domain": "some-domain.bitrix24.ru",
-        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
-        "status": "F",
-        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
-        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
-        "application_token": "51856fefc120afa4b628cc82d3935cce"
+        "scope": "imbot",
+        "access_token": "lh8ze36o8ulgrljbyscr36c7ay5sinva",
+        "refresh_token": "5f1ih5tsnsb11sc5heg3kp4ywqnjhd09",
+        "expires_in": 3600,
+        "member_id": "d41d8cd98f00b204e9800998ecf8427e",
+        "application_token": "c917d38f6bdb84e9d9e0bfe9d585be73"
     }
 }
 ```
@@ -45,9 +39,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../data-types.md) | Символьный код события. В данном случае — `ONAPPINSTALL` ||
+[`string`](../../data-types.md) | Символьный код события. В данном случае — `ONAPPUPDATE` ||
 || **data***
-[`object`](../../data-types.md) | Данные об установленном приложении.
+[`object`](../../data-types.md) | Данные об обновлении приложения.
 
 Структура описана [ниже](#data) ||
 || **ts***
@@ -68,19 +62,9 @@
 || **LANGUAGE_ID***
 [`string`](../../data-types.md) | Установленный язык: `ru`, `en` и другие ||
 || **VERSION***
-[`integer`](../../data-types.md) | Версия установленного приложения ||
-|| **ACTIVE***
-[`string`](../../data-types.md) | Статус активности приложения. 
-
-Возможные значения:
-`Y` — активно
-`N` — неактивно ||
-|| **INSTALLED***
-[`string`](../../data-types.md) | Готово ли приложение к использованию. 
-
-Возможные значения: 
-`Y` — готово
-`N` — не установлено полностью ||
+[`string`](../../data-types.md) | Текущая установленная версия приложения ||
+|| **PREVIOUS_VERSION***
+[`string`](../../data-types.md) | Предыдущая версия до обновления ||
 |#
 
 ### Параметр auth {#auth}
@@ -92,10 +76,16 @@
 `тип` | **Описание** ||
 || **domain***
 [`string`](../../data-types.md) | Адрес портала Битрикс24 ||
+|| **scope***
+[`string`](../../data-types.md) | Список прав, выданных приложению, через пробел ||
+|| **access_token***
+[`string`](../../data-types.md) | Токен авторизации OAuth 2.0 ||
+|| **refresh_token***
+[`string`](../../data-types.md) | Токен для продления авторизации OAuth 2.0 ||
 || **server_endpoint***
-[`string`](../../data-types.md) | Адрес сервера авторизации для обновления токена||
+[`string`](../../data-types.md) | Адрес сервера авторизации Битрикс24, необходимый для обновления токенов OAuth 2.0 ||
 || **status***
-[`string`](../../data-types.md) | Статус приложения, подписавшегося на это событие:
+[`string`](/api-reference/data-types.html) | Статус приложения, подписавшегося на это событие:
 
 - `L` — локальное приложение
 - `F` — бесплатное тиражное приложение
@@ -109,16 +99,11 @@
 [`string`](../../data-types.md) | Токен для безопасной обработки событий ||
 |#
 
-{% note warning "" %}
-
- Обработчик данного события можно установить в установочном скрипте приложения, который указывается в карточке версии в отдельном поле.
-
-{% endnote %}
-
 ## Продолжите изучение
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./on-app-install.md)
 - [{#T}](./on-app-payment.md)
 - [{#T}](./on-app-method-confirm.md)
 - [{#T}](./on-user-add.md)

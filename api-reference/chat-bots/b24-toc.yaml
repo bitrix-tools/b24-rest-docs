@@ -27,10 +27,10 @@ items:
     include:
       path: commands/b24-toc.yaml
       mode: link
-  - name: Получить информацию о резвизиях API
-    href: im-revision-get.md
   - name: События
     include:
       path: events/b24-toc.yaml
       mode: link
+
+
 

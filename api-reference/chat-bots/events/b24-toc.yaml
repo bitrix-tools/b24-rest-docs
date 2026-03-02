@@ -3,10 +3,6 @@ href: index.md
 items:
   - name: О событиях
     href: index.md
-  - name: На установку приложения
-    href: on-app-install.md
-  - name: На обновление приложения
-    href: on-app-update.md
-  - name: Пример кода обработчика для работы с событиями
-    href: example-handler-code.md
+  - name: При удалении чат-бота
+    href: on-imbot-delete.md
 

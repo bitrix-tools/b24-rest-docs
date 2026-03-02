@@ -1,5 +1,5 @@
 title: События
 href: index.md
 items:
-  - name: На получение команды
+  - name: При вызове команды
     href: on-im-command-add.md

@@ -154,11 +154,11 @@ Slash-команды позволяют быстро создавать запр
 И у нас есть 6 событий, которые полностью покрывают необходимый спектр реакций:
 
 - [ONAPPINSTALL](../common/events/on-app-install.md) — событие на установку приложения с чат-ботом.
-- [ONAPPUPDATE](./events/on-app-update.md) — событие на обновление приложения.
+- [ONAPPUPDATE](../common/events/on-app-update.md) — событие на обновление приложения.
 - [ONIMJOINCHAT](./chats/events/on-imbot-join-chat.md) — событие после приглашения чат-бота «к разговору», т.е. либо при вызове его пользователем в индивидуальном чате, либо при подключении его к групповому чату.
 - [ONIMBOTMESSAGEADD](./messages/events/on-imbot-message-add.md) — событие после отправки сообщения от пользователя к чат-боту (в групповом чате, при явном упоминании бота).
 - [ONIMCOMMANDADD](./commands/events/on-im-command-add.md) — событие после отправки команды от пользователя к чат-боту (в персональной переписке с ним, или в групповом чате (если команда глобальная, то он может не участвовать в чате)).
-- [ONIMBOTDELETE](./chats/events/on-imbot-delete.md) — событие после удаления приложения. Событие вызывается параллельно с [OnAppUninstall](../common/events/on-app-uninstall.md).
+- [ONIMBOTDELETE](./events/on-imbot-delete.md) — событие после удаления приложения. Событие вызывается параллельно с [OnAppUninstall](../common/events/on-app-uninstall.md).
 
 Иными словами, мы должны написать обработчики указанных событий, чтобы реализовать простую логику:
 
@@ -219,6 +219,8 @@ Slash-команды позволяют быстро создавать запр
 
 Полный список чат-ботов для платформы *Битрикс24* можно увидеть в [одноименном разделе](https://www.bitrix24.ru/apps/?category=chat_bots) *Магазина приложений Битрикс24*.
 
+Готовые примеры кода для обработчиков чат-ботов доступны в репозитории [GitHub](https://github.com/bitrix24com/bots).
+
 ## Обзор методов {#all-methods}
 
 {% list tabs %}
@@ -227,7 +229,7 @@ Slash-команды позволяют быстро создавать запр
 
     #|
     || **Метод** | **Описание** ||
-    || [im.revision.get](./im-revision-get.md) | Возвращает информацию о ревизиях API ||
+    || [im.revision.get](../chats/im-revision-get.md) | Возвращает информацию о ревизиях API ||
     || [imbot.register](./imbot-register.md) | Регистрирует нового чат-бота ||
     || [imbot.unregister](./imbot-unregister.md) | Удаляет зарегистрированного бота ||
     || [imbot.update](./imbot-update.md) | Обновляет данные чат-бота ||
@@ -238,8 +240,7 @@ Slash-команды позволяют быстро создавать запр
 
     #|
     || **Событие** | **Вызывается** ||
-    || [ONAPPINSTALL](./events/on-app-install.md) | При установке приложения ||
-    || [ONAPPUPDATE](./events/on-app-update.md) | При обновлении приложения ||
+    || [ONIMBOTDELETE](./events/on-imbot-delete.md) | При удалении чат-бота ||
     |#
 
 {% endlist %}
@@ -255,7 +256,7 @@ Slash-команды позволяют быстро создавать запр
     || [imbot.chat.add](./chats/imbot-chat-add.md) | Создает новый чат ||
     || [imbot.chat.get](./chats/imbot-chat-get.md) | Возвращает информацию о чате ||
     || [imbot.chat.leave](./chats/imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
-    || [imbot.chat.setOwner](./chats/imbot-chat-set-owner.md) | Устанавливает нового владельца чата ||
+    || [imbot.chat.sendTyping](.//chats/imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
     || [imbot.chat.updateAvatar](./chats/imbot-chat-update-avatar.md) | Обновляет аватар чата ||
     || [imbot.chat.updateColor](./chats/imbot-chat-update-color.md) | Обновляет цвет чата ||
     || [imbot.chat.updateTitle](./chats/imbot-chat-update-title.md) | Обновляет название чата ||
@@ -269,7 +270,6 @@ Slash-команды позволяют быстро создавать запр
 
     #|
     || **Событие** | **Вызывается** ||
-    || [ONIMBOTDELETE](./chats/events/on-imbot-delete.md) | При удалении чат-бота ||
     || [ONIMBOTJOINCHAT](./chats/events/on-imbot-join-chat.md) | При получении информации чат-ботом о включении его в чат (или личную переписку) ||
     |#
 
@@ -310,7 +310,6 @@ Slash-команды позволяют быстро создавать запр
     || [imbot.message.update](./messages/imbot-message-update.md) | Обновляет существующее сообщение от чат-бота ||
     || [imbot.message.delete](./messages/imbot-message-delete.md) | Удаляет сообщение от чат-бота ||
     || [imbot.message.like](./messages/imbot-message-like.md) | Ставит "лайк" на сообщение от чат-бота ||
-    || [imbot.chat.sendTyping](./messages/imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
     |#
 
 - События
@@ -325,3 +324,4 @@ Slash-команды позволяют быстро создавать запр
 {% endlist %}
 
 [*keyboard]: Клавиатура — это набор кнопок, каждая кнопка может состоять из определённых ключей.
+

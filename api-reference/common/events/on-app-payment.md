@@ -16,7 +16,7 @@
 
 Данные передаются в виде POST-запроса {.b24-info}
 
-```
+```json
 {
     "event": "ONAPPPAYMENT",
     "data": {
@@ -25,13 +25,13 @@
         "STATUS": "S",
         "PAYMENT_EXPIRED": "N",
         "DAYS": 28,
-        "LANGUAGE_ID" => "ru",
+        "LANGUAGE_ID": "ru"
     },
     "ts": "1466439714",
     "auth": {
         "domain": "some-domain.bitrix24.ru",
-        "server_endpoint": "https://oauth.bitrix24.tech/rest/", 
-        "client_endpoint": "https://some-domain.bitrix24.ru/rest/", 
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/"
     }
 }
 
@@ -47,13 +47,13 @@
 || **event***
 [`string`](../../data-types.md) | Символьный код события — `ONAPPPAYMENT` ||
 || **data***
-[`array`](../../data-types.md) | Данные о платеже.
+[`object`](../../data-types.md) | Данные о платеже.
 
 Структура описана [ниже](#data) ||
 || **ts***
 [`timestamp`](../../data-types.md) | Дата и время отправки события из очереди ||
 || **auth***
-[`array`](../../data-types.md) | Данные авторизации и портала.
+[`object`](../../data-types.md) | Данные авторизации и портала.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -77,7 +77,7 @@
 - `P` (Paid) — оплаченное приложение ||
 || **PAYMENT_EXPIRED***
 [`string`](../../data-types.md) | [Y\|N] Флаг, который показывает, истек ли оплаченный период или период триального использования ||
-|| **DAY***
+|| **DAYS***
 [`integer`](../../data-types.md) | Количество дней, оставшееся до конца оплаченного периода или периода триального использования ||
 || **LANGUAGE_ID***
 [`string`](../../data-types.md) | Установленный язык: `ru`, `en` и другие ||

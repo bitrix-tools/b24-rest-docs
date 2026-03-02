@@ -1,123 +1,337 @@
 # Отправить ответ на команду imbot.command.answer
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- не для всех параметров есть пример в таблице
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`imbot`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь приложения, которое зарегистрировало чат-бота
 
-Метод `imbot.command.answer` публикации ответа на команду.
+Метод `imbot.command.answer` публикует ответ на команду чат-бота.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **COMMAND_ID**
-[`unknown`](../../data-types.md) | `13` | Идентификатор команды, которая подготовила ответ (обязательно указывать или COMMAND) | ||
-|| **COMMAND**
-[`unknown`](../../data-types.md) | `'echo'` | Название команды, которая подготовила ответ (обязательно указывать или COMMAND_ID) | ||
-|| **MESSAGE_ID**
-[`unknown`](../../data-types.md) | `1122` | Идентификатор сообщения, на которое необходимо дать ответ | ||
-|| **MESSAGE**
-[`unknown`](../../data-types.md) | `'answer text'` | Текст ответа | ||
+|| **Название**
+`тип` | **Описание** ||
+|| **COMMAND_ID***
+[`integer`](../../data-types.md) | Идентификатор команды. Обязателен, если не передан `COMMAND` ||
+|| **COMMAND***
+[`string`](../../data-types.md) | Текст команды. Обязателен, если не передан `COMMAND_ID` ||
+|| **MESSAGE_ID***
+[`integer`](../../data-types.md) | Идентификатор сообщения, на которое отправляется ответ.
+
+Идентификатор можно узнать из входящего события [ONIMCOMMANDADD](./events/on-im-command-add.md) ||
+|| **MESSAGE***
+[`string`](../../data-types.md) | Текст ответа ||
 || **ATTACH**
-[`unknown`](../../data-types.md) | `''` | Вложение, необязательное поле | ||
+[`object`](../../data-types.md) | Объект с вложением к сообщению. Минимальный формат: 
+
+```json
+{
+  "BLOCKS": [
+    { "MESSAGE": "Текст блока" }
+  ]
+}
+```
+
+[Подробное описание](../../chats/messages/attachments/index.md)||
 || **KEYBOARD**
-[`unknown`](../../data-types.md) | `''` | Клавиатура, необязательное поле | ||
+[`object`](../../data-types.md) | Клавиатура сообщения. Минимальный формат:
+
+```json
+{
+  "BUTTONS": [
+    { "TEXT": "Повторить", "COMMAND": "echo repeat" }
+  ]
+}
+```
+
+[Подробное описание](../../chats/messages/keyboards.md) ||
 || **MENU**
-[`unknown`](../../data-types.md) | `''` | Контекстное меню, необязательное поле | ||
+[`object`](../../data-types.md) | Контекстное меню сообщения. Минимальный формат:
+
+```json
+[
+  { "TEXT": "bitrix24", "LINK": "https://bitrix24.ru" }
+]
+```
+
+[Подробное описание](../../chats/messages/menu.md) ||
 || **SYSTEM**
-[`unknown`](../../data-types.md) | `'N'` | Отображать сообщения в виде системного сообщения, необязательное поле, по умолчанию 'N' | ||
+[`string`](../../data-types.md) | Тип сообщения:
+- `Y` - системное сообщение
+- `N` - обычное сообщение
+
+По умолчанию - `N` ||
 || **URL_PREVIEW**
-[`unknown`](../../data-types.md) | `'Y'` | Преобразовывать ссылки в rich-ссылки, необязательное поле, по умолчанию 'Y' | ||
+[`string`](../../data-types.md) | Преобразование ссылок в rich-ссылки:
+- `Y` - включено
+- `N` - выключено
+
+По умолчанию - `Y`.
+
+Работает для ссылок, переданных в поле `MESSAGE` ||
 || **CLIENT_ID**
-[`unknown`](../../data-types.md) | `''` | Строковый идентификатор чат-бота, используется только в режиме Вебхуков | ||
+[`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
+
+Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
 |#
 
-{% note warning %}
+## Примеры кода
 
-Для обработки команды нужно, чтобы в приложении была обработка события добавления команды [ONIMCOMMANDADD](./events/on-im-command-add.md).
-
-{% endnote %}
-
-## Примеры
-
-{% include [Пояснение о restCommand](../_includes/rest-command.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"COMMAND_ID":99,"MESSAGE_ID":33871,"MESSAGE":"Принято. Выполняю команду.","SYSTEM":"N","URL_PREVIEW":"Y","ATTACH":{"BLOCKS":[{"MESSAGE":"Детали задачи"},{"DELIMITER":true},{"LINK":{"NAME":"Открыть","LINK":"https://example.com"}}]},"KEYBOARD":{"BUTTONS":[{"TEXT":"Повторить","COMMAND":"echo repeat"}]},"MENU":[{"TEXT":"bitrix24","LINK":"https://bitrix24.ru"}]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.command.answer
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"COMMAND_ID":99,"MESSAGE_ID":33871,"MESSAGE":"Принято. Выполняю команду.","SYSTEM":"N","URL_PREVIEW":"Y","ATTACH":{"BLOCKS":[{"MESSAGE":"Детали задачи"},{"DELIMITER":true},{"LINK":{"NAME":"Открыть","LINK":"https://example.com"}}]},"KEYBOARD":{"BUTTONS":[{"TEXT":"Повторить","COMMAND":"echo repeat"}]},"MENU":[{"TEXT":"bitrix24","LINK":"https://bitrix24.ru"}],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/imbot.command.answer
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'imbot.command.answer',
+            {
+                COMMAND_ID: 99,
+                MESSAGE_ID: 33871,
+                MESSAGE: 'Принято. Выполняю команду.',
+                SYSTEM: 'N',
+                URL_PREVIEW: 'Y',
+                ATTACH: {
+                    BLOCKS: [
+                        {MESSAGE: 'Детали задачи'},
+                        {DELIMITER: true},
+                        {LINK: {NAME: 'Открыть', LINK: 'https://example.com'}}
+                    ]
+                },
+                KEYBOARD: {
+                    BUTTONS: [
+                        {TEXT: 'Повторить', COMMAND: 'echo repeat'}
+                    ]
+                },
+                MENU: [
+                    {TEXT: 'bitrix24', LINK: 'https://bitrix24.ru'}
+                ]
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Answered command with ID:', result);
+        processResult(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
 - PHP
 
     ```php
-    $result = restCommand(
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.command.answer',
+                [
+                    'COMMAND_ID' => 99,
+                    'MESSAGE_ID' => 33871,
+                    'MESSAGE' => 'Принято. Выполняю команду.',
+                    'SYSTEM' => 'N',
+                    'URL_PREVIEW' => 'Y',
+                    'ATTACH' => [
+                        'BLOCKS' => [
+                            ['MESSAGE' => 'Детали задачи'],
+                            ['DELIMITER' => true],
+                            ['LINK' => ['NAME' => 'Открыть', 'LINK' => 'https://example.com']]
+                        ]
+                    ],
+                    'KEYBOARD' => [
+                        'BUTTONS' => [
+                            ['TEXT' => 'Повторить', 'COMMAND' => 'echo repeat']
+                        ]
+                    ],
+                    'MENU' => [
+                        ['TEXT' => 'bitrix24', 'LINK' => 'https://bitrix24.ru']
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error answering command: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
         'imbot.command.answer',
-        Array(
-            'COMMAND_ID' => 13,
-            'COMMAND' => 'echo',
-            'MESSAGE_ID' => 1122,
-            'MESSAGE' => 'answer text',
-            'ATTACH' => '',
-            'KEYBOARD' => '',
-            'MENU' => '',
+        {
+            COMMAND_ID: 99,
+            MESSAGE_ID: 33871,
+            MESSAGE: 'Принято. Выполняю команду.',
+            SYSTEM: 'N',
+            URL_PREVIEW: 'Y',
+            ATTACH: {
+                BLOCKS: [
+                    {MESSAGE: 'Детали задачи'},
+                    {DELIMITER: true},
+                    {LINK: {NAME: 'Открыть', LINK: 'https://example.com'}}
+                ]
+            },
+            KEYBOARD: {
+                BUTTONS: [
+                    {TEXT: 'Повторить', COMMAND: 'echo repeat'}
+                ]
+            },
+            MENU: [
+                    {TEXT: 'bitrix24', LINK: 'https://bitrix24.ru'}
+            ]
+        },
+        function(result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imbot.command.answer',
+        [
+            'COMMAND_ID' => 99,
+            'MESSAGE_ID' => 33871,
+            'MESSAGE' => 'Принято. Выполняю команду.',
             'SYSTEM' => 'N',
             'URL_PREVIEW' => 'Y',
-            'CLIENT_ID' => '',
-        ),
-        $_REQUEST[
-            "auth"
+            'ATTACH' => [
+                'BLOCKS' => [
+                    ['MESSAGE' => 'Детали задачи'],
+                    ['DELIMITER' => true],
+                    ['LINK' => ['NAME' => 'Открыть', 'LINK' => 'https://example.com']]
+                ]
+            ],
+            'KEYBOARD' => [
+                'BUTTONS' => [
+                    ['TEXT' => 'Повторить', 'COMMAND' => 'echo repeat']
+                ]
+            ],
+            'MENU' => [
+                ['TEXT' => 'bitrix24', 'LINK' => 'https://bitrix24.ru']
+            ]
         ]
     );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-Идентификатор сообщения команды `MESSAGE_ID`.
+```json
+{
+    "result": 33879,
+    "time": {
+        "start": 1772102358,
+        "finish": 1772102359.061859,
+        "duration": 1.061858892440796,
+        "processing": 1,
+        "date_start": "2026-02-26T13:39:18+03:00",
+        "date_finish": "2026-02-26T13:39:19+03:00",
+        "operating_reset_at": 1772102958,
+        "operating": 0
+    }
+}
+```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
 
-ошибка
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`integer`](../../data-types.md) | Идентификатор отправленного сообщения-ответа ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "MESSAGE_EMPTY",
+    "error_description": "Message can't be empty"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **COMMAND_ID_ERROR** | Команда не найдена. ||
-|| **APP_ID_ERROR** | Чат-бот не принадлежит этому приложению. Работать можно только с чат-ботами, установленными в рамках приложения. ||
-|| **MESSAGE_EMPTY** | Не передан текст сообщения. ||
-|| **ATTACH_ERROR** | Весь переданный объект вложения не прошел валидацию. ||
-|| **ATTACH_OVERSIZE** | Превышен максимально допустимый размер вложения (30 Кб). ||
-|| **KEYBOARD_ERROR** | Весь переданный объект клавиатуры не прошел валидацию. ||
-|| **KEYBOARD_OVERSIZE** | Превышен максимально допустимый размер клавиатуры (30 Кб). ||
-|| **MENU_ERROR** | Весь переданный объект меню не прошел валидацию. ||
-|| **MENU_OVERSIZE** | Превышен максимально допустимый размер меню (30 Кб). ||
-|| **WRONG_REQUEST** | Что-то пошло не так. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `COMMAND_ID_ERROR` | Command not found | Команда не найдена ||
+|| `APP_ID_ERROR` | Command was installed by another rest application | Команда зарегистрирована другим приложением ||
+|| `MESSAGE_ID_EMPTY` | Message ID can't be empty | Не передан `MESSAGE_ID` ||
+|| `MESSAGE_EMPTY` | Message can't be empty | Не передан текст сообщения ||
+|| `ATTACH_ERROR` | Incorrect attach params | Невалидный объект `ATTACH` ||
+|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Размер `ATTACH` превышает допустимый ||
+|| `KEYBOARD_ERROR` | Incorrect keyboard params | Невалидный объект `KEYBOARD` ||
+|| `KEYBOARD_OVERSIZE` | You have exceeded the maximum allowable size of keyboard | Размер `KEYBOARD` превышает допустимый ||
+|| `MENU_ERROR` | Incorrect menu params | Невалидный объект `MENU` ||
+|| `WRONG_REQUEST` | Message isn't added | Не удалось отправить сообщение ||
 |#
 
-## Ссылки по теме
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-- [Как работать с набираемыми клавиатурами](../../chats/messages/keyboards.md)
-- [Как работать с вложениями](../../chats/messages/attachments/index.md)
-- [Форматирование сообщения](../../chats/messages/index.md)
+## Продолжите изучение
+
+- [{#T}](./imbot-command-register.md)
+- [{#T}](./imbot-command-update.md)
+- [{#T}](./imbot-command-unregister.md)
+- [{#T}](./events/on-im-command-add.md)
+- [{#T}](../../chats/messages/keyboards.md)
+- [{#T}](../../chats/messages/attachments/index.md)
+- [{#T}](../../chats/messages/menu.md)
