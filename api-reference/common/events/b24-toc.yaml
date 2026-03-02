@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: После успешной установки приложения
     href: on-app-install.md
+  - name: После обновления приложения
+    href: on-app-update.md
   - name: При удалении приложения
     href: on-app-uninstall.md
   - name: При оплате приложения
