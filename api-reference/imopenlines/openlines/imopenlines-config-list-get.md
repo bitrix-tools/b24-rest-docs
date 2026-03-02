@@ -194,7 +194,7 @@ HTTP-статус: **200**
         {
             "ID": "1",
             "ACTIVE": "Y",
-            "LINE_NAME": "WhatsApp",
+            "LINE_NAME": "Line1",
             "CRM": "Y",
             "CRM_CREATE": "lead",
             "CRM_CREATE_SECOND": "0",
@@ -202,7 +202,7 @@ HTTP-статус: **200**
             "CRM_FORWARD": "Y",
             "CRM_CHAT_TRACKER": "N",
             "CRM_TRANSFER_CHANGE": "Y",
-            "CRM_SOURCE": "1|WZ_WHATSAPP_CASJK2QWBRWQ5ASBQWKEBN4QWBENAL2BA",
+            "CRM_SOURCE": "1|WZ_Line1_CASJK2QWBRWQ5ASBQWKEBN4QWBENAL2BA",
             "QUEUE_TIME": "900",
             "NO_ANSWER_TIME": "60",
             "QUEUE_TYPE": "all",

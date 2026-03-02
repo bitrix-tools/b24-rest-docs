@@ -69,8 +69,8 @@
 [`string`](../data-types.md) | Тип значения множественного поля.
 Может принимать значения  `WORK`, `MOBILE`, `FAX`, `HOME`, `PAGER`, `MAILING`, `OTHER` для телефона,
 `WORK`, `HOME`, `MAILING`, `OTHER` для почты,
-`WORK`, `HOME`, `FACEBOOK`, `VK`, `LIVEJOURNAL`, `TWITTER`, `OTHER` для сайта,
-`FACEBOOK`, `TELEGRAM`, `VK`, `SKYPE`, `VIBER`, `INSTAGRAM`, `BITRIX24`, `OPENLINE`, `IMOL`, `ICQ`, `MSN`, `JABBER`, `OTHER` для мессенджера
+`WORK`, `HOME`, `VK`, `LIVEJOURNAL`, `TWITTER`, `OTHER` для сайта,
+`TELEGRAM`, `VK`, `SKYPE`, `VIBER`, `BITRIX24`, `OPENLINE`, `IMOL`, `ICQ`, `MSN`, `JABBER`, `OTHER` для мессенджера
 ||
 |#
 

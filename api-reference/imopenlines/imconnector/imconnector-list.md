@@ -123,19 +123,13 @@
 ```json
 {
     "livechat": "Онлайн-чат",
-    "whatsappbytwilio": "WhatsApp",
     "avito": "Avito",
     "viber": "Viber",
     "telegrambot": "Telegram",
     "imessage": "Apple Messages for Business",
     "vkgroup": "ВКонтакте",
     "ok": "Одноклассники",
-    "facebook": "Facebook*: Сообщения",
-    "facebookcomments": "Facebook*: Комментарии",
-    "fbinstagramdirect": "Instagram* Direct",
     "network": "Битрикс24.Network",
-    "notifications": "Битрикс24 СМС и WhatsApp",
-    "whatsappbyedna": "Edna.ru WhatsApp",
     "newcustomconnector": "new super COnnector"
 }
 ```
