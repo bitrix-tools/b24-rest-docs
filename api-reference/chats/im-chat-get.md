@@ -36,7 +36,7 @@
 Передается строкой. Формат зависит от выбранного `ENTITY_TYPE`.
 
 Поддерживаемые форматы для распространенных типов:
-- `CRM` — `<CRM_TYPE>`\|`<ID>`, например `LEAD`\|`13`, `DEAL`\|`1663`, `CONTACT`\|`25`, `COMPANY`\|`7`
+- `CRM` — `<CRM_TYPE>`\|`<ID>`, например `LEAD`\|`13`, `DEAL`\|`1663`, `CONTACT`\|`25`, `COMPANY`\|`7`. Для смарт-процессов — `DYNAMIC_<entityTypeId>`\|`<itemId>`
 - `LINES` — `<connectorId>`\|`<lineId>`\|`<connectorChatId>`\|`<connectorUserId>`, например `telegrambot`\|`2`\|`209607941`\|`744`
 - `LIVECHAT` — `<connectorId>`\|`<lineId>`
 - `TASKS`, `TASKS_TASK` — идентификатор задачи, например `8293`
