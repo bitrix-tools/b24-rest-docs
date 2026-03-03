@@ -4,6 +4,7 @@
 
 ### 03 марта, 2026
 
+- Добавили метод [imbot.chat.setManager](./api-reference/chat-bots/chats/imbot-chat-set-manager.md) для назначения или снятия прав администратора чата
 - Обновили документацию по методам чатов [im.disk.file.delete](./api-reference/chats/files/im-disk-file-delete.md), [im.disk.file.save](./api-reference/chats/files/im-disk-file-save.md), [im.disk.folder.get](./api-reference/chats/files/im-disk-folder-get.md) в разделе Файлы
 - Обновили документацию по методам чатов [im.department.get](./api-reference/chats/departments/im-department-get.md), [im.department.managers.get](./api-reference/chats/departments/im-department-managers-get.md), [im.department.employees.get](./api-reference/chats/departments/im-department-employees-get.md), [im.department.colleagues.list](./api-reference/chats/departments/im-department-colleagues-list.md) в разделе Подразделения
 - Обновили документацию по методам чатов [im.chat.setOwner](./api-reference/chats/chat-update/im-chat-set-owner.md), [im.chat.updateAvatar](./api-reference/chats/chat-update/im-chat-update-avatar.md), [im.chat.updateColor](./api-reference/chats/chat-update/im-chat-update-color.md), [im.chat.updateTitle](./api-reference/chats/chat-update/im-chat-update-title.md) в разделе Обновление чата

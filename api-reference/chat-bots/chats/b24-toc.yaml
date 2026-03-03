@@ -9,6 +9,8 @@ items:
     href: imbot-chat-add.md
   - name: Добавить участников чата
     href: imbot-chat-user-add.md
+  - name: Назначить или снять права администратора чата
+    href: imbot-chat-set-manager.md
   - name: Изменить заголовок чата
     href: imbot-chat-update-title.md
   - name: Изменить аватар чата

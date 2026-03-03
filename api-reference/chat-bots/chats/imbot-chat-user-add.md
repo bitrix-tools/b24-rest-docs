@@ -218,6 +218,7 @@ HTTP-статус: **400**, **403**
 ## Продолжите изучение
 
 - [{#T}](./imbot-chat-add.md)
+- [{#T}](./imbot-chat-set-manager.md)
 - [{#T}](./imbot-chat-update-title.md)
 - [{#T}](./imbot-chat-update-avatar.md)
 - [{#T}](./imbot-chat-update-color.md)
