@@ -5,6 +5,8 @@
 ### 03 марта, 2026
 
 - Обновили документацию по методам чатов [im.chat.setOwner](./api-reference/chats/chat-update/im-chat-set-owner.md), [im.chat.updateAvatar](./api-reference/chats/chat-update/im-chat-update-avatar.md), [im.chat.updateColor](./api-reference/chats/chat-update/im-chat-update-color.md), [im.chat.updateTitle](./api-reference/chats/chat-update/im-chat-update-title.md) в разделе Обновление чата
+- Обновили документацию по методам чатов [im.chat.leave](./api-reference/chats/chat-users/im-chat-leave.md), [im.chat.user.add](./api-reference/chats/chat-users/im-chat-user-add.md), [im.chat.user.delete](./api-reference/chats/chat-users/im-chat-user-delete.md), [im.chat.user.list](./api-reference/chats/chat-users/im-chat-user-list.md), [im.dialog.users.list](./api-reference/chats/chat-users/im-dialog-users-list.md) в разделе Участники чата
+- Обновили документацию по методам чатов [im.dialog.read.all](./api-reference/chats/special-operations/im-dialog-read-all.md), [im.recent.unread](./api-reference/chats/special-operations/im-recent-unread.md) в разделе Специальные операции в чатах
 
 ### 27 февраля, 2026
 
