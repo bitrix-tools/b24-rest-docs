@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 03 марта, 2026
+
+- Обновили документацию по методам чатов [im.chat.setOwner](./api-reference/chats/chat-update/im-chat-set-owner.md), [im.chat.updateAvatar](./api-reference/chats/chat-update/im-chat-update-avatar.md), [im.chat.updateColor](./api-reference/chats/chat-update/im-chat-update-color.md), [im.chat.updateTitle](./api-reference/chats/chat-update/im-chat-update-title.md) в разделе Обновление чата
+
 ### 27 февраля, 2026
 
 - Обновили документацию по методам чатов [im.chat.add](./api-reference/chats/im-chat-add.md), [im.chat.get](./api-reference/chats/im-chat-get.md), [im.counters.get](./api-reference/chats/im-counters-get.md), [im.dialog.get](./api-reference/chats/im-dialog-get.md), [im.recent.get](./api-reference/chats/im-recent-get.md), [im.recent.list](./api-reference/chats/im-recent-list.md)

@@ -18,8 +18,23 @@
 
 Идентификатор можно получить с помощью метода [imbot.chat.get](./imbot-chat-get.md) ||
 || **COLOR***
-[`string`](../../data-types.md) | Код цвета чата. Возможные значения:
-`RED`, `GREEN`, `MINT`, `LIGHT_BLUE`, `DARK_BLUE`, `PURPLE`, `AQUA`, `PINK`, `LIME`, `BROWN`, `AZURE`, `KHAKI`, `SAND`, `MARENGO`, `GRAY`, `GRAPHITE` ||
+[`string`](../../data-types.md) | Цвет чата для мобильного приложения. Возможные значения:
+- `RED` — красный
+- `GREEN` — зеленый
+- `MINT` — мятный
+- `LIGHT_BLUE` — светло-синий
+- `DARK_BLUE` — темно-синий
+- `PURPLE` — фиолетовый
+- `AQUA` — аквамариновый
+- `PINK` — розовый
+- `LIME` — лаймовый
+- `BROWN` — коричневый
+- `AZURE` — лазурный
+- `KHAKI` — хаки
+- `SAND` — песочный
+- `MARENGO` — маренго
+- `GRAY` — серый
+- `GRAPHITE` — графитовый ||
 || **BOT_ID**
 [`integer`](../../data-types.md) | Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода [imbot.bot.list](../imbot-bot-list.md).
 
