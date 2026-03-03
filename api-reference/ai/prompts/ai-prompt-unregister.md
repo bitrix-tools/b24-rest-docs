@@ -1,5 +1,11 @@
 # Удалить промпт ai.prompt.unregister
 
+{% note alert %}
+
+В настощее время, метод не реализован и возвращает ошибку "To register the prompt, use the web interface."
+
+{% endnote %}
+
 {% note warning "Мы еще обновляем эту страницу" %}
 
 Тут может не хватать некоторых данных — дополним в ближайшее время
@@ -25,10 +31,12 @@
 
 Метод `ai.prompt.unregister` удаляет промпт.
 
+## Параметры метода
+
 #|
 || **Параметр** | **Описание** ||
 || **code^*^**
-[`unknown`](../../data-types.md) | Уникальный код промпта. Всегда имеет префикс `rest_`. Этот код задается один раз при регистрации и затем изменить его нельзя ||
+[`string`](../../data-types.md) | Уникальный код промпта. Всегда имеет префикс `rest_`. Этот код задается один раз при регистрации и затем изменить его нельзя ||
 |#
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
@@ -39,14 +47,25 @@
 
 - cURL (Webhook)
 
-    // пример для cURL (Webhook)
+     ```bash
+    curl -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json" \
+        -d '{"code": "rest_joke_wolf", "auth": "**put_access_token_here**"}' \
+        https://**put_your_bitrix24_address**/rest/ai.prompt.unregister
+    ```
 
 - cURL (OAuth)
 
-    // пример для cURL (OAuth)
+     ```bash
+    curl -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json" \
+        -d '{"code": "rest_joke_wolf"}' \
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/ai.prompt.unregister
+    ```
 
 - JS
-
 
     ```js
     try
@@ -68,7 +87,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -119,7 +137,20 @@
 
 - PHP CRest
 
-    // пример для php
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'ai.prompt.unregister',
+        [
+            'code' => 'rest_joke_wolf',
+        ]
+    );
+
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
+    ```
 
 {% endlist %}
 
@@ -127,7 +158,30 @@
 
 ## Ответ в случае успеха
 
+{% note alert %}
+
+В настощее время, метод не реализован и возвращает ошибку PROMPT_NOT_REGISTER_BY_REST
+
+{% endnote %}
+
 ## Ответ в случае ошибки
+
+```
+{
+    "error": "PROMPT_NOT_REGISTER_BY_REST",
+    "error_description": "To register the prompt, use the web interface."
+}
+```
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `PROMPT_NOT_REGISTER_BY_REST` | To register the prompt, use the web interface. ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
 
 ## Частые кейсы и сценарии
 
