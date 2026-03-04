@@ -52,7 +52,7 @@
 || **EVENT_BOT_DELETE***
 [`string`](../data-types.md) | URL обработчика события [ONIMBOTDELETE](./events/on-imbot-delete.md) ||
 || **CLIENT_ID**
-[`string`](../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации. Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../data-types.md) | Параметр обязателен только для вебхуков. Передайте уникальный CLIENT_ID — этот ключ будет привязан к чат-боту и потребуется для всех последующих вызовов imbot* через вебхук ||
 || **PROPERTIES***
 [`object`](../data-types.md) | Свойства профиля чат-бота. Структура объекта подробно описана [ниже](#properties) ||
 |#
@@ -310,3 +310,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./imbot-unregister.md)
 - [{#T}](./imbot-bot-list.md)
 - [{#T}](./events/index.md)
+

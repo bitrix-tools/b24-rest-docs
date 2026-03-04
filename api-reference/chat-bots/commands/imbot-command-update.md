@@ -18,9 +18,7 @@
 || **FIELDS***
 [`object`](../../data-types.md) | Объект с полями для обновления. Структура описана [ниже](#fields) ||
 || **CLIENT_ID**
-[`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
-
-Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../../data-types.md) | Параметр обязателен только для вебхуков. Передавайте тот же CLIENT_ID, который был указан при регистрации чат-бота ||
 |#
 
 {% note warning "" %}
@@ -277,3 +275,4 @@ HTTP-статус: **400**
 - [{#T}](./imbot-command-answer.md)
 - [{#T}](./imbot-command-unregister.md)
 - [{#T}](./events/on-im-command-add.md)
+
