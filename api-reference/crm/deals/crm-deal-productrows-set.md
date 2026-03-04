@@ -35,7 +35,7 @@
 - `field_n` — название поля товарной позиции
 - `value_n` — значение данного поля
 
-Список доступных полей описан [ниже](#parameter-rows). ||
+Список доступных полей описан [ниже](#parameter-rows) ||
 |#
 
 ### Список доступных полей у товарных позиций {#parameter-rows}
@@ -377,12 +377,12 @@ HTTP-статус: **400**
 
 #|
 || **Описание** | **Значение** ||
-|| The parameter id is invalid or not defined. | В параметр `id` передано некорректное значение ||
+|| The parameter id is invalid or not defined | В параметр `id` передано некорректное значение ||
 || Access denied | У пользователя нет прав на «изменение» сделки  ||
 || Not found | Сделка с переданным `id` не найдена ||
-|| Discount Rate (`DISCOUNT_RATE`) is required if Percentage Discount Type (`DISCOUNT_TYPE_ID`) is defined. | Было передано `DISCOUNT_TYPE_ID = 2` и не передано `DISCOUNT_RATE` ||
+|| Discount Rate (`DISCOUNT_RATE`) is required if Percentage Discount Type (`DISCOUNT_TYPE_ID`) is defined | Было передано `DISCOUNT_TYPE_ID = 2` и не передано `DISCOUNT_RATE` ||
 || Discount Sum (`DISCOUNT_SUM`) is required if Percentage Discount Type (`DISCOUNT_TYPE_ID`) is defined and Discount Rate (`DISCOUNT_RATE`) is 100% | Было передано `DISCOUNT_RATE = 100` и `DISCOUNT_TYPE_ID = 2` и не передано `DISCOUNT_SUM` ||
-|| Discount Sum (`DISCOUNT_SUM`) is required if Monetary Discount Type (`DISCOUNT_TYPE_ID`) is defined. | Было передано `DISCOUNT_TYPE_ID = 1` и не передано `DISCOUNT_SUM` ||
+|| Discount Sum (`DISCOUNT_SUM`) is required if Monetary Discount Type (`DISCOUNT_TYPE_ID`) is defined | Было передано `DISCOUNT_TYPE_ID = 1` и не передано `DISCOUNT_SUM` ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
