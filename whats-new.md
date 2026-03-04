@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 04 марта, 2026
+
+- Обновили документацию по методам чатов [im.dialog.messages.get](./api-reference/chats/messages/im-dialog-messages-get.md), [im.dialog.read](./api-reference/chats/messages/im-dialog-read.md), [im.dialog.unread](./api-reference/chats/messages/im-dialog-unread.md) в разделе Сообщения
+
 ### 03 марта, 2026
 
 - Обновили документацию по методам чатов [im.chat.mute](./api-reference/chats/special-operations/im-chat-mute.md), [im.recent.pin](./api-reference/chats/special-operations/im-recent-pin.md), [im.recent.hide](./api-reference/chats/special-operations/im-recent-hide.md) в разделе Специальные операции
