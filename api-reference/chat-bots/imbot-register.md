@@ -114,7 +114,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"CODE":"newbot","TYPE":"B","EVENT_HANDLER":"https://example.ru/bot/events","OPENLINE":"N","PROPERTIES":{"NAME":"NewBot","WORK_POSITION":"Support bot"}}' \
+      -d '{"CODE":"newbot","TYPE":"B","EVENT_HANDLER":"https://example.ru/bot/events","OPENLINE":"N","PROPERTIES":{"NAME":"NewBot","WORK_POSITION":"Support bot"},"CLIENT_ID":"**put_your_client_id_here**"}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.register
     ```
 

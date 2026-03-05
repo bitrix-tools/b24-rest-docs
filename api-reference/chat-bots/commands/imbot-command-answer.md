@@ -87,7 +87,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"COMMAND_ID":99,"MESSAGE_ID":33871,"MESSAGE":"Принято. Выполняю команду.","SYSTEM":"N","URL_PREVIEW":"Y","ATTACH":{"BLOCKS":[{"MESSAGE":"Детали задачи"},{"DELIMITER":true},{"LINK":{"NAME":"Открыть","LINK":"https://example.com"}}]},"KEYBOARD":{"BUTTONS":[{"TEXT":"Повторить","COMMAND":"echo repeat"}]},"MENU":[{"TEXT":"bitrix24","LINK":"https://bitrix24.ru"}]}' \
+    -d '{"COMMAND_ID":99,"MESSAGE_ID":33871,"MESSAGE":"Принято. Выполняю команду.","SYSTEM":"N","URL_PREVIEW":"Y","ATTACH":{"BLOCKS":[{"MESSAGE":"Детали задачи"},{"DELIMITER":true},{"LINK":{"NAME":"Открыть","LINK":"https://example.com"}}]},"KEYBOARD":{"BUTTONS":[{"TEXT":"Повторить","COMMAND":"echo repeat"}]},"MENU":[{"TEXT":"bitrix24","LINK":"https://bitrix24.ru"}],"CLIENT_ID":"**put_your_client_id_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.command.answer
     ```
 

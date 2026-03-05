@@ -77,7 +77,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"BOT_ID":39,"MESSAGE_ID":19880117,"MESSAGE":"Обновленный текст","URL_PREVIEW":"Y"}' \
+      -d '{"BOT_ID":39,"MESSAGE_ID":19880117,"MESSAGE":"Обновленный текст","URL_PREVIEW":"Y","CLIENT_ID":"**put_your_client_id_here**"}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.message.update
     ```
 
