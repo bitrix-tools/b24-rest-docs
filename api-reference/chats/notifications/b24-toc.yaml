@@ -3,18 +3,27 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Отправить уведомление
+    href: im-notify.md
   - name: Отправить персональное уведомление
     href: im-notify-personal-add.md
   - name: Отправить системное уведомление
     href: im-notify-system-add.md
+  - name: Получить уведомления
+    href: im-notify-get.md
+  - name: Получить схему типов уведомлений
+    href: im-notify-schema-get.md
   - name: Прочитать список уведомлений 
     href: im-notify-read-list.md
   - name: Прочитать уведомление
     href: im-notify-read.md
+  - name: Прочитать все уведомления
+    href: im-notify-read-all.md
   - name: Ответить на уведомление, которое поддерживает быстрый ответ
     href: im-notify-answer.md
-  - name: Взаимодействовать с кнопками нотификаций
+  - name: Взаимодействовать с кнопками уведомлений
     href: im-notify-confirm.md
   - name: Удалить уведомление
     href: im-notify-delete.md
-
+  - name: Поиск по истории уведомлений
+    href: im-notify-history-search.md

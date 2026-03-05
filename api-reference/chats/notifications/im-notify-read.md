@@ -1,86 +1,95 @@
-# Прочитать уведомление или все уведомления с указанного im.notify.read
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Прочитать или вернуть непрочитанным уведомление im.notify.read
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.read` устанавливает отмену о прочитанных уведомлениях.
+Метод `im.notify.read` отмечает уведомление или все уведомления с указанного как прочитанные или непрочитанные.
 
-## Параметры
-
-#|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **ID^*^**
-[`unknown`](../../data-types.md) | `17` | Идентификатор уведомления | 18 ||
-|| **ONLY_CURRENT**
-[`unknown`](../../data-types.md) | `N` | Прочитать только указанное уведомление | 18 ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-- Если параметр `ONLY_CURRENT` передан как `Y`, отметка о прочтении будет установлена только для указанного `ID`. Иначе отметка проставится для уведомления, равным или больше указанного `ID`.
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор уведомления. При `ID >= 0` выполняется изменение статуса, при отсутствии `ID` метод вернет `true` без изменений ||
+|| **ACTION**
+[`string`](../../data-types.md) | Действие над уведомлениями:
+- `Y` — отметить как прочитанные
+- `N` — отметить как непрочитанные
 
-## Примеры
+Значение по умолчанию — `Y` ||
+|| **ONLY_CURRENT**
+[`string`](../../data-types.md) | Значение `Y` изменяет уведомление только с указанным `ID`. Любое другое значение изменяет уведомления, идентификаторы которых равны или больше этого `ID` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"ID":101,"ACTION":"Y","ONLY_CURRENT":"Y"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify.read
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"ID":101,"ACTION":"Y","ONLY_CURRENT":"Y","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.notify.read
+    ```
+
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'im.notify.read',
-    		{
-    			'ID': 17,
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.error(error.ex);
+    try {
+      const response = await $b24.callMethod('im.notify.read', {
+        ID: 101,
+        ACTION: 'Y',
+        ONLY_CURRENT: 'Y',
+      });
+
+      const { result } = response.getData();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
     }
     ```
 
 - PHP
 
-    ```php       
+    ```php
     try {
-        $notificationIds = [1, 2, 3]; // Example notification IDs
-        $result = $serviceBuilder
-            ->getIMScope()
-            ->notify()
-            ->markMessagesAsUnread($notificationIds);
-        if ($result->isSuccess()) {
-            print_r($result->getCoreResponse()->getResponseData()->getResult());
+        $response = $b24Service->core->call(
+            'im.notify.read',
+            [
+                'ID' => 101,
+                'ACTION' => 'Y',
+                'ONLY_CURRENT' => 'Y',
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
         } else {
-            print("Failed to mark messages as unread.");
+            var_dump($result->data());
         }
-    } catch (Throwable $e) {
-        print("An error occurred: " . $e->getMessage());
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
@@ -90,15 +99,14 @@
     BX24.callMethod(
         'im.notify.read',
         {
-            'ID': 17,
+            ID: 101,
+            ACTION: 'Y',
+            ONLY_CURRENT: 'Y',
         },
-        function(result){
-            if(result.error())
-            {
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
@@ -107,32 +115,73 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.notify.read',
-        Array(
-            'ID' => '17'
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'ID' => 101,
+            'ACTION' => 'Y',
+            'ONLY_CURRENT' => 'Y',
         ]
-    );    
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        var_dump($result['result']);
+    }
     ```
-
-- cURL
-
-    // пример для cURL
-
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
 ```json
 {
-    "result": true
-}        
+    "result": true,
+    "time": {
+        "start": 1760000000.0,
+        "finish": 1760000000.1,
+        "duration": 0.1,
+        "processing": 0.04,
+        "date_start": "2026-03-02T09:30:00+03:00",
+        "date_finish": "2026-03-02T09:30:00+03:00",
+        "operating_reset_at": 1760030000,
+        "operating": 0
+    }
+}
 ```
+
+## Возвращаемые данные
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true` после выполнения метода ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-notify.md)
+- [{#T}](./im-notify-personal-add.md)
+- [{#T}](./im-notify-system-add.md)
+- [{#T}](./im-notify-get.md)
+- [{#T}](./im-notify-schema-get.md)
+- [{#T}](./im-notify-read-list.md)
+- [{#T}](./im-notify-read-all.md)
+- [{#T}](./im-notify-answer.md)
+- [{#T}](./im-notify-confirm.md)
+- [{#T}](./im-notify-delete.md)
+- [{#T}](./im-notify-history-search.md)

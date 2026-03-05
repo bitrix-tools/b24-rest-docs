@@ -1,88 +1,111 @@
 # Получить историю поиска im.search.last.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.search.last.get` получает список элементов последнего поиска.
+Метод `im.search.last.get` возвращает список диалогов из истории последнего поиска.
+
+Метод разработан для предыдущей версии чата. В текущей версии чата М1 он работает, но результаты не отображаются в интерфейсе.
+
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
+|| **Название**
+`Тип` | **Описание** ||
 || **SKIP_OPENLINES**
-[`unknown`](../../data-types.md) | `N` | Пропускать чаты открытых линий | 18 ||
+[`string`](../../data-types.md) | Пропустить чаты Открытых линий.
+
+Возможные значения:
+- `Y` — да
+- `N` — нет 
+
+Значение по умолчанию — `N` ||
 || **SKIP_CHAT**
-[`unknown`](../../data-types.md) | `N` | Пропускать чаты | 18 ||
+[`string`](../../data-types.md) | Пропустить групповые чаты.
+
+Возможные значения:
+- `Y` — да
+- `N` — нет 
+
+Значение по умолчанию — `N` ||
 || **SKIP_DIALOG**
-[`unknown`](../../data-types.md) | `N` | Пропускать диалоги один-на-один | 18 ||
+[`string`](../../data-types.md) | Пропустить личные диалоги. 
+
+Возможные значения:
+- `Y` — да
+- `N` — нет 
+
+Значение по умолчанию — `N` ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"SKIP_OPENLINES":"N","SKIP_CHAT":"N","SKIP_DIALOG":"N"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.search.last.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"SKIP_OPENLINES":"N","SKIP_CHAT":"N","SKIP_DIALOG":"N","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.search.last.get
+    ```
+
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'im.search.last.get',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.error('Error:', error.ex);
+    try {
+      const response = await $b24.callMethod('im.search.last.get', {
+        SKIP_OPENLINES: 'N',
+        SKIP_CHAT: 'N',
+        SKIP_DIALOG: 'N',
+      });
+
+      const { result } = response.getData();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.search.last.get',
-                []
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
+        $response = $b24Service->core->call(
+            'im.search.last.get',
+            [
+                'SKIP_OPENLINES' => 'N',
+                'SKIP_CHAT' => 'N',
+                'SKIP_DIALOG' => 'N',
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+
         if ($result->error()) {
-            error_log($result->error()->ex);
+            echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            var_dump($result->data());
         }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting last search: ' . $e->getMessage();
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
@@ -91,14 +114,15 @@
     ```js
     BX24.callMethod(
         'im.search.last.get',
-        {},
-        function(result){
-            if(result.error())
-            {
+        {
+            SKIP_OPENLINES: 'N',
+            SKIP_CHAT: 'N',
+            SKIP_DIALOG: 'N',
+        },
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
@@ -107,114 +131,219 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
-        'im.user.business.list',
-        Array(),
-        $_REQUEST[
-            "auth"
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.search.last.get',
+        [
+            'SKIP_OPENLINES' => 'N',
+            'SKIP_CHAT' => 'N',
+            'SKIP_DIALOG' => 'N',
         ]
-    );    
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        var_dump($result['result']);
+    }
     ```
-
-- cURL
-
-    // пример для cURL
-
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
 ```json
-{    
+{
     "result": [
         {
-            "id": 1,
-            "type": "user",
-            "title": "Евгений Шеленков",
+            "id": "chat1157",
+            "type": "chat",
             "avatar": {
-                "url": "http://192.168.2.232/upload/resize_cache/main/1d3/100_100_2/shelenkov.png",
-                "color": "#df532d"
+                "url": "",
+                "color": "#ab7761"
             },
-            "user": {
-                "id": 1,
-                "name": "Евгений Шеленков",
-                "first_name": "Евгений",
-                "last_name": "Шеленков",
-                "work_position": "",
-                "color": "#df532d",
-                "avatar": "http://192.168.2.232/upload/resize_cache/main/1d3/100_100_2/shelenkov.png",
-                "gender": "M",
-                "birthday": "",
-                "extranet": `false`,
-                "network": `false`,
-                "bot": `false`,
-                "connector": `false`,
-                "external_auth_id": "default",
-                "status": "online",
-                "idle": `false`,
-                "last_activity_date": "2018-01-29T17:35:31+03:00",
-                "desktop_last_date": `false`,
-                "mobile_last_date": `false`,
-                "departments": [
-                 50
-                ],
-                "absent": `false`,
-                "phones": {
-                 "work_phone": "",
-                 "personal_mobile": "",
-                 "personal_phone": ""
-                }
+            "title": "Бурый чат №18",
+            "chat": {
+                "id": 1157,
+                "name": "Бурый чат №18",
+                "owner": 27,
+                "extranet": false,
+                "avatar": "",
+                "color": "#ab7761",
+                "type": "thread",
+                "entity_type": "THREAD",
+                "entity_id": "",
+                "entity_data_1": "",
+                "entity_data_2": "",
+                "entity_data_3": "",
+                "mute_list": [],
+                "date_create": "2025-01-30T00:41:03+03:00",
+                "message_type": "C"
             }
-        }
-    ]
-}            
+        },
+        {
+            "id": 103,
+            "type": "user",
+            "avatar": {
+                "url": "https://example.bitrix24.ru/upload/main/avatar.png",
+                "color": "#4ba984"
+            },
+            "title": "Светлана Иванова",
+            "user": {
+                "id": 103,
+                "active": true,
+                "name": "Светлана Иванова",
+                "first_name": "Светлана",
+                "last_name": "Иванова",
+                "work_position": "Руководитель ИТ-отдела",
+                "color": "#4ba984",
+                "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+                "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar.png",
+                "gender": "F",
+                "birthday": "08-03",
+                "extranet": false,
+                "network": false,
+                "bot": false,
+                "connector": false,
+                "external_auth_id": "socservices",
+                "status": "online",
+                "idle": false,
+                "last_activity_date": "2026-03-05T10:19:37+03:00",
+                "mobile_last_date": false,
+                "desktop_last_date": false,
+                "absent": false,
+                "departments": [1, 7],
+                "phones": {
+                    "personal_mobile": "81234567890",
+                    "work_phone": "79123456789",
+                    "inner_phone": "78"
+                },
+                "bot_data": null,
+                "type": "user",
+                "website": "",
+                "email": "svetlana@example.ru"
+            }
+        },
+        ... // описание для каждого чата, пользователя
+    ],
+    "time": {
+        "start": 1772695649,
+        "finish": 1772695649.89509,
+        "duration": 0.8950901031494141,
+        "processing": 0,
+        "date_start": "2026-03-05T10:27:29+03:00",
+        "date_finish": "2026-03-05T10:27:29+03:00",
+        "operating_reset_at": 1772696249,
+        "operating": 0
+    }
+}
 ```
 
-### Описание ключей
+## Возвращаемые данные
 
-- `id` – идентификатор диалога (цифра если пользователь, chatXXX если это чат)
-- `name` – тип записи (`user` – если пользователь, `chat` – если это чат)
-- `avatar` – объект описания аватара записи:
-  - `url` – ссылка на аватар (если пусто, значит аватар не задан)
-  - `color` – цвет диалога в формате hex
-- `title` – заголовок записи
-- `user` – объект описания данных пользователя (не доступно, если это тип записи – чат):
-  - `id` – идентификатор пользователя
-  - `name` – имя и фамилия пользователя
-  - `first_name` – имя пользователя
-  - `last_name` – фамилия пользователя
-  - `work_position` – должность
-  - `color` – цвет пользователя в формате hex
-  - `avatar` – ссылка на аватар (если пусто, значит аватар не задан)
-  - `gender` – пол пользователя
-  - `birthday` – день рождения пользователя в формате DD-MM, если пусто – не задан
-  - `extranet` – признак внешнего экстранет-пользователя (`true/false`)
-  - `network` – признак пользователя Битрикс24.Network (`true/false`)
-  - `bot` – признак бота (`true/false`)
-  - `connector` – признак пользователя открытых линий (`true/false`)
-  - `external_auth_id` – код внешней авторизации
-  - `status` – выбранный статус пользователя
-  - `idle` – дата, когда пользователь отошел от компьютера, в формате АТОМ (если не задано, `false`)
-  - `last_activity_date` – дата последнего действия пользователя в формате АТОМ
-  - `mobile_last_date` – дата последнего действия в мобильном приложении в формате АТОМ (если не задано, `false`)
-  - `absent` – дата, по какое число у пользователя отпуск, в формате АТОМ (если не задано, `false`)
-- `chat` – объект описания данных чата (не доступно, если это тип записи – пользователь):
-  - `id` – идентификатор чата
-  - `title` – название чата
-  - `owner` – идентификатор пользователя владельца чата
-  - `extranet` – признак участия в чате внешнего экстранет-пользователя (`true/false`)
-  - `color` – цвет чата в формате hex
-  - `avatar` – ссылка на аватар (если пусто, значит аватар не задан)
-  - `type` – тип чата (групповой чат, чат для звонка, чат открытой линии и тд)
-  - `entity_type` – внешний код для чата – тип
-  - `entity_id` – внешний код для чата – идентификатор
-  - `entity_data_1` – внешние данные для чата
-  - `entity_data_2` – внешние данные для чата
-  - `entity_data_3` – внешние данные для чата
-  - `date_create` – дата создания чата в формате АТОМ
-  - `message_type` – тип сообщений чата
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Список элементов истории поиска.
+
+Структура объекта элемента подробно описана [ниже](#last-item-object) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Элемент истории поиска {#last-item-object}
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **id**
+[`string`](../../data-types.md) 
+[`integer`](../../data-types.md) | Идентификатор чата или идентификатор пользователя для личного диалога ||
+|| **type**
+[`string`](../../data-types.md) | Тип записи: `chat` или `user` ||
+|| **avatar**
+[`object`](../../data-types.md) | Данные аватара записи.
+
+Структура объекта подробно описана [ниже](#avatar-object) ||
+|| **title**
+[`string`](../../data-types.md) | Заголовок записи ||
+|| **user**
+[`object`](../../data-types.md) | Данные пользователя для записи типа `user`.
+
+Структура объекта подробно описана [ниже](#user-object) ||
+|| **chat**
+[`object`](../../data-types.md) | Данные чата для записи типа `chat`.
+
+Структура объекта подробно описана [ниже](#chat-object) ||
+|#
+
+### Объект avatar {#avatar-object}
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **url**
+[`string`](../../data-types.md) | Ссылка на аватар ||
+|| **color**
+[`string`](../../data-types.md) | Цвет в формате HEX ||
+|#
+
+### Объект user {#user-object}
+
+{% include [Таблицы объекта пользователя](../_includes/user-object-tables.md) %}
+
+### Объект chat {#chat-object}
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор чата ||
+|| **name**
+[`string`](../../data-types.md) | Название чата ||
+|| **owner**
+[`integer`](../../data-types.md) | Идентификатор владельца чата ||
+|| **extranet**
+[`boolean`](../../data-types.md) | Признак участия в чате экстранет-пользователей ||
+|| **avatar**
+[`string`](../../data-types.md) 
+[`null`](../../data-types.md) | Ссылка на аватар чата ||
+|| **color**
+[`string`](../../data-types.md) | Цвет чата в формате HEX ||
+|| **type**
+[`string`](../../data-types.md) | Тип чата ||
+|| **entity_type**
+[`string`](../../data-types.md) | Тип объекта, к которому привязан чат ||
+|| **entity_id**
+[`string`](../../data-types.md) | Идентификатор объекта, к которому привязан чат||
+|| **entity_data_1**
+[`string`](../../data-types.md) | Дополнительные данные объекта чата — поле 1 ||
+|| **entity_data_2**
+[`string`](../../data-types.md) | Дополнительные данные объекта чата — поле 2 ||
+|| **entity_data_3**
+[`string`](../../data-types.md) | Дополнительные данные объекта чата — поле 3 ||
+|| **mute_list**
+[`object`](../../data-types.md) | Список пользователей с выключенными уведомлениями ||
+|| **date_create**
+[`string`](../../data-types.md) | Дата создания чата в формате ISO 8601 (RFC3339) ||
+|| **message_type**
+[`string`](../../data-types.md) | Тип сообщения ||
+|#
+
+## Обработка ошибок
+
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-search-chat-list.md)
+- [{#T}](./im-search-department-list.md)
+- [{#T}](./im-search-user-list.md)
+- [{#T}](./im-search-last-add.md)
+- [{#T}](./im-search-last-delete.md)

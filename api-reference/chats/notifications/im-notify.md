@@ -1,10 +1,10 @@
-# Отправить системное уведомление im.notify.system.add
+# Отправить уведомление im.notify
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.system.add` отправляет системное уведомление пользователю.
+Метод `im.notify` отправляет уведомление пользователю.
 
 {% note info "" %}
 
@@ -20,9 +20,17 @@
 || **Название**
 `Тип` | **Описание** ||
 || **USER_ID***
-[`integer`](../../data-types.md) | Идентификатор пользователя-получателя уведомления. 
+[`integer`](../../data-types.md) | Идентификатор пользователя-получателя уведомления.
 
-Получить идентификатор пользователя можно методами [user.get](../../user/user-get.md), [user.search](../../user/user-search.md) или [im.user.get](../users/im-user-get.md) ||
+Получить идентификатор пользователя можно методами [user.get](../../user/user-get.md) или [user.search](../../user/user-search.md) ||
+|| **TYPE**
+[`string`](../../data-types.md) | Тип уведомления. 
+
+Допустимые значения:
+- `USER` — персональное уведомление
+- `SYSTEM` — системное уведомление
+ 
+Значение по умолчанию — `USER` ||
 || **MESSAGE***
 [`string`](../../data-types.md) | Текст уведомления. Метод удаляет пробелы по краям строки перед отправкой ||
 || **MESSAGE_OUT**
@@ -48,8 +56,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"USER_ID":5,"MESSAGE":"Системное уведомление","MESSAGE_OUT":"Системное уведомление для email","TAG":"SYSTEM_EVENT_42","SUB_TAG":"SYSTEM_EVENT|42"}' \
-      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify.system.add
+      -d '{"USER_ID":5,"TYPE":"USER","MESSAGE":"Напоминание","MESSAGE_OUT":"Напоминание (email)","TAG":"TASK_42","SUB_TAG":"TASK|42"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify
     ```
 
 - cURL (OAuth)
@@ -58,20 +66,21 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"USER_ID":5,"MESSAGE":"Системное уведомление","MESSAGE_OUT":"Системное уведомление для email","TAG":"SYSTEM_EVENT_42","SUB_TAG":"SYSTEM_EVENT|42","auth":"**put_access_token_here**"}' \
-      https://**put_your_bitrix24_address**/rest/im.notify.system.add
+      -d '{"USER_ID":5,"TYPE":"SYSTEM","MESSAGE":"Системное сообщение","MESSAGE_OUT":"Системное сообщение (email)","TAG":"SYSTEM_42","SUB_TAG":"SYSTEM|42","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.notify
     ```
 
 - JS
 
     ```js
     try {
-      const response = await $b24.callMethod('im.notify.system.add', {
+      const response = await $b24.callMethod('im.notify', {
         USER_ID: 5,
-        MESSAGE: 'Системное уведомление',
-        MESSAGE_OUT: 'Системное уведомление для email',
-        TAG: 'SYSTEM_EVENT_42',
-        SUB_TAG: 'SYSTEM_EVENT|42',
+        TYPE: 'USER',
+        MESSAGE: 'Напоминание',
+        MESSAGE_OUT: 'Напоминание (email)',
+        TAG: 'TASK_42',
+        SUB_TAG: 'TASK|42',
       });
 
       const { result } = response.getData();
@@ -86,13 +95,14 @@
     ```php
     try {
         $response = $b24Service->core->call(
-            'im.notify.system.add',
+            'im.notify',
             [
                 'USER_ID' => 5,
-                'MESSAGE' => 'Системное уведомление',
-                'MESSAGE_OUT' => 'Системное уведомление для email',
-                'TAG' => 'SYSTEM_EVENT_42',
-                'SUB_TAG' => 'SYSTEM_EVENT|42',
+                'TYPE' => 'USER',
+                'MESSAGE' => 'Напоминание',
+                'MESSAGE_OUT' => 'Напоминание (email)',
+                'TAG' => 'TASK_42',
+                'SUB_TAG' => 'TASK|42',
             ]
         );
 
@@ -112,13 +122,14 @@
 
     ```js
     BX24.callMethod(
-        'im.notify.system.add',
+        'im.notify',
         {
             USER_ID: 5,
-            MESSAGE: 'Системное уведомление',
-            MESSAGE_OUT: 'Системное уведомление для email',
-            TAG: 'SYSTEM_EVENT_42',
-            SUB_TAG: 'SYSTEM_EVENT|42',
+            TYPE: 'USER',
+            MESSAGE: 'Напоминание',
+            MESSAGE_OUT: 'Напоминание (email)',
+            TAG: 'TASK_42',
+            SUB_TAG: 'TASK|42',
         },
         function(result) {
             if (result.error()) {
@@ -136,13 +147,14 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'im.notify.system.add',
+        'im.notify',
         [
             'USER_ID' => 5,
-            'MESSAGE' => 'Системное уведомление',
-            'MESSAGE_OUT' => 'Системное уведомление для email',
-            'TAG' => 'SYSTEM_EVENT_42',
-            'SUB_TAG' => 'SYSTEM_EVENT|42',
+            'TYPE' => 'USER',
+            'MESSAGE' => 'Напоминание',
+            'MESSAGE_OUT' => 'Напоминание (email)',
+            'TAG' => 'TASK_42',
+            'SUB_TAG' => 'TASK|42',
         ]
     );
 
@@ -166,8 +178,8 @@ HTTP-код: **200**
         "finish": 1760000000.1,
         "duration": 0.1,
         "processing": 0.04,
-        "date_start": "2026-03-02T09:30:00+03:00",
-        "date_finish": "2026-03-02T09:30:00+03:00",
+        "date_start": "2026-03-03T10:00:00+03:00",
+        "date_finish": "2026-03-03T10:00:00+03:00",
         "operating_reset_at": 1760030000,
         "operating": 0
     }
@@ -204,9 +216,9 @@ HTTP-статус: **400**, **403**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией, для которой он запрещен ||
-|| `USER_ID_EMPTY` | User ID can't be empty | Параметр `USER_ID` не передан или `USER_ID <= 0` ||
+|| `USER_ID_EMPTY` | User ID can't be empty | Параметр `USER_ID` не передан, либо `USER_ID <= 0` ||
 || `MESSAGE_EMPTY` | Message can't be empty | Не передан текст сообщения ||
-|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен допустимый размер вложения `ATTACH` — 30 Кб ||
+|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен допустимый размер вложения `ATTACH` — 30 кб ||
 || `ATTACH_ERROR` | Incorrect attach params | Передан некорректный формат вложения `ATTACH` ||
 |#
 
@@ -214,8 +226,8 @@ HTTP-статус: **400**, **403**
 
 ## Продолжите изучение
 
-- [{#T}](./im-notify.md)
 - [{#T}](./im-notify-personal-add.md)
+- [{#T}](./im-notify-system-add.md)
 - [{#T}](./im-notify-get.md)
 - [{#T}](./im-notify-schema-get.md)
 - [{#T}](./im-notify-read-list.md)

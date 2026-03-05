@@ -1,16 +1,10 @@
-# Получить статус пользователя im.user.status.get
+# Прочитать все уведомления im.notify.read.all
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.user.status.get` возвращает статус текущего пользователя.
-
-{% note info "" %}
-
-Метод возвращает статус, который был установлен методом [im.user.status.set](./im-user-status-set.md).
-
-{% endnote %}
+Метод `im.notify.read.all` отмечает все уведомления текущего пользователя как прочитанные.
 
 ## Параметры метода
 
@@ -28,7 +22,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.user.status.get
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify.read.all
     ```
 
 - cURL (OAuth)
@@ -38,14 +32,14 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"auth":"**put_access_token_here**"}' \
-      https://**put_your_bitrix24_address**/rest/im.user.status.get
+      https://**put_your_bitrix24_address**/rest/im.notify.read.all
     ```
 
 - JS
 
     ```js
     try {
-      const response = await $b24.callMethod('im.user.status.get', {});
+      const response = await $b24.callMethod('im.notify.read.all', {});
       const { result } = response.getData();
       console.log(result);
     } catch (error) {
@@ -57,8 +51,7 @@
 
     ```php
     try {
-        $response = $b24Service->core->call('im.user.status.get', []);
-
+        $response = $b24Service->core->call('im.notify.read.all', []);
         $result = $response->getResponseData()->getResult();
 
         if ($result->error()) {
@@ -74,7 +67,7 @@
 - BX24.js
 
     ```js
-    BX24.callMethod('im.user.status.get', {}, function(result) {
+    BX24.callMethod('im.notify.read.all', {}, function(result) {
         if (result.error()) {
             console.error(result.error().ex);
         } else {
@@ -88,7 +81,7 @@
     ```php
     require_once('crest.php');
 
-    $result = CRest::call('im.user.status.get', []);
+    $result = CRest::call('im.notify.read.all', []);
 
     if (!empty($result['error'])) {
         echo 'Error: ' . $result['error_description'];
@@ -104,14 +97,17 @@ HTTP-код: **200**
 
 ```json
 {
-    "result": "dnd",
+    "result": {
+        "result": true,
+        "newCounter": 0
+    },
     "time": {
         "start": 1760000000.0,
-        "finish": 1760000000.05,
-        "duration": 0.05,
-        "processing": 0.02,
-        "date_start": "2026-03-02T09:30:00+03:00",
-        "date_finish": "2026-03-02T09:30:00+03:00",
+        "finish": 1760000000.1,
+        "duration": 0.1,
+        "processing": 0.04,
+        "date_start": "2026-03-03T10:00:00+03:00",
+        "date_finish": "2026-03-03T10:00:00+03:00",
         "operating_reset_at": 1760030000,
         "operating": 0
     }
@@ -124,27 +120,23 @@ HTTP-код: **200**
 || **Название**
 `Тип` | **Описание** ||
 || **result**
-[`string`](../../data-types.md) 
-[`boolean`](../../data-types.md) | Текущий статус пользователя. 
+[`object`](../../data-types.md) | Объект с результатом выполнения метода. 
 
-Допустимые значения: 
-- `online` — в сети
-- `dnd` — не беспокоить
-- `away` — отсутствую
-- `break` — перерыв
-
-Если статус не найден, возвращается `false` ||
+Структура объекта подробно описана [ниже](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-{% note info "" %}
+### Объект result {#result-object}
 
-В интерфейсе нового мессенджера отображается только статус `online`. Статусы `dnd`, `away`, `break` можно установить методом, но в интерфейсе они не показываются.
-
-[Битрикс24 Чат: новый мессенджер](https://helpdesk.bitrix24.ru/open/19071750/)
-
-{% endnote %}
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Флаг успешного выполнения операции ||
+|| **newCounter**
+[`integer`](../../data-types.md) | Текущее значение счетчика непрочитанных уведомлений после операции ||
+|#
 
 ## Обработка ошибок
 
@@ -154,8 +146,14 @@ HTTP-код: **200**
 
 ## Продолжите изучение
 
-- [{#T}](./im-user-get.md)
-- [{#T}](./im-user-list-get.md)
-- [{#T}](./im-user-status-set.md)
-- [{#T}](./im-user-status-idle-start.md)
-- [{#T}](./im-user-status-idle-end.md)
+- [{#T}](./im-notify.md)
+- [{#T}](./im-notify-personal-add.md)
+- [{#T}](./im-notify-system-add.md)
+- [{#T}](./im-notify-get.md)
+- [{#T}](./im-notify-schema-get.md)
+- [{#T}](./im-notify-read-list.md)
+- [{#T}](./im-notify-read.md)
+- [{#T}](./im-notify-answer.md)
+- [{#T}](./im-notify-confirm.md)
+- [{#T}](./im-notify-delete.md)
+- [{#T}](./im-notify-history-search.md)
