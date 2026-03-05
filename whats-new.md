@@ -2,6 +2,20 @@
 
 ## 2026
 
+### 04 марта, 2026
+
+- Обновили документацию по методам чатов [im.dialog.messages.get](./api-reference/chats/messages/im-dialog-messages-get.md), [im.dialog.read](./api-reference/chats/messages/im-dialog-read.md), [im.dialog.unread](./api-reference/chats/messages/im-dialog-unread.md) в разделе Сообщения
+
+### 03 марта, 2026
+
+- Обновили документацию по методам чатов [im.chat.mute](./api-reference/chats/special-operations/im-chat-mute.md), [im.recent.pin](./api-reference/chats/special-operations/im-recent-pin.md), [im.recent.hide](./api-reference/chats/special-operations/im-recent-hide.md) в разделе Специальные операции
+- Добавили метод [imbot.chat.setManager](./api-reference/chat-bots/chats/imbot-chat-set-manager.md) для назначения или снятия прав администратора чата
+- Обновили документацию по методам чатов [im.disk.file.commit](./api-reference/chats/files/im-disk-file-commit.md), [im.disk.file.delete](./api-reference/chats/files/im-disk-file-delete.md), [im.disk.file.save](./api-reference/chats/files/im-disk-file-save.md), [im.disk.folder.get](./api-reference/chats/files/im-disk-folder-get.md) в разделе Файлы
+- Обновили документацию по методам чатов [im.department.get](./api-reference/chats/departments/im-department-get.md), [im.department.managers.get](./api-reference/chats/departments/im-department-managers-get.md), [im.department.employees.get](./api-reference/chats/departments/im-department-employees-get.md), [im.department.colleagues.list](./api-reference/chats/departments/im-department-colleagues-list.md) в разделе Подразделения
+- Обновили документацию по методам чатов [im.chat.setOwner](./api-reference/chats/chat-update/im-chat-set-owner.md), [im.chat.updateAvatar](./api-reference/chats/chat-update/im-chat-update-avatar.md), [im.chat.updateColor](./api-reference/chats/chat-update/im-chat-update-color.md), [im.chat.updateTitle](./api-reference/chats/chat-update/im-chat-update-title.md) в разделе Обновление чата
+- Обновили документацию по методам чатов [im.chat.leave](./api-reference/chats/chat-users/im-chat-leave.md), [im.chat.user.add](./api-reference/chats/chat-users/im-chat-user-add.md), [im.chat.user.delete](./api-reference/chats/chat-users/im-chat-user-delete.md), [im.chat.user.list](./api-reference/chats/chat-users/im-chat-user-list.md), [im.dialog.users.list](./api-reference/chats/chat-users/im-dialog-users-list.md) в разделе Участники чата
+- Обновили документацию по методам чатов [im.dialog.read.all](./api-reference/chats/special-operations/im-dialog-read-all.md), [im.recent.unread](./api-reference/chats/special-operations/im-recent-unread.md) в разделе Специальные операции в чатах
+
 ### 27 февраля, 2026
 
 - Обновили документацию по методам чатов [im.chat.add](./api-reference/chats/im-chat-add.md), [im.chat.get](./api-reference/chats/im-chat-get.md), [im.counters.get](./api-reference/chats/im-counters-get.md), [im.dialog.get](./api-reference/chats/im-dialog-get.md), [im.recent.get](./api-reference/chats/im-recent-get.md), [im.recent.list](./api-reference/chats/im-recent-list.md)

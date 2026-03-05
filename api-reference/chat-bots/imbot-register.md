@@ -52,7 +52,7 @@
 || **EVENT_BOT_DELETE***
 [`string`](../data-types.md) | URL обработчика события [ONIMBOTDELETE](./events/on-imbot-delete.md) ||
 || **CLIENT_ID**
-[`string`](../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации. Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../data-types.md) | Параметр обязателен только для вебхуков. Передайте уникальный CLIENT_ID — этот ключ будет привязан к чат-боту и потребуется для всех последующих вызовов imbot* через вебхук ||
 || **PROPERTIES***
 [`object`](../data-types.md) | Свойства профиля чат-бота. Структура объекта подробно описана [ниже](#properties) ||
 |#
@@ -114,7 +114,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"CODE":"newbot","TYPE":"B","EVENT_HANDLER":"https://example.ru/bot/events","OPENLINE":"N","PROPERTIES":{"NAME":"NewBot","WORK_POSITION":"Support bot"}}' \
+      -d '{"CODE":"newbot","TYPE":"B","EVENT_HANDLER":"https://example.ru/bot/events","OPENLINE":"N","PROPERTIES":{"NAME":"NewBot","WORK_POSITION":"Support bot"},"CLIENT_ID":"**put_your_client_id_here**"}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.register
     ```
 
@@ -310,3 +310,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./imbot-unregister.md)
 - [{#T}](./imbot-bot-list.md)
 - [{#T}](./events/index.md)
+

@@ -16,9 +16,7 @@
 || **COMMAND_ID***
 [`integer`](../../data-types.md) | Идентификатор команды для удаления ||
 || **CLIENT_ID**
-[`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
-
-Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../../data-types.md) | Параметр обязателен только для вебхуков. Передавайте тот же CLIENT_ID, который был указан при регистрации чат-бота ||
 |#
 
 ## Примеры кода
@@ -33,7 +31,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"COMMAND_ID":99}' \
+    -d '{"COMMAND_ID":99,"CLIENT_ID":"**put_your_client_id_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.command.unregister
     ```
 
@@ -193,3 +191,4 @@ HTTP-статус: **400**
 - [{#T}](./imbot-command-update.md)
 - [{#T}](./imbot-command-answer.md)
 - [{#T}](./events/on-im-command-add.md)
+

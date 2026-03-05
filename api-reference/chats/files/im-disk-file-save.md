@@ -1,65 +1,71 @@
 # Сохранить файл на свой диск im.disk.file.save
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: участник чата
 
-Метод `im.disk.file.save` сохраняет файл в свой Битрикс24.Диск.
+Метод `im.disk.file.save` сохраняет файл из чата на личный диск пользователя.
+
+Файл сохраняется в папку *Сохраненные файлы*. Если папки нет, система создаст ее автоматически.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **DISK_ID^*^**
-[`unknown`](../../data-types.md) | `112` | Идентификатор файла | 21 ||
+|| **Название**
+`тип` | **Описание** ||
+|| **FILE_ID***
+[`integer`](../../data-types.md) | Идентификатор файла ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"FILE_ID":5155}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.disk.file.save
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"FILE_ID":5155,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.disk.file.save
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'im.disk.file.save',
-    		{
-    			'DISK_ID': 112,
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+        const response = await $b24.callMethod(
+            'im.disk.file.save',
+            {
+                FILE_ID: 5155
+            }
+        );
+
+        console.log(response.getData().result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error(error.ex);
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -68,38 +74,34 @@
             ->call(
                 'im.disk.file.save',
                 [
-                    'DISK_ID' => 112,
+                    'FILE_ID' => 5155,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error saving disk file: ' . $e->getMessage();
+        echo 'Error: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
-    ```javascript
+    ```js
     BX24.callMethod(
         'im.disk.file.save',
         {
-            'DISK_ID': 112,
+            FILE_ID: 5155
         },
-        function(result){
-            if(result.error())
+        function(result)
+        {
+            if (result.error())
             {
-                console.error(result.error().ex);
+                console.error(result.error());
             }
             else
             {
@@ -111,46 +113,92 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.disk.file.save',
-        Array(
-            'DISK_ID' => 112,
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'FILE_ID' => 5155,
         ]
     );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
-
-- cURL
-
-    // пример для cURL
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
 ```json
 {
-"result": {
-    "folder": {
-        "id": 130,
-        "name": "Сохраненные файлы"
+    "result": {
+        "folder": {
+            "id": 4821,
+            "name": "Сохраненные файлы"
         },
-    "file": {
-        "id": 578,
-        "name": "image.png"
+        "file": {
+            "id": 5159,
+            "name": "image.jpg"
         }
+    },
+    "time": {
+        "start": 1772193101,
+        "finish": 1772193101.625023,
+        "duration": 0.6250228881835938,
+        "processing": 0,
+        "date_start": "2026-02-27T14:51:41+03:00",
+        "date_finish": "2026-02-27T14:51:41+03:00",
+        "operating_reset_at": 1772193701,
+        "operating": 0
     }
 }
 ```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа ||
+|| **result.folder**
+[`object`](../../data-types.md) | Папка *Сохраненные файлы* на личном диске [(подробное описание)](#folder) ||
+|| **result.file**
+[`object`](../../data-types.md) | Сохраненный файл [(подробное описание)](#file) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект folder {#folder}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор папки ||
+|| **name**
+[`string`](../../data-types.md) | Название папки — *Сохраненные файлы* ||
+|#
+
+### Объект file {#file}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор сохраненного файла ||
+|| **name**
+[`string`](../../data-types.md) | Название сохраненного файла ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
@@ -159,16 +207,25 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **FILE_SAVE_ERROR** | Файл не удалось сохранить ||
-|| **FILE_ID_EMPTY** | Не передан идентификатор файла ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `FILE_ID_EMPTY` | File ID can't be empty | Не передан или передан пустым обязательный параметр `FILE_ID` ||
+|| `400` | `FILE_SAVE_ERROR` | File ID can't be saved | Возможные причины:
+- у пользователя нет доступа к чату, из которого нужно сохранить файл
+- указанный файл не найден
+- Диск отлючен
+- не удалось сохранить файл в папку *Сохраненные файлы*, например, при отсутствии места
+- не удалось создать папку *Сохраненные файлы* ||
 |#
 
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-disk-file-commit.md)
+- [{#T}](./im-disk-file-delete.md)
+- [{#T}](./im-disk-folder-get.md)

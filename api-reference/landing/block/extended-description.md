@@ -45,9 +45,7 @@
         ],
         'presets' => [
             'telegram' => [...],
-            'instagram' => [...],
             'reddit' => [...],
-            'whatsapp' => [...],
             'skype' => [...]
         ]
     ]

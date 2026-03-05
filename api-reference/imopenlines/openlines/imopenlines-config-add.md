@@ -128,11 +128,11 @@
 || **VOTE_MESSAGE_1_DISLIKE**
 [`unknown`](../../data-types.md) | Текст для отрицательной оценки в онлайн-чате и bitrix24 network ||
 || **VOTE_MESSAGE_2_TEXT**
-[`unknown`](../../data-types.md) | Текст для запроса оценки в других каналах (Viber, Telegram, Facebook*, Вконтакте и другие) ||
+[`unknown`](../../data-types.md) | Текст для запроса оценки в других каналах (Viber, Telegram, Вконтакте и другие) ||
 || **VOTE_MESSAGE_2_LIKE**
-[`unknown`](../../data-types.md) | Текст для положительной оценки в других каналах (Viber, Telegram, Facebook*, Вконтакте и другие) ||
+[`unknown`](../../data-types.md) | Текст для положительной оценки в других каналах (Viber, Telegram, Вконтакте и другие) ||
 || **VOTE_MESSAGE_2_DISLIKE**
-[`unknown`](../../data-types.md) | Текст для отрицательной оценки в других каналах (Viber, Telegram, Facebook*, Вконтакте и другие) ||
+[`unknown`](../../data-types.md) | Текст для отрицательной оценки в других каналах (Viber, Telegram, Вконтакте и другие) ||
 || **QUICK_ANSWERS_IBLOCK_ID**
 [`unknown`](../../data-types.md) | Идентификатор инфоблока быстрых ответов (по-умолчанию, 0) ||
 || **LANGUAGE_ID**

@@ -15,8 +15,8 @@
 `тип` | **Описание** ||
 || **TYPE**
 [`string`](../../data-types.md) | Тип чата. Возможные значения:
-- `OPEN` — открытый чат для вступления
-- `CHAT` — закрытый чат по приглашениям
+- `OPEN` — открытый чат
+- `CHAT` — закрытый чат
 
 По умолчанию — `CHAT` ||
 || **TITLE**
@@ -25,29 +25,42 @@
 [`string`](../../data-types.md) | Описание чата ||
 || **COLOR**
 [`string`](../../data-types.md) | Цвет чата для мобильного приложения. Возможные значения:
-`RED`, `GREEN`, `MINT`, `LIGHT_BLUE`, `DARK_BLUE`, `PURPLE`, `AQUA`, `PINK`, `LIME`, `BROWN`, `AZURE`, `KHAKI`, `SAND`, `MARENGO`, `GRAY`, `GRAPHITE` ||
+- `RED` — красный
+- `GREEN` — зеленый
+- `MINT` — мятный
+- `LIGHT_BLUE` — светло-синий
+- `DARK_BLUE` — темно-синий
+- `PURPLE` — фиолетовый
+- `AQUA` — аквамариновый
+- `PINK` — розовый
+- `LIME` — лаймовый
+- `BROWN` — коричневый
+- `AZURE` — лазурный
+- `KHAKI` — хаки
+- `SAND` — песочный
+- `MARENGO` — маренго
+- `GRAY` — серый
+- `GRAPHITE` — графитовый ||
 || **MESSAGE**
 [`string`](../../data-types.md) | Приветственное сообщение в чате ||
 || **USERS**
 [`array`](../../data-types.md) | Массив участников чата ||
 || **AVATAR**
-[`string`](../../data-types.md) | Аватар чата в формате [Base64](../../files/how-to-upload-files.md) ||
-|| **ENTITY_TYPE**
-[`string`](../../data-types.md) | Тип объекта для привязки чата к внешнему контексту. Можно указывать собственные значения, например `MYAPP_ORDER`.
+[`string`](../../data-types.md) | Аватар чата в формате [Base64](../../files/how-to-upload-files.md).
 
-Используется для получения идентификатора чата и для определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](../messages/events/on-imbot-message-add.md), [ONIMBOTMESSAGEUPDATE](../messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](../messages/events/on-imbot-message-delete.md) ||
+Максимальный размер изображения — 5000х5000 ||
+|| **ENTITY_TYPE**
+[`string`](../../data-types.md) | Тип объекта для привязки чата к внешнему контексту ||
 || **ENTITY_ID**
 [`string`](../../data-types.md) | Идентификатор объекта в рамках `ENTITY_TYPE`. 
 
-Используется для получения идентификатора чата и для определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](../messages/events/on-imbot-message-add.md), [ONIMBOTMESSAGEUPDATE](../messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](../messages/events/on-imbot-message-delete.md) ||
+При создании чата можно передать произвольную пару `ENTITY_TYPE` и `ENTITY_ID`. Параметры используются для получения идентификатора чата методом [imbot.chat.get](./imbot-chat-get.md) и для определения контекста в обработчиках событий [ONIMBOTMESSAGEADD](../messages/events/on-imbot-message-add.md), [ONIMBOTMESSAGEUPDATE](../messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](../messages/events/on-imbot-message-delete.md) ||
 || **BOT_ID**
 [`integer`](../../data-types.md) | Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода [imbot.bot.list](../imbot-bot-list.md).
 
 Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением ||
 || **CLIENT_ID**
-[`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
-
-Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../../data-types.md) | Параметр обязателен только для вебхуков. Передавайте тот же CLIENT_ID, который был указан при регистрации чат-бота ||
 |#
 
 ## Примеры кода
@@ -62,7 +75,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TYPE":"CHAT","TITLE":"Новый чат","DESCRIPTION":"Важные новости","COLOR":"GREEN","MESSAGE":"Добро пожаловать!","USERS":[1271],"AVATAR":"/9j/4AAQSkZJRgABAQEBLAEsAAD/4QBwRXhp...+gKlSv+1v/2Q==","ENTITY_TYPE":"CHAT","ENTITY_ID":"13","BOT_ID":1291}' \
+    -d '{"TYPE":"CHAT","TITLE":"Новый чат","DESCRIPTION":"Важные новости","COLOR":"GREEN","MESSAGE":"Добро пожаловать!","USERS":[1271],"AVATAR":"/9j/4AAQSkZJRgABAQEBLAEsAAD/4QBwRXhp...+gKlSv+1v/2Q==","ENTITY_TYPE":"CHAT","ENTITY_ID":"13","BOT_ID":1291,"CLIENT_ID":"**put_your_client_id_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.chat.add
     ```
 
@@ -257,6 +270,7 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./imbot-chat-user-add.md)
+- [{#T}](./imbot-chat-set-manager.md)
 - [{#T}](./imbot-chat-update-title.md)
 - [{#T}](./imbot-chat-update-avatar.md)
 - [{#T}](./imbot-chat-update-color.md)
@@ -265,3 +279,4 @@ HTTP-статус: **400**
 - [{#T}](./imbot-chat-user-list.md)
 - [{#T}](./imbot-chat-user-delete.md)
 - [{#T}](./imbot-chat-leave.md)
+

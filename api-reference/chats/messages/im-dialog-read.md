@@ -1,98 +1,93 @@
 # Установить признак «прочитано» у сообщений im.dialog.read
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.dialog.read` меняет факт прочтения сообщений. Все сообщения до указанного (включая само сообщение) помечаются как прочитанные.
+Метод `im.dialog.read` устанавливает признак «прочитано» для сообщений диалога до указанного сообщения включительно.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **DIALOG_ID^*^**
-[`unknown`](../../data-types.md) | `chat29`
-или
-`256` | Идентификатор диалога. Формат:
-- **chatXXX** – чат получателя, если сообщение для чата
-- **XXX** – идентификатор получателя, если сообщение для приватного диалога | 21 ||
-|| **MESSAGE_ID^*^**
-[`unknown`](../../data-types.md) | `12` | Идентификатор последнего прочитанного сообщения в диалоге | 21 ||
+|| **Название**
+`тип` | **Описание** ||
+|| **DIALOG_ID***
+[`string`](../../data-types.md) | Идентификатор чата в формате:
+
+- `chatXXX` — чат
+- `sgXXX` — чат группы или проекта
+- `XXX` — идентификатор пользователя личного чата
+
+Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+|| **MESSAGE_ID**
+[`integer`](../../data-types.md) | Идентификатор последнего прочитанного сообщения. Если не передан — метод устанавливает признак прочтения для всех непрочитанных сообщений ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat1489","MESSAGE_ID":84875}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.dialog.read
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat1489","MESSAGE_ID":84875,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.dialog.read
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'im.dialog.read',
-    		{
-    			'DIALOG_ID': chat29,
-    			'MESSAGE_ID': 12,
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+        const response = await $b24.callMethod(
+            'im.dialog.read',
+            {
+                DIALOG_ID: 'chat1489',
+                MESSAGE_ID: 84875
+            }
+        );
+
+        console.log(response.getData().result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error(error.ex);
+        console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.dialog.read',
-                [
-                    'DIALOG_ID' => $chat29,
-                    'MESSAGE_ID' => 12,
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error()->ex;
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+        $response = $b24Service->core->call(
+            'im.dialog.read',
+            [
+                'DIALOG_ID' => 'chat1489',
+                'MESSAGE_ID' => 84875,
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+        print_r($result);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error reading dialog: ' . $e->getMessage();
     }
     ```
 
@@ -102,13 +97,14 @@
     BX24.callMethod(
         'im.dialog.read',
         {
-            'DIALOG_ID': chat29,
-            'MESSAGE_ID': 12,
+            DIALOG_ID: 'chat1489',
+            MESSAGE_ID: 84875
         },
-        function(result){
-            if(result.error())
+        function(result)
+        {
+            if (result.error())
             {
-                console.error(result.error().ex);
+                console.error(result.error());
             }
             else
             {
@@ -120,74 +116,100 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.dialog.read',
-        Array(
-            'DIALOG_ID' => chat29,
-        'MESSAGE_ID' => 12,
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'DIALOG_ID' => 'chat1489',
+            'MESSAGE_ID' => 84875,
         ]
     );
+
+    print_r($result);
     ```
-
-- cURL
-
-    // пример для cURL
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
 ```json
 {
-    "result":
-    {
-        "dialogId": "chat76",
-        "chatId": 76,
-        "counter": 1,
-        "lastId": 6930
+    "result": {
+        "dialogId": "chat1489",
+        "chatId": 1489,
+        "lastId": 84875,
+        "counter": 3
+    },
+    "time": {
+        "start": 1772624912,
+        "finish": 1772624912.615753,
+        "duration": 0.6157529354095459,
+        "processing": 0,
+        "date_start": "2026-03-04T14:48:32+03:00",
+        "date_finish": "2026-03-04T14:48:32+03:00",
+        "operating_reset_at": 1772625512,
+        "operating": 0
     }
 }
 ```
 
-- **dialogId** – идентификатор прочитанного диалога
-- **chatId** – идентификатор чата
-- **counter** – кол-во непрочитанных сообщений после выполнения метода
-- **lastId** – последнее прочитанное сообщение
+### Возвращаемые данные
 
-Если метод не смог установить новую метку прочтения:
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result).
+
+Возвращает `false`, если у пользователя нет доступа к чату ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **dialogId**
+[`string`](../../data-types.md) | Идентификатор диалога ||
+|| **chatId**
+[`integer`](../../data-types.md) | Идентификатор чата ||
+|| **lastId**
+[`integer`](../../data-types.md) | Идентификатор последнего прочитанного сообщения ||
+|| **counter**
+[`integer`](../../data-types.md) | Количество непрочитанных сообщений после выполнения метода ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
-"result": false
+    "error": "DIALOG_ID_EMPTY",
+    "error_description": "Dialog ID can't be empty"
 }
 ```
 
-## Ответ в случае ошибки
-
-```json
-{
-    "error": "MESSAGE_ID_ERROR",
-    "error_description": "Message ID can't be empty"
-}
-```
-
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **MESSAGE_ID_ERROR** | Указан некорректный идентификатор сообщения ||
-|| **DIALOG_ID_EMPTY** | Указан некорректный идентификатор диалога ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `DIALOG_ID_EMPTY` | Dialog ID can't be empty | Параметр `DIALOG_ID` не передан, передан пустым или в неверном формате ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-dialog-messages-get.md)
+- [{#T}](./im-dialog-messages-search.md)
+- [{#T}](./im-dialog-unread.md)
+- [{#T}](./im-dialog-writing.md)

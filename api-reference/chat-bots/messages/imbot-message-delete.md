@@ -28,9 +28,7 @@
 - `Y` — удалить полностью, без отметки об удалении
 - `N` — обычное удаление, значение по умолчанию ||
 || **CLIENT_ID**
-[`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
-
-Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../../data-types.md) | Параметр обязателен только для вебхуков. Передавайте тот же CLIENT_ID, который был указан при регистрации чат-бота ||
 |#
 
 ## Примеры кода
@@ -45,7 +43,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"BOT_ID":39,"MESSAGE_ID":19880117,"COMPLETE":"N"}' \
+      -d '{"BOT_ID":39,"MESSAGE_ID":19880117,"COMPLETE":"N","CLIENT_ID":"**put_your_client_id_here**"}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.message.delete
     ```
 

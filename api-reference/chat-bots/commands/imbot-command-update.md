@@ -18,9 +18,7 @@
 || **FIELDS***
 [`object`](../../data-types.md) | Объект с полями для обновления. Структура описана [ниже](#fields) ||
 || **CLIENT_ID**
-[`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
-
-Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../../data-types.md) | Параметр обязателен только для вебхуков. Передавайте тот же CLIENT_ID, который был указан при регистрации чат-бота ||
 |#
 
 {% note warning "" %}
@@ -75,7 +73,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"COMMAND_ID":99,"FIELDS":{"COMMAND":"echo2","EVENT_COMMAND_ADD":"https://example.com/bot/command.php","HIDDEN":"N","EXTRANET_SUPPORT":"Y","LANG":[{"LANGUAGE_ID":"ru","TITLE":"Эхо 2","PARAMS":"текст"},{"LANGUAGE_ID":"en","TITLE":"Echo 2","PARAMS":"text"}]}}' \
+    -d '{"COMMAND_ID":99,"FIELDS":{"COMMAND":"echo2","EVENT_COMMAND_ADD":"https://example.com/bot/command.php","HIDDEN":"N","EXTRANET_SUPPORT":"Y","LANG":[{"LANGUAGE_ID":"ru","TITLE":"Эхо 2","PARAMS":"текст"},{"LANGUAGE_ID":"en","TITLE":"Echo 2","PARAMS":"text"}]},"CLIENT_ID":"**put_your_client_id_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.command.update
     ```
 
@@ -277,3 +275,4 @@ HTTP-статус: **400**
 - [{#T}](./imbot-command-answer.md)
 - [{#T}](./imbot-command-unregister.md)
 - [{#T}](./events/on-im-command-add.md)
+

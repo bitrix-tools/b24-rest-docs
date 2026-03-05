@@ -24,9 +24,7 @@
 - `USER_ID` — идентификатор пользователя, который можно получить через [user.get](../../user/user-get.md) или [user.search](../../user/user-search.md)
 - `chatXXX`, где `XXX` — идентификатор чата, который можно получить через [imbot.chat.get](../chats/imbot-chat-get.md) ||
 || **CLIENT_ID**
-[`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
-
-Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../../data-types.md) | Параметр обязателен только для вебхуков. Передавайте тот же CLIENT_ID, который был указан при регистрации чат-бота ||
 |#
 
 ## Примеры кода
@@ -41,7 +39,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"BOT_ID":39,"DIALOG_ID":"chat123"}' \
+      -d '{"BOT_ID":39,"DIALOG_ID":"chat123","CLIENT_ID":"**put_your_client_id_here**"}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.chat.sendTyping
     ```
 
@@ -200,6 +198,7 @@ HTTP-статус: **400**
 
 - [{#T}](./imbot-chat-add.md)
 - [{#T}](./imbot-chat-user-add.md)
+- [{#T}](./imbot-chat-set-manager.md)
 - [{#T}](./imbot-chat-update-title.md)
 - [{#T}](./imbot-chat-update-avatar.md)
 - [{#T}](./imbot-chat-update-color.md)
@@ -208,3 +207,4 @@ HTTP-статус: **400**
 - [{#T}](./imbot-chat-user-list.md)
 - [{#T}](./imbot-chat-user-delete.md)
 - [{#T}](./imbot-chat-leave.md)
+

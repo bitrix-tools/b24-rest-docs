@@ -192,7 +192,6 @@ HTTP-статус: **200**
             "UF_WEB_SITES":"Другие сайты",
             "UF_XING":"Xing",
             "UF_LINKEDIN":"LinkedIn",
-            "UF_FACEBOOK":"Facebook",
             "UF_TWITTER":"Twitter",
             "UF_SKYPE":"Skype",
             "UF_DISTRICT":"Район",

@@ -15,7 +15,7 @@ items:
     href: crm-lead-delete.md
   - name: Получить поля лида
     href: crm-lead-fields.md
-  - name: Добавить товары в лид
+  - name: Установить товары в лид
     href: crm-lead-productrows-set.md
   - name: Получить товары лида
     href: crm-lead-productrows-get.md

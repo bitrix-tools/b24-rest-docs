@@ -1,98 +1,93 @@
 # Установить признак «не прочитано» у сообщений im.dialog.unread
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.dialog.unread` меняет факт прочтения сообщений. Все сообщения после указанного (включая само сообщение) помечаются как непрочитанные.
+Метод `im.dialog.unread` устанавливает признак «не прочитано» для сообщений в диалоге начиная с указанного сообщения.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **DIALOG_ID^*^**
-[`unknown`](../../data-types.md) | `chat29`
-или
-`256` | Идентификатор диалога. Формат:
-- **chatXXX** – чат получателя, если сообщение для чата
-- **XXX** – идентификатор получателя, если сообщение для приватного диалога | 21 ||
-|| **MESSAGE_ID^*^**
-[`unknown`](../../data-types.md) | `12` | Идентификатор первого непрочитанного диалога | 21 ||
+|| **Название**
+`тип` | **Описание** ||
+|| **DIALOG_ID***
+[`string`](../../data-types.md) | Идентификатор чата в формате:
+
+- `chatXXX` — чат
+- `sgXXX` — чат группы или проекта
+- `XXX` — идентификатор пользователя личного чата
+
+Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+|| **MESSAGE_ID***
+[`integer`](../../data-types.md) | Идентификатор первого непрочитанного сообщения ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat1489","MESSAGE_ID":84869}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.dialog.unread
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat1489","MESSAGE_ID":84869,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.dialog.unread
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'im.dialog.unread',
-    		{
-    			'DIALOG_ID': chat29,
-    			'MESSAGE_ID': 12,
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+        const response = await $b24.callMethod(
+            'im.dialog.unread',
+            {
+                DIALOG_ID: 'chat1489',
+                MESSAGE_ID: 84869
+            }
+        );
+
+        console.log(response.getData().result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error(error.ex);
+        console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.dialog.unread',
-                [
-                    'DIALOG_ID' => $chat29,
-                    'MESSAGE_ID' => 12,
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+        $response = $b24Service->core->call(
+            'im.dialog.unread',
+            [
+                'DIALOG_ID' => 'chat1489',
+                'MESSAGE_ID' => 84869,
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+        print_r($result);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error checking unread messages: ' . $e->getMessage();
     }
     ```
 
@@ -102,13 +97,14 @@
     BX24.callMethod(
         'im.dialog.unread',
         {
-            'DIALOG_ID': chat29,
-            'MESSAGE_ID': 12,
+            DIALOG_ID: 'chat1489',
+            MESSAGE_ID: 84869
         },
-        function(result){
-            if(result.error())
+        function(result)
+        {
+            if (result.error())
             {
-                console.error(result.error().ex);
+                console.error(result.error());
             }
             else
             {
@@ -120,38 +116,56 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.dialog.unread',
-        Array(
-            'DIALOG_ID' => chat29,
-            'MESSAGE_ID' => 12,
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'DIALOG_ID' => 'chat1489',
+            'MESSAGE_ID' => 84869,
         ]
     );
+
+    print_r($result);
     ```
-
-- cURL
-
-    // пример для cURL
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1772624862,
+        "finish": 1772624862.090708,
+        "duration": 0.09070801734924316,
+        "processing": 0,
+        "date_start": "2026-03-04T14:47:42+03:00",
+        "date_finish": "2026-03-04T14:47:42+03:00",
+        "operating_reset_at": 1772625462,
+        "operating": 0
+    }
 }
 ```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true`, если признак непрочитанных сообщений установлен успешно ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
@@ -160,15 +174,21 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **MESSAGE_ID_ERROR** | Указан некорректный идентификатор сообщения ||
-|| **DIALOG_ID_EMPTY** | Указан некорректный идентификатор диалога ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `MESSAGE_ID_ERROR` | First unread message id can't be empty | Параметр `MESSAGE_ID` не передан или передан со значением меньше или равным `0` ||
+|| `400` | `DIALOG_ID_EMPTY` | Dialog ID can't be empty | Параметр `DIALOG_ID` не передан, передан пустым или в неверном формате ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-dialog-messages-get.md)
+- [{#T}](./im-dialog-messages-search.md)
+- [{#T}](./im-dialog-read.md)
+- [{#T}](./im-dialog-writing.md)

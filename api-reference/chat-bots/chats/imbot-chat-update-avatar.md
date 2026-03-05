@@ -20,15 +20,13 @@
 || **AVATAR***
 [`string`](../../data-types.md) | Изображение в формате [Base64](../../files/how-to-upload-files.md).
 
-Размер изображения не должен превышать ограничение в 5000x5000 ||
+Максимальный размер изображения — 5000х5000 ||
 || **BOT_ID**
 [`integer`](../../data-types.md) | Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода [imbot.bot.list](../imbot-bot-list.md).
 
 Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением ||
 || **CLIENT_ID**
-[`string`](../../data-types.md) | Технический параметр для сценариев без `clientId` в авторизации.
-
-Если передан, используется как `custom{CLIENT_ID}` для определения приложения ||
+[`string`](../../data-types.md) | Параметр обязателен только для вебхуков. Передавайте тот же CLIENT_ID, который был указан при регистрации чат-бота ||
 |#
 
 ## Примеры кода
@@ -43,7 +41,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CHAT_ID":2725,"AVATAR":"/9j/4QAYRXhpZgAAS...CgCgCgCgP/9k="}' \
+    -d '{"CHAT_ID":2725,"AVATAR":"/9j/4QAYRXhpZgAAS...CgCgCgCgP/9k=","CLIENT_ID":"**put_your_client_id_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.chat.updateAvatar
     ```
 
@@ -211,6 +209,7 @@ HTTP-статус: **400**, **403**
 
 - [{#T}](./imbot-chat-add.md)
 - [{#T}](./imbot-chat-user-add.md)
+- [{#T}](./imbot-chat-set-manager.md)
 - [{#T}](./imbot-chat-update-title.md)
 - [{#T}](./imbot-chat-update-color.md)
 - [{#T}](./imbot-chat-get.md)
@@ -218,3 +217,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./imbot-chat-user-list.md)
 - [{#T}](./imbot-chat-user-delete.md)
 - [{#T}](./imbot-chat-leave.md)
+

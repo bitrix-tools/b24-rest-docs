@@ -256,6 +256,7 @@ Slash-команды позволяют быстро создавать запр
     || [imbot.chat.add](./chats/imbot-chat-add.md) | Создает новый чат ||
     || [imbot.chat.get](./chats/imbot-chat-get.md) | Возвращает информацию о чате ||
     || [imbot.chat.leave](./chats/imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
+    || [imbot.chat.setManager](./chats/imbot-chat-set-manager.md) | Назначает или снимает права администратора у участника чата ||
     || [imbot.chat.sendTyping](.//chats/imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
     || [imbot.chat.updateAvatar](./chats/imbot-chat-update-avatar.md) | Обновляет аватар чата ||
     || [imbot.chat.updateColor](./chats/imbot-chat-update-color.md) | Обновляет цвет чата ||

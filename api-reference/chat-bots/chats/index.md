@@ -30,6 +30,7 @@
     || [imbot.chat.add](./imbot-chat-add.md) | Создает новый чат ||
     || [imbot.chat.get](./imbot-chat-get.md) | Возвращает информацию о чате ||
     || [imbot.chat.leave](./imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
+    || [imbot.chat.setManager](./imbot-chat-set-manager.md) | Назначает или снимает права администратора у участника чата ||
     || [imbot.chat.sendTyping](./imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
     || [imbot.chat.updateAvatar](./imbot-chat-update-avatar.md) | Обновляет аватар чата ||
     || [imbot.chat.updateColor](./imbot-chat-update-color.md) | Обновляет цвет чата ||

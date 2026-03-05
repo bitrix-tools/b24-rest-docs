@@ -101,7 +101,7 @@
 ```
 
 ```js
-<i class="landing-block-node-list-item-icon fa fa-instagram"></i> //класс fa-instagram отвечает за вывод иконки Инстаграмм
+<i class="landing-block-node-list-item-icon fa fa-instagram"></i> //класс fa-instagram отвечает за вывод иконки Инстаграм*
 ```
 
 ## embed
@@ -140,3 +140,6 @@
 ```js
 <div class="landing-block-node-map mx-auto w-100 g-min-height-430 h-100"></div>
 ```
+
+\
+**Принадлежит компании Meta Platforms, Inc., которая признана экстремистской и запрещена на территории Российской Федерации.*
