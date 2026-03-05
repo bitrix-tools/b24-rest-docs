@@ -41,7 +41,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CHAT_ID":2725,"TITLE":"Новое имя для чата"}' \
+    -d '{"CHAT_ID":2725,"TITLE":"Новое имя для чата","CLIENT_ID":"**put_your_client_id_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.chat.updateTitle
     ```
 

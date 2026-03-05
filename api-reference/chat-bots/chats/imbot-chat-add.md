@@ -75,7 +75,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TYPE":"CHAT","TITLE":"Новый чат","DESCRIPTION":"Важные новости","COLOR":"GREEN","MESSAGE":"Добро пожаловать!","USERS":[1271],"AVATAR":"/9j/4AAQSkZJRgABAQEBLAEsAAD/4QBwRXhp...+gKlSv+1v/2Q==","ENTITY_TYPE":"CHAT","ENTITY_ID":"13","BOT_ID":1291}' \
+    -d '{"TYPE":"CHAT","TITLE":"Новый чат","DESCRIPTION":"Важные новости","COLOR":"GREEN","MESSAGE":"Добро пожаловать!","USERS":[1271],"AVATAR":"/9j/4AAQSkZJRgABAQEBLAEsAAD/4QBwRXhp...+gKlSv+1v/2Q==","ENTITY_TYPE":"CHAT","ENTITY_ID":"13","BOT_ID":1291,"CLIENT_ID":"**put_your_client_id_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.chat.add
     ```
 

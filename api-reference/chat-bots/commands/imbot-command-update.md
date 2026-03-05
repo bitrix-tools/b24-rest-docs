@@ -73,7 +73,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"COMMAND_ID":99,"FIELDS":{"COMMAND":"echo2","EVENT_COMMAND_ADD":"https://example.com/bot/command.php","HIDDEN":"N","EXTRANET_SUPPORT":"Y","LANG":[{"LANGUAGE_ID":"ru","TITLE":"Эхо 2","PARAMS":"текст"},{"LANGUAGE_ID":"en","TITLE":"Echo 2","PARAMS":"text"}]}}' \
+    -d '{"COMMAND_ID":99,"FIELDS":{"COMMAND":"echo2","EVENT_COMMAND_ADD":"https://example.com/bot/command.php","HIDDEN":"N","EXTRANET_SUPPORT":"Y","LANG":[{"LANGUAGE_ID":"ru","TITLE":"Эхо 2","PARAMS":"текст"},{"LANGUAGE_ID":"en","TITLE":"Echo 2","PARAMS":"text"}]},"CLIENT_ID":"**put_your_client_id_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.command.update
     ```
 
