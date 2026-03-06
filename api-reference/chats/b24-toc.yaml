@@ -53,10 +53,6 @@ items:
     href: im-counters-get.md
   - name: Получить ревизии API IM
     href: im-revision-get.md      
-  - name: Виджеты
-    include:
-      path: widgets/b24-toc.yaml
-      mode: link
   - name: Устаревшее
     include:
       path: outdated/b24-toc.yaml
