@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 05 марта, 2026
+
+- Обновили документацию по методам чатов [im.search.*](./api-reference/chats/search/index.md) в разделе Поиск
+- Обновили документацию по методам чатов [im.notify.*](./api-reference/chats/notifications/index.md) в разделе Уведомления
+- Обновили документацию по методам чатов [im.user.*](./api-reference/chats/users/index.md) в разделе Пользователи
+
 ### 04 марта, 2026
 
 - Обновили документацию по методам чатов [im.dialog.messages.get](./api-reference/chats/messages/im-dialog-messages-get.md), [im.dialog.read](./api-reference/chats/messages/im-dialog-read.md), [im.dialog.unread](./api-reference/chats/messages/im-dialog-unread.md) в разделе Сообщения

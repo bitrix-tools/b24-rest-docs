@@ -1,111 +1,115 @@
-# Получить данные о пользователях im.user.list.get
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
+# Получить данные о списке пользователей im.user.list.get
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.user.list.get` получает данные о пользователях.
+Метод `im.user.list.get` возвращает данные о пользователях по списку идентификаторов.
 
-## Параметры
+Если текущий пользователь является экстранет-пользователем, метод вернет данные только по пользователям из его экстранет-групп. Идентификаторы пользователей вне этих групп будут пропущены без ошибки.
 
-#|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **ID^*^**
-[`unknown`](../../data-types.md) | `[4,5]` | Идентификаторы пользователей | 19 ||
-|| **AVATAR_HR**
-[`unknown`](../../data-types.md) | `N` | Генерировать аватар в высоком разрешении | 19 ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-Если не передан ключ `ID`, будут выбраны данные для текущего пользователя.
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **ID***
+[`array`](../../data-types.md) 
+[`string`](../../data-types.md) | Массив идентификаторов пользователей или JSON-строка с массивом.
 
-## Примеры
+Получить идентификаторы пользователей можно методами [user.get](../../user/user-get.md), [user.search](../../user/user-search.md) или [im.chat.user.list](../chat-users/im-chat-user-list.md) ||
+|| **AVATAR_HR**
+[`string`](../../data-types.md) | Параметр для запроса поля `avatar_hr` с адресом аватара в высоком разрешении. Допустимые значения: `Y` или `N`, по умолчанию `N`.
+
+На текущий момент поле `avatar_hr` возвращается всегда, независимо от значения параметра ||
+|| **RESULT_TYPE**
+[`string`](../../data-types.md) | Формат `result`. Значение `array` вернет обычный массив объектов пользователей, любое другое значение вернет объект с ключами-идентификаторами пользователей ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"ID":[4,5],"AVATAR_HR":"Y","RESULT_TYPE":"array"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.user.list.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"ID":[4,5],"RESULT_TYPE":"array","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.user.list.get
+    ```
+
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'im.user.list.get',
-    		{ID: [4,5]}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.error(error.ex);
+    try {
+      const response = await $b24.callMethod('im.user.list.get', {
+        ID: [4, 5],
+        AVATAR_HR: 'Y',
+        RESULT_TYPE: 'array',
+      });
+
+      const { result } = response.getData();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.user.list.get',
-                [
-                    'ID' => [4, 5],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
+        $response = $b24Service->core->call(
+            'im.user.list.get',
+            [
+                'ID' => [4, 5],
+                'AVATAR_HR' => 'Y',
+                'RESULT_TYPE' => 'array',
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+
         if ($result->error()) {
-            error_log($result->error()->ex);
-            echo 'Error: ' . $result->error()->ex;
+            echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            var_dump($result->data());
         }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting user list: ' . $e->getMessage();
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
 - BX24.js
 
-    ```javascript
+    ```js
     BX24.callMethod(
         'im.user.list.get',
-        {ID: [4,5]},
-        function(result){
-            if(result.error())
-            {
+        {
+            ID: [4, 5],
+            AVATAR_HR: 'Y',
+            RESULT_TYPE: 'array',
+        },
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
@@ -114,42 +118,77 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.user.list.get',
-        Array(
-            'ID' => [4,5],
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'ID' => [4, 5],
+            'AVATAR_HR' => 'Y',
+            'RESULT_TYPE' => 'array',
         ]
     );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        var_dump($result['result']);
+    }
     ```
-
-- cURL
-
-    // пример для cURL
-
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
 ```json
 {
-    "result": {
-        "4": null,
-        "5": {
-            "id": 5,
-            "name": "Евгений Шеленков",
-            "first_name": "Евгений",
-            "last_name": "Шеленков",
-            "work_position": "",
+    "result": [
+        {
+            "id": 4,
+            "active": true,
+            "name": "Анна Соколова",
+            "first_name": "Анна",
+            "last_name": "Соколова",
+            "work_position": "Аналитик",
             "color": "#df532d",
-            "avatar": "http://192.168.2.232/upload/resize_cache/main/1d3/100_100_2/shelenkov.png",
+            "avatar": "https://example.bitrix24.ru/upload/main/avatar4.png",
+            "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar4_hr.png",
+            "gender": "F",
+            "birthday": "",
+            "extranet": false,
+            "network": false,
+            "bot": false,
+            "connector": false,
+            "external_auth_id": "default",
+            "status": "online",
+            "idle": false,
+            "last_activity_date": "2026-03-02T09:30:00+03:00",
+            "mobile_last_date": false,
+            "desktop_last_date": false,
+            "absent": false,
+            "departments": [7, 5],
+            "phones": {
+                "work_phone": "+71234567891",
+                "personal_mobile": "+71234567891",
+                "inner_phone": "22"
+            },
+            "website": "example.ru",
+            "email": "anna.sokolova@example.ru",
+            "bot_data": null,
+            "type": "user"
+        },
+        {
+            "id": 5,
+            "active": true,
+            "name": "Иван Петров",
+            "first_name": "Иван",
+            "last_name": "Петров",
+            "work_position": "Менеджер",
+            "color": "#048bd0",
+            "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+            "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar_hr.png",
             "gender": "M",
             "birthday": "",
             "extranet": false,
@@ -159,50 +198,56 @@
             "external_auth_id": "default",
             "status": "online",
             "idle": false,
-            "last_activity_date": "2018-01-29T17:35:31+03:00",
-            "desktop_last_date": false,
+            "last_activity_date": "2026-03-02T09:30:00+03:00",
             "mobile_last_date": false,
-            "departments": [
-             50
-            ],
+            "desktop_last_date": false,
             "absent": false,
+            "departments": [10],
             "phones": {
-             "work_phone": "",
-             "personal_mobile": "",
-             "personal_phone": ""
-            }
+                "work_phone": "+71234567890",
+                "personal_mobile": "+71234567890",
+                "inner_phone": "21"
+            },
+            "website": "example.ru",
+            "email": "user@example.ru",
+            "bot_data": null,
+            "type": "user"
         }
+    ],
+    "time": {
+        "start": 1772449081,
+        "finish": 1772449081.887056,
+        "duration": 0.8870561122894287,
+        "processing": 0,
+        "date_start": "2026-03-02T13:58:01+03:00",
+        "date_finish": "2026-03-02T13:58:01+03:00",
+        "operating_reset_at": 1772449681,
+        "operating": 0
     }
 }
 ```
 
-### Описание ключей
+## Возвращаемые данные
 
-- `id` – идентификатор пользователя
-- `name` – имя и фамилия пользователя
-- `first_name` – имя пользователя
-- `last_name` – фамилия пользователя
-- `work_position` – должность
-- `color` – цвет пользователя в формате hex
-- `avatar` – ссылка на аватар (если пусто, значит аватар не задан)
-- `avatar_hr` – ссылка на аватар в высоком разрешении (доступен только при запросе с параметром `AVATAR_HR = 'Y'`)
-- `gender` – пол пользователя
-- `birthday` – день рождения пользователя в формате DD-MM, если пусто – не задан
-- `extranet` – признак внешнего экстранет-пользователя (`true/false`)
-- `network` – признак пользователя Битрикс24.Network (`true/false`)
-- `bot` – признак бота (`true/false`)
-- `connector` – признак пользователя открытых линий (`true/false`)
-- `external_auth_id` – код внешней авторизации
-- `status` – выбранный статус пользователя
-- `idle` – дата, когда пользователь отошел от компьютера, в формате АТОМ (если не задано, `false`)
-- `last_activity_date` – дата последнего действия пользователя в формате АТОМ
-- `mobile_last_date` – дата последнего действия в мобильном приложении в формате АТОМ (если не задано, `false`)
-- `departments` – идентификаторы подразделения
-- `desktop_last_date` – дата последнего действия в десктопном приложении в формате АТОМ (если не задано, `false`)
-- `absent` – дата, по какое число у пользователя отпуск, в формате АТОМ (если не задано, `false`)
-- `phones` – массив номеров телефонов: `work_phone` – рабочий телефон, `personal_mobile` – мобильный телефон, `personal_phone` – домашний телефон
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) 
+[`array`](../../data-types.md) | Данные пользователей. По умолчанию возвращается объект с ключами-идентификаторами, при `RESULT_TYPE = 'array'` возвращается массив.
 
-## Ответ в случае ошибки
+Структура объекта пользователя подробно описана [ниже](#user-object) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект пользователя {#user-object}
+
+{% include [Таблицы объекта пользователя](../_includes/user-object-tables.md) %}
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
@@ -211,14 +256,21 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **INVALID_FORMAT** | Неправильный формат поля ID ||
+|| **Код** | **Описание** | **Значение** ||
+|| `INVALID_FORMAT` | A wrong format for the ID field is passed | Параметр `ID` не передан или передан в неверном формате ||
 |#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-user-get.md)
+- [{#T}](./im-user-status-set.md)
+- [{#T}](./im-user-status-get.md)
+- [{#T}](./im-user-status-idle-start.md)
+- [{#T}](./im-user-status-idle-end.md)

@@ -1,110 +1,107 @@
 # Получить данные о пользователе im.user.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.user.get` получает данные о пользователе.
+Метод `im.user.get` получает данные о текущем пользователе или о пользователе по `ID`.
+
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
+|| **Название**
+`Тип` | **Описание** ||
 || **ID**
-[`unknown`](../../data-types.md) | `5` | Идентификатор пользователя | 18 ||
+[`integer`](../../data-types.md) | Идентификатор пользователя. Если не передан, метод вернет данные текущего пользователя. 
+
+Получить идентификатор пользователя можно методами [user.get](../../user/user-get.md), [user.search](../../user/user-search.md) или [im.chat.user.list](../chat-users/im-chat-user-list.md) ||
 || **AVATAR_HR**
-[`unknown`](../../data-types.md) | `N` | Генерировать аватар в высоком разрешении | 18 ||
+[`string`](../../data-types.md) | Параметр для запроса поля `avatar_hr` с адресом аватара в высоком разрешении. Допустимые значения: `Y` или `N`, по умолчанию `N`. 
+
+На текущий момент поле `avatar_hr` возвращается всегда, независимо от значения параметра ||
 |#
 
-Если не передан ключ `ID`, будут выбраны данные для текущего пользователя.
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"ID":5,"AVATAR_HR":"Y"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.user.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"ID":5,"AVATAR_HR":"Y","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.user.get
+    ```
+
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'im.user.get',
-    		{
-    			ID: 5
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch(error)
-    {
-    	console.error(error.ex);
+    try {
+      const response = await $b24.callMethod('im.user.get', {
+        ID: 5,
+        AVATAR_HR: 'Y',
+      });
+
+      const { result } = response.getData();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.user.get',
-                [
-                    'ID' => 5
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
+        $response = $b24Service->core->call(
+            'im.user.get',
+            [
+                'ID' => 5,
+                'AVATAR_HR' => 'Y',
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+
         if ($result->error()) {
-            echo 'Error: ' . $result->error()->ex;
+            echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            var_dump($result->data());
         }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting user information: ' . $e->getMessage();
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
 - BX24.js
 
-    ```javascript
+    ```js
     BX24.callMethod(
         'im.user.get',
         {
-            ID: 5
+            ID: 5,
+            AVATAR_HR: 'Y',
         },
-        function(result){
-            if(result.error())
-            {
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
@@ -113,40 +110,41 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.user.get',
-        Array(
+        [
             'ID' => 5,
-        ),
-        $_REQUEST[
-            "auth"
+            'AVATAR_HR' => 'Y',
         ]
     );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        var_dump($result['result']);
+    }
     ```
-
-- cURL
-
-    // пример для cURL
-
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Пример ответа
+HTTP-код: **200**
 
 ```json
 {
     "result": {
         "id": 5,
-        "name": "Евгений Шеленков",
-        "first_name": "Евгений",
-        "last_name": "Шеленков",
-        "work_position": "",
-        "color": "#df532d",
-        "avatar": "http://192.168.2.232/upload/resize_cache/main/1d3/100_100_2/shelenkov.png",
+        "active": true,
+        "name": "Иван Петров",
+        "first_name": "Иван",
+        "last_name": "Петров",
+        "work_position": "Менеджер",
+        "color": "#048bd0",
+        "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+        "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar_hr.png",
         "gender": "M",
         "birthday": "",
         "extranet": false,
@@ -156,49 +154,54 @@
         "external_auth_id": "default",
         "status": "online",
         "idle": false,
-        "last_activity_date": "2018-01-29T17:35:31+03:00",
-        "desktop_last_date": false,
+        "last_activity_date": "2026-03-02T09:30:00+03:00",
         "mobile_last_date": false,
-        "departments": [
-         50
-        ],
+        "desktop_last_date": false,
         "absent": false,
+        "departments": [10],
         "phones": {
-         "work_phone": "",
-         "personal_mobile": "",
-         "personal_phone": ""
-        }
+            "work_phone": "+71234567890",
+            "personal_mobile": "+71234567890",
+            "inner_phone": "21"
+        },
+        "website": "example.ru",
+        "email": "user@example.ru",
+        "bot_data": null,
+        "type": "user"
+    },
+    "time": {
+        "start": 1760000000.0,
+        "finish": 1760000000.2,
+        "duration": 0.2,
+        "processing": 0.08,
+        "date_start": "2026-03-02T09:30:00+03:00",
+        "date_finish": "2026-03-02T09:30:00+03:00",
+        "operating_reset_at": 1760030000,
+        "operating": 0
     }
 }
 ```
 
-### Описание ключей
+## Возвращаемые данные
 
-- `id` – идентификатор пользователя
-- `name` – имя и фамилия пользователя
-- `first_name` – имя пользователя
-- `last_name` – фамилия пользователя
-- `work_position` – должность
-- `color` – цвет пользователя в формате hex
-- `avatar` – ссылка на аватар (если пусто, значит аватар не задан)
-- `avatar_hr` – ссылка на аватар в высоком разрешении (доступен только при запросе с параметром `AVATAR_HR = 'Y'`)
-- `gender` – пол пользователя
-- `birthday` – день рождения пользователя в формате DD-MM, если пусто – не задан
-- `extranet` – признак внешнего экстранет-пользователя (`true/false`)
-- `network` – признак пользователя Битрикс24.Network (`true/false`)
-- `bot` – признак бота (`true/false`)
-- `connector` – признак пользователя открытых линий (`true/false`)
-- `external_auth_id` – код внешней авторизации
-- `status` – выбранный статус пользователя
-- `idle` – дата, когда пользователь отошел от компьютера, в формате АТОМ (если не задано, `false`)
-- `last_activity_date` – дата последнего действия пользователя в формате АТОМ
-- `mobile_last_date` – дата последнего действия в мобильном приложении в формате АТОМ (если не задано, `false`)
-- `departments` – идентификаторы подразделения
-- `desktop_last_date` – дата последнего действия в десктопном приложении в формате АТОМ (если не задано, `false`)
-- `absent` – дата, по какое число у пользователя отпуск, в формате АТОМ (если не задано, `false`)
-- `phones` – массив номеров телефонов: `work_phone` – рабочий телефон, `personal_mobile` – мобильный телефон, `personal_phone` – домашний телефон
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Объект с данными пользователя. 
 
-## Ответ в случае ошибки
+Структура объекта подробно описана [ниже](#result-object) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект result {#result-object}
+
+{% include [Таблицы объекта пользователя](../_includes/user-object-tables.md) %}
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
@@ -207,16 +210,23 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ID_EMPTY** | Не передан идентификатор пользователя ||
-|| **USER_NOT_EXISTS** | Пользователь с указанным идентификатором не найден ||
-|| **ACCESS_DENIED** | Текущий пользователь не имеет прав доступа к данным ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ID_EMPTY` | User ID can't be empty | Передан `ID <= 0` ||
+|| `USER_NOT_EXISTS` | User is not exists | Пользователь с указанным `ID` не найден ||
+|| `ACCESS_DENIED` | You can request only users who consist of your extranet group | Текущий экстранет-пользователь запрашивает пользователя не из своей экстранет-группы ||
 |#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-user-list-get.md)
+- [{#T}](./im-user-status-set.md)
+- [{#T}](./im-user-status-get.md)
+- [{#T}](./im-user-status-idle-start.md)
+- [{#T}](./im-user-status-idle-end.md)
