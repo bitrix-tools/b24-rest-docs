@@ -310,9 +310,9 @@ restCommand(
 || [im.dialog.messages.search](./im-dialog-messages-search.md) | Ищет сообщения в чате ||
 || [im.dialog.read](./im-dialog-read.md) | Устанавливает признак «прочитано» у сообщений ||
 || [im.dialog.unread](./im-dialog-unread.md) | Устанавливает признак «не прочитано» у сообщений ||
-|| [im.dialog.writing](./im-dialog-writing.md) | Отправляет признак «вам пишут...» ||
+|| [im.dialog.writing](./im-dialog-writing.md) | Отправляет признак «Пользователь пишет» ||
 || [im.message.add](./im-message-add.md) | Добавляет сообщение ||
-|| [im.message.command](./im-message-command.md) | Использует команду бота ||
+|| [im.message.command](./im-message-command.md) | Выполняет команду бота ||
 || [im.message.delete](./im-message-delete.md) | Удаляет сообщение чат-бота ||
 || [im.message.like](./im-message-like.md) | Изменяет статус «Мне нравится» у сообщения ||
 || [im.message.share](./im-message-share.md) | Создает объект на основании сообщения ||

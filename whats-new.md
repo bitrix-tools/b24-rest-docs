@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 06 марта, 2026
+
+- Обновили документацию по методам чатов [im.dialog.writing](./api-reference/chats/messages/im-dialog-writing.md), [im.message.add](./api-reference/chats/messages/im-message-add.md), [im.message.command](./api-reference/chats/messages/im-message-command.md), [im.message.delete](./api-reference/chats/messages/im-message-delete.md), [im.message.like](./api-reference/chats/messages/im-message-like.md), [im.message.share](./api-reference/chats/messages/im-message-share.md), [im.message.update](./api-reference/chats/messages/im-message-update.md) в разделе Сообщения
+
 ### 05 марта, 2026
 
 - Обновили документацию по методам чатов [im.search.*](./api-reference/chats/search/index.md) в разделе Поиск

@@ -27,10 +27,10 @@ items:
     href: im-dialog-read.md
   - name: Установить признак «не прочитано» у сообщений
     href: im-dialog-unread.md
-  - name: Отправить признак «вам пишут...»
+  - name: Отправить признак «Пользователь пишет»
     href: im-dialog-writing.md
   - name: Удалить сообщение
     href: im-message-delete.md
-  - name: Использование команды бота
+  - name: Выполнить команду чат-бота
     href: im-message-command.md
 
