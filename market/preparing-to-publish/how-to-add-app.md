@@ -30,7 +30,7 @@
 
 ![alt-текст](_images/addapp4.jpg)
 
-![alt-текст](_images/addapp10.jpg)
+![alt-текст](_images/addapp11.jpg)
 
 ## Ценовая Политика
 
