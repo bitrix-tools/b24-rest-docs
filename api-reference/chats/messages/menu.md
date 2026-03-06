@@ -1,126 +1,317 @@
-# Контекстное меню
+# Работа с контекстным меню
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Контекстное меню — это набор действий в сообщении. Вы можете добавить свои пункты в контекстное меню, чтобы открывать ссылки или отправлять команды боту.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Методы, которые поддерживают работу с контекстным меню:
 
-{% endnote %}
+- [imbot.message.add](../../chat-bots/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
+- [imbot.message.update](../../chat-bots/messages/imbot-message-update.md) — изменить отправленное сообщение чат-бота
+- [imbot.command.answer](../../chat-bots/commands/imbot-command-answer.md) — отправить ответ на команду чат-бота
+- [im.message.add](./im-message-add.md) — отправить сообщение в чат
+- [im.message.update](./im-message-update.md) — изменить отправленное сообщение
 
-{% if build == 'dev' %}
+## Как добавить пункт в контекстное меню
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+Чтобы добавить пункт в контекстное меню, при создании или обновлении сообщения передайте параметр `MENU`.
 
-- нужны правки под стандарт написания
-- не прописаны ссылки на несозданные ещё страницы
+`MENU` можно передавать:
 
-{% endnote %}
+- строкой JSON
+- объектом с корневым ключом `ITEMS`
+- массивом пунктов без обертки
 
-{% endif %}
-
-Контекстное меню позволит пользователю взаимодействовать с чат-ботом или приложением для чата из контекстного меню сообщения.
-
-![Контекстное меню](./_images/custom_menu.png)
-
-## Как добавить свои пункты в контекстное меню
-
-Контекстное меню – это часть сообщения, при создании сообщения нужно добавить ключ `MENU` и передать параметры.
-
-Методы, которые поддерживают контекстное меню:
-- [imbot.message.add](../../chat-bots/messages/imbot-message-add.md) - отправка сообщения от чат-бота.
-- [imbot.message.update](../../chat-bots/messages/imbot-message-update.md) - отправка изменения сообщения чат-бота.
-- [imbot.command.answer](../../chat-bots/commands/imbot-command-answer.md) - публикация ответа на команду.
-- [im.message.add](./im-message-add.md) - отправка сообщения в чат.
-- [im.message.update](./im-message-update.md) - отправка изменения сообщения чат-бота.
-
-Рассмотрим на примере это сообщение:
-
-{% include [Пояснение о restCommand](../_includes/rest-command.md) %}
+Если в `MENU` нет ключа `ITEMS`, сервер автоматически считает, что передан сокращенный формат, и оборачивает массив в `ITEMS`.
 
 {% list tabs %}
+
+- Полный формат с ключом ITEMS
+
+  ```json
+  {
+      "MENU": {
+          "ITEMS": [
+              { "TEXT": "Открыть сайт", "LINK": "https://example.com" }
+          ]
+      }
+  }
+  ```
+
+- Сокращенный формат
+
+  ```json
+  {
+      "MENU": [
+          { "TEXT": "Открыть сайт", "LINK": "https://example.com" }
+      ]
+  }
+  ```
+
+{% endlist %}
+
+## Поля пункта меню
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **TEXT**
+[`string`](../../data-types.md) | Текст пункта меню.
+
+Для пунктов меню обязательно указывать `TEXT` и одно поле действия — `LINK`, `COMMAND`, `ACTION + ACTION_VALUE` или `APP_ID` ||
+|| **LINK**
+[`string`](../../data-types.md) | Ссылка пункта меню. Допустимы `http/https` и относительный путь `/...` ||
+|| **COMMAND**
+[`string`](../../data-types.md) | Команда для бота.
+
+Подробнее об обработке команд чат-ботом читайте [ниже](#command-processing) ||
+|| **COMMAND_PARAMS**
+[`string`](../../data-types.md) | Параметры команды. Передавайте вместе с `COMMAND` ||
+|| **APP_ID**
+[`integer`](../../data-types.md) | Идентификатор приложения для чата.
+
+Устаревший сценарий. Чтобы открыть приложение из чата, используйте встройки ||
+|| **APP_PARAMS**
+[`string`](../../data-types.md) | Параметры запуска приложения для чата. Передавайте вместе с `APP_ID`. 
+
+Устаревший сценарий. Чтобы открыть приложение из чата, используйте встройки
+
+{% note info "" %}
+
+На текущий момент вариант с параметрами `APP_ID` и `APP_PARAMS` используется в чатах [Открытых линий](../../imopenlines/openlines/index.md)
+
+{% endnote %}
+||
+|| **ACTION**
+[`string`](../../data-types.md) | Действие:
+
+- `PUT` — вставить текст в поле ввода
+- `SEND` — отправить текст
+- `COPY` — копировать текст в буфер обмена
+- `CALL` — позвонить
+- `DIALOG` — открыть чат
+
+Доступно начиная с [ревизии REST API IM](../im-revision-get.md) 28 ||
+|| **ACTION_VALUE**
+[`string`](../../data-types.md) | Значение для `ACTION`:
+
+- `PUT` — текст, который будет вставлен в поле ввода
+- `SEND` — текст, который будет отправлен
+- `COPY` — текст, который будет скопирован в буфер обмена
+- `CALL` — номер телефона в международном формате
+- `DIALOG` — идентификатор чата в формате `chatXXX` для группового чата и `ID` пользователя для личного чата
+
+Доступно начиная с [ревизии REST API IM](../im-revision-get.md) 28 ||
+|| **CONTEXT**
+[`string`](../../data-types.md) | Контекст отображения.
+
+Допустимые значения:
+- `MOBILE` — показывать только на мобильном устройстве
+- `DESKTOP` — показывать только в десктопной версии
+- `ALL` — показывать везде
+
+По умолчанию — `ALL` ||
+|| **DISABLED**
+[`string`](../../data-types.md) | Активность пункта меню.
+
+Допустимые значения:
+- `Y` — пункт меню неактивен
+- `N` — пункт меню активен
+
+По умолчанию — `N` ||
+|#
+
+## Пример отправки сообщения с контекстным меню
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"DIALOG_ID":"chat2725","MESSAGE":"Выберите действие в меню","URL_PREVIEW":"Y","MENU":{"ITEMS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TEXT":"Отправить текст","ACTION":"SEND","ACTION_VALUE":"Готово"}]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.message.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"DIALOG_ID":"chat2725","MESSAGE":"Выберите действие в меню","URL_PREVIEW":"Y","MENU":{"ITEMS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TEXT":"Отправить текст","ACTION":"SEND","ACTION_VALUE":"Готово"}]}},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/im.message.add
+    ```
+
+- JS
+
+    ```js
+    try {
+        const response = await $b24.callMethod(
+            'im.message.add',
+            {
+                DIALOG_ID: 'chat2725',
+                MESSAGE: 'Выберите действие в меню',
+                URL_PREVIEW: 'Y',
+                MENU: {
+                    ITEMS: [
+                        {
+                            TEXT: 'Открыть сайт',
+                            LINK: 'https://www.example.ru/'
+                        },
+                        {
+                            TEXT: 'Отправить текст',
+                            ACTION: 'SEND',
+                            ACTION_VALUE: 'Готово'
+                        }
+                    ]
+                }
+            }
+        );
+
+        const result = response.getData().result;
+        console.log('Created message with ID:', result);
+        processResult(result);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    ```
 
 - PHP
 
     ```php
-    restCommand(
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'im.message.add',
+                [
+                    'DIALOG_ID' => 'chat2725',
+                    'MESSAGE' => 'Выберите действие в меню',
+                    'URL_PREVIEW' => 'Y',
+                    'MENU' => [
+                        'ITEMS' => [
+                            [
+                                'TEXT' => 'Открыть сайт',
+                                'LINK' => 'https://www.example.ru/'
+                            ],
+                            [
+                                'TEXT' => 'Отправить текст',
+                                'ACTION' => 'SEND',
+                                'ACTION_VALUE' => 'Готово'
+                            ]
+                        ]
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
         'im.message.add',
-        Array(
-            "DIALOG_ID" => 12,
-            "MESSAGE" => "Hello! Message with context menu!",
-            "MENU" => Array(
-                Array(
-                    "TEXT" => "Bitrix24",
-                    "LINK" => "http://bitrix24.com",
-                ),
-                Array(
-                    "TEXT" => "Echo",
-                    "COMMAND" => "echo",
-                    "COMMAND_PARAMS" => "test from keyboard"
-                ),
-                Array(
-                    "TEXT" => "Open app",
-                    "APP_ID" => "12",
-                    "APP_PARAMS" => "TEST"
-                ),
-            )
-        ),
-        $_REQUEST["auth"]
+        {
+            DIALOG_ID: 'chat2725',
+            MESSAGE: 'Выберите действие в меню',
+            URL_PREVIEW: 'Y',
+            MENU: {
+                ITEMS: [
+                    {
+                        TEXT: 'Открыть сайт',
+                        LINK: 'https://www.example.ru/'
+                    },
+                    {
+                        TEXT: 'Отправить текст',
+                        ACTION: 'SEND',
+                        ACTION_VALUE: 'Готово',
+                    }
+                ]
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
+            }
+        }
     );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.message.add',
+        [
+            'DIALOG_ID' => 'chat2725',
+            'MESSAGE' => 'Выберите действие в меню',
+            'URL_PREVIEW' => 'Y',
+            'MENU' => [
+                'ITEMS' => [
+                    [
+                        'TEXT' => 'Открыть сайт',
+                        'LINK' => 'https://www.example.ru/'
+                    ],
+                    [
+                        'TEXT' => 'Отправить текст',
+                        'ACTION' => 'SEND',
+                        'ACTION_VALUE' => 'Готово'
+                    ]
+                ]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-Контекстное меню - это набор кнопок, каждая кнопка может состоять из следующих ключей:
+## Как обновить или удалить контекстное меню
 
-- **TEXT** - текст кнопки;
-- **LINK** - ссылка;
-- **COMMAND** - команда, которая будет отправлена боту;
-- **COMMAND_PARAMS** - параметры для команды;
-- **APP_ID** - идентификатор установленного приложения для чата.
-- **APP_PARAMS** - параметры для запуска приложения для чата.
-- **DISABLED** - если указать `Y`, то данная кнопка не будет кликабельной.
-- **ACTION** - действие, может быть одно из следующих типов ([REST ревизии 28](../im-revision-get.md)):
-  - **PUT** - вставить в поле ввода.
-  - **SEND** - отправить текст.
-  - **COPY** - копировать текст в буфер обмена.
-  - **CALL** - позвонить.
-  - **DIALOG** - открыть указанный диалог.
-- **ACTION_VALUE** - значение, для каждого типа означает свое ([REST ревизии 28](../im-revision-get.md)):
-  - **PUT** - текст, который будет вставлен в поле ввода.
-  - **SEND** - текст, который будет отправлен.
-  - **COPY** - текст, который будет скопирован в буфер обмена.
-  - **CALL** - номер телефона в международном формате.
-  - **DIALOG** - идентификатор диалога, это может быть `ID` пользователя, либо `ID` чата в формате `chatXXX`.
+Для обновления пунктов меню используйте методы:
 
-Обязательными полями является **TEXT** и либо поле **LINK**, либо поле **COMMAND**.
+- [im.message.update](./im-message-update.md)
+- [imbot.message.update](../../chat-bots/messages/imbot-message-update.md)
 
-Если указан ключ **LINK**, то кнопка становится внешней ссылкой. Если указаны поля **COMMAND** и **COMMAND_PARAMS**, то кнопка является действием и отправляет команду чат-боту, не публикуя ее в чат. Доступно с 26 версии [ревизии API (версии платформы)](../im-revision-get.md).
+Чтобы отключить показ дополнительных пунктов меню, передайте:
 
-Если указаны поля **APP_ID** и **APP_PARAMS**, то кнопка откроет окно с приложением для чата.
+- `MENU: 'N'`
+- пустое значение `MENU`
 
-Если необходимо сделать две строки с кнопками в ряд, то для их разделения нужно добавить кнопку со следующим содержимым: `"TYPE" => "NEWLINE"`.
+## Обработка команд чат-ботом {#command-processing}
 
-## Обработка команд чат-ботом
+1. Чтобы команда отрабатывала в меню, зарегистрируйте ее через метод [imbot.command.register](../../chat-bots/commands/imbot-command-register.md).
 
-Для обработки нажатия кнопок клавиатуры и пунктов меню, используются **команды**.
-
-1. Для того, чтобы команда отрабатывала в клавиатуре (и не только), необходимо ее предварительно зарегистрировать через метод [imbot.command.register](../../chat-bots/commands/imbot-command-register.md) (чтобы команда была доступна только для клавиатуры, необходимо создать ее с ключом `"HIDDEN" => "Y"`).
-
-    В кнопке указывается следующие ключи:
+    В пункте меню укажите следующие ключи:
 
     ```php
-    "COMMAND" => "page", // команда, которая будет отправлена чат-боту
-    "COMMAND_PARAMS" => "1", // параметры для команды
-    ```
-
-2. Нажатие на кнопку создаст событие [ONIMCOMMANDADD](../../chat-bots/commands/events/on-im-command-add.md).
-
-3. Внутри этого события нужно либо создать новое сообщение, либо отредактировать старое (тем самым формируя эффект постраничной навигации).
-
-4. Внутри события, в массиве **[data][COMMAND]** будут переданы данные о вызванном событии. В нем есть значение **COMMAND_CONTEXT** - это специальный ключ, описывающий в каком контексте была вызвана команда:
-   - если команду написал пользователь самостоятельно, там будет **TEXTAREA**;
-   - если команда пришла из клавиатуры, то будет **KEYBOARD**;
-   - если команда пришла из контекстного меню, то будет **MENU**.
-
-## Обработка открытия приложения для чата
-
-Приложение для чата, запускаемые из контекстного меню, работают по принципам [Контекстного приложения](../outdated/context.md).
+    "COMMAND" => "example", // команда, которая будет отправлена чат-боту
+    "COMMAND_PARAMS" => "example", // параметры для команды
+     ```  
+     
+2. Нажатие на пункт меню сформирует событие [ONIMCOMMANDADD](../../chat-bots/commands/events/on-im-command-add.md).
+3. Внутри события в массиве `data[COMMAND]` будут переданы данные о вызванном событии. Значение `COMMAND_CONTEXT` покажет в каком контексте была вызвана команда:
+   - `TEXTAREA` — команда введена вручную
+   - `KEYBOARD` — команда вызвана кнопкой
+   - `MENU` — команда вызвана из контекстного меню

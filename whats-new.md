@@ -4,6 +4,8 @@
 
 ### 06 марта, 2026
 
+- Обновили страницу [Работа с клавиатурами](./api-reference/chats/messages/keyboards.md)
+- Обновили страницу [Работа с контекстным меню](./api-reference/chats/messages/menu.md)
 - Обновили документацию по виджетам чатов [IM_CONTEXT_MENU](./api-reference/widgets/im/context-menu.md), [IM_SIDEBAR](./api-reference/widgets/im/sidebar.md), [IM_TEXTAREA](./api-reference/widgets/im/textarea.md)
 - Обновили документацию по методам чатов [im.dialog.writing](./api-reference/chats/messages/im-dialog-writing.md), [im.message.add](./api-reference/chats/messages/im-message-add.md), [im.message.command](./api-reference/chats/messages/im-message-command.md), [im.message.delete](./api-reference/chats/messages/im-message-delete.md), [im.message.like](./api-reference/chats/messages/im-message-like.md), [im.message.share](./api-reference/chats/messages/im-message-share.md), [im.message.update](./api-reference/chats/messages/im-message-update.md) в разделе Сообщения
 

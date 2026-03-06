@@ -1,190 +1,439 @@
 # Работа с клавиатурами
+Клавиатура — это кнопки под сообщением. С их помощью можно открывать ссылки, выполнять действия и вызывать команды. 
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Методы, которые поддерживают работу с клавиатурой:
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+- [imbot.message.add](../../chat-bots/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
+- [imbot.message.update](../../chat-bots/messages/imbot-message-update.md) — изменить отправленное сообщение чат-бота
+- [imbot.command.answer](../../chat-bots/commands/imbot-command-answer.md) — отправить ответ на команду чат-бота
+- [im.message.add](./im-message-add.md) — отправить сообщение в чат
+- [im.message.update](./im-message-update.md) — изменить отправленное сообщение
+
+## Как добавить клавиатуру
+
+Чтобы добавить клавиатуру, при создании или обновлении сообщения передайте параметр `KEYBOARD`.
+
+`KEYBOARD` можно передавать:
+
+- строкой JSON
+- объектом с корневым ключом `BUTTONS`
+- массивом кнопок без обертки 
+
+Если в `KEYBOARD` нет ключа `BUTTONS`, сервер автоматически считает, что передан сокращенный формат, и оборачивает массив в `BUTTONS`.
+
+{% list tabs %}
+
+- Полный формат с ключом BUTTONS
+
+  ```json
+  {
+      "KEYBOARD": {
+          "BUTTONS": [
+          { "TEXT": "Кнопка", "LINK": "https://example.ru" }
+          ]
+      }
+  }
+  ```
+
+- Сокращенный формат
+
+  ```json
+  {
+      "KEYBOARD": [
+          { "TEXT": "Кнопка", "LINK": "https://example.ru" }
+          ]
+  }
+  ```
+
+{% endlist %}
+
+## Поля кнопки
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **TEXT**
+[`string`](../../data-types.md) | Текст кнопки.
+
+Для всех кнопок, кроме `TYPE`, обязательно указывать `TEXT` и одно поле действия — `LINK`, `COMMAND`, `ACTION + ACTION_VALUE` или `APP_ID` ||
+|| **TYPE**
+[`string`](../../data-types.md) | Перенос кнопки на новую строку. Единственное допустимое значение — `NEWLINE` ||
+|| **LINK**
+[`string`](../../data-types.md) | Ссылка кнопки. Допустимы `http/https` и относительный путь `/...` ||
+|| **APP_ID**
+[`integer`](../../data-types.md) | Идентификатор приложения для чата.
+
+Устаревший сценарий. Чтобы открыть приложение из чата, используйте встройки ||
+|| **APP_PARAMS**
+[`string`](../../data-types.md) | Параметры запуска приложения для чата. Передавайте вместе с `APP_ID`. 
+
+Устаревший сценарий. Чтобы открыть приложение из чата, используйте встройки
+
+{% note info "" %}
+
+На текущий момент вариант с параметрами `APP_ID` и `APP_PARAMS` используется в чатах [Открытых линий](../../imopenlines/openlines/index.md)
 
 {% endnote %}
+||
+|| **ACTION**
+[`string`](../../data-types.md) | Действие:
 
-{% if build == 'dev' %}
+- `PUT` — вставить текст в поле ввода 
+- `SEND` — отправить текст 
+- `COPY` — копировать текст в буфер обмена
+- `CALL` — позвонить
+- `DIALOG` — открыть чат
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+Доступно начиная с [ревизии REST API IM](../im-revision-get.md) 28 ||
+|| **ACTION_VALUE**
+[`string`](../../data-types.md) | Значение для `ACTION`:
 
-- нужны правки под стандарт написания
+- `PUT` — текст, который будет вставлен в поле ввода
+- `SEND` — текст, который будет отправлен
+- `COPY` — текст, который будет скопирован в буфер обмена
+- `CALL` — номер телефона в международном формате
+- `DIALOG` — идентификатор чата в формате `chatXXX` для группового чата и `ID` пользователя для личного чата 
+  
+Доступно начиная с [ревизии REST API IM](../im-revision-get.md) 28 ||
+|| **COMMAND**
+[`string`](../../data-types.md) | Команда для бота.
 
-{% endnote %}
+Подробнее об обработке команд чат-ботом читайте [ниже](#command-processing) ||
+|| **COMMAND_PARAMS**
+[`string`](../../data-types.md) | Параметры команды. Передавайте вместе с `COMMAND` ||
+|| **BLOCK**
+[`string`](../../data-types.md) | Блокировка кнопки.
 
-{% endif %}
+Допустимые значения:
+- `Y` — блокировать кнопку после нажатия
+- `N` — не блокировать кнопку после нажатия 
 
-Набираемые клавиатуры позволят пользователю взаимодействовать с чат-ботом, просто нажимая на кнопки.
+По умолчанию — `N` ||
+|| **DISABLED**
+[`string`](../../data-types.md) | Активность кнопки.
 
-## Как клавиатуру добавить к чат-боту
+Допустимые значения:
+- `Y` — кнопка неактивна
+- `N` — кнопка активна
 
-Клавиатура — это часть сообщения, при создании сообщения нужно добавить ключ **KEYBOARD** и передать параметры.
+По умолчанию — `N` ||
+|| **CONTEXT**
+[`string`](../../data-types.md) | Контекст отображения.
 
-Методы, которые поддерживают клавиатуру:
-- [imbot.message.add](../../chat-bots/messages/imbot-message-add.md) - отправка сообщения от чат-бота.
-- [imbot.message.update](../../chat-bots/messages/imbot-message-update.md) - отправка изменения сообщения чат-бота.
-- [imbot.command.answer](../../chat-bots/commands/imbot-command-answer.md) - публикация ответа на команду.
-- [im.message.add](./im-message-add.md) - отправка сообщения в чат.
-- [im.message.update](./im-message-update.md) - отправка изменения сообщения чат-бота.
+Допустимые значения:
+- `MOBILE` — показывать только на мобильном устройстве
+- `DESKTOP` — показывать только в десктопной версии
+- `ALL` — показывать везде
+ 
+По умолчанию — `ALL` ||
+|| **DISPLAY**
+[`string`](../../data-types.md) | Отображение кнопки.
 
-Рассмотрим на примере сообщения чат-бота. В веб-версии чата клавиатура выглядит так:
+Допустимые значения:
+ - `LINE` — кнопка в строке
+ - `BLOCK` — кнопка отдельным блоком
+ 
+По умолчанию — `BLOCK` ||
+|| **WIDTH**
+[`integer`](../../data-types.md) | Ширина кнопки в пикселях ||
+|| **BG_COLOR**
+[`string`](../../data-types.md) | Цвет кнопки в формате HEX-кода ||
+|| **BG_COLOR_TOKEN**
+[`string`](../../data-types.md) | Токен цвета кнопки.
 
-![keyboard example](./_images/keyboard_web.png)
+Допустимые значения:
+ - `primary` — основной акцентный стиль
+ - `secondary` — вторичный стиль
+ - `alert` — предупреждающий стиль
+ - `base` — базовый нейтральный стиль
+ 
+По умолчанию — `base` ||
+|| **TEXT_COLOR**
+[`string`](../../data-types.md) | Цвет текста кнопки в формате HEX-кода  ||
+|| **OFF_BG_COLOR**
+[`string`](../../data-types.md) | Цвет кнопки в формате HEX-кода в неактивном состоянии ||
+|| **OFF_TEXT_COLOR**
+[`string`](../../data-types.md) | Цвет текста кнопки в формате HEX-кода в неактивном состоянии ||
+|#
 
-А в мобильной версии так:
-
-![keyboard example](./_images/keyboard_mob.jpg)
+## Пример отправки чат-ботом сообщения с клавиатурой
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-{% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"BOT_ID":1291,"DIALOG_ID":"chat2725","MESSAGE":"Выберите действие","URL_PREVIEW":"Y","KEYBOARD":{"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/","DISPLAY":"LINE","BG_COLOR_TOKEN":"primary"},{"TEXT":"Команда task","COMMAND":"task","COMMAND_PARAMS":"задача №1","DISPLAY":"LINE","BG_COLOR_TOKEN":"secondary"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить текст","ACTION":"PUT","ACTION_VALUE":"/task задача №1","DISPLAY":"BLOCK","BG_COLOR_TOKEN":"alert","TEXT_COLOR":"#FFFFFF"},{"TEXT":"Нейтральная кнопка","ACTION":"SEND","ACTION_VALUE":"Готово","DISPLAY":"BLOCK","BG_COLOR_TOKEN":"base"}]},"CLIENT_ID":"**put_your_client_id_here**"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.message.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"BOT_ID":1291,"DIALOG_ID":"chat2725","MESSAGE":"Выберите действие","URL_PREVIEW":"Y","KEYBOARD":{"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/","DISPLAY":"LINE","BG_COLOR_TOKEN":"primary"},{"TEXT":"Команда task","COMMAND":"task","COMMAND_PARAMS":"задача №1","DISPLAY":"LINE","BG_COLOR_TOKEN":"secondary"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить текст","ACTION":"PUT","ACTION_VALUE":"/task задача №1","DISPLAY":"BLOCK","BG_COLOR_TOKEN":"alert","TEXT_COLOR":"#FFFFFF"},{"TEXT":"Нейтральная кнопка","ACTION":"SEND","ACTION_VALUE":"Готово","DISPLAY":"BLOCK","BG_COLOR_TOKEN":"base"}]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/imbot.message.add
+    ```
+
+- JS
+
+    ```js
+    try {
+        const response = await $b24.callMethod(
+            'imbot.message.add',
+            {
+                BOT_ID: 1291,
+                DIALOG_ID: 'chat2725',
+                MESSAGE: 'Выберите действие',
+                URL_PREVIEW: 'Y',
+                KEYBOARD: {
+                    BUTTONS: [
+                        {
+                            TEXT: 'Открыть сайт',
+                            LINK: 'https://www.example.ru/',
+                            DISPLAY: 'LINE',
+                            BG_COLOR_TOKEN: 'primary'
+                        },
+                        {
+                            TEXT: 'Команда task',
+                            COMMAND: 'task',
+                            COMMAND_PARAMS: 'задача №1',
+                            DISPLAY: 'LINE',
+                            BG_COLOR_TOKEN: 'secondary'
+                        },
+                        { TYPE: 'NEWLINE' },
+                        {
+                            TEXT: 'Подставить текст',
+                            ACTION: 'PUT',
+                            ACTION_VALUE: '/task задача №1',
+                            DISPLAY: 'BLOCK',
+                            BG_COLOR_TOKEN: 'alert',
+                            TEXT_COLOR: '#FFFFFF'
+                        },
+                        {
+                            TEXT: 'Нейтральная кнопка',
+                            ACTION: 'SEND',
+                            ACTION_VALUE: 'Готово',
+                            DISPLAY: 'BLOCK',
+                            BG_COLOR_TOKEN: 'base'
+                        }
+                    ]
+                }
+            }
+        );
+
+        const result = response.getData().result;
+        console.log('Created message with ID:', result);
+        processResult(result);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    ```
 
 - PHP
 
     ```php
-    restCommand(
-        'imbot.command.answer',
-        Array(
-            "COMMAND_ID" => $command['COMMAND_ID'],
-            "MESSAGE_ID" => $command['MESSAGE_ID'],
-            "MESSAGE" => "Hello! My name is EchoBot :)[br] I designed to answer your questions!",
-            "KEYBOARD" => Array(
-    // Синяя кнопка с текстом Bitrix24 на первой строке
-                Array(
-                    "TEXT" => "Bitrix24",
-                    "LINK" => "http://bitrix24.com",
-                    "BG_COLOR_TOKEN" => "primary",
-                    "BG_COLOR" => "#29619b",
-                    "TEXT_COLOR" => "#fff",
-                    "DISPLAY" => "LINE",		
-                ),
-    // Белая кнопка с текстом BitBucket на первой строке
-                Array(
-                    "TEXT" => "BitBucket", 
-                    "LINK" => "https://bitbucket.org/Bitrix24com/rest-bot-echotest",
-                    "BG_COLOR_TOKEN" => "secondary",
-                    "BG_COLOR" => "#2a4c7c",
-                    "TEXT_COLOR" => "#fff",
-                    "DISPLAY" => "LINE",
-                ),
-    // перенос строки, следующие кнопки будут размещены на второй строке
-                Array(
-                    "TYPE" => "NEWLINE" 
-                ), 
-    // Красная кнопка с текстом Echo на второй строке
-                Array(
-                    "TEXT" => "Echo", 
-                    "COMMAND" => "echo",
-                    "COMMAND_PARAMS" => "test from keyboard",
-                    "DISPLAY" => "LINE",
-                    "BG_COLOR_TOKEN" => "alert",
-                ),
-    // Базовая кнопка с текстом List на второй строке
-                Array(
-                    "TEXT" => "List",
-                    "COMMAND" => "echoList",
-                    "DISPLAY" => "LINE"
-                ),
-    // Базовая кнопка с текстом Help на второй строке
-                Array(
-                    "TEXT" => "Help", 
-                    "COMMAND" => "help",
-                    "DISPLAY" => "LINE"
-                ),
-            )
-        ),
-        $_REQUEST["auth"]
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.message.add',
+                [
+                    'BOT_ID' => 1291,
+                    'DIALOG_ID' => 'chat2725',
+                    'MESSAGE' => 'Выберите действие',
+                    'URL_PREVIEW' => 'Y',
+                    'KEYBOARD' => [
+                        'BUTTONS' => [
+                            [
+                                'TEXT' => 'Открыть сайт',
+                                'LINK' => 'https://www.example.ru/',
+                                'DISPLAY' => 'LINE',
+                                'BG_COLOR_TOKEN' => 'primary'
+                            ],
+                            [
+                                'TEXT' => 'Команда task',
+                                'COMMAND' => 'task',
+                                'COMMAND_PARAMS' => 'задача №1',
+                                'DISPLAY' => 'LINE',
+                                'BG_COLOR_TOKEN' => 'secondary'
+                            ],
+                            ['TYPE' => 'NEWLINE'],
+                            [
+                                'TEXT' => 'Подставить текст',
+                                'ACTION' => 'PUT',
+                                'ACTION_VALUE' => '/task задача №1',
+                                'DISPLAY' => 'BLOCK',
+                                'BG_COLOR_TOKEN' => 'alert',
+                                'TEXT_COLOR' => '#FFFFFF'
+                            ],
+                            [
+                                'TEXT' => 'Нейтральная кнопка',
+                                'ACTION' => 'SEND',
+                                'ACTION_VALUE' => 'Готово',
+                                'DISPLAY' => 'BLOCK',
+                                'BG_COLOR_TOKEN' => 'base'
+                            ]
+                        ]
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'imbot.message.add',
+        {
+            BOT_ID: 1291,
+            DIALOG_ID: 'chat2725',
+            MESSAGE: 'Выберите действие',
+            URL_PREVIEW: 'Y',
+            KEYBOARD: {
+                BUTTONS: [
+                    {
+                        TEXT: 'Открыть сайт',
+                        LINK: 'https://www.example.ru/',
+                        DISPLAY: 'LINE',
+                        BG_COLOR_TOKEN: 'primary'
+                    },
+                    {
+                        TEXT: 'Команда task',
+                        COMMAND: 'task',
+                        COMMAND_PARAMS: 'задача №1',
+                        DISPLAY: 'LINE',
+                        BG_COLOR_TOKEN: 'secondary'
+                    },
+
+                    { TYPE: 'NEWLINE' },
+
+                    {
+                        TEXT: 'Подставить текст',
+                        ACTION: 'PUT',
+                        ACTION_VALUE: '/task задача №1',
+                        DISPLAY: 'BLOCK',
+                        BG_COLOR_TOKEN: 'alert',
+                        TEXT_COLOR: '#FFFFFF'
+                    },
+                    {
+                        TEXT: 'Нейтральная кнопка',
+                        ACTION: 'SEND',
+                        ACTION_VALUE: 'Готово',
+                        DISPLAY: 'BLOCK',
+                        BG_COLOR_TOKEN: 'base'
+                    }
+                ]
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
+            }
+        }
     );
     ```
 
-{% endlist %}
-
-Клавиатура — это набор кнопок, каждая кнопка может состоять из следующих ключей:
-
-- **TEXT** — текст кнопки
-- **LINK** — ссылка
-- **COMMAND** — команда, которая будет отправлена боту
-- **COMMAND_PARAMS** — параметры для команды
-- **BG_COLOR_TOKEN** — токен для цвета кнопки в чате. Может принимать одно из следующих значений:
-  - `primary`
-  - `secondary`
-  - `alert`
-  - `base`
-    По умолчанию имеет значение `base`
-- **BG_COLOR** — цвет кнопки в формате HEX-кода. Используется для обратной совместимости в кнопках чатов открытых линий
-- **BLOCK** — если указать Y, то после клика на одну кнопку клавиатура будет блокироваться. Клавиатуру блокируют только кнопки, которые отправляют ajax боту (учтите, что ссылки на внешние ресурсы **LINK** и мгновенные действия **ACTION** не блокируют клавиатуру). Блокировка нужна для ограничения выполнения ajax-команд из-за их асинхронности и времени ожидания: после нажатия кнопки клавиатура блокируется и ожидается реакция с бэкенда Битрикс24, чтобы пользователь не нажал вторую кнопку и т. д. Бэкенд обрабатывает команды и принимает решение, разблокировать ли клавиатуру, создав новую, или же скрыть её
-- **DISABLED** — если указать Y, то данная кнопка не будет кликабельной
-- **TEXT_COLOR** — цвет текста кнопки в формате HEX-кода. Используется для обратной совместимости в кнопках чатов открытых линий
-- **DISPLAY** — тип кнопки. Если указан тип **BLOCK**, то на одной строчке может быть только эта кнопка. Если указан тип **LINE**, то кнопки будут выстроены друг за другом
-- **WIDTH** — ширина кнопки. **Обратите внимание**, для максимального удобства набор кнопок в одну линию не рекомендуется делать более 225 пикселей, это максимальная ширина на мобильном устройстве
-- **APP_ID** — идентификатор установленного приложения для чата
-- **APP_PARAMS** — параметры для запуска приложения для чата
-- **ACTION** — действие, может быть одно из следующих типов ([REST ревизии 28](../im-revision-get.md)):
-  - **PUT** — вставить в поле ввода
-  - **SEND** — отправить текст
-  - **COPY** — копировать текст в буфер обмена
-  - **CALL** — позвонить
-  - **DIALOG** — открыть указанный
-- **ACTION_VALUE** — значение, для каждого типа означает свое ([REST ревизии 28](../im-revision-get.md)):
-  - **PUT** — текст, который будет вставлен в поле ввода
-  - **SEND** — текст, который будет отправлен
-  - **COPY** — текст, который будет скопирован в буфер обмена
-  - **CALL** — номер телефона в международном формате
-  - **DIALOG** — идентификатор диалога, это может быть ID пользователя, либо ID чата в формате chatXXX
-
-Обязательными полями является **TEXT** и либо поле **LINK**, либо поле **COMMAND**.
-
-Если указан ключ **LINK**, то кнопка становится внешней ссылкой. Если указаны поля **COMMAND** и **COMMAND_PARAMS**, то кнопка является действием и отправляет команду чат-боту, не публикуя ее в чат.
-
-Если указаны поля **APP_ID** и **APP_PARAMS**, то кнопка откроет окно с приложением для чата.
-
-Если необходимо сделать две строки с кнопками в ряд, то для их разделения нужно добавить кнопку со следующим содержимым: `"TYPE" => "NEWLINE"`.
-
-## Обработка команд чат-ботом
-
-Для обработки нажатия кнопок клавиатуры, используются **команды**.
-
-1. Для того, чтобы команда отрабатывала в клавиатуре (и не только), необходимо ее предварительно зарегистрировать через метод [imbot.command.register](../../chat-bots/commands/imbot-command-register.md) (чтобы команда была доступна только для клавиатуры, необходимо создать ее с ключом `"HIDDEN" => "Y"`).
-
-    В кнопке указывается следующие ключи:
+- PHP CRest
 
     ```php
-    "COMMAND" => "page", // команда, которая будет отправлена чат-боту
-    "COMMAND_PARAMS" => "1", // параметры для команды
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imbot.message.add',
+        [
+            'BOT_ID' => 1291,
+            'DIALOG_ID' => 'chat2725',
+            'MESSAGE' => 'Выберите действие',
+            'URL_PREVIEW' => 'Y',
+            'KEYBOARD' => [
+                'BUTTONS' => [
+                    [
+                        'TEXT' => 'Открыть сайт',
+                        'LINK' => 'https://www.example.ru/',
+                        'DISPLAY' => 'LINE',
+                        'BG_COLOR_TOKEN' => 'primary'
+                    ],
+                    [
+                        'TEXT' => 'Команда task',
+                        'COMMAND' => 'task',
+                        'COMMAND_PARAMS' => 'задача №1',
+                        'DISPLAY' => 'LINE',
+                        'BG_COLOR_TOKEN' => 'secondary'
+                    ],
+                    ['TYPE' => 'NEWLINE'],
+                    [
+                        'TEXT' => 'Подставить текст',
+                        'ACTION' => 'PUT',
+                        'ACTION_VALUE' => '/task задача №1',
+                        'DISPLAY' => 'BLOCK',
+                        'BG_COLOR_TOKEN' => 'alert',
+                        'TEXT_COLOR' => '#FFFFFF'
+                    ],
+                    [
+                        'TEXT' => 'Нейтральная кнопка',
+                        'ACTION' => 'SEND',
+                        'ACTION_VALUE' => 'Готово',
+                        'DISPLAY' => 'BLOCK',
+                        'BG_COLOR_TOKEN' => 'base'
+                    ]
+                ]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
+{% endlist %}
 
-2. Нажатие на кнопку сгенерирует событие [ONIMCOMMANDADD](../../chat-bots/commands/events/on-im-command-add.md).
+## Как обновить или удалить клавиатуру
 
-3. Внутри этого события нужно либо создать новое сообщение, либо отредактировать старое (тем самым формируя эффект постраничной навигации).
+Для обновления кнопок клавиатуры используйте методы:
 
-4. Внутри события, в массиве **[data][COMMAND]** будут переданы данные о вызванном событии. В нем есть значение **COMMAND_CONTEXT** - это специальный ключ, описывающий в каком контексте была вызвана команда:
-   - если команду написал пользователь самостоятельно, там будет **TEXTAREA**;
-   - если команда пришла из клавиатуры, то будет **KEYBOARD**;
-   - если команда пришла из контекстного меню, то будет **MENU**.
+- [im.message.update](./im-message-update.md)
+- [imbot.message.update](../../chat-bots/messages/imbot-message-update.md)
 
-Готовый пример, можно посмотреть в обновленной версии [ЭхоБота](https://github.com/bitrix24com/bots) (**bot.php**).
+Чтобы отключить вывод кнопок, передайте:
 
-## Обработка открытия приложения для чата
+- `KEYBOARD: 'N'`
+- пустое значение `KEYBOARD`
 
-Приложение для чата, запускаемые из контекстного меню, работают по принципам [Контекстного приложения](../outdated/chat-apps.md).
+## Обработка команд чат-ботом {#command-processing}
 
-## Примеры использования клавиатуры
+1. Чтобы команда отрабатывала в клавиатуре, зарегистрируйте ее через метод [imbot.command.register](../../chat-bots/commands/imbot-command-register.md).
 
-1. **EchoBot**
-    Постраничная навигация, кнопки при вызове команды «Помощь»
+    В кнопке укажите следующие ключи:
 
-    <iframe width="720" height="405" src="https://rutube.ru/play/embed/6df697f3139fdad5bfbf4953ef1f83a5/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+    ```php
+    "COMMAND" => "example", // команда, которая будет отправлена чат-боту
+    "COMMAND_PARAMS" => "example", // параметры для команды
+     ```  
 
-2. **Марта**
-    Просто напишите марте «Поиграй со мной!». Клавиатура используется как игровое поле:
-
-    <iframe width="720" height="405" src="https://rutube.ru/play/embed/282c08597e37aaf9ad9828c935400c72/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-
-3. **Giphy**
-    Кнопка **Еще** позволяет без повторного введения поискового слова просматривать другие картинки на эту же тему:
-
-    ![Giphy Keyboard](./_images/keyboard2.png)
+2. Нажатие на кнопку сформирует событие [ONIMCOMMANDADD](../../chat-bots/commands/events/on-im-command-add.md).
+3. Внутри события в массиве `data[COMMAND]` будут переданы данные о вызванном событии. Значение `COMMAND_CONTEXT` покажет в каком контексте была вызвана команда:
+   - `TEXTAREA` — команда введена вручную
+   - `KEYBOARD` — команда вызвана кнопкой
+   - `MENU` — команда вызвана из контекстного меню
