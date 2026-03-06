@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод для получения списка зарегистрированных обработчиков мест встраивания виджетов.
+Метод `placement.get` получает список зарегистрированных обработчиков мест встраивания виджетов.
 
 ## Параметры метода
 
@@ -15,16 +15,6 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/placement.get
-    ```
 
 - cURL (OAuth)
 
@@ -231,6 +221,11 @@ HTTP-статус: **400**, **403**, **200**
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Статус** ||
+|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | 403 ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
