@@ -1,71 +1,77 @@
 # Удалить пользовательское поле task.item.userfield.delete
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- не хватает 1 примера (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод `task.item.userfield.delete` удаляет свойство.
+Метод `task.item.userfield.delete` удаляет пользовательское поле задачи.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-||  **Параметр** / **Тип**| **Описание** ||
-|| **auth**
-[`unknown`](../../data-types.md) | Токен авторизации. ||
-|| **ID**
-[`unknown`](../../data-types.md) | Идентификатор пользовательского поля. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **ID***
+[`integer`](../../data-types.md) | Идентификатор пользовательского поля.
+
+Идентификатор пользовательского поля задачи можно получить при [создании поля](./task-item-user-field-add.md) или методом [получения списка полей](./task-item-user-field-get-list.md) ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+      "ID": 1325
+    }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.item.userfield.delete
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+      "ID": 1325,
+      "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/task.item.userfield.delete
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'task.item.userfield.delete',
-    		{
-    			'auth': 'q21g8vhcqmxdrbhqlbd2wh6ev1debppa',
-    			'ID': 77
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
-    	console.log(result);
+        const response = await $b24.callMethod(
+            'task.item.userfield.delete',
+            {
+                ID: 1325
+            }
+        );
+
+        const result = response.getData().result;
+        console.log(result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error('Error:', error);
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -74,22 +80,17 @@
             ->call(
                 'task.item.userfield.delete',
                 [
-                    'auth' => 'q21g8vhcqmxdrbhqlbd2wh6ev1debppa',
-                    'ID'   => 77
+                    'ID' => 1325
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting user field: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -99,31 +100,101 @@
     BX24.callMethod(
         'task.item.userfield.delete',
         {
-            'auth': 'q21g8vhcqmxdrbhqlbd2wh6ev1debppa',
-            'ID': 77
+            ID: 1325
         },
-    
         function(result)
         {
-            console.info(result.data());
-            console.log(result);
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.log(result.data());
+            }
         }
     );
     ```
 
-- cURL
+- PHP CRest
 
-    ```http
-    $appParams = array(
-        'auth' => 'q21g8vhcqmxdrbhqlbd2wh6ev1debppa',
-        'ID' => 77
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'task.item.userfield.delete',
+        [
+            'ID' => 1325
+        ]
     );
-    ```
 
-    ```http
-    $request = 'http://your-domain.ru/rest/task.item.userfield.delete.xml?' . http_build_query($appParams);
+    print_r($result);
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1772711218,
+        "finish": 1772711218.704123,
+        "duration": 0.7041230201721191,
+        "processing": 0,
+        "date_start": "2026-03-05T14:46:58+03:00",
+        "date_finish": "2026-03-05T14:46:58+03:00",
+        "operating_reset_at": 1772711818,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true`, если поле успешно удалено ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_CORE",
+    "error_description": "ID is not defined or invalid."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#0; Invalid arguments for Bitrix\Tasks\Integration\Rest\Task\UserField::delete; 0/TE | Не передан обязательный параметр `ID` ||
+|| `400` | `ERROR_CORE` | ID is not defined or invalid | В параметр `ID` передано нечисловое значение или значение `<= 0` ||
+|| `400` | `ERROR_NOT_FOUND` | The entity with ID '{ID}' is not found | Пользовательское поле с указанным `ID` не найдено ||
+|| `400` | `ERROR_CORE` | Access denied | Недостаточно прав для удаления пользовательского поля ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./task-item-user-field-add.md)
+- [{#T}](./task-item-user-field-update.md)
+- [{#T}](./task-item-user-field-get.md)
+- [{#T}](./task-item-user-field-get-list.md)
+- [{#T}](./task-item-user-field-get-types.md)
+- [{#T}](./task-item-user-field-get-fields.md)

@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 10 марта, 2026
+
+- Обновили документацию по методам работы с Пользовательскими полями задач [task.item.userfield.*](./api-reference/tasks/user-field/index.md)
+
 ### 06 марта, 2026
 
 - Обновили страницу [Работа с клавиатурами](./api-reference/chats/messages/keyboards.md)
