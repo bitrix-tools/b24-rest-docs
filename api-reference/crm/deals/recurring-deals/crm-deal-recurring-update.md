@@ -1,204 +1,352 @@
-# Изменить существующую настройку для шаблона регулярной сделки crm.deal.recurring.update
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (на других языках)
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Изменить настройку шаблона регулярной сделки crm.deal.recurring.update
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правами «чтение» и «изменение» сделок
 
-Метод `crm.deal.recurring.update` обновляет существующую настройку для шаблона регулярной сделки.
+Метод `crm.deal.recurring.update` обновляет существующую настройку шаблона регулярной сделки.
+
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **id** | Идентификатор настройки шаблона регулярной сделки. ||
-|| **fields** | Набор полей – массив вида `array("обновляемое поле"=>"значение"[, ...])`, где "обновляемое поле" может принимать значения из возвращаемых методом [crm.deal.recurring.fields](./crm-deal-recurring-fields.md). 
+|| **Название**
+`тип` | **Описание** ||
+|| **id^*^**
+[`integer`](../../../data-types.md) | Идентификатор настройки шаблона регулярной сделки.
 
-{% note info %}
+Идентификатор можно получить с помощью методов [crm.deal.recurring.list](./crm-deal-recurring-list.md) или [crm.deal.recurring.add](./crm-deal-recurring-add.md) ||
+|| **fields**
+[`object`](../../../data-types.md) | Объект формата:
 
-Чтобы узнать требуемый формат полей, выполните метод [crm.deal.recurring.fields](./crm-deal-recurring-fields.md) и посмотрите формат пришедших значений этих полей. 
+```
+{
+    field_1: value_1,
+    field_2: value_2,
+    ...,
+    field_n: value_n,
+}
+```
 
-{% endnote %}
-||
+где:
+- `field_n` — название поля настройки
+- `value_n` — новое значение поля настройки
+
+Список доступных полей описан [ниже](#fields) ||
 |#
 
-## Пример
+### Параметр fields {#fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ACTIVE**
+[`char`](../../../data-types.md) | Флаг активности настройки. Возможные значения:
+- `Y` — активна
+- `N` — неактивна ||
+|| **CATEGORY_ID**
+[`char`](../../../data-types.md) | id воронки для новых сделок, создаваемых из шаблона.
+
+Список доступных воронок можно узнать с помощью метода [crm.category.list](../../universal/category/crm-category-list.md), передав `entityTypeId = 2` ||
+|| **IS_LIMIT**
+[`char`](../../../data-types.md) | Ограничение по созданию новых сделок:
+- `N` — без ограничений
+- `D` — ограничение по дате (`LIMIT_DATE`)
+- `T` — ограничение по количеству (`LIMIT_REPEAT`) ||
+|| **LIMIT_REPEAT**
+[`integer`](../../../data-types.md) | Максимальное количество сделок, которые можно создать из шаблона. Используется при `IS_LIMIT = T` ||
+|| **LIMIT_DATE**
+[`date`](../../../data-types.md) | Дата окончания генерации сделок из шаблона в формате `YYYY-MM-DD`. Используется при `IS_LIMIT = D` ||
+|| **START_DATE**
+[`date`](../../../data-types.md) | Дата начала расчета следующего запуска в формате `YYYY-MM-DD` ||
+|| **PARAMS**
+[`object`](../../../data-types.md) | Параметры периодичности [(подробное описание)](#params-fields) ||
+|#
+
+### Параметр PARAMS {#params-fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **MODE**
+[`string`](../../../data-types.md) | Режим повторения:
+- `single` — одиночный
+- `multiple` — множественный ||
+|| **MULTIPLE_TYPE**
+[`string`](../../../data-types.md) | Тип периода для `MODE = multiple`:
+- `day`
+- `week`
+- `month`
+- `year` ||
+|| **MULTIPLE_INTERVAL**
+[`integer`](../../../data-types.md) | Интервал повторения для `MODE = multiple` ||
+|| **SINGLE_BEFORE_START_DATE_TYPE**
+[`string`](../../../data-types.md) | Тип смещения для `MODE = single`:
+- `day`
+- `week`
+- `month`
+- `year` ||
+|| **SINGLE_BEFORE_START_DATE_VALUE**
+[`integer`](../../../data-types.md) | Значение смещения для `MODE = single` ||
+|| **OFFSET_BEGINDATE_TYPE**
+[`string`](../../../data-types.md) | Тип смещения даты начала создаваемой сделки:
+- `day`
+- `week`
+- `month`
+- `year` ||
+|| **OFFSET_BEGINDATE_VALUE**
+[`integer`](../../../data-types.md) | Значение смещения даты начала создаваемой сделки ||
+|| **OFFSET_CLOSEDATE_TYPE**
+[`string`](../../../data-types.md) | Тип смещения даты завершения создаваемой сделки:
+- `day`
+- `week`
+- `month`
+- `year` ||
+|| **OFFSET_CLOSEDATE_VALUE**
+[`integer`](../../../data-types.md) | Значение смещения даты завершения создаваемой сделки ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":15,"fields":{"ACTIVE":"Y","CATEGORY_ID":"2","IS_LIMIT":"D","LIMIT_DATE":"2027-03-05","START_DATE":"2026-04-05","PARAMS":{"MODE":"multiple","MULTIPLE_TYPE":"month","MULTIPLE_INTERVAL":1,"OFFSET_BEGINDATE_TYPE":"day","OFFSET_BEGINDATE_VALUE":1,"OFFSET_CLOSEDATE_TYPE":"month","OFFSET_CLOSEDATE_VALUE":2}}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.recurring.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":15,"fields":{"ACTIVE":"Y","CATEGORY_ID":"2","IS_LIMIT":"D","LIMIT_DATE":"2027-03-05","START_DATE":"2026-04-05","PARAMS":{"MODE":"multiple","MULTIPLE_TYPE":"month","MULTIPLE_INTERVAL":1,"OFFSET_BEGINDATE_TYPE":"day","OFFSET_BEGINDATE_VALUE":1,"OFFSET_CLOSEDATE_TYPE":"month","OFFSET_CLOSEDATE_VALUE":2}},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.deal.recurring.update
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const current = new Date();
-    	const nextYear = new Date();
-    	nextYear.setYear(current.getFullYear() + 1);
-    
-    	const date2str = function(d)
-    	{
-    		return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
-    	};
-    
-    	const paddatepart = function(part)
-    	{
-    		return part >= 10 ? part.toString() : '0' + part.toString();
-    	};
-    
-    	const id = prompt("Введите ID");
-    
     	const response = await $b24.callMethod(
-    		"crm.deal.recurring.update",
+    		'crm.deal.recurring.update',
     		{
-    			id: id,
-    			fields:
-    			{
-    				"CATEGORY_ID": "2",
-    				"START_DATE": date2str(nextYear),
-    				"PARAMS": {
-    					"MODE": "single",
-    					"SINGLE_BEFORE_START_DATE_TYPE": "day",
-    					"SINGLE_BEFORE_START_DATE_VALUE": 5,
-    					"OFFSET_BEGINDATE_TYPE": "day",
-    					"OFFSET_BEGINDATE_VALUE": 1,
-    					"OFFSET_CLOSEDATE_TYPE": "month",
-    					"OFFSET_CLOSEDATE_VALUE": 2,
+    			id: 15,
+    			fields: {
+    				ACTIVE: 'Y',
+    				CATEGORY_ID: '2',
+    				IS_LIMIT: 'D',
+    				LIMIT_DATE: '2027-03-05',
+    				START_DATE: '2026-04-05',
+    				PARAMS: {
+    					MODE: 'multiple',
+    					MULTIPLE_TYPE: 'month',
+    					MULTIPLE_INTERVAL: 1,
+    					OFFSET_BEGINDATE_TYPE: 'day',
+    					OFFSET_BEGINDATE_VALUE: 1,
+    					OFFSET_CLOSEDATE_TYPE: 'month',
+    					OFFSET_CLOSEDATE_VALUE: 2,
     				}
-    			},
+    			}
     		}
     	);
     
     	const result = response.getData().result;
-    	if(result.error())
-    		console.error(result.error());
-    	else
-    	{
-    		console.info(result);
-    	}
+    	console.info('Шаблон обновлен:', result);
     }
-    catch(error)
+    catch (error)
     {
-    	console.error(error);
+    	console.error('Error:', error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $current = new DateTime();
-        $nextYear = new DateTime();
-        $nextYear->setDate($current->format('Y') + 1);
-    
-        $date2str = function($d) {
-            return $d->format('Y-m-d\TH:i:sP');
-        };
-    
-        $id = readline("Введите ID");
-    
         $response = $b24Service
             ->core
             ->call(
                 'crm.deal.recurring.update',
                 [
-                    'id' => $id,
+                    'id' => 15,
                     'fields' => [
+                        'ACTIVE'      => 'Y',
                         'CATEGORY_ID' => '2',
-                        'START_DATE' => $date2str($nextYear),
-                        'PARAMS' => [
-                            'MODE' => 'single',
-                            'SINGLE_BEFORE_START_DATE_TYPE' => 'day',
-                            'SINGLE_BEFORE_START_DATE_VALUE' => 5,
-                            'OFFSET_BEGINDATE_TYPE' => 'day',
+                        'IS_LIMIT'    => 'D',
+                        'LIMIT_DATE'  => '2027-03-05',
+                        'START_DATE'  => '2026-04-05',
+                        'PARAMS'      => [
+                            'MODE'                   => 'multiple',
+                            'MULTIPLE_TYPE'          => 'month',
+                            'MULTIPLE_INTERVAL'      => 1,
+                            'OFFSET_BEGINDATE_TYPE'  => 'day',
                             'OFFSET_BEGINDATE_VALUE' => 1,
-                            'OFFSET_CLOSEDATE_TYPE' => 'month',
+                            'OFFSET_CLOSEDATE_TYPE'  => 'month',
                             'OFFSET_CLOSEDATE_VALUE' => 2,
                         ],
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
+            echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            echo 'Success: ' . var_export($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error updating recurring deal: ' . $e->getMessage();
+        echo 'Error updating recurring deal settings: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
     ```js
-    var current = new Date();
-    var nextYear = new Date();
-    nextYear.setYear(current.getFullYear() + 1);
-    var date2str = function(d)
-    {
-        return d.getFullYear() + '-' + paddatepart(1 + d.getMonth()) + '-' + paddatepart(d.getDate()) + 'T' + paddatepart(d.getHours()) + ':' + paddatepart(d.getMinutes()) + ':' + paddatepart(d.getSeconds()) + '+03:00';
-    };
-    var paddatepart = function(part)
-    {
-        return part >= 10 ? part.toString() : '0' + part.toString();
-    };
-    var id = prompt("Введите ID");
     BX24.callMethod(
-        "crm.deal.recurring.update",
+        'crm.deal.recurring.update',
         {
-            id: id,
-            fields:
-            {
-                "CATEGORY_ID": "2",
-                "START_DATE": date2str(nextYear),
-                "PARAMS": {
-                    "MODE": "single",
-                    "SINGLE_BEFORE_START_DATE_TYPE": "day",
-                    "SINGLE_BEFORE_START_DATE_VALUE": 5,
-                    "OFFSET_BEGINDATE_TYPE": "day",
-                    "OFFSET_BEGINDATE_VALUE": 1,
-                    "OFFSET_CLOSEDATE_TYPE": "month",
-                    "OFFSET_CLOSEDATE_VALUE": 2,
+            id: 15,
+            fields: {
+                ACTIVE: 'Y',
+                CATEGORY_ID: '2',
+                IS_LIMIT: 'D',
+                LIMIT_DATE: '2027-03-05',
+                START_DATE: '2026-04-05',
+                PARAMS: {
+                    MODE: 'multiple',
+                    MULTIPLE_TYPE: 'month',
+                    MULTIPLE_INTERVAL: 1,
+                    OFFSET_BEGINDATE_TYPE: 'day',
+                    OFFSET_BEGINDATE_VALUE: 1,
+                    OFFSET_CLOSEDATE_TYPE: 'month',
+                    OFFSET_CLOSEDATE_VALUE: 2
                 }
-            },
+            }
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
                 console.error(result.error());
             else
-            {
-                console.info(result.data());
-            }
+                console.info('Шаблон обновлен:', result.data());
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.deal.recurring.update',
+        [
+            'id' => 15,
+            'fields' => [
+                'ACTIVE' => 'Y',
+                'CATEGORY_ID' => '2',
+                'IS_LIMIT' => 'D',
+                'LIMIT_DATE' => '2027-03-05',
+                'START_DATE' => '2026-04-05',
+                'PARAMS' => [
+                    'MODE' => 'multiple',
+                    'MULTIPLE_TYPE' => 'month',
+                    'MULTIPLE_INTERVAL' => 1,
+                    'OFFSET_BEGINDATE_TYPE' => 'day',
+                    'OFFSET_BEGINDATE_VALUE' => 1,
+                    'OFFSET_CLOSEDATE_TYPE' => 'month',
+                    'OFFSET_CLOSEDATE_VALUE' => 2
+                ]
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1772731825,
+        "finish": 1772731825.579511,
+        "duration": 0.5795109272003174,
+        "processing": 0,
+        "date_start": "2026-03-05T20:30:25+03:00",
+        "date_finish": "2026-03-05T20:30:25+03:00",
+        "operating_reset_at": 1772732425,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Для успешного обновления возвращается `true` ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Recurring deal is not found."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `id is not defined or invalid` | В параметр `id` передано пустое или некорректное значение ||
+|| `Parameter 'fields' must be array` | Параметр `fields` не передан или передан не в формате объекта ||
+|| `Recurring is not allowed` | Регулярные сделки недоступны в Битрикс24 ||
+|| `Recurring deal is not found` | Шаблон регулярной сделки не найден ||
+|| `Access denied` | Недостаточно прав для чтения или изменения связанной сделки ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./crm-deal-recurring-fields.md)
+- [{#T}](./crm-deal-recurring-get.md)
+- [{#T}](./crm-deal-recurring-list.md)
+- [{#T}](./crm-deal-recurring-add.md)
+- [{#T}](./crm-deal-recurring-delete.md)
+- [{#T}](./crm-deal-recurring-expose.md)
