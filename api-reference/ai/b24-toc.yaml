@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Зарегистрировать сервис
     href: ai-engine-register.md
+  - name: Пример сервиса
+    href: ai-engine-service.md
   - name: Получить список сервисов
     href: ai-engine-list.md
   - name: Удалить сервис
