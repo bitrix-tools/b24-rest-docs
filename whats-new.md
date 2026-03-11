@@ -4,6 +4,7 @@
 
 ### 11 марта, 2026
 
+- Обновили методы в разделе [Телефония](./api-reference/telephony/index.md)
 - Обновили раздел [Вложения в сообщениях ATTACH](./api-reference/chats/messages/attachments/index.md)
 
 ### 10 марта, 2026
