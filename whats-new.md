@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 11 марта, 2026
+
+- Обновили раздел [Вложения в сообщениях ATTACH](./api-reference/chats/messages/attachments/index.md)
+
 ### 10 марта, 2026
 
 - Обновили документацию по методам работы с Пользовательскими полями задач [task.item.userfield.*](./api-reference/tasks/user-field/index.md)

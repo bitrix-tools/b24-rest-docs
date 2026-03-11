@@ -1,28 +1,28 @@
-# Как использовать вложения
+# Вложения в сообщениях ATTACH
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
-
-Вложения можно применять к любым сообщениям (пользователя или бота) и уведомлениям в рамках мессенджера.
+Вложения `ATTACH` позволяют добавлять в сообщения структурированный контент: текстовые блоки, ссылки, изображения, файлы, разделители и таблицы.
 
 ![Вложения](./_images/attach1.png)
 
-Вы собираете объект **Вложение** и передаете его в метод отправки сообщения в ключ **ATTACH** (это может быть **полная** или **сокращенная** форма вложения).
+Методы, которые поддерживают работу с `ATTACH`:
 
-## Полная версия объекта ATTACH
+- [im.message.add](../im-message-add.md) — отправить сообщение в чат
+- [im.message.update](../im-message-update.md) — изменить отправленное сообщение
+- [im.notify](../../notifications/im-notify.md) — отправить уведомление
+- [im.notify.personal.add](../../notifications/im-notify-personal-add.md) — отправить персональное уведомление
+- [im.notify.system.add](../../notifications/im-notify-system-add.md) — отправить системное уведомление
+- [imbot.message.add](../../../chat-bots/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
+- [imbot.message.update](../../../chat-bots/messages/imbot-message-update.md) — изменить сообщение чат-бота
+- [imbot.command.answer](../../../chat-bots/commands/imbot-command-answer.md) — отправить ответ чат-бота на команду
+
+## Форматы объекта ATTACH
+
+Вы можете передать `ATTACH` в одном из двух форматов:
+
+1. Полная форма: объект с метаданными вложения и массивом `BLOCKS`
+2. Краткая форма: массив блоков без обертки
+
+### Полная форма ATTACH
 
 {% list tabs %}
 
@@ -31,11 +31,11 @@
     ```js
     ATTACH: {
         ID: 1,
-        COLOR_TOKEN: "secondary",
-        COLOR: "#29619b",
+        COLOR_TOKEN: 'secondary',
+        COLOR: '#29619b',
         BLOCKS: [
             {...},
-            {...},
+            {...}
         ]
     }
     ```
@@ -43,100 +43,182 @@
 - PHP
 
     ```php
-    "ATTACH" => Array(
-        "ID" => 1,
-        "COLOR_TOKEN" => "secondary",
-        "COLOR" => "#29619b",
-        "BLOCKS" => Array(
-            array(...),
-            array(...),
-        )
-    )
+    'ATTACH' => [
+        'ID' => 1,
+        'COLOR_TOKEN' => 'secondary',
+        'COLOR' => '#29619b',
+        'BLOCKS' => [
+            [...],
+            [...]
+        ]
+    ]
     ```
 
 {% endlist %}
 
-**Ключи массива**:
-- `ID` — идентификатор блока
-- `COLOR_TOKEN` — отвечает за цветовое выделение вложения. Может принимать одно из следующих значений:
-  - `primary`
-  - `secondary`
-  - `alert`
-  - `base`
-    По умолчанию имеет значение `base`
-- `COLOR` — отвечает за цветовое выделение вложения в чате. Используется для обратной совместимости в чатах открытых линий и уведомлениях. По умолчанию цвет вложения назначается в цвет чата получателя (или, если это уведомление, в цвет текущего пользователя). Данный ключ можно не задавать, если не требуется
-- `BLOCKS` должен содержать блоки разметки, которые мы рассмотрим чуть ниже
+### Поля полной формы
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор вложения внутри сообщения ||
+|| **COLOR_TOKEN**
+[`string`](../../../data-types.md) | Цветовая схема вложения. Допустимые значения: `primary`, `secondary`, `alert`, `base`. По умолчанию: `base` ||
+|| **COLOR**
+[`string`](../../../data-types.md) | Явный HEX-цвет вложения. Используется для совместимости со старыми сценариями и в некоторых типах уведомлений ||
+|| **BLOCKS**
+[`array`](../../../data-types.md) | Массив блоков содержимого вложения. Типы блоков описаны в разделе [Коллекции блоков](./block-collections/index.md) ||
+|#
 
 ![объект ATTACH](./_images/attach_variants.png)
 
-## Пример:
+### Пример полной формы
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Вложение с цветом primary","ATTACH":{"ID":1,"COLOR_TOKEN":"primary","COLOR":"#29619b","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.message.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Вложение с цветом primary","ATTACH":{"ID":1,"COLOR_TOKEN":"primary","COLOR":"#29619b","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]},"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.message.add
+    ```
+
 - JS
 
     ```js
-        BX24.callMethod(
-        'imbot.message.add',
+    try {
+      const response = await $b24.callMethod('im.message.add', {
+        DIALOG_ID: 'chat20921',
+        MESSAGE: 'Вложение с цветом primary',
+        ATTACH: {
+          ID: 1,
+          COLOR_TOKEN: 'primary',
+          COLOR: '#29619b',
+          BLOCKS: [
+            {
+              MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+            }
+          ]
+        }
+      });
+
+      const { result } = response.getData();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'im.message.add',
+                [
+                    'DIALOG_ID' => 'chat20921',
+                    'MESSAGE' => 'Вложение с цветом primary',
+                    'ATTACH' => [
+                        'ID' => 1,
+                        'COLOR_TOKEN' => 'primary',
+                        'COLOR' => '#29619b',
+                        'BLOCKS' => [
+                            [
+                                'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                            ]
+                        ]
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        print_r($result);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'im.message.add',
         {
             DIALOG_ID: 'chat20921',
             MESSAGE: 'Вложение с цветом primary',
             ATTACH: {
                 ID: 1,
-                COLOR_TOKEN: "primary"
-                COLOR: "#29619b",
+                COLOR_TOKEN: 'primary',
+                COLOR: '#29619b',
                 BLOCKS: [
                     {
-                        MESSAGE: "API будет доступно в обновлении [B]im 24.0.0[/B]"
+                        MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
                     }
                 ]
             }
-        }
-        function(result){
-            if(result.error())
-            {
+        },
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
     );
     ```
 
-- PHP
-
-    {% include [Пояснение о restCommand](../../_includes/rest-command.md) %}
+- PHP CRest
 
     ```php
-    restCommand(
-        'imbot.message.add',
-        Array(
-            "DIALOG_ID" => $_REQUEST['data']['PARAMS']['DIALOG_ID'],
-            "MESSAGE" => "Вложение с цветом primary",
-            "ATTACH" => Array(
-                "ID" => 1,
-                "COLOR_TOKEN" => "primary"
-                "COLOR" => "#29619b",
-                "BLOCKS" => Array(
-                    Array(
-                        "MESSAGE" => "API будет доступно в обновлении [B]im 24.0.0[/B]"
-                    )
-                )
-            )
-        ),
-        $_REQUEST["auth"]
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.message.add',
+        [
+            'DIALOG_ID' => 'chat20921',
+            'MESSAGE' => 'Вложение с цветом primary',
+            'ATTACH' => [
+                'ID' => 1,
+                'COLOR_TOKEN' => 'primary',
+                'COLOR' => '#29619b',
+                'BLOCKS' => [
+                    [
+                        'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                    ]
+                ]
+            ]
+        ]
     );
+
+    print_r($result);
     ```
 
 {% endlist %}
 
-## Краткая версия объекта ATTACH
+### Краткая форма ATTACH
 
-Если устраивает, что вложение находится внизу сообщения и указывать цвет не требуется, можно использовать **краткую** версию:
+Если не нужны метаданные вложения (`ID`, `COLOR_TOKEN`, `COLOR`), можно передать сразу массив блоков:
 
 {% list tabs %}
 
@@ -145,79 +227,169 @@
     ```js
     ATTACH: [
         {...},
-        {...},
+        {...}
     ]
     ```
 
 - PHP
 
     ```php
-    "ATTACH" => Array(
-        array(...),
-        array(...),
-    )
+    'ATTACH' => [
+        [...],
+        [...]
+    ]
     ```
 
 {% endlist %}
 
-В отличие от полного варианта, на первом уровне сразу указываются блоки разметки, без объявления ключа **BLOCKS**.
-
 ![Краткая версия ATTACH](./_images/short_attach.png)
 
-## Пример:
+### Пример краткой формы
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Блок текста","ATTACH":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.message.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Блок текста","ATTACH":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}],"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.message.add
+    ```
+
 - JS
 
     ```js
+    try {
+      const response = await $b24.callMethod('im.message.add', {
+        DIALOG_ID: 'chat20921',
+        MESSAGE: 'Блок текста',
+        ATTACH: [
+          {
+            MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+          }
+        ]
+      });
+
+      const { result } = response.getData();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'im.message.add',
+                [
+                    'DIALOG_ID' => 'chat20921',
+                    'MESSAGE' => 'Блок текста',
+                    'ATTACH' => [
+                        [
+                            'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                        ]
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        print_r($result);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+    }
+    ```
+
+- BX24.js
+
+    ```js
     BX24.callMethod(
-        'imbot.message.add',
+        'im.message.add',
         {
             DIALOG_ID: 'chat20921',
             MESSAGE: 'Блок текста',
             ATTACH: [
-                MESSAGE: "API будет доступно в обновлении [B]im 24.0.0[/B]"
+                {
+                    MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                }
             ]
-            
         },
-        function(result){
-            if(result.error())
-            {
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
     );
     ```
 
-- PHP
-
-    {% include [Пояснение о restCommand](../../_includes/rest-command.md) %}
+- PHP CRest
 
     ```php
-    restCommand(
-        'imbot.message.add',
-        Array(
-            "DIALOG_ID" => $_REQUEST['data']['PARAMS']['DIALOG_ID'],
-            "MESSAGE" => "Блок текста",
-            "ATTACH" => Array(
-                "MESSAGE" => "API будет доступно в обновлении [B]im 24.0.0[/B]"
-            )
-        ),
-        $_REQUEST["auth"]
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.message.add',
+        [
+            'DIALOG_ID' => 'chat20921',
+            'MESSAGE' => 'Блок текста',
+            'ATTACH' => [
+                [
+                    'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                ]
+            ]
+        ]
     );
+
+    print_r($result);
     ```
 
 {% endlist %}
 
+## Ограничения и ошибки
+
+- Максимальный размер сериализованного `ATTACH`: `60000` символов
+- При некорректной структуре возвращается ошибка `ATTACH_ERROR`
+- При превышении лимита возвращается ошибка `ATTACH_OVERSIZE`
+
+## Валидация ссылок
+
+В блоках вложения поддерживаются:
+
+- абсолютные URL: `http://` и `https://`
+- относительные URL от корня Битрикс: `/company/personal/user/1/`
+
 {% note warning %}
 
-Из-за сложности структуры, вложения автоматически не добавляются при отправке в XMPP, почту или в виде PUSH-уведомления на телефон.
+Содержимое `ATTACH` не транслируется автоматически в XMPP, email и push-уведомления.
 
 {% endnote %}
+
+## Продолжите изучение
+
+- [{#T}](./constructor.md)
+- [{#T}](./block-collections/index.md)
+- [{#T}](../im-message-add.md)
+- [{#T}](../im-message-update.md)
+- [{#T}](../../notifications/im-notify.md)
