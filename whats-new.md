@@ -6,6 +6,7 @@
 
 - Обновили методы в разделе [Телефония](./api-reference/telephony/index.md)
 - Обновили раздел [Вложения в сообщениях ATTACH](./api-reference/chats/messages/attachments/index.md)
+- Обновили метод [ imopenlines.session.history.get](./api-reference/imopenlines/openlines/sessions/imopenlines-session-history-get.md) в разделе Открытые линии
 
 ### 10 марта, 2026
 
