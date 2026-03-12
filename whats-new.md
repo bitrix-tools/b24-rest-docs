@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 12 марта, 2026
+
+- Обновили документацию по управлению карточками сделок [crm.deal.details.configuration.*](./api-reference/crm/deals/custom-form/index.md)
+- Обновили документацию по методам связи сделок с контактами [crm.deal.contact.*](./api-reference/crm/deals/contacts/index.md)
+
 ### 11 марта, 2026
 
 - Обновили методы в разделе [Телефония](./api-reference/telephony/index.md)
