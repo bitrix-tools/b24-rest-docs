@@ -9,7 +9,7 @@ items:
     href: voximplant-infocall-start-with-sound.md
   - name: Осуществить автозвонок голосовым роботом
     href: voximplant-infocall-start-with-text.md
-  - name: Получить список вариантов озвучки для голосового робота
+  - name: Получить список доступных голосов для синтеза речи 
     href: voximplant-tts-voices-get.md
   - name: События
     include:
@@ -27,7 +27,7 @@ items:
     include:
       path: users/b24-toc.yaml
       mode: link
-  - name: Получить ссылки на ключевые страницы телефонии
+  - name: Получить ссылки для навигации по страницам телефонии
     href: voximplant-url-get.md
 
 
