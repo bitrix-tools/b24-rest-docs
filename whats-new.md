@@ -4,6 +4,7 @@
 
 ### 12 марта, 2026
 
+- Обновили документацию по событиям [ONEXTERNALCALLBACKSTART](./api-reference/telephony/events/on-external-call-back-start.md), [ONEXTERNALCALLSTART](./api-reference/telephony/events/on-external-call-start.md), [ONVOXIMPLANTCALLEND](./api-reference/telephony/voximplant/events/on-voximplant-call-end.md), [ONVOXIMPLANTCALLINIT](./api-reference/telephony/voximplant/events/on-voximplant-call-init.md), [ONVOXIMPLANTCALLSTART](./api-reference/telephony/voximplant/events/on-voximplant-call-start.md)
 - Обновили документацию по управлению карточками сделок [crm.deal.details.configuration.*](./api-reference/crm/deals/custom-form/index.md)
 - Обновили документацию по методам связи сделок с контактами [crm.deal.contact.*](./api-reference/crm/deals/contacts/index.md)
 

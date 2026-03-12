@@ -6,6 +6,8 @@
 
 Метод `telephony.externalCall.register` регистрирует внешний звонок в Битрикс24.
 
+Для создания дела звонок необходимо также вызвать метод [telephony.externalcall.finish](./telephony-external-call-finish.md)
+
 {% note info "" %}
 
 Метод работает только в контексте [приложения](../../settings/app-installation/index.md)
@@ -57,7 +59,7 @@
 
 По умолчанию — `0` ||
 || **CRM_SOURCE**
-[`string`](../data-types.md) | Идентификатор источника CRM.
+[`string`](../data-types.md) | Идентификатор источника CRM (значение поля `STATUS_ID`).
 
 Список значений можно получить методом [crm.status.list](../crm/status/crm-status-list.md) с фильтром `ENTITY_ID: 'SOURCE'` ||
 || **CRM_ENTITY_TYPE**
@@ -93,11 +95,15 @@
 || **CALL_LIST_ID**
 [`integer`](../data-types.md) | Идентификатор [списка обзвона](../crm/call-list/index.md), к которому привязывается звонок.
 
-Идентификатор можно получить методом [crm.calllist.list](../crm/call-list/crm-calllist-list.md) ||
+Если звонок инициирован из обзвона, передавайте идентификатор, полученный в событии [ONEXTERNALCALLSTART](./events/on-external-call-start.md).
+
+Список доступных обзвонов можно получить методом [crm.calllist.list](../crm/call-list/crm-calllist-list.md) ||
 || **LINE_NUMBER**
 [`string`](../data-types.md) | Номер внешней линии.
 
-Номер можно получить методом [telephony.externalLine.get](./telephony-external-line-get.md) ||
+Номер линии можно получить методом [telephony.externalLine.get](./telephony-external-line-get.md).
+
+Параметр не является обязательным, но рекомендуется передавать его всегда, особенно для входящих звонков, чтобы корректно работали привязка линии и отчеты/аналитика телефонии ||
 || **EXTERNAL_CALL_ID**
 [`string`](../data-types.md) | Внешний идентификатор звонка на стороне АТС/интеграции. Используется для дедупликации повторной регистрации ||
 |#

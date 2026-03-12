@@ -20,9 +20,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **CALL_ID***
-[`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md). ||
+[`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md) ||
 || **USER_ID***
 [`integer`](../data-types.md) | Идентификатор пользователя, который завершает звонок.
+
+Пользователь также назначается ответственным за CRM-объекты, которые были автоматически созданы в рамках звонка. Для ранее существовавших CRM-объектов ответственный не изменяется.
 
 Идентификатор можно получить методом [user.get](../user/user-get.md) ||
 || **USER_PHONE_INNER***

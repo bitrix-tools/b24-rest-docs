@@ -16,7 +16,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **CALL_ID***
-[`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md) ||
+[`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md).
+
+Если вызвать метод повторно для одного и того же звонка, новая запись заменит ранее прикрепленную ||
 || **RECORD_URL**
 [`string`](../data-types.md) | URL записи на внешнем сервере. Если параметр передан, Битрикс24 скачивает файл по ссылке.
 
