@@ -14,4 +14,4 @@
 
 Впрочем, даже если попытаться это сделать, то ничего не получится, поскольку это JS-метод библиотеки, которая работает только в рамках фреймов интерфейса приложения в браузере, а callback-обработчик приложения вызывается с backend Битрикс24. Никакой браузер в этом процессе не участвует.
 
-Подробнее про процесс создания callbakc-приложения с мастером настройки вы можете прочитать [здесь](https://apidocs.bitrix24.ru/settings/app-installation/mass-market-apps/rest-only-installation-master.html)
+Подробнее про процесс создания callback-приложения с мастером настройки вы можете прочитать [здесь](https://apidocs.bitrix24.ru/settings/app-installation/mass-market-apps/rest-only-installation-master.html)
