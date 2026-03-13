@@ -1,4 +1,4 @@
-# Получить сообщения чата и диалога imopenlines.session.history.get
+# Получить историю сообщений диалога imopenlines.session.history.get
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >

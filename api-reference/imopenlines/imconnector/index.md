@@ -96,7 +96,6 @@
     || [imconnector.update.messages](imconnector-update-messages.md) | Изменить отправленные сообщения ||
     || [imconnector.delete.messages](imconnector-delete-messages.md) | Удалить отправленные сообщения ||
     || [imconnector.send.status.delivery](imconnector-send-status-delivery.md) | Обновить статус `доставлено` ||
-    || [imconnector.send.status.reading](imconnector-send-status-reading.md) | Обновить статус `прочитано` ||
     || [imconnector.chat.name.set](imconnector-chat-name-set.md) | Установить новое имя чата ||
     |#
 

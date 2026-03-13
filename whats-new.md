@@ -6,6 +6,7 @@
 
 - Добавили документацию по методам работы с [шаблонами задач](./api-reference/tasks/template/index.md)
 - Добавили документацию по методам работы с [чек-листами шаблонов задач](./api-reference/tasks/template/index.md)
+- Обновили документацию по методам [imconnector.*](./api-reference/imopenlines/imconnector/index.md) в разделе Коннекторы открытых линий
 
 ### 12 марта, 2026
 
@@ -18,7 +19,7 @@
 
 - Обновили методы в разделе [Телефония](./api-reference/telephony/index.md)
 - Обновили раздел [Вложения в сообщениях ATTACH](./api-reference/chats/messages/attachments/index.md)
-- Обновили метод [ imopenlines.session.history.get](./api-reference/imopenlines/openlines/sessions/imopenlines-session-history-get.md) в разделе Открытые линии
+- Обновили метод [imopenlines.session.history.get](./api-reference/imopenlines/openlines/sessions/imopenlines-session-history-get.md) в разделе Открытые линии
 
 ### 10 марта, 2026
 
