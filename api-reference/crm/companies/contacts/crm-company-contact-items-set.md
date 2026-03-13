@@ -14,7 +14,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор компании
+[`integer`](../../../data-types.md) | Идентификатор компании.
 
 Идентификатор можно получить с помощью методов [crm.company.list](../crm-company-list.md) или [crm.company.add](../crm-company-add.md)
 ||

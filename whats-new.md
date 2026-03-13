@@ -6,6 +6,7 @@
 
 - Добавили документацию по методам работы с [шаблонами задач](./api-reference/tasks/template/index.md)
 - Добавили документацию по методам работы с [чек-листами шаблонов задач](./api-reference/tasks/template/index.md)
+- Обновили документацию по методам работы с [контактами компаний](./api-reference/crm/companies/contacts/index.md)
 
 ### 12 марта, 2026
 
