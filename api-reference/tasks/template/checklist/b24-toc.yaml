@@ -1,0 +1,29 @@
+title: Чек-листы шаблонов задач
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить пункт чек-листа
+    href: tasks-template-checklist-add.md
+  - name: Изменить пункт чек-листа
+    href: tasks-template-checklist-update.md
+  - name: Получить пункт чек-листа
+    href: tasks-template-checklist-get.md
+  - name: Получить список пунктов чек-листа
+    href: tasks-template-checklist-list.md
+  - name: Удалить пункт чек-листа
+    href: tasks-template-checklist-delete.md
+  - name: Переместить пункт после другого
+    href: tasks-template-checklist-move-after.md
+  - name: Переместить пункт перед другим
+    href: tasks-template-checklist-move-before.md
+  - name: Отметить пункт как выполненный
+    href: tasks-template-checklist-complete.md
+  - name: Отметить пункт как невыполненный
+    href: tasks-template-checklist-renew.md
+  - name: Добавить вложение из содержимого
+    href: tasks-template-checklist-add-attachment-by-content.md
+  - name: Добавить вложения из Диска
+    href: tasks-template-checklist-add-attachments-from-disk.md
+  - name: Удалить вложения
+    href: tasks-template-checklist-remove-attachments.md

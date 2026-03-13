@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 13 марта, 2026
+
+- Добавили документацию по методам работы с [шаблонами задач](./api-reference/tasks/template/index.md)
+- Добавили документацию по методам работы с [чек-листами шаблонов задач](./api-reference/tasks/template/index.md)
+
 ### 12 марта, 2026
 
 - Обновили документацию по методам [voximplant.sip.connector.status](./api-reference/telephony/voximplant/sip/voximplant-sip-connector-status.md), [voximplant.sip.status](./api-reference/telephony/voximplant/sip/voximplant-sip-status.md), [voximplant.tts.voices.get](./api-reference/telephony/voximplant/voximplant-tts-voices-get.md), [voximplant.url.get](./api-reference/telephony/voximplant/voximplant-url-get.md)
