@@ -7,7 +7,7 @@ items:
     href: imopenlines-session-start.md
   - name: Присоединиться к диалогу
     href: imopenlines-session-join.md
-  - name: Получить сообщения чата и диалога
+  - name: Получить историю сообщений диалога
     href: imopenlines-session-history-get.md
   - name: Забрать диалог у текущего оператора
     href: imopenlines-session-intercept.md
