@@ -6,7 +6,7 @@
 > 
 > Пользовательская документация: [задачи Битрикс24](https://helpdesk.bitrix24.ru/open/17962166/) 
 
-В [REST 3.0](../index.md) методы задач получили обновленную архитектуру, унифицированный формат ответов и поддержку связей между объектами. Сейчас REST 3.0 охватывает только базовые операции: создание, удаление, изменение и получение задач. Все, что связано с чек-листами, временем, результатами и историей, доступно в REST v2.
+В [REST 3.0](../index.md) методы задач получили обновленную архитектуру, унифицированный формат ответов и поддержку связей между объектами. Сейчас REST 3.0 охватывает базовые операции над задачами, работу с чатом задачи, прикрепление файлов и методы получения схемы полей (`*.field.list` / `*.field.get`). Все, что связано с чек-листами, временем, результатами и историей, доступно в REST v2.
 
 ## Карточка задачи
 
@@ -156,7 +156,15 @@
 || [tasks.task.chat.message.send](./tasks-task-chat-message-send.md) | Отправляет сообщение в чат задачи ||
 || [tasks.task.update](./tasks-task-update.md) | Обновляет задачу ||
 || [tasks.task.delete](./tasks-task-delete.md) | Удаляет задачу ||
-|| [tasks.task.access.get](./tasks-task-get.md) | Проверяет права доступа к задаче ||
+|| [tasks.task.access.get](./tasks-task-access-get.md) | Проверяет права доступа к задаче ||
+|| [tasks.task.field.list](./tasks-task-field-list.md) | Возвращает список полей задачи ||
+|| [tasks.task.field.get](./tasks-task-field-get.md) | Возвращает описание поля задачи по имени ||
+|| [tasks.task.access.field.list](./tasks-task-access-field-list.md) | Возвращает список полей прав доступа задачи ||
+|| [tasks.task.access.field.get](./tasks-task-access-field-get.md) | Возвращает описание поля прав доступа задачи по имени ||
+|| [tasks.task.file.field.list](./tasks-task-file-field-list.md) | Возвращает список полей файлов задачи ||
+|| [tasks.task.file.field.get](./tasks-task-file-field-get.md) | Возвращает описание поля файлов задачи по имени ||
+|| [tasks.task.chat.message.field.list](./tasks-task-chat-message-field-list.md) | Возвращает список полей сообщения чата задачи ||
+|| [tasks.task.chat.message.field.get](./tasks-task-chat-message-field-get.md) | Возвращает описание поля сообщения чата задачи по имени ||
 |#
 
 ## Продолжить изучение

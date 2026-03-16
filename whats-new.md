@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 16 марта, 2026
+
+- Добавили документацию по методам REST 3.0 для получения полей [журнала событий](./api-reference/rest-v3/main/index.md) и [задач](./api-reference/rest-v3/tasks/index.md)
+
 ### 13 марта, 2026
 
 - Добавили документацию по методам работы с [шаблонами задач](./api-reference/tasks/template/index.md)

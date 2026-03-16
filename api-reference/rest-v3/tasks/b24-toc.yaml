@@ -10,12 +10,28 @@ items:
   - name: Обновить задачу
     href: tasks-task-update.md
   - name: Отправить сообщение в чат задачи
-    href: tasks-task-chat-message-send.md        
+    href: tasks-task-chat-message-send.md
   - name: Прикрепить файлы к задаче
-    href: tasks-task-file-attach.md    
+    href: tasks-task-file-attach.md
   - name: Получить задачу
     href: tasks-task-get.md
   - name: Удалить задачу
     href: tasks-task-delete.md
   - name: Проверить права доступа
-    href: tasks-task-access-get.md    
+    href: tasks-task-access-get.md
+  - name: Получить список полей задачи
+    href: tasks-task-field-list.md
+  - name: Получить поле задачи
+    href: tasks-task-field-get.md
+  - name: Получить список полей прав доступа задачи
+    href: tasks-task-access-field-list.md
+  - name: Получить поле прав доступа задачи
+    href: tasks-task-access-field-get.md
+  - name: Получить список полей файлов задачи
+    href: tasks-task-file-field-list.md
+  - name: Получить поле файлов задачи
+    href: tasks-task-file-field-get.md
+  - name: Получить список полей сообщения чата задачи
+    href: tasks-task-chat-message-field-list.md
+  - name: Получить поле сообщения чата задачи
+    href: tasks-task-chat-message-field-get.md

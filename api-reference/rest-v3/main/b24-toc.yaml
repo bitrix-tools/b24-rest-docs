@@ -9,3 +9,7 @@ items:
     href: main-eventlog-get.md
   - name: Получить новые записи журнала
     href: main-eventlog-tail.md
+  - name: Получить список полей журнала событий
+    href: main-eventlog-field-list.md
+  - name: Получить поле журнала событий
+    href: main-eventlog-field-get.md

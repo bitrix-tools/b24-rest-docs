@@ -40,7 +40,7 @@
 
 Вызов нового api отличается добавлением параметра `/api/` в запросе:
 
-`https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/tasks.task.chat.message.send`
+`https://{адрес}/rest/api/{id_пользователя}/{токен_вебхука}/tasks.task.chat.message.send`
 
 {% endnote %}
 

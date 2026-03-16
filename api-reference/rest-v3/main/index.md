@@ -9,7 +9,8 @@
 Методы `main.eventlog.*` позволяют:
 - выгрузить события по фильтру, 
 - получить конкретную запись,
-- настроить регулярное получение новых данных.
+- настроить регулярное получение новых данных,
+- получить описание доступных полей записи журнала.
 
 ## Когда использовать каждый метод
 
@@ -27,6 +28,11 @@
 - синхронизировать внешнюю систему с журналом,
 - отслеживать новые события после определенной границы.
 
+Используйте [main.eventlog.field.list](./main-eventlog-field-list.md) и [main.eventlog.field.get](./main-eventlog-field-get.md), когда нужно:
+- узнать доступные поля для `select`, `filter` и `order`,
+- получить типы и метаданные конкретного поля,
+- автоматически строить интерфейсы фильтрации и таблиц.
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`main`](../../scopes/permissions.md)
@@ -38,6 +44,8 @@
 || [main.eventlog.list](./main-eventlog-list.md) | Возвращает список записей журнала по фильтру||
 || [main.eventlog.get](./main-eventlog-get.md) | Возвращает запись журнала по идентификатору ||
 || [main.eventlog.tail](./main-eventlog-tail.md) | Возвращает новые записи журнала после точки отсчета ||
+|| [main.eventlog.field.list](./main-eventlog-field-list.md) | Возвращает список полей записи журнала ||
+|| [main.eventlog.field.get](./main-eventlog-field-get.md) | Возвращает описание поля записи журнала по имени ||
 |#
 
 ## Продолжить изучение
@@ -45,4 +53,6 @@
 - [{#T}](./main-eventlog-list.md)
 - [{#T}](./main-eventlog-get.md)
 - [{#T}](./main-eventlog-tail.md)
+- [{#T}](./main-eventlog-field-list.md)
+- [{#T}](./main-eventlog-field-get.md)
 - [{#T}](../index.md)
