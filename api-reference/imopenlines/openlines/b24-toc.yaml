@@ -11,14 +11,14 @@ items:
     href: imopenlines-config-get.md
   - name: Получить список открытых линий
     href: imopenlines-config-list-get.md
-  - name: Получить ссылку на публичную страницу открытых линий портала
-    href: imopenlines-config-path-get.md
+  - name: Удалить открытую линию
+    href: imopenlines-config-delete.md
   - name: Подключить внешнюю открытую линию к порталу
     href: imopenlines-network-join.md
   - name: Отправить сообщение пользователю от имени открытой линии
     href: imopenlines-network-message-add.md
-  - name: Удалить открытую линию
-    href: imopenlines-config-delete.md
+  - name: Получить ссылку на публичную страницу открытых линий портала
+    href: imopenlines-config-path-get.md
   - name: Чаты
     include:
       path: chats/b24-toc.yaml
