@@ -2,6 +2,13 @@
 
 ## 2026
 
+### 17 марта, 2026
+
+- Обновили документацию по методам [voximplant.line.*](./api-reference/telephony/voximplant/lines/index.md) в разделе Управление линиями
+- Обновили документацию по методам [voximplant.sip.*](./api-reference/telephony/voximplant/sip/index.md) в разделе Управление SIP-подключениями
+- Обновили документацию по методам [voximplant.user.*](./api-reference/telephony/voximplant/users/index.md) в разделе Управление пользователями
+- Обновили документацию по методам [voximplant.callback.start](./api-reference/telephony/voximplant/voximplant-callback-start.md), [voximplant.infocall.startwithsound](./api-reference/telephony/voximplant/voximplant-infocall-start-with-sound.md), [voximplant.infocall.startwithtext](./api-reference/telephony/voximplant/voximplant-infocall-start-with-text.md)
+
 ### 16 марта, 2026
 
 - Добавили документацию по методам REST 3.0 для получения полей [журнала событий](./api-reference/rest-v3/main/index.md) и [задач](./api-reference/rest-v3/tasks/index.md)

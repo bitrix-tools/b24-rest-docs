@@ -1,61 +1,61 @@
-# Получить текущую выбранную линию в качестве исходящей линии по умолчанию voximplant.line.outgoing.get
+# Получить линию для исходящих звонков voximplant.line.outgoing.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правом Управление номерами — изменение
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `voximplant.line.outgoing.get` возвращает идентификатор текущей исходящей линии по умолчанию.
 
-{% endnote %}
+## Параметры метода
 
-{% if build == 'dev' %}
+Без параметров.
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+## Примеры кода
 
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% include notitle [Скоуп telephony all](../../_includes/scope-telephony-all.md) %}
-
-Метод `voximplant.line.outgoing.get` возвращает текущую выбранную линии в качестве исходящей линии по умолчанию. Метод доступен обладателю [права](https://helpdesk.bitrix24.ru/open/18177766/) `Управление номерами - изменение - любые`.
-
-Входных параметров нет.
-
-## Пример
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/voximplant.line.outgoing.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/voximplant.line.outgoing.get
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'voximplant.line.outgoing.get',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	if(result.error())
-    	{
-    		console.error(result.error());
-    	}
-    	else
-    	{
-    		console.info(result);
-    	}
+        const response = await $b24.callMethod(
+            'voximplant.line.outgoing.get',
+            {}
+        );
+
+        const result = response.getData().result;
+        console.log('Data:', result);
     }
-    catch(error)
+    catch (error)
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -65,20 +65,15 @@
                 'voximplant.line.outgoing.get',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting outgoing lines: ' . $e->getMessage();
+        echo 'Error: ' . $e->getMessage();
     }
     ```
 
@@ -90,18 +85,97 @@
         {},
         function(result)
         {
-            if(result.error())
-                console.error(result.error());
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
             else
-                console.info(result.data());
+            {
+                console.log(result.data());
+            }
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'voximplant.line.outgoing.get',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-Возвращает идентификатор линии (цифровой для арендованных, regXXX - для Облачных АТС, sipXXX - для Офисных АТС).
+```json
+{
+    "result": "reg150907",
+    "time": {
+        "start": 1773664360,
+        "finish": 1773664360.248223,
+        "duration": 0.24822306632995605,
+        "processing": 0,
+        "date_start": "2026-03-16T15:32:40+03:00",
+        "date_finish": "2026-03-16T15:32:40+03:00",
+        "operating_reset_at": 1773664960,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`string`](../../../data-types.md) | Идентификатор текущей исходящей линии.
+
+Возможные форматы:
+
+- `XXX` — номер арендованной линии
+- `regXXX` — для облачной SIP-линии
+- `sipXXX` — для офисной SIP-линии ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied!"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для получения исходящей линии по умолчанию ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./voximplant-line-get.md)
+- [{#T}](./voximplant-line-outgoing-get.md)
+- [{#T}](./voximplant-line-outgoing-set.md)
+- [{#T}](./voximplant-line-outgoing-sip-set.md)

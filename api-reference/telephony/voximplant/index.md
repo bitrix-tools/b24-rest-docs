@@ -10,7 +10,7 @@
 
 {% note alert "TO-DO _не выгружается на prod_" %}
 
-- вводное слово о том, что есть встроенная телефония и sip-коннектор, о том, какие именно сценарии доступны через рест в этих вариантах работы с телефонией
+- вводное слово о том, что есть встроенная телефония и SIP-коннектор, о том, какие именно сценарии доступны через рест в этих вариантах работы с телефонией
 
 {% endnote %}
 
@@ -46,20 +46,19 @@
 ## Управление пользователями 
 
 #|
-|| [voximplant.user.activatePhone](./users/voximplant-user-activate-phone.md) | Устанавливает сотруднику признаки наличия sip-аппарата ||
-|| [voximplant.user.deactivatePhone](./users/voximplant-user-deactivate-phone.md) | Отключает сотруднику признаки наличия sip-аппарата ||
+|| [voximplant.user.activatePhone](./users/voximplant-user-activate-phone.md) | Устанавливает сотруднику признаки наличия SIP-аппарата ||
 || [voximplant.user.get](./users/voximplant-user-get.md) | Получает настройки пользователей ||
 |#
 
 ## Управление SIP-подключениями
 
 #|
-|| [voximplant.sip.add](./sip/voximplant-sip-add.md) | Создает новую sip-линию с привязкой к приложению ||
+|| [voximplant.sip.add](./sip/voximplant-sip-add.md) | Создает новую SIP-линию с привязкой к приложению ||
 || [voximplant.sip.connector.status](./sip/voximplant-sip-connector-status.md) | Получает текущий статус SIP-Коннектора ||
-|| [voximplant.sip.delete](./sip/voximplant-sip-delete.md) | Удаляет существующую sip-линию ||
-|| [voximplant.sip.get](./sip/voximplant-sip-get.md) | Получает список всех sip-линий, созданных приложением ||
-|| [voximplant.sip.status](./sip/voximplant-sip-status.md) | Получает текущий статус sip-регистрации (только для облачных АТС) ||
-|| [voximplant.sip.update](./sip/voximplant-sip-update.md) | Изменяет существующую sip-линию ||
+|| [voximplant.sip.delete](./sip/voximplant-sip-delete.md) | Удаляет существующую SIP-линию ||
+|| [voximplant.sip.get](./sip/voximplant-sip-get.md) | Получает список всех SIP-линий, созданных приложением ||
+|| [voximplant.sip.status](./sip/voximplant-sip-status.md) | Получает текущий статус SIP-регистрации (только для облачных АТС) ||
+|| [voximplant.sip.update](./sip/voximplant-sip-update.md) | Изменяет существующую SIP-линию ||
 |#
 
 # Управление линиями
@@ -68,5 +67,5 @@
 || [voximplant.line.get](./lines/voximplant-line-get.md) | Получает список всех доступных исходящих линий ||
 || [voximplant.line.outgoing.get](./lines/voximplant-line-outgoing-get.md) | Получает текущую выбранную линию в качестве исходящей линии по умолчанию ||
 || [voximplant.line.outgoing.set](./lines/voximplant-line-outgoing-set.md) | Устанавливает выбранную линию в качестве исходящей линии по умолчанию ||
-|| [voximplant.line.outgoing.sip.set](./lines/voximplant-line-outgoing-sip-set.md) | Устанавливает выбранную sip-линию в качестве исходящей линии по умолчанию ||
+|| [voximplant.line.outgoing.sip.set](./lines/voximplant-line-outgoing-sip-set.md) | Устанавливает выбранную SIP-линию в качестве исходящей линии по умолчанию ||
 |#
