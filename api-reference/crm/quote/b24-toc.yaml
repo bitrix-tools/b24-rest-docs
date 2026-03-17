@@ -5,16 +5,16 @@ items:
     href: index.md
   - name: Добавить коммерческое предложение
     href: crm-quote-add.md
-  - name: Удалить коммерческое предложение
-    href: crm-quote-delete.md
-  - name: Получить поля коммерческого предложения
-    href: crm-quote-fields.md
+  - name: Изменить коммерческое предложение
+    href: crm-quote-update.md
   - name: Получить коммерческое предложение по идентификатору
     href: crm-quote-get.md
   - name: Получить список предложений по фильтру
     href: crm-quote-list.md
-  - name: Изменить коммерческое предложение
-    href: crm-quote-update.md
+  - name: Удалить коммерческое предложение
+    href: crm-quote-delete.md
+  - name: Получить поля коммерческого предложения
+    href: crm-quote-fields.md
   - name: Получить товарные позиции предложения
     href: crm-quote-product-rows-get.md
   - name: Создать/изменить товарные позиции предложения

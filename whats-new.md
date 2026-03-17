@@ -4,6 +4,7 @@
 
 ### 17 марта, 2026
 
+- Обновили документацию по методам работы с коммерческими предложениями [crm.quote.*](./api-reference/crm/quote/index.md)
 - Обновили документацию по методам [voximplant.line.*](./api-reference/telephony/voximplant/lines/index.md) в разделе Управление линиями
 - Обновили документацию по методам [voximplant.sip.*](./api-reference/telephony/voximplant/sip/index.md) в разделе Управление SIP-подключениями
 - Обновили документацию по методам [voximplant.user.*](./api-reference/telephony/voximplant/users/index.md) в разделе Управление пользователями

@@ -59,7 +59,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: в зависимости от метода
 
 ### Основные
 
@@ -73,7 +73,7 @@
     || [crm.quote.update](./crm-quote-update.md) | Изменяет существующее предложение ||
     || [crm.quote.get](./crm-quote-get.md) | Возвращает коммерческое предложение по идентификатору ||
     || [crm.quote.list](./crm-quote-list.md) | Возвращает список предложений по фильтру||
-    || [crm.quote.delete](./crm-quote-delete.md) | Удаляет предложение и все связанные с ним объекты ||
+    || [crm.quote.delete](./crm-quote-delete.md) | Удаляет коммерческое предложение ||
     || [crm.quote.fields](./crm-quote-fields.md) | Возвращает описание полей коммерческого предложения ||
     || [crm.quote.productrows.get](./crm-quote-product-rows-get.md) | Возвращает товарные позиции предложения ||
     || [crm.quote.productrows.set](./crm-quote-product-rows-set.md) | Устанавливает (создаёт или обновляет) товарные позиции предложения ||
@@ -90,7 +90,7 @@
 
 {% endlist %}
 
-### Пользователськие поля
+### Пользовательские поля
 
 {% list tabs %}
 
