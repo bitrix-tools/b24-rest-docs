@@ -1,29 +1,16 @@
-# Открепить все диалоги от оператора imopenlines.session.mode.unpinAll
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Открепить все закрепленные диалоги оператора imopenlines.session.mode.unpinAll
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Открепление всех диалогов от текущего оператора. Возвращает массив идентификаторов откреплённых сессий.
+Метод `imopenlines.session.mode.unpinAll` открепляет от текущего оператора все доступные закрепленные диалоги.
 
-## Примеры
+## Параметры метода
+
+Без параметров.
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -31,35 +18,40 @@
 
 - cURL (Webhook)
 
-    // пример для cURL (Webhook)
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.session.mode.unpinAll.json
+    ```
 
 - cURL (OAuth)
 
-    // пример для cURL (OAuth)
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"auth":"<access_token>"}' \
+      https://your-domain.bitrix24.ru/rest/imopenlines.session.mode.unpinAll.json
+    ```
 
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'imopenlines.session.mode.unpinAll',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.warn(error.ex);
-    	return false;
+    try {
+        const response = await $b24.callMethod(
+            'imopenlines.session.mode.unpinAll',
+            {}
+        );
+
+        const { result } = response.getData();
+        console.log(result);
+    } catch (error) {
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -69,21 +61,19 @@
                 'imopenlines.session.mode.unpinAll',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
-            echo 'Warning: ' . $result->error()->ex;
-            return false;
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
         }
-    
-        echo 'Success: ' . print_r($result->data(), true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error unpinning all sessions: ' . $e->getMessage();
+    } catch (Throwable $exception) {
+        error_log($exception->getMessage());
+        echo 'Error unpinning all dialogs: ' . $exception->getMessage();
     }
     ```
 
@@ -93,31 +83,83 @@
     BX24.callMethod(
         'imopenlines.session.mode.unpinAll',
         {},
-        function(result)
-        {
-            if(result.error())
-            {
-                console.warn(result.error().ex);
-                return false;
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
             }
-            console.log(result.data());
         }
     );
     ```
 
 - PHP CRest
 
-    // пример для php
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imopenlines.session.mode.unpinAll',
+        []
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Success: ' . print_r($result['result'], true);
+    }
+    ```
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
+
+HTTP-статус: **200**
 
 ```json
 {
-    "result":[
-        1652,
-        1653
-    ]
+    "result": [339, 337],
+    "time": {
+        "start": 1773678534,
+        "finish": 1773678534.706514,
+        "duration": 0.7065138816833496,
+        "processing": 0,
+        "date_start": "2026-03-16T19:28:54+03:00",
+        "date_finish": "2026-03-16T19:28:54+03:00",
+        "operating_reset_at": 1773679134,
+        "operating": 0.3442521095275879
+    }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`integer[]`](../../../data-types.md) | Массив идентификаторов сессий, которые удалось открепить ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./imopenlines-session-open.md)
+- [{#T}](./imopenlines-session-start.md)
+- [{#T}](./imopenlines-session-join.md)
+- [{#T}](./imopenlines-session-history-get.md)
+- [{#T}](./imopenlines-session-intercept.md)
+- [{#T}](./imopenlines-session-mode-pin.md)
+- [{#T}](./imopenlines-session-mode-pin-all.md)
+- [{#T}](./imopenlines-session-mode-silent.md)
+- [{#T}](./imopenlines-session-head-vote.md)
+- [{#T}](./imopenlines-message-session-start.md)
+- [{#T}](./imopenlines-crm-lead-create.md)
+- [{#T}](./imopenlines-dialog-get.md)

@@ -19,17 +19,17 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [imopenlines.crm.lead.create](./imopenlines-crm-lead-create.md) | Создает лид на основании диалога ||
-|| [imopenlines.dialog.get](./imopenlines-dialog-get.md) | Получает информацию о диалоге (чате) оператора открытой линии ||
-|| [imopenlines.message.session.start](./imopenlines-message-session-start.md) | Начинает новый диалог на основании сообщения ||
-|| [imopenlines.session.head.vote](./imopenlines-session-head-vote.md) | Ставит оценку работе сотрудника в диалоге ||
-|| [imopenlines.session.history.get](./imopenlines-session-history-get.md) | Получает сообщения чата и диалога ||
-|| [imopenlines.session.intercept](./imopenlines-session-intercept.md) | Забирает диалог у текущего оператора ||
-|| [imopenlines.session.join](./imopenlines-session-join.md) | Присоединяется к диалогу ||
-|| [imopenlines.session.mode.pinAll](./imopenlines-session-mode-pin-all.md) | Закрепляет все доступные диалоги за оператором ||
-|| [imopenlines.session.mode.pin](./imopenlines-session-mode-pin.md) | Закрепляет или открепляет диалог ||
-|| [imopenlines.session.mode.silent](./imopenlines-session-mode-silent.md) | Переключает диалог в «скрытый» режим ||
-|| [imopenlines.session.mode.unpinAll](./imopenlines-session-mode-unpin-all.md) | Открепляет все диалоги от оператора ||
-|| [imopenlines.session.open](./imopenlines-session-open.md) | Получает чат по символьному коду ||
-|| [imopenlines.session.start](./imopenlines-session-start.md) | Начинает новый диалог ||
+|| [imopenlines.crm.lead.create](./imopenlines-crm-lead-create.md) | Создает лид CRM по чату открытой линии ||
+|| [imopenlines.dialog.get](./imopenlines-dialog-get.md) | Возвращает данные диалога оператора по одному из идентификаторов ||
+|| [imopenlines.message.session.start](./imopenlines-message-session-start.md) | Запускает новую сессию и переносит в нее выбранное сообщение ||
+|| [imopenlines.session.head.vote](./imopenlines-session-head-vote.md) | Сохраняет оценку руководителя по завершенной сессии ||
+|| [imopenlines.session.history.get](./imopenlines-session-history-get.md) | Возвращает историю сообщений и данные сессии ||
+|| [imopenlines.session.intercept](./imopenlines-session-intercept.md) | Переводит диалог на текущего оператора ||
+|| [imopenlines.session.join](./imopenlines-session-join.md) | Присоединяет текущего оператора к диалогу ||
+|| [imopenlines.session.mode.pinAll](./imopenlines-session-mode-pin-all.md) | Закрепляет все доступные диалоги за текущим оператором ||
+|| [imopenlines.session.mode.pin](./imopenlines-session-mode-pin.md) | Закрепляет или открепляет выбранный диалог ||
+|| [imopenlines.session.mode.silent](./imopenlines-session-mode-silent.md) | Включает или выключает скрытый режим диалога ||
+|| [imopenlines.session.mode.unpinAll](./imopenlines-session-mode-unpin-all.md) | Открепляет все закрепленные диалоги текущего оператора ||
+|| [imopenlines.session.open](./imopenlines-session-open.md) | Открывает чат открытой линии по коду пользователя ||
+|| [imopenlines.session.start](./imopenlines-session-start.md) | Запускает новую сессию в текущем чате ||
 |#

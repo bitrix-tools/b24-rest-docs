@@ -1,48 +1,35 @@
 # Поставить оценку работе сотрудника в диалоге imopenlines.session.head.vote
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: руководитель, у которого есть право оценки в настройках линии
 
-Метод для оценки диалога руководителем.
+Метод `imopenlines.session.head.vote` сохраняет оценку руководителя и комментарий по завершенному диалогу.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Пример** | **Описание** ||
+`тип` | **Описание** ||
 || **SESSION_ID***
-[`unknown`](../../../data-types.md) | `494` | Идентификатор сессии ||
+[`integer`](../../../data-types.md) | Идентификатор сессии. 
+
+Идентификатор можно получить методом [imopenlines.session.history.get](./imopenlines-session-history-get.md) в поле `sessionId` ||
 || **RATING**
-[`unknown`](../../../data-types.md) | `5` | Количество звёзд от 1 до 5 ||
+[`integer`](../../../data-types.md) | Оценка руководителя. Передайте значение от `1` до `5` ||
 || **COMMENT**
-[`unknown`](../../../data-types.md) | `Молодец` | Комментарий руководителя ||
+[`string`](../../../data-types.md) | Комментарий руководителя к оценке ||
 |#
 
-**Обратите внимание:** несмотря на то, что два параметра не обязательны, как минимум один из них должен быть заполнен.
+{% note info "" %}
 
-## Примеры
+Необходимо передать хотя бы один из параметров: `RATING` или `COMMENT`.
+
+{% endnote %} 
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -50,36 +37,45 @@
 
 - cURL (Webhook)
 
-    // пример для cURL (Webhook)
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"SESSION_ID":1743,"RATING":5,"COMMENT":"Отличная обработка"}' \
+      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.session.head.vote.json
+    ```
 
 - cURL (OAuth)
 
-    // пример для cURL (OAuth)
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"SESSION_ID":1743,"RATING":5,"COMMENT":"Отличная обработка","auth":"<access_token>"}' \
+      https://your-domain.bitrix24.ru/rest/imopenlines.session.head.vote.json
+    ```
 
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'imopenlines.session.head.vote',
-    		{
-    			CHAT_ID: 2024
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.error(error.ex);
+    try {
+        const response = await $b24.callMethod(
+            'imopenlines.session.head.vote',
+            {
+                SESSION_ID: 1743,
+                RATING: 5,
+                COMMENT: 'Отличная обработка',
+            }
+        );
+
+        const { result } = response.getData();
+        console.log(result);
+    } catch (error) {
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -88,23 +84,24 @@
             ->call(
                 'imopenlines.session.head.vote',
                 [
-                    'CHAT_ID' => 2024
+                    'SESSION_ID' => 1743,
+                    'RATING' => 5,
+                    'COMMENT' => 'Отличная обработка',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
-            error_log($result->error()->ex);
+            echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error voting for session head: ' . $e->getMessage();
+    } catch (Throwable $exception) {
+        error_log($exception->getMessage());
+        echo 'Error voting as head: ' . $exception->getMessage();
     }
     ```
 
@@ -114,16 +111,14 @@
     BX24.callMethod(
         'imopenlines.session.head.vote',
         {
-            CHAT_ID: 2024
+            SESSION_ID: 1743,
+            RATING: 5,
+            COMMENT: 'Отличная обработка',
         },
-        function(result)
-        {
-            if(result.error())
-            {
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
@@ -132,24 +127,93 @@
 
 - PHP CRest
 
-    // пример для php
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imopenlines.session.head.vote',
+        [
+            'SESSION_ID' => 1743,
+            'RATING' => 5,
+            'COMMENT' => 'Отличная обработка',
+        ]
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Success: ' . print_r($result['result'], true);
+    }
+    ```
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
+
+HTTP-статус: **200**
 
 ```json
-true
+{
+    "result": true,
+    "time": {
+        "start": 1773681878,
+        "finish": 1773681878.850923,
+        "duration": 0.8509230613708496,
+        "processing": 0,
+        "date_start": "2026-03-16T20:24:38+03:00",
+        "date_finish": "2026-03-16T20:24:38+03:00",
+        "operating_reset_at": 1773682478,
+        "operating": 0
+    }
+}
 ```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../../data-types.md) | Возвращает `true`, если оценка сохранена ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "EMPTY_VOTE_PARAMS",
+    "error_description": "At least one of the parameters RATING or COMMENT must be specified"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ACCESS_DENIED** | У текущего пользователя нет доступа к указанному чату ||
-|| **CHAT_TYPE** | Указанный чат не является открытой линией ||
-|| **CHAT_ID** | Указан не корректный идентификатор чата ||
-|| **WRONG_PARAMETER** | Как минимум один из необязательных параметров должен быть указан ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `EMPTY_SESSION_ID` | Session ID can't be empty | Не передан `SESSION_ID` или значение `<= 0` ||
+|| `400` | `EMPTY_VOTE_PARAMS` | At least one of the parameters RATING or COMMENT must be specified | Не переданы одновременно `RATING` и `COMMENT` ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Текущий пользователь не может оценить указанную сессию ||
 |#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./imopenlines-session-open.md)
+- [{#T}](./imopenlines-session-start.md)
+- [{#T}](./imopenlines-session-join.md)
+- [{#T}](./imopenlines-session-history-get.md)
+- [{#T}](./imopenlines-session-intercept.md)
+- [{#T}](./imopenlines-session-mode-pin.md)
+- [{#T}](./imopenlines-session-mode-pin-all.md)
+- [{#T}](./imopenlines-session-mode-unpin-all.md)
+- [{#T}](./imopenlines-session-mode-silent.md)
+- [{#T}](./imopenlines-message-session-start.md)
+- [{#T}](./imopenlines-crm-lead-create.md)
+- [{#T}](./imopenlines-dialog-get.md)

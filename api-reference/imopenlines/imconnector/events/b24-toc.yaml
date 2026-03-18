@@ -3,7 +3,7 @@ href: index.md
 items: 
   - name: Обзор событий
     href: index.md
-  - name: При получении новых сообщений
+  - name: При отправке сообщений
     href: on-im-connector-message-add.md
   - name: При создании диалога
     href: on-im-connector-dialog-start.md

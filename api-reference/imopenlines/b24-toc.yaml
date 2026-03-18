@@ -3,8 +3,6 @@ href: index.md
 items: 
   - name: Открытые линии Битрикс24
     href: index.md
-  - name: Типы данных и структура объектов в REST API Открытых линий
-    href: data-types.md
   - name: Сценарии с использованием открытых линий
     href: tutorials.md
   - name: Коннекторы открытых линий

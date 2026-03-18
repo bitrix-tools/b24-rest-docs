@@ -203,7 +203,7 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией, для которой он запрещен ||
+|| `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией, для которой он запрещен ||
 || `USER_ID_EMPTY` | User ID can't be empty | Параметр `USER_ID` не передан или `USER_ID <= 0` ||
 || `MESSAGE_EMPTY` | Message can't be empty | Не передан текст сообщения ||
 || `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен допустимый размер вложения `ATTACH` — 30 Кб ||

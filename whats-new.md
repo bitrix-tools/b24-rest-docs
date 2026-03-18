@@ -5,6 +5,10 @@
 ### 18 марта, 2026
 
 - Обновили документацию по методам [imopenlines.crm.chat.get](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get.md), [imopenlines.crm.chat.getLastId](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get-last-id.md), [imopenlines.crm.chat.user.add](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-add.md), [imopenlines.crm.chat.user.delete](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-delete.md) в разделе Чаты CRM
+- Обновили документацию по методам [imopenlines.session.*](./api-reference/imopenlines/openlines/sessions/imopenlines-session-open.md) в разделе Диалоги Открытых линий
+- Обновили документацию по методам [imopenlines.bot.session.*](./api-reference/imopenlines/openlines/chat-bots/index.md) в разделе Чат-боты Открытых линий
+- Обновили документацию по методам [imopenlines.operator.*](./api-reference/imopenlines/openlines/operators/index.md) в разделе Операторы Открытых линий
+- Обновили документацию по событиям [OnImConnector*](./api-reference/imopenlines/imconnector/events/index.md) в разделе Коннекторы Открытых линий
 
 ### 17 марта, 2026
 
