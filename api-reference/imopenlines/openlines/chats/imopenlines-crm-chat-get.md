@@ -1,51 +1,36 @@
-# Получить чат для объекта CRM imopenlines.crm.chat.get
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Получить чаты для объекта CRM imopenlines.crm.chat.get
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с доступом к объекту CRM
 
-Метод получает чаты для объекта CRM.
+Метод `imopenlines.crm.chat.get` получает список чатов, которые привязаны к объекту CRM.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **CRM_ENTITY_TYPE***
-[`string`](../../../data-types.md) | Тип объекта CRM: 
+[`string`](../../../data-types.md) | Тип объекта CRM. Возможные значения:
 - `lead` — лид
 - `deal` — сделка
 - `company` — компания
 - `contact` — контакт
- ||
+||
 || **CRM_ENTITY***
-[`integer`](../../../data-types.md) | Идентификатор объекта CRM ||
-|| **ACTIVE_ONLY**
-[`boolean`](../../../data-types.md) | Вернуть только активные чаты.
+[`integer`](../../../data-types.md) | Идентификатор объекта CRM.
 
-Возможные значения:
-- `Y` — вернет только активные чаты
-- `N` — вернет все чаты
- 
-По умолчанию — `Y` ||
+Получить идентификатор можно универсальным методом [получения списка элементов CRM](../../../crm/universal/crm-item-list.md) ||
+|| **ACTIVE_ONLY**
+[`char`](../../../data-types.md) | Флаг возврата только активных чатов. Возможные значения:
+- `Y` — вернуть только активные чаты
+- `N` — вернуть все чаты
+
+По умолчанию — `Y`
+||
 |#
 
 ## Примеры кода
@@ -58,48 +43,46 @@
 
     ```bash
     curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CRM_ENTITY_TYPE":"deal","CRM_ENTITY":288,"ACTIVE_ONLY":"N"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.crm.chat.get
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"CRM_ENTITY_TYPE":"lead","CRM_ENTITY":1205,"ACTIVE_ONLY":"N"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.crm.chat.get
     ```
 
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CRM_ENTITY_TYPE":"deal","CRM_ENTITY":288,"ACTIVE_ONLY":"N","auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/imopenlines.crm.chat.get
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"CRM_ENTITY_TYPE":"lead","CRM_ENTITY":1205,"ACTIVE_ONLY":"N","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.crm.chat.get
     ```
 
 - JS
 
-
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'imopenlines.crm.chat.get',
-    		{
-    			CRM_ENTITY_TYPE: 'deal',
-    			CRM_ENTITY: 288,
-    			ACTIVE_ONLY: 'N'
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+        const response = await $b24.callMethod(
+            'imopenlines.crm.chat.get',
+            {
+                CRM_ENTITY_TYPE: 'lead',
+                CRM_ENTITY: 1205,
+                ACTIVE_ONLY: 'N'
+            }
+        );
+
+        const result = response.getData().result;
+        console.log(result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error(error.ex);
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -108,25 +91,19 @@
             ->call(
                 'imopenlines.crm.chat.get',
                 [
-                    'CRM_ENTITY_TYPE' => 'deal',
-                    'CRM_ENTITY'      => 288,
-                    'ACTIVE_ONLY'     => 'N',
+                    'CRM_ENTITY_TYPE' => 'lead',
+                    'CRM_ENTITY' => 1205,
+                    'ACTIVE_ONLY' => 'N',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting CRM chat: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -136,14 +113,15 @@
     BX24.callMethod(
         'imopenlines.crm.chat.get',
         {
-            CRM_ENTITY_TYPE: 'deal',
-            CRM_ENTITY: 288,
+            CRM_ENTITY_TYPE: 'lead',
+            CRM_ENTITY: 1205,
             ACTIVE_ONLY: 'N'
         },
-        function(result) {
-            if(result.error())
+        function(result)
+        {
+            if (result.error())
             {
-                console.error(result.error().ex);
+                console.error(result.error());
             }
             else
             {
@@ -161,15 +139,13 @@
     $result = CRest::call(
         'imopenlines.crm.chat.get',
         [
-            'CRM_ENTITY_TYPE' => 'deal',
-            'CRM_ENTITY' => 288,
-            'ACTIVE_ONLY' => 'N'
+            'CRM_ENTITY_TYPE' => 'lead',
+            'CRM_ENTITY' => 1205,
+            'ACTIVE_ONLY' => 'N',
         ]
     );
 
-    echo '<PRE>';
     print_r($result);
-    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -182,11 +158,21 @@ HTTP-статус: **200**
 {
     "result": [
         {
-            "CHAT_ID": "9852",
+            "CHAT_ID": "1763",
             "CONNECTOR_ID": "livechat",
             "CONNECTOR_TITLE": "Онлайн-чат"
         }
-    ]
+    ],
+    "time": {
+        "start": 1773758908,
+        "finish": 1773758908.592458,
+        "duration": 0.5924580097198486,
+        "processing": 0,
+        "date_start": "2026-03-17T17:48:28+03:00",
+        "date_finish": "2026-03-17T17:48:28+03:00",
+        "operating_reset_at": 1773759508,
+        "operating": 0
+    }
 }
 ```
 
@@ -196,21 +182,54 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Массив объектов. Каждый объект содержит описание чата ||
+[`array`](../../../data-types.md) | Список объектов чатов [(подробное описание)](#result-item).
+
+Возвращает пустой массив `"result":[]`, если объекта с указанным `CRM_ENTITY` не существует ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result-item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **CHAT_ID**
-[`string`](../../data-types.md) | Идентификатор чата ||
+[`string`](../../../data-types.md) | Идентификатор чата ||
 || **CONNECTOR_ID**
-[`string`](../../data-types.md) | Идентификатор коннектора ||
+[`string`](../../../data-types.md) | Идентификатор коннектора ||
 || **CONNECTOR_TITLE**
-[`string`](../../data-types.md) | Название коннектора ||
+[`string`](../../../data-types.md) | Название коннектора ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": "ERROR_ARGUMENT",
+    "error_description": "Argument CRM_ENTITY is null or empty"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ACCESS_DENIED** | У текущего пользователя нет доступа ||
-|| **ERROR_ARGUMENT** | Один из аргументов не указан или указан неверно ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! You dont have access to this action | У пользователя нет доступа к объекту CRM ||
+|| `400` | `ERROR_ARGUMENT` | Argument CRM_ENTITY_TYPE is null or empty | Не передан или передан пустым обязательный параметр `CRM_ENTITY_TYPE` ||
+|| `400` | `ERROR_ARGUMENT` | Argument CRM_ENTITY is null or empty | Не передан или передан пустым обязательный параметр `CRM_ENTITY` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument CRM_ENTITY has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
 |#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./imopenlines-crm-chat-get-last-id.md)
+- [{#T}](./imopenlines-crm-chat-user-add.md)
+- [{#T}](./imopenlines-crm-chat-user-delete.md)

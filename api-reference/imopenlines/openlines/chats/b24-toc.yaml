@@ -1,13 +1,13 @@
-title: Чаты
+title: Чаты CRM
 href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Получить чат для объекта CRM
-    href: imopenlines-crm-chat-get.md
-  - name: Получить Id последнего чата
+  - name: Получить Id последнего чата объекта CRM
     href: imopenlines-crm-chat-get-last-id.md
-  - name: Добавить пользователя к существующему чату
+  - name: Получить чаты для объекта CRM
+    href: imopenlines-crm-chat-get.md
+  - name: Добавить пользователя к существующему чату объекта CRM
     href: imopenlines-crm-chat-user-add.md
-  - name: Удалить пользователя из чата
+  - name: Удалить пользователя из чата объекта CRM
     href: imopenlines-crm-chat-user-delete.md

@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 18 марта, 2026
+
+- Обновили документацию по методам [imopenlines.crm.chat.get](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get.md), [imopenlines.crm.chat.getLastId](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get-last-id.md), [imopenlines.crm.chat.user.add](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-add.md), [imopenlines.crm.chat.user.delete](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-delete.md) в разделе Чаты CRM
+
 ### 17 марта, 2026
 
 - Обновили документацию по методам работы с коммерческими предложениями [crm.quote.*](./api-reference/crm/quote/index.md)

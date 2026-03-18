@@ -19,7 +19,7 @@ items:
     href: imopenlines-network-message-add.md
   - name: Получить ссылку на публичную страницу открытых линий портала
     href: imopenlines-config-path-get.md
-  - name: Чаты
+  - name: Чаты CRM
     include:
       path: chats/b24-toc.yaml
       mode: link
