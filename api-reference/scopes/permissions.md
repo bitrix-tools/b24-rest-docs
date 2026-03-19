@@ -11,7 +11,7 @@
 || **cashbox** | [Кассы](../sale/cashbox/index.md) | Кассы ||
 || **catalog** | [Торговый каталог](../catalog/index.md) | Торговый каталог, складской учет ||
 || **crm** | [CRM](../crm/index.md) | CRM ||
-|| **documentgenerator, crm.documentgenerator** | [Генератор документов](../document-generator/index.md), [Генератор документов CRM](../crm/document-generator/index.md) | Генератор документов ||
+|| **documentgenerator** | [Генератор документов](../document-generator/index.md), [Генератор документов CRM](../crm/document-generator/index.md) | Генератор документов ||
 || **delivery** | [Доставки](../sale/delivery/index.md) | Интернет-магазин, CRM ||
 || **department** | [Структура компании](../departments/index.md) | Структура компании ||
 || **disk** | [Диск](../disk/index.md) | Битрикс24.Диск ||
