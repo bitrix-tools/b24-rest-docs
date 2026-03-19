@@ -5,14 +5,14 @@ items:
     href: index.md
   - name: Добавить сообщение
     href: log-blogpost-add.md
+  - name: Изменить сообщение
+    href: log-blogpost-update.md
   - name: Получить список сообщений
     href: log-blogpost-get.md
-  - name: Изменить сообщение
-    href: log-blogpost-update.md 
-  - name: Добавить получателей к сообщению
-    href: log-blogpost-share.md 
   - name: Удалить сообщение
-    href: log-blogpost-delete.md  
+    href: log-blogpost-delete.md
+  - name: Добавить получателей к сообщению
+    href: log-blogpost-share.md
   - name: Просмотреть пользователей, прочитавших важное сообщение
     href: log-blogpost-getusers-important.md
   - name: Комментарии
