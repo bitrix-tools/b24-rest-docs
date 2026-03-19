@@ -1,0 +1,13 @@
+title: События
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Подписаться на события
+    href: event-subscribe.md
+  - name: Отписаться от событий
+    href: event-unsubscribe.md
+  - name: Получить события пользователя
+    href: event-get.md
+  - name: Форматы событий
+    href: events.md

@@ -31,14 +31,14 @@
 || **Параметр** | **Пример** | **Описание** ||
 || **ENTITY_TYPE^*^**
 [`unknown`](../data-types.md) | `CRM`, `LINES`, `LIVECHAT` | Идентификатор сущности. Может быть использован для поиска чата и для легкого определения контекста в обработчиках событий:
-- [ONIMBOTMESSAGEADD](../chat-bots/messages/events/on-imbot-message-add.md),
-- [ONIMBOTMESSAGEUPDATE](../chat-bots/messages/events/on-imbot-message-update.md),
-- [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) ||
+- [ONIMBOTMESSAGEADD](../chat-bots/outdated/messages/events/on-imbot-message-add.md),
+- [ONIMBOTMESSAGEUPDATE](../chat-bots/outdated/messages/events/on-imbot-message-update.md),
+- [ONIMBOTMESSAGEDELETE](../chat-bots/outdated/messages/events/on-imbot-message-delete.md) ||
 || **ENTITY_ID^*^**
 [`unknown`](../data-types.md) | `LEAD`\|`13` | Числовой идентификатор сущности. Может быть использован для поиска чата и для легкого определения контекста в обработчиках событий:
-- [ONIMBOTMESSAGEADD](../chat-bots/messages/events/on-imbot-message-add.md),
-- [ONIMBOTMESSAGEUPDATE](../chat-bots/messages/events/on-imbot-message-update.md),
-- [ONIMBOTMESSAGEDELETE](../chat-bots/messages/events/on-imbot-message-delete.md) ||
+- [ONIMBOTMESSAGEADD](../chat-bots/outdated/messages/events/on-imbot-message-add.md),
+- [ONIMBOTMESSAGEUPDATE](../chat-bots/outdated/messages/events/on-imbot-message-update.md),
+- [ONIMBOTMESSAGEDELETE](../chat-bots/outdated/messages/events/on-imbot-message-delete.md) ||
 |#
 
 {% include [Сноска о параметрах](../../_includes/required.md) %}

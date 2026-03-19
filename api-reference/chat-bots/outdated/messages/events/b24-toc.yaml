@@ -1,0 +1,11 @@
+title: События
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: При отправке сообщения
+    href: on-imbot-message-add.md
+  - name: При изменении сообщения
+    href: on-imbot-message-update.md
+  - name: При удалении сообщения
+    href: on-imbot-message-delete.md

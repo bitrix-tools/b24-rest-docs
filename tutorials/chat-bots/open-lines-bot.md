@@ -2,11 +2,11 @@
 
 Процесс создания чат-бота для *Открытых линий* аналогичен [созданию обычного чат-бота](./index.md), но есть два отличия:
 
-1. При создании чат-бота для *Открытых линий* в [imbot.register](../../api-reference/chat-bots/imbot-register.md) в параметр `TYPE` нужно передать `O`
+1. При создании чат-бота для *Открытых линий* в [imbot.register](../../api-reference/chat-bots/outdated/imbot-register.md) в параметр `TYPE` нужно передать `O`
 
 2. Если необходимо расширить возможности уже существующего чат-бота, то следует передать новый ключ `OPENLINE => Y`, и тогда чат-бот будет работать в гибридном режиме.
    
-   В гибридном режиме чат-бот должен корректно работать в групповом чате, персональном чате и чате открытых линий. Для этого нужно во всех входящих событиях ([ONIMBOTMESSAGEADD](../../api-reference/chat-bots/messages/events/on-imbot-message-add.md) и [ONIMBOTJOINCHAT](../../api-reference/chat-bots/chats/events/on-imbot-join-chat.md)) проверять параметр `CHAT_ENTITY_TYPE` — для *Открытых линий* он должен быть `CHAT_ENTITY_TYPE => LINES`.
+   В гибридном режиме чат-бот должен корректно работать в групповом чате, персональном чате и чате открытых линий. Для этого нужно во всех входящих событиях ([ONIMBOTMESSAGEADD](../../api-reference/chat-bots/outdated/messages/events/on-imbot-message-add.md) и [ONIMBOTJOINCHAT](../../api-reference/chat-bots/outdated/chats/events/on-imbot-join-chat.md)) проверять параметр `CHAT_ENTITY_TYPE` — для *Открытых линий* он должен быть `CHAT_ENTITY_TYPE => LINES`.
 
 Во всем остальном это привычный и уже знакомый [чат-бот](./index.md).
 

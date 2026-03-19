@@ -44,7 +44,7 @@ https://**put_your_bitrix24_address**/rest/api/tasks.task.chat.message.send
 
 - Тело запроса передавайте в формате JSON с заголовком `Content-Type: application/json`.
 
-- Все запросы с параметрами передавайте только в формате POST, например метод [tasks.task.chat.message.send](../tasks/tasks-task-chat-message-send.md) с параметрами `taskId` и `text`.
+- Все запросы с параметрами передавайте только в формате POST, например метод `tasks.task.chat.message.send` с параметрами `taskId` и `text`.
 
  ```json
  curl -X POST \

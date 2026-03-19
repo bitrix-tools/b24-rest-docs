@@ -1,0 +1,7 @@
+title: События
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: При подключении бота к чату
+    href: on-imbot-join-chat.md

@@ -1,0 +1,8 @@
+title: События
+href: index.md
+items:
+  - name: О событиях
+    href: index.md
+  - name: При удалении чат-бота
+    href: on-imbot-delete.md
+
