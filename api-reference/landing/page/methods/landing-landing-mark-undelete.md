@@ -1,45 +1,55 @@
-# Пометить страницу как неудаленную landing.landing.markUnDelete
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Восстановить страницу из корзины landing.landing.markUnDelete
 
 > Scope: [`landing`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «удаления» сайта
 
-Метод `landing.landing.markUnDelete` помечает страницу как неудаленную.
+Метод `landing.landing.markUnDelete` восстанавливает страницу из корзины и снимает признак удаления.
+После восстановления страница остается непубликованной (`ACTIVE = "N"`).
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** | **Версия** ||
-|| **$lid**
-[`unknown`](../../../data-types.md) | Идентификатор страницы. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **lid***
+[`integer`](../../../data-types.md) | Идентификатор страницы.
+
+Идентификатор страницы можно получить методом [landing.landing.getList](./landing-landing-get-list.md), а также из результата методов [landing.landing.add](./landing-landing-add.md), [landing.landing.addByTemplate](./landing-landing-add-by-template.md) и [landing.landing.copy](./landing-landing-copy.md) ||
 |#
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "lid": 2227
+      }' \
+      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.markUnDelete.json"
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "lid": 2227,
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/landing.landing.markUnDelete.json"
+    ```
+
+- JS
 
     ```js
     try
@@ -47,21 +57,20 @@
     	const response = await $b24.callMethod(
     		'landing.landing.markUnDelete',
     		{
-    			lid: 1688
+    			lid: 2227
     		}
     	);
-    	
+
     	const result = response.getData().result;
     	console.info(result);
     }
-    catch( error )
+    catch (error)
     {
     	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -70,21 +79,18 @@
             ->call(
                 'landing.landing.markUnDelete',
                 [
-                    'lid' => 1688,
+                    'lid' => 2227,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        echo 'Success: ' . var_export($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error marking landing as undeleted: ' . $e->getMessage();
+        echo 'Error restoring landing page from recycle bin: ' . $e->getMessage();
     }
     ```
 
@@ -94,11 +100,11 @@
     BX24.callMethod(
         'landing.landing.markUnDelete',
         {
-            lid: 1688
+            lid: 2227
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
             {
                 console.error(result.error());
             }
@@ -110,6 +116,93 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'landing.landing.markUnDelete',
+        [
+            'lid' => 2227,
+        ]
+    );
+
+    if (isset($result['error']))
+    {
+        echo 'Ошибка: ' . $result['error_description'];
+    }
+    else
+    {
+        echo '<pre>';
+        print_r($result['result']);
+        echo '</pre>';
+    }
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": 2227,
+    "time": {
+        "start": 1773787031,
+        "finish": 1773787031.968089,
+        "duration": 0.9680891036987305,
+        "processing": 0,
+        "date_start": "2026-03-18T01:37:11+03:00",
+        "date_finish": "2026-03-18T01:37:11+03:00",
+        "operating_reset_at": 1773787631,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`integer`](../../../data-types.md) | Идентификатор страницы, которая восстановлена из корзины ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Доступ на удаление страницы запрещен."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `MISSING_PARAMS` | Не передан обязательный параметр `lid` ||
+|| `ACCESS_DENIED` | Недостаточно прав для изменения поля `DELETED` у страницы ||
+|| `TYPE_ERROR` | Ошибка типа данных в параметрах вызова метода ||
+|| `SYSTEM_ERROR` | Внутренняя ошибка при выполнении метода ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./landing-landing-add.md)
+- [{#T}](./landing-landing-add-by-template.md)
+- [{#T}](./landing-landing-copy.md)
+- [{#T}](./landing-landing-delete.md)
+- [{#T}](./landing-landing-get-list.md)
+- [{#T}](./landing-landing-mark-delete.md)
