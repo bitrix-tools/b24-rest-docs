@@ -193,6 +193,7 @@ HTTP-статус: **400**, **403**
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
 || `ACCESS_DENIED` | Access denied | Бот не является участником чата ||
+|| `FILE_ACCESS_ERROR` | File access error | Нет прав на скачивание файла (файл не принадлежит указанному чату) ||
 || `FILE_NOT_FOUND` | File not found | Файл не найден в указанном диалоге ||
 |#
 

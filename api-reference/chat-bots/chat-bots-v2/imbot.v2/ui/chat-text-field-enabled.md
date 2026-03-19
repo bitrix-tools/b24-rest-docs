@@ -22,7 +22,7 @@
 || **dialogId***
 [`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}`, для личных — `{userId}` ||
 || **enabled**
-[`string`](../../../../data-types.md) | Управление полем ввода: `Y` — включить, `N` — отключить. По умолчанию `Y` ||
+[`boolean`](../../../../data-types.md) | Управление полем ввода: `true` — включить, `false` — отключить. По умолчанию `true` ||
 |#
 
 ## Примеры кода
@@ -37,7 +37,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat5","enabled":"N"}' \
+      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat5","enabled":false}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.TextField.enabled
     ```
 
@@ -47,7 +47,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"dialogId":"chat5","enabled":"N","auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"dialogId":"chat5","enabled":false,"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.TextField.enabled
     ```
 
@@ -58,7 +58,7 @@
       const response = await $b24.callMethod('imbot.v2.Chat.TextField.enabled', {
         botId: 456,
         dialogId: 'chat5',
-        enabled: 'N',
+        enabled: false,
       });
 
       const { result } = response.getData();
@@ -79,7 +79,7 @@
                 [
                     'botId' => 456,
                     'dialogId' => 'chat5',
-                    'enabled' => 'N',
+                    'enabled' => false,
                 ]
             );
 
@@ -102,7 +102,7 @@
         {
             botId: 456,
             dialogId: 'chat5',
-            enabled: 'N',
+            enabled: false,
         },
         function(result) {
             if (result.error()) {
@@ -124,7 +124,7 @@
         [
             'botId' => 456,
             'dialogId' => 'chat5',
-            'enabled' => 'N',
+            'enabled' => false,
         ]
     );
 

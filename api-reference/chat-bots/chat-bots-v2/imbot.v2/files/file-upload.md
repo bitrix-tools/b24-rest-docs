@@ -21,13 +21,11 @@
 Передавайте тот же botToken, который был указан при регистрации чат-бота ||
 || **dialogId***
 [`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}`, для личных — `{userId}` ||
-|| **file***
-[`object`](../../../../data-types.md) | Объект с данными файла. Структура описана [ниже](#file) ||
-|| **message**
-[`string`](../../../../data-types.md) | Текст сообщения, отправляемого вместе с файлом ||
+|| **fields***
+[`object`](../../../../data-types.md) | Данные файла и сообщения. Структура описана [ниже](#fields) ||
 |#
 
-### Параметр file {#file}
+### Параметр fields {#fields}
 
 #|
 || **Название**
@@ -36,6 +34,8 @@
 [`string`](../../../../data-types.md) | Имя файла с расширением ||
 || **content***
 [`string`](../../../../data-types.md) | Содержимое файла в кодировке [Base64](../../../../files/how-to-upload-files.md). Максимальный размер — 100 МБ ||
+|| **message**
+[`string`](../../../../data-types.md) | Текст сообщения, отправляемого вместе с файлом ||
 |#
 
 ## Примеры кода
@@ -50,7 +50,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat5","file":{"name":"report.pdf","content":"SGVsbG8gV29ybGQh"},"message":"Here is the report"}' \
+      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat5","fields":{"name":"report.pdf","content":"SGVsbG8gV29ybGQh","message":"Here is the report"}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.File.upload
     ```
 
@@ -60,7 +60,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"dialogId":"chat5","file":{"name":"report.pdf","content":"SGVsbG8gV29ybGQh"},"message":"Here is the report","auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"dialogId":"chat5","fields":{"name":"report.pdf","content":"SGVsbG8gV29ybGQh","message":"Here is the report"},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.File.upload
     ```
 
@@ -71,8 +71,7 @@
       const response = await $b24.callMethod('imbot.v2.File.upload', {
         botId: 456,
         dialogId: 'chat5',
-        file: { name: 'report.pdf', content: 'SGVsbG8gV29ybGQh' },
-        message: 'Here is the report',
+        fields: { name: 'report.pdf', content: 'SGVsbG8gV29ybGQh', message: 'Here is the report' },
       });
 
       const { result } = response.getData();
@@ -93,11 +92,11 @@
                 [
                     'botId' => 456,
                     'dialogId' => 'chat5',
-                    'file' => [
+                    'fields' => [
                         'name' => 'report.pdf',
                         'content' => base64_encode(file_get_contents('/path/to/report.pdf')),
+                        'message' => 'Here is the report',
                     ],
-                    'message' => 'Here is the report',
                 ]
             );
 
@@ -120,8 +119,7 @@
         {
             botId: 456,
             dialogId: 'chat5',
-            file: { name: 'report.pdf', content: btoa('...') },
-            message: 'Here is the report',
+            fields: { name: 'report.pdf', content: btoa('...'), message: 'Here is the report' },
         },
         function(result) {
             if (result.error()) {
@@ -143,11 +141,11 @@
         [
             'botId' => 456,
             'dialogId' => 'chat5',
-            'file' => [
+            'fields' => [
                 'name' => 'report.pdf',
                 'content' => base64_encode(file_get_contents('/path/to/report.pdf')),
+                'message' => 'Here is the report',
             ],
-            'message' => 'Here is the report',
         ]
     );
 

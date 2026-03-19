@@ -75,7 +75,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"botToken":"my_bot_token","fields":{"properties":{"name":"Updated Bot"},"isHidden":"Y"}}' \
+      -d '{"botId":456,"botToken":"my_bot_token","fields":{"properties":{"name":"Updated Bot"},"isHidden":true}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Bot.update
     ```
 
@@ -85,7 +85,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"fields":{"properties":{"name":"Updated Bot"},"isHidden":"Y"},"auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"fields":{"properties":{"name":"Updated Bot"},"isHidden":true},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.Bot.update
     ```
 
@@ -97,7 +97,7 @@
         botId: 456,
         fields: {
           properties: { name: 'Updated Bot' },
-          isHidden: 'Y',
+          isHidden: true,
         },
       });
 
@@ -120,7 +120,7 @@
                     'botId' => 456,
                     'fields' => [
                         'properties' => ['name' => 'Updated Bot'],
-                        'isHidden' => 'Y',
+                        'isHidden' => true,
                     ],
                 ]
             );
@@ -145,7 +145,7 @@
             botId: 456,
             fields: {
                 properties: { name: 'Updated Bot' },
-                isHidden: 'Y',
+                isHidden: true,
             },
         },
         function(result) {
@@ -169,7 +169,7 @@
             'botId' => 456,
             'fields' => [
                 'properties' => ['name' => 'Updated Bot'],
-                'isHidden' => 'Y',
+                'isHidden' => true,
             ],
         ]
     );

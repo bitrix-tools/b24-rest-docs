@@ -201,6 +201,7 @@ HTTP-статус: **400**, **403**
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
 || `ACCESS_DENIED` | Access denied | Бот не является участником чата ||
+|| `MESSAGE_NOT_FOUND` | Message not found | Указанное сообщение не найдено или недоступно ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}

@@ -34,8 +34,8 @@
 {
     "message": {
         "id": 5012,
-        "chat_id": 5,
-        "author_id": 1,
+        "chatId": 5,
+        "authorId": 1,
         "date": "2025-01-15T10:30:00+03:00",
         "text": "Hello everyone!",
         "isSystem": false,
@@ -106,7 +106,7 @@
 #|
 || **Поле** | **Тип** | **Описание** ||
 || **reaction** | `string` | Код реакции (например, `like`) ||
-|| **action** | `string` | Действие: `set` — реакция добавлена, `delete` — удалена ||
+|| **action** | `string` | Действие: `add` — реакция добавлена, `delete` — удалена ||
 || **message** | [`Message`](../../entities.md#message) | Сообщение, на которое изменена реакция. Описание полей объекта — [Message](../../entities.md#message) ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Пользователь, изменивший реакцию. Описание полей объекта — [User](../../entities.md#user) ||

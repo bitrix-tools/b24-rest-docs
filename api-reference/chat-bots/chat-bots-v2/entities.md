@@ -185,7 +185,7 @@
 || **name**
 [`string`](../../data-types.md) | Название чата ||
 || **type**
-[`string`](../../data-types.md) | Тип: `chat`, `open`, `channel`, `openChannel`, `copilot`, `thread` ||
+[`string`](../../data-types.md) | Тип: `chat`, `open`, `channel`, `openChannel`, `copilot`, `thread`, `generalChannel` ||
 || **messageType**
 [`string`](../../data-types.md) | Внутренний тип: `C` (chat), `O` (open), `P` (private) и др. ||
 || **owner**
@@ -202,6 +202,8 @@
 [`string`](../../data-types.md) | Роль текущего пользователя: `owner`, `manager`, `member`, `guest`, `none` ||
 || **containsCollaber**
 [`boolean`](../../data-types.md) | Содержит ли чат коллаберов ||
+|| **muteList**
+[`array`](../../data-types.md) | Список ID пользователей, отключивших уведомления. Отсутствует в событиях — зависит от конкретного пользователя ||
 || **entityType**
 [`string`](../../data-types.md) | Тип объекта, например `LINES` для Открытых линий ||
 || **entityId**
@@ -251,6 +253,12 @@
 [`integer`](../../data-types.md) | Количество участников чата ||
 || **unreadId**
 [`integer\|null`](../../data-types.md) | ID первого непрочитанного сообщения ||
+|| **lastMessageViews**
+[`string`](../../data-types.md) | JSON-строка с данными просмотров последнего сообщения ||
+|| **markedId**
+[`integer\|null`](../../data-types.md) | ID отмеченного сообщения ||
+|| **public**
+[`object\|string`](../../data-types.md) | Настройки публичного доступа ||
 |#
 
 ### Пример объекта Chat

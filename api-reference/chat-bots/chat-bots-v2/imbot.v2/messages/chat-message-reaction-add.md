@@ -33,25 +33,53 @@
 || `dislike` | Не нравится ||
 || `faceWithTearsOfJoy` | До слез ||
 || `redHeart` | Сердечко ||
+|| `neutralFace` | Равнодушен ||
 || `fire` | Огонь! ||
 || `cry` | Жаль ||
 || `slightlySmilingFace` | Улыбаюсь ||
+|| `winkingFace` | Подмигиваю ||
 || `laugh` | Смеюсь ||
+|| `kiss` | Восхищаюсь ||
 || `wonder` | Шок ||
+|| `slightlyFrowningFace` | Грущу ||
+|| `loudlyCryingFace` | Плачу ||
+|| `faceWithStuckOutTongue` | Язык ||
+|| `faceWithStuckOutTongueAndWinkingEye` | Дразнюсь ||
+|| `smilingFaceWithSunglasses` | Круто ||
+|| `confusedFace` | Ну не знаю ||
+|| `flushedFace` | Смущаюсь ||
+|| `thinkingFace` | Сомневаюсь ||
 || `angry` | Злюсь ||
+|| `smilingFaceWithHorns` | Злорадно ||
+|| `faceWithThermometer` | Болею ||
 || `facepalm` | Без комментариев ||
+|| `poo` | Фу ||
 || `flexedBiceps` | Мощно ||
 || `clappingHands` | Великолепно ||
+|| `raisedHand` | Дай пять ||
+|| `smilingFaceWithHeartEyes` | Красота ||
+|| `smilingFaceWithHearts` | Обожаю ||
+|| `pleadingFace` | Умоляю ||
+|| `relievedFace` | Дзен ||
+|| `foldedHands` | Спасибо ||
 || `okHand` | ОК ||
+|| `signHorns` | Рок! ||
+|| `loveYouGesture` | Всё круто ||
+|| `clownFace` | Клоун ||
 || `partyingFace` | Поздравляю ||
 || `questionMark` | Вопрос ||
+|| `exclamationMark` | Внимание ||
 || `lightBulb` | Идея ||
+|| `bomb` | Бомба ||
+|| `sleepingSymbol` | Засыпаю ||
+|| `crossMark` | Отмена ||
 || `whiteHeavyCheckMark` | Готово ||
-|| `hundredPoints` | Поддерживаю ||
+|| `eyes` | Глаза ||
 || `handshake` | Договорились ||
+|| `hundredPoints` | Поддерживаю ||
 |#
 
-Список реакций может расширяться.
+Список реакций может расширяться и сокращаться без предварительного уведомления.
 
 ## Примеры кода
 
