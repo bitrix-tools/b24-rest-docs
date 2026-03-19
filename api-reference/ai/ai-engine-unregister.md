@@ -1,45 +1,41 @@
 # Удалить сервис ai.engine.unregister
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы.
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`ai_admin`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод для удаления [engine](./ai-engine-register.md).
+Метод для удаления [сервиса AI](./ai-engine-register.md).
 
 #|
 || **Параметры** | **Описание** ||
-|| **code**
-[`unknown`](../data-types.md) | Код engine ||
+|| **code***
+[`string`](../data-types.md) | Код сервиса ||
 |#
 
 ## Примеры
 
 {% list tabs %}
 
+- Curl (WebHook)
+    ```bash
+    curl -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json" \
+        -d '{"code": "ivanov_gpt"}' \
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/ai.engine.unregister
+
+    ```
+
+- Curl (OAuth)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"code": "ivanov_gpt", "auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/ai.engine.unregister
+    ```
+
 - JS
-
-
     ```js
     try
     {
@@ -60,18 +56,14 @@
     ```
 
 - PHP
-
-
     ```php
     try {
         $response = $b24Service
             ->core
-            ->call(
-                'ai.engine.unregister',
-                [
-                    'code' => 'ivanov_gpt',
-                ]
-            );
+            ->call('ai.engine.unregister', [
+                'code' => 'ivanov_gpt',
+            ]
+        );
     
         $result = $response
             ->getResponseData()
@@ -113,6 +105,56 @@
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
-## Ответ в случае успеха
 
-В случае успеха возвращает `true`.
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1772389915,
+        "finish": 1772389915.064604,
+        "duration": 0.06460404396057129,
+        "processing": 0,
+        "date_start": "2026-03-01T21:31:55+03:00",
+        "date_finish": "2026-03-01T21:31:55+03:00",
+        "operating_reset_at": 1772390515,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../data-types.md) | `true`, в случае успешного удаления ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": false,
+    "time": {
+        "start": 1772389877,
+        "finish": 1772389877.772992,
+        "duration": 0.7729918956756592,
+        "processing": 0,
+        "date_start": "2026-03-01T21:31:17+03:00",
+        "date_finish": "2026-03-01T21:31:17+03:00",
+        "operating_reset_at": 1772390477,
+        "operating": 0
+    }
+}
+```
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
