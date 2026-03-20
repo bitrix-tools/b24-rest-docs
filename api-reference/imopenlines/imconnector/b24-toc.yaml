@@ -9,11 +9,9 @@ items:
     href: imconnector-register.md
   - name: Активировать коннектор
     href: imconnector-activate.md
-  - name: Деактивировать коннектор
-    href: imconnector-deactivate.md
   - name: Получить статус коннектора
     href: imconnector-status.md
-  - name: Изменить настройки коннектора
+  - name: Установить настройки коннектора
     href: imconnector-connector-data-set.md
   - name: Получить список коннекторов
     href: imconnector-list.md
@@ -27,8 +25,6 @@ items:
     href: imconnector-delete-messages.md
   - name: Обновить статус «доставлено»
     href: imconnector-send-status-delivery.md
-  - name: Обновить статус «прочитано»
-    href: imconnector-send-status-reading.md
   - name: Установить новое имя чата
     href: imconnector-chat-name-set.md
   - name: События

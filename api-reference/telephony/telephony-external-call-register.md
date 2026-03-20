@@ -1,105 +1,333 @@
-# Зарегистрировать звонок в Битрикс24 telephony.externalcall.register
+# Зарегистрировать звонок в Битрикс24 telephony.externalCall.register
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`telephony`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `telephony.externalCall.register` регистрирует внешний звонок в Битрикс24.
 
-{% endnote %}
+Для создания дела звонок необходимо также вызвать метод [telephony.externalcall.finish](./telephony-external-call-finish.md)
 
-{% if build == 'dev' %}
+{% note info "" %}
 
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
+Метод работает только в контексте [приложения](../../settings/app-installation/index.md)
 
 {% endnote %}
 
-{% endif %}
+## Параметры метода
 
-{% include notitle [Скоуп telephony all](./_includes/scope-telephony-all.md) %}
-
-Метод `telephony.externalcall.register` регистрирует звонок в Битрикс24, для чего ищет в CRM соответствующий номеру объект. Если находит, то добавляет звонок в привязке к найденному объекту. Если не находит, то может автоматически создать лид.
-
-При использовании `telephony.externalcall.register` ответственным за новый лид будет автоматически назначен первый ответственный за данного клиента ранее. Сменить такого ответственного можно в дальнейшем через [telephony.externalcall.finish](telephony-external-call-finish.md).
-
-Одновременно с регистрацией звонка метод опционально может показать пользователю карточку звонка. Пользователь, которому показывается карточка, идентифицируется либо по `USER_ID`, либо по `USER_PHONE_INNER`. (То есть поля помечены как обязательные, но фактически нужно только одно из двух.)
-
-Не нужно повторно вызывать этот метод для звонков, полученных на событии [OnExternalCallStart](./events/on-external-call-start.md). Эти звонки уже зарегистрированы в системе и для них надо вызывать только [telephony.externalcall.finish](telephony-external-call-finish.md) в конце звонка.
-
-{% note warning %}
-
-Повторный вызов `telephony.externalcall.register` с теми же параметрами, без закрытия предыдущего звонка методом `telephony.externalcall.finish`, выдает тот же `CALL_ID` в течение 30 минут.
-
-{% endnote %}
-
-Для создания дела "звонок" необходимо также вызывать метод `telephony.externalcall.finish`.
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **USER_PHONE_INNER**^*^ 
-[`string`](../data-types.md) | Внутренний номер пользователя. ||
-|| **USER_ID**^*^ 
-[`int`](../data-types.md) | Идентификатор пользователя. ||
-|| **PHONE_NUMBER**^*^ 
-[`string`](../data-types.md) | Номер телефона. ||
-|| **CALL_START_DATE** 
-[`string`](../data-types.md) | Дата/время звонка в формате iso8601. Обратите внимание, что в дате необходимо передавать часовой пояс, для избежания искажения времени звонка. Пример: `2021-02-03T18:25:10+03:00`. ||
-|| **CRM_CREATE** 
-[`int`](../data-types.md) | [0\/1] - Автоматическое создание в CRM сущности, связанной со звонком. При необходимости создает в CRM лид или сделку, в зависимости от [настроек и режима работы CRM](*mode).
+|| **Название**
+`тип` | **Описание** ||
+|| **USER_ID*** 
+[`integer`](../data-types.md) | Идентификатор пользователя, для которого регистрируется звонок.
 
- Обратите внимание, что дело звонка создается при любом значении этого параметра, если создание возможно. ||
-|| **CRM_SOURCE** 
-[`string`](../data-types.md) | STATUS_ID источника из справочника источников. Получить список источников можно методом `crm.status.list` с фильтром по "ENTITY_ID": "SOURCE". ||
-|| **CRM_ENTITY_TYPE** 
-[`string`](../data-types.md) | Тип объекта CRM, из карточки которого совершается звонок - CONTACT \| COMPANY \| LEAD. ||
-|| **CRM_ENTITY_ID** 
-[`int`](../data-types.md) | Идентификатор объекта CRM, тип которого указан в CRM_ENTITY_TYPE. ||
-|| **SHOW** 
-[`int`](../data-types.md) | [0/1] Показывать ли карточку звонка (по умолчанию 1). ||
-|| **CALL_LIST_ID** 
-[`int`](../data-types.md) | Идентификатор [списка обзвона](../crm/call-list/index.md), к которому должен быть привязан звонок. ||
-|| **LINE_NUMBER** 
-[`string`](../data-types.md) | Номер внешней линии, через который совершался звонок (см. [telephony.externalLine.add](telephony-external-line-add.md)).
+Идентификатор можно получить методом [user.get](../user/user-get.md) ||
+|| **USER_PHONE_INNER*** 
+[`string`](../data-types.md) | Внутренний номер пользователя.
 
-{% note warning %}
+Внутренний номер можно получить методом [user.get](../user/user-get.md)
 
-Значения из этого параметра используются в сценариях сквозной аналитики Битрикс24. Поэтому решения по интеграции с телефонией для каталога Приложения24 в обязательном порядке должны передавать здесь номер, на который был совершён регистрируемый входящий звонок. 
+{% note info "" %}
 
-{% endnote %}
+Необходимо указать хотя бы один из параметров: `USER_ID` или `USER_PHONE_INNER`
 
-||
-|| **TYPE**^*^ 
-[`integer`](../data-types.md) | Тип звонка:
-1 - исходящий
-2 - входящий
-3 - входящий с перенаправлением
-4 - обратный ||
+{% endnote %} ||
+|| **PHONE_NUMBER***
+[`string`](../data-types.md) | Номер телефона клиента ||
+|| **TYPE***
+[`integer`](../data-types.md) | Тип звонка.
+
+Возможные значения:
+- `1` — исходящий
+- `2` — входящий
+- `3` — входящий с перенаправлением
+- `4` — обратный звонок
+- `5` — информационный звонок ||
+|| **CALL_START_DATE**
+[`string`](../data-types.md) | Дата и время начала звонка в формате ISO-8601 с указанием часового пояса, например `2026-03-07T10:20:30+03:00`.
+
+По умолчанию — текущее время на сервере ||
+|| **CRM_CREATE**
+[`integer`](../data-types.md) | Автоматическое создание объекта CRM, если по номеру не найден подходящий объект.
+
+Возможные значения:
+- `0` — не создавать
+- `1` — создавать
+
+По умолчанию — `0` ||
+|| **CRM_SOURCE**
+[`string`](../data-types.md) | Идентификатор источника CRM (значение поля `STATUS_ID`).
+
+Список значений можно получить методом [crm.status.list](../crm/status/crm-status-list.md) с фильтром `ENTITY_ID: 'SOURCE'` ||
+|| **CRM_ENTITY_TYPE**
+[`string`](../data-types.md) | Тип объекта CRM, с которым нужно связать звонок.
+
+Возможные значения:
+- `CONTACT` — контакт
+- `COMPANY` — компания
+- `LEAD` — лид ||
+|| **CRM_ENTITY_ID**
+[`integer`](../data-types.md) | Идентификатор объекта CRM из `CRM_ENTITY_TYPE`.
+
+Идентификатор можно получить методами:
+- [crm.contact.list](../crm/contacts/crm-contact-list.md)
+- [crm.company.list](../crm/companies/crm-company-list.md)
+- [crm.lead.list](../crm/leads/crm-lead-list.md) ||
+|| **SHOW**
+[`integer`](../data-types.md) | Показывать карточку звонка после регистрации.
+
+Возможные значения:
+- `0` — не показывать
+- `1` — показывать
+
+По умолчанию — `1` ||
+|| **ADD_TO_CHAT**
+[`integer`](../data-types.md) | Добавлять сообщение о звонке в чат сотрудника.
+
+Возможные значения:
+- `0` — не добавлять
+- `1` — добавлять
+
+По умолчанию — `1` ||
+|| **CALL_LIST_ID**
+[`integer`](../data-types.md) | Идентификатор [списка обзвона](../crm/call-list/index.md), к которому привязывается звонок.
+
+Если звонок инициирован из обзвона, передавайте идентификатор, полученный в событии [ONEXTERNALCALLSTART](./events/on-external-call-start.md).
+
+Список доступных обзвонов можно получить методом [crm.calllist.list](../crm/call-list/crm-calllist-list.md) ||
+|| **LINE_NUMBER**
+[`string`](../data-types.md) | Номер внешней линии.
+
+Номер линии можно получить методом [telephony.externalLine.get](./telephony-external-line-get.md).
+
+Параметр не является обязательным, но рекомендуется передавать его всегда, особенно для входящих звонков, чтобы корректно работали привязка линии и отчеты/аналитика телефонии ||
+|| **EXTERNAL_CALL_ID**
+[`string`](../data-types.md) | Внешний идентификатор звонка на стороне АТС/интеграции. Используется для дедупликации повторной регистрации ||
 |#
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+## Примеры кода
 
-## Возвращаемые данные
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"USER_ID":1269,"PHONE_NUMBER":"79062195047","TYPE":2,"CRM_ENTITY_TYPE":"CONTACT","CRM_ENTITY_ID":797,"SHOW":1,"LINE_NUMBER":"3","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/telephony.externalCall.register
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'telephony.externalCall.register',
+            {
+                USER_ID: 1269,
+                PHONE_NUMBER: '79062195047',
+                TYPE: 2,
+                CRM_ENTITY_TYPE: 'CONTACT',
+                CRM_ENTITY_ID: 797,
+                SHOW: 1,
+                LINE_NUMBER: '3'
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Call registered:', result);
+        processResult(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'telephony.externalCall.register',
+                [
+                    'USER_ID' => 1269,
+                    'PHONE_NUMBER' => '79062195047',
+                    'TYPE' => 2,
+                    'CRM_ENTITY_TYPE' => 'CONTACT',
+                    'CRM_ENTITY_ID' => 797,
+                    'SHOW' => 1,
+                    'LINE_NUMBER' => '3'
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error registering call: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "telephony.externalCall.register",
+        {
+            USER_ID: 1269,
+            PHONE_NUMBER: '79062195047',
+            TYPE: 2,
+            CRM_ENTITY_TYPE: 'CONTACT',
+            CRM_ENTITY_ID: 797,
+            SHOW: 1,
+            LINE_NUMBER: '3'
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'telephony.externalCall.register',
+        [
+            'USER_ID' => 1269,
+            'PHONE_NUMBER' => '79062195047',
+            'TYPE' => 2,
+            'CRM_ENTITY_TYPE' => 'CONTACT',
+            'CRM_ENTITY_ID' => 797,
+            'SHOW' => 1,
+            'LINE_NUMBER' => '3'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "CALL_ID": "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+        "CRM_CREATED_LEAD": null,
+        "CRM_CREATED_ENTITIES": [],
+        "CRM_ENTITY_TYPE": "CONTACT",
+        "CRM_ENTITY_ID": 797
+    },
+    "time": {
+        "start": 1773130778,
+        "finish": 1773130779.120838,
+        "duration": 1.120837926864624,
+        "processing": 1,
+        "date_start": "2026-03-10T11:19:38+03:00",
+        "date_finish": "2026-03-10T11:19:39+03:00",
+        "operating_reset_at": 1773131378,
+        "operating": 0.22185301780700684
+    }
+}
+```
+
+### Возвращаемые данные
 
 #|
-|| **Значение** / **Тип** | **Описание** ||
-|| **CALL_ID** 
-[`string`](../data-types.md) | Идентификатор звонка внутри Битрикс24. ||
-|| **CRM_CREATED_LEAD** 
-[`int`](../data-types.md) | Идентификатор созданного лида (создается, если в CRM не найден объект по входящему номеру). ||
-|| **CRM_ENTITY_ID** 
-[`int`](../data-types.md) | Идентификатор найденного в CRM объекта. ||
-|| **CRM_ENTITY_TYPE** 
-[`string`](../data-types.md) | Тип найденного в CRM объекта по входящему номеру CONTACT \| COMPANY \| LEAD. ||
-|| **CRM_CREATED_ENTITIES** 
-[`array`](../data-types.md) | Массив автоматически созданных в CRM сущностей при регистрации звонка. Формат:
-- ENTITY_TYPE - тип созданной сущности
-- ENTITY_ID - идентификатор созданной сущности ||
-|| **LEAD_CREATION_ERROR** 
-[`string`](../data-types.md) | Текст ошибки, возникшей при попытке создания лида в CRM. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md) | Корневой элемент ответа ||
+|| **CALL_ID**
+[`string`](../data-types.md) | Идентификатор звонка ||
+|| **CRM_CREATED_LEAD**
+[`integer`](../data-types.md) | Идентификатор автоматически созданного лида ||
+|| **CRM_CREATED_ENTITIES**
+[`array`](../data-types.md) | Массив автоматически созданных [объектов CRM](#result-crm-created-entities) ||
+|| **CRM_ENTITY_TYPE**
+[`string`](../data-types.md) | Тип основного объекта CRM звонка ||
+|| **CRM_ENTITY_ID**
+[`integer`](../data-types.md) | Идентификатор основного объекта CRM звонка ||
+|| **LEAD_CREATION_ERROR**
+[`string`](../data-types.md) | Текст ошибки при автосоздании лида (если возникла) ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-[*mode]: Существует: 
-- простой режим (без лидов) - при котором будет создаваться сделка, а не лид;
-- режим повторных продаж, при котором будет создавать сделка/лид даже если сущность в сrm найдена. (Но не будет создаваться если есть активная сделка/лид или номер внесен в черный список crm).
+#### Объект CRM_CREATED_ENTITIES {#result-crm-created-entities}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ENTITY_TYPE**
+[`string`](../data-types.md) | Тип созданного объекта CRM ||
+|| **ENTITY_ID**
+[`integer`](../data-types.md) | Идентификатор созданного объекта CRM ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": "ERROR_CORE",
+    "error_description": "Unknown TYPE"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван вне контекста приложения ||
+|| `ERROR_CORE` | USER_ID or USER_PHONE_INNER should be set | Не переданы `USER_ID` и `USER_PHONE_INNER` ||
+|| `ERROR_CORE` | Unknown TYPE | Передано недопустимое значение `TYPE` ||
+|| `ERROR_CORE` | CALL_START_DATE should be in the ISO-8601 format | Некорректный формат `CALL_START_DATE` ||
+|| `ERROR_CORE` | Unsupported phone number format | Некорректный формат `PHONE_NUMBER` ||
+|| `ERROR_CORE` | User is not found or is not active | Пользователь не найден или неактивен ||
+|#
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./telephony-external-call-search-crm-entities.md)
+- [{#T}](./telephony-external-call-show.md)
+- [{#T}](./telephony-external-call-hide.md)
+- [{#T}](./telephony-external-call-finish.md)
+- [{#T}](./telephony-external-call-attach-record.md)

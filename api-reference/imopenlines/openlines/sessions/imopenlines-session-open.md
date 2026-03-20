@@ -1,42 +1,31 @@
-# Получить чат по символьному коду imopenlines.session.open
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-- из файла Сергея: порекомендовать также метод получения чата по id объекта CRM, как более надежный
-
-{% endnote %}
-
-{% endif %}
+# Получить чат по коду пользователя imopenlines.session.open
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с правом на доступ к диалогу
 
-Метод возвращает идентификатор чата по USER_CODE.
+Метод `imopenlines.session.open` возвращает идентификатор чата открытой линии по коду пользователя `USER_CODE`.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Пример** | **Описание** ||
+`тип` | **Описание** ||
 || **USER_CODE***
-[`unknown`](../../../data-types.md) | `livechat`\|`58`\|`2042`\|`479` | Код чата, можно найти в ENTITY_ID ||
+[`string`](../../../data-types.md) | Строковый код пользователя для канала внешней системы. 
+
+Формат кода: ```<connector>|<LINE_ID>|<CONNECTOR_CHAT_ID>|<CONNECTOR_USER_ID>```, где:
+- `<connector>` — идентификатор коннектора: `livechat`, `telegram` и другие
+- `<LINE_ID>` — идентификатор открытой линии
+- `<CONNECTOR_CHAT_ID>` — идентификатор чата в канале
+- `<CONNECTOR_USER_ID>` — идентификатор пользователя в канале
+
+Значение можно получить методом [imopenlines.dialog.get](./imopenlines-dialog-get.md) из поля `entity_id` или методом [imopenlines.session.history.get](./imopenlines-session-history-get.md) из `result.chat.<chatId>.entityId` ||
 |#
 
-## Примеры
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -44,37 +33,43 @@
 
 - cURL (Webhook)
 
-    // пример для cURL (Webhook)
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"USER_CODE":"livechat|22|1761|587"}' \
+      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.session.open.json
+    ```
 
 - cURL (OAuth)
 
-    // пример для cURL (OAuth)
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"USER_CODE":"livechat|22|1761|587","auth":"<access_token>"}' \
+      https://your-domain.bitrix24.ru/rest/imopenlines.session.open.json
+    ```
 
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'imopenlines.session.open',
-    		{
-    			CHAT_ID: 2024
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.warn(error.ex);
-    	return false;
+    try {
+        const response = await $b24.callMethod(
+            'imopenlines.session.open',
+            {
+                USER_CODE: 'livechat|22|1761|587',
+            }
+        );
+
+        const { result } = response.getData();
+        console.log(result);
+    } catch (error) {
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -83,24 +78,22 @@
             ->call(
                 'imopenlines.session.open',
                 [
-                    'CHAT_ID' => 2024
+                    'USER_CODE' => 'livechat|22|1761|587',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
-            echo 'Warning: ' . $result->error()->ex;
-            return false;
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
         }
-    
-        echo 'Success: ' . print_r($result->data(), true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error opening session: ' . $e->getMessage();
+    } catch (Throwable $exception) {
+        error_log($exception->getMessage());
+        echo 'Error opening chat: ' . $exception->getMessage();
     }
     ```
 
@@ -110,39 +103,114 @@
     BX24.callMethod(
         'imopenlines.session.open',
         {
-            CHAT_ID: 2024
+            USER_CODE: 'livechat|22|1761|587',
         },
-        function(result)
-        {
-            if(result.error())
-            {
-                console.warn(result.error().ex);
-                return false;
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
             }
-            console.log(result.data());
         }
     );
     ```
 
 - PHP CRest
 
-    // пример для php
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imopenlines.session.open',
+        [
+            'USER_CODE' => 'livechat|22|1761|587',
+        ]
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Success: ' . print_r($result['result'], true);
+    }
+    ```
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
+
+HTTP-статус: **200**
 
 ```json
 {
-    "chatId":"2043"
+    "result": {
+        "chatId": "1763"
+    },
+    "time": {
+        "start": 1773666416,
+        "finish": 1773666416.279787,
+        "duration": 0.2797870635986328,
+        "processing": 0,
+        "date_start": "2026-03-16T16:06:56+03:00",
+        "date_finish": "2026-03-16T16:06:56+03:00",
+        "operating_reset_at": 1773667016,
+        "operating": 0
+    }
 }
 ```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Корневой объект ответа [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **chatId**
+[`integer`](../../../data-types.md) | Идентификатор чата открытой линии ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Вы не можете открыть этот разговор, т.к. у вас недостаточно прав"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ACCESS_DENIED** | У текущего пользователя нет доступа к указанному чату ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Нет доступа к чату по указанному `USER_CODE` ||
 |#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./imopenlines-session-start.md)
+- [{#T}](./imopenlines-session-join.md)
+- [{#T}](./imopenlines-session-history-get.md)
+- [{#T}](./imopenlines-session-intercept.md)
+- [{#T}](./imopenlines-session-mode-pin.md)
+- [{#T}](./imopenlines-session-mode-pin-all.md)
+- [{#T}](./imopenlines-session-mode-unpin-all.md)
+- [{#T}](./imopenlines-session-mode-silent.md)
+- [{#T}](./imopenlines-session-head-vote.md)
+- [{#T}](./imopenlines-message-session-start.md)
+- [{#T}](./imopenlines-crm-lead-create.md)
+- [{#T}](./imopenlines-dialog-get.md)

@@ -5,13 +5,13 @@ items:
     href: index.md
   - name: Копировать файл в папку
     href: disk-file-copy-to.md
-  - name: Уничтожить файл
+  - name: Удалить файл
     href: disk-file-delete.md
   - name: Получить публичную ссылку на файл
     href: disk-file-get-external-link.md
   - name: Получить поля файла
     href: disk-file-get-fields.md
-  - name: Список версий файла
+  - name: Получить список версий файла
     href: disk-file-get-versions.md
   - name: Получить параметры файла
     href: disk-file-get.md

@@ -16,18 +16,18 @@
 
 {% endif %}
 
-{% note info "Права" %}
+## Обзор методов {#all-methods}
 
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правом "изменения" шаблонов генератора документов
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.documentgenerator.template.getfields](./crm-document-generator-template-get-fields.md) | Поля шаблона документа. ||
-|| [crm.documentgenerator.template.add](./crm-document-generator-template-add.md) | Добавление нового шаблона. ||
-|| [crm.documentgenerator.template.update](./crm-document-generator-template-update.md) | Изменение существующего шаблона документа. ||
-|| [crm.documentgenerator.template.get](./crm-document-generator-template-get.md) | Получение информации о шаблоне документа по Id. ||
-|| [crm.documentgenerator.template.list](./crm-document-generator-template-list.md) | Получение списка шаблонов документов. ||
-|| [crm.documentgenerator.template.delete](./crm-document-generator-template-delete.md) | Удаление шаблона документа. ||
+|| [crm.documentgenerator.template.add](./crm-document-generator-template-add.md) | Добавляет новый шаблон ||
+|| [crm.documentgenerator.template.update](./crm-document-generator-template-update.md) | Обновляет существующий шаблон ||
+|| [crm.documentgenerator.template.get](./crm-document-generator-template-get.md) | Возвращает информацию о шаблоне по ID ||
+|| [crm.documentgenerator.template.list](./crm-document-generator-template-list.md) | Возвращает список шаблонов ||
+|| [crm.documentgenerator.template.delete](./crm-document-generator-template-delete.md) | Удаляет шаблон ||
+|| [crm.documentgenerator.template.getfields](./crm-document-generator-template-get-fields.md) | Возвращает поля шаблона ||
 |#

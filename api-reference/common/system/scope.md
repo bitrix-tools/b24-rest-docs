@@ -34,7 +34,7 @@
     -d '{
         "full": true
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/scope
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/scope
     ```
 
 - cURL (OAuth)

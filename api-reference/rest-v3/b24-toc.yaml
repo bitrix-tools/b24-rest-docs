@@ -3,6 +3,10 @@ href: index.md
 items:
   - name: Обзор REST 3.0
     href: index.md
+  - name: Журнал событий
+    include:
+      path: main/b24-toc.yaml
+      mode: link
   - name: Задачи
     include:
       path: tasks/b24-toc.yaml

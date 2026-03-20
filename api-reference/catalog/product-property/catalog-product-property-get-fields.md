@@ -1,40 +1,16 @@
 # Получить поля свойства товаров или вариаций catalog.productProperty.getFields
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на просмотр каталога
 
-## Описание
+Метод `catalog.productProperty.getFields` возвращает поля свойства товаров или вариаций.
 
-```js
-catalog.productProperty.getFields()
-```
-
-Метод возвращает поля свойств товаров или вариаций.
-
-## Параметры
+## Параметры метода
 
 Без параметров.
 
-## Примеры
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -47,7 +23,7 @@ catalog.productProperty.getFields()
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.productProperty.getFields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.productProperty.getFields
     ```
 
 - cURL (OAuth)
@@ -62,28 +38,12 @@ catalog.productProperty.getFields()
 
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'catalog.productProperty.getFields',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	if(result.error())
-    	{
-    		console.error(result.error().ex);
-    	}
-    	else
-    	{
-    		console.log(result);
-    	}
-    }
-    catch(error)
-    {
-    	console.error('Error:', error);
+    try {
+        const response = await $b24.callMethod('catalog.productProperty.getFields', {});
+        console.log(response.getData().result);
+    } catch (error) {
+        console.error('Error:', error);
     }
     ```
 
@@ -98,20 +58,10 @@ catalog.productProperty.getFields()
                 'catalog.productProperty.getFields',
                 []
             );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting product property fields: ' . $e->getMessage();
+
+        print_r($response->getResponseData()->getResult());
+    } catch (\Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
@@ -121,12 +71,12 @@ catalog.productProperty.getFields()
     BX24.callMethod(
         'catalog.productProperty.getFields',
         {},
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error().ex);
-            else
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
                 console.log(result.data());
+            }
         }
     );
     ```
@@ -141,59 +91,92 @@ catalog.productProperty.getFields()
         []
     );
 
-    echo '<PRE>';
     print_r($result);
-    echo '</PRE>';
     ```
 
 {% endlist %}
 
-## Возвращаемые поля
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "productProperty": {
+            "active": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "code": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            ... // описание для каждого поля
+            "xmlId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            }
+        }
+    },
+    "time": {
+        "start": 1773946315,
+        "finish": 1773946315.270372,
+        "duration": 0.2703719139099121,
+        "processing": 0,
+        "date_start": "2026-03-19T21:51:55+03:00",
+        "date_finish": "2026-03-19T21:51:55+03:00",
+        "operating_reset_at": 1773946915,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
 
 #|
-|| **Поле ** | **Описание** | **Примечание** ||
-|| **active** 
-[`char`](../../data-types.md) | Активно ли свойство. | ||
-|| **code** 
-[`string`](../../data-types.md) | Символьный код. | ||
-|| **rowCount, colCount**
-[`integer`](../../data-types.md) | Размер поля для ввода значения (Строк х Столбцов). | ||
-|| **defaultValue** 
-[`text`](../../data-types.md) | Значение по умолчанию. | ||
-|| **filtrable** 
-[`char`](../../data-types.md) | Выводить ли на странице списка элементов поле для фильтрации по этому свойству. | ||
-|| **hint** 
-[`string`](../../data-types.md) | Подсказка. | ||
-|| **iblockId^*^** 
-[`integer`](../../data-types.md) | Идентификатор инфоблока. | ||
-|| **id** 
-[`integer`](../../data-types.md) | Идентификатор свойства. | Только для чтения. ||
-|| **isRequired** 
-[`char`](../../data-types.md) | Является ли обязательным. | ||
-|| **linkIblockId** 
-[`integer`](../../data-types.md) | Идентификатор инфоблока, с элементами которого связано значение. На сегодняшний день поле не используется (данное поле предназначено для типов, которые пока в REST не поддерживаются). | ||
-|| **listType**
-[`char`](../../data-types.md) | Внешний вид. | Только для поля типа "Список". ||
-|| **multiple** 
-[`char`](../../data-types.md) | Является ли свойство множественным. | ||
-|| **multipleCnt** 
-[`integer`](../../data-types.md) | Количество полей для ввода новых множественных значений. | ||
-|| **name^*^** 
-[`string`](../../data-types.md) | Название. | ||
-|| **propertyType^*^** 
-[`string`](../../data-types.md) | Тип свойства. |  ||
-|| **searchable** 
-[`char`](../../data-types.md) | Участвуют ли значения свойства в поиске. | ||
-|| **sort** 
-[`integer`](../../data-types.md) | Порядок сортировки. | ||
-|| **timestampX** 
-[`datetime`](../../data-types.md) | Дата последнего изменения параметров. | Только для чтения. ||
-|| **userType** 
-[`string`](../../data-types.md) | Пользовательский тип свойства. | ||
-|| **withDescription** 
-[`char`](../../data-types.md) | Выводить ли поле для описания значения. | ||
-|| **xmlId** 
-[`string`](../../data-types.md) | Внешний идентификатор. | ||
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой объект ответа ||
+|| **productProperty**
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_product_property](../data-types.md#catalog_product_property), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "0",
+    "error_description": "Access Denied"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | Недостаточно прав для просмотра каталога ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./catalog-product-property-add.md)
+- [{#T}](./catalog-product-property-update.md)
+- [{#T}](./catalog-product-property-get.md)
+- [{#T}](./catalog-product-property-list.md)
+- [{#T}](./catalog-product-property-delete.md)

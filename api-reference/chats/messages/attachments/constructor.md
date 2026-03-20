@@ -1,213 +1,213 @@
-# Конструктор, примеры
+# Конструктор вложений ATTACH
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Страница содержит практические примеры сборки `ATTACH` из разных типов блоков. Итоговое вложение зависит от набора и порядка блоков.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+## Пример 1. Карточка «Баг-трекер»
 
-{% endnote %}
+Системное сообщение с карточкой задачи, ссылкой и таблицами с параметрами.
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
-
-Объект **Вложение** является конструктором, вы можете «собрать» его так, как вам требуется, используя доступные блоки. Порядок добавления блоков имеет значение.
-
-## «Баг-трекер»
-
-Этот пример демонстрирует, как можно использовать различные типы вложений для создания информативного и структурированного сообщения в боте, имитирующего систему отслеживания ошибок (баг-трекер).
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Карточка задачи","ATTACH":[{"USER":{"NAME":"Уведомления Mantis","AVATAR":"https://files.shelenkov.com/bitrix/images/mantis2.jpg","LINK":"https://shelenkov.com/"}},{"LINK":{"NAME":"Открыть Mantis из внешней сети","LINK":"https://shelenkov.com/"}},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Проект","VALUE":"BUGS","DISPLAY":"LINE","WIDTH":100},{"NAME":"Категория","VALUE":"im","DISPLAY":"LINE","WIDTH":100},{"NAME":"Сводка","VALUE":"Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.","DISPLAY":"BLOCK"}]},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Новое обращение","VALUE":"","DISPLAY":"ROW","WIDTH":100},{"NAME":"Назначено","VALUE":"Шеленков Евгений","DISPLAY":"ROW","WIDTH":100},{"NAME":"Дедлайн","VALUE":"04.11.2015 17:50:43","DISPLAY":"ROW","WIDTH":100}]}]}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.message.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Карточка задачи","ATTACH":[{"USER":{"NAME":"Уведомления Mantis","AVATAR":"https://files.shelenkov.com/bitrix/images/mantis2.jpg","LINK":"https://shelenkov.com/"}},{"LINK":{"NAME":"Открыть Mantis из внешней сети","LINK":"https://shelenkov.com/"}},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Проект","VALUE":"BUGS","DISPLAY":"LINE","WIDTH":100},{"NAME":"Категория","VALUE":"im","DISPLAY":"LINE","WIDTH":100},{"NAME":"Сводка","VALUE":"Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.","DISPLAY":"BLOCK"}]},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Новое обращение","VALUE":"","DISPLAY":"ROW","WIDTH":100},{"NAME":"Назначено","VALUE":"Шеленков Евгений","DISPLAY":"ROW","WIDTH":100},{"NAME":"Дедлайн","VALUE":"04.11.2015 17:50:43","DISPLAY":"ROW","WIDTH":100}]}],"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.message.add
+    ```
+
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'imbot.message.add',
-    		{
-    			DIALOG_ID: 'chat20921',
-    			MESSAGE: 'Message from bot',
-    			ATTACH: [
-    				{
-    					USER: {
-    						NAME: "Уведомления Mantis",
-    						AVATAR: "http://files.shelenkov.com/bitrix/images/mantis2.jpg",
-    						LINK: "http://shelenkov.com/",
-    					}
-    				},
-    				{
-    					LINK: {
-    						NAME: "Открыть Mantis из внешней сети",
-    						LINK: "http://shelenkov.com/",
-    					}
-    				},
-    				{
-    					DELIMITER: {
-    						SIZE: 200,
-    						COLOR: "#c6c6c6"
-    					}
-    				},
-    				{
-    					GRID: [
-    						{
-    							NAME: "Проект",
-    							VALUE: "BUGS",
-    							DISPLAY: "LINE",
-    							WIDTH: 100
-    						},
-    						{
-    							NAME: "Категория",
-    							VALUE: "im",
-    							DISPLAY: "LINE",
-    							WIDTH: 100
-    						},
-    						{
-    							NAME: "Сводка",
-    							VALUE: "Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.",
-    							DISPLAY: "BLOCK"
-    						},
-    					]
-    				},
-    				{
-    					DELIMITER: {
-    						SIZE: 200,
-    						COLOR: "#c6c6c6"
-    					}
-    				},
-    				{
-    					GRID: [
-    						{
-    							NAME: "Новое обращение",
-    							VALUE: "",
-    							DISPLAY: "ROW",
-    							WIDTH: 100
-    						},
-    						{
-    							NAME: "Назначено",
-    							VALUE: "Шеленков Евгений",
-    							DISPLAY: "ROW",
-    							WIDTH: 100
-    						},
-    						{
-    							NAME: "Дедлайн",
-    							VALUE: "04.11.2015 17:50:43",
-    							DISPLAY: "ROW",
-    							WIDTH: 100
-    						},
-    					]
-    				},
-    			]
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch(error)
-    {
-    	console.error(error.ex);
+    try {
+        const response = await $b24.callMethod(
+            'im.message.add',
+            {
+                DIALOG_ID: 'chat20921',
+                MESSAGE: 'Карточка задачи',
+                ATTACH: [
+                    {
+                        USER: {
+                            NAME: 'Уведомления Mantis',
+                            AVATAR: 'https://files.shelenkov.com/bitrix/images/mantis2.jpg',
+                            LINK: 'https://shelenkov.com/'
+                        }
+                    },
+                    {
+                        LINK: {
+                            NAME: 'Открыть Mantis из внешней сети',
+                            LINK: 'https://shelenkov.com/'
+                        }
+                    },
+                    {
+                        DELIMITER: {
+                            SIZE: 200,
+                            COLOR: '#c6c6c6'
+                        }
+                    },
+                    {
+                        GRID: [
+                            {
+                                NAME: 'Проект',
+                                VALUE: 'BUGS',
+                                DISPLAY: 'LINE',
+                                WIDTH: 100
+                            },
+                            {
+                                NAME: 'Категория',
+                                VALUE: 'im',
+                                DISPLAY: 'LINE',
+                                WIDTH: 100
+                            },
+                            {
+                                NAME: 'Сводка',
+                                VALUE: 'Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.',
+                                DISPLAY: 'BLOCK'
+                            }
+                        ]
+                    },
+                    {
+                        DELIMITER: {
+                            SIZE: 200,
+                            COLOR: '#c6c6c6'
+                        }
+                    },
+                    {
+                        GRID: [
+                            {
+                                NAME: 'Новое обращение',
+                                VALUE: '',
+                                DISPLAY: 'ROW',
+                                WIDTH: 100
+                            },
+                            {
+                                NAME: 'Назначено',
+                                VALUE: 'Шеленков Евгений',
+                                DISPLAY: 'ROW',
+                                WIDTH: 100
+                            },
+                            {
+                                NAME: 'Дедлайн',
+                                VALUE: '04.11.2015 17:50:43',
+                                DISPLAY: 'ROW',
+                                WIDTH: 100
+                            }
+                        ]
+                    }
+                ]
+            }
+        );
+
+        const result = response.getData().result;
+        console.log(result);
+    } catch (error) {
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
         $response = $b24Service
             ->core
             ->call(
-                'imbot.message.add',
+                'im.message.add',
                 [
                     'DIALOG_ID' => 'chat20921',
-                    'MESSAGE' => 'Message from bot',
+                    'MESSAGE' => 'Карточка задачи',
                     'ATTACH' => [
                         [
                             'USER' => [
-                                'NAME' => "Уведомления Mantis",
-                                'AVATAR' => "http://files.shelenkov.com/bitrix/images/mantis2.jpg",
-                                'LINK' => "http://shelenkov.com/",
+                                'NAME' => 'Уведомления Mantis',
+                                'AVATAR' => 'https://files.shelenkov.com/bitrix/images/mantis2.jpg',
+                                'LINK' => 'https://shelenkov.com/'
                             ]
                         ],
                         [
                             'LINK' => [
-                                'NAME' => "Открыть Mantis из внешней сети",
-                                'LINK' => "http://shelenkov.com/",
+                                'NAME' => 'Открыть Mantis из внешней сети',
+                                'LINK' => 'https://shelenkov.com/'
                             ]
                         ],
                         [
                             'DELIMITER' => [
                                 'SIZE' => 200,
-                                'COLOR' => "#c6c6c6"
+                                'COLOR' => '#c6c6c6'
                             ]
                         ],
                         [
                             'GRID' => [
                                 [
-                                    'NAME' => "Проект",
-                                    'VALUE' => "BUGS",
-                                    'DISPLAY' => "LINE",
+                                    'NAME' => 'Проект',
+                                    'VALUE' => 'BUGS',
+                                    'DISPLAY' => 'LINE',
                                     'WIDTH' => 100
                                 ],
                                 [
-                                    'NAME' => "Категория",
-                                    'VALUE' => "im",
-                                    'DISPLAY' => "LINE",
+                                    'NAME' => 'Категория',
+                                    'VALUE' => 'im',
+                                    'DISPLAY' => 'LINE',
                                     'WIDTH' => 100
                                 ],
                                 [
-                                    'NAME' => "Сводка",
-                                    'VALUE' => "Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.",
-                                    'DISPLAY' => "BLOCK"
-                                ],
+                                    'NAME' => 'Сводка',
+                                    'VALUE' => 'Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.',
+                                    'DISPLAY' => 'BLOCK'
+                                ]
                             ]
                         ],
                         [
                             'DELIMITER' => [
                                 'SIZE' => 200,
-                                'COLOR' => "#c6c6c6"
+                                'COLOR' => '#c6c6c6'
                             ]
                         ],
                         [
                             'GRID' => [
                                 [
-                                    'NAME' => "Новое обращение",
-                                    'VALUE' => "",
-                                    'DISPLAY' => "ROW",
+                                    'NAME' => 'Новое обращение',
+                                    'VALUE' => '',
+                                    'DISPLAY' => 'ROW',
                                     'WIDTH' => 100
                                 ],
                                 [
-                                    'NAME' => "Назначено",
-                                    'VALUE' => "Шеленков Евгений",
-                                    'DISPLAY' => "ROW",
+                                    'NAME' => 'Назначено',
+                                    'VALUE' => 'Шеленков Евгений',
+                                    'DISPLAY' => 'ROW',
                                     'WIDTH' => 100
                                 ],
                                 [
-                                    'NAME' => "Дедлайн",
-                                    'VALUE' => "04.11.2015 17:50:43",
-                                    'DISPLAY' => "ROW",
+                                    'NAME' => 'Дедлайн',
+                                    'VALUE' => '04.11.2015 17:50:43',
+                                    'DISPLAY' => 'ROW',
                                     'WIDTH' => 100
-                                ],
+                                ]
                             ]
-                        ],
+                        ]
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding message: ' . $e->getMessage();
@@ -218,87 +218,85 @@
 
     ```js
     BX24.callMethod(
-        'imbot.message.add',
+        'im.message.add',
         {
             DIALOG_ID: 'chat20921',
-            MESSAGE: 'Message from bot',
+            MESSAGE: 'Карточка задачи',
             ATTACH: [
                 {
                     USER: {
-                        NAME: "Уведомления Mantis",
-                        AVATAR: "http://files.shelenkov.com/bitrix/images/mantis2.jpg",
-                        LINK: "http://shelenkov.com/",
+                        NAME: 'Уведомления Mantis',
+                        AVATAR: 'https://files.shelenkov.com/bitrix/images/mantis2.jpg',
+                        LINK: 'https://shelenkov.com/'
                     }
                 },
                 {
                     LINK: {
-                        NAME: "Открыть Mantis из внешней сети",
-                        LINK: "http://shelenkov.com/",
+                        NAME: 'Открыть Mantis из внешней сети',
+                        LINK: 'https://shelenkov.com/'
                     }
                 },
                 {
                     DELIMITER: {
                         SIZE: 200,
-                        COLOR: "#c6c6c6"
+                        COLOR: '#c6c6c6'
                     }
                 },
                 {
                     GRID: [
                         {
-                            NAME: "Проект",
-                            VALUE: "BUGS",
-                            DISPLAY: "LINE",
+                            NAME: 'Проект',
+                            VALUE: 'BUGS',
+                            DISPLAY: 'LINE',
                             WIDTH: 100
                         },
                         {
-                            NAME: "Категория",
-                            VALUE: "im",
-                            DISPLAY: "LINE",
+                            NAME: 'Категория',
+                            VALUE: 'im',
+                            DISPLAY: 'LINE',
                             WIDTH: 100
                         },
                         {
-                            NAME: "Сводка",
-                            VALUE: "Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.",
-                            DISPLAY: "BLOCK"
-                        },
+                            NAME: 'Сводка',
+                            VALUE: 'Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.',
+                            DISPLAY: 'BLOCK'
+                        }
                     ]
                 },
                 {
                     DELIMITER: {
                         SIZE: 200,
-                        COLOR: "#c6c6c6"
+                        COLOR: '#c6c6c6'
                     }
                 },
                 {
                     GRID: [
                         {
-                            NAME: "Новое обращение",
-                            VALUE: "",
-                            DISPLAY: "ROW",
+                            NAME: 'Новое обращение',
+                            VALUE: '',
+                            DISPLAY: 'ROW',
                             WIDTH: 100
                         },
                         {
-                            NAME: "Назначено",
-                            VALUE: "Шеленков Евгений",
-                            DISPLAY: "ROW",
+                            NAME: 'Назначено',
+                            VALUE: 'Шеленков Евгений',
+                            DISPLAY: 'ROW',
                             WIDTH: 100
                         },
                         {
-                            NAME: "Дедлайн",
-                            VALUE: "04.11.2015 17:50:43",
-                            DISPLAY: "ROW",
+                            NAME: 'Дедлайн',
+                            VALUE: '04.11.2015 17:50:43',
+                            DISPLAY: 'ROW',
                             WIDTH: 100
-                        },
+                        }
                     ]
-                },
+                }
             ]
-        }, function(result){
-            if(result.error())
-            {
+        },
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
@@ -307,159 +305,174 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../../_includes/rest-command.md) %}
-
     ```php
-    restCommand(
-        'imbot.message.add',
-        Array(
-            "DIALOG_ID" => $_REQUEST['data']['PARAMS']['DIALOG_ID'],
-            "MESSAGE" => "У вас новое уведомление",
-            "ATTACH" => Array(
-                Array(
-                    "USER" => Array(
-                        "NAME" => "Уведомления Mantis",
-                        "AVATAR" => "http://files.shelenkov.com/bitrix/images/mantis2.jpg",
-                        "LINK" => "http://shelenkov.com/",
-                    )
-                ),
-                Array(
-                    "LINK" => Array(
-                        "NAME" => "Открыть Mantis из внешней сети",
-                        "LINK" => "http://shelenkov.com/",
-                    )
-                ),
-                Array(
-                    "DELIMITER" => Array(
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.message.add',
+        [
+            'DIALOG_ID' => 'chat20921',
+            'MESSAGE' => 'Карточка задачи',
+            'ATTACH' => [
+                [
+                    'USER' => [
+                        'NAME' => 'Уведомления Mantis',
+                        'AVATAR' => 'https://files.shelenkov.com/bitrix/images/mantis2.jpg',
+                        'LINK' => 'https://shelenkov.com/'
+                    ]
+                ],
+                [
+                    'LINK' => [
+                        'NAME' => 'Открыть Mantis из внешней сети',
+                        'LINK' => 'https://shelenkov.com/'
+                    ]
+                ],
+                [
+                    'DELIMITER' => [
                         'SIZE' => 200,
-                        'COLOR' => "#c6c6c6"
-                    )
-                ),
-                Array(
-                    "GRID" => Array(
-                        Array(
-                            "NAME" => "Проект",
-                            "VALUE" => "BUGS",
-                            "DISPLAY" => "LINE",
-                            "WIDTH" => 100
-                        ),
-                        Array(
-                            "NAME" => "Категория",
-                            "VALUE" => "im",
-                            "DISPLAY" => "LINE",
-                            "WIDTH" => 100
-                        ),
-                        Array(
-                            "NAME" => "Сводка",
-                            "VALUE" => "Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.",
-                            "DISPLAY" => "BLOCK"
-                        ),
-                    )
-                ),
-                Array(
-                    "DELIMITER" => Array(
+                        'COLOR' => '#c6c6c6'
+                    ]
+                ],
+                [
+                    'GRID' => [
+                        [
+                            'NAME' => 'Проект',
+                            'VALUE' => 'BUGS',
+                            'DISPLAY' => 'LINE',
+                            'WIDTH' => 100
+                        ],
+                        [
+                            'NAME' => 'Категория',
+                            'VALUE' => 'im',
+                            'DISPLAY' => 'LINE',
+                            'WIDTH' => 100
+                        ],
+                        [
+                            'NAME' => 'Сводка',
+                            'VALUE' => 'Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.',
+                            'DISPLAY' => 'BLOCK'
+                        ]
+                    ]
+                ],
+                [
+                    'DELIMITER' => [
                         'SIZE' => 200,
-                        'COLOR' => "#c6c6c6"
-                    )
-                ),
-                Array(
-                    "GRID" => Array(
-                        Array(
-                            "NAME" => "Новое обращение",
-                            "VALUE" => "",
-                            "DISPLAY" => "ROW",
-                            "WIDTH" => 100
-                        ),
-                        Array(
-                            "NAME" => "Назначено",
-                            "VALUE" => "Шеленков Евгений",
-                            "DISPLAY" => "ROW",
-                            "WIDTH" => 100
-                        ),
-                        Array(
-                            "NAME" => "Дедлайн",
-                            "VALUE" => "04.11.2015 17:50:43",
-                            "DISPLAY" => "ROW",
-                            "WIDTH" => 100
-                        ),
-                    )
-                ),
-            )
-        ),
-        $_REQUEST["auth"]
+                        'COLOR' => '#c6c6c6'
+                    ]
+                ],
+                [
+                    'GRID' => [
+                        [
+                            'NAME' => 'Новое обращение',
+                            'VALUE' => '',
+                            'DISPLAY' => 'ROW',
+                            'WIDTH' => 100
+                        ],
+                        [
+                            'NAME' => 'Назначено',
+                            'VALUE' => 'Шеленков Евгений',
+                            'DISPLAY' => 'ROW',
+                            'WIDTH' => 100
+                        ],
+                        [
+                            'NAME' => 'Дедлайн',
+                            'VALUE' => '04.11.2015 17:50:43',
+                            'DISPLAY' => 'ROW',
+                            'WIDTH' => 100
+                        ]
+                    ]
+                ]
+            ]
+        ]
     );
+
+    print_r($result);
     ```
 
 {% endlist %}
 
+## Пример 2. Информационное уведомление
+
+Короткий информационный текст и изображение в составе одного вложения.
+
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
-
-## «Информационный листок»
-
-Этот пример показывает, как можно создать информационное сообщение с использованием различных типов вложений, включая текст и изображение.
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat20921","MESSAGE":"У вас новое уведомление","ATTACH":{"ID":1,"COLOR":"#29619b","BLOCKS":[{"MESSAGE":"Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."},{"IMAGE":{"LINK":"https://files.shelenkov.com/bitrix/images/win.jpg"}}]}}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.message.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"DIALOG_ID":"chat20921","MESSAGE":"У вас новое уведомление","ATTACH":{"ID":1,"COLOR":"#29619b","BLOCKS":[{"MESSAGE":"Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."},{"IMAGE":{"LINK":"https://files.shelenkov.com/bitrix/images/win.jpg"}}]},"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.message.add
+    ```
+
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'imbot.message.add',
-    		{
-    			DIALOG_ID: 'chat20921',
-    			MESSAGE: 'У вас новое уведомление',
-    			ATTACH: {
-    				ID: 1,
-    				COLOR: "#29619b",
-    				BLOCKS: [
-    					{MESSAGE: "Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."},
-    					{IMAGE: {LINK: "http://files.shelenkov.com/bitrix/images/win.jpg"}}
-    				]
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.error(error.ex);
+    try {
+        const response = await $b24.callMethod(
+            'im.message.add',
+            {
+                DIALOG_ID: 'chat20921',
+                MESSAGE: 'У вас новое уведомление',
+                ATTACH: {
+                    ID: 1,
+                    COLOR: '#29619b',
+                    BLOCKS: [
+                        { MESSAGE: 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.' },
+                        { IMAGE: { LINK: 'https://files.shelenkov.com/bitrix/images/win.jpg' } }
+                    ]
+                }
+            }
+        );
+
+        const result = response.getData().result;
+        console.log(result);
+    } catch (error) {
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
         $response = $b24Service
             ->core
             ->call(
-                'imbot.message.add',
+                'im.message.add',
                 [
                     'DIALOG_ID' => 'chat20921',
-                    'MESSAGE'   => 'У вас новое уведомление',
-                    'ATTACH'    => [
-                        'ID'     => 1,
-                        'COLOR'  => "#29619b",
+                    'MESSAGE' => 'У вас новое уведомление',
+                    'ATTACH' => [
+                        'ID' => 1,
+                        'COLOR' => '#29619b',
                         'BLOCKS' => [
-                            ['MESSAGE' => "Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."],
-                            ['IMAGE'   => ['LINK' => "http://files.shelenkov.com/bitrix/images/win.jpg"]],
-                        ],
-                    ],
+                            ['MESSAGE' => 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.'],
+                            ['IMAGE' => ['LINK' => 'https://files.shelenkov.com/bitrix/images/win.jpg']]
+                        ]
+                    ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding message: ' . $e->getMessage();
@@ -470,25 +483,23 @@
 
     ```js
     BX24.callMethod(
-        'imbot.message.add',
+        'im.message.add',
         {
             DIALOG_ID: 'chat20921',
             MESSAGE: 'У вас новое уведомление',
             ATTACH: {
                 ID: 1,
-                COLOR: "#29619b",
+                COLOR: '#29619b',
                 BLOCKS: [
-                    {MESSAGE: "Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."},
-                    {IMAGE: {LINK: "http://files.shelenkov.com/bitrix/images/win.jpg"}}
+                    { MESSAGE: 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.' },
+                    { IMAGE: { LINK: 'https://files.shelenkov.com/bitrix/images/win.jpg' } }
                 ]
             }
-        }, function(result){
-            if(result.error())
-            {
+        },
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
+            } else {
                 console.log(result.data());
             }
         }
@@ -497,29 +508,32 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../../_includes/rest-command.md) %}
-
     ```php
-    restCommand(
-        'imbot.message.add',
-        Array(
-            "DIALOG_ID" => $_REQUEST['data']['PARAMS']['DIALOG_ID'],
-            "MESSAGE" => "У вас новое уведомление",
-            "ATTACH" => Array(
-                Array(
-                    "MESSAGE" => "Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."
-                ),
-                Array(
-                    "IMAGE" => Array(
-                        "LINK" => "http://files.shelenkov.com/bitrix/images/win.jpg",
-                    )
-                ),
-            )
-        ),
-        $_REQUEST["auth"]
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.message.add',
+        [
+            'DIALOG_ID' => 'chat20921',
+            'MESSAGE' => 'У вас новое уведомление',
+            'ATTACH' => [
+                'ID' => 1,
+                'COLOR' => '#29619b',
+                'BLOCKS' => [
+                    ['MESSAGE' => 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.'],
+                    ['IMAGE' => ['LINK' => 'https://files.shelenkov.com/bitrix/images/win.jpg']]
+                ]
+            ]
+        ]
     );
+
+    print_r($result);
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./block-collections/index.md)
+- [{#T}](../im-message-add.md)

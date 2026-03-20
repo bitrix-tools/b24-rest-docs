@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «чтения» контактов
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.contact.get` продолжает работать, но у него есть более актуальный аналог [crm.item.get](../universal/crm-item-get.md).
+
+{% endnote %}
+
 Метод `crm.contact.get` возвращает контакт по его идентификатору.
 
 Чтобы получить список компаний, привязанных к контакту, используйте метод [`crm.contact.company.items.get`](company/crm-contact-company-items-get.md).
@@ -34,7 +40,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"ID":23}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.get
     ```
 
 - cURL (OAuth)

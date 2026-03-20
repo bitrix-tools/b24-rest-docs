@@ -3,8 +3,6 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Получить поля шаблона документа
-    href: crm-document-generator-template-get-fields.md
   - name: Добавить новый шаблон
     href: crm-document-generator-template-add.md
   - name: Изменить существующий шаблон документа
@@ -15,3 +13,5 @@ items:
     href: crm-document-generator-template-list.md
   - name: Удалить шаблон документа
     href: crm-document-generator-template-delete.md
+  - name: Получить поля шаблона документа
+    href: crm-document-generator-template-get-fields.md

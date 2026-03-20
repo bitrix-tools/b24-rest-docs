@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «чтения» сделки
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.deal.productrows.get` продолжает работать, но у него есть более актуальный аналог [crm.item.productrow.*](../universal/product-rows/index.md).
+
+{% endnote %}
+
 Метод `crm.deal.productrows.get` возвращает товарные позиции сделки.
 
 #|
@@ -31,7 +37,7 @@
 	-H "Content-Type: application/json" \
 	-H "Accept: application/json" \
 	-d '{"id":5}' \
-	https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.productrows.get
+	https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.productrows.get
     ```
 
 - cURL (OAuth)
@@ -235,9 +241,9 @@ HTTP-статус: **200**
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор товарной позиции ||
 || **OWNER_ID**
-[`integer`](../../data-types.md) | Идентификатор сущности, к которой привязан товар. Для данного метода всегда будет равен `id` сделки ||
+[`integer`](../../data-types.md) | Идентификатор элемента, к которому привязан товар. Для данного метода всегда будет равен `id` сделки ||
 || **OWNER_TYPE**
-[`string`](../../data-types.md) | Строковый идентификатор типа сущности, к которому привязан товар. Для данного метода всегда будет равен `D` ||
+[`string`](../../data-types.md) | Строковый идентификатор типа объекта, к которому привязан товар. Для данного метода всегда будет равен `D` ||
 || **PRODUCT_ID**
 [`integer`](../../data-types.md) | Идентификатор товара в каталоге. `0` если не из каталога
 
@@ -275,14 +281,14 @@ HTTP-статус: **200**
 || **TAX_RATE**
 [`double`](../../data-types.md) | Ставка налога в процентах ||
 || **TAX_INCLUDED**
-[`boolean`](../../data-types.md) | Индикатор того, включен ли налог в стоимость
+[`char`](../../data-types.md) | Индикатор того, включен ли налог в стоимость
 Возможные значения:
 - `Y` – налог включен
 - `N` – налог не включен
 
 ||
 || **CUSTOMIZED**
-[`boolean`](../../data-types.md) | Изменен (Устаревшее)
+[`char`](../../data-types.md) | Изменен (Устаревшее)
 Возможные значения:
  - `Y` - Да
  - `N` - Нет
@@ -332,7 +338,7 @@ HTTP-статус: **400**
 
 #|
 || **Описание** | **Значение** ||
-|| The parameter id is invalid or not defined. | В параметр `id` передано некорректное значение ||
+|| The parameter id is invalid or not defined | В параметр `id` передано некорректное значение ||
 || Access denied | У пользователя нет прав на «чтение» сделки  ||
 || Not found | Сделка с переданным `id` не найдена ||
 |#

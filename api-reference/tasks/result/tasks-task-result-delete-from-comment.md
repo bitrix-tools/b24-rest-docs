@@ -8,6 +8,12 @@
 
 Пользователь может снять фиксацию только своего комментария. Администратор может снять фиксацию с комментария любого пользователя.
 
+{% note warning " " %}
+
+При работе с [новой карточкой задачи](../tasks-new.md) с чатом с версии модуля `tasks 25.700.0` метод не работает.
+
+{% endnote %}
+
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
@@ -34,7 +40,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"commentId":3199}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.result.deleteFromComment
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.result.deleteFromComment
     ```
 
 - cURL (OAuth)

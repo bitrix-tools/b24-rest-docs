@@ -32,7 +32,7 @@ void BX24.closeApplication();
 Единый пример для [BX24.openApplication](./bx24-open-application.md) и BX24.closeApplication.
 
 ```php
-<script src="//api.bitrix24.com/api/v1/"></script>
+<script src="//api.bitrix24.tech/api/v1/"></script>
 <?
 // разбор входных данных
 $placementOptions = array();

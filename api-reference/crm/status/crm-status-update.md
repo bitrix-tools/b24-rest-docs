@@ -45,7 +45,7 @@
          -H "Content-Type: application/json" \
          -H "Accept: application/json" \
          -d '{"id":123,"fields":{"NAME":"Новое название","COLOR":"#00A9F4"}}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.status.update
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.status.update
     ```
 
 - cURL (OAuth)

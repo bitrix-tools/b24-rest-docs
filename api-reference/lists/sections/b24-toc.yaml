@@ -5,9 +5,9 @@ items:
     href: index.md
   - name: Создать раздел
     href: lists-section-add.md
-  - name: Удалить раздел
-    href: lists-section-delete.md
-  - name: Получить параметры раздела или список разделов
-    href: lists-section-get.md
   - name: Изменить раздел списка
     href: lists-section-update.md
+  - name: Получить параметры раздела или список разделов
+    href: lists-section-get.md
+  - name: Удалить раздел
+    href: lists-section-delete.md 

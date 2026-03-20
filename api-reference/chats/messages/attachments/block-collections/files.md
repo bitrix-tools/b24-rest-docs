@@ -1,30 +1,25 @@
 # Блок с файлами FILE
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
+Блок `FILE` выводит файл как элемент вложения с названием и размером.
 
 ![Блок с файлами](./_images/files.png)
 
-`FILE` - отображает форматированную ссылку для загрузки файла.
+## Параметры блока
 
-Размер файла необходимо указывать в байтах.
-
-Поля **NAME** (название файла) и **SIZE** (размер файла) не являются обязательными.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **LINK***
+[`string`](../../../../data-types.md) | URL файла ||
+|| **NAME**
+[`string`](../../../../data-types.md) | Отображаемое имя файла ||
+|| **SIZE**
+[`integer`](../../../../data-types.md) | Размер файла в байтах. Если поле не задано, файл отображается без корректного размера ||
+|#
 
 ## Пример
+
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -32,28 +27,34 @@
 
     ```js
     {
-        FILE: {
-            NAME: "mantis.jpg",
-            LINK: "https://files.shelenkov.com/bitrix/images/mantis.jpg",
-            SIZE: 1500000,
-        }
-    },
+        FILE: [
+            {
+                NAME: 'mantis.jpg',
+                LINK: 'https://files.shelenkov.com/bitrix/images/mantis.jpg',
+                SIZE: 1500000
+            }
+        ]
+    }
     ```
 
 - PHP
 
     ```php
-    Array(
-        "FILE" => Array(
-            Array(
-                "NAME" => "mantis.jpg",
-                "LINK" => "https://files.shelenkov.com/bitrix/images/mantis.jpg",
-                "SIZE" => "1500000"
-            )
-        )
-    ),
+    [
+        'FILE' => [
+            [
+                'NAME' => 'mantis.jpg',
+                'LINK' => 'https://files.shelenkov.com/bitrix/images/mantis.jpg',
+                'SIZE' => 1500000
+            ]
+        ]
+    ]
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./images.md)
+- [{#T}](../index.md)

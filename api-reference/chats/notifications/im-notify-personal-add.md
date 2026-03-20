@@ -1,111 +1,227 @@
 # Отправить персональное уведомление im.notify.personal.add
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-- не прописаны ссылки на несозданные ещё страницы
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.personal.add` отправляет персональное уведомление.
+Метод `im.notify.personal.add` отправляет персональное уведомление от имени текущего пользователя.
 
-#|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **USER_ID^*^**
-[`unknown`](../../data-types.md) | `1` | Идентификатор пользователя, кому будет адресовано уведомление | 18 ||
-|| **MESSAGE^*^**
-[`unknown`](../../data-types.md) | Персональное уведомление | Текст уведомления | 18 ||
-|| **MESSAGE_OUT**
-[`unknown`](../../data-types.md) | Текст персонального уведомления для почты | Текст уведомления для почты. Если не задано, то используется поле MESSAGE | 18 ||
-|| **TAG**
-[`unknown`](../../data-types.md) | `TEST` | Тег уведомления, уникальный в рамках системы. При добавлении уведомления с существующим тегом другие уведомления будут удалены | 18 ||
-|| **SUB_TAG**
-[`unknown`](../../data-types.md) | `SUB`\|`TEST` | Дополнительный тег, без проверки на уникальность | 18 ||
-|| **ATTACH**
-[`unknown`](../../data-types.md) | | Вложение | 18 ||
-|#
+{% note info "" %}
+
+Метод доступен только при вызове через приложение.
+
+{% endnote %}
+
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Примеры
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **USER_ID***
+[`integer`](../../data-types.md) | Идентификатор пользователя-получателя уведомления. 
 
-{% include [Пояснение о restCommand](../_includes/rest-command.md) %}
+Получить идентификатор пользователя можно методами [user.get](../../user/user-get.md), [user.search](../../user/user-search.md) или [im.user.get](../users/im-user-get.md) ||
+|| **MESSAGE***
+[`string`](../../data-types.md) | Текст уведомления. Метод удаляет пробелы по краям строки перед отправкой ||
+|| **MESSAGE_OUT**
+[`string`](../../data-types.md) | Текст уведомления для внешних каналов, например, почты. Если не передан, отправляется пустое значение ||
+|| **TAG**
+[`string`](../../data-types.md) | Уникальный тег уведомления в рамках приложения. При добавлении уведомления с существующим тегом другие уведомления будут удалены. Передавайте с `CLIENT_ID` при вызове через вебхук ||
+|| **SUB_TAG**
+[`string`](../../data-types.md) | Дополнительный тег уведомления без проверки уникальности. Передавайте с `CLIENT_ID` при вызове через вебхук ||
+|| **ATTACH**
+[`object`](../../data-types.md) 
+[`string`](../../data-types.md) | Вложение уведомления в формате объекта или JSON-строки. Подробнее смотрите в разделе [Вложения](../messages/attachments/index.md) ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"USER_ID":5,"MESSAGE":"Напоминание по задаче","MESSAGE_OUT":"Напоминание по задаче (email)","TAG":"TASK_REMINDER_42","SUB_TAG":"TASK_REMINDER|42"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify.personal.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"USER_ID":5,"MESSAGE":"Напоминание по задаче","MESSAGE_OUT":"Напоминание по задаче (email)","TAG":"TASK_REMINDER_42","SUB_TAG":"TASK_REMINDER|42","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.notify.personal.add
+    ```
+
+- JS
+
+    ```js
+    try {
+      const response = await $b24.callMethod('im.notify.personal.add', {
+        USER_ID: 5,
+        MESSAGE: 'Напоминание по задаче',
+        MESSAGE_OUT: 'Напоминание по задаче (email)',
+        TAG: 'TASK_REMINDER_42',
+        SUB_TAG: 'TASK_REMINDER|42',
+      });
+
+      const { result } = response.getData();
+      console.log('Notification ID:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    ```
 
 - PHP
 
     ```php
-    $result = restCommand(
+    try {
+        $response = $b24Service->core->call(
+            'im.notify.personal.add',
+            [
+                'USER_ID' => 5,
+                'MESSAGE' => 'Напоминание по задаче',
+                'MESSAGE_OUT' => 'Напоминание по задаче (email)',
+                'TAG' => 'TASK_REMINDER_42',
+                'SUB_TAG' => 'TASK_REMINDER|42',
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Notification ID: ' . $result->data();
+        }
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
         'im.notify.personal.add',
-        Array(
-            'USER_ID' => 1,
-            'MESSAGE' => 'Персональное уведомление',
-            'MESSAGE_OUT' => 'Текст персонального уведомления для почты',
-            'TAG' => 'TEST',
-            'SUB_TAG' => 'SUB|TEST',
-            'ATTACH' => ''
-        ),
-        $_REQUEST[
-            "auth"
-        ]
+        {
+            USER_ID: 5,
+            MESSAGE: 'Напоминание по задаче',
+            MESSAGE_OUT: 'Напоминание по задаче (email)',
+            TAG: 'TASK_REMINDER_42',
+            SUB_TAG: 'TASK_REMINDER|42',
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
+            }
+        }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.notify.personal.add',
+        [
+            'USER_ID' => 5,
+            'MESSAGE' => 'Напоминание по задаче',
+            'MESSAGE_OUT' => 'Напоминание по задаче (email)',
+            'TAG' => 'TASK_REMINDER_42',
+            'SUB_TAG' => 'TASK_REMINDER|42',
+        ]
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Notification ID: ' . $result['result'];
+    }
+    ```
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
 ```json
 {
-    "result": 123
+    "result": 12345,
+    "time": {
+        "start": 1760000000.0,
+        "finish": 1760000000.1,
+        "duration": 0.1,
+        "processing": 0.04,
+        "date_start": "2026-03-02T09:30:00+03:00",
+        "date_finish": "2026-03-02T09:30:00+03:00",
+        "operating_reset_at": 1760030000,
+        "operating": 0
+    }
 }
 ```
 
-**Результат выполнения**: идентификатор уведомления `ID` или ошибка.
+## Возвращаемые данные
 
-## Ответ в случае ошибки
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`integer`](../../data-types.md) 
+[`boolean`](../../data-types.md) | Идентификатор созданного уведомления. Если уведомление не создано, может вернуться `false` ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
 
 ```json
 {
     "error": "USER_ID_EMPTY",
-    "error_description": "Идентификатор получателя не задан"
+    "error_description": "User ID can't be empty"
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **USER_ID_EMPTY** | Идентификатор получателя не задан ||
-|| **MESSAGE_EMPTY** | Не передан текст сообщения ||
-|| **ATTACH_ERROR** | Весь переданный объект вложения не прошел валидацию ||
-|| **ATTACH_OVERSIZE** | Превышен максимально допустимый размер вложения (30 Кб) ||
+|| **Код** | **Описание** | **Значение** ||
+|| `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией, для которой он запрещен ||
+|| `USER_ID_EMPTY` | User ID can't be empty | Параметр `USER_ID` не передан или `USER_ID <= 0` ||
+|| `MESSAGE_EMPTY` | Message can't be empty | Не передан текст сообщения ||
+|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен допустимый размер вложения `ATTACH` — 30 Кб ||
+|| `ATTACH_ERROR` | Incorrect attach params | Передан некорректный формат вложения `ATTACH` ||
 |#
 
-## Ссылки по теме
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
-- [{#T}](../messages/attachments/index.md)
+## Продолжите изучение
+
+- [{#T}](./im-notify.md)
+- [{#T}](./im-notify-system-add.md)
+- [{#T}](./im-notify-get.md)
+- [{#T}](./im-notify-schema-get.md)
+- [{#T}](./im-notify-read-list.md)
+- [{#T}](./im-notify-read.md)
+- [{#T}](./im-notify-read-all.md)
+- [{#T}](./im-notify-answer.md)
+- [{#T}](./im-notify-confirm.md)
+- [{#T}](./im-notify-delete.md)
+- [{#T}](./im-notify-history-search.md)

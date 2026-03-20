@@ -20,7 +20,7 @@
 || **ownerId***
 [`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например, `1` ||
 || **colorId***
-[`integer`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне, например `1`. Для выбора доступно 8 цветов, значения от 1 до 7 и цвет по умолчанию, если ничего не указано:
+[`string`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне, например `1`. Для выбора доступно 8 цветов, значения от 1 до 7 и цвет по умолчанию, если ничего не указано:
 
 ![Доступные цвета](./_images/colors.png)
 
@@ -39,8 +39,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"colorId":3}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.todo.updateColor
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"colorId":"3"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.todo.updateColor
     ```
 
 - cURL (OAuth)
@@ -49,7 +49,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"colorId":3,"auth":"**put_access_token_here**"}' \
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"colorId":"3","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.todo.updateColor
     ```
 
@@ -65,7 +65,7 @@
     			id: 999,
     			ownerTypeId: 2,
     			ownerId: 1,
-    			colorId: 3
+    			colorId: '3'
     		}
     	);
     	
@@ -98,7 +98,7 @@
                     'id'          => 999,
                     'ownerTypeId' => 2,
                     'ownerId'     => 1,
-                    'colorId'     => 3,
+                    'colorId'     => '3',
                 ]
             );
     
@@ -127,7 +127,7 @@
             id: 999,
             ownerTypeId: 2,
             ownerId: 1,
-            colorId: 3
+            colorId: '3'
         }, 
         result => {
             if (result.error())
@@ -149,7 +149,7 @@
             'id' => 999,
             'ownerTypeId' => 2,
             'ownerId' => 1,
-            'colorId' => 3
+            'colorId' => '3'
         ]
     );
 

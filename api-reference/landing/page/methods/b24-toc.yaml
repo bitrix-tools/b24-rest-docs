@@ -3,7 +3,7 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Добавить страницу
+  - name: Добавить страницу или папку
     href: landing-landing-add.md
   - name: Добавить страницу по шаблону
     href: landing-landing-add-by-template.md
@@ -27,9 +27,9 @@ items:
     href: landing-landing-move.md
   - name: Опубликовать страницу
     href: landing-landing-publication.md
-  - name: Удалить связанные сущности
+  - name: Удалить блоки и изображения страницы
     href: landing-landing-remove-entities.md
-  - name: Получить идентификатор страницы по URL
+  - name: Получить идентификатор страницы по публичному URL
     href: landing-landing-resolve-id-by-public-url.md
   - name: Снять страницу с публикации
     href: landing-landing-unpublic.md

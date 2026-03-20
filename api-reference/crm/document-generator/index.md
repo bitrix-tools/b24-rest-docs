@@ -18,7 +18,7 @@
 
 {% note info "Права" %}
 
-**Scope**: [`crm.documentgenerator`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
+**Scope**: [`crm`](../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
 
 > Быстрый переход: [все методы](#all-methods) 
 

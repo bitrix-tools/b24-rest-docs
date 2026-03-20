@@ -35,13 +35,9 @@ items:
     include:
       path: contacts/b24-toc.yaml
       mode: link
-  - name: История движения сделки
-    href: deal-stage-history.md
-  - name: Виджеты
-    href: widgets.md
-  - name: Воронки продаж в сделках
-    href: deal-catogories.md
   - name: Управление карточками сделок
     include:
       path: custom-form/b24-toc.yaml
       mode: link
+  - name: Виджеты
+    href: widgets.md      

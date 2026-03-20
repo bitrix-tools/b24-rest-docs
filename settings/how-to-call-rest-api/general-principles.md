@@ -34,7 +34,7 @@ https://your-domain.bitrix24.com/rest/method-name?param1=value1&param2=value2...
                 "get_user": "user.current"
             }
         }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/batch
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/batch
     ```
     
     Результат:
@@ -99,7 +99,7 @@ https://your-domain.bitrix24.com/rest/method-name?param1=value1&param2=value2...
                 "get_user": "user.current"
             }
         }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/batch.xml
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/batch.xml
     ```
 
     Результат:

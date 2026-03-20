@@ -1,56 +1,58 @@
 # Получить информацию о ревизиях API imopenlines.revision.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает информацию о ревизиях API Открытых линий.
+Метод `imopenlines.revision.get` получает информацию о ревизиях API Открытых линий.
+
+## Параметры метода
 
 Без параметров.
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.revision.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.revision.get
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'imopenlines.revision.get',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+        const response = await $b24.callMethod('imopenlines.revision.get', {});
+        const result = response.getData().result;
+        console.log(result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error('Error:', error.ex);
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -60,20 +62,14 @@
                 'imopenlines.revision.get',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error()->ex;
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting revision: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -83,10 +79,11 @@
     BX24.callMethod(
         'imopenlines.revision.get',
         {},
-        function(result){
-            if(result.error())
+        function(result)
+        {
+            if (result.error())
             {
-                console.error(result.error().ex);
+                console.error(result.error());
             }
             else
             {
@@ -98,38 +95,70 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../../chat-bots/_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
-        'imopenlines.revision.get',
-        Array(),
-        $_REQUEST["auth"]
-    );
+    require_once('crest.php');
+
+    $result = CRest::call('imopenlines.revision.get', []);
+
+    print_r($result);
     ```
-
-- cURL
-
-    // пример для cURL
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
 ```json
-{    
+{
     "result": {
         "rest": 2,
         "web": 1,
-        "mobile": 1,
+        "mobile": 1
+    },
+    "time": {
+        "start": 1773660116,
+        "finish": 1773660116.269681,
+        "duration": 0.2696809768676758,
+        "processing": 0,
+        "date_start": "2026-03-16T14:21:56+03:00",
+        "date_finish": "2026-03-16T14:21:56+03:00",
+        "operating_reset_at": 1773660716,
+        "operating": 0
     }
 }
 ```
 
-**Описание ключей**:
+### Возвращаемые данные
 
-- `rest` – ревизия api для rest клиентов
-- `web` – ревизия api для веб/десктоп клиента
-- `mobile` – ревизия api для мобильного клиента
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой объект с ревизиями API [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **rest**
+[`integer`](../../data-types.md) | Ревизия API для REST-клиентов ||
+|| **web**
+[`integer`](../../data-types.md) | Ревизия API для веб- и десктоп-клиента ||
+|| **mobile**
+[`integer`](../../data-types.md) | Ревизия API для мобильного клиента ||
+|#
+
+## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)

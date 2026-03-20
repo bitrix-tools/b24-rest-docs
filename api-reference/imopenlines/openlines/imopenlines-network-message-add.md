@@ -1,43 +1,43 @@
 # Отправить сообщение пользователю от имени открытой линии imopenlines.network.message.add
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-> Scope: [`imopenlines, imbot`](../../scopes/permissions.md)
+> Scope: [`imopenlines`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `imopenlines.network.message.add` отправляет сообщение пользователю от имени открытой линии.
+Метод `imopenlines.network.message.add` отправляет сообщение пользователю от имени открытой линии, подкллюченной в Битрикс24 Network.
 
-## Ограничения работы метода
-
-- Можно отправлять сообщение не более одного раза для каждого пользователя в течение одной недели.
-  Для аккаунта с лицензией Партнера (NFR) ограничений нет
-
-- Можно использовать клавиатуру только для форматирования кнопки ссылки на стороннем сайте.
+Ограничения работы метода:
+1. Метод недоступен при сессионной авторизации. Для сессионной авторизации возвращает ошибку `WRONG_AUTH_TYPE`
+2. Можно отправлять сообщение не более одного раза для каждого пользователя в течение одной недели. Для аккаунта с лицензией Партнера (NFR) ограничений по лимиту нет
+3. Можно использовать клавиатуру только для форматирования кнопки ссылки на стороннем сайте
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-||**Название**
-`тип`|**Описание**||
+|| **Название**
+`тип` | **Описание** ||
 || **CODE***
-[`unknown`](../../data-types.md) | Код Открытой линии, например `ab515f5d85a8b844d484f6ea75a2e494` ||
-|| **USER_ID***[
-    `int`](../../data-types.md) | ID получателя сообщения, например `2` ||
+[`string`](../../data-types.md) | Код открытой линии, строка из 32 символов, например `ab515f5d85a8b844d484f6ea75a2e494` ||
+|| **USER_ID***
+[`integer`](../../data-types.md) | Идентификатор получателя сообщения, например `2` ||
 || **MESSAGE***
-[`string`](../../data-types.md) | Текст сообщения, доступно [форматирование](../../chats/messages/index.md) ||
+[`string`](../../data-types.md) | Текст сообщения. 
+
+Как форматировать текст — в статье [форматирование](../../chats/messages/index.md) ||
 || **ATTACH**
-[`unknown`](../../data-types.md) | Вложение, формат описан в статье [Как использовать вложения](../../chats/messages/attachments/index.md) ||
+[`object`](../../data-types.md) | Вложение.
+
+Формат вложения описан в статье [Как использовать вложения](../../chats/messages/attachments/index.md) ||
 || **KEYBOARD**
-[`unknown`](../../data-types.md) | Клавиатура, информация об использовании в статье [Работа с клавиатурами](../../chats/messages/keyboards.md) ||
+[`object`](../../data-types.md) | Клавиатура.
+
+Как создавать клавиатуры — в статье [Работа с клавиатурами](../../chats/messages/keyboards.md) ||
 || **URL_PREVIEW**
-[`unknown`](../../data-types.md) | Преобразование ссылок в расширенные ссылки, по умолчанию установлено как `Y` ||
+[`char`](../../data-types.md) | Предпросмотр ссылок. Включен `Y` по умолчанию. 
+
+Передайте `N`, чтобы отключить предпросмотр ссылок ||
 |#
 
 ## Примеры кода
@@ -46,45 +46,179 @@
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "CODE": "ab515f5d85a8b844d484f6ea75a2e494",
+        "USER_ID": 2,
+        "MESSAGE": "Подготовили материалы по подключению открытых линий",
+        "ATTACH": {
+          "ID": 1,
+          "COLOR_TOKEN": "primary",
+          "BLOCKS": [
+            {
+              "MESSAGE": "Во вложении отправили чек-лист и схему подключения"
+            },
+            {
+              "FILE": [
+                {
+                  "NAME": "checklist-openlines.pdf",
+                  "LINK": "https://cdn.example.com/docs/checklist-openlines.pdf",
+                  "SIZE": 428736
+                }
+              ]
+            },
+            {
+              "IMAGE": [
+                {
+                  "NAME": "Схема подключения",
+                  "LINK": "https://cdn.example.com/images/openlines-setup.png",
+                  "PREVIEW": "https://cdn.example.com/images/openlines-setup-preview.png",
+                  "WIDTH": 1280,
+                  "HEIGHT": 720
+                }
+              ]
+            }
+          ]
+        },
+        "KEYBOARD": {
+          "BUTTONS": [
+            {
+              "TEXT": "Открыть инструкцию",
+              "LINK": "https://help.example.com/openlines/setup",
+              "DISPLAY": "LINE",
+              "BG_COLOR_TOKEN": "primary"
+            }
+          ]
+        },
+        "URL_PREVIEW": "N"
+      }' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.network.message.add
+    ```
+
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CODE":"ab515f5d85a8b844d484f6ea75a2e494","USER_ID":2,"MESSAGE":"message text","ATTACH":"","KEYBOARD":"","URL_PREVIEW":"Y","auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/imopenlines.network.message.add
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "CODE": "ab515f5d85a8b844d484f6ea75a2e494",
+        "USER_ID": 2,
+        "MESSAGE": "Подготовили материалы по подключению открытых линий",
+        "ATTACH": {
+          "ID": 1,
+          "COLOR_TOKEN": "primary",
+          "BLOCKS": [
+            {
+              "MESSAGE": "Во вложении отправили чек-лист и схему подключения"
+            },
+            {
+              "FILE": [
+                {
+                  "NAME": "checklist-openlines.pdf",
+                  "LINK": "https://cdn.example.com/docs/checklist-openlines.pdf",
+                  "SIZE": 428736
+                }
+              ]
+            },
+            {
+              "IMAGE": [
+                {
+                  "NAME": "Схема подключения",
+                  "LINK": "https://cdn.example.com/images/openlines-setup.png",
+                  "PREVIEW": "https://cdn.example.com/images/openlines-setup-preview.png",
+                  "WIDTH": 1280,
+                  "HEIGHT": 720
+                }
+              ]
+            }
+          ]
+        },
+        "KEYBOARD": {
+          "BUTTONS": [
+            {
+              "TEXT": "Открыть инструкцию",
+              "LINK": "https://help.example.com/openlines/setup",
+              "DISPLAY": "LINE",
+              "BG_COLOR_TOKEN": "primary"
+            }
+          ]
+        },
+        "URL_PREVIEW": "N",
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.network.message.add
     ```
 
 - JS
 
-
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'imopenlines.network.message.add',
-    		{
-    			'CODE': 'ab515f5d85a8b844d484f6ea75a2e494',
-    			'USER_ID': 2,
-    			'MESSAGE': 'message text',
-    			'ATTACH': '',
-    			'KEYBOARD': '',
-    			'URL_PREVIEW': 'Y'
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log('Success:', result);
+        const response = await $b24.callMethod(
+            'imopenlines.network.message.add',
+            {
+                CODE: 'ab515f5d85a8b844d484f6ea75a2e494',
+                USER_ID: 2,
+                MESSAGE: 'Подготовили материалы по подключению открытых линий',
+                ATTACH: {
+                    ID: 1,
+                    COLOR_TOKEN: 'primary',
+                    BLOCKS: [
+                        {
+                            MESSAGE: 'Во вложении отправили чек-лист и схему подключения'
+                        },
+                        {
+                            FILE: [
+                                {
+                                    NAME: 'checklist-openlines.pdf',
+                                    LINK: 'https://cdn.example.com/docs/checklist-openlines.pdf',
+                                    SIZE: 428736
+                                }
+                            ]
+                        },
+                        {
+                            IMAGE: [
+                                {
+                                    NAME: 'Схема подключения',
+                                    LINK: 'https://cdn.example.com/images/openlines-setup.png',
+                                    PREVIEW: 'https://cdn.example.com/images/openlines-setup-preview.png',
+                                    WIDTH: 1280,
+                                    HEIGHT: 720
+                                }
+                            ]
+                        }
+                    ]
+                },
+                KEYBOARD: {
+                    BUTTONS: [
+                        {
+                            TEXT: 'Открыть инструкцию',
+                            LINK: 'https://help.example.com/openlines/setup',
+                            DISPLAY: 'LINE',
+                            BG_COLOR_TOKEN: 'primary'
+                        }
+                    ]
+                },
+                URL_PREVIEW: 'N'
+            }
+        );
+
+        const result = response.getData().result;
+        console.log(result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error('Error:', error);
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -93,45 +227,121 @@
             ->call(
                 'imopenlines.network.message.add',
                 [
-                    'CODE'        => 'ab515f5d85a8b844d484f6ea75a2e494',
-                    'USER_ID'     => 2,
-                    'MESSAGE'     => 'message text',
-                    'ATTACH'      => '',
-                    'KEYBOARD'    => '',
-                    'URL_PREVIEW' => 'Y',
+                    'CODE' => 'ab515f5d85a8b844d484f6ea75a2e494',
+                    'USER_ID' => 2,
+                    'MESSAGE' => 'Подготовили материалы по подключению открытых линий',
+                    'ATTACH' => [
+                        'ID' => 1,
+                        'COLOR_TOKEN' => 'primary',
+                        'BLOCKS' => [
+                            [
+                                'MESSAGE' => 'Во вложении отправили чек-лист и схему подключения'
+                            ],
+                            [
+                                'FILE' => [
+                                    [
+                                        'NAME' => 'checklist-openlines.pdf',
+                                        'LINK' => 'https://cdn.example.com/docs/checklist-openlines.pdf',
+                                        'SIZE' => 428736
+                                    ]
+                                ]
+                            ],
+                            [
+                                'IMAGE' => [
+                                    [
+                                        'NAME' => 'Схема подключения',
+                                        'LINK' => 'https://cdn.example.com/images/openlines-setup.png',
+                                        'PREVIEW' => 'https://cdn.example.com/images/openlines-setup-preview.png',
+                                        'WIDTH' => 1280,
+                                        'HEIGHT' => 720
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'KEYBOARD' => [
+                        'BUTTONS' => [
+                            [
+                                'TEXT' => 'Открыть инструкцию',
+                                'LINK' => 'https://help.example.com/openlines/setup',
+                                'DISPLAY' => 'LINE',
+                                'BG_COLOR_TOKEN' => 'primary'
+                            ]
+                        ]
+                    ],
+                    'URL_PREVIEW' => 'N',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding network message: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
 - BX24.js
 
-    ```javascript
+    ```js
     BX24.callMethod(
         'imopenlines.network.message.add',
         {
-            'CODE': 'ab515f5d85a8b844d484f6ea75a2e494',
-            'USER_ID': 2,
-            'MESSAGE': 'message text',
-            'ATTACH': '',
-            'KEYBOARD': '',
-            'URL_PREVIEW': 'Y'
+            CODE: 'ab515f5d85a8b844d484f6ea75a2e494',
+            USER_ID: 2,
+            MESSAGE: 'Подготовили материалы по подключению открытых линий',
+            ATTACH: {
+                ID: 1,
+                COLOR_TOKEN: 'primary',
+                BLOCKS: [
+                    {
+                        MESSAGE: 'Во вложении отправили чек-лист и схему подключения'
+                    },
+                    {
+                        FILE: [
+                            {
+                                NAME: 'checklist-openlines.pdf',
+                                LINK: 'https://cdn.example.com/docs/checklist-openlines.pdf',
+                                SIZE: 428736
+                            }
+                        ]
+                    },
+                    {
+                        IMAGE: [
+                            {
+                                NAME: 'Схема подключения',
+                                LINK: 'https://cdn.example.com/images/openlines-setup.png',
+                                PREVIEW: 'https://cdn.example.com/images/openlines-setup-preview.png',
+                                WIDTH: 1280,
+                                HEIGHT: 720
+                            }
+                        ]
+                    }
+                ]
+            },
+            KEYBOARD: {
+                BUTTONS: [
+                    {
+                        TEXT: 'Открыть инструкцию',
+                        LINK: 'https://help.example.com/openlines/setup',
+                        DISPLAY: 'LINE',
+                        BG_COLOR_TOKEN: 'primary'
+                    }
+                ]
+            },
+            URL_PREVIEW: 'N'
         },
-        function(result) {
-            if(result.error()) {
-                console.error("Error: ", result.error());
-            } else {
-                console.log("Success: ", result.data());
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.log(result.data());
             }
         }
     );
@@ -147,36 +357,94 @@
         [
             'CODE' => 'ab515f5d85a8b844d484f6ea75a2e494',
             'USER_ID' => 2,
-            'MESSAGE' => 'message text',
-            'ATTACH' => '',
-            'KEYBOARD' => '',
-            'URL_PREVIEW' => 'Y'
+            'MESSAGE' => 'Подготовили материалы по подключению открытых линий',
+            'ATTACH' => [
+                'ID' => 1,
+                'COLOR_TOKEN' => 'primary',
+                'BLOCKS' => [
+                    [
+                        'MESSAGE' => 'Во вложении отправили чек-лист и схему подключения'
+                    ],
+                    [
+                        'FILE' => [
+                            [
+                                'NAME' => 'checklist-openlines.pdf',
+                                'LINK' => 'https://cdn.example.com/docs/checklist-openlines.pdf',
+                                'SIZE' => 428736
+                            ]
+                        ]
+                    ],
+                    [
+                        'IMAGE' => [
+                            [
+                                'NAME' => 'Схема подключения',
+                                'LINK' => 'https://cdn.example.com/images/openlines-setup.png',
+                                'PREVIEW' => 'https://cdn.example.com/images/openlines-setup-preview.png',
+                                'WIDTH' => 1280,
+                                'HEIGHT' => 720
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'KEYBOARD' => [
+                'BUTTONS' => [
+                    [
+                        'TEXT' => 'Открыть инструкцию',
+                        'LINK' => 'https://help.example.com/openlines/setup',
+                        'DISPLAY' => 'LINE',
+                        'BG_COLOR_TOKEN' => 'primary'
+                    ]
+                ]
+            ],
+            'URL_PREVIEW' => 'N',
         ]
     );
 
-    echo '<PRE>';
     print_r($result);
-    echo '</PRE>';
     ```
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
+
+HTTP-статус: **200**
 
 ```json
 {
-	"result": true
+    "result": true,
+    "time": {
+        "start": 1773740787,
+        "finish": 1773740787.828814,
+        "duration": 0.8288140296936035,
+        "processing": 0,
+        "date_start": "2026-03-17T12:46:27+03:00",
+        "date_finish": "2026-03-17T12:46:27+03:00",
+        "operating_reset_at": 1773741387,
+        "operating": 0.17312097549438477
+    }
 }
 ```
 
-**Результат выполнения**: `true` в случае успеха или ошибка.
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true`, если сообщение отправлено ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
 ```json
 {
-    "error": "CODE_ERROR",
-    "error_description": "Open Channel code is incorrect"
+    "error": "CODE",
+    "error_description": "You entered an invalid code"
 }
 ```
 
@@ -185,22 +453,26 @@
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `CODE_ERROR` | Неверный код открытой линии ||
-|| `USER_ID_EMPTY` | Отсутствует идентификатор пользователя ||
-|| `MESSAGE_EMPTY` | Отсутствует текст сообщения ||
-|| `ATTACH_ERROR ` | Объект вложения не прошел проверку ||
-|| `ATTACH_OVERSIZE` | Превышен максимально допустимый размер вложения (30 Кб) ||
-|| `KEYBOARD_ERROR` | Переданный объект клавиатуры не прошел проверку ||
-|| `KEYBOARD_OVERSIZE` | Превышен максимально допустимый размер клавиатуры (30 Кб) ||
-|| `USER_MESSAGE_LIMIT` | Превышен лимит сообщений для конкретного пользователя ||
-|| `WRONG_REQUEST` | Что-то пошло не так ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией ||
+|| `400` | `CODE` | You entered an invalid code | Некорректный код в параметре `CODE`, ожидается строка из 32 символов ||
+|| `400` | `IMBOT_ERROR` | Module IMBOT is not installed | Не установлен модуль imbot ||
+|| `400` | `NOT_FOUND` | Line not found | Открытая линия не найдена ||
+|| `400` | `USER_ID_EMPTY` | User ID can't be empty | Не указан идентификатор пользователя ||
+|| `400` | `USER_MESSAGE_LIMIT` | You cant send more than one message per week to each user | Превышен лимит сообщений для конкретного пользователя ||
+|| `400` | `MESSAGE_EMPTY` | Message can't be empty | Не указан текст сообщения ||
+|| `400` | `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен максимально допустимый размер вложения 30 Кб ||
+|| `400` | `ATTACH_ERROR` | Incorrect attach params | Объект вложения не прошел проверку ||
+|| `400` | `KEYBOARD_ERROR` | Incorrect keyboard params | Объект клавиатуры не прошел проверку ||
+|| `400` | `WRONG_REQUEST` | Message isn't added | Сообщение не отправлено ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
-- [{#T}](../../chats/messages/keyboards.md)
-- [{#T}](../../chats/messages/attachments/index.md)
+- [{#T}](./index.md)
+- [{#T}](./imopenlines-network-join.md)
 - [{#T}](../../chats/messages/index.md)
+- [{#T}](../../chats/messages/attachments/index.md)
+- [{#T}](../../chats/messages/keyboards.md)

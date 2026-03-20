@@ -22,18 +22,18 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [telephony.externalCall.searchCrmEntities](./telephony-external-call-search-crm-entities.md) | Получает объекты CRM по номеру телефона ||
-    || [telephony.externalcall.register](./telephony-external-call-register.md) | Регистрирует новый звонок ||
-    || [telephony.externalcall.finish](./telephony-external-call-finish.md) | Завершает звонок ||
-    || [telephony.externalcall.show](./telephony-external-call-show.md) | Показывает карточку звонка пользователю ||
-    || [telephony.externalcall.hide](./telephony-external-call-hide.md) | Скрывает карточку звонка ||
-    || [telephony.call.attachTranscription](./telephony-call-attach-transcription.md) | Прикрепляет расшифровку записи к звонку ||
-    || [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md) | Прикрепляет запись разговора к звонку ||
-    || [telephony.externalLine.add](./telephony-external-line-add.md) | Добавляет внешнюю линию ||
-    || [telephony.externalLine.update](./telephony-external-line-update.md) | Обновляет информацию о внешней линии ||
-    || [telephony.externalLine.get](./telephony-external-line-get.md) | Получает информацию о внешней линии ||
+    || [telephony.externalLine.add](./telephony-external-line-add.md) | Регистрирует внешнюю линию ||
+    || [telephony.externalLine.update](./telephony-external-line-update.md) | Изменяет внешнюю линию ||
+    || [telephony.externalLine.get](./telephony-external-line-get.md) | Возвращает список внешних линий ||
     || [telephony.externalLine.delete](./telephony-external-line-delete.md) | Удаляет внешнюю линию ||
-    || [voximplant.statistic.get](./voximplant-statistic-get.md) | Возвращает список истории звонков ||
+    || [telephony.externalCall.searchCrmEntities](./telephony-external-call-search-crm-entities.md) | Ищет клиента в CRM по номеру телефона ||
+    || [telephony.externalCall.register](./telephony-external-call-register.md) | Регистрирует начало звонка ||
+    || [telephony.externalCall.show](./telephony-external-call-show.md) | Открывает карточку звонка у пользователя ||
+    || [telephony.externalCall.hide](./telephony-external-call-hide.md) | Скрывает карточку звонка у пользователя ||
+    || [telephony.externalCall.finish](./telephony-external-call-finish.md) | Завершает звонок ||
+    || [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md) | Прикрепляет запись звонка ||
+    || [telephony.call.attachTranscription](./telephony-call-attach-transcription.md) | Добавляет расшифровку записи к звонку ||
+    || [voximplant.statistic.get](./voximplant-statistic-get.md) | Возвращает список звонков ||
     |#
 
 - События

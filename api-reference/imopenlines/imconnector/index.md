@@ -22,7 +22,7 @@
 
 **Чат**. За переписку с пользователями отвечают методы [im.chat.*](../../chats/index.md) и [im.message.*](../../chats/messages/index.md).
 
-**Чат-боты**. Настройка автоматических ответов и чат-ботов выполняется с помощью методов [imbot.*](../../chat-bots/index.md)
+**Чат-боты**. Настройка автоматических ответов и чат-ботов выполняется с помощью методов [imbot.*](../../chat-bots/outdated/index.md)
 
 ## Как подключить коннектор
 
@@ -68,7 +68,6 @@
     || **Метод** | **Описание** ||
     || [imconnector.register](imconnector-register.md) | Зарегистрировать коннектор ||
     || [imconnector.activate](imconnector-activate.md) | Активировать коннектор ||
-    || [imconnector.deactivate](imconnector-deactivate.md) | Деактивировать коннектор  ||
     || [imconnector.status](imconnector-status.md) | Получить статус коннектора ||
     || [imconnector.connector.data.set](imconnector-connector-data-set.md) | Изменить настройки коннектора ||
     || [imconnector.list](imconnector-list.md) | Получить список коннекторов ||
@@ -97,7 +96,6 @@
     || [imconnector.update.messages](imconnector-update-messages.md) | Изменить отправленные сообщения ||
     || [imconnector.delete.messages](imconnector-delete-messages.md) | Удалить отправленные сообщения ||
     || [imconnector.send.status.delivery](imconnector-send-status-delivery.md) | Обновить статус `доставлено` ||
-    || [imconnector.send.status.reading](imconnector-send-status-reading.md) | Обновить статус `прочитано` ||
     || [imconnector.chat.name.set](imconnector-chat-name-set.md) | Установить новое имя чата ||
     |#
 
@@ -117,3 +115,4 @@
 ## Продолжите изучение
 
 - [Как создать коннектор Открытых линий для онлайн-чата на сайте](../../../tutorials/openlines/example-connector.md)
+

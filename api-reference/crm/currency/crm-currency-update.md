@@ -123,7 +123,7 @@ fields: {
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"ID":"CNY","fields":{"AMOUNT":15.3449}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.currency.update
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.currency.update
         ```
 
     - cURL (OAuth)
@@ -206,7 +206,7 @@ fields: {
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"ID":"USD","fields":{"LANG":{"en":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"$#","FULL_NAME":"доллар США","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"S"},"de":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"# $","FULL_NAME":"US-Dollar","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"}}}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.currency.update
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.currency.update
         ```
 
     - cURL (OAuth)

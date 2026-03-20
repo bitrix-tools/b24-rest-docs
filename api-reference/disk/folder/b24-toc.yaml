@@ -5,13 +5,13 @@ items:
     href: index.md
   - name: Создать дочернюю папку
     href: disk-folder-add-subfolder.md
-  - name: Копировать папку в заданную папку
+  - name: Копировать папку в указанную папку
     href: disk-folder-copy-to.md
-  - name: Уничтожить папку и все дочерние элементы
+  - name: Удалить папку и все ее содержимое
     href: disk-folder-delete-tree.md
   - name: Получить список файлов и папок
     href: disk-folder-get-children.md
-  - name: Получить публичную ссылку для папки
+  - name: Получить публичную ссылку на папку
     href: disk-folder-get-external-link.md
   - name: Получить поля папки
     href: disk-folder-get-fields.md
@@ -19,11 +19,13 @@ items:
     href: disk-folder-get.md
   - name: Переместить папку в корзину
     href: disk-folder-mark-deleted.md
-  - name: Переместить папку в заданную папку
+  - name: Переместить папку в указанную папку
     href: disk-folder-move-to.md
   - name: Переименовать папку
     href: disk-folder-rename.md
   - name: Восстановить папку из корзины
     href: disk-folder-restore.md
+  - name: Назначить права доступа на папку
+    href: disk-folder-share-to-user.md
   - name: Загрузить файл в указанную папку
     href: disk-folder-upload-file.md

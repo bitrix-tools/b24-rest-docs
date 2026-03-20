@@ -1,41 +1,50 @@
 # Изменить задачу tasks.task.update
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- Нужен доп. пример с пояснением по привязке задачи к crm
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
- 
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
 > Scope: [`task`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: 
+> - любой пользователь с доступом к редактированию задачи
+> - постановщик задачи
 
 Метод `tasks.task.update` обновляет задачу.
 
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+
 #|
-|| **Параметр** / **Тип** | **Описание** ||
-|| **taskId**
-[`unknown`](../data-types.md) | Идентификатор задачи. ||
-|| **fields**
-[`unknown`](../data-types.md) | Поля, соответствующие доступному списку полей [tasks.task.getfields](./tasks-task-get-fields.md). ||
+|| **Название**
+`тип` | **Описание** ||
+|| **taskId***
+[`integer`](../data-types.md) | Идентификатор задачи. 
+
+Идентификатор задачи можно получить при [создании новой задачи](./tasks-task-add.md) или методом [получения списка задач](./tasks-task-list.md) ||
+|| **fields***
+[`object`](../data-types.md) | Значения [полей задачи](./fields.md). В параметре нужно передать хотя бы одно поле, иначе метод вернет ошибку.
+
+В метод можно передать параметр `SE_PARAMETER` — список объектов с дополнительными параметрами задачи. Возможные значения кодов `CODE`:
+- `1` — сроки определяются сроками подзадач
+- `2` — автоматически завершать задачу при завершении подзадач (и наоборот)
+- `3` — не завершать задачу без результата
+
+```js
+SE_PARAMETER: [
+    {
+        VALUE: 'Y',
+        CODE: 3
+    },
+    {
+        VALUE: 'Y',
+        CODE: 2
+    }
+]
+```
+||
 |#
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -46,7 +55,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"taskId":11,"fields":{"UF_CRM_TASK":["L_4","C_7","CO_5","D_10"],"UF_TASK_WEBDAV_FILES":["n12345","n67890"],"RESPONSIBLE_ID":123}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.update
     ```
 
 - cURL (OAuth)
@@ -204,159 +213,223 @@
     }
     ```
 
-- HTTP
-
-    ```bash
-    POST /rest/tasks.task.update.json
-    Host: your_bitrix24_domain
-    Authorization: Bearer your_access_token
-    Content-Type: application/x-www-form-urlencoded
-
-    taskId=11&
-    fields[RESPONSIBLE_ID]=123&
-    fields[UF_CRM_TASK][0]=L_4&
-    fields[UF_CRM_TASK][1]=C_7&
-    fields[UF_CRM_TASK][2]=CO_5&
-    fields[UF_CRM_TASK][3]=D_10&
-    fields[UF_TASK_WEBDAV_FILES][0]=n12345&
-    fields[UF_TASK_WEBDAV_FILES][1]=n67890
-    ```
-
 {% endlist %}
 
-Параметры метода для прикрепления файла к задаче из диска:
+## Обработка ответа
+
+HTTP-статус: **200**
 
 ```json
-{"taskId": "77", "fields": {"UF_TASK_WEBDAV_FILES": ["n111"]}}
+{
+    "result": {
+        "task": {
+            "id": "8157",
+            "title": "Пример задачи",
+            "description": "Описание задачи с [B]форматированием[/B]",
+            "description": "",
+            "mark": null,
+            "priority": "1",
+            "multitask": "N",
+            "notViewed": "N",
+            "replicate": "N",
+            "stageId": "0",
+            "sprintId": null,
+            "backlogId": null,
+            "createdBy": "503",
+            "createdDate": "2025-10-06T17:40:12+03:00",
+            "responsibleId": "503",
+            "changedBy": "503",
+            "changedDate": "2025-10-07T16:32:02+03:00",
+            "statusChangedBy": "503",
+            "closedBy": "0",
+            "closedDate": null,
+            "activityDate": "2025-10-07T16:29:55+03:00",
+            "dateStart": null,
+            "deadline": "2025-12-31T23:59:00+03:00",
+            "startDatePlan": "2024-11-02T11:06:00+03:00",
+            "endDatePlan": "2024-11-02T19:06:00+03:00",
+            "guid": "{1a90e51d-5423-4c1e-b1a2-664a519b4612}",
+            "xmlId": null,
+            "commentsCount": "4",
+            "serviceCommentsCount": "4",
+            "allowChangeDeadline": "N",
+            "allowTimeTracking": "N",
+            "taskControl": "N",
+            "addInReport": "N",
+            "forkedByTemplateId": null,
+            "timeEstimate": "0",
+            "timeSpentInLogs": null,
+            "matchWorkTime": "N",
+            "forumTopicId": "1439",
+            "forumId": "11",
+            "siteId": "s1",
+            "subordinate": "Y",
+            "exchangeModified": null,
+            "exchangeId": null,
+            "outlookVersion": "8",
+            "viewedDate": "2025-10-07T16:30:34+03:00",
+            "sorting": null,
+            "durationFact": null,
+            "isMuted": "N",
+            "isPinned": "N",
+            "isPinnedInGroup": "N",
+            "flowId": null,
+            "descriptionInBbcode": "Y",
+            "status": "2",
+            "statusChangedDate": "2025-10-07T16:22:24+03:00",
+            "durationPlan": "0",
+            "durationType": "days",
+            "favorite": "N",
+            "groupId": "0",
+            "auditors": ["503", "547"],
+            "accomplices": [],
+            "checklist": [],
+            "group": [],
+            "creator": {
+                "id": "503",
+                "name": "Мария Иванова",
+                "link": "/company/personal/user/503/",
+                "icon": "https://mysite.ru/b17053/resize_cache/45749/c0120a8d7c10d63c83e32398d1ec4d9e/main/c89/c89c6b7301880958ea704b5a8470635c/4R5A1256.png",
+                "workPosition": "Администратор"
+            },
+            "responsible": {
+                "id": "503",
+                "name": "Мария Иванова",
+                "link": "/company/personal/user/503/",
+                "icon": "https://mysite.ru/b17053/resize_cache/45749/c0120a8d7c10d63c83e32398d1ec4d9e/main/c89/c89c6b7301880958ea704b5a8470635c/4R5A1256.png",
+                "workPosition": "Администратор"
+            },
+            "accomplicesData": [],
+            "auditorsData": {
+                "547": {
+                    "id": "547",
+                    "name": "Елена",
+                    "link": "/company/personal/user/547/",
+                    "icon": "/bitrix/images/tasks/default_avatar.png",
+                    "workPosition": "Юрист"
+                }
+            },
+            "newCommentsCount": 0,
+            "action": {
+                "accept": false,
+                "decline": false,
+                "complete": true,
+                "approve": false,
+                "disapprove": false,
+                "start": true,
+                "pause": false,
+                "delegate": true,
+                "remove": true,
+                "edit": true,
+                "defer": true,
+                "renew": false,
+                "create": true,
+                "changeDeadline": true,
+                "checklistAddItems": true,
+                "addFavorite": true,
+                "deleteFavorite": false,
+                "rate": true,
+                "take": false,
+                "edit.originator": false,
+                "checklist.reorder": true,
+                "elapsedtime.add": true,
+                "dayplan.timer.toggle": false,
+                "edit.plan": true,
+                "checklist.add": true,
+                "favorite.add": true,
+                "favorite.delete": false
+            },
+            "checkListTree": {
+                "nodeId": 0,
+                "fields": {
+                    "id": null,
+                    "copiedId": null,
+                    "entityId": null,
+                    "userId": 503,
+                    "createdBy": null,
+                    "parentId": null,
+                    "title": "",
+                    "sortIndex": null,
+                    "displaySortIndex": "",
+                    "isComplete": false,
+                    "isImportant": false,
+                    "completedCount": 0,
+                    "members": [],
+                    "attachments": [],
+                    "nodeId": null
+                },
+                "action": [],
+                "descendants": []
+            },
+            "checkListCanAdd": true
+        }
+    },
+    "time": {
+        "start": 1759843922,
+        "finish": 1759843922.725389,
+        "duration": 0.7253890037536621,
+        "processing": 0,
+        "date_start": "2025-10-07T16:32:02+03:00",
+        "date_finish": "2025-10-07T16:32:02+03:00",
+        "operating_reset_at": 1759844522,
+        "operating": 0.4929828643798828
+    }
+}
 ```
 
-где "111" - id файла на диске.
+### Возвращаемые данные
 
-{% note warning %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md) | Объект с данными ответа ||
+|| **task**
+[`object`](../data-types.md) | Объект с [описанием задачи](./fields.md) после выполнения операции ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
-Нужно добавлять букву `n` в начале.
+## Обработка ошибок
 
-{% endnote %}
+HTTP-статус: **400**
 
-**С версии 22.1300.0** в метод можно передать параметр `SE_PARAMETER` - список объектов с дополнительными параметрами задачи.
+```json
+{
+    "error": "ERROR_CORE",
+    "error_description": "Невозможно привязать узел к самому себе\u003Cbr\u003E"
+}
+```
 
-{% list tabs %}
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
-- JS
+### Возможные коды ошибок
 
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | wrong task id | В параметре `taskId` указано значение неверного типа ||
+|| `100` | CTaskItem All parameters in the constructor must have real class type (internal error) | Не передан обязательный параметр `taskId` ||
+|| `0` | Действие над задачей не разрешено (internal error) | У пользователя нет прав обновление задачи или нет доступа к задаче ||
+|| `100` | Could not find value for parameter {fields} (internal error) | Не передан параметр `fields` или передан пустой ||
+|| `ERROR_CORE` | Пользователь указанный в поле \u0026quot;Исполнитель\u0026quot; не найден\u003Cbr\u003E | В поле `RESPONSIBLE_ID` указан идентификатор несуществующего пользователя ||
+|| `ERROR_CORE` | Некорректный статус\u003Cbr\u003E | Указано некорректное значение в поле `STATUS` ||
+|| `ERROR_CORE` | Задача указанная в поле \u0026quot;Надзадача\u0026quot; не найдена\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор несуществующей задачи ||
+|| `ERROR_CORE` | Невозможно привязать узел к самому себе\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор той же задачи, что и в параметре `taskId` ||
+|| `ERROR_CORE` | Создание зацикленных связей в задачах запрещено\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор подзадачи `taskId`. Подзадача не может стать базовой задачей ||
+|| `ERROR_CORE` | В планировании сроков указана дата окончания меньшая даты старта\u003Cbr\u003E | Дата и время в поле `END_DATE_PLAN` указано меньше, чем в `START_DATE_PLAN` ||
+|| `ERROR_CORE` | В планировании сроков указана слишком большая длительность задачи\u003Cbr\u003E | В значении поля `END_DATE_PLAN` указана слишком большая дата ||
+|#
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'tasks.task.add',
-    		{
-    			data: {
-    				fields: {
-    					"TITLE": 'REST',
-    					"RESPONSIBLE_ID": 1,
-    					"SE_PARAMETER": [
-    						{
-    							'VALUE': 'Y',
-    							'CODE': 3
-    						},
-    						{
-    							'VALUE': 'Y',
-    							'CODE': 2
-    						},
-    					]
-    				}
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
-    ```
-
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'tasks.task.add',
-                [
-                    'data' => [
-                        'fields' => [
-                            'TITLE'          => 'REST',
-                            'RESPONSIBLE_ID' => 1,
-                            'SE_PARAMETER'   => [
-                                [
-                                    'VALUE' => 'Y',
-                                    'CODE'  => 3
-                                ],
-                                [
-                                    'VALUE' => 'Y',
-                                    'CODE'  => 2
-                                ],
-                            ]
-                        ]
-                    ]
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding task: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX.ajax.runAction("tasks.task.add", {
-        data: {
-            fields: {
-                "TITLE": 'REST',
-                "RESPONSIBLE_ID": 1,
-                "SE_PARAMETER": [
-                    {
-                        'VALUE': 'Y',
-                        'CODE': 3
-                    },
-                    {
-                        'VALUE': 'Y',
-                        'CODE': 2
-                    },
-                ]
-            }
-        }
-    }).then(function (response) { console.log(response);});
-    ```
-
-{% endlist %}
-
-Значения кодов:
-
-1. сроки определяются сроками подзадач
-2. автоматически завершать задачу при завершении подзадач (и наоборот)
-3. обязательный отчет при завершении задачи
-
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
+- [{#T}](./tasks-task-add.md)
+- [{#T}](./tasks-task-get.md)
+- [{#T}](./tasks-task-list.md)
+- [{#T}](./tasks-task-delete.md)
+- [{#T}](./tasks-task-get-fields.md)
 - [{#T}](../../tutorials/tasks/how-to-upload-file-to-task.md)
 - [{#T}](../../tutorials/tasks/how-to-connect-task-to-spa.md)
 - [{#T}](../../tutorials/tasks/how-to-create-comment-with-file.md)

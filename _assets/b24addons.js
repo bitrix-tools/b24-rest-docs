@@ -369,7 +369,7 @@ function addAPILibraries() {
 
         const script = document.createElement('script');
 
-        script.src = '//api.bitrix24.com/api/v1/';
+        script.src = '//api.bitrix24.tech/api/v1/';
         script.onload = function() {
             try {
 
@@ -774,19 +774,19 @@ function showCallWriterBannerForMobile()
 
 document.addEventListener('DOMContentLoaded', function() {
     // showPollBanner();
-    if (isMobile())
-    {
-        showCallWriterBannerForMobile();
-    }
-    else
-    {
-        showCallWriterBanner('95%');
-        const observer =new MutationObserver(() => showCallWriterBanner('95%'));
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-        });
-    }
+    // if (isMobile())
+    // {
+    //     showCallWriterBannerForMobile();
+    // }
+    // else
+    // {
+    //     showCallWriterBanner('95%');
+    //     const observer =new MutationObserver(() => showCallWriterBanner('95%'));
+    //     observer.observe(document.body, {
+    //         childList: true,
+    //         subtree: true,
+    //     });
+    // }
     setMenuPosition();
     initB24items();
 });

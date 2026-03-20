@@ -1,148 +1,142 @@
 # Получить список коннекторов imconnector.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- из файла Сергея: обращаем внимание, что здесь возвращается полный список подключенных на текущем б24 коннекторов
-- не указаны параметры
-- не указана обязательность параметров
-- отсутствуют примеры на др.языках
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом изменения коннекторов открытых линий
 
-Метод получает список коннекторов.
+Метод `imconnector.list` возвращает список всех коннекторов, которые зарегистрированы в Битрикс24.
 
-## Пример
+{% note info "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
+
+{% endnote %} 
+
+## Параметры метода
+
+Без параметров.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imconnector.list
+    ```
+
 - JS
 
-
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
-    
-    try {
-      const response = await $b24.callListMethod(
-        'imconnector.list',
-        {},
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
-    
-    try {
-      const generator = $b24.fetchListMethod('imconnector.list', {}, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
-      }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('imconnector.list', {}, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
+    const response = await $b24.callMethod('imconnector.list', {});
+    console.log(response.getData());
     ```
 
 - PHP
 
-
     ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'imconnector.list',
-                []
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error()->ex;
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error calling imconnector.list: ' . $e->getMessage();
-    }
+    $result = $b24Service->core->call(
+        'imconnector.list',
+        []
+    );
     ```
 
 - BX24.js
 
     ```js
-    BX24.callMethod('imconnector.list', {}, function(result) {
-        if(result.error())
-        {
-            console.error(result.error().ex);
-        }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+    BX24.callMethod(
+      'imconnector.list',
+      {},
+      function(result) {
+        console.log(result.data());
+      }
+    );
     ```
 
+- PHP CRest
+
+    ```php
+    $result = CRest::call(
+        'imconnector.list',
+        []
+    );
+    ```
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-Список коннекторов с названиями.
+HTTP-статус: **200**
 
 ```json
 {
-    "livechat": "Онлайн-чат",
-    "whatsappbytwilio": "WhatsApp",
-    "avito": "Avito",
-    "viber": "Viber",
-    "telegrambot": "Telegram",
-    "imessage": "Apple Messages for Business",
-    "vkgroup": "ВКонтакте",
-    "ok": "Одноклассники",
-    "facebook": "Facebook*: Сообщения",
-    "facebookcomments": "Facebook*: Комментарии",
-    "fbinstagramdirect": "Instagram* Direct",
-    "network": "Битрикс24.Network",
-    "notifications": "Битрикс24 СМС и WhatsApp",
-    "whatsappbyedna": "Edna.ru WhatsApp",
-    "newcustomconnector": "new super COnnector"
+    "result": {
+        "livechat": "Онлайн-чат",
+        "telegrambot": "Telegram",
+        "network": "Битрикс24.Network",
+        "myconnector": "Мой коннектор"
+    },
+    "time": {
+        "start": 1738065600.11,
+        "finish": 1738065600.17,
+        "duration": 0.06,
+        "processing": 0.03,
+        "date_start": "2025-01-28T12:00:00+00:00",
+        "date_finish": "2025-01-28T12:00:00+00:00"
+    }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Объект вида `connector_id: connector_name` для доступных коннекторов ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "You dont have access to this action"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ACCESS_DENIED** | У текущего пользователя нет доступа ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не в контексте приложения OAuth ||
+|| `400` | `ACCESS_DENIED` | The ImOpenLines module is not installed | На портале не установлен модуль `imopenlines` ||
+|| `400` | `ACCESS_DENIED` | You dont have access to this action | У пользователя нет права изменения коннекторов ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./imconnector-register.md)
+- [{#T}](./imconnector-activate.md)
+- [{#T}](./imconnector-status.md)
+- [{#T}](./imconnector-connector-data-set.md)
+- [{#T}](./imconnector-unregister.md)
+- [{#T}](./imconnector-send-messages.md)
+- [{#T}](./imconnector-update-messages.md)
+- [{#T}](./imconnector-delete-messages.md)
+- [{#T}](./imconnector-send-status-delivery.md)
+- [{#T}](./imconnector-chat-name-set.md)

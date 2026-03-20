@@ -6,9 +6,10 @@
 
 Метод `methods` получает список доступных методов.
 
-{% note alert %}
+{% note warning "Развитие метода остановлено" %}
 
-Метод устарел, вместо него настоятельно рекомендуется использовать [method.get](./method-get.md).
+Метод `methods` продолжает работать, но ему недоступна информация по части методов.
+У метода есть более актуальный аналог [method.get](./method-get.md). 
 
 {% endnote %}
 
@@ -42,7 +43,7 @@
     -d '{
         "scope": "user"
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/methods
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/methods
     ```
 
 - cURL (OAuth)

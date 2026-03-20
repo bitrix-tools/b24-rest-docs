@@ -64,7 +64,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"id":"MS","type":"O","notify":"Y","sort":500,"color":"#FF0000","xmlId":"myStatusXmlId"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.status.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.status.add
     ```
 
 - cURL (OAuth)

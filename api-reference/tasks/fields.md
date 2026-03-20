@@ -31,6 +31,8 @@
 [`string`](../data-types.md) | Название задачи ||
 || **description**
 [`string`](../data-types.md) | Описание задачи ||
+|| **chatId**
+[`integer`](../data-types.md) | Идентификатор чата для [новой карточки задачи](tasks-new.md) ||
 || **mark**
 [`string`](../data-types.md) | Оценка задачи. Возможные значения:
 `N` — отрицательная
@@ -206,7 +208,7 @@
 [`object`](../data-types.md) | Объект с [описанием дерева чек-листа](#checklisttree) ||
 || **checkListCanAdd**
 [`boolean`](../data-types.md) | Можно ли добавлять пункты чек-листа ||
-|| **UF_CRM_TASK**
+|| **ufCrmTask**
 [`array`](../data-types.md) | Список привязок к элементам CRM в формате:
 - `L_XX` — лид,
 - `D_XX` — сделка
@@ -214,9 +216,9 @@
 - `CO_XX` — компания
 - `SI_XX` — счет
 - `TXX_XX` — смарт-процесс | ||
-|| **UF_TASK_WEBDAV_FILES**
+|| **ufTaskWebdavFiles**
 [`array`](../data-types.md) | Список файлов с Диска | ||
-|| **UF_MAIL_MESSAGE**
+|| **ufMailMessage**
 [`string`](../data-types.md) | Письмо email | ||
 || **UF_\***
 [`any`](../data-types.md) | Пользовательские поля. 
@@ -226,7 +228,9 @@
 
 {% note info "" %}
 
-Чтобы получить пользовательские поля задачи, используйте методы выборки [tasks.task.get](./tasks-task-get.md) и [tasks.task.list](./tasks-task-list.md). Укажите нужные поля в параметре `SELECT`. Таким же образом можно получить системные пользовательские поля: `UF_CRM_TASK`, `UF_TASK_WEBDAV_FILES`, `UF_MAIL_MESSAGE`.
+Чтобы получить пользовательские поля задачи, используйте методы выборки [tasks.task.get](./tasks-task-get.md) и [tasks.task.list](./tasks-task-list.md). Укажите нужные поля в параметре `SELECT`.
+
+Системные поля `UF_CRM_TASK`, `UF_TASK_WEBDAV_FILES` и `UF_MAIL_MESSAGE` не возвращаются по умолчанию. Укажите одно из этих полей в `SELECT` — вернутся все три. В ответе поля возвращаются в camelCase: `ufCrmTask`, `ufTaskWebdavFiles`, `ufMailMessage`.
 
 {% endnote %}
 

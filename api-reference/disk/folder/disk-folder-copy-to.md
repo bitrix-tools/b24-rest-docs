@@ -1,70 +1,78 @@
-# Копировать папку в заданную папку disk.folder.copyto
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры (должно быть три примера - curl, js, php)
-- отсутствует ответ в случае ошибки
-- нужен подробный ответ в случае успеха
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Копировать папку и все ее содержимое в указанную папку disk.folder.copyto
 
 > Scope: [`disk`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Чтение» для исходной папки и правом «Добавление» для целевой папки
 
-Метод `disk.folder.copyto` копирует папку в указанную папку.
+Метод `disk.folder.copyto` копирует папку и все ее содержимое в указанную папку.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
 #|
-||  **Параметр** / **Тип**| **Описание** ||
-|| **id**
-[`unknown`](../../data-types.md) | Идентификатор папки. ||
-|| **targetFolderId**
-[`unknown`](../../data-types.md) | Идентификатор папки, в которую выполняется копирование. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор исходной папки, которую нужно скопировать.
+
+Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке
+||
+|| **targetFolderId***
+[`integer`](../../data-types.md) | Идентификатор целевой папки, куда копируется папка ||
 |#
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":8930,"targetFolderId":8895}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.copyto
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":8930,"targetFolderId":8895,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/disk.folder.copyto
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		"disk.folder.copyto",
-    		{
-    			id: 8,
-    			targetFolderId: 22081990
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.dir(result);
+        const response = await $b24.callMethod(
+            'disk.folder.copyto',
+            {
+                id: 8930,
+                targetFolderId: 8895,
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Copied folder with ID:', result);
+        
+        processResult(result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -73,21 +81,18 @@
             ->call(
                 'disk.folder.copyto',
                 [
-                    'id'             => 8,
-                    'targetFolderId' => 22081990,
+                    'id' => 8930,
+                    'targetFolderId' => 8895
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error copying folder: ' . $e->getMessage();
@@ -100,11 +105,10 @@
     BX24.callMethod(
         "disk.folder.copyto",
         {
-            id: 8,
-            targetFolderId: 22081990
+            id: 8930,
+            targetFolderId: 8895
         },
-        function (result)
-        {
+        function (result) {
             if (result.error())
                 console.error(result.error());
             else
@@ -113,12 +117,142 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'disk.folder.copyto',
+        [
+            'id' => 8930,
+            'targetFolderId' => 8895
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-> 200 OK
+```json
+{
+    "result": {
+        "ID": 8938,
+        "NAME": "Папка в папке",
+        "CODE": null,
+        "STORAGE_ID": "1361",
+        "TYPE": "folder",
+        "REAL_OBJECT_ID": 8938,
+        "PARENT_ID": "8895",
+        "DELETED_TYPE": 0,
+        "CREATE_TIME": "2026-01-13T13:23:56+03:00",
+        "UPDATE_TIME": "2026-01-13T13:23:56+03:00",
+        "DELETE_TIME": null,
+        "CREATED_BY": "1269",
+        "UPDATED_BY": "1269",
+        "DELETED_BY": null,
+        "DETAIL_URL": "https://test.bitrix24.ru/workgroups/group/69/disk/path/Папка в папке"
+    },
+    "time": {
+        "start": 1768314236,
+        "finish": 1768314236.531627,
+        "duration": 0.5316269397735596,
+        "processing": 0,
+        "date_start": "2026-01-13T13:23:56+03:00",
+        "date_finish": "2026-01-13T13:23:56+03:00",
+        "operating_reset_at": 1768314836,
+        "operating": 0
+    }
+}
+```
 
-В ответе та же структура, как и в [disk.folder.get](./disk-folder-get.md).
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Массив с данными о созданной папке ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор папки ||
+|| **NAME**
+[`string`](../../data-types.md) | Имя папки ||
+|| **CODE**
+[`string`](../../data-types.md) | Символьный код папки ||
+|| **STORAGE_ID**
+[`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится папка ||
+|| **TYPE**
+[`enum`](../../data-types.md) | Тип объекта ||
+|| **REAL_OBJECT_ID**
+[`integer`](../../data-types.md) | Идентификатор объекта ||
+|| **PARENT_ID**
+[`integer`](../../data-types.md) | Идентификатор родительской папки ||
+|| **DELETED_TYPE**
+[`enum`](../../data-types.md) | Статус удаления объекта. Возможные значения:
+- `0` — не удален
+- `3` — в корзине
+- `4` — удален вместе с родительской папкой ||
+|| **CREATE_TIME**
+[`datetime`](../../data-types.md) | Дата и время создания папки ||
+|| **UPDATE_TIME**
+[`datetime`](../../data-types.md) | Дата и время последнего обновления папки ||
+|| **DELETE_TIME**
+[`datetime`](../../data-types.md) | Дата и время переноса папки в корзину ||
+|| **CREATED_BY**
+[`integer`](../../data-types.md) | Идентификатор пользователя, создавшего папку ||
+|| **UPDATED_BY**
+[`integer`](../../data-types.md) | Идентификатор пользователя, внесшего последнее изменение ||
+|| **DELETED_BY**
+[`integer`](../../data-types.md) | Идентификатор пользователя, удалившего папку ||
+|| **DETAIL_URL**
+[`string`](../../data-types.md) | Ссылка для открытия папки в интерфейсе ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ERROR_ARGUMENT",
+    "error_description":"Invalid value of parameter {Parameter #1}"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не указан обязательный параметр `id` или `targetFolderId` ||
+|| `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
+|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` или `targetFolderId` не найдена ||
+|| `ACCESS_DENIED` | Access denied | Недостаточно прав для копирования папки ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./disk-folder-add-subfolder.md)
+- [{#T}](./disk-folder-delete-tree.md)
+- [{#T}](./disk-folder-get-children.md)
+- [{#T}](./disk-folder-get-external-link.md)
+- [{#T}](./disk-folder-get-fields.md)
+- [{#T}](./disk-folder-get.md)
+- [{#T}](./disk-folder-mark-deleted.md)
+- [{#T}](./disk-folder-move-to.md)
+- [{#T}](./disk-folder-rename.md)
+- [{#T}](./disk-folder-restore.md)
+- [{#T}](./disk-folder-share-to-user.md)
+- [{#T}](./disk-folder-upload-file.md)

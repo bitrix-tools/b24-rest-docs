@@ -52,7 +52,7 @@
 
 **Как добавить, изменить или удалить сообщение**. С помощью методов  вы можете добавлять, изменять и удалять сообщения Ленты новостей. Используйте метод [log.blogpost.add](./../log/log-blogpost-add.md), чтобы добавить сообщение в Ленту новостей от имени текущего пользователя. Изменить сообщение вы можете с помощью метода [log.blogpost.update](./../log/log-blogpost-update.md). Для удаления сообщения применяйте метод [log.blogpost.delete](./../log/log-blogpost-delete.md).
 
-**Как управлять комментариями**. Используйте метод [log.blogcomment.add](./../log/log-blogcomment-add.md), чтобы добавлять комментарии к сообщениям и метод [log.blogcomment.delete](./../log/log-blogcomment-add.md), чтобы удалять комментарии. Метод [log.blogcomment.user.get](./../log/log-blogcomment-add.md) возвращает комментарии к сообщениям и может фильтровать их по диапазону ID (`FIRST_ID`, `LAST_ID`). Если не передать параметры фильтрации, метод вернет все доступные текущему пользователю комментарии с учетом его прав доступа.
+**Как управлять комментариями**. Используйте метод [log.blogcomment.add](./blogcomment/log-blogcomment-add.md), чтобы добавлять комментарии к сообщениям и метод [log.blogcomment.delete](./blogcomment/log-blogcomment-delete.md), чтобы удалять комментарии. Метод [log.blogcomment.user.get](./blogcomment/log-blogcomment-user-get.md) возвращает комментарии к сообщениям и может фильтровать их по диапазону ID (`FIRST_ID`, `LAST_ID`). Если не передать параметры фильтрации, метод вернет все доступные текущему пользователю комментарии с учетом его прав доступа.
 
 **Как узнать, кто из пользователей прочитал важное сообщение**. Опубликованное в Ленте новостей сообщение можно пометить как важное. Чтобы просмотреть список пользователей, которые прочитали важное сообщение, используйте метод [log.blogpost.getusers.important](./log-blogpost-getusers-important.md). Комбинацию «важное сообщение и отслеживание списка прочитавших» можно использовать для автоматизированных сценариев массового информирования сотрудников.
 
@@ -72,13 +72,15 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [log.blogcomment.add](./log-blogcomment-add.md) | Добавляет комментарий к сообщению Ленты новостей ||
     || [log.blogpost.add](./log-blogpost-add.md) | Добавляет сообщение в Ленту новостей от имени текущего пользователя ||
     || [log.blogpost.update](./log-blogpost-update.md) | Изменяет сообщение Ленты новостей ||
     || [log.blogpost.get](./log-blogpost-get.md) | Получает доступные пользователю сообщения Ленты новостей ||
     || [log.blogpost.getusers.important](./log-blogpost-getusers-important.md) | Просматривает пользователей, прочитавших важное сообщение ||
     || [log.blogpost.share](./log-blogpost-share.md) | Добавляет получателей в сообщение Ленты новостей ||
     || [log.blogpost.delete](./log-blogpost-delete.md) | Удаляет сообщение Ленты новостей ||
+    || [log.blogcomment.add](./blogcomment/log-blogcomment-add.md) | Добавляет комментарий к сообщению Ленты новостей ||
+    || [log.blogcomment.user.get](./blogcomment/log-blogcomment-user-get.md) | Возвращает список комментариев к сообщению Ленты новостей ||
+    || [log.blogcomment.delete](./blogcomment/log-blogcomment-delete.md) | Удаляет комментарий к сообщению ||
     |#
 
 - События

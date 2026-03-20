@@ -56,7 +56,7 @@ void BX24.openApplication([
 Единый пример для BX24.openApplication и [BX24.closeApplication](./bx24-close-application.md)
 
 ```js
-<script src="//api.bitrix24.com/api/v1/"></script>
+<script src="//api.bitrix24.tech/api/v1/"></script>
 <?
 // разбор входных данных
 $placementOptions = array();

@@ -1,52 +1,40 @@
 # Получить список типов пользовательских полей crm.userfield.types
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны параметры и их типы
-- отсутствует ответ в случае ошибки и успеха
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.userfield.types` возвращает описание полей для пользовательских полей.
+Метод `crm.userfield.types` получает доступные типы пользовательских полей.
 
-Список типов пользовательских полей. Содержит описания типов:
+Возвращаются типы:
+- `string` — строка
+- `integer` — целое число
+- `double` — число
+- `boolean` — да/нет
+- `datetime` — дата и время
+- `enumeration` — список
+- `iblock_section` — привязка к разделам инф. блоков
+- `iblock_element` — привязка к элементам инфоблоков
+- `employee` — привязка к сотруднику
+- `crm_status` — привязка к справочнику CRM
+- `crm` — привязка к элементам CRM
+- `address` — адрес Google карты
+- `money` — деньги
+- `url` — ссылка
 
-- string
-- integer
-- double
-- boolean
-- datetime
-- enumeration
-- iblock_section
-- iblock_element
-- employee
-- crm_status
-- crm
-- address
-- money
-- url
+Также метод возвращает [пользовательские типы](./userfield-type.md), зарегистрированные текущим приложением.
 
-Также будут возвращены [типы](../user-defined-fields/userfield-type.md) пользовательских полей, зарегистрированные текущим приложением.
+## Параметры метода
 
-## Пример
+Без параметров.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- CURL (webhook)
+- cURL (Webhook)
 
     ```bash
     curl -X POST \
@@ -56,18 +44,17 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.userfield.types
     ```
 
-- CURL (oauth)
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/crm.userfield.types?auth=**put_access_token_here**
-    ```    
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.userfield.types
+    ```
 
 - JS
-
 
     ```js
     try
@@ -76,20 +63,13 @@
     		"crm.userfield.types",
     		{}
     	);
-    	
+
     	const result = response.getData().result;
-    	if(result.error())
-    	{
-    		console.error(result.error());
-    	}
-    	else
-    	{
-    		console.dir(result);
-    	}
+    	console.log(result);
     }
-    catch(error)
+    catch (error)
     {
-    	console.error('Error:', error);
+    	console.error(error);
     }
     ```
 
@@ -97,15 +77,20 @@
 
     ```php
     try {
-        $userfieldService = $serviceBuilder->getCRMScope()->userfield();
-        $userfieldTypesResult = $userfieldService->types();
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.userfield.types',
+                []
+            );
 
-        foreach ($userfieldTypesResult->getTypes() as $item) {
-            print("ID: " . $item->ID . "\n");
-            print("Title: " . $item->title . "\n");
-        }
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        print_r($result);
     } catch (Throwable $e) {
-        print("Error: " . $e->getMessage() . "\n");
+        echo $e->getMessage();
     }
     ```
 
@@ -117,10 +102,14 @@
         {},
         function(result)
         {
-            if(result.error())
+            if (result.error())
+            {
                 console.error(result.error());
+            }
             else
-                console.dir(result.data());
+            {
+                console.log(result.data());
+            }
         }
     );
     ```
@@ -135,15 +124,126 @@
         []
     );
 
-    echo '<PRE>';
     print_r($result);
-    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": [
+        {
+            "ID": "string",
+            "title": "Строка"
+        },
+        {
+            "ID": "integer",
+            "title": "Целое число"
+        },
+        {
+            "ID": "double",
+            "title": "Число"
+        },
+        {
+            "ID": "boolean",
+            "title": "Да/Нет"
+        },
+        {
+            "ID": "enumeration",
+            "title": "Список"
+        },
+        {
+            "ID": "datetime",
+            "title": "Дата/Время"
+        },
+        {
+            "ID": "date",
+            "title": "Дата"
+        },
+        {
+            "ID": "money",
+            "title": "Деньги"
+        },
+        {
+            "ID": "url",
+            "title": "Ссылка"
+        },
+        {
+            "ID": "address",
+            "title": "Адрес Google карты"
+        },
+        {
+            "ID": "file",
+            "title": "Файл"
+        },
+        {
+            "ID": "employee",
+            "title": "Привязка к пользователю"
+        },
+        {
+            "ID": "crm_status",
+            "title": "Привязка к справочникам CRM"
+        },
+        {
+            "ID": "iblock_section",
+            "title": "Привязка к разделам инф. блоков"
+        },
+        {
+            "ID": "iblock_element",
+            "title": "Привязка к элементам инфоблоков"
+        },
+        {
+            "ID": "crm",
+            "title": "Привязка к элементам CRM"
+        }
+    ],
+    "time": {
+        "start": 1773992560,
+        "finish": 1773992560.044522,
+        "duration": 0.04452204704284668,
+        "processing": 0,
+        "date_start": "2026-03-20T10:42:40+03:00",
+        "date_finish": "2026-03-20T10:42:40+03:00",
+        "operating_reset_at": 1773993160,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Массив объектов с поддерживаемыми типами [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Код типа пользовательского поля ||
+|| **title**
+[`string`](../../data-types.md) | Название типа пользовательского поля ||
+|#
+
+## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
+- [{#T}](./crm-userfield-fields.md)
+- [{#T}](./crm-userfield-settings-fields.md)
+- [{#T}](./crm-userfield-enumeration-fields.md)

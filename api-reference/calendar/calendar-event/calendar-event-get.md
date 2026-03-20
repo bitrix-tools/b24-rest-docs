@@ -49,7 +49,7 @@
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"type":"user","ownerId":1,"from":"2024-06-20","to":"2024-08-20","section":[21,44]}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.event.get
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.get
         ```
 
     - cURL (OAuth)
@@ -112,7 +112,7 @@
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"type":"company_calendar","ownerId":""}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/calendar.event.get
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.get
         ```
 
     - cURL (OAuth)

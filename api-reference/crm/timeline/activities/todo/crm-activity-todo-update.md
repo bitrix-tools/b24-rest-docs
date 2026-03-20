@@ -32,7 +32,7 @@
 || **pingOffsets**
 [`array`](../../../../data-types.md) | Массив, который содержит целочисленные значения в минутах, позволяющие настроить время напоминания о деле. Например `[0, 15]` означает, что будет создано 2 напоминания, которые придут за 15 минут до крайнего срока и в момент, когда крайний срок наступить. По умолчанию пустой массив, без напоминаний ||
 || **colorId**
-[`integer`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне, например `1`. Для выбора доступно 8 цветов, значения от 1 до 7 и цвет по умолчанию, если ничего не указано:
+[`string`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне, например `1`. Для выбора доступно 8 цветов, значения от 1 до 7 и цвет по умолчанию, если ничего не указано:
 
 ![Доступные цвета](./_images/colors.png)
 
@@ -51,8 +51,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"**put_current_date_here**","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":7}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.todo.update
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"**put_current_date_here**","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":"7"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.todo.update
     ```
 
 - cURL (OAuth)
@@ -61,7 +61,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"**put_current_date_here**","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":7,"auth":"**put_access_token_here**"}' \
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"**put_current_date_here**","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":"7","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.todo.update
     ```
 
@@ -82,7 +82,7 @@
     			description: 'Новое описание дела',
     			responsibleId: 1,
     			pingOffsets: [15, 30],
-    			colorId: 7
+    			colorId: '7'
     		}
     	);
     	
@@ -116,7 +116,7 @@
                     'description'   => 'Новое описание дела',
                     'responsibleId' => 1,
                     'pingOffsets'   => [15, 30],
-                    'colorId'       => 7
+                    'colorId'       => '7'
                 ]
             );
     
@@ -152,7 +152,7 @@
             description: 'Новое описание дела',
             responsibleId: 1,
             pingOffsets: [15, 30],
-            colorId: 7
+            colorId: '7'
         }, 
         result => {
             if (result.error())
@@ -179,7 +179,7 @@
             'description' => 'Новое описание дела',
             'responsibleId' => 1,
             'pingOffsets' => [15, 30],
-            'colorId' => 7
+            'colorId' => '7'
         ]
     );
 

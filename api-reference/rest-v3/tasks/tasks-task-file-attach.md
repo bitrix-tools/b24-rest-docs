@@ -52,7 +52,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"taskId":8017,"fileIds":[1065,1077]}' \
-    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.file.attach
+    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.file.attach
     ```
 
 - cURL (OAuth)
@@ -188,7 +188,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа.
+
+Содержит объект с ключом `result` и значением `true`, если файл прикреплен успешно  ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -212,6 +214,8 @@ HTTP-статус: **400**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info-v3.md) %}
+
 ### Возможные коды ошибок
 
 #### Ошибки валидации запроса  
@@ -220,11 +224,16 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `taskId` | Обязательное поле `taskId` не указано | Добавьте `taskId` в тело запроса ||
-|| `taskId` | В поле `taskId` требуется тип данных `int` для такого запроса | Убедитесь, что значение — число, а не строка ||
-|| `fileIds` | Обязательное поле `fileIds` не указано | Добавьте `fileIds` в тело запроса ||
-|| `fileIds` | В поле `fileIds` требуется тип данных `integer` для такого запроса | Убедитесь, что значение — число, а не строка ||
+|| `taskId`
+`fileIds` | Обязательное поле `#FIELD#` не указано | Добавьте указанное поле в тело запроса ||
+|| `#FIELD#` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Убедитесь, что передаваемое значение нужного типа ||
 || — | Недостаточно прав | Нет доступа к указанному файлу или задаче ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./tasks-task-update.md)
+- [{#T}](./tasks-task-chat-message-send.md)
+- [{#T}](./tasks-task-delete.md)

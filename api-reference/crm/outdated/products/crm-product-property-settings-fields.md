@@ -36,7 +36,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"propertyType":"S","userType":"HTML"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.product.property.settings.fields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.product.property.settings.fields
    ```
 
 - cURL (OAuth)

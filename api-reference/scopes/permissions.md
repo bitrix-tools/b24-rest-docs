@@ -11,7 +11,7 @@
 || **cashbox** | [Кассы](../sale/cashbox/index.md) | Кассы ||
 || **catalog** | [Торговый каталог](../catalog/index.md) | Торговый каталог, складской учет ||
 || **crm** | [CRM](../crm/index.md) | CRM ||
-|| **documentgenerator, crm.documentgenerator** | [Генератор документов](../document-generator/index.md), [Генератор документов CRM](../crm/document-generator/index.md) | Генератор документов ||
+|| **documentgenerator** | [Генератор документов](../document-generator/index.md), [Генератор документов CRM](../crm/document-generator/index.md) | Генератор документов ||
 || **delivery** | [Доставки](../sale/delivery/index.md) | Интернет-магазин, CRM ||
 || **department** | [Структура компании](../departments/index.md) | Структура компании ||
 || **disk** | [Диск](../disk/index.md) | Битрикс24.Диск ||
@@ -23,6 +23,7 @@
 || **lists** | [Списки](../lists/index.md) | Универсальные списки ||
 || **log** | [Живая лента](../log/index.md) | Лента новостей ||
 || **mailservice** | [Почтовые сервисы](../mailservice/index.md) | Почтовые сервисы ||
+|| **main** | [Журнал событий](../rest-v3/main/index.md) | Журнал событий ||
 || **messageservice** | [Служба сообщений](../messageservice/index.md) | Служба сообщений ||
 || **pay_system** | [Платежные системы](../pay-system/index.md) | Платежные системы ||
 || **pull** | [Pull&Push](../../settings/interactivity/push-and-pull/index.md) | Pull&Push ||

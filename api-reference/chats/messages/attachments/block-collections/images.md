@@ -1,32 +1,29 @@
 # Блок с изображениями IMAGE
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Блок `IMAGE` выводит одно или несколько изображений внутри вложения.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+![Блок с изображениями](./_images/images.png)
 
-{% endnote %}
+## Параметры блока
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
-
-![Блок c изображениями](./_images/images.png)
-
-`IMAGE` - блок с изображениями.
-
-Рекомендуется заполнять поле **PREVIEW** с указанием уменьшенной копии изображения, если поле не заполнено, используется **LINK**.
-
-Поля **NAME** (название) и **PREVIEW** (картинка-превью) не являются обязательными.
-
-Поля **WIDTH** (ширина) и **HEIGHT** (высота) не являются обязательными, но рекомендуется их указывать уже сейчас, чтобы правильно отобразить изображение.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **LINK***
+[`string`](../../../../data-types.md) | URL исходного изображения ||
+|| **NAME**
+[`string`](../../../../data-types.md) | Название изображения ||
+|| **PREVIEW**
+[`string`](../../../../data-types.md) | URL уменьшенной версии изображения. Если не задан, для предпросмотра используется `LINK`. Для стабильного отображения в разных клиентах рекомендуется указывать явно ||
+|| **WIDTH**
+[`integer`](../../../../data-types.md) | Ширина изображения в пикселях. Рекомендуется передавать вместе с `HEIGHT` ||
+|| **HEIGHT**
+[`integer`](../../../../data-types.md) | Высота изображения в пикселях. Рекомендуется передавать вместе с `WIDTH` ||
+|#
 
 ## Пример
+
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -34,32 +31,38 @@
 
     ```js
     {
-        IMAGE: {
-            NAME: "Это Mantis",
-            LINK: "https://files.shelenkov.com/bitrix/images/mantis.jpg",
-            PREVIEW: "https://files.shelenkov.com/bitrix/images/mantis.jpg",
-            WIDTH: 1000,
-            HEIGHT: 638,
-        }
-    },
+        IMAGE: [
+            {
+                NAME: 'Это Mantis',
+                LINK: 'https://files.shelenkov.com/bitrix/images/mantis.jpg',
+                PREVIEW: 'https://files.shelenkov.com/bitrix/images/mantis.jpg',
+                WIDTH: 1000,
+                HEIGHT: 638
+            }
+        ]
+    }
     ```
 
 - PHP
 
     ```php
-    Array(
-        "IMAGE" => Array(
-            Array(
-                "NAME" => "Это Mantis",
-                "LINK" => "https://files.shelenkov.com/bitrix/images/mantis.jpg",
-                "PREVIEW" => "https://files.shelenkov.com/bitrix/images/mantis.jpg",
-                "WIDTH" => "1000",
-                "HEIGHT" => "638"
-            )
-        )
-    ),
+    [
+        'IMAGE' => [
+            [
+                'NAME' => 'Это Mantis',
+                'LINK' => 'https://files.shelenkov.com/bitrix/images/mantis.jpg',
+                'PREVIEW' => 'https://files.shelenkov.com/bitrix/images/mantis.jpg',
+                'WIDTH' => 1000,
+                'HEIGHT' => 638
+            ]
+        ]
+    ]
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./links.md)
+- [{#T}](./files.md)

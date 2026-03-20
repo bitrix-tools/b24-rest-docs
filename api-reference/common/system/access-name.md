@@ -32,7 +32,7 @@
     -d '{
         "ACCESS": ["G2", "AU"]
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/access.name
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/access.name
     ```
 
 - cURL (OAuth)

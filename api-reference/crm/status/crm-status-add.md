@@ -80,7 +80,7 @@
          -H "Content-Type: application/json" \
          -H "Accept: application/json" \
          -d '{"fields":{"ENTITY_ID":"DEAL_STAGE_1","STATUS_ID":"DECISION","NAME":"Принятие решения","SORT":70,"COLOR":"#FFA900"}}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.status.add
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.status.add
     ```
 
 - cURL (OAuth)

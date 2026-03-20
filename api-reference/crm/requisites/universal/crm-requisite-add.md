@@ -217,7 +217,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"ENTITY_TYPE_ID":4,"ENTITY_ID":1,"PRESET_ID":1,"NAME":"Организация","ACTIVE":"Y","ADDRESS_ONLY":"N","SORT":500,"RQ_COMPANY_NAME":"ООО \"1С-БИТРИКС\"","RQ_COMPANY_FULL_NAME":"ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"1С-БИТРИКС\"","RQ_COMPANY_REG_DATE":"06.04.2007","RQ_DIRECTOR":"РЫЖИКОВ СЕРГЕЙ ВЛАДИМИРОВИЧ","RQ_INN":"7717586110","RQ_KPP":"770501001","RQ_OGRN":"5077746476209","UF_CRM_1707997209":"56","UF_CRM_1708012333":"Категория 1","XML_ID":"5e4641fd-1dd9-11e6-b2f2-005056c00008"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.requisite.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.add
     ```
 
 - cURL (OAuth)

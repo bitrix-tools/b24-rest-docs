@@ -3,6 +3,8 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Быстрый старт
+    href: quick-start.md
   - name: Поля объектов
     href: entities.md
   - name: Миграция с imbot на imbot.v2
@@ -15,4 +17,3 @@ items:
     include:
       path: im.v2/b24-toc.yaml
       mode: link
-

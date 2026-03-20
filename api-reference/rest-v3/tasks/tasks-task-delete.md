@@ -42,7 +42,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8131}' \
-    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.delete
+    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.delete
     ```
 
 - cURL (OAuth)
@@ -172,7 +172,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа.
+
+Содержит объект с ключом `result` и значением `true`, если задача удалена успешно  ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -183,12 +185,14 @@ HTTP-статус: **400**
 
 ```json
 {
-"error": {
-    "code": "BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION",
-    "message": "Доступ запрещен"
-}
+    "error": {
+        "code": "BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION",
+        "message": "Доступ запрещен"
+    }
 }
 ```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info-v3.md) %}
 
 ### Возможные коды ошибок
 
@@ -212,3 +216,9 @@ HTTP-статус: **400**
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./tasks-task-access-get.md)
+- [{#T}](./tasks-task-chat-message-send.md)
+- [{#T}](./tasks-task-update.md)

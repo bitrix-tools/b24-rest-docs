@@ -6,6 +6,12 @@
 
 Метод `task.commentitem.get` получает комментарий по идентификатору.
 
+{% note warning "Развитие метода остановлено с версии модуля `tasks 25.700.0` " %}
+
+Метод `task.commentitem.get` не работает в [новой карточке задач](../tasks-new.md), используйте метод [im.dialog.messages.get](../../chats/messages/im-dialog-messages-get.md) для работы с чатом задач.
+
+{% endnote %}
+
 ## Параметры метода
 
 {% note warning "" %}

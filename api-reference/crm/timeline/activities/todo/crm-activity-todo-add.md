@@ -30,7 +30,7 @@
 || **pingOffsets**
 [`array`](../../../../data-types.md) | Массив, который содержит целочисленные значения в минутах, позволяющие настроить время напоминания о деле. Например `[0, 15]` означает, что будет создано 2 напоминания, которые придут за 15 минут до крайнего срока и в момент, когда крайний срок наступит. По умолчанию пустой массив, без напоминаний ||
 || **colorId**
-[`integer`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне, например `1`. Для выбора доступно 8 цветов, значения от 1 до 7 и цвет по умолчанию, если ничего не указано:
+[`string`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне, например `1`. Для выбора доступно 8 цветов, значения от 1 до 7 и цвет по умолчанию, если ничего не указано:
 
 ![Доступные цвета](./_images/colors.png)
 
@@ -49,8 +49,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ownerTypeId":2,"ownerId":1,"deadline":"'"$(date -Iseconds)"'","title":"Заголовок дела","description":"Описание дела","responsibleId":5,"pingOffsets":[0,15],"colorId":2}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.activity.todo.add
+    -d '{"ownerTypeId":2,"ownerId":1,"deadline":"'"$(date -Iseconds)"'","title":"Заголовок дела","description":"Описание дела","responsibleId":5,"pingOffsets":[0,15],"colorId":"2"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.todo.add
     ```
 
 - cURL (OAuth)
@@ -59,7 +59,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ownerTypeId":2,"ownerId":1,"deadline":"'"$(date -Iseconds)"'","title":"Заголовок дела","description":"Описание дела","responsibleId":5,"pingOffsets":[0,15],"colorId":2,"auth":"**put_access_token_here**"}' \
+    -d '{"ownerTypeId":2,"ownerId":1,"deadline":"'"$(date -Iseconds)"'","title":"Заголовок дела","description":"Описание дела","responsibleId":5,"pingOffsets":[0,15],"colorId":"2","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.todo.add
     ```
 
@@ -79,7 +79,7 @@
     			description: 'Описание дела',
     			responsibleId: 5,
     			pingOffsets: [0, 15],
-    			colorId: 2
+    			colorId: '2'
     		}
     	);
     	
@@ -116,7 +116,7 @@
                     'description'   => 'Описание дела',
                     'responsibleId' => 5,
                     'pingOffsets'   => [0, 15],
-                    'colorId'       => 2
+                    'colorId'       => '2'
                 ]
             );
     
@@ -147,7 +147,7 @@
             description: 'Описание дела',
             responsibleId: 5,
             pingOffsets: [0, 15],
-            colorId: 2
+            colorId: '2'
         }, 
         result => {
             if (result.error())
@@ -173,7 +173,7 @@
             'description' => 'Описание дела',
             'responsibleId' => 5,
             'pingOffsets' => [0, 15],
-            'colorId' => 2
+            'colorId' => '2'
         ]
     );
 

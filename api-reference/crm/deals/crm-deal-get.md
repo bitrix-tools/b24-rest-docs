@@ -4,6 +4,12 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «чтения» сделок
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.deal.get` продолжает работать, но у него есть более актуальный аналог [crm.item.get](../universal/crm-item-get.md).
+
+{% endnote %}
+
 Метод `crm.deal.get` возвращает сделку по идентификатору.
 
 ## Параметры метода
@@ -38,7 +44,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"ID":410}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.get
     ```
 
 - cURL (OAuth)
@@ -300,12 +306,9 @@ HTTP-статус: **200**
 Узнать подробнее о компании можно с помощью метода [crm.item.get](../universal/crm-item-get.md), передав `entityTypeId = 4` и `id = COMPANY_ID`
 ||
 || **CONTACT_ID**
-[`crm_contact`](../data-types.md) | Идентификатор контакта. Устаревшее ||
-|| **CONTACT_IDS**
-[`crm_contact[]`](../data-types.md) | Список идентификаторов контактов. 
+[`crm_contact`](../data-types.md) | Идентификатор контакта. Устаревшее. 
 
-Узнать подробнее о списке контактов можно с помощью метода [crm.item.list](../universal/crm-item-list.md), передав `entityTypeId = 3` и фильтр `{ '@id': CONTACT_IDS }`
-||
+Чтобы получить список всех контактов сделки, используйте метод [crm.deal.contact.items.get](./contacts/crm-deal-contact-items-get.md) или универсальный метод [crm.item.get](../universal/crm-item-get.md) ||
 || **QUOTE_ID**
 [`crm_quote`](../data-types.md) | Идентификатор коммерческого предложения, на основе которого была создана сделка. 
 

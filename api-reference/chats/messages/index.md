@@ -307,13 +307,17 @@ restCommand(
 #|
 || **Метод** | **Описание** ||
 || [im.dialog.messages.get](./im-dialog-messages-get.md) | Получает список последних сообщений ||
+|| [im.dialog.messages.search](./im-dialog-messages-search.md) | Ищет сообщения в чате ||
 || [im.dialog.read](./im-dialog-read.md) | Устанавливает признак «прочитано» у сообщений ||
 || [im.dialog.unread](./im-dialog-unread.md) | Устанавливает признак «не прочитано» у сообщений ||
-|| [im.dialog.writing](./im-dialog-writing.md) | Отправляет признак «вам пишут...» ||
+|| [im.dialog.writing](./im-dialog-writing.md) | Отправляет признак «Пользователь пишет» ||
 || [im.message.add](./im-message-add.md) | Добавляет сообщение ||
-|| [im.message.command](./im-message-command.md) | Использует команду бота ||
+|| [im.message.command](./im-message-command.md) | Выполняет команду бота ||
 || [im.message.delete](./im-message-delete.md) | Удаляет сообщение чат-бота ||
 || [im.message.like](./im-message-like.md) | Изменяет статус «Мне нравится» у сообщения ||
 || [im.message.share](./im-message-share.md) | Создает объект на основании сообщения ||
 || [im.message.update](./im-message-update.md) | Изменяет отправленное сообщение ||
+|| [imbot.v2.Chat.Message.send](../../chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-send.md) | Отправляет сообщение от имени чат-бота (v2) ||
+|| [imbot.v2.Chat.Message.update](../../chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-update.md) | Изменяет сообщение чат-бота (v2) ||
+|| [imbot.v2.Command.answer](../../chat-bots/chat-bots-v2/imbot.v2/commands/command-answer.md) | Отправляет ответ чат-бота на команду (v2) ||
 |#

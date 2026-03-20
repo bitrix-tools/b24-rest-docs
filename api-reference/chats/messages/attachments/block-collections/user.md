@@ -1,28 +1,35 @@
 # Блок пользователя USER
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
+Блок `USER` выводит карточку пользователя внутри вложения: имя, аватар и ссылку для перехода.
 
 ![Блок пользователя](./_images/user.png)
 
-`USER` - вывод блока с аватаром и именем пользователя.
+## Параметры блока
 
-Поля **AVATAR** (аватар) и **LINK** (ссылка) не являются обязательными.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME***
+[`string`](../../../../data-types.md) | Имя, которое отображается в блоке ||
+|| **AVATAR**
+[`string`](../../../../data-types.md) | URL аватара. Допускаются абсолютные URL (`http://`, `https://`) и относительные пути от корня Битрикс ||
+|| **LINK**
+[`string`](../../../../data-types.md) | URL перехода по клику на блок. Для навигации внутри мессенджера предпочтительно использовать `USER_ID`, `CHAT_ID`, `BOT_ID` ||
+|| **USER_ID**
+[`integer`](../../../../data-types.md) | Ссылка на пользователя Битрикс ||
+|| **CHAT_ID**
+[`integer`](../../../../data-types.md) | Ссылка на чат Битрикс ||
+|| **BOT_ID**
+[`integer`](../../../../data-types.md) | Ссылка на чат-бота Битрикс ||
+|| **NETWORK_ID**
+[`string`](../../../../data-types.md) | Ссылка на сетевого пользователя Bitrix24 Network ||
+|| **AVATAR_TYPE**
+[`string`](../../../../data-types.md) | Тип отображения аватара. Допустимые значения: `USER`, `CHAT`, `BOT` ||
+|#
 
 ## Пример
+
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -31,30 +38,29 @@
     ```js
     {
         USER: {
-            NAME: "Иван Иванов",
-            AVATAR: "https://files.shelenkov.com/bitrix/images/avatar.png",
-            LINK: "https://shelenkov.com"
+            NAME: 'Иван Иванов',
+            AVATAR: 'https://files.shelenkov.com/bitrix/images/avatar.png',
+            LINK: 'https://shelenkov.com'
         }
-    },
+    }
     ```
 
 - PHP
 
     ```php
-    Array(
-        "USER" => Array(
-            "NAME" => "Иван Иванов",
-            "AVATAR" => "https://files.shelenkov.com/bitrix/images/avatar.png",
-            "LINK" => "https://shelenkov.com/",
-        )
-    ),
+    [
+        'USER' => [
+            'NAME' => 'Иван Иванов',
+            'AVATAR' => 'https://files.shelenkov.com/bitrix/images/avatar.png',
+            'LINK' => 'https://shelenkov.com'
+        ]
+    ]
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+## Продолжите изучение
 
-Вместо ключа **LINK** можно использовать и ссылки на сущности:
-- `CHAT_ID` - для указания ссылки на чат;
-- `BOT_ID` - для указания ссылки на бота;
-- `USER_ID` - для указания ссылки на пользователя.
+- [{#T}](./index.md)
+- [{#T}](./links.md)
+- [{#T}](./grid.md)

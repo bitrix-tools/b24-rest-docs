@@ -55,7 +55,7 @@ fields: {
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"shipmentId":2471,"paymentId":1025,"xmlId":"myXmlId"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.paymentitemshipment.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.paymentitemshipment.add
     ```
 
 - cURL (OAuth)

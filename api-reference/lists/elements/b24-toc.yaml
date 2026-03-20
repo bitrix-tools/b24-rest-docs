@@ -5,12 +5,11 @@ items:
     href: index.md
   - name: Создать элемент
     href: lists-element-add.md
-  - name: Удалить элемент
-    href: lists-element-delete.md
-  - name: Получить параметры элемента или список элементов
-    href: lists-element-get.md
-  - name: Получить путь к файлу
-    href: lists-element-get-file-url.md
   - name: Изменить элемент
     href: lists-element-update.md
-
+  - name: Получить параметры элемента или список элементов
+    href: lists-element-get.md
+  - name: Удалить элемент
+    href: lists-element-delete.md
+  - name: Получить путь к файлу
+    href: lists-element-get-file-url.md

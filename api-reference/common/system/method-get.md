@@ -4,7 +4,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `method.get` возвращает два параметра `isExisting` и `isAvailable`, которые соответственно определяют существование метода на портале и его доступность для вызова.
+Метод `method.get` возвращает два параметра `isExisting` и `isAvailable`, которые  определяют существование метода на портале и его доступность для вызова.
 
 ## Параметры метода
 
@@ -16,8 +16,6 @@
 || **name**
 [`string`](../../data-types.md) | Название метода для проверки в нижнем регистре, например `user.get` ||
 |#
-
-> Если метод вызван без параметров, то он вернет список всех методов, доступных текущему приложению.
 
 ## Примеры кода
 
@@ -34,7 +32,7 @@
     -d '{
         "name": "user.get"
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/method.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/method.get
     ```
 
 - cURL (OAuth)

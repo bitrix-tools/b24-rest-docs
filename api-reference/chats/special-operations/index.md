@@ -34,11 +34,15 @@
 
 ## Обзор методов {#all-methods}
 
+> Scope: [`im`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
+
 #|
 || **Метод** | **Описание** ||
 || [im.recent.pin](./im-recent-pin.md) | Закрепляет чат вверху списка чатов ||
-|| [im.recent.unread](./im-recent-unread.md) | Управляет меткой «Прочитано» у чата ||
-|| [im.dialog.read.all](./im-dialog-read-all.md) | Устанавливает метку «Прочитано» для всех чатов ||
+|| [im.recent.unread](./im-recent-unread.md) | Устанавливает или снимает признак «прочитано» у чата ||
+|| [im.dialog.read.all](./im-dialog-read-all.md) | Устанавливает признак «прочитано» для всех чатов пользователя ||
 || [im.chat.mute](./im-chat-mute.md) | Отключает уведомления от чата ||
 || [im.recent.hide](./im-recent-hide.md) | Удаляет чат из списка последних ||
 |#

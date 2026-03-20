@@ -97,7 +97,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"DELIVERY_ID":225,"REQUEST_ID":"4757aca4931a4f029f49c0db4374d13d","ADDRESSEE":"MANAGER","MESSAGE":{"SUBJECT":"Your order is on its way","BODY":"Estimated delivery price: #MONEY#","MONEY_VALUES":{"#MONEY#":351.2},"STATUS":{"MESSAGE":"Success","SEMANTIC":"success"}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.delivery.request.sendmessage
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.delivery.request.sendmessage
     ```
 
 - cURL (OAuth)

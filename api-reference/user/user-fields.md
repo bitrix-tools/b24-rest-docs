@@ -27,7 +27,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.fields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.fields
     ```
 
 - cURL (OAuth)
@@ -192,7 +192,6 @@ HTTP-статус: **200**
             "UF_WEB_SITES":"Другие сайты",
             "UF_XING":"Xing",
             "UF_LINKEDIN":"LinkedIn",
-            "UF_FACEBOOK":"Facebook",
             "UF_TWITTER":"Twitter",
             "UF_SKYPE":"Skype",
             "UF_DISTRICT":"Район",

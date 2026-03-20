@@ -40,7 +40,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8017}' \
-    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webbhook_here**/tasks.task.access.get
+    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.access.get
     ```
 
 - cURL (OAuth)
@@ -239,6 +239,8 @@ HTTP-статус: **400**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info-v3.md) %}
+
 ### Возможные коды ошибок
 
 #### Ошибки валидации запроса  
@@ -252,3 +254,9 @@ HTTP-статус: **400**
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./tasks-task-update.md)
+- [{#T}](./tasks-task-chat-message-send.md)
+- [{#T}](./tasks-task-delete.md)

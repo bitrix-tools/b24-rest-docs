@@ -1,117 +1,101 @@
 # Найти подразделения im.search.department.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.search.department.list` выполняет поиск подразделений.
+Метод `im.search.department.list` выполняет поиск подразделений по полному названию.
 
-#|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **FIND^*^**
-[`unknown`](../../data-types.md) | `Московский` | Поисковая фраза | 19 ||
-|| **USER_DATA**
-[`unknown`](../../data-types.md) | `N` | Подгружать данные о пользователях | 19 ||
-|| **OFFSET**
-[`unknown`](../../data-types.md) | `0` | Смещение выборки пользователей | 19 ||
-|| **LIMIT**
-[`unknown`](../../data-types.md) | `10` | Лимит выборки пользователей | 19 ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-- Если передан параметр `USER_DATA = Y`, то к результату будут подгружены данные о руководителе.
-- Поиск осуществляется по следующим полям: **Полное название подразделения**.
-- Метод поддерживает стандартную постраничную навигацию Bitrix24 Rest Api, но в добавок к ней есть возможность построить навигацию с помощью параметров `OFFSET` и `LIMIT`.
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **FIND***
+[`string`](../../data-types.md) | Поисковая фраза для поиска по полному названию подразделения (поле [full_name](../departments/im-department-get.md#department)) ||
+|| **USER_DATA**
+[`string`](../../data-types.md) | Возвращать данные руководителя подразделения в поле [manager_user_data](#manager_user_data). 
 
-## Примеры
+Доступные значения: 
+- `Y` — да
+- `N` — нет
+
+Значение по умолчанию — `N` ||
+|| **OFFSET**
+[`integer`](../../data-types.md) | Смещение выборки подразделений. По умолчанию `0` ||
+|| **LIMIT**
+[`integer`](../../data-types.md) | Количество элементов в выборке. По умолчанию `10`. Максимальное значение `50` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"FIND":"Отдел","USER_DATA":"Y","OFFSET":0,"LIMIT":10}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.search.department.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"FIND":"Отдел","USER_DATA":"Y","OFFSET":0,"LIMIT":10,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.search.department.list
+    ```
+
 - JS
 
-
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
-    
     try {
-      const response = await $b24.callListMethod(
-        'im.search.department.list',
-        {
-          FIND: 'Московский'
-        },
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
+      const response = await $b24.callMethod('im.search.department.list', {
+        FIND: 'Отдел',
+        USER_DATA: 'Y',
+        OFFSET: 0,
+        LIMIT: 10,
+      });
+
+      const { result, total, next } = response.getData();
+      console.log(result, total, next);
     } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
-    
-    try {
-      const generator = $b24.fetchListMethod('im.search.department.list', { FIND: 'Московский' }, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
-      }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('im.search.department.list', { FIND: 'Московский' }, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
+      console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.search.department.list',
-                [
-                    'FIND' => 'Московский'
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'users: ' . print_r($result->data(), true);
-        echo 'total: ' . $result->total();
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error searching department list: ' . $e->getMessage();
+        $response = $b24Service->core->call(
+            'im.search.department.list',
+            [
+                'FIND' => 'Отдел',
+                'USER_DATA' => 'Y',
+                'OFFSET' => 0,
+                'LIMIT' => 10,
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            var_dump($result->data());
+        }
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
@@ -121,17 +105,16 @@
     BX24.callMethod(
         'im.search.department.list',
         {
-            FIND: 'Московский'
+            FIND: 'Отдел',
+            USER_DATA: 'Y',
+            OFFSET: 0,
+            LIMIT: 10,
         },
-        function(result){
-            if(result.error())
-            {
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
-                console.log('users', result.data());
-                console.log('total', result.total());
+            } else {
+                console.log(result.data(), result.total(), result.next());
             }
         }
     );
@@ -140,68 +123,131 @@
 - PHP CRest
 
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.search.department.list',
-        Array(
-            'FIND' => 'Московский'
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'FIND' => 'Отдел',
+            'USER_DATA' => 'Y',
+            'OFFSET' => 0,
+            'LIMIT' => 10,
         ]
-    );    
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        var_dump($result['result']);
+    }
     ```
-
-- cURL
-
-    // пример для cURL
-
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
 ```json
-{    
+{
     "result": [
         {
-            "id": 51,
-            "name": "Московский филиал",
-            "full_name": "Московский филиал / Битрикс",
-            "manager_user_id": 11
-        }
+            "id": 9,
+            "name": "Отдел маркетинга и рекламы",
+            "full_name": "Отдел маркетинга и рекламы / Моя компания",
+            "manager_user_id": 3,
+            "manager_user_data": {
+                "id": 3,
+                "active": true,
+                "name": "Елена Иванова",
+                "first_name": "Елена",
+                "last_name": "Иванова",
+                "work_position": "",
+                "color": "#1eb4aa",
+                "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+                "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar.png",
+                "gender": "F",
+                "birthday": "06-04",
+                "extranet": false,
+                "network": false,
+                "bot": false,
+                "connector": false,
+                "external_auth_id": "socservices",
+                "status": "online",
+                "idle": false,
+                "last_activity_date": "2026-03-04T22:08:29+03:00",
+                "mobile_last_date": false,
+                "desktop_last_date": false,
+                "absent": false,
+                "departments": [1],
+                "phones": {
+                    "work_phone": "7495111111",
+                    "inner_phone": "222"
+                },
+                "bot_data": null,
+                "type": "user",
+                "website": "example.ru",
+                "email": "user@example.ru"
+            }
+        },
+        ... // описание для каждого подразделения
     ],
-    "total": 1
-}            
+    "total": 2,
+    "time": {
+        "start": 1772651443,
+        "finish": 1772651443.378436,
+        "duration": 0.3784360885620117,
+        "processing": 0,
+        "date_start": "2026-03-04T22:10:43+03:00",
+        "date_finish": "2026-03-04T22:10:43+03:00",
+        "operating_reset_at": 1772652043,
+        "operating": 0
+    }
+}
 ```
 
-### Описание ключей
+## Возвращаемые данные
 
-- `id` – идентификатор подразделения
-- `name` – краткое название подразделения
-- `full_name` – полное название подразделения
-- `manager_user_data` – объект описания данных руководителя (не доступно, если `USER_DATA != 'Y'`)
-- `id` – идентификатор пользователя
-- `name` – имя и фамилия пользователя
-- `first_name` – имя пользователя
-- `last_name` – фамилия пользователя
-- `work_position` – должность
-- `color` – цвет пользователя в формате hex
-- `avatar` – ссылка на аватар (если пусто, значит аватар не задан)
-- `gender` – пол пользователя
-- `birthday` – день рождения пользователя в формате DD-MM, если пусто – не задан
-- `extranet` – признак внешнего экстранет-пользователя (`true/false`)
-- `network` – признак пользователя Битрикс24.Network (`true/false`)
-- `bot` – признак бота (`true/false`)
-- `connector` – признак пользователя открытых линий (`true/false`)
-- `external_auth_id` – код внешней авторизации
-- `status` – выбранный статус пользователя
-- `idle` – дата, когда пользователь отошел от компьютера, в формате АТОМ (если не задано, `false`)
-- `last_activity_date` – дата последнего действия пользователя в формате АТОМ
-- `mobile_last_date` – дата последнего действия в мобильном приложении в формате АТОМ (если не задано, `false`)
-- `absent` – дата, по какое число у пользователя отпуск, в формате АТОМ (если не задано, `false`)
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Список найденных подразделений.
 
-## Ответ в случае ошибки
+Структура объекта подразделения подробно описана [ниже](#department-object) ||
+|| **total**
+[`integer`](../../data-types.md) | Общее количество найденных подразделений ||
+|| **next**
+[`integer`](../../data-types.md) | Смещение следующей страницы. Поле возвращается, если есть следующая страница ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект подразделения {#department-object}
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор подразделения ||
+|| **name**
+[`string`](../../data-types.md) | Короткое название подразделения ||
+|| **full_name**
+[`string`](../../data-types.md) | Полное название подразделения ||
+|| **manager_user_id**
+[`integer`](../../data-types.md) | Идентификатор руководителя подразделения ||
+|| **manager_user_data**
+[`object`](../../data-types.md) | Данные руководителя подразделения. Объект возвращается только при `USER_DATA = 'Y'`.
+
+Структура объекта руководителя подробно описана [ниже](#manager_user_data) ||
+|#
+
+#### Объект manager_user_data {#manager_user_data}
+
+{% include [Таблицы объекта пользователя](../_includes/user-object-tables.md) %}
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
@@ -210,14 +256,21 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **FIND_SHORT** | Слишком короткая поисковая фраза, поиск осуществляется от трех символов. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `FIND_SHORT` | Too short a search phrase | Не передан параметр `FIND` или фраза меньше трех символов ||
 |#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-search-chat-list.md)
+- [{#T}](./im-search-user-list.md)
+- [{#T}](./im-search-last-add.md)
+- [{#T}](./im-search-last-get.md)
+- [{#T}](./im-search-last-delete.md)

@@ -1,6 +1,6 @@
 # Сообщения: обзор методов
 
-Раздел описывает методы для отправки, изменения, удаления сообщений, отметки их как прочитанных и работы с реакциями от имени чат-бота.
+Раздел описывает методы для отправки, изменения, удаления сообщений, чтения истории и работы с реакциями от имени чат-бота.
 
 > Быстрый переход: [все методы](#all-methods)
 
@@ -24,6 +24,8 @@
 || [imbot.v2.Chat.Message.update](./chat-message-update.md) | Обновляет сообщение бота ||
 || [imbot.v2.Chat.Message.delete](./chat-message-delete.md) | Удаляет сообщение ||
 || [imbot.v2.Chat.Message.read](./chat-message-read.md) | Отмечает сообщения как прочитанные ||
+|| [imbot.v2.Chat.Message.get](./chat-message-get.md) | Возвращает сообщение по ID. Только для `supervisor` и `personal` ||
+|| [imbot.v2.Chat.Message.getContext](./chat-message-get-context.md) | Возвращает окно сообщений вокруг указанного. Только для `supervisor` и `personal` ||
 || [imbot.v2.Chat.Message.Reaction.add](./chat-message-reaction-add.md) | Добавляет реакцию на сообщение ||
 || [imbot.v2.Chat.Message.Reaction.delete](./chat-message-reaction-delete.md) | Удаляет реакцию с сообщения ||
 |#

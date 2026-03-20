@@ -33,8 +33,7 @@
 
 - [{#T}](../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
 - [{#T}](../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
-- [{#T}](../../tutorials/crm/how-to-get-lists/lead-statuses-with-semantics.md)
-- [{#T}](../../tutorials/crm/how-to-get-lists/quote-statuses-with-semantics.md)
+- [{#T}](../../tutorials/crm/how-to-get-lists/how-to-get-stages-with-semantics.md)
 - [{#T}](../../tutorials/crm/how-to-get-lists/how-to-get-deal-funnels.md)
 
 ## Как использовать инструменты сквозной аналитики Битрикс24

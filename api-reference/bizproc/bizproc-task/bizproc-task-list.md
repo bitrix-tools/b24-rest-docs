@@ -4,11 +4,17 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает список заданий бизнес-процессов.
+Метод `bizproc.task.list` получает список заданий бизнес-процессов.
 
 Администратор портала может запросить все задания или задания любого пользователя. Обычный пользователь — свои задания или подчиненного.
 
 Для запроса своих заданий можно не указывать фильтр по `USER_ID`.
+
+{% note info "" %}
+
+На облачных Битрикс24 информация по заданиям доступна в течение суток после завершения бизнес-процесса.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -69,7 +75,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["ID","WORKFLOW_ID","DOCUMENT_NAME","DESCRIPTION","NAME","MODIFIED","WORKFLOW_STARTED","WORKFLOW_STARTED_BY","OVERDUE_DATE","WORKFLOW_TEMPLATE_ID","WORKFLOW_TEMPLATE_NAME","WORKFLOW_STATE","STATUS","USER_ID","USER_STATUS","MODULE_ID","ENTITY","DOCUMENT_ID","ACTIVITY","ACTIVITY_NAME","DOCUMENT_URL","PARAMETERS"],"order":{"ID":"DESC"},"filter":{"USER_ID":1,"STATUS":0,"ACTIVITY":"RequestInformationOptionalActivity"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/bizproc.task.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/bizproc.task.list
     ```
 
 - cURL (OAuth)
@@ -86,7 +92,7 @@
 
 
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
     
     const parameters = {
         select: [
@@ -131,7 +137,7 @@
         console.error('Request failed', error);
     }
     
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
     
     const parameters = {
         select: [
@@ -177,7 +183,7 @@
         console.error('Request failed', error);
     }
     
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
     
     const parameters = {
         select: [

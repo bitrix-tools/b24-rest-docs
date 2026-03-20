@@ -3,6 +3,8 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
+  - name: Новая карточка задач
+    href: tasks-new.md    
   - name: Поля задачи
     href: fields.md
   - name: Добавить задачу
@@ -92,6 +94,10 @@ items:
   - name: Потоки
     include:
       path: flow/b24-toc.yaml
+      mode: link
+  - name: Шаблоны
+    include:
+      path: template/b24-toc.yaml
       mode: link
   - name: Устаревшее
     include:

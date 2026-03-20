@@ -75,7 +75,7 @@
          -H "Content-Type: application/json" \
          -H "Accept: application/json" \
          -d '{"params":{"entityTypeId":3,"entityIds":[100,101,102]}}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.entity.mergeBatch
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.entity.mergeBatch
     ```
 
 - cURL (OAuth)

@@ -4,7 +4,15 @@
 >
 > Кто может выполнять метод: пользователь с правом «изменения» сделки
 
-Метод `crm.deal.productrows.set` создает или обновляет товарные позиции сделки. Чтобы изменить только одну позицию, используйте методы [crm.item.productrow.*](../universal/product-rows/index.md).
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.deal.productrows.set` продолжает работать, но у него есть более актуальный аналог [crm.item.productrow.*](../universal/product-rows/index.md).
+
+{% endnote %}
+
+Метод `crm.deal.productrows.set` создает или обновляет товарные позиции сделки. Существующие позиции, не переданные в метод, будут удалены из сделки. 
+
+Чтобы изменить только одну позицию, используйте методы [crm.item.productrow.*](../universal/product-rows/index.md).
 
 #|
 || **Название**
@@ -27,7 +35,7 @@
 - `field_n` — название поля товарной позиции
 - `value_n` — значение данного поля
 
-Список доступных полей описан [ниже](#parameter-rows). ||
+Список доступных полей описан [ниже](#parameter-rows) ||
 |#
 
 ### Список доступных полей у товарных позиций {#parameter-rows}
@@ -83,7 +91,7 @@
 || **TAX_RATE**
 [`double`](../../data-types.md) | Ставка налога в процентах ||
 || **TAX_INCLUDED**
-[`boolean`](../../data-types.md) | Индикатор того, включен ли налог в стоимость
+[`char`](../../data-types.md) | Индикатор того, включен ли налог в стоимость
 Возможные значения:
 - `Y` – налог включен
 - `N` – налог не включен
@@ -121,7 +129,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":5,"rows":[{"PRODUCT_ID":456,"PRICE":1000,"QUANTITY":10,"DISCOUNT_TYPE_ID":1,"DISCOUNT_SUM":100,"TAX_RATE":13,"MEASURE_CODE":796,"MEASURE_NAME":"шт","SORT":10},{"PRODUCT_NAME":"Товар #2","PRICE":500,"QUANTITY":5,"DISCOUNT_TYPE_ID":2,"DISCOUNT_RATE":10,"TAX_RATE":10,"MEASURE_CODE":166,"MEASURE_NAME":"кг","SORT":20}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.productrows.set
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.productrows.set
     ```
 
 - cURL (OAuth)
@@ -369,12 +377,12 @@ HTTP-статус: **400**
 
 #|
 || **Описание** | **Значение** ||
-|| The parameter id is invalid or not defined. | В параметр `id` передано некорректное значение ||
+|| The parameter id is invalid or not defined | В параметр `id` передано некорректное значение ||
 || Access denied | У пользователя нет прав на «изменение» сделки  ||
 || Not found | Сделка с переданным `id` не найдена ||
-|| Discount Rate (`DISCOUNT_RATE`) is required if Percentage Discount Type (`DISCOUNT_TYPE_ID`) is defined. | Было передано `DISCOUNT_TYPE_ID = 2` и не передано `DISCOUNT_RATE` ||
+|| Discount Rate (`DISCOUNT_RATE`) is required if Percentage Discount Type (`DISCOUNT_TYPE_ID`) is defined | Было передано `DISCOUNT_TYPE_ID = 2` и не передано `DISCOUNT_RATE` ||
 || Discount Sum (`DISCOUNT_SUM`) is required if Percentage Discount Type (`DISCOUNT_TYPE_ID`) is defined and Discount Rate (`DISCOUNT_RATE`) is 100% | Было передано `DISCOUNT_RATE = 100` и `DISCOUNT_TYPE_ID = 2` и не передано `DISCOUNT_SUM` ||
-|| Discount Sum (`DISCOUNT_SUM`) is required if Monetary Discount Type (`DISCOUNT_TYPE_ID`) is defined. | Было передано `DISCOUNT_TYPE_ID = 1` и не передано `DISCOUNT_SUM` ||
+|| Discount Sum (`DISCOUNT_SUM`) is required if Monetary Discount Type (`DISCOUNT_TYPE_ID`) is defined | Было передано `DISCOUNT_TYPE_ID = 1` и не передано `DISCOUNT_SUM` ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

@@ -6,26 +6,32 @@
 
 Событие `onAppMethodConfirm` вызывается при получении [решения администратора](../../scopes/confirmation.md) портала на использование методов.
 
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}
 
-```
+```json
 {
-    "event" => "ONAPPMETHODCONFIRM",
+    "event": "ONAPPMETHODCONFIRM",
     "data": {
-        "TOKEN" => "fkp963yuv1ggkfbs5z3f5hy8lilm0iw6",
-        "METHOD" => "voximplant.user.get",
-        "CONFIRMED" => "1",
-        "LANGUAGE_ID" => "ru"
+        "TOKEN": "fkp963yuv1ggkfbs5z3f5hy8lilm0iw6",
+        "METHOD": "voximplant.user.get",
+        "CONFIRMED": "1",
+        "LANGUAGE_ID": "ru"
     },
     "ts": "1478790852",
     "auth": {
-        "domain" => "portal.bitrix24.ru",
-        "client_endpoint" => "https://portal.bitrix24.ru/rest/",
-        "server_andpoint" => "https://oauth.bitrix24.tech/rest/",
-        "member_id" => "74ef8a46a75104de55d5d4a61b98ab6d",
-        "application_token" => "c289487163b58658eae5e8b42eaf11b8"
+        "domain": "portal.bitrix24.ru",
+        "client_endpoint": "https://portal.bitrix24.ru/rest/",
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "member_id": "74ef8a46a75104de55d5d4a61b98ab6d",
+        "application_token": "c289487163b58658eae5e8b42eaf11b8"
     }
 }
 
@@ -41,13 +47,13 @@
 || **event***
 [`string`](../../data-types.md) | Символьный код события — `ONAPPMETHODCONFIRM` ||
 || **data***
-[`array`](../../data-types.md) | Данные о разрешенных методах.
+[`object`](../../data-types.md) | Данные о разрешенных методах.
 
 Структура описана [ниже](#data) ||
 || **ts***
 [`timestamp`](../../data-types.md) | Дата и время отправки события ||
 || **auth***
-[`array`](../../data-types.md) | Данные авторизации и портала.
+[`object`](../../data-types.md) | Данные авторизации и портала.
 
 Структура описана [ниже](#auth) ||
 |#

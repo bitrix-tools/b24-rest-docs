@@ -3,15 +3,15 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Добавить поле
+  - name: Создать пользовательское поле
     href: crm-lead-userfield-add.md
-  - name: Изменить поле
+  - name: Изменить пользовательское поле
     href: crm-lead-userfield-update.md
-  - name: Получить поле по коду
+  - name: Получить пользовательское поле по идентификатору
     href: crm-lead-userfield-get.md
-  - name: Получить список полей
+  - name: Получить список пользовательских полей
     href: crm-lead-userfield-list.md
-  - name: Удалить поле
+  - name: Удалить пользовательское поле
     href: crm-lead-userfield-delete.md
   - name: События
     include:

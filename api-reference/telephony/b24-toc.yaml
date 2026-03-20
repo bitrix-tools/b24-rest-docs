@@ -3,15 +3,15 @@ href: index.md
 items: 
   - name: О телефонии в Битрикс24
     href: index.md
-  - name: Зарегистрировать линию/номер
+  - name: Зарегистрировать внешнюю линию
     href: telephony-external-line-add.md
-  - name: Изменить линию/номер
+  - name: Изменить внешнюю линию
     href: telephony-external-line-update.md  
-  - name: Получить список линий/номеров
+  - name: Получить список внешних линий
     href: telephony-external-line-get.md
-  - name: Удалить линию/номер
+  - name: Удалить внешнюю линию
     href: telephony-external-line-delete.md
-  - name: Найти клиента в CRM по телефонному номеру
+  - name: Найти клиента в CRM по номеру телефона
     href: telephony-external-call-search-crm-entities.md
   - name: Зарегистрировать начало звонка
     href: telephony-external-call-register.md

@@ -4,13 +4,12 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет обработчик встройки виджета.
+Метод `placement.bind` добавляет обработчик встройки виджета.
 
 Он может быть вызван в любой момент во время работы приложения, однако чаще всего, удобнее регистрировать свои виджеты во время [установки приложения](../../settings/app-installation/index.md).
 
 Важно учитывать, что пока установка приложения не завершена, зарегистрированные вами виджеты не будут доступны обычным пользователям в интерфейсе Битрикс24 - их смогут видеть только пользователи с административными правами. 
-
-Рекомендуется внимательно ознакомиться с принципами [установки приложений](../../settings/app-installation/index.md) в Битрикс24.
+[Проверьте установку приложения](../../settings/app-installation/installation-finish.md).
 
 ## Параметры метода {#params}
 
@@ -69,16 +68,6 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"PLACEMENT_CODE","HANDLER":"http://myapp.com/handler/?type=1","OPTIONS":{"errorHandlerUrl":"http://myapp.com/error/"},"TITLE":"title","DESCRIPTION":"description","GROUP_NAME":"group","LANG_ALL":{"en":{"TITLE":"title","DESCRIPTION":"description","GROUP_NAME":"group"},"ru":{"TITLE":"заголовок","DESCRIPTION":"описание","GROUP_NAME":"группа"}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/placement.bind
-    ```
 
 - cURL (OAuth)
 
@@ -320,6 +309,7 @@ HTTP-статус: **400**, **403**, **200**
 || **Код** | **Описание** | **Статус** ||
 || `ERROR_PLACEMENT_MAX_COUNT` | Произошла попытка повторной регистрации обработчика виджета `PAGE_BACKGROUND_WORKER` | 200 ||
 || `ERROR_ARGUMENT` | Не указано значение обязательного поля. Код обязательного поля возвращается в `argument`| 200 ||
+|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | 403 ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

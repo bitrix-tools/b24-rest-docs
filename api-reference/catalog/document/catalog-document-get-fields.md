@@ -1,46 +1,42 @@
-# Получить поля документов складского учета catalog.document.getFields
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-- отсутствует ответ в случае успеха
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
+# Получить описание полей документа складского учета catalog.document.getFields
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может подписаться: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
 
-## Описание
+Метод `catalog.document.getFields` возвращает описание полей для документа складского учета.
 
-```http
-catalog.document.getFields()
-```
+## Параметры метода
 
-Метод возвращает список полей документов складского учёта.
+Без параметров. 
 
-## Параметры
+## Примеры кода
 
-Без параметров.
-
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.getFields
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.document.getFields
+    ```
+
+- JS
 
     ```js
     try
@@ -49,18 +45,17 @@ catalog.document.getFields()
     		'catalog.document.getFields',
     		{}
     	);
-    	
+
     	const result = response.getData().result;
     	console.log(result);
     }
-    catch( error )
+    catch (error)
     {
     	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -70,17 +65,16 @@ catalog.document.getFields()
                 'catalog.document.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting document fields: ' . $e->getMessage();
@@ -95,7 +89,7 @@ catalog.document.getFields()
         {},
         function(result)
         {
-            if(result.error())
+            if (result.error())
                 console.error(result.error());
             else
                 console.log(result.data());
@@ -103,51 +97,186 @@ catalog.document.getFields()
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.document.getFields',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Возвращаемые поля
+HTTP-код: **200**
+
+```json
+{
+    "result": {
+        "document": {
+            "commentary": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "createdBy": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "currency": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "char"
+            },
+            "dateCreate": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "datetime"
+            },
+            "dateDocument": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "datetime"
+            },
+            "dateModify": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "datetime"
+            },
+            "dateStatus": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "datetime"
+            },
+            "docNumber": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "docType": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "char"
+            },
+            "id": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "modifiedBy": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "responsibleId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "integer"
+            },
+            "siteId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "status": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "char"
+            },
+            "statusBy": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "title": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "total": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "double"
+            }
+        }
+    },
+    "time": {
+        "start": 1761727898,
+        "finish": 1761727898.554004,
+        "duration": 0.5540039539337158,
+        "processing": 0,
+        "date_start": "2025-10-29T11:51:38+03:00",
+        "date_finish": "2025-10-29T11:51:38+03:00",
+        "operating_reset_at": 1761728498,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
 
 #|
-|| **Поле** | **Описание** | **Примечание** ||
-|| **commentary** 
-[`char`](../../data-types.md) | Комментарий. |  ||
-|| **createdBy** 
-[`integer`](../../data-types.md) | Кем создан. |  Неизменяемое поле. ||
-|| **currency^*^** 
-[`char`](../../data-types.md) | Валюта. | Неизменяемое поле. ||
-|| **dateCreate** 
-[`datetime`](../../data-types.md) | Дата создания. | Неизменяемое поле. ||
-|| **dateDocument** 
-[`datetime`](../../data-types.md) | Дата проведения документа. |  ||
-|| **dateModify** 
-[`datetime`](../../data-types.md) | Дата изменения. |  ||
-|| **dateStatus** 
-[`datetime`](../../data-types.md) | Дата установки статуса. | Только для чтения. ||
-|| **docNumber** 
-[`string`](../../data-types.md) | Номер документа. |  ||
-|| **docType^*^**
-[`char`](../../data-types.md) | Тип документа:
-- `A` – Приход товара на склад; 
-- `S` – Оприходование товара; 
-- `M` – Перемещение товара между складами; 
-- `R` – Возврат товара; 
-- `D` – Списание товара. |  Неизменяемое поле. ||
-|| **id** 
-[`integer`](../../data-types.md) | Идентификатор документа. | Только для чтения. ||
-|| **modifiedBy** 
-[`integer`](../../data-types.md) | Кем изменён. |  ||
-|| **responsibleId^*^** 
-[`integer`](../../data-types.md) | Ответственный. |  ||
-|| **status** 
-[`char`](../../data-types.md) | Статус. | Только для чтения. ||
-|| **statusBy** 
-[`integer`](../../data-types.md) | Кем установлен статус. |  ||
-|| **title** 
-[`string`](../../data-types.md) | Заголовок документа. |  ||
-|| **total** 
-[`double`](../../data-types.md) | Общая сумма товаров. |  ||
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../data-types.md#catalog_document) | Корневой элемент ответа ||
+|| **document**
+[`object`](../data-types.md#catalog_document) | Объект с описанием полей документа складского учета 
+Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_document`](../data-types.md#catalog_document), а `value` — объект типа [`rest_field_description`](../data-types.md). ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+HTTP-код: **400**
+
+```json
+{
+    "error": "0",
+    "error_description": "Недостаточно прав для сохранения документа"
+}
+```
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | Недостаточно прав для сохранения документа | У пользователя нет права на просмотр ||
+|#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./catalog-document-list.md)
+- [{#T}](./catalog-document-add.md)
+- [{#T}](./catalog-document-update.md)

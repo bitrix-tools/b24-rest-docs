@@ -84,7 +84,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"attachId":**put_attach_id**,"answerId":**put_answer_id**,"pageNavigation":{"pageSize":**put_page_size**,"currentPage":**put_page**},"userForMobileFormat":false}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/vote.AttachedVote.getAnswerVoted
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/vote.AttachedVote.getAnswerVoted
     ```
 
 - cURL (OAuth)

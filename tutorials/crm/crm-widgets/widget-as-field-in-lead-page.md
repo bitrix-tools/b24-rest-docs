@@ -233,7 +233,7 @@
         <!DOCTYPE html>
         <html>
             <head>
-                <script src="//api.bitrix24.com/api/v1/dev/"></script>
+                <script src="//api.bitrix24.tech/api/v1/dev/"></script>
             </head>
             <body style="margin: 0; padding: 0; background-color: <?=$placementOptions['MODE'] === 'edit' ? '#fff'
                 : '#f9fafb'?>;">

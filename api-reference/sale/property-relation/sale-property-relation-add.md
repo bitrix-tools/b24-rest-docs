@@ -25,9 +25,9 @@
 || **Параметр**
 `тип` | **Описание** ||
 || **entityId***
-[`integer`](../../data-types.md) | Идентификатор сущности ||
+[`integer`](../../data-types.md) | Идентификатор объекта ||
 || **entityType***
-[`string`](../../data-types.md) | Тип сущности:
+[`string`](../../data-types.md) | Тип объекта:
 - `P` — платежная система
 - `D` — доставка
 - `L` — лендинг
@@ -49,7 +49,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"entityId":6,"entityType":"D","propertyId":40}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.propertyRelation.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.propertyRelation.add
     ```
 
 - cURL (OAuth)
@@ -237,3 +237,4 @@ HTTP-статус: **400**
 - [{#T}](./sale-property-relation-list.md)
 - [{#T}](./sale-property-relation-delete-by-filter.md)
 - [{#T}](./sale-property-relation-get-fields.md)
+- [{#T}](../../../tutorials/sale/delivery-in-crm.md)

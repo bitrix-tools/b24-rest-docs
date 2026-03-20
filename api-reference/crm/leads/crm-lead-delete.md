@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом удаления лидов
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.lead.delete` продолжает работать, но у него есть более актуальный аналог [crm.item.delete](../universal/crm-item-delete.md).
+
+{% endnote %}
+
 Метод `crm.lead.delete` удаляет лид и все связанные с ним объекты: дела, история, записи таймлайна и другие. 
 
 Объекты удаляются, если они не привязаны к другим объектам или элементам. В случае, если объекты привязаны к другим элементам, удалится только привязка к удаляемому лиду.
@@ -34,7 +40,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":"123"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.lead.delete
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.lead.delete
     ```
 
 - cURL (OAuth)

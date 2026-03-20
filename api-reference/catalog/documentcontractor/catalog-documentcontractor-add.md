@@ -1,141 +1,247 @@
-# Добавить привязку CRM-сущности (Контакта/Компании) к документу catalog.documentcontractor.add
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-- нет примеров на др. языках
-- сделать сссылку с [Список](.) на Константы CRM
-- сделать ссылку [crm.category.list](.)
-- сделать ссылку [crm.item.list](.)
-  
-{% endnote %}
-
-{% endif %}
+# Добавить поставщика к документу складского учета catalog.documentcontractor.add
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правами:
+> — «Просмотр» и «Cоздание и редактирование» на тип документа «Приход»,
+> — «Просмотр раздела Складской учет»
+> — «Просмотр каталога товаров»  
 
-## Описание
+Метод `catalog.documentcontractor.add` создает привязку поставщика, контакта или компании, к документу складского учета.
 
-```http
-catalog.documentcontractor.add(fields)
-```
+## Параметры метода  
 
-Метод добавляет привязку CRM-сущности (Контакта/Компании) к документу.
-В ответе приходит список полей привязки, как в методе [`getFields`](catalog-documentcontractor-get-fields.md). В списке возвращается `id` привязки для дальнейшей работы с привязкой.
-
-### Случаи, когда могут вернуться ошибки при добавлении привязки к документу:
-
-- если нет доступа к складскому учету, нет доступа на просмотр документов прихода или нет доступа на редактирование документа прихода (добавление/удаление привязки – это редактирование документа);
-- не найден документ;
-- неверный тип документа (привязка к поставщикам актуальна только для документов типа **Приход**);
-- если документ уже был проведён (нельзя редактировать документ после его проведения);
-- неверный тип сущности (в поле **entityTypeId** принимаются только значения 3 или 4);
-- при попытке привязать к документу прихода Компанию-поставщика, когда к этому документу уже привязана Компания-поставщик (допускается привязывать несколько Контактов, но не более одной Компании).
-
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}  
 
 #|
-|| **Параметр** |  **Описание** ||
-|| **fields** 
-[`object`](../../data-types.md) | Поля **documentId**, **entityTypeId** и **entityId**, соответствующие доступному списку полей [`fields`](catalog-documentcontractor-get-fields.md). ||
-|#
+|| **Название**
+`тип` | **Описание** ||
+|| **fields***
+[`object`](#fields) | Поля привязки ([подробное описание](#fields)) ||
+|# 
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Параметр fields {#fields}  
 
-## Примеры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}  
+
+#|
+|| **Название**
+`тип` | **Описание** || 
+|| **documentId*** 
+[`catalog_document.id`](../data-types.md#catalog_document) | Идентификатор документа складского учета типа «Приход» `A`.  
+Получить можно методом [catalog.document.list](../document/catalog-document-list.md) ||  
+|| **entityTypeId***  
+[`integer`](../../crm/data-types.md#object_type) | Тип объекта CRM:  
+`3` — контакт 
+`4` — компания ||  
+|| **entityId***  
+[`integer`](../../data-types.md) | Идентификатор элемента CRM, контакта или компании, из категории «Поставщик».
+ 
+Чтобы получить идентификаторы поставщиков:  
+1. Получите идентификатор категории с кодом `CATALOG_CONTRACTOR_CONTACT` для контактов или `CATALOG_CONTRACTOR_COMPANY` для компаний методом [crm.category.list](../../crm/universal/category/crm-category-list.md).  
+2. Используйте полученный `categoryId` в фильтре запроса [crm.item.list](../../crm/universal/crm-item-list.md) ||  
+|#  
+
+## Примеры кода  
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}  
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"documentId":42,"entityTypeId":3,"entityId":101}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.documentcontractor.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"documentId":42,"entityTypeId":3,"entityId":101},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.documentcontractor.add
+    ```
+
 - JS
 
+    ```js  
+    try
+    {
+        const response = await $b24.callMethod(
+            'catalog.documentcontractor.add',
+            {
+                fields: {
+                    documentId: 42,
+                    entityTypeId: 3,
+                    entityId: 101
+                }
+            }
+        );
+
+        const result = response.getData().result;
+        console.log('Created binding:', result);
+    }
+    catch (error)
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php  
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.documentcontractor.add',
+                [
+                    'fields' => [
+                        'documentId' => 42,
+                        'entityTypeId' => 3,
+                        'entityId' => 101
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result) {
+            echo 'Success: ' . print_r($result, true);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding contractor binding: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
     ```js
-    BX.callMethod(
+    BX24.callMethod(
         'catalog.documentcontractor.add',
         {
             fields: {
-                documentId: 11,
+                documentId: 42,
                 entityTypeId: 3,
-                entityId: 21,
-            },
+                entityId: 101
+            }
         },
-        function(result) {
+        function(result)
+        {
             if (result.error())
-                console.error(result.error().ex);
+                console.error(result.error());
             else
                 console.log(result.data());
         }
     );
+    ```	
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.documentcontractor.add',
+        [
+            'fields' => [
+                'documentId' => 42,
+                'entityTypeId' => 3,
+                'entityId' => 101
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-Идентификатор документа **documentId** известен. Рассмотрим подробнее, откуда брать **entityTypeId** и **entityId**:
+## Обработка ответа
 
-- **entityTypeId** – id типа CRM-сущности. [Список](.) этих типов сущностей фиксирован (для Контакта это `3`, для Компании `4`).
-- **entityId** – id CRM-сущности (Контакты поставщиков или Компании-поставщики). Чтобы получить список id нужных CRM-сущностей, нужно выполнить два действия:
-    
-    - Для получения списка сущностей используется метод [crm.category.list](.), в который следует передать **entityTypeId** (3 либо 4) и отфильтровать по [коду категории](*ключ_коду категории) (для Контакта `CATALOG_CONTRACTOR_CONTACT`, для Компании `CATALOG_CONTRACTOR_COMPANY`):
-  
-    ```js
-    BX.callMethod(
-        'crm.category.list',
-        {
-            entityTypeId: 3,
-            filter: {
-                code: 'CATALOG_CONTRACTOR_CONTACT',
-            }
-        },
-        console.log(result.data())
-    );
-    ```
+HTTP-код: **200**
 
-    В ответе вернутся данные о категории. Для второго шага потребуется **categoryId** – id категории (он может совпасть с **entityTypeId**).
+```json
+{
+    "result": {
+        "documentContractor": {
+            "documentId": 73,
+            "entityId": 2185,
+            "entityTypeId": 3,
+            "id": 15
+        }
+    },
+    "time": {
+        "start": 1766469835,
+        "finish": 1766469835.824666,
+        "duration": 0.8246660232543945,
+        "processing": 0,
+        "date_start": "2025-12-23T09:03:55+03:00",
+        "date_finish": "2025-12-23T09:03:55+03:00",
+        "operating_reset_at": 1766470435,
+        "operating": 0
+    }
+}
+```
 
-   - Далее нужно получить список CRM-сущностей методом [crm.item.list](.), в который следует передать id сущности **entityTypeId** и отфильтровать по полученному ранее id категории **categoryId**:
+### Возвращаемые данные
 
-    ```js
-    BX.callMethod(
-        'crm.item.list',
-        {
-            entityTypeId: 3, // id типа CRM-сущности Контакт
-            select: ['ID', 'NAME', 'LAST_NAME', 'CATEGORY_ID'], // поля для отображения, необязательный параметр
-            filter: {
-                categoryId: 3, // id категории CRM-сущности Контакта поставщика, полученный из crm.category.list
-            },
-        },
-        console.log(result.data())
-    );
-    ```
-    
-    Возвращается список Контактов поставщиков, которые можно использовать в привязках (для использования в **entityId** нужны id Контактов).
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа ||
+|| **documentContractor**
+[`catalog_documentContractor`](../data-types.md#catalog_documentContractor) | Объект с данными созданной привязки поставщика к документу складского учета ||  
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
-    Аналогично для получения списка Компаний-поставщиков:
+## Обработка ошибок 
 
-    ```js
-    BX.callMethod(
-        'crm.item.list',
-        {
-            entityTypeId: 4, // id типа CRM-сущности Компания
-            select: ['ID', 'TITLE', 'CATEGORY_ID'], // поля для отображения, необязательный параметр
-            filter: {
-                categoryId: 4, // id категории CRM-сущности Компания-поставщик, полученный из crm.category.list
-            },
-        },
-        console.log(result.data())
-    );
-    ```
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}  
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+HTTP-код: **400**
 
-[*ключ_коду категории]: Фильтрация по категории в методе **crm.category.list** доступна с версии **crm 23.0.0**
+```json
+{
+    "error": "0",
+    "error_description": "Store document was not found"
+}
+```
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | Store document was not found | Указан несуществующий или недоступный идентификатор документа ||  
+|| `0` | Type of store document is wrong | Документ не является типом «Приход» `A` ||  
+|| `0` | Unable to edit conducted document | Документ уже проведен и не может быть изменен ||  
+|| `0` | Wrong entity type id | Передан недопустимый `entityTypeId`, должен быть 3 или 4 ||  
+|| `0` | Wrong entity id | Указан недопустимый или несуществующий `entityId` ||  
+|| `0` | This contractor has been already bound to this document | Такая привязка уже существует ||  
+|| `0` | This document already has a Company contractor | К документу уже привязана компания. Повторная привязка компаний запрещена ||  
+|| `0` | Access denied | Недостаточно прав для изменения документа ||  
+|| `0` | Contractors should be provided by CRM | Модуль CRM не активен как поставщик контрагентов ||  
+|#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}  
+
+## Продолжите изучение
+
+- [{#T}](./catalog-documentcontractor-list.md)  
+- [{#T}](./catalog-documentcontractor-delete.md)  
+- [{#T}](./catalog-documentcontractor-get-fields.md)
+- [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)
+- [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-contractors.md)

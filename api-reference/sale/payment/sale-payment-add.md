@@ -190,7 +190,7 @@ fields: {
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"orderId":200,"paySystemId":1,"paid":"Y","datePaid":"2024-04-10T10:00:00","empPaidId":1,"psStatus":"Y","psStatusCode":"","psStatusDescription":"","psStatusMessage":"","psSum":100,"psCurrency":"RUB","psResponseDate":"2024-04-10T10:00:00","payVoucherNum":"","payVoucherDate":"2024-04-10T10:00:00","datePayBefore":"2024-04-10T10:00:00","dateBill":"2024-04-10T10:00:00","xmlId":"","sum":100,"companyId":1,"payReturnNum":"","priceCod":100,"payReturnDate":"2024-04-10T10:00:00","empReturnId":1,"payReturnComment":"","responsibleId":1,"empResponsibleId":1,"isReturn":"N","comments":"","updated1c":"N","id1c":"","version1c":"","externalPayment":"N","psInvoiceId":1,"marked":"N","reasonMarked":"","empMarkedId":1}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.payment.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.payment.add
     ```
 
 - cURL (OAuth)

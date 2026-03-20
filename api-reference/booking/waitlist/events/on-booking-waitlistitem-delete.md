@@ -6,6 +6,13 @@
 
 Событие `ONBOOKINGWAITLISTITEMDELETE` сработает при удалении записи из листа ожидания вручную или методом [booking.v1.waitlist.delete](../booking-v1-waitlist-delete.md).
 
+
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}

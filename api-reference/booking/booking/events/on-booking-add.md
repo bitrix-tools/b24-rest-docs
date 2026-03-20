@@ -6,6 +6,12 @@
 
 Событие `ONBOOKINGADD` сработает при создании нового бронирования вручную или методами [booking.v1.booking.add](../booking-v1-booking-add.md), [booking.v1.booking.createfromwaitlist](../booking-v1-booking-createfromwaitlist.md).
 
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}

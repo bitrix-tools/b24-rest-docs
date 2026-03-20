@@ -24,10 +24,10 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [OnImConnectorMessageAdd](on-im-connector-message-add.md) | При получении новых сообщений вручную или методом [imconnector.send.messages](../imconnector-send-messages.md) ||
+|| [OnImConnectorMessageAdd](on-im-connector-message-add.md) | При отправке сообщений вручную ||
 || [OnImConnectorDialogStart](on-im-connector-dialog-start.md) | При создании диалога вручную ||
-|| [OnImConnectorMessageUpdate](on-im-connector-message-update.md) | При изменении сообщения вручную или методом [imconnector.update.messages](../imconnector-update-messages.md) ||
-|| [OnImConnectorMessageDelete](on-im-connector-message-delete.md) | При удалении сообщения вручную или методом [imconnector.delete.messages](../imconnector-delete-messages.md) ||
+|| [OnImConnectorMessageUpdate](on-im-connector-message-update.md) | При изменении сообщения вручную ||
+|| [OnImConnectorMessageDelete](on-im-connector-message-delete.md) | При удалении сообщения вручную ||
 || [OnImConnectorDialogFinish](on-im-connector-dialog-finish.md) | При закрытии диалога вручную ||
 || [OnImConnectorStatusDelete](on-im-connector-status-delete.md) | При отключении открытой линии вручную ||
 || [OnImConnectorLineDelete](on-im-connector-line-delete.md) | При удалении открытой линии вручную ||

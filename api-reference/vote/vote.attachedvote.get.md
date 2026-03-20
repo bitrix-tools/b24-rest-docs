@@ -68,7 +68,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"attachId":**put_attach_id**}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/vote.AttachedVote.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/vote.AttachedVote.get
     ```
 
 - cURL (OAuth)
@@ -182,7 +182,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"moduleId":"im","entityType":"Bitrix\\Vote\\Attachment\\ImMessageConnector","entityId":32221}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/vote.AttachedVote.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/vote.AttachedVote.get
     ```
 
 - cURL (OAuth)

@@ -1,6 +1,313 @@
 # Что нового?
 
+## 2026
+
+### 20 марта, 2026
+
+- Обновили документацию по методам [sonet_group.user.*](./api-reference/sonet-group/members/index.md) в разделе Участники групп и проектов
+- Обновили документацию по методам [sonet_group.create](./api-reference/sonet-group/sonet-group-create.md), [sonet_group.delete](./api-reference/sonet-group/sonet-group-delete.md), [sonet_group.feature.access](./api-reference/sonet-group/sonet-group-feature-access.md), [sonet_group.get](./api-reference/sonet-group/sonet-group-get.md), [sonet_group.setowner](./api-reference/sonet-group/sonet-group-setowner.md), [sonet_group.update](./api-reference/sonet-group/sonet-group-update.md), [sonet_group.user.groups](./api-reference/sonet-group/sonet-group-user-groups.md)
+- Обновили документацию по методам [documentgenerator.document.add](./api-reference/document-generator/document-generator-document-add.md), [documentgenerator.document.update](./api-reference/document-generator/document-generator-document-update.md), [documentgenerator.document.get](./api-reference/document-generator/document-generator-document-get.md), [documentgenerator.document.list](./api-reference/document-generator/document-generator-document-list.md), [documentgenerator.document.delete](./api-reference/document-generator/document-generator-document-delete.md), [documentgenerator.document.enablepublicurl](./api-reference/document-generator/document-generator-document-enable-public-url.md), [documentgenerator.document.getfields](./api-reference/document-generator/document-generator-document-get-fields.md) в разделе Генератор документов
+- Обновили документацию по методам [crm.userfield.*](./api-reference/crm/universal/user-defined-fields/index.md) в разделе Пользовательские поля
+- Обновили документацию по методам [landing.landing.addblock](./api-reference/landing/page/block-methods/landing-landing-add-block.md), [landing.landing.copyblock](./api-reference/landing/page/block-methods/landing-landing-copy-block.md), [landing.landing.deleteblock](./api-reference/landing/page/block-methods/landing-landing-delete-block.md), [landing.landing.downblock](./api-reference/landing/page/block-methods/landing-landing-down-block.md), [landing.landing.favoriteBlock](./api-reference/landing/page/block-methods/landing-landing-favorite-block.md), [landing.landing.hideblock](./api-reference/landing/page/block-methods/landing-landing-hide-block.md), [landing.landing.markdeletedblock](./api-reference/landing/page/block-methods/landing-landing-mark-deleted-block.md), [landing.landing.markundeletedblock](./api-reference/landing/page/block-methods/landing-landing-mark-undeleted-block.md), [landing.landing.moveblock](./api-reference/landing/page/block-methods/landing-landing-move-block.md), [landing.landing.showblock](./api-reference/landing/page/block-methods/landing-landing-show-block.md), [landing.landing.unFavoriteBlock](./api-reference/landing/page/block-methods/landing-landing-unfavorite-block.md), [landing.landing.upblock](./api-reference/landing/page/block-methods/landing-landing-up-block.md) в разделе Блоки
+- Обновили документацию по методам [catalog.productProperty.*](./api-reference/catalog/product-property/index.md) в разделе Свойства товаров и вариаций
+
+### 19 марта, 2026
+
+- Обновили документацию по методам [log.blogpost.add](./api-reference/log/log-blogpost-add.md), [log.blogpost.delete](./api-reference/log/log-blogpost-delete.md), [log.blogpost.get](./api-reference/log/log-blogpost-get.md), [log.blogpost.getusers.important](./api-reference/log/log-blogpost-getusers-important.md), [log.blogpost.share](./api-reference/log/log-blogpost-share.md), [log.blogpost.update](./api-reference/log/log-blogpost-update.md) 
+- Обновили документацию по методам [landing.landing.add](./api-reference/landing/page/methods/landing-landing-add.md), [landing.landing.addByTemplate](./api-reference/landing/page/methods/landing-landing-add-by-template.md), [landing.landing.copy](./api-reference/landing/page/methods/landing-landing-copy.md), [landing.landing.delete](./api-reference/landing/page/methods/landing-landing-delete.md), [landing.landing.getAdditionalFields](./api-reference/landing/page/methods/landing-landing-get-additional-fields.md), [landing.landing.getList](./api-reference/landing/page/methods/landing-landing-get-list.md), [landing.landing.getPreview](./api-reference/landing/page/methods/landing-landing-get-preview.md), [landing.landing.getPublicUrl](./api-reference/landing/page/methods/landing-landing-get-public-url.md), [landing.landing.markDelete](./api-reference/landing/page/methods/landing-landing-mark-delete.md), [landing.landing.markUnDelete](./api-reference/landing/page/methods/landing-landing-mark-undelete.md), [landing.landing.move](./api-reference/landing/page/methods/landing-landing-move.md), [landing.landing.publication](./api-reference/landing/page/methods/landing-landing-publication.md), [landing.landing.removeEntities](./api-reference/landing/page/methods/landing-landing-remove-entities.md), [landing.landing.resolveIdByPublicUrl](./api-reference/landing/page/methods/landing-landing-resolve-id-by-public-url.md), [landing.landing.unpublic](./api-reference/landing/page/methods/landing-landing-unpublic.md), [landing.landing.update](./api-reference/landing/page/methods/landing-landing-update.md) в разделе Страницы
+- Обновили документацию по методам работы с нумераторами генератора документов [crm.documentgenerator.numerator.*](./api-reference/crm/document-generator/numerator/index.md)
+- Обновили документацию по методам работы с шаблонами генератора документов [crm.documentgenerator.template.*](./api-reference/crm/document-generator/templates/index.md)
+
+### 18 марта, 2026
+
+- Обновили документацию по методам [imopenlines.crm.chat.get](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get.md), [imopenlines.crm.chat.getLastId](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get-last-id.md), [imopenlines.crm.chat.user.add](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-add.md), [imopenlines.crm.chat.user.delete](./api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-delete.md) в разделе Чаты CRM
+- Обновили документацию по методам [imopenlines.session.*](./api-reference/imopenlines/openlines/sessions/imopenlines-session-open.md) в разделе Диалоги Открытых линий
+- Обновили документацию по методам [imopenlines.bot.session.*](./api-reference/imopenlines/openlines/chat-bots/index.md) в разделе Чат-боты Открытых линий
+- Обновили документацию по методам [imopenlines.operator.*](./api-reference/imopenlines/openlines/operators/index.md) в разделе Операторы Открытых линий
+- Обновили документацию по событиям [OnImConnector*](./api-reference/imopenlines/imconnector/events/index.md) в разделе Коннекторы Открытых линий
+
+### 17 марта, 2026
+
+- Обновили документацию по методам работы с коммерческими предложениями [crm.quote.*](./api-reference/crm/quote/index.md)
+- Обновили документацию по методам [voximplant.line.*](./api-reference/telephony/voximplant/lines/index.md) в разделе Управление линиями
+- Обновили документацию по методам [voximplant.sip.*](./api-reference/telephony/voximplant/sip/index.md) в разделе Управление SIP-подключениями
+- Обновили документацию по методам [voximplant.user.*](./api-reference/telephony/voximplant/users/index.md) в разделе Управление пользователями
+- Обновили документацию по методам [voximplant.callback.start](./api-reference/telephony/voximplant/voximplant-callback-start.md), [voximplant.infocall.startwithsound](./api-reference/telephony/voximplant/voximplant-infocall-start-with-sound.md), [voximplant.infocall.startwithtext](./api-reference/telephony/voximplant/voximplant-infocall-start-with-text.md)
+- Обновили документацию по методам [imopenlines.config.add](./api-reference/imopenlines/openlines/imopenlines-config-add.md), [imopenlines.config.delete](./api-reference/imopenlines/openlines/imopenlines-config-delete.md), [imopenlines.config.get](./api-reference/imopenlines/openlines/imopenlines-config-get.md), [imopenlines.config.list.get](./api-reference/imopenlines/openlines/imopenlines-config-list-get.md), [imopenlines.config.path.get](./api-reference/imopenlines/openlines/imopenlines-config-path-get.md), [imopenlines.config.update](./api-reference/imopenlines/openlines/imopenlines-config-update.md), [imopenlines.network.join](./api-reference/imopenlines/openlines/imopenlines-network-join.md), [imopenlines.network.message.add](./api-reference/imopenlines/openlines/imopenlines-network-message-add.md), [imopenlines.revision.get](./api-reference/imopenlines/openlines/imopenlines-revision-get.md) в разделе Открытые линии
+- Обновили документацию по управлению карточками лидов [crm.lead.details.configuration.*](./api-reference/crm/leads/custom-form/index.md)
+
+### 16 марта, 2026
+
+- Добавили документацию по методам REST 3.0 для получения полей [журнала событий](./api-reference/rest-v3/main/index.md) и [задач](./api-reference/rest-v3/tasks/index.md)
+
+### 13 марта, 2026
+
+- Добавили документацию по методам работы с [шаблонами задач](./api-reference/tasks/template/index.md)
+- Добавили документацию по методам работы с [чек-листами шаблонов задач](./api-reference/tasks/template/index.md)
+- Обновили документацию по методам [imconnector.*](./api-reference/imopenlines/imconnector/index.md) в разделе Коннекторы открытых линий
+- Обновили документацию по методам работы с [контактами компаний](./api-reference/crm/companies/contacts/index.md)
+
+### 12 марта, 2026
+
+- Обновили документацию по методам [voximplant.sip.connector.status](./api-reference/telephony/voximplant/sip/voximplant-sip-connector-status.md), [voximplant.sip.status](./api-reference/telephony/voximplant/sip/voximplant-sip-status.md), [voximplant.tts.voices.get](./api-reference/telephony/voximplant/voximplant-tts-voices-get.md), [voximplant.url.get](./api-reference/telephony/voximplant/voximplant-url-get.md)
+- Обновили документацию по событиям [ONEXTERNALCALLBACKSTART](./api-reference/telephony/events/on-external-call-back-start.md), [ONEXTERNALCALLSTART](./api-reference/telephony/events/on-external-call-start.md), [ONVOXIMPLANTCALLEND](./api-reference/telephony/voximplant/events/on-voximplant-call-end.md), [ONVOXIMPLANTCALLINIT](./api-reference/telephony/voximplant/events/on-voximplant-call-init.md), [ONVOXIMPLANTCALLSTART](./api-reference/telephony/voximplant/events/on-voximplant-call-start.md)
+- Обновили документацию по управлению карточками сделок [crm.deal.details.configuration.*](./api-reference/crm/deals/custom-form/index.md)
+- Обновили документацию по методам связи сделок с контактами [crm.deal.contact.*](./api-reference/crm/deals/contacts/index.md)
+
+### 11 марта, 2026
+
+- Обновили методы в разделе [Телефония](./api-reference/telephony/index.md)
+- Обновили раздел [Вложения в сообщениях ATTACH](./api-reference/chats/messages/attachments/index.md)
+- Обновили метод [imopenlines.session.history.get](./api-reference/imopenlines/openlines/sessions/imopenlines-session-history-get.md) в разделе Открытые линии
+
+### 10 марта, 2026
+
+- Обновили документацию по методам работы с Пользовательскими полями задач [task.item.userfield.*](./api-reference/tasks/user-field/index.md)
+
+### 06 марта, 2026
+
+- Обновили страницу [Работа с клавиатурами](./api-reference/chats/messages/keyboards.md)
+- Обновили страницу [Работа с контекстным меню](./api-reference/chats/messages/menu.md)
+- Обновили документацию по виджетам чатов [IM_CONTEXT_MENU](./api-reference/widgets/im/context-menu.md), [IM_SIDEBAR](./api-reference/widgets/im/sidebar.md), [IM_TEXTAREA](./api-reference/widgets/im/textarea.md)
+- Обновили документацию по методам чатов [im.dialog.writing](./api-reference/chats/messages/im-dialog-writing.md), [im.message.add](./api-reference/chats/messages/im-message-add.md), [im.message.command](./api-reference/chats/messages/im-message-command.md), [im.message.delete](./api-reference/chats/messages/im-message-delete.md), [im.message.like](./api-reference/chats/messages/im-message-like.md), [im.message.share](./api-reference/chats/messages/im-message-share.md), [im.message.update](./api-reference/chats/messages/im-message-update.md) в разделе Сообщения
+
+### 05 марта, 2026
+
+- Обновили документацию по методам чатов [im.search.*](./api-reference/chats/search/index.md) в разделе Поиск
+- Обновили документацию по методам чатов [im.notify.*](./api-reference/chats/notifications/index.md) в разделе Уведомления
+- Обновили документацию по методам чатов [im.user.*](./api-reference/chats/users/index.md) в разделе Пользователи
+
+### 04 марта, 2026
+
+- Обновили документацию по методам чатов [im.dialog.messages.get](./api-reference/chats/messages/im-dialog-messages-get.md), [im.dialog.read](./api-reference/chats/messages/im-dialog-read.md), [im.dialog.unread](./api-reference/chats/messages/im-dialog-unread.md) в разделе Сообщения
+
+### 03 марта, 2026
+
+- Обновили документацию по методам чатов [im.chat.mute](./api-reference/chats/special-operations/im-chat-mute.md), [im.recent.pin](./api-reference/chats/special-operations/im-recent-pin.md), [im.recent.hide](./api-reference/chats/special-operations/im-recent-hide.md) в разделе Специальные операции
+- Добавили метод [imbot.chat.setManager](./api-reference/chat-bots/chats/imbot-chat-set-manager.md) для назначения или снятия прав администратора чата
+- Обновили документацию по методам чатов [im.disk.file.commit](./api-reference/chats/files/im-disk-file-commit.md), [im.disk.file.delete](./api-reference/chats/files/im-disk-file-delete.md), [im.disk.file.save](./api-reference/chats/files/im-disk-file-save.md), [im.disk.folder.get](./api-reference/chats/files/im-disk-folder-get.md) в разделе Файлы
+- Обновили документацию по методам чатов [im.department.get](./api-reference/chats/departments/im-department-get.md), [im.department.managers.get](./api-reference/chats/departments/im-department-managers-get.md), [im.department.employees.get](./api-reference/chats/departments/im-department-employees-get.md), [im.department.colleagues.list](./api-reference/chats/departments/im-department-colleagues-list.md) в разделе Подразделения
+- Обновили документацию по методам чатов [im.chat.setOwner](./api-reference/chats/chat-update/im-chat-set-owner.md), [im.chat.updateAvatar](./api-reference/chats/chat-update/im-chat-update-avatar.md), [im.chat.updateColor](./api-reference/chats/chat-update/im-chat-update-color.md), [im.chat.updateTitle](./api-reference/chats/chat-update/im-chat-update-title.md) в разделе Обновление чата
+- Обновили документацию по методам чатов [im.chat.leave](./api-reference/chats/chat-users/im-chat-leave.md), [im.chat.user.add](./api-reference/chats/chat-users/im-chat-user-add.md), [im.chat.user.delete](./api-reference/chats/chat-users/im-chat-user-delete.md), [im.chat.user.list](./api-reference/chats/chat-users/im-chat-user-list.md), [im.dialog.users.list](./api-reference/chats/chat-users/im-dialog-users-list.md) в разделе Участники чата
+- Обновили документацию по методам чатов [im.dialog.read.all](./api-reference/chats/special-operations/im-dialog-read-all.md), [im.recent.unread](./api-reference/chats/special-operations/im-recent-unread.md) в разделе Специальные операции в чатах
+
+### 27 февраля, 2026
+
+- Обновили документацию по методам чатов [im.chat.add](./api-reference/chats/im-chat-add.md), [im.chat.get](./api-reference/chats/im-chat-get.md), [im.counters.get](./api-reference/chats/im-counters-get.md), [im.dialog.get](./api-reference/chats/im-dialog-get.md), [im.recent.get](./api-reference/chats/im-recent-get.md), [im.recent.list](./api-reference/chats/im-recent-list.md)
+- Обновили документацию по методам [imbot.command.register](./api-reference/chat-bots/commands/imbot-command-register.md), [imbot.command.update](./api-reference/chat-bots/commands/imbot-command-update.md), [imbot.command.answer](./api-reference/chat-bots/commands/imbot-command-answer.md), [imbot.command.unregister](./api-reference/chat-bots/commands/imbot-command-unregister.md)
+- Обновили документацию по методам [imbot.register](./api-reference/chat-bots/imbot-register.md), [imbot.update](./api-reference/chat-bots/imbot-update.md), [imbot.unregister](./api-reference/chat-bots/imbot-unregister.md) и [imbot.bot.list](./api-reference/chat-bots/imbot-bot-list.md)
+- Обновили документацию по методам [imbot.chat.sendTyping](./api-reference/chat-bots/chats/imbot-chat-send-typing.md), [imbot.message.update](./api-reference/chat-bots/messages/imbot-message-update.md), [imbot.message.delete](./api-reference/chat-bots/messages/imbot-message-delete.md) и [imbot.message.like](./api-reference/chat-bots/messages/imbot-message-like.md)
+- Обновили документацию по событиям [ONIMBOTMESSAGEUPDATE](./api-reference/chat-bots/messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](./api-reference/chat-bots/messages/events/on-imbot-message-delete.md), [ONIMCOMMANDADD](./api-reference/chat-bots/commands/events/on-im-command-add.md), [ONIMBOTJOINCHAT](./api-reference/chat-bots/chats/events/on-imbot-join-chat.md) и [ONIMBOTDELETE](./api-reference/chat-bots/events/on-imbot-delete.md)
+
+### 26 февраля, 2026
+
+- Обновили документацию по методам чатов чат-ботов [imbot.chat.*](./api-reference/chat-bots/chats/index.md)
+
+### 25 февраля, 2026
+
+- Обновили статью [Что позволяет REST API Битрикс24](./developing-with-rest-api.md)
+- Обновили статью [Кодирование данных](./settings/how-to-call-rest-api/data-encoding.md)
+- Обновили документацию по методу [imbot.message.add](./api-reference/chat-bots/messages/imbot-message-add.md) и событию [ONIMBOTMESSAGEADD](./api-reference/chat-bots/messages/events/on-imbot-message-add.md)
+
+### 19 февраля, 2026
+
+- Обновили документацию по методам пользовательских полей для лидов в CRM [crm.lead.userfield.*](./api-reference/crm/leads/userfield/index.md)
+- Обновили документацию по методам пользовательских полей для коммерческих предложений в CRM [crm.quote.userfield.*](./api-reference/crm/quote/user-field/index.md)
+- Обновили документацию по методам [disk.file.getVersions](./api-reference/disk/file/disk-file-get-versions.md), [disk.file.get](./api-reference/disk/file/disk-file-get.md), [disk.file.markdeleted](./api-reference/disk/file/disk-file-mark-deleted.md), [disk.file.moveto](./api-reference/disk/file/disk-file-move-to.md), [disk.file.rename](./api-reference/disk/file/disk-file-rename.md), [disk.file.restoreFromVersion](./api-reference/disk/file/disk-file-restore-from-version.md), [disk.file.restore](./api-reference/disk/file/disk-file-restore.md), [disk.file.uploadversion](./api-reference/disk/file/disk-file-upload-version.md)
+
+### 17 февраля, 2026
+
+- Обновили документацию по методам пользовательских полей для компаний в CRM [crm.company.userfield.*](./api-reference/crm/companies/userfields/index.md)
+
+### 13 февраля, 2026
+
+- Добавили метод [im.dialog.messages.search](./api-reference/chats/messages/im-dialog-messages-search.md) для поиска сообщений в чате
+- Обновили статью [Инструменты для локальных интеграций](./local-integrations/index.md)
+
+### 10 февраля, 2026
+
+- Обновили документацию по методам [disk.file.copyto](./api-reference/disk/file/disk-file-copy-to.md), [disk.file.delete](./api-reference/disk/file/disk-file-delete.md), [disk.file.getExternalLink](./api-reference/disk/file/disk-file-get-external-link.md), [disk.file.getfields](./api-reference/disk/file/disk-file-get-fields.md)
+
+### 05 февраля, 2026
+
+- Обновили документацию по методам [disk.storage.getforapp](./api-reference/disk/storage/disk-storage-get-for-app.md), [disk.storage.getlist](./api-reference/disk/storage/disk-storage-get-list.md), [disk.storage.rename](./api-reference/disk/storage/disk-storage-rename.md), [disk.storage.uploadfile](./api-reference/disk/storage/disk-storage-upload-file.md)
+- Обновили главную страницу раздела [Хранилище](./api-reference/disk/storage/index.md). Добавили вводную информацию, а также обзор методов
+
+### 03 февраля, 2026
+
+- Добавили методы [main.eventlog.*](./api-reference/rest-v3/main/index.md) для получения записей журнала событий
+
+### 30 января, 2026
+
+- Обновили статью [Поддержка и комьюнити для разработчиков](./support.md)
+
+### 29 января, 2026
+
+- Обновили документацию по методам [disk.folder.uploadfile](./api-reference/disk/folder/disk-folder-upload-file.md), [disk.storage.addfolder](./api-reference/disk/storage/disk-storage-add-folder.md), [disk.storage.getchildren](./api-reference/disk/storage/disk-storage-get-children.md), [disk.storage.getfields](./api-reference/disk/storage/disk-storage-get-fields.md), [disk.storage.gettypes](./api-reference/disk/storage/disk-storage-get-types.md), [disk.storage.get](./api-reference/disk/storage/disk-storage-get.md)
+
+### 27 января, 2026
+
+- Обновили документацию по методам компаний в CRM [crm.company.*](./api-reference/crm/companies/index.md)
+
+### 26 января, 2026
+
+- Обновили документацию по методам управления карточками компаний [crm.company.details.configuration.*](./api-reference/crm/companies/custom-form/index.md)
+
+### 23 января, 2026
+
+- Добавили статью [Мастер настройки для REST-only приложений](./settings/app-installation/mass-market-apps/rest-only-installation-master.md)
+- Обновили документацию по методам [task.checklistitem.isactionallowed](./api-reference/tasks/checklist-item/task-checklist-item-is-action-allowed.md), [task.checklistitem.getmanifest](./api-reference/tasks/checklist-item/task-checklist-item-get-manifest.md) в Чек-листах задач
+- Обновили документацию по методам [disk.folder.get](./api-reference/disk/folder/disk-folder-get.md), [disk.folder.markdeleted](./api-reference/disk/folder/disk-folder-mark-deleted.md), [disk.folder.moveto](./api-reference/disk/folder/disk-folder-move-to.md), [disk.folder.rename](./api-reference/disk/folder/disk-folder-rename.md), [disk.folder.restore](./api-reference/disk/folder/disk-folder-restore.md)
+- Добавили метод [disk.folder.sharetouser](./api-reference/disk/folder/disk-folder-share-to-user.md)
+- Обновили главную страницу раздела [Прикрепленный файл](./api-reference/disk/attached-object/index.md). Добавили вводную информацию, а также обзор методов
+- Обновили статью [Как выполнить свой первый запрос к API](./first-steps/first-rest-api-call.md)
+- Обновили статью [Обратная связь](./feedback.md)
+
+### 19 января, 2026
+
+- Обновили статью [Как получить доступ к REST API](./first-steps/access-to-rest-api.md)
+
+### 15 января, 2026
+
+- Обновили документацию по методам [disk.folder.addsubfolder](./api-reference/disk/folder/disk-folder-add-subfolder.md), [disk.folder.copyto](./api-reference/disk/folder/disk-folder-copy-to.md), [disk.folder.deletetree](./api-reference/disk/folder/disk-folder-delete-tree.md), [disk.folder.getchildren](./api-reference/disk/folder/disk-folder-get-children.md), [disk.folder.getexternallink](./api-reference/disk/folder/disk-folder-get-external-link.md), [disk.folder.getfields](./api-reference/disk/folder/disk-folder-get-fields.md)
+
+### 13 января, 2026
+
+- Добавили туториал [Как получить список поставщиков](./tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
+- Обновили статью [С чего начать](./first-steps/index.md)
+- Обновили главную страницу раздела [Права доступа к диску](./api-reference/disk/rights/index.md). Добавили вводную информацию, а также обзор методов
+- Обновили главную страницу раздела [Версия файла](./api-reference/disk/version/index.md). Добавили вводную информацию, а также обзор методов
+
+### 12 января, 2026
+
+- Добавили туториал [Как создать поставщика в CRM](./tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)
+
 ## 2025
+
+### 24 декабря, 2025
+
+- Обновили главную страницу раздела [События](./api-reference/events/index.md)
+- Добавили статью [Задачи в REST 3.0: обзор методов](./api-reference/rest-v3/tasks/index.md)
+- Обновили документацию по методам [catalog.documentcontractor.add](./api-reference/catalog/documentcontractor/catalog-documentcontractor-add.md), [catalog.documentcontractor.delete](./api-reference/catalog/documentcontractor/catalog-documentcontractor-delete.md), [catalog.documentcontractor.getFields](./api-reference/catalog/documentcontractor/catalog-documentcontractor-get-fields.md), [catalog.documentcontractor.list](./api-reference/catalog/documentcontractor/catalog-documentcontractor-list.md)
+- Обновили документацию по методам [disk.attachedObject.get](./api-reference/disk/attached-object/disk-attached-object-get.md), [disk.rights.getTasks](./api-reference/disk/rights/disk-rights-get-tasks.md), [disk.version.get](./api-reference/disk/version/disk-version-get.md)
+
+### 17 декабря, 2025
+
+- Добавили раздел [REST 3.0](./api-reference/rest-v3/index.md)
+- Добавили новые методы задач для REST 3.0 [tasks.task.access.get](./api-reference/rest-v3/tasks/tasks-task-access-get.md), [tasks.task.add](./api-reference/rest-v3/tasks/tasks-task-add.md), [tasks.task.chat.message.send](./api-reference/rest-v3/tasks/tasks-task-chat-message-send.md), [tasks.task.delete](./api-reference/rest-v3/tasks/tasks-task-delete.md), [tasks.task.file.attach](./api-reference/rest-v3/tasks/tasks-task-file-attach.md), [tasks.task.get](./api-reference/rest-v3/tasks/tasks-task-get.md), [tasks.task.update](./api-reference/rest-v3/tasks/tasks-task-update.md)
+- Добавили статью с описанием полей задачи и связанных объектов [Поля задачи в REST 3.0](./api-reference/rest-v3/tasks/fields.md)
+
+### 12 декабря, 2025
+
+- Обновили документацию по методам [lists.field.add](./api-reference/lists/fields/lists-field-add.md), [lists.field.update](./api-reference/lists/fields/lists-field-update.md), [lists.field.get](./api-reference/lists/fields/lists-field-get.md), [lists.field.delete](./api-reference/lists/fields/lists-field-delete.md), [lists.field.type.get](./api-reference/lists/fields/lists-field-type-get.md) в Работе с полями
+
+### 10 декабря, 2025
+
+- Обновили документацию по методам [task.checklistitem.renew](./api-reference/tasks/checklist-item/task-checklist-item-renew.md), [task.checklistitem.complete](./api-reference/tasks/checklist-item/task-checklist-item-complete.md) в Чек-листах задач
+
+### 09 декабря, 2025
+
+- Обновлена главная страница раздела [Сообщения](./api-reference/imopenlines/openlines/messages/index.md) в Открытых линиях. Добавили вводную информацию, а также обзор методов и связей
+
+### 05 декабря, 2025
+
+- Обновили документацию по методам [lists.add](./api-reference/lists/lists/lists-add.md), [lists.update](./api-reference/lists/lists/lists-update.md), [lists.get](./api-reference/lists/lists/lists-get.md), [lists.delete](./api-reference/lists/lists/lists-delete.md), [lists.get.iblock.type.id](./api-reference/lists/lists/lists-get-iblock-type-id.md) в Работе со списками
+- Обновили главную страницу раздела [Работа со списками](./api-reference/lists/lists/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 03 декабря, 2025
+
+- Обновили документацию по методам [task.checklistitem.delete](./api-reference/tasks/checklist-item/task-checklist-item-delete.md), [task.checklistitem.moveafteritem](./api-reference/tasks/checklist-item/task-checklist-item-move-after-item.md) в Чек-листах задач
+
+### 28 ноября, 2025
+
+- Обновили события [OnTaskComment*](./api-reference/tasks/comment-item/events-comment/index.md), добавили информацию по работе с новой карточкой задач
+
+### 27 ноября, 2025
+
+- Добавили статью [Новая карточка задач: комментарии и события](./api-reference/tasks/tasks-new.md)
+- Добавили метод [tasks.task.chat.message.send](./api-reference/rest-v3/tasks/tasks-task-chat-message-send.md)
+
+### 25 ноября, 2025
+
+- Обновили документацию по методам [lists.element.add](./api-reference/lists/elements/lists-element-add.md), [lists.element.update](./api-reference/lists/elements/lists-element-update.md), [lists.element.get](./api-reference/lists/elements/lists-element-get.md), [lists.element.delete](./api-reference/lists/elements/lists-element-delete.md), [lists.element.get.file.url](./api-reference/lists/elements/lists-element-get-file-url.md) в Работе с элементами
+- Обновили главную страницу раздела [Работа с элементами](./api-reference/lists/elements/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 10 ноября, 2025
+
+- Обновлена документация по методам [task.checklistitem.get](./api-reference/tasks/checklist-item/task-checklist-item-get.md), [task.checklistitem.getlist](./api-reference/tasks/checklist-item/task-checklist-item-get-list.md) в Чек-листах задач
+
+### 07 ноября, 2025
+
+- Обновлена документация по методам [imopenlines.crm.message.add](./api-reference/imopenlines/openlines/messages/imopenlines-crm-message-add.md), [imopenlines.message.quick.save](./api-reference/imopenlines/openlines/messages/imopenlines-message-quick-save.md) в Сообщениях Открытых линий
+- Обновлена документация по методам [task.checklistitem.add](./api-reference/tasks/checklist-item/task-checklist-item-add.md), [task.checklistitem.update](./api-reference/tasks/checklist-item/task-checklist-item-update.md) в Чек-листах задач
+
+### 06 ноября, 2025
+
+- Обновили документацию по методам [catalog.document.catalog.document.conductList](./api-reference/catalog/document/catalog-document-conduct-list.md), [catalog.document.conduct](./api-reference/catalog/document/catalog-document-conduct.md),[catalog.document.cancel](./api-reference/catalog/document/catalog-document-cancel.md), [catalog.document.cancelList](./api-reference/catalog/document/catalog-document-cancel-list.md) в Складском учете Торгового каталога
+
+### 01 ноября, 2025
+
+- Обновили документацию по методам [catalog.document.list](./api-reference/catalog/document/catalog-document-list.md), [catalog.document.delete](./api-reference/catalog/document/catalog-document-delete.md), [catalog.document.deleteList](./api-reference/catalog/document/catalog-document-delete-list.md) в Складском учете Торгового каталога
+
+### 31 октября, 2025
+
+- Обновлен туториал [Как подключить кассу к Битрикс24](./tutorials/sale/cashbox-add-example.md)
+- Обновлена документация по методам [log.blogcomment.add](./api-reference/log/blogcomment/log-blogcomment-add.md), [log.blogcomment.user.get](./api-reference/log/blogcomment/log-blogcomment-user-get.md), [log.blogcomment.delete](./api-reference/log/blogcomment/log-blogcomment-delete.md) в Ленте новостей
+- Обновлена главная страница раздела [Комментарии](./api-reference/log/blogcomment/index.md) в Ленте новостей. Добавили вводную информацию, а также обзор методов и связей
+
+### 30 октября, 2025
+
+- Обновили главную страницу раздела [Товары в документе складского учета](./api-reference/catalog/document/document-element/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили документацию по методам [catalog.document.add](./api-reference/catalog/document/catalog-document-add.md), [catalog.document.update](./api-reference/catalog/document/catalog-document-update.md), [catalog.document.getFields](./api-reference/catalog/document/catalog-document-get-fields.md), [catalog.document.mode.status](./api-reference/catalog/document/catalog-document-mode-status.md) в Складском учете Торгового каталога
+- Обновили главную страницу раздела [Чек-листы](./api-reference/tasks/checklist-item/index.md) в Задачах. Добавили вводную информацию, а также обзор методов и связей
+
+### 24 октября, 2025
+
+- Обновили документацию по методам [lists.section.add](./api-reference/lists/sections/lists-section-add.md), [lists.section.update](./api-reference/lists/sections/lists-section-update.md), [lists.section.get](./api-reference/lists/sections/lists-section-get.md), [lists.section.delete](./api-reference/lists/sections/lists-section-delete.md) в Работе с разделами
+- Обновили главную страницу раздела [Работа с разделами](./api-reference/lists/sections/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 24 октября, 2025
+
+- Обновлен туториал [Настроить службу доставки для CRM](./tutorials/sale/delivery-in-crm.md)
+
+### 22 октября, 2025
+
+- Обновили документацию по методам [catalog.document.element.add](./api-reference/catalog/document/document-element/catalog-document-element-add.md), [catalog.document.element.update](./api-reference/catalog/document/document-element/catalog-document-element-update.md), [catalog.document.element.list](./api-reference/catalog/document/document-element/catalog-document-element-list.md), [catalog.document.element.delete](./api-reference/catalog/document/document-element/catalog-document-element-delete.md), [catalog.document.element.getFields](./api-reference/catalog/document/document-element/catalog-document-element-get-fields.md) в Торговом каталоге
+
+### 21 октября, 2025
+
+- Добавлен новый туториал [Как получить список стадий c семантикой для объектов CRM](./tutorials/crm/how-to-get-lists/how-to-get-stages-with-semantics.md)
+
+### 17 октября, 2025
+
+- Обновили главную страницу раздела [Пользовательские соглашения](./api-reference/user-consent/index.md). Добавили вводную информацию, а также обзор методов и связей
+
+### 16 октября, 2025
+
+- Обновили документацию по методам [userconsent.agreement.list](./api-reference/user-consent/user-consent-agreement-list.md), [userconsent.agreement.text](./api-reference/user-consent/user-consent-agreement-text.md), [userconsent.consent.add](./api-reference/user-consent/user-consent-consent-add.md) в Пользовательских соглашениях
+
+### 16 октября, 2025
+
+- Обновили документацию по методам [tasks.task.add](./api-reference/tasks/tasks-task-add.md), [tasks.task.update](./api-reference/tasks/tasks-task-update.md), [tasks.task.get](./api-reference/tasks/tasks-task-get.md), [tasks.task.list](./api-reference/tasks/tasks-task-list.md) в Задачах
+
+### 15 октября, 2025
+
+- Добавили статью [SDK для разработки под Битрикс24](./sdk/index.md)
+
+### 08 октября, 2025
+
+- Обновлена главная страница раздела [Привязка объектов к записи в лист ожидания](./api-reference/booking/waitlist/external-data/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+
+### 07 октября, 2025
+
+- Добавили статью [MCP-сервер для работы с REST API Битрикс24](./sdk/mcp.md)
+
+### 01 октября, 2025
+
+- Обновлены главные страницы событий в разделах [Чаты](./api-reference/chat-bots/chats/events/index.md) и [Сообщения](./api-reference/chat-bots/messages/events/index.md) в Чат-ботах. Добавили вводную информацию, а также обзор событий
+- Обновлена главная страница раздела [Остатки по складам](./api-reference/catalog/store-product/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
+- Обновлена главная страница раздела [Привязка объектов к бронированию](./api-reference/booking/booking/external-data/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
+- Обновили документацию по методам [tasks.task.getFields](./api-reference/tasks/tasks-task-get-fields.md), [tasks.task.files.attach](./api-reference/tasks/tasks-task-files-attach.md), [tasks.task.counters.get](./api-reference/tasks/tasks-task-counters-get.md), [tasks.task.history.list](./api-reference/tasks/tasks-task-history-list.md) в Задачах
 
 ### 19 сентября, 2025
 

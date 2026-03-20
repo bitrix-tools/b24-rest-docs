@@ -309,7 +309,7 @@ HTTP-статус: **200**
                     "name": "Имя Фамилия",
                     "orderPropsId": 20,
                     "orderPropsXmlId": null,
-                    "value": "Артём Гавриленко"
+                    "value": "Иван Иванов"
                 },
                 {
                     "code": "EMAIL",
@@ -317,7 +317,7 @@ HTTP-статус: **200**
                     "name": "E-Mail1",
                     "orderPropsId": 21,
                     "orderPropsXmlId": "bx_63a082af0d250",
-                    "value": "Artemlxvl@my-mail.ru"
+                    "value": "email@mail.ru"
                 },
                 {
                     "code": "PHONE",

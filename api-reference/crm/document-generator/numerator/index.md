@@ -16,17 +16,18 @@
 
 {% endif %}
 
-{% note info "Права" %}
+## Обзор методов {#all-methods}
 
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правом "изменения" шаблонов генератора документов
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md) | Добавление нового нумератора. ||
-|| [crm.documentgenerator.numerator.update](./crm-document-generator-numerator-update.md) | Изменение существующего нумератора. ||
-|| [crm.documentgenerator.numerator.get](./crm-document-generator-numerator-get.md) | Получение информацию о нумераторе по Id. ||
-|| [crm.documentgenerator.numerator.list](./crm-document-generator-numerator-list.md) | Получение списка нумераторов. ||
-|| [crm.documentgenerator.numerator.delete](./crm-document-generator-numerator-delete.md) | Удаление нумератора. ||
+|| [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md) | Добавляет новый нумератор ||
+|| [crm.documentgenerator.numerator.update](./crm-document-generator-numerator-update.md) | Обновляет существующий нумератор ||
+|| [crm.documentgenerator.numerator.get](./crm-document-generator-numerator-get.md) | Возвращает информацию о нумераторе по ID ||
+|| [crm.documentgenerator.numerator.list](./crm-document-generator-numerator-list.md) | Возвращает список нумераторов ||
+|| [crm.documentgenerator.numerator.delete](./crm-document-generator-numerator-delete.md) | Удаляет нумератор ||
 |#
+

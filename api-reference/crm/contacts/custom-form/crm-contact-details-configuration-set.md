@@ -6,6 +6,12 @@
 >  - Любой пользователь имеет право получать свои и общие настройки
 >  - Только администратор имеет право получать чужие настройки
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.contact.details.configuration.set` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.set](../../universal/item-details-configuration/crm-item-details-configuration-set.md).
+
+{% endnote %}
+
 Метод устанавливает настройки карточки контактов: записывает личные настройки карточки указанного пользователя или общие настройки для всех пользователей.
 
 ## Параметры метода
@@ -157,7 +163,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"userId":1,"data":[{"name":"section_1","title":"Личные данные","type":"section","elements":[{"name":"NAME","optionFlags":1},{"name":"LAST_NAME","optionFlags":1},{"name":"SECOND_NAME"},{"name":"BIRTHDATE"},{"name":"PHONE","optionFlags":1,"options":{"defaultCountry":"GB"}},{"name":"ADDRESS","optionFlags":1,"options":{"defaultAddressType":4}}]},{"name":"section_2","title":"Основная информация","type":"section","elements":[{"name":"TYPE_ID"},{"name":"SOURCE_ID"},{"name":"POST"}]},{"name":"section_3","title":"Дополнительная информация","type":"section","elements":[{"name":"PHOTO"},{"name":"COMMENTS"},{"name":"UF_CRM_1720697698689"}]}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.details.configuration.set
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.details.configuration.set
     ```
 
 - cURL (OAuth)

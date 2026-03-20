@@ -4,6 +4,12 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «чтения» сделок
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.deal.list` продолжает работать, но у него есть более актуальный аналог [crm.item.list](../universal/crm-item-list.md).
+
+{% endnote %}
+
 Метод `crm.deal.list` возвращает список сделок по фильтру. Является реализацией списочного метода для сделок.
 
 ## Параметры метода
@@ -18,7 +24,8 @@
 - `'*'` — для выборки всех полей (без пользовательских и множественных)
 - `'UF_*'` — для выборки всех пользовательских полей (без множественных)
 
-Список доступных полей для выборки можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md).
+Список доступных полей для выборки можно узнать с помощью метода [crm.deal.fields](./crm-deal-fields.md). 
+Метод не поддерживает поле `CONTACT_IDS`, для получения сделок со списком контактов используйте метод [crm.item.list](../universal/crm-item-list.md).
 
 По умолчанию берутся все поля — `'*'` + Пользовательские поля — `'UF_*'`
 ||
@@ -139,7 +146,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"SELECT":["ID","TITLE","TYPE_ID","CATEGORY_ID","STAGE_ID","OPPORTUNITY","IS_MANUAL_OPPORTUNITY","ASSIGNED_BY_ID","DATE_CREATE"],"FILTER":{"=%TITLE":"%а","CATEGORY_ID":1,"TYPE_ID":"COMPLEX","STAGE_ID":"C1:NEW",">OPPORTUNITY":10000,"<=OPPORTUNITY":20000,"IS_MANUAL_OPPORTUNITY":"Y","@ASSIGNED_BY_ID":[1,6],">DATE_CREATE":"'"$(date --date='-6 months' +%Y-%m-%d)"'"},"ORDER":{"TITLE":"ASC","OPPORTUNITY":"ASC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.list
     ```
 
 - cURL (OAuth)
@@ -156,7 +163,7 @@
 
 
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
     
     const now = new Date();
     const sixMonthAgo = new Date();
@@ -204,7 +211,7 @@
       console.error('Request failed', error);
     }
     
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
     
     const now = new Date();
     const sixMonthAgo = new Date();
@@ -248,7 +255,7 @@
       console.error('Request failed', error);
     }
     
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
     
     const now = new Date();
     const sixMonthAgo = new Date();

@@ -43,7 +43,7 @@
         </style>
     </head>
     <body style="display: none">
-    <script src="//api.bitrix24.com/api/v1/"></script>
+    <script src="//api.bitrix24.tech/api/v1/"></script>
 
     <?if (isset($_POST['PLACEMENT']) && !empty($_POST['PLACEMENT_OPTIONS'])):
         $opt = json_decode($_POST['PLACEMENT_OPTIONS'], true);

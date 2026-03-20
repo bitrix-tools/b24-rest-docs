@@ -1,87 +1,193 @@
 # Создать объект на основании сообщения im.message.share
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: участник чата
 
-Метод `im.message.share` создаёт новые сущности по сообщению в чате: новый чат, задачу, пост в Новостях, событие в календаре.
+Метод `im.message.share` создает объект на основании сообщения.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **MESSAGE_ID^*^**
-[`unknown`](../../data-types.md) | `289` | Идентификатор сообщения, по которому будет создана новая сущность | 30 ||
-|| **DIALOG_ID^*^**
-[`unknown`](../../data-types.md) | `'chat74'` | Идентификатор диалога. Формат:
-- **chatXXX** – чат получателя, если сообщение для чата
-- **XXX** – идентификатор получателя, если сообщение для приватного диалога | 30 ||
-|| **TYPE^*^**
-[`unknown`](../../data-types.md) | `'TASK'` | Тип создаваемой сущности:
-- `'CHAT'` – по сообщению будет создан новый чат
-- `'TASK'` – по сообщению будет создана задача
-- `'POST'` – по сообщению будет создан пост в Новостях
-- `'CALEND'` – по сообщению будет создано событие в календаре | 30 ||
+|| **Название**
+`тип` | **Описание** ||
+|| **MESSAGE_ID***
+[`integer`](../../data-types.md) | Идентификатор сообщения.
+
+Идентификатор можно получить с помощью метода [im.dialog.messages.get](./im-dialog-messages-get.md) ||
+|| **DIALOG_ID***
+[`string`](../../data-types.md) | Идентификатор чата в формате:
+
+- `chatXXX` — чат
+- `sgXXX` — чат группы или проекта
+- `XXX` — идентификатор пользователя личного чата 
+  
+Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+|| **TYPE***
+[`string`](../../data-types.md) | Тип создаваемого объекта.
+
+Допустимые значения:
+- `CHAT` — чат
+- `TASK` — задача
+- `POST` — пост в ленте
+- `CALEND` — событие календаря ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"MESSAGE_ID":34261,"DIALOG_ID":"chat2941","TYPE":"TASK"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.message.share
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"MESSAGE_ID":34261,"DIALOG_ID":"chat2941","TYPE":"TASK","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/im.message.share
+    ```
 
 - JS
 
     ```js
-    B24.callMethod(
+    try
+    {
+        const response = await $b24.callMethod(
+            'im.message.share',
+            {
+                MESSAGE_ID: 34261,
+                DIALOG_ID: 'chat2941',
+                TYPE: 'TASK'
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log(result);
+        processResult(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'im.message.share',
+                [
+                    'MESSAGE_ID' => 34261,
+                    'DIALOG_ID' => 'chat2941',
+                    'TYPE' => 'TASK'
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error sharing message: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
         'im.message.share',
         {
-            MESSAGE_ID: 289,
-            DIALOG_ID: 'chat74',
-            TYPE: 'CHAT',
+            MESSAGE_ID: 34261,
+            DIALOG_ID: 'chat2941',
+            TYPE: 'TASK'
         },
-        res => {
-            if (res.error())
-            {
-            console.error(result.error().ex);
-            }
+        function(result)
+        {
+            if (result.error())
+                console.error(result.error());
             else
-            {
-            console.log(res.data())
-            }
+                console.log(result.data());
         }
-    )
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.message.share',
+        [
+            'MESSAGE_ID' => 34261,
+            'DIALOG_ID' => 'chat2941',
+            'TYPE' => 'TASK'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1772632079,
+        "finish": 1772632079.779834,
+        "duration": 0.7798340320587158,
+        "processing": 0,
+        "date_start": "2026-03-04T16:47:59+03:00",
+        "date_finish": "2026-03-04T16:47:59+03:00",
+        "operating_reset_at": 1772632679,
+        "operating": 0.5939757823944092
+    }
 }
 ```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | `true`, если объект создан ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -90,17 +196,22 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **MESSAGE_ID_ERROR** | Параметр `MESSAGE_ID` не задан или не является числом ||
-|| **DIALOG_ID_EMPTY** | Параметр `DIALOG_ID` не задан или не соответствует формату ||
-|| **ACCESS_ERROR** | Текущий пользователь не имеет прав доступа к чату или диалогу ||
-|| **PARAMS_ERROR** | Параметр `TYPE` не задан или не соответвует имеющимся типам ||
+|| **Код** | **Описание** | **Значение** ||
+|| `MESSAGE_ID_ERROR` | Message ID can't be empty | Не передан или некорректен `MESSAGE_ID` ||
+|| `DIALOG_ID_EMPTY` | Dialog ID can't be empty | Не передан или некорректен `DIALOG_ID` ||
+|| `ACCESS_ERROR` | You do not have access to the specified dialog | Нет доступа к диалогу ||
+|| `PARAMS_ERROR` | Incorrect params | Некорректные параметры запроса ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-message-add.md)
+- [{#T}](./im-message-command.md)
+- [{#T}](./im-dialog-messages-get.md)

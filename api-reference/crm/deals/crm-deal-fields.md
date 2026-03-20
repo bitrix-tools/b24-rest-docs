@@ -4,6 +4,12 @@
 > 
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.deal.fields` продолжает работать, но у него есть более актуальный аналог [crm.item.fields](../universal/crm-item-fields.md).
+
+{% endnote %}
+
 Метод `crm.deal.fields` возвращает описание полей сделки, в том числе пользовательских.
 Таблицу с описанием стандартных полей можно найти в статье [Поля основных объектов CRM](../main-entities-fields.md).
 
@@ -24,7 +30,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.fields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.fields
     ```
 
 - cURL (OAuth)
@@ -557,6 +563,13 @@ HTTP-статус: **200**
 }
 ```
 
+{% note info "" %}
+
+Поле `CONTACT_IDS` недоступно в методах [crm.deal.get](./crm-deal-get.md) и [crm.deal.list](./crm-deal-list.md).
+Чтобы получить список контактов сделки, используйте методы [crm.deal.contact.items.*](./contacts/index.md) или универсальные методы [crm.item.*](../universal/index.md).
+
+{% endnote %}
+
 ### Возвращаемые данные
 
 #|
@@ -583,7 +596,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+ не возвращает ошибки.
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
 

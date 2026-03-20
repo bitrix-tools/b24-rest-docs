@@ -48,7 +48,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"TASKID" : 691, "ITEMID": 5}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.elapseditem.delete
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.elapseditem.delete
     ```
 
 - cURL (OAuth)

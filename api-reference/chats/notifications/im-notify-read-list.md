@@ -1,114 +1,92 @@
-# Прочитать список уведомлений (кроме CONFIRM) im.notify.read.list
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
+# Прочитать список уведомлений im.notify.read.list
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.read.list` «прочитывает» список уведомлений, исключая уведомления типа CONFIRM.
+Метод `im.notify.read.list` отмечает список уведомлений как прочитанные или непрочитанные.
 
-#|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **IDS^*^**
-[`unknown`](../../data-types.md) | `[1,2,3]` | Массив идентификаторов уведомлений | 30 ||
-|| **ACTION**
-[`unknown`](../../data-types.md) | `'Y'` | Отметить, как прочитанные|непрочитанные (`Y`\|`N`) | 30 ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Примеры
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **IDS***
+[`array`](../../data-types.md) | Массив идентификаторов уведомлений. Если в массиве встретится значение `<= 0`, обработка списка останавливается на этом элементе ||
+|| **ACTION**
+[`string`](../../data-types.md) | Действие над уведомлениями:
+- `Y` — отметить как прочитанные
+- `N` — отметить как непрочитанные
+
+Значение по умолчанию — `Y`.
+
+Если передано любое значение, отличное от `Y`, метод применяет действие как для `N` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"IDS":[101,102,103],"ACTION":"Y"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify.read.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"IDS":[101,102,103],"ACTION":"Y","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.notify.read.list
+    ```
+
 - JS
 
-
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
-    
     try {
-      const response = await $b24.callListMethod(
-        'im.notify.read.list',
-        {
-          IDS: [1, 2, 3],
-          ACTION: 'Y'
-        },
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
+      const response = await $b24.callMethod('im.notify.read.list', {
+        IDS: [101, 102, 103],
+        ACTION: 'Y',
+      });
+      const { result } = response.getData();
+      console.log('Result:', result);
     } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
-    
-    try {
-      const generator = $b24.fetchListMethod('im.notify.read.list', { IDS: [1, 2, 3], ACTION: 'Y' }, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
-      }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('im.notify.read.list', { IDS: [1, 2, 3], ACTION: 'Y' }, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
+      console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.notify.read.list',
-                [
-                    'IDS'    => [1, 2, 3],
-                    'ACTION' => 'Y',
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
+        $response = $b24Service->core->call(
+            'im.notify.read.list',
+            [
+                'IDS' => [101, 102, 103],
+                'ACTION' => 'Y',
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+
         if ($result->error()) {
-            error_log($result->error()->ex);
+            echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            var_dump($result->data());
         }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error reading notification list: ' . $e->getMessage();
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
@@ -118,35 +96,74 @@
     BX24.callMethod(
         'im.notify.read.list',
         {
-            IDS: [1,2,3],
-            ACTION: 'Y'
+            IDS: [101, 102, 103],
+            ACTION: 'Y',
         },
-        res => {
-            if (res.error())
-            {
-            console.error(result.error().ex);
-            }
-            else
-            {
-            console.log(res.data())
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
             }
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'im.notify.read.list',
+        [
+            'IDS' => [101, 102, 103],
+            'ACTION' => 'Y',
+        ]
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        var_dump($result['result']);
+    }
+    ```
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
 ```json
 {
-    "result": true
-}        
+    "result": true,
+    "time": {
+        "start": 1760000000.0,
+        "finish": 1760000000.1,
+        "duration": 0.1,
+        "processing": 0.04,
+        "date_start": "2026-03-02T09:30:00+03:00",
+        "date_finish": "2026-03-02T09:30:00+03:00",
+        "operating_reset_at": 1760030000,
+        "operating": 0
+    }
+}
 ```
 
-## Ответ в случае ошибки
+## Возвращаемые данные
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true` после обработки списка уведомлений ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
@@ -155,14 +172,27 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **PARAMS_ERROR** | Не передан параметр `IDS` или он не является массивом ||
+|| **Код** | **Описание** | **Значение** ||
+|| `PARAMS_ERROR` | No IDS param or it is not an array | Параметр `IDS` не передан или не является массивом ||
 |#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-notify.md)
+- [{#T}](./im-notify-personal-add.md)
+- [{#T}](./im-notify-system-add.md)
+- [{#T}](./im-notify-get.md)
+- [{#T}](./im-notify-schema-get.md)
+- [{#T}](./im-notify-read.md)
+- [{#T}](./im-notify-read-all.md)
+- [{#T}](./im-notify-answer.md)
+- [{#T}](./im-notify-confirm.md)
+- [{#T}](./im-notify-delete.md)
+- [{#T}](./im-notify-history-search.md)

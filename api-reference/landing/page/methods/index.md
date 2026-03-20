@@ -24,8 +24,8 @@
 || [landing.landing.markUnDelete](./landing-landing-mark-undelete.md) | Метод помечает страницу как не удаленную. | ||
 || [landing.landing.move](./landing-landing-move.md) | Метод перемещает страницу в другой сайт и/или папку. | 21.800.0 ||
 || [landing.landing.publication](./landing-landing-publication.md) | Метод для публикации страницы. | ||
-|| [landing.landing.removeEntities](./landing-landing-remove-entities.md) | Метод удаляет связанные сущности лендинга. | ||
-|| [landing.landing.resolveIdByPublicUrl](./landing-landing-resolve-id-by-public-url.md) | Метод по переданному относительному URL страницы возвращает идентификатор страницы. | 21.800.0 ||
+|| [landing.landing.removeEntities](./landing-landing-remove-entities.md) | Метод удаляет блоки и изображения страницы. | ||
+|| [landing.landing.resolveIdByPublicUrl](./landing-landing-resolve-id-by-public-url.md) | Метод по переданному публичному URL страницы возвращает идентификатор страницы. | 21.800.0 ||
 || [landing.landing.unpublic](./landing-landing-unpublic.md) | Метод для снятия с публикации страницы. | ||
 || [landing.landing.update](./landing-landing-update.md) | Метод для изменения страницы. | ||
 |#

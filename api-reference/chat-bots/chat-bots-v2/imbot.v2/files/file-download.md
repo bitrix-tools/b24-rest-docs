@@ -19,8 +19,6 @@
 [`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
 
 Передавайте тот же botToken, который был указан при регистрации чат-бота ||
-|| **dialogId***
-[`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}`, для личных — `{userId}` ||
 || **fileId***
 [`integer`](../../../../data-types.md) | ID файла на Диске. Можно получить из ответа метода [imbot.v2.File.upload](./file-upload.md) ||
 |#
@@ -37,7 +35,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat5","fileId":138}' \
+      -d '{"botId":456,"botToken":"my_bot_token","fileId":138}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.File.download
     ```
 
@@ -47,7 +45,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"dialogId":"chat5","fileId":138,"auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"fileId":138,"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.File.download
     ```
 
@@ -57,7 +55,6 @@
     try {
       const response = await $b24.callMethod('imbot.v2.File.download', {
         botId: 456,
-        dialogId: 'chat5',
         fileId: 138,
       });
 
@@ -78,7 +75,6 @@
                 'imbot.v2.File.download',
                 [
                     'botId' => 456,
-                    'dialogId' => 'chat5',
                     'fileId' => 138,
                 ]
             );
@@ -101,7 +97,6 @@
         'imbot.v2.File.download',
         {
             botId: 456,
-            dialogId: 'chat5',
             fileId: 138,
         },
         function(result) {
@@ -124,7 +119,6 @@
         'imbot.v2.File.download',
         [
             'botId' => 456,
-            'dialogId' => 'chat5',
             'fileId' => 138,
         ]
     );
@@ -192,9 +186,8 @@ HTTP-статус: **400**, **403**
 || `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
-|| `ACCESS_DENIED` | Access denied | Бот не является участником чата ||
-|| `FILE_ACCESS_ERROR` | File access error | Нет прав на скачивание файла (файл не принадлежит указанному чату) ||
-|| `FILE_NOT_FOUND` | File not found | Файл не найден в указанном диалоге ||
+|| `FILE_ACCESS_ERROR` | File access error | Нет прав на скачивание файла ||
+|| `FILE_NOT_FOUND` | File not found | Файл не найден ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}

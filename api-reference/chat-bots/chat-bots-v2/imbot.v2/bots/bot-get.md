@@ -211,10 +211,8 @@ HTTP-статус: **400**, **403**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
 || `PARAMS_REQUIRED` | Required parameters are missing | Не передан ни `botId`, ни `code` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}

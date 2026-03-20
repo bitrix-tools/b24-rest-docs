@@ -8,6 +8,7 @@
 - [{#T}](./how-to-add-contact-with-requisite.md)
 - [{#T}](./how-to-add-company.md)
 - [{#T}](./how-to-add-company-with-requisite.md)
+- [{#T}](./how-to-add-contractor.md)
 - [{#T}](./how-to-add-deal-with-choice-of-requisite.md)
 - [{#T}](./how-to-add-activity-to-contact.md)
 - [{#T}](./how-to-add-comment-to-spa.md)

@@ -4,6 +4,12 @@
 > 
 > Кто может выполнять метод: Администратор
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.contact.details.configuration.forceCommonScopeForAll` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.forceCommonScopeForAll](../../universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md).
+
+{% endnote %}
+
 Метод позволяет принудительно установить общую карточку контактов для всех пользователей.
 
 Без параметров.
@@ -21,7 +27,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.details.configuration.forceCommonScopeForAll
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.details.configuration.forceCommonScopeForAll
     ```
 
 - cURL (OAuth)

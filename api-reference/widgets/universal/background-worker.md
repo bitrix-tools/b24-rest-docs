@@ -8,6 +8,12 @@
 
 Код места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
+{% note info "" %}
+
+Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Особенности регистрации обработчика виджета
 
 В отличие от других типов виджетов, для `PAGE_BACKGROUND_WORKER` приложение может зарегистрировать только один обработчик.
@@ -25,7 +31,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"PLACEMENT":"PAGE_BACKGROUND_WORKER","HANDLER":"http://myapp.com/handler/?type=1","OPTIONS":{"errorHandlerUrl":"http://myapp.com/error/"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/placement.bind
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/placement.bind
     ```
 
 - cURL (OAuth)

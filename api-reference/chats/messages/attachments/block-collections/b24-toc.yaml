@@ -1,4 +1,4 @@
-title: Работа с подразделениями
+title: Коллекции блоков ATTACH
 href: index.md
 items:
   - name: О коллекции блоков
@@ -17,4 +17,3 @@ items:
     href: images.md
   - name: Блок с файлами
     href: files.md
-

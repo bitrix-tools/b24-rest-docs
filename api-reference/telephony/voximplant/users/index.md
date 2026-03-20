@@ -7,7 +7,6 @@
 {% endnote %}
 
 #|
-|| [voximplant.user.activatePhone](./voximplant-user-activate-phone.md) | Устанавливает сотруднику признаки наличия sip-аппарата ||
-|| [voximplant.user.deactivatePhone](./voximplant-user-deactivate-phone.md) | Отключает сотруднику признаки наличия sip-аппарата ||
+|| [voximplant.user.activatePhone](./voximplant-user-activate-phone.md) | Устанавливает сотруднику признаки наличия SIP-аппарата ||
 || [voximplant.user.get](./voximplant-user-get.md) | Получает настройки пользователей ||
 |#

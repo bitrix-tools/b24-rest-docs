@@ -1,79 +1,64 @@
 # Получить описание полей настроек для типа пользовательского поля crm.userfield.settings.fields
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствует ответ в случае ошибки и успеха
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.userfield.settings.fields` возвращает описание полей настроек для типа пользовательского поля.
+Метод `crm.userfield.settings.fields` возвращает описание полей настроек для указанного типа пользовательского поля.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **type** | Тип пользовательского поля. Значение из списка возвращаемого методом [crm.userfield.types](crm-userfield-types.md).  ||
+|| **Название**
+`тип` | **Описание** ||
+|| **type***
+[`string`](../../data-types.md) | Тип пользовательского поля. Значение из списка, который возвращает метод [crm.userfield.types](./crm-userfield-types.md) ||
 |#
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+## Примеры кода
 
-## Пример
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- CURL (webhook)
+- cURL (Webhook)
 
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"string"}' \
+    -d '{"type":"double"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.userfield.settings.fields
     ```
 
-- CURL (oauth)
+- cURL (OAuth)
 
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"string"}' \
-    https://**put_your_bitrix24_address**/rest/crm.userfield.settings.fields?auth=**put_access_token_here**
+    -d '{"type":"double","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.userfield.settings.fields
     ```
 
 - JS
 
-
     ```js
     try
     {
-    	const id = prompt("Введите ID");
     	const response = await $b24.callMethod(
     		"crm.userfield.settings.fields",
     		{
-    			type: "string"
+    			type: "double"
     		}
     	);
-    	
+
     	const result = response.getData().result;
     	console.dir(result);
     }
-    catch(error)
+    catch (error)
     {
     	console.error(error);
     }
@@ -81,42 +66,41 @@
 
 - PHP
 
-
     ```php
-    $id = $_POST['id'];
-    
     try {
         $response = $b24Service
             ->core
             ->call(
                 'crm.userfield.settings.fields',
                 [
-                    'type' => 'string'
+                    'type' => 'double'
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
+        echo 'Error fetching CRM userfield settings fields: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
     ```js
-    var id = prompt("Введите ID");
     BX24.callMethod(
         "crm.userfield.settings.fields",
         {
-            type: "string"
+            type: "double"
         },
         function(result)
         {
@@ -133,11 +117,11 @@
     ```php
     require_once('crest.php');
 
-    $type = 'string'; // Замените на нужный тип
-
     $result = CRest::call(
         'crm.userfield.settings.fields',
-        ['type' => $type]
+        [
+            'type' => 'double'
+        ]
     );
 
     echo '<PRE>';
@@ -147,8 +131,70 @@
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "DEFAULT_VALUE": {
+            "type": "double",
+            "title": "Значение по умолчанию"
+        },
+        "PRECISION": {
+            "type": "int",
+            "title": "Точность"
+        }
+    },
+    "time": {
+        "start": 1752132864.335154,
+        "finish": 1752132864.366912,
+        "duration": 0.03175783157348633,
+        "processing": 0.002053976058959961,
+        "date_start": "2025-07-10T10:34:24+03:00",
+        "date_finish": "2025-07-10T10:34:24+03:00",
+        "operating_reset_at": 1752133464,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа с настройками поля. Итоговый перечень полей зависит от типа запрошенного поля ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Parameter 'type' is not specified or empty."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `error_description` | Не передан параметр `type` или передано пустое значение ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
+- [{#T}](./crm-userfield-types.md)
+- [{#T}](./crm-userfield-fields.md)
+- [{#T}](./crm-userfield-enumeration-fields.md)

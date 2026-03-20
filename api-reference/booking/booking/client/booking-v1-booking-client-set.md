@@ -59,7 +59,7 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"bookingId":14,"clients":[{"id":1,"type":{"module":"crm","code":"CONTACT"}},{"id":2,"type":{"module":"crm","code":"CONTACT"}}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/booking.v1.booking.client.set
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.client.set
     ```
 
 - JS

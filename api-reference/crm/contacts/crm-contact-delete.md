@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «удаления» контакта
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.contact.delete` продолжает работать, но у него есть более актуальный аналог [crm.item.delete](../universal/crm-item-delete.md).
+
+{% endnote %}
+
 Метод `crm.contact.delete` удаляет контакт и все связанные с ним объекты.
 
 ## Параметры метода
@@ -34,7 +40,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"ID":50}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.delete
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.delete
     ```
 
 - cURL (OAuth)

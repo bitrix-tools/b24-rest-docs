@@ -14,9 +14,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **taskIdFrom***
-[`integer`](../data-types.md) | Идентификатор задачи, от которой создаётся зависимость ||
+[`integer`](../data-types.md) | Идентификатор задачи, от которой создается зависимость ||
 || **taskIdTo***
-[`integer`](../data-types.md) | Идентификатор задачи, для которой создаётся зависимость ||
+[`integer`](../data-types.md) | Идентификатор задачи, для которой создается зависимость ||
 || **linkType***
 [`integer`](../data-types.md) | Тип зависимости:
 - `0` — связь старт-старт 
@@ -41,7 +41,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"taskIdFrom":100,"taskIdTo":101,"linkType":0}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/task.dependence.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.dependence.add
     ```
 
 - cURL (OAuth)

@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «чтения» контактов
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.contact.list` продолжает работать, но у него есть более актуальный аналог [crm.item.list](../universal/crm-item-list.md).
+
+{% endnote %}
+
 Метод `crm.contact.list` возвращает список контактов по фильтру. Является реализацией списочного метода для контактов.
 
 Чтобы получить список компаний, привязанных к контакту, используйте метод [`crm.contact.company.items.get`](company/crm-contact-company-items-get.md)
@@ -135,7 +141,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"FILTER":{"SOURCE_ID":"CRM_FORM","!=NAME":"","!=LAST_NAME":"","=%NAME":"И%","=%LAST_NAME":"И%","EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"IMPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.list
     ```
 
 - cURL (OAuth)
@@ -151,7 +157,7 @@
 - JS
 
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
+    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
     
     const sixMonthAgo = new Date();
     sixMonthAgo.setMonth(new Date().getMonth() - 6);
@@ -196,7 +202,7 @@
       console.error('Request failed', error);
     }
     
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
+    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
     
     const sixMonthAgo = new Date();
     sixMonthAgo.setMonth(new Date().getMonth() - 6);
@@ -237,7 +243,7 @@
       console.error('Request failed', error);
     }
     
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
+    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
     
     const sixMonthAgo = new Date();
     sixMonthAgo.setMonth(new Date().getMonth() - 6);

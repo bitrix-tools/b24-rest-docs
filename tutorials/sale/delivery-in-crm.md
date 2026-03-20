@@ -1,6 +1,48 @@
-# Настроить доставку для использования в CRM
+# Настроить службу доставки для CRM
 
-## Создание обработчика службы доставки
+> Scope: [`sale`](../../api-reference/scopes/permissions.md)
+>
+> Кто может выполнять методы: администратор
+
+К Битрикс24 можно подключать внешние сервисы доставки. Это позволяет менеджеру работать со службой доставки в карточках CRM: рассчитывать стоимость и отслеживать статус.
+
+Чтобы настроить службу доставки, последовательно выполним методы:
+
+1. [sale.delivery.handler.add](../../api-reference/sale/delivery/handler/sale-delivery-handler-add.md) — зарегистрируем обработчик доставки,
+
+2. [sale.delivery.add](../../api-reference/sale/delivery/delivery/sale-delivery-add.md) — создадим родительскую службу и профили, которые привязаны к обработчику,
+
+3. [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md) — добавим свойства отгрузки для адресов,
+
+4. [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) — привяжем свойства к профилям доставки.
+
+5. [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md) — подключим дополнительные услуги.
+
+## 1\. Создадим обработчик службы доставки
+
+Зарегистрируем обработчик с помощью [sale.delivery.handler.add](../../api-reference/sale/delivery/handler/sale-delivery-handler-add.md). В метод передадим четыре параметра.
+
+- `CODE` — символьный код обработчика службы доставки. Укажем, например, `uber`.
+
+- `NAME` — название обработчика службы доставки. Передадим `Uber`.
+
+- `SETTINGS` — объект с информацией о настройках обработчика.
+
+    - `CALCULATE_URL` — URL расчета стоимости доставки, например `https://gateway.bx/calculate.php`.
+
+    - `CREATE_DELIVERY_REQUEST_URL` — URL оформления доставки. Укажем `https://gateway.bx/create_delivery_request.php`.
+
+    - `CANCEL_DELIVERY_REQUEST_URL` — URL отмены доставки, например `https://gateway.bx/cancel_delivery_request.php`.
+
+    - `HAS_CALLBACK_TRACKING_SUPPORT` — индикатор, будет ли служба присылать оповещения. Зададим `Y`. Создать оповещения можно с помощью [sale.delivery.request.sendmessage](../../api-reference/sale/delivery/delivery-request/sale-delivery-request-send-message.md).
+
+    - `CONFIG` — список настроек. Укажем `MY_FIRST_SETTING` и `MY_SECOND_SETTING` с типом `STRING`.
+
+- `PROFILES` — массив профилей доставки. Обработчик должен иметь хотя бы один профиль. Зададим `Taxi` и `Cargo`.
+
+Сервис доставки по указанным URL должен принять запрос, обработать его и выдать ответ в формате, который ожидает CRM.
+
+Подробнее о формате запросов и ответов читайте в разделе [Вебхуки при работе с доставками](../../api-reference/sale/delivery/webhooks/index.md).
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
@@ -59,7 +101,7 @@
 
     ```php
     require_once('crest.php');
-
+    
     $result = CRest::call(
         'sale.delivery.handler.add',
         [
@@ -97,7 +139,7 @@
             ],
         ]
     );
-
+    
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
@@ -105,7 +147,7 @@
 
 {% endlist %}
 
-Пример ответа:
+Если обработчик успешно добавлен, метод вернет его идентификатор. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.delivery.handler.add](../../api-reference/sale/delivery/handler/sale-delivery-handler-add.md).
 
 ```json
 {
@@ -121,13 +163,19 @@
 }
 ```
 
-Мы создали обработчик службы доставки с идентификатором `23`. Обработчик службы доставки — это шаблон, по которому в дальнейшем мы создадим конкретные службы доставки.
+## 2\. Создадим службу доставки {#second}
 
-Подробнее о методе [sale.delivery.handler.add](../../api-reference/sale/delivery/handler/sale-delivery-handler-add.md).
+Создадим службу доставки с помощью метода [sale.delivery.add](../../api-reference/sale/delivery/delivery/sale-delivery-add.md). В метод передадим следующие параметры:
 
-## Создание службы доставки
+- `REST_CODE` — символьный код обработчика службы доставки. Укажем `uber`, который задали на первом шаге.
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+- `NAME` — название службы доставки, например, `Uber Taxi`.
+
+- `CURRENCY` — символьный код валюты. Передадим `RUB`. Получить список валют можно с помощью метода [crm.currency.list](../../api-reference/crm/currency/crm-currency-list.md).
+
+- `ACTIVE` — флаг активности службы доставки. Укажем `Y`.
+
+- `CONFIG` — значения настроек обработчика. Передаем значения для `MY_FIRST_SETTING` и `MY_SECOND_SETTING`, которые задали на первом шаге.
 
 {% list tabs %}
 
@@ -166,29 +214,27 @@
 
     ```php
     require_once('crest.php');
-
+    
     $result = CRest::call(
         'sale.delivery.add',
         [
-            'FIELDS' => [
-                'REST_CODE' => 'uber',
-                'NAME' => 'Uber Taxi',
-                'CURRENCY' => 'RUB',
-                'ACTIVE' => 'Y',
-                'CONFIG' => [
-                    [
-                        'CODE' => 'MY_FIRST_SETTING',
-                        'VALUE' => 'My first setting value',
-                    ],
-                    [
-                        'CODE' => 'MY_SECOND_SETTING',
-                        'VALUE' => 'My second setting value',
-                    ],
-                ]
+            'REST_CODE' => 'uber',
+            'NAME' => 'Uber Taxi',
+            'CURRENCY' => 'RUB',
+            'ACTIVE' => 'Y',
+            'CONFIG' => [
+                [
+                    'CODE' => 'MY_FIRST_SETTING',
+                    'VALUE' => 'My first setting value',
+                ],
+                [
+                    'CODE' => 'MY_SECOND_SETTING',
+                    'VALUE' => 'My second setting value',
+                ],
             ]
         ]
     );
-
+    
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
@@ -196,9 +242,9 @@
 
 {% endlist %}
 
-Пример ответа:
+Если служба доставки успешно создана, метод вернет объект родительской службы и массив профилей. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.delivery.add](../../api-reference/sale/delivery/delivery/sale-delivery-add.md).
 
-```js
+```json
 {
 "result":{
     "parent":{
@@ -245,17 +291,29 @@
 }
 ```
 
-Мы создали службу доставки с идентификатором `226`. У этой службы доставки есть две дочернихе службы доставки, профили доставки, с идентификаторами `227` и `228`.
+## 3\. Создадим свойства отгрузки {#third}
 
-Подробнее о методе [sale.delivery.add](../../api-reference/sale/delivery/delivery/sale-delivery-add.md).
+В отгрузке менеджер указывает адрес отправки и адрес доставки. Последовательно создадим два свойства `Address From` и `Address To` с помощью метода [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md).
 
-## Создание свойств отгрузки
+### Свойство Address From
 
-Чтобы при выборе службы доставки в интерфейсе менеджера была возможность выбрать адреса «Откуда» и «Куда» будет осуществляться доставка, нужно создать соответствующие свойства отгрузки. Если такие свойства ранее уже создавались, можно сразу перейти к следующему шагу привязки свойств отгрузки к службе доставки.
+В метод передадим объект `fields` со значениями полей свойства `Address From`.
 
-Создаем свойство `Address From`. 
+- `personTypeId` — идентификатор типа плательщика. Передадим `3`. Список типов можно получить с помощью метода [sale.persontype.list](../../api-reference/sale/person-type/sale-person-type-list.md).
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+- `propsGroupId` — идентификатор группы свойств. Укажем `6`. Список групп можно получить методом [sale.propertygroup.list](../../api-reference/sale/property-group/sale-property-group-list.md).
+
+- `name` — название свойства отгрузки. Укажем `Address From`.
+
+- `active` — флаг активности. Передадим `Y`.
+
+- `sort` — сортировка.
+
+- `type` — тип свойства отгрузки. Передадим `ADDRESS`. Список возможных значений смотрите в документации метода [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md).
+
+- `required` — флаг, обязательное ли свойство. Укажем `Y`.
+
+- `isAddressFrom` — флаг, используется ли свойство отгрузки как адрес отправителя. Передадим `Y`.
 
 {% list tabs %}
 
@@ -289,7 +347,7 @@
 
     ```php
     require_once('crest.php');
-
+    
     $result = CRest::call(
         'sale.shipmentproperty.add',
         [
@@ -305,7 +363,7 @@
             ]
         ]
     );
-
+    
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
@@ -313,7 +371,7 @@
 
 {% endlist %}
 
-Ответ:
+Если свойство успешно добавлено, метод вернет объект `property` с идентификатором свойства. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md).
 
 ```json
 {
@@ -324,45 +382,33 @@
         "defaultValue":"",
         "description":"",
         "id":102,
-        "inputFieldLocation":"0",
-        "isAddress":"N",
         "isAddressFrom":"Y",
         "isAddressTo":"N",
-        "isEmail":"N",
-        "isFiltered":"N",
-        "isLocation":"N",
-        "isLocation4tax":"N",
-        "isPayer":"N",
-        "isPhone":"N",
-        "isProfileName":"N",
-        "isZip":"N",
-        "multiple":"N",
+        "maxLength":"",
         "name":"Address From",
         "personTypeId":3,
         "propsGroupId":6,
         "required":"Y",
-        "settings":[
-            
-        ],
+        "settings":[],
         "sort":100,
         "type":"ADDRESS",
-        "userProps":"N",
-        "util":"N",
-        "xmlId":"bx_6634d350b3f83"
+        "xmlId":""
     }
 },
 "time":{
-    "start":1714737999.671308,
-    "finish":1714738000.799885,
-    "duration":1.1285769939422607,
-    "processing":0.8807950019836426,
-    "date_start":"2024-05-03T15:06:39+03:00",
-    "date_finish":"2024-05-03T15:06:40+03:00"
+    "start":1714741422.531968,
+    "finish":1714741422.644666,
+    "duration":0.11269783973693848,
+    "processing":0.06191205978393555,
+    "date_start":"2024-05-03T15:43:42+03:00",
+    "date_finish":"2024-05-03T15:43:42+03:00"
 }
 }
 ```
 
-Создаем свойство `Address To`. 
+### Свойство Address To
+
+В объекте `fields` для свойства `Address To` передаем название `Address To`. Остальные параметры — аналогично `Address From`.
 
 {% list tabs %}
 
@@ -396,7 +442,7 @@
 
     ```php
     require_once('crest.php');
-
+    
     $result = CRest::call(
         'sale.shipmentproperty.add',
         [
@@ -412,7 +458,7 @@
             ]
         ]
     );
-
+    
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
@@ -420,7 +466,7 @@
 
 {% endlist %}
 
-Ответ:
+Если свойство успешно добавлено, метод вернет объект `property` с идентификатором свойства. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md).
 
 ```json
 {
@@ -431,57 +477,39 @@
         "defaultValue":"",
         "description":"",
         "id":103,
-        "inputFieldLocation":"0",
-        "isAddress":"N",
         "isAddressFrom":"N",
         "isAddressTo":"Y",
-        "isEmail":"N",
-        "isFiltered":"N",
-        "isLocation":"N",
-        "isLocation4tax":"N",
-        "isPayer":"N",
-        "isPhone":"N",
-        "isProfileName":"N",
-        "isZip":"N",
-        "multiple":"N",
+        "maxLength":"",
         "name":"Address To",
         "personTypeId":3,
         "propsGroupId":6,
         "required":"Y",
-        "settings":[
-            
-        ],
+        "settings":[],
         "sort":100,
         "type":"ADDRESS",
-        "userProps":"N",
-        "util":"N",
-        "xmlId":"bx_6634d380a68e5"
+        "xmlId":""
     }
 },
 "time":{
-    "start":1714738048.347586,
-    "finish":1714738048.713083,
-    "duration":0.3654971122741699,
-    "processing":0.18678808212280273,
-    "date_start":"2024-05-03T15:07:28+03:00",
-    "date_finish":"2024-05-03T15:07:28+03:00"
+    "start":1714741719.195657,
+    "finish":1714741719.368018,
+    "duration":0.17236113548278809,
+    "processing":0.0712430477142334,
+    "date_start":"2024-05-03T15:48:39+03:00",
+    "date_finish":"2024-05-03T15:48:39+03:00"
 }
 }
 ```
 
-Мы создали два свойства отгрузки: `Address From` с идентификатором `102` и `Address To` с идентификатором `103`.
+## 4\. Привяжем свойства отгрузки к службе доставки
 
-По аналогии можно создать и свойства другого типа для специфических нужд. К примеру, если нужно, чтобы менеджер мог написать комментарий для транспортной компании, то можно по аналогии создать свойство отгрузки с типом `STRING` и назвать его соответствующе «Комментарий для транспортной компании». В этом случае свойство будет отображаться у менеджера в пользовательском интерфейсе и он сможет заполнить его.
+Чтобы привязать свойства `Address From` и `Address To` к профилям `Taxi` и `Cargo`, вызовем метод [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) четыре раза. В метод передадим объект `fields` со значениями полей для привязки свойств.
 
-Подробнее о методе [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md).
+- `entityId` — идентификатор профиля доставки. Для профиля `Taxi` передадим `227`, для `Cargo` — `228`, которые были получены [на втором шаге](#second).
 
-## Привязка свойств отгрузки к службе доставки
+- `entityType` — тип объекта. Возможные значения: `P` — платежная система, `D` — доставка, `L` — лендинг, `T` — торговая платформа. Укажем значение `D`.
 
-После создания свойств нужно их привязать к ранее созданным службам доставки. К настоящему моменту мы имеем две службы доставки с идентификаторами `227` и `228` и два свойства с идентификаторами `102` и `103`. К родительской службе доставки привязывать свойства не нужно.
-
-Привязываем свойства к службе доставки с идентификатором `227`. 
-
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+- `propertyId` — идентификатор свойства. Для `Address From` укажем `102`, для `Address To` — `103`, которые были получены [на третьем шаге](#third).
 
 {% list tabs %}
 
@@ -505,30 +533,13 @@
             }
         }
     );
-
-    BX24.callMethod(
-        'sale.propertyrelation.add', {
-            fields: {
-                entityId: 227,
-                entityType: 'D',
-                propertyId: 103
-            }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
     ```
 
 - PHP
 
     ```php
     require_once('crest.php');
-
+    
     $result = CRest::call(
         'sale.propertyrelation.add',
         [
@@ -539,116 +550,63 @@
             ]
         ]
     );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-
-        $result = CRest::call(
-        'sale.propertyrelation.add',
-        [
-            'fields' => [
-                'entityId' => 227,
-                'entityType' => 'D',
-                'propertyId' => 103
-            ]
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
     ```
 
 {% endlist %}
 
-Привязываем свойства к службе доставки с идентификатором `228`. 
+Вызываем метод [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) по очереди.
 
-{% list tabs %}
+1. Служба `Taxi`, свойство `Address From` — передаем `entityId: 227, propertyId: 102`.
 
-- JS
+2. Служба `Taxi`, свойство `Address To` — передаем `entityId: 227, propertyId: 103`.
 
-    ```js
-    BX24.callMethod(
-        'sale.propertyrelation.add', {
-            fields: {
-                entityId: 228,
-                entityType: 'D',
-                propertyId: 102
-            }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
+3. Служба `Cargo`, свойство `Address From` — передаем `entityId: 228, propertyId: 102`.
+
+4. Служба `Cargo`, свойство `Address To` — передаем `entityId: 228, propertyId: 103`.
+
+Если привязки успешно добавлены, метод вернет объекты с информацией о них. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md).
+
+```json
+{
+    "result": {
+        "propertyRelation": {
+            "entityId": 227,
+            "entityType": "D",
+            "propertyId": 102
         }
-    );
+    },
+    "time": {
+        "start": 1712244475.495277,
+        "finish": 1712244476.402808,
+        "duration": 0.9075310230255127,
+        "processing": 0.08538603782653809,
+        "date_start": "2024-05-03T18:27:55+03:00",
+        "date_finish": "2024-05-03T18:27:56+03:00"
+    }
+}
+```
 
-    BX24.callMethod(
-        'sale.propertyrelation.add', {
-            fields: {
-                entityId: 228,
-                entityType: 'D',
-                propertyId: 103
-            }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
-    ```
+## 5\. Добавим услуги в службы доставки
 
-- PHP
+Чтобы добавить дополнительную услугу в службу доставки, вызовем метод [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md). В него передадим следующие параметры:
 
-    ```php
-    require_once('crest.php');
+- `DELIVERY_ID` — идентификатор службы доставки, к которой будет привязана услуга. Для профиля `Taxi` укажем идентификатор `227`, который получен [на втором шаге](#second). Для других профилей подставьте собственный идентификатор. Получить список идентификаторов служб доставки можно с помощью метода [sale.delivery.getlist](../../api-reference/sale/delivery/delivery/sale-delivery-get-list.md).
 
-    $result = CRest::call(
-        'sale.propertyrelation.add',
-        [
-            'fields' => [
-                'entityId' => 228,
-                'entityType' => 'D',
-                'propertyId' => 102
-            ]
-        ]
-    );
+- `ACTIVE` — флаг активности услуги. Возможные значения: `Y` — да, `N` — нет. Передадим `Y`.
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+- `CODE` — символьный код услуги. Укажем `door_delivery`.
 
-        $result = CRest::call(
-        'sale.propertyrelation.add',
-        [
-            'fields' => [
-                'entityId' => 228,
-                'entityType' => 'D',
-                'propertyId' => 103
-            ]
-        ]
-    );
+- `NAME` — название услуги, например, `Door Delivery`.
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
+- `TYPE` — тип услуги. Возможные значения: `enum` — список, `checkbox` — единичная услуга, `quantity` — количественная услуга. Укажем `checkbox`.
 
-{% endlist %}
+- `PRICE` — стоимость услуги типа в валюте службы доставки. Укажем `1000`.
 
-Подробнее о методе [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md).
+    {% note info "" %}
 
-## Добавление услуг службам доставки
+    Для услуг типа `enum` стоимость указывается с помощью параметра `ITEMS`. Подробнее читайте в документации к методу [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md).
 
-В некоторых случаях требуется дать менеджеру возможность выбора тех или иных услуг, которые могут быть доступны для службы доставки. К примеру, стоимость доставки может отличаться, если требуется доставка до двери. В этом случае можно создать услугу, которую менеджер сможет указать при расчете или оформлении доставки.
-
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+    {% endnote %}
 
 {% list tabs %}
 
@@ -662,6 +620,7 @@
             CODE: "door_delivery",
             NAME: "Door Delivery",
             TYPE: "checkbox",
+            PRICE: 1000
         },
         function(result) {
             if (result.error()) {
@@ -677,7 +636,7 @@
 
     ```php
     require_once('crest.php');
-
+    
     $result = CRest::call(
         'sale.delivery.extra.service.add',
         [
@@ -686,9 +645,10 @@
             'CODE' => 'door_delivery',
             'NAME' => 'Door Delivery',
             'TYPE' => 'checkbox',
+            'PRICE' => 1000,
         ]
     );
-
+    
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
@@ -696,9 +656,9 @@
 
 {% endlist %}
 
-Ответ:
+Если услуга добавлена, метод вернет идентификатор в параметре `result`. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md).
 
-```js
+```json
 {
     "result": 140,
     "time": {
@@ -712,34 +672,13 @@
 }
 ```
 
-В данном примере мы создали услугу доставки до двери с символьным кодом `door_delivery` и идентификатором `140`.
+## Оповещения о статусах доставки
 
-Подробнее о методе [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md).
-
-## Обработка запросов, поступающих на вебхуки
-
-К данному моменту мы сделали все необходимые настройки со стороны *Битрикс24*, и менеджер уже может пользоваться созданной нами службой доставки в полной мере. Он может осуществлять предварительный расчет стоимости, оформлять заказ на доставку, а также иметь возможность отменить доставку. При создании обработчика мы указали для этого конкретные URL в параметрах.
+Чтобы отправлять уведомления о ходе доставки, можно использовать методы группы [sale.delivery.request.\*](../../api-reference/sale/delivery/delivery-request/index.md).
 
 #|
-|| **Назначение** |	**Параметр** | **URL** ||
-|| Предварительный расчет стоимости доставки | `CALCULATE_URL` | https://gateway.bx/calculate.php ||
-|| Запрос на оформление реального заказа на доставку | `CREATE_DELIVERY_REQUEST_URL` | https://gateway.bx/create_delivery_request.php ||
-|| Запрос на отмену ранее сформированного заказа на доставку | `CANCEL_DELIVERY_REQUEST_URL` | https://gateway.bx/cancel_delivery_request.php ||
-|#
-
-При поступлении запросов на данные URL внешняя система должна обрабатывать запрос и отдавать ответ в требуемом формате.
-
-Подробнее о вебхуках в разделе [Вебхуки при работе с доставками](../../api-reference/sale/delivery/webhooks/index.md).
-
-## Оповещения в процессе выполнения заказа на доставку
-
-В процессе выполнения заказа на доставку внешняя система может нуждаться в возможности сообщить менеджеру или грузополучателю какую-то информацию о статусе заказа. Для этого существуют методы семейства [sale.delivery.request.*](../../api-reference/sale/delivery/delivery-request/index.md). 
-
-#|
-|| **Метод** |	**Назначение** ||
-|| [sale.delivery.request.update](../../api-reference/sale/delivery/delivery-request/sale-delivery-request-update.md) | Обновляет сущность заказа на доставку: статус и набор его свойств ||
-
-|| [sale.delivery.request.delete](../../api-reference/sale/delivery/delivery-request/sale-delivery-request-delete.md) | Сообщает об отмене заказа на доставку на стороне внешней системы и пытается отменить заказ на доставку на стороне Битрикс24 ||
-
+|| **Метод** | **Описание** ||
+|| [sale.delivery.request.update](../../api-reference/sale/delivery/delivery-request/sale-delivery-request-update.md) | Обновляет объект заказа на доставку: статус и набор его свойств ||
 || [sale.delivery.request.sendmessage](../../api-reference/sale/delivery/delivery-request/sale-delivery-request-send-message.md) | Посылает сообщение менеджеру или грузополучателю о текущем статусе заказа на доставку ||
+|| [sale.delivery.request.delete](../../api-reference/sale/delivery/delivery-request/sale-delivery-request-delete.md) | Сообщает об отмене заказа на доставку на стороне внешней системы и пытается отменить заказ на доставку на стороне Битрикс24 ||
 |#

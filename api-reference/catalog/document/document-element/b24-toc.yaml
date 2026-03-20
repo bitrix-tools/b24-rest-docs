@@ -1,15 +1,15 @@
-title: Товары документа складского учета
+title: Товары в документе складского учета
 href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Добавить товар документа складского учета
+  - name: Добавить товар в документ
     href: catalog-document-element-add.md
-  - name: Удалить товар документа складского учета
-    href: catalog-document-element-delete.md
-  - name: Получить список полей товара документа
-    href: catalog-document-element-get-fields.md
-  - name: Получить список товаров
-    href: catalog-document-element-list.md
-  - name: Изменить товар документа
+  - name: Изменить товар в документе
     href: catalog-document-element-update.md
+  - name: Получить список товаров в документах       
+    href: catalog-document-element-list.md     
+  - name: Удалить товар из документа
+    href: catalog-document-element-delete.md
+  - name: Получить поля товара документа
+    href: catalog-document-element-get-fields.md    

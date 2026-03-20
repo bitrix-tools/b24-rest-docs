@@ -62,7 +62,7 @@ fields: {
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":17,"fields":{"name":"Артикул","value":"123-456-789","code":"ARTICUL"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.basketproperties.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.basketproperties.update
     ```
 
 - cURL (OAuth)

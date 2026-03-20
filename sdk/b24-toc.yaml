@@ -1,7 +1,7 @@
 title: Библиотеки для разработки
 href: index.md
 items: 
-  - name: Библиотеки для разработки
+  - name: Обзор инструментов
     href: index.md 
   - name: B24 JS SDK
     include:
@@ -18,4 +18,6 @@ items:
   - name: CRest PHP SDK
     include:
       path: crest-php-sdk/b24-toc.yaml
-      mode: link      
+      mode: link
+  - name: MCP-сервер для AI
+    href: mcp.md       

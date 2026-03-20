@@ -11,7 +11,7 @@
 ## Пример:
 
 ```js
-<script src="//api.bitrix24.com/api/v1/"></script>
+<script src="//api.bitrix24.tech/api/v1/"></script>
 <script>
     BX24.init(
         function()

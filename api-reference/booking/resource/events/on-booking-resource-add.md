@@ -6,6 +6,13 @@
 
 Событие `ONBOOKINGRESOURCEADD` сработает при создании нового ресурса вручную или методом [booking.v1.resource.add](../booking-v1-resource-add.md).
 
+
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}
@@ -66,4 +73,3 @@
 - [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-booking-resource-delete.md)
 - [{#T}](./on-booking-resource-update.md)
-

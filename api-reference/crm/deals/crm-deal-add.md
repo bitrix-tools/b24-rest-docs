@@ -4,6 +4,12 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «добавления» сделок
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.deal.add` продолжает работать, но у него есть более актуальный аналог [crm.item.add](../universal/crm-item-add.md).
+
+{% endnote %}
+
 Метод `crm.deal.add` создает новую сделку.
 
 ## Параметры метода
@@ -228,7 +234,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"FIELDS":{"TITLE":"Новая сделка #1","TYPE_ID":"COMPLEX","CATEGORY_ID":0,"STAGE_ID":"PREPARATION","IS_RECURRING":"N","IS_RETURN_CUSTOMER":"Y","IS_REPEATED_APPROACH":"Y","PROBABILITY":99,"CURRENCY_ID":"EUR","OPPORTUNITY":1000000,"IS_MANUAL_OPPORTUNITY":"Y","TAX_VALUE":0.10,"COMPANY_ID":9,"CONTACT_IDS":[84,83],"BEGINDATE":"'"$(date --iso-8601=seconds)"'","CLOSEDATE":"'"$(date --iso-8601=seconds --date='+10 days')"'", "OPENED":"Y","CLOSED":"N","COMMENTS":"Пример комментария","SOURCE_ID":"CALLBACK","SOURCE_DESCRIPTION":"Дополнительно об источнике","ADDITIONAL_INFO":"Дополнительная информация","UTM_SOURCE":"google","UTM_MEDIUM":"CPC","PARENT_ID_1220":22,"UF_CRM_1721244482250":"Привет мир!"},"PARAMS":{"REGISTER_SONET_EVENT":"N"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.deal.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.add
     ```
 
 - cURL (OAuth)

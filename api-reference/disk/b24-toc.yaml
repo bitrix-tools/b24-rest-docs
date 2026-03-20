@@ -15,7 +15,7 @@ items:
     include:
       path: rights/b24-toc.yaml
       mode: link
-  - name: Прикреплённый файл
+  - name: Прикрепленный файл
     include:
       path: attached-object/b24-toc.yaml
       mode: link

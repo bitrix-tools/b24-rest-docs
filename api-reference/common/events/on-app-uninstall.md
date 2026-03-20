@@ -6,22 +6,28 @@
 
 Событие `onAppUninstall` вызывается при удалении приложения.
 
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}
 
-```
+```json
 {
     "event": "ONAPPUNINSTALL",
     "data": {
-        "LANGUAGE_ID" => "ru",
+        "LANGUAGE_ID": "ru",
         "CLEAN": 1
     },
     "ts": "1466439714",
     "auth": {
         "domain": "some-domain.bitrix24.ru",
-        "server_endpoint": "https://oauth.bitrix24.tech/rest/", 
-        "client_endpoint": "https://some-domain.bitrix24.ru/rest/", 
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
@@ -36,15 +42,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../data-types.md) | Символьный код события — `ONAPPUNINSTAL` ||
+[`string`](../../data-types.md) | Символьный код события — `ONAPPUNINSTALL` ||
 || **data***
-[`array`](../../data-types.md) | Данные об удаленном приложении.
+[`object`](../../data-types.md) | Данные об удаленном приложении.
 
 Структура описана [ниже](#data) ||
 || **ts***
 [`timestamp`](../../data-types.md) | Дата и время отправки события из очереди ||
 || **auth***
-[`array`](../../data-types.md) | Данные авторизации и портала.
+[`object`](../../data-types.md) | Данные авторизации и портала.
 
 Структура описана [ниже](#auth) ||
 |#

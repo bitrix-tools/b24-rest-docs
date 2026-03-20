@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.quote.fields` продолжает работать, но у него есть более актуальный аналог [crm.item.fields](../universal/crm-item-fields.md).
+
+{% endnote %}
+
 Метод `crm.quote.fields` возвращает описание полей коммерческого предложения, в том числе пользовательских.
 
 ## Параметры метода
@@ -23,7 +29,7 @@
          -H "Content-Type: application/json" \
          -H "Accept: application/json" \
          -d '{}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.quote.fields  
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.quote.fields  
     ```
 
 - cURL (OAuth)
@@ -660,7 +666,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+ не возвращает ошибки.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

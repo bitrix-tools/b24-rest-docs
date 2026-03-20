@@ -3,5 +3,5 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Получить версию по идентификатору
+  - name: Получить версию файла
     href: disk-version-get.md

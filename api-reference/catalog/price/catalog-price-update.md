@@ -45,7 +45,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":1,"fields":{"currency":"RUB","price":5000}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/catalog.price.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.price.update
     ```
 
 - cURL (OAuth)
@@ -222,7 +222,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `200040300030` | Access Denied | Недостаточно прав ||
+|| `200040300020` | Access Denied | Недостаточно прав на редактирование цены ||
+|| `200040300030` | Access Denied | Недостаточно прав на редактирование товара ||
 || `100` | Could not find value for parameter {fields} | Не указан или пустой параметр `fields` ||
 || `100` | Could not find value for parameter {id} | Не указан параметр `id` || 
 || `-` | Price is not exists | Цены товара с таким идентификатором не существует || 

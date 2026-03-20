@@ -4,7 +4,7 @@
 — методы `imbot.v2` отвечают за жизненный цикл бота, сообщения, команды, файлы и управление чатами. 
 — методы `im.v2` позволяют приложению или пользователю подписываться на события мессенджера и получать их в режиме polling — когда приложение само периодически запрашивает у сервера накопленные события, без необходимости иметь публичный URL для входящих запросов.
 
-> Быстрый переход: [авторизация](#auth) | [события](#event-modes) | [лимиты](#limits) | [все методы](#all-methods)
+> Быстрый переход: [быстрый старт](./quick-start.md) | [авторизация](#auth) | [типы ботов](#bot-types) | [события](#event-modes) | [лимиты](#limits) | [все методы](#all-methods)
 
 ## Какие задачи решает раздел
 
@@ -21,8 +21,12 @@
 
 1. Зарегистрируйте бота через [imbot.v2.Bot.register](./imbot.v2/bots/bot-register.md).
 2. Настройте получение событий через [imbot.v2.Event.get](./imbot.v2/events/event-get.md) или [im.v2.Event.subscribe](./im.v2/events/event-subscribe.md).
-3. Отправьте первое сообщение методом [imbot.v2.Chat.Message.send](./imbot.v2/messages/chat-message-send.md).
-4. При необходимости подключите команды через [imbot.v2.Command.register](./imbot.v2/commands/command-register.md) и файлы через [imbot.v2.File.upload](./imbot.v2/files/file-upload.md).
+3. Отправьте сообщение методом [imbot.v2.Chat.Message.send](./imbot.v2/messages/chat-message-send.md).
+4. Прочитайте исходное сообщение по `replyId` через [imbot.v2.Chat.Message.get](./imbot.v2/messages/chat-message-get.md) — только для ботов типа `supervisor` и `personal`.
+5. Получите контекст диалога через [imbot.v2.Chat.Message.getContext](./imbot.v2/messages/chat-message-get-context.md) — только для ботов типа `supervisor` и `personal`.
+6. Загружайте файлы через [imbot.v2.File.upload](./imbot.v2/files/file-upload.md) и скачивайте через [imbot.v2.File.download](./imbot.v2/files/file-download.md).
+
+Подробный пошаговый сценарий с cURL-примерами: [Быстрый старт](./quick-start.md).
 
 ## Авторизация {#auth}
 
@@ -49,6 +53,29 @@ Content-Type: application/json
 ```
 
 При OAuth-авторизации параметр `botToken` для `imbot.v2` не нужен, потому что бот привязан к приложению через `client_id`.
+
+## Типы ботов {#bot-types}
+
+Параметр `fields.type` при регистрации бота определяет его поведение в чатах.
+
+#|
+|| **Тип** | **Описание** | **Видимость событий в групповых чатах** ||
+|| `bot` | Обычный бот. Реагирует на упоминание `@bot` в групповых чатах и на личные сообщения | Получает события только при упоминании `@bot` или в диалоге один на один ||
+|| `supervisor` | Системный наблюдатель. Видит все сообщения в чатах, где состоит | Получает все события без упоминания ||
+|| `personal` | Персональный ассистент. Видит все сообщения в чатах, где состоит | Получает все события без упоминания — аналогично `supervisor`. Поиск такого бота среди чатов ограничен для определенных групп пользователей ||
+|| `network` | Сетевой бот (Bitrix24.Network) | Поведение аналогично `bot` ||
+|| `openline` | Бот для Открытых линий | Поведение аналогично `bot` ||
+|#
+
+Тип по умолчанию `bot` подходит для большинства сценариев.
+
+Тип `personal` рекомендуется для AI-ассистентов, которым нужен полный контекст группового диалог. Боты с этим типом в будущем будут скрыты из поиска для пользователей, у которых к нему нет доступа.
+
+{% note warning "" %}
+
+Боты типов `personal` и `supervisor` получают поток всех сообщений в чатах, где состоят. Фильтрацию нерелевантных сообщений бот выполняет самостоятельно.
+
+{% endnote %}
 
 ## Формат ответа
 
@@ -235,20 +262,22 @@ echo json_encode(['status' => 'ok']);
 
 При отправке сообщений через [imbot.v2.Chat.Message.send](./imbot.v2/messages/chat-message-send.md) доступны:
 
-- [Форматирование текста (BB-коды)](../../chats/messages/index.md)
-- [Вложения (Attach)](../../chats/messages/attachments/index.md)
-- [Клавиатуры (Keyboard)](../../chats/messages/keyboards.md)
+- [Форматирование текста (BB-коды)](../../chats/messages/index.md) — жирный, курсив, ссылки, цитаты, код и другие BB-коды
+- [Вложения (Attach)](../../chats/messages/attachments/index.md) — структурированные блоки: изображения, таблицы, сетки и другие элементы
+- [Клавиатуры (Keyboard)](../../chats/messages/keyboards.md) — интерактивные кнопки под сообщением
 
 ## Лимиты {#limits}
+
+Общие лимиты REST API Битрикс24 распространяются и на методы бот-платформы. Подробнее: [Лимиты REST API](../../../limits.md).
 
 #|
 || **Ограничение** | **Значение** ||
 || Rate limit | 2 запроса в секунду на приложение ||
 || При превышении rate limit | HTTP 429 — используйте экспоненциальный backoff ||
-|| Ботов на приложение | 100 ||
-|| Размер файла (`File.upload`) | 100 МБ ||
+|| Количество ботов на приложение | 100 ||
+|| Размер файла `File.upload` | 100 МБ ||
 || Длина сообщения | 20 000 символов ||
-|| Событий за запрос (`Event.get`) | 1–1000 (по умолчанию 100) ||
+|| Событий за запрос `Event.get` | 1–1000 (по умолчанию 100) ||
 |#
 
 ## Обзор методов {#all-methods}
@@ -294,6 +323,8 @@ echo json_encode(['status' => 'ok']);
 || [imbot.v2.Chat.Message.update](./imbot.v2/messages/chat-message-update.md) | Обновляет сообщение бота ||
 || [imbot.v2.Chat.Message.delete](./imbot.v2/messages/chat-message-delete.md) | Удаляет сообщение ||
 || [imbot.v2.Chat.Message.read](./imbot.v2/messages/chat-message-read.md) | Отмечает сообщения как прочитанные ||
+|| [imbot.v2.Chat.Message.get](./imbot.v2/messages/chat-message-get.md) | Возвращает сообщение по ID. Только для `supervisor` и `personal` ||
+|| [imbot.v2.Chat.Message.getContext](./imbot.v2/messages/chat-message-get-context.md) | Возвращает окно сообщений вокруг указанного. Только для `supervisor` и `personal` ||
 || [imbot.v2.Chat.Message.Reaction.add](./imbot.v2/messages/chat-message-reaction-add.md) | Добавляет реакцию на сообщение ||
 || [imbot.v2.Chat.Message.Reaction.delete](./imbot.v2/messages/chat-message-reaction-delete.md) | Удаляет реакцию с сообщения ||
 |#
@@ -323,6 +354,8 @@ echo json_encode(['status' => 'ok']);
 || **Метод** | **Описание** ||
 || [imbot.v2.Event.get](./imbot.v2/events/event-get.md) | Возвращает события бота в режиме polling ||
 |#
+
+Отдельный справочник форматов событий: [imbot.v2/events/events.md](./imbot.v2/events/events.md).
 
 **Файлы**
 
@@ -357,5 +390,8 @@ echo json_encode(['status' => 'ok']);
 
 ## Продолжите изучение
 
+- [{#T}](./quick-start.md)
+- [{#T}](./entities.md)
+- [{#T}](./migration.md)
+- [{#T}](./imbot.v2/events/events.md)
 - [{#T}](./im.v2/index.md)
-- [{#T}](../outdated/index.md)

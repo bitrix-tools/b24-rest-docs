@@ -8,6 +8,12 @@
 
 Метод подтверждает получение событий с ID меньше переданного `offset`. При следующем вызове возвращаются только новые события, начиная с подтвержденного.
 
+{% note info "" %}
+
+События конкретного бота может получать только одно приложение — то, которое его зарегистрировало. Если нужно несколько независимых агентов — регистрируйте отдельного бота для каждого.
+
+{% endnote %}
+
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../../../_includes/required.md) %}
@@ -25,7 +31,134 @@
 [`integer`](../../../../data-types.md) | Подтверждает все события с ID меньше указанного значения. При первом вызове не передается ||
 || **limit**
 [`integer`](../../../../data-types.md) | Максимальное количество возвращаемых событий (1–1000). По умолчанию `100` ||
+|| **withUserEvents**
+[`boolean`](../../../../data-types.md) | Включить пользовательские события (`ONIMV2*`) в ответ вместе с бот-событиями. По умолчанию `false`. Подробнее — [ниже](#combined-fetch) ||
 |#
+
+### Получение событий бота и пользователя {#combined-fetch}
+
+При `withUserEvents: true` метод возвращает в одном ответе как бот-события `ONIMBOTV2*`, так и пользовательские события `ONIMV2*`.
+
+Требования:
+- приложение должно иметь скоуп [`im`](../../../../scopes/permissions.md) в дополнение к `imbot`
+- текущий пользователь должен быть подписан через [im.v2.Event.subscribe](../../im.v2/events/event-subscribe.md)
+- `userId` определяется из авторизации — указать чужой невозможно
+
+Один `offset` подтверждает и бот-события, и пользовательские события одновременно.
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"botId":456,"botToken":"my_bot_token","offset":1000,"limit":50,"withUserEvents":true}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Event.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"botId":456,"offset":1000,"limit":50,"withUserEvents":true,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imbot.v2.Event.get
+    ```
+
+- JS
+
+    ```js
+    try {
+      const response = await $b24.callMethod('imbot.v2.Event.get', {
+        botId: 456,
+        offset: 1000,
+        limit: 50,
+        withUserEvents: true,
+      });
+
+      const { result } = response.getData();
+      console.log('result:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.v2.Event.get',
+                [
+                    'botId' => 456,
+                    'offset' => 1000,
+                    'limit' => 50,
+                    'withUserEvents' => true,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'result: ' . print_r($result, true);
+    } catch (Throwable $exception) {
+        error_log($exception->getMessage());
+        echo 'Error: ' . $exception->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'imbot.v2.Event.get',
+        {
+            botId: 456,
+            offset: 1000,
+            limit: 50,
+            withUserEvents: true,
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imbot.v2.Event.get',
+        [
+            'botId' => 456,
+            'offset' => 1000,
+            'limit' => 50,
+            'withUserEvents' => true,
+        ]
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        foreach ($result['result']['events'] as $event) {
+            echo $event['type'] . ': ' . $event['eventId'] . "\n";
+        }
+    }
+    ```
+
+{% endlist %}
 
 ## Примеры кода
 
@@ -209,6 +342,8 @@ HTTP-код: **200**
 || `ONIMBOTV2REACTIONCHANGE` | Реакция изменена ||
 |#
 
+События адресованы конкретному боту — по упоминанию `@bot` или в личном чате. Для ботов типа `personal` и `supervisor` доставляются все события в чатах, где бот состоит.
+
 Подробное описание формата данных каждого события: [{#T}](./events.md).
 
 ## Обработка ошибок
@@ -232,6 +367,9 @@ HTTP-статус: **400**, **403**
 || `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
+|| `SCOPE_ERROR` | Scope error | Не хватает скоупа `im` — требуется при использовании `withUserEvents: true` ||
+|| `AUTH_ERROR` | Auth error | Не удалось определить текущего пользователя ||
+|| `USER_NOT_SUBSCRIBED` | User not subscribed | Пользователь не подписан на события через [im.v2.Event.subscribe](../../im.v2/events/event-subscribe.md) ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -241,3 +379,5 @@ HTTP-статус: **400**, **403**
 - [{#T}](./events.md)
 - [{#T}](../bots/bot-register.md)
 - [{#T}](../messages/chat-message-send.md)
+- [{#T}](../../im.v2/events/event-get.md)
+- [{#T}](../../im.v2/events/event-subscribe.md)

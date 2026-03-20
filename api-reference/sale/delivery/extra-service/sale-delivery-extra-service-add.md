@@ -443,3 +443,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./sale-delivery-extra-service-update.md)
 - [{#T}](./sale-delivery-extra-service-get.md)
 - [{#T}](./sale-delivery-extra-service-delete.md)
+- [{#T}](../../../../tutorials/sale/delivery-in-crm.md)

@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «изменения» контактов
 
+{% note warning "Развитие метода остановлено" %}
+
+Метод `crm.contact.update` продолжает работать, но у него есть более актуальный аналог [crm.item.update](../universal/crm-item-update.md).
+
+{% endnote %}
+
 Метод `crm.contact.update` обновляет существующий контакт.
 
 Рекомендуем при обновлении адреса передавать полный набор полей адреса в метод обновления. 
@@ -213,7 +219,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"ID":43,"FIELDS":{"NAME":"Сергей","BIRTHDATE":"11.11.1999","TYPE_ID":"RECOMMENDATION","SOURCE_ID":"WEB","POST":"Администратор компьютерных сетей","COMMENTS":"Новый комментарий","OPENED":"N","EXPORT":"Y","ASSIGNED_BY_ID":1,"COMPANY_ID":12,"COMPANY_IDS":[13,15],"UF_CRM_1720697698689":"Пример нового значения пользовательского поля с типом \"Строка\"","PARENT_ID_1224":14},"PARAMS":{"REGISTER_SONET_EVENT":"N","REGISTER_HISTORY_EVENT":"N"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/crm.contact.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.update
     ```
 
 - cURL (OAuth)

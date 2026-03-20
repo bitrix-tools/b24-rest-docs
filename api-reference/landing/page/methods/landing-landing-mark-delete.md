@@ -1,45 +1,54 @@
 # Пометить страницу как удаленную landing.landing.markDelete
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`landing`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «удаление» сайта
 
-Метод `landing.landing.markDelete` помечает страницу как удалённую.
+Метод `landing.landing.markDelete` помечает страницу как удаленную, переносит ее в корзину и снимает с публикации.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** | **Версия** ||
-|| **$lid**
-[`unknown`](../../../data-types.md) | Идентификатор страницы. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **lid***
+[`integer`](../../../data-types.md) | Идентификатор страницы.
+
+Идентификатор страницы можно получить методом [landing.landing.getList](./landing-landing-get-list.md), а также из результата методов [landing.landing.add](./landing-landing-add.md), [landing.landing.addByTemplate](./landing-landing-add-by-template.md) и [landing.landing.copy](./landing-landing-copy.md) ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "lid": 350
+      }' \
+      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.markDelete.json"
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "lid": 350,
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/landing.landing.markDelete.json"
+    ```
+
+- JS
 
     ```js
     try
@@ -47,21 +56,20 @@
     	const response = await $b24.callMethod(
     		'landing.landing.markDelete',
     		{
-    			lid: 1688
+    			lid: 350
     		}
     	);
-    	
+
     	const result = response.getData().result;
     	console.info(result);
     }
-    catch(error)
+    catch (error)
     {
     	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -70,23 +78,18 @@
             ->call(
                 'landing.landing.markDelete',
                 [
-                    'lid' => 1688
+                    'lid' => 350,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Info: ' . $result->data();
-        }
-    
+
+        echo 'Success: ' . var_export($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error marking landing for deletion: ' . $e->getMessage();
+        echo 'Error marking landing page as deleted: ' . $e->getMessage();
     }
     ```
 
@@ -96,11 +99,11 @@
     BX24.callMethod(
         'landing.landing.markDelete',
         {
-            lid: 1688
+            lid: 350
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
             {
                 console.error(result.error());
             }
@@ -112,6 +115,95 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'landing.landing.markDelete',
+        [
+            'lid' => 350,
+        ]
+    );
+
+    if (isset($result['error']))
+    {
+        echo 'Ошибка: ' . $result['error_description'];
+    }
+    else
+    {
+        echo '<pre>';
+        print_r($result['result']);
+        echo '</pre>';
+    }
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": 2255,
+    "time": {
+        "start": 1773785858,
+        "finish": 1773785858.434948,
+        "duration": 0.4349479675292969,
+        "processing": 0,
+        "date_start": "2026-03-18T01:17:38+03:00",
+        "date_finish": "2026-03-18T01:17:38+03:00",
+        "operating_reset_at": 1773786458,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`integer`](../../../data-types.md) | Идентификатор страницы, которая помечена как удаленная ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Доступ на удаление страницы запрещен."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `MISSING_PARAMS` | Не передан обязательный параметр `lid` ||
+|| `ACCESS_DENIED` | Недостаточно прав для удаления страницы ||
+|| `CANT_DELETE_MAIN` | Нельзя пометить как удаленную главную страницу сайта, если в сайте есть другие неудаленные страницы ||
+|| `UNABLE_DELETE_INCLUDE` | Нельзя пометить как удаленную область шаблона сайта ||
+|| `TYPE_ERROR` | Текст зависит от сообщения PHP `TypeError`, которое возникает при некорректном типе параметра ||
+|| `SYSTEM_ERROR` | Текст зависит от внутреннего исключения, которое возникло при выполнении метода ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./landing-landing-add.md)
+- [{#T}](./landing-landing-add-by-template.md)
+- [{#T}](./landing-landing-copy.md)
+- [{#T}](./landing-landing-delete.md)
+- [{#T}](./landing-landing-get-list.md)
+- [{#T}](./landing-landing-mark-undelete.md)

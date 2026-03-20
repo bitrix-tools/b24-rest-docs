@@ -76,7 +76,7 @@
 || [landing.landing.markdeletedblock](./block-methods/landing-landing-mark-deleted-block.md) | Метод помечает блок как удаленный, но не удаляет его физически. | ||
 || [landing.landing.markundeletedblock](./block-methods/landing-landing-mark-undeleted-block.md) | Метод восстанавливает блок из помеченных как удаленный | ||
 || [landing.landing.moveblock](./block-methods/landing-landing-move-block.md) | Метод для переноса блока со страницы на страницу. | ||
-|| [landing.landing.showblock](./block-methods/landing-landing-show-block.md) | Метод для показа блока со странице. | ||
+|| [landing.landing.showblock](./block-methods/landing-landing-show-block.md) | Метод показывает блок на странице. | ||
 || [landing.landing.unFavoriteBlock](./block-methods/landing-landing-unfavorite-block.md) | Метод удаляет блок, который был сохранен в «Мои блоки». | 21.800.0 ||
 || [landing.landing.upblock](./block-methods/landing-landing-up-block.md) | Метод для поднятия блока на одну позицию вверх на странице. | ||
 |#
@@ -97,8 +97,8 @@
 || [landing.landing.markUnDelete](./methods/landing-landing-mark-undelete.md) | Метод помечает страницу как не удаленную. | ||
 || [landing.landing.move](./methods/landing-landing-move.md) | Метод перемещает страницу в другой сайт и/или папку. | 21.800.0 ||
 || [landing.landing.publication](./methods/landing-landing-publication.md) | Метод для публикации страницы. | ||
-|| [landing.landing.removeEntities](./methods/landing-landing-remove-entities.md) | Метод удаляет связанные сущности лендинга. | ||
-|| [landing.landing.resolveIdByPublicUrl](./methods/landing-landing-resolve-id-by-public-url.md) | Метод по переданному относительному URL страницы возвращает идентификатор страницы. | 21.800.0 ||
+|| [landing.landing.removeEntities](./methods/landing-landing-remove-entities.md) | Метод удаляет блоки и изображения страницы. | ||
+|| [landing.landing.resolveIdByPublicUrl](./methods/landing-landing-resolve-id-by-public-url.md) | Метод по переданному публичному URL страницы возвращает идентификатор страницы. | 21.800.0 ||
 || [landing.landing.unpublic](./methods/landing-landing-unpublic.md) | Метод для снятия с публикации страницы. | ||
 || [landing.landing.update](./methods/landing-landing-update.md) | Метод для изменения страницы. | ||
 |#

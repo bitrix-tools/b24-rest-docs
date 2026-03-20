@@ -32,7 +32,7 @@
 || **PERSONAL_BIRTHDAY**
 [`string`](../data-types.md) | Дата рождения ||
 || **PERSONAL_PHOTO**
-[`array`](../data-types.md) | Фотография ||
+[`array`](../data-types.md) | Фотография, передавайте массив из имени файла и строки с [Bаse64](../files/how-to-upload-files.md) ||
 || **PERSONAL_ICQ**
 [`string`](../data-types.md) | ICQ ||
 || **PERSONAL_PHONE**
@@ -117,11 +117,8 @@
 [`string`](../data-types.md) | Внутренний телефон ||
 |#
 
-{% note info "" %}
-
-**Социальная сеть признана экстремистской и запрещена на территории Российской Федерации.
-
-{% endnote %}
+\
+**Принадлежит компании Meta Platforms, Inc., которая признана экстремистской и запрещена на территории Российской Федерации.*
 
 ## Примеры кода
 
@@ -139,7 +136,7 @@
         "EMAIL": "newuser1@example.com",
         "UF_DEPARTMENT": [1]
     }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/user.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.add
     ```
 
 - cURL (OAuth)

@@ -115,7 +115,7 @@
 || **code**
 [`string`](../../data-types.md) | Уникальный строковый код бота ||
 || **type**
-[`string`](../../data-types.md) | Тип: `bot`, `network`, `supervisor`, `openline`, `personal` ||
+[`string`](../../data-types.md) | Тип бота. Описание типов — [Типы ботов](./index.md#bot-types) ||
 || **isHidden**
 [`boolean`](../../data-types.md) | Скрыт ли бот из списка контактов ||
 || **isSupportOpenline**

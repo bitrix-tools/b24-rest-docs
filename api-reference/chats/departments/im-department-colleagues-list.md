@@ -1,89 +1,79 @@
 # Получить список коллег текущего пользователя im.department.colleagues.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой интранет-пользователь, кроме ботов
 
 Метод `im.department.colleagues.list` получает список коллег текущего пользователя. Для руководителя метод вернет список подчиненных и всех руководителей.
 
+## Параметры метода
+
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
+|| **Название**
+`тип` | **Описание** ||
 || **USER_DATA**
-[`unknown`](../../data-types.md) | `N` | Подгружать данные о пользователях | 19 ||
+[`string`](../../data-types.md) | Возвращать подробные данные пользователей. 
+
+Возможные значения:
+- `Y` — да
+- `N` — нет ||
 || **OFFSET**
-[`unknown`](../../data-types.md) | `0` | Смещение выборки пользователей | 19 ||
+[`integer`](../../data-types.md) | Смещение выборки пользователей ||
 || **LIMIT**
-[`unknown`](../../data-types.md) | `10` | Лимит выборки пользователей | 19 ||
+[`integer`](../../data-types.md) | Количество элементов в выборке. По умолчанию `10`. Максимальное значение `50` ||
 |#
 
-- Если передан параметр `USER_DATA = Y`, то в ответе вместо массива идентификаторов будет передан массив объектов с информацией о пользователе.
-- Метод поддерживает стандартную постраничную навигацию Bitrix24 Rest Api, но в добавок к ней есть возможность построить навигацию с помощью параметров `OFFSET` и `LIMIT`.
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"USER_DATA":"Y","OFFSET":0,"LIMIT":5}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.department.colleagues.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"USER_DATA":"Y","OFFSET":0,"LIMIT":5,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.department.colleagues.list
+    ```
+
 - JS
 
-
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
-    
-    try {
-      const response = await $b24.callListMethod(
-        'im.department.colleagues.list',
-        { USER_DATA: 'Y' },
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
+    try
+    {
+        const response = await $b24.callMethod(
+            'im.department.colleagues.list',
+            {
+                USER_DATA: 'Y',
+                OFFSET: 0,
+                LIMIT: 5,
+            }
+        );
+
+        console.log(response.getData().result);
+        console.log(response.getData().total);
+        console.log(response.getData().next);
     }
-    
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
-    
-    try {
-      const generator = $b24.fetchListMethod('im.department.colleagues.list', { USER_DATA: 'Y' }, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
-      }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('im.department.colleagues.list', { USER_DATA: 'Y' }, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
+    catch (error)
+    {
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -92,20 +82,20 @@
             ->call(
                 'im.department.colleagues.list',
                 [
-                    'USER_DATA' => 'Y'
+                    'USER_DATA' => 'Y',
+                    'OFFSET' => 0,
+                    'LIMIT' => 5,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'users: ' . print_r($result->data(), true);
-        echo 'total: ' . $result->total();
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error fetching colleagues list: ' . $e->getMessage();
+        echo 'Error: ' . $e->getMessage();
     }
     ```
 
@@ -115,17 +105,21 @@
     BX24.callMethod(
         'im.department.colleagues.list',
         {
-            USER_DATA: 'Y'
+            USER_DATA: 'Y',
+            OFFSET: 0,
+            LIMIT: 5,
         },
-        function(result){
-            if(result.error())
+        function(result)
+        {
+            if (result.error())
             {
-                console.error(result.error().ex);
+                console.error(result.error());
             }
             else
             {
-                console.log('users', result.data());
-                console.log('total', result.total());
+                console.log(result.data());
+                console.log(result.total());
+                console.log(result.answer.next);
             }
         }
     );
@@ -133,99 +127,150 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.department.colleagues.list',
-        Array(
-            'USER_DATA' => 'Y'
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'USER_DATA' => 'Y',
+            'OFFSET' => 0,
+            'LIMIT' => 5,
         ]
-    );    
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
-
-- cURL
-
-    // пример для cURL
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-При опции `USER_DATA = N`:
+- При `USER_DATA = 'N'`:
+
+    ```json
+    {
+        "result": [9,547,408,103,290],
+        "next": 5,
+        "total": 7,
+        "time": {
+            "start": 1772520802,
+            "finish": 1772520802.36194,
+            "duration": 0.3619399070739746,
+            "processing": 0,
+            "date_start": "2026-03-03T09:53:22+03:00",
+            "date_finish": "2026-03-03T09:53:22+03:00",
+            "operating_reset_at": 1772521402,
+            "operating": 0
+        }
+    }
+    ```
+
+- При `USER_DATA = 'Y'`:
+
+    ```json
+    {
+        "result": [
+            {
+                "id": 9,
+                "active": true,
+                "name": "Анна Петрова",
+                "first_name": "Анна",
+                "last_name": "Петрова",
+                "work_position": "Менеджер проектов",
+                "color": "#58cc47",
+                "avatar": "https://mysite.ru/upload/avatars/anna-petrova.jpg",
+                "avatar_hr": "https://mysite.ru/upload/avatars/anna-petrova.jpg",
+                "gender": "M",
+                "birthday": "",
+                "extranet": false,
+                "network": false,
+                "bot": false,
+                "connector": false,
+                "external_auth_id": "socservices",
+                "status": "online",
+                "idle": false,
+                "last_activity_date": "2023-03-10T17:16:44+03:00",
+                "mobile_last_date": false,
+                "desktop_last_date": false,
+                "absent": false,
+                "departments": [
+                    1,
+                    667
+                ],
+                "phones": false,
+                "bot_data": null,
+                "type": "user",
+                "website": "",
+                "email": "anna.petrova@mysite.ru"
+            },
+            ... // описание для каждого пользователя
+        ],
+        "next": 5,
+        "total": 7,
+        "time": {
+            "start": 1772521273,
+            "finish": 1772521273.83899,
+            "duration": 0.8389899730682373,
+            "processing": 0,
+            "date_start": "2026-03-03T10:01:13+03:00",
+            "date_finish": "2026-03-03T10:01:13+03:00",
+            "operating_reset_at": 1772521873,
+            "operating": 0
+        }
+    }
+    ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Список пользователей. 
+- При `USER_DATA = 'N'` содержит идентификаторы пользователей
+- При `USER_DATA = 'Y'` содержит объекты пользователей [(подробное описание)](#user-object) ||
+|| **total**
+[`integer`](../../data-types.md) | Общее количество пользователей в выборке ||
+|| **next**
+[`integer`](../../data-types.md) | Смещение для получения следующей страницы. Поле возвращается, если есть следующая страница ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект user {#user-object}
+
+{% include [Таблицы объекта пользователя](./_includes/user-object-tables.md) %}
+
+## Обработка ошибок
+
+HTTP-статус: **403**
 
 ```json
 {
-    "result": [1],
-    "total": 1
-}    
+    "error": "ACCESS_ERROR",
+    "error_description": "Only intranet users have access to this method."
+}
 ```
 
-При опции `USER_DATA = Y`:
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-```json
-{    
-    "result": [
-        {
-            "id": 1,
-            "name": "Евгений Шеленков",
-            "first_name": "Евгений",
-            "last_name": "Шеленков",
-            "work_position": "",
-            "color": "#df532d",
-            "avatar": "http://192.168.2.232/upload/resize_cache/main/1d3/100_100_2/shelenkov.png",
-            "gender": "M",
-            "birthday": "",
-            "extranet": false,
-            "network": false,
-            "bot": false,
-            "connector": false,
-            "external_auth_id": "default",
-            "status": "online",
-            "idle": false,
-            "last_activity_date": "2018-01-29T17:35:31+03:00",
-            "desktop_last_date": false,
-            "mobile_last_date": false,
-            "departments": [
-             50
-            ],
-            "absent": false,
-            "phones": {
-             "work_phone": "",
-             "personal_mobile": "",
-             "personal_phone": ""
-            }
-        }
-    ],
-    "total": 1
-}    
-```
+### Возможные коды ошибок
 
-### Описание ключей
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_ERROR` | Only intranet users have access to this method | Метод недоступен для экстранет-пользователей и ботов ||
+|#
 
-- `id` – идентификатор пользователя
-- `name` – имя и фамилия пользователя
-- `first_name` – имя пользователя
-- `last_name` – фамилия пользователя
-- `work_position` – должность
-- `color` – цвет пользователя в формате hex
-- `avatar` – ссылка на аватар (если пусто, значит аватар не задан)
-- `gender` – пол пользователя
-- `birthday` – день рождения пользователя в формате DD-MM, если пусто – не задан
-- `extranet` – признак внешнего экстранет-пользователя (`true/false`)
-- `network` – признак пользователя Битрикс24.Network (`true/false`)
-- `bot` – признак бота (`true/false`)
-- `connector` – признак пользователя открытых линий (`true/false`)
-- `external_auth_id` – код внешней авторизации
-- `status` – статус пользователя. Всегда отображается как online, даже если пользователь установил статус «Не беспокоить». Статус «Не беспокоить» влияет только на получение уведомлений и не виден другим пользователям
-- `idle` – дата, когда пользователь отошел от компьютера, в формате АТОМ (если не задано, `false`)
-- `last_activity_date` – дата последнего действия пользователя в формате АТОМ
-- `desktop_last_date` – дата последнего действия в десктопном приложении в формате АТОМ (если не задано, `false`)
-- `mobile_last_date` – дата последнего действия в мобильном приложении в формате АТОМ (если не задано, `false`)
-- `absent` – дата, по какое число у пользователя отпуск, в формате АТОМ (если не задано, `false`)
-- `phones` – массив номеров телефонов: `work_phone` – рабочий телефон, `personal_mobile` – мобильный телефон, `personal_phone` – домашний телефон
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-department-get.md)
+- [{#T}](./im-department-managers-get.md)
+- [{#T}](./im-department-employees-get.md)
+- [{#T}](./im-department-colleagues-list.md)

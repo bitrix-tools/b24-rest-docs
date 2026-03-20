@@ -138,7 +138,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"CODE":"restcashbox01","NAME":"REST-касса 01","SORT":100,"SUPPORTS_FFD105":"Y","SETTINGS":{"PRINT_URL":"http://example.com/rest_print.php","CHECK_URL":"http://example.com/rest_check.php","HTTP_VERSION":"1.1","CONFIG":{"AUTH":{"LABEL":"Авторизация","ITEMS":{"KEYWORD":{"TYPE":"STRING","LABEL":"Кодовое слово"},"PREFERENCE":{"TYPE":"ENUM","LABEL":"Множественный выбор","REQUIRED":"Y","OPTIONS":{"FIRST":"Первый","SECOND":"Второй","THIRD":"Третий"}}}},"INTERACTION":{"LABEL":"Настройки взаимодействия с кассой","ITEMS":{"MODE":{"TYPE":"ENUM","LABEL":"Режим работы с кассой","OPTIONS":{"ACTIVE":"боевой","TEST":"тестовый"}}}}}}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/sale.cashbox.handler.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.cashbox.handler.add
     ```
 
 - cURL (OAuth)
@@ -706,3 +706,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./sale-cashbox-list.md)
 - [{#T}](./sale-cashbox-delete.md)
 - [{#T}](./sale-cashbox-check-apply.md)
+- [{#T}](../../../tutorials/sale/cashbox-add-example.md)

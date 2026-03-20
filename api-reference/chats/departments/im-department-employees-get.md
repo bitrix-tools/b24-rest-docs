@@ -1,70 +1,78 @@
-# Получить список сотрудников подразделения im.department.employees.get
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
+# Получить список сотрудников подразделений im.department.employees.get
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой интранет-пользователь, кроме ботов
 
-Метод `im.department.employees.get` получает список сотрудников в подразделении.
+Метод `im.department.employees.get` получает список сотрудников указанных подразделений.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **ID^*^**
-[`unknown`](../../data-types.md) | `[105]` | Идентификаторы подразделений | 19 ||
+|| **Название**
+`тип` | **Описание** ||
+|| **ID***
+[`array`](../../data-types.md) | Массив идентификаторов подразделений. Можно передать строку с JSON-массивом идентификаторов.
+
+Получить идентификатор департамента можно методом [получения списка подразделений](../../departments/department-get.md) или методом [поиска подразделений по названию](../search/im-search-department-list.md) ||
 || **USER_DATA**
-[`unknown`](../../data-types.md) | `N` | Подгружать данные о пользователях | 19 ||
+[`string`](../../data-types.md) | Возвращать подробные данные пользователей.  
+
+Возможные значения:
+- `Y` — да,
+- `N` — нет ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-- Если передан параметр `USER_DATA = Y`, то в ответе вместо массива идентификаторов будет передан массив объектов с информацией о пользователе.
-
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"ID":[3,7],"USER_DATA":"Y"}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.department.employees.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"ID":[3,7],"USER_DATA":"Y","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.department.employees.get
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'im.department.employees.get',
-    		{
-    			ID: [7],
-    			USER_DATA: 'Y'
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log('users', result);
+        const response = await $b24.callMethod(
+            'im.department.employees.get',
+            {
+                ID: [3, 7],
+                USER_DATA: 'Y'
+            }
+        );
+
+        console.log(response.getData().result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error(error.ex);
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -73,24 +81,19 @@
             ->call(
                 'im.department.employees.get',
                 [
-                    'ID'       => [7],
+                    'ID' => [3, 7],
                     'USER_DATA' => 'Y',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'users: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting department employees: ' . $e->getMessage();
+        echo 'Error: ' . $e->getMessage();
     }
     ```
 
@@ -100,17 +103,18 @@
     BX24.callMethod(
         'im.department.employees.get',
         {
-            ID: [7],
+            ID: [3, 7],
             USER_DATA: 'Y'
         },
-        function(result){
-            if(result.error())
+        function(result)
+        {
+            if (result.error())
             {
-                console.error(result.error().ex);
+                console.error(result.error());
             }
             else
             {
-                console.log('users', result.data());
+                console.log(result.data());
             }
         }
     );
@@ -118,105 +122,143 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.department.employees.get',
-        Array(
-            'ID' => [7],
-            'USER_DATA' => 'Y'
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'ID' => [3, 7],
+            'USER_DATA' => 'Y',
         ]
-    );    
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
-
-- cURL
-
-    // пример для cURL
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-При опции `USER_DATA = N`:
+- При `USER_DATA = 'N'`:
 
-```json
-{
-    "result": {
-        105: [1]
-    }
-}    
-```
-
-При опции `USER_DATA = Y`:
-
-```json
-{    
-    "result": {
-        105: {
-            "id": 1,
-            "name": "Евгений Шеленков",
-            "first_name": "Евгений",
-            "last_name": "Шеленков",
-            "work_position": "",
-            "color": "#df532d",
-            "avatar": "http://192.168.2.232/upload/resize_cache/main/1d3/100_100_2/shelenkov.png",
-            "gender": "M",
-            "birthday": "",
-            "extranet": false,
-            "network": false,
-            "bot": false,
-            "connector": false,
-            "external_auth_id": "default",
-            "status": "online",
-            "idle": false,
-            "last_activity_date": "2018-01-29T17:35:31+03:00",
-            "desktop_last_date": false,
-            "mobile_last_date": false,
-            "departments": [
-             50
-            ],
-            "absent": false,
-            "phones": {
-             "work_phone": "",
-             "personal_mobile": "",
-             "personal_phone": ""
-            }
+    ```json
+    {
+        "result": {
+            "7": [3,67,61,103],
+            "3": [278,517,13]
+        },
+        "time": {
+            "start": 1772519829,
+            "finish": 1772519829.456118,
+            "duration": 0.456118106842041,
+            "processing": 0,
+            "date_start": "2026-03-03T09:37:09+03:00",
+            "date_finish": "2026-03-03T09:37:09+03:00",
+            "operating_reset_at": 1772520429,
+            "operating": 0.18364310264587402
         }
     }
-}    
-```
+    ```
 
-### Описание ключей
+- При `USER_DATA = 'Y'`:
 
-- `id` – идентификатор пользователя
-- `name` – имя и фамилия пользователя
-- `first_name` – имя пользователя
-- `last_name` – фамилия пользователя
-- `work_position` – должность
-- `color` – цвет пользователя в формате hex
-- `avatar` – ссылка на аватар (если пусто, значит аватар не задан)
-- `gender` – пол пользователя
-- `birthday` – день рождения пользователя в формате DD-MM, если пусто – не задан
-- `extranet` – признак внешнего экстранет-пользователя (`true/false`)
-- `network` – признак пользователя Битрикс24.Network (`true/false`)
-- `bot` – признак бота (`true/false`)
-- `connector` – признак пользователя открытых линий (`true/false`)
-- `external_auth_id` – код внешней авторизации
-- `status` – статус пользователя. Всегда отображается как online, даже если пользователь установил статус «Не беспокоить». Статус «Не беспокоить» влияет только на получение уведомлений и не виден другим пользователям
-- `idle` – дата, когда пользователь отошел от компьютера, в формате АТОМ (если не задано, `false`)
-- `last_activity_date` – дата последнего действия пользователя в формате АТОМ
-- `mobile_last_date` – дата последнего действия в мобильном приложении в формате АТОМ (если не задано, `false`)
-- `desktop_last_date` – дата последнего действия в десктопном приложении в формате АТОМ (если не задано, `false`)
-- `absent` – дата, по какое число у пользователя отпуск, в формате АТОМ (если не задано, `false`)
-- `phones` – массив номеров телефонов: `work_phone` – рабочий телефон, `personal_mobile` – мобильный телефон, `personal_phone` – домашний телефон
+    ```json
+    {
+        "result": {
+            "7": [
+                {
+                    "id": 3,
+                    "active": true,
+                    "name": "Иван Иванов",
+                    "first_name": "Иван",
+                    "last_name": "Иванов",
+                    "work_position": "Системный администратор",
+                    "color": "#4ba984",
+                    "avatar": "https://mysite.ru/upload/avatars/ivan-ivanov.jpg",
+                    "avatar_hr": "https://mysite.ru/upload/avatars/ivan-ivanov.jpg",
+                    "gender": "M",
+                    "birthday": "",
+                    "extranet": false,
+                    "network": false,
+                    "bot": false,
+                    "connector": false,
+                    "external_auth_id": "socservices",
+                    "status": "online",
+                    "idle": false,
+                    "last_activity_date": "2015-02-16T19:41:09+03:00",
+                    "mobile_last_date": false,
+                    "desktop_last_date": false,
+                    "absent": false,
+                    "departments": [
+                        7
+                    ],
+                    "phones": {
+                        "inner_phone": "42"
+                    },
+                    "bot_data": null,
+                    "type": "user",
+                    "website": "",
+                    "email": "ivan.ivanov@mysite.ru"
+                },
+                {
+                    "id": 67,
+                    "active": true,
+                    "name": "Анна Петрова",
+                    "first_name": "Анна",
+                    ...
+                },
 
-## Ответ в случае ошибки
+            ],
+            "3": [
+                {
+                    "id": 278,
+                    "active": true,
+                    "name": "Мария Сидорова",
+                    "first_name": "Мария",
+                    "last_name": "Сидорова",
+                    ...
+                },
+            ...
+            ]
+        },
+        "time": {
+            "start": 1772519820,
+            "finish": 1772519820.48721,
+            "duration": 0.4872100353240967,
+            "processing": 0,
+            "date_start": "2026-03-03T09:37:00+03:00",
+            "date_finish": "2026-03-03T09:37:00+03:00",
+            "operating_reset_at": 1772520420,
+            "operating": 0.18364310264587402
+        }
+    }
+    ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой объект, где ключ — идентификатор подразделения, значение:
+- при `USER_DATA = 'N'` содержит массив идентификаторов сотрудников,
+- при `USER_DATA = 'Y'` содержит массив объектов с описанием пользователей [(подробное описание)](#user-object) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект пользователя {#user-object}
+
+{% include [Таблицы объекта пользователя](./_includes/user-object-tables.md) %}
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
@@ -225,14 +267,21 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **ID_EMPTY** | Не передан список идентификаторов ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ID_EMPTY` | Department ID can't be empty | Не передан, передан неверно или пустым обязательный параметр `ID` ||
+|| `403` | `ACCESS_ERROR` | Only intranet users have access to this method | Метод недоступен для экстранет-пользователей и ботов ||
 |#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-department-get.md)
+- [{#T}](./im-department-managers-get.md)
+- [{#T}](./im-department-employees-get.md)
+- [{#T}](./im-department-colleagues-list.md)

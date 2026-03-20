@@ -1,0 +1,21 @@
+title: Шаблоны задач
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Поля шаблона задачи
+    href: fields.md
+  - name: Добавить шаблон задачи
+    href: tasks-template-add.md
+  - name: Изменить шаблон задачи
+    href: tasks-template-update.md
+  - name: Получить шаблон задачи
+    href: tasks-template-get.md
+  - name: Удалить шаблон задачи
+    href: tasks-template-delete.md
+  - name: Получить поля шаблона задачи
+    href: tasks-template-fields.md
+  - name: Чек-листы шаблонов задач
+    include:
+      path: checklist/b24-toc.yaml
+      mode: link

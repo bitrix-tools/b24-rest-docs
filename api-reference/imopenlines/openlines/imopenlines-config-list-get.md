@@ -1,43 +1,71 @@
 # Получить список открытых линий imopenlines.config.list.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- отсутствуют параметры или поля
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает список открытых линий.
+Метод `imopenlines.config.list.get` получает список открытых линий.
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **PARAMS**
-[`array`](../../data-types.md) | Массив параметров для выборки (select, order, filter) (необязательный). Список доступных полей есть в описании метода [imopenlines.config.add](./imopenlines-config-add.md) ||
+[`object`](../../data-types.md) | Параметры выборки [(подробное описание)](#params)
+||
 || **OPTIONS**
-[`array`](../../data-types.md) | Массив дополнительных опций (необязательный). Сейчас включает только поле 'QUEUE' => 'Y'/'N' — очередь ответственных сотрудников ||
+[`object`](../../data-types.md) | Дополнительные опции [(подробное описание)](#options) ||
 |#
 
-## Примеры
+### Параметр PARAMS {#params}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **select**
+[`array`](../../data-types.md) | Массив содержит [список полей](#result), которые необходимо выбрать.
+
+Можно указывать поля из таблицы [Элемент массива result](#result). Поля `QUEUE`, `QUEUE_USERS_FIELDS`, `CONFIG_QUEUE` возвращаются только через `OPTIONS` ||
+|| **order**
+[`object`](../../data-types.md) | Объект для сортировки списка открытых линий в формате `{"field_1": "value_1", ... "field_N": "value_N"}`
+
+Направление сортировки может принимать значения: 
+
+- `asc` — по возрастанию
+- `desc` — по убыванию
+
+Для `field_N` используйте поля из таблицы [Элемент массива result](#result). Поля `QUEUE`, `QUEUE_USERS_FIELDS`, `CONFIG_QUEUE` не поддерживаются в `order`
+
+||
+|| **filter**
+[`object`](../../data-types.md) | Объект для фильтрации списка открытых линий в формате `{"field_1": "value_1", ... "field_N": "value_N"}`
+
+Для `field_N` используйте поля из таблицы [Элемент массива result](#result). Поля `QUEUE`, `QUEUE_USERS_FIELDS`, `CONFIG_QUEUE` не поддерживаются в `filter` ||
+|| **limit**
+[`integer`](../../data-types.md) | Количество элементов на страницу. По умолчанию: `50`. Максимальное значение: `200` ||
+|| **offset**
+[`integer`](../../data-types.md) | Смещение для постраничной выборки. По умолчанию: `0` ||
+|#
+
+### Параметр OPTIONS {#options}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **QUEUE**
+[`char`](../../data-types.md) | Возвращать очередь операторов. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **CONFIG_QUEUE**
+[`char`](../../data-types.md) | Возвращать очередь линии. Каждый элемент очереди содержит `ENTITY_TYPE` и `ENTITY_ID`. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|#
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -45,142 +73,169 @@
 
 - cURL (Webhook)
 
-    // пример для cURL (Webhook)
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PARAMS": {
+          "select": ["ID", "LINE_NAME", "ACTIVE"],
+          "order": {"ID": "ASC"},
+          "filter": {"ACTIVE": "Y"},
+          "limit": 50,
+          "offset": 0
+        },
+        "OPTIONS": {
+          "QUEUE": "Y",
+          "CONFIG_QUEUE": "Y"
+        }
+      }' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.config.list.get
+    ```
 
 - cURL (OAuth)
 
-    // пример для cURL (OAuth)
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PARAMS": {
+          "select": ["ID", "LINE_NAME", "ACTIVE"],
+          "order": {"ID": "ASC"},
+          "filter": {"ACTIVE": "Y"},
+          "limit": 50,
+          "offset": 0
+        },
+        "OPTIONS": {
+          "QUEUE": "Y",
+          "CONFIG_QUEUE": "Y"
+        },
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.config.list.get
+    ```
 
 - JS
-
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'imopenlines.config.list.get',
-    		{
-    			PARAMS: {
-    				select: [
-    					'ID',
-    					...
-    				],
-    				order: {
-    					ID: 'ASC',
-    					...
-    				},
-    				filter: {
-    					ID: 1,
-    					...
-    				}
-    			},
-    			OPTIONS: {
-    				QUEUE: 'Y'
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	if (result.error())
-    		alert("Error: " + result.error());
-    	else
-    		alert("Успешно: " + result);
+        const response = await $b24.callMethod(
+            'imopenlines.config.list.get',
+            {
+                PARAMS: {
+                    select: ['ID', 'LINE_NAME', 'ACTIVE'],
+                    order: { ID: 'ASC' },
+                    filter: { ACTIVE: 'Y' },
+                    limit: 50,
+                    offset: 0
+                },
+                OPTIONS: {
+                    QUEUE: 'Y',
+                    CONFIG_QUEUE: 'Y'
+                }
+            }
+        );
+
+        const result = response.getData().result;
+        console.log(result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error('Error:', error);
+        console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $params = [
-            'PARAMS' => [
-                'select' => [
-                    'ID',
-                    ...
-                ],
-                'order' => [
-                    'ID' => 'ASC',
-                    ...
-                ],
-                'filter' => [
-                    'ID' => 1,
-                    ...
-                ]
-            ],
-            'OPTIONS' => [
-                'QUEUE' => 'Y'
-            ]
-        ];
-    
         $response = $b24Service
             ->core
             ->call(
                 'imopenlines.config.list.get',
-                $params
+                [
+                    'PARAMS' => [
+                        'select' => ['ID', 'LINE_NAME', 'ACTIVE'],
+                        'order' => ['ID' => 'ASC'],
+                        'filter' => ['ACTIVE' => 'Y'],
+                        'limit' => 50,
+                        'offset' => 0,
+                    ],
+                    'OPTIONS' => [
+                        'QUEUE' => 'Y',
+                        'CONFIG_QUEUE' => 'Y',
+                    ],
+                ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Успешно: ' . $result->data();
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error calling imopenlines.config.list.get: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
 - BX24.js
 
     ```js
-    //imopenlines.config.list.get
-    function configListGet()
-    {
-        var params = {
+    BX24.callMethod(
+        'imopenlines.config.list.get',
+        {
             PARAMS: {
-                select: [
-                    'ID',
-                    ...
-                ],
-                order: {
-                    ID: 'ASC',
-                    ...
-                },
-                filter: {
-                    ID: 1,
-                    ...
-                }
+                select: ['ID', 'LINE_NAME', 'ACTIVE'],
+                order: { ID: 'ASC' },
+                filter: { ACTIVE: 'Y' },
+                limit: 50,
+                offset: 0
             },
             OPTIONS: {
-                QUEUE: 'Y'
+                QUEUE: 'Y',
+                CONFIG_QUEUE: 'Y'
             }
-        };
-        BX24.callMethod(
-            'imopenlines.config.list.get',
-            params,
-            function (result) {
-                if (result.error())
-                    alert("Error: " + result.error());
-                else
-                    alert("Успешно: " + result.data());
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error());
             }
-        );
-    }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
     ```
 
 - PHP CRest
 
-    // пример для php
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imopenlines.config.list.get',
+        [
+            'PARAMS' => [
+                'select' => ['ID', 'LINE_NAME', 'ACTIVE'],
+                'order' => ['ID' => 'ASC'],
+                'filter' => ['ACTIVE' => 'Y'],
+                'limit' => 50,
+                'offset' => 0,
+            ],
+            'OPTIONS' => [
+                'QUEUE' => 'Y',
+                'CONFIG_QUEUE' => 'Y',
+            ],
+        ]
+    );
+
+    print_r($result);
+    ```
 
 {% endlist %}
 
@@ -192,115 +247,389 @@ HTTP-статус: **200**
 {
     "result": [
         {
-            "ID": "1",
+            "ID": "15",
+            "LINE_NAME": "Линия поддержки VIP",
             "ACTIVE": "Y",
-            "LINE_NAME": "WhatsApp",
-            "CRM": "Y",
-            "CRM_CREATE": "lead",
-            "CRM_CREATE_SECOND": "0",
-            "CRM_CREATE_THIRD": "Y",
-            "CRM_FORWARD": "Y",
-            "CRM_CHAT_TRACKER": "N",
-            "CRM_TRANSFER_CHANGE": "Y",
-            "CRM_SOURCE": "1|WZ_WHATSAPP_CASJK2QWBRWQ5ASBQWKEBN4QWBENAL2BA",
-            "QUEUE_TIME": "900",
-            "NO_ANSWER_TIME": "60",
-            "QUEUE_TYPE": "all",
-            "CHECK_AVAILABLE": "N",
-            "WATCH_TYPING": "Y",
-            "WELCOME_BOT_ENABLE": "N",
-            "WELCOME_MESSAGE": "N",
-            "WELCOME_MESSAGE_TEXT": "Добро пожаловать в Открытую линию [br]Вам ответит первый освободившийся оператор.",
-            "VOTE_MESSAGE": "N",
-            "VOTE_TIME_LIMIT": "0",
-            "VOTE_BEFORE_FINISH": "Y",
-            "VOTE_CLOSING_DELAY": "N",
-            "VOTE_MESSAGE_1_TEXT": "Пожалуйста, оцените качество обслуживания.",
-            "VOTE_MESSAGE_1_LIKE": "Спасибо за оценку!",
-            "VOTE_MESSAGE_1_DISLIKE": "Очень жаль, что мы не смогли помочь вам, мы постараемся стать лучше.",
-            "VOTE_MESSAGE_2_TEXT": "Пожалуйста, оцените качество обслуживания.\r\n\r\nОтправьте: 1 - хорошо, 0 - плохо",
-            "VOTE_MESSAGE_2_LIKE": "Спасибо за оценку!",
-            "VOTE_MESSAGE_2_DISLIKE": "Очень жаль, что мы не смогли помочь вам, мы постараемся стать лучше.",
-            "AGREEMENT_MESSAGE": "N",
-            "AGREEMENT_ID": "0",
-            "CATEGORY_ENABLE": "N",
-            "CATEGORY_ID": "0",
-            "WELCOME_BOT_JOIN": "always",
-            "WELCOME_BOT_ID": "0",
-            "WELCOME_BOT_TIME": "600",
-            "WELCOME_BOT_LEFT": "queue",
-            "NO_ANSWER_RULE": "none",
-            "NO_ANSWER_FORM_ID": "0",
-            "NO_ANSWER_BOT_ID": "0",
-            "NO_ANSWER_TEXT": "К сожалению, в данный момент мы не можем вам ответить, мы обязательно с вами свяжемся.",
-            "WORKTIME_ENABLE": "N",
-            "WORKTIME_FROM": "9",
-            "WORKTIME_TO": "18",
-            "WORKTIME_TIMEZONE": "Asia/Yekaterinburg",
-            "WORKTIME_HOLIDAYS": [
-                ""
-            ],
-            "WORKTIME_DAYOFF": [
-                "SA",
-                "SU"
-            ],
-            "WORKTIME_DAYOFF_RULE": "text",
-            "WORKTIME_DAYOFF_FORM_ID": "0",
-            "WORKTIME_DAYOFF_BOT_ID": "0",
-            "WORKTIME_DAYOFF_TEXT": "Добро пожаловать в Открытую линию [br]К сожалению, в данный момент мы не можем вам ответить.[br][br]Напишите свой вопрос и мы обязательно свяжемся с вами в рабочее время.",
-            "CLOSE_RULE": "none",
-            "CLOSE_FORM_ID": "0",
-            "CLOSE_BOT_ID": "0",
-            "CLOSE_TEXT": "Спасибо, что обратились в нашу компанию.",
-            "FULL_CLOSE_TIME": "10",
-            "AUTO_CLOSE_RULE": "none",
-            "AUTO_CLOSE_FORM_ID": "0",
-            "AUTO_CLOSE_BOT_ID": "0",
-            "AUTO_CLOSE_TIME": "2678400",
-            "AUTO_CLOSE_TEXT": "",
-            "AUTO_EXPIRE_TIME": "86400",
-            "DATE_CREATE": {},
-            "DATE_MODIFY": {},
-            "MODIFY_USER_ID": "177",
-            "TEMPORARY": "N",
-            "XML_ID": None,
-            "LANGUAGE_ID": "ru",
-            "QUICK_ANSWERS_IBLOCK_ID": "53",
-            "SESSION_PRIORITY": "0",
-            "TYPE_MAX_CHAT": "answered",
-            "MAX_CHAT": "0",
-            "OPERATOR_DATA": "queue",
-            "DEFAULT_OPERATOR_DATA": [],
-            "KPI_FIRST_ANSWER_TIME": "0",
-            "KPI_FIRST_ANSWER_ALERT": "N",
-            "KPI_FIRST_ANSWER_LIST": False,
-            "KPI_FIRST_ANSWER_TEXT": "Сотрудник #OPERATOR# превысил допустимое время ответа клиенту на первое сообщение. Диалог №#DIALOG#.",
-            "KPI_FURTHER_ANSWER_TIME": "0",
-            "KPI_FURTHER_ANSWER_ALERT": "N",
-            "KPI_FURTHER_ANSWER_LIST": False,
-            "KPI_FURTHER_ANSWER_TEXT": "Сотрудник #OPERATOR# превысил допустимое время ответа клиенту на сообщение. Диалог №#DIALOG#.",
-            "KPI_CHECK_OPERATOR_ACTIVITY": "N",
-            "SEND_NOTIFICATION_EMPTY_QUEUE": "N",
-            "USE_WELCOME_FORM": "N",
-            "WELCOME_FORM_ID": "5",
-            "WELCOME_FORM_DELAY": "Y",
-            "SEND_WELCOME_EACH_SESSION": "N",
-            "CONFIRM_CLOSE": "Y",
-            "IGNORE_WELCOME_FORM_RESPONSIBLE": "N"
+            "QUEUE": [101, 205],
+            "QUEUE_USERS_FIELDS": {
+                "101": {
+                    "USER_NAME": "Иван Петров",
+                    "USER_WORK_POSITION": "Оператор",
+                    "USER_AVATAR": "https://example.bitrix24.ru/upload/main/a1b/avatar.jpg",
+                    "USER_AVATAR_ID": 312
+                },
+                "205": {
+                    "USER_NAME": "Анна Смирнова",
+                    "USER_WORK_POSITION": null,
+                    "USER_AVATAR": "",
+                    "USER_AVATAR_ID": null
+                }
+            },
+            "CONFIG_QUEUE": [
+                {
+                    "ENTITY_ID": "10",
+                    "ENTITY_TYPE": "department"
+                }
+            ]
         },
-        // .. Еще 49 элементов
+        {
+            "ID": "16",
+            "LINE_NAME": "Линия продаж",
+            "ACTIVE": "Y",
+            "QUEUE": [101],
+            "QUEUE_USERS_FIELDS": {
+                "101": {
+                    "USER_NAME": "Иван Петров",
+                    "USER_WORK_POSITION": "Оператор",
+                    "USER_AVATAR": "https://example.bitrix24.ru/upload/main/a1b/avatar.jpg",
+                    "USER_AVATAR_ID": 312
+                }
+            },
+            "CONFIG_QUEUE": []
+        }
     ],
-    "next": 50,
-    "total": 123456,
     "time": {
-        "start": 1730383163.284897,
-        "finish": 1730383163.308128,
-        "duration": 0.023231029510498047,
-        "processing": 0.001950979232788086,
-        "date_start": "2024-10-31T16:59:23+03:00",
-        "date_finish": "2024-10-31T16:59:23+03:00",
-        "operating_reset_at": 1730383763,
+        "start": 1741688574.50636,
+        "finish": 1741688574.701981,
+        "duration": 0.19562101364135742,
+        "processing": 0.09473705291748047,
+        "date_start": "2025-03-11T10:29:34+03:00",
+        "date_finish": "2025-03-11T10:29:34+03:00",
+        "operating_reset_at": 1741689174,
         "operating": 0
     }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Список открытых линий [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор открытой линии ||
+|| **LINE_NAME**
+[`string`](../../data-types.md) | Название открытой линии ||
+|| **ACTIVE**
+[`string`](../../data-types.md) | Признак активности линии. Возможные значения:
+- `Y` — линия активна
+- `N` — линия неактивна ||
+|| **CRM**
+[`string`](../../data-types.md) | Признак работы с CRM. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **CRM_CREATE**
+[`string`](../../data-types.md) | Сценарий создания элемента CRM ||
+|| **CRM_CREATE_SECOND**
+[`string`](../../data-types.md) | Дополнительный режим создания элемента CRM ||
+|| **CRM_CREATE_THIRD**
+[`string`](../../data-types.md) | Дополнительный режим создания элемента CRM. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **CRM_FORWARD**
+[`string`](../../data-types.md) | Признак перенаправления в CRM. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **CRM_CHAT_TRACKER**
+[`string`](../../data-types.md) | Признак отправки диалога в трекер CRM. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **CRM_TRANSFER_CHANGE**
+[`string`](../../data-types.md) | Признак смены ответственного при переводе. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **CRM_SOURCE**
+[`string`](../../data-types.md) | Режим работы с источником в CRM ||
+|| **QUEUE_TYPE**
+[`string`](../../data-types.md) | Режим распределения обращений ||
+|| **QUEUE_TIME**
+[`string`](../../data-types.md) | Время перехода обращения к следующему оператору ||
+|| **NO_ANSWER_TIME**
+[`string`](../../data-types.md) | Время до срабатывания сценария без ответа ||
+|| **CHECK_AVAILABLE**
+[`string`](../../data-types.md) | Проверять доступность операторов. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **WATCH_TYPING**
+[`string`](../../data-types.md) | Показывать набор текста оператором. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **WELCOME_BOT_ENABLE**
+[`string`](../../data-types.md) | Признак использования приветственного бота. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **WELCOME_MESSAGE**
+[`string`](../../data-types.md) | Признак приветственного сообщения. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **WELCOME_MESSAGE_TEXT**
+[`string`](../../data-types.md) | Текст приветственного сообщения ||
+|| **VOTE_MESSAGE**
+[`string`](../../data-types.md) | Признак запроса оценки. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **VOTE_TIME_LIMIT**
+[`string`](../../data-types.md) | Ограничение времени для оценки ||
+|| **VOTE_BEFORE_FINISH**
+[`string`](../../data-types.md) | Запрашивать оценку до завершения диалога. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **VOTE_CLOSING_DELAY**
+[`string`](../../data-types.md) | Использовать задержку закрытия после оценки. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **VOTE_MESSAGE_1_TEXT**
+[`string`](../../data-types.md) | Текст первого сценария оценки ||
+|| **VOTE_MESSAGE_1_LIKE**
+[`string`](../../data-types.md) | Текст при положительной оценке по первому сценарию ||
+|| **VOTE_MESSAGE_1_DISLIKE**
+[`string`](../../data-types.md) | Текст при отрицательной оценке по первому сценарию ||
+|| **VOTE_MESSAGE_2_TEXT**
+[`string`](../../data-types.md) | Текст второго сценария оценки ||
+|| **VOTE_MESSAGE_2_LIKE**
+[`string`](../../data-types.md) | Текст при положительной оценке по второму сценарию ||
+|| **VOTE_MESSAGE_2_DISLIKE**
+[`string`](../../data-types.md) | Текст при отрицательной оценке по второму сценарию ||
+|| **AGREEMENT_MESSAGE**
+[`string`](../../data-types.md) | Признак вывода сообщения о согласии. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **AGREEMENT_ID**
+[`string`](../../data-types.md) | Идентификатор согласия ||
+|| **CATEGORY_ENABLE**
+[`string`](../../data-types.md) | Признак использования категорий. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **CATEGORY_ID**
+[`string`](../../data-types.md) | Идентификатор категории ||
+|| **WELCOME_BOT_JOIN**
+[`string`](../../data-types.md) | Режим подключения приветственного бота ||
+|| **WELCOME_BOT_ID**
+[`string`](../../data-types.md) | Идентификатор приветственного бота ||
+|| **WELCOME_BOT_TIME**
+[`string`](../../data-types.md) | Время ожидания подключения приветственного бота ||
+|| **WELCOME_BOT_LEFT**
+[`string`](../../data-types.md) | Режим отключения приветственного бота ||
+|| **NO_ANSWER_RULE**
+[`string`](../../data-types.md) | Сценарий при отсутствии ответа оператора ||
+|| **NO_ANSWER_FORM_ID**
+[`string`](../../data-types.md) | Идентификатор формы сценария отсутствия ответа ||
+|| **NO_ANSWER_BOT_ID**
+[`string`](../../data-types.md) | Идентификатор бота сценария отсутствия ответа ||
+|| **NO_ANSWER_TEXT**
+[`string`](../../data-types.md) | Текст сообщения при отсутствии ответа ||
+|| **WORKTIME_ENABLE**
+[`string`](../../data-types.md) | Признак учета рабочего времени. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **WORKTIME_FROM**
+[`string`](../../data-types.md) | Начало рабочего времени ||
+|| **WORKTIME_TO**
+[`string`](../../data-types.md) | Конец рабочего времени ||
+|| **WORKTIME_TIMEZONE**
+[`string`](../../data-types.md) | Часовой пояс рабочего времени ||
+|| **WORKTIME_HOLIDAYS**
+[`array`](../../data-types.md) | Массив праздничных дней ||
+|| **WORKTIME_DAYOFF**
+[`array`](../../data-types.md) | Массив выходных дней ||
+|| **WORKTIME_DAYOFF_RULE**
+[`string`](../../data-types.md) | Сценарий обработки обращений в нерабочее время ||
+|| **WORKTIME_DAYOFF_FORM_ID**
+[`string`](../../data-types.md) | Идентификатор формы сценария нерабочего времени ||
+|| **WORKTIME_DAYOFF_BOT_ID**
+[`string`](../../data-types.md) | Идентификатор бота сценария нерабочего времени ||
+|| **WORKTIME_DAYOFF_TEXT**
+[`string`](../../data-types.md) | Текст сообщения в нерабочее время ||
+|| **CLOSE_RULE**
+[`string`](../../data-types.md) | Сценарий закрытия диалога ||
+|| **CLOSE_FORM_ID**
+[`string`](../../data-types.md) | Идентификатор формы закрытия ||
+|| **CLOSE_BOT_ID**
+[`string`](../../data-types.md) | Идентификатор бота закрытия ||
+|| **CLOSE_TEXT**
+[`string`](../../data-types.md) | Текст сообщения при закрытии ||
+|| **FULL_CLOSE_TIME**
+[`string`](../../data-types.md) | Время полного закрытия сессии ||
+|| **AUTO_CLOSE_RULE**
+[`string`](../../data-types.md) | Сценарий автозакрытия ||
+|| **AUTO_CLOSE_FORM_ID**
+[`string`](../../data-types.md) | Идентификатор формы автозакрытия ||
+|| **AUTO_CLOSE_BOT_ID**
+[`string`](../../data-types.md) | Идентификатор бота автозакрытия ||
+|| **AUTO_CLOSE_TIME**
+[`string`](../../data-types.md) | Время до автозакрытия ||
+|| **AUTO_CLOSE_TEXT**
+[`string`](../../data-types.md) | Текст автозакрытия ||
+|| **AUTO_EXPIRE_TIME**
+[`string`](../../data-types.md) | Время истечения активности ||
+|| **DATE_CREATE**
+[`object`](../../data-types.md) | Дата создания настройки в сериализованном виде ||
+|| **DATE_MODIFY**
+[`object`](../../data-types.md) | Дата изменения настройки в сериализованном виде ||
+|| **MODIFY_USER_ID**
+[`string`](../../data-types.md) | Идентификатор пользователя, изменившего настройки ||
+|| **TEMPORARY**
+[`string`](../../data-types.md) | Признак временной линии. Возможные значения:
+- `Y` — временная линия
+- `N` — постоянная линия ||
+|| **XML_ID**
+[`string`](../../data-types.md) | Внешний идентификатор. Возможные значения:
+- `string` — внешний идентификатор задан
+- `null` — внешний идентификатор не задан ||
+|| **LANGUAGE_ID**
+[`string`](../../data-types.md) | Язык линии ||
+|| **QUICK_ANSWERS_IBLOCK_ID**
+[`string`](../../data-types.md) | Идентификатор инфоблока быстрых ответов ||
+|| **SESSION_PRIORITY**
+[`string`](../../data-types.md) | Приоритет сессии ||
+|| **TYPE_MAX_CHAT**
+[`string`](../../data-types.md) | Режим ограничения активных диалогов на оператора ||
+|| **MAX_CHAT**
+[`string`](../../data-types.md) | Максимум активных диалогов на оператора ||
+|| **OPERATOR_DATA**
+[`string`](../../data-types.md) | Режим отображения данных оператора ||
+|| **QUEUE**
+[`array`](../../data-types.md) | Идентификаторы операторов в очереди. 
+
+Поле возвращается при `OPTIONS.QUEUE = "Y"` ||
+|| **QUEUE_USERS_FIELDS**
+[`object`](../../data-types.md) | Дополнительные поля пользователей очереди. Ключ — идентификатором пользовател, значение — описание полей очереди [(подробное описание)](#queue-users-fields-item). 
+
+Поле возвращается при `OPTIONS.QUEUE = "Y"`  ||
+|| **CONFIG_QUEUE**
+[`array`](../../data-types.md) | Упорядоченный список объектов очереди линии [(подробное описание)](#config-queue-item-fields).
+
+Поле возвращается при `OPTIONS.CONFIG_QUEUE = "Y"`  ||
+|| **DEFAULT_OPERATOR_DATA**
+[`array`](../../data-types.md) | Набор полей отображения оператора по умолчанию ||
+|| **KPI_FIRST_ANSWER_TIME**
+[`string`](../../data-types.md) | Норматив времени первого ответа ||
+|| **KPI_FIRST_ANSWER_ALERT**
+[`string`](../../data-types.md) | Признак уведомления о просрочке первого ответа. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **KPI_FIRST_ANSWER_LIST**
+[`array`](../../data-types.md) | Список получателей уведомлений о первом ответе. Возможные значения:
+- `array` — список получателей задан
+- `null` — список получателей не задан ||
+|| **KPI_FIRST_ANSWER_TEXT**
+[`string`](../../data-types.md) | Текст уведомления о просрочке первого ответа ||
+|| **KPI_FURTHER_ANSWER_TIME**
+[`string`](../../data-types.md) | Норматив времени последующих ответов ||
+|| **KPI_FURTHER_ANSWER_ALERT**
+[`string`](../../data-types.md) | Признак уведомления о просрочке последующих ответов. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **KPI_FURTHER_ANSWER_LIST**
+[`array`](../../data-types.md) | Список получателей уведомлений о последующих ответах. Возможные значения:
+- `array` — список получателей задан
+- `null` — список получателей не задан ||
+|| **KPI_FURTHER_ANSWER_TEXT**
+[`string`](../../data-types.md) | Текст уведомления о просрочке последующих ответов ||
+|| **KPI_CHECK_OPERATOR_ACTIVITY**
+[`string`](../../data-types.md) | Признак контроля активности оператора. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **SEND_NOTIFICATION_EMPTY_QUEUE**
+[`string`](../../data-types.md) | Признак уведомлений о пустой очереди. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **USE_WELCOME_FORM**
+[`string`](../../data-types.md) | Признак использования приветственной формы. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **WELCOME_FORM_ID**
+[`string`](../../data-types.md) | Идентификатор приветственной формы ||
+|| **WELCOME_FORM_DELAY**
+[`string`](../../data-types.md) | Признак задержки показа приветственной формы. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **SEND_WELCOME_EACH_SESSION**
+[`string`](../../data-types.md) | Показывать приветствие в каждой сессии. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **CONFIRM_CLOSE**
+[`string`](../../data-types.md) | Требовать подтверждение закрытия. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **IGNORE_WELCOME_FORM_RESPONSIBLE**
+[`string`](../../data-types.md) | Игнорировать ответственного в приветственной форме. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|#
+
+#### Объект QUEUE_USERS_FIELDS {#queue-users-fields-item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **USER_NAME**
+[`string`](../../data-types.md) | Имя пользователя. Возможные значения:
+- `string` — имя пользователя задано
+- `null` — имя пользователя не задано ||
+|| **USER_WORK_POSITION**
+[`string`](../../data-types.md) | Должность пользователя. Возможные значения:
+- `string` — должность задана
+- `null` — должность не задана ||
+|| **USER_AVATAR**
+[`string`](../../data-types.md) | Ссылка на аватар. Возможные значения:
+- `string` — ссылка на аватар задана
+- `null` — аватар не задан ||
+|| **USER_AVATAR_ID**
+[`string`](../../data-types.md) | Идентификатор файла аватара ||
+|#
+
+#### Объект CONFIG_QUEUE {#config-queue-item-fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ENTITY_ID**
+[`string`](../../data-types.md) | Идентификатор объекта в очереди ||
+|| **ENTITY_TYPE**
+[`string`](../../data-types.md) | Тип объекта в очереди ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "INVALID_FORMAT",
+    "error_description": "A wrong format for the PARAMS field 'filter' is passed"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'select' is passed | Поле `PARAMS.select` передано не массивом ||
+|| `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'order' is passed | Поле `PARAMS.order` передано в неверном формате ||
+|| `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'filter' is passed | Поле `PARAMS.filter` передано в неверном формате ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./imopenlines-config-add.md)
+- [{#T}](./imopenlines-config-update.md)
+- [{#T}](./imopenlines-config-get.md)
+- [{#T}](./imopenlines-config-delete.md)
+- [{#T}](./imopenlines-config-path-get.md)

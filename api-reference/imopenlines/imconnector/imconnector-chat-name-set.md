@@ -4,7 +4,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод устанавливает новое имя чата.
+Метод `imconnector.chat.name.set` устанавливает новое имя чата.
+
+{% note info "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
+
+{% endnote %} 
 
 ## Параметры метода
 
@@ -14,9 +20,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **CONNECTOR***
-[`string`](../../data-types.md) | Идентификатор коннектора ||
+[`string`](../../data-types.md) | Строковый код коннектора, который задали в параметре `ID` при вызове [imconnector.register](./imconnector-register.md) ||
 || **LINE***
-[`string`](../../data-types.md) | Идентификатор открытой линии ||
+[`integer`](../../data-types.md) | Идентификатор открытой линии
+
+Идентификатор можно получить методами [imopenlines.config.get](../openlines/imopenlines-config-get.md) и [imopenlines.config.list.get](../openlines/imopenlines-config-list-get.md) ||
 || **CHAT_ID***
 [`string`](../../data-types.md) | Идентификатор чата во внешней системе ||
 || **NAME***
@@ -31,23 +39,13 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CONNECTOR":"connector","LINE":"105","CHAT_ID":"47e007b1-ee15-43db-bcba-1c26e5884d3f","NAME":"Новое имя диалога"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webbhook_here**/imconnector.chat.name.set
-    ```
-
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CONNECTOR":"connector","LINE":"105","CHAT_ID":"47e007b1-ee15-43db-bcba-1c26e5884d3f","NAME":"Новое имя диалога","auth":"**put_access_token_here**"}' \
+    -d '{"CONNECTOR":"connector","LINE":105,"CHAT_ID":"47e007b1-ee15-43db-bcba-1c26e5884d3f","NAME":"Новое имя диалога","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/imconnector.chat.name.set
     ```
 
@@ -57,25 +55,25 @@
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'imconnector.chat.name.set',
-    		{
-    			CONNECTOR: 'connector',
-    			LINE: '105',
-    			CHAT_ID: '47e007b1-ee15-43db-bcba-1c26e5884d3f',
-    			NAME: 'Новое имя диалога'
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	if(result.error())
-    		alert("Error: " + result.error());
-    	else
-    		alert("Успешно: " + result);
+        const response = await $b24.callMethod(
+            'imconnector.chat.name.set',
+            {
+                CONNECTOR: 'connector',
+                LINE: 105,
+                CHAT_ID: '47e007b1-ee15-43db-bcba-1c26e5884d3f',
+                NAME: 'Новое имя диалога'
+            }
+        );
+        
+        const result = response.getData().result;
+        if(result.error())
+            alert("Error: " + result.error());
+        else
+            alert("Успешно: " + result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
@@ -86,7 +84,7 @@
     try {
         $params = [
             'CONNECTOR' => 'connector',
-            'LINE'      => '105',
+            'LINE'      => 105,
             'CHAT_ID'   => '47e007b1-ee15-43db-bcba-1c26e5884d3f',
             'NAME'      => 'Новое имя диалога',
         ];
@@ -119,7 +117,7 @@
     ```js
     var params = {
         CONNECTOR: 'connector',
-        LINE: '105',
+        LINE: 105,
         CHAT_ID: '47e007b1-ee15-43db-bcba-1c26e5884d3f',
         NAME: 'Новое имя диалога'
     };
@@ -143,7 +141,7 @@
 
     $params = [
         'CONNECTOR' => 'connector',
-        'LINE' => '105',
+        'LINE' => 105,
         'CHAT_ID' => '47e007b1-ee15-43db-bcba-1c26e5884d3f',
         'NAME' => 'Новое имя диалога'
     ];
@@ -224,21 +222,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `NOT_ACTIVE_LINE` | Линия c таким ID неактивна или не существует ||
-|| `IMCONNECTOR_NO_CORRECT_PROVIDER` | Не удалось найти подходящий провайдер для коннектора ||
-|| `ERROR_ARGUMENT` | Не указаны обязательные параметры `NAME`, `CHAT_ID`, `USER_ID`, `CONNECTOR` или `LINE` ||
-|| `CHAT_RENAMING_FAILED` | Не удалось переименовать чат ||
+|| **Статус** | **Код** | **Описание** ||
+|| `400` | `NOT_ACTIVE_LINE` | Линия c таким ID неактивна или не существует ||
+|| `400` | `IMCONNECTOR_NO_CORRECT_PROVIDER` | Не удалось найти подходящий провайдер для коннектора ||
+|| `400` | `ERROR_ARGUMENT` | Не указаны обязательные параметры `NAME`, `CHAT_ID`, `USER_ID`, `CONNECTOR` или `LINE` ||
+|| `400` | `CHAT_RENAMING_FAILED` | Не удалось переименовать чат ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./tutorials.md)
 - [{#T}](./imconnector-register.md)
 - [{#T}](./imconnector-activate.md)
-- [{#T}](./imconnector-deactivate.md)
 - [{#T}](./imconnector-status.md)
 - [{#T}](./imconnector-connector-data-set.md)
 - [{#T}](./imconnector-list.md)
@@ -247,4 +243,4 @@ HTTP-статус: **400**
 - [{#T}](./imconnector-update-messages.md)
 - [{#T}](./imconnector-delete-messages.md)
 - [{#T}](./imconnector-send-status-delivery.md)
-- [{#T}](./imconnector-send-status-reading.md)
+- [{#T}](./imconnector-chat-name-set.md)

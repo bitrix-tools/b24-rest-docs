@@ -16,7 +16,7 @@ items:
   - name: REST 3.0
     include:
       path: rest-v3/b24-toc.yaml
-      mode: link        
+      mode: link     
   - name: События
     include:
       path: events/b24-toc.yaml

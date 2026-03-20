@@ -1,143 +1,161 @@
-# Получить информацию об установленном статусе пользователя im.user.status.get
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Получить статус пользователя im.user.status.get
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.user.status.get` получает информацию об установленном статусе пользователя.
+Метод `im.user.status.get` возвращает статус текущего пользователя.
+
+{% note info "" %}
+
+Метод возвращает статус, который был установлен методом [im.user.status.set](./im-user-status-set.md).
+
+{% endnote %}
+
+## Параметры метода
 
 Без параметров.
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.user.status.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.user.status.get
+    ```
+
 - JS
 
-
     ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'im.user.status.get',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
-    }
-    catch( error )
-    {
-    	console.error(error.ex);
+    try {
+      const response = await $b24.callMethod('im.user.status.get', {});
+      const { result } = response.getData();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.user.status.get',
-                []
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
+        $response = $b24Service->core->call('im.user.status.get', []);
+
+        $result = $response->getResponseData()->getResult();
+
         if ($result->error()) {
-            error_log($result->error()->ex);
+            echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            var_dump($result->data());
         }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting user status: ' . $e->getMessage();
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
 - BX24.js
 
-    ```javascript
-    BX24.callMethod(
-        'im.user.status.get',
-        {},
-        function(result){
-            if(result.error())
-            {
-                console.error(result.error().ex);
-            }
-            else
-            {
-                console.log(result.data());
-            }
+    ```js
+    BX24.callMethod('im.user.status.get', {}, function(result) {
+        if (result.error()) {
+            console.error(result.error().ex);
+        } else {
+            console.log(result.data());
         }
-    );
+    });
     ```
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
-        'im.user.status.get',
-        Array(),
-        $_REQUEST[
-            "auth"
-        ]
-    );
+    require_once('crest.php');
+
+    $result = CRest::call('im.user.status.get', []);
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        var_dump($result['result']);
+    }
     ```
-
-- cURL
-
-    // пример для cURL
-
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
 ```json
 {
-    "result": "dnd"
+    "result": "dnd",
+    "time": {
+        "start": 1760000000.0,
+        "finish": 1760000000.05,
+        "duration": 0.05,
+        "processing": 0.02,
+        "date_start": "2026-03-02T09:30:00+03:00",
+        "date_finish": "2026-03-02T09:30:00+03:00",
+        "operating_reset_at": 1760030000,
+        "operating": 0
+    }
 }
 ```
 
-### Описание результата
+## Возвращаемые данные
 
-- `online` – Онлайн
-- `dnd` – Не беспокоить
-- `away` – Отсутствую
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`string`](../../data-types.md) 
+[`boolean`](../../data-types.md) | Текущий статус пользователя. 
+
+Допустимые значения: 
+- `online` — в сети
+- `dnd` — не беспокоить
+- `away` — отсутствую
+- `break` — перерыв
+
+Если статус не найден, возвращается `false` ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
 {% note info "" %}
 
-Статус `away` использовался в предыдущей версии чата. В текущей версии чата М1 он не отображается в интерфейсе.
+В интерфейсе нового мессенджера отображается только статус `online`. Статусы `dnd`, `away`, `break` можно установить методом, но в интерфейсе они не показываются.
+
 [Битрикс24 Чат: новый мессенджер](https://helpdesk.bitrix24.ru/open/19071750/)
 
 {% endnote %}
 
+## Обработка ошибок
+
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-user-get.md)
+- [{#T}](./im-user-list-get.md)
+- [{#T}](./im-user-status-set.md)
+- [{#T}](./im-user-status-idle-start.md)
+- [{#T}](./im-user-status-idle-end.md)

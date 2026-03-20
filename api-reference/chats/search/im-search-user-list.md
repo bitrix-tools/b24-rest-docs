@@ -1,118 +1,102 @@
 # Найти пользователей im.search.user.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`im`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.search.user.list` выполняет поиск пользователей.
+Метод `im.search.user.list` выполняет поиск пользователей по имени, фамилии, должности и подразделению.
 
-#|
-|| **Параметр** | **Пример** | **Описание** | **Ревизия** ||
-|| **FIND^*^**
-[`unknown`](../../data-types.md) | `Евгений` | Поисковая фраза | 19 ||
-|| **BUSINESS**
-[`unknown`](../../data-types.md) | `N` | Поиск среди бизнес пользователей | 19 ||
-|| **AVATAR_HR**
-[`unknown`](../../data-types.md) | `N` | Генерировать аватар в высоком разрешении | 19 ||
-|| **OFFSET**
-[`unknown`](../../data-types.md) | `0` | Смещение выборки пользователей | 19 ||
-|| **LIMIT**
-[`unknown`](../../data-types.md) | `10` | Лимит выборки пользователей | 19 ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-- Поиск осуществляется по следующим полям: **Имя**, **Фамилия**, **Должность**, **Подразделение**.
-- Метод поддерживает стандартную постраничную навигацию Bitrix24 Rest Api, но в добавок к ней есть возможность построить навигацию с помощью параметров `OFFSET` и `LIMIT`.
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **FIND***
+[`string`](../../data-types.md) | Поисковая фраза. Минимальное количество символов для поиска — `3` ||
+|| **BUSINESS**
+[`string`](../../data-types.md) | Искать только среди бизнес-пользователей. 
 
-## Примеры
+Допустимые значения:
+- `Y` — да
+- `N` — нет
+
+Значение по умолчанию — `N` ||
+
+|| **OFFSET**
+[`integer`](../../data-types.md) | Смещение выборки пользователей. По умолчанию `0` ||
+|| **LIMIT**
+[`integer`](../../data-types.md) | Количество элементов в выборке. По умолчанию `10`. Максимальное значение `50` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"FIND":"Иван","BUSINESS":"N","OFFSET":0,"LIMIT":10}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.search.user.list
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"FIND":"Иван","BUSINESS":"N","OFFSET":0,"LIMIT":10,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/im.search.user.list
+    ```
+
 - JS
 
-
     ```js
-    // callListMethod рекомендуется использовать, когда необходимо получить весь набор списочных данных и объём записей относительно невелик (до примерно 1000 элементов). Метод загружает все данные сразу, что может привести к высокой нагрузке на память при работе с большими объемами.
-    
     try {
-      const response = await $b24.callListMethod(
-        'im.search.user.list',
-        {
-          FIND: 'Евгений'
-        },
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
+      const response = await $b24.callMethod('im.search.user.list', {
+        FIND: 'Иван',
+        BUSINESS: 'N',
+        OFFSET: 0,
+        LIMIT: 10,
+      });
+
+      const { result, total, next } = response.getData();
+      console.log(result, total, next);
     } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod предпочтителен при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
-    
-    try {
-      const generator = $b24.fetchListMethod('im.search.user.list', { FIND: 'Евгений' }, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
-      }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod предоставляет ручной контроль над процессом постраничного получения данных через параметр start. Подходит для сценариев, где требуется точное управление пакетами запросов. Однако при больших объемах данных может быть менее эффективным по сравнению с fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('im.search.user.list', { FIND: 'Евгений' }, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
+      console.error(error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'im.search.user.list',
-                [
-                    'FIND' => 'Евгений'
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'users: ' . print_r($result->data(), true);
-        echo 'total: ' . $result->total();
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error searching for users: ' . $e->getMessage();
+        $response = $b24Service->core->call(
+            'im.search.user.list',
+            [
+                'FIND' => 'Иван',
+                'BUSINESS' => 'N',
+                'OFFSET' => 0,
+                'LIMIT' => 10,
+            ]
+        );
+
+        $result = $response->getResponseData()->getResult();
+
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            var_dump($result->data());
+        }
+    } catch (Throwable $exception) {
+        echo $exception->getMessage();
     }
     ```
 
@@ -122,17 +106,16 @@
     BX24.callMethod(
         'im.search.user.list',
         {
-            FIND: 'Евгений'
+            FIND: 'Иван',
+            BUSINESS: 'N',
+            OFFSET: 0,
+            LIMIT: 10,
         },
-        function(result){
-            if(result.error())
-            {
+        function(result) {
+            if (result.error()) {
                 console.error(result.error().ex);
-            }
-            else
-            {
-                console.log('users', result.data());
-                console.log('total', result.total());
+            } else {
+                console.log(result.data(), result.total(), result.next());
             }
         }
     );
@@ -140,88 +123,167 @@
 
 - PHP CRest
 
-    {% include [Пояснение о restCommand](../_includes/rest-command.md) %}
-
     ```php
-    $result = restCommand(
+    require_once('crest.php');
+
+    $result = CRest::call(
         'im.search.user.list',
-        Array(
-            'FIND' => 'Евгений'
-        ),
-        $_REQUEST[
-            "auth"
+        [
+            'FIND' => 'Иван',
+            'BUSINESS' => 'N',
+            'OFFSET' => 0,
+            'LIMIT' => 10,
         ]
-    );    
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        var_dump($result['result']);
+    }
     ```
-
-- cURL
-
-    // пример для cURL
-
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-код: **200**
 
 ```json
-{    
-    "result": {
-        1: {
-            "id": 1,
-            "name": "Евгений Шеленков",
-            "first_name": "Евгений",
-            "last_name": "Шеленков",
-            "work_position": "",
-            "color": "#df532d",
-            "avatar": "http://192.168.2.232/upload/resize_cache/main/1d3/100_100_2/shelenkov.png",
-            "gender": "M",
-            "birthday": "",
+{
+    "result": [
+        {
+            "id": 103,
+            "name": "Светлана Иванова",
+            "first_name": "Светлана",
+            "last_name": "Иванова",
+            "work_position": "Руководитель ИТ-отдела",
+            "color": "#4ba984",
+            "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+            "gender": "F",
+            "birthday": "08-03",
             "extranet": false,
             "network": false,
             "bot": false,
             "connector": false,
-            "external_auth_id": "default",
+            "external_auth_id": "socservices",
             "status": "online",
             "idle": false,
-            "last_activity_date": "2018-01-29T17:35:31+03:00",
-            "desktop_last_date": false,
+            "last_activity_date": "2026-03-04T15:40:56+03:00",
             "mobile_last_date": false,
-            "departments": [
-             50
-            ],
-            "absent": false
-        }
-    },
-    "total": 1
-}    
+            "departments": [1, 7],
+            "absent": false,
+            "phones": {
+                "work_phone": "79123456789",
+                "personal_mobile": "81234567890",
+                "inner_phone": "78"
+            }
+        },
+        ... // описание для каждого пользователя
+    ],
+    "total": 2,
+    "time": {
+        "start": 1772628089,
+        "finish": 1772628089.061656,
+        "duration": 0.06165599822998047,
+        "processing": 0,
+        "date_start": "2026-03-04T15:41:29+03:00",
+        "date_finish": "2026-03-04T15:41:29+03:00",
+        "operating_reset_at": 1772628689,
+        "operating": 0
+    }
+}
 ```
 
-### Описание ключей
+## Возвращаемые данные
 
-- `id` – идентификатор пользователя
-- `name` – имя и фамилия пользователя
-- `first_name` – имя пользователя
-- `last_name` – фамилия пользователя
-- `work_position` – должность
-- `color` – цвет пользователя в формате hex
-- `avatar` – ссылка на аватар (если пусто, значит аватар не задан)
-- `avatar_hr` – ссылка на аватар в высоком разрешении (доступен только при запросе с параметром `AVATAR_HR = 'Y'`)
-- `gender` – пол пользователя
-- `birthday` – день рождения пользователя в формате DD-MM, если пусто – не задан
-- `extranet` – признак внешнего экстранет-пользователя (`true/false`)
-- `network` – признак пользователя Битрикс24.Network (`true/false`)
-- `bot` – признак бота (`true/false`)
-- `connector` – признак пользователя открытых линий (`true/false`)
-- `external_auth_id` – код внешней авторизации
-- `status` – выбранный статус пользователя
-- `idle` – дата, когда пользователь отошел от компьютера, в формате АТОМ (если не задано, `false`)
-- `last_activity_date` – дата последнего действия пользователя в формате АТОМ
-- `mobile_last_date` – дата последнего действия в мобильном приложении в формате АТОМ (если не задано, `false`)
-- `desktop_last_date` – дата последнего действия в десктопном приложении в формате АТОМ (если не задано, `false`)
-- `absent` – дата, по какое число у пользователя отпуск, в формате АТОМ (если не задано, `false`)
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **result**
+[`array`](../../data-types.md) | Список найденных пользователей.
 
-## Ответ в случае ошибки
+Структура объекта пользователя подробно описана [ниже](#user-object) ||
+|| **total**
+[`integer`](../../data-types.md) | Общее количество найденных пользователей ||
+|| **next**
+[`integer`](../../data-types.md) | Смещение следующей страницы. Поле возвращается, если есть следующая страница ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект пользователя {#user-object}
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор пользователя ||
+|| **name**
+[`string`](../../data-types.md) | Имя и фамилия пользователя ||
+|| **first_name**
+[`string`](../../data-types.md) | Имя пользователя ||
+|| **last_name**
+[`string`](../../data-types.md) | Фамилия пользователя ||
+|| **work_position**
+[`string`](../../data-types.md) | Должность пользователя ||
+|| **color**
+[`string`](../../data-types.md) | Цвет пользователя в формате HEX ||
+|| **avatar**
+[`string`](../../data-types.md) 
+[`null`](../../data-types.md) | Ссылка на аватар пользователя ||
+|| **gender**
+[`string`](../../data-types.md) | Пол пользователя: `M` или `F` ||
+|| **birthday**
+[`string`](../../data-types.md) 
+[`boolean`](../../data-types.md) | День рождения в формате `DD-MM` или `false` ||
+|| **extranet**
+[`boolean`](../../data-types.md) | Признак экстранет-пользователя ||
+|| **network**
+[`boolean`](../../data-types.md) | Признак пользователя Bitrix24 Network ||
+|| **bot**
+[`boolean`](../../data-types.md) | Признак пользователя-бота ||
+|| **connector**
+[`boolean`](../../data-types.md) | Признак пользователя-коннектора открытых линий ||
+|| **external_auth_id**
+[`string`](../../data-types.md) | Идентификатор внешней авторизации ||
+|| **status**
+[`string`](../../data-types.md) | Текущий статус пользователя ||
+|| **idle**
+[`string`](../../data-types.md) 
+[`boolean`](../../data-types.md) | Время перехода в статус «Отошел» в формате ISO 8601 (RFC3339) или `false` ||
+|| **last_activity_date**
+[`string`](../../data-types.md) 
+[`boolean`](../../data-types.md) | Время последней активности в формате ISO 8601 (RFC3339) или `false` ||
+|| **mobile_last_date**
+[`string`](../../data-types.md) 
+[`boolean`](../../data-types.md) | Время последней мобильной активности в формате ISO 8601 (RFC3339) или `false` ||
+|| **departments**
+[`array`](../../data-types.md) | Массив идентификаторов подразделений ||
+|| **absent**
+[`string`](../../data-types.md) 
+[`boolean`](../../data-types.md) | Дата окончания отсутствия в формате ISO 8601 (RFC3339) или `false` ||
+|| **phones**
+[`object`](../../data-types.md) | Телефоны пользователя или `false`.
+
+Структура объекта подробно описана [ниже](#phones-object) ||
+|#
+
+### Объект phones {#phones-object}
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
+|| **work_phone**
+[`string`](../../data-types.md) | Рабочий телефон ||
+|| **personal_mobile**
+[`string`](../../data-types.md) | Мобильный телефон ||
+|| **inner_phone**
+[`string`](../../data-types.md) | Внутренний телефон ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
 
 ```json
 {
@@ -230,14 +292,21 @@
 }
 ```
 
-### Описание ключей
-
-- `error` – код возникшей ошибки
-- `error_description` – краткое описание возникшей ошибки
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| **FIND_SHORT** | Слишком короткая поисковая фраза, поиск осуществляется от трех символов. ||
+|| **Код** | **Описание** | **Значение** ||
+|| `FIND_SHORT` | Too short a search phrase | Поисковая фраза не передана или слишком короткая для внутреннего фильтра поиска ||
 |#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./im-search-chat-list.md)
+- [{#T}](./im-search-department-list.md)
+- [{#T}](./im-search-last-add.md)
+- [{#T}](./im-search-last-get.md)
+- [{#T}](./im-search-last-delete.md)
