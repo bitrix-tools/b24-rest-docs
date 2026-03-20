@@ -350,8 +350,8 @@ HTTP-статус: **200**
         "finish": 1739860000.456,
         "duration": 0.333,
         "processing": 0.111,
-        "date_start": "2026-02-10T09:19:34+03:00",
-        "date_finish": "2026-02-10T09:19:34+03:00",
+        "date_start": "2025-02-18T09:19:34+03:00",
+        "date_finish": "2025-02-18T09:19:34+03:00",
         "operating_reset_at": 1739860600,
         "operating": 0
     }
