@@ -23,7 +23,7 @@
 || [landing.landing.markdeletedblock](./landing-landing-mark-deleted-block.md) | Метод помечает блок как удаленный, но не удаляет его физически. | ||
 || [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md) | Метод восстанавливает блок из помеченных как удаленный | ||
 || [landing.landing.moveblock](./landing-landing-move-block.md) | Метод для переноса блока со страницы на страницу. | ||
-|| [landing.landing.showblock](./landing-landing-show-block.md) | Метод для показа блока со странице. | ||
+|| [landing.landing.showblock](./landing-landing-show-block.md) | Метод показывает блок на странице. | ||
 || [landing.landing.unFavoriteBlock](./landing-landing-unfavorite-block.md) | Метод удаляет блок, который был сохранен в «Мои блоки». | 21.800.0 ||
 || [landing.landing.upblock](./landing-landing-up-block.md) | Метод для поднятия блока на одну позицию вверх на странице. | ||
 |#
