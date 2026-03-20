@@ -20,14 +20,14 @@
 
 > Scope: [`mailservice`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: в зависимости от метода
 
 #|
 || **Метод** | **Описание** ||
-|| [mailservice.fields](./mailservice-add.md) | Возвращает описание полей почтового сервиса ||
-|| [mailservice.list](./mailservice-list.md) | Возвращает список всех почтовых сервисов ||
-|| [mailservice.get](./mailservice-get.md) | Возвращает параметры указанного почтового сервиса ||
-|| [mailservice.add](./mailservice-add.md) | Добавляет почтовый сервис ||
+|| [mailservice.add](./mailservice-add.md) | Создает почтовый сервис ||
 || [mailservice.update](./mailservice-update.md) | Обновляет параметры почтового сервиса ||
+|| [mailservice.get](./mailservice-get.md) | Возвращает параметры почтового сервиса по ID ||
+|| [mailservice.list](./mailservice-list.md) | Возвращает список активных почтовых сервисов текущего сайта ||
 || [mailservice.delete](./mailservice-delete.md) | Удаляет почтовый сервис ||
+|| [mailservice.fields](./mailservice-fields.md) | Возвращает названия полей почтового сервиса ||
 |#

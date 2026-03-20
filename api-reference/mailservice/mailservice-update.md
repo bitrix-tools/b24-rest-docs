@@ -1,86 +1,119 @@
-# Изменить параметры почтового сервиса mailservice.update
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствует описание типов параметров
-- нет примеров ответов
-- не указаны версии параметров
-
-{% endnote %}
-
-{% endif %}
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
+# Изменить почтовый сервис mailservice.update
 
 > Scope: [`mailservice`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
-Метод `mailservice.update` обновляет параметры почтового сервиса.
+Метод `mailservice.update` изменяет параметры существующего почтового сервиса.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-||  **Параметр** / **Тип**| **Описание** | **С версии** ||
-|| **ID**
-[`unknown`](../data-types.md) | Идентификатор почтового сервиса | ||
+|| **Название**
+`тип` | **Описание** ||
+|| **ID***
+[`integer`](../data-types.md) | Идентификатор почтового сервиса. 
+
+Получить идентификатор можно методом [mailservice.list](./mailservice-list.md) ||
 || **ACTIVE**
-[`unknown`](../data-types.md) | Активность сервиса (Y / N) | ||
+[`string`](../data-types.md) | Признак активности сервиса. Допустимые значения:
+- `Y` — да
+- `N` — нет ||
 || **NAME**
-[`unknown`](../data-types.md) | Имя добавляемого почтового сервиса | ||
+[`string`](../data-types.md) | Название сервиса ||
 || **SERVER**
-[`unknown`](../data-types.md) | Адрес добавляемого сервера | ||
+[`string`](../data-types.md) | Адрес IMAP-сервера. В базе сохраняется в нижнем регистре ||
 || **PORT**
-[`unknown`](../data-types.md) | Номер порта | ||
+[`integer`](../data-types.md) | Порт IMAP-сервера ||
 || **ENCRYPTION**
-[`unknown`](../data-types.md) | Необходимость шифрования (Y / N) | ||
+[`string`](../data-types.md) | Признак защищенного подключения. Допустимые значения:
+- `Y` — да
+- `N` — нет ||
 || **LINK**
-[`unknown`](../data-types.md) | Ссылка на почтовый сервис | ||
+[`string`](../data-types.md) | Адрес веб-интерфейса сервиса ||
+|| **ICON**
+[`file`](../data-types.md)
+[`integer`](../data-types.md)
+[`string`](../data-types.md) | Логотип сервиса. Можно передать файл или существующий идентификатор файла ||
 || **SORT**
-[`unknown`](../data-types.md) | Индекс сортировки | ||
+[`integer`](../data-types.md) | Индекс сортировки ||
 |#
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "ID": 31,
+        "NAME": "Обновленный почтовый сервис",
+        "ACTIVE": "N",
+        "SERVER": "imap.my2-mail.ru",
+        "PORT": 993,
+        "ENCRYPTION": "Y",
+        "LINK": "https://mail.my2-mail.ru/",
+        "SORT": 600
+      }' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/mailservice.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "ID": 31,
+        "NAME": "Обновленный почтовый сервис",
+        "ACTIVE": "N",
+        "SERVER": "imap.my2-mail.ru",
+        "PORT": 993,
+        "ENCRYPTION": "Y",
+        "LINK": "https://mail.my2-mail.ru/",
+        "SORT": 600,
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/mailservice.update
+    ```
+
+- JS
 
     ```js
     try
     {
     	const response = await $b24.callMethod(
-    		"mailservice.update",
+    		'mailservice.update',
     		{
-    			'ID': 5,
-    			'ACTIVE': 'N',
-    			'NAME': 'Почтовый сервис Yandex',
-    			'SERVER': 'imap.yandex.ru',
-    			'PORT': '993',
-    			'ENCRYPTION': 'Y',
-    			'LINK': 'https://mail.yandex.ru/',
-    			'SORT': '666'
+    			ID: 31,
+    			NAME: 'Обновленный почтовый сервис',
+    			ACTIVE: 'N',
+    			SERVER: 'imap.my2-mail.ru',
+    			PORT: 993,
+    			ENCRYPTION: 'Y',
+    			LINK: 'https://mail.my2-mail.ru/',
+    			SORT: 600
     		}
     	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+
+    	console.log(response.getData().result);
     }
-    catch(error)
+    catch (error)
     {
     	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -89,28 +122,21 @@
             ->call(
                 'mailservice.update',
                 [
-                    'ID'        => 5,
-                    'ACTIVE'    => 'N',
-                    'NAME'      => 'Почтовый сервис Yandex',
-                    'SERVER'    => 'imap.yandex.ru',
-                    'PORT'      => '993',
+                    'ID' => 31,
+                    'NAME' => 'Обновленный почтовый сервис',
+                    'ACTIVE' => 'N',
+                    'SERVER' => 'imap.my2-mail.ru',
+                    'PORT' => 993,
                     'ENCRYPTION' => 'Y',
-                    'LINK'      => 'https://mail.yandex.ru/',
-                    'SORT'      => '666',
+                    'LINK' => 'https://mail.my2-mail.ru/',
+                    'SORT' => 600,
                 ]
             );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        $result = $response->getResponseData()->getResult();
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating mail service: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -118,31 +144,115 @@
 
     ```js
     BX24.callMethod(
-        "mailservice.update",
+        'mailservice.update',
         {
-            'ID': 5,
-            'ACTIVE': 'N',
-            'NAME': 'Почтовый сервис Yandex',
-            'SERVER': 'imap.yandex.ru',
-            'PORT': '993',
-            'ENCRYPTION': 'Y',
-            'LINK': 'https://mail.yandex.ru/',
-            'SORT': '666'
+            ID: 31,
+            NAME: 'Обновленный почтовый сервис',
+            ACTIVE: 'N',
+            SERVER: 'imap.my2-mail.ru',
+            PORT: 993,
+            ENCRYPTION: 'Y',
+            LINK: 'https://mail.my2-mail.ru/',
+            SORT: 600
         },
         function(result)
         {
-            if(result.errorы())
+            if (result.error())
             {
                 console.error(result.error());
             }
             else
             {
-                console.info(result.data());
+                console.log(result.data());
             }
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'mailservice.update',
+        [
+            'ID' => 31,
+            'NAME' => 'Обновленный почтовый сервис',
+            'ACTIVE' => 'N',
+            'SERVER' => 'imap.my2-mail.ru',
+            'PORT' => 993,
+            'ENCRYPTION' => 'Y',
+            'LINK' => 'https://mail.my2-mail.ru/',
+            'SORT' => 600,
+        ]
+    );
+
+    print_r($result);
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1774008238,
+        "finish": 1774008238.539154,
+        "duration": 0.539154052734375,
+        "processing": 0,
+        "date_start": "2026-03-20T15:03:58+03:00",
+        "date_finish": "2026-03-20T15:03:58+03:00",
+        "operating_reset_at": 1774008838,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../data-types.md) | `true`, если сервис успешно обновлен ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_CORE",
+    "error_description": "Не найден почтовый сервис"
+}
+```
+
+{% include notitle [Обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CORE` | Доступ запрещен | Недостаточно прав для добавления почтового сервиса ||
+|| `400` | `ERROR_CORE` | Не указан ID почтового сервиса | Не передан обязательный параметр `ID` ||
+|| `400` | `ERROR_CORE` | Не найден почтовый сервис | Почтовый сервис с указанным `ID` не найден ||
+|| `400` | `ERROR_CORE` | Неправильное значение для "*название_поля*" | Передано недопустимое значение указанного поля  ||
+|#
+
+{% include [Системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./mailservice-add.md)
+- [{#T}](./mailservice-get.md)
+- [{#T}](./mailservice-list.md)
+- [{#T}](./mailservice-delete.md)
+- [{#T}](./mailservice-fields.md)
