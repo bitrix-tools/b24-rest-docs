@@ -29,6 +29,7 @@
 || [`catalog_document_element.id`](#catalog_document_element) | Целочисленный идентификатор товара документа складского учета, например `1`. Получить идентификаторы товаров в документах можно с помощью метода [catalog.document.element.list](./document/document-element/catalog-document-element-list.md) ||
 || [`catalog_documentcontractor.id`](#catalog_documentcontractor) | Целочисленный идентификатор привязки поставщика к документу складского учета, например `1`. Получить идентификаторы привязок можно с помощью метода [catalog.documentcontractor.list](./documentcontractor/catalog-documentcontractor-list.md) ||
 || [`catalog_product.id`](#catalog_product) | Целочисленный идентификатор товара (например, `1`). Получить идентификаторы товаров можно с помощью метода [catalog.product.list](./product/catalog-product-list.md) ||
+|| [`catalog_product_property.id`](#catalog_product_property) | Целочисленный идентификатор свойства товара или вариации (например, `1`). Получить идентификаторы свойств можно с помощью метода [catalog.productProperty.list](./product-property/catalog-product-property-list.md) ||
 || [`catalog_product_sku.id`](#catalog_product_sku) | Целочисленный идентификатор головного товара (например, `1`). Получить идентификаторы головных товаров можно с помощью метода [catalog.product.sku.list](./product/sku/catalog-product-sku-list.md) ||
 || [`catalog_product_offer.id`](#catalog_product_offer) | Целочисленный идентификатор вариации товара (например, `1`). Получить идентификаторы вариаций товаров можно с помощью метода [catalog.product.offer.list](./product/offer/catalog-product-offer-list.md) ||
 || [`catalog_product_service.id`](#catalog_product_service) | Целочисленный идентификатор услуги (например, `1`). Получить идентификаторы услуг можно с помощью метода [catalog.product.service.list](./product/service/catalog-product-service-list.md) ||
@@ -344,6 +345,94 @@
 
 `valueId` всех свойств товара можно получить с помощью методов [catalog.product.get](./product/catalog-product-get.md) и [catalog.product.list](./product/catalog-product-list.md)
 ||
+|#
+
+### catalog_product_property
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор свойства ||
+|| **timestampX**
+[`datetime`](../data-types.md) | Дата и время изменения свойства ||
+|| **iblockId**
+[`catalog_catalog.id`](#catalog_catalog) | Идентификатор торгового каталога ||
+|| **name**
+[`string`](../data-types.md) | Название свойства ||
+|| **active**
+[`char`](../data-types.md) | Признак активности. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **sort**
+[`integer`](../data-types.md) | Индекс сортировки ||
+|| **code**
+[`string`](../data-types.md) | Символьный код свойства ||
+|| **defaultValue**
+[`text`](../data-types.md) | Значение свойства по умолчанию ||
+|| **propertyType**
+[`string`](../data-types.md) | Базовый тип свойства. Допустимые значения:
+- `N` — число
+- `S` — строка
+- `L` — список
+- `F` — файл
+- `E` — привязка к элементам
+- `G` — привязка к разделам ||
+|| **userType**
+[`string`](../data-types.md) | Пользовательский тип свойства. Значение соответствует указанному `propertyType`.
+
+Примеры значений:
+- `DateTime` — дата и время
+- `Money` — денежное значение с валютой
+- `SKU` — привязка к вариациям товара
+- `directory` — привязка к справочнику
+- `employee` — привязка к сотруднику
+- `UserID` — привязка к пользователю
+- `EList` — выбор элемента из списка
+- `EAutocomplete` — привязка к элементам с автопоиском
+- `SectionAuto` — привязка к разделам с автопоиском
+- `HTML` — значение в формате HTML
+- `map_google` — координаты и адрес на карте Google
+- `map_yandex` — координаты и адрес на карте Яндекс
+- `DiskFile` — привязка к файлу из Битрикс24.Диск
+- `ECrm` — привязка к элементам CRM
+- `BoolEnum` — чекбокс на базе списка ||
+|| **rowCount**
+[`integer`](../data-types.md) | Число строк поля ввода ||
+|| **colCount**
+[`integer`](../data-types.md) | Число колонок поля ввода ||
+|| **listType**
+[`char`](../data-types.md) | Внешний вид списка ||
+|| **multiple**
+[`char`](../data-types.md) | Признак множественности. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **xmlId**
+[`string`](../data-types.md) | Внешний идентификатор свойства ||
+|| **fileType**
+[`string`](../data-types.md) | Разрешенные расширения для свойства типа файл ||
+|| **multipleCnt**
+[`integer`](../data-types.md) | Число полей ввода для множественных значений ||
+|| **linkIblockId**
+[`catalog_catalog.id`](#catalog_catalog) | Идентификатор связанного инфоблока. 
+
+Доступные идентификаторы можно получить методом [catalog.catalog.list](./catalog/catalog-catalog-list.md) ||
+|| **withDescription**
+[`char`](../data-types.md) | Признак хранения описания значения ||
+|| **searchable**
+[`char`](../data-types.md) | Признак участия в поиске. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **filtrable**
+[`char`](../data-types.md) | Признак участия в фильтрации ||
+|| **isRequired**
+[`char`](../data-types.md) | Признак обязательности. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **hint**
+[`string`](../data-types.md) | Подсказка для поля ||
+|| **userTypeSettings**
+[`object`](../data-types.md) | Объект с настройками пользовательского типа ||
 |#
 
 ### catalog_product_sku
@@ -1101,4 +1190,37 @@
 [`integer`](../data-types.md) | Сортировка ||
 || **timestampX**
 [`datetime`](../data-types.md) | Время последнего изменения ||
+|#
+
+## Объекты, используемые в ответах
+
+### rest_field_description {#rest_field_description}
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **isImmutable**
+[`boolean`](../data-types.md) | Индикатор возможности изменения значения поля после создания. 
+
+Если у поля выставлен данный индикатор, то при создании объекта можно указать значение поля, но изменить его при обновлении не получится ||
+|| **isReadOnly**
+[`boolean`](../data-types.md) | Индикатор «только чтение». 
+
+Если у поля выставлен данный индикатор, то в операциях добавления и обновления объекта передавать значение поля не нужно. Значение формируется автоматически и предназначено только для чтения ||
+|| **isRequired**
+[`boolean`](../data-types.md) | Индикатор обязательности поля для операций добавления или обновления ||
+|| **type**
+[`string`](../data-types.md) | Тип данных значений поля. Возможные значения: 
+- `integer`
+- `double`
+- `string`
+- `char`
+- `list`
+- `text`
+- `file`
+- `date`
+- `datetime`
+- `datatype`
+- `productpropertysettings`
+||
 |#

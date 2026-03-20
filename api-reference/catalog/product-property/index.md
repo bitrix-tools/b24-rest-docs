@@ -51,9 +51,9 @@
 #|
 || **Метод** | **Описание** ||
 || [catalog.productProperty.add](./catalog-product-property-add.md) | Добавляет свойство товаров или вариаций ||
-|| [catalog.productProperty.delete](./catalog-product-property-delete.md) | Удаляет свойство товаров или вариаций ||
-|| [catalog.productProperty.get](./catalog-product-property-get.md) | Возвращает значения полей свойства товаров или вариаций ||
-|| [catalog.productProperty.getFields](./catalog-product-property-get-fields.md) | Возвращает поля свойства товаров или вариаций ||
-|| [catalog.productProperty.list](./catalog-product-property-list.md) | Возвращает список свойств товаров или вариаций ||
 || [catalog.productProperty.update](./catalog-product-property-update.md) | Обновляет поля свойства товаров или вариаций ||
+|| [catalog.productProperty.get](./catalog-product-property-get.md) | Возвращает значения полей свойства товаров или вариаций ||
+|| [catalog.productProperty.list](./catalog-product-property-list.md) | Возвращает список свойств товаров или вариаций ||
+|| [catalog.productProperty.delete](./catalog-product-property-delete.md) | Удаляет свойство товаров или вариаций ||
+|| [catalog.productProperty.getFields](./catalog-product-property-get-fields.md) | Возвращает поля свойства товаров или вариаций ||
 |#
