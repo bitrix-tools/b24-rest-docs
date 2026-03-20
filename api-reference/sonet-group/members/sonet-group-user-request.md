@@ -1,72 +1,77 @@
 # Отправить запрос на вступление в группу sonet_group.user.request
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-- нет примеров на др. языках
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`sonet`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с доступом к группе или проекту
 
-## Описание
+Метод `sonet_group.user.request` отправляет запрос текущего пользователя на вступление в рабочую группу или проект.
 
-Метод отправляет запрос текущего пользователя на вступление в группу соцсети, при этом проверяются права на доступ текущего пользователя к группе. Если группа открыта для свободного вступления, пользователь сразу становится ее участником.
+## Параметры метода
 
-## Возвращает `true`, если запрос произошел успешно, или текст ошибки.
-
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **GROUP_ID** | ID группы, в которую отправляется запрос. ||
-|| **MESSAGE** | Текст запроса. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **GROUP_ID***
+[`integer`](../../data-types.md) | Идентификатор рабочей группы или проекта.
+
+Идентификатор можно получить с помощью метода [sonet_group.get](../sonet-group-get.md) ||
+|| **MESSAGE**
+[`string`](../../data-types.md) | Текст запроса на вступление ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Пример
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"GROUP_ID":69,"MESSAGE":"Прошу добавить меня в проект"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sonet_group.user.request
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"GROUP_ID":69,"MESSAGE":"Прошу добавить меня в проект","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/sonet_group.user.request
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'sonet_group.user.request',
-    		{
-    			'GROUP_ID': 17,
-    			'MESSAGE': 'Request'
-    		}
-    	);
-    	
-    	const result = response.getData().result;
+        const response = await $b24.callMethod(
+            'sonet_group.user.request',
+            {
+                GROUP_ID: 69,
+                MESSAGE: 'Прошу добавить меня в проект',
+            }
+        );
+        
+        const result = response.getData().result;
+        console.log('Request result:', result);
+        
+        processResult(result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -75,48 +80,126 @@
             ->call(
                 'sonet_group.user.request',
                 [
-                    'GROUP_ID' => 17,
-                    'MESSAGE'  => 'Request',
+                    'GROUP_ID' => 69,
+                    'MESSAGE' => 'Прошу добавить меня в проект'
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+        processData($result);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error sending request to join group: ' . $e->getMessage();
+        echo 'Error requesting group join: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
     ```js
-    // Отправляем запрос на вступление в группу с ID=17
-    BX24.callMethod('sonet_group.user.request', {
-        'GROUP_ID': 17,
-        'MESSAGE': 'Request'
-    });
+    BX24.callMethod(
+        'sonet_group.user.request',
+        {
+            GROUP_ID: 69,
+            MESSAGE: 'Прошу добавить меня в проект'
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'sonet_group.user.request',
+        [
+            'GROUP_ID' => 69,
+            'MESSAGE' => 'Прошу добавить меня в проект'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
+## Обработка ответа
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
-
-## Запрос:
-
-```
-https://mydomain.bitrix24.ru/rest/sonet_group.user.request.json?auth=52423d4a5f19f5f964f9b4e96a925cfa&GROUP_ID=17&MESSAGE=Request
-```
-
-## Ответ:
-
->200 OK
+HTTP-статус: **200**
 
 ```json
-{"result":true}
+{
+    "result": true,
+    "time": {
+        "start": 1773810600,
+        "finish": 1773810600.5026,
+        "duration": 0.5026,
+        "processing": 0.2404,
+        "date_start": "2026-03-18T08:50:00+03:00",
+        "date_finish": "2026-03-18T08:50:00+03:00",
+        "operating_reset_at": 1773811200,
+        "operating": 0
+    }
+}
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | `true`, если запрос на вступление успешно отправлен ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Socialnetwork group not found"
+}
+```
+
+{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| — | `Wrong group ID` | Передан некорректный `GROUP_ID` ||
+|| — | `Socialnetwork group not found` | Группа или проект не найдены или недоступны текущему пользователю ||
+|| — | `Cannot request to join group` | Не удалось отправить запрос на вступление ||
+|#
+
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./sonet-group-user-invite.md)
+- [{#T}](./sonet-group-user-add.md)
+- [{#T}](./sonet-group-user-update.md)
+- [{#T}](./sonet-group-user-get.md)
+- [{#T}](./sonet-group-user-delete.md)

@@ -4,6 +4,8 @@
 
 ### 20 марта, 2026
 
+- Обновили документацию по методам [sonet_group.user.*](./api-reference/sonet-group/members/index.md) в разделе Участники групп и проектов
+- Обновили документацию по методам [sonet_group.create](./api-reference/sonet-group/sonet-group-create.md), [sonet_group.delete](./api-reference/sonet-group/sonet-group-delete.md), [sonet_group.feature.access](./api-reference/sonet-group/sonet-group-feature-access.md), [sonet_group.get](./api-reference/sonet-group/sonet-group-get.md), [sonet_group.setowner](./api-reference/sonet-group/sonet-group-setowner.md), [sonet_group.update](./api-reference/sonet-group/sonet-group-update.md), [sonet_group.user.groups](./api-reference/sonet-group/sonet-group-user-groups.md)
 - Обновили документацию по методам [documentgenerator.document.add](./api-reference/document-generator/document-generator-document-add.md), [documentgenerator.document.update](./api-reference/document-generator/document-generator-document-update.md), [documentgenerator.document.get](./api-reference/document-generator/document-generator-document-get.md), [documentgenerator.document.list](./api-reference/document-generator/document-generator-document-list.md), [documentgenerator.document.delete](./api-reference/document-generator/document-generator-document-delete.md), [documentgenerator.document.enablepublicurl](./api-reference/document-generator/document-generator-document-enable-public-url.md), [documentgenerator.document.getfields](./api-reference/document-generator/document-generator-document-get-fields.md) в разделе Генератор документов
 
 ### 19 марта, 2026

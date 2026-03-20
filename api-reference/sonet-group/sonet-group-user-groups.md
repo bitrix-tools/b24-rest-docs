@@ -1,62 +1,63 @@
 # Получить список групп текущего пользователя sonet_group.user.groups
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нет параметров и типов параметров
-- не указана обязательность параметров
-- отсутствует ответ в случае ошибки
-- нет примеров на др. языках
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`sonet`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает массив групп соцсети текущего пользователя, осуществляя вызов `CSocNetUserToGroup::GetList()`.
+Метод `sonet_group.user.groups` возвращает группы и проекты, в которых состоит текущий пользователь.
 
-## Поля каждой группы:
+## Параметры метода
 
-- **GROUP_ID** - ID группы соцсети.
-- **GROUP_NAME** - название группы соцсети.
-- **ROLE** - роль пользователя в группе:
-  - **SONET_ROLES_OWNER (A)** - владелец,
-  - **SONET_ROLES_MODERATOR (E)** - модератор,
-  - **SONET_ROLES_USER (K)** - пользователь.
+Без параметров.
 
-## Пример
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sonet_group.user.groups
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/sonet_group.user.groups
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod('sonet_group.user.groups', {});
-    	
-    	const result = response.getData().result;
-    	console.log('Result:', result);
+        const response = await $b24.callMethod(
+            'sonet_group.user.groups',
+            {}
+        );
+        
+        const result = response.getData().result;
+        console.log('Retrieved user groups:', result);
+        
+        processResult(result);
     }
     catch( error )
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -66,53 +67,131 @@
                 'sonet_group.user.groups',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting user groups: ' . $e->getMessage();
+        echo 'Error retrieving user groups: ' . $e->getMessage();
     }
     ```
 
 - BX24.js
 
     ```js
-    // Получаем список групп текущего пользователя
-    BX24.callMethod('sonet_group.user.groups', {});
+    BX24.callMethod('sonet_group.user.groups',
+        {}, 
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'sonet_group.user.groups',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
+## Обработка ответа
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
-
-## Запрос:
-
-```
-https://mydomain.bitrix24.ru/rest/sonet_group.user.groups.json?auth=52423d4a5f19f5f964f9b4e96a925cfa
-```
-
-## Ответ:
-
->200 OK
+HTTP-статус: **200**
 
 ```json
 {
-"result": [
-    {"GROUP_ID":"1","GROUP_NAME":"Маркетинг и реклама","ROLE":"A"},
-    {"GROUP_ID":"3","GROUP_NAME":"Продажи","ROLE":"A"},
-    {"GROUP_ID":"5","GROUP_NAME":"Отдых","ROLE":"A"},
-    {"GROUP_ID":"7","GROUP_NAME":"Технологии","ROLE":"A"},
-    {"GROUP_ID":"9","GROUP_NAME":"Фриланс","ROLE":"A"},
-    {"GROUP_ID":"13","GROUP_NAME":"Test sonet group","ROLE":"A"},
-    {"GROUP_ID":"15","GROUP_NAME":"Test sonet group","ROLE":"A"}
-]
+    "result": [
+        {
+        "GROUP_ID": "77",
+        "GROUP_NAME": "Новый заголовок проекта",
+        "ROLE": "K",
+        "GROUP_IMAGE_ID": null,
+        "GROUP_IMAGE": ""
+        },
+        {
+        "GROUP_ID": "79",
+        "GROUP_NAME": "Скрам-проект",
+        "ROLE": "A",
+        "GROUP_IMAGE_ID": null,
+        "GROUP_IMAGE": ""
+        }
+    ],
+    "time": {
+        "start": 1773927027,
+        "finish": 1773927028.025164,
+        "duration": 1.0251638889312744,
+        "processing": 1,
+        "date_start": "2026-03-19T16:30:27+03:00",
+        "date_finish": "2026-03-19T16:30:28+03:00",
+        "operating_reset_at": 1773927627,
+        "operating": 0
+    }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../data-types.md) | Массив групп текущего пользователя.
+
+Пустой массив означает, что пользователь не состоит ни в одной группе или проекте ||
+|| **GROUP_ID**
+[`integer`](../data-types.md) | Идентификатор группы ||
+|| **GROUP_NAME**
+[`string`](../data-types.md) | Название группы ||
+|| **ROLE**
+[`string`](../data-types.md) | Роль текущего пользователя.
+
+Возможные значения:
+- `A` — владелец
+- `E` — модератор
+- `K` — участник ||
+|| **GROUP_IMAGE_ID**
+[`string`](../data-types.md) | Идентификатор аватара группы ||
+|| **GROUP_IMAGE**
+[`string`](../data-types.md) | URL аватара группы ||
+|| **IS_EXTRANET**
+[`string`](../data-types.md) | Признак экстранет-группы.
+
+Поле возвращается только для экстранет-групп:
+- `Y` — экстранет-группа ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./sonet-group-get.md)
+- [{#T}](./socialnetwork-api-workgroup-list.md)
+- [{#T}](./socialnetwork-api-workgroup-get.md)
+- [{#T}](./members/index.md)

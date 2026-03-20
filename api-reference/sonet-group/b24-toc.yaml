@@ -3,25 +3,25 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Создать группу/проект
+  - name: Создать группу или проект
     href: sonet-group-create.md
-  - name: Изменить группу/проект
+  - name: Изменить группу или проект
     href: sonet-group-update.md
-  - name: Получить группу/проект по Id
+  - name: Получить данные о рабочей группе
     href: socialnetwork-api-workgroup-get.md
   - name: Получить список рабочих групп
     href: socialnetwork-api-workgroup-list.md
-  - name: Получить список групп/проектов
+  - name: Получить список групп и проектов
     href: sonet-group-get.md 
-  - name: Проверить доступы текущего пользователя
+  - name: Проверить права текущего пользователя
     href: sonet-group-feature-access.md
   - name: Получить список групп текущего пользователя
     href: sonet-group-user-groups.md
-  - name: Изменить владельца группы/проекта
+  - name: Изменить владельца группы или проекта
     href: sonet-group-setowner.md
-  - name: Удалить группу соцсети
+  - name: Удалить группу или проект
     href: sonet-group-delete.md
-  - name: Участники группы/проекта
+  - name: Участники групп и проектов
     include:
       path: members/b24-toc.yaml
       mode: link
