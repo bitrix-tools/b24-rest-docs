@@ -229,7 +229,7 @@ HTTP-статус: **200**
                 "id": "39",
                 "name": "Демонстрационная реализация товара",
                 "region": "ru",
-                "download": "https://bitrixdoc.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=39",
+                "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=39",
                 "users": [
                     "UA"
                 ],
@@ -237,13 +237,13 @@ HTTP-статус: **200**
                     "2_category_0",
                     "2_category_32"
                 ],
-                "downloadMachine": "https://bitrixdoc.bitrix24.ru/rest/crm.documentgenerator.template.download.json?auth=***&token=***"
+                "downloadMachine": "https://mysite.ru/rest/crm.documentgenerator.template.download.json?auth=***&token=***"
             },
             "37": {
                 "id": "37",
                 "name": "Акт о списании товаров (Россия)",
                 "region": "ru",
-                "download": "https://bitrixdoc.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=37",
+                "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=37",
                 "users": [
                     "UA"
                 ],
@@ -251,7 +251,7 @@ HTTP-статус: **200**
                     "2_category_37",
                     "bitrix\\crm\\integration\\documentgenerator\\dataprovider\\storedocumentdeduct"
                 ],
-                "downloadMachine": "https://bitrixdoc.bitrix24.ru/rest/crm.documentgenerator.template.download.json?auth=***&token=***"
+                "downloadMachine": "https://mysite.ru/rest/crm.documentgenerator.template.download.json?auth=***&token=***"
             }
         }
     },

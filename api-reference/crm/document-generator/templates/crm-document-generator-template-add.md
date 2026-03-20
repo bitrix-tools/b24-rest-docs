@@ -251,7 +251,7 @@ HTTP-статус: **200**
             "name": "Шаблон из файла",
             "region": "ru",
             "code": null,
-            "download": "https://bitrixdoc.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=41",
+            "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=41",
             "active": "Y",
             "moduleId": "crm",
             "numeratorId": "49",
@@ -261,7 +261,7 @@ HTTP-статус: **200**
             },
             "isDeleted": "N",
             "sort": "500",
-            "downloadMachine": "https://bitrixdoc.bitrix24.ru/rest/crm.documentgenerator.template.download.json?...",
+            "downloadMachine": "https://mysite.ru/rest/crm.documentgenerator.template.download.json?...",
             "entityTypeId": [
                 "2"
             ],

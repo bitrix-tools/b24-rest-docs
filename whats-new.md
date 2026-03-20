@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 20 марта, 2026
+
+- Обновили документацию по методам [documentgenerator.document.add](./api-reference/document-generator/document-generator-document-add.md), [documentgenerator.document.update](./api-reference/document-generator/document-generator-document-update.md), [documentgenerator.document.get](./api-reference/document-generator/document-generator-document-get.md), [documentgenerator.document.list](./api-reference/document-generator/document-generator-document-list.md), [documentgenerator.document.delete](./api-reference/document-generator/document-generator-document-delete.md), [documentgenerator.document.enablepublicurl](./api-reference/document-generator/document-generator-document-enable-public-url.md), [documentgenerator.document.getfields](./api-reference/document-generator/document-generator-document-get-fields.md) в разделе Генератор документов
+
 ### 19 марта, 2026
 
 - Обновили документацию по методам [log.blogpost.add](./api-reference/log/log-blogpost-add.md), [log.blogpost.delete](./api-reference/log/log-blogpost-delete.md), [log.blogpost.get](./api-reference/log/log-blogpost-get.md), [log.blogpost.getusers.important](./api-reference/log/log-blogpost-getusers-important.md), [log.blogpost.share](./api-reference/log/log-blogpost-share.md), [log.blogpost.update](./api-reference/log/log-blogpost-update.md) 
