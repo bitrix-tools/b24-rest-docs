@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 23 марта, 2026
+
+- Обновили документацию по методам [documentgenerator.role.*](./api-reference/document-generator/role/index.md) в разделе Роли и права в Генераторе документов
+
 ### 20 марта, 2026
 
 - Обновили документацию по методам [sonet_group.user.*](./api-reference/sonet-group/members/index.md) в разделе Участники групп и проектов
