@@ -168,8 +168,8 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"DIALOG_ID":"chat2725","MESSAGE":"Выберите действие","KEYBOARD":{"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить команду","ACTION":"PUT","ACTION_VALUE":"/help"}]}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.message.add
+    -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat2725","fields":{"message":"Выберите действие","keyboard":{"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить команду","ACTION":"PUT","ACTION_VALUE":"/help"}]}}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
   ```
 
 - cURL (OAuth)
@@ -178,27 +178,30 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"DIALOG_ID":"chat2725","MESSAGE":"Выберите действие","KEYBOARD":{"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить команду","ACTION":"PUT","ACTION_VALUE":"/help"}]},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/im.message.add
+    -d '{"botId":456,"dialogId":"chat2725","fields":{"message":"Выберите действие","keyboard":{"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить команду","ACTION":"PUT","ACTION_VALUE":"/help"}]}},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
   ```
 
 - JS
 
   ```js
   try {
-      const response = await $b24.callMethod('im.message.add', {
-          DIALOG_ID: 'chat2725',
-          MESSAGE: 'Выберите действие',
-          KEYBOARD: {
-              BUTTONS: [
-                  { TEXT: 'Открыть сайт', LINK: 'https://www.example.ru/' },
-                  { TYPE: 'NEWLINE' },
-                  { TEXT: 'Подставить команду', ACTION: 'PUT', ACTION_VALUE: '/help' },
-              ],
+      const response = await $b24.callMethod('imbot.v2.Chat.Message.send', {
+          botId: 456,
+          dialogId: 'chat2725',
+          fields: {
+              message: 'Выберите действие',
+              keyboard: {
+                  BUTTONS: [
+                      { TEXT: 'Открыть сайт', LINK: 'https://www.example.ru/' },
+                      { TYPE: 'NEWLINE' },
+                      { TEXT: 'Подставить команду', ACTION: 'PUT', ACTION_VALUE: '/help' },
+                  ],
+              },
           },
       });
 
-      const result = response.getData().result;
+      const result = response.getData().result.id;
       console.log('Created message ID:', result);
   } catch (error) {
       console.error('Error:', error);
@@ -212,15 +215,18 @@
       $response = $b24Service
           ->core
           ->call(
-              'im.message.add',
+              'imbot.v2.Chat.Message.send',
               [
-                  'DIALOG_ID' => 'chat2725',
-                  'MESSAGE' => 'Выберите действие',
-                  'KEYBOARD' => [
-                      'BUTTONS' => [
-                          ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
-                          ['TYPE' => 'NEWLINE'],
-                          ['TEXT' => 'Подставить команду', 'ACTION' => 'PUT', 'ACTION_VALUE' => '/help'],
+                  'botId' => 456,
+                  'dialogId' => 'chat2725',
+                  'fields' => [
+                      'message' => 'Выберите действие',
+                      'keyboard' => [
+                          'BUTTONS' => [
+                              ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
+                              ['TYPE' => 'NEWLINE'],
+                              ['TEXT' => 'Подставить команду', 'ACTION' => 'PUT', 'ACTION_VALUE' => '/help'],
+                          ],
                       ],
                   ],
               ]
@@ -228,7 +234,7 @@
 
       $result = $response
           ->getResponseData()
-          ->getResult();
+          ->getResult()['id'];
 
       echo 'Created message ID: ' . $result;
   } catch (Throwable $e) {
@@ -241,23 +247,26 @@
 
   ```js
   BX24.callMethod(
-      'im.message.add',
+      'imbot.v2.Chat.Message.send',
       {
-          DIALOG_ID: 'chat2725',
-          MESSAGE: 'Выберите действие',
-          KEYBOARD: {
-              BUTTONS: [
-                  { TEXT: 'Открыть сайт', LINK: 'https://www.example.ru/' },
-                  { TYPE: 'NEWLINE' },
-                  { TEXT: 'Подставить команду', ACTION: 'PUT', ACTION_VALUE: '/help' },
-              ],
+          botId: 456,
+          dialogId: 'chat2725',
+          fields: {
+              message: 'Выберите действие',
+              keyboard: {
+                  BUTTONS: [
+                      { TEXT: 'Открыть сайт', LINK: 'https://www.example.ru/' },
+                      { TYPE: 'NEWLINE' },
+                      { TEXT: 'Подставить команду', ACTION: 'PUT', ACTION_VALUE: '/help' },
+                  ],
+              },
           },
       },
       function(result) {
           if (result.error()) {
               console.error(result.error().ex);
           } else {
-              console.log(result.data());
+              console.log('Message ID:', result.data().id);
           }
       }
   );
@@ -269,21 +278,28 @@
   require_once('crest.php');
 
   $result = CRest::call(
-      'im.message.add',
+      'imbot.v2.Chat.Message.send',
       [
-          'DIALOG_ID' => 'chat2725',
-          'MESSAGE' => 'Выберите действие',
-          'KEYBOARD' => [
-              'BUTTONS' => [
-                  ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
-                  ['TYPE' => 'NEWLINE'],
-                  ['TEXT' => 'Подставить команду', 'ACTION' => 'PUT', 'ACTION_VALUE' => '/help'],
+          'botId' => 456,
+          'dialogId' => 'chat2725',
+          'fields' => [
+              'message' => 'Выберите действие',
+              'keyboard' => [
+                  'BUTTONS' => [
+                      ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
+                      ['TYPE' => 'NEWLINE'],
+                      ['TEXT' => 'Подставить команду', 'ACTION' => 'PUT', 'ACTION_VALUE' => '/help'],
+                  ],
               ],
           ],
       ]
   );
 
-  print_r($result);
+  if (!empty($result['error'])) {
+      echo 'Error: ' . $result['error_description'];
+  } else {
+      echo 'Message ID: ' . $result['result']['id'];
+  }
   ```
 
 {% endlist %}

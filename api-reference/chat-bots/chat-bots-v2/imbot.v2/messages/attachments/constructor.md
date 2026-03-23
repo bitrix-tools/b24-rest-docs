@@ -16,7 +16,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Карточка задачи","ATTACH":[{"USER":{"NAME":"Уведомления Mantis","AVATAR":"https://files.shelenkov.com/bitrix/images/mantis2.jpg","LINK":"https://shelenkov.com/"}},{"LINK":{"NAME":"Открыть Mantis из внешней сети","LINK":"https://shelenkov.com/"}},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Проект","VALUE":"BUGS","DISPLAY":"LINE","WIDTH":100},{"NAME":"Категория","VALUE":"im","DISPLAY":"LINE","WIDTH":100},{"NAME":"Сводка","VALUE":"Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.","DISPLAY":"BLOCK"}]},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Новое обращение","VALUE":"","DISPLAY":"ROW","WIDTH":100},{"NAME":"Назначено","VALUE":"Шеленков Евгений","DISPLAY":"ROW","WIDTH":100},{"NAME":"Дедлайн","VALUE":"04.11.2015 17:50:43","DISPLAY":"ROW","WIDTH":100}]}]}' \
+      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat20921","fields":{"message":"Карточка задачи","attach":[{"USER":{"NAME":"Уведомления Mantis","AVATAR":"https://files.shelenkov.com/bitrix/images/mantis2.jpg","LINK":"https://shelenkov.com/"}},{"LINK":{"NAME":"Открыть Mantis из внешней сети","LINK":"https://shelenkov.com/"}},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Проект","VALUE":"BUGS","DISPLAY":"LINE","WIDTH":100},{"NAME":"Категория","VALUE":"im","DISPLAY":"LINE","WIDTH":100},{"NAME":"Сводка","VALUE":"Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.","DISPLAY":"BLOCK"}]},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Новое обращение","VALUE":"","DISPLAY":"ROW","WIDTH":100},{"NAME":"Назначено","VALUE":"Шеленков Евгений","DISPLAY":"ROW","WIDTH":100},{"NAME":"Дедлайн","VALUE":"04.11.2015 17:50:43","DISPLAY":"ROW","WIDTH":100}]}]}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
     ```
 
@@ -26,7 +26,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Карточка задачи","ATTACH":[{"USER":{"NAME":"Уведомления Mantis","AVATAR":"https://files.shelenkov.com/bitrix/images/mantis2.jpg","LINK":"https://shelenkov.com/"}},{"LINK":{"NAME":"Открыть Mantis из внешней сети","LINK":"https://shelenkov.com/"}},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Проект","VALUE":"BUGS","DISPLAY":"LINE","WIDTH":100},{"NAME":"Категория","VALUE":"im","DISPLAY":"LINE","WIDTH":100},{"NAME":"Сводка","VALUE":"Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.","DISPLAY":"BLOCK"}]},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Новое обращение","VALUE":"","DISPLAY":"ROW","WIDTH":100},{"NAME":"Назначено","VALUE":"Шеленков Евгений","DISPLAY":"ROW","WIDTH":100},{"NAME":"Дедлайн","VALUE":"04.11.2015 17:50:43","DISPLAY":"ROW","WIDTH":100}]}],"auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"dialogId":"chat20921","fields":{"message":"Карточка задачи","attach":[{"USER":{"NAME":"Уведомления Mantis","AVATAR":"https://files.shelenkov.com/bitrix/images/mantis2.jpg","LINK":"https://shelenkov.com/"}},{"LINK":{"NAME":"Открыть Mantis из внешней сети","LINK":"https://shelenkov.com/"}},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Проект","VALUE":"BUGS","DISPLAY":"LINE","WIDTH":100},{"NAME":"Категория","VALUE":"im","DISPLAY":"LINE","WIDTH":100},{"NAME":"Сводка","VALUE":"Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.","DISPLAY":"BLOCK"}]},{"DELIMITER":{"SIZE":200,"COLOR":"#c6c6c6"}},{"GRID":[{"NAME":"Новое обращение","VALUE":"","DISPLAY":"ROW","WIDTH":100},{"NAME":"Назначено","VALUE":"Шеленков Евгений","DISPLAY":"ROW","WIDTH":100},{"NAME":"Дедлайн","VALUE":"04.11.2015 17:50:43","DISPLAY":"ROW","WIDTH":100}]}]},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
     ```
 
@@ -37,9 +37,11 @@
         const response = await $b24.callMethod(
             'imbot.v2.Chat.Message.send',
             {
-                DIALOG_ID: 'chat20921',
-                MESSAGE: 'Карточка задачи',
-                ATTACH: [
+                botId: 456,
+                dialogId: 'chat20921',
+                fields: {
+                    message: 'Карточка задачи',
+                    attach: [
                     {
                         USER: {
                             NAME: 'Уведомления Mantis',
@@ -108,12 +110,13 @@
                             }
                         ]
                     }
-                ]
+                    ]
+                }
             }
         );
 
-        const result = response.getData().result;
-        console.log(result);
+        const result = response.getData().result.id;
+        console.log('Created message ID:', result);
     } catch (error) {
         console.error(error);
     }
@@ -128,9 +131,11 @@
             ->call(
                 'imbot.v2.Chat.Message.send',
                 [
-                    'DIALOG_ID' => 'chat20921',
-                    'MESSAGE' => 'Карточка задачи',
-                    'ATTACH' => [
+                    'botId' => 456,
+                    'dialogId' => 'chat20921',
+                    'fields' => [
+                        'message' => 'Карточка задачи',
+                        'attach' => [
                         [
                             'USER' => [
                                 'NAME' => 'Уведомления Mantis',
@@ -199,15 +204,13 @@
                                 ]
                             ]
                         ]
+                        ]
                     ]
                 ]
             );
 
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        echo 'Success: ' . print_r($result, true);
+        $result = $response->getResponseData()->getResult()['id'];
+        echo 'Created message ID: ' . $result;
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding message: ' . $e->getMessage();
@@ -220,9 +223,11 @@
     BX24.callMethod(
         'imbot.v2.Chat.Message.send',
         {
-            DIALOG_ID: 'chat20921',
-            MESSAGE: 'Карточка задачи',
-            ATTACH: [
+            botId: 456,
+            dialogId: 'chat20921',
+            fields: {
+                message: 'Карточка задачи',
+                attach: [
                 {
                     USER: {
                         NAME: 'Уведомления Mantis',
@@ -291,13 +296,14 @@
                         }
                     ]
                 }
-            ]
+                ]
+            }
         },
         function(result) {
             if (result.error()) {
                 console.error(result.error().ex);
             } else {
-                console.log(result.data());
+                console.log('Message ID:', result.data().id);
             }
         }
     );
@@ -311,9 +317,11 @@
     $result = CRest::call(
         'imbot.v2.Chat.Message.send',
         [
-            'DIALOG_ID' => 'chat20921',
-            'MESSAGE' => 'Карточка задачи',
-            'ATTACH' => [
+            'botId' => 456,
+            'dialogId' => 'chat20921',
+            'fields' => [
+                'message' => 'Карточка задачи',
+                'attach' => [
                 [
                     'USER' => [
                         'NAME' => 'Уведомления Mantis',
@@ -382,11 +390,16 @@
                         ]
                     ]
                 ]
+                ]
             ]
         ]
     );
 
-    print_r($result);
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Message ID: ' . $result['result']['id'];
+    }
     ```
 
 {% endlist %}
@@ -405,7 +418,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat20921","MESSAGE":"У вас новое уведомление","ATTACH":{"ID":1,"COLOR":"#29619b","BLOCKS":[{"MESSAGE":"Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."},{"IMAGE":{"LINK":"https://files.shelenkov.com/bitrix/images/win.jpg"}}]}}' \
+      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat20921","fields":{"message":"У вас новое уведомление","attach":{"ID":1,"COLOR":"#29619b","BLOCKS":[{"MESSAGE":"Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."},{"IMAGE":{"LINK":"https://files.shelenkov.com/bitrix/images/win.jpg"}}]}}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
     ```
 
@@ -415,7 +428,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat20921","MESSAGE":"У вас новое уведомление","ATTACH":{"ID":1,"COLOR":"#29619b","BLOCKS":[{"MESSAGE":"Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."},{"IMAGE":{"LINK":"https://files.shelenkov.com/bitrix/images/win.jpg"}}]},"auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"dialogId":"chat20921","fields":{"message":"У вас новое уведомление","attach":{"ID":1,"COLOR":"#29619b","BLOCKS":[{"MESSAGE":"Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем."},{"IMAGE":{"LINK":"https://files.shelenkov.com/bitrix/images/win.jpg"}}]}},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
     ```
 
@@ -426,21 +439,24 @@
         const response = await $b24.callMethod(
             'imbot.v2.Chat.Message.send',
             {
-                DIALOG_ID: 'chat20921',
-                MESSAGE: 'У вас новое уведомление',
-                ATTACH: {
-                    ID: 1,
-                    COLOR: '#29619b',
-                    BLOCKS: [
-                        { MESSAGE: 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.' },
-                        { IMAGE: { LINK: 'https://files.shelenkov.com/bitrix/images/win.jpg' } }
-                    ]
+                botId: 456,
+                dialogId: 'chat20921',
+                fields: {
+                    message: 'У вас новое уведомление',
+                    attach: {
+                        ID: 1,
+                        COLOR: '#29619b',
+                        BLOCKS: [
+                            { MESSAGE: 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.' },
+                            { IMAGE: { LINK: 'https://files.shelenkov.com/bitrix/images/win.jpg' } }
+                        ]
+                    }
                 }
             }
         );
 
-        const result = response.getData().result;
-        console.log(result);
+        const result = response.getData().result.id;
+        console.log('Created message ID:', result);
     } catch (error) {
         console.error(error);
     }
@@ -455,24 +471,24 @@
             ->call(
                 'imbot.v2.Chat.Message.send',
                 [
-                    'DIALOG_ID' => 'chat20921',
-                    'MESSAGE' => 'У вас новое уведомление',
-                    'ATTACH' => [
-                        'ID' => 1,
-                        'COLOR' => '#29619b',
-                        'BLOCKS' => [
-                            ['MESSAGE' => 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.'],
-                            ['IMAGE' => ['LINK' => 'https://files.shelenkov.com/bitrix/images/win.jpg']]
+                    'botId' => 456,
+                    'dialogId' => 'chat20921',
+                    'fields' => [
+                        'message' => 'У вас новое уведомление',
+                        'attach' => [
+                            'ID' => 1,
+                            'COLOR' => '#29619b',
+                            'BLOCKS' => [
+                                ['MESSAGE' => 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.'],
+                                ['IMAGE' => ['LINK' => 'https://files.shelenkov.com/bitrix/images/win.jpg']]
+                            ]
                         ]
                     ]
                 ]
             );
 
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        echo 'Success: ' . print_r($result, true);
+        $result = $response->getResponseData()->getResult()['id'];
+        echo 'Created message ID: ' . $result;
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding message: ' . $e->getMessage();
@@ -485,22 +501,25 @@
     BX24.callMethod(
         'imbot.v2.Chat.Message.send',
         {
-            DIALOG_ID: 'chat20921',
-            MESSAGE: 'У вас новое уведомление',
-            ATTACH: {
-                ID: 1,
-                COLOR: '#29619b',
-                BLOCKS: [
-                    { MESSAGE: 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.' },
-                    { IMAGE: { LINK: 'https://files.shelenkov.com/bitrix/images/win.jpg' } }
-                ]
+            botId: 456,
+            dialogId: 'chat20921',
+            fields: {
+                message: 'У вас новое уведомление',
+                attach: {
+                    ID: 1,
+                    COLOR: '#29619b',
+                    BLOCKS: [
+                        { MESSAGE: 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.' },
+                        { IMAGE: { LINK: 'https://files.shelenkov.com/bitrix/images/win.jpg' } }
+                    ]
+                }
             }
         },
         function(result) {
             if (result.error()) {
                 console.error(result.error().ex);
             } else {
-                console.log(result.data());
+                console.log('Message ID:', result.data().id);
             }
         }
     );
@@ -514,20 +533,27 @@
     $result = CRest::call(
         'imbot.v2.Chat.Message.send',
         [
-            'DIALOG_ID' => 'chat20921',
-            'MESSAGE' => 'У вас новое уведомление',
-            'ATTACH' => [
-                'ID' => 1,
-                'COLOR' => '#29619b',
-                'BLOCKS' => [
-                    ['MESSAGE' => 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.'],
-                    ['IMAGE' => ['LINK' => 'https://files.shelenkov.com/bitrix/images/win.jpg']]
+            'botId' => 456,
+            'dialogId' => 'chat20921',
+            'fields' => [
+                'message' => 'У вас новое уведомление',
+                'attach' => [
+                    'ID' => 1,
+                    'COLOR' => '#29619b',
+                    'BLOCKS' => [
+                        ['MESSAGE' => 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.'],
+                        ['IMAGE' => ['LINK' => 'https://files.shelenkov.com/bitrix/images/win.jpg']]
+                    ]
                 ]
             ]
         ]
     );
 
-    print_r($result);
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Message ID: ' . $result['result']['id'];
+    }
     ```
 
 {% endlist %}

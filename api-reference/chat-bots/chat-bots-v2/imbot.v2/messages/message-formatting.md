@@ -161,6 +161,126 @@
 
 ![Результат ссылки](./_images/unicorn.png)
 
+## Пример отправки сообщения с форматированием
+
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+  ```bash
+  curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat2725","fields":{"message":"[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
+  ```
+
+- cURL (OAuth)
+
+  ```bash
+  curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"botId":456,"dialogId":"chat2725","fields":{"message":"[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
+  ```
+
+- JS
+
+  ```js
+  try {
+      const response = await $b24.callMethod('imbot.v2.Chat.Message.send', {
+          botId: 456,
+          dialogId: 'chat2725',
+          fields: {
+              message: '[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+          },
+      });
+
+      const result = response.getData().result.id;
+      console.log('Created message ID:', result);
+  } catch (error) {
+      console.error('Error:', error);
+  }
+  ```
+
+- PHP
+
+  ```php
+  try {
+      $response = $b24Service
+          ->core
+          ->call(
+              'imbot.v2.Chat.Message.send',
+              [
+                  'botId' => 456,
+                  'dialogId' => 'chat2725',
+                  'fields' => [
+                      'message' => '[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+                  ],
+              ]
+          );
+
+      $result = $response
+          ->getResponseData()
+          ->getResult()['id'];
+
+      echo 'Created message ID: ' . $result;
+  } catch (Throwable $e) {
+      error_log($e->getMessage());
+      echo 'Error: ' . $e->getMessage();
+  }
+  ```
+
+- BX24.js
+
+  ```js
+  BX24.callMethod(
+      'imbot.v2.Chat.Message.send',
+      {
+          botId: 456,
+          dialogId: 'chat2725',
+          fields: {
+              message: '[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+          },
+      },
+      function(result) {
+          if (result.error()) {
+              console.error(result.error().ex);
+          } else {
+              console.log('Message ID:', result.data().id);
+          }
+      }
+  );
+  ```
+
+- PHP CRest
+
+  ```php
+  require_once('crest.php');
+
+  $result = CRest::call(
+      'imbot.v2.Chat.Message.send',
+      [
+          'botId' => 456,
+          'dialogId' => 'chat2725',
+          'fields' => [
+              'message' => '[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+          ],
+      ]
+  );
+
+  if (!empty($result['error'])) {
+      echo 'Error: ' . $result['error_description'];
+  } else {
+      echo 'Message ID: ' . $result['result']['id'];
+  }
+  ```
+
+{% endlist %}
+
 ## Продолжите изучение
 
 - [{#T}](./message-keyboards.md)

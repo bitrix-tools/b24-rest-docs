@@ -99,7 +99,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Вложение с цветом primary","ATTACH":{"ID":1,"COLOR_TOKEN":"primary","COLOR":"#29619b","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}}' \
+      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat20921","fields":{"message":"Вложение с цветом primary","attach":{"ID":1,"COLOR_TOKEN":"primary","COLOR":"#29619b","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
     ```
 
@@ -109,7 +109,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Вложение с цветом primary","ATTACH":{"ID":1,"COLOR_TOKEN":"primary","COLOR":"#29619b","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]},"auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"dialogId":"chat20921","fields":{"message":"Вложение с цветом primary","attach":{"ID":1,"COLOR_TOKEN":"primary","COLOR":"#29619b","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
     ```
 
@@ -118,22 +118,25 @@
     ```js
     try {
       const response = await $b24.callMethod('imbot.v2.Chat.Message.send', {
-        DIALOG_ID: 'chat20921',
-        MESSAGE: 'Вложение с цветом primary',
-        ATTACH: {
-          ID: 1,
-          COLOR_TOKEN: 'primary',
-          COLOR: '#29619b',
-          BLOCKS: [
-            {
-              MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-            }
-          ]
+        botId: 456,
+        dialogId: 'chat20921',
+        fields: {
+          message: 'Вложение с цветом primary',
+          attach: {
+            ID: 1,
+            COLOR_TOKEN: 'primary',
+            COLOR: '#29619b',
+            BLOCKS: [
+              {
+                MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+              }
+            ]
+          }
         }
       });
 
-      const { result } = response.getData();
-      console.log(result);
+      const result = response.getData().result.id;
+      console.log('Created message ID:', result);
     } catch (error) {
       console.error(error);
     }
@@ -148,28 +151,29 @@
             ->call(
                 'imbot.v2.Chat.Message.send',
                 [
-                    'DIALOG_ID' => 'chat20921',
-                    'MESSAGE' => 'Вложение с цветом primary',
-                    'ATTACH' => [
-                        'ID' => 1,
-                        'COLOR_TOKEN' => 'primary',
-                        'COLOR' => '#29619b',
-                        'BLOCKS' => [
-                            [
-                                'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                    'botId' => 456,
+                    'dialogId' => 'chat20921',
+                    'fields' => [
+                        'message' => 'Вложение с цветом primary',
+                        'attach' => [
+                            'ID' => 1,
+                            'COLOR_TOKEN' => 'primary',
+                            'COLOR' => '#29619b',
+                            'BLOCKS' => [
+                                [
+                                    'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                                ]
                             ]
                         ]
                     ]
                 ]
             );
 
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        print_r($result);
+        $result = $response->getResponseData()->getResult()['id'];
+        echo 'Created message ID: ' . $result;
     } catch (Throwable $e) {
         error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
     }
     ```
 
@@ -179,24 +183,27 @@
     BX24.callMethod(
         'imbot.v2.Chat.Message.send',
         {
-            DIALOG_ID: 'chat20921',
-            MESSAGE: 'Вложение с цветом primary',
-            ATTACH: {
-                ID: 1,
-                COLOR_TOKEN: 'primary',
-                COLOR: '#29619b',
-                BLOCKS: [
-                    {
-                        MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-                    }
-                ]
+            botId: 456,
+            dialogId: 'chat20921',
+            fields: {
+                message: 'Вложение с цветом primary',
+                attach: {
+                    ID: 1,
+                    COLOR_TOKEN: 'primary',
+                    COLOR: '#29619b',
+                    BLOCKS: [
+                        {
+                            MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                        }
+                    ]
+                }
             }
         },
         function(result) {
             if (result.error()) {
                 console.error(result.error().ex);
             } else {
-                console.log(result.data());
+                console.log('Message ID:', result.data().id);
             }
         }
     );
@@ -210,22 +217,29 @@
     $result = CRest::call(
         'imbot.v2.Chat.Message.send',
         [
-            'DIALOG_ID' => 'chat20921',
-            'MESSAGE' => 'Вложение с цветом primary',
-            'ATTACH' => [
-                'ID' => 1,
-                'COLOR_TOKEN' => 'primary',
-                'COLOR' => '#29619b',
-                'BLOCKS' => [
-                    [
-                        'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+            'botId' => 456,
+            'dialogId' => 'chat20921',
+            'fields' => [
+                'message' => 'Вложение с цветом primary',
+                'attach' => [
+                    'ID' => 1,
+                    'COLOR_TOKEN' => 'primary',
+                    'COLOR' => '#29619b',
+                    'BLOCKS' => [
+                        [
+                            'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                        ]
                     ]
                 ]
             ]
         ]
     );
 
-    print_r($result);
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Message ID: ' . $result['result']['id'];
+    }
     ```
 
 {% endlist %}
@@ -270,7 +284,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Блок текста","ATTACH":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}' \
+      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat20921","fields":{"message":"Блок текста","attach":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
     ```
 
@@ -280,7 +294,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat20921","MESSAGE":"Блок текста","ATTACH":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}],"auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"dialogId":"chat20921","fields":{"message":"Блок текста","attach":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
     ```
 
@@ -289,17 +303,20 @@
     ```js
     try {
       const response = await $b24.callMethod('imbot.v2.Chat.Message.send', {
-        DIALOG_ID: 'chat20921',
-        MESSAGE: 'Блок текста',
-        ATTACH: [
-          {
-            MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-          }
-        ]
+        botId: 456,
+        dialogId: 'chat20921',
+        fields: {
+          message: 'Блок текста',
+          attach: [
+            {
+              MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+            }
+          ]
+        }
       });
 
-      const { result } = response.getData();
-      console.log(result);
+      const result = response.getData().result.id;
+      console.log('Created message ID:', result);
     } catch (error) {
       console.error(error);
     }
@@ -314,23 +331,24 @@
             ->call(
                 'imbot.v2.Chat.Message.send',
                 [
-                    'DIALOG_ID' => 'chat20921',
-                    'MESSAGE' => 'Блок текста',
-                    'ATTACH' => [
-                        [
-                            'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                    'botId' => 456,
+                    'dialogId' => 'chat20921',
+                    'fields' => [
+                        'message' => 'Блок текста',
+                        'attach' => [
+                            [
+                                'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                            ]
                         ]
                     ]
                 ]
             );
 
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        print_r($result);
+        $result = $response->getResponseData()->getResult()['id'];
+        echo 'Created message ID: ' . $result;
     } catch (Throwable $e) {
         error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
     }
     ```
 
@@ -340,19 +358,22 @@
     BX24.callMethod(
         'imbot.v2.Chat.Message.send',
         {
-            DIALOG_ID: 'chat20921',
-            MESSAGE: 'Блок текста',
-            ATTACH: [
-                {
-                    MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-                }
-            ]
+            botId: 456,
+            dialogId: 'chat20921',
+            fields: {
+                message: 'Блок текста',
+                attach: [
+                    {
+                        MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                    }
+                ]
+            }
         },
         function(result) {
             if (result.error()) {
                 console.error(result.error().ex);
             } else {
-                console.log(result.data());
+                console.log('Message ID:', result.data().id);
             }
         }
     );
@@ -366,17 +387,24 @@
     $result = CRest::call(
         'imbot.v2.Chat.Message.send',
         [
-            'DIALOG_ID' => 'chat20921',
-            'MESSAGE' => 'Блок текста',
-            'ATTACH' => [
-                [
-                    'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+            'botId' => 456,
+            'dialogId' => 'chat20921',
+            'fields' => [
+                'message' => 'Блок текста',
+                'attach' => [
+                    [
+                        'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                    ]
                 ]
             ]
         ]
     );
 
-    print_r($result);
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'Message ID: ' . $result['result']['id'];
+    }
     ```
 
 {% endlist %}
