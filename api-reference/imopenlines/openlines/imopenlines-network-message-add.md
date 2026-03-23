@@ -25,11 +25,11 @@
 || **MESSAGE***
 [`string`](../../data-types.md) | Текст сообщения. 
 
-Как форматировать текст — в статье [форматирование](../../chats/messages/index.md) ||
+Как форматировать текст — в статье [форматирование](../../chats/messages/formatting.md) ||
 || **ATTACH**
 [`object`](../../data-types.md) | Вложение.
 
-Формат вложения описан в статье [Как использовать вложения](../../chats/messages/attachments/index.md) ||
+Формат вложения описан в статье [Как использовать вложения](../../chats/messages/attachments.md) ||
 || **KEYBOARD**
 [`object`](../../data-types.md) | Клавиатура.
 
@@ -473,6 +473,8 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./imopenlines-network-join.md)
-- [{#T}](../../chats/messages/index.md)
-- [{#T}](../../chats/messages/attachments/index.md)
+- [{#T}](../../chats/messages/formatting.md)
+- [{#T}](../../chats/messages/attachments.md)
 - [{#T}](../../chats/messages/keyboards.md)
+
+

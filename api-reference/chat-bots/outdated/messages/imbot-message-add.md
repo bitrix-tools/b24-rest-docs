@@ -49,7 +49,7 @@
 - объект с корневым ключом `BLOCKS`
 - массив блоков без обертки 
 
-Подробнее читайте в разделе [Вложения](../../../chats/messages/attachments/index.md) ||
+Подробнее читайте в разделе [Вложения](../../../chats/messages/attachments.md) ||
 || **KEYBOARD**
 [`object`](../../../data-types.md) 
 [`string`](../../../data-types.md) | Кнопки под сообщением, с которыми может взаимодействовать пользователь.
@@ -274,6 +274,7 @@ HTTP-статус: **400**
 - [{#T}](./events/on-imbot-message-add.md)
 - [{#T}](../../../../tutorials/chat-bots/index.md)
 - [Пример ЭхоБота](https://dev.1c-bitrix.ru/~b24bots)
+
 
 
 

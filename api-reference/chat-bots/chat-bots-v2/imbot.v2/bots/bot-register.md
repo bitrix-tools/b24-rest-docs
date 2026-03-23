@@ -15,10 +15,6 @@
 #|
 || **Название**
 `Тип` | **Описание** ||
-|| **botToken**
-[`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
-
-Передайте уникальный botToken — этот ключ будет привязан к чат-боту и потребуется для всех последующих вызовов imbot.v2* через вебхук ||
 || **fields***
 [`object`](../../../../data-types.md) | Объект с параметрами бота. Описание параметров — [ниже](#fields) ||
 |#
@@ -30,6 +26,10 @@
 `Тип` | **Описание** ||
 || **code***
 [`string`](../../../../data-types.md) | Уникальный код бота в рамках приложения ||
+|| **botToken**
+[`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
+
+Передайте уникальный botToken — этот ключ будет привязан к чат-боту и потребуется для всех последующих вызовов imbot.v2* через вебхук ||
 || **properties***
 [`object`](../../../../data-types.md) | Свойства профиля бота. Описание параметров — [ниже](#properties) ||
 || **type**
@@ -72,7 +72,9 @@
 || **gender**
 [`string`](../../../../data-types.md) | Пол. Допустимые значения: `M`, `F` ||
 || **avatar**
-[`file`](../../../../data-types.md) | Аватар в формате [Base64](../../../../files/how-to-upload-files.md) ||
+[`file`](../../../../data-types.md) | Аватар. Передавайте строку Base64 без префикса `data:*/*;base64,`.
+
+Как подготовить данные: [Как загружать файлы](../../../../files/how-to-upload-files.md#kak-kodirovat-fajl-v-base64) ||
 |#
 
 ### Доступные фоны {#backgrounds}
@@ -103,9 +105,9 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{
-        "botToken":"my_bot_token",
         "fields":{
           "code":"support_bot",
+          "botToken":"my_bot_token",
           "properties":{"name":"Support Bot","workPosition":"AI Assistant"},
           "type":"bot",
           "eventMode":"fetch"
@@ -277,7 +279,17 @@ HTTP-код: **200**
                 "color": "#df532d",
                 "avatar": "",
                 "gender": "M",
+                "birthday": "",
+                "extranet": false,
                 "bot": true,
+                "connector": false,
+                "externalAuthId": "bot",
+                "status": "online",
+                "idle": false,
+                "lastActivityDate": "2025-01-15T10:30:00+03:00",
+                "absent": false,
+                "departments": [1],
+                "phones": false,
                 "type": "bot"
             }
         ]
@@ -325,12 +337,12 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `fields.botToken`. Обязателен при авторизации через вебхук ||
 || `BOT_CODE_REQUIRED` | Bot code is required | Не указан код бота (`fields.code`) ||
 || `BOT_PROPERTIES_REQUIRED` | Bot properties are required | Не указаны свойства бота (имя) ||
 || `BOT_CODE_ALREADY_TAKEN` | Bot code is already taken | Код бота уже занят другим приложением ||
-|| `BOT_INVALID_TYPE` | Invalid bot type | Невалидный тип бота ||
-|| `BOT_INVALID_EVENT_MODE` | Invalid event mode | Невалидный режим доставки событий ||
+|| `BOT_INVALID_TYPE` | Invalid bot type | Невалидный тип бота. Допустимые значения: `bot`, `network`, `openline`, `supervisor`, `personal` ||
+|| `BOT_INVALID_EVENT_MODE` | Invalid event mode | Невалидный режим доставки событий. Допустимые значения: `fetch`, `webhook` ||
 || `BOT_WEBHOOK_URL_REQUIRED` | Webhook URL is required | Не указан `fields.webhookUrl` при `fields.eventMode = webhook` ||
 || `BOT_REGISTER_FAILED` | Bot registration failed | Ошибка регистрации бота ||
 || `BOT_INVALID_CALLBACK` | Invalid callback URL | Невалидный URL обработчика ||

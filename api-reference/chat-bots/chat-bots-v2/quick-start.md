@@ -24,6 +24,8 @@ https://{portal}/rest/{user_id}/{webhook_token}/
 
 ### 1. Зарегистрировать бота {#register-bot}
 
+Используйте метод [imbot.v2.Bot.register](./imbot.v2/bots/bot-register.md), чтобы создать бота и задать его основные свойства.
+
 ```bash
 curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.Bot.register' \
   -H 'Content-Type: application/json' \
@@ -39,6 +41,8 @@ curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.Bot.regi
 
 ### 2. Получить события (fetch-режим) {#get-events}
 
+Используйте [imbot.v2.Event.get](./imbot.v2/events/event-get.md), чтобы забрать очередь событий для зарегистрированного бота.
+
 ```bash
 curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.Event.get' \
   -H 'Content-Type: application/json' \
@@ -50,6 +54,8 @@ curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.Event.ge
 ```
 
 ### 3. Ответить в чат {#send-message}
+
+Используйте [imbot.v2.Chat.Message.send](./imbot.v2/messages/chat-message-send.md), чтобы отправить ответ в диалог.
 
 ```bash
 curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.Chat.Message.send' \
@@ -64,6 +70,8 @@ curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.Chat.Mes
 
 ### 4. Прочитать сообщение по `replyId` (только `supervisor`/`personal`)
 
+Если пользователь ответил на сообщение бота, получите исходное сообщение через [imbot.v2.Chat.Message.get](./imbot.v2/messages/chat-message-get.md).
+
 ```bash
 curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.Chat.Message.get' \
   -H 'Content-Type: application/json' \
@@ -75,6 +83,8 @@ curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.Chat.Mes
 ```
 
 ### 5. Загрузить файл в чат {#files}
+
+Используйте [imbot.v2.File.upload](./imbot.v2/files/file-upload.md), чтобы отправить файл в чат от имени бота.
 
 ```bash
 curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.File.upload' \
@@ -88,6 +98,8 @@ curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.File.upl
 ```
 
 ### 6. Получить ссылку на скачивание файла
+
+Используйте [imbot.v2.File.download](./imbot.v2/files/file-download.md), чтобы получить URL для скачивания файла.
 
 ```bash
 curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.File.download' \

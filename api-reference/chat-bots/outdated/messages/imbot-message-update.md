@@ -38,7 +38,7 @@
 - объект с корневым ключом `BLOCKS`
 - массив блоков без обертки 
 
-Подробнее читайте в разделе [Вложения](../../../chats/messages/attachments/index.md).
+Подробнее читайте в разделе [Вложения](../../../chats/messages/attachments.md).
 
 Пустое значение или `N` очищает вложение ||
 || **KEYBOARD**
@@ -259,6 +259,7 @@ HTTP-статус: **400**, **403**
 - [{#T}](./imbot-message-delete.md)
 - [{#T}](./imbot-message-like.md)
 - [{#T}](./events/on-imbot-message-update.md)
+
 
 
 

@@ -1,4 +1,4 @@
-title: Чат-боты
+title: Бот-платформа
 href: index.md
 items:
   - name: Обзор раздела
@@ -6,6 +6,10 @@ items:
   - name: Чат-боты 2.0
     include:
       path: chat-bots-v2/b24-toc.yaml
+      mode: link
+  - name: Мессенджер
+    include:
+      path: chat-bots-v2/im.v2/b24-toc.yaml
       mode: link
   - name: Устаревшее
     include:

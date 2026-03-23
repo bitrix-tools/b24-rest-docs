@@ -33,7 +33,7 @@
 || **message**
 [`string`](../../../../data-types.md) | Новый текст сообщения. Максимальная длина — 20 000 символов ||
 || **attach**
-[`array`](../../../../data-types.md) | Новые вложения. Подробнее: [Как использовать вложения](../../../../chats/messages/attachments/index.md) ||
+[`array`](../../../../data-types.md) | Новые вложения. Подробнее: [Как использовать вложения](../../../../chats/messages/attachments.md) ||
 || **keyboard**
 [`array`](../../../../data-types.md) | Новая клавиатура. Подробнее: [Работа с клавиатурами](../../../../chats/messages/keyboards.md). Для удаления клавиатуры передайте `"N"` ||
 || **urlPreview**
@@ -211,3 +211,4 @@ HTTP-статус: **400**, **403**
 
 - [{#T}](./chat-message-send.md)
 - [{#T}](./chat-message-delete.md)
+

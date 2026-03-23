@@ -9,11 +9,7 @@ items:
     href: entities.md
   - name: Миграция с imbot на imbot.v2
     href: migration.md    
-  - name: Чат-боты
+  - name: Методы
     include:
       path: imbot.v2/b24-toc.yaml
-      mode: link
-  - name: Мессенджер
-    include:
-      path: im.v2/b24-toc.yaml
       mode: link

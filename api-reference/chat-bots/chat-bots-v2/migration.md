@@ -87,8 +87,8 @@ title: Миграция с imbot на imbot.v2
 
 ### Авторизация
 
-- v1: только OAuth (через приложение)
-- v2: OAuth + webhook-авторизация с `botToken`
+- v1: OAuth или webhook-авторизация с полем `CLIENT_ID`
+- v2: OAuth или webhook-авторизация с `botToken`
 
 ## Продолжите изучение
 

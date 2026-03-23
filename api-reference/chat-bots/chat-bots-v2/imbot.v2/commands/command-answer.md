@@ -39,7 +39,7 @@
 || **message**
 [`string`](../../../../data-types.md) | Текст ответа. Максимальная длина — 20 000 символов ||
 || **attach**
-[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](../../../../chats/messages/attachments/index.md) ||
+[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](../../../../chats/messages/attachments.md) ||
 || **keyboard**
 [`array`](../../../../data-types.md) | Клавиатура. Подробнее: [Работа с клавиатурами](../../../../chats/messages/keyboards.md) ||
 || **system**
@@ -228,3 +228,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./command-register.md)
 - [{#T}](../messages/chat-message-send.md)
 - [{#T}](../events/event-get.md)
+

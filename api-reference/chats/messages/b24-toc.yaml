@@ -1,12 +1,12 @@
 title: Сообщения
 href: index.md
 items:
-  - name: Форматирование
+  - name: Обзор методов
     href: index.md
+  - name: Форматирование
+    href: formatting.md
   - name: Вложения
-    include:
-      path: attachments/b24-toc.yaml
-      mode: link
+    href: attachments.md
   - name: Работа с клавиатурами
     href: keyboards.md
   - name: Работа с контекстным меню
@@ -33,4 +33,5 @@ items:
     href: im-message-delete.md
   - name: Выполнить команду чат-бота
     href: im-message-command.md
+
 

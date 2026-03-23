@@ -60,7 +60,9 @@
 || **gender**
 [`string`](../../../../data-types.md) | Пол. Допустимые значения: `M`, `F` ||
 || **avatar**
-[`file`](../../../../data-types.md) | Аватар в формате [Base64](../../../../files/how-to-upload-files.md) ||
+[`file`](../../../../data-types.md) | Аватар. Передавайте строку Base64 без префикса `data:*/*;base64,`.
+
+Как подготовить данные: [Как загружать файлы](../../../../files/how-to-upload-files.md#kak-kodirovat-fajl-v-base64) ||
 |#
 
 ## Примеры кода

@@ -8,9 +8,9 @@
 
 При отправке сообщений через [imbot.v2.Chat.Message.send](./chat-message-send.md) доступны:
 
-- [Форматирование текста (BB-коды)](../../../../chats/messages/index.md)
-- [Вложения (Attach)](../../../../chats/messages/attachments/index.md)
-- [Клавиатуры (Keyboard)](../../../../chats/messages/keyboards.md)
+- [Форматирование текста (BB-коды)](./message-formatting.md)
+- [Вложения (Attach)](./attachments/index.md)
+- [Клавиатуры (Keyboard)](./message-keyboards.md)
 
 ## Обзор методов {#all-methods}
 
@@ -34,3 +34,8 @@
 
 - [{#T}](../../index.md)
 - [Файлы imbot.v2](../files/index.md)
+- [{#T}](./message-formatting.md)
+- [{#T}](./attachments/index.md)
+- [{#T}](./message-keyboards.md)
+
+

@@ -4,7 +4,20 @@
 
 Поля объектов `message`, `chat`, `user` описаны в [{#T}](../../entities.md).
 
-**Быстрый переход:** [ONIMBOTV2MESSAGEADD](#onimbotv2messageadd) | [ONIMBOTV2MESSAGEUPDATE](#onimbotv2messageupdate) | [ONIMBOTV2MESSAGEDELETE](#onimbotv2messagedelete) | [ONIMBOTV2JOINCHAT](#onimbotv2joinchat) | [ONIMBOTV2DELETE](#onimbotv2delete) | [ONIMBOTV2CONTEXTGET](#onimbotv2contextget) | [ONIMBOTV2COMMANDADD](#onimbotv2commandadd) | [ONIMBOTV2REACTIONCHANGE](#onimbotv2reactionchange)
+## Какие события обрабатывать в первую очередь
+
+Минимальный набор событий для рабочего бота:
+
+- [ONIMBOTV2MESSAGEADD](#onimbotv2messageadd) — входящие сообщения от пользователя
+- [ONIMBOTV2COMMANDADD](#onimbotv2commandadd) — вызовы слэш-команд
+- [ONIMBOTV2JOINCHAT](#onimbotv2joinchat) — добавление бота в чат (обычно отправляют приветствие)
+- [ONIMBOTV2DELETE](#onimbotv2delete) — удаление бота (очистка ресурсов)
+
+Дополнительно по сценарию:
+
+- [ONIMBOTV2MESSAGEUPDATE](#onimbotv2messageupdate) и [ONIMBOTV2MESSAGEDELETE](#onimbotv2messagedelete) — если поддерживаете редактирование/удаление
+- [ONIMBOTV2REACTIONCHANGE](#onimbotv2reactionchange) — если учитываете реакции
+- [ONIMBOTV2CONTEXTGET](#onimbotv2contextget) — если используете входной контекст диалога
 
 ## Формат объекта bot {#bot-format}
 
@@ -22,13 +35,38 @@
     "bot": {
         "id": 456,
         "code": "support_bot",
-        "auth": {"access_token": "...", "refresh_token": "...", "...": "..."}
+        "auth": {
+            "access_token": "0b02a0690000071b0008440001b0007a16b39202c2490f015",
+            "expires": "1772093963",
+            "expires_in": "3600",
+            "scope": "imbot",
+            "domain": "some-domain.bitrix24.ru",
+            "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+            "status": "F",
+            "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+            "member_id": "bac1cd5c8940947a75e0d71b1a84e348",
+            "user_id": "27",
+            "application_token": "831c76b092f9f135d9b6b36c3a720757"
+        }
     },
     "message": {},
     "chat": {},
     "user": {}
 }
 ```
+
+### Параметр auth {#auth}
+
+{% include notitle [Таблица с ключами в массиве auth](../../../../../_includes/auth-params-in-events.md) %}
+
+{% note info "" %}
+
+Поле `auth` зависит от режима доставки событий:
+
+- в **Webhook**-режиме (`bot` отправляется на указанный обработчик) поле `auth` присутствует и содержит токены для авторизации обратных вызовов
+- в **FETCH**-режиме (`imbot.v2.Event.get`) поле `auth` в объекте `bot` не возвращается, так как токены не требуются
+
+{% endnote %}
 
 ## Типы данных в webhook-режиме
 
@@ -97,7 +135,9 @@ Webhook-события доставляются через систему соб
         "dialogId": "chat5",
         "type": "chat",
         "name": "Support Chat",
+        "entityType": "",
         "owner": 1,
+        "avatar": "",
         "color": "#ab7761"
     },
     "user": {
@@ -107,8 +147,20 @@ Webhook-события доставляются через систему соб
         "firstName": "John",
         "lastName": "Smith",
         "workPosition": "Developer",
+        "color": "#df532d",
+        "avatar": "",
         "gender": "M",
+        "birthday": "",
+        "extranet": false,
         "bot": false,
+        "connector": false,
+        "externalAuthId": "default",
+        "status": "online",
+        "idle": false,
+        "lastActivityDate": "2025-01-15T10:29:00+03:00",
+        "absent": false,
+        "departments": [1],
+        "phones": false,
         "type": "employee"
     },
     "language": "en"
@@ -166,17 +218,57 @@ Webhook-события доставляются через систему соб
 
 ```json
 {
-    "bot": {"id": 456, "code": "support_bot", "...": "..."},
+    "bot": {
+        "id": 456,
+        "code": "support_bot",
+        "type": "bot",
+        "isHidden": false,
+        "isSupportOpenline": false,
+        "isReactionsEnabled": true,
+        "backgroundId": null,
+        "language": "en",
+        "moduleId": "rest",
+        "appId": "custom123abc",
+        "eventMode": "fetch",
+        "countMessage": 150,
+        "countCommand": 3,
+        "countChat": 12,
+        "countUser": 45
+    },
     "dialogId": "chat5",
     "chat": {
         "id": 5,
         "dialogId": "chat5",
         "type": "chat",
         "name": "Project Chat",
+        "entityType": "",
         "owner": 1,
+        "avatar": "",
         "color": "#ab7761"
     },
-    "user": {"id": 1, "name": "John Smith", "...": "..."},
+    "user": {
+        "id": 1,
+        "active": true,
+        "name": "John Smith",
+        "firstName": "John",
+        "lastName": "Smith",
+        "workPosition": "Developer",
+        "color": "#df532d",
+        "avatar": "",
+        "gender": "M",
+        "birthday": "",
+        "extranet": false,
+        "bot": false,
+        "connector": false,
+        "externalAuthId": "default",
+        "status": "online",
+        "idle": false,
+        "lastActivityDate": "2025-01-15T10:29:00+03:00",
+        "absent": false,
+        "departments": [1],
+        "phones": false,
+        "type": "employee"
+    },
     "language": "en"
 }
 ```
@@ -236,15 +328,62 @@ Webhook-события доставляются через систему соб
 
 ```json
 {
-    "bot": {"id": 456, "code": "support_bot", "...": "..."},
+    "bot": {
+        "id": 456,
+        "code": "support_bot",
+        "type": "bot",
+        "isHidden": false,
+        "isSupportOpenline": false,
+        "isReactionsEnabled": true,
+        "backgroundId": null,
+        "language": "en",
+        "moduleId": "rest",
+        "appId": "custom123abc",
+        "eventMode": "fetch",
+        "countMessage": 150,
+        "countCommand": 3,
+        "countChat": 12,
+        "countUser": 45
+    },
     "dialogId": "chat5",
     "context": {
         "entityId": 164,
         "entityType": "task",
         "source": "link"
     },
-    "chat": {"id": 5, "dialogId": "chat5", "...": "..."},
-    "user": {"id": 1, "name": "John Smith", "...": "..."},
+    "chat": {
+        "id": 5,
+        "dialogId": "chat5",
+        "type": "chat",
+        "name": "Support Chat",
+        "entityType": "",
+        "owner": 1,
+        "avatar": "",
+        "color": "#ab7761"
+    },
+    "user": {
+        "id": 1,
+        "active": true,
+        "name": "John Smith",
+        "firstName": "John",
+        "lastName": "Smith",
+        "workPosition": "Developer",
+        "color": "#df532d",
+        "avatar": "",
+        "gender": "M",
+        "birthday": "",
+        "extranet": false,
+        "bot": false,
+        "connector": false,
+        "externalAuthId": "default",
+        "status": "online",
+        "idle": false,
+        "lastActivityDate": "2025-01-15T10:29:00+03:00",
+        "absent": false,
+        "departments": [1],
+        "phones": false,
+        "type": "employee"
+    },
     "language": "en"
 }
 ```
@@ -285,7 +424,23 @@ Webhook-события доставляются через систему соб
 
 ```json
 {
-    "bot": {"id": 456, "code": "support_bot", "...": "..."},
+    "bot": {
+        "id": 456,
+        "code": "support_bot",
+        "type": "bot",
+        "isHidden": false,
+        "isSupportOpenline": false,
+        "isReactionsEnabled": true,
+        "backgroundId": null,
+        "language": "en",
+        "moduleId": "rest",
+        "appId": "custom123abc",
+        "eventMode": "fetch",
+        "countMessage": 150,
+        "countCommand": 3,
+        "countChat": 12,
+        "countUser": 45
+    },
     "command": {
         "id": 78,
         "command": "/help",
@@ -299,11 +454,44 @@ Webhook-события доставляются через систему соб
         "date": "2025-01-15T10:30:00+03:00",
         "text": "/help topic",
         "isSystem": false,
+        "uuid": "",
+        "forward": null,
         "params": {},
         "viewedByOthers": false
     },
-    "chat": {"id": 5, "dialogId": "chat5", "...": "..."},
-    "user": {"id": 1, "name": "John Smith", "...": "..."},
+    "chat": {
+        "id": 5,
+        "dialogId": "chat5",
+        "type": "chat",
+        "name": "Support Chat",
+        "entityType": "",
+        "owner": 1,
+        "avatar": "",
+        "color": "#ab7761"
+    },
+    "user": {
+        "id": 1,
+        "active": true,
+        "name": "John Smith",
+        "firstName": "John",
+        "lastName": "Smith",
+        "workPosition": "Developer",
+        "color": "#df532d",
+        "avatar": "",
+        "gender": "M",
+        "birthday": "",
+        "extranet": false,
+        "bot": false,
+        "connector": false,
+        "externalAuthId": "default",
+        "status": "online",
+        "idle": false,
+        "lastActivityDate": "2025-01-15T10:29:00+03:00",
+        "absent": false,
+        "departments": [1],
+        "phones": false,
+        "type": "employee"
+    },
     "language": "en"
 }
 ```
@@ -329,7 +517,23 @@ Webhook-события доставляются через систему соб
 
 ```json
 {
-    "bot": {"id": 456, "code": "support_bot", "...": "..."},
+    "bot": {
+        "id": 456,
+        "code": "support_bot",
+        "type": "bot",
+        "isHidden": false,
+        "isSupportOpenline": false,
+        "isReactionsEnabled": true,
+        "backgroundId": null,
+        "language": "en",
+        "moduleId": "rest",
+        "appId": "custom123abc",
+        "eventMode": "fetch",
+        "countMessage": 150,
+        "countCommand": 3,
+        "countChat": 12,
+        "countUser": 45
+    },
     "reaction": "like",
     "action": "add",
     "message": {
@@ -339,11 +543,44 @@ Webhook-события доставляются через систему соб
         "date": "2025-01-15T10:30:00+03:00",
         "text": "Hello! How can I help?",
         "isSystem": false,
+        "uuid": "",
+        "forward": null,
         "params": {},
         "viewedByOthers": true
     },
-    "chat": {"id": 5, "dialogId": "chat5", "...": "..."},
-    "user": {"id": 1, "name": "John Smith", "...": "..."},
+    "chat": {
+        "id": 5,
+        "dialogId": "chat5",
+        "type": "chat",
+        "name": "Support Chat",
+        "entityType": "",
+        "owner": 1,
+        "avatar": "",
+        "color": "#ab7761"
+    },
+    "user": {
+        "id": 1,
+        "active": true,
+        "name": "John Smith",
+        "firstName": "John",
+        "lastName": "Smith",
+        "workPosition": "Developer",
+        "color": "#df532d",
+        "avatar": "",
+        "gender": "M",
+        "birthday": "",
+        "extranet": false,
+        "bot": false,
+        "connector": false,
+        "externalAuthId": "default",
+        "status": "online",
+        "idle": false,
+        "lastActivityDate": "2025-01-15T10:29:00+03:00",
+        "absent": false,
+        "departments": [1],
+        "phones": false,
+        "type": "employee"
+    },
     "language": "en"
 }
 ```

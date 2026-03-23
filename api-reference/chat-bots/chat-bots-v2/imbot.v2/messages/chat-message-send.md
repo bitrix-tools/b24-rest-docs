@@ -33,9 +33,9 @@
 || **message**
 [`string`](../../../../data-types.md) | Текст сообщения. Максимальная длина — 20 000 символов. При превышении текст обрезается с добавлением ` (...)` ||
 || **attach**
-[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](../../../../chats/messages/attachments/index.md) ||
+[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](./attachments/index.md) ||
 || **keyboard**
-[`array`](../../../../data-types.md) | Клавиатура с кнопками. Подробнее: [Работа с клавиатурами](../../../../chats/messages/keyboards.md) ||
+[`array`](../../../../data-types.md) | Клавиатура с кнопками. Подробнее: [Работа с клавиатурами](./message-keyboards.md) ||
 || **system**
 [`boolean`](../../../../data-types.md) | Системное сообщение. Допустимые значения: `true`, `false`. По умолчанию `false` ||
 || **urlPreview**
@@ -248,5 +248,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](./chat-message-update.md)
 - [{#T}](./chat-message-delete.md)
 - [{#T}](./chat-message-reaction-add.md)
-- [{#T}](../../../../chats/messages/attachments/index.md)
-- [{#T}](../../../../chats/messages/keyboards.md)
+- [{#T}](./attachments/index.md)
+- [{#T}](./message-keyboards.md)
+

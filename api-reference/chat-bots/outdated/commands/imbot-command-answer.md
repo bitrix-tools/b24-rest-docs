@@ -40,7 +40,7 @@
 }
 ```
 
-[Подробное описание](../../../chats/messages/attachments/index.md)||
+[Подробное описание](../../../chats/messages/attachments.md)||
 || **KEYBOARD**
 [`object`](../../../data-types.md) | Клавиатура сообщения. Минимальный формат:
 
@@ -337,8 +337,9 @@ HTTP-статус: **400**
 - [{#T}](./imbot-command-unregister.md)
 - [{#T}](./events/on-im-command-add.md)
 - [{#T}](../../../chats/messages/keyboards.md)
-- [{#T}](../../../chats/messages/attachments/index.md)
+- [{#T}](../../../chats/messages/attachments.md)
 - [{#T}](../../../chats/messages/menu.md)
+
 
 
 

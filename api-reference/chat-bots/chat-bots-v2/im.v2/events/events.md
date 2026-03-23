@@ -14,6 +14,14 @@
 - объект `user` не содержит полей `network`, `botData`, `avatarHr`
 - поля онлайн-статуса (`idle`, `lastActivityDate`, `mobileLastDate`, `desktopLastDate`) всегда равны `false`
 
+{% note info "" %}
+
+В этой статье описан формат событий метода `im.v2.Event.get` (polling/FETCH), поэтому поле `auth` в данных события не возвращается.
+
+Если использовать webhook-подписку на события, в webhook-обертке может присутствовать объект `auth` с токенами.
+
+{% endnote %}
+
 ---
 
 ## ONIMV2MESSAGEADD {#onimv2messageadd}
@@ -49,8 +57,26 @@
         "dialogId": "chat5",
         "name": "Project Chat",
         "type": "chat",
+        "messageType": "C",
         "owner": 1,
-        "color": "#ab7761"
+        "color": "#ab7761",
+        "avatar": "",
+        "description": "",
+        "extranet": false,
+        "containsCollaber": false,
+        "entityType": "",
+        "entityId": "",
+        "entityData1": "",
+        "entityData2": "",
+        "entityData3": "",
+        "entityLink": {},
+        "diskFolderId": 42,
+        "permissions": {},
+        "parentChatId": 0,
+        "parentMessageId": 0,
+        "isNew": false,
+        "textFieldEnabled": "Y",
+        "backgroundId": null
     },
     "user": {
         "id": 1,
@@ -59,8 +85,24 @@
         "firstName": "John",
         "lastName": "Smith",
         "workPosition": "Developer",
+        "color": "#df532d",
+        "avatar": "",
         "gender": "M",
+        "birthday": "",
+        "extranet": false,
         "bot": false,
+        "connector": false,
+        "externalAuthId": "default",
+        "status": "online",
+        "idle": false,
+        "lastActivityDate": false,
+        "mobileLastDate": false,
+        "desktopLastDate": false,
+        "absent": false,
+        "departments": [1],
+        "phones": false,
+        "website": "",
+        "email": "john@example.com",
         "type": "employee"
     },
     "language": "en"

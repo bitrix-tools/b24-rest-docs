@@ -25,12 +25,12 @@
 || **MESSAGE***
 [`string`](../../data-types.md) | Текст сообщения. Обязателен, если не передан `ATTACH`.
 
-Поддерживается [форматирование](./index.md) ||
+Поддерживается [форматирование](./formatting.md) ||
 || **ATTACH**
 [`object`](../../data-types.md) 
 [`string`](../../data-types.md) | Вложение с блоками контента: изображения, ссылки, файлы. Обязателен, если не передан `MESSAGE`.
 
-Подробнее читайте в разделе [Вложения](./attachments/index.md) ||
+Подробнее читайте в разделе [Вложения](./attachments.md) ||
 || **KEYBOARD**
 [`object`](../../data-types.md) 
 [`string`](../../data-types.md) | Кнопки под сообщением, с которыми может взаимодействовать пользователь.
@@ -259,6 +259,7 @@ HTTP-статус: **400**
 - [{#T}](./im-message-update.md)
 - [{#T}](./im-message-delete.md)
 - [{#T}](./im-message-like.md)
-- [{#T}](./attachments/index.md)
+- [{#T}](./attachments.md)
 - [{#T}](./keyboards.md)
 - [{#T}](./menu.md)
+

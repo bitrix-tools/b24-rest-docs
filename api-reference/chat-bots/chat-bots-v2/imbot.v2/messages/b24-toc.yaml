@@ -19,3 +19,14 @@ items:
     href: chat-message-reaction-add.md
   - name: Удалить реакцию с сообщения
     href: chat-message-reaction-delete.md
+  - name: Форматирование текста
+    href: message-formatting.md
+  - name: Клавиатуры
+    href: message-keyboards.md       
+  - name: Вложения
+    include:
+      path: attachments/b24-toc.yaml
+      mode: link
+ 
+
+
