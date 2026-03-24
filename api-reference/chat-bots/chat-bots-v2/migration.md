@@ -58,12 +58,12 @@ title: Миграция с imbot на imbot.v2
 #|
 || **v1** | **v2** | **Изменения** ||
 || [ONIMBOTMESSAGEADD](../outdated/messages/events/on-imbot-message-add.md) | [ONIMBOTV2MESSAGEADD](./imbot.v2/events/events.md#onimbotv2messageadd) | Данные в формате V2 (camelCase, объекты Bot/Chat/Message/User) ||
-|| [ONIMBOTMESSAGEUPDATE](../outdated/messages/events/on-imbot-message-update.md) | [ONIMBOTV2MESSAGEUPDATE](./imbot.v2/events/events.md#onimbotv2messageupdate) | — ||
-|| [ONIMBOTMESSAGEDELETE](../outdated/messages/events/on-imbot-message-delete.md) | [ONIMBOTV2MESSAGEDELETE](./imbot.v2/events/events.md#onimbotv2messagedelete) | — ||
-|| [ONIMBOTJOINCHAT](../outdated/chats/events/on-imbot-join-chat.md) | [ONIMBOTV2JOINCHAT](./imbot.v2/events/events.md#onimbotv2joinchat) | — ||
-|| [ONIMBOTDELETE](../outdated/events/on-imbot-delete.md) | [ONIMBOTV2DELETE](./imbot.v2/events/events.md#onimbotv2delete) | — ||
-|| [ONIMCOMMANDADD](../outdated/commands/events/on-im-command-add.md) | [ONIMBOTV2COMMANDADD](./imbot.v2/events/events.md#onimbotv2commandadd) | Поле `context` в нижнем регистре: `textarea`, `keyboard`, `menu` ||
-|| ONIMBOTCONTEXTGET | [ONIMBOTV2CONTEXTGET](./imbot.v2/events/events.md#onimbotv2contextget) | — ||
+|| [ONIMBOTMESSAGEUPDATE](../outdated/messages/events/on-imbot-message-update.md) | [ONIMBOTV2MESSAGEUPDATE](./imbot.v2/events/events.md#onimbotv2messageupdate) | Данные в формате V2: camelCase и вложенные объекты ||
+|| [ONIMBOTMESSAGEDELETE](../outdated/messages/events/on-imbot-message-delete.md) | [ONIMBOTV2MESSAGEDELETE](./imbot.v2/events/events.md#onimbotv2messagedelete) | Данные в формате V2: camelCase и вложенные объекты ||
+|| [ONIMBOTJOINCHAT](../outdated/chats/events/on-imbot-join-chat.md) | [ONIMBOTV2JOINCHAT](./imbot.v2/events/events.md#onimbotv2joinchat) | Данные в формате V2: camelCase и вложенные объекты ||
+|| [ONIMBOTDELETE](../outdated/events/on-imbot-delete.md) | [ONIMBOTV2DELETE](./imbot.v2/events/events.md#onimbotv2delete) | Данные в формате V2: camelCase и объект `bot` нового формата ||
+|| [ONIMCOMMANDADD](../outdated/commands/events/on-im-command-add.md) | [ONIMBOTV2COMMANDADD](./imbot.v2/events/events.md#onimbotv2commandadd) | Данные в формате V2: camelCase и вложенные объекты; поле `context` в нижнем регистре: `textarea`, `keyboard`, `menu` ||
+|| ONIMBOTCONTEXTGET | [ONIMBOTV2CONTEXTGET](./imbot.v2/events/events.md#onimbotv2contextget) | Данные в формате V2: camelCase и вложенные объекты ||
 || — | [ONIMBOTV2REACTIONCHANGE](./imbot.v2/events/events.md#onimbotv2reactionchange) | Новое событие: изменение реакции на сообщение бота ||
 |#
 

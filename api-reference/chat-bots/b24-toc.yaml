@@ -7,7 +7,7 @@ items:
     include:
       path: chat-bots-v2/b24-toc.yaml
       mode: link
-  - name: работа с чатом
+  - name: Работа с чатом
     include:
       path: chat-bots-v2/im.v2/b24-toc.yaml
       mode: link

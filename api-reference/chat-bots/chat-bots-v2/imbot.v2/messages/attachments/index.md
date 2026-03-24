@@ -2,7 +2,7 @@
 
 Вложения `ATTACH` позволяют добавлять в сообщения структурированный контент: текстовые блоки, ссылки, изображения, файлы, разделители и таблицы.
 
-![Вложения](./_images/attach1.png)
+<img src="./_images/attach1.png" alt="Вложения" width="520">
 
 Методы, которые поддерживают работу с `ATTACH`:
 
@@ -85,7 +85,7 @@
 [`array`](../../../../../data-types.md) | Массив блоков содержимого вложения. Типы блоков описаны в разделе [Коллекции блоков](./block-collections/index.md) ||
 |#
 
-![объект ATTACH](./_images/attach_variants.png)
+<img src="./_images/attach_variants.png" alt="Объект ATTACH" width="520">
 
 ### Пример полной формы
 
@@ -270,7 +270,7 @@
 
 {% endlist %}
 
-![Краткая версия ATTACH](./_images/short_attach.png)
+<img src="./_images/short_attach.png" alt="Краткая версия ATTACH" width="520">
 
 ### Пример краткой формы
 
@@ -432,6 +432,7 @@
 
 - [{#T}](./constructor.md)
 - [{#T}](./block-collections/index.md)
+- [{#T}](../message-keyboards.md)
 - [{#T}](../chat-message-send.md)
 - [{#T}](../chat-message-update.md)
 - [{#T}](../../../../../chats/notifications/im-notify.md)

@@ -61,10 +61,10 @@
 || **Код** | **Назначение** | **Пример** ||
 || `[url]...[/url]` | Ссылка, где текст равен URL | `[url]https://example.com[/url]` ||
 || `[url=URL]...[/url]` | Ссылка с произвольным текстом | `[url=https://example.com]текст[/url]` ||
-|| `[USER=userId]...[/USER]` | Упоминание пользователя | `[USER=123]Иван[/USER]` ||
-|| `[USER=all]...[/USER]` | Упоминание всех участников чата | `[USER=all]Все[/USER]` ||
-|| `[CHAT=chatId]...[/CHAT]` | Упоминание чата | `[CHAT=456]Группа[/CHAT]` ||
-|| `[CHAT=imol\|ID]...[/CHAT]` | Упоминание открытой линии | `[CHAT=imol\|789]Линия[/CHAT]` ||
+|| `[user=userId]...[/user]` | Упоминание пользователя | `[user=123]Иван[/user]` ||
+|| `[user=all]...[/user]` | Упоминание всех участников чата | `[user=all]Все[/user]` ||
+|| `[chat=chatId]...[/chat]` | Упоминание чата | `[chat=456]Группа[/chat]` ||
+|| `[chat=imol\|ID]...[/chat]` | Упоминание открытой линии | `[chat=imol\|789]Линия[/chat]` ||
 || `[context=dialog/message]...[/context]` | Ссылка на сообщение в диалоге | `[context=chat123/456]ссылка[/context]` ||
 |#
 
@@ -95,8 +95,8 @@
 
 #|
 || **Код** | **Назначение** | **Пример** ||
-|| `[PUT=команда]текст[/PUT]` | Подставить команду в поле ввода | `[PUT=/help]Справка[/PUT]` ||
-|| `[SEND=команда]текст[/SEND]` | Сразу отправить команду | `[SEND=/start]Старт[/SEND]` ||
+|| `[put=команда]текст[/put]` | Подставить команду в поле ввода | `[put=/help]Справка[/put]` ||
+|| `[send=команда]текст[/send]` | Сразу отправить команду | `[send=/start]Старт[/send]` ||
 || `[call=номер]текст[/call]` | Ссылка на звонок | `[call=+79991234567]Позвонить[/call]` ||
 || `[call]номер[/call]` | Номер берется из текста | `[call]+79991234567[/call]` ||
 |#
@@ -113,7 +113,7 @@
 
 #|
 || **Элемент** | **Назначение** ||
-|| `[BR]` | Перенос строки ||
+|| `[br]` | Перенос строки ||
 || `\n` | Перенос строки ||
 || `4 пробела` | Табуляция ||
 |#
@@ -123,10 +123,10 @@
 ### Базовое форматирование
 
 ```markdown
-[B]полужирный[/B] текст
-[U]подчеркнутый[/U] текст
-[I]наклонный[/I] текст
-[S]перечеркнутый[/S] текст
+[b]полужирный[/b] текст
+[u]подчеркнутый[/u] текст
+[i]наклонный[/i] текст
+[s]перечеркнутый[/s] текст
 ```
 
 ![Результат форматирования](./_images/bbcode1.png)
@@ -134,7 +134,7 @@
 ### Переносы и цитаты
 
 ```markdown
-Первая строка[BR]Вторая строка
+Первая строка[br]Вторая строка
 >>первая строка цитаты
 >>вторая строка цитаты
 ```
@@ -145,7 +145,7 @@
 ### Ссылки и команды
 
 ```markdown
-[URL=https://bitrix24.ru]Ссылка на Битрикс24[/URL]
+[url=https://bitrix24.ru]Ссылка на Битрикс24[/url]
 [send=/help]Показать помощь[/send]
 [put=/search]Введите строку поиска[/put]
 ```
@@ -173,7 +173,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat2725","fields":{"message":"[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]"}}' \
+    -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat2725","fields":{"message":"[b]Важное сообщение[/b][br]Откройте [url=https://bitrix24.ru]сайт[/url][br][send=/help]Помощь[/send]"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
   ```
 
@@ -183,7 +183,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"botId":456,"dialogId":"chat2725","fields":{"message":"[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]"},"auth":"**put_access_token_here**"}' \
+    -d '{"botId":456,"dialogId":"chat2725","fields":{"message":"[b]Важное сообщение[/b][br]Откройте [url=https://bitrix24.ru]сайт[/url][br][send=/help]Помощь[/send]"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
   ```
 
@@ -195,7 +195,7 @@
           botId: 456,
           dialogId: 'chat2725',
           fields: {
-              message: '[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+              message: '[b]Важное сообщение[/b][br]Откройте [url=https://bitrix24.ru]сайт[/url][br][send=/help]Помощь[/send]',
           },
       });
 
@@ -218,7 +218,7 @@
                   'botId' => 456,
                   'dialogId' => 'chat2725',
                   'fields' => [
-                      'message' => '[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+                      'message' => '[b]Важное сообщение[/b][br]Откройте [url=https://bitrix24.ru]сайт[/url][br][send=/help]Помощь[/send]',
                   ],
               ]
           );
@@ -243,7 +243,7 @@
           botId: 456,
           dialogId: 'chat2725',
           fields: {
-              message: '[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+              message: '[b]Важное сообщение[/b][br]Откройте [url=https://bitrix24.ru]сайт[/url][br][send=/help]Помощь[/send]',
           },
       },
       function(result) {
@@ -267,7 +267,7 @@
           'botId' => 456,
           'dialogId' => 'chat2725',
           'fields' => [
-              'message' => '[B]Важное сообщение[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+              'message' => '[b]Важное сообщение[/b][br]Откройте [url=https://bitrix24.ru]сайт[/url][br][send=/help]Помощь[/send]',
           ],
       ]
   );
