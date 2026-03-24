@@ -4,6 +4,13 @@
 
 ### 24 марта, 2026
 
+- Обновили документацию по методам [catalog.enum.*](./api-reference/catalog/enum/index.md) в разделе Перечисления в Торговом каталоге
+- Обновили документацию по методам [catalog.priceTypeGroup.*](./api-reference/catalog/price-type/price-type-group/index.md) в разделе Привязки типов цен к группам покупателей в Торговом каталоге
+- Обновили документацию по методам [catalog.productPropertyEnum.*](./api-reference/catalog/product-property-enum/index.md) в разделе Значения списочных свойств в Торговом каталоге
+- Обновили документацию по методам [catalog.productPropertyFeature.*](./api-reference/catalog/product-property-feature/index.md) в разделе Параметры свойств товаров или вариаций в Торговом каталоге
+- Обновили документацию по методам [catalog.productPropertySection.*](./api-reference/catalog/product-property-section/index.md) в разделе Секционные настройки свойств товаров или вариаций в Торговом каталоге
+- Обновили документацию по методам [catalog.userfield.document.*](./api-reference/catalog/userfield-document/index.md) в разделе Пользовательские поля документов складского учета в Торговом каталоге
+- Обновили страницу [Типы данных и структура объектов в REST API Каталога](./api-reference/catalog/data-types.md) в Торговом каталоге
 - Обновили документацию по методам [documentgenerator.template.*](./api-reference/document-generator/templates/index.md) в разделе Шаблоны в Генераторе документов
 
 ### 23 марта, 2026

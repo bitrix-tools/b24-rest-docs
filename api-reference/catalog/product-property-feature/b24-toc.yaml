@@ -5,11 +5,13 @@ items:
     href: index.md
   - name: Добавить параметры свойств
     href: catalog-product-property-feature-add.md
-  - name: Получить значения параметров свойств
-    href: catalog-product-property-feature-get.md
-  - name: Получить поля значений списочных свойств
-    href: catalog-product-property-feature-get-fields.md
-  - name: Получить доступные параметры
-    href: catalog-product-property-feature-get-available-features-by-property.md
   - name: Изменить значения параметров
     href: catalog-product-property-feature-update.md
+  - name: Получить значения параметров свойств
+    href: catalog-product-property-feature-get.md
+  - name: Получить список параметров
+    href: catalog-product-property-feature-list.md
+  - name: Получить доступные параметры
+    href: catalog-product-property-feature-get-available-features-by-property.md
+  - name: Получить поля параметров
+    href: catalog-product-property-feature-get-fields.md

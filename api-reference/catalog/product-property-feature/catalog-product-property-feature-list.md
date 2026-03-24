@@ -1,10 +1,10 @@
-# Получить список секционных настроек свойств catalog.productPropertySection.list
+# Получить список параметров свойств товаров или вариаций catalog.productPropertyFeature.list
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
 
-Метод `catalog.productPropertySection.list` возвращает список секционных настроек свойств товаров и вариаций по фильтру.
+Метод `catalog.productPropertyFeature.list` возвращает список параметров свойств товаров и вариаций по фильтру.
 
 ## Параметры метода
 
@@ -14,13 +14,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта [catalog_product_property_section](../data-types.md#catalog_product_property_section)).
+[`array`](../../data-types.md) | Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта [catalog_product_property_features](../data-types.md#catalog_product_property_features)).
 
 Если параметр не передан, будут выбраны все поля ||
 || **filter**
-[`object`](../../data-types.md) | Объект для фильтрации выбранных настроек в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+[`object`](../../data-types.md) | Объект для фильтрации выбранных параметров в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_product_property_section](../data-types.md#catalog_product_property_section).
+Возможные значения для `field` соответствуют полям объекта [catalog_product_property_features](../data-types.md#catalog_product_property_features).
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
@@ -37,17 +37,17 @@
 - `!=` — не равно
 - `!` — не равно
 
-Если `propertyId` не передан, метод выбирает секционные настройки всех свойств торговых каталогов. Если передан `propertyId`, который не существует или не относится к торговому каталогу, метод вернет пустой список ||
+Если `propertyId` не передан, метод выбирает параметры всех свойств торговых каталогов. Если передан `propertyId`, который не существует или не относится к торговому каталогу, метод вернет пустой список ||
 || **order**
-[`object`](../../data-types.md) | Объект для сортировки выбранных настроек в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`object`](../../data-types.md) | Объект для сортировки выбранных параметров в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_product_property_section](../data-types.md#catalog_product_property_section).
+Возможные значения для `field` соответствуют полям объекта [catalog_product_property_features](../data-types.md#catalog_product_property_features).
 
 Возможные значения для `order`:
 - `ASC` — в порядке возрастания
 - `DESC` — в порядке убывания
 
-Если параметр не передан, применяется сортировка `propertyId ASC` ||
+Если параметр не передан, применяется сортировка `id ASC` ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -72,8 +72,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"select":["propertyId","smartFilter","displayType","displayExpanded","filterHint"],"filter":{"propertyId":901},"order":{"propertyId":"ASC"}}' \
-      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.productPropertySection.list
+      -d '{"select":["id","propertyId","moduleId","featureId","isEnabled"],"filter":{"propertyId":901},"order":{"id":"ASC"}}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.productPropertyFeature.list
     ```
 
 - cURL (OAuth)
@@ -82,8 +82,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"select":["propertyId","smartFilter","displayType","displayExpanded","filterHint"],"filter":{"propertyId":901},"order":{"propertyId":"ASC"},"auth":"**put_access_token_here**"}' \
-      https://**put_your_bitrix24_address**/rest/catalog.productPropertySection.list
+      -d '{"select":["id","propertyId","moduleId","featureId","isEnabled"],"filter":{"propertyId":901},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/catalog.productPropertyFeature.list
     ```
 
 - JS
@@ -93,11 +93,11 @@
 
     try {
     const response = await $b24.callListMethod(
-        'catalog.productPropertySection.list',
+        'catalog.productPropertyFeature.list',
         {
-        select: ['propertyId', 'smartFilter', 'displayType', 'displayExpanded', 'filterHint'],
+        select: ['id', 'propertyId', 'moduleId', 'featureId', 'isEnabled'],
         filter: { propertyId: 901 },
-        order: { propertyId: 'ASC' }
+        order: { id: 'ASC' }
         },
         (progress: number) => { console.log('Progress:', progress) }
     );
@@ -110,11 +110,11 @@
     // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
 
     try {
-    const generator = $b24.fetchListMethod('catalog.productPropertySection.list', {
-        select: ['propertyId', 'smartFilter', 'displayType', 'displayExpanded', 'filterHint'],
+    const generator = $b24.fetchListMethod('catalog.productPropertyFeature.list', {
+        select: ['id', 'propertyId', 'moduleId', 'featureId', 'isEnabled'],
         filter: { propertyId: 901 },
-        order: { propertyId: 'ASC' }
-    }, 'PROPERTY_ID');
+        order: { id: 'ASC' }
+    }, 'ID');
     for await (const page of generator) {
         for (const entity of page) { console.log('Entity:', entity) }
     }
@@ -125,10 +125,10 @@
     // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
 
     try {
-    const response = await $b24.callMethod('catalog.productPropertySection.list', {
-        select: ['propertyId', 'smartFilter', 'displayType', 'displayExpanded', 'filterHint'],
+    const response = await $b24.callMethod('catalog.productPropertyFeature.list', {
+        select: ['id', 'propertyId', 'moduleId', 'featureId', 'isEnabled'],
         filter: { propertyId: 901 },
-        order: { propertyId: 'ASC' }
+        order: { id: 'ASC' }
     }, 0);
     const result = response.getData().result || [];
     for (const entity of result) { console.log('Entity:', entity) }
@@ -144,13 +144,13 @@
         $response = $b24Service
             ->core
             ->call(
-                'catalog.productPropertySection.list',
+                'catalog.productPropertyFeature.list',
                 [
-                    'select' => ['propertyId', 'smartFilter', 'displayType', 'displayExpanded', 'filterHint'],
+                    'select' => ['id', 'propertyId', 'moduleId', 'featureId', 'isEnabled'],
                     'filter' => [
                         'propertyId' => 901,
                     ],
-                    'order' => ['propertyId' => 'ASC'],
+                    'order' => ['id' => 'ASC'],
                 ]
             );
 
@@ -164,13 +164,13 @@
 
     ```js
     BX24.callMethod(
-        'catalog.productPropertySection.list',
+        'catalog.productPropertyFeature.list',
         {
-            select: ['propertyId', 'smartFilter', 'displayType', 'displayExpanded', 'filterHint'],
+            select: ['id', 'propertyId', 'moduleId', 'featureId', 'isEnabled'],
             filter: {
                 propertyId: 901
             },
-            order: { propertyId: 'ASC' }
+            order: { id: 'ASC' }
         },
         function(result) {
             if (result.error()) {
@@ -188,11 +188,11 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'catalog.productPropertySection.list',
+        'catalog.productPropertyFeature.list',
         [
-            'select' => ['propertyId', 'smartFilter', 'displayType', 'displayExpanded', 'filterHint'],
+            'select' => ['id', 'propertyId', 'moduleId', 'featureId', 'isEnabled'],
             'filter' => ['propertyId' => 901],
-            'order' => ['propertyId' => 'ASC'],
+            'order' => ['id' => 'ASC'],
         ]
     );
 
@@ -208,25 +208,32 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "productPropertySections": [
+        "productPropertyFeatures": [
         {
-            "displayExpanded": "N",
-            "displayType": "F",
-            "filterHint": "Подсказка для фильтра",
-            "propertyId": 901,
-            "smartFilter": "Y"
+            "featureId": "DETAIL_PAGE_SHOW",
+            "id": 99,
+            "isEnabled": "Y",
+            "moduleId": "iblock",
+            "propertyId": 901
+        },
+        {
+            "featureId": "LIST_PAGE_SHOW",
+            "id": 101,
+            "isEnabled": "Y",
+            "moduleId": "iblock",
+            "propertyId": 901
         }
         ]
     },
-    "total": 1,
+    "total": 2,
     "time": {
-        "start": 1774266816,
-        "finish": 1774266816.883621,
-        "duration": 0.8836209774017334,
-        "processing": 0,
-        "date_start": "2026-03-23T14:53:36+03:00",
-        "date_finish": "2026-03-23T14:53:36+03:00",
-        "operating_reset_at": 1774267416,
+        "start": 1774254804,
+        "finish": 1774254805.034701,
+        "duration": 1.0347011089324951,
+        "processing": 1,
+        "date_start": "2026-03-23T11:33:24+03:00",
+        "date_finish": "2026-03-23T11:33:25+03:00",
+        "operating_reset_at": 1774255404,
         "operating": 0
     }
 }
@@ -239,8 +246,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertySections**
-[`catalog_product_property_section[]`](../data-types.md#catalog_product_property_section) | Массив объектов секционных настроек свойства ||
+|| **productPropertyFeatures**
+[`catalog_product_property_features[]`](../data-types.md#catalog_product_property_features) | Массив объектов с информацией о выбранных параметрах ||
 || **next**
 [`integer`](../../data-types.md) | Смещение для следующей страницы. Поле возвращается, если есть еще записи ||
 || **total**
@@ -276,5 +283,8 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-property-section-set.md)
-- [{#T}](./catalog-product-property-section-get.md)
+- [{#T}](./catalog-product-property-feature-add.md)
+- [{#T}](./catalog-product-property-feature-update.md)
+- [{#T}](./catalog-product-property-feature-get.md)
+- [{#T}](./catalog-product-property-feature-get-available-features-by-property.md)
+- [{#T}](./catalog-product-property-feature-get-fields.md)

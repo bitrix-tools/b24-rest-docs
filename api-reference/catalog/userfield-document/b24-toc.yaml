@@ -3,7 +3,7 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Получить список значений полей
-    href: catalog-userfield-document-list.md
   - name: Изменить значения полей
     href: catalog-userfield-document-update.md
+  - name: Получить список значений полей
+    href: catalog-userfield-document-list.md

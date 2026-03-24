@@ -1,21 +1,5 @@
 # Типы данных и структура объектов в REST API Каталога
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- Сделать описание объекта rest_field_description
-
-{% endnote %}
-
-{% endif %}
-
 Базовые типы данных перечислены в отдельной [статье](../data-types.md).
 
 В этой статье рассмотрим типы данных и структуру объектов, характерные именно для Каталога CRM.
@@ -133,6 +117,19 @@
 [`double`](../data-types.md) | Общая сумма по товарам документа. Значение рассчитывается автоматически после проведения, но может быть задано вручную ||
 || **commentary**
 [`string`](../data-types.md) | Комментарий к документу ||
+|#
+
+### catalog_userfield_document
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **documentId**
+[`catalog_document.id`](#catalog_document) | Идентификатор документа складского учета ||
+|| **documentType**
+[`string`](../data-types.md) | Тип документа складского учета ||
+|| **fieldN**
+[`mixed`](../data-types.md) | Значение пользовательского поля документа, где `N` — идентификатор пользовательского поля, например `field7097` ||
 |#
 
 ### catalog_document_element
@@ -433,6 +430,76 @@
 [`string`](../data-types.md) | Подсказка для поля ||
 || **userTypeSettings**
 [`object`](../data-types.md) | Объект с настройками пользовательского типа ||
+|#
+
+### catalog_product_property_enum
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор значения списочного свойства ||
+|| **propertyId**
+[`catalog_product_property.id`](#catalog_product_property) | Идентификатор свойства товара или вариации ||
+|| **value**
+[`string`](../data-types.md) | Значение элемента списка ||
+|| **xmlId**
+[`string`](../data-types.md) | Внешний идентификатор значения списка ||
+|| **def**
+[`char`](../data-types.md) | Признак значения по умолчанию. Возможные значения:
+- `Y` — по умолчанию
+- `N` — не по умолчанию ||
+|| **sort**
+[`integer`](../data-types.md) | Индекс сортировки ||
+|#
+
+### catalog_product_property_features
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор параметра свойства ||
+|| **propertyId**
+[`catalog_product_property.id`](#catalog_product_property) | Идентификатор свойства товара или вариации ||
+|| **moduleId**
+[`string`](../data-types.md) | Идентификатор модуля, которому принадлежит параметр свойства ||
+|| **featureId**
+[`string`](../data-types.md) | Код параметра свойства ||
+|| **isEnabled**
+[`char`](../data-types.md) | Признак активности параметра свойства. Возможные значения:
+- `Y` — включен
+- `N` — выключен ||
+|#
+
+### catalog_product_property_section
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **iblockId**
+[`catalog_catalog.id`](#catalog_catalog) | Идентификатор торгового каталога ||
+|| **propertyId**
+[`catalog_product_property.id`](#catalog_product_property) | Идентификатор свойства товара или вариации ||
+|| **sectionId**
+[`integer`](../data-types.md) | Идентификатор раздела каталога.
+
+Для общих настроек секций возвращается значение `0` ||
+|| **smartFilter**
+[`char`](../data-types.md) | Показывать ли свойство в умном фильтре. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **displayType**
+[`char`](../data-types.md) | Вид свойства в умном фильтре. Возможные значения:
+- `F` — флажки
+- `K` — радиокнопки
+- `P` — выпадающий список ||
+|| **displayExpanded**
+[`char`](../data-types.md) | Показывать ли свойство развернутым в фильтре. Возможные значения:
+- `Y` — да
+- `N` — нет ||
+|| **filterHint**
+[`string`](../data-types.md) | Подсказка в умном фильтре для посетителей ||
 |#
 
 ### catalog_product_sku
@@ -1040,6 +1107,34 @@
 [`user.id`](../data-types.md) | Кем изменен ||
 || **dateCreate**
 [`datetime`](../data-types.md) | Дата создания ||
+|#
+
+### catalog_price_type_group
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор привязки типа цены к группе покупателей ||
+|| **catalogGroupId**
+[`catalog_price_type.id`](#catalog_price_type) | Идентификатор типа цены ||
+|| **groupId**
+[`integer`](../data-types.md) | Идентификатор группы покупателей ||
+|| **access**
+[`char`](../data-types.md) | Тип доступа. Возможные значения:
+- `Y` — право на покупку по этому типу цены
+- `N` — право на просмотр этого типа цены ||
+|#
+
+### catalog_enum
+
+#|
+|| **Значение**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) \| [`string`](../data-types.md) | Идентификатор элемента перечисления ||
+|| **name**
+[`string`](../data-types.md) | Название элемента перечисления ||
 |#
 
 ### catalog_price_type_lang
