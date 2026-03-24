@@ -107,7 +107,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [landing.syspage.deleteForLanding](./special-pages/landing-syspage-delete-for-landing.md) | Удаляет все упоминания страницы как специальной ||
+|| [landing.syspage.deleteForLanding](./special-pages/landing-syspage-delete-for-landing.md) | Удаляет все привязки страницы как специальной ||
 || [landing.syspage.deleteForSite](./special-pages/landing-syspage-delete-for-site.md) | Удаляет все специальные страницы ||
 || [landing.syspage.getSpecialPage](./special-pages/landing-syspage-get-special-page.md) | Получает адрес специальной страницы сайта ||
 || [landing.syspage.get](./special-pages/landing-syspage-get.md) | Получает список специальных страниц ||

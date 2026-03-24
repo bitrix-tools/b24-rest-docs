@@ -9,7 +9,7 @@ items:
     href: landing-syspage-get.md
   - name: Получить адрес специальной страницы
     href: landing-syspage-get-special-page.md
-  - name: Удалить все упоминания
+  - name: Удалить привязки страницы как специальной
     href: landing-syspage-delete-for-landing.md
-  - name: Удалить все специальные страницы
+  - name: Удалить все привязки специальных страниц сайта
     href: landing-syspage-delete-for-site.md

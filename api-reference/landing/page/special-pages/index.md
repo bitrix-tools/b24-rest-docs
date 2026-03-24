@@ -29,8 +29,8 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [landing.syspage.deleteForLanding](./landing-syspage-delete-for-landing.md) | Удаляет все упоминания страницы как специальной ||
-|| [landing.syspage.deleteForSite](./landing-syspage-delete-for-site.md) | Удаляет все специальные страницы ||
+|| [landing.syspage.deleteForLanding](./landing-syspage-delete-for-landing.md) | Удаляет все привязки страницы как специальной ||
+|| [landing.syspage.deleteForSite](./landing-syspage-delete-for-site.md) | Удаляет все привязки специальных страниц сайта ||
 || [landing.syspage.getSpecialPage](./landing-syspage-get-special-page.md) | Получает адрес специальной страницы сайта ||
 || [landing.syspage.get](./landing-syspage-get.md) | Получает список специальных страниц ||
 || [landing.syspage.set](./landing-syspage-set.md) | Устанавливает специальную страницу для сайта ||

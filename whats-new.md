@@ -16,6 +16,7 @@
 - Обновили документацию по методам [catalog.userfield.document.*](./api-reference/catalog/userfield-document/index.md) в разделе Пользовательские поля документов складского учета в Торговом каталоге
 - Обновили страницу [Типы данных и структура объектов в REST API Каталога](./api-reference/catalog/data-types.md) в Торговом каталоге
 - Обновили документацию по методам [documentgenerator.template.*](./api-reference/document-generator/templates/index.md) в разделе Шаблоны в Генераторе документов
+- Обновили документацию по методам [landing.syspage.set](./api-reference/landing/page/special-pages/landing-syspage-set.md), [landing.syspage.get](./api-reference/landing/page/special-pages/landing-syspage-get.md), [landing.syspage.getSpecialPage](./api-reference/landing/page/special-pages/landing-syspage-get-special-page.md), [landing.syspage.deleteForLanding](./api-reference/landing/page/special-pages/landing-syspage-delete-for-landing.md), [landing.syspage.deleteForSite](./api-reference/landing/page/special-pages/landing-syspage-delete-for-site.md) в разделе Специальные страницы
 
 ### 23 марта, 2026
 
