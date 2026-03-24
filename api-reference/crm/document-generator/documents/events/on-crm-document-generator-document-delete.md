@@ -1,4 +1,4 @@
-# Событие при удалении документа `onCrmDocumentGeneratorDocumentDelete`
+﻿# Событие при удалении документа `onCrmDocumentGeneratorDocumentDelete`
 
 > Scope: [`documentgenerator, crm`](../../../../scopes/permissions.md)
 >

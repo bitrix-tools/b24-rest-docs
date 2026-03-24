@@ -4,6 +4,9 @@
 
 ### 24 марта, 2026
 
+- Обновили документацию по методам [entity.*](./api-reference/entity/entities/index.md) в разделе Хранилища данных
+- Обновили документацию по методам [entity.section.*](./api-reference/entity/sections/index.md) в разделе Разделы хранилища данных
+- Обновили документацию по методам [crm.documentgenerator.document.*](./api-reference/crm/document-generator/documents/index.md) в разделе Документы в CRM
 - Добавили новые методы для [Чат-ботов 2.0](./api-reference/chat-bots/chat-bots-v2/index.md) в разделе Бот-платформа
 - Обновили документацию по методам [catalog.enum.*](./api-reference/catalog/enum/index.md) в разделе Перечисления в Торговом каталоге
 - Обновили документацию по методам [catalog.priceTypeGroup.*](./api-reference/catalog/price-type/price-type-group/index.md) в разделе Привязки типов цен к группам покупателей в Торговом каталоге

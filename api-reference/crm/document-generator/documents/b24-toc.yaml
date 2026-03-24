@@ -1,10 +1,8 @@
-title: Документы 
+﻿title: Документы 
 href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Получить поля документа
-    href: crm-document-generator-document-get-fields.md
   - name: Создать новый документ
     href: crm-document-generator-document-add.md
   - name: Изменить документ
@@ -13,12 +11,14 @@ items:
     href: crm-document-generator-document-get.md
   - name: Получить список документов
     href: crm-document-generator-document-list.md
-  - name: Включить и выключить публичную ссылку на документ
-    href: crm-document-generator-document-enable-public-url.md
-  - name: Загрузить сформированный документ и прикрепить его к указанной сущности
-    href: crm-document-generator-document-upload.md
-  - name: Удалить документа
+  - name: Удалить документ
     href: crm-document-generator-document-delete.md
+  - name: Включить или выключить публичную ссылку на документ
+    href: crm-document-generator-document-enable-public-url.md
+  - name: Загрузить сформированный документ и прикрепить его к указанному CRM-объекту
+    href: crm-document-generator-document-upload.md
+  - name: Получить поля документа
+    href: crm-document-generator-document-get-fields.md
   - name: События
     include:
       path: events/b24-toc.yaml

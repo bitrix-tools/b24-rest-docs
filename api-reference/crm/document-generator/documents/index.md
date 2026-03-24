@@ -1,4 +1,4 @@
-# Документы
+﻿# Документы
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -16,20 +16,20 @@
 
 {% endif %}
 
-{% note info "Права" %}
+## Обзор методов {#all-methods}
 
-**Scope**: [`crm.documentgenerator`](../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правом "изменения" документов генератора документов
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.documentgenerator.document.getfields](./crm-document-generator-document-get-fields.md) | Поля документа. ||
-|| [crm.documentgenerator.document.add](./crm-document-generator-document-add.md) | Создание нового документа. ||
-|| [crm.documentgenerator.document.update](./crm-document-generator-document-update.md) | Изменение документа. ||
-|| [crm.documentgenerator.document.get](./crm-document-generator-document-get.md) | Получение информации о документе по Id. ||
-|| [crm.documentgenerator.document.list](./crm-document-generator-document-list.md) | Получение списка документов. ||
-|| [crm.documentgenerator.document.enablepublicurl](./crm-document-generator-document-enable-public-url.md) | Включение и выключение публичной ссылки на документ. ||
-|| [crm.documentgenerator.document.upload](./crm-document-generator-document-upload.md) | Загрузка сформированного документа и прикрепление его к указанной сущности. ||
-|| [crm.documentgenerator.document.delete](./crm-document-generator-document-delete.md) | Удаление документа. ||
+|| [crm.documentgenerator.document.add](./crm-document-generator-document-add.md) | Создает новый документ ||
+|| [crm.documentgenerator.document.update](./crm-document-generator-document-update.md) | Обновляет документ ||
+|| [crm.documentgenerator.document.get](./crm-document-generator-document-get.md) | Возвращает информацию о документе по ID ||
+|| [crm.documentgenerator.document.list](./crm-document-generator-document-list.md) | Возвращает список документов ||
+|| [crm.documentgenerator.document.delete](./crm-document-generator-document-delete.md) | Удаляет документ ||
+|| [crm.documentgenerator.document.enablepublicurl](./crm-document-generator-document-enable-public-url.md) | Включает или выключает публичную ссылку на документ ||
+|| [crm.documentgenerator.document.upload](./crm-document-generator-document-upload.md) | Загружает готовый документ и прикрепляет его к CRM-объекту ||
+|| [crm.documentgenerator.document.getfields](./crm-document-generator-document-get-fields.md) | Возвращает поля документа ||
 |#

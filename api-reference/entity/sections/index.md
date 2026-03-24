@@ -1,4 +1,4 @@
-# Методы работы с разделами хранилища
+﻿# Методы работы с разделами хранилища
 
 {% note warning "Мы еще обновляем эту страницу" %}
 
@@ -8,12 +8,12 @@
 
 > Scope: [`entity`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь авторизованный в приложении
 
 #|
 || **Метод** | **Описание** ||
-|| [entity.section.get](./entity-section-get.md) | Получение списка разделов хранилища (секций инфоблока). Списочный метод. ||
-|| [entity.section.add](./entity-section-add.md) | Добавление раздела хранилища. ||
-|| [entity.section.update](./entity-section-update.md) | Обновление раздела хранилища. ||
-|| [entity.section.delete](./entity-section-delete.md) | Удаление раздела хранилища. ||
+|| [entity.section.add](./entity-section-add.md) | Добавляет раздел хранилища данных приложения ||
+|| [entity.section.update](./entity-section-update.md) | Обновляет раздел хранилища данных приложения ||
+|| [entity.section.get](./entity-section-get.md) | Получает список разделов хранилища данных приложения ||
+|| [entity.section.delete](./entity-section-delete.md) | Удаляет раздел хранилища данных приложения ||
 |#

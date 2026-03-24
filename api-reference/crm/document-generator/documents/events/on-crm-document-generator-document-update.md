@@ -1,4 +1,4 @@
-# Событие при обновлении документа `onCrmDocumentGeneratorDocumentUpdate`
+﻿# Событие при обновлении документа `onCrmDocumentGeneratorDocumentUpdate`
 
 > Scope: [`documentgenerator, crm`](../../../../scopes/permissions.md)
 >

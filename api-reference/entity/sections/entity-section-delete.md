@@ -1,46 +1,54 @@
 # Удалить раздел хранилища entity.section.delete
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`entity`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с уровнем права `W` (запись) или `X` (управление) на хранилище данных
 
-Метод `entity.section.delete` удаляет раздел хранилища. Пользователь должен обладать хотя бы правами на запись (**W**) в хранилище.
+Метод `entity.section.delete` удаляет раздел хранилища данных приложения.
 
-## Параметры
+{% note info "" %}
 
-#|
-|| **Параметр** | **Описание** ||
-|| **ENTITY^*^**
-[`string`](../../data-types.md) | Обязательный. Строковой идентификатор хранилища. ||
-|| **ID**^*^
-[`integer`](../../data-types.md) | Обязательный. Идентификатор удаляемого раздела. ||
-|#
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
+
+{% endnote %}
+
+
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Примеры
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ENTITY**^*^
+[`string`](../../data-types.md) | Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. 
+
+Получить идентификатор можно методом [entity.get](../entities/entity-get.md) ||
+|| **ID**^*^
+[`integer`](../../data-types.md) | Идентификатор удаляемого раздела ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример удаления раздела, где:
+- `ENTITY` — идентификатор хранилища `dish`
+- `ID` — идентификатор раздела `673`
 
 {% list tabs %}
 
-- JS
+- cURL (OAuth)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ENTITY":"dish","ID":673,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/entity.section.delete
+    ```
+
+- JS
 
     ```js
     try
@@ -48,21 +56,21 @@
     	const response = await $b24.callMethod(
     		'entity.section.delete',
     		{
-    			ENTITY: 'menu_new',
-    			ID: 220
+    			ENTITY: 'dish',
+    			ID: 673,
     		}
     	);
-    	
+
     	const result = response.getData().result;
+    	console.info(result);
     }
-    catch( error )
+    catch (error)
     {
     	console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -71,17 +79,19 @@
             ->call(
                 'entity.section.delete',
                 [
-                    'ENTITY' => 'menu_new',
-                    'ID'     => 220
+                    'ENTITY' => 'dish',
+                    'ID' => 673,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
+
+        echo '<pre>';
+        print_r($result);
+        echo '</pre>';
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting entity section: ' . $e->getMessage();
@@ -90,29 +100,105 @@
 
 - BX24.js
 
-    ```javascript
+    ```js
     BX24.callMethod(
         'entity.section.delete',
         {
-            ENTITY: 'menu_new',
-            ID: 220
-        }
+            ENTITY: 'dish',
+            ID: 673,
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
     );
     ```
 
-- HTTP
+- PHP CRest
 
-    ```http
-    https://my.bitrix24.ru/rest/entity.section.delete.json?ENTITY=menu_new&ID=220&auth=9affe382af74d9c5caa588e28096e872
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'entity.section.delete',
+        [
+            'ENTITY' => 'dish',
+            'ID' => 673,
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-> 200 OK
 ```json
-{"result":true}
+{
+    "result": true,
+    "time": {
+        "start": 1774341623,
+        "finish": 1774341623.380336,
+        "duration": 0.38033604621887207,
+        "processing": 0,
+        "date_start": "2026-03-24T11:40:23+03:00",
+        "date_finish": "2026-03-24T11:40:23+03:00",
+        "operating_reset_at": 1774342223,
+        "operating": 0.1318378448486328
+    }
+}
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Результат выполнения метода. Для успешного удаления возвращается `true` ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_SECTION_NOT_FOUND",
+    "error_description": "Section not found"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_ARGUMENT` | Argument 'ENTITY' is null or empty | Параметр `ENTITY` не передан или пустой после очистки ||
+|| `ERROR_ARGUMENT` | Entity code is too long. Max length is N characters. | Слишком длинное значение `ENTITY` ||
+|| `ERROR_ARGUMENT` | Argument 'ID' is null or empty | Параметр `ID` не передан или имеет значение `0` ||
+|| `ERROR_ENTITY_NOT_FOUND` | Entity not found | Хранилище с переданным `ENTITY` не найдено ||
+|| `ERROR_SECTION_NOT_FOUND` | Section not found | Раздел с указанным `ID` не найден в этом хранилище ||
+|| `ACCESS_DENIED` | Access denied! | Недостаточно прав для удаления раздела ||
+|| `ERROR_CORE` | Internal error deleting entity section. Try deleting again. | Внутренняя ошибка при удалении раздела ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./entity-section-add.md)
+- [{#T}](./entity-section-update.md)
+- [{#T}](./entity-section-get.md)
+- [{#T}](./index.md)
+
