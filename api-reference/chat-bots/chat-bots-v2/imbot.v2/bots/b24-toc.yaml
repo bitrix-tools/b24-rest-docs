@@ -1,0 +1,15 @@
+title: Боты
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Зарегистрировать бота
+    href: bot-register.md
+  - name: Обновить бота
+    href: bot-update.md
+  - name: Получить информацию о боте
+    href: bot-get.md
+  - name: Список ботов приложения
+    href: bot-list.md
+  - name: Удалить бота
+    href: bot-unregister.md

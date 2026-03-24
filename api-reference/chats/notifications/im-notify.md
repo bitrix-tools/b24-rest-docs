@@ -41,7 +41,7 @@
 [`string`](../../data-types.md) | Дополнительный тег уведомления без проверки уникальности. Передавайте с `CLIENT_ID` при вызове через вебхук ||
 || **ATTACH**
 [`object`](../../data-types.md) 
-[`string`](../../data-types.md) | Вложение уведомления в формате объекта или JSON-строки. Подробнее смотрите в разделе [Вложения](../messages/attachments/index.md) ||
+[`string`](../../data-types.md) | Вложение уведомления в формате объекта или JSON-строки. Подробнее смотрите в разделе [Вложения](../messages/attachments.md) ||
 |#
 
 ## Примеры кода
@@ -237,3 +237,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./im-notify-confirm.md)
 - [{#T}](./im-notify-delete.md)
 - [{#T}](./im-notify-history-search.md)
+

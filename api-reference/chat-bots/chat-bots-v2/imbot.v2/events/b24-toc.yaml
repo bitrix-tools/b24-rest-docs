@@ -1,0 +1,9 @@
+title: События
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить события бота
+    href: event-get.md
+  - name: Форматы событий
+    href: events.md

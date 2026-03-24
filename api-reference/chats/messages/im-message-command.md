@@ -20,11 +20,11 @@
 || **BOT_ID***
 [`integer`](../../data-types.md) | Идентификатор бота.
 
-Идентификатор можно получить с помощью метода [imbot.bot.list](../../chat-bots/imbot-bot-list.md). ||
+Идентификатор можно получить с помощью метода [imbot.bot.list](../../chat-bots/outdated/bots/imbot-bot-list.md). ||
 || **COMMAND***
 [`string`](../../data-types.md) | Команда бота.
 
-Текст указывается при регистрации команды чат-ботом через метод [imbot.command.register](../../chat-bots/commands/imbot-command-register.md) ||
+Текст указывается при регистрации команды чат-ботом через метод [imbot.command.register](../../chat-bots/outdated/commands/imbot-command-register.md) ||
 || **COMMAND_PARAMS**
 [`string`](../../data-types.md) | Параметр команды ||
 |#
@@ -213,3 +213,5 @@ HTTP-статус: **400**
 - [{#T}](./im-message-add.md)
 - [{#T}](./keyboards.md)
 - [{#T}](./menu.md)
+
+

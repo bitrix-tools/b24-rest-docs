@@ -4,6 +4,7 @@
 
 ### 24 марта, 2026
 
+- Добавили новые методы для [Чат-ботов 2.0](./api-reference/chat-bots/chat-bots-v2/index.md) в разделе Бот-платформа
 - Обновили документацию по методам [catalog.enum.*](./api-reference/catalog/enum/index.md) в разделе Перечисления в Торговом каталоге
 - Обновили документацию по методам [catalog.priceTypeGroup.*](./api-reference/catalog/price-type/price-type-group/index.md) в разделе Привязки типов цен к группам покупателей в Торговом каталоге
 - Обновили документацию по методам [catalog.productPropertyEnum.*](./api-reference/catalog/product-property-enum/index.md) в разделе Значения списочных свойств в Торговом каталоге
@@ -73,7 +74,7 @@
 ### 11 марта, 2026
 
 - Обновили методы в разделе [Телефония](./api-reference/telephony/index.md)
-- Обновили раздел [Вложения в сообщениях ATTACH](./api-reference/chats/messages/attachments/index.md)
+- Обновили раздел [Вложения в сообщениях ATTACH](./api-reference/chats/messages/attachments.md)
 - Обновили метод [imopenlines.session.history.get](./api-reference/imopenlines/openlines/sessions/imopenlines-session-history-get.md) в разделе Открытые линии
 
 ### 10 марта, 2026
@@ -100,7 +101,7 @@
 ### 03 марта, 2026
 
 - Обновили документацию по методам чатов [im.chat.mute](./api-reference/chats/special-operations/im-chat-mute.md), [im.recent.pin](./api-reference/chats/special-operations/im-recent-pin.md), [im.recent.hide](./api-reference/chats/special-operations/im-recent-hide.md) в разделе Специальные операции
-- Добавили метод [imbot.chat.setManager](./api-reference/chat-bots/chats/imbot-chat-set-manager.md) для назначения или снятия прав администратора чата
+- Добавили метод [imbot.chat.setManager](./api-reference/chat-bots/outdated/chats/imbot-chat-set-manager.md) для назначения или снятия прав администратора чата
 - Обновили документацию по методам чатов [im.disk.file.commit](./api-reference/chats/files/im-disk-file-commit.md), [im.disk.file.delete](./api-reference/chats/files/im-disk-file-delete.md), [im.disk.file.save](./api-reference/chats/files/im-disk-file-save.md), [im.disk.folder.get](./api-reference/chats/files/im-disk-folder-get.md) в разделе Файлы
 - Обновили документацию по методам чатов [im.department.get](./api-reference/chats/departments/im-department-get.md), [im.department.managers.get](./api-reference/chats/departments/im-department-managers-get.md), [im.department.employees.get](./api-reference/chats/departments/im-department-employees-get.md), [im.department.colleagues.list](./api-reference/chats/departments/im-department-colleagues-list.md) в разделе Подразделения
 - Обновили документацию по методам чатов [im.chat.setOwner](./api-reference/chats/chat-update/im-chat-set-owner.md), [im.chat.updateAvatar](./api-reference/chats/chat-update/im-chat-update-avatar.md), [im.chat.updateColor](./api-reference/chats/chat-update/im-chat-update-color.md), [im.chat.updateTitle](./api-reference/chats/chat-update/im-chat-update-title.md) в разделе Обновление чата
@@ -110,20 +111,20 @@
 ### 27 февраля, 2026
 
 - Обновили документацию по методам чатов [im.chat.add](./api-reference/chats/im-chat-add.md), [im.chat.get](./api-reference/chats/im-chat-get.md), [im.counters.get](./api-reference/chats/im-counters-get.md), [im.dialog.get](./api-reference/chats/im-dialog-get.md), [im.recent.get](./api-reference/chats/im-recent-get.md), [im.recent.list](./api-reference/chats/im-recent-list.md)
-- Обновили документацию по методам [imbot.command.register](./api-reference/chat-bots/commands/imbot-command-register.md), [imbot.command.update](./api-reference/chat-bots/commands/imbot-command-update.md), [imbot.command.answer](./api-reference/chat-bots/commands/imbot-command-answer.md), [imbot.command.unregister](./api-reference/chat-bots/commands/imbot-command-unregister.md)
-- Обновили документацию по методам [imbot.register](./api-reference/chat-bots/imbot-register.md), [imbot.update](./api-reference/chat-bots/imbot-update.md), [imbot.unregister](./api-reference/chat-bots/imbot-unregister.md) и [imbot.bot.list](./api-reference/chat-bots/imbot-bot-list.md)
-- Обновили документацию по методам [imbot.chat.sendTyping](./api-reference/chat-bots/chats/imbot-chat-send-typing.md), [imbot.message.update](./api-reference/chat-bots/messages/imbot-message-update.md), [imbot.message.delete](./api-reference/chat-bots/messages/imbot-message-delete.md) и [imbot.message.like](./api-reference/chat-bots/messages/imbot-message-like.md)
-- Обновили документацию по событиям [ONIMBOTMESSAGEUPDATE](./api-reference/chat-bots/messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](./api-reference/chat-bots/messages/events/on-imbot-message-delete.md), [ONIMCOMMANDADD](./api-reference/chat-bots/commands/events/on-im-command-add.md), [ONIMBOTJOINCHAT](./api-reference/chat-bots/chats/events/on-imbot-join-chat.md) и [ONIMBOTDELETE](./api-reference/chat-bots/events/on-imbot-delete.md)
+- Обновили документацию по методам [imbot.command.register](./api-reference/chat-bots/outdated/commands/imbot-command-register.md), [imbot.command.update](./api-reference/chat-bots/outdated/commands/imbot-command-update.md), [imbot.command.answer](./api-reference/chat-bots/outdated/commands/imbot-command-answer.md), [imbot.command.unregister](./api-reference/chat-bots/outdated/commands/imbot-command-unregister.md)
+- Обновили документацию по методам [imbot.register](./api-reference/chat-bots/outdated/bots/imbot-register.md), [imbot.update](./api-reference/chat-bots/outdated/bots/imbot-update.md), [imbot.unregister](./api-reference/chat-bots/outdated/bots/imbot-unregister.md) и [imbot.bot.list](./api-reference/chat-bots/outdated/bots/imbot-bot-list.md)
+- Обновили документацию по методам [imbot.chat.sendTyping](./api-reference/chat-bots/outdated/chats/imbot-chat-send-typing.md), [imbot.message.update](./api-reference/chat-bots/outdated/messages/imbot-message-update.md), [imbot.message.delete](./api-reference/chat-bots/outdated/messages/imbot-message-delete.md) и [imbot.message.like](./api-reference/chat-bots/outdated/messages/imbot-message-like.md)
+- Обновили документацию по событиям [ONIMBOTMESSAGEUPDATE](./api-reference/chat-bots/outdated/messages/events/on-imbot-message-update.md), [ONIMBOTMESSAGEDELETE](./api-reference/chat-bots/outdated/messages/events/on-imbot-message-delete.md), [ONIMCOMMANDADD](./api-reference/chat-bots/outdated/commands/events/on-im-command-add.md), [ONIMBOTJOINCHAT](./api-reference/chat-bots/outdated/chats/events/on-imbot-join-chat.md) и [ONIMBOTDELETE](./api-reference/chat-bots/outdated/events/on-imbot-delete.md)
 
 ### 26 февраля, 2026
 
-- Обновили документацию по методам чатов чат-ботов [imbot.chat.*](./api-reference/chat-bots/chats/index.md)
+- Обновили документацию по методам чатов чат-ботов [imbot.chat.*](./api-reference/chat-bots/outdated/chats/index.md)
 
 ### 25 февраля, 2026
 
 - Обновили статью [Что позволяет REST API Битрикс24](./developing-with-rest-api.md)
 - Обновили статью [Кодирование данных](./settings/how-to-call-rest-api/data-encoding.md)
-- Обновили документацию по методу [imbot.message.add](./api-reference/chat-bots/messages/imbot-message-add.md) и событию [ONIMBOTMESSAGEADD](./api-reference/chat-bots/messages/events/on-imbot-message-add.md)
+- Обновили документацию по методу [imbot.message.add](./api-reference/chat-bots/outdated/messages/imbot-message-add.md) и событию [ONIMBOTMESSAGEADD](./api-reference/chat-bots/outdated/messages/events/on-imbot-message-add.md)
 
 ### 19 февраля, 2026
 
@@ -320,7 +321,7 @@
 
 ### 01 октября, 2025
 
-- Обновлены главные страницы событий в разделах [Чаты](./api-reference/chat-bots/chats/events/index.md) и [Сообщения](./api-reference/chat-bots/messages/events/index.md) в Чат-ботах. Добавили вводную информацию, а также обзор событий
+- Обновлены главные страницы событий в разделах [Чаты](./api-reference/chat-bots/outdated/chats/events/index.md) и [Сообщения](./api-reference/chat-bots/outdated/messages/events/index.md) в Чат-ботах. Добавили вводную информацию, а также обзор событий
 - Обновлена главная страница раздела [Остатки по складам](./api-reference/catalog/store-product/index.md) в Торговом каталоге. Добавили вводную информацию, а также обзор методов и связей
 - Обновлена главная страница раздела [Привязка объектов к бронированию](./api-reference/booking/booking/external-data/index.md) в Онлайн-записи. Добавили вводную информацию, а также обзор методов и связей
 - Обновили документацию по методам [tasks.task.getFields](./api-reference/tasks/tasks-task-get-fields.md), [tasks.task.files.attach](./api-reference/tasks/tasks-task-files-attach.md), [tasks.task.counters.get](./api-reference/tasks/tasks-task-counters-get.md), [tasks.task.history.list](./api-reference/tasks/tasks-task-history-list.md) в Задачах
@@ -1106,3 +1107,4 @@
 - Структура материалов во многом пересмотрена. Мы постарались изложить всё обилие информации в последовательности, которая поможет решению практических вопросов. И мы продолжаем работать над улучшением структуры;
 - Многие статьи по методам, событиям и виджетам были полностью переписаны. Мы постарались сделать их как можно более понятными и при этом максимально подробными. Вместе с разработчиками Битрикс24 мы продолжаем работать над переделкой тех статей, которые пока ещё содержат неполную информацию;
 - Все материалы выложены на [github](https://github.com/bitrix-tools/b24-rest-docs) по MIT-лицензии. Мы надеемся на вашу помощь в улучшении документации и будем приветствовать ваши правки, статьи и примеры кода. Обещаем максимально быстро рассматривать любой pull-request и следить за issues. 
+

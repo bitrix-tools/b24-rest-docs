@@ -1,0 +1,15 @@
+title: Чат-боты 2.0
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Быстрый старт
+    href: quick-start.md
+  - name: Поля объектов
+    href: entities.md
+  - name: Миграция с imbot на imbot.v2
+    href: migration.md    
+  - name: Методы
+    include:
+      path: imbot.v2/b24-toc.yaml
+      mode: link

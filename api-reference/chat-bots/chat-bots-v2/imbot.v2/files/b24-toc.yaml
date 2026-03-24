@@ -1,0 +1,9 @@
+title: Файлы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Загрузить файл в чат
+    href: file-upload.md
+  - name: Получить ссылку для скачивания файла
+    href: file-download.md

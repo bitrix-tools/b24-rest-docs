@@ -1,0 +1,15 @@
+title: Команды
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Зарегистрировать команду
+    href: command-register.md
+  - name: Обновить команду
+    href: command-update.md
+  - name: Получить список команд
+    href: command-list.md
+  - name: Удалить команду
+    href: command-unregister.md
+  - name: Ответить на команду
+    href: command-answer.md

@@ -61,10 +61,23 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [im.disk.file.commit](./files/im-disk-file-commit.md) | Добавляет файл в чат ||
 || [im.disk.file.delete](./files/im-disk-file-delete.md) | Удаляет файл из папки чата ||
 || [im.disk.file.save](./files/im-disk-file-save.md) | Сохраняет файл на свой диск ||
-|| [im.disk.folder.get](./files/im-disk-folder-get.md) | Получает папку хранения файлов указанного чата ||
+|| [im.v2.File.upload](../chat-bots/chat-bots-v2/im.v2/files/file-upload.md) | Загружает файл в чат в новом API ||
+|| [im.v2.File.download](../chat-bots/chat-bots-v2/im.v2/files/file-download.md) | Возвращает ссылку для скачивания файла в новом API ||
+|#
+
+## События
+
+Для новых сценариев получения событий чатов используйте раздел `im.v2`. В нем собраны методы подписки на пользовательские события мессенджера, получение событий в режиме polling и описание форматов payload.
+
+#|
+|| **Метод** | **Описание** ||
+|| [im.v2: события](../chat-bots/chat-bots-v2/im.v2/events/index.md) | Обзор работы с событиями нового API ||
+|| [im.v2.Event.subscribe](../chat-bots/chat-bots-v2/im.v2/events/event-subscribe.md) | Подписывает на запись событий ||
+|| [im.v2.Event.get](../chat-bots/chat-bots-v2/im.v2/events/event-get.md) | Возвращает накопленные события ||
+|| [im.v2.Event.unsubscribe](../chat-bots/chat-bots-v2/im.v2/events/event-unsubscribe.md) | Останавливает запись событий ||
+|| [Форматы событий im.v2](../chat-bots/chat-bots-v2/im.v2/events/events.md) | Описание событий и структуры данных ||
 |#
 
 ## Сообщения

@@ -14,7 +14,7 @@
 
 **Пользователь**. Получить идентификатор пользователя позволяют методы [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md).
 
-**Чат**. Отправлять, изменять и удалять сообщения помогают методы [imbot.message.*](../../../chat-bots/messages/index.md).
+**Чат**. Отправлять, изменять и удалять сообщения помогают методы [imbot.message.*](../../../chat-bots/outdated/messages/index.md).
 
 **Открытые линии**. Чат-боты могут перевести разговор на другую линию с помощью [imopenlines.bot.session.transfer](./imopenlines-bot-session-transfer.md). Работать с открытыми линиями следует с помощью группы методов [imopenlines.*](../index.md).
 
@@ -26,7 +26,7 @@
 
 ## Как использовать чат-боты в открытых линиях
 
-1. Зарегистрируйте чат-бот с помощью метода [im.bot.register](../../../chat-bots/imbot-register.md).
+1. Зарегистрируйте чат-бот с помощью метода [im.bot.register](../../../chat-bots/outdated/bots/imbot-register.md).
 
 2. Настройте автоматические ответы и сценарии.
 

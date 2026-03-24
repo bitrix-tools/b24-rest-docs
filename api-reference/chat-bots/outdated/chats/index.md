@@ -1,0 +1,39 @@
+# Чаты чат-ботов: обзор методов
+
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов `imbot.chat.*` остановлено.
+Используйте раздел [Чаты (`imbot.v2.Chat.*`)](../../chat-bots-v2/imbot.v2/chats/index.md).
+
+{% endnote %}
+
+> Scope: [`imbot`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: зависит от метода
+
+## Методы
+
+#|
+|| **Метод** | **Описание** ||
+|| [imbot.chat.add](./imbot-chat-add.md) | Создает новый чат ||
+|| [imbot.chat.get](./imbot-chat-get.md) | Возвращает информацию о чате ||
+|| [imbot.chat.leave](./imbot-chat-leave.md) | Выполняет выход чат-бота из указанного чата ||
+|| [imbot.chat.setManager](./imbot-chat-set-manager.md) | Назначает или снимает права администратора у участника чата ||
+|| [imbot.chat.sendTyping](./imbot-chat-send-typing.md) | Отправляет индикатор набора текста в чат ||
+|| [imbot.chat.updateAvatar](./imbot-chat-update-avatar.md) | Обновляет аватар чата ||
+|| [imbot.chat.updateColor](./imbot-chat-update-color.md) | Обновляет цвет чата ||
+|| [imbot.chat.updateTitle](./imbot-chat-update-title.md) | Обновляет название чата ||
+|| [imbot.chat.user.add](./imbot-chat-user-add.md) | Добавляет пользователя в чат ||
+|| [imbot.chat.user.list](./imbot-chat-user-list.md) | Возвращает список пользователей в чате ||
+|| [imbot.chat.user.delete](./imbot-chat-user-delete.md) | Удаляет пользователя из чата ||
+|| [imbot.dialog.get](./imbot-dialog-get.md) | Возвращает информацию о диалоге ||
+|#
+
+## События
+
+#|
+|| **Событие** | **Вызывается** ||
+|| [ONIMBOTJOINCHAT](./events/on-imbot-join-chat.md) | При получении информации чат-ботом о включении его в чат (или личную переписку) ||
+|#

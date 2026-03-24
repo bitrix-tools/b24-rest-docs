@@ -1,0 +1,13 @@
+title: Работа с чатом
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: Файлы
+    include:
+      path: files/b24-toc.yaml
+      mode: link

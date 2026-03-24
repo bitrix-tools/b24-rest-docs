@@ -1,0 +1,25 @@
+title: Чаты
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать групповой чат
+    href: chat-add.md
+  - name: Получить информацию о чате
+    href: chat-get.md
+  - name: Обновить свойства чата
+    href: chat-update.md
+  - name: Добавить участников в чат
+    href: chat-user-add.md
+  - name: Удалить участника из чата
+    href: chat-user-delete.md
+  - name: Список участников чата
+    href: chat-user-list.md
+  - name: Покинуть чат
+    href: chat-leave.md
+  - name: Добавить менеджеров чата
+    href: chat-manager-add.md
+  - name: Удалить менеджеров чата
+    href: chat-manager-delete.md
+  - name: Назначить владельца чата
+    href: chat-set-owner.md

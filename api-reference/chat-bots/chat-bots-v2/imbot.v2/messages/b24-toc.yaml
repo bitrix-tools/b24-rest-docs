@@ -1,0 +1,32 @@
+title: Сообщения
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Отправить сообщение
+    href: chat-message-send.md
+  - name: Обновить сообщение
+    href: chat-message-update.md
+  - name: Удалить сообщение
+    href: chat-message-delete.md
+  - name: Отметить сообщения как прочитанные
+    href: chat-message-read.md
+  - name: Получить сообщение
+    href: chat-message-get.md
+  - name: Получить контекст сообщения
+    href: chat-message-get-context.md
+  - name: Добавить реакцию на сообщение
+    href: chat-message-reaction-add.md
+  - name: Удалить реакцию с сообщения
+    href: chat-message-reaction-delete.md
+  - name: Форматирование текста
+    href: message-formatting.md
+  - name: Клавиатуры
+    href: message-keyboards.md       
+  - name: Вложения
+    include:
+      path: attachments/b24-toc.yaml
+      mode: link
+ 
+
+

@@ -91,7 +91,7 @@
 || **text**
 [`string`](../../data-types.md) | Новый текст сообщения. Передавайте `text` или `files`
 
-О допустимом форматировании читайте в статье [Форматирование](../../chats/messages/index.md) ||
+О допустимом форматировании читайте в статье [Форматирование](../../chats/messages/formatting.md) ||
 || **files**
 [`array`](../../data-types.md) | Массив файлов. Каждый файл передается как массив вида `array('url' => 'Ссылка на файл', 'name' => 'Имя файла')` ||
 || **disable_crm**
@@ -468,3 +468,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./imconnector-delete-messages.md)
 - [{#T}](./imconnector-send-status-delivery.md)
 - [{#T}](./imconnector-chat-name-set.md)
+

@@ -1,0 +1,32 @@
+title: Чат-боты
+href: index.md
+items:
+  - name: Обзор устаревших методов чат-ботов
+    href: index.md
+  - name: Как отправлять команды и продлевать ключ авторизации
+    href: send-command.md
+  - name: Чат-боты
+    include:
+      path: bots/b24-toc.yaml
+      mode: link
+  - name: Чаты
+    include:
+      path: chats/b24-toc.yaml
+      mode: link
+  - name: Сообщения
+    include:
+      path: messages/b24-toc.yaml
+      mode: link
+  - name: Команды
+    include:
+      path: commands/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+
+
+
+
+

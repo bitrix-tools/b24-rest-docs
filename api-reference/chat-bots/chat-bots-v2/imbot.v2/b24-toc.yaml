@@ -1,0 +1,31 @@
+title: Методы
+href: bots/index.md
+items:
+  - name: Боты
+    include:
+      path: bots/b24-toc.yaml
+      mode: link
+  - name: Чаты
+    include:
+      path: chats/b24-toc.yaml
+      mode: link
+  - name: Сообщения
+    include:
+      path: messages/b24-toc.yaml
+      mode: link
+  - name: Команды
+    include:
+      path: commands/b24-toc.yaml
+      mode: link
+  - name: Интерфейс
+    include:
+      path: ui/b24-toc.yaml
+      mode: link
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link
+  - name: Файлы
+    include:
+      path: files/b24-toc.yaml
+      mode: link

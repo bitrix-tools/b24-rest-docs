@@ -31,7 +31,7 @@
 ## Как отправить сообщение из CRM
 
 1. Найдите чат, который привязан к элементу CRM. Используйте метод [imopenlines.crm.chat.get](../chats/imopenlines-crm-chat-get.md) или [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md).
-2. Получите идентификатор сотрудника или чат-бота с помощью методов [user.get](../../../user/user-get.md), [user.search](../../../user/user-search.md) или [imbot.bot.list](../../../chat-bots/imbot-bot-list.md).
+2. Получите идентификатор сотрудника или чат-бота с помощью методов [user.get](../../../user/user-get.md), [user.search](../../../user/user-search.md) или [imbot.bot.list](../../../chat-bots/outdated/bots/imbot-bot-list.md).
 3. Передайте данные в метод [imopenlines.crm.message.add](./imopenlines-crm-message-add.md), чтобы отправить сообщение.
 
 ## Как сохранить быстрый ответ

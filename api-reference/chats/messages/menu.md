@@ -4,9 +4,9 @@
 
 Методы, которые поддерживают работу с контекстным меню:
 
-- [imbot.message.add](../../chat-bots/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
-- [imbot.message.update](../../chat-bots/messages/imbot-message-update.md) — изменить отправленное сообщение чат-бота
-- [imbot.command.answer](../../chat-bots/commands/imbot-command-answer.md) — отправить ответ на команду чат-бота
+- [imbot.message.add](../../chat-bots/outdated/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
+- [imbot.message.update](../../chat-bots/outdated/messages/imbot-message-update.md) — изменить отправленное сообщение чат-бота
+- [imbot.command.answer](../../chat-bots/outdated/commands/imbot-command-answer.md) — отправить ответ на команду чат-бота
 - [im.message.add](./im-message-add.md) — отправить сообщение в чат
 - [im.message.update](./im-message-update.md) — изменить отправленное сообщение
 
@@ -292,7 +292,7 @@
 Для обновления пунктов меню используйте методы:
 
 - [im.message.update](./im-message-update.md)
-- [imbot.message.update](../../chat-bots/messages/imbot-message-update.md)
+- [imbot.message.update](../../chat-bots/outdated/messages/imbot-message-update.md)
 
 Чтобы отключить показ дополнительных пунктов меню, передайте:
 
@@ -301,7 +301,7 @@
 
 ## Обработка команд чат-ботом {#command-processing}
 
-1. Чтобы команда отрабатывала в меню, зарегистрируйте ее через метод [imbot.command.register](../../chat-bots/commands/imbot-command-register.md).
+1. Чтобы команда отрабатывала в меню, зарегистрируйте ее через метод [imbot.command.register](../../chat-bots/outdated/commands/imbot-command-register.md).
 
     В пункте меню укажите следующие ключи:
 
@@ -310,8 +310,9 @@
     "COMMAND_PARAMS" => "example", // параметры для команды
      ```  
      
-2. Нажатие на пункт меню сформирует событие [ONIMCOMMANDADD](../../chat-bots/commands/events/on-im-command-add.md).
+2. Нажатие на пункт меню сформирует событие [ONIMCOMMANDADD](../../chat-bots/outdated/commands/events/on-im-command-add.md).
 3. Внутри события в массиве `data[COMMAND]` будут переданы данные о вызванном событии. Значение `COMMAND_CONTEXT` покажет в каком контексте была вызвана команда:
    - `TEXTAREA` — команда введена вручную
    - `KEYBOARD` — команда вызвана кнопкой
    - `MENU` — команда вызвана из контекстного меню
+

@@ -29,7 +29,7 @@
 
 Идентификатор пользователя можно получить с помощью метода [user.get](../../../user/user-get.md) или [user.search](../../../user/user-search.md).
 
-Список чат-ботов можно получить с помощью метода [imbot.bot.list](../../../chat-bots/imbot-bot-list.md) ||
+Список чат-ботов можно получить с помощью метода [imbot.bot.list](../../../chat-bots/outdated/bots/imbot-bot-list.md) ||
 || **CHAT_ID***
 [`integer`](../../../data-types.md) | Идентификатор чата открытой линии, который связан с элементом CRM. 
 
@@ -227,3 +227,4 @@ HTTP-код: **400**
 ## Продолжите изучение
 
 - [{#T}](./imopenlines-message-quick-save.md)
+
