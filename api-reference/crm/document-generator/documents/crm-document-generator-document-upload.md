@@ -1,4 +1,4 @@
-﻿# Загрузить сформированный документ и прикрепить его к указанному CRM-объекту crm.documentgenerator.document.upload
+# Загрузить документ crm.documentgenerator.document.upload
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

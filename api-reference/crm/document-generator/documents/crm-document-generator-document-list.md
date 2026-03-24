@@ -1,4 +1,4 @@
-﻿# Получить список документов crm.documentgenerator.document.list
+# Получить список документов crm.documentgenerator.document.list
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

@@ -1,4 +1,4 @@
-﻿# Получить документ crm.documentgenerator.document.get
+# Получить документ crm.documentgenerator.document.get
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

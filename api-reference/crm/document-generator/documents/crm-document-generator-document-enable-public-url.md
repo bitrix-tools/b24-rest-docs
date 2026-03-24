@@ -1,4 +1,4 @@
-﻿# Включить или выключить публичную ссылку на документ crm.documentgenerator.document.enablepublicurl
+# Включить или выключить публичную ссылку на документ crm.documentgenerator.document.enablepublicurl
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

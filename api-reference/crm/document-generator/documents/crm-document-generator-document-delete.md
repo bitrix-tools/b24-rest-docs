@@ -1,4 +1,4 @@
-﻿# Удалить документ crm.documentgenerator.document.delete
+# Удалить документ crm.documentgenerator.document.delete
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

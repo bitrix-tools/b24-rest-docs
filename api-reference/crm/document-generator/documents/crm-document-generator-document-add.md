@@ -1,4 +1,4 @@
-﻿# Создать документ crm.documentgenerator.document.add
+# Создать новый документ crm.documentgenerator.document.add
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

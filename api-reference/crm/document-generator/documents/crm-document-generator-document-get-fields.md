@@ -1,4 +1,4 @@
-﻿# Получить поля документа crm.documentgenerator.document.getfields
+# Получить поля документа crm.documentgenerator.document.getfields
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

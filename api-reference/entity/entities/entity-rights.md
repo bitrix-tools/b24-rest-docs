@@ -1,4 +1,4 @@
-﻿# Получить или изменить права доступа entity.rights
+# Получить или изменить права доступа entity.rights
 
 > Scope: [`entity`](../../scopes/permissions.md)
 >

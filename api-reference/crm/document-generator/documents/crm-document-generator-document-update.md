@@ -1,4 +1,4 @@
-﻿# Изменить документ crm.documentgenerator.document.update
+# Обновить документ crm.documentgenerator.document.update
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
