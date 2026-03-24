@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 24 марта, 2026
+
+- Обновили документацию по методам [documentgenerator.template.*](./api-reference/document-generator/templates/index.md) в разделе Шаблоны в Генераторе документов
+
 ### 23 марта, 2026
 
 - Обновили документацию по методам [documentgenerator.role.*](./api-reference/document-generator/role/index.md) в разделе Роли и права в Генераторе документов
