@@ -1,8 +1,8 @@
 # Добавить промпт ai.prompt.register
 
-{% note warning "Мы еще обновляем эту страницу" %}
+{% note alert %}
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+В настощее время, метод не реализован и возвращает ошибку "To register the prompt, use the web interface."
 
 {% endnote %}
 
@@ -10,12 +10,8 @@
 
 {% note alert "TO-DO _не выгружается на prod_" %}
 
-- нужны правки под стандарт написания
-- не указаны типы параметров
 - не указана обязательность параметров
-- отсутствуют примеры
 - отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
 
 {% endnote %}
 
@@ -27,26 +23,28 @@
 
 Метод `ai.prompt.register` добавляет промпт.
 
+## Параметры метода
+
 #|
 || **Параметр** | **Описание** ||
 || **category**
-[`unknown`](../../data-types.md) | Категория места встройки. CoPilot может располагаться в совершенно разных местах продукта. Список категорий приведён [ниже](#category) ||
+[`array`](../../data-types.md) | Категория места встройки. CoPilot может располагаться в совершенно разных местах продукта. Список категорий приведён [ниже](#category) ||
 || **code**
-[`unknown`](../../data-types.md) | Уникальный код для промпта. В коде обязательно использовать префикс `rest_`. Этот код задаётся один раз при регистрации и затем изменить его нельзя.
+[`string`](../../data-types.md) | Уникальный код для промпта. В коде обязательно использовать префикс `rest_`. Этот код задаётся один раз при регистрации и затем изменить его нельзя.
 
 Обновить препромпт возможно только через его [удаление](./ai-prompt-unregister.md) ||
 || **icon**
-[`unknown`](../../data-types.md) | Код иконки. Найти подходящую иконку вы можете в файле [copilot_icons.pdf](/upload/api_help/rest/copilot_icons.pdf) ||
+[`string`](../../data-types.md) | Код иконки. Найти подходящую иконку вы можете в файле [copilot_icons.pdf](https://helpdesk.bitrix24.ru/upload/api_help/rest/copilot_icons.pdf) ||
 || **prompt**
-[`unknown`](../../data-types.md) | Текст промпта. Именно он полетит на съедение нейронке (при этом пользователь его не увидит). В тексте препромпта можно использовать спец.форматирование: [маркеры](./markers.md) и [условия](./conditions.md) ||
+[`string`](../../data-types.md) | Текст промпта. Именно он полетит на съедение нейронке (при этом пользователь его не увидит). В тексте препромпта можно использовать спец.форматирование: [маркеры](./markers.md) и [условия](./conditions.md) ||
 || **translate**
-[`unknown`](../../data-types.md) | Массив переводов пункта на разные языки. В идеале поддержать минимум языков: английский (en) и язык портала. Поддержка других языков — на усмотрение ||
+[`object`](../../data-types.md) | Массив переводов пункта на разные языки. В идеале поддержать минимум языков: английский (en) и язык портала. Поддержка других языков — на усмотрение ||
 || **parent_code**
-[`unknown`](../../data-types.md) | Код родительской секции. В коде обязательно использовать префикс `rest_` ||
+[`string`](../../data-types.md) | Код родительской секции. В коде обязательно использовать префикс `rest_` ||
 || **sort**
-[`unknown`](../../data-types.md) | Сортировка, указывается опционально. Отвечает за сортировку пунктов между собой ||
+[`integer`](../../data-types.md) | Сортировка, указывается опционально. Отвечает за сортировку пунктов между собой ||
 || **section**
-[`unknown`](../../data-types.md) | Категория в меню промптов для визуального разделения. Может иметь значения:
+[`string`](../../data-types.md) | Категория в меню промптов для визуального разделения. Может иметь значения:
 
 - create — категория «Создать из текста»
 - edit — категория «Изменить текст»
@@ -55,7 +53,9 @@
 ||
 |#
 
-## Category
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
+
+### Места встройки {#category}
 
 #|
 || **Категория места встройки** | **Где появится в CoPilot** ||
@@ -72,17 +72,27 @@
 ## Примеры
 
 {% list tabs %}
-
 - cURL (Webhook)
 
-    // пример для cURL (Webhook)
+     ```bash
+    curl -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json" \
+        -d '{"category": ["livefeed", "livefeed_comments"], "code": "rest_joke", "icon": "smile", "prompt": "Расскажи анекдот", "translate": {"en": "A joke", "ru": "Анекдот"}}' \
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/ai.prompt.register
+    ```
 
 - cURL (OAuth)
 
-    // пример для cURL (OAuth)
+     ```bash
+    curl -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json" \
+        -d '{"category": ["livefeed", "livefeed_comments"], "code": "rest_joke", "icon": "smile", "prompt": "Расскажи анекдот", "translate": {"en": "A joke", "ru": "Анекдот"}, "auth": "**put_access_token_here**"}' \
+        https://**put_your_bitrix24_address**/rest/ai.prompt.register
+    ```
 
 - JS
-
 
     ```js
     try
@@ -110,42 +120,6 @@
     catch( error )
     {
     	console.error(error);
-    }
-    ```
-
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'ai.prompt.register',
-                [
-                    'category' => [
-                        "livefeed",
-                        "livefeed_comments"
-                    ],
-                    'code' => 'rest_joke',
-                    'icon' => 'smile',
-                    'prompt' => 'Расскажи анекдот',
-                    'translate' => [
-                        "en" => "A joke",
-                        "ru" => "Анекдот"
-                    ]
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error registering AI prompt: ' . $e->getMessage();
     }
     ```
 
@@ -181,9 +155,67 @@
     );
     ```
 
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'ai.prompt.register',
+                [
+                    'category' => [
+                        "livefeed",
+                        "livefeed_comments"
+                    ],
+                    'code' => 'rest_joke',
+                    'icon' => 'smile',
+                    'prompt' => 'Расскажи анекдот',
+                    'translate' => [
+                        "en" => "A joke",
+                        "ru" => "Анекдот"
+                    ]
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error registering AI prompt: ' . $e->getMessage();
+    }
+    ```
+
 - PHP CRest
 
-    // пример для php
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'ai.prompt.register',
+        [
+            'category' => [
+                "livefeed",
+                "livefeed_comments"
+            ],
+            'code' => 'rest_joke',
+            'icon' => 'smile',
+            'prompt' => 'Расскажи анекдот',
+            'translate' => [
+                "en" => "A joke",
+                "ru" => "Анекдот"
+            ]
+        ]
+    );
+
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
+    ```
 
 {% endlist %}
 
@@ -191,7 +223,30 @@
 
 ## Ответ в случае успеха
 
+{% note alert %}
+
+В настощее время, метод не реализован и возвращает ошибку PROMPT_NOT_REGISTER_BY_REST
+
+{% endnote %}
+
 ## Ответ в случае ошибки
+
+```
+{
+    "error": "PROMPT_NOT_REGISTER_BY_REST",
+    "error_description": "To register the prompt, use the web interface."
+}
+```
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `PROMPT_NOT_REGISTER_BY_REST` | To register the prompt, use the web interface. ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
 
 ## Частые кейсы и сценарии
 
