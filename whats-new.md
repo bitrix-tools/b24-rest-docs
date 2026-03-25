@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 25 марта, 2026
+
+- Обновили документацию по методам [documentgenerator.numerator.*](./api-reference/document-generator/numerators/index.md) в разделе Нумераторы в Генераторе документов
+
+
 ### 24 марта, 2026
 
 - Обновили документацию по методам [entity.*](./api-reference/entity/entities/index.md) в разделе Хранилища данных

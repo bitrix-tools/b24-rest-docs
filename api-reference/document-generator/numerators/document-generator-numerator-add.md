@@ -1,102 +1,429 @@
 # Добавить нумератор documentgenerator.numerator.add
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`documentgenerator`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на изменение шаблонов генератора документов
 
-Метод `documentgenerator.numerator.add` добавляет новый нумератор.
+Метод `documentgenerator.numerator.add` создает нумератор документов.
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **name** | Имя. ||
-|| **template** | Шаблон. ||
-|| **settings** | Настройки генераторов. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **fields***
+[`object`](../../data-types.md) | Набор параметров нумератора [(подробное описание)](#fields) ||
 |#
 
-## Пример
+### Параметр fields {#fields}
 
-```php
-\Bitrix\Main\Loader::includeModule('rest');
-$client = new \Bitrix\Main\Web\HttpClient();
-$webHookUrl = 'http://mycrm.bitrix24.com/rest/1/webhookkey/';
-$prefix = 'documentgenerator';
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name***
+[`string`](../../data-types.md) | Название нумератора ||
+|| **template***
+[`string`](../../data-types.md) | Шаблон номера с плейсхолдером `{NUMBER}`.
 
-$data = [
-    'fields' => [
-        'name' => 'Rest Numerator',
-        'template' => '{NUMBER}',
-        'settings' => [
-            'Bitrix_Main_Numerator_Generator_SequentNumberGenerator' => [
-                'start' => '0',
-                'step' => '1',
-            ],
-        ],
-    ],
-];
+Плейсхолдер `{NUMBER}` нужно указывать в фигурных скобках. При генерации документа плейсхолдер заменяется на следующее значение счетчика по настройкам `settings`.
 
-$url = $webHookUrl.$prefix.'.numerator.add/';
-$answer = $client->post($url, $data);
-try
+Примеры шаблонов:
+- `{NUMBER}` → `1000`
+- `INV-{NUMBER}` → `INV-1000`
+- `DG/{NUMBER}/2026` → `DG/1000/2026` 
+||
+|| **settings**
+[`object`](../../data-types.md) | Настройки генераторов нумератора [(подробное описание)](#fields-settings) ||
+|#
+
+#### Параметр settings {#fields-settings}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **Bitrix_Main_Numerator_Generator_SequentNumberGenerator**
+[`object`](../../data-types.md) | Настройки последовательной нумерации [(подробное описание)](#fields-settings-sequent) ||
+|#
+
+#### Параметры Bitrix_Main_Numerator_Generator_SequentNumberGenerator {#fields-settings-sequent}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **start**
+[`integer`](../../data-types.md) | Начальное значение счетчика.
+
+По умолчанию `1` ||
+|| **step**
+[`integer`](../../data-types.md) | Шаг увеличения счетчика.
+
+По умолчанию `1` ||
+|| **length**
+[`integer`](../../data-types.md) | Минимальная длина номера.
+
+По умолчанию `0` ||
+|| **padString**
+[`string`](../../data-types.md) | Символ добивки слева при `length > 0`.
+
+По умолчанию `0` ||
+|| **periodicBy**
+[`string`](../../data-types.md) | Период сброса счетчика:
+- `''` — без сброса
+- `day` — ежедневно
+- `month` — ежемесячно
+- `year` — ежегодно ||
+|| **timezone**
+[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса, например `Europe/Moscow` ||
+|| **isDirectNumeration**
+[`boolean`](../../data-types.md) | Признак прямой нумерации.
+
+Возможные значения:
+- `0` — выключена
+- `1` — включена
+
+По умолчанию `0`. 
+
+В ответе метода значение возвращается в виде `true` \| `false` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример создания нумератора:
+- название — `REST Invoice Numerator`
+- шаблон — `INV-{NUMBER}`
+- стартовое значение — `1000`
+- шаг — `5`
+- минимальная длина номера — `8`
+- символ добивки — `0`
+- сброс номера — ежегодно `year`
+- часовой пояс — `Europe/Moscow`
+- прямая нумерация — `0`
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+  ```bash
+  curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+      "fields": {
+        "name": "REST Invoice Numerator",
+        "template": "INV-{NUMBER}",
+        "settings": {
+          "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+            "start": 1000,
+            "step": 5,
+            "length": 8,
+            "padString": "0",
+            "periodicBy": "year",
+            "timezone": "Europe/Moscow",
+            "isDirectNumeration": 0
+          }
+        }
+      }
+    }' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/documentgenerator.numerator.add
+  ```
+
+- cURL (OAuth)
+
+  ```bash
+  curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{
+      "fields": {
+        "name": "REST Invoice Numerator",
+        "template": "INV-{NUMBER}",
+        "settings": {
+          "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+            "start": 1000,
+            "step": 5,
+            "length": 8,
+            "padString": "0",
+            "periodicBy": "year",
+            "timezone": "Europe/Moscow",
+            "isDirectNumeration": 0
+          }
+        }
+      },
+      "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/documentgenerator.numerator.add
+  ```
+
+- JS
+
+  ```js
+  try
+  {
+      const response = await $b24.callMethod(
+          'documentgenerator.numerator.add',
+          {
+              fields: {
+                  name: 'REST Invoice Numerator',
+                  template: 'INV-{NUMBER}',
+                  settings: {
+                      Bitrix_Main_Numerator_Generator_SequentNumberGenerator: {
+                          start: 1000,
+                          step: 5,
+                          length: 8,
+                          padString: '0',
+                          periodicBy: 'year',
+                          timezone: 'Europe/Moscow',
+                          isDirectNumeration: 0
+                      }
+                  }
+              }
+          }
+      );
+
+      const result = response.getData().result;
+      console.log(result);
+  }
+  catch (error)
+  {
+      console.error(error);
+  }
+  ```
+
+- PHP
+
+  ```php
+  try {
+      $response = $b24Service->core->call(
+          'documentgenerator.numerator.add',
+          [
+              'fields' => [
+                  'name' => 'REST Invoice Numerator',
+                  'template' => 'INV-{NUMBER}',
+                  'settings' => [
+                      'Bitrix_Main_Numerator_Generator_SequentNumberGenerator' => [
+                          'start' => 1000,
+                          'step' => 5,
+                          'length' => 8,
+                          'padString' => '0',
+                          'periodicBy' => 'year',
+                          'timezone' => 'Europe/Moscow',
+                          'isDirectNumeration' => 0,
+                      ],
+                  ],
+              ],
+          ]
+      );
+
+      $result = $response->getResponseData()->getResult();
+      print_r($result);
+  } catch (Throwable $e) {
+      echo $e->getMessage();
+  }
+  ```
+
+- BX24.js
+
+  ```js
+  BX24.callMethod(
+      'documentgenerator.numerator.add',
+      {
+          fields: {
+              name: 'REST Invoice Numerator',
+              template: 'INV-{NUMBER}',
+              settings: {
+                  Bitrix_Main_Numerator_Generator_SequentNumberGenerator: {
+                      start: 1000,
+                      step: 5,
+                      length: 8,
+                      padString: '0',
+                      periodicBy: 'year',
+                      timezone: 'Europe/Moscow',
+                      isDirectNumeration: 0
+                  }
+              }
+          }
+      },
+      function(result)
+      {
+          if (result.error())
+          {
+              console.error(result.error());
+          }
+          else
+          {
+              console.log(result.data());
+          }
+      }
+  );
+  ```
+
+- PHP CRest
+
+  ```php
+  require_once('crest.php');
+
+  $result = CRest::call(
+      'documentgenerator.numerator.add',
+      [
+          'fields' => [
+              'name' => 'REST Invoice Numerator',
+              'template' => 'INV-{NUMBER}',
+              'settings' => [
+                  'Bitrix_Main_Numerator_Generator_SequentNumberGenerator' => [
+                      'start' => 1000,
+                      'step' => 5,
+                      'length' => 8,
+                      'padString' => '0',
+                      'periodicBy' => 'year',
+                      'timezone' => 'Europe/Moscow',
+                      'isDirectNumeration' => 0,
+                  ],
+              ],
+          ],
+      ]
+  );
+
+  print_r($result);
+  ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
 {
-    $result = \Bitrix\Main\Web\Json::decode($answer);
+    "result": {
+        "numerator": {
+            "name": "REST Invoice Numerator",
+            "template": "INV-{NUMBER}",
+            "id": 55,
+            "code": null,
+            "settings": {
+                "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+                    "start": 1000,
+                    "step": 5,
+                    "length": 8,
+                    "padString": "0",
+                    "periodicBy": "year",
+                    "timezone": "Europe/Moscow",
+                    "isDirectNumeration": false
+                }
+            }
+        }
+    },
+    "time": {
+        "start": 1774360939,
+        "finish": 1774360939.968711,
+        "duration": 0.9687108993530273,
+        "processing": 0,
+        "date_start": "2026-03-24T17:02:19+03:00",
+        "date_finish": "2026-03-24T17:02:19+03:00",
+        "operating_reset_at": 1774361539,
+        "operating": 0
+    }
 }
-catch(Exception $e)
-{
-    var_dump($answer);
-}
-
-print_r($result);
 ```
 
+### Возвращаемые данные
 
-# Ответ в случае успеха
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
-Возвращает результат, идентичный [documentgenerator.numerator.get()](./document-generator-numerator-get.md).
+#### Объект result {#result}
 
-> 200 OK
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **numerator**
+[`object`](../../data-types.md) | Созданный нумератор [(подробное описание)](#result-numerator) ||
+|#
 
-```php
-[result] => Array
-    (
-        [numerator] => Array
-            (
-                [name] => new rest numerator
-                [template] => {NUMBER}
-                [id] => 68
-                [settings] => Array
-                    (
-                        [Bitrix_Main_Numerator_Generator_SequentNumberGenerator] => Array
-                            (
-                                [start] => 0
-                                [step] => 1
-                                [periodicBy] =>
-                                [timezone] =>
-                                [isDirectNumeration] =>
-                            )
+#### Объект numerator {#result-numerator}
 
-                    )
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор нумератора ||
+|| **name**
+[`string`](../../data-types.md) | Название нумератора ||
+|| **template**
+[`string`](../../data-types.md) | Шаблон номера ||
+|| **code**
+[`string`](../../data-types.md) | Символьный код нумератора. Может быть `null` ||
+|| **settings**
+[`object`](../../data-types.md) | Настройки генераторов нумератора [(подробное описание)](#result-numerator-settings) ||
+|#
 
-            )
-    )
+#### Объект settings {#result-numerator-settings}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **Bitrix_Main_Numerator_Generator_SequentNumberGenerator**
+[`object`](../../data-types.md) | Настройки последовательной нумерации [(подробное описание)](#result-numerator-settings-sequent) ||
+|#
+
+#### Объект Bitrix_Main_Numerator_Generator_SequentNumberGenerator {#result-numerator-settings-sequent}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **start**
+[`integer`](../../data-types.md) | Начальное значение счетчика ||
+|| **step**
+[`integer`](../../data-types.md) | Шаг увеличения счетчика ||
+|| **length**
+[`integer`](../../data-types.md) | Минимальная длина номера ||
+|| **padString**
+[`string`](../../data-types.md) | Символ добивки слева при `length > 0` ||
+|| **periodicBy**
+[`string`](../../data-types.md) | Период сброса счетчика ||
+|| **timezone**
+[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса ||
+|| **isDirectNumeration**
+[`boolean`](../../data-types.md) | Признак прямой нумерации ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "0",
+    "error_description": "Empty required fields: name, template"
+}
 ```
 
-Из ответа получаем `id` нумератора и можем дальше его использовать.
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Empty required fields: name, template | Не переданы обязательные поля `name` и `template` внутри `fields` ||
+|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав на изменение шаблонов генератора документов ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./document-generator-numerator-update.md)
+- [{#T}](./document-generator-numerator-get.md)
+- [{#T}](./document-generator-numerator-list.md)
+- [{#T}](./document-generator-numerator-delete.md)
