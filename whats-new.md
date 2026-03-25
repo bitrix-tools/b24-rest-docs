@@ -4,6 +4,7 @@
 
 ### 25 марта, 2026
 
+- Обновили документацию по методу [socialnetwork.api.workgroup.list](./api-reference/sonet-group/socialnetwork-api-workgroup-list.md)
 - Обновили документацию по методам [documentgenerator.numerator.*](./api-reference/document-generator/numerators/index.md) в разделе Нумераторы в Генераторе документов
 
 
