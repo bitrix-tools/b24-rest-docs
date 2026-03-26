@@ -33,9 +33,7 @@
 || **description**
 [`string`](../../../../data-types.md) | Описание чата ||
 || **color**
-[`string`](../../../../data-types.md) | Цвет чата. Передается в нижнем регистре.
-
-Допустимые значения: `red`, `green`, `mint`, `light_blue`, `dark_blue`, `purple`, `aqua`, `pink`, `lime`, `brown`, `azure`, `khaki`, `sand`, `marengo`, `gray`, `graphite`.
+[`string`](../../../../data-types.md) | Цвет чата — [доступные цвета](#available-colors).
 
 Если не указан или некорректен — назначается автоматически ||
 || **avatar**
@@ -46,6 +44,28 @@
 [`integer`](../../../../data-types.md) | ID владельца чата. Если не указан — владельцем становится бот ||
 || **message**
 [`string`](../../../../data-types.md) | Первое сообщение в чате ||
+|#
+
+### Доступные цвета {#available-colors}
+
+#|
+|| **Код** | **HEX** ||
+|| `red` | `#df532d` ||
+|| `green` | `#64a513` ||
+|| `mint` | `#4ba984` ||
+|| `lightBlue` | `#4ba5c3` ||
+|| `darkBlue` | `#3e99ce` ||
+|| `purple` | `#8474c8` ||
+|| `aqua` | `#1eb4aa` ||
+|| `pink` | `#f76187` ||
+|| `lime` | `#58cc47` ||
+|| `brown` | `#ab7761` ||
+|| `azure` | `#29619b` ||
+|| `khaki` | `#728f7a` ||
+|| `sand` | `#ba9c7b` ||
+|| `marengo` | `#556574` ||
+|| `gray` | `#909090` ||
+|| `graphite` | `#5e5f5e` ||
 |#
 
 ## Примеры кода
@@ -266,3 +286,5 @@ HTTP-статус: **400**, **403**
 - [{#T}](./chat-update.md)
 - [{#T}](./chat-user-add.md)
 - [{#T}](./chat-leave.md)
+
+

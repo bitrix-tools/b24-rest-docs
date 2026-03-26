@@ -24,7 +24,8 @@
 || **command***
 [`string`](../../../../data-types.md) | Команда без символа `/`. Например: `help` ||
 || **title**
-[`object`](../../../../data-types.md) | Заголовок команды на разных языках. Объект `{langCode: text}`, где `langCode` — двухбуквенный код языка (`en`, `ru`, `de` и т.д.). Отображается в списке доступных команд ||
+[`object`](../../../../data-types.md) | Заголовок команды на разных языках. Объект `{langCode: text}`, где `langCode` — двухбуквенный код языка `en`, `ru`, `de` и т.д. 
+Отображается в списке доступных команд. Обязателен для видимых команд `hidden: false`. Для скрытых команд `hidden: true` можно не указывать ||
 || **params**
 [`object`](../../../../data-types.md) | Описание параметров команды на разных языках. Объект `{langCode: text}`, аналогично `title`. Отображается как подсказка рядом с командой ||
 || **common**
@@ -223,6 +224,7 @@ HTTP-статус: **400**, **403**
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
 || `COMMAND_REQUIRED` | Command is required | Не указана команда (`command`) ||
+|| `COMMAND_TITLE_REQUIRED` | Command title is required | Не указан `title` для видимой команды `hidden: false` ||
 || `COMMAND_REGISTER_FAILED` | Command registration failed | Ошибка при регистрации команды ||
 |#
 

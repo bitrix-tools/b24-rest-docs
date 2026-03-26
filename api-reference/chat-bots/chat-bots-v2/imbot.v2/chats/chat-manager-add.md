@@ -191,6 +191,7 @@ HTTP-статус: **400**, **403**
 || **Код** | **Описание** | **Значение** ||
 || `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
 || `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
+|| `EMPTY_USER_IDS` | Empty user IDs | Не передан массив `userIds` или он пустой ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
 || `ACCESS_DENIED` | Access denied | Бот не является участником чата или не имеет прав (требуется роль владельца) ||
@@ -202,3 +203,5 @@ HTTP-статус: **400**, **403**
 
 - [{#T}](./chat-manager-delete.md)
 - [{#T}](./chat-set-owner.md)
+
+

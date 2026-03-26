@@ -33,9 +33,15 @@
 || **command**
 [`string`](../../../../data-types.md) | Новая команда (без `/`) ||
 || **title**
-[`object`](../../../../data-types.md) | Новый заголовок команды на разных языках. Объект `{langCode: text}`, где `langCode` — двухбуквенный код языка (`en`, `ru`, `de` и т.д.) ||
+[`object`](../../../../data-types.md) | Заголовок команды на разных языках:
+
+- строковое значение обновляет перевод
+- значение `null` удаляет перевод
+- отсутствие ключа оставляет перевод без изменений
+
+Пример: `{"ru": "Новый", "en": null}` обновит `ru` и удалит `en` ||
 || **params**
-[`object`](../../../../data-types.md) | Новое описание параметров команды на разных языках. Объект `{langCode: text}` ||
+[`object`](../../../../data-types.md) | Описание параметров на разных языках. Аналогично `title`, применяется только к тем языкам, которые переданы в `title` ||
 || **common**
 [`string`](../../../../data-types.md) | Общая команда. Допустимые значения: `Y`, `N` ||
 || **hidden**
@@ -48,6 +54,10 @@
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
+### Пример 1. Обновление переводов
+
+Обновить заголовок на `ru` и `en`. Переводы на других языках, если они были, останутся без изменений.
+
 {% list tabs %}
 
 - cURL (Webhook)
@@ -56,7 +66,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"botToken":"my_bot_token","commandId":42,"fields":{"title":{"en":"Updated help","ru":"Обновленная помощь"}}}' \
+      -d '{"botId":456,"botToken":"b15f6e80ef345c97e23db31e727281f4","commandId":42,"fields":{"title":{"en":"Updated help","ru":"Обновленная помощь"}}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Command.update
     ```
 
@@ -77,7 +87,12 @@
       const response = await $b24.callMethod('imbot.v2.Command.update', {
         botId: 456,
         commandId: 42,
-        fields: { title: { en: 'Updated help', ru: 'Обновленная помощь' } },
+        fields: {
+          title: {
+            en: 'Updated help',
+            ru: 'Обновленная помощь',
+          },
+        },
       });
 
       const { result } = response.getData();
@@ -98,7 +113,12 @@
                 [
                     'botId' => 456,
                     'commandId' => 42,
-                    'fields' => ['title' => ['en' => 'Updated help', 'ru' => 'Обновленная помощь']],
+                    'fields' => [
+                        'title' => [
+                            'en' => 'Updated help',
+                            'ru' => 'Обновленная помощь',
+                        ],
+                    ],
                 ]
             );
 
@@ -121,7 +141,12 @@
         {
             botId: 456,
             commandId: 42,
-            fields: { title: { en: 'Updated help', ru: 'Обновленная помощь' } },
+            fields: {
+                title: {
+                    en: 'Updated help',
+                    ru: 'Обновленная помощь',
+                },
+            },
         },
         function(result) {
             if (result.error()) {
@@ -143,14 +168,151 @@
         [
             'botId' => 456,
             'commandId' => 42,
-            'fields' => ['title' => ['en' => 'Updated help', 'ru' => 'Обновленная помощь']],
+            'fields' => [
+                'title' => [
+                    'en' => 'Updated help',
+                    'ru' => 'Обновленная помощь',
+                ],
+            ],
         ]
     );
 
     if (!empty($result['error'])) {
         echo 'Error: ' . $result['error_description'];
     } else {
-        echo 'Command updated';
+        echo 'result: ' . print_r($result['result'], true);
+    }
+    ```
+
+{% endlist %}
+
+### Пример 2. Удаление перевода
+
+Обновить `ru` и удалить `en`. Для удаления передайте `null` в качестве значения.
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"botId":456,"botToken":"b15f6e80ef345c97e23db31e727281f4","commandId":42,"fields":{"title":{"ru":"Помощь","en":null}}}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Command.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"botId":456,"commandId":42,"fields":{"title":{"ru":"Помощь","en":null}},"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imbot.v2.Command.update
+    ```
+
+- JS
+
+    ```js
+    try {
+      const response = await $b24.callMethod('imbot.v2.Command.update', {
+        botId: 456,
+        commandId: 42,
+        fields: {
+          title: {
+            ru: 'Помощь',
+            en: null,
+          },
+        },
+      });
+
+      const { result } = response.getData();
+      console.log('result:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.v2.Command.update',
+                [
+                    'botId' => 456,
+                    'commandId' => 42,
+                    'fields' => [
+                        'title' => [
+                            'ru' => 'Помощь',
+                            'en' => null,
+                        ],
+                    ],
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'result: ' . print_r($result, true);
+    } catch (Throwable $exception) {
+        error_log($exception->getMessage());
+        echo 'Error: ' . $exception->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'imbot.v2.Command.update',
+        {
+            botId: 456,
+            commandId: 42,
+            fields: {
+                title: {
+                    ru: 'Помощь',
+                    en: null,
+                },
+            },
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'imbot.v2.Command.update',
+        [
+            'botId' => 456,
+            'commandId' => 42,
+            'fields' => [
+                'title' => [
+                    'ru' => 'Помощь',
+                    'en' => null,
+                ],
+            ],
+        ]
+    );
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'result: ' . print_r($result['result'], true);
     }
     ```
 
@@ -218,6 +380,8 @@ HTTP-статус: **400**, **403**
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
 || `COMMAND_NOT_FOUND` | Command not found | Команда не найдена или нет доступа ||
+|| `COMMAND_NAME_EMPTY` | Command name is empty | Передано пустое имя команды ||
+|| `COMMAND_ALREADY_EXISTS` | Command already exists | Команда с таким именем уже зарегистрирована у этого бота ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -227,3 +391,8 @@ HTTP-статус: **400**, **403**
 - [{#T}](./command-register.md)
 - [{#T}](./command-list.md)
 - [{#T}](./command-unregister.md)
+
+
+
+
+
