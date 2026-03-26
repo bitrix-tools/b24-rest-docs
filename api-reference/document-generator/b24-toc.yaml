@@ -29,7 +29,7 @@ items:
     include:
       path: numerators/b24-toc.yaml
       mode: link
-  - name: Страны
+  - name: Регионы
     include:
       path: region/b24-toc.yaml
       mode: link

@@ -3,5 +3,6 @@
 **/total*
 *.php
 agents.md
+.agents
 CLAUDE.md
 .claude

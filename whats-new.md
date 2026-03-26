@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 26 марта, 2026
+
+- Обновили документацию по методам [documentgenerator.region.*](./api-reference/document-generator/region/index.md) в разделе Регионы в Генераторе документов
+
 ### 25 марта, 2026
 
 - Обновили документацию по методам [documentgenerator.numerator.*](./api-reference/document-generator/numerators/index.md) в разделе Нумераторы в Генераторе документов
