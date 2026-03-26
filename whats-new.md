@@ -7,6 +7,7 @@
 - Обновили документацию по методам [documentgenerator.region.*](./api-reference/document-generator/region/index.md) в разделе Регионы в Генераторе документов
 - Обновили документацию по методам [entity.item.*](./api-reference/entity/items/index.md) в разделе Элементы хранилища данных
 - Обновили документацию по методам [entity.item.property.*](./api-reference/entity/items/properties/index.md) в разделе Свойства элементов хранилища данных
+- Обновили документацию по методам [userfieldconfig.*](./api-reference/crm/universal/userfieldconfig/userfieldconfig/index.md) в разделе Пользовательские поля
 
 ### 25 марта, 2026
 

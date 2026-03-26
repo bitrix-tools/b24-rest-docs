@@ -1,10 +1,8 @@
 # Пользовательские поля
 
-{% note info "" %}
-
-**Scope**: [`catalog `](../../../../scopes/permissions.md) | **Кто может выполнять метод**: `любой пользователь`
-
-{% endnote %}
+> Scope: [`userfieldconfig`](../../../../scopes/permissions.md), scope модуля из `moduleId` (например, [`crm`](../../../../scopes/permissions.md))
+>
+> Кто может выполнять метод: в зависимости от метода
 
 Методы работы с пользовательскими полями:
 

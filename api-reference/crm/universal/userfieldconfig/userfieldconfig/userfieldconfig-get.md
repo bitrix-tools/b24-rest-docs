@@ -1,602 +1,319 @@
-# Получить данные о настройках пользовательского поля userfieldconfig.get
+# Получить настройки пользовательского поля userfieldconfig.get
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствует ответ в случае ошибки
-- нет примеров на др. языках
-  
-{% endnote %}
-
-{% endif %}
-
-> Scope: [`userfieldconfig, scope модуля`](../../../../scopes/permissions.md)
+> Scope: [`userfieldconfig`](../../../../scopes/permissions.md), scope модуля из `moduleId` (например, [`crm`](../../../../scopes/permissions.md))
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом чтения объекта, которому принадлежит поле, в модуле `moduleId`
 
-## Описание
+Метод `userfieldconfig.get` возвращает настройки пользовательского поля по его идентификатору.
 
-```http
-userfieldconfig.get({id: number, moduleId: string})
-```
-
-Метод вернет данные о настройках пользовательского поля с идентификатором **id**.
-
-## Параметры
-
-#|
-|| **Параметр** | **Описание** ||
-|| **id^*^** | Идентификатор настроек поля.  | ||
-|| **moduleId^*^** | Строковый идентификатор модуля.  | ||
-|#
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../../../_includes/required.md) %}
 
-## Примеры
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **moduleId***
+[`string`](../../../data-types.md) | Идентификатор модуля, в котором находится поле ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор настроек пользовательского поля.
 
-Пример ответа:
+Идентификатор можно получить методом [userfieldconfig.list](./userfieldconfig-list.md) или при создании поля методом [userfieldconfig.add](./userfieldconfig-add.md) ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"moduleId":"crm","id":7095}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userfieldconfig.get
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"moduleId":"crm","id":7095,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/userfieldconfig.get
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'userfieldconfig.get',
+    		{
+    			moduleId: 'crm',
+    			id: 7095,
+    		}
+    	);
+
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch (error)
+    {
+    	console.error(error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'userfieldconfig.get',
+                [
+                    'moduleId' => 'crm',
+                    'id' => 7095,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Result: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'userfieldconfig.get',
+        {
+            moduleId: 'crm',
+            id: 7095,
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'userfieldconfig.get',
+        [
+            'moduleId' => 'crm',
+            'id' => 7095,
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
 
 ```json
 {
-    "field": {
-        "id": "165",
-        "entityId": "RPA_1",
-        "fieldName": "UF_RPA_1_1585069397",
-        "userTypeId": "file",
-        "xmlId": null,
-        "sort": "100",
-        "multiple": "Y",
-        "mandatory": "N",
-        "showFilter": "E",
-        "showInList": "Y",
-        "editInList": "Y",
-        "isSearchable": "Y",
-        "settings": {
-            "SIZE": 20,
-            "LIST_WIDTH": 0,
-            "LIST_HEIGHT": 0,
-            "MAX_SHOW_SIZE": 0,
-            "MAX_ALLOWED_SIZE": 0,
-            "EXTENSIONS": []
-        },
-        "languageId": {
-            "en": "en",
-            "ru": "ru"
-        },
-        "editFormLabel": {
-            "en": "",
-            "ru": "Множественный файл"
-        },
-        "listColumnLabel": {
-            "en": null,
-            "ru": null
-        },
-        "listFilterLabel": {
-            "en": null,
-            "ru": null
-        },
-        "errorMessage": {
-            "en": null,
-            "ru": null
-        },
-        "helpMessage": {
-            "en": null,
-            "ru": null
+    "result": {
+        "field": {
+            "id": "7095",
+            "entityId": "CRM_7",
+            "fieldName": "UF_CRM_7_NEW_REST_LIST_2026",
+            "userTypeId": "enumeration",
+            "xmlId": null,
+            "sort": "100",
+            "multiple": "Y",
+            "mandatory": "N",
+            "showFilter": "N",
+            "showInList": "Y",
+            "editInList": "Y",
+            "isSearchable": "N",
+            "settings": {
+                "DISPLAY": "LIST",
+                "LIST_HEIGHT": 1,
+                "CAPTION_NO_VALUE": "",
+                "SHOW_NO_VALUE": "Y"
+            },
+            "languageId": {
+                "en": "en",
+                "ru": "ru"
+            },
+            "editFormLabel": {
+                "en": "List of characteristics",
+                "ru": "Список характеристик"
+            },
+            "listColumnLabel": {
+                "en": null,
+                "ru": null
+            },
+            "listFilterLabel": {
+                "en": null,
+                "ru": null
+            },
+            "errorMessage": {
+                "en": null,
+                "ru": null
+            },
+            "helpMessage": {
+                "en": null,
+                "ru": null
+            },
+            "enum": [
+                {
+                    "id": "3671",
+                    "userFieldId": "7095",
+                    "value": "Характеристика 1",
+                    "def": "N",
+                    "sort": "100",
+                    "xmlId": "38a8c98a5de02f8ccdca2244e5065ecd"
+                },
+                {
+                    "id": "3673",
+                    "userFieldId": "7095",
+                    "value": "Характеристика 2",
+                    "def": "Y",
+                    "sort": "200",
+                    "xmlId": "9520e17b39f3525b820b809914b52207"
+                }
+            ]
         }
+    },
+    "time": {
+        "start": 1774355752,
+        "finish": 1774355752.177393,
+        "duration": 0.17739295959472656,
+        "processing": 0,
+        "date_start": "2026-03-24T15:35:52+03:00",
+        "date_finish": "2026-03-24T15:35:52+03:00",
+        "operating_reset_at": 1774356352,
+        "operating": 0
     }
 }
 ```
 
-Где:
-- **id** - идентификатор
-- **entityId** - строковый идентификатор объекта
-- **fieldName** - код поля
-- **userTypeId** - строковый идентификатор типа поля
-- **xmlId** - внешний идентификатор
-- **sort** - индекс сортировки
-- **multiple** - флаг множественности
-- **mandatory** - флаг обязательности
-- **showFilter** - флаг показа поля в фильтре. Для некоторых объектов, например RPA, возвращает значение Enabled `E` вместо `Y` 
-- **showInList** - флаг показа поля в списке
-- **editInList** - флаг разрешения редактирования поля в списке
-- **isSearchable** - флаг наличия значения поля в полнотекстовом индексе
-- **settings** - список дополнительных настроек поля, зависит от его типа
-- **languageId** - список идентификаторов языков, для которых есть фразы
-- **editFormLabel** - список с языкозависимыми названиями поля, где ключ - идентификатор языка, а значение - фраза
-- **listColumnLabel**, **listFilterLabel**, **errorMessage**, **helpMessage** - аналогичные списки фраз для различных целей (не используются)
-- **enum** - массив с вариантами значений для свойств типа "список" (enumeration), включая идентификатор варианта, значение, флаг по умолчанию, индекс сортировки и внешний идентификатор варианта.
-
-{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
-
-
-{% if build == 'dev' %}
-
-{% note alert "Параметр `settings`" %}
-
-В процессе описания `crm.contact.userfield.get` были ошибочно описаны почти все настройки `settings` для всех типов пользовательских полей.
-Оставляю их тут, чтобы в последующем упростить их описание :)
-
-{% endnote %}
-
-### Параметр settings
-
-{% list tabs %}
-
-- double
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **PRECISION**
-  [`integer`][1] | Точность (количество знаков после запятой) ||
-  || **SIZE**
-  [`integer`][1] | Размер поля ввода для отображения ||
-  || **MIN_VALUE**
-  [`double`][1] | Минимальное значение (0 - не проверять) ||
-  || **MAX_VALUE**
-  [`double`][1] | Максимальное значение (0 - не проверять) ||
-  || **DEFAULT_VALUE**
-  [`double`][1] | Значение по умолчанию ||
-  |#
-
-- boolean
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **DEFAULT_VALUE**
-  [`integer`][1] | Значение по умолчанию
-  `0` - Нет
-  `1` - Да ||
-  || **DISPLAY**
-  [`string`][1] | Внешний вид
-
-  Возможные значения:
-  `CHECKBOX` - Флажок
-  `RADIO` - Радио кнопки
-  `DROPDOWN` - Выпадающий список ||
-  || **LABEL**
-  [`string[]`][1] | Подписи для значений, где
-    * элемент массива с индексом `0` - Подпись для значения "Нет"
-    * элемент массива с индексом `1` - Подпись для значения "Да"
-
-  ||
-  || **LABEL_CHECKBOX**
-  [`string`][1] | Подпись флажка ||
-  |#
-
-- date
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **DEFAULT_VALUE**
-  [`object`][1] | Значение по умолчанию. Объект формата:
-  ```
-  {
-      TYPE: 'NONE'|'FIXED'|'NONE',
-      VALUE: date
-  }
-  ```
-
-  где `TYPE` - Тип значения по умолчанию:
-  `NONE` - Отсутствует
-  `NOW` - Текущая дата
-  `FIXED` - Дата из значения `VALUE`
-
-  `VALUE` имеет тип `date` ||
-  |#
-
-- integer
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **SIZE**
-  [`integer`][1] | Размер поля ввода для отображения ||
-  || **MIN_VALUE**
-  [`integer`][1] | Минимальное значение (0 - не проверять) ||
-  || **MAX_VALUE**
-  [`integer`][1] | Максимальное значение (0 - не проверять) ||
-  || **DEFAULT_VALUE**
-  [`integer`][1] | Значение по умолчанию ||
-  |#
-
-- datetime
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **DEFAULT_VALUE**
-  [`object`][1] | Значение по умолчанию. Объект формата:
-  ```
-  {
-      TYPE: 'NONE'|'FIXED'|'NONE',
-      VALUE: datetime
-  }
-  ```
-
-  где `TYPE` - Тип значения по умолчанию:
-  `NONE` - Отсутствует
-  `NOW` - Текущая дата со временем
-  `FIXED` - Дата со временем из значения `VALUE`
-
-  `VALUE` имеет тип `datetime` ||
-  || **USE_SECOND**
-  [`boolean`][1] | Использовать секунды
-
-  Возможные значения:
-  `Y` - Да
-  `N` - Нет ||
-  || **USE_TIMEZONE**
-  [`boolean`][1] | Использовать часовые пояса
-
-  Возможные значения:
-  `Y` - Да
-  `N` - Нет ||
-  |#
-
-- string
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **SIZE**
-  [`integer`][1] | Размер поля ввода для отображения ||
-  || **ROWS**
-  [`integer`][1] | Количество строчек поля ввода ||
-  || **REGEXP**
-  [`string`][1] | Регулярное выражение для проверки ||
-  || **MIN_LENGTH**
-  [`integer`][1] | Минимальная длина строки (0 - не проверять) ||
-  || **MAX_LENGTH**
-  [`integer`][1] | Максимальная длина строки (0 - не проверять) ||
-  || **DEFAULT_VALUE**
-  [`string`][1] | Значение по умолчанию ||
-  |#
-
-- enumeration
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **DISPLAY**
-  [`string`][1] | Внешний вид
-
-  Возможные значения:
-  `LIST` - Список
-  `CHECKBOX` - Флажки
-  `UI` - Набираемый список
-  `DIALOG` - Диалог выбора сущностей ||
-  || **LIST_HEIGHT**
-  [`integer`][1] | Высота списка ||
-  || **CAPTION_NO_VALUE**
-  [`string`][1] | Подпись при отсутствии значения ||
-  || **SHOW_NO_VALUE**
-  [`boolean`][1] | Показывать пустое значение для обязательного поля
-
-  Возможные значения:
-  `Y` - Да
-  `N` - Нет ||
-  |#
-
-- iblock_section|iblock_element
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **DISPLAY**
-  [`string`][1] | Внешний вид
-
-  Возможные значения:
-  `LIST` - Список
-  `CHECKBOX` - Флажки
-  `UI` - Набираемый список
-  `DIALOG` - Диалог выбора сущностей ||
-  || **LIST_HEIGHT**
-  [`integer`][1] | Высота списка ||
-  || **IBLOCK_ID**
-  [`integer`][1] | Идентификатор инфоблока ||
-  || **DEFAULT_VALUE**
-  [`integer`][1] | Значение по умолчанию ||
-  || **ACTIVE_FILTER**
-  [`boolean`][1] | Показывать только активные элементы
-
-  Возможные значения:
-  `Y` - Да
-  `N` - Нет ||
-  |#
-
-- crm_status
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **ENTITY_TYPE**
-  [`object`][1] | Справочник CRM. Структура аналогична возвращаемым элементам метода [`crm.status.entity.types`](../../../status/crm-status-entity-types.md) ||
-  |#
-
-- crm
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **LEAD**
-  [`boolean`][1] | Включена привязка к Лидам ||
-  || **CONTACT**
-  [`boolean`][1] | Включена привязка к Контактам ||
-  || **COMPANY**
-  [`boolean`][1] | Включена привязка к Компаниям ||
-  || **DEAL**
-  [`boolean`][1] | Включена привязка к Сделкам ||
-  || **ORDER**
-  [`boolean`][1] | Включена привязка к Заказам ||
-  || **QUOTE**
-  [`boolean`][1] | Включена привязка к Коммерческим предложениям ||
-  || **SMART_INVOICE**
-  [`boolean`][1] | Включена привязка к Новым счетам ||
-  || **DYNAMIC_...**
-  [`boolean`][1] | Включена привязка к определенному Смарт-процессу
-
-  Каждое такое поле имеет вид: `DYNAMIC_{entityTypeId}`, где `entityTypeId` - Идентификатор типа смарт-процесса, к которому включена привязка. ||
-  |#
-
-- money
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **DEFAULT_VALUE**
-  [`string`][1] | Значение по умолчанию
-
-  Значение данного поля имеет формат: "**{VALUE}\|{CURRENCY}**", где
-  `VALUE` - Количество денег по умолчанию
-  `CURRENCY` - Строковый идентификатор валюты
-
-  Например: "**300\|RUB**" - 300 рублей
-
-  ||
-  |#
-
-- disk_file|disk_version
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **IBLOCK_ID**
-  [`integer`][1] | Инфоблок библиотеки документов ||
-  || **SECTION_ID**
-  [`integer`][1] | Папка библиотеки документов ||
-  || **UF_TO_SAVE_ALLOW_EDIT**
-  [`boolean`][1] | Сохранять настройки редактирования ||
-  |#
-
-- video
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **BUFFER_LENGTH**
-  [`integer`][1] | Размер буфера в секундах ||
-  || **CONTROLBAR**
-  [`string`][1] | Расположение панели управления
-
-  Возможные значения:
-  `bottom` - Внизу
-  `over` - Поверх
-  `none` - Не показывать ||
-  || **AUTOSTART**
-  [`boolean`][1] | Автоматически начать проигрывать ||
-  || **VOLUME**
-  [`integer`][1] | Уровень громкости в процентах от максимального ||
-  || **SKIN**
-  [`string`][1] | Скин ||
-  || **FLASHVARS**
-  [`string`][1] | Дополнительные переменные Flashvars ||
-  || **WMODE_FLV**
-  [`string`][1] | Режим окна (WMode)
-
-  Возможные значения:
-  `WMV` - Режим окна
-  `WINDOW` - Обычный
-  `OPAQUE` - Непрозрачный
-  `TRANSPARENT` - Прозрачный ||
-  || **BGCOLOR**
-  [`string`][1] | Цвет фона панели управления ||
-  || **COLOR**
-  [`string`][1] | Цвет элементов управления ||
-  || **OVER_COLOR**
-  [`string`][1] | Цвет элементов управления при наведении указателя мыши ||
-  || **SCREEN_COLOR**
-  [`string`][1] | Цвет экрана ||
-  || **SILVERVARS**
-  [`string`][1] | Дополнительные переменные Silverlight ||
-  || **WMODE_WMV**
-  [`string`][1] | Режим окна
-
-  Возможные значения:
-  `window` - Обычный
-  `windowless` - Прозрачный ||
-  || **WIDTH**
-  [`integer`][1] | Ширина ||
-  || **HEIGHT**
-  [`integer`][1] | Высота ||
-  |#
-
-- hlblock
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **DISPLAY**
-  [`string`][1] | Внешний вид
-
-  Возможные значения:
-  `LIST` - Список
-  `CHECKBOX` - Флажки
-  `UI` - Набираемый список
-  `DIALOG` - Диалог выбора сущностей ||
-  || **LIST_HEIGHT**
-  [`integer`][1] | Высота списка ||
-  || **HLBLOCK_ID**
-  [`integer`][1] | Идентификатор highload-блока ||
-  || **HLFIELD_ID**
-  [`integer`][1] | Идентификатор элемента highload-блока ||
-  || **DEFAULT_VALUE**
-  [`integer`][1] | Значение по умолчанию ||
-  |#
-
-- resourcebooking
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **USE_USERS**
-  [`boolean`][1] | Использовать ли пользователей ||
-  || **USE_RESOURCES**
-  [`boolean`][1] | Использовать ли ресурсы ||
-  || **RESOURCES**
-  [`object`][1] | Список ресурсов ||
-  || **SELECTED_RESOURCES**
-  [`resourcebooking_resource[]`](#resourcebooking_resource) | Выбранные ресурсы ||
-  || **SELECTED_USERS**
-  [`user[]`][1] | Выбранные сотрудники ||
-  || **FULL_DAY**
-  [`boolean`][1] | Только дата без времени ||
-  || **ALLOW_OVERBOOKING**
-  [`boolean`][1] | Разрешить бронировать занятые ресурсы ||
-  || **USE_SERVICES**
-  [`boolean`][1] | Использовать ли Услуги ||
-  || **SERVICE_LIST**
-  [`resourcebooking_service[]`](#resourcebooking_service) | Список услуг ||
-  || **RESOURCE_LIMIT**
-  [`integer`][1] | Лимит на Бронирование ресурсов. `-1` - Без ограничений ||
-  || **TIMEZONE**
-  [`string`][1] | Часовой пояс ||
-  || **USE_USER_TIMEZONE**
-  [`boolean`][1] | Учитывать часовой пояс пользователя  ||
-  |#
-
-  #### resourcebooking_resource
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **name**
-  [`string`][1] | Название услуги ||
-  || **duration**
-  [`integer`][1] | Длительность (в минутах) ||
-  |#
-
-  #### resourcebooking_service
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **name**
-  [`string`][1] | Название услуги ||
-  || **duration**
-  [`integer`][1] | Длительность (в минутах) ||
-  |#
-
-- address
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **SHOW_MAP**
-  [`boolean`][1] | Показывать карту ||
-  |#
-
-- url
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **POPUP**
-  [`boolean`][1] | Открывать в новом окне ||
-  || **SIZE**
-  [`integer`][1] | Размер поля ввода для отображения ||
-  || **MIN_LENGTH**
-  [`integer`][1] | Минимальная длина строки (0 - не проверять) ||
-  || **MAX_LENGTH**
-  [`integer`][1] | Максимальная длина строки (0 - не проверять) ||
-  || **DEFAULT_VALUE**
-  [`string`][1] | Значение по умолчанию ||
-  || **ROWS**
-  [`integer`][1] | Количество строчек поля ввода ||
-  |#
-
-- file
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **SIZE**
-  [`integer`][1] | Размер поля ввода для отображения ||
-  || **LIST_WIDTH**
-  [`integer`][1] | Максимальные ширина для отображения в списке ||
-  || **LIST_HEIGHT**
-  [`integer`][1] | Максимальные высота для отображения в списке ||
-  || **MAX_SHOW_SIZE**
-  [`integer`][1] | Максимально допустимый размер для показа в списке (0 - не ограничивать) ||
-  || **MAX_ALLOWED_SIZE**
-  [`integer`][1] | Максимально допустимый размер файла для загрузки (0 - не проверять) ||
-  || **EXTENSIONS**
-  [`string[]`][1] | Расширения ||
-  || **TARGET_BLANK**
-  [`boolean`][1] | Открывать файл в новой вкладке ||
-  |#
-
-- string_formatted
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **SIZE**
-  [`integer`][1] | Размер поля ввода для отображения ||
-  || **ROWS**
-  [`integer`][1] | Количество строчек поля ввода ||
-  || **REGEXP**
-  [`string`][1] | Регулярное выражение для проверки ||
-  || **MIN_LENGTH**
-  [`integer`][1] |  Минимальная длина строки (0 - не проверять) ||
-  || **MAX_LENGTH**
-  [`integer`][1] | Максимальная длина строки (0 - не проверять) ||
-  || **DEFAULT_VALUE**
-  [`string`][1] | Значение по умолчанию ||
-  || **PATTERN**
-  [`string`][1] | Шаблон вывода (#VALUE# - значение) ||
-  |#
-
-- vote
-
-  TODO!!!
-  Settings Preparer: Bitrix\Vote\Uf\VoteUserType::preparesettings
-
-  #|
-  || **Название**
-  `тип` | **Описание** ||
-  || **CHANNEL_ID**
-  [`TODO`][1] | TODO ||
-  || **UNIQUE**
-  [`TODO`][1] | TODO ||
-  || **UNIQUE_IP_DELAY**
-  [`TODO[]`][1] | TODO ||
-  || **NOTIFY**
-  [`TODO`][1] | TODO ||
-  |#
-
-{% endlist %}
-
-{% endif %}
-
-[1]: ../../../../data-types.md
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Корневой элемент ответа. Если поле не найдено, может вернуться `null` ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **field**
+[`object`](../../../data-types.md) | Настройки пользовательского поля [(подробное описание)](#result_field) ||
+|#
+
+##### Объект field {#result_field}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../data-types.md) | Идентификатор настроек поля ||
+|| **entityId**
+[`string`](../../../data-types.md) | Идентификатор объекта ||
+|| **fieldName**
+[`string`](../../../data-types.md) | Код поля ||
+|| **userTypeId**
+[`string`](../../../data-types.md) | Идентификатор типа поля ||
+|| **xmlId**
+[`string`](../../../data-types.md) | Внешний идентификатор поля ||
+|| **sort**
+[`integer`](../../../data-types.md) | Индекс сортировки ||
+|| **multiple**
+[`boolean`](../../../data-types.md) | Флаг множественного значения (`Y`/`N`) ||
+|| **mandatory**
+[`boolean`](../../../data-types.md) | Флаг обязательного поля (`Y`/`N`) ||
+|| **showFilter**
+[`boolean`](../../../data-types.md) | Флаг показа поля в фильтре ||
+|| **showInList**
+[`boolean`](../../../data-types.md) | Флаг показа поля в списке ||
+|| **editInList**
+[`boolean`](../../../data-types.md) | Флаг редактирования в списке ||
+|| **isSearchable**
+[`boolean`](../../../data-types.md) | Флаг участия в поиске ||
+|| **settings**
+[`object`](../../../data-types.md) | Дополнительные настройки поля.
+
+Состав ключей зависит от `userTypeId` ||
+|| **languageId**
+[`object`](../../../data-types.md) | Языки, для которых заданы подписи поля ||
+|| **editFormLabel**
+[`lang_map`](../../../data-types.md) | Подписи в форме редактирования ||
+|| **listColumnLabel**
+[`lang_map`](../../../data-types.md) | Подписи колонки в списке ||
+|| **listFilterLabel**
+[`lang_map`](../../../data-types.md) | Подписи в фильтре ||
+|| **errorMessage**
+[`lang_map`](../../../data-types.md) | Текст сообщения об ошибке ||
+|| **helpMessage**
+[`lang_map`](../../../data-types.md) | Подсказка по полю ||
+|| **enum**
+[`object[]`](../../../data-types.md) | Варианты значений.
+
+Поле возвращается только для `userTypeId = enumeration` ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Вы не можете просматривать настройки пользовательских полей"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `-` | Вы не можете просматривать настройки пользовательских полей | Недостаточно прав на просмотр поля. Эта же ошибка может возвращаться, если поле с переданным `id` уже удалено или недоступно в контексте `moduleId` ||
+|| `-` | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
+|| `-` | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
+|#
+
+{% include [системные ошибки](../../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./userfieldconfig-add.md)
+- [{#T}](./userfieldconfig-update.md)
+- [{#T}](./userfieldconfig-list.md)
+- [{#T}](./userfieldconfig-delete.md)
+- [{#T}](./userfieldconfig-get-types.md)
