@@ -8,12 +8,12 @@
 
 > Scope: [`entity`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь авторизованный в приложении
 
 #|
 || **Метод** | **Описание** ||
-|| [entity.item.get](./entity-item-get.md) | Получение списка элементов хранилища. Списочный метод. ||
-|| [entity.item.add](./entity-item-add.md) | Добавление элемента хранилища. ||
-|| [entity.item.update](./entity-item-update.md) | Обновление элемента хранилища. ||
-|| [entity.item.delete](./entity-item-delete.md) | Удаление элемента хранилища. ||
+|| [entity.item.add](./entity-item-add.md) | Добавляет элемент хранилища ||
+|| [entity.item.update](./entity-item-update.md) | Обновляет элемент хранилища ||
+|| [entity.item.get](./entity-item-get.md) | Получает список элементов хранилища. Списочный метод ||
+|| [entity.item.delete](./entity-item-delete.md) | Удаляет элемент хранилища ||
 |#

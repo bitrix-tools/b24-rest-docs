@@ -3,12 +3,12 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Получить список элементов хранилища
-    href: entity-item-get.md
   - name: Добавить элемент хранилища
     href: entity-item-add.md
   - name: Обновить элемент хранилища
     href: entity-item-update.md
+  - name: Получить список элементов хранилища
+    href: entity-item-get.md
   - name: Удалить элемент хранилища
     href: entity-item-delete.md
   - name: Свойства элементов

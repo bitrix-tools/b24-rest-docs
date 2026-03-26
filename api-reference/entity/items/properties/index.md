@@ -8,12 +8,12 @@
 
 > Scope: [`entity`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь авторизованный в приложении
 
 #|
 || **Метод** | **Описание** ||
-|| [entity.item.property.get](./entity-item-property-get.md) | Получение списка дополнительных свойств элементов хранилища. ||
-|| [entity.item.property.add](./entity-item-property-add.md) | Добавление дополнительного свойства элементов хранилища. ||
-|| [entity.item.property.update](./entity-item-property-update.md) | Обновление дополнительного свойства элементов хранилища. ||
-|| [entity.item.property.delete](./entity-item-property-delete.md) | Удаление дополнительного свойства элементов хранилища. ||
+|| [entity.item.property.add](./entity-item-property-add.md) | Добавляет дополнительное свойство элементов хранилища ||
+|| [entity.item.property.update](./entity-item-property-update.md) | Обновляет дополнительное свойство элементов хранилища ||
+|| [entity.item.property.get](./entity-item-property-get.md) | Получает список дополнительных свойств элементов хранилища ||
+|| [entity.item.property.delete](./entity-item-property-delete.md) | Удаляет дополнительное свойство элементов хранилища ||
 |#

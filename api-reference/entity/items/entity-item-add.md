@@ -1,69 +1,76 @@
-# Добавить элемент хранилища entity.item.add
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Добавить элемент в хранилище entity.item.add
 
 > Scope: [`entity`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с уровнем права `X` (управление) или `W` (запись) в хранилище данных 
 
-Метод `entity.item.add` добавляет элемент хранилища. Пользователь должен обладать хотя бы правами на запись (**W**) в хранилище.
+Метод `entity.item.add` добавляет элемент в хранилище данных приложения.
 
-## Параметры
+{% note info "" %}
 
-#|
-|| **Параметр** | **Описание** ||
-|| **ENTITY**^*^
-[`string`](../../data-types.md) | Обязательный. Строковой идентификатор хранилища. ||
-|| **NAME**^*^
-[`string`](../../data-types.md) | Обязательный. Наименование элемента. ||
-|| **ACTIVE**
-[`unknown`](../../data-types.md) | Флаг активности элемента (Y\|N). ||
-|| **DATE_ACTIVE_FROM**
-[`unknown`](../../data-types.md) | Дата начала активности элемента. ||
-|| **DATE_ACTIVE_TO**
-[`unknown`](../../data-types.md) | Дата окончания активности элемента. ||
-|| **SORT**
-[`unknown`](../../data-types.md) | Сортировочный вес элемента. ||
-|| **PREVIEW_PICTURE**
-[`unknown`](../../data-types.md) | Картинка анонса элемента. Как передать файл в поле описано в статье [Как загрузить файлы](../../files/how-to-upload-files.md). ||
-|| **PREVIEW_TEXT**
-[`unknown`](../../data-types.md) | Анонс элемента. ||
-|| **DETAIL_PICTURE**
-[`unknown`](../../data-types.md) | Детальная картинка элемента. Как передать файл в поле описано в статье [Как загрузить файлы](../../files/how-to-upload-files.md). ||
-|| **DETAIL_TEXT**
-[`unknown`](../../data-types.md) | Детальный текст элемента. ||
-|| **CODE**
-[`unknown`](../../data-types.md) | Символьный код элемента. ||
-|| **SECTION**
-[`unknown`](../../data-types.md) | Идентификатор раздела хранилища. ||
-|| **PROPERTY_VALUES**
-[`unknown`](../../data-types.md) | Ассоциативный список значений свойств элемента. Свойства хранилища создаются при помощи [entity.item.property.add](./properties/entity-item-property-add.md). ||
-|#
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
+
+{% endnote %}
+
+
+## Параметры метода
 
 {% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-## Пример
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ENTITY**^*^
+[`string`](../../data-types.md) | Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища.
+
+Получить идентификатор можно методом [entity.get](../entities/entity-get.md)||
+|| **NAME**
+[`string`](../../data-types.md) | Название элемента хранилища ||
+|| **PROPERTY_VALUES**
+[`object`](../../data-types.md) | Значения свойств элемента в формате `{"КОД_СВОЙСТВА": значение}`.
+
+Обрабатываются только свойства, существующие в хранилище. Список доступных кодов свойств можно получить методом [entity.item.property.get](./properties/entity-item-property-get.md)
+
+Для свойств типа файл используется формат из статьи [Как загрузить файлы](../../files/how-to-upload-files.md) ||
+|| **SECTION**
+[`integer`](../../data-types.md) | Идентификатор раздела хранилища ||
+|| **DATE_ACTIVE_FROM**
+[`datetime`](../../data-types.md) | Дата начала активности элемента ||
+|| **DATE_ACTIVE_TO**
+[`datetime`](../../data-types.md) | Дата окончания активности элемента ||
+|| **PREVIEW_PICTURE**
+[`file`](../../data-types.md) | Картинка анонса элемента. Формат файла — в статье [Как загрузить файлы](../../files/how-to-upload-files.md) ||
+|| **DETAIL_PICTURE**
+[`file`](../../data-types.md) | Детальная картинка элемента. Формат файла — в статье [Как загрузить файлы](../../files/how-to-upload-files.md) ||
+|| **UF_**
+[`any`](../../data-types.md) | Пользовательские поля элемента `UF_*`.
+
+Передаются отдельными параметрами в формате `"UF_КОД": значение`, например: `"UF_CRM_1_COLOR": "red"`, `"UF_CRM_1_SIZE": 42` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример добавления элемента, где:
+- `ENTITY` — идентификатор хранилища `dish`
+- `NAME` — название элемента
+- `PROPERTY_VALUES` — значения свойств
+- `SECTION` — идентификатор раздела
 
 {% list tabs %}
 
-- JS
+- cURL (OAuth)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"ENTITY":"dish","NAME":"Hello, world!","PROPERTY_VALUES":{"test":11,"test1":22},"SECTION":219,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/entity.item.add
+    ```
+
+- JS
 
     ```js
     try
@@ -71,31 +78,26 @@
     	const response = await $b24.callMethod(
     		'entity.item.add',
     		{
-    			ENTITY: 'menu_new',
-    			DATE_ACTIVE_FROM: new Date(),
-    			DETAIL_PICTURE: '',
+    			ENTITY: 'dish',
     			NAME: 'Hello, world!',
     			PROPERTY_VALUES: {
     				test: 11,
     				test1: 22,
-    				test_file: ''
     			},
-    			SECTION: 219
+    			SECTION: 219,
     		}
     	);
-    	
+
     	const result = response.getData().result;
-    	// Необходимая вам логика обработки данных
-    	processResult(result);
+    	console.info(result);
     }
-    catch( error )
+    catch (error)
     {
     	console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -104,27 +106,24 @@
             ->call(
                 'entity.item.add',
                 [
-                    'ENTITY'          => 'menu_new',
-                    'DATE_ACTIVE_FROM' => new DateTime(),
-                    'DETAIL_PICTURE'  => '',
-                    'NAME'            => 'Hello, world!',
+                    'ENTITY' => 'dish',
+                    'NAME' => 'Hello, world!',
                     'PROPERTY_VALUES' => [
-                        'test'     => 11,
-                        'test1'    => 22,
-                        'test_file' => ''
+                        'test' => 11,
+                        'test1' => 22,
                     ],
-                    'SECTION'         => 219
+                    'SECTION' => 219,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        echo '<pre>';
+        print_r($result);
+        echo '</pre>';
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding entity item: ' . $e->getMessage();
@@ -133,37 +132,122 @@
 
 - BX24.js
 
-    ```javascript
+    ```js
     BX24.callMethod(
         'entity.item.add',
         {
-            ENTITY: 'menu_new',
-            DATE_ACTIVE_FROM: new Date(),
-            DETAIL_PICTURE: '',
+            ENTITY: 'dish',
             NAME: 'Hello, world!',
             PROPERTY_VALUES: {
                 test: 11,
                 test1: 22,
-                test_file: ''
             },
-            SECTION: 219
-        }
+            SECTION: 219,
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
     );
     ```
 
-- HTTP
+- PHP CRest
 
-    ```http
-    https://my.bitrix24.ru/rest/entity.item.add.json?DATE_ACTIVE_FROM=2013-06-26T11%3A54%3A30.421Z&DETAIL_PICTURE=&ENTITY=menu_new&NAME=Hello%2C%20world!&PROPERTY_VALUES%5Btest1%5D=22&PROPERTY_VALUES%5Btest%5D=11&PROPERTY_VALUES%5Btest_file%5D=&SECTION=219&auth=9affe382af74d9c5caa588e28096e872
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'entity.item.add',
+        [
+            'ENTITY' => 'dish',
+            'NAME' => 'Hello, world!',
+            'PROPERTY_VALUES' => [
+                'test' => 11,
+                'test1' => 22,
+            ],
+            'SECTION' => 219,
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-> 200 OK
 ```json
-{"result":842}
+{
+    "result": 2333,
+    "time": {
+        "start": 1774435185,
+        "finish": 1774435185.636041,
+        "duration": 0.6360409259796143,
+        "processing": 0,
+        "date_start": "2026-03-25T13:39:45+03:00",
+        "date_finish": "2026-03-25T13:39:45+03:00",
+        "operating_reset_at": 1774435785,
+        "operating": 0
+    }
+}
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`integer`](../../data-types.md) | Идентификатор созданного элемента ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_ENTITY_NOT_FOUND",
+    "error_description": "Entity not found"
+}
+```
+
+```json
+{
+    "error": "ERROR_ARGUMENT",
+    "error_description": "Argument 'ENTITY' is null or empty",
+    "argument": "ENTITY"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_ARGUMENT` | Argument 'ENTITY' is null or empty | Параметр `ENTITY` не передан или пустой после очистки ||
+|| `ERROR_ARGUMENT` | Entity code is too long. Max length is N characters. | Слишком длинное значение `ENTITY` ||
+|| `ERROR_ARGUMENT` | Ошибки валидатора полей элемента | Переданы невалидные входные поля ||
+|| `ERROR_ENTITY_NOT_FOUND` | Entity not found | Хранилище с переданным `ENTITY` не найдено ||
+|| `ACCESS_DENIED` | Access denied! | Недостаточно прав для добавления элемента ||
+|| `ACCESS_DENIED` | Access denied! Application context required | Нет контекста приложения (`clientId`) ||
+|| `ERROR_CORE` | Internal error adding entity item. Try adding again. | Внутренняя ошибка при добавлении элемента ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./entity-item-update.md)
+- [{#T}](./entity-item-get.md)
+- [{#T}](./entity-item-delete.md)
+- [{#T}](./index.md)

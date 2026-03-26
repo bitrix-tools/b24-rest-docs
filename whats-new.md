@@ -5,6 +5,8 @@
 ### 26 марта, 2026
 
 - Обновили документацию по методам [documentgenerator.region.*](./api-reference/document-generator/region/index.md) в разделе Регионы в Генераторе документов
+- Обновили документацию по методам [entity.item.*](./api-reference/entity/items/index.md) в разделе Элементы хранилища данных
+- Обновили документацию по методам [entity.item.property.*](./api-reference/entity/items/properties/index.md) в разделе Свойства элементов хранилища данных
 
 ### 25 марта, 2026
 
