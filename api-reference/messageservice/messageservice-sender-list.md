@@ -1,36 +1,34 @@
 # Получить список СМС-провайдеров или провайдеров сообщений messageservice.sender.list
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны параметры, типы и обязательность параметров
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- Нет примеров на др. языках
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`messageservice`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает список зарегистрированных текущим приложением (или тем же входящим вебхуком) провайдеров сообщений.
+Метод `messageservice.sender.list` возвращает список кодов провайдеров, зарегистрированных текущим приложением.
 
-## Пример
+Метод работает только в контексте [приложения](../../settings/app-installation/index.md).
+
+## Параметры метода
+
+Без параметров.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (OAuth)
 
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/messageservice.sender.list
+    ```
+
+- JS
 
     ```js
     // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
@@ -71,7 +69,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -80,20 +77,15 @@
                 'messageservice.sender.list',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Успешно: ' . implode(', ', $result->data());
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error calling messageservice.sender.list: ' . $e->getMessage();
+        echo 'Error listing senders: ' . $e->getMessage();
     }
     ```
 
@@ -105,14 +97,97 @@
         {},
         function(result)
         {
-            if(result.error())
-                alert("Error: " + result.error());
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
             else
-                alert("Успешно: " + result.data().join(', '));
+            {
+                console.log(result.data());
+            }
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'messageservice.sender.list',
+        []
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": [
+        "provider1",
+        "provider2"
+    ],
+    "time": {
+        "start": 1742895600,
+        "finish": 1742895600.845505,
+        "duration": 0.845505952835083,
+        "processing": 0,
+        "date_start": "2025-03-25T10:00:00+03:00",
+        "date_finish": "2025-03-25T10:00:00+03:00",
+        "operating_reset_at": 1742896200,
+        "operating": 0
+    }
+}
+```
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../data-types.md) | Массив кодов провайдеров, зарегистрированных текущим приложением.
+
+Пустой массив означает, что у текущего приложения нет зарегистрированных провайдеров ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**, **403**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied!"
+}
+```
+
+{% include notitle [Обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | `Application context required` | Метод вызван вне контекста приложения ||
+|| `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
+|#
+
+{% include [Системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./messageservice-sender-add.md)
+- [{#T}](./messageservice-sender-update.md)
+- [{#T}](./messageservice-sender-list.md)
+- [{#T}](./messageservice-sender-delete.md)
+- [{#T}](./messageservice-message-status-update.md)

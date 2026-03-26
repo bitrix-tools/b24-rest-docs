@@ -56,8 +56,10 @@
 Возможные значения:
 - `0` — не создавать
 - `1` — создавать
+  
+По умолчанию — `0`. 
 
-По умолчанию — `0` ||
+Для исходящих звонков через внешнюю линию итоговое поведение также зависит от значения параметра `CRM_AUTO_CREATE`, заданного для линии в методах [telephony.externalLine.add](./telephony-external-line-add.md) и [telephony.externalLine.update](./telephony-external-line-update.md) ||
 || **CRM_SOURCE**
 [`string`](../data-types.md) | Идентификатор источника CRM (значение поля `STATUS_ID`).
 

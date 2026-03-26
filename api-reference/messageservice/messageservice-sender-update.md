@@ -4,7 +4,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод обновляет провайдер сообщений.
+Метод `messageservice.sender.update` обновляет данные зарегистрированного провайдера сообщений.
+
+Метод работает только в контексте [приложения](../../settings/app-installation/index.md).
 
 ## Параметры метода
 
@@ -14,20 +16,44 @@
 || **Название**
 `тип` | **Описание** ||
 || **CODE***
-[`string`](../data-types.md) | Внутренний идентификатор провайдера ||
+[`string`](../data-types.md) | Код провайдера, который нужно обновить.
+
+Код провайдера можно получить методом [messageservice.sender.list](./messageservice-sender-list.md) ||
 || **HANDLER**
-[`string`](../data-types.md) | URL приложения, на который будут отправлены данные ||
+[`string`](../data-types.md) | Новый URL обработчика приложения ||
 || **NAME**
-[`string / array`](../data-types.md) | Название провайдера. Может быть строкой или ассоциативным массивом локализированных строк. 
+[`string` \| `object`](../data-types.md) | Новое название провайдера.
 
-Параметр обязательный, если фраза на новом языке ||
+Может быть строкой или ассоциативным массивом локализированных строк вида:
+
+```js
+'NAME': {
+    'ru': 'название провайдера',
+    'en': 'provider name',
+    ...
+},
+```
+ ||
 || **DESCRIPTION**
-[`string / array`](../data-types.md) | Описание провайдера. Может быть строкой или ассоциативным массивом локализированных строк. 
+[`string` \| `object`](../data-types.md) | Новое описание провайдера.
 
-Используется только с параметром `NAME`, если язык новый ||
+Может быть строкой или ассоциативным массивом локализированных строк вида:
+
+```js
+'DESCRIPTION': {
+    'ru': 'описание провайдера',
+    'en': 'provider description',
+    ...
+},
+```
+||
 |#
 
-В запросе должен быть хотя бы один необзязательный параметр.
+{% note info "" %}
+
+В запросе должен быть передан `CODE` и хотя бы один из параметров `HANDLER`, `NAME`, `DESCRIPTION`
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -35,83 +61,61 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CODE":"provider","HANDLER":"https://newhandler.com/","NAME":"Новое имя провайдера","DESCRIPTION":"Новое описание провайдера"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/messageservice.sender.update
-    ```
-
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CODE":"provider","HANDLER":"https://newhandler.com/","NAME":"Новое имя провайдера","DESCRIPTION":"Новое описание провайдера","auth":"**put_access_token_here**"}' \
+    -d '{"CODE":"provider1","HANDLER":"https://provider.example/api/new-handler","NAME":"Provider 1 Updated","DESCRIPTION":"Обновленное описание","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/messageservice.sender.update
     ```
 
 - JS
 
-
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'messageservice.sender.update',
-    		{
-    			CODE: 'provider',
-    			HANDLER: 'https://newhandler.com/',
-    			NAME: 'Новое имя провайдера',
-    			DESCRIPTION: 'Новое описание провайдера'
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	if(result.error())
-    		alert("Error: " + result.error());
-    	else
-    		alert("Успешно: " + result);
+        const response = await $b24.callMethod(
+            'messageservice.sender.update',
+            {
+                CODE: 'provider1',
+                HANDLER: 'https://provider.example/api/new-handler',
+                NAME: 'Provider 1 Updated',
+                DESCRIPTION: 'Обновленное описание'
+            }
+        );
+
+        const result = response.getData().result;
+        console.log(result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error('Error:', error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
 
-
     ```php
     try {
-        $params = [
-            'CODE'        => 'provider',
-            'HANDLER'     => 'https://newhandler.com/',
-            'NAME'        => 'Новое имя провайдера',
-            'DESCRIPTION' => 'Новое описание провайдера',
-        ];
-    
         $response = $b24Service
             ->core
             ->call(
                 'messageservice.sender.update',
-                $params
+                [
+                    'CODE' => 'provider1',
+                    'HANDLER' => 'https://provider.example/api/new-handler',
+                    'NAME' => 'Provider 1 Updated',
+                    'DESCRIPTION' => 'Обновленное описание',
+                ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Успешно: ' . $result->data();
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating sender: ' . $e->getMessage();
@@ -121,21 +125,24 @@
 - BX24.js
 
     ```js
-    var params = {
-        CODE: 'provider',
-        HANDLER: 'https://newhandler.com/',
-        NAME: 'Новое имя провайдера',
-        DESCRIPTION: 'Новое описание провайдера'
-    };
     BX24.callMethod(
         'messageservice.sender.update',
-        params,
+        {
+            CODE: 'provider1',
+            HANDLER: 'https://provider.example/api/new-handler',
+            NAME: 'Provider 1 Updated',
+            DESCRIPTION: 'Обновленное описание'
+        },
         function(result)
         {
-            if(result.error())
-                alert("Error: " + result.error());
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
             else
-                alert("Успешно: " + result.data());
+            {
+                console.log(result.data());
+            }
         }
     );
     ```
@@ -144,146 +151,15 @@
 
     ```php
     require_once('crest.php');
-
-    $params = [
-        'CODE' => 'provider',
-        'HANDLER' => 'https://newhandler.com/',
-        'NAME' => 'Новое имя провайдера',
-        'DESCRIPTION' => 'Новое описание провайдера'
-    ];
 
     $result = CRest::call(
         'messageservice.sender.update',
-        $params
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-{% endlist %}
-
-{% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CODE":"provider","NAME":{"en":"New Name","de":"Neuer Name"},"DESCRIPTION":{"en":"New Description"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/messageservice.sender.update
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CODE":"provider","NAME":{"en":"New Name","de":"Neuer Name"},"DESCRIPTION":{"en":"New Description"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/messageservice.sender.update
-    ```
-
-- JS
-
-
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'messageservice.sender.update',
-    		{
-    			CODE: 'provider',
-    			NAME: {"en":"New Name","de":"Neuer Name"},
-    			DESCRIPTION: {"en":"New Description"}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	alert("Успешно: " + result);
-    }
-    catch( error )
-    {
-    	alert("Error: " + error);
-    }
-    ```
-
-- PHP
-
-
-    ```php
-    try {
-        $params = [
-            'CODE'        => 'provider',
-            'NAME'        => ['en' => 'New Name', 'de' => 'Neuer Name'],
-            'DESCRIPTION' => ['en' => 'New Description'],
-        ];
-    
-        $response = $b24Service
-            ->core
-            ->call(
-                'messageservice.sender.update',
-                $params
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Успешно: ' . $result->data();
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating sender: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    var params = {
-        CODE: 'provider',
-        NAME: {"en":"New Name","de":"Neuer Name"},
-        DESCRIPTION: {"en":"New Description"}
-    };
-    BX24.callMethod(
-        'messageservice.sender.update',
-        params,
-        function(result)
-        {
-            if(result.error())
-                alert("Error: " + result.error());
-            else
-                alert("Успешно: " + result.data());
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $params = [
-        'CODE' => 'provider',
-        'NAME' => [
-            'en' => 'New Name',
-            'de' => 'Neuer Name'
-        ],
-        'DESCRIPTION' => [
-            'en' => 'New Description'
+        [
+            'CODE' => 'provider1',
+            'HANDLER' => 'https://provider.example/api/new-handler',
+            'NAME' => 'Provider 1 Updated',
+            'DESCRIPTION' => 'Обновленное описание',
         ]
-    ];
-
-    $result = CRest::call(
-        'messageservice.sender.update',
-        $params
     );
 
     echo '<PRE>';
@@ -301,12 +177,14 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1732110540.526103,
-        "finish": 1732110540.797043,
-        "duration": 0.27094006538391113,
-        "processing": 0.007060050964355469,
-        "date_start": "2024-11-20T15:49:00+02:00",
-        "date_finish": "2024-11-20T15:49:00+02:00"
+        "start": 1742895600,
+        "finish": 1742895600.845505,
+        "duration": 0.845505952835083,
+        "processing": 0.1402289867401123,
+        "date_start": "2025-03-25T10:00:00+03:00",
+        "date_finish": "2025-03-25T10:00:00+03:00",
+        "operating_reset_at": 1742896200,
+        "operating": 0
     }
 }
 ```
@@ -317,9 +195,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Результат обновления провайдера сообщений ||
+[`boolean`](../data-types.md) | `true`, если провайдер успешно обновлен ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -328,28 +206,31 @@ HTTP-статус: **400**, **403**
 
 ```json
 {
-    "error": "ERROR_SENDER_NOT_FOUND",
-    "error_description": "Sender not found!"
+    "error": "ERROR_SENDER_OTHER_PARAMS_REQUIRED",
+    "error_description": "At least one other parameter is required!"
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [Обработка ошибок](../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ERROR_SENDER_NOT_FOUND` | Провайдер не найден ||
-|| `ERROR_SENDER_CODE_REQUIRED` | Не указан параметр `CODE` ||
-|| `ERROR_SENDER_OTHER_PARAMS_REQUIRED` | Не указан хотя бы один из необязательных параметров ||
-|| `ACCESS_DENIED` | Недостаточно прав для обновления провайдера ||
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_SENDER_CODE_REQUIRED` | `CODE is required!` | Не передан обязательный параметр `CODE` ||
+|| `ERROR_SENDER_OTHER_PARAMS_REQUIRED` | `At least one other parameter is required!` | Не передан ни один параметр для обновления (`HANDLER`, `NAME`, `DESCRIPTION`) ||
+|| `ERROR_SENDER_NOT_FOUND` | `Sender not found!` | Провайдер с переданным `CODE` не найден ||
+|| `ERROR_SENDER_UPDATE_FAILURE` | `Sender update error!` | Ошибка обновления провайдера ||
+|| `ACCESS_DENIED` | `Application context required` | Метод вызван вне контекста приложения ||
+|| `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [Системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./messageservice-sender-add.md)
+- [{#T}](./messageservice-sender-update.md)
 - [{#T}](./messageservice-sender-list.md)
 - [{#T}](./messageservice-sender-delete.md)
 - [{#T}](./messageservice-message-status-update.md)
