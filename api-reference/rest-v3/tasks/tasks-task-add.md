@@ -1,6 +1,6 @@
 # Добавить задачу tasks.task.add
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`tasks`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -387,3 +387,4 @@ HTTP-статус: **400**
 - [{#T}](./tasks-task-chat-message-send.md)
 - [{#T}](./tasks-task-delete.md)
 - [{#T}](./tasks-task-file-attach.md)
+

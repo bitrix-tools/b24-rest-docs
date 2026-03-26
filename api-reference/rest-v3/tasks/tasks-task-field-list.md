@@ -1,6 +1,6 @@
 # Получить список полей задачи tasks.task.field.list
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`tasks`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -378,5 +378,6 @@ HTTP-статус: **400**
 - [{#T}](./tasks-task-field-get.md)
 - [{#T}](./tasks-task-get.md)
 - [{#T}](./index.md)
+
 
 

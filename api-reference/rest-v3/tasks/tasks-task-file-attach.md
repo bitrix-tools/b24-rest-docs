@@ -1,6 +1,6 @@
 # Прикрепить файлы к задаче tasks.task.file.attach
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`tasks`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: постановщик задачи или пользователь с доступом к редактированию задачи
 

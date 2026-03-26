@@ -1,6 +1,6 @@
 # Получить поле сообщения чата задачи tasks.task.chat.message.field.get
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`tasks`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
@@ -306,5 +306,6 @@ HTTP-статус: **400**
 - [{#T}](./tasks-task-chat-message-field-list.md)
 - [{#T}](./tasks-task-chat-message-send.md)
 - [{#T}](./index.md)
+
 
 

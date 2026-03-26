@@ -1,6 +1,6 @@
 # Удалить задачу tasks.task.delete
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`tasks`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом удаления задачи
 

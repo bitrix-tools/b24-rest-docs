@@ -1,6 +1,6 @@
 # Проверить права доступа tasks.task.access.get
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`tasks`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 

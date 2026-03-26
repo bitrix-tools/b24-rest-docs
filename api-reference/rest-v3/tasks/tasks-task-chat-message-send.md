@@ -1,6 +1,6 @@
 # Отправить сообщение в чат задачи tasks.task.chat.message.send
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`tasks`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь с правом доступа на чтение задачи или выше
 
@@ -256,3 +256,4 @@ HTTP-статус: **400**
 - [{#T}](./tasks-task-add.md)
 - [{#T}](./tasks-task-update.md)
 - [{#T}](../../tasks/tasks-new.md)
+

@@ -144,7 +144,7 @@
 
 ## Обзор методов {#all-methods}
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`tasks`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: в зависимости от метода
 
@@ -171,4 +171,5 @@
 
 - [{#T}](./fields.md)
 - [{#T}](../index.md)
+
 
