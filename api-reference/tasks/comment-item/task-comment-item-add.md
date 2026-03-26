@@ -6,9 +6,9 @@
 
 Метод `task.commentitem.add` добавляет новый комментарий к задаче.
 
-{% note warning "Развитие метода остановлено с версии модуля `tasks 25.700.0` " %}
+{% note warning "DEPRECATED" %}
 
-Метод `task.commentitem.add` продолжает работать, но у него есть более актуальный аналог [tasks.task.chat.message.send](../../rest-v3/tasks/tasks-task-chat-message-send.md).
+Развитие метода остановлено с версии модуля `tasks 25.700.0`. Используйте [tasks.task.chat.message.send](../../rest-v3/tasks/tasks-task-chat-message-send.md).
 
 {% endnote %}
 
@@ -257,3 +257,8 @@ HTTP-статус: **400**
 - [{#T}](./task-comment-item-get-list.md)
 - [{#T}](./task-comment-item-delete.md)
 - [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
+
+
+
+
+

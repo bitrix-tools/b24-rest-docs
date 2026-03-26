@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.measure.list](../../../catalog/measure/catalog-measure-list.md).
+
+{% endnote %}
+
 Метод возвращает список единиц измерения.
 
 Cмотрите описание [списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
@@ -170,3 +176,8 @@ Cмотрите описание [списочных методов](../../../..
 - [{#T}](./crm-measure-get.md)
 - [{#T}](./crm-measure-delete.md)
 - [{#T}](./crm-measure-fields.md)
+
+
+
+
+

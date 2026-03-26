@@ -6,9 +6,9 @@
 >  - любой пользователь может установить свои настройки,
 >  - пользователь с правом «Разрешить изменять настройки» в CRM может установить чужие и общие настройки
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.details.configuration.set` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.set](../../universal/item-details-configuration/crm-item-details-configuration-set.md).
+Развитие метода остановлено. Используйте [crm.item.details.configuration.set](../../universal/item-details-configuration/crm-item-details-configuration-set.md).
 
 {% endnote %}
 
@@ -373,3 +373,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-lead-details-configuration-get.md)
 - [{#T}](./crm-lead-details-configuration-reset.md)
 - [{#T}](./crm-lead-details-configuration-force-common-scope-for-all.md)
+
+
+
+
+

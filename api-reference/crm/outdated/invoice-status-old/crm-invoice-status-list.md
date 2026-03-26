@@ -4,6 +4,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [Универсальные методы для счетов](../../universal/invoice.md).
+
+{% endnote %}
 {% note warning %}
 
 С версии 19.0.0 рекомендуется использовать метод [crm.status.list](../../../crm/status/crm-status-list.md)
@@ -15,3 +20,6 @@
 ## Параметры метода
 
 Cм. описание [списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md)
+
+
+

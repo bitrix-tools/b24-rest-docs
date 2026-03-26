@@ -1,5 +1,14 @@
 # Стадии: обзор методов
 
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов rpa.stage.* остановлено.
+Используйте раздел [Смарт-процессы CRM](../../../crm/universal/user-defined-object-types/index.md).
+
+{% endnote %}
+
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -12,3 +21,4 @@
 || [rpa.stage.listForType](./rpa-stage-list-for-type.md) | Получает список стадий процесса, отсотированный в порядке сортировки, с финальными стадиями в конце ||
 || [rpa.stage.delete](./rpa-stage-delete.md) | Удаляет стадию ||
 |#
+

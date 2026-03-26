@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.details.configuration.forceCommonScopeForAll` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.forceCommonScopeForAll](../../universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md).
+Развитие метода остановлено. Используйте [crm.item.details.configuration.forceCommonScopeForAll](../../universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md).
 
 {% endnote %}
 
@@ -218,3 +218,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-lead-details-configuration-get.md)
 - [{#T}](./crm-lead-details-configuration-reset.md)
 - [{#T}](./crm-lead-details-configuration-set.md)
+
+
+
+
+

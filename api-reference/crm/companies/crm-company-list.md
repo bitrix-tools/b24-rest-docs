@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» компаний
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.company.list` продолжает работать, но у него есть более актуальный аналог [crm.item.list](../universal/crm-item-list.md).
+Развитие метода остановлено. Используйте [crm.item.list](../universal/crm-item-list.md).
 
 {% endnote %}
 
@@ -350,3 +350,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-company-delete.md)
 - [{#T}](./crm-company-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
+
+
+
+
+

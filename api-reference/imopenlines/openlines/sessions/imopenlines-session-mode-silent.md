@@ -6,7 +6,7 @@
 
 Метод `imopenlines.session.mode.silent` включает или выключает режим скрытой переписки в диалоге.
 
-{% note warning "" %}
+{% note warning "DEPRECATED" %}
 
 Развитие метода остановлено, но он продолжает работать.
 
@@ -212,3 +212,6 @@ HTTP-статус: **400**
 - [{#T}](./imopenlines-message-session-start.md)
 - [{#T}](./imopenlines-crm-lead-create.md)
 - [{#T}](./imopenlines-dialog-get.md)
+
+
+

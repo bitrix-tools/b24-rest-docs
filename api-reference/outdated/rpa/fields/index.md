@@ -1,5 +1,14 @@
 # Настройки видимости полей: обзор методов
 
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов rpa.fields.* остановлено.
+Используйте раздел [Смарт-процессы CRM](../../../crm/universal/user-defined-object-types/index.md).
+
+{% endnote %}
+
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -24,3 +33,4 @@
 || [rpa.fields.setSettings](./rpa-fields-set-settings.md) | Устанавливает полный набор настроек видимости полей на стадии с идентификатором `stageId` процесса с идентификатором `typeId` ||
 || [rpa.fields.setVisibilitySettings](./rpa-fields-set-visibility-settings.md) | Меняет настройки видимости `visibility` полей `fields` для процесса с идентификатором `typeId` на стадии с идентификатором `stageId` ||
 |#
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «Удаление» компаний
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.company.delete` продолжает работать, но у него есть более актуальный аналог [crm.item.delete](../universal/crm-item-delete.md).
+Развитие метода остановлено. Используйте [crm.item.delete](../universal/crm-item-delete.md).
 
 {% endnote %}
 
@@ -200,4 +200,9 @@ HTTP-статус: **400**
 - [{#T}](./crm-company-get.md)
 - [{#T}](./crm-company-list.md)
 - [{#T}](./crm-company-fields.md)
+
+
+
+
+
 

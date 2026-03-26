@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.contact.fields` продолжает работать, но у него есть более актуальный аналог [crm.item.fields](../universal/crm-item-fields.md).
+Развитие метода остановлено. Используйте [crm.item.fields](../universal/crm-item-fields.md).
 
 {% endnote %}
 
@@ -771,3 +771,8 @@ HTTP-статус: **200**
 - [{#T}](./crm-contact-get.md)
 - [{#T}](./crm-contact-list.md)
 - [{#T}](./crm-contact-delete.md)
+
+
+
+
+

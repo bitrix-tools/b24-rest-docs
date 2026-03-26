@@ -6,9 +6,9 @@
 > - пользователь может получать свои и общие настройки
 > - получить личные настройки другого пользователя можно при наличии прав на редактирование персонального вида для пользователя
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.deal.details.configuration.get` продолжает работать, но есть более актуальный аналог [crm.item.details.configuration.get](../../universal/item-details-configuration/crm-item-details-configuration-get.md).
+Развитие метода остановлено. Используйте [crm.item.details.configuration.get](../../universal/item-details-configuration/crm-item-details-configuration-get.md).
 
 {% endnote %}
 
@@ -360,3 +360,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-details-configuration-set.md)
 - [{#T}](./crm-deal-details-configuration-reset.md)
 - [{#T}](./crm-deal-details-configuration-force-common-scope-for-all.md)
+
+
+
+
+

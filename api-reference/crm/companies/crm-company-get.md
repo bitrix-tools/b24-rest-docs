@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» компаний
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.company.get` продолжает работать, но у него есть более актуальный аналог [crm.item.get](../universal/crm-item-get.md).
+Развитие метода остановлено. Используйте [crm.item.get](../universal/crm-item-get.md).
 
 {% endnote %}
 
@@ -251,3 +251,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-company-update.md)
 - [{#T}](./crm-company-delete.md)
 - [{#T}](./crm-company-fields.md)
+
+
+
+
+

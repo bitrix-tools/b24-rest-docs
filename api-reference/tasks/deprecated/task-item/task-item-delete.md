@@ -6,9 +6,9 @@
 
 Метод удаляет задачу.
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел и не поддерживается. Рекомендуется использовать методы [tasks.task.*](../../index.md).
+Развитие метода остановлено. Используйте [tasks.task.delete](../../tasks-task-delete.md).
 
 {% endnote %}
 
@@ -124,3 +124,10 @@
     ```
 
 {% endlist %}
+
+
+
+
+
+
+

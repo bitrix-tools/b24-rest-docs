@@ -6,9 +6,9 @@
 
 Метод `task.commentitem.get` получает комментарий по идентификатору.
 
-{% note warning "Развитие метода остановлено с версии модуля `tasks 25.700.0` " %}
+{% note warning "DEPRECATED" %}
 
-Метод `task.commentitem.get` не работает в [новой карточке задач](../tasks-new.md), используйте метод [im.dialog.messages.get](../../chats/messages/im-dialog-messages-get.md) для работы с чатом задач.
+Развитие метода остановлено с версии модуля `tasks 25.700.0`. Метод task.commentitem.get не работает в [новой карточке задач](../tasks-new.md), используйте метод [im.dialog.messages.get](../../chats/messages/im-dialog-messages-get.md) для работы с чатом задач.
 
 {% endnote %}
 
@@ -277,3 +277,10 @@ HTTP-статус: **400**
 - [{#T}](./task-comment-item-get-list.md)
 - [{#T}](./task-comment-item-delete.md)
 - [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
+
+
+
+
+
+
+

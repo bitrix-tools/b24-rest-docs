@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь с правом на создание лидов
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.add` продолжает работать, но у него есть более актуальный аналог [crm.item.add](../universal/crm-item-add.md).
+Развитие метода остановлено. Используйте [crm.item.add](../universal/crm-item-add.md).
 
 {% endnote %}
 
@@ -467,3 +467,8 @@ HTTP-статус: **200**
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-lead-with-files.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-repeat-lead.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
+
+
+
+
+

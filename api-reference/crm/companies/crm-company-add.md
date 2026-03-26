@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «Добавление|Импорт» компаний
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.company.add` продолжает работать, но у него есть более актуальный аналог [crm.item.add](../universal/crm-item-add.md).
+Развитие метода остановлено. Используйте [crm.item.add](../universal/crm-item-add.md).
 
 {% endnote %}
 
@@ -396,3 +396,8 @@ HTTP-статус: **400**
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-company.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-company-with-requisite.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)
+
+
+
+
+

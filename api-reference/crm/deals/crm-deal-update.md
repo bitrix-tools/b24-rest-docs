@@ -4,9 +4,9 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «изменения» сделок
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.deal.update` продолжает работать, но у него есть более актуальный аналог [crm.item.update](../universal/crm-item-update.md).
+Развитие метода остановлено. Используйте [crm.item.update](../universal/crm-item-update.md).
 
 {% endnote %}
 
@@ -449,4 +449,9 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-fields.md)
 - [{#T}](../universal/crm-item-update.md)
 - [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-date-to-deal.md)
+
+
+
+
+
 

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: администратор
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `catalog.document.fields` продолжает работать, но у него есть более актуальный аналог [catalog.document.getFields](../catalog-document-get-fields.md).
+Развитие метода остановлено. Используйте [catalog.document.getFields](../catalog-document-get-fields.md).
 
 {% endnote %}
 
@@ -128,4 +128,9 @@
 - [{#T}](./catalog-document-confirm.md)
 - [{#T}](./catalog-document-unconfirm.md)
 - [{#T}](./catalog-document-element-fields.md)
+
+
+
+
+
 

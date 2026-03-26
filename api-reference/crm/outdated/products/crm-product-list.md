@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.list` продолжает работать, но у него есть более актуальные аналоги [catalog.product.*](../../../catalog/product/index.md).
+Развитие метода остановлено. Используйте [catalog.product.list](../../../catalog/product/catalog-product-list.md).
 
 {% endnote %}
 
@@ -190,3 +190,8 @@
     ```
 
 {% endlist %}
+
+
+
+
+

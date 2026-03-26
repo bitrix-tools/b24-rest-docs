@@ -1,5 +1,14 @@
 # Товары
 
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов crm.product.* и crm.product.property.* остановлено.
+Используйте раздел [Товары (`catalog.product.*`)](../../../catalog/product/index.md).
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: зависит от метода
@@ -24,3 +33,4 @@
 |#
 
 Общий список **событий товаров** приведен в статье [События](./events-custom/index.md).
+

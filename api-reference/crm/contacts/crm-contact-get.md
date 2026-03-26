@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «чтения» контактов
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.contact.get` продолжает работать, но у него есть более актуальный аналог [crm.item.get](../universal/crm-item-get.md).
+Развитие метода остановлено. Используйте [crm.item.get](../universal/crm-item-get.md).
 
 {% endnote %}
 
@@ -417,3 +417,8 @@ HTTP-статус: **400**
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
 
 [1]: ../../data-types.md
+
+
+
+
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.add` продолжает работать, но у него есть более актуальные аналоги [catalog.product.*](../../../catalog/product/index.md).
+Развитие метода остановлено. Используйте [catalog.product.add](../../../catalog/product/catalog-product-add.md).
 
 {% endnote %}
 
@@ -163,3 +163,8 @@
     ```
 
 {% endlist %}
+
+
+
+
+

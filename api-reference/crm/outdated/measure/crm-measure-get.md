@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.measure.get](../../../catalog/measure/catalog-measure-get.md).
+
+{% endnote %}
+
 Метод возвращает значения всех полей единицы измерения по ее идентификатору.
 
 ## Параметры метода
@@ -137,3 +143,8 @@
 - [{#T}](./crm-measure-list.md)
 - [{#T}](./crm-measure-delete.md)
 - [{#T}](./crm-measure-fields.md)
+
+
+
+
+

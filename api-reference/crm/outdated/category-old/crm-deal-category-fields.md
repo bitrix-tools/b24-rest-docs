@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел. Рекомендуется использовать  [`crm.category.fields`](../../universal/category/crm-category-fields.md)
+Развитие метода остановлено. Используйте [crm.category.fields](../../universal/category/crm-category-fields.md).
 
 {% endnote %}
 
@@ -139,3 +139,10 @@
 || **SORT** 
 [`integer`](../../../data-types.md) | Сортировка   ||
 |#
+
+
+
+
+
+
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.fields` продолжает работать, но у него есть более актуальные аналоги [catalog.product.*](../../../catalog/product/index.md).
+Развитие метода остановлено. Используйте [catalog.product.getFieldsByFilter](../../../catalog/product/catalog-product-get-fields-by-filter.md).
 
 {% endnote %}
 
@@ -170,3 +170,8 @@
 || **XML_ID**
 [`string`](../../../data-types.md) | Внешний код  ||
 |#
+
+
+
+
+

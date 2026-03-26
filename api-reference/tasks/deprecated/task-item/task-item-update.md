@@ -8,9 +8,9 @@
 
 Рекомендуется перед обновлением данных проверять, допустимо ли данное действие ([task.item.isactionallowed](./task-item-is-action-allowed.md)).
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел и не поддерживается. Рекомендуется использовать методы [tasks.task.*](../../index.md).
+Развитие метода остановлено. Используйте [tasks.task.update](../../tasks-task-update.md).
 
 {% endnote %}
 
@@ -251,3 +251,9 @@
 - `C` — контакт
 - `CO` — компания
 - `D` — сделка
+
+
+
+
+
+

@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.section.update](../../../catalog/section/catalog-section-update.md).
+
+{% endnote %}
+
 Метод `crm.productsection.update` обновляет существующий раздел товаров.
 
 ## Параметры метода
@@ -196,3 +202,7 @@
     ```
 
 {% endlist %}
+
+
+
+

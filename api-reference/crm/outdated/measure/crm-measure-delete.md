@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.measure.delete](../../../catalog/measure/catalog-measure-delete.md).
+
+{% endnote %}
+
 Метод удаляет единицу измерения.
 
 ## Параметры метода
@@ -143,3 +149,8 @@
 - [{#T}](./crm-measure-get.md)
 - [{#T}](./crm-measure-list.md)
 - [{#T}](./crm-measure-fields.md)
+
+
+
+
+

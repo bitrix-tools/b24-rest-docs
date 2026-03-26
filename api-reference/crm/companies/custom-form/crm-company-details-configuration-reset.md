@@ -6,9 +6,9 @@
 >  - любой пользователь может сбросить свои настройки,
 >  - пользователь с правом «Разрешить изменять настройки» в CRM может сбросить общие и чужие настройки
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.company.details.configuration.reset` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.reset](../../universal/item-details-configuration/crm-item-details-configuration-reset.md).
+Развитие метода остановлено. Используйте [crm.item.details.configuration.reset](../../universal/item-details-configuration/crm-item-details-configuration-reset.md).
 
 {% endnote %}
 
@@ -328,3 +328,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-company-details-configuration-get.md)
 - [{#T}](.//crm-company-details-configuration-set.md)
 - [{#T}](./crm-company-details-configuration-force-common-scope-for-all.md)
+
+
+
+
+

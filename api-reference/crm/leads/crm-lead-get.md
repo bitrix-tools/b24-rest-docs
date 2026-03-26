@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение запрашиваемого лида
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.get` продолжает работать, но у него есть более актуальный аналог [crm.item.get](../universal/crm-item-get.md).
+Развитие метода остановлено. Используйте [crm.item.get](../universal/crm-item-get.md).
 
 {% endnote %}
 
@@ -387,3 +387,8 @@ HTTP-статус: **200**
 ## Продолжите изучение 
 
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
+
+
+
+
+

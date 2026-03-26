@@ -6,9 +6,9 @@
 
 Метод удаляет задачу из Избранного.
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел и не поддерживается. Рекомендуется использовать методы [tasks.task.*](../../index.md).
+Развитие метода остановлено. Используйте [tasks.task.favorite.remove](../../tasks-task-favorite-remove.md).
 
 {% endnote %}
 
@@ -148,3 +148,10 @@
     ```
 
 {% endlist %}
+
+
+
+
+
+
+

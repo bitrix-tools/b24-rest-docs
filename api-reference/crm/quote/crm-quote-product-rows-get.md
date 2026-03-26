@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «чтения» коммерческих предложений
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.quote.productrows.get` продолжает работать, но у него есть более актуальный аналог [crm.item.productrow.*](../universal/product-rows/index.md).
+Развитие метода остановлено. Используйте [crm.item.productrow.*](../universal/product-rows/index.md).
 
 {% endnote %}
 
@@ -303,3 +303,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-quote-update.md)
 - [{#T}](./crm-quote-add.md)
 - [{#T}](./crm-quote-fields.md)
+
+
+
+
+

@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.section.add](../../../catalog/section/catalog-section-add.md).
+
+{% endnote %}
+
 Метод `crm.productsection.add` создаёт новый раздел товаров.
 
 ## Параметры метода
@@ -194,3 +200,7 @@
     ```
 
 {% endlist %}
+
+
+
+

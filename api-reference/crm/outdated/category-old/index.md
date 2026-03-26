@@ -1,5 +1,14 @@
 # Направления сделок
 
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов crm.deal.category.* остановлено.
+Используйте раздел [Воронки (`crm.category.*`)](../../universal/category/index.md).
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять методы: любой пользователь
@@ -17,3 +26,5 @@
 || [crm.deal.category.status](./crm-deal-category-status.md) | Возвращает идентификатор справочника, где хранятся стадии сделок ||
 || [crm.deal.category.stage.list](./crm-deal-category-stage-list.md) | Возвращает список стадий сделок для направления ||
 |#
+
+

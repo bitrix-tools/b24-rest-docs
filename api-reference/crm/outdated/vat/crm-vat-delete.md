@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правами администратора CRM
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.vat.delete` продолжает работать, но у него есть более актуальный аналог [catalog.vat.delete](../../../catalog/vat/catalog-vat-delete.md).
+Развитие метода остановлено. Используйте [catalog.vat.delete](../../../catalog/vat/catalog-vat-delete.md).
 
 {% endnote %}
 
@@ -204,3 +204,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-vat-get.md)
 - [{#T}](./crm-vat-add.md)
 - [{#T}](./crm-vat-update.md) 
+
+
+
+

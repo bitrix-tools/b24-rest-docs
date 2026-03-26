@@ -4,13 +4,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод добавляет комментарии к задаче.
+{% note warning "DEPRECATED" %}
 
-{% note warning %}
-
-Вместо данного метода следует использовать методы [`task.commentitem.*`](../comment-item/index.md).
+Развитие метода остановлено. Используйте [tasks.task.chat.message.send](../../rest-v3/tasks/tasks-task-chat-message-send.md).
 
 {% endnote %}
+
+Метод добавляет комментарии к задаче.
 
 ## Параметры метода
 
@@ -133,3 +133,8 @@
     ```
 
 {% endlist %}
+
+
+
+
+

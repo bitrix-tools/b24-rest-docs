@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.section.get](../../../catalog/section/catalog-section-get.md).
+
+{% endnote %}
+
 Метод `crm.productsection.get` [возвращает раздел товаров](./crm-product-section-add.md) по идентификатору.
 
 ## Параметры метода
@@ -146,3 +152,7 @@
     ```
 
 {% endlist %}
+
+
+
+

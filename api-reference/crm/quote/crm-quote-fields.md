@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.quote.fields` продолжает работать, но у него есть более актуальный аналог [crm.item.fields](../universal/crm-item-fields.md).
+Развитие метода остановлено. Используйте [crm.item.fields](../universal/crm-item-fields.md).
 
 {% endnote %}
 
@@ -677,3 +677,7 @@ HTTP-статус: **200**
 - [{#T}](./crm-quote-update.md)
 - [{#T}](./crm-quote-delete.md)
 - [{#T}](./user-field/crm-quote-user-field-add.md)
+
+
+
+

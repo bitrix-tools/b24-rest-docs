@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.update` продолжает работать, но у него есть более актуальные аналоги [catalog.product.*](../../../catalog/product/index.md).
+Развитие метода остановлено. Используйте [catalog.product.update](../../../catalog/product/catalog-product-update.md).
 
 {% endnote %}
 
@@ -308,3 +308,9 @@
     ```
 
 {% endlist %}
+
+
+
+
+
+

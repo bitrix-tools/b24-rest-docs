@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «изменения» коммерческих предложений
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.quote.update` продолжает работать, но у него есть более актуальный аналог [crm.item.update](../universal/crm-item-update.md).
+Развитие метода остановлено. Используйте [crm.item.update](../universal/crm-item-update.md).
 
 {% endnote %}
 
@@ -330,3 +330,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-quote-fields.md)
 - [{#T}](./crm-quote-product-rows-set.md)
 - [{#T}](./crm-quote-product-rows-get.md)
+
+
+
+
+

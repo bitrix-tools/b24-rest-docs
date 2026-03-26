@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.section.delete](../../../catalog/section/catalog-section-delete.md).
+
+{% endnote %}
+
 Метод `crm.productsection.delete` удаляет раздел каталога товаров.
 
 ## Параметры метода
@@ -148,3 +154,7 @@
     ```
 
 {% endlist %}
+
+
+
+

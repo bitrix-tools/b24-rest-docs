@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.fields` продолжает работать, но у него есть более актуальный аналог [crm.item.fields](../universal/crm-item-fields.md).
+Развитие метода остановлено. Используйте [crm.item.fields](../universal/crm-item-fields.md).
 
 {% endnote %}
 
@@ -807,3 +807,7 @@ HTTP-статус: **200**
  не возвращает ошибки.
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
+
+
+
+

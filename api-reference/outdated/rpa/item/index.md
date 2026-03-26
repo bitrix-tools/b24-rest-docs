@@ -1,5 +1,14 @@
 # Элементы: обзор методов
 
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов rpa.item.* остановлено.
+Используйте раздел [Смарт-процессы CRM](../../../crm/universal/user-defined-object-types/index.md).
+
+{% endnote %}
+
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -17,3 +26,4 @@
 || [rpa.item.list](./rpa-item-list.md) | Получает список элементов процесса с идентификатором `typeId` ||
 || [rpa.item.delete](./rpa-item-delete.md) | Удаляет элемент ||
 |#
+

@@ -31,10 +31,6 @@ items:
     include:
       path: product-section/b24-toc.yaml
       mode: link
-  - name: Лента CRM
-    include:
-      path: stream-old/b24-toc.yaml
-      mode: link
   - name: Счета
     include:
       path: invoice/b24-toc.yaml

@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.measure.update](../../../catalog/measure/catalog-measure-update.md).
+
+{% endnote %}
+
 Метод обновляет существующую единицу измерения.
 
 ## Параметры метода
@@ -169,3 +175,7 @@
 - [{#T}](./crm-measure-list.md)
 - [{#T}](./crm-measure-delete.md)
 - [{#T}](./crm-measure-fields.md)
+
+
+
+

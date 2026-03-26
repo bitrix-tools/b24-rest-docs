@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел. Рекомендуется использовать  [`crm.category.list`](../../universal/category/crm-category-list.md)
+Развитие метода остановлено. Используйте [crm.category.list](../../universal/category/crm-category-list.md).
 
 {% endnote %}
 
@@ -169,3 +169,9 @@ Cм. описание [списочных методов](../../../../settings/h
     ```
 
 {% endlist %}
+
+
+
+
+
+

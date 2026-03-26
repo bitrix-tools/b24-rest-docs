@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «Изменение» компаний
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.company.update` продолжает работать, но у него есть более актуальный аналог [crm.item.update](../universal/crm-item-update.md).
+Развитие метода остановлено. Используйте [crm.item.update](../universal/crm-item-update.md).
 
 {% endnote %}
 
@@ -344,3 +344,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-company-delete.md)
 - [{#T}](./crm-company-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
+
+
+
+
+

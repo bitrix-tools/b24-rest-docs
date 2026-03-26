@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом на добавление дела
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.activity.add` продолжает работать, но у него есть более актуальный аналог [crm.activity.todo.add](../todo/crm-activity-todo-add.md).
+Развитие метода остановлено. Используйте [crm.activity.todo.add](../todo/crm-activity-todo-add.md).
 
 {% endnote %}
 
@@ -420,3 +420,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-fields.md)
 - [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
 - [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
+
+
+
+

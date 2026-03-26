@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел. Рекомендуется использовать методы воронок [`crm.category.*`](../../universal/category/index.md)
+Развитие метода остановлено. Используйте [crm.category.*](../../universal/category/index.md).
 
 {% endnote %}
 
@@ -146,3 +146,9 @@
     ```
 
 {% endlist %}
+
+
+
+
+
+

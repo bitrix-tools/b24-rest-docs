@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [смарт-процессы](../../../crm/universal/user-defined-object-types/index.md) как аналог функционала.
+
+{% endnote %}
+
 Метод создает новую запись таймлайна у элемента `itemId` процесса `typeId`.
 
 Этот метод позволяет изменять только поля `title` и `description`.
@@ -75,3 +81,7 @@ HTTP-статус: **200**
 - [{#T}](./rpa-timeline-update-is-fixed.md)
 - [{#T}](./rpa-timeline-list-for-item.md)
 - [{#T}](./rpa-timeline-delete.md)
+
+
+
+

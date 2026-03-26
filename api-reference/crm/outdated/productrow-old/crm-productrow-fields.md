@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел. Рекомендуется использовать  [`crm.item.productrow.fields`](../../universal/product-rows/crm-item-productrow-fields.md)
+Развитие метода остановлено. Используйте [crm.item.productrow.fields](../../universal/product-rows/crm-item-productrow-fields.md).
 
 {% endnote %}
 
@@ -121,3 +121,9 @@
     ```
 
 {% endlist %}
+
+
+
+
+
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.vat.list` продолжает работать, но у него есть более актуальный аналог [catalog.vat.list](../../../catalog/vat/catalog-vat-list.md).
+Развитие метода остановлено. Используйте [catalog.vat.list](../../../catalog/vat/catalog-vat-list.md).
 
 {% endnote %}
 
@@ -284,4 +284,9 @@ HTTP-статус: **400**
 - [{#T}](./crm-vat-add.md)
 - [{#T}](./crm-vat-update.md)
 - [{#T}](./crm-vat-delete.md) 
+
+
+
+
+
 

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.property.types` продолжает работать, но у него есть более актуальный аналог [catalog.productPropertyFeature.*](../../../catalog/product-property-feature/index.md).
+Развитие метода остановлено. Используйте [catalog.productPropertyFeature.*](../../../catalog/product-property-feature/index.md).
 
 {% endnote %}
 
@@ -128,3 +128,7 @@
     ```
 
 {% endlist %}
+
+
+
+

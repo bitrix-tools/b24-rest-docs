@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «чтения» контактов
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.contact.list` продолжает работать, но у него есть более актуальный аналог [crm.item.list](../universal/crm-item-list.md).
+Развитие метода остановлено. Используйте [crm.item.list](../universal/crm-item-list.md).
 
 {% endnote %}
 
@@ -581,3 +581,8 @@ HTTP-статус: **400**
 - [{#T}](../../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
 
 [1]: ../../data-types.md
+
+
+
+
+

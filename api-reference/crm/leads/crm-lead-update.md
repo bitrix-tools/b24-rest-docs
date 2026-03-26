@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь, имеющий права на редактирование лидов CRM
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.update` продолжает работать, но у него есть более актуальный аналог [crm.item.update](../universal/crm-item-update.md).
+Развитие метода остановлено. Используйте [crm.item.update](../universal/crm-item-update.md).
 
 {% endnote %}
 
@@ -437,3 +437,8 @@ HTTP-статус: **200**
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+
+
+
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.vat.fields` продолжает работать, но у него есть более актуальный аналог [catalog.vat.getFields](../../../catalog/vat/catalog-vat-get-fields.md).
+Развитие метода остановлено. Используйте [catalog.vat.getFields](../../../catalog/vat/catalog-vat-get-fields.md).
 
 {% endnote %}
 
@@ -235,3 +235,8 @@ HTTP-статус: **200**
 - [{#T}](./crm-vat-add.md)
 - [{#T}](./crm-vat-update.md)
 - [{#T}](./crm-vat-delete.md) 
+
+
+
+
+

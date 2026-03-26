@@ -6,9 +6,9 @@
 >  - любой пользователь может получать свои и общие настройки,
 >  - пользователь с правом «Разрешить изменять настройки» в CRM может получать чужие настройки
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.details.configuration.get` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.get](../../universal/item-details-configuration/crm-item-details-configuration-get.md).
+Развитие метода остановлено. Используйте [crm.item.details.configuration.get](../../universal/item-details-configuration/crm-item-details-configuration-get.md).
 
 {% endnote %}
 
@@ -402,3 +402,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-lead-details-configuration-reset.md)
 - [{#T}](./crm-lead-details-configuration-set.md)
 - [{#T}](./crm-lead-details-configuration-force-common-scope-for-all.md)
+
+
+
+
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.property.enumeration.fields` продолжает работать, но у него есть более актуальный аналог [catalog.productPropertyEnum.*](../../../catalog/product-property-enum/index.md).
+Развитие метода остановлено. Используйте [catalog.productPropertyEnum.*](../../../catalog/product-property-enum/index.md).
 
 {% endnote %}
 
@@ -120,3 +120,7 @@
     ```
 
 {% endlist %}
+
+
+
+

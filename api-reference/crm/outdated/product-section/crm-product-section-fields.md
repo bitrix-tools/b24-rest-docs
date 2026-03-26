@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.section.getFields](../../../catalog/section/catalog-section-get-fields.md).
+
+{% endnote %}
+
 Метод `crm.productsection.fields` возвращает описание [полей раздела](./crm-product-section-add.md) товара.
 
 Без параметров.
@@ -142,3 +148,7 @@
 || **XML_ID** 
 [`string`](../../data-types.md) | Символьный код | ||
 |#
+
+
+
+

@@ -4,9 +4,9 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «добавления» сделок
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.deal.add` продолжает работать, но у него есть более актуальный аналог [crm.item.add](../universal/crm-item-add.md).
+Развитие метода остановлено. Используйте [crm.item.add](../universal/crm-item-add.md).
 
 {% endnote %}
 
@@ -500,3 +500,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)
+
+
+
+

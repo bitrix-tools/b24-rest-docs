@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь с правом удаления лидов
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.delete` продолжает работать, но у него есть более актуальный аналог [crm.item.delete](../universal/crm-item-delete.md).
+Развитие метода остановлено. Используйте [crm.item.delete](../universal/crm-item-delete.md).
 
 {% endnote %}
 
@@ -194,3 +194,8 @@ HTTP-статус: **200**
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
+
+
+
+
+

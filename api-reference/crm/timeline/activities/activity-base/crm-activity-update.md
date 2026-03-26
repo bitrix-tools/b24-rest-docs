@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь с правом на обновление дела
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.activity.update` продолжает работать, но у него есть более актуальный аналог [crm.activity.todo.update](../todo/crm-activity-todo-update.md).
+Развитие метода остановлено. Используйте [crm.activity.todo.update](../todo/crm-activity-todo-update.md).
 
 {% endnote %}
 
@@ -303,3 +303,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-list.md)
 - [{#T}](./crm-activity-communication-fields.md)
 - [{#T}](./crm-activity-fields.md)
+
+
+
+

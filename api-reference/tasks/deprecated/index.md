@@ -1,5 +1,14 @@
 # Устаревшие методы задач
 
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов task.item.* остановлено.
+Используйте раздел [Актуальные методы задач (`tasks.task.*`)](../index.md).
+
+{% endnote %}
+
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -42,3 +51,4 @@
 || **comment** | ||
 || [task.comment.add](./task-comment-add.md) | Добавляет комментарий к задаче ||
 |#
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.delete` продолжает работать, но у него есть более актуальные аналоги [catalog.product.*](../../../catalog/product/index.md).
+Развитие метода остановлено. Используйте [catalog.product.delete](../../../catalog/product/catalog-product-delete.md).
 
 {% endnote %}
 
@@ -127,3 +127,8 @@
     ```
 
 {% endlist %}
+
+
+
+
+

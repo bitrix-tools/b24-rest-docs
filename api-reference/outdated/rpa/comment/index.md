@@ -1,5 +1,14 @@
 # Комментарии: обзор методов
 
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов rpa.comment.* остановлено.
+Используйте раздел [Смарт-процессы CRM](../../../crm/universal/user-defined-object-types/index.md).
+
+{% endnote %}
+
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -16,3 +25,4 @@
 || [rpa.comment.update](./rpa-comment-update.md) | Обновляет запись таймлайна с идентификатором `id` ||
 || [rpa.comment.delete](./rpa-comment-delete.md) | Удаляет комментарий с идентификатором `id` ||
 |#
+

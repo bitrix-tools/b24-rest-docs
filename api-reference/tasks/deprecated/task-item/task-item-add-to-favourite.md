@@ -19,9 +19,9 @@
 
 Метод добавляет задачу в Избранное.
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел и не поддерживается. Рекомендуется использовать методы [tasks.task.*](../../index.md).
+Развитие метода остановлено. Используйте [tasks.task.favorite.add](../../tasks-task-favorite-add.md).
 
 {% endnote %}
 
@@ -161,4 +161,11 @@
     ```
 
 {% endlist %}
+
+
+
+
+
+
+
 

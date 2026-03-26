@@ -1,5 +1,14 @@
 # Процессы: обзор методов
 
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов rpa.type.* остановлено.
+Используйте раздел [Смарт-процессы CRM](../../../crm/universal/user-defined-object-types/index.md).
+
+{% endnote %}
+
 > Scope: [`rpa`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -12,3 +21,4 @@
 || [rpa.type.list](./rpa-type-list.md) | Получает список процессов с описанием полей ||
 || [rpa.type.delete](./rpa-type-delete.md) | Удаляет процесс ||
 |#
+

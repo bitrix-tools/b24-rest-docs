@@ -1,4 +1,13 @@
-# Обзор методов
+# Разделы товаров: обзор методов
+
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов crm.productsection.* остановлено.
+Используйте раздел [Разделы каталога (`catalog.section.*`)](../../../catalog/section/index.md).
+
+{% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
@@ -13,3 +22,5 @@
 || [crm.productsection.list](./crm-product-section-list.md) | Возвращает список разделов товаров по фильтру. ||
 || [crm.productsection.update](./crm-product-section-update.md) | Обновляет существующий раздел товаров. ||
 |#
+
+

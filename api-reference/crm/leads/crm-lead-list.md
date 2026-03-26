@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правами на чтение лидов
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.list` продолжает работать, но у него есть более актуальный аналог [crm.item.list](../universal/crm-item-list.md).
+Развитие метода остановлено. Используйте [crm.item.list](../universal/crm-item-list.md).
 
 {% endnote %}
 
@@ -518,3 +518,7 @@ HTTP-статус: **200**
 
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-repeat-lead.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
+
+
+
+

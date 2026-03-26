@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «изменения» лида
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.lead.productrows.set` продолжает работать, но у него есть более актуальный аналог [crm.item.productrow.*](../universal/product-rows/index.md).
+Развитие метода остановлено. Используйте [crm.item.productrow.*](../universal/product-rows/index.md).
 
 {% endnote %}
 
@@ -396,3 +396,8 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-lead-productrows-get.md)
+
+
+
+
+

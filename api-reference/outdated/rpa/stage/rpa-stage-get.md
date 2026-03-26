@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [смарт-процессы](../../../crm/universal/user-defined-object-types/index.md) как аналог функционала.
+
+{% endnote %}
+
 Метод получает информацию о стадии по `id`.
 
 ## Параметры стадии
@@ -104,3 +110,7 @@ HTTP-статус: **200**
 - [{#T}](./rpa-stage-update.md)
 - [{#T}](./rpa-stage-list-for-type.md)
 - [{#T}](./rpa-stage-delete.md)
+
+
+
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «добавления|импорта» контакта
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.contact.add` продолжает работать, но у него есть более актуальный аналог [crm.item.add](../universal/crm-item-add.md).
+Развитие метода остановлено. Используйте [crm.item.add](../universal/crm-item-add.md).
 
 {% endnote %}
 
@@ -680,3 +680,7 @@ HTTP-статус: **400**
 
 [1]: ../../data-types.md
 [2]: ../status/crm-status-list.md
+
+
+
+

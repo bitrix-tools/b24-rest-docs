@@ -4,9 +4,9 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «чтения» сделок
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.deal.list` продолжает работать, но у него есть более актуальный аналог [crm.item.list](../universal/crm-item-list.md).
+Развитие метода остановлено. Используйте [crm.item.list](../universal/crm-item-list.md).
 
 {% endnote %}
 
@@ -585,3 +585,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
+
+
+
+
+

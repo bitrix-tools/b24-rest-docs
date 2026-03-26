@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.get` продолжает работать, но у него есть более актуальные аналоги [catalog.product.*](../../../catalog/product/index.md).
+Развитие метода остановлено. Используйте [catalog.product.get](../../../catalog/product/catalog-product-get.md).
 
 {% endnote %}
 
@@ -142,3 +142,8 @@
     ```
 
 {% endlist %}
+
+
+
+
+

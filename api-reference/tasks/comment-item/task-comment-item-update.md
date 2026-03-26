@@ -6,9 +6,9 @@
 
 Метод `task.commentitem.update` обновляет комментарий.
 
-{% note warning "Развитие метода остановлено с версии модуля `tasks 25.700.0` " %}
+{% note warning "DEPRECATED" %}
 
-Метод `task.commentitem.update` не работает в [новой карточке задач](../tasks-new.md), используйте метод [im.message.update](../../chats/messages/im-message-update.md) для работы с чатом задач.
+Развитие метода остановлено с версии модуля `tasks 25.700.0`. Метод task.commentitem.update не работает в [новой карточке задач](../tasks-new.md), используйте метод [im.message.update](../../chats/messages/im-message-update.md) для работы с чатом задач.
 
 {% endnote %}
 
@@ -256,3 +256,10 @@ HTTP-статус: **400**
 - [{#T}](./task-comment-item-get.md)
 - [{#T}](./task-comment-item-get-list.md)
 - [{#T}](./task-comment-item-delete.md)
+
+
+
+
+
+
+

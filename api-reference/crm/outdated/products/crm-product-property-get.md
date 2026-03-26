@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.property.get` продолжает работать, но у него есть более актуальный аналог [catalog.productProperty.get](../../../catalog/product-property/catalog-product-property-get.md).
+Развитие метода остановлено. Используйте [catalog.productProperty.get](../../../catalog/product-property/catalog-product-property-get.md).
 
 {% endnote %}
 
@@ -144,3 +144,7 @@
     ```
 
 {% endlist %}
+
+
+
+

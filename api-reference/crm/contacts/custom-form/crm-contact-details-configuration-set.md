@@ -6,9 +6,9 @@
 >  - Любой пользователь имеет право получать свои и общие настройки
 >  - Только администратор имеет право получать чужие настройки
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.contact.details.configuration.set` продолжает работать, но у него есть более актуальный аналог [crm.item.details.configuration.set](../../universal/item-details-configuration/crm-item-details-configuration-set.md).
+Развитие метода остановлено. Используйте [crm.item.details.configuration.set](../../universal/item-details-configuration/crm-item-details-configuration-set.md).
 
 {% endnote %}
 
@@ -565,3 +565,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-details-configuration-get.md)
 - [{#T}](./crm-contact-details-configuration-force-common-scope-for-all.md)
 - [{#T}](./crm-contact-details-configuration-reset.md)
+
+
+
+
+

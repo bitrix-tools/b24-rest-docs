@@ -4,9 +4,9 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «чтения» сделок
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.deal.get` продолжает работать, но у него есть более актуальный аналог [crm.item.get](../universal/crm-item-get.md).
+Развитие метода остановлено. Используйте [crm.item.get](../universal/crm-item-get.md).
 
 {% endnote %}
 
@@ -426,3 +426,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-list.md)
 - [{#T}](./crm-deal-delete.md)
 - [{#T}](./crm-deal-fields.md)
+
+
+
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «чтения» коммерческих предложений
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.quote.list` продолжает работать, но у него есть более актуальный аналог [crm.item.list](../universal/crm-item-list.md).
+Развитие метода остановлено. Используйте [crm.item.list](../universal/crm-item-list.md).
 
 {% endnote %}
 
@@ -372,3 +372,8 @@ HTTP-статус: **400**
 - [{#T}](./crm-quote-get.md)
 - [{#T}](./crm-quote-delete.md)
 - [{#T}](./crm-quote-fields.md)
+
+
+
+
+

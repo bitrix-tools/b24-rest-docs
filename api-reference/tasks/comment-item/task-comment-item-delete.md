@@ -6,9 +6,9 @@
 
 Метод `task.commentitem.delete` удаляет комментарий. 
 
-{% note warning "Развитие метода остановлено с версии модуля `tasks 25.700.0` " %}
+{% note warning "DEPRECATED" %}
 
-Метод `task.commentitem.delete` не работает в [новой карточке задач](../tasks-new.md), используйте метод [im.message.delete](../../chats/messages/im-message-delete.md) для работы с чатом задач.
+Развитие метода остановлено с версии модуля `tasks 25.700.0`. Метод task.commentitem.delete не работает в [новой карточке задач](../tasks-new.md), используйте метод [im.message.delete](../../chats/messages/im-message-delete.md) для работы с чатом задач.
 
 {% endnote %}
 
@@ -216,3 +216,10 @@ HTTP-статус: **400**
 - [{#T}](./task-comment-item-update.md)
 - [{#T}](./task-comment-item-get.md)
 - [{#T}](./task-comment-item-get-list.md)
+
+
+
+
+
+
+

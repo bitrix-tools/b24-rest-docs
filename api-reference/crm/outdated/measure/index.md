@@ -1,4 +1,13 @@
-# Обзор методов
+# Единицы измерения: обзор методов
+
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов crm.measure.* остановлено.
+Используйте раздел [Единицы измерения (`catalog.measure.*`)](../../../catalog/measure/index.md).
+
+{% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
@@ -13,3 +22,5 @@
 || [crm.measure.delete](./crm-measure-delete.md) | Удаляет единицу измерения ||
 || [crm.measure.fields](./crm-measure-fields.md) | Возвращает описание полей для единиц измерения ||
 |#
+
+

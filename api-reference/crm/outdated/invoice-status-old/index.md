@@ -1,14 +1,17 @@
-# Обзор методов
+# Статусы счетов: обзор методов
+
+{% note warning "" %}
+
+**DEPRECATED**
+
+Развитие методов crm.invoice.status.* остановлено.
+Используйте раздел [Универсальные методы для счетов](../../universal/invoice.md).
+
+{% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
-
-{% note warning %}
-
-С версии 19.0.0 рекомендуется использовать [общие методы работы со справочниками](../../status/index.md)
-
-{% endnote %}
 
 #|
 || **Метод** | **Описание** ||
@@ -19,3 +22,4 @@
 || [crm.invoice.status.list](./crm-invoice-status-list.md) | Получает список статусов счета ||
 || [crm.invoice.status.update](./crm-invoice-status-update.md) | Изменяет статус счета ||
 |#
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.product.property.add` продолжает работать, но у него есть более актуальный аналог [catalog.productProperty.add](../../../catalog/product-property/catalog-product-property-add.md).
+Развитие метода остановлено. Используйте [catalog.productProperty.add](../../../catalog/product-property/catalog-product-property-add.md).
 
 {% endnote %}
 
@@ -804,3 +804,7 @@
     ```
 
 {% endlist %}
+
+
+
+

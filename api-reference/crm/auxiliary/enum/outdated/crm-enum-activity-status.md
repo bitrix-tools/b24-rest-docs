@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `crm.enum.activitystatus` продолжает работать, но он относится к устаревшим методам [crm.activity.*](../../../timeline/activities/index.md). Более актуальный аналог методов [crm.activity.todo.*](../../../timeline/activities/todo/index.md). 
+Развитие метода остановлено. Используйте [crm.activity.todo.*](../../../timeline/activities/todo/index.md).
 
 {% endnote %}
 
@@ -203,3 +203,9 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./../index.md)
+
+
+
+
+
+

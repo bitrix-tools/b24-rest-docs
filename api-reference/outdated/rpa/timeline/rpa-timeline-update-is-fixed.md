@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [смарт-процессы](../../../crm/universal/user-defined-object-types/index.md) как аналог функционала.
+
+{% endnote %}
+
 Метод обновляет флаг прикрепления записи.
 
 ## Параметры метода
@@ -39,3 +45,7 @@ HTTP-статус: **200**
 - [{#T}](./rpa-timeline-update.md)
 - [{#T}](./rpa-timeline-list-for-item.md)
 - [{#T}](./rpa-timeline-delete.md)
+
+
+
+

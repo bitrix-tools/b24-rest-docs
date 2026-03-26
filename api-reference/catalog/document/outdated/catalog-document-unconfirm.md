@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: администратор
 
-{% note warning "Развитие метода остановлено" %}
+{% note warning "DEPRECATED" %}
 
-Метод `catalog.document.unconfirm` продолжает работать, но у него есть более актуальный аналог [catalog.document.cancel](../catalog-document-cancel.md).
+Развитие метода остановлено. Используйте [catalog.document.cancel](../catalog-document-cancel.md).
 
 {% endnote %}
 
@@ -143,4 +143,9 @@
 - [{#T}](./catalog-document-confirm.md)
 - [{#T}](./catalog-document-fields.md)
 - [{#T}](./catalog-document-element-fields.md)
+
+
+
+
+
 

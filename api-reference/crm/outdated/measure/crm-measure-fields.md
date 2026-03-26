@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [catalog.measure.getFields](../../../catalog/measure/catalog-measure-get-fields.md).
+
+{% endnote %}
+
 Метод возвращает описание полей для единиц измерения.
 
 Без параметров.
@@ -150,3 +156,7 @@
 - [{#T}](./crm-measure-get.md)
 - [{#T}](./crm-measure-list.md)
 - [{#T}](./crm-measure-delete.md)
+
+
+
+

@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [смарт-процессы](../../../crm/universal/user-defined-object-types/index.md) как аналог функционала.
+
+{% endnote %}
+
 Метод удаляет процесс.
 
 ## Параметры метода
@@ -24,3 +30,7 @@
 - [{#T}](./rpa-type-update.md)
 - [{#T}](./rpa-type-get.md)
 - [{#T}](./rpa-type-list.md)
+
+
+
+

@@ -4,9 +4,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-{% note warning %}
+{% note warning "DEPRECATED" %}
 
-Метод устарел. Рекомендуется использовать  [`crm.category.delete`](../../universal/category/crm-category-delete.md)
+Развитие метода остановлено. Используйте [crm.category.delete](../../universal/category/crm-category-delete.md).
 
 {% endnote %}
 
@@ -146,3 +146,9 @@
     ```
 
 {% endlist %}
+
+
+
+
+
+
