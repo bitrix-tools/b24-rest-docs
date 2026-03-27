@@ -1,51 +1,132 @@
-# Изменить название тега landing.block.changeNodeName
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Изменить HTML-тег элемента блока landing.block.changeNodeName
 
 > Scope: [`landing`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «редактирование» сайта, в котором находится страница
 
-Метод `landing.block.changeNodeName` изменяет название тега. Например, тег h3 требуется поменять на тег h1. Вернет _true_ в случае успеха, или ошибку.
+Метод `landing.block.changeNodeName` изменяет HTML-тег элемента блока в черновике страницы.
 
-## Параметры
+Если страница уже опубликована, изменения станут видны посетителям после повторной публикации через интерфейс или методом [landing.landing.publication](../../page/methods/landing-landing-publication.md).
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| **lid**
-[`unknown`](../../../data-types.md) | Идентификатор страницы | ||
-|| **block**
-[`unknown`](../../../data-types.md) | Идентификатор блока | ||
-|| **data**
-[`unknown`](../../../data-types.md) | Массив селекторов и новых значений. Подробнее смотрите пример.
-Селектор может передаваться как без указания позиции (например, `.landing-block-node-text`), тогда будут изменены все карточки по данному селектору. Так и с указанием позиции (например, `.landing-block-node-text@2`), тогда будет изменена только карточка на указанной позиции (отсчет с нуля). | ||
+|| **Название**
+`тип` | **Описание** ||
+|| **lid***
+[`integer`](../../../data-types.md) | Идентификатор страницы
+
+Идентификатор страницы можно получить методом [landing.landing.getList](../../page/methods/landing-landing-get-list.md) ||
+|| **block***
+[`integer`](../../../data-types.md) | Идентификатор блока в черновике страницы
+
+Идентификатор блока можно получить методом [landing.block.getlist](./landing-block-get-list.md) с параметром `params.edit_mode = 1`.
+
+Используйте идентификатор именно из черновика страницы. Если передать идентификатор блока из опубликованной версии или другой версии страницы, изменения не будут применены ||
+|| **data***
+[`object`](../../../data-types.md) | Набор изменений для элементов блока [(подробное описание)](#data) ||
+|| **preventHistory**
+[`boolean`](../../../data-types.md) | Если передать `true`, метод не добавит действие в историю изменений страницы
+
+По умолчанию `false` ||
 |#
 
-## Примеры
+### Параметр data {#data}
+
+Параметр `data` передается в формате:
+
+```
+{
+    selector_1: tag_1,
+    selector_2: tag_2,
+    ...,
+    selector_n: tag_n
+}
+```
+
+где:
+- `selector_n` — селектор элемента из манифеста блока
+- `tag_n` — новое имя HTML-тега
+
+#|
+|| **Ключ**
+`тип` | **Описание** ||
+|| **<селектор>**
+[`string`](../../../data-types.md) | Новое имя HTML-тега для элемента, который указан в ключе
+
+Ключ должен совпадать с селектором элемента из манифеста блока
+
+Для повторяющихся элементов после селектора можно указать позицию через `@`, например `.landing-block-node-title@1`. Позиции нумеруются с `0`
+
+Если позицию не указать, метод изменит первый найденный элемент, то есть сработает так же, как `@0`
+
+Если передать селектор, которого нет в манифесте блока, или указать позицию, которой нет в блоке, метод завершится без ошибки, но ничего не изменит ||
+|#
+
+### Допустимые значения тега {#tag-values}
+
+Значение тега передается строкой. Пробелы в начале и конце значения удаляются, регистр не учитывается.
+
+#|
+|| **Значение** | **Описание** ||
+|| `h1` | Заголовок первого уровня ||
+|| `h2` | Заголовок второго уровня ||
+|| `h3` | Заголовок третьего уровня ||
+|| `h4` | Заголовок четвертого уровня ||
+|| `h5` | Заголовок пятого уровня ||
+|| `h6` | Заголовок шестого уровня ||
+|| `div` | Блочный контейнер ||
+|| `p` | Абзац ||
+|| `a` | Ссылка ||
+|| `span` | Строчный контейнер ||
+|#
+
+Если передать, например, ` H1 `, метод сохранит тег как `h1`. Если передать другое значение, метод использует `div`.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "lid": 311,
+        "block": 6058,
+        "data": {
+          ".landing-block-node-title@0": "h1",
+          ".landing-block-node-text@2": "p"
+        },
+        "preventHistory": true
+      }' \
+      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.block.changeNodeName.json"
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "lid": 311,
+        "block": 6058,
+        "data": {
+          ".landing-block-node-title@0": "h1",
+          ".landing-block-node-text@2": "p"
+        },
+        "preventHistory": true,
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/landing.block.changeNodeName.json"
+    ```
+
+- JS
 
     ```js
     try
@@ -53,26 +134,26 @@
     	const response = await $b24.callMethod(
     		'landing.block.changeNodeName',
     		{
-    			lid: 2006,
-    			block: 20476,
+    			lid: 311,
+    			block: 6058,
     			data: {
-    				'.landing-block-node-small-title@0': 'i',
-    				'.landing-block-node-small-title@1': 'u'
-    			}
+    				'.landing-block-node-title@0': 'h1',
+    				'.landing-block-node-text@2': 'p'
+    			},
+    			preventHistory: true
     		}
     	);
-    	
+
     	const result = response.getData().result;
     	console.info(result);
     }
-    catch( error )
+    catch (error)
     {
     	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -81,23 +162,21 @@
             ->call(
                 'landing.block.changeNodeName',
                 [
-                    'lid'   => 2006,
-                    'block' => 20476,
-                    'data'  => [
-                        '.landing-block-node-small-title@0' => 'i',
-                        '.landing-block-node-small-title@1' => 'u'
-                    ]
+                    'lid' => 311,
+                    'block' => 6058,
+                    'data' => [
+                        '.landing-block-node-title@0' => 'h1',
+                        '.landing-block-node-text@2' => 'p',
+                    ],
+                    'preventHistory' => true,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        echo 'Success: ' . var_export($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error changing node name: ' . $e->getMessage();
@@ -110,14 +189,15 @@
     BX24.callMethod(
         'landing.block.changeNodeName',
         {
-            lid: 2006,
-            block: 20476,
+            lid: 311,
+            block: 6058,
             data: {
-                '.landing-block-node-small-title@0': 'i',
-                '.landing-block-node-small-title@1': 'u'
-            }
+                '.landing-block-node-title@0': 'h1',
+                '.landing-block-node-text@2': 'p'
+            },
+            preventHistory: true
         },
-        function (result)
+        function(result)
         {
             if (result.error())
             {
@@ -131,6 +211,97 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'landing.block.changeNodeName',
+        [
+            'lid' => 311,
+            'block' => 6058,
+            'data' => [
+                '.landing-block-node-title@0' => 'h1',
+                '.landing-block-node-text@2' => 'p',
+            ],
+            'preventHistory' => true,
+        ]
+    );
+
+    if (isset($result['error']))
+    {
+        echo 'Ошибка: ' . $result['error_description'];
+    }
+    else
+    {
+        echo '<pre>';
+        print_r($result['result']);
+        echo '</pre>';
+    }
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1774510990,
+        "finish": 1774510990.1045,
+        "duration": 0.10450005531311035,
+        "processing": 0,
+        "date_start": "2026-03-26T10:43:10+03:00",
+        "date_finish": "2026-03-26T10:43:10+03:00",
+        "operating_reset_at": 1774511590,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../../data-types.md) | Результат изменения тега. Если запрос выполнен успешно, метод возвращает `true` ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Выполнение операции запрещено"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `MISSING_PARAMS` | Не передан обязательный параметр `lid`, `block` или `data` ||
+|| `LANDING_NOT_EXIST` | Страница с идентификатором `lid` не найдена или недоступна текущему пользователю ||
+|| `ACCESS_DENIED` | Недостаточно прав для редактирования сайта ||
+|| `TYPE_ERROR` | Параметр `data` передан в неверном формате или значение тега передано не строкой ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./landing-block-update-nodes.md)
+- [{#T}](./landing-block-change-anchor.md)
+- [{#T}](./landing-block-get-list.md)
+- [{#T}](./landing-block-get-manifest.md)

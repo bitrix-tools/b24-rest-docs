@@ -15,7 +15,7 @@
 #|
 || **Метод** | **Описание** | **С версии** ||
 || [landing.block.clonecard](./landing-block-clone-card.md) | Метод для клонирования карточки блока. | ||
-|| [landing.block.removecard](./landing-block-remove-card.md) | Метод для удаления блока | ||
+|| [landing.block.removecard](./landing-block-remove-card.md) | Метод для удаления карточки блока. | ||
 || [landing.block.updatenodes](./landing-block-update-nodes.md) | Метод для изменения контента блока. | ||
 || [landing.block.changeNodeName](./landing-block-change-node-name.md) | Метод изменяет название тега. | ||
 || [landing.block.updateattrs](./landing-block-update-attrs.md) | Метод для изменения атрибутов ноды блока. | ||
