@@ -1,45 +1,41 @@
 # Событие перед закрытием карточки CallCard::BeforeClose
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- уточнить права и скоуп
-- добавлен нестандартный блок "Подписка на событие"
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`telephony`](../../../scopes/permissions.md)
 >
-> Кто может подписаться: `любой пользователь`
+> Кто может подписаться: любой пользователь
 
-Событие `CallCard::BeforeClose` возникает перед закрытием карточки звонка. 
+Событие `CallCard::BeforeClose` возникает перед закрытием карточки звонка.
 
-В обработчик ничего не передается.
+{% note info "" %}
 
-## Подписка на событие
+Событие работает в контексте приложения в плейсменте `CALL_CARD`.
+
+{% endnote %}
+
+## Что получает обработчик
+
+В обработчик события данные не передаются.
+
+## Параметры подписки на событие
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **PLACEMENT***
+[`string`](../../../data-types.md) | Имя события интерфейса.
+
+Для данного события — `CallCard::BeforeClose` ||
+|| **HANDLER***
+[`string`](../../../data-types.md) | URL обработчика события для вызова `placement.bindEvent` ||
+|#
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"CallCard::BeforeClose","HANDLER":"**your_handler_url_here**"}' \
-    "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/placement.bindEvent"
-    ```
 
 - cURL (OAuth)
 
@@ -54,12 +50,53 @@
 - JS
 
     ```js
-    BX24.placement.bindEvent("CallCard::BeforeClose", function (callState) {
-        console.log(callState);
+    BX24.placement.bindEvent('CallCard::BeforeClose', function () {
+        console.log('Call card will be closed');
     });
     ```
 
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bindEvent',
+        [
+            'PLACEMENT' => 'CallCard::BeforeClose',
+            'HANDLER' => '**your_handler_url_here**'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bindEvent',
+        {
+            PLACEMENT: 'CallCard::BeforeClose',
+            HANDLER: '**your_handler_url_here**'
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

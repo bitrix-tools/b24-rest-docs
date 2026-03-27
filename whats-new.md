@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 27 марта, 2026
+
+- Обновили документацию по методам [getStatus](./api-reference/widgets/ui-interaction/call-card/get-status.md), [enableAutoClose](./api-reference/widgets/ui-interaction/call-card/enable-auto-close.md), [disableAutoClose](./api-reference/widgets/ui-interaction/call-card/disable-auto-close.md) и событиям [CallCard::EntityChanged](./api-reference/widgets/ui-interaction/call-card/call-card-entity-changed.md), [CallCard::CallStateChanged](./api-reference/widgets/ui-interaction/call-card/call-card-call-state-changed.md), [CallCard::BeforeClose](./api-reference/widgets/ui-interaction/call-card/call-card-before-close.md) в разделе Взаимодействие с карточкой звонка
+
 ### 26 марта, 2026
 
 - Обновили документацию по методам [documentgenerator.region.*](./api-reference/document-generator/region/index.md) в разделе Регионы в Генераторе документов

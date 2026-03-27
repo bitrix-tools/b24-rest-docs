@@ -1,60 +1,64 @@
 # Событие смены клиента CallCard::EntityChanged
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- уточнить права и скоуп
-- добавлен нестандартный блок "Подписка на событие"
-- нестандартный блок "Что получает обработчик"
-- не указана обязательность передаваемых параметров
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`telephony`](../../../scopes/permissions.md)
 >
-> Кто может подписаться: `любой пользователь`
+> Кто может подписаться: любой пользователь
 
-Событие `CallCard::EntityChanged` возникает при смене текущего клиента в режиме обзвона.
+Событие `CallCard::EntityChanged` возникает при смене текущего клиента в карточке звонка.
+
+{% note info "" %}
+
+Событие работает в контексте приложения в плейсменте `CALL_CARD`.
+
+{% endnote %}
 
 ## Что получает обработчик
 
-В обработчик события передается объект с указанными ниже полями.
+Данные передаются в callback `BX24.placement.bindEvent` {.b24-info}
+
+```js
+callback({
+    "PHONE_NUMBER": "+79001234567",
+    "CRM_ENTITY_TYPE": "CONTACT",
+    "CRM_ENTITY_ID": 123
+});
+```
+
+## Параметры обработчика события
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Параметр**
 `тип` | **Описание** ||
-|| **PHONE_NUMBER**
+|| **PHONE_NUMBER***
 [`string`](../../../data-types.md) | Номер телефона клиента ||
-|| **CRM_ENTITY_TYPE**
-[`string`](../../../data-types.md) | Тип связанного со звонком объекта CRM (`CONTACT`, `LEAD`, `COMPANY`) ||
-|| **CRM_ENTITY_ID**
-[`int`](../../../data-types.md) | id связанного со звонком объекта CRM ||
+|| **CRM_ENTITY_TYPE***
+[`string`](../../../data-types.md) | Тип связанного со звонком объекта CRM ||
+|| **CRM_ENTITY_ID***
+[`integer`](../../../data-types.md) | Идентификатор связанного со звонком объекта CRM ||
 |#
 
-## Подписка на событие
+## Параметры подписки на событие
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **PLACEMENT***
+[`string`](../../../data-types.md) | Имя события интерфейса.
+
+Для данного события — `CallCard::EntityChanged` ||
+|| **HANDLER***
+[`string`](../../../data-types.md) | URL обработчика события для вызова `placement.bindEvent` ||
+|#
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"CallCard::EntityChanged","HANDLER":"**your_handler_url_here**"}' \
-    "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/placement.bindEvent"
-    ```
 
 - cURL (OAuth)
 
@@ -69,12 +73,53 @@
 - JS
 
     ```js
-    BX24.placement.bindEvent("CallCard::EntityChanged", function (callState) {
-        console.log(callState);
+    BX24.placement.bindEvent('CallCard::EntityChanged', function (eventData) {
+        console.log(eventData);
     });
     ```
 
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bindEvent',
+        [
+            'PLACEMENT' => 'CallCard::EntityChanged',
+            'HANDLER' => '**your_handler_url_here**'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bindEvent',
+        {
+            PLACEMENT: 'CallCard::EntityChanged',
+            HANDLER: '**your_handler_url_here**'
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');

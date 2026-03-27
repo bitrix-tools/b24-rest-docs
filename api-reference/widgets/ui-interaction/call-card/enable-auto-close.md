@@ -1,48 +1,41 @@
 # Снять блокировку автозакрытия enableAutoClose
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- уточнить права и скоуп
-- нет блока "Обработка ответа"
-- нет блока "Обработка ошибок"
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`telephony`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод включает автоматическое закрытие карточки по завершении звонка. Если звонок уже завершен, карточка звонка будет закрыта.
+Метод `enableAutoClose` включает автоматическое закрытие карточки звонка.
 
-Без параметров.
+Если до вызова был активен таймер отложенного закрытия, карточка будет закрыта немедленно после выполнения метода.
+
+{% note info "" %}
+
+Метод работает в контексте приложения в плейсменте `CALL_CARD`.
+
+{% endnote %}
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **PLACEMENT***
+[`string`](../../../data-types.md) | Имя команды интерфейса.
+
+Для данного метода — `enableAutoClose` ||
+|| **PARAMS***
+[`object`](../../../data-types.md) | Объект параметров команды.
+
+Для данного метода передается пустой объект: `{}` ||
+|#
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Вызов метода плейсмента. Результат приходит в колбэке.
-
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"enableAutoClose","PARAMS":{}}' \
-    "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/placement.call"
-    ```
 
 - cURL (OAuth)
 
@@ -80,7 +73,78 @@
     echo '</PRE>';
     ```
 
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.call',
+        {
+            PLACEMENT: 'enableAutoClose',
+            PARAMS: {}
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.call',
+        [
+            'PLACEMENT' => 'enableAutoClose',
+            'PARAMS' => (object)[]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
+
+## Обработка ответа
+
+```json
+[]
+```
+
+### Возвращаемые данные
+
+Пустой массив при успешном вызове.
+
+## Обработка ошибок
+
+```json
+{
+    "error": "WRONG_AUTH_TYPE",
+    "error_description": "Application context required"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `WRONG_AUTH_TYPE` | Application context required | Метод вызван вне контекста приложения в плейсменте `CALL_CARD` ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

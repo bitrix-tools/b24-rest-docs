@@ -1,68 +1,78 @@
 # Событие смены статуса звонка CallCard::CallStateChanged
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- уточнить права и скоуп
-- добавлен нестандартный блок "Подписка на событие"
-- нестандартный блок "Что получает обработчик"
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`telephony`](../../../scopes/permissions.md)
 >
-> Кто может подписаться: `любой пользователь`
+> Кто может подписаться: любой пользователь
 
 Событие `CallCard::CallStateChanged` возникает при смене состояния текущего звонка.
 
+{% note info "" %}
+
+Событие работает в контексте приложения в плейсменте `CALL_CARD`.
+
+{% endnote %}
+
 ## Что получает обработчик
 
-В обработчик передаются указанные ниже аргументы.
+Данные передаются в callback `BX24.placement.bindEvent` {.b24-info}
+
+```js
+callback(
+    "idle",
+    {
+        "failedCode": "486"
+    }
+);
+```
+
+## Параметры обработчика события
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Параметр**
 `тип` | **Описание** ||
-|| **PHONE_NUMBER***
-[`callState`](../../../data-types.md) |  Текущее состояние звонка (`idle`, `connecting`, `connected`) ||
+|| **callState***
+[`string`](../../../data-types.md) | Текущее состояние звонка.
+
+Возможные значения:
+
+- `idle` — соединение отсутствует
+- `connecting` — выполняется установка соединения
+- `connected` — соединение установлено ||
 || **additionalParams**
-[`object`](../../../data-types.md) | Объект с дополнительными полями ||
+[`object`](../../../data-types.md) | Дополнительные данные [(подробное описание)](#additional_params) ||
 |#
 
-### Параметр data[]
+### Параметр additionalParams{#additional_params}
 
 #|
 || **Параметр**
 `тип` | **Описание** ||
 || **failedCode**
-[`string`](../../../data-types.md) | Код завершения звонка. Передается только в случае неуспешного завершения звонка при переходе в состояние `idle` ||
+[`string`](../../../data-types.md) | Код завершения звонка. Передается только при неуспешном завершении, когда `callState = idle` ||
 |#
 
-## Подписка на событие
+## Параметры подписки на событие
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **PLACEMENT***
+[`string`](../../../data-types.md) | Имя события интерфейса.
+
+Для данного события — `CallCard::CallStateChanged` ||
+|| **HANDLER***
+[`string`](../../../data-types.md) | URL обработчика события для вызова `placement.bindEvent` ||
+|#
+
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"CallCard::CallStateChanged","HANDLER":"**your_handler_url_here**"}' \
-    "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/placement.bindEvent"
-    ```
 
 - cURL (OAuth)
 
@@ -77,12 +87,53 @@
 - JS
 
     ```js
-    BX24.placement.bindEvent("CallCard::CallStateChanged", function (callState) {
-        console.log(callState);
+    BX24.placement.bindEvent('CallCard::CallStateChanged', function (callState, additionalParams) {
+        console.log(callState, additionalParams);
     });
     ```
 
 - PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bindEvent',
+        [
+            'PLACEMENT' => 'CallCard::CallStateChanged',
+            'HANDLER' => '**your_handler_url_here**'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bindEvent',
+        {
+            PLACEMENT: 'CallCard::CallStateChanged',
+            HANDLER: '**your_handler_url_here**'
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error(), result.error_description());
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
