@@ -1,30 +1,51 @@
 # Получить размеры фрейма BX24.getScrollSize
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+Метод `BX24.getScrollSize` возвращает размеры содержимого текущего фрейма в виде объекта с полями `scrollWidth` и `scrollHeight`.
 
 ```js
 Object BX24.getScrollSize()
 ```
 
-Функция `BX24.getScrollSize` вернет внутренние размеры фрейма приложения в виде объекта с полями **scrollWidth** и **scrollHeight**. Возвращаемые значения могут зависеть не только от размеров фрейма, но и от верстки приложения.
+## Параметры
 
-## Смотри также:
+Без параметров.
 
-- [BX24.resizeWindow](./bx24-resize-window.md)
-- [BX24.fitWindow](./bx24-fit-window.md)
+## Пример кода
+
+```js
+BX24.init(function () {
+    const size = BX24.getScrollSize();
+    console.log(size.scrollWidth, size.scrollHeight);
+});
+```
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Обработка ответа
+
+Метод синхронно возвращает объект с размерами содержимого.
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../api-reference/data-types.md) | Объект с размерами содержимого фрейма [(подробное описание)](#result) ||
+|#
+
+### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **scrollWidth**
+[`integer`](../../../api-reference/data-types.md) | Ширина содержимого фрейма в пикселях ||
+|| **scrollHeight**
+[`integer`](../../../api-reference/data-types.md) | Высота содержимого фрейма в пикселях ||
+|#
+
+## Продолжите изучение
+
+- [{#T}](./bx24-resize-window.md)
+- [{#T}](./bx24-fit-window.md)

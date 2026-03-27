@@ -5,6 +5,7 @@
 ### 27 марта, 2026
 
 - Обновили документацию по методам [getStatus](./api-reference/widgets/ui-interaction/call-card/get-status.md), [enableAutoClose](./api-reference/widgets/ui-interaction/call-card/enable-auto-close.md), [disableAutoClose](./api-reference/widgets/ui-interaction/call-card/disable-auto-close.md) и событиям [CallCard::EntityChanged](./api-reference/widgets/ui-interaction/call-card/call-card-entity-changed.md), [CallCard::CallStateChanged](./api-reference/widgets/ui-interaction/call-card/call-card-call-state-changed.md), [CallCard::BeforeClose](./api-reference/widgets/ui-interaction/call-card/call-card-before-close.md) в разделе Взаимодействие с карточкой звонка
+- Обновили документацию по методам [BX24.isAdmin](./sdk/bx24-js-sdk/additional-functions/bx24-is-admin.md), [BX24.fitWindow](./sdk/bx24-js-sdk/additional-functions/bx24-fit-window.md), [BX24.getScrollSize](./sdk/bx24-js-sdk/additional-functions/bx24-get-scroll-size.md), [BX24.reloadWindow](./sdk/bx24-js-sdk/additional-functions/bx24-reload-window.md), [BX24.resizeWindow](./sdk/bx24-js-sdk/additional-functions/bx24-resize-window.md), [BX24.getLang](./sdk/bx24-js-sdk/additional-functions/bx24-get-lang.md), [BX24.scrollParentWindow](./sdk/bx24-js-sdk/additional-functions/bx24-scroll-parent-window.md) в разделе Дополнительные функции BX24 JS SDK
 
 ### 26 марта, 2026
 
