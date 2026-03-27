@@ -107,8 +107,36 @@
 
 Параметр не является обязательным, но рекомендуется передавать его всегда, особенно для входящих звонков, чтобы корректно работали привязка линии и отчеты/аналитика телефонии ||
 || **EXTERNAL_CALL_ID**
-[`string`](../data-types.md) | Внешний идентификатор звонка на стороне АТС/интеграции. Используется для дедупликации повторной регистрации ||
+[`string`](../data-types.md) | Внешний идентификатор звонка на стороне АТС/интеграции.
+
+Рекомендуется передавать уникальное значение для каждого физического звонка, чтобы избежать возврата существующего `CALL_ID` при повторной регистрации в течение 30 минут ||
 |#
+
+## Особенности повторной регистрации
+
+Если метод `telephony.externalCall.register` вызывается повторно в течение 30 минут, Битрикс24 может вернуть уже существующий `CALL_ID` вместо создания новой регистрации.
+
+Для поиска существующей регистрации используются технические параметры звонка:
+- `PHONE_NUMBER`
+- `TYPE`
+- `USER_ID` или `USER_PHONE_INNER`
+- `LINE_NUMBER` (если передан)
+- `EXTERNAL_CALL_ID` (если передан)
+
+Поиск выполняется в рамках приложения и только среди регистраций за последние 30 минут.
+
+Поля CRM и времени старта не используются как ключ дедупликации:
+- `CRM_ENTITY_TYPE`
+- `CRM_ENTITY_ID`
+- `CALL_START_DATE`
+
+Чтобы гарантированно зарегистрировать каждый физический звонок как отдельный, передавайте уникальный `EXTERNAL_CALL_ID` для каждого вызова на стороне АТС/интеграции.
+
+{% note warning "" %}
+
+В сценариях click-to-call, когда звонок создается самим Битрикс24, внутренний вызов регистрации выполняется без `EXTERNAL_CALL_ID`. Поэтому в статистике у таких звонков поле `EXTERNAL_CALL_ID` обычно пустое.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -122,7 +150,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"USER_ID":1269,"PHONE_NUMBER":"79062195047","TYPE":2,"CRM_ENTITY_TYPE":"CONTACT","CRM_ENTITY_ID":797,"SHOW":1,"LINE_NUMBER":"3","auth":"**put_access_token_here**"}' \
+    -d '{"USER_ID":1269,"PHONE_NUMBER":"79062195047","TYPE":2,"CRM_ENTITY_TYPE":"CONTACT","CRM_ENTITY_ID":797,"SHOW":1,"LINE_NUMBER":"3","EXTERNAL_CALL_ID":"asterisk-1710140185.18441","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/telephony.externalCall.register
     ```
 
@@ -140,7 +168,8 @@
                 CRM_ENTITY_TYPE: 'CONTACT',
                 CRM_ENTITY_ID: 797,
                 SHOW: 1,
-                LINE_NUMBER: '3'
+                LINE_NUMBER: '3',
+                EXTERNAL_CALL_ID: 'asterisk-1710140185.18441'
             }
         );
         
@@ -169,7 +198,8 @@
                     'CRM_ENTITY_TYPE' => 'CONTACT',
                     'CRM_ENTITY_ID' => 797,
                     'SHOW' => 1,
-                    'LINE_NUMBER' => '3'
+                    'LINE_NUMBER' => '3',
+                    'EXTERNAL_CALL_ID' => 'asterisk-1710140185.18441'
                 ]
             );
 
@@ -198,7 +228,8 @@
             CRM_ENTITY_TYPE: 'CONTACT',
             CRM_ENTITY_ID: 797,
             SHOW: 1,
-            LINE_NUMBER: '3'
+            LINE_NUMBER: '3',
+            EXTERNAL_CALL_ID: 'asterisk-1710140185.18441'
         },
         function(result)
         {
@@ -228,7 +259,8 @@
             'CRM_ENTITY_TYPE' => 'CONTACT',
             'CRM_ENTITY_ID' => 797,
             'SHOW' => 1,
-            'LINE_NUMBER' => '3'
+            'LINE_NUMBER' => '3',
+            'EXTERNAL_CALL_ID' => 'asterisk-1710140185.18441'
         ]
     );
 
