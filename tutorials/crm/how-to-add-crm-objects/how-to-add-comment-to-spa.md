@@ -4,6 +4,12 @@
 >
 > Кто может выполнять метод: пользователи с правом на изменение элемента CRM
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 Ключевой параметр для добавления комментария в элемент CRM — [идентификатор типа объекта](../../../api-reference/crm/data-types.md#object_type). Идентификатор показывает, в какой тип объекта комментарий будет добавлен: в сделку, в лид, в определенный смарт-процесс.
 Идентификатор используется в параметрах `OWNER_TYPE`,  `OWNER_TYPE_ID` и `ENTITY_TYPE`, `ENTITY_TYPE_ID`  групп методов [crm.item.*](../../../api-reference/crm/universal/index.md), [crm.timeline.*](../../../api-reference/crm/timeline/index.md), [crm.activity.*](../../../api-reference/crm/timeline/activities/index.md). 
 

@@ -1,5 +1,11 @@
 # Как добавить действие для создания счета на основании лида или сделки
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 Пример универсальный для действий бизнес-процессов и роботов. Отличается только метод:
 - [bizproc.activity.add](../../api-reference/bizproc/bizproc-activity/bizproc-activity-add.md) — создать действие бизнес-процесса
 - [bizproc.robot.add](../../api-reference/bizproc/bizproc-robot/bizproc-robot-add.md) — создать робота
@@ -220,5 +226,4 @@ if (!empty($arData['COMPANY_ID']) || !empty($arData['CONTACT_ID']))
 }
 ?>
 ```
-
 

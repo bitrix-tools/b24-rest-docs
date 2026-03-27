@@ -1,5 +1,11 @@
 # Как добавить лиды и другие сущности
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 - [{#T}](./how-to-add-lead.md)
 - [{#T}](./how-to-add-lead-with-files.md)
 - [{#T}](./how-to-add-objects-with-crm-mode.md)
