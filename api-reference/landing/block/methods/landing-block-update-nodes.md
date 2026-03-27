@@ -53,10 +53,10 @@
 #|
 || **Тип ноды** | **Пример значения** ||
 || `text` | `'Новый текст блока'` или `{text: 'Новый текст блока'}` ||
-|| `img` | `{src: 'https://example.com/banner.jpg', alt: 'Новый баннер', src2x: 'https://example.com/banner@2x.jpg'}` ||
+|| `img` | `{src: 'https://example.com/a.jpg', alt: 'Баннер', src2x: 'https://example.com/a@2x.jpg'}` ||
 || `link` | `{text: 'Подробнее', href: 'https://example.com', target: '_blank', query: 'utm_source=test'}` ||
 || `icon` | `['fa', 'fa-telegram']` ||
-|| `embed` | `{src: '//www.youtube.com/embed/q4d8g9Dn3ww?autoplay=1&controls=0&loop=1&mute=1&rel=0', source: 'https://www.youtube.com/watch?v=q4d8g9Dn3ww', ratio: 'embed-responsive-16by9'}` ||
+|| `embed` | `{src: '//youtube.com/embed/123', source: 'https://youtube.com/watch?v=123'}` ||
 |#
 
 Форматы остальных типов нод описаны в статье [Типы нод](../node-types.md).
