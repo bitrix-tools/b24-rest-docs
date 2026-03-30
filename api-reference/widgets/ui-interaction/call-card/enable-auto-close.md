@@ -58,19 +58,28 @@
 - PHP
 
     ```php
-    require_once('crest.php');
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.call',
+                [
+                    'PLACEMENT' => 'enableAutoClose',
+                    'PARAMS' => []
+                ]
+            );
 
-    $result = CRest::call(
-        'placement.call',
-        [
-            'PLACEMENT' => 'enableAutoClose',
-            'PARAMS' => (object)[]
-        ]
-    );
+        $result = $response
+            ->getResponseData()
+            ->getResult();
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js
