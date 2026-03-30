@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 30 марта, 2026
+
+- Обновили документацию по методам [CallCardSetMute](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-mute.md), [CallCardSetHold](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-hold.md), [CallCardSetUiState](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-ui-state.md), [CallCardGetListUiStates](./api-reference/widgets/ui-interaction/page-background-worker/call-card-get-list-ui-states.md), [CallCardSetCardTitle](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-card-title.md), [CallCardSetStatusText](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-status-text.md), [CallCardClose](./api-reference/widgets/ui-interaction/page-background-worker/call-card-close.md) в разделе WebRTC — управление карточкой звонка
+  
 ### 27 марта, 2026
 
 - Обновили документацию по методам [getStatus](./api-reference/widgets/ui-interaction/call-card/get-status.md), [enableAutoClose](./api-reference/widgets/ui-interaction/call-card/enable-auto-close.md), [disableAutoClose](./api-reference/widgets/ui-interaction/call-card/disable-auto-close.md) и событиям [CallCard::EntityChanged](./api-reference/widgets/ui-interaction/call-card/call-card-entity-changed.md), [CallCard::CallStateChanged](./api-reference/widgets/ui-interaction/call-card/call-card-call-state-changed.md), [CallCard::BeforeClose](./api-reference/widgets/ui-interaction/call-card/call-card-before-close.md) в разделе Взаимодействие с карточкой звонка

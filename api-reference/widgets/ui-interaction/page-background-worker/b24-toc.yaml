@@ -13,7 +13,7 @@ items:
     href: call-card-set-ui-state.md
   - name: Получить список доступных состояний интерфейса карточки звонка
     href: call-card-get-list-ui-states.md
-  - name: Изменить титульник карточки звонка со стороны приложения
+  - name: Изменить заголовок карточки звонка со стороны приложения
     href: call-card-set-card-title.md
   - name: Изменить текст в центре карточки звонка со стороны приложения
     href: call-card-set-status-text.md
