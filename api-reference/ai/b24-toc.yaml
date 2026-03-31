@@ -1,4 +1,4 @@
-title: CoPilot
+title: BitrixGPT
 href: index.md
 items:
   - name: AI в Битрикс24
@@ -9,7 +9,3 @@ items:
     href: ai-engine-list.md
   - name: Удалить сервис
     href: ai-engine-unregister.md
-  - name: Промпты
-    include:
-      path: prompts/b24-toc.yaml
-      mode: link

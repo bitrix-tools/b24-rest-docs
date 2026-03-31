@@ -20,7 +20,11 @@
 
 {% note tip "" %}
 
+<<<<<<< Updated upstream
 Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+=======
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (ChatGPT, Claude, BitrixGPT), подключите [MCP-сервер](../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+>>>>>>> Stashed changes
 
 {% endnote %}
 
@@ -43,7 +47,6 @@
 {% note tip "Частые кейсы и сценарии" %}
 
 - [{#T}](../tutorials/crm/index.md)
-- [{#T}](../tutorials/ai/add-joke-prompt.md)
 
 {% endnote %}
 
@@ -80,7 +83,6 @@
 {% note tip "Частые кейсы и сценарии" %}
 
 - [{#T}](../tutorials/crm/index.md)
-- [{#T}](../tutorials/ai/add-joke-prompt.md)
 
 {% endnote %}
 

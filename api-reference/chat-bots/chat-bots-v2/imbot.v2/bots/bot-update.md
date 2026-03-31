@@ -56,7 +56,8 @@
 || **workPosition**
 [`string`](../../../../data-types.md) | Должность бота (отображается в профиле) ||
 || **color**
-[`string`](../../../../data-types.md) | Цвет аватара в формате HEX ||
+[`string`](../../../../data-types.md) | Цвет аватара, [доступные цвета](../chats/chat-add.md#available-colors). 
+Если указан некорректно — игнорируется ||
 || **gender**
 [`string`](../../../../data-types.md) | Пол. Допустимые значения: `M`, `F` ||
 || **avatar**
@@ -131,10 +132,10 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'result: ' . print_r($result, true);
+        echo 'result: '. print_r($result, true);
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        echo 'Error: ' . $exception->getMessage();
+        echo 'Error: '. $exception->getMessage();
     }
     ```
 
@@ -177,7 +178,7 @@
     );
 
     if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
+        echo 'Error: '. $result['error_description'];
     } else {
         echo 'Success';
     }
@@ -238,12 +239,68 @@ HTTP-код: **200**
 || **result**
 [`object`](../../../../data-types.md) | Результат обновления ||
 || **result.bot**
-[`Bot`](../../entities.md#bot) | Обновленный объект бота в расширенном формате. Описание полей объекта — [Bot](../../entities.md#bot) ||
+[`Bot`](../../entities.md#bot) | Обновленный объект бота в расширенном формате [(подробное описание)](#bot-object) ||
 || **result.users**
-[`User[]`](../../entities.md#user) | Массив связанных пользователей. Описание полей объекта — [User](../../entities.md#user) ||
+[`User[]`](../../entities.md#user) | Массив связанных пользователей [(подробное описание)](#user-object) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+### Поля объекта Bot {#bot-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор бота ||
+|| **code**
+[`string`](../../../../data-types.md) | Символьный код бота ||
+|| **type**
+[`string`](../../../../data-types.md) | Тип бота ||
+|| **isHidden**
+[`boolean`](../../../../data-types.md) | Бот скрыт от списка контактов ||
+|| **isSupportOpenline**
+[`boolean`](../../../../data-types.md) | Бот поддерживает открытые линии ||
+|| **isReactionsEnabled**
+[`boolean`](../../../../data-types.md) | Для сообщений бота включены реакции ||
+|| **backgroundId**
+[`integer`](../../../../data-types.md) | Идентификатор фона чата ||
+|| **language**
+[`string`](../../../../data-types.md) | Язык бота ||
+|| **moduleId**
+[`string`](../../../../data-types.md) | Идентификатор модуля ||
+|| **appId**
+[`integer`](../../../../data-types.md) | Идентификатор приложения или `0`, если бот не привязан к приложению ||
+|| **eventMode**
+[`string`](../../../../data-types.md) | Режим доставки событий: `webhook` или `fetch` ||
+|| **countMessage**
+[`integer`](../../../../data-types.md) | Количество сообщений, отправленных ботом ||
+|| **countCommand**
+[`integer`](../../../../data-types.md) | Количество зарегистрированных команд ||
+|| **countChat**
+[`integer`](../../../../data-types.md) | Количество чатов бота ||
+|| **countUser**
+[`integer`](../../../../data-types.md) | Количество пользователей, взаимодействовавших с ботом ||
+|#
+
+### Поля объекта User {#user-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор пользователя ||
+|| **active**
+[`boolean`](../../../../data-types.md) | Пользователь активен ||
+|| **name**
+[`string`](../../../../data-types.md) | Имя и фамилия пользователя ||
+|| **bot**
+[`boolean`](../../../../data-types.md) | Признак пользователя-бота ||
+|| **type**
+[`string`](../../../../data-types.md) | Тип пользователя ||
+|#
+
+Полное описание всех полей объектов — на странице [Объекты и поля](../../entities.md)
 
 ## Обработка ошибок
 
@@ -280,3 +337,5 @@ HTTP-статус: **400**, **403**
 - [{#T}](./bot-get.md)
 - [{#T}](./bot-list.md)
 - [{#T}](./bot-unregister.md)
+
+

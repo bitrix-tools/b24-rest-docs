@@ -2,9 +2,14 @@
 
 ## 2026
 
+### 31 марта, 2026
+
+- Обновили документацию по событиям [BackgroundCallCard*](./api-reference/widgets/ui-interaction/page-background-worker/events/index.md) в разделе WebRTC — управление карточкой звонка
+
 ### 30 марта, 2026
 
 - Обновили документацию по методам [CallCardSetMute](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-mute.md), [CallCardSetHold](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-hold.md), [CallCardSetUiState](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-ui-state.md), [CallCardGetListUiStates](./api-reference/widgets/ui-interaction/page-background-worker/call-card-get-list-ui-states.md), [CallCardSetCardTitle](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-card-title.md), [CallCardSetStatusText](./api-reference/widgets/ui-interaction/page-background-worker/call-card-set-status-text.md), [CallCardClose](./api-reference/widgets/ui-interaction/page-background-worker/call-card-close.md) в разделе WebRTC — управление карточкой звонка
+- Обновили документацию по методам [landing.template.getLandingRef](./api-reference/landing/template/landing-template-get-landing-ref.md), [landing.template.getSiteRef](./api-reference/landing/template/landing-template-get-site-ref.md), [landing.template.getlist](./api-reference/landing/template/landing-template-get-list.md), [landing.template.setLandingRef](./api-reference/landing/template/landing-template-set-landing-ref.md), [landing.template.setSiteRef](./api-reference/landing/template/landing-template-set-site-ref.md) в разделе Объект Шаблон представления
   
 ### 27 марта, 2026
 

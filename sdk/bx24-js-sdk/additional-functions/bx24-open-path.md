@@ -1,75 +1,72 @@
 # Открыть путь в слайдере BX24.openPath
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Метод `BX24.openPath` открывает указанный путь внутри Битрикс24 в слайдере.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+```js
+void BX24.openPath(String path[, Function callback])
+```
 
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-Метод `BX24.openPath` открывает указанный путь внутри портала в слайдере.
-
-{% note warning %}
+{% note warning "" %}
 
 По соображениям безопасности метод не работает в мобильном приложении.
 
 {% endnote %}
 
-{% note info %}
-
-С версии 22.300 может открывать смарт-процессы.
-
-{% endnote %}
-
 ## Параметры
 
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
 #|
-|| **Параметр** | **Описание** | **С версии** ||
-|| **path**
-[`unknown`](../../../api-reference/data-types.md) | Путь внутри портала, может начинаться с: 
-```
-^\/(crm\/(deal|lead|contact|company|type)|marketplace|company\/personal\/user\/[0-9]+|workgroups\/group\/[0-9]+)\/
-```
- | ||
+|| **Название**
+`тип` | **Описание** ||
+|| **path***
+`string` | Путь внутри Битрикс24. Поддерживаются префиксы:
+
+- `/crm/deal/` — карточки и разделы сделок CRM
+- `/crm/lead/` — карточки и разделы лидов CRM
+- `/crm/contact/` — карточки и разделы контактов CRM
+- `/crm/company/` — карточки и разделы компаний CRM
+- `/crm/type/` — смарт-процессы CRM
+- `/marketplace/` — страницы Маркетплейса
+- `/company/personal/user/{ID}/` — профиль пользователя
+- `/workgroups/group/{ID}/` — рабочая группа или проект ||
 || **callback**
-[`unknown`](../../../api-reference/data-types.md) | функция вызывается в 2 случаях:
-- при ошибке открытия
-- если указанный путь нет возможности открыть: `{result: "error", errorCode: "PATH_NOT_AVAILABLE"}`
-- в мобильном приложении: `{result: "error", errorCode: "METHOD_NOT_SUPPORTED_ON_DEVICE"}`
-- при закрытии слайда: `{result: "close"}` | ||
+`function` | Функция обратного вызова. Вызывается при ошибке открытия пути или при закрытии слайдера ||
 |#
 
-## Пример:
+Перед открытием SDK автоматически добавляет к пути служебные параметры:
+`from=rest_placement&from_app={appId}`.
+
+## Пример кода
 
 ```js
-<script src="//api.bitrix24.tech/api/v1/"></script>
-<script>
-    BX24.init(
-        function()
-        {
-            BX24.openPath(
-                '/crm/deal/details/5/',
-                function(result)
-                {
-                    console.log(result);
-                }
-            );
-        }
-    );
-</script>
+BX24.init(function () {
+    BX24.openPath('/crm/deal/details/5/', function (result) {
+        console.log(result);
+    });
+});
 ```
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Обработка ответа
+
+Метод не возвращает данные (`void`).
+
+Если передан `callback`, в него приходит объект результата.
+
+### Результат callback
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+`string` | Статус выполнения: `close` или `error` ||
+|| **errorCode**
+`string` | Код ошибки. Передается только при `result: "error"`. Возможные значения: `PATH_NOT_AVAILABLE`, `METHOD_NOT_SUPPORTED_ON_DEVICE` ||
+|#
+
+## Продолжите изучение
+
+- [{#T}](./bx24-open-application.md)
+- [{#T}](./bx24-close-application.md)

@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Быстрый старт
     href: quick-start.md
-  - name: Поля объектов
+  - name: Объекты и поля
     href: entities.md
   - name: Миграция с imbot на imbot.v2
     href: migration.md    

@@ -1,66 +1,76 @@
 # Удалить сервис ai.engine.unregister
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-- не прописаны ссылки на несозданные ещё страницы.
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`ai_admin`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод для удаления [engine](./ai-engine-register.md).
+Метод `ai.engine.unregister` удаляет зарегистрированный AI-сервис.
+
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
-|| **Параметры** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **code**
-[`unknown`](../data-types.md) | Код engine ||
+[`string`](../data-types.md) | Символьный код удаляемого сервиса ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "code": "acme_gpt"
+      }' \
+      https://**put_your_bitrix24_address**/rest/**put_your_webhook_id**/**put_your_webhook_code**/ai.engine.unregister.json
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "code": "acme_gpt",
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/ai.engine.unregister
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'ai.engine.unregister',
-    		{
-    			code: 'ivanov_gpt',
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+        const response = await $b24.callMethod(
+            'ai.engine.unregister',
+            {
+                code: 'acme_gpt'
+            }
+        );
+
+        const result = response.getData().result;
+        console.log('Engine removed:', result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error(error);
+        console.error('Error:', error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -69,18 +79,15 @@
             ->call(
                 'ai.engine.unregister',
                 [
-                    'code' => 'ivanov_gpt',
+                    'code' => 'acme_gpt',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error unregistering AI engine: ' . $e->getMessage();
@@ -89,30 +96,86 @@
 
 - BX24.js
 
-    ```js
+    ```javascript
     BX24.callMethod(
         'ai.engine.unregister',
         {
-            code: 'ivanov_gpt',
+            code: 'acme_gpt'
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
             {
-                console.error(result.error());
+                console.error(result.error(), result.error_description());
             }
             else
             {
-                console.info(result.data());
+                console.log(result.data());
             }
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'ai.engine.unregister',
+        [
+            'code' => 'acme_gpt',
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
+HTTP-статус: **200**
 
-В случае успеха возвращает `true`.
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1774078200,
+        "finish": 1774078200.184271,
+        "duration": 0.18427085876464844,
+        "processing": 0.03,
+        "date_start": "2026-03-20T09:50:00+03:00",
+        "date_finish": "2026-03-20T09:50:00+03:00",
+        "operating_reset_at": 1774078800,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../data-types.md) | Результат удаления сервиса:
+
+- `true` — сервис удален
+- `false` — сервис не найден, не принадлежит текущему приложению или удаление не выполнено ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+{% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./ai-engine-register.md)
+- [{#T}](./ai-engine-list.md)

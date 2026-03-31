@@ -19,7 +19,7 @@ items:
     include:
       path: call-card/b24-toc.yaml
       mode: link
-  - name: WebRTC - управление карточкой звонка
+  - name: WebRTC — управление карточкой звонка
     include:
       path: page-background-worker/b24-toc.yaml
       mode: link

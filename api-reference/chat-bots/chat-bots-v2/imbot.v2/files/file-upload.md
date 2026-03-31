@@ -116,10 +116,10 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'result: ' . print_r($result, true);
+        echo 'result: '. print_r($result, true);
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        echo 'Error: ' . $exception->getMessage();
+        echo 'Error: '. $exception->getMessage();
     }
     ```
 
@@ -162,9 +162,9 @@
     );
 
     if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
+        echo 'Error: '. $result['error_description'];
     } else {
-        echo 'File ID: ' . $result['result']['file']['id'];
+        echo 'File ID: '. $result['result']['file']['id'];
     }
     ```
 
@@ -207,7 +207,7 @@ HTTP-код: **200**
 || **result**
 [`object`](../../../../data-types.md) | Результат операции ||
 || **result.file**
-[`File`](../../entities.md#file) | Данные загруженного файла. Описание полей объекта — [File](../../entities.md#file) ||
+[`File`](../../entities.md#file) | Данные загруженного файла [(подробное описание)](#file-object) ||
 || **result.messageId**
 [`integer`](../../../../data-types.md) | ID созданного сообщения с файлом ||
 || **result.chatId**
@@ -217,6 +217,25 @@ HTTP-код: **200**
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+### Поля объекта File {#file-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор файла ||
+|| **chatId**
+[`integer`](../../../../data-types.md) | Идентификатор чата ||
+|| **name**
+[`string`](../../../../data-types.md) | Имя файла ||
+|| **extension**
+[`string`](../../../../data-types.md) | Расширение файла ||
+|| **size**
+[`integer`](../../../../data-types.md) | Размер файла в байтах ||
+|#
+
+Полное описание всех полей объектов — на странице [Объекты и поля](../../entities.md)
 
 ## Обработка ошибок
 
