@@ -1,10 +1,10 @@
 title: Справочник REST API
 href: index.md
-items: 
+items:
   - name: Инструменты и сценарии
-    href: index.md 
+    href: index.md
   - name: Типы данных и форматы параметров
-    href: data-types.md 
+    href: data-types.md
   - name: Скоупы методов
     include:
       path: scopes/b24-toc.yaml
@@ -16,7 +16,7 @@ items:
   - name: REST 3.0
     include:
       path: rest-v3/b24-toc.yaml
-      mode: link     
+      mode: link
   - name: События
     include:
       path: events/b24-toc.yaml
@@ -28,11 +28,11 @@ items:
   - name: BIconnector
     include:
       path: biconnector/b24-toc.yaml
-      mode: link       
-  - name: CoPilot
+      mode: link
+  - name: BitrixGPT
     include:
       path: ai/b24-toc.yaml
-      mode: link 
+      mode: link
   - name: CRM
     include:
       path: crm/b24-toc.yaml
@@ -80,7 +80,7 @@ items:
   - name: Опросы, голосования
     include:
       path: vote/b24-toc.yaml
-      mode: link      
+      mode: link
   - name: Открытые линии
     include:
       path: imopenlines/b24-toc.yaml

@@ -15,10 +15,6 @@ items:
     include:
       path: bizproc/b24-toc.yaml
       mode: link
-  - name: CoPilot Битрикс24
-    include:
-      path: ai/b24-toc.yaml
-      mode: link
   - name: Чат-боты
     include:
       path: chat-bots/b24-toc.yaml
