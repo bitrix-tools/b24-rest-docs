@@ -33,8 +33,6 @@ items:
     include:
       path: voximplant/b24-toc.yaml
       mode: link
-  - name: Виджеты
-    href: widgets.md
   - name: Получить список звонков
     href: voximplant-statistic-get.md
 
