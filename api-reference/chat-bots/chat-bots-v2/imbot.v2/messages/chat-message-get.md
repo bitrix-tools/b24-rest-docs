@@ -91,10 +91,10 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'result: ' . print_r($result, true);
+        echo 'result: '. print_r($result, true);
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        echo 'Error: ' . $exception->getMessage();
+        echo 'Error: '. $exception->getMessage();
     }
     ```
 
@@ -131,9 +131,9 @@
     );
 
     if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
+        echo 'Error: '. $result['error_description'];
     } else {
-        echo 'Message: ' . $result['result']['message']['text'];
+        echo 'Message: '. $result['result']['message']['text'];
     }
     ```
 
@@ -185,12 +185,58 @@ HTTP-код: **200**
 || **result**
 [`object`](../../../../data-types.md) | Результат запроса ||
 || **result.message**
-[`Message`](../../entities.md#message) | Объект сообщения. Описание полей — [Message](../../entities.md#message) ||
+[`Message`](../../entities.md#message) | Объект сообщения [(подробное описание)](#message-object) ||
 || **result.user**
-[`User`](../../entities.md#user) | Автор сообщения. Описание полей — [User](../../entities.md#user) ||
+[`User`](../../entities.md#user) | Автор сообщения [(подробное описание)](#user-object) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+### Поля объекта Message {#message-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор сообщения ||
+|| **chatId**
+[`integer`](../../../../data-types.md) | Идентификатор чата ||
+|| **authorId**
+[`integer`](../../../../data-types.md) | Идентификатор автора сообщения ||
+|| **date**
+[`string`](../../../../data-types.md) | Дата отправки сообщения ||
+|| **text**
+[`string`](../../../../data-types.md) | Текст сообщения ||
+|| **isSystem**
+[`boolean`](../../../../data-types.md) | Системное сообщение ||
+|| **uuid**
+[`string`](../../../../data-types.md) | Внешний идентификатор сообщения ||
+|| **forward**
+[`object`](../../../../data-types.md) | Данные о пересланном сообщении ||
+|| **params**
+[`object`](../../../../data-types.md) | Дополнительные параметры сообщения ||
+|| **viewedByOthers**
+[`boolean`](../../../../data-types.md) | Сообщение просмотрено другими участниками ||
+|#
+
+### Поля объекта User {#user-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор пользователя ||
+|| **active**
+[`boolean`](../../../../data-types.md) | Пользователь активен ||
+|| **name**
+[`string`](../../../../data-types.md) | Имя и фамилия пользователя ||
+|| **bot**
+[`boolean`](../../../../data-types.md) | Признак пользователя-бота ||
+|| **type**
+[`string`](../../../../data-types.md) | Тип пользователя ||
+|#
+
+Полное описание всех полей объектов — на странице [Объекты и поля](../../entities.md)
 
 ## Обработка ошибок
 

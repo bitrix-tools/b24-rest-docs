@@ -83,10 +83,10 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'result: ' . print_r($result, true);
+        echo 'result: '. print_r($result, true);
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        echo 'Error: ' . $exception->getMessage();
+        echo 'Error: '. $exception->getMessage();
     }
     ```
 
@@ -123,9 +123,9 @@
     );
 
     if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
+        echo 'Error: '. $result['error_description'];
     } else {
-        echo 'Chat name: ' . $result['result']['chat']['name'];
+        echo 'Chat name: '. $result['result']['chat']['name'];
     }
     ```
 
@@ -173,10 +173,45 @@ HTTP-код: **200**
 || **result**
 [`object`](../../../../data-types.md) | Результат запроса ||
 || **result.chat**
-[`Chat`](../../entities.md#chat) | Объект чата. Описание полей объекта — [Chat](../../entities.md#chat) ||
+[`Chat`](../../entities.md#chat) | Объект чата [(подробное описание)](#chat-object) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+### Поля объекта Chat {#chat-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор чата ||
+|| **dialogId**
+[`string`](../../../../data-types.md) | Идентификатор диалога ||
+|| **name**
+[`string`](../../../../data-types.md) | Название чата ||
+|| **description**
+[`string`](../../../../data-types.md) | Описание чата ||
+|| **owner**
+[`integer`](../../../../data-types.md) | Идентификатор владельца чата ||
+|| **color**
+[`string`](../../../../data-types.md) | Цвет чата ||
+|| **avatar**
+[`string`](../../../../data-types.md) | URL аватара ||
+|| **type**
+[`string`](../../../../data-types.md) | Тип чата ||
+|| **role**
+[`string`](../../../../data-types.md) | Роль бота в чате ||
+|| **dateCreate**
+[`string`](../../../../data-types.md) | Дата создания чата ||
+|| **lastMessageId**
+[`integer`](../../../../data-types.md) | Идентификатор последнего сообщения ||
+|| **muteList**
+[`array`](../../../../data-types.md) | Список пользователей с отключенными уведомлениями ||
+|| **managerList**
+[`array`](../../../../data-types.md) | Список администраторов чата ||
+|#
+
+Полное описание всех полей объектов — на странице [Объекты и поля](../../entities.md)
 
 ## Обработка ошибок
 
@@ -209,3 +244,5 @@ HTTP-статус: **400**, **403**
 - [{#T}](./chat-add.md)
 - [{#T}](./chat-update.md)
 - [{#T}](./chat-user-list.md)
+
+

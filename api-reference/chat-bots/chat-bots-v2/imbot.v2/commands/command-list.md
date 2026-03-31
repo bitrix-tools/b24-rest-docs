@@ -79,10 +79,10 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'result: ' . print_r($result, true);
+        echo 'result: '. print_r($result, true);
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        echo 'Error: ' . $exception->getMessage();
+        echo 'Error: '. $exception->getMessage();
     }
     ```
 
@@ -117,7 +117,7 @@
     );
 
     if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
+        echo 'Error: '. $result['error_description'];
     } else {
         print_r($result['result']['commands']);
     }
@@ -166,10 +166,39 @@ HTTP-код: **200**
 || **result**
 [`object`](../../../../data-types.md) | Результат операции ||
 || **result.commands**
-[`Command[]`](../../entities.md#command) | Массив команд бота. Описание полей объекта — [Command](../../entities.md#command) ||
+[`Command[]`](../../entities.md#command) | Массив команд бота [(подробное описание)](#command-object) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+### Поля объекта Command {#command-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор команды ||
+|| **botId**
+[`integer`](../../../../data-types.md) | Идентификатор бота ||
+|| **command**
+[`string`](../../../../data-types.md) | Текст команды ||
+|| **title**
+[`object`](../../../../data-types.md) | Локализованные заголовки команды ||
+|| **params**
+[`object`](../../../../data-types.md) | Локализованные описания параметров ||
+|| **common**
+[`boolean`](../../../../data-types.md) | Команда доступна во всех чатах ||
+|| **hidden**
+[`boolean`](../../../../data-types.md) | Команда скрыта из списка команд ||
+|| **extranetSupport**
+[`boolean`](../../../../data-types.md) | Команда доступна экстранет-пользователям ||
+|| **category**
+[`string`](../../../../data-types.md) | Категория команды ||
+|| **context**
+[`array`](../../../../data-types.md) | Контексты использования команды ||
+|#
+
+Полное описание всех полей объектов — на странице [Объекты и поля](../../entities.md)
 
 ## Обработка ошибок
 
@@ -202,3 +231,5 @@ HTTP-статус: **400**, **403**
 - [{#T}](./command-update.md)
 - [{#T}](./command-unregister.md)
 - [{#T}](./command-answer.md)
+
+

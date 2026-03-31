@@ -93,10 +93,10 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'result: ' . print_r($result, true);
+        echo 'result: '. print_r($result, true);
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        echo 'Error: ' . $exception->getMessage();
+        echo 'Error: '. $exception->getMessage();
     }
     ```
 
@@ -135,10 +135,10 @@
     );
 
     if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
+        echo 'Error: '. $result['error_description'];
     } else {
         foreach ($result['result']['messages'] as $message) {
-            echo $message['id'] . ': ' . $message['text'] . "\n";
+            echo $message['id']. ': '. $message['text']. "\n";
         }
     }
     ```
@@ -216,9 +216,9 @@ HTTP-код: **200**
 || **result**
 [`object`](../../../../data-types.md) | Результат запроса ||
 || **result.messages**
-[`Message[]`](../../entities.md#message) | Массив сообщений от старых к новым. Описание полей — [Message](../../entities.md#message) ||
+[`Message[]`](../../entities.md#message) | Массив сообщений от старых к новым [(подробное описание)](#message-object) ||
 || **result.users**
-[`User[]`](../../entities.md#user) | Авторы сообщений. Описание полей — [User](../../entities.md#user) ||
+[`User[]`](../../entities.md#user) | Авторы сообщений [(подробное описание)](#user-object) ||
 || **result.hasPrevPage**
 [`boolean`](../../../../data-types.md) | Есть ли более ранние сообщения ||
 || **result.hasNextPage**
@@ -226,6 +226,52 @@ HTTP-код: **200**
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+### Поля объекта Message {#message-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор сообщения ||
+|| **chatId**
+[`integer`](../../../../data-types.md) | Идентификатор чата ||
+|| **authorId**
+[`integer`](../../../../data-types.md) | Идентификатор автора сообщения ||
+|| **date**
+[`string`](../../../../data-types.md) | Дата отправки сообщения ||
+|| **text**
+[`string`](../../../../data-types.md) | Текст сообщения ||
+|| **isSystem**
+[`boolean`](../../../../data-types.md) | Системное сообщение ||
+|| **uuid**
+[`string`](../../../../data-types.md) | Внешний идентификатор сообщения ||
+|| **forward**
+[`object`](../../../../data-types.md) | Данные о пересланном сообщении ||
+|| **params**
+[`object`](../../../../data-types.md) | Дополнительные параметры сообщения ||
+|| **viewedByOthers**
+[`boolean`](../../../../data-types.md) | Сообщение просмотрено другими участниками ||
+|#
+
+### Поля объекта User {#user-object}
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор пользователя ||
+|| **active**
+[`boolean`](../../../../data-types.md) | Пользователь активен ||
+|| **name**
+[`string`](../../../../data-types.md) | Имя и фамилия пользователя ||
+|| **bot**
+[`boolean`](../../../../data-types.md) | Признак пользователя-бота ||
+|| **type**
+[`string`](../../../../data-types.md) | Тип пользователя ||
+|#
+
+Полное описание всех полей объектов — на странице [Объекты и поля](../../entities.md)
 
 ### Пагинация
 
@@ -262,3 +308,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./chat-message-get.md)
 - [{#T}](./chat-message-send.md)
 - [{#T}](../../index.md#bot-types)
+
