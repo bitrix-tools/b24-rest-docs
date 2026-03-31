@@ -8,28 +8,36 @@
 
 ![sip_app1](_images/card1.png)
 
-Чтобы изменить титульник карточки (область 1), требуется вызвать метод [CallCardSetCardTitle](.) и передать объект со свойством **title**.
+Чтобы изменить заголовок карточки (область 1), требуется вызвать метод [CallCardSetCardTitle](./call-card-set-card-title.md) и передать объект со свойством `title`.
 
 ```js
-BX24.placement.call('CallCardSetCardTitle', {title: 'Card Title'}, () => { //some code });
+BX24.placement.call('CallCardSetCardTitle', { title: 'Card Title' }, () => {
+    // some code
+});
 ```
 
-Чтобы изменить текст в области 2, требуется вызвать метод [CallCardSetStatusText](.) и передать объект со свойством **statusText**.
+Чтобы изменить текст в области 2, требуется вызвать метод [CallCardSetStatusText](./call-card-set-status-text.md) и передать объект со свойством `statusText`.
 
 ```js
-BX24.placement.call('CallCardSetStatusText', {statusText: 'Status Text'}, () => { //some code });
+BX24.placement.call('CallCardSetStatusText', { statusText: 'Status Text' }, () => {
+    // some code
+});
 ```
 
-Всего у карточки звонка 12 состояний интерфейса. Получить их можно с помощью вызова метода [CallCardGetListUiStates](.). В функцию обратного вызова будет передан массив с доступными состояния карточки звонка.
+Всего у карточки звонка 12 состояний интерфейса. Получить их можно с помощью вызова метода [CallCardGetListUiStates](./call-card-get-list-ui-states.md). В функцию обратного вызова будет передан массив с доступными состояниями карточки звонка.
 
 ```js
-BX24.placement.call('CallCardGetListUiStates', (data) => { console.log(data); });
+BX24.placement.call('CallCardGetListUiStates', {}, (data) => {
+    console.log(data);
+});
 ```
 
-Переход на другое состояние карточки осуществляется вызовом метода [CallCardSetUiState](.) с передачей туда объекта со свойством **uiState**.
+Переход на другое состояние карточки осуществляется вызовом метода [CallCardSetUiState](./call-card-set-ui-state.md) с передачей туда объекта со свойством `uiState`.
 
 ```js
-BX24.placement.call('CallCardSetUiState', { uiState: 'connected'}, () => { //some code });
+BX24.placement.call('CallCardSetUiState', { uiState: 'connected' }, () => {
+    // some code
+});
 ```
 
 Чтобы обрабатывать нажатия оператором кнопок в карточке звонка, требуется подписаться на соответствующие события.
@@ -66,12 +74,12 @@ BX24.placement.call('CallCardSetUiState', { uiState: 'connected'}, () => { //som
 - Завершить - `BackgroundCallCard::hangupButtonClick` ||
 || [error](*error) | Если произошла некоторая ошибка |
 - Закрыть - `BackgroundCallCard::closeButtonClick` ||
-|| [moneyError](*moneyError) | Если на счету закончились деньги и требуется проиформировать об этом администратора портала |
+|| [moneyError](*moneyError) | Если на счету закончились деньги и требуется проинформировать об этом администратора портала |
 - Уведомить администратора - `BackgroundCallCard::notifyAdminButtonClick`
 - Закрыть - `BackgroundCallCard::closeButtonClick` ||
 || [redial](*redial) | Если абонент занят, дать возможность оператору повторно позвонить на этот номер, не скрывая карточку звонка |
 - Перезвонить - `BackgroundCallCard::makeCallButtonClick` ||
-|| **Таймер в карточке звонка** | По умолчанию, при переходе на состояние **connected** автоматически включается таймер звонка. Данное поведение можно отключить, передав помимо `uiState: 'connected'` еще свойство `disableAutoStartTimer` со значением `true`. При переходе же на другие состояния таймер будет останавливаться. | ||
+|| Таймер в карточке звонка | По умолчанию, при переходе на состояние `connected` автоматически включается таймер звонка. Данное поведение можно отключить, передав помимо `uiState: 'connected'` еще свойство `disableAutoStartTimer` со значением `true`. При переходе же на другие состояния таймер будет останавливаться. | ||
 |#
 
 [*incoming]: ![incoming](_images/card01-02.png)

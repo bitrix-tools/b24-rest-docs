@@ -7,11 +7,11 @@ items:
     href: initialized.md
   - name: При сохранении комментария в карточке звонка
     href: add-comment-button-click.md
-  - name: По нажатию на кнопку выключения микрофона
+  - name: При нажатии на кнопку выключения микрофона
     href: mute-button-click.md
-  - name: По нажатию на кнопку удержания звонка
+  - name: При нажатии на кнопку удержания звонка
     href: hold-button-click.md
-  - name: По нажатию на кнопку завершения звонка
+  - name: При нажатии на кнопку закрытия карточки звонка
     href: close-button-click.md
   - name: При выборе оператора, на которого текущий оператор хочет перевести звонок
     href: transfer-button-click.md
@@ -27,13 +27,13 @@ items:
     href: skip-button-click.md
   - name: При нажатии на кнопку «ответить»
     href: answer-button-click.md
-  - name: В карточке обзвона при смене текущего обзваниемого
+  - name: В карточке обзвона при смене текущего обзваниваемого
     href: entity-changed.md
-  - name: При нажатии на кнопку «перезвонить»
+  - name: При нажатии на кнопку «позвонить» или «перезвонить»
     href: make-call-button-click.md
   - name: При оценке качества связи
     href: quality-meter-click.md
-  - name: По нажатию на одну из цифровых кнопок телефона
+  - name: При нажатии на одну из цифровых кнопок телефона
     href: dialpad-button-click.md
   - name: При нажатии на кнопку «уведомить администратора»
     href: notify-admin-button-click.md
