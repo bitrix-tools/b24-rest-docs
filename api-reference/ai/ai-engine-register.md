@@ -381,7 +381,7 @@ HTTP-статус: **400**
 || `ENGINE_REGISTER_ERROR_CATEGORY` | Ключ `category` обязателен | Не передан параметр `category` или передано пустое значение ||
 || `ENGINE_REGISTER_ERROR_CATEGORY_FORMAT` | Ключ `category` может содержать одно из значений: `text, image, audio, call` | Передано значение `category`, которого нет в списке доступных категорий ||
 || `ENGINE_REGISTER_ERROR_COMPLETIONS_URL` | Ключ `completions_url` со строковым значением обязателен | Не передан параметр `completions_url`, передано пустое значение или значение не является строкой ||
-|| `ENGINE_REGISTER_ERROR_COMPLETIONS_URL_FAIL` | Значением ключа `completions_url` должен быть валидный URL и отвечать статусом 200 | URL недоступен, невалиден или при проверке возвращает статус, отличный от `200` ||
+|| `ENGINE_REGISTER_ERROR_COMPLETIONS_URL_FAIL` | Значением ключа `completions_url` должен быть валидный URL , который при проверке возвращает статус `200` | URL недоступен, невалиден или при проверке возвращает статус, отличный от `200` ||
 || `ENGINE_REGISTER_ERROR_SETTINGS_FORMAT` | Значением ключа `settings` должен быть валидный JSON | Параметр `settings` передан не в виде объекта ||
 |#
 
