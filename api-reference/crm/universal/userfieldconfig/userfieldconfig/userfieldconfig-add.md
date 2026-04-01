@@ -654,13 +654,13 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Access denied. | Недостаточно прав для создания пользовательского поля ||
+|| `-` | Access denied | Недостаточно прав для создания пользовательского поля ||
 || `-` | Вы не можете создавать пользовательские поля | Ошибка может возвращаться, если `field.fieldName` не начинается с `UF_{entityId}_` ||
-|| `-` | The 'USER_TYPE_ID' field is not found. | Не передан обязательный `field.userTypeId` ||
-|| `-` | The 'FIELD_NAME' field is not found. | Не передан обязательный `field.fieldName` ||
-|| `-` | Поле ... уже существует. | Переданный `field.fieldName` уже используется для этого объекта ||
-|| `-` | Fail to create new user field. | Ошибка создания поля на стороне сервера ||
-|| `-` | Fail to save enumumeration field values. | Ошибка сохранения значений списка для типа `enumeration` ||
+|| `-` | The 'USER_TYPE_ID' field is not found | Не передан обязательный `field.userTypeId` ||
+|| `-` | The 'FIELD_NAME' field is not found | Не передан обязательный `field.fieldName` ||
+|| `-` | Поле ... уже существует | Переданный `field.fieldName` уже используется для этого объекта ||
+|| `-` | Fail to create new user field | Ошибка создания поля на стороне сервера ||
+|| `-` | Fail to save enumeration field values | Ошибка сохранения значений списка для типа `enumeration` ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}

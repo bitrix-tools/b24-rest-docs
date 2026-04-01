@@ -15,13 +15,11 @@
 `Тип` | **Описание** ||
 || **dialogId***
 [`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}`, для личных — `{userId}` ||
-|| **file***
-[`object`](../../../../data-types.md) | Объект с данными файла. Структура описана [ниже](#file) ||
-|| **message**
-[`string`](../../../../data-types.md) | Текст сообщения, отправляемого вместе с файлом ||
+|| **fields***
+[`object`](../../../../data-types.md) | Объект с параметрами файла и сообщения [(подробное описание)](#fields) ||
 |#
 
-### Параметр file {#file}
+### Параметр fields {#fields}
 
 #|
 || **Название**
@@ -30,11 +28,13 @@
 [`string`](../../../../data-types.md) | Имя файла с расширением ||
 || **content***
 [`string`](../../../../data-types.md) | Содержимое файла в кодировке [Base64](../../../../files/how-to-upload-files.md). Максимальный размер — 100 МБ ||
+|| **message**
+[`string`](../../../../data-types.md) | Текст сообщения, отправляемого вместе с файлом ||
 |#
 
 {% note info "" %}
 
-Как подготовить значение для `file.content`:
+Как подготовить значение для `fields.content`:
 
 1. Прочитайте файл в бинарном виде.
 2. Закодируйте содержимое в Base64.
@@ -56,7 +56,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"dialogId":"chat5","file":{"name":"report.pdf","content":"SGVsbG8gV29ybGQh"},"message":"Here is the report"}' \
+      -d '{"dialogId":"chat5","fields":{"name":"report.pdf","content":"SGVsbG8gV29ybGQh","message":"Here is the report"}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.v2.File.upload
     ```
 
@@ -66,7 +66,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"dialogId":"chat5","file":{"name":"report.pdf","content":"SGVsbG8gV29ybGQh"},"message":"Here is the report","auth":"**put_access_token_here**"}' \
+      -d '{"dialogId":"chat5","fields":{"name":"report.pdf","content":"SGVsbG8gV29ybGQh","message":"Here is the report"},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/im.v2.File.upload
     ```
 
@@ -76,8 +76,11 @@
     try {
       const response = await $b24.callMethod('im.v2.File.upload', {
         dialogId: 'chat5',
-        file: { name: 'report.pdf', content: 'SGVsbG8gV29ybGQh' },
-        message: 'Here is the report',
+        fields: {
+          name: 'report.pdf',
+          content: 'SGVsbG8gV29ybGQh',
+          message: 'Here is the report',
+        },
       });
 
       const { result } = response.getData();
@@ -97,11 +100,11 @@
                 'im.v2.File.upload',
                 [
                     'dialogId' => 'chat5',
-                    'file' => [
+                    'fields' => [
                         'name' => 'report.pdf',
                         'content' => base64_encode(file_get_contents('/path/to/report.pdf')),
+                        'message' => 'Here is the report',
                     ],
-                    'message' => 'Here is the report',
                 ]
             );
 
@@ -123,8 +126,11 @@
         'im.v2.File.upload',
         {
             dialogId: 'chat5',
-            file: { name: 'report.pdf', content: btoa('...') },
-            message: 'Here is the report',
+            fields: {
+                name: 'report.pdf',
+                content: btoa('...'),
+                message: 'Here is the report',
+            },
         },
         function(result) {
             if (result.error()) {
@@ -145,11 +151,11 @@
         'im.v2.File.upload',
         [
             'dialogId' => 'chat5',
-            'file' => [
+            'fields' => [
                 'name' => 'report.pdf',
                 'content' => base64_encode(file_get_contents('/path/to/report.pdf')),
+                'message' => 'Here is the report',
             ],
-            'message' => 'Here is the report',
         ]
     );
 
@@ -260,4 +266,3 @@ HTTP-статус: **400**, **403**
 ## Продолжите изучение
 
 - [{#T}](./file-download.md)
-
