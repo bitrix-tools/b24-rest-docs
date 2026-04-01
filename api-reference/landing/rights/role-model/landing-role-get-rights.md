@@ -1,77 +1,73 @@
-# Получить список сайтов с правами для роли landing.role.getRights
+# Получить права роли landing.role.getRights
 
-{% note warning "Мы еще обновляем эту страницу" %}
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор или пользователь с правом «полный доступ» к разделу «Сайты и магазины»
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Метод `landing.role.getRights` возвращает права указанной роли по каждому сайту, для которого они настроены.
 
-{% endnote %}
+## Параметры метода
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
-{% note info "" %}
-
-**Scope**: [`landing`](../../../scopes/permissions.md) | **Права на выполнение**: `администратор`
-
-{% endnote %}
-
-Метод `landing.role.getRights` позволяет получить список сайтов, права на которые установлены в рамках роли. Метод вернет массив (см. пример), где ключами будут идентификаторы сайта, а значениями массив доступных операций (нулевой ключ означает доступ по-умолчанию для роли):
-
-- **denied** - запрещено всё,
-- **read** – чтение (право автоматически ставится системой дополнительно при указании любого другого отличного от denied),
-- **edit** – изменение (содержимого страниц),
-- **sett** – изменение настроек,
-- **public** – публикация,
-- **delete** – удаление (в корзину, и восстановление из корзины).
-
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **id**
-[`unknown`](../../../data-types.md) | Идентификатор роли. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор роли. Получить идентификатор можно с помощью метода [landing.role.getList](./landing-role-get-list.md) ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "id": 2
+      }' \
+      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.role.getRights.json"
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "id": 2,
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/landing.role.getRights.json"
+    ```
+
+- JS
 
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'landing.role.getRights',
-    		{
-    			id: 11
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+        const response = await $b24.callMethod(
+            'landing.role.getRights',
+            {
+                id: 2
+            }
+        );
+
+        const result = response.getData().result;
+        console.info(result);
     }
-    catch( error )
+    catch (error)
     {
-    	console.error(error);
+        console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -80,21 +76,15 @@
             ->call(
                 'landing.role.getRights',
                 [
-                    'id' => 11
+                    'id' => 2,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting role rights: ' . $e->getMessage();
@@ -107,11 +97,11 @@
     BX24.callMethod(
         'landing.role.getRights',
         {
-            id: 11
+            id: 2
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
             {
                 console.error(result.error());
             }
@@ -123,6 +113,129 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'landing.role.getRights',
+        [
+            'id' => 2,
+        ]
+    );
+
+    if (isset($result['error']))
+    {
+        echo 'Ошибка: ' . $result['error_description'];
+    }
+    else
+    {
+        echo '<pre>';
+        print_r($result['result']);
+        echo '</pre>';
+    }
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "0": [
+            "read",
+            "edit"
+        ],
+        "5": [
+            "read"
+        ]
+    },
+    "time": {
+        "start": 1775064046,
+        "finish": 1775064046.935469,
+        "duration": 0.9354689121246338,
+        "processing": 0,
+        "date_start": "2026-04-01T20:20:46+03:00",
+        "date_finish": "2026-04-01T20:20:46+03:00",
+        "operating_reset_at": 1775064646,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../../data-types.md) | Массив прав роли по сайтам, где ключом выступает идентификатор сайта, а значением — массив кодов прав [(подробное описание)](#result-item).
+
+Если у роли нет сохраненных прав или роль с таким `id` не найдена, метод возвращает пустой массив `[]` ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент result {#result-item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **`0`**
+[`string[]`](../../../data-types.md) | Права роли по умолчанию для всех сайтов, у которых нет отдельной настройки.
+
+Доступные значения описаны [ниже](#right-codes) ||
+|| **`<siteId>`**
+[`string[]`](../../../data-types.md) | Права роли для сайта с указанным идентификатором.
+
+Идентификатор сайта можно получить с помощью метода [landing.site.getList](../../site/landing-site-get-list.md) или из результата метода [landing.site.add](../../site/landing-site-add.md).
+
+Доступные значения описаны [ниже](#right-codes) ||
+|#
+
+#### Коды прав {#right-codes}
+
+#|
+|| **Код** | **Описание** ||
+|| `denied` | Доступ к сайту запрещен ||
+|| `read` | Чтение ||
+|| `edit` | Изменение страниц сайта ||
+|| `sett` | Изменение настроек сайта ||
+|| `public` | Публикация ||
+|| `delete` | Удаление в корзину и восстановление из корзины ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "MISSING_PARAMS",
+    "error_description": "Недостаточно параметров вызова, пропущены: id"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `ACCESS_DENIED` | Нет доступа к разделу «Сайты и магазины» ||
+|| `IS_NOT_ADMIN` | Доступ к разделу «Сайты и магазины» есть, но нет прав администратора ||
+|| `FEATURE_NOT_AVAIL` | Управление правами в разделе «Сайты и магазины» недоступно на текущем тарифе ||
+|| `MISSING_PARAMS` | Не передан обязательный параметр `id` ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./landing-role-set-rights.md)
+- [{#T}](./landing-role-get-list.md)
+- [{#T}](./landing-role-set-access-codes.md)

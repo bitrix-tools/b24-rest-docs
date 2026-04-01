@@ -5,6 +5,7 @@
 ### 31 марта, 2026
 
 - Обновили документацию по событиям [BackgroundCallCard*](./api-reference/widgets/ui-interaction/page-background-worker/events/index.md) в разделе WebRTC — управление карточкой звонка
+- Обновили документацию по методам [landing.role.enable](./api-reference/landing/rights/landing-role-enable.md), [landing.role.isEnabled](./api-reference/landing/rights/landing-role-is-enabled.md), [landing.site.getRights](./api-reference/landing/rights/extended-model/landing-site-get-rights.md), [landing.site.setRights](./api-reference/landing/rights/extended-model/landing-site-set-rights.md), [landing.role.getList](./api-reference/landing/rights/role-model/landing-role-get-list.md), [landing.role.getRights](./api-reference/landing/rights/role-model/landing-role-get-rights.md), [landing.role.setAccessCodes](./api-reference/landing/rights/role-model/landing-role-set-access-codes.md), [landing.role.setRights](./api-reference/landing/rights/role-model/landing-role-set-rights.md) в разделе Права
 
 ### 30 марта, 2026
 
