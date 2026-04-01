@@ -292,7 +292,7 @@ HTTP-статус: **200**
             "DESCRIPTION": null,
             "SECTIONS": "widgets_company_life",
             "SITE_TEMPLATE_ID": null,
-            "PREVIEW": "https://my-app.com/vibe_preview.jpg",
+            "PREVIEW": "https://my-app.com/main_preview.jpg",
             "MANIFEST": {
                 "block": {
                     "type": [
@@ -307,8 +307,8 @@ HTTP-статус: **200**
                             "desc": "JustSome widget data",
                             "count": "420",
                         },
-                        "handler": "https://my-app.com/vibe.php",
-                        "style": "https://my-app.com/vibe.css",
+                        "handler": "https://my-app.com/main.php",
+                        "style": "https://my-app.com/main.css",
                         "lang": {
                             "ru": {
                                 "W_TITLE": "Люди и их возраст",
