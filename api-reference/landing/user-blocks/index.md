@@ -12,12 +12,12 @@
 
 > Scope: [`landing`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом Просмотр в разделе Сайты
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| [landing.repo.getList](./landing-repo-get-list.md) | Метод для получения списка блоков текущего приложения. | ||
-|| [landing.repo.register](./landing-repo-register.md) | Метод добавления блока в репозиторий. | ||
-|| [landing.repo.unregister](./landing-repo-unregister.md) | Метод удаления блока. | ||
-|| [landing.repo.checkContent](./landing-repo-check-content.md) | Метод проверяет контент на опасные подстроки. | ||
+|| **Метод** | **Описание** ||
+|| [landing.repo.register](./landing-repo-register.md) | Добавляет пользовательский блок в репозиторий или обновляет существующий блок с тем же кодом ||
+|| [landing.repo.getList](./landing-repo-get-list.md) | Получает список пользовательских блоков из репозитория ||
+|| [landing.repo.unregister](./landing-repo-unregister.md) | Удаляет пользовательский блок из репозитория по его коду ||
+|| [landing.repo.checkContent](./landing-repo-check-content.md) | Проверяет контент через санитайзер и возвращает результат проверки ||
 |#

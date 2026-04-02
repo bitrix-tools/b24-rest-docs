@@ -1,46 +1,62 @@
 # Проверить контент на опасные подстроки landing.repo.checkContent
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`landing`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом Просмотр в разделе Сайты
 
-Метод `landing.repo.checkContent` проверяет контент на опасные подстроки. К таким относятся `onclick=""`, `<iframe>` и ряд других. При обычном кейсе использования варианты срабатывания минимальны. Метод используется исключительно для контроля содержимого при [регистрации блока](./landing-repo-register.md).
+Метод `landing.repo.checkContent` проверяет контент через санитайзер.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** | **С версии** ||
-|| **content**
-[`unknown`](../../data-types.md) | Содержимое для тестирования. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **content**^*^
+[`string`](../../data-types.md) | Контент для проверки ||
 || **splitter**
-[`unknown`](../../data-types.md) | Необязательный параметр для разделения опасных подстрок. По-умолчанию равен `#SANITIZE#`. ||
+[`string`](../../data-types.md) | Разделитель, которым помечаются опасные фрагменты в `content`.
+
+По умолчанию: `#SANITIZE#` ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример проверки контента, где:
+- `content` — проверяемый HTML
+- `splitter` — строка-маркер опасных фрагментов
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "content": "<div style=\"color:red\" onclick=\"alert(1)\"><iframe src=\"//evil.com\"></iframe></div>",
+        "splitter": "#AAA#"
+      }' \
+      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.repo.checkContent.json"
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "content": "<div style=\"color:red\" onclick=\"alert(1)\"><iframe src=\"//evil.com\"></iframe></div>",
+        "splitter": "#AAA#",
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/landing.repo.checkContent.json"
+    ```
+
+- JS
 
     ```js
     try
@@ -48,25 +64,21 @@
     	const response = await $b24.callMethod(
     		'landing.repo.checkContent',
     		{
-    			content: '<div style="color: red" onclick="alert(123)"><iframe src="//evil.com"></iframe></div>',
+    			content: '<div style="color:red" onclick="alert(1)"><iframe src="//evil.com"></iframe></div>',
     			splitter: '#AAA#'
     		}
     	);
-    	
+
     	const result = response.getData().result;
-    	if(result.error())
-    		console.error(result.error());
-    	else
-    		console.info(result);
+    	console.info(result);
     }
-    catch(error)
+    catch (error)
     {
-    	console.error('Error:', error);
+    	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -75,21 +87,16 @@
             ->call(
                 'landing.repo.checkContent',
                 [
-                    'content'  => '<div style="color: red" onclick="alert(123)"><iframe src="//evil.com"></iframe></div>',
+                    'content' => '<div style="color:red" onclick="alert(1)"><iframe src="//evil.com"></iframe></div>',
                     'splitter' => '#AAA#',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Info: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error checking content: ' . $e->getMessage();
@@ -102,29 +109,131 @@
     BX24.callMethod(
         'landing.repo.checkContent',
         {
-            content: '<div style="color: red" onclick="alert(123)"><iframe src="//evil.com"></iframe></div>',
+            content: '<div style="color:red" onclick="alert(1)"><iframe src="//evil.com"></iframe></div>',
             splitter: '#AAA#'
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
+            {
                 console.error(result.error());
+            }
             else
+            {
                 console.info(result.data());
+            }
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'landing.repo.checkContent',
+        [
+            'content' => '<div style="color:red" onclick="alert(1)"><iframe src="//evil.com"></iframe></div>',
+            'splitter' => '#AAA#',
+        ]
+    );
+
+    if (isset($result['error']))
+    {
+        echo 'Ошибка: ' . $result['error_description'];
+    }
+    else
+    {
+        echo '<pre>';
+        print_r($result['result']);
+        echo '</pre>';
+    }
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-# Ответ в случае успеха
+HTTP-статус: **200**
 
-> 200 OK
 ```json
-content:"<div style="color: red" oncl#AAA#ick="alert(123)"><ifr#AAA#ame src="//evil.com"></iframe></div>"
-is_bad:true
+{
+    "result": {
+        "is_bad": true,
+        "content": "\u003Cdiv style=\u0022color:red\u0022 oncl#AAA#ick=\u0022alert(1)\u0022\u003E\u003Cifr#AAA#ame src=\u0022\/\/evil.com\u0022\u003E\u003C\/iframe\u003E\u003C\/div\u003E"
+    },
+    "time": {
+        "start": 1774952664,
+        "finish": 1774952665.017161,
+        "duration": 1.0171608924865723,
+        "processing": 0,
+        "date_start": "2026-03-31T13:24:24+03:00",
+        "date_finish": "2026-03-31T13:24:25+03:00",
+        "operating_reset_at": 1774953265,
+        "operating": 0
+    }
+}
 ```
 
-Собственно, метка `is_bad = true`, говорящая о том, что в содержимом есть опасные места, и сам текст, помеченный разделителями в опасных местах. Разработчику надлежит изменить такие места перед регистрацией.
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Результат проверки [подробнее](#result-data) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Тип result {#result-data}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **is_bad**
+[`boolean`](../../data-types.md) | Признак наличия опасных фрагментов в контенте ||
+|| **content**
+[`string`](../../data-types.md) | Контент после обработки санитайзером ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_ARGUMENT",
+    "error_description": "The value of an argument 'content' has an invalid type",
+    "argument": "content"
+}
+```
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Недостаточно прав."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `MISSING_PARAMS` | Недостаточно параметров вызова, пропущены: content | Вызов метода без `content` ||
+|| `ERROR_ARGUMENT` | The value of an argument 'content' has an invalid type | Параметр `content` передан в неверном типе ||
+|| `ACCESS_DENIED` | Недостаточно прав | Пользователь не прошел общие проверки доступа ||
+|| `insufficient_scope` | Недостаточно scope у токена | Токен не содержит scope `landing` ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./landing-repo-register.md)
+- [{#T}](./landing-repo-get-list.md)
+- [{#T}](./landing-repo-unregister.md)
+- [{#T}](./index.md)
