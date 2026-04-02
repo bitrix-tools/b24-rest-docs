@@ -1,30 +1,10 @@
 # Виджет в контакт-центре CONTACT_CENTER
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- Что получает обработчик (скопировано из примера Сергея, detail-tab.md)
-- Частые кейсы и сценарии — надо добавить, если есть что
-- Продолжите изучение (скопировано из примера Сергея, detail-tab.md)
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`contact_center`](../scopes/permissions.md)
 
-Вы можете добавлять свой пункт («квадратик») в списке Контакт-центра.
+Вы можете добавить свой пункт в список Контакт-центра.
 
-![Виджет в виде пункта в списке Контакт-центра](./_images/CONTACT_CENTER.png "Виджет в виде пункта в списке Контакт-центра")
-
-Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](./placement-bind.md).
+Код места встройки указывается в параметре `PLACEMENT` метода [placement.bind](./placement-bind.md).
 
 {% note info "" %}
 
@@ -36,72 +16,67 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CONTACT_CENTER` | Пункт («квадратик») в списке Контакт-центра ||
+|| `CONTACT_CENTER` | Пункт в списке Контакт-центра ||
 |#
+
+### Где находится в интерфейсе
+
+Откройте страницу Контакт-центра по адресу `https:/your_site.ru/contact_center/`. Пункт приложения с `PLACEMENT=CONTACT_CENTER` отображается внизу страницы в разделе *Решения от партнеров*.
 
 ## Что получает обработчик
 
 Данные передаются в виде POST-запроса {.b24-info}
 
-```js
+```php
 
-'DOMAIN': 'xxx.bitrix24.com'
-'PROTOCOL': 1
-'LANG': 'en'
-'APP_SID': '99c80eff6378726287350416ee5fef0'
-'AUTH_ID': '6061e72600631fcd00005a4b00000001f0f1076700000000f69dd5fc643d9ce2fdbc1'
-'AUTH_EXPIRES': 3600
-'REFRESH_ID': '50e00aa340631fcd00005a4b00000001f0f1071111116580a5b83c2de639ef28c12'
-'member_id': 'da45a03b265ed12127f8a258d793cc5d'
-'status': 'L'
-'PLACEMENT': 'CRM_DEAL_DETAIL_TAB'
-'PLACEMENT_OPTIONS': '{"ID":"3443"}'
+Array
+(
+    [DOMAIN] => example.bitrix24.ru
+    [PROTOCOL] => 1
+    [LANG] => ru
+    [APP_SID] => 0123456789abcdef0123456789abcdef
+    [APPLICATION_SCOPE] => crm,placement,contact_center,imopenlines
+    [APPLICATION_TOKEN] => xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    [AUTH_ID] => 6061e72600631fcd00005a4b00000001f0f1076700000000f69dd5fc643d9ce2fdbc1
+    [AUTH_EXPIRES] => 3600
+    [PLACEMENT_OPTIONS] => {"ID":"19"}
+    [REFRESH_ID] => 50e00aa340631fcd00005a4b00000001f0f1071111116580a5b83c2de639ef28c12
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [member_id] => abcdef1234567890abcdef1234567890
+    [status] => F
+    [PLACEMENT] => CONTACT_CENTER
+)
 
 ```
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include notitle [Сноска об обязательных параметрах](../../_includes/required.md) %}
+
+{% include notitle [описание стандартных данных](_includes/widget_data.md) %}
+
+### Дополнительные данные
 
 #|
 || **Параметр**
 `тип` | **Описание** ||
-|| **DOMAIN***
-[`string`](../data-types.md) | Адрес Битрикс24, на котором был вызван обрабтчик виджета ||
-|| **PROTOCOL***
-[`string`](../data-types.md) | Защищенный или не защищенный протокол HTTP:
-
-- `0` - HTTP
-- `1` - HTTPS
- ||
-|| **LANG***
-[`string`](../data-types.md) | Язык интерфейса пользователя Битрикс24, который вызвал виджет. Вы можете локализовать язык интерфейса в своём виджете, ориентируясь на это значение ||
-|| **APP_SID**
-[`string`](../data-types.md) | Строковый идентификатор приложения, зарегистрировавшего обработчик виджета ||
-|| **AUTH_ID**
-[`string`](../data-types.md) | Авторизационный токен [OAuth 2](../../settings/oauth/simple-way.md), выписанный для пользователя, вызвавшего виджет. Можно использовать для вызовов REST API от лица этого пользователя ||
-|| **AUTH_EXPIRES**
-[`integer`](../data-types.md) | Время в секундах, после которого авторизационный токен станет неактуальным ||
-|| **REFRESH_ID**
-[`string`](../data-types.md) | Refresh-токен [OAuth 2](../../settings/oauth/simple-way.md), выписанный для пользователя, вызвавшего виджет. Можно использовать для обновления авторизационного токена от лица этого пользователя ||
-|| **member_id***
-[`string`](../data-types.md) | Уникальный строковый идентификатор Битрикс24, на котором был вызван обрабтчик виджета.  ||
-|| **status**
-[`string`](../data-types.md) | Тип приложения, зарегистрировавшего обработчик данного виджета. Принимает значения:
-
-- `L` - [локальное](../../local-integrations/local-apps.md) приложение
-- `F` - [бесплатное тиражное](../../market/index.md) приложение
-- `S` - [подписное тиражное](../../market/monetization/index.md) приложение
-||
-|| **PLACEMENT***
-[`string`](../data-types.md) | Код места встройки виджета. Вы можете использовать один и тот же URL обработчка для всех своих виджетов. Значение, которое Битрикс24 будет сообщать в параметре `PLACEMENT`, поможет определить, из какого именно места встройки виджета был вызван ваш обработчик в каждом конкретном случае ||
-|| **PLACEMENT_OPTIONS**
-[`string`](../data-types.md) | Дополнительные данные в виде JSON-строки, определяющие контекст выполнения виджета. В данном случае, это массив, содержащий числовой идентификатор элемента CRM, в карточке которого был вызван обработчик виджета. Параметр `PLACEMENT_OPTIONS` вместе с параметром `PLACEMENT` позволяет точно определить, для какого именно объекта CRM был вызван обработчик виджета ||
+|| **APPLICATION_SCOPE**
+[`string`](../data-types.md) | Список scope, доступных приложению ||
+|| **APPLICATION_TOKEN**
+[`string`](../data-types.md) | Токен приложения для безопасной обработки событий ||
+|| **SERVER_ENDPOINT**
+[`string`](../data-types.md) | Адрес сервера авторизации Битрикс24, необходимый для обновления токенов OAuth 2.0 ||
 |#
+
+### PLACEMENT_OPTIONS
+
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
+
+Для `CONTACT_CENTER` в контекст передается ключ:
+
+- `ID` — идентификатор элемента Контакт-центра, для которого был открыт виджет
 
 ## Продолжите изучение
 
 - [{#T}](./placement-bind.md)
 - [{#T}](./ui-interaction/index.md)
-- [{#T}](./ui-interaction/crm-card.md)
 - [{#T}](../../settings/interactivity/index.md)
-- [{#T}](./open-application.md)
-- [{#T}](./open-path.md)
+- [{#T}](./bx24-widget-methods.md)

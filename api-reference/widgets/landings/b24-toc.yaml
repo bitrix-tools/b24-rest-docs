@@ -1,7 +1,9 @@
 title: Виджеты в сайтах и лендингах
 href: index.md
 items: 
-  - name: Пункт в меню настроек сайта 
+  - name: Обзор виджетов 
     href: index.md
+  - name: Пункт в меню настроек сайта 
+    href: landing-settings.md
   - name: Редактор блока
     href: landing-block.md

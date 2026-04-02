@@ -77,5 +77,4 @@ Array
 - [{#T}](./ui-interaction/index.md)
 - [{#T}](./ui-interaction/crm-card.md)
 - [{#T}](../../settings/interactivity/index.md)
-- [{#T}](./open-application.md)
-- [{#T}](./open-path.md)
+- [{#T}](./bx24-widget-methods.md)

@@ -55,12 +55,8 @@ items:
     href: placement-list.md
   - name: Отменить регистрацию виджета
     href: placement-unbind.md
-  - name: Вызвать стандартные слайдеры
-    href: open-path.md
-  - name: Открыть кастомный слайдер
-    href: open-application.md
-  - name: Закрыть кастомный слайдер
-    href: close-application.md
+  - name: Методы BX24 SDK для виджетов
+    href: bx24-widget-methods.md
   - name: Взаимодействие с UI из виджетов
     include:
       path: ui-interaction/b24-toc.yaml
