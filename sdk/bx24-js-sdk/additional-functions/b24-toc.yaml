@@ -41,11 +41,11 @@ items:
     href: bx24-get-scroll-size.md
   - name: Запустить javascript-файл
     href: bx24-load-script.md
-  - name: Запустить видеозвонок Messenger.startVideoCall
+  - name: Запустить видеозвонок
     href: messenger-start-video-call.md
-  - name: Запустить звонок на телефонный номер Messenger.startPhoneCall
+  - name: Запустить звонок на телефонный номер
     href: messenger-start-phone-call.md
-  - name: Открыть чат Messenger.openChat
+  - name: Открыть чат
     href: messenger-open-chat.md
   - name: Устаревшие методы
     include:

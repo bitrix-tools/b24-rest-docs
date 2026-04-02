@@ -1,81 +1,154 @@
-# Организовать мгновенные коммуникации в рамках приложений pull.application.config.get
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
+# Получить конфигурацию подключения к RT-серверам pull.application.config.get
 
 > Scope: [`pull`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь авторизованный в приложении
 
-Метод `pull.application.config.get` служит для получения информации о подключении к real-time серверам и организации мгновенных коммуникаций в рамках приложений.
+Метод `pull.application.config.get` возвращает конфигурацию подключения к Push&Pull серверам для текущего приложения.
 
-Благодаря подключению к RT-серверам вы сможете:
-- создать действительно интерактивное приложение,
-- менять состояния,
-- мгновенно обновлять интерфейс без необходимости обновления страницы в режиме реального времени.
+{% note info "" %}
 
-{% note warning %}
-
-Метод вернет данные о подключении к каналам, созданных специально для вашего rest-приложения. В рамках этих каналов вы будете получать только ваши события.
+Метод работает только в контексте [приложения](../../app-installation/index.md).
 
 {% endnote %}
 
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
+
 #|
-|| **Параметр** | **Описание** ||
-|| **CACHE** | `Y / N` Возвращать кешированные данные или нет, по умолчанию Y. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **CACHE**
+[`string`](../../../api-reference/data-types.md) | Использовать кешированные данные:
+
+- `Y` — использовать кеш
+- `N` — не использовать кеш
+
+Если параметр не передан, кеш используется ||
+|| **REOPEN**
+[`string`](../../../api-reference/data-types.md) | Обновлять каналы при истечении срока:
+
+- `Y` — обновлять
+- `N` — не обновлять
+
+Если параметр не передан, обновление включено ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример получения конфигурации Push&Pull для приложения, где:
+- `CACHE` — используется кешированные данных
+- `REOPEN` — обновляет каналы
 
 {% list tabs %}
 
-- JavaScript
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "CACHE": "Y",
+        "REOPEN": "Y",
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/pull.application.config.get.json"
+    ```
+
+- JS
 
     ```js
-    BX24.callMethod('pull.application.config.get', {
-        'CACHE': 'Y',
-    }, function(result){
-        if(result.error())
-        {
-            console.error(result.error().ex);
-        }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'pull.application.config.get',
+    		{
+    			CACHE: 'Y',
+    			REOPEN: 'Y'
+    		}
+    	);
+
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch (error)
+    {
+    	console.error(error);
+    }
     ```
 
 - PHP
-  
+
     ```php
-    $result = restCommand('pull.application.config.get', [
-        'CACHE' => 'Y',
-    ], $_REQUEST["auth"]);
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'pull.application.config.get',
+                [
+                    'CACHE' => 'Y',
+                    'REOPEN' => 'Y',
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting pull config: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'pull.application.config.get',
+        {
+            CACHE: 'Y',
+            REOPEN: 'Y'
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    $result = CRest::call(
+        'pull.application.config.get',
+        [
+            'CACHE' => 'Y',
+            'REOPEN' => 'Y',
+        ]
+    );
+
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
 {
@@ -83,86 +156,220 @@
         "server": {
             "version": 4,
             "server_enabled": true,
-            "long_polling": "http://rt.bitrix24.com/sub/",
-            "long_polling_secure": "https://rt.bitrix24.com/sub/",
+            "mode": "personal",
+            "hostname": "your-portal.bitrix24.ru",
+            "long_polling": "https://rtc-**.bitrix24.com/sub2/",
+            "long_pooling_secure": "https://rtc-**.bitrix24.com/sub2/",
             "websocket_enabled": true,
-            "websocket": "ws://rt.bitrix24.com/sub/",
-            "websocket_secure": "wss://rt.bitrix24.com/sub/",
+            "websocket": "wss://rtc-**.bitrix24.com/subws2/",
+            "websocket_secure": "wss://rtc-**.bitrix24.com/subws2/",
             "publish_enabled": true,
-            "publish": "http://rt.bitrix24.com/pubweb/",
-            "publish_secure": "https://rt.bitrix24.com/pubweb/"
+            "publish": "https://rtc-**.bitrix24.com/rest/",
+            "publish_secure": "https://rtc-**.bitrix24.com/rest/",
+            "config_timestamp": 1774886062
+        },
+        "api": {
+            "revision_web": 19,
+            "revision_mobile": 3
         },
         "channels": {
             "shared": {
-                "id": "46a437d2336d4a88e4e9b3cd956ecf45.7910bb25e660bf211fdec15e33c5e25e4c3b644a",
-                "start": "2017-06-28T12:04:00+02:00",
-                "end": "2017-06-29T00:04:00+02:00",
+                "id": "***masked***",
+                "start": "2026-03-31T17:05:18+03:00",
+                "end": "2026-04-01T05:05:23+03:00",
                 "type": "shared"
             },
             "private": {
-                "id": "925153cd80b6b5a4dbf8659d5be21d1:abe9e6964532000ab8b7acf092ba627b.605ea91793ad24be3f9745d662713b23a5803a94",
-                "public_id": "abe9e6964532000ab8b7acf092ba627b.057ac8625ae4ac0da4ed093a19950f9dab7e29d0",
-                "start": "2017-06-28T09:57:48+02:00",
-                "end": "2017-06-28T21:57:48+02:00",
+                "id": "***masked***",
+                "public_id": "***masked***",
+                "start": "2026-03-31T17:05:18+03:00",
+                "end": "2026-04-01T05:05:23+03:00",
                 "type": "private"
             }
+        },
+        "exp": 1775052318,
+        "publicChannels": {
+            "<user_id>": {
+                "user_id": 577,
+                "public_id": "***masked***",
+                "signature": "***masked***",
+                "start": "2026-03-31T10:06:39+03:00",
+                "end": "2026-03-31T22:06:44+03:00"
+            }
         }
+    },
+    "time": {
+        "start": 1774965918,
+        "finish": 1774965918.322255,
+        "duration": 0.32225489616394043,
+        "processing": 0,
+        "date_start": "2026-03-31T17:05:18+03:00",
+        "date_finish": "2026-03-31T17:05:18+03:00",
+        "operating_reset_at": 1774966518,
+        "operating": 0
     }
 }
 ```
 
-Объект **server** описывает конфигурацию сервера и пути для подключения к real-time каналу. Ключи объекта:
+### Возвращаемые данные
 
-- **version** - версия установленного сервера,
-- **server_enabled** - активирована или нет работа с сервером,
-- **websocket_enabled** - доступна или нет работа с веб сокетами,
-- **long_pooling** и **websocket** - пути подключения,
-- **long_pooling_secure** и **websocket_secure** - пути подключения при использовании протокола https,
-- **publish_enabled** - доступна или нет [возможность публикации сообщения](*ключ_возможность) со стороны клиента. 
-- **publish** и **publish_secure** - пути для публикации сообщений со стороны клиента,
-- **clientId** - уникальный идентификатор портала на облачном push-сервере. Возвращается в случае, если на портале используется облачный push-сервер.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../api-reference/data-types.md) | Объект формата:
 
-Объект **channels** описывает данные для подключения пользователя к каналам. Ключи:
-
-- **shared** - общий канал портала. На этом канале публикуются команды для всех пользователей портала (в том числе пользователей экстранет).
-- **private** - приватный канал пользователя. На этом канале публикуются команды только для текущего пользователя.
-
-Массив канала, содержит:
-
-- **id** - идентификатор канала;
-- **public_id** - публичный [идентификатор канала](*ключ_идентификатор);
-- **start** - время создания канала (в формате ATOM);
-- **end** - время окончания работы канала (в формате ATOM);
-- **type** - тип канала.
-  
-## Ответ в случае ошибки
-
-> 200 Error, 50x Error
-
-```json
+```
 {
-    "error": "SERVER_ERROR",
-    "error_description": "Push & Pull server is not configured"
+    field_1: value_1,
+    field_2: value_2,
+    ...,
+    field_n: value_n
 }
 ```
 
-Ключи:
+где:
+- `field_n` — поле объекта `result`
+- `value_n` — значение поля `result`
 
-- **error** - код возникшей ошибки
-- **error_description** - краткое описание возникшей ошибки
-  
+Поля объекта `result` смотрите в разделе [Тип result](#result-type).
+
+Состав полей может отличаться и зависит от конфигурации Push&Pull сервера ||
+|| **time**
+[`time`](../../../api-reference/data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Тип result {#result-type}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **server**
+[`object`](../../../api-reference/data-types.md) | Параметры сервера Push&Pull [подробнее](#result-server-type) ||
+|| **api**
+[`object`](../../../api-reference/data-types.md) | Версии API Push&Pull:
+
+- **revision_web** [`integer`](../../../api-reference/data-types.md) — версия web API
+- **revision_mobile** [`integer`](../../../api-reference/data-types.md) — версия mobile API ||
+|| **channels**
+[`object`](../../../api-reference/data-types.md) | Каналы приложения.
+
+Содержит два варианта канала: `shared` и `private`.
+
+Описание полей канала смотрите в разделе [Тип канала shared/private](#result-channel-type) ||
+|| **exp**
+[`integer`](../../../api-reference/data-types.md) | Время истечения конфигурации в формате Unix timestamp ||
+|| **publicChannels**
+[`object`](../../../api-reference/data-types.md) | Публичные каналы пользователей в формате:
+
+```
+{
+    "<user_id>": {
+        "user_id": user_id,
+        "public_id": "string",
+        "signature": "string",
+        "start": "datetime",
+        "end": "datetime"
+    }
+}
+```
+
+где:
+- `<user_id>` — идентификатор пользователя
+- `user_id` — идентификатор пользователя
+- `public_id` — публичный идентификатор канала
+- `signature` — подпись канала
+- `start` — время начала действия канала
+- `end` — время окончания действия канала ||
+|| **clientId**
+[`string`](../../../api-reference/data-types.md) | Публичный идентификатор клиента.
+
+Возвращается в shared-режиме сервера ||
+|| **jwt**
+[`string`](../../../api-reference/data-types.md) | JWT-токен для подключения.
+
+Возвращается, если включена выдача JWT в конфигурации сервера ||
+|#
+
+### Тип server {#result-server-type}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **version**
+[`integer`](../../../api-reference/data-types.md) | Версия Push&Pull сервера ||
+|| **server_enabled**
+[`boolean`](../../../api-reference/data-types.md) | Признак доступности сервера ||
+|| **mode**
+[`string`](../../../api-reference/data-types.md) | Режим сервера ||
+|| **hostname**
+[`string`](../../../api-reference/data-types.md) | Хост портала ||
+|| **long_polling**
+[`string`](../../../api-reference/data-types.md) | URL long polling ||
+|| **long_pooling_secure**
+[`string`](../../../api-reference/data-types.md) | URL long polling для защищенного соединения ||
+|| **websocket_enabled**
+[`boolean`](../../../api-reference/data-types.md) | Признак доступности websocket ||
+|| **websocket**
+[`string`](../../../api-reference/data-types.md) | URL websocket ||
+|| **websocket_secure**
+[`string`](../../../api-reference/data-types.md) | URL websocket для защищенного соединения ||
+|| **publish_enabled**
+[`boolean`](../../../api-reference/data-types.md) | Признак доступности publish API ||
+|| **publish**
+[`string`](../../../api-reference/data-types.md) | URL publish API ||
+|| **publish_secure**
+[`string`](../../../api-reference/data-types.md) | URL publish API для защищенного соединения ||
+|| **config_timestamp**
+[`integer`](../../../api-reference/data-types.md) | Метка версии конфигурации ||
+|#
+
+### Тип канала shared/private {#result-channel-type}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`string`](../../../api-reference/data-types.md) | Идентификатор канала ||
+|| **public_id**
+[`string`](../../../api-reference/data-types.md) \| [`null`](../../../api-reference/data-types.md) | Публичный идентификатор канала.
+
+Для `shared` может отсутствовать ||
+|| **start**
+[`datetime`](../../../api-reference/data-types.md) | Время начала действия канала ||
+|| **end**
+[`datetime`](../../../api-reference/data-types.md) | Время окончания действия канала ||
+|| **type**
+[`string`](../../../api-reference/data-types.md) | Тип канала:
+
+- `shared`
+- `private` ||
+  |#
+
+## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": "WRONG_AUTH_TYPE",
+    "error_description": "Get access to application config available only for application authorization."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| SERVER_ERROR | На портале не настроен модуль **Push & Pull** на работу с сервером очередей. ||
-|| WRONG_AUTH_TYPE | Метод можно использовать только в рамках [OAuth 2.0](../../oauth/index.md) или через [веб-хуки](../../../local-integrations/local-webhooks.md). ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Get access to application config available only for application authorization. | Вызов метода не из контекста OAuth-приложения ||
 |#
 
-## Смотрите также
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-- [Интерактивность в приложениях](../../interactivity/index.md)
+## Продолжите изучение
 
-[*ключ_возможность]: Доступно начиная с 4-й версии сервера очередей.
-
-[*ключ_идентификатор]: Доступен только для 4-й версии сервера очередей и только для приватных каналов.
+- [{#T}](../../interactivity/index.md)
+- [{#T}](./pull-application-event-add.md)
+- [{#T}](./pull-application-push-add.md)
