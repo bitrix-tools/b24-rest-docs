@@ -5,6 +5,11 @@
 ### 02 апреля, 2026
 
 - Обновили документацию по методам в разделе [BX24 JS SDK](./sdk/bx24-js-sdk/additional-functions/index.md)
+- Обновили документацию по методам [landing.demos.*](./api-reference/landing/demos/index.md) в разделе Пользовательские шаблоны
+- Обновили документацию по методам [landing.site.*](./api-reference/landing/embedding/knowledge-base/index.md) в разделе Места встройки Баз знаний
+- Обновили документацию по методам [landing.repo.*](./api-reference/landing/user-blocks/index.md) в разделе Пользовательские блоки
+- Обновили документацию по методам [placement.*](./api-reference/widgets/placements.md) в разделе Места для встройки виджетов
+- Обновили документацию по методам [pull.application.*](./settings/interactivity/push-and-pull/index.md) в разделе Push&Pull
 
 ### 31 марта, 2026
 

@@ -1,14 +1,12 @@
 title: Push&Pull
 href: index.md
-items: 
+items:
   - name: Push&Pull
-    href: index.md 
-  - name: Организовать мгновенные коммуникации в рамках приложений
-    href: pull-application-config-get.md 
+    href: index.md
+  - name: Получить конфигурацию подключения к RT-серверам
+    href: pull-application-config-get.md
   - name: Отправить события в RT-канал приложения
-    href: pull-application-event-add.md 
-  - name: Отправить push-уведомления на мобильное устройство
-    href: pull-application-push-add.md 
-
-
+    href: pull-application-event-add.md
+  - name: Отправить push-уведомление на мобильное устройство приложения
+    href: pull-application-push-add.md
 

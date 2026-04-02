@@ -1,88 +1,187 @@
-# Отправить push-уведомления на мобильное устройство в рамках приложения Битрикс24 pull.application.push.add
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- отсутствуют примеры
-
-{% endnote %}
-
-{% endif %}
+# Отправить push-уведомление на мобильное устройство приложения pull.application.push.add
 
 > Scope: [`pull`](../../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод `pull.application.push.add` служит для отправки push-уведомления на мобильное устройство в рамках приложения Битрикс24.
+Метод `pull.application.push.add` отправляет push-уведомление на мобильное устройство в рамках приложения.
 
-## Параметры
+{% note info "" %}
+
+Метод работает только в контексте [приложения](../../app-installation/index.md).
+
+{% endnote %}
+
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** ||
-|| **USER_ID**^*^ | Идентификаторы пользователей получателей push-уведомлений. ||
-|| **TEXT** | Произвольный текст. ||
-|| **AVATAR** | Ссылка на изображение. ||
+|| **Название**
+`тип` | **Описание** ||
+|| **USER_ID**
+[`integer`](../../../api-reference/data-types.md) \| [`integer[]`](../../../api-reference/data-types.md) | Идентификатор пользователя или массив идентификаторов пользователей, которым отправляется push-уведомление.
+
+`USER_ID` можно получить:
+- методом [user.get](../../../api-reference/user/user-get.md)
+- методом [user.current](../../../api-reference/user/user-current.md) для текущего пользователя ||
+|| **TEXT**^*^
+[`string`](../../../api-reference/data-types.md) | Текст push-уведомления ||
+|| **AVATAR**
+[`string`](../../../api-reference/data-types.md) | URL изображения для push-уведомления ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример отправки push-уведомления пользователям приложения, где:
+- `USER_ID` — идентификатор пользователя или массив идентификаторов пользователей
+- `TEXT` — текст push-уведомления
+- `AVATAR` — URL изображения для push-уведомления
 
 {% list tabs %}
 
-- JavaScript
-  
-    ```js
-    BX24.callMethod('pull.application.push.add', {
-        'USER_ID': [1,2,3],
-        'TEXT': 'Hello, world!',
-        'AVATAR': 'https://files.shelenkov.com/images/avatar-ivanov.jpg',
-    }, function(result){
-        if(result.error())
-        {
-            console.error(result.error().ex);
-        }
-        else
-        {
-            console.log(result.data());
-        }
-    });
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "USER_ID": [1, 2, 3],
+        "TEXT": "Hello, world!",
+        "AVATAR": "https://example.com/images/avatar.png",
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/pull.application.push.add.json"
     ```
+
+- JS
+
+    ```js
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'pull.application.push.add',
+    		{
+    			USER_ID: [1, 2, 3],
+    			TEXT: 'Hello, world!',
+    			AVATAR: 'https://example.com/images/avatar.png'
+    		}
+    	);
+
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch (error)
+    {
+    	console.error(error);
+    }
+    ```
+
 - PHP
-  
+
     ```php
-    $result = restCommand('pull.application.push.add', [
-        'USER_ID': [1,2,3],
-        'TEXT': 'Hello, world!',
-        'AVATAR': 'https://files.shelenkov.com/images/avatar-ivanov.jpg',
-    ], $_REQUEST["auth"]);
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'pull.application.push.add',
+                [
+                    'USER_ID' => [1, 2, 3],
+                    'TEXT' => 'Hello, world!',
+                    'AVATAR' => 'https://example.com/images/avatar.png',
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error sending push notification: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'pull.application.push.add',
+        {
+            USER_ID: [1, 2, 3],
+            TEXT: 'Hello, world!',
+            AVATAR: 'https://example.com/images/avatar.png'
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    $result = CRest::call(
+        'pull.application.push.add',
+        [
+            'USER_ID' => [1, 2, 3],
+            'TEXT' => 'Hello, world!',
+            'AVATAR' => 'https://example.com/images/avatar.png',
+        ]
+    );
+
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
     ```
 
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
 
-## Ответ в случае успеха
-
-> 200 OK
+HTTP-статус: **200**
 
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1743495945,
+        "finish": 1743495945.285066,
+        "duration": 0.2850658893585205,
+        "processing": 0.008597135543823242,
+        "date_start": "2025-04-01T11:52:25+03:00",
+        "date_finish": "2025-04-01T11:52:25+03:00",
+        "operating_reset_at": 1743496545,
+        "operating": 0
+    }
 }
 ```
 
-## Ответ в случае ошибки
+### Возвращаемые данные
 
-> 200 Error, 50x Error
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../../api-reference/data-types.md) | Признак успешного выполнения метода ||
+|| **time**
+[`time`](../../../api-reference/data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **403**
 
 ```json
 {
@@ -91,22 +190,22 @@
 }
 ```
 
-Ключи:
-
-- **error** - код возникшей ошибки
-- **error_description** - краткое описание возникшей ошибки
-  
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| TEXT_ERROR     | Не передан текст сообщения. ||
-|| EMPTY_APP_NAME | Ошибка возникает если у вашего приложения не задано название. ||
-|| ACCESS_ERROR    | Метод может использовать только пользователь с правами администратора. ||
-|| WRONG_AUTH_TYPE | Метод можно использовать только в рамках [OAuth 2.0](../../oauth/index.md). ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Send push notifications available only for application authorization. | Вызов метода не из контекста авторизации приложения ||
+|| `400` | `ACCESS_ERROR` | You do not have access to send push notifications | Пользователь без прав администратора пытается отправить push-уведомление ||
+|| `400` | `TEXT_ERROR` | Text can't be empty | Не передан `TEXT` или передано пустое значение ||
+|| `400` | `EMPTY_APP_NAME` | For send push-notification application name can't be empty | У приложения не заполнено название ||
 |#
 
-## Смотрите также
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-- [Интерактивность в приложениях](../../interactivity/index.md)
+## Продолжите изучение
+
+- [{#T}](../../interactivity/index.md)
+- [{#T}](./pull-application-event-add.md)
+- [{#T}](./pull-application-config-get.md)
