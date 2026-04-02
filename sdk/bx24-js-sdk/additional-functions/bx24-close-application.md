@@ -1,48 +1,38 @@
 # Закрыть окно с приложением BX24.closeApplication
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Метод `BX24.closeApplication` отправляет команду на закрытие всплывающего окна с приложением.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+Метод рекомендуется использовать в таких встройках, как `CRM_*_LIST_MENU` из раздела [Виджеты](https://apidocs.bitrix24.ru/api-reference/widgets/index.html). Например, можно добавить кнопку, которая закрывает окно приложения.
 
 ```js
-void BX24.closeApplication();
+void BX24.closeApplication([Function callback])
 ```
 
-Метод `BX24.closeApplication` закрывает открытое модальное окно с приложением (открытым как через [BX24.openApplication](./bx24-open-application.md), так и через модальное окно обработчика мест встраивания `CRM_*_LIST_MENU`).
+## Параметры
 
-Рекомендуется к использованию в `CRM_*_LIST_MENU`, например, для показа кнопки закрытия. (По умолчанию у пользователей нет никакого способа вернуться в CRM кроме закрытия всплывающего окна по крестику в углу окна.)
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **callback**
+`function` | Функция обратного вызова, которая выполняется после отправки команды закрытия окна ||
+|#
 
-## Пример
+## Пример кода
 
-Единый пример для [BX24.openApplication](./bx24-open-application.md) и BX24.closeApplication.
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Единый пример для [BX24.openApplication](./bx24-open-application.md) и `BX24.closeApplication`:
 
 ```php
 <script src="//api.bitrix24.tech/api/v1/"></script>
 <?
-// разбор входных данных
 $placementOptions = array();
-if(array_key_exists('PLACEMENT_OPTIONS', $_REQUEST))
+if (array_key_exists('PLACEMENT_OPTIONS', $_REQUEST))
 {
     $placementOptions = json_decode($_REQUEST['PLACEMENT_OPTIONS'], true);
 }
 
-// если приложение не развернуто, выводим кнопку открытия, в противном случае закрытия
-if(!isset($placementOptions['opened']))
+if (!isset($placementOptions['opened']))
 {
 ?>
     <span onclick="openApplication()">Open</span>
@@ -54,23 +44,19 @@ else
     <span onclick="closeApplication()">Close</span>
 <?
 }
-
 ?>
 <script>
     function openApplication()
     {
         BX24.openApplication(
-            {
-                'opened': true // данные, передаваемые открываемому приложению
-            },
+            { opened: true },
             function()
             {
-                // этот обработчик сработает, когда приложение будет закрыто
-                alert('Application closed!')
+                alert('Application closed!');
             }
         );
 
-        setTimeout(closeApplication, 15000); // автоматически закрыть через 15 секунд
+        setTimeout(closeApplication, 15000);
     }
 
     function closeApplication()
@@ -80,4 +66,35 @@ else
 </script>
 ```
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+### Пример со слайдером
+
+```js
+BX24.openApplication(
+    { opened: true },
+    function () {
+        console.log('Application closed');
+    },
+    {
+        width: 450,
+        label: {
+            bgColor: 'pink',
+            text: 'my task',
+            color: '#07ff0e'
+        },
+        title: 'my title'
+    }
+);
+
+setTimeout(function () {
+    BX24.closeApplication();
+}, 15000);
+```
+
+## Обработка ответа
+
+Метод не возвращает данные (`void`).
+
+## Продолжите изучение
+
+- [{#T}](./bx24-open-application.md)
+- [{#T}](./bx24-open-path.md)

@@ -12,14 +12,14 @@ Object BX24.getScrollSize()
 
 ## Пример кода
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 ```js
 BX24.init(function () {
     const size = BX24.getScrollSize();
     console.log(size.scrollWidth, size.scrollHeight);
 });
 ```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 

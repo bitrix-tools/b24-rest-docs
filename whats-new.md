@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 02 апреля, 2026
+
+- Обновили документацию по методам в разделе [BX24 JS SDK](./sdk/bx24-js-sdk/additional-functions/index.md)
+
 ### 31 марта, 2026
 
 - Обновили документацию по событиям [BackgroundCallCard*](./api-reference/widgets/ui-interaction/page-background-worker/events/index.md) в разделе WebRTC — управление карточкой звонка
