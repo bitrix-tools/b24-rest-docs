@@ -3,7 +3,7 @@ href: index.md
 items:
   - name: О местах встраивания
     href: index.md
-  - name: Меню настроек
+  - name: Пункт в меню настроек
     href: settings.md
   - name: Пункт редактирования блока
     href: block.md

@@ -885,7 +885,6 @@ BX24.callMethod(
 
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
-- [{#T}](../ui-interaction/crm-card.md)
 - [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](./detail-activity.md)
 

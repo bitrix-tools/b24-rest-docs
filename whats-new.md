@@ -5,6 +5,11 @@
 ### 02 апреля, 2026
 
 - Обновили документацию по методам в разделе [BX24 JS SDK](./sdk/bx24-js-sdk/additional-functions/index.md)
+- Обновили документацию по виджетам [LANDING_BLOCK_<CODE>](./api-reference/landing/embedding/block.md) и [LANDING_SETTINGS](./api-reference/landing/embedding/settings.md)
+- Обновили документацию по виджету [CONTACT_CENTER](./api-reference/widgets/contact-center.md)
+- Обновили страницу [Методы BX24 SDK для виджетов](./api-reference/widgets/bx24-widget-methods.md)
+- Обновили страницу [Карточка звонка CALL_CARD: обзор методов и событий](./api-reference/widgets/ui-interaction/call-card/index.md)
+- Обновили страницу [Взаимодействие с UI: обзор методов](./api-reference/widgets/ui-interaction/index.md)
 
 ### 31 марта, 2026
 
