@@ -1,47 +1,66 @@
-# Удалить из меню landing.site.unbindingFromMenu
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
+# Отвязать Базу знаний от меню landing.site.unbindingFromMenu
 
 > Scope: [`landing`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом Просмотр в разделе Сайты и правом Размещение в Расширениях в разделе База знаний
 
-Метод `landing.site.unbindingFromMenu` удаляет привязку Базы знаний в меню. К Базе знаний должен быть доступ на чтение.
+Метод `landing.site.unbindingFromMenu` удаляет привязку Базы знаний от указанного меню.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Параметр** | **Описание** | **С версии** ||
-|| **id**
-[`unknown`](../../../data-types.md) | Идентификатор Базы знаний. | ||
-|| **menuCode**
-[`unknown`](../../../data-types.md) | Символьный код меню, как мы определяли выше. | ||
+|| **Название**
+`тип` | **Описание** ||
+|| **id**^*^
+[`integer`](../../../data-types.md) | Идентификатор сайта Базы знаний.
+
+`id` можно получить, например, из метода [landing.site.getList](../../site/landing-site-get-list.md) в поле `ID` ||
+|| **menuCode**^*^
+[`string`](../../../data-types.md) | Код меню.
+
+`menuCode` можно получить:
+- в интерфейсе через пункт «Выбрать Базу знаний»: в URL открывшегося фрейма параметр `menuId` содержит код меню (например, `menuId=crm_switcher:deal`)
+- из результата метода [landing.site.getMenuBindings](./landing-site-get-menu-bindings.md) в поле `BINDING_ID` ||
 |#
 
-## Примеры
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+Пример удаления привязки Базы знаний от меню, где:
+- `id` — идентификатор сайта Базы знаний
+- `menuCode` — код меню
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "id": 31,
+        "menuCode": "crm_switcher:deal"
+      }' \
+      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.site.unbindingFromMenu.json"
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "id": 31,
+        "menuCode": "crm_switcher:deal",
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/landing.site.unbindingFromMenu.json"
+    ```
+
+- JS
 
     ```js
     try
@@ -53,18 +72,17 @@
     			menuCode: 'crm_switcher:deal'
     		}
     	);
-    	
+
     	const result = response.getData().result;
     	console.info(result);
     }
-    catch(error)
+    catch (error)
     {
     	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -73,22 +91,16 @@
             ->call(
                 'landing.site.unbindingFromMenu',
                 [
-                    'id'       => 31,
+                    'id' => 31,
                     'menuCode' => 'crm_switcher:deal',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . var_export($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error unbinding site from menu: ' . $e->getMessage();
@@ -106,7 +118,7 @@
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
             {
                 console.error(result.error());
             }
@@ -118,6 +130,96 @@
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'landing.site.unbindingFromMenu',
+        [
+            'id' => 31,
+            'menuCode' => 'crm_switcher:deal',
+        ]
+    );
+
+    if (isset($result['error']))
+    {
+        echo 'Ошибка: ' . $result['error_description'];
+    }
+    else
+    {
+        echo '<pre>';
+        print_r($result['result']);
+        echo '</pre>';
+    }
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1774959544,
+        "finish": 1774959544.732957,
+        "duration": 0.7329568862915039,
+        "processing": 0,
+        "date_start": "2026-03-31T15:19:04+03:00",
+        "date_finish": "2026-03-31T15:19:04+03:00",
+        "operating_reset_at": 1774960144,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../../data-types.md) | Результат удаления привязки:
+
+- `true` — привязка удалена
+- `false` — привязка не удалена ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "MISSING_PARAMS",
+    "error_description": "Недостаточно параметров вызова, пропущены: menuCode"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `MISSING_PARAMS` | Недостаточно параметров вызова, пропущены: menuCode | Вызов метода без `menuCode` ||
+|| `MISSING_PARAMS` | Недостаточно параметров вызова, пропущены: id | Вызов метода без `id` ||
+|| `TYPE_ERROR` | Bitrix\\Landing\\PublicAction\\Site::unbindingFromMenu(): Argument #1 ($id) must be of type int, string given | Переданы значения, несовместимые с сигнатурой метода ||
+|| `ACCESS_DENIED` | Недостаточно прав | Пользователь не прошел общие проверки доступа ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./landing-site-binding-to-menu.md)
+- [{#T}](./landing-site-get-menu-bindings.md)
+- [{#T}](./landing-site-binding-to-group.md)
+- [{#T}](./landing-site-unbinding-from-group.md)
+- [{#T}](./index.md)

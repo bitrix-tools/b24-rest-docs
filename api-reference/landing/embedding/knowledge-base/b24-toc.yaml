@@ -1,17 +1,17 @@
-title: Общие методы
+title: Места встройки Баз знаний
 href: index.md
 items:
   - name: Места встройки Баз знаний
     href: index.md
-  - name: Встроить в меню
-    href: landing-site-binding-to-menu.md
-  - name: Удалить из меню
-    href: landing-site-unbinding-from-menu.md
-  - name: Получить список привязок в меню
-    href: landing-site-get-menu-bindings.md
   - name: Привязать к группе Социальной сети
     href: landing-site-binding-to-group.md
-  - name: Удалить привязку к группе Социальной сети
-    href: landing-site-unbinding-from-group.md
   - name: Получить привязки к группам
     href: landing-site-get-group-bindings.md
+  - name: Отвязать от группы Социальной сети
+    href: landing-site-unbinding-from-group.md
+  - name: Привязать к меню
+    href: landing-site-binding-to-menu.md
+  - name: Получить привязки к меню
+    href: landing-site-get-menu-bindings.md
+  - name: Отвязать от меню
+    href: landing-site-unbinding-from-menu.md
