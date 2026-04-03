@@ -1,6 +1,6 @@
 # Получить список провайдеров компании sign.b2e.company.provider.list
 
-> Scope: [`sign.b2e`](../scopes/permissions.md), [`crm`](../scopes/permissions.md), [`humanresources.hcmlink`](../scopes/permissions.md)
+> Scope: [`sign.b2e`](../scopes/permissions.md), [`crm`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом создавать документы КЭДО
 
@@ -18,7 +18,9 @@
 || **companyUuid***
 [`string`](../data-types.md) | UUID компании в HCM Link.
 
-Обязателен, если не передан параметр `companyCrmId` ||
+Обязателен, если не передан параметр `companyCrmId`.
+
+Требует дополнительный scope [`humanresources.hcmlink`](../scopes/permissions.md) ||
 || **companyCrmId***
 [`integer`](../data-types.md) | Идентификатор компании в CRM, подключенный в интеграции как «моя компания».
 
@@ -38,6 +40,8 @@
 
 По умолчанию 0 ||
 |#
+
+Передайте один из параметров `companyUuid` или `companyCrmId`.
 
 ## Примеры кода
 
@@ -237,7 +241,7 @@ HTTP-статус: **200**
 || `510` | Company was not found. | Компания не найдена по `companyUuid` или `companyCrmId` ||
 || `510` | My company ... not found | Компания CRM не найдена ||
 || `-` | Parameter 'companyUuid' or 'companyCrmId' is required | Не переданы идентификаторы компании ||
-|| `-` | humanresources module is not installed | Модуль `humanresources` не установлен ||
+|| `-` | humanresources module is not installed | Модуль `humanresources` не установлен при использовании `companyUuid` ||
 || `-` | Error while autoregistering providers | Ошибка автрегистрации виртуальных провайдеров. Проверьте данные моей компании в CRM ||
 |#
 

@@ -1,6 +1,6 @@
 # Отправить документ на подписание sign.b2e.document.send
 
-> Scope: [`sign.b2e`](../scopes/permissions.md), [`crm`](../scopes/permissions.md), [`humanresources.hcmlink`](../scopes/permissions.md)
+> Scope: [`sign.b2e`](../scopes/permissions.md), [`crm`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом создавать документы КЭДО
 
@@ -52,7 +52,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **uuid*** 
-[`string`](../data-types.md) | UUID компании в HCM Link ||
+[`string`](../data-types.md) | UUID компании в HCM Link.
+
+Требует дополнительный scope [`humanresources.hcmlink`](../scopes/permissions.md) ||
 || **crmId*** 
 [`integer`](../data-types.md) | Идентификатор компании в CRM, подключенный в интеграции как «моя компания» ||
 |#
@@ -65,9 +67,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **employeeCode***
-[`string`](../data-types.md) | Код сотрудника в HCM Link ||
+[`string`](../data-types.md) | Код сотрудника в HCM Link.
+
+Требует дополнительный scope [`humanresources.hcmlink`](../scopes/permissions.md) ||
 || **employeeId***
-[`integer`](../data-types.md) | Идентификатор сотрудника в HCM Link ||
+[`integer`](../data-types.md) | Идентификатор сотрудника в HCM Link.
+
+Требует дополнительный scope [`humanresources.hcmlink`](../scopes/permissions.md) ||
 || **userId***
 [`integer`](../data-types.md) | Идентификатор пользователя в Битрикс24 ||
 || **role*** 
@@ -80,15 +86,21 @@
 
 Передайте один из параметров `employeeId`, `employeeCode` или `userId`.
 
+Поля `employeeCode` и `employeeId` доступны только для компании, связанной с HCM Link. Для компании, переданной через `company.crmId` без связи с HCM Link, используйте `userId`.
+
 ### Параметр responsible {#responsible}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **employeeCode***
-[`string`](../data-types.md) | Код сотрудника в HCM Link ||
+[`string`](../data-types.md) | Код сотрудника в HCM Link.
+
+Требует дополнительный scope [`humanresources.hcmlink`](../scopes/permissions.md) ||
 || **employeeId***
-[`integer`](../data-types.md) | Идентификатор сотрудника в HCM Link ||
+[`integer`](../data-types.md) | Идентификатор сотрудника в HCM Link.
+
+Требует дополнительный scope [`humanresources.hcmlink`](../scopes/permissions.md) ||
 || **userId***
 [`integer`](../data-types.md) | Идентификатор пользователя в Битрикс24 ||
 || **role**
@@ -100,6 +112,8 @@
 |#
 
 Передайте один из параметров `employeeId`, `employeeCode` или `userId`.
+
+Поля `employeeCode` и `employeeId` доступны только для компании, связанной с HCM Link. Для компании, переданной через `company.crmId` без связи с HCM Link, используйте `userId`.
 
 ### Элемент массива files {#files}
 
@@ -416,9 +430,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **employeeCode**
-[`string`](../data-types.md) | Код сотрудника в HCM Link ||
+[`string`](../data-types.md) | Код сотрудника в HCM Link.
+
+Возвращается только для компании, связанной с HCM Link ||
 || **employeeId**
-[`integer`](../data-types.md) | Идентификатор сотрудника в HCM Link ||
+[`integer`](../data-types.md) | Идентификатор сотрудника в HCM Link.
+
+Возвращается только для компании, связанной с HCM Link ||
 || **userId**
 [`integer`](../data-types.md) | Идентификатор пользователя в Битрикс24 ||
 |#
@@ -479,7 +497,7 @@ HTTP-статус: **200**
 || `BAD_REQUEST` | External date create invalid field value | Неверный формат даты в `externalSettings.externalDateCreate` ||
 || `BAD_REQUEST` | External ID maximum length of 255 is exceeded | Превышена длина `externalSettings.externalId` ||
 || `INTERNAL_ERROR` | Internal error | Ошибка при отправке документа или формировании ответа ||
-|| `-` | humanresources module is not installed | Модуль `humanresources` не установлен ||
+|| `-` | humanresources module is not installed | Модуль `humanresources` не установлен при использовании полей HCM Link ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

@@ -1,6 +1,6 @@
 # Получить документ sign.b2e.document.get
 
-> Scope: [`sign.b2e`](../scopes/permissions.md), [`crm`](../scopes/permissions.md), [`humanresources.hcmlink`](../scopes/permissions.md)
+> Scope: [`sign.b2e`](../scopes/permissions.md), [`crm`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом просмотра документов КЭДО
 
@@ -230,9 +230,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **employeeCode**
-[`string`](../data-types.md) | Код сотрудника в HCM Link ||
+[`string`](../data-types.md) | Код сотрудника в HCM Link.
+
+Возвращается только для компании, связанной с HCM Link ||
 || **employeeId**
-[`integer`](../data-types.md) | Идентификатор сотрудника в HCM Link ||
+[`integer`](../data-types.md) | Идентификатор сотрудника в HCM Link.
+
+Возвращается только для компании, связанной с HCM Link ||
 || **userId**
 [`integer`](../data-types.md) | Идентификатор пользователя в Битрикс24 ||
 |#

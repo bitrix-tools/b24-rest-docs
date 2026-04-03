@@ -10,6 +10,23 @@
 
 Методы выполняются только в контексте авторизации [приложения](../../settings/app-installation/index.md).
 
+## Особенности scope
+
+**sign.b2e** — используется во всех методах раздела.
+
+**crm** — используется в методах:
+- [sign.b2e.document.send](./sign-b2e-document-send.md)
+- [sign.b2e.document.get](./sign-b2e-document-get.md)
+- [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md)
+
+**humanresources.hcmlink** — используется в части методов и только при передаче определенных полей:
+
+- [sign.b2e.document.send](./sign-b2e-document-send.md):
+`company.uuid`, `members.employeeCode`, `members.employeeId`, `responsible.employeeCode`, `responsible.employeeId`.
+
+- [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md):
+`companyUuid`.
+
 ## Обзор методов и событий {#all-methods} 
 
 > Scope: [`sign.b2e`](../scopes/permissions.md)
