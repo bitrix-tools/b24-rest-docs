@@ -11,6 +11,9 @@
 - Обновили страницу [Локализация блока](./api-reference/landing/block/localization.md)
 - Добавили документацию по методам [crm.tracking.trace.*](./api-reference/crm/tracking/index.md) в разделе Сквозная аналитика CRM
 - Обновили страницу [Типы данных и форматы параметров в REST API](./api-reference/data-types.md)
+- Обновили страницу [Галереи](./api-reference/landing/block/interactive/gallery.md)
+- Обновили страницу [Счетчики обратного отсчета](./api-reference/landing/block/interactive/timer.md)
+- Обновили страницу [Слайдеры](./api-reference/landing/block/interactive/sliders.md)
 
 ### 02 апреля, 2026
 

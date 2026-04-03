@@ -1,96 +1,88 @@
 # Галереи
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Для галереи используется стандартная разметка карточек и нод изображений. В [манифесте блока](../manifest.md) подключите расширение `landing_gallery_cards`.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+## Как настроить галерею
 
-{% endnote %}
+Минимальный вариант:
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
-
-Галерея создаётся с использованием стандартных нод-картинок и карточки. В [манифесте блока](../manifest.md) укажите расширение **landing_gallery_cards**.
-
-```js
-'assets' => array(
-    'ext' => array('landing_gallery_cards'),
-),
+```php
+'assets' => [
+    'ext' => ['landing_gallery_cards'],
+],
 ```
 
-В разметке обозначьте контейнер классом **.js-gallery-cards**, внутри него добавьте необходимое количество нод **<img>**. Каждому изображению добавьте атрибут **data-fancybox="gallery"**. Этот служебный параметр может иметь любое значение, кроме пустого.
+```html
+<div class="js-gallery-cards">
+    <img class="landing-block-node-card-img" src="/upload/gallery-1.jpg" data-fancybox="gallery" alt="">
+</div>
+```
 
-Галерея имеет только одну версию изображения, а не миниатюру и полную, как обычно. Поэтому используйте картинки достаточного размера или масштабируйте их средствами браузера (ограничивать ширину/высоту). Скрипт галереи обернёт каждую картинку в ссылку и по клику будет открывать изображение, указанное в **src**.
+## Что делает расширение gallery
 
-Опционально допускается атрибут **data-link-classes="d-block g-pos-rel"**.
+Расширение `landing_gallery_cards` подготавливает изображения внутри `js-gallery-cards` к просмотру в режиме галереи и создает кликабельную обертку `<a>` вокруг изображения. При открытии используется изображение из `src`. Если у ноды есть `srcset`, оно также передается в настройки просмотра.
 
-Оба класса добавляются к ссылке-обёртке вокруг изображения, они необходимы для вёрстки.
+## Разметка галереи
 
-Галереи могут совмещаться с другими возможностями. Например, картинки могут быть карточками, чтобы клиент добавлял столько, сколько нужно. Или же это может быть слайдер, каждая из картинок которого может открываться в большом размере. Примеры можно увидеть в наших стандартных блоках.
+Корневой контейнер галереи должен иметь класс `js-gallery-cards`.
 
-{% note warning %}
+Внутри контейнера размещаются изображения нод типа `img`. Для каждого изображения задайте:
 
-При совмещении галереи и карусели (слайдера) нужно инициализировать ассеты в определённом порядке: сначала карусель, затем - галерею! Другие ассеты, при их наличии, могут идти в любой последовательности. Смотри код ниже.
+- `data-fancybox` — признак участия в галерее
+- `src` — источник изображения, который будет открываться при клике
 
-{% endnote %}
+Опционально:
 
-```js
+- `data-link-classes` — классы, которые добавляются к ссылке-обертке вокруг изображения, например `d-block g-pos-rel`
+
+Пример:
+
+```html
+<div class="js-gallery-cards row">
+    <div class="landing-block-node-card col-lg-3 col-md-4 col-sm-6 g-mb-30">
+        <img
+            class="landing-block-node-card-img g-max-width-100x g-max-height-350"
+            src="https://cdn.bitrix24.site/bitrix/images/landing/business/270x481/img1.jpg"
+            data-fancybox="gallery"
+            data-link-classes="d-block g-pos-rel"
+            alt="">
+    </div>
+
+    <div class="landing-block-node-card col-lg-3 col-md-4 col-sm-6 g-mb-30">
+        <img
+            class="landing-block-node-card-img g-max-width-100x g-max-height-350"
+            src="https://cdn.bitrix24.site/bitrix/images/landing/business/270x481/img2.jpg"
+            data-fancybox="gallery"
+            data-link-classes="d-block g-pos-rel"
+            alt="">
+    </div>
+</div>
+```
+
+## Совмещение с каруселью
+
+Галерею можно использовать вместе со слайдером. В этом случае важно подключать расширения в порядке:
+
+1. `landing_carousel`
+2. `landing_gallery_cards`
+
+```php
 'assets' => [
     'ext' => ['landing_carousel', 'landing_gallery_cards'],
 ],
 ```
 
-## Пример
+## Что важно учитывать
 
-```html
-<div class="landing-block g-pt-80 g-pb-80">
-    <div class="container">
-        <div class="js-gallery-cards row">
-            <div class="landing-block-node-card js-animation slideInUp text-center col-lg-3 col-md-4 col-sm-6 g-mb-30">
-                <div class="g-pos-rel d-inline-block">
-                    <img class="landing-block-node-card-img h-100 g-width-auto g-max-width-100x g-max-height-350 g-max-height-500--md"
-                        src="https://cdn.bitrix24.site/bitrix/images/landing/business/270x481/img1.jpg"
-                        data-fancybox="gallery"
-                        data-link-classes="d-block g-pos-rel" alt=""/>
-                </div>
-            </div>
+- у изображения должен быть задан `src`, иначе ссылка-обертка не создается
+- для участия изображения в галерее у ноды должен быть атрибут `data-fancybox`
+- в базовом сценарии галерея открывает изображение из `src`, отдельное поле для пары миниатюра/полная версия не используется
+- `data-link-classes` применяется к созданной ссылке-обертке вокруг изображения
+- при совместном использовании со слайдером сначала подключается `landing_carousel`, затем `landing_gallery_cards`
 
-            <div class="landing-block-node-card js-animation slideInUp text-center col-lg-3 col-md-4 col-sm-6 g-mb-30">
-                <div class="g-pos-rel d-inline-block">
-                    <img class="landing-block-node-card-img h-100 g-width-auto g-max-width-100x g-max-height-350 g-max-height-500--md"
-                        src="https://cdn.bitrix24.site/bitrix/images/landing/business/270x481/img2.jpg"
-                        data-fancybox="gallery"
-                        data-link-classes="d-block g-pos-rel" alt=""/>
-                </div>
-            </div>
+## Продолжите изучение
 
-            <div class="landing-block-node-card js-animation slideInUp text-center col-lg-3 col-md-4 col-sm-6 g-mb-30">
-                <div class="g-pos-rel d-inline-block">
-                    <img class="landing-block-node-card-img h-100 g-width-auto g-max-width-100x g-max-height-350 g-max-height-500--md"
-                        src="https://cdn.bitrix24.site/bitrix/images/landing/business/270x481/img3.jpg"
-                        data-fancybox="gallery"
-                        data-link-classes="d-block g-pos-rel" alt=""/>
-                </div>
-            </div>
-
-            <div class="landing-block-node-card js-animation slideInUp text-center col-lg-3 col-md-4 col-sm-6 g-mb-30">
-                <div class="g-pos-rel d-inline-block">
-                    <img class="landing-block-node-card-img h-100 g-width-auto g-max-width-100x g-max-height-350 g-max-height-500--md"
-                        src="https://cdn.bitrix24.site/bitrix/images/landing/business/270x481/img4.jpg"
-                        data-fancybox="gallery"
-                        data-link-classes="d-block g-pos-rel" alt=""/>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-```
-
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+- [Слайдеры](./sliders.md)
+- [Счетчики обратного отсчета](./timer.md)
+- [Файл манифеста блока](../manifest.md)
+- [Типы нод](../node-types.md)
