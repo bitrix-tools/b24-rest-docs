@@ -1,8 +1,10 @@
 title: Специальные блоки
 href: index.md
 items:
-  - name: Блоки-меню
+  - name: О специальных блоках
     href: index.md
+  - name: Блоки-меню
+    href: menu.md
   - name: Карты в блоках
     href: maps.md
   - name: Навигация и заголовок
@@ -13,4 +15,3 @@ items:
     href: search-forms.md
   - name: Формы в блоках
     href: crm-forms.md
-

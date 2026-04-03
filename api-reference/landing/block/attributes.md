@@ -1,388 +1,411 @@
 # Атрибуты
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Атрибуты — это дополнительные значения, которые сохраняются в элементах блока и используются в настройках, JS-логике и условной стилизации. Например, через атрибуты можно хранить параметры карты, ссылок, режимов отображения и других сценариев блока.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Атрибуты регистрируются в ключе `attrs` [манифеста блока](./manifest.md). Ключ `attrs` связывает атрибуты с нодами и карточками.
 
-{% endnote %}
+## Где можно описывать ключ attrs
 
-{% if build == 'dev' %}
+Ключ `attrs` можно задавать в нескольких местах манифеста:
 
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
-
-С помощью ключа **attrs** в [манифесте](./manifest.md) блока указывается список атрибутов для хранения данных, привязанных к определенным нодам. Применяется это повсеместно – от дефолтных значений полей, счетчиков до настройки карты, видео, и много чего еще. Как правило, в пару к набору атрибутов идет определенный скрипт, который умеет со всем этим работать. Либо атрибуты могут участвовать в стилизации блоков, путем указания в CSS, что карточка с определенным атрибутом имеет другой цвет (например).
-
-Каждый атрибут описывается:
-
-- названием,
-- кодом,
-- типом,
-- ключом **items** (в случае списочного типа).
-
-## Места размещения
-
-Ключ **attrs** в манифесте может размещаться в следующих местах:
-
-1. Непосредственно в корне, как указано в примере манифеста.
-```js
-'attrs':
-{
-    '.landing-block-node-text':
-    {
-        'name': 'Настройка текст',
-        'type': 'dropdown',
-        'attribute': 'data-copy'
-    }
-},
+1. В корне манифеста:
+```php
+'attrs' => [
+    '.landing-block-node-text' => [
+        [
+            'name' => 'Настройка текст',
+            'type' => 'dropdown',
+            'attribute' => 'data-copy',
+        ],
+    ],
+]
 ```
-2. В ключе style, в этом случае атрибут выводится в форме настроек дизайна.
-```js
-'style':
-{
-    '.landing-block-node-card-button':
-    {
-        'name': 'Button',
-        'type': ['border-color', 'button', 'animation'],
-        'additional': {
-            'attrs': [
-                [
-                    'type': 'text',
-                    'name': 'Text field',
-                    'attribute': 'data-test-card-attr'
-                ]
-            ]
-        }
-    },
-}
+2. В `style.nodes`, в этом случае поле выводится в форме дизайна:
+```php
+'style' => [
+    'nodes' => [
+        '.landing-block-node-card-button' => [
+            'name' => 'Button',
+            'type' => ['border-color', 'button', 'animation'],
+            'additional' => [
+                'attrs' => [
+                    [
+                        'type' => 'text',
+                        'name' => 'Text field',
+                        'attribute' => 'data-test-card-attr',
+                    ],
+                ],
+            ],
+        ],
+    ],
+]
 ```
-3. В описании карточки. В таком случае атрибут применяется непосредственно к каждой карточке отдельно
-```js
-'cards':
-{
-    '.landing-block-node-card-button':
-    {
-        'name': 'Card',
-        'additional': {
-            'attrs': [
+3. В `cards`, атрибут применяется отдельно к каждой карточке:
+```php
+'cards' => [
+    '.landing-block-node-card-button' => [
+        'name' => 'Card',
+        'additional' => [
+            'attrs' => [
                 [
-                    'type': 'text',
-                    'name': 'Text field',
-                    'attribute': 'data-test-card-attr'
-                ]
-            ]
-        }
-    },
-}
+                    'type' => 'text',
+                    'name' => 'Text field',
+                    'attribute' => 'data-test-card-attr',
+                ],
+            ],
+        ],
+    ],
+]
 ```
 
 ## Группировка атрибутов
 
-Если требуется часть атрибутов группировать, то делается это следующим образом:
+Если нужно сгруппировать часть атрибутов, используется групповой контейнер `attrs`:
 
-```js
-// корневое размещение
-'attrs' => array(
-    '' => array(
-        array(
+```php
+'attrs' => [
+    '' => [
+        [
             'name' => 'Test group',
-            'attrs' => array(
-                array(
-                    "type" => "checkbox",
-                    // Переопределение селектора (если нужно)
-                    "selector" => "bitrix:catalog.section",
-                    "name" => "",
-                    "items" => array(
-                        array("name" => "Отображение товаров", "value" => "1"),
-                        array("name" => "Отображение товаров 2", "value" => "2"),
-                        array("name" => "Отображение товаров 3", "value" => "3"),
-                    ),
-                    "attribute" => "data-checkbox"
-                ),
-                array(
-                    "type" => "checkbox",
-                    "name" => "",
-                    "items" => array(
-                        array("name" => "Отображение товаров 22", "value" => "1")
-                    ),
-                    "compact" => true,
-                    "attribute" => "data-checkbox2"
-                )
-            )
-        ),
-        array(
-            "type" => "checkbox",
-            "name" => "",
-            "items" => array(
-                array("name" => "Отображение товаров 33", "value" => "1")
-            ),
-            "attribute" => "data-checkbox3"
-        )
-    )
-)
-// блок style (обратите внимание, в случае style поддерживается только либо без групп, либо группировка в рамках одного селектора)
-'additional' => array(
-    array(
-        'name' => 'Test group',
-        'attrs' => array(
-            array(
-                "type" => "text",
-                "name" => "Test",
-                "attribute" => "data-text"
-            ),
-            array(
-                "type" => "text",
-                "name" => "Test 2",
-                "attribute" => "data-text2"
-            )
-        )
-    )
-)
+            'attrs' => [
+                [
+                    'type' => 'checkbox',
+                    'selector' => 'bitrix:catalog.section',
+                    'name' => '',
+                    'items' => [
+                        ['name' => 'Отображение товаров', 'value' => '1'],
+                        ['name' => 'Отображение товаров 2', 'value' => '2'],
+                    ],
+                    'attribute' => 'data-checkbox',
+                ],
+                [
+                    'type' => 'checkbox',
+                    'name' => '',
+                    'items' => [
+                        ['name' => 'Отображение товаров 22', 'value' => '1'],
+                    ],
+                    'compact' => true,
+                    'attribute' => 'data-checkbox2',
+                ],
+            ],
+        ],
+        [
+            'type' => 'checkbox',
+            'name' => '',
+            'items' => [
+                ['name' => 'Отображение товаров 33', 'value' => '1'],
+            ],
+            'attribute' => 'data-checkbox3',
+        ],
+    ],
+]
 ```
 
-## Отличающиеся селекторы
+В блоке `style.nodes` поддерживается либо размещение без групп, либо группировка в рамках одного селектора:
 
-Если вы хотите, чтобы значения атрибутов сохранялись в иной селектор, то просто укажите у конкретного атрибута другой селектор. (Это может быть полезно, чтобы не добавлять лишние ноды для визуального изменения):
+```php
+'style' => [
+    'nodes' => [
+        '.landing-block-node-card-button' => [
+            'additional' => [
+                'attrs' => [
+                    [
+                        'name' => 'Test group',
+                        'attrs' => [
+                            [
+                                'type' => 'text',
+                                'name' => 'Test',
+                                'attribute' => 'data-text',
+                            ],
+                            [
+                                'type' => 'text',
+                                'name' => 'Test 2',
+                                'attribute' => 'data-text2',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+]
+```
 
-```js
-array(
+## Переопределение селектора
+
+Если значение должно сохраняться не в исходный селектор, укажите `selector` у конкретного атрибута:
+
+```php
+[
     'name' => 'Текстовое поле',
     'type' => 'text',
     'attribute' => 'data-text-field',
-    'selector' => '.demo-another-selector'
-)
+    'selector' => '.demo-another-selector',
+]
 ```
+
+## Поля атрибута
+
+У атрибута есть общие поля, которые используются у разных типов и задают базовую настройку поля в редакторе. Отдельно от них есть типозависимые поля, которые работают только для конкретных типов.
+
+Общие поля:
+
+- `name` — название поля в интерфейсе
+- `attribute` — имя DOM-атрибута, куда сохраняется значение
+- `type` — тип поля
+- `items` — список вариантов
+- `value` — значение по умолчанию, например строка, объект или массив
+- `selector` — переопределение селектора сохранения
+- `hidden` — регистрация без вывода в интерфейс редактирования
+- `attrs` — группа вложенных атрибутов
+- `placeholder` — подсказка для ввода
+- `compact` — компактный режим отображения поля
+
+Поля для отдельных типов:
+
+- `textOnly` — режим простого текстового ввода без визуального редактора, для `text`
+- `disableLink` — отключение редактирования ссылки, для `icon` и `image`
+- `disableBlocks` — отключение выбора блоков в селекторе ссылки, для `url`
+- `disableCustomURL` — отключение ручного ввода произвольного URL, для `url`
+- `time` — включение выбора времени, для `date`
+- `format` — формат сохранения даты и времени, для `date`
+- `dimensions` — ограничения размеров изображения, для `image`
+- `property` — целевое CSS-свойство, для `palette`, `color`, `position`, `sortable-list`, `catalog-view`, `filter`
+- `html` — HTML-разметка фильтра, для `filter`
+- `filterId` — идентификатор фильтра, для `filter`
+- `hideSort` — скрытие сортировки источников, для `dynamic_source`
+- `sources` — список доступных источников, для `dynamic_source`
+- `title` — заголовок поля, для `dynamic_source`
+- `stubText` — текст-заглушка, для `dynamic_source`
+- `useLink` — включение режима ссылки, для `dynamic_source`
+- `linkType` — тип ссылки, для `dynamic_source`
+
+Обязательность полей зависит от `type` и сценария. В общем случае требуется `attribute`, для списочных типов требуется `items`. Поле `name` рекомендуется указывать для корректного отображения в интерфейсе.
+
+Если `type` не указан, используется `text` по умолчанию.
 
 ## Типы атрибутов
 
-Атрибуты - это условное хранение hidden-значений. Например, стартовые координаты карты. Естественно, атрибуты имеет смысл вводить только вкупе с неким JS-кодом, который эти атрибуты умеет использовать. Атрибуты необходимо [зарегистрировать в манифесте](./manifest.md) в ключе **attrs**.
+Тип атрибута определяет, какой элемент управления будет в редакторе и в каком формате сохранится значение в атрибуте элемента.
 
-На данный момент поддерживаются следующие типы атрибутов:
+Типы атрибутов:
 
-- **text** - обычная текстовая строка.
-- **html** - многострочное текстовое поле
-- **images** - картинка со стандартными контролами - выбор с компьютера или поиск в библиотеках.
-- **icon** - иконка.
-- **dropdown** - выпадающий список.
-- **checkbox** - группа чекбококсов. Если вы хотите вывести одиночный чекбокс, просто укажите одно значение в items.
-- **multiselect** - множественный список.
-- **link** - ссылка со стандартными контролами.
-- **url** - упрощенный вариант ссылки: выбор страницы/блока или произвольного URL.
-- **slider** / **range-slider** - варианты слайдеров массива значений.
-- **palette** - палитра.
-- **sortable-list** - сортируемый список значений. Сортировка происходит посредством перетаскивания элементов мышкой.
-- **position** - набор стрелок для указания положения элемента в блоке.
-- **date** - выбор даты и времени.
+- `text` — однострочное текстовое поле
+- `date` — выбор даты и времени
+- `html` — многострочное текстовое поле
+- `dropdown` — выпадающий список
+- `checkbox` — чекбокс или группа чекбоксов
+- `radio` — выбор одного варианта из списка
+- `multiselect` — множественный выбор
+- `image` — выбор изображения
+- `icon` — выбор иконки
+- `link` — ссылка с расширенными настройками
+- `url` — упрощенное поле URL
+- `slider` — слайдер одного значения
+- `range-slider` — слайдер диапазона значений
+- `palette` — выбор из палитры
+- `color` — выбор цвета
+- `sortable-list` — сортируемый список значений
+- `position` — выбор позиции/направления элемента
+- `catalog-view` — настройки отображения каталожных данных
+- `filter` — настройки фильтра
+- `user-select` — выбор пользователя
+- `dynamic_source` — выбор динамического источника данных
 
-Конкретные примеры с данными типами смотрите ниже. Там же вы сможете найти дополнительные опции вариативности.
-
-**Дополнительно**
-
-Помимо специфических свойств того или иного типа (смотрите пример ниже) каждый тип может обладать дополнительными свойствами:
-
-- **hidden** - атрибут регистрируется, но не выводится на редактирование в карточке блока, удобно для регистрации блоков, когда санитайзер не пропускает не зарегистрированные атрибуты.
-
-### Пример
+## Пример с разными типами атрибутов
 
 ```php
-<?php
-$attrs = array(
-    ".landing-node" => array(
-        array(
-            "type" => "text",
-            "name" => "Test attr field",
-            "placeholder" => "Type your text",
-            "value" => "default_value",
-            "attribute" => "data-test-text",
-            "textOnly" => false //если в true, то при редактировании не будет подключаться редактор
-        ),
-    ),
-    array(
-        "type" => "image",
-        "name" => "Test attr image field",
-        "value" => array(
-            "src" => "http://bitrix24.io/bitrix/images/landing/app-store-badge.svg",
-            "alt" => "test alt"
-        ),
-        "attribute" => "data-test-image"
-    ),
-    array(
-        "type" => "icon",
-        "name" => "Test attr icon field",
-        "value" => array(
-            "classList" => array("fa", "fa-address-card")
-        ),
-        "attribute" => "data-test-icon"
-    ),
-    array(
-        "type" => "dropdown",
-        "name" => "Test attr dropdown field",
-        "items" => array(
-            array("name" => "#1", "value" => 1),
-            array("name" => "#2", "value" => 2),
-            array("name" => "#3", "value" => 3),
-            array("name" => "#4", "value" => 4)
-        ),
-        "value" => 3,
-        "attribute" => "data-test-dropdown"
-    ),
-    array(
-        'name' => 'Checkbox field',
-        'type' => 'checkbox',
-        'attribute' => 'data-test-checkbox',
-        'items' => array(
-            array('name' => 'Разрешить указание количества товара', 'value' => '1', 'checked' => true),
-            array('name' => 'Разрешить оповещения для отсутствующих товаров', 'value' => '2', 'checked' => true),
-            array('name' => 'Показывать процент скидки', 'value' => '3', 'checked' => true),
-            array('name' => 'Показыать старую цену', 'value' => '4', 'checked' => true),
-            array('name' => 'Разрешить сравнение товаров', 'value' => '5', 'checked' => true)
-        )
-    ),
-    array(
-        'name' => 'Multi select field',
-        'type' => 'multiselect',
-        'attribute' => 'data-test-multiselect',
-        'items' => array(
-            array('name' => 'Разрешить указание количества товара', 'value' => '1', 'selected' => true),
-            array('name' => 'Разрешить оповещения для отсутствующих товаров', 'value' => '2', 'selected' => true),
-            array('name' => 'Показывать процент скидки', 'value' => '3'),
-            array('name' => 'Показыать старую цену', 'value' => '4', 'items' => array(
-                array('name' => 'Разрешить сравнение товаров', 'value' => '41', 'selected' => true),
-                array('name' => 'Разрешить указание количества товара', 'value' => '42', 'selected' => true),
-                array('name' => 'Разрешить оповещения для отсутствующих товаров', 'value' => '43', 'selected' => true),
-                array('name' => 'Показывать процент скидки', 'value' => '44', 'selected' => true)
-            )),
-            array('name' => 'Разрешить сравнение товаров', 'value' => '5'),
-            array('name' => 'Разрешить указание количества товара', 'value' => '6'),
-            array('name' => 'Разрешить оповещения для отсутствующих товаров', 'value' => '7', 'selected' => true)
-        )
-    ),
-    array(
-        "type" => "link",
-        "name" => "Test attr link field",
-        "value" => array(
-            "text" => "Link anchor",
-            "href" => "/test",
-            "target" => "_popup"
-        ),
-        "attribute" => "data-test-link"
-    ),
-    array(
-        "type" => "slider",
-        "name" => "Test attr slider field",
-        "items" => array(
-            array("name" => "1", "value" => 1),
-            array("name" => "2", "value" => 2),
-            array("name" => "3", "value" => 3),
-            array("name" => "4", "value" => 4),
-            array("name" => "5", "value" => 5)
-        ),
-        "value" => 2,
-        "attribute" => "data-test-slider"
-    ),
-    array(
-        "type" => "range-slider",
-        "name" => "Test attr range slider field",
-        "items" => array(
-            array("name" => "1", "value" => 1),
-            array("name" => "2", "value" => 2),
-            array("name" => "3", "value" => 3),
-            array("name" => "4", "value" => 4),
-            array("name" => "5", "value" => 5)
-        ),
-        "value" => array(
-            "from" => 3,
-            "to" => 5
-        ),
-        "attribute" => "data-test-range-slider"
-    ),
-    array(
-        "type" => "palette",
-        "name" => "Test attr palette field",
-        "items" => array(
-            array('name' => 'g-bg-lightblue', 'value' => 'g-bg-lightblue'),
-            array('name' => 'g-bg-lightblue-opacity-0_1', 'value' => 'g-bg-lightblue-opacity-0_1'),
-            array('name' => 'g-bg-lightblue-v1', 'value' => 'g-bg-lightblue-v1'),
-            array('name' => 'g-bg-lightblue-v1-opacity-0_1', 'value' => 'g-bg-lightblue-v1-opacity-0_1'),
-            array('name' => 'g-bg-darkblue', 'value' => 'g-bg-darkblue'),
-            array('name' => 'g-bg-darkblue-opacity-0_1', 'value' => 'g-bg-darkblue-opacity-0_1'),
-            array('name' => 'g-bg-indigo', 'value' => 'g-bg-indigo'),
-            array('name' => 'g-bg-indigo-opacity-0_1', 'value' => 'g-bg-indigo-opacity-0_1'),
-            array('name' => 'g-bg-red', 'value' => 'g-bg-red'),
-            array('name' => 'g-bg-red-opacity-0_1', 'value' => 'g-bg-red-opacity-0_1'),
-            array('name' => 'g-bg-red-opacity-0_2', 'value' => 'g-bg-red-opacity-0_2'),
-            array('name' => 'g-bg-red-opacity-0_5', 'value' => 'g-bg-red-opacity-0_5'),
-            array('name' => 'g-bg-red-opacity-0_8', 'value' => 'g-bg-red-opacity-0_8'),
-            array('name' => 'g-bg-lightred', 'value' => 'g-bg-lightred'),
-            array('name' => 'g-bg-lightred-opacity-0_1', 'value' => 'g-bg-lightred-opacity-0_1'),
-            array('name' => 'g-bg-darkred', 'value' => 'g-bg-darkred'),
-            array('name' => 'g-bg-darkred-opacity-0_1', 'value' => 'g-bg-darkred-opacity-0_1'),
-            array('name' => 'g-bg-purple', 'value' => 'g-bg-purple')
-        ),
-        "property" => "background-color",
-        "attribute" => "data-test-palette",
+$attrs = [
+    // text: текстовое поле
+    '.landing-block-node-text' => [
+        [
+            'name' => 'Подпись',
+            'type' => 'text',
+            'attribute' => 'data-caption',
+            'placeholder' => 'Введите подпись',
+            'textOnly' => true,
+        ],
+        // dropdown: списочный тип
+        [
+            'name' => 'Режим отображения',
+            'type' => 'dropdown',
+            'attribute' => 'data-view',
+            'items' => [
+                ['name' => 'Короткий', 'value' => 'short'],
+                ['name' => 'Полный', 'value' => 'full'],
+            ],
+            'value' => 'short',
+        ],
+    ],
 
-        // Set if tou need get color by className from css
-        // "stylePath" => "/path/to/stylesheet.css",
+    // image: поле изображения с ограничениями
+    '.landing-block-node-image' => [
+        [
+            'name' => 'Изображение',
+            'type' => 'image',
+            'attribute' => 'data-card-image',
+            'dimensions' => [
+                'maxWidth' => 1200,
+                'maxHeight' => 1200,
+            ],
+        ],
+    ],
 
-        // Set if you need get color from styles for pseudo-element (::before, ::after)
-        // "pseudo-element" => "::after",
+    // icon: выбор иконки
+    '.landing-block-node-icon' => [
+        [
+            'name' => 'Иконка',
+            'type' => 'icon',
+            'attribute' => 'data-card-icon',
+            'value' => [
+                'classList' => ['fa', 'fa-address-card'],
+            ],
+        ],
+    ],
 
-        // Set if you need get color from styles for pseudo-class (:hover, :active, ...)
-        // "pseudo-class" => ":hover"
-    ),
-    array(
-        "type" => "sortable-list",
-        "name" => "Product blocks",
-        "items" => array(
-            array("name" => 'head', "value" => "1"),
-            array("name" => "props", "value" => "2"),
-            array("name" => "tp", "value" => "3"),
-            array("name" => "qant", "value" => "4"),
-            array("name" => "quant2", "value" => "5"),
-            array("name" => "action", "value" => "6"),
-            array("name" => "comp", "value" => "7")
-        ),
-        "value" => array("1", "2", "3", "4", "5", "6", "7"),
-        "attribute" => "data-catalog-prop-sort"
-    ),
-    array(
-        "type" => "position",
-        "name" => "position",
-        "items" => array(
-            "top-left" => array("content" => "", "value" => "1"),
-            "top-center" => array("content" => "", "value" => "2"),
-            "top-right" => array("content" => "", "value" => "3"),
-            "middle-left" => array("content" => "", "value" => "4"),
-            "middle-center" => array("content" => "", "value" => "5"),
-            "middle-right" => array("content" => "", "value" => "6"),
-            "bottom-left" => array("content" => "", "value" => "7"),
-            "bottom-right" => array("content" => "", "value" => "8")
-        ),
-        "value" => "top-right",
-        "attribute" => "data-catalog-prop-position"
-    ),
-    array(
-        'name' => 'URL field',
-        'type' => 'url',
-        'value' => '#landing166',
-        'attribute' => 'data-test-url',
-        'disableBlocks' => true, // Отключает выбор блоков
-        'disableCustomURL' => false // Отключает возможность ввести урл руками
-    ),
-    array(
-        'name' => 'Datetime',
-        'type' => 'date',
-        'time' => true,//давать возможность выбора точного времени
-        'format' => 'ms',//'ms' (миллисекунды) / 's' (секунды)
-        'value' => 1621584180000
-    )
-);
+    // link: поле ссылки с текстом, href и target
+    '.landing-block-node-link' => [
+        [
+            'name' => 'Ссылка',
+            'type' => 'link',
+            'attribute' => 'data-card-link',
+            'value' => [
+                'text' => 'Подробнее',
+                'href' => '/about',
+                'target' => '_self',
+            ],
+        ],
+    ],
+
+    // multiselect: множественный выбор, включая вложенные пункты
+    '.landing-block-node-options' => [
+        [
+            'name' => 'Опции',
+            'type' => 'multiselect',
+            'attribute' => 'data-options',
+            'items' => [
+                ['name' => 'Опция 1', 'value' => '1', 'selected' => true],
+                ['name' => 'Опция 2', 'value' => '2'],
+                [
+                    'name' => 'Группа',
+                    'value' => 'group',
+                    'items' => [
+                        ['name' => 'Подопция 1', 'value' => 'group-1', 'selected' => true],
+                        ['name' => 'Подопция 2', 'value' => 'group-2'],
+                    ],
+                ],
+            ],
+        ],
+    ],
+
+    // slider: выбор одного значения из шкалы
+    '.landing-block-node-slider' => [
+        [
+            'name' => 'Количество карточек',
+            'type' => 'slider',
+            'attribute' => 'data-cards-count',
+            'items' => [
+                ['name' => '1', 'value' => 1],
+                ['name' => '2', 'value' => 2],
+                ['name' => '3', 'value' => 3],
+                ['name' => '4', 'value' => 4],
+            ],
+            'value' => 2,
+        ],
+    ],
+
+    // range-slider: выбор диапазона
+    '.landing-block-node-range' => [
+        [
+            'name' => 'Диапазон значений',
+            'type' => 'range-slider',
+            'attribute' => 'data-range',
+            'items' => [
+                ['name' => '1', 'value' => 1],
+                ['name' => '2', 'value' => 2],
+                ['name' => '3', 'value' => 3],
+                ['name' => '4', 'value' => 4],
+                ['name' => '5', 'value' => 5],
+            ],
+            'value' => [
+                'from' => 2,
+                'to' => 4,
+            ],
+        ],
+    ],
+
+    // sortable-list: сортируемый список
+    '.landing-block-node-sortable' => [
+        [
+            'name' => 'Порядок блоков',
+            'type' => 'sortable-list',
+            'attribute' => 'data-sort-order',
+            'items' => [
+                ['name' => 'Заголовок', 'value' => 'head'],
+                ['name' => 'Свойства', 'value' => 'props'],
+                ['name' => 'Действия', 'value' => 'action'],
+            ],
+            'value' => ['head', 'props', 'action'],
+        ],
+    ],
+
+    // url: ссылка с ограничениями выбора
+    '.landing-block-node-button' => [
+        [
+            'name' => 'Ссылка кнопки',
+            'type' => 'url',
+            'attribute' => 'data-button-url',
+            'value' => '#landing166',
+            'disableBlocks' => true,
+            'disableCustomURL' => false,
+        ],
+    ],
+
+    // date: дата и время с форматом хранения
+    '.landing-block-node-date' => [
+        [
+            'name' => 'Дата публикации',
+            'type' => 'date',
+            'attribute' => 'data-publish-date',
+            'time' => true,
+            'format' => 'ms',
+            'value' => 1621584180000,
+        ],
+    ],
+
+    // palette: палитра с чтением цвета из CSS
+    '.landing-block-node-palette' => [
+        [
+            'name' => 'Цвет подложки',
+            'type' => 'palette',
+            'attribute' => 'data-bg-color',
+            'property' => 'background-color',
+            // Если нужно читать цвет не из стандартных стилей
+            'stylePath' => '/bitrix/templates/my-site/styles.css',
+            // Если цвет задается через псевдоэлемент
+            'pseudo-element' => '::after',
+            // Если цвет зависит от состояния элемента
+            'pseudo-class' => ':hover',
+            'items' => [
+                ['name' => 'g-bg-lightblue', 'value' => 'g-bg-lightblue'],
+                ['name' => 'g-bg-darkblue', 'value' => 'g-bg-darkblue'],
+            ],
+        ],
+    ],
+
+    // position: выбор позиции
+    '.landing-block-node-badge' => [
+        [
+            'name' => 'Позиция бейджа',
+            'type' => 'position',
+            'attribute' => 'data-badge-position',
+            'items' => [
+                'top-left' => ['content' => '', 'value' => 'top-left'],
+                'top-center' => ['content' => '', 'value' => 'top-center'],
+                'top-right' => ['content' => '', 'value' => 'top-right'],
+            ],
+            'value' => 'top-right',
+        ],
+    ],
+];
 ```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
