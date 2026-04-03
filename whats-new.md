@@ -4,6 +4,15 @@
 
 ### 03 апреля, 2026
 
+- Обновили документацию по методам [ai.engine.*](./api-reference/ai/index.md) в разделе BitrixGPT
+- Обновили страницу [Дополнительные поля](./api-reference/landing/page/additional-fields.md)
+- Обновили страницу [Цветовые темы](./api-reference/landing/page/color-themes.md)
+- Обновили страницу [Блоки-меню](./api-reference/landing/block/special/menu.md)
+- Обновили страницу [Формы в блоках](./api-reference/landing/block/special/crm-forms.md)
+- Обновили страницу [Карты в блоках](./api-reference/landing/block/special/maps.md)
+- Обновили страницу [Навигация и заголовок](./api-reference/landing/block/special/navigation.md)
+- Обновили страницу [Формы поиска](./api-reference/landing/block/special/search-forms.md)
+- Обновили страницу [Результаты поиска](./api-reference/landing/block/special/search.md)
 - Обновили страницу [Файл манифеста](./api-reference/landing/block/manifest.md)
 - Обновили страницу [Атрибуты](./api-reference/landing/block/attributes.md)
 - Обновили страницу [Типы нод](./api-reference/landing/block/node-types.md)
