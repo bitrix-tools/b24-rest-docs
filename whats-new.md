@@ -5,6 +5,7 @@
 ### 03 апреля, 2026
 
 - Добавили документацию по методам [crm.tracking.trace.*](./api-reference/crm/tracking/index.md) в разделе Сквозная аналитика CRM
+- Обновили страницу [Типы данных и форматы параметров в REST API](./api-reference/data-types.md)
 
 ### 02 апреля, 2026
 
@@ -14,7 +15,7 @@
 - Обновили документацию по методам [landing.repo.*](./api-reference/landing/user-blocks/index.md) в разделе Пользовательские блоки
 - Обновили документацию по методам [placement.*](./api-reference/widgets/placements.md) в разделе Места для встройки виджетов
 - Обновили документацию по методам [pull.application.*](./settings/interactivity/push-and-pull/index.md) в разделе Push&Pull
-- Обновили документацию по виджетам [LANDING_BLOCK_<CODE>](./api-reference/landing/embedding/block.md) и [LANDING_SETTINGS](./api-reference/landing/embedding/settings.md)
+- Обновили документацию по виджетам [LANDING_BLOCK_*](./api-reference/landing/embedding/block.md) и [LANDING_SETTINGS](./api-reference/landing/embedding/settings.md)
 - Обновили документацию по виджету [CONTACT_CENTER](./api-reference/widgets/contact-center.md)
 - Обновили страницу [Методы BX24 SDK для виджетов](./api-reference/widgets/bx24-widget-methods.md)
 - Обновили страницу [Карточка звонка CALL_CARD: обзор методов и событий](./api-reference/widgets/ui-interaction/call-card/index.md)
