@@ -4,7 +4,7 @@
 
 Заполненные значения можно получить через метод [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md).
 
-{% note info %}
+{% note info "" %}
 
 Метод `landing.landing.getadditionalfields` возвращает только непустые поля страницы.
 
