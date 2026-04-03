@@ -1,0 +1,9 @@
+title: Сквозная аналитика
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать трейс сквозной аналитики
+    href: crm-tracking-trace-add.md
+  - name: Удалить трейс сквозной аналитики
+    href: crm-tracking-trace-delete.md

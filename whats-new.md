@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 03 апреля, 2026
+
+- Добавили документацию по методам [crm.tracking.trace.*](./api-reference/crm/tracking/index.md) в разделе Сквозная аналитика CRM
+
 ### 02 апреля, 2026
 
 - Обновили документацию по методам в разделе [BX24 JS SDK](./sdk/bx24-js-sdk/additional-functions/index.md)

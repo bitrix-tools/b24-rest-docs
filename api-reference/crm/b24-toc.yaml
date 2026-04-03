@@ -9,6 +9,10 @@ items:
     href: main-entities-fields.md
   - name: Частые кейсы и туториалы
     href: tutorials.md
+  - name: Сквозная аналитика
+    include:
+      path: tracking/b24-toc.yaml
+      mode: link
   - name: Определить текущий режим работы CRM
     href: crm-settings-mode-get.md
   - name: Универсальные методы CRM

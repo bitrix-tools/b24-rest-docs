@@ -6,16 +6,6 @@
 
 {% endnote %}
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- на странице упоминается метод crm.tracking.trace.add, который не описан нигде в доке
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователи с административным доступом к разделу CRM
@@ -58,11 +48,11 @@
 b24Tracker.guest.getTrace()
 ```
 
-Значение поля `TRACE` может быть число — `ID` трейса, который получен методом `crm.tracking.trace.add`.
+Значение поля `TRACE` может быть число — `ID` трейса, который получен методом [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md).
 
 ## Создание трейса и получение его ID
 
-Метод создает трейс:
+Метод [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md) создает трейс:
 
 ```bash
 crm.tracking.trace.add
