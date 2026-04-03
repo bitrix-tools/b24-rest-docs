@@ -19,7 +19,7 @@
 #|
 || **Метод** | **Описание** ||
 || [BX24.isAdmin](./bx24-is-admin.md) | Определяет, имеет ли текущий пользователь права на управление приложениями. ||
-|| [BX24.getLang](./bx24-get-lang.md) | Возвращает идентификатор языка текущего портала. ||
+|| [BX24.getLang](./bx24-get-lang.md) | Возвращает идентификатор языка в текущем Битрикс24. ||
 || [BX24.resizeWindow](./bx24-resize-window.md) | Изменяет размер фрейма с приложением. ||
 || [BX24.fitWindow](./bx24-fit-window.md) | Устанавливает размер фрейма с приложением в соответствии с размерами содержимого фрейма. ||
 || [BX24.reloadWindow](./bx24-reload-window.md) | Перезагружает страницу с приложением (всю страницу, не только фрейм). ||
@@ -30,14 +30,14 @@
 || [BX24.proxyContext](./bx24-proxy-context.md) | При вызове изнутри прокси-функцию выдаст ссылку на оригинальный контекст выполнения прокси-функции. ||
 || [BX24.bind](./bx24-bind.md) | Устанавливает функцию *func* в качестве обработчика события *eventName* объекта *element*. ||
 || [BX24.unbind](./bx24-unbind.md) | Убирает функцию *func* в качестве обработчика события *eventName* объекта *element*. ||
-|| [BX24.getDomain](./bx24-get-domain.md) | Возвращает **window.location.host** родительского окна, т.е. возвращает адрес портала *Битрикс24*. ||
+|| [BX24.getDomain](./bx24-get-domain.md) | Возвращает значение `PARAMS.DOMAIN`, сохраненное при инициализации библиотеки SDK. ||
 || [BX24.getScrollSize](./bx24-get-scroll-size.md) | Функция возвращает внутренние размеры фрейма приложения. ||
 || [BX24.loadScript](./bx24-load-script.md) | Загружает и выполняет клиентский javascript-файл. ||
-|| [BX24.im.callTo](./bx24-im-call-to.md) | Звонок по внутренней связи. ||
-|| [BX24.im.phoneTo](./bx24-im-phone-to.md) | Звонок на телефонный номер. ||
-|| [BX24.im.openMessenger](./bx24-im-open-messenger.md) | Открытие окна мессенджера. ||
-|| [BX24.im.openHistory](./bx24-im-open-history.md) | Открытие окна истории. ||
+|| [Messenger.startVideoCall](./messenger-start-video-call.md) | Актуальная замена `BX24.im.callTo` для запуска видеозвонка. ||
+|| [Messenger.startPhoneCall](./messenger-start-phone-call.md) | Актуальная замена `BX24.im.phoneTo` для звонка на телефонный номер. ||
+|| [Messenger.openChat](./messenger-open-chat.md) | Актуальная замена `BX24.im.openMessenger` и `BX24.im.openHistory`: открывает чат, историю сообщений или список чатов. ||
 || [BX24.openApplication](./bx24-open-application.md) | Метод открывает приложение. ||
 || [BX24.closeApplication](./bx24-close-application.md) | Метод закрывает открытое модальное окно с приложением. ||
 || [BX24.scrollParentWindow](./bx24-scroll-parent-window.md) | Метод прокручивает родительское окно. ||
+|| [Устаревшие методы](./outdated/index.md) | Устаревшие методы `BX24.im.*`, которые остаются доступными для обратной совместимости. ||
 |#

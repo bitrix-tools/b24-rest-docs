@@ -23,6 +23,8 @@ void BX24.resizeWindow(Integer width, Integer height[, Function callback])
 
 ## Пример кода
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 ```js
 BX24.init(function () {
     BX24.resizeWindow(980, 700, function () {
@@ -30,8 +32,6 @@ BX24.init(function () {
     });
 });
 ```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 

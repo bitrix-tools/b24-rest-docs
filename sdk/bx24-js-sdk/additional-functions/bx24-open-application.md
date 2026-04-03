@@ -1,72 +1,57 @@
 # Открыть всплывающее окно BX24.openApplication
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-- список параметров надо разбить скорее всего на отдельные таблицы
-
-{% endnote %}
-
-{% endif %}
+Метод `BX24.openApplication` открывает всплывающее окно с фреймом приложения. В открываемое приложение можно передать параметры и обработчик закрытия.
 
 ```js
-void BX24.openApplication([
-    Object parameters[
-    Function closeCallback
-    ]
-]);
+void BX24.openApplication([Object params], [Function closeCallback], [Object settings])
 ```
-
-При вызове метода `BX24.openApplication` будет открыто всплывающее окно с фреймом приложения. Приложению будут переданы данные из параметра parameters. При закрытии всплывающего окна будет вызван обработчик closeCallback. Метод может контролировать размеры, заголовок, и лейбл сладера.
 
 ## Параметры
 
 #|
-|| **Параметр** | **Описание** ||
-|| **parameters**
-[`unknown`](../../../api-reference/data-types.md) | Объект с параметрами, которые будут переданы открываемому приложению в виде JSON-строки ||
+|| **Название**
+`тип` | **Описание** ||
+|| **params**
+`object` | Объект параметров, который будет передан открываемому приложению ||
 || **closeCallback**
-[`unknown`](../../../api-reference/data-types.md) | Обработчик закрытия приложения ||
-|| **bx24_width**
-[`unknown`](../../../api-reference/data-types.md) | Ширина слайда ||
-|| **bx24_label**
-[`unknown`](../../../api-reference/data-types.md) | Заголовок плашки ||
-|| **bx24_title**
-[`unknown`](../../../api-reference/data-types.md) | Заголовок страницы ||
-|| **bx24_leftBoundary**
-[`unknown`](../../../api-reference/data-types.md) | Слайдер во всю ширину с отступом слева. Не может быть одновременно с bx24_width. ||
+`function` | Функция, которая будет вызвана после закрытия всплывающего окна ||
+|| **settings**
+`object` | Дополнительные настройки окна. Ключи из `settings` автоматически добавляются в `params` с префиксом `bx24_` ||
 |#
 
-Для плейсментов `CRM_*_LIST_MENU` заблокировано.
+### Параметр settings {#settings}
 
-## Примеры
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **width**
+`integer` | Ширина слайдера. Передается как `bx24_width` ||
+|| **label**
+`object` | Параметры плашки. Передается как `bx24_label` ||
+|| **title**
+`string` | Заголовок страницы. Передается как `bx24_title` ||
+|| **leftBoundary**
+`integer` | Отступ слайдера слева. Передается как `bx24_leftBoundary`. Не используется одновременно с `width` ||
+|#
 
-Единый пример для BX24.openApplication и [BX24.closeApplication](./bx24-close-application.md)
+> В некоторых контекстах открытия окна параметры `bx24_label.bgColor` и `bx24_label.text` могут не применяться. При этом `bx24_label.color` может влиять на цвет элементов интерфейса окна, например, иконки закрытия
 
-```js
+## Пример кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Единый пример для `BX24.openApplication` и [BX24.closeApplication](./bx24-close-application.md):
+
+```php
 <script src="//api.bitrix24.tech/api/v1/"></script>
 <?
-// разбор входных данных
 $placementOptions = array();
-if(array_key_exists('PLACEMENT_OPTIONS', $_REQUEST))
+if (array_key_exists('PLACEMENT_OPTIONS', $_REQUEST))
 {
     $placementOptions = json_decode($_REQUEST['PLACEMENT_OPTIONS'], true);
 }
 
-// если приложение не развернуто, выводим кнопку открытия, в противном случае закрытия
-if(!isset($placementOptions['opened']))
+if (!isset($placementOptions['opened']))
 {
 ?>
     <span onclick="openApplication()">Open</span>
@@ -78,23 +63,21 @@ else
     <span onclick="closeApplication()">Close</span>
 <?
 }
-
 ?>
 <script>
     function openApplication()
     {
         BX24.openApplication(
             {
-                'opened': true // данные, передаваемые открываемому приложению
+                opened: true
             },
             function()
             {
-                // этот обработчик сработает, когда приложение будет закрыто
-                alert('Application closed!')
+                alert('Application closed!');
             }
         );
 
-        setTimeout(closeApplication, 15000); // автоматически закрыть через 15 секунд
+        setTimeout(closeApplication, 15000);
     }
 
     function closeApplication()
@@ -104,26 +87,31 @@ else
 </script>
 ```
 
-Пример со слайдером
+### Пример со слайдером
 
 ```js
 BX24.openApplication(
-    {
-        'opened': true,
-        'bx24_width': 450,// int
-        'bx24_label': {
-            'bgColor':'pink', // aqua/green/orange/brown/pink/blue/grey/violet
-            'text': 'my task',
-            'color': '#07ff0e',
-        },
-        'bx24_title': 'my title', // str
-        //'bx24_leftBoundary': 300, //int
+    { opened: true },
+    function () {
+        console.log('Application closed');
     },
-    function()
     {
-        console.log('Application closed!')
+        width: 450,
+        label: {
+            bgColor: 'pink',
+            text: 'my task',
+            color: '#07ff0e'
+        },
+        title: 'my title'
     }
 );
 ```
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+Метод не возвращает данные (`void`).
+
+## Продолжите изучение
+
+- [{#T}](./bx24-close-application.md)
+- [{#T}](./bx24-open-path.md)

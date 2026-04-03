@@ -21,6 +21,8 @@ void BX24.scrollParentWindow(Integer scroll[, Function callback])
 
 ## Пример кода
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 ```js
 BX24.init(function () {
     BX24.scrollParentWindow(0, function () {
@@ -28,8 +30,6 @@ BX24.init(function () {
     });
 });
 ```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 

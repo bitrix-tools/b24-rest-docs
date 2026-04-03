@@ -1,6 +1,6 @@
-# Получить идентификатор языка текущего портала BX24.getLang
+# Получить идентификатор языка в текущем Битрикс24 BX24.getLang
 
-Метод `BX24.getLang` возвращает идентификатор языка текущего портала. Метод работает после [BX24.init](../system-functions/bx24-init.md).
+Метод `BX24.getLang` возвращает идентификатор языка в текущем Битрикс24. Метод работает после [BX24.init](../system-functions/bx24-init.md).
 
 ```js
 String BX24.getLang()
@@ -12,6 +12,8 @@ String BX24.getLang()
 
 ## Пример кода
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 ```js
 BX24.init(function () {
     const lang = BX24.getLang();
@@ -20,8 +22,6 @@ BX24.init(function () {
     });
 });
 ```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 
@@ -33,7 +33,7 @@ BX24.init(function () {
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`string`](../../../api-reference/data-types.md) | Идентификатор языка текущего портала: `ja`, `id`, `ms`, `de`, `la`, `fr`, `it`, `pl`, `br`, `vn`, `tr`, `kz`, `ru`, `en`, `ua`, `ar`, `th`, `sc`, `tc` ||
+[`string`](../../../api-reference/data-types.md) | Идентификатор языка в текущем Битрикс24: `ja`, `id`, `ms`, `de`, `la`, `fr`, `it`, `pl`, `br`, `vn`, `tr`, `kz`, `ru`, `en`, `ua`, `ar`, `th`, `sc`, `tc` ||
 |#
 
 ## Продолжите изучение

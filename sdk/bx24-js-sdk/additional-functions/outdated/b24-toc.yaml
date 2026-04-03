@@ -1,0 +1,13 @@
+title: Устаревшие методы
+href: index.md
+items:
+  - name: Обзор
+    href: index.md
+  - name: Позвонить по внутренней связи
+    href: bx24-im-call-to.md
+  - name: Позвонить на телефонный номер
+    href: bx24-im-phone-to.md
+  - name: Открыть окно мессенджера
+    href: bx24-im-open-messenger.md
+  - name: Открыть окно истории
+    href: bx24-im-open-history.md

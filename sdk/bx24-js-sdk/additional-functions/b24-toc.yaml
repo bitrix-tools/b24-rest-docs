@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Проверить администраторский доступ пользователя
     href: bx24-is-admin.md
-  - name: Получить идентификатор языка текущего портала
+  - name: Получить идентификатор языка в текущем Битрикс24
     href: bx24-get-lang.md
   - name: Изменить размер фрейма
     href: bx24-resize-window.md
@@ -23,7 +23,7 @@ items:
     href: bx24-proxy.md
   - name: Закрыть окно с приложением
     href: bx24-close-application.md
-  - name: Получить адрес портала
+  - name: Получить адрес Битрикс24
     href: bx24-get-domain.md
   - name: Открыть всплывающее окно
     href: bx24-open-application.md
@@ -41,11 +41,13 @@ items:
     href: bx24-get-scroll-size.md
   - name: Запустить javascript-файл
     href: bx24-load-script.md
-  - name: Позвонить по внутренней связи
-    href: bx24-im-call-to.md
-  - name: Позвонить на телефонный номер
-    href: bx24-im-phone-to.md
-  - name: Открыть окно мессенджера
-    href: bx24-im-open-messenger.md
-  - name: Открыть окно истории
-    href: bx24-im-open-history.md
+  - name: Запустить видеозвонок
+    href: messenger-start-video-call.md
+  - name: Запустить звонок на телефонный номер
+    href: messenger-start-phone-call.md
+  - name: Открыть чат
+    href: messenger-open-chat.md
+  - name: Устаревшие методы
+    include:
+      path: outdated/b24-toc.yaml
+      mode: link

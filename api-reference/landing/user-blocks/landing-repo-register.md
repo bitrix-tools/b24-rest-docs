@@ -1,109 +1,145 @@
 # Добавить пользовательский блок в репозиторий landing.repo.register
 
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- отсутствуют примеры
-- отсутствует ответ в случае успеха
-- отсутствует ответ в случае ошибки
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`landing`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом Просмотр в разделе Сайты
 
-Метод `landing.repo.register` добавляет блок в репозиторий. Возвращает ошибку или `ID` добавленного блока. Этот `ID` используется для добавления блока на создаваемые программно лендинги.
+Метод `landing.repo.register` добавляет новый пользовательский блок в репозиторий.
 
-При добавлении происходит проверка. Если блок с данным кодом уже присутствует в системе, произойдет его удаление.
+Метод обновляет блок, если он уже существует с этим же кодом для текущего приложения. Если не существует — создает новый.
 
-Метод может вернуть ошибку об опасном содержимом блока. В этом случае требуется сначала проверить регистрируемое содержимое методом [landing.repo.checkContent](./landing-repo-check-content.md).
+## Параметры метода
 
-При разработке нового блока или изменении существующего может потребоваться быстрее увидеть изменение, чем это позволяет пере-добавление блока или флаг RESET. Рекомендуется для этих целей использовать метод [landing.block.updatecontent](../block/methods/landing-block-update-content.md). Метод передаёт в блок произвольный контент и отображает изменения практически "налету". После того как разработка закончена, разработчик может окончательно его зарегистрировать.
-
-Метод подходит только для изменения контента. При изменении манифеста блок требуется перерегистрировать (без пере-добавления на страницу).
-
-## Параметры
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| **code**
-[`unknown`](../../data-types.md) | Уникальный код вашего блока, по нему будет осуществляться удаление блока, если требуется. ||
-|| **fields**
-[`unknown`](../../data-types.md) | Массив полей, описывающих ваш блок, состоит из ключей:
-- NAME - название блока
-- DESCRIPTION - описание блока
-- SECTIONS - категории, в которых должен появиться блок, через запятую.
-
-  {% note info %}
-  
-  Если нужной категории нет в списке, просто напишите ее текстом в манифесте, категория будет добавлена. Ключом новой категории становится значение `md5(strtolower($sectionName))`.
-  
-  {% endnote %}
-
-- PREVIEW - URL картинки, обложки блока
-- CONTENT - html-содержимое блока
-- ACTIVE - активность блока (Y / N)
-- SITE_TEMPLATE_ID – привязка блока к определенному шаблона сайта главного модуля. **Только для коробочных версий!**
-
-Дополнительные параметры:
-- RESET - если передать со значением Y, то система автоматически обновит все добавленные на страницы блоки на новую верстку. [Подробнее...](https://dev.bitrix24.ru/company/personal/user/3/blog/2091/) ||
+|| **Название**
+`тип` | **Описание** ||
+|| **code**^*^
+[`string`](../../data-types.md) | Уникальный код блока ||
+|| **fields**^*^
+[`object`](../../data-types.md) | Поля блока [подробнее](#fields) ||
 || **manifest**
-[`unknown`](../../data-types.md) | Массив манифеста, которым описывается блок. ||
+[`object`](../../data-types.md) | Манифест блока.
+
+Структуру манифеста смотрите в методе [landing.block.getManifestFile](../block/methods/landing-block-get-manifest-file.md) и в разделе [Файл манифеста](../block/manifest.md) ||
 |#
 
-{% note info %}
+### Тип fields {#fields}
 
-Атрибут **style** может вырезаться встроенным санитайзером. Чтобы это обойти используйте вместо него атрибут **bxstyle**. При добавлении система конвертирует его в штатный style.
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
-{% endnote %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME**^*^
+[`string`](../../data-types.md) | Название блока ||
+|| **CONTENT**^*^
+[`string`](../../data-types.md) | HTML-содержимое блока. Перед сохранением проходит sanitize-проверку ||
+|| **SECTIONS**^*^
+[`string`](../../data-types.md) | Категории блока строкой через запятую, например `cover,about` ||
+|| **PREVIEW**^*^
+[`string`](../../data-types.md) | URL превью блока ||
+|| **DESCRIPTION**
+[`string`](../../data-types.md) | Описание блока ||
+|| **ACTIVE**
+[`string`](../../data-types.md) | Активность блока (`Y`/`N`) ||
+|| **SITE_TEMPLATE_ID**
+[`string`](../../data-types.md) | Привязка блока к шаблону сайта ||
+|| **RESET**
+[`string`](../../data-types.md) | Если передать `Y`, метод регистрирует обновление добавленных на страницы блоков с кодом `repo_<ID>` ||
+|#
 
+## Примеры кода
 
-## Примеры
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример регистрации блока, где:
+- `code` — уникальный код блока `myblockx`
+- `fields` — основные параметры блока (`NAME`, `DESCRIPTION`, `SECTIONS`, `PREVIEW`, `CONTENT`)
+- `manifest` — базовый манифест блока с описанием `block` и `nodes`
 
 {% list tabs %}
 
-- JS
+- cURL (Webhook)
 
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "code": "myblockx",
+        "fields": {
+          "NAME": "Test block",
+          "DESCRIPTION": "Just try!",
+          "SECTIONS": "cover,about",
+          "PREVIEW": "https://www.bitrix24.ru/images/b24_screen.png",
+          "CONTENT": "<section class=\"landing-block\"><div class=\"container\">Test</div></section>"
+        },
+        "manifest": {
+          "block": {"name": "Test block"},
+          "nodes": {
+            ".landing-block-node-text": {"name": "Text", "type": "text"}
+          }
+        }
+      }' \
+      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.repo.register.json"
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+        "code": "myblockx",
+        "fields": {
+          "NAME": "Test block",
+          "SECTIONS": "cover,about",
+          "PREVIEW": "https://www.bitrix24.ru/images/b24_screen.png",
+          "CONTENT": "<section class=\"landing-block\"><div class=\"container\">Test</div></section>"
+        },
+        "manifest": {
+          "block": {"name": "Test block"}
+        },
+        "auth": "**put_access_token_here**"
+      }' \
+      "https://**put.your-domain-here**/rest/landing.repo.register.json"
+    ```
+
+- JS
 
     ```js
     try
     {
     	const response = await $b24.callMethod(
     		'landing.repo.register',
-    		<?= \CUtil::PhpToJSObject($data) ?>
+    		{
+    			code: 'myblockx',
+    			fields: {
+    				NAME: 'Test block',
+    				DESCRIPTION: 'Just try!',
+    				SECTIONS: 'cover,about',
+    				PREVIEW: 'https://www.bitrix24.ru/images/b24_screen.png',
+    				CONTENT: '<section class="landing-block"><div class="container">Test</div></section>'
+    			},
+    			manifest: {
+    				block: { name: 'Test block' },
+    				nodes: {
+    					'.landing-block-node-text': { name: 'Text', type: 'text' }
+    				}
+    			}
+    		}
     	);
-    	
-    	const result = response.getData().result;
-    	if (result.error())
-    	{
-    		console.error(result.error());
-    	}
-    	else
-    	{
-    		console.info(result);
-    	}
+
+    	console.info(response.getData().result);
     }
-    catch(error)
+    catch (error)
     {
-    	console.error('Error:', error);
+    	console.error(error);
     }
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -114,77 +150,26 @@
                 [
                     'code' => 'myblockx',
                     'fields' => [
-                        'NAME'        => 'Test block',
+                        'NAME' => 'Test block',
                         'DESCRIPTION' => 'Just try!',
-                        'SECTIONS'    => 'cover,about',
-                        'PREVIEW'     => 'https://www.bitrix24.ru/images/b24_screen.png',
-                        'CONTENT'     => '
-        <section class="landing-block">
-            <div class="text-center g-color-gray-dark-v3 g-pa-10">
-                <div class="g-width-600 mx-auto">
-                    <div class="landing-block-node-text g-font-size-12 ">
-                        <p>© 2017 All right reserved. Developed by
-                        <a href="#" class="landing-block-node-link g-color-primary">Bitrix24</a></p>
-                    </div>
-                </div>
-            </div>
-        </section>'
+                        'SECTIONS' => 'cover,about',
+                        'PREVIEW' => 'https://www.bitrix24.ru/images/b24_screen.png',
+                        'CONTENT' => '<section class="landing-block"><div class="container">Test</div></section>',
                     ],
                     'manifest' => [
-                        'assets' => [
-                            'css' => [
-                                'https://site.com/aaa.css'
-                            ],
-                            'js'  => [
-                                'https://site.com/aaa.js'
-                            ]
-                        ],
-                        'nodes'  => [
-                            '.landing-block-node-text' => [
-                                'name' => 'Text',
-                                'type' => 'text',
-                            ],
-                            '.landing-block-node-link' => [
-                                'name' => 'Link',
-                                'type' => 'link',
-                            ],
-                        ],
-                        'style'  => [
-                            '.landing-block-node-text' => [
-                                'name' => 'Text',
-                                'type' => 'typo',
-                            ],
-                            '.landing-block-node-link' => [
-                                'name' => 'Link',
-                                'type' => 'typo',
-                            ],
-                        ],
-                        'attrs'  => [
-                            '.landing-block-node-text' => [
-                                'name'      => 'Настройка копирайта',
-                                'type'      => 'dropdown',
-                                'attribute' => 'data-copy',
-                                'items'     => [
-                                    'val1' => 'Значение 1',
-                                    'val2' => 'Значение 2'
-                                ]
-                            ],
+                        'block' => ['name' => 'Test block'],
+                        'nodes' => [
+                            '.landing-block-node-text' => ['name' => 'Text', 'type' => 'text'],
                         ],
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling landing.repo.register: ' . $e->getMessage();
@@ -194,93 +179,141 @@
 - BX24.js
 
     ```js
-    <?
-    //для наглядности, передадим PHP-массив на исполнение JS
-    $data = array(
-        'code' => 'myblockx',
-        'fields' => array(
-            'NAME' => 'Test block',
-            'DESCRIPTION' => 'Just try!',
-            'SECTIONS' => 'cover,about',
-            'PREVIEW' => 'https://www.bitrix24.ru/images/b24_screen.png',
-            'CONTENT' => '
-    <section class="landing-block">
-        <div class="text-center g-color-gray-dark-v3 g-pa-10">
-            <div class="g-width-600 mx-auto">
-                <div class="landing-block-node-text g-font-size-12 ">
-                    <p>© 2017 All right reserved. Developed by
-                    <a href="#" class="landing-block-node-link g-color-primary">Bitrix24</a></p>
-                </div>
-            </div>
-        </div>
-    </section>'
-        ),
-        'manifest' => array(
-            'assets' => array(
-                'css' => array(
-                    'https://site.com/aaa.css'
-                ),
-                'js' => array(
-                    'https://site.com/aaa.js'
-                )
-            ),
-            'nodes' =>
-                array(
-                    '.landing-block-node-text' =>
-                        array(
-                            'name' => 'Text',
-                            'type' => 'text',
-                        ),
-                    '.landing-block-node-link' =>
-                        array(
-                            'name' => 'Link',
-                            'type' => 'link',
-                        ),
-                ),
-            'style' =>
-                array(
-                    '.landing-block-node-text' =>
-                        array(
-                            'name' => 'Text',
-                            'type' => 'typo',
-                        ),
-                    '.landing-block-node-link' =>
-                        array(
-                            'name' => 'Link',
-                            'type' => 'typo',
-                        ),
-                ),
-            'attrs' =>
-                array(
-                '.landing-block-node-text' =>
-                    array(
-                        'name' => 'Настройка копирайта',
-                        'type' => 'dropdown',
-                        'attribute' => 'data-copy',
-                        'items' => array(
-                            'val1' => 'Значение 1',
-                            'val2' => 'Значение 2'
-                                )
-                        ),
-                ),
-        ),
-    );
-    ?>
-    // обратите внимание! далее идет JS код.
     BX24.callMethod(
         'landing.repo.register',
-        //абстрактный метод, превращающий PHP-массив в JS-объект
-        <?= \CUtil::PhpToJSObject($data)?>,
+        {
+            code: 'myblockx',
+            fields: {
+                NAME: 'Test block',
+                DESCRIPTION: 'Just try!',
+                SECTIONS: 'cover,about',
+                PREVIEW: 'https://www.bitrix24.ru/images/b24_screen.png',
+                CONTENT: '<section class="landing-block"><div class="container">Test</div></section>'
+            },
+            manifest: {
+                block: { name: 'Test block' },
+                nodes: {
+                    '.landing-block-node-text': { name: 'Text', type: 'text' }
+                }
+            }
+        },
         function(result)
         {
-            if(result.error())
+            if (result.error())
+            {
                 console.error(result.error());
+            }
             else
+            {
                 console.info(result.data());
+            }
         }
     );
     ```
 
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'landing.repo.register',
+        [
+            'code' => 'myblockx',
+            'fields' => [
+                'NAME' => 'Test block',
+                'DESCRIPTION' => 'Just try!',
+                'SECTIONS' => 'cover,about',
+                'PREVIEW' => 'https://www.bitrix24.ru/images/b24_screen.png',
+                'CONTENT' => '<section class="landing-block"><div class="container">Test</div></section>',
+            ],
+            'manifest' => [
+                'block' => ['name' => 'Test block'],
+            ],
+        ]
+    );
+
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
+    ```
+
 {% endlist %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": 7,
+    "time": {
+        "start": 1774879194,
+        "finish": 1774879194.526507,
+        "duration": 0.5265069007873535,
+        "processing": 0,
+        "date_start": "2026-03-30T16:59:54+03:00",
+        "date_finish": "2026-03-30T16:59:54+03:00",
+        "operating_reset_at": 1774879794,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`integer`](../../data-types.md) | Идентификатор добавленного или обновленного блока в репозитории ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "MANIFEST_INTERSECT_IMG",
+    "error_description": "Редактируемый элемент манифеста \".landing-block-node-text\" не может иметь стилевой тип \"Изображение\". Измените стилевой тип."
+}
+```
+
+```json
+{
+    "error": "ERROR_ARGUMENT",
+    "error_description": "The value of an argument 'code' has an invalid type",
+    "argument": "code"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Недостаточно прав | Пользователь не прошел общие проверки доступа ||
+|| `ERROR_ARGUMENT` | Некорректный тип аргумента | Передан аргумент в неверном типе. Название аргумента возвращается в поле `argument` ||
+|| `MISSING_PARAMS` | Недостаточно параметров вызова | Не передан обязательный параметр (`code` или `fields`) ||
+|| `REQUIRED_FIELD_NO_EXISTS` | Отсутствует обязательное поле | Не передано одно из полей: `NAME`, `CONTENT`, `SECTIONS`, `PREVIEW` ||
+|| `MANIFEST_INTERSECT_IMG` | Конфликт типов в манифесте | Для одного селектора задан `node` и стиль с типом `background`, `block-default` или `block-border` ||
+|| `CONTENT_IS_BAD` | Небезопасный контент блока | Поле `fields.CONTENT` не прошло sanitize-проверку ||
+|| `PRESET_CONTENT_IS_BAD` | Небезопасный контент пресета | Небезопасное содержимое в `manifest.cards[*].presets[*]` ||
+|| `UNSUPPORTED_BLOCK_TYPE` | Неподдерживаемый тип блока | В коде метода проверяется ограничение на `MAINPAGE` в `manifest.block.type` ||
+|| `UNSUPPORTED_BLOCK_SUBTYPE` | Неподдерживаемый подтип блока | В `manifest.block.subtype` передан `widget` ||
+|| `insufficient_scope` | Недостаточно scope у токена | Токен не содержит scope `landing` ||
+|| `SYSTEM_ERROR` | Внутренняя ошибка | Ошибка выполнения на стороне сервера ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./landing-repo-check-content.md)
+- [{#T}](./landing-repo-get-list.md)
+- [{#T}](./landing-repo-unregister.md)
+- [{#T}](./index.md)

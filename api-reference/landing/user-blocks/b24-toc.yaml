@@ -1,13 +1,13 @@
-title: Общие методы
+title: Пользовательские блоки
 href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Получить список блоков
-    href: landing-repo-get-list.md
   - name: Добавить блок в репозиторий
     href: landing-repo-register.md
-  - name: Удалить блок
+  - name: Получить список блоков
+    href: landing-repo-get-list.md
+  - name: Удалить блок из репозитория
     href: landing-repo-unregister.md
   - name: Проверить контент на опасные подстроки
     href: landing-repo-check-content.md

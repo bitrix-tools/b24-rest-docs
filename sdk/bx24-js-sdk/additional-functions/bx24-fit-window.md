@@ -17,6 +17,8 @@ void BX24.fitWindow([Function callback])
 
 ## Пример кода
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 ```js
 BX24.init(function () {
     BX24.fitWindow(function () {
@@ -24,8 +26,6 @@ BX24.init(function () {
     });
 });
 ```
-
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ## Обработка ответа
 
