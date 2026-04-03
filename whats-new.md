@@ -4,6 +4,11 @@
 
 ### 03 апреля, 2026
 
+- Обновили страницу [Файл манифеста](./api-reference/landing/block/manifest.md)
+- Обновили страницу [Атрибуты](./api-reference/landing/block/attributes.md)
+- Обновили страницу [Типы нод](./api-reference/landing/block/node-types.md)
+- Обновили страницу [Расширенное описание карточек](./api-reference/landing/block/extended-description.md)
+- Обновили страницу [Локализация блока](./api-reference/landing/block/localization.md)
 - Добавили документацию по методам [crm.tracking.trace.*](./api-reference/crm/tracking/index.md) в разделе Сквозная аналитика CRM
 
 ### 02 апреля, 2026
