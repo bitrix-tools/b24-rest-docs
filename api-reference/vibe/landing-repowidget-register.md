@@ -1,12 +1,12 @@
-# Добавить виджет на Главную страницу landing.repowidget.register
+# Добавить виджет на Вайб landing.repowidget.register
 
 > Scope: [`landing`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `landing.repowidget.register` добавляет виджет для Главной страницы. Возвращает ошибку или идентификатор `ID` добавленного виджета.
+Метод `landing.repowidget.register` добавляет виджет для Вайба. Возвращает ошибку или идентификатор `ID` добавленного виджета.
 
-При добавлении выполняется проверка. Если виджет с кодом `code` уже зарегистрирован ранее, то происходит обновление его контента. Виджеты, уже размещенные на Главных страницах, в случае обновления контента обновляются автоматически.
+При добавлении выполняется проверка. Если виджет с кодом `code` уже зарегистрирован ранее, то происходит обновление его контента. Виджеты, уже размещенные на Вайбах, в случае обновления контента обновляются автоматически.
 
 ## Параметры метода
 
@@ -84,11 +84,11 @@
 || **style**
 [`string`](../data-types.md) | Адрес стилей для виджета. Стили также могут быть заданы инлайново в разметке через привязку `:style="{borderBottom: '1px solid red'}"` ||
 || **demoData***
-[`object`](../data-types.md) | Демо-данные для виджета, которые будут использованы для демонстрации виджета в шаблонах Главной страницы в [Битрикс24 Маркетплейс](../../market/index.md).
+[`object`](../data-types.md) | Демо-данные для виджета, которые будут использованы для демонстрации виджета в шаблонах Вайба в [Битрикс24 Маркетплейс](../../market/index.md).
 
 Если вы разрабатываете виджет для конкретного Битрикс24 и не планируете публиковать его в Маркет, то можете указать в качестве значения параметра произвольный массив, он все равно не будет использован.
 
-Однако, если вы готовите тиражное решение с виджетом, уделите демонстрационным данным максимальное внимание — именно они будут отображаться в слайдере предварительного просмотра шаблона Главной страницы! Очевидно, что структура демо-данных должна соответствовать той, которую вернул бы ваш обработчик `handler` в обычном режиме использования виджета
+Однако, если вы готовите тиражное решение с виджетом, уделите демонстрационным данным максимальное внимание — именно они будут отображаться в слайдере предварительного просмотра шаблона Вайба! Очевидно, что структура демо-данных должна соответствовать той, которую вернул бы ваш обработчик `handler` в обычном режиме использования виджета
  ||
 |#
 
@@ -138,7 +138,7 @@
                     'code'    => 'my_widget',
                     'fields'  => [
                         'NAME'         => 'My widget',
-                        'PREVIEW'      => 'https://my-app.com/main_preview.jpg',
+                        'PREVIEW'      => 'https://my-app.com/vibe_preview.jpg',
                         'CONTENT'      => $content,
                         'SECTIONS'     => 'widgets_company_life',
                         'WIDGET_PARAMS' => [
@@ -153,8 +153,8 @@
                                     'W_EMPTY' => 'Empty',
                                 ],
                             ],
-                            'handler'   => 'https://my-app.com/main.php',
-                            'style'     => 'https://my-app.com/main.css',
+                            'handler'   => 'https://my-app.com/vibe.php',
+                            'style'     => 'https://my-app.com/vibe.css',
                             'demoData'  => [
                                 'desc'    => 'Just a test widget',
                                 'count'   => 420,
@@ -221,7 +221,7 @@
         code: 'my_widget',
         fields: {
             NAME: 'My widget',
-            PREVIEW: 'https://my-app.com/main_preview.jpg',
+            PREVIEW: 'https://my-app.com/vibe_preview.jpg',
             CONTENT: content,
             SECTIONS: 'widgets_company_life',
             WIDGET_PARAMS: {
@@ -236,8 +236,8 @@
                         W_EMPTY: 'Empty',
                     },
                 },
-                handler: 'https://my-app.com/main.php',
-                style: 'https://my-app.com/main.css',
+                handler: 'https://my-app.com/vibe.php',
+                style: 'https://my-app.com/vibe.css',
                 demoData: {
                     desc: 'Just a test widget',
                     count: 420,
@@ -308,7 +308,7 @@
         'code' => 'my_widget',
         'fields' => [
             'NAME' => 'My widget', 
-            'PREVIEW' => 'https://my-app.com/main_preview.jpg', 
+            'PREVIEW' => 'https://my-app.com/vibe_preview.jpg', 
             'CONTENT' => $content,  // Vue-разметка вынесена в отдельную переменную для удобства
             'SECTIONS' => 'widgets_company_life', 
             'WIDGET_PARAMS' => [
@@ -323,8 +323,8 @@
                         'W_EMPTY' => 'Empty!',
                     ],
                 ],
-                'handler' => 'https://my-app.com/main.php',
-                'style' => 'https://my-app.com/main.css',
+                'handler' => 'https://my-app.com/vibe.php',
+                'style' => 'https://my-app.com/vibe.css',
                 'demoData' => [
                     'desc' => 'Just a test widget',
                     'count' => 420,

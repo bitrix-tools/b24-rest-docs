@@ -1,10 +1,10 @@
-# Удалить виджет для Главной страницы landing.repowidget.unregister
+# Удалить виджет для Вайба landing.repowidget.unregister
 
 > Scope: [`landing`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `landing.repowidget.unregister` удаляет виджет для Главной страницы. В случае успеха возвращает `true`, в противном случае — `false` или ошибку с описанием.
+Метод `landing.repowidget.unregister` удаляет виджет для Вайба. В случае успеха возвращает `true`, в противном случае — `false` или ошибку с описанием.
 
 ## Параметры метода
 

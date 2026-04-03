@@ -1051,7 +1051,7 @@
 
 ### 18 октября, 2024
 
-- Добавлена документация по методам [landing.repowidget.getlist](./api-reference/main/landing-repowidget-get-list.md) и [landing.repowidget.debug](./api-reference/main/landing-repowidget-debug.md).
+- Добавлена документация по методам [landing.repowidget.getlist](./api-reference/vibe/landing-repowidget-get-list.md) и [landing.repowidget.debug](./api-reference/vibe/landing-repowidget-debug.md).
 - Обновлена главная страница раздела [Универсальные списки](./api-reference/lists/index.md). Добавили вводную информацию, а также обзор методов и связей.
 - Обновлена главная страница раздела [Реквизиты](./api-reference/crm/requisites/index.md). Добавили вводную информацию, обзор методов и связей.
 
@@ -1080,7 +1080,7 @@
 ### 1 октября, 2024
 
 - Добавлен [список ошибок сервера OAuth](./settings/oauth/error-codes.md)
-- Добавлена документация по [Виджетам для Главной страницы](./api-reference/main/index.md)
+- Добавлена документация по [Виджетам для Вайбов](./api-reference/vibe/index.md)
 
 ### 26 сентября, 2024
 

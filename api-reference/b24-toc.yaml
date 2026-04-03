@@ -45,9 +45,9 @@ items:
     include:
       path: chat-bots/b24-toc.yaml
       mode: link      
-  - name: Главная страница
+  - name: Вайб
     include:
-      path: main/b24-toc.yaml
+      path: vibe/b24-toc.yaml
       mode: link
   - name: Генератор документов
     include:

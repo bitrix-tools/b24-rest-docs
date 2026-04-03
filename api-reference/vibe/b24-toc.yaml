@@ -1,7 +1,7 @@
-title: Главная страница
+title: Вайб
 href: index.md
 items:
-  - name: Главная страница и виджеты
+  - name: Вайб и виджеты
     href: index.md
   - name: Добавить виджет
     href: landing-repowidget-register.md
