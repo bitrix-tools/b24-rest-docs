@@ -5,6 +5,10 @@
 ### 07 апреля, 2026
 
 - Обновили главную страницу раздела [Виджеты в мессенджере](./api-reference/widgets/im/index.md) в Виджетах. Добавили вводную информацию, а также обзор методов и связей
+- Обновили страницу [Работа с типами сайтов и скоупами](./api-reference/landing/types.md)
+- Обновили страницу [Поля шаблона представления](./api-reference/landing/template/fields.md)
+- Обновили страницу [Поля сайта](./api-reference/landing/site/base-fields.md)
+- Обновили страницу [Дополнительные поля сайта](./api-reference/landing/site/additional-fields.md)
 
 ### 03 апреля, 2026
 

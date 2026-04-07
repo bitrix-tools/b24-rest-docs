@@ -1,9 +1,9 @@
-title: Сущность Шаблон представления
+title: Шаблон представления
 href: index.md
 items:
   - name: Введение
     href: index.md
-  - name: Поля сущности
+  - name: Поля шаблона представления
     href: fields.md
   - name: Включаемые области
     href: include-section.md

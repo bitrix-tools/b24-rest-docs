@@ -1,135 +1,189 @@
-# Дополнительные поля
+# Дополнительные поля сайта
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Дополнительные поля сайта передаются в массиве `ADDITIONAL_FIELDS` при вызове методов [landing.site.add](./landing-site-add.md) и [landing.site.update](./landing-site-update.md).
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Заполненные значения можно получить через метод [landing.site.getadditionalfields](./landing-site-get-additional-fields.md).
 
-{% endnote %}
+{% note info "" %}
 
-{% if build == 'dev' %}
+Метод `landing.site.getadditionalfields` возвращает только непустые поля сайта.
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+Для записи используйте коды полей в массиве `ADDITIONAL_FIELDS`, например:
 
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не указана обязательность параметров
-- не прописаны ссылки на несозданные ещё страницы
-
-{% endnote %}
-
-{% endif %}
-
-На чтение поля получаются через метод [landing.site.getadditionalfields](./landing-site-get-additional-fields.md).
-
-{% note warning %}
-
-Ниже указаны коды полей, которые для записи в сущность необходимо указывать в массиве с ключом ADDITIONAL. Например, `ADDITIONAL_FIELDS: {UP_SHOW: 'Y'}`.
+```json
+{
+    "ADDITIONAL_FIELDS": {
+        "THEME_CODE": "1construction",
+        "BACKGROUND_USE": "Y",
+        "BACKGROUND_COLOR": "#f4f7fb"
+    }
+}
+```
 
 {% endnote %}
+
+## Что нужно знать
+
+- набор полей зависит от типа сайта, настроек и установленных модулей, поэтому не все поля доступны на каждом сайте
+- для полей-флагов используются значения `Y` и `N`
+- если поле пустое, метод `landing.site.getadditionalfields` не вернет его в ответе
+- поле `BACKGROUND_PICTURE` при записи хранит идентификатор файла, а в ответе REST-метода обычно возвращается URL файла
+
+## Тема и шрифты
 
 #|
-|| **Поле** | **Описание** | **Чтение** | **Запись** ||
+|| **Поле**
+`тип` | **Описание** ||
 || **THEME_CODE**
-[`unknown`](../../data-types.md) | Цветовая палитра. [Описание тем](../page/color-themes.md) | Да | Да ||
-|| **THEME_CODE_TYPO**
-[`unknown`](../../data-types.md) | Настройки шрифтов. | Да | Да ||
-|| **B24BUTTON_CODE**
-[`unknown`](../../data-types.md) | Идентификатор виджета на сайт. Передается JS-путь до виджета. Например, https://cdn.bitrix24.com/crm/loader_2_ibikwq.js | Да | Да ||
-|| **B24BUTTON_COLOR**
-[`unknown`](../../data-types.md) | Цвет виджета, может принимать значения: 
-- site (использовать основной цвет сайта);
-- button (использовать цвет из настроек виджета). | Да | Да ||
-|| **UP_SHOW**
-[`unknown`](../../data-types.md) | Показывать ли кнопку Вверх: Y/N. | Да | Да ||
+[`string`](../../data-types.md) | Код цветовой темы сайта. Доступные значения перечислены в разделе [Цветовые темы страницы](../page/color-themes.md) ||
+|| **THEME_USE**
+[`string`](../../data-types.md) | Включить для сайта собственную цветовую палитру: `Y` или `N` ||
+|| **THEME_COLOR**
+[`string`](../../data-types.md) | Пользовательский цвет темы в формате HEX, например `#34bcf2` ||
+|| **THEMEFONTS_USE**
+[`string`](../../data-types.md) | Включить для сайта собственные настройки шрифтов: `Y` или `N` ||
+|| **THEMEFONTS_CODE**
+[`string`](../../data-types.md) | Шрифт основного текста ||
+|| **THEMEFONTS_CODE_H**
+[`string`](../../data-types.md) | Шрифт заголовков ||
+|| **THEMEFONTS_SIZE**
+[`string`](../../data-types.md) | Базовый размер текста. Поддерживаются значения `0.92857`, `1`, `1.14286` ||
+|| **THEMEFONTS_COLOR**
+[`string`](../../data-types.md) | Цвет основного текста в HEX-формате ||
+|| **THEMEFONTS_COLOR_H**
+[`string`](../../data-types.md) | Цвет заголовков в HEX-формате ||
+|| **THEMEFONTS_LINE_HEIGHT**
+[`string`](../../data-types.md) | Межстрочный интервал. Поддерживаются значения от `0.7` до `2` ||
+|| **THEMEFONTS_FONT_WEIGHT**
+[`string`](../../data-types.md) | Насыщенность основного текста. Поддерживаются значения от `100` до `900` с шагом `100` ||
+|| **THEMEFONTS_FONT_WEIGHT_H**
+[`string`](../../data-types.md) | Насыщенность заголовков. Поддерживаются значения от `100` до `900` с шагом `100` ||
 |#
 
-## Фоновая картинка
+## Виджет Битрикс24
 
 #|
-|| **Поле** | **Описание** | **Чтение** | **Запись** ||
+|| **Поле**
+`тип` | **Описание** ||
+|| **B24BUTTON_USE**
+[`string`](../../data-types.md) | Включить виджет Битрикс24: `Y` или `N` ||
+|| **B24BUTTON_CODE**
+[`string`](../../data-types.md) | Код или URL скрипта виджета Битрикс24. Его можно получить в настройках виджета в CRM ||
+|| **B24BUTTON_COLOR**
+[`string`](../../data-types.md) | Источник цвета виджета. Поддерживаются значения `site`, `button`, `custom` ||
+|| **B24BUTTON_COLOR_VALUE**
+[`string`](../../data-types.md) | Пользовательский цвет виджета в формате HEX. Используется, если `B24BUTTON_COLOR = custom` ||
+|#
+
+## Кнопка возврата вверх
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **UP_SHOW**
+[`string`](../../data-types.md) | Показывать кнопку возврата вверх: `Y` или `N` ||
+|#
+
+## Фон сайта
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
 || **BACKGROUND_USE**
-[`unknown`](../../data-types.md) | Использовать функционал: Y/N | Да | Да ||
+[`string`](../../data-types.md) | Включить настройки фона сайта: `Y` или `N` ||
 || **BACKGROUND_PICTURE**
-[`unknown`](../../data-types.md) | Путь до изображения. | Да | Да ||
+[`string`](../../data-types.md) \| [`integer`](../../data-types.md) | Фоновое изображение сайта. При записи передается идентификатор файла, при чтении REST-метод обычно возвращает URL файла ||
 || **BACKGROUND_POSITION**
-[`unknown`](../../data-types.md) | Позиционирование: center (растянуть), repeat (замостить). | Да | Да ||
+[`string`](../../data-types.md) | Режим вывода фона. Поддерживаются значения `center`, `repeat`, `center_repeat_y`, `no_repeat` ||
 || **BACKGROUND_COLOR**
-[`unknown`](../../data-types.md) | Цвет фона. | Да | Да ||
+[`string`](../../data-types.md) | Цвет фона сайта в HEX-формате ||
 |#
 
 ## Аналитика
 
+Поля аналитики доступны не на всех тарифах. Если на вашем тарифе недоступны интеграции аналитики, включение этих полей не подключит счетчики.
+
 #|
-|| **Поле** | **Описание** | **Чтение** | **Запись** ||
+|| **Поле**
+`тип` | **Описание** ||
 || **YACOUNTER_USE**
-[`unknown`](../../data-types.md) | Использовать Яндекс.Метрику: Y/N. | Да | Да ||
+[`string`](../../data-types.md) | Включить Яндекс Метрику: `Y` или `N` ||
 || **YACOUNTER_COUNTER**
-[`unknown`](../../data-types.md) | Код счетчика Яндекс.Метрики. | Да | Да ||
+[`string`](../../data-types.md) | Идентификатор счетчика Яндекс Метрики ||
 || **GACOUNTER_USE**
-[`unknown`](../../data-types.md) | Использовать Google Analytics: Y/N. | Да | Да ||
+[`string`](../../data-types.md) | Включить Google Analytics: `Y` или `N` ||
 || **GACOUNTER_COUNTER**
-[`unknown`](../../data-types.md) | Код счетчика Google Analytics. | Да | Да ||
+[`string`](../../data-types.md) | Идентификатор счетчика старого формата `UA-...`. Для актуального счетчика GA4 используйте поле `GACOUNTER_COUNTER_GA4` ||
+|| **GACOUNTER_COUNTER_GA4**
+[`string`](../../data-types.md) | Идентификатор счетчика Google Analytics 4 в формате `G-...` ||
 || **GACOUNTER_SEND_CLICK**
-[`unknown`](../../data-types.md) | Отправлять данные о кликах по кнопкам и ссылкам в Google Analytics. | Да | Да ||
+[`string`](../../data-types.md) | Отправлять события по кликам: `Y` или `N` ||
+|| **GACOUNTER_CLICK_TYPE**
+[`string`](../../data-types.md) | Откуда брать подпись для события клика. Поддерживаются значения `href` и `text` ||
 || **GACOUNTER_SEND_SHOW**
-[`unknown`](../../data-types.md) | Отправлять данные о просмотре блоков страницы в Google Analytics. | Да | Да ||
+[`string`](../../data-types.md) | Отправлять события показа блоков: `Y` или `N` ||
 || **GTM_USE**
-[`unknown`](../../data-types.md) | Использовать Google Tag Manager. | Да | Да ||
+[`string`](../../data-types.md) | Включить Google Tag Manager: `Y` или `N` ||
 || **GTM_COUNTER**
-[`unknown`](../../data-types.md) | Код Google Tag Manager. | Да | Да ||
+[`string`](../../data-types.md) | Идентификатор контейнера Google Tag Manager ||
 |#
 
 ## Карты
 
 #|
-|| **Поле** | **Описание** | **Чтение** | **Запись** ||
+|| **Поле**
+`тип` | **Описание** ||
 || **GMAP_USE**
-[`unknown`](../../data-types.md) | Использовать Google Карты: Y/N. | Да | Да ||
+[`string`](../../data-types.md) | Включить Google Maps API: `Y` или `N` ||
 || **GMAP_CODE**
-[`unknown`](../../data-types.md) | Код Google Карты. | Да | Да ||
+[`string`](../../data-types.md) | API-ключ Google Maps. Карты подключаются только если `GMAP_USE = Y` и это поле заполнено ||
 |#
 
 ## Представление сайта
 
 #|
-|| **Поле** | **Описание** | **Чтение** | **Запись** ||
+|| **Поле**
+`тип` | **Описание** ||
 || **VIEW_USE**
-[`unknown`](../../data-types.md) | Использовать представление: Y/N. | Да | Да ||
+[`string`](../../data-types.md) | Включить специальное представление сайта: `Y` или `N` ||
 || **VIEW_TYPE**
-[`unknown`](../../data-types.md) | Тип представления: 
-- no (без представления),
-- ltr (отступ сверху и по бокам),
-- all (отступ со всех сторон). | Да | Да ||
+[`string`](../../data-types.md) | Тип представления. Поддерживаются значения `no`, `ltr`, `all`, `mobile`, `adaptive` ||
 |#
 
 ## Robots.txt
 
 #|
-|| **Поле** | **Описание** | **Чтение** | **Запись** ||
+|| **Поле**
+`тип` | **Описание** ||
 || **ROBOTS_USE**
-[`unknown`](../../data-types.md) | Показывать свой Robots.txt: Y/N. | Да | Да ||
+[`string`](../../data-types.md) | Включить пользовательский `robots.txt`: `Y` или `N` ||
 || **ROBOTS_CONTENT**
-[`unknown`](../../data-types.md) | Контент robots.txt | Да | Да ||
+[`string`](../../data-types.md) | Содержимое пользовательского `robots.txt` ||
 |#
 
-## Пользовательский HTML
+## Пользовательский код
+
+Поля `HEADBLOCK_*` доступны не на всех тарифах.
 
 #|
-|| **Поле** | **Описание** | **Чтение** | **Запись** ||
+|| **Поле**
+`тип` | **Описание** ||
 || **HEADBLOCK_USE**
-[`unknown`](../../data-types.md) | Использовать: Y/N. | Да | Да ||
+[`string`](../../data-types.md) | Включить пользовательский HTML или JavaScript в `head`: `Y` или `N` ||
 || **HEADBLOCK_CODE**
-[`unknown`](../../data-types.md) | Блок HEAD, произвольный html. | Да | Да ||
-|#
-
-## Пользовательский CSS
-
-#|
-|| **Поле** | **Описание** | **Чтение** | **Запись** ||
+[`string`](../../data-types.md) | Произвольный HTML или JavaScript, который добавляется в `head` сайта ||
 || **CSSBLOCK_USE**
-[`unknown`](../../data-types.md) | Использовать: Y/N. | Да | Да ||
+[`string`](../../data-types.md) | Включить пользовательский CSS: `Y` или `N` ||
 || **CSSBLOCK_CODE**
-[`unknown`](../../data-types.md) | Произвольный CSS-код. | Да | Да ||
+[`string`](../../data-types.md) | Произвольный CSS-код сайта ||
 || **CSSBLOCK_FILE**
-[`unknown`](../../data-types.md) | Ссылка на CSS-файл. | Да | Да ||
+[`string`](../../data-types.md) | Ссылка на внешний CSS-файл ||
 |#
+
+## Продолжите изучение
+
+- [landing.site.add](./landing-site-add.md)
+- [landing.site.update](./landing-site-update.md)
+- [landing.site.getadditionalfields](./landing-site-get-additional-fields.md)
+- [Поля сайта](./base-fields.md)
+- [Цветовые темы страницы](../page/color-themes.md)
