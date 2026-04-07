@@ -28,7 +28,7 @@
 || **messageId***
 [`integer`](../../../../data-types.md) | ID центрального сообщения ||
 || **range**
-[`integer`](../../../../data-types.md) | Количество сообщений в каждую сторону от центрального (1–50). По умолчанию `20` ||
+[`integer`](../../../../data-types.md) | Количество сообщений в каждую сторону от центрального (1–50). По умолчанию `50` ||
 |#
 
 ## Примеры кода
@@ -299,6 +299,8 @@ HTTP-статус: **400**, **403**
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
 || `BOT_TYPE_NOT_ALLOWED` | Bot type not allowed | Метод доступен только для ботов типа `supervisor` и `personal` ||
+|| `MESSAGE_NOT_FOUND` | Message not found | Сообщение не найдено ||
+|| `MESSAGE_ACCESS_DENIED` | Message access denied | Бот не является участником чата с этим сообщением или не имеет доступа к истории ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}

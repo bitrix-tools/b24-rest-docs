@@ -1,177 +1,103 @@
 # Работа с типами сайтов и скоупами
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Тип сайта определяет, для чего он нужен и как с ним работает Битрикс24. От этого зависит, как создается сайт, какие страницы, блоки и настройки для него доступны и какие методы `landing` можно использовать. Например, для базы знаний и интернет-магазина доступны разные возможности.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+{% note info "" %}
 
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
+Параметр `scope` в методах лендингов не связан с REST-скоупом `landing`, который вы выдаете приложению или вебхуку
 
 {% endnote %}
 
-{% endif %}
+## Что важно знать
+
+- Для типов `PAGE`, `STORE` и `SMN` параметр `scope` не нужен
+- Для `KNOWLEDGE`, `GROUP` и `MAINPAGE` нужно передавать верхнеуровневый параметр `scope`
+- Если `scope` не передан, методы работают только с типами `PAGE`, `STORE` и `SMN`
+- Значение `scope` должно совпадать с типом сайта или со значением фильтра по типу
+- Скоуп влияет не только на список сайтов и страниц, но и на набор доступных блоков и настроек сайта
+- Тип `GROUP` доступен только на порталах, где поддерживаются базы знаний групп
 
 ## Типы сайтов
 
-Сайты могут быть следующих типов.
+#|
+|| **Тип** | **Описание** | **`scope` в REST-запросе** ||
+|| `PAGE` | Обычный сайт | Не передавать ||
+|| `STORE` | Магазин | Не передавать ||
+|| `SMN` | Сайт раздела Сайты24 в 1С-Битрикс: Управление сайтом | Не передавать ||
+|| `KNOWLEDGE` | База знаний | `KNOWLEDGE` ||
+|| `GROUP` | База знаний группы | `GROUP` ||
+|| `MAINPAGE` | Главная страница или вайб | `MAINPAGE` ||
+|#
 
-- Основные:
-  - PAGE (от Home Page) - обычные сайты.
-  - STORE - магазины.
-  - SMN - сайты, использующиеся в разделе Сайты24 в административном разделе в БУС.
+## Как работает scope
 
-- Дополнительные:
-  - KNOWLEDGE – базы знаний.
-  - GROUP – базы знаний групп соц.сети.
+Без параметра `scope` REST-методы работают в стандартном режиме и видят только сайты типов `PAGE`, `STORE` и `SMN`. Если передать `scope`, методы переключаются на соответствующий тип сайтов. Например, при `scope = "KNOWLEDGE"` списки сайтов, страницы, права и доступные блоки будут работать только для баз знаний.
 
-На данный момент не поддерживается расширение типов.
+#|
+|| **scope в запросе** | **С какими типами сайтов работают методы** | **Когда использовать** | **Публичный путь** ||
+|| не передавать | `PAGE`, `STORE`, `SMN` | Обычные сайты и магазины | зависит от домена и настроек сайта ||
+|| `KNOWLEDGE` | `KNOWLEDGE` | Базы знаний | `/knowledge/` ||
+|| `GROUP` | `GROUP` | Базы знаний групп | `/knowledge/group/` ||
+|| `MAINPAGE` | `MAINPAGE` | Главная страница и вайб | `/vibe/` ||
+|#
 
-## Скоупы
+Если создаете сайт, значение `scope` должно совпадать с `fields.TYPE`. Если получаете список сайтов или страниц, значение `scope` должно совпадать со значением фильтра по типу.
 
-Помимо разделительной функции на уровне компонентов существует также разграничение по правам, получившее название скоупов.
+## Что меняется в специальных скоупах
 
-Если вы работаете с **основными типами**, ничего делать не нужно.
-Если с **дополнительными**, перед работой нужно установить скоуп. В случае rest сделать это можно, передав дополнительным параметром **scope**.
+Специальные скоупы меняют не только выборку сайтов и страниц.
 
-## Пример
+#|
+|| **Скоуп** | **Что меняется для пользователя** ||
+|| `KNOWLEDGE` | Методы работают только с базами знаний. Часть настроек сайта недоступна, например SEO-поля, аналитика, пиксели, пользовательский код, favicon, баннер cookies, виджет Битрикс24, настройки каталога и оптимизации ||
+|| `GROUP` | Методы работают только с базами знаний групп. Ограничения по настройкам такие же, как у `KNOWLEDGE` ||
+|| `MAINPAGE` | Методы работают только с главной страницей и вайбом. Кроме общих ограничений, недоступна часть настроек оформления, например темы шрифтов, анимация появления страницы и кнопка возврата вверх ||
+|#
 
-В примере дан метод получения списка страниц, но правило распространяется на любой другой метод, в том числе на работу с правами и изменениями сущностей.
+## Как передавать scope в REST
 
-{% list tabs %}
+Для обычных сайтов параметр `scope` не нужен:
 
-- JS
-
-
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
-    const params = {
-        select: ['ID', 'TITLE'],
-        filter: {
-            TITLE: '%услуги%',
-            SITE_ID: 205
-        },
-        order: {
-            ID: 'DESC'
+```json
+{
+    "params": {
+        "filter": {
+            "TYPE": "PAGE"
         }
-    };
-    
-    try {
-        const response = await $b24.callListMethod(
-            'landing.landing.getList',
-            { params, scope: 'knowledge' }
-        );
-        const items = response.getData() || [];
-        for (const entity of items) {
-            console.log('Entity:', entity);
-        }
-    } catch (error) {
-        console.error('Request failed', error);
     }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    try {
-        const generator = $b24.fetchListMethod('landing.landing.getList', { params, scope: 'knowledge' }, 'ID');
-        for await (const page of generator) {
-            for (const entity of page) {
-                console.log('Entity:', entity);
-            }
+}
+```
+
+Для базы знаний передавайте верхнеуровневый `scope`:
+
+```json
+{
+    "scope": "KNOWLEDGE",
+    "params": {
+        "filter": {
+            "TYPE": "KNOWLEDGE"
         }
-    } catch (error) {
-        console.error('Request failed', error);
     }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-        const response = await $b24.callMethod('landing.landing.getList', { params, scope: 'knowledge' }, 0);
-        const result = response.getData().result || [];
-        for (const entity of result) {
-            console.log('Entity:', entity);
-        }
-    } catch (error) {
-        console.error('Request failed', error);
+}
+```
+
+При создании специального типа сайта `scope` и `fields.TYPE` должны совпадать:
+
+```json
+{
+    "scope": "MAINPAGE",
+    "fields": {
+        "TITLE": "Главная страница компании",
+        "CODE": "mainpage",
+        "TYPE": "MAINPAGE"
     }
-    ```
+}
+```
 
-- PHP
+## Продолжите изучение
 
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'landing.landing.getList',
-                [
-                    'params' => [
-                        'select' => [
-                            'ID', 'TITLE'
-                        ],
-                        'filter' => [
-                            'TITLE'   => '%услуги%',
-                            'SITE_ID' => 205
-                        ],
-                        'order'  => [
-                            'ID' => 'DESC'
-                        ]
-                    ],
-                    'scope'  => 'knowledge'
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting landing list: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'landing.landing.getList',
-        {
-            params: {
-                select: [
-                    'ID', 'TITLE'
-                ],
-                filter: {
-                    TITLE: '%услуги%',
-                    SITE_ID: 205
-                },
-                order: {
-                    ID: 'DESC'
-                }
-            },
-            scope: 'knowledge'
-        },
-        function(result)
-        {
-            if(result.error())
-            {
-                console.error(result.error());
-            }
-            else
-            {
-                console.info(result.data());
-            }
-        }
-    );
-    ```
-
-{% endlist %}
-
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+- [{#T}](./site/landing-site-add.md)
+- [{#T}](./site/landing-site-get-list.md)
+- [{#T}](./page/methods/landing-landing-get-list.md)
+- [{#T}](./block/methods/landing-block-get-repository.md)
+- [{#T}](./page/block-methods/landing-landing-add-block.md)
