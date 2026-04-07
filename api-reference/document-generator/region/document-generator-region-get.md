@@ -194,7 +194,12 @@ HTTP-статус: **200**
 || **formatName**
 [`string`](../../data-types.md) | Шаблон полного имени ||
 || **phrases**
-[`object`](../../data-types.md) | Набор фраз в формате `код: текст` ||
+[`object`](../../data-types.md) | Набор фраз в формате `код: текст`, где ключи и значения строковые.
+
+Примеры ключей: `TAX_INCLUDED`, `TAX_NOT_INCLUDED`
+
+Список полей шаблона можно получить методом [documentgenerator.template.getfields](../templates/document-generator-template-get-fields.md)
+||
 |#
 
 ## Обработка ошибок
