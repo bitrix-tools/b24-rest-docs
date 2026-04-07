@@ -1,7 +1,7 @@
 title: Телефония
 href: index.md
 items: 
-  - name: О телефонии в Битрикс24
+  - name: Обзор методов
     href: index.md
   - name: Зарегистрировать внешнюю линию
     href: telephony-external-line-add.md
@@ -33,8 +33,6 @@ items:
     include:
       path: voximplant/b24-toc.yaml
       mode: link
-  - name: Получить список звонков
-    href: voximplant-statistic-get.md
 
 
 

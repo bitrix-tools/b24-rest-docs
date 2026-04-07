@@ -1,6 +1,6 @@
 # Получить список истории звонков voximplant.statistic.get
 
-> Scope: [`telephony`](../scopes/permissions.md)
+> Scope: [`telephony`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом Статистика звонков — Просмотр
 
@@ -8,13 +8,13 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **FILTER**
-[`object`](../data-types.md) | Объект для фильтрации в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+[`object`](../../data-types.md) | Объект для фильтрации в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
 Смотрите ниже [список доступных полей для фильтрации](#filterable).
 
@@ -35,13 +35,13 @@
 По умолчанию — без фильтрации
 ||
 || **SORT**
-[`string`](../data-types.md) | Поле сортировки.
+[`string`](../../data-types.md) | Поле сортировки.
 
 Используются те же поля, что и в [списке полей для фильтрации](#filterable), кроме `CALL_TYPE`.
 
 По умолчанию — без сортировки ||
 || **ORDER**
-[`string`](../data-types.md) | Направление сортировки.
+[`string`](../../data-types.md) | Направление сортировки.
 
 Возможные значения:
 - `ASC` — сортировка по возрастанию
@@ -49,7 +49,7 @@
 
 По умолчанию — без сортировки ||
 || **start**
-[`integer`](../data-types.md) | Параметр постраничной навигации.
+[`integer`](../../data-types.md) | Параметр постраничной навигации.
 
 Размер страницы результатов — 50 записей.
 
@@ -66,23 +66,23 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../data-types.md) | Внутренний идентификатор записи статистики ||
+[`integer`](../../data-types.md) | Внутренний идентификатор записи статистики ||
 || **CALL_ID**
-[`string`](../data-types.md) | Идентификатор звонка ||
+[`string`](../../data-types.md) | Идентификатор звонка ||
 || **EXTERNAL_CALL_ID**
-[`string`](../data-types.md) | Идентификатор звонка на стороне внешней АТС/интеграции ||
+[`string`](../../data-types.md) | Идентификатор звонка на стороне внешней АТС/интеграции ||
 || **CALL_CATEGORY**
-[`string`](../data-types.md) | Категория звонка ||
+[`string`](../../data-types.md) | Категория звонка ||
 || **PORTAL_USER_ID**
-[`integer`](../data-types.md) | Идентификатор пользователя.
+[`integer`](../../data-types.md) | Идентификатор пользователя.
 
-Идентификатор можно получить методом [user.get](../user/user-get.md) ||
+Идентификатор можно получить методом [user.get](../../user/user-get.md) ||
 || **PORTAL_NUMBER**
-[`string`](../data-types.md) | Номер линии, через который шел звонок ||
+[`string`](../../data-types.md) | Номер линии, через который шел звонок ||
 || **PHONE_NUMBER**
-[`string`](../data-types.md) | Номер абонента ||
+[`string`](../../data-types.md) | Номер абонента ||
 || **CALL_TYPE**
-[`integer`](../data-types.md) | Тип звонка.
+[`integer`](../../data-types.md) | Тип звонка.
 
 Возможные значения:
 - `1` — исходящий
@@ -91,26 +91,26 @@
 - `4` — обратный звонок
 - `5` — информационный звонок ||
 || **CALL_DURATION**
-[`integer`](../data-types.md) | Длительность звонка в секундах ||
+[`integer`](../../data-types.md) | Длительность звонка в секундах ||
 || **CALL_START_DATE**
-[`datetime`](../data-types.md) | Дата и время начала звонка в формате ISO-8601 с указанием часового пояса ||
+[`datetime`](../../data-types.md) | Дата и время начала звонка в формате ISO-8601 с указанием часового пояса ||
 || **CALL_LOG**
-[`string`](../data-types.md) | URL лога звонка ||
+[`string`](../../data-types.md) | URL лога звонка ||
 || **CALL_RECORD_URL**
-[`string`](../data-types.md) | URL записи звонка ||
+[`string`](../../data-types.md) | URL записи звонка ||
 || **CALL_VOTE**
-[`integer`](../data-types.md) | Оценка звонка.
+[`integer`](../../data-types.md) | Оценка звонка.
 
 Возможные значения:
 - `1`, `2`, `3`, `4`, `5`
 
 Если оценка отсутствует — `0` или `null` ||
 || **COST**
-[`double`](../data-types.md) | Стоимость звонка ||
+[`double`](../../data-types.md) | Стоимость звонка ||
 || **COST_CURRENCY**
-[`string`](../data-types.md) | Валюта стоимости звонка ||
+[`string`](../../data-types.md) | Валюта стоимости звонка ||
 || **CALL_FAILED_CODE**
-[`string`](../data-types.md) | Код результата звонка.
+[`string`](../../data-types.md) | Код результата звонка.
 
 Возможные значения:
 - `200` — успешный звонок
@@ -127,43 +127,43 @@
 - `423` — заблокировано
 - `OTHER` — не определено ||
 || **CALL_FAILED_REASON**
-[`string`](../data-types.md) | Текст причины/результата звонка ||
+[`string`](../../data-types.md) | Текст причины/результата звонка ||
 || **CRM_ENTITY_TYPE**
-[`string`](../data-types.md) | Тип объекта CRM.
+[`string`](../../data-types.md) | Тип объекта CRM.
 
 Возможные значения:
 - `CONTACT` — контакт
 - `COMPANY` — компания
 - `LEAD` — лид  ||
 || **CRM_ENTITY_ID**
-[`integer`](../data-types.md) | Идентификатор объекта CRM из `CRM_ENTITY_TYPE` ||
+[`integer`](../../data-types.md) | Идентификатор объекта CRM из `CRM_ENTITY_TYPE` ||
 || **CRM_ACTIVITY_ID**
-[`integer`](../data-types.md) | Идентификатор CRM-дела звонка ||
+[`integer`](../../data-types.md) | Идентификатор CRM-дела звонка ||
 || **REST_APP_ID**
-[`integer`](../data-types.md) | Идентификатор приложения ||
+[`integer`](../../data-types.md) | Идентификатор приложения ||
 || **REST_APP_NAME**
-[`string`](../data-types.md) | Название приложения ||
+[`string`](../../data-types.md) | Название приложения ||
 || **TRANSCRIPT_ID**
-[`integer`](../data-types.md) | Идентификатор расшифровки звонка ||
+[`integer`](../../data-types.md) | Идентификатор расшифровки звонка ||
 || **TRANSCRIPT_PENDING**
-[`string`](../data-types.md) | Признак ожидания расшифровки.
+[`string`](../../data-types.md) | Признак ожидания расшифровки.
 
 Возможные значения:
 - `Y` — расшифровка ожидается
 - `N` — расшифровка доступна или отсутствует ||
 || **SESSION_ID**
-[`integer`](../data-types.md) | Идентификатор сессии на стороне телефонии ||
+[`integer`](../../data-types.md) | Идентификатор сессии на стороне телефонии ||
 || **REDIAL_ATTEMPT**
-[`integer`](../data-types.md) | Номер попытки дозвона (для callback-сценариев) ||
+[`integer`](../../data-types.md) | Номер попытки дозвона (для callback-сценариев) ||
 || **COMMENT**
-[`string`](../data-types.md) | Комментарий к звонку ||
+[`string`](../../data-types.md) | Комментарий к звонку ||
 || **RECORD_DURATION**
-[`integer`](../data-types.md) | Длительность файла записи звонка ||
+[`integer`](../../data-types.md) | Длительность файла записи звонка ||
 |#
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -386,15 +386,15 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../data-types.md) | Массив записей статистики. Состав записей зависит от условий `FILTER`.
+[`array`](../../data-types.md) | Массив записей статистики. Состав записей зависит от условий `FILTER`.
 
 Пустой массив означает, что нет записей, соответствующих условиям `FILTER` ||
 || **total**
-[`integer`](../data-types.md) | Общее количество записей в выборке ||
+[`integer`](../../data-types.md) | Общее количество записей в выборке ||
 || **next**
-[`integer`](../data-types.md) | Смещение следующей страницы (если есть) ||
+[`integer`](../../data-types.md) | Смещение следующей страницы (если есть) ||
 || **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -408,7 +408,7 @@ HTTP-статус: **403**
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -417,11 +417,11 @@ HTTP-статус: **403**
 || `ACCESS_DENIED` | Access denied! | Недостаточно прав на просмотр статистики звонков ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./telephony-external-call-register.md)
-- [{#T}](./telephony-external-call-finish.md)
-- [{#T}](./telephony-external-call-attach-record.md)
-- [{#T}](./telephony-call-attach-transcription.md)
+- [{#T}](../telephony-external-call-register.md)
+- [{#T}](../telephony-external-call-finish.md)
+- [{#T}](../telephony-external-call-attach-record.md)
+- [{#T}](../telephony-call-attach-transcription.md)

@@ -80,4 +80,4 @@
 
 - [{#T}](./on-voximplant-call-init.md)
 - [{#T}](./on-voximplant-call-end.md)
-- [{#T}](../../voximplant-statistic-get.md)
+- [{#T}](../voximplant-statistic-get.md)

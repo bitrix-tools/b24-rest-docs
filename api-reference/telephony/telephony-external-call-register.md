@@ -6,7 +6,7 @@
 
 Метод `telephony.externalCall.register` регистрирует внешний звонок в Битрикс24.
 
-Для создания дела звонок необходимо также вызвать метод [telephony.externalcall.finish](./telephony-external-call-finish.md)
+Для создания дела звонок необходимо также вызвать метод [telephony.externalCall.finish](./telephony-external-call-finish.md)
 
 {% note info "" %}
 

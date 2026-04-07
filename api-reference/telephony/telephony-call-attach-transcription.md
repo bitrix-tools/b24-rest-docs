@@ -249,4 +249,4 @@ HTTP-статус: **400**
 - [{#T}](./telephony-external-call-register.md)
 - [{#T}](./telephony-external-call-finish.md)
 - [{#T}](./telephony-external-call-attach-record.md)
-- [{#T}](./voximplant-statistic-get.md)
+- [{#T}](./voximplant/voximplant-statistic-get.md)

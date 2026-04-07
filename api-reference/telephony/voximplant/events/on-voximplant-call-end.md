@@ -134,4 +134,4 @@
 
 - [{#T}](./on-voximplant-call-init.md)
 - [{#T}](./on-voximplant-call-start.md)
-- [{#T}](../../voximplant-statistic-get.md)
+- [{#T}](../voximplant-statistic-get.md)

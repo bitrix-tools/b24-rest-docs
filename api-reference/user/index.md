@@ -55,7 +55,7 @@
 **Телефония.** Используйте `ID` пользователя:
 
 - чтобы направить на него телефонный звонок в методах [telephony.externalcall.*](../telephony/index.md),
-- получить статистику по звонкам сотрудника методом [voximplant.statistic.get](../telephony/voximplant-statistic-get.md),
+- получить статистику по звонкам сотрудника методом [voximplant.statistic.get](../telephony/voximplant/voximplant-statistic-get.md),
 - настроить SIP-aппарат в методах [voximplant.user.*](../telephony/voximplant/users/index.md).
 
 **Учет рабочего времени.** Используйте `ID` пользователей:

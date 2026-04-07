@@ -1,7 +1,7 @@
 title: voximplant
 href: index.md
 items: 
-  - name: Использование SIP и встроенной телефонии
+  - name: Обзор методов
     href: index.md
   - name: Запустить обратный звонок
     href: voximplant-callback-start.md
@@ -11,6 +11,8 @@ items:
     href: voximplant-infocall-start-with-text.md
   - name: Получить список доступных голосов для синтеза речи 
     href: voximplant-tts-voices-get.md
+  - name: Получить список истории звонков
+    href: voximplant-statistic-get.md
   - name: События
     include:
       path: events/b24-toc.yaml

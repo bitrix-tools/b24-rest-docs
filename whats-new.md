@@ -16,6 +16,11 @@
 - Обновили главную страницу раздела [Нумераторы](./api-reference/document-generator/numerators/index.md) в Генераторе документов. Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Регионы](./api-reference/document-generator/region/index.md) в Генераторе документов. Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Роли](./api-reference/document-generator/role/index.md) в Генераторе документов. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Телефония](./api-reference/telephony/index.md)
+- Обновили главную страницу раздела [SIP и встроенная телефония](./api-reference/telephony/voximplant/index.md)
+- Обновили главную страницу раздела [Управление линиями](./api-reference/telephony/voximplant/lines/index.md)
+- Обновили главную страницу раздела [Управление SIP-подключениями](./api-reference/telephony/voximplant/sip/index.md)
+- Обновили главную страницу раздела [Управление пользователями](./api-reference/telephony/voximplant/users/index.md)
 
 ### 03 апреля, 2026
 

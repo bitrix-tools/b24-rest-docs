@@ -28,7 +28,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [OnVoximplantCallInit](on-voximplant-call-init.md) | При инициализации звонка вручную или методами [voximplant.callback.start](../voximplant-callback-start.md), [voximplant.infocall.startwithsound](../voximplant-infocall-start-with-sound.md), [voximplant.infocall.startwithtext](../voximplant-infocall-start-with-text.md), [telephony.externalcall.register](../../telephony-external-call-register.md) ||
+|| [OnVoximplantCallInit](on-voximplant-call-init.md) | При инициализации звонка вручную или методами [voximplant.callback.start](../voximplant-callback-start.md), [voximplant.infocall.startwithsound](../voximplant-infocall-start-with-sound.md), [voximplant.infocall.startwithtext](../voximplant-infocall-start-with-text.md), [telephony.externalCall.register](../../telephony-external-call-register.md) ||
 || [OnVoximplantCallStart](on-voximplant-call-start.md) | При начале разговора: ответе оператора при входящем и ответе абонента при исходящем звонке ||
-|| [OnVoximplantCallEnd](on-voximplant-call-end.md) | При окончании разговора и записи в историю или методом [telephony.externalcall.finish](../../telephony-external-call-finish.md) ||
+|| [OnVoximplantCallEnd](on-voximplant-call-end.md) | При окончании разговора и записи в историю или методом [telephony.externalCall.finish](../../telephony-external-call-finish.md) ||
 |#
