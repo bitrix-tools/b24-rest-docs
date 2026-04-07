@@ -2,9 +2,9 @@
 
 > Scope: [`im`](../../scopes/permissions.md)
 
-Вы можете добавить свой пункт в панели над полем ввода сообщения
+Виджет добавляет свой пункт в панели над полем ввода сообщения.
 
-Код места встройки указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
@@ -319,8 +319,9 @@ Array
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
-- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../bx24-widget-methods.md)
+- [{#T}](../../../settings/interactivity/index.md)
 

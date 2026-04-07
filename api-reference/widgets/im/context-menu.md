@@ -2,9 +2,9 @@
 
 > Scope: [`im`](../../scopes/permissions.md)
 
-Вы можете добавить свой пункт в контекстное меню сообщения в чате.
+Виджет добавляет свой пункт в контекстное меню сообщения в чате.
 
-Код места встройки указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
@@ -60,6 +60,8 @@ Array
 ## OPTIONS при регистрации через placement.bind
 
 Для `IM_CONTEXT_MENU` метод `placement.bind` поддерживает параметры `OPTIONS`.
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Параметр**
@@ -270,8 +272,9 @@ Array
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
-- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../bx24-widget-methods.md)
+- [{#T}](../../../settings/interactivity/index.md)
 
