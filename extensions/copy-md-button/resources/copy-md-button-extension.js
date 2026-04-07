@@ -34,6 +34,17 @@
 #copy-md-btn-tooltip.copy-md-btn-tooltip--visible {
     opacity: 1;
 }
+
+#copy-md-btn-hover-tooltip {
+    position: fixed !important;
+    z-index: 99998 !important;
+    pointer-events: none !important;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+#copy-md-btn-hover-tooltip.copy-md-btn-hover-tooltip--visible {
+    opacity: 1;
+}
 `;
 
     const ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
@@ -60,11 +71,26 @@
         return el;
     }
 
+    function getHoverTooltip() {
+        let el = document.getElementById('copy-md-btn-hover-tooltip');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'copy-md-btn-hover-tooltip';
+            el.className = 'g-popup g-popup_open';
+            el.setAttribute('data-popper-placement', 'bottom-end');
+            el.innerHTML = `<div class="g-popup__content dc-control__tooltip" tabindex="-1"><span class="dc-control__tooltip-text"></span></div>`;
+            document.body.appendChild(el);
+        }
+        return el;
+    }
+
     let hideTimer = null;
 
     function showTooltip(anchorBtn, text) {
         const tooltip = getTooltip();
         clearTimeout(hideTimer);
+
+        hideHoverTooltip();
 
         tooltip.textContent = text;
         tooltip.classList.remove('copy-md-btn-tooltip--visible');
@@ -82,6 +108,33 @@
         tooltip.classList.add('copy-md-btn-tooltip--visible');
 
         hideTimer = setTimeout(() => tooltip.classList.remove('copy-md-btn-tooltip--visible'), 2000);
+    }
+
+    function showHoverTooltip(btn) {
+        const tooltip = getHoverTooltip();
+        const textEl  = tooltip.querySelector('.dc-control__tooltip-text');
+        if (textEl) textEl.textContent = btn.getAttribute('aria-label') || 'Скопировать страницу в Markdown';
+
+        tooltip.classList.remove('copy-md-btn-hover-tooltip--visible');
+        tooltip.style.left = '-9999px';
+        tooltip.style.top  = '-9999px';
+
+        requestAnimationFrame(() => {
+            const rect = btn.getBoundingClientRect();
+            const tw   = tooltip.offsetWidth;
+
+            const left = rect.left + rect.width / 2 - tw / 2;
+            const top  = rect.bottom + 4;
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top  = top  + 'px';
+            tooltip.classList.add('copy-md-btn-hover-tooltip--visible');
+        });
+    }
+
+    function hideHoverTooltip() {
+        const tooltip = document.getElementById('copy-md-btn-hover-tooltip');
+        if (tooltip) tooltip.classList.remove('copy-md-btn-hover-tooltip--visible');
     }
 
     function copyTextFallback(text) {
@@ -115,10 +168,10 @@
             const data = await resp.json();
             if (!data.content) throw new Error('empty content');
             await copyToClipboard(data.content);
-            showTooltip(btn, 'Скопировано!');
+            showTooltip(btn, 'Страница скопирована');
         } catch (err) {
             console.warn('[copy-md-button]', err);
-            showTooltip(btn, 'Ошибка :(');
+            showTooltip(btn, 'Ошибка');
         } finally {
             btn.disabled = false;
         }
@@ -130,10 +183,11 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'g-button g-button_view_flat-secondary g-button_size_m g-button_pin_round-round dc-control';
-        btn.setAttribute('aria-label', 'Скопировать исходный текст страницы');
-        btn.title = 'Скопировать исходный текст страницы';
+        btn.setAttribute('aria-label', 'Скопировать страницу в Markdown');
         btn.innerHTML = `<span class="g-button__icon"><span class="g-button__icon-inner">${ICON_SVG}</span></span>`;
         btn.addEventListener('click', () => copyPageMd(btn));
+        btn.addEventListener('mouseenter', () => showHoverTooltip(btn));
+        btn.addEventListener('mouseleave', hideHoverTooltip);
 
         const wrap = document.createElement('span');
         wrap.className = 'copy-md-btn-wrap dc-controls__control';
