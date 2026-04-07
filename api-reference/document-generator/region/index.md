@@ -25,27 +25,27 @@
 
 1. Предустановленные регионы с символьным кодом, например `ru` или `en`. В ответе метода код указывается в поле `code`.
 
-   ```json
-   "fr": {
-   	"code": "fr",
-   	"title": "Франция",
-   	"languageId": "fr"
-   },
-   ```
+    ```json
+    "fr": {
+        "code": "fr",
+        "title": "Франция",
+        "languageId": "fr"
+    },
+    ```
 
 2. Пользовательские регионы с числовым идентификатором, например `5`. В ответе метода идентификатор указывается в поле `id`.
 
-   ```json
-   "1": {
-   	"id": "1",
-   	"title": "Россия (Пользовательский)",
-   	"languageId": "ru",
-   	"formatDate": "DD.MM.YYYY",
-   	"formatDatetime": "DD.MM.YYYY HH:MI:SS",
-   	"formatName": "#LAST_NAME# #NAME# #SECOND_NAME#",
-   	"code": "1"
-   }
-   ```
+    ```json
+    "1": {
+        "id": "1",
+        "title": "Россия (Пользовательский)",
+        "languageId": "ru",
+        "formatDate": "DD.MM.YYYY",
+        "formatDatetime": "DD.MM.YYYY HH:MI:SS",
+        "formatName": "#LAST_NAME# #NAME# #SECOND_NAME#",
+        "code": "1"
+    }
+    ```
 
 ## Связь регионов с другими объектами
 
