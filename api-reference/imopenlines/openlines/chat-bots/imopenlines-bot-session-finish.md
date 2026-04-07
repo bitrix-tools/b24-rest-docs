@@ -17,6 +17,12 @@
 [`integer`](../../../data-types.md) | Идентификатор чата, диалог которого нужно завершить. 
 
 Идентификатор чата можно получить с помощью методов [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) или [imopenlines.crm.chat.get](../chats/imopenlines-crm-chat-get.md) ||
+|| **CLIENT_ID**
+[`string`](../../../data-types.md) | Параметр обязателен только для вебхуков.
+
+Передавайте:
+- тот же `CLIENT_ID`, который был указан при регистрации чат-бота методом [imbot.register](../../../chat-bots/outdated/bots/imbot-register.md)
+- или значение параметра `botToken`, переданного при регистрации чат-бота методом [imbot.v2.Bot.register](../../../chat-bots/chat-bots-v2/imbot.v2/bots/bot-register.md) ||
 |#
 
 ## Примеры кода
@@ -31,7 +37,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CHAT_ID":112}' \
+    -d '{"CHAT_ID":112,"CLIENT_ID":"**put_your_client_id_or_bot_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.bot.session.finish
   ```
 
