@@ -279,6 +279,12 @@ echo json_encode(['status' => 'ok']);
 || Событий за запрос `Event.get` | 1–1000 (по умолчанию 100) ||
 |#
 
+## Ревизии API и совместимость
+
+Битрикс24 облако и коробочные версии могут иметь разные ревизии API. Чтобы узнать, какая ревизия установлена на конкретном портале, используйте [imbot.v2.Revision.get](./imbot.v2/revision-get.md).
+
+Изменения в API, которые влияют на совместимость интеграций, собраны на странице [Изменения API](./breaking-changes.md).
+
 ## Обзор методов {#all-methods}
 
 ### Чат-боты `imbot.v2`
@@ -364,6 +370,13 @@ echo json_encode(['status' => 'ok']);
 || [imbot.v2.File.download](./imbot.v2/files/file-download.md) | Возвращает ссылку для скачивания файла ||
 |#
 
+**Ревизии API**
+
+#|
+|| **Метод** | **Описание** ||
+|| [imbot.v2.Revision.get](./imbot.v2/revision-get.md) | Возвращает номера ревизий API и клиентских протоколов ||
+|#
+
 ### Работа с чатом  `im.v2`
 
 > Scope: [`im`](../../scopes/permissions.md)
@@ -394,5 +407,6 @@ echo json_encode(['status' => 'ok']);
 - [{#T}](./migration.md)
 - [{#T}](./imbot.v2/events/events.md)
 - [{#T}](./im.v2/index.md)
+
 
 

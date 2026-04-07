@@ -4,6 +4,8 @@
 
 ### 07 апреля, 2026
 
+- Добавили страницу с перечнем актуальных изменений в API Чат-ботов 2.0 [Изменения API imbot.v2](./api-reference/chat-bots/chat-bots-v2/breaking-changes.md)
+- Добавили метод [imbot.v2.Revision.get](./api-reference/chat-bots/chat-bots-v2/imbot.v2/revision-get.md)
 - Обновили главную страницу раздела [Виджеты в мессенджере](./api-reference/widgets/im/index.md) в Виджетах. Добавили вводную информацию, а также обзор методов и связей
 - Обновили страницу [Работа с типами сайтов и скоупами](./api-reference/landing/types.md)
 - Обновили страницу [Поля шаблона представления](./api-reference/landing/template/fields.md)

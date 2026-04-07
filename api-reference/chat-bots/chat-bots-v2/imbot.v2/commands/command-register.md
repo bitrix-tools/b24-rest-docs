@@ -8,6 +8,12 @@
 
 Метод идемпотентный: повторный вызов с тем же `command` для того же бота от того же приложения возвращает существующую команду без обновления данных. Для обновления используйте [imbot.v2.Command.update](./command-update.md).
 
+{% note warning "" %}
+
+Формат вызова метода был изменен: параметры команды теперь передаются в объекте `fields`. Старый плоский формат поддерживается ограниченное время. Подробнее — [Изменения в API](../../breaking-changes.md#command-register-fields).
+
+{% endnote %}
+
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../../../_includes/required.md) %}
@@ -20,18 +26,28 @@
 || **botToken**
 [`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
 
-Передавайте тот же botToken, который был указан при регистрации чат-бота ||
+Передавайте тот же `botToken`, который был указан при регистрации чат-бота ||
+|| **fields***
+[`object`](../../../../data-types.md) | Объект с параметрами команды [(подробное описание)](#fields) ||
+|#
+
+### Параметр fields {#fields}
+
+#|
+|| **Название**
+`Тип` | **Описание** ||
 || **command***
 [`string`](../../../../data-types.md) | Команда без символа `/`. Например: `help` ||
 || **title**
-[`object`](../../../../data-types.md) | Заголовок команды на разных языках. Объект `{langCode: text}`, где `langCode` — двухбуквенный код языка `en`, `ru`, `de` и т.д. 
+[`object`](../../../../data-types.md) | Заголовок команды на разных языках. Объект `{langCode: text}`, где `langCode` — двухбуквенный код языка в нижнем регистре: `en`, `ru`, `de` и т.д.
+
 Отображается в списке доступных команд. Обязателен для видимых команд `hidden: false`. Для скрытых команд `hidden: true` можно не указывать ||
 || **params**
 [`object`](../../../../data-types.md) | Описание параметров команды на разных языках. Объект `{langCode: text}`, аналогично `title`. Отображается как подсказка рядом с командой ||
 || **common**
 [`boolean`](../../../../data-types.md) | Общая команда. Допустимые значения: `true`, `false`. По умолчанию `false`. Подробнее — [Общие и локальные команды](#common-types) ||
 || **hidden**
-[`boolean`](../../../../data-types.md) | Скрытая команда (не отображается в подсказках). Допустимые значения: `true`, `false`. По умолчанию `false` ||
+[`boolean`](../../../../data-types.md) | Скрытая команда. Допустимые значения: `true`, `false`. По умолчанию `false` ||
 || **extranetSupport**
 [`boolean`](../../../../data-types.md) | Поддержка экстранет. Допустимые значения: `true`, `false`. По умолчанию `false` ||
 |#
@@ -45,7 +61,7 @@
 
 Типичные сценарии:
 
-- общие команды подходят для глобальных действий (например, поиск или справка без обязательного присутствия бота в чате)
+- общие команды подходят для глобальных действий, например поиска или справки без обязательного присутствия бота в чате
 - локальные команды подходят для действий, завязанных на конкретного бота и контекст его чата
 
 Событие вызова команды: [ONIMBOTV2COMMANDADD](../events/events.md#onimbotv2commandadd).
@@ -62,7 +78,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"botToken":"my_bot_token","command":"help","title":{"en":"Show help","ru":"Показать помощь"}}' \
+      -d '{"botId":456,"botToken":"my_bot_token","fields":{"command":"help","title":{"en":"Show help","ru":"Показать помощь"},"params":{"en":"query","ru":"запрос"}}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Command.register
     ```
 
@@ -72,7 +88,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"command":"help","title":{"en":"Show help","ru":"Показать помощь"},"auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"fields":{"command":"help","title":{"en":"Show help","ru":"Показать помощь"},"params":{"en":"query","ru":"запрос"}},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.Command.register
     ```
 
@@ -82,8 +98,11 @@
     try {
       const response = await $b24.callMethod('imbot.v2.Command.register', {
         botId: 456,
-        command: 'help',
-        title: { en: 'Show help', ru: 'Показать помощь' },
+        fields: {
+          command: 'help',
+          title: { en: 'Show help', ru: 'Показать помощь' },
+          params: { en: 'query', ru: 'запрос' },
+        },
       });
 
       const { result } = response.getData();
@@ -103,8 +122,11 @@
                 'imbot.v2.Command.register',
                 [
                     'botId' => 456,
-                    'command' => 'help',
-                    'title' => ['en' => 'Show help', 'ru' => 'Показать помощь'],
+                    'fields' => [
+                        'command' => 'help',
+                        'title' => ['en' => 'Show help', 'ru' => 'Показать помощь'],
+                        'params' => ['en' => 'query', 'ru' => 'запрос'],
+                    ],
                 ]
             );
 
@@ -126,8 +148,11 @@
         'imbot.v2.Command.register',
         {
             botId: 456,
-            command: 'help',
-            title: { en: 'Show help', ru: 'Показать помощь' },
+            fields: {
+                command: 'help',
+                title: { en: 'Show help', ru: 'Показать помощь' },
+                params: { en: 'query', ru: 'запрос' },
+            },
         },
         function(result) {
             if (result.error()) {
@@ -148,8 +173,11 @@
         'imbot.v2.Command.register',
         [
             'botId' => 456,
-            'command' => 'help',
-            'title' => ['en' => 'Show help', 'ru' => 'Показать помощь'],
+            'fields' => [
+                'command' => 'help',
+                'title' => ['en' => 'Show help', 'ru' => 'Показать помощь'],
+                'params' => ['en' => 'query', 'ru' => 'запрос'],
+            ],
         ]
     );
 
@@ -244,8 +272,9 @@ HTTP-статус: **400**, **403**
 || `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
-|| `COMMAND_REQUIRED` | Command is required | Не указана команда (`command`) ||
-|| `COMMAND_TITLE_REQUIRED` | Command title is required | Не указан `title` для видимой команды `hidden: false` ||
+|| `COMMAND_NAME_INVALID` | Command name is invalid | Имя команды должно быть строкой ||
+|| `COMMAND_REQUIRED` | Command is required | Не указана команда (`fields.command`) ||
+|| `COMMAND_TITLE_REQUIRED` | Command title is required | Не указан `fields.title` для видимой команды `fields.hidden: false` ||
 || `COMMAND_REGISTER_FAILED` | Command registration failed | Ошибка при регистрации команды ||
 |#
 
@@ -257,5 +286,7 @@ HTTP-статус: **400**, **403**
 - [{#T}](./command-list.md)
 - [{#T}](./command-unregister.md)
 - [{#T}](./command-answer.md)
+- [Изменения в API](../../breaking-changes.md#command-register-fields) — формат вызова метода был изменен, старый формат поддерживается до 2026-09
+
 
 

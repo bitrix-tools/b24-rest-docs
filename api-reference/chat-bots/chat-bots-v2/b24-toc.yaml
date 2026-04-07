@@ -8,8 +8,12 @@ items:
   - name: Объекты и поля
     href: entities.md
   - name: Миграция с imbot на imbot.v2
-    href: migration.md    
+    href: migration.md
+  - name: Изменения в API imbot.v2
+    href: breaking-changes.md
   - name: Методы
     include:
       path: imbot.v2/b24-toc.yaml
       mode: link
+
+
