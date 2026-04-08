@@ -252,5 +252,6 @@ HTTP-статус: **400**, **403**
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./chat-message-reaction-delete.md)
 - [{#T}](./chat-message-send.md)

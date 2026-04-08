@@ -50,6 +50,8 @@
 Бот может пересылать только сообщения из чатов, в которых он является участником. Максимум 100 сообщений ||
 |#
 
+> Boolean-поля `system`, `urlPreview`, `skipConnector`, `silentConnector` принимают значения `true`, `false`, `"Y"`, `"N"`.
+
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
@@ -245,9 +247,9 @@ HTTP-статус: **400**, **403**
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./chat-message-update.md)
 - [{#T}](./chat-message-delete.md)
 - [{#T}](./chat-message-reaction-add.md)
 - [{#T}](./attachments/index.md)
 - [{#T}](./message-keyboards.md)
-

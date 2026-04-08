@@ -283,6 +283,7 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./message-keyboards.md)
 - [{#T}](./attachments/index.md)
 - [{#T}](./chat-message-send.md)

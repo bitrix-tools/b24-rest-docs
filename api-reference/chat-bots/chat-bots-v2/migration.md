@@ -51,6 +51,7 @@ title: Миграция с imbot на imbot.v2
 || — | [imbot.v2.Event.get](./imbot.v2/events/event-get.md) | Новый метод: polling событий (fetch-режим) ||
 || — | [imbot.v2.File.upload](./imbot.v2/files/file-upload.md) | Новый метод: загрузка файла в чат ||
 || — | [imbot.v2.File.download](./imbot.v2/files/file-download.md) | Новый метод: получение ссылки на скачивание ||
+|| — | [imbot.v2.Revision.get](./imbot.v2/revision-get.md) | Новый метод: получение номеров ревизий API ||
 |#
 
 ## События
@@ -90,8 +91,15 @@ title: Миграция с imbot на imbot.v2
 - v1: OAuth или webhook-авторизация с полем `CLIENT_ID`
 - v2: OAuth или webhook-авторизация с `botToken`
 
+## Изменения внутри v2
+
+API `imbot.v2` продолжает развиваться. Новые возможности, исправления и изменения с потерей обратной совместимости публикуются в [Журнале изменений API imbot.v2](./change-log.md).
+
+Если формат вызова или ответа метода меняется, предыдущий вариант продолжает поддерживаться **6 месяцев** с момента публикации изменения.
+
 ## Продолжите изучение
 
 - [{#T}](./imbot.v2/bots/bot-register.md)
 - [{#T}](./imbot.v2/events/event-get.md)
+- [Журнал изменений API imbot.v2](./change-log.md)
 - [{#T}](../index.md)

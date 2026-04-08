@@ -32,10 +32,9 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](../../index.md)
 - [Файлы imbot.v2](../files/index.md)
 - [{#T}](./message-formatting.md)
 - [{#T}](./attachments/index.md)
 - [{#T}](./message-keyboards.md)
-
-

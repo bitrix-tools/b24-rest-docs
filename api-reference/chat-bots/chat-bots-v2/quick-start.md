@@ -6,6 +6,12 @@
 
 Краткий сценарий запуска чат-бота на `imbot.v2`: создание вебхука, регистрация бота, получение событий, отправка сообщений и работа с файлами.
 
+{% note info "" %}
+
+Перед началом проверьте [Журнал изменений API imbot.v2](./change-log.md). В нем собраны новые возможности, исправления и breaking changes, а записи расположены от новых к старым.
+
+{% endnote %}
+
 ## Создание входящего вебхука {#webhook-create}
 
 Для быстрого старта создайте входящий вебхук в интерфейсе Битрикс24:
@@ -112,8 +118,35 @@ curl -X POST 'https://example.bitrix24.ru/rest/1/webhook_token/imbot.v2.File.dow
   }'
 ```
 
+## Дополнительные возможности сообщений
+
+При отправке сообщений через [imbot.v2.Chat.Message.send](./imbot.v2/messages/chat-message-send.md) доступны:
+
+- [Форматирование текста (BB-коды)](./imbot.v2/messages/message-formatting.md): жирный, курсив, ссылки, цитаты, код и другие BB-коды
+- [Вложения (Attach)](./imbot.v2/messages/attachments/index.md): структурированные блоки с изображениями, таблицами, сетками и другими элементами
+- [Клавиатуры (Keyboard)](./imbot.v2/messages/message-keyboards.md): интерактивные кнопки под сообщением
+
+## Ревизии API и совместимость
+
+Битрикс24 облако и коробочные версии могут иметь разные ревизии API. Чтобы узнать, какая ревизия установлена на конкретном портале, используйте [imbot.v2.Revision.get](./imbot.v2/revision-get.md).
+
+Новые возможности, исправления и изменения с потерей обратной совместимости собраны на странице [Журнал изменений API imbot.v2](./change-log.md). Если интеграция уже работает в проде, эту страницу стоит проверять в первую очередь.
+
+## Порядок изучения
+
+1. [Журнал изменений API imbot.v2](./change-log.md)
+2. [imbot.v2.Bot.register](./imbot.v2/bots/bot-register.md)
+3. [imbot.v2.Event.get](./imbot.v2/events/event-get.md)
+4. [События imbot.v2](./imbot.v2/events/events.md)
+5. [imbot.v2.Chat.Message.send](./imbot.v2/messages/chat-message-send.md)
+6. [imbot.v2.Chat.Message.get](./imbot.v2/messages/chat-message-get.md) и [imbot.v2.Chat.Message.getContext](./imbot.v2/messages/chat-message-get-context.md)
+7. [imbot.v2.Command.register](./imbot.v2/commands/command-register.md)
+8. [imbot.v2.File.upload](./imbot.v2/files/file-upload.md) и [imbot.v2.File.download](./imbot.v2/files/file-download.md)
+9. [imbot.v2.Chat.add](./imbot.v2/chats/chat-add.md)
+
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](./change-log.md)
 - [{#T}](./index.md)
 - [{#T}](./imbot.v2/bots/bot-register.md)
 - [{#T}](./imbot.v2/events/event-get.md)

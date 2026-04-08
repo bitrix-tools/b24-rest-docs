@@ -449,8 +449,8 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](./change-log.md)
 - [{#T}](./index.md)
 - [{#T}](./imbot.v2/bots/index.md)
 - [{#T}](./imbot.v2/events/events.md)
 - [{#T}](./im.v2/events/events.md)
-

@@ -60,6 +60,7 @@ Polling — режим получения событий, при котором 
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../change-log.md)
 - [События im.v2](./events/index.md)
 - [Файлы im.v2](./files/index.md)
 - [{#T}](../index.md)

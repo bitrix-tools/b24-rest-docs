@@ -171,6 +171,7 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./event-get.md)
 - [{#T}](./event-subscribe.md)
 - [{#T}](../../entities.md)

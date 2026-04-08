@@ -56,9 +56,7 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../../../change-log.md)
 - [{#T}](./index.md)
 - [{#T}](./delimiter.md)
 - [{#T}](./grid.md)
-
-
-
