@@ -5,6 +5,8 @@
 ### 08 апреля, 2026
 
 - Обновили главную страницу раздела [Интерактивные блоки](./api-reference/landing/block/interactive/index.md)
+- Обновили главную страницу раздела [Открытые линии](./api-reference/imopenlines/index.md)
+- Обновили главные страницы в подразделах [Открытые линии](./api-reference/imopenlines/openlines/index.md), [Операторы](./api-reference/imopenlines/openlines/operators/index.md), [Диалоги](./api-reference/imopenlines/openlines/sessions/index.md) раздела Открытые линии
 
 ### 07 апреля, 2026
 

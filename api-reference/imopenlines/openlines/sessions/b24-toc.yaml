@@ -1,6 +1,8 @@
 title: Диалоги
 href: imopenlines-session-open.md
 items: 
+  - name: Обзор методов
+    href: index.md
   - name: Получить чат по символьному коду
     href: imopenlines-session-open.md
   - name: Начать новый диалог

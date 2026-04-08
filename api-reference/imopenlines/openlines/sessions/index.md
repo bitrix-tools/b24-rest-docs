@@ -1,35 +1,135 @@
-# Диалоги открытых линий
+# Диалоги открытых линий: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Диалоги открытых линий — это чаты с клиентами через мессенджеры, социальные сети или онлайн-чаты. 
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+В диалоге может быть несколько сессий. Каждая сессия — это один цикл обработки обращений: подключение оператора, обмен сообщениями, завершение и оценка.
+
+Методы раздела позволяют:
+- открывать диалог по данным внешнего клиента,
+- запускать сессии и управлять ими,
+- подключать операторов,
+- менять режимы диалога,
+- передавать результаты общения в CRM.
+
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как работать со списком диалогов в Открытых линиях](https://helpdesk.bitrix24.ru/open/25749858/)
+
+## Связь диалогов с другими объектами
+
+**Открытые линии.** Диалог принадлежит открытой линии и наследует ее правила обработки: очереди, маршрутизацию и режимы работы. Работать с настройками линии следует через группу методов [imopenlines.config.*](../index.md).
+
+**Чат.** Система представляет каждый диалог как чат открытой линии. Через чат выполняются операции с сообщениями, операторами и сессиями.
+
+**Пользователь внешнего канала.** Внешний клиент связан с диалогом через данные канала связи. По этим данным система определяет, к какому диалогу относится обращение.
+
+**Операторы.** Операторы участвуют в обработке сессий: принимают диалоги, передают их и завершают обращения. Для сценариев операторов используйте методы раздела [Операторы](../operators/index.md).
+
+**CRM.** Результаты общения из диалога можно переносить в CRM и продолжать работу с помощью методов [crm.lead.*](../../../crm/leads/index.md).
+
+## Основные идентификаторы
+
+#|
+|| **Идентификатор** | **Описание** ||
+|| `USER_CODE` | Код пользователя из внешнего канала связи. Формат: ```<connector>|<LINE_ID>|<CONNECTOR_CHAT_ID>|<CONNECTOR_USER_ID>```. Пример: ```livechat|22|1761|587``` ||
+|| `CHAT_ID` | Внутренний идентификатор чата в Битрикс24. Основной параметр для методов работы с диалогом. Формат: целое число. Пример: `2043` ||
+|| `DIALOG_ID` | Строковое представление чата. Используется только в [`imopenlines.dialog.get`](./imopenlines-dialog-get.md). Формат: `chat<ID>`. Пример: `chat2043` ||
+|| `SESSION_ID` | Идентификатор отдельной сессии внутри диалога. Формат: целое число. Пример: `3567` ||
+|#
+
+## Как работать с диалогами
+
+### Получить данные диалога
+
+Чтобы получить данные текущего диалога, используйте [imopenlines.dialog.get](./imopenlines-dialog-get.md).
+
+Если диалог нужно найти по данным внешнего клиента, сначала вызовите [imopenlines.session.open](./imopenlines-session-open.md), затем передайте полученный идентификатор в `imopenlines.dialog.get`.
+
+### Запустить сессию
+
+Для старта нового цикла обработки в текущем чате вызовите [imopenlines.session.start](./imopenlines-session-start.md).
+
+Если нужно начать новую сессию от конкретного сообщения, используйте [imopenlines.message.session.start](./imopenlines-message-session-start.md).
+
+### Подключить оператора
+
+Чтобы оператор вошел в диалог, используйте [imopenlines.session.join](./imopenlines-session-join.md).
+
+Чтобы текущий оператор забрал диалог себе, используйте [imopenlines.session.intercept](./imopenlines-session-intercept.md).
+
+### Получить историю
+
+Вызовите [`imopenlines.session.history.get`](./imopenlines-session-history-get.md), чтобы получить сообщения, статус сессии и связанные данные.
+
+### Управлять режимами диалога
+
+Для закрепления и открепления диалогов используйте [imopenlines.session.mode.pin](./imopenlines-session-mode-pin.md), [imopenlines.session.mode.pinAll](./imopenlines-session-mode-pin-all.md), [imopenlines.session.mode.unpinAll](./imopenlines-session-mode-unpin-all.md).
+
+Для переключения скрытого режима используйте [imopenlines.session.mode.silent](./imopenlines-session-mode-silent.md).
+
+### Завершить обработку и передать данные в CRM
+
+После завершения диалога можно сохранить оценку руководителя методом [imopenlines.session.head.vote](./imopenlines-session-head-vote.md). Результат общения можно передать в CRM методом [imopenlines.crm.lead.create](./imopenlines-crm-lead-create.md).
+
+{% note tip "Пользовательская документация" %}
+
+- [Оценка качества обслуживания в Открытых линиях Битрикс24](https://helpdesk.bitrix24.ru/open/5667405/)
+- [Лимит на незакрытые диалоги у операторов открытых линий](https://helpdesk.bitrix24.ru/open/26928654/)
+- [Как работать со статистикой диалогов в Открытых линиях](https://helpdesk.bitrix24.ru/open/25904116/)
 
 {% endnote %}
 
-{% if build == 'dev' %}
+## Формат ответа и обработка ошибок
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+Большинство методов раздела возвращают объект `result` и служебный блок `time`.
 
-- из файла Сергея: диалоги/сессии - что это, как они работают
+При интеграции проверяйте:
 
-{% endnote %}
+- HTTP-статус ответа,
+- поле `error` и текст `error_description` при статусе `400`,
+- метод-специфичные коды ошибок на странице конкретного метода.
 
-{% endif %}
+При ошибках доступа и некорректных идентификаторах сначала проверяйте права пользователя на диалог и корректность значений `CHAT_ID`, `SESSION_ID`, `DIALOG_ID`, `USER_CODE`.
 
+## Обзор методов {#all-methods}
+
+> Scope: [`imopenlines`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь с правами на диалог
+
+### Запустить и получить диалог
 
 #|
 || **Метод** | **Описание** ||
-|| [imopenlines.crm.lead.create](./imopenlines-crm-lead-create.md) | Создает лид CRM по чату открытой линии ||
-|| [imopenlines.dialog.get](./imopenlines-dialog-get.md) | Возвращает данные диалога оператора по одному из идентификаторов ||
-|| [imopenlines.message.session.start](./imopenlines-message-session-start.md) | Запускает новую сессию и переносит в нее выбранное сообщение ||
-|| [imopenlines.session.head.vote](./imopenlines-session-head-vote.md) | Сохраняет оценку руководителя по завершенной сессии ||
-|| [imopenlines.session.history.get](./imopenlines-session-history-get.md) | Возвращает историю сообщений и данные сессии ||
-|| [imopenlines.session.intercept](./imopenlines-session-intercept.md) | Переводит диалог на текущего оператора ||
-|| [imopenlines.session.join](./imopenlines-session-join.md) | Присоединяет текущего оператора к диалогу ||
-|| [imopenlines.session.mode.pinAll](./imopenlines-session-mode-pin-all.md) | Закрепляет все доступные диалоги за текущим оператором ||
-|| [imopenlines.session.mode.pin](./imopenlines-session-mode-pin.md) | Закрепляет или открепляет выбранный диалог ||
-|| [imopenlines.session.mode.silent](./imopenlines-session-mode-silent.md) | Включает или выключает скрытый режим диалога ||
-|| [imopenlines.session.mode.unpinAll](./imopenlines-session-mode-unpin-all.md) | Открепляет все закрепленные диалоги текущего оператора ||
-|| [imopenlines.session.open](./imopenlines-session-open.md) | Открывает чат открытой линии по коду пользователя ||
+|| [imopenlines.session.open](./imopenlines-session-open.md) | Получает идентификатор чата по коду пользователя ||
+|| [imopenlines.dialog.get](./imopenlines-dialog-get.md) | Возвращает данные диалога по одному из идентификаторов ||
 || [imopenlines.session.start](./imopenlines-session-start.md) | Запускает новую сессию в текущем чате ||
+|| [imopenlines.message.session.start](./imopenlines-message-session-start.md) | Запускает новую сессию на основании выбранного сообщения ||
+|| [imopenlines.session.history.get](./imopenlines-session-history-get.md) | Возвращает историю сообщений и данные сессии ||
+|#
+
+### Подключить оператора к диалогу
+
+#|
+|| **Метод** | **Описание** ||
+|| [imopenlines.session.join](./imopenlines-session-join.md) | Присоединяет текущего оператора к диалогу ||
+|| [imopenlines.session.intercept](./imopenlines-session-intercept.md) | Переводит диалог на текущего оператора ||
+|#
+
+### Управлять режимами диалога
+
+#|
+|| **Метод** | **Описание** ||
+|| [imopenlines.session.mode.pin](./imopenlines-session-mode-pin.md) | Закрепляет или открепляет выбранный диалог ||
+|| [imopenlines.session.mode.pinAll](./imopenlines-session-mode-pin-all.md) | Закрепляет все доступные диалоги за текущим оператором ||
+|| [imopenlines.session.mode.unpinAll](./imopenlines-session-mode-unpin-all.md) | Открепляет все закрепленные диалоги текущего оператора ||
+|| [imopenlines.session.mode.silent](./imopenlines-session-mode-silent.md) | Включает или выключает скрытый режим диалога ||
+|#
+
+### Сохранить результаты и создать лид
+
+#|
+|| **Метод** | **Описание** ||
+|| [imopenlines.session.head.vote](./imopenlines-session-head-vote.md) | Сохраняет оценку руководителя по завершенной сессии ||
+|| [imopenlines.crm.lead.create](./imopenlines-crm-lead-create.md) | Создает лид CRM по диалогу открытой линии ||
 |#
