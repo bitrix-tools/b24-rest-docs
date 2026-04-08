@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 08 апреля, 2026
+
+- Обновили главную страницу раздела [Интерактивные блоки](./api-reference/landing/block/interactive/index.md)
+
 ### 07 апреля, 2026
 
 - Обновили главную страницу раздела [BitrixGPT](./api-reference/ai/index.md)
