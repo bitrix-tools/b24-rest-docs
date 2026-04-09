@@ -1,133 +1,83 @@
 # Генератор документов: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Генератор документов собирает готовые документы по шаблонам `.docx` и данным приложения. Он помогает загружать шаблоны, получать карту их полей, создавать по ним документы и управлять настройками генерации.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+> Быстрый переход: [все методы](#all-methods)
+
+## Как выбрать сценарий
+
+В Битрикс24 есть две группы методов для работы с генератором документов: `documentgenerator.*` и `crm.documentgenerator.*`.
+
+Шаблон, документ и входные данные, созданные через `documentgenerator.*`, не дают доступа к данным CRM. Для CRM-сценариев используйте раздел [Генератор документов в CRM](../crm/document-generator/index.md).
+
+#|
+||  | Методы `documentgenerator.*` | Методы `crm.documentgenerator.*` ||
+|| Где использовать | В REST-сценариях приложения, когда шаблоны и документы находятся в scope `documentgenerator` | В CRM-сценариях, когда документ связан с объектом CRM ||
+|| Что передавать при генерации | 
+- `value` — внешний ID объекта, для которого создается документ
+- `providerClassName` — класс провайдера данных | 
+- `entityId` — идентификатор объекта CRM
+- `entityTypeId` — тип объекта CRM ||
+|| Методы работы с шаблонами | [documentgenerator.template.*](./templates/index.md) | [crm.documentgenerator.template.*](../crm/document-generator/templates/index.md) ||
+|| Где виден результат | На уровне REST и в логике приложения | В сценариях и интерфейсе CRM ||
+|#
+
+## Как начать работу
+
+Чтобы работать с документами в REST-сценарии генератора документов:
+
+1. Подготовьте файл шаблона `.docx` с плейсхолдерами полей
+2. Создайте или выберите [нумератор](./numerators/index.md) и [регион](./region/index.md), если они нужны шаблону
+3. Загрузите шаблон методами [documentgenerator.template.add](./templates/document-generator-template-add.md) или [documentgenerator.template.update](./templates/document-generator-template-update.md)
+4. Получите карту полей шаблона методом [documentgenerator.template.getfields](./templates/document-generator-template-get-fields.md)
+5. Создайте документ методом [documentgenerator.document.add](./document-generator-document-add.md)
+6. Получите документ методом [documentgenerator.document.get](./document-generator-document-get.md), если нужно проверить его состояние и получить ссылки на файлы
+7. Используйте [documentgenerator.document.list](./document-generator-document-list.md), если нужно найти документы по шаблону, внешнему идентификатору или другим полям
+8. Включите публичную ссылку методом [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md), если документ нужно открывать за пределами вашего Битрикс24
+9. Обновите документ методом [documentgenerator.document.update](./document-generator-document-update.md) или удалите его методом [documentgenerator.document.delete](./document-generator-document-delete.md), если это требуется по сценарию
+10. Настройте права через раздел [Роли и права](./role/index.md), если приложению нужно управлять доступом к шаблонам и документам
+
+{% note tip "Частые кейсы и сценарии" %}
+
+- [{#T}](./examples/index.md)
+- [{#T}](./examples/document-images-seals.md)
+- [{#T}](./examples/document-date-name.md)
+- [{#T}](./examples/document-table-data.md)
+- [{#T}](./examples/document-table-complex.md)
 
 {% endnote %}
 
-> Быстрый переход: [все методы](#all-methods) 
+## Связь с другими объектами
 
-На данный момент есть **два scope** для работы с генератором документов:
-- Методы `crm.documentgenerator.*`. Результаты работы этих методов отображаются в интерфейсе CRM;
-- Методы `documentgenerator.*`. Результат работы этих методов доступен только на уровне REST.
+**Шаблоны документов.** Шаблон задает файл `.docx`, регион, нумератор и набор настроек, которые затем используются при создании документа. Для работы с шаблонами используйте группу методов [documentgenerator.template.*](./templates/index.md).
 
-Из методов одного scope нельзя получить доступ к данным другого:
-- Нельзя создать документ CRM с шаблоном для REST;
-- Нельзя использовать данные CRM при работе с методами documentgenerator.*.
+**Нумераторы.** Нумератор задает правило формирования номера документа, которое шаблон использует через поле `numeratorId`. Работать с нумераторами можно группой методов [documentgenerator.numerator.*](./numerators/index.md).
 
-Поддерживаются следующие **типы полей** и их **модификаторы**:
+**Регионы.** Регион задает локальные настройки шаблона через поле `region`. Для предустановленного региона используйте `code`, для пользовательского — `id`. Управление регионами выполняется группой методов [documentgenerator.region.*](./region/index.md).
 
-- IMAGE - изображения;
-- STAMP - печати и подписи;
-- DATE - даты;
-- NAME - имена.
+**Роли и права.** Права доступа определяют, кто может изменять шаблоны, документы и настройки генератора документов. Для настройки ролей используйте группу методов [documentgenerator.role.*](./role/index.md).
 
-Типы полей **Деньги** и **Адрес** реализованы внутри модуля *crm*, поэтому использовать их в REST этого модуля не получится. Если надо вывести такие данные - придётся передавать их в уже сформированном виде.
+## Особенность конвертации документа в PDF
 
-Есть возможность использовать массивы для вставки в таблицы и повторяющиеся блоки.
+Конвертация файла в PDF выполняется асинхронно. Если поле `pdfUrl` не заполнено сразу после создания документа, вызовите метод [documentgenerator.document.get](./document-generator-document-get.md), чтобы проверить результат конвертации повторно.
 
-## Отличие параметров методов разных scope
+## Обзор методов {#all-methods}
 
-“Изнутри” методы идентичны. По факту методы `crm.documentgenerator.*` после пред-обработки параметров вызывают методы `documentgenerator.*`. Но есть ряд отличий:
-- На вход методов `crm.documentgenerator.*` необходимо вместо имен провайдеров передавать **ID** типа сущности CRM (параметр `entityTypeId`);
-- На вход методов `crm.documentgenerator.*` необходимо вместо параметра **value** передавать параметр `entityId` - **ID** сущности CRM
-
-## Шаблоны
-
-Все создаваемые этим api шаблоны и документы привязаны к модулю REST. Через scope `documentgenerator` нельзя обращаться к шаблонам и документам других модулей. Поэтому `moduleId` в данных о шаблоне всегда будет `rest`. Даже если в `add` или `update` указать другой модуль, он не будет изменён.
-
-Для работы REST доступны только два провайдера:
-
-- `Bitrix\DocumentGenerator\DataProvider\Rest` - всегда должен быть указан в качестве провайдера для шаблона
-- `Bitrix\DocumentGenerator\DataProvider\HashDataProvider` - используется для передачи данных в таблицы / повторяющиеся блоки
-
-Привязка шаблона к пользователю самими REST-методами никак не учитывается. Но её можно использовать на стороне приложения.
-
-## Нумераторы
-
-Для работы с нумераторами есть методы `documentgenerator.numerator.*`, описанные [тут](./numerators/index.md). Следует учесть, что через данный скоуп есть возможность получить доступ ко всем нумераторам для документов. В том числе к тем, которые работают в CRM. Но через REST обновить / удалить можно только тот нумератор, который был создан через REST.
-
-## Список регионов
-
-Каждый шаблон привязан к определенной стране. Список стран фиксирован и на данный момент состоит из:
-
-- ru - Россия
-- by - Беларусь
-- kz - Казахстан
-- ua - Украина
-- br - Бразилия
-- mx - Мексика
-- de - Германия
-- uk - Великобритания
-- pl - Польша
-
-Начиная с версии documentgenerator 18.6.1 появилась возможность добавлять свои регионы. Для управления ими появился [отдельный раздел](./region/index.md).
-
-## Итоги
-
-**Что сделать можно?**
-
-- Создать документы на основе шаблонов в формате .docx файлов;
-- В шаблон можно вставить списки с произвольным количеством элементов через таблицы или повторяющиеся блоки;
-- В шаблон можно вставить изображения, в том числе из списков;
-- Вставить поля в виде html с частичным сохранением форматирования;
-- Создать документы, отправить их и отследить просмотр без участия пользователя (через роботов).
-
-**Что сделать нельзя?**
-
-- Вставить множественное значение поля типа «файл»;
-- Вставить таблицы и изображения из html;
-- Вставить векторные изображения;
-- Передача форматирование выполняется не полностью.
-
-## Обзор методов и событий {#all-methods}
+> Scope: [`documentgenerator`](../scopes/permissions.md)
+>
+> Кто может выполнять методы: в зависимости от метода
 
 ### Документы
 
 #|
 || **Метод** | **Описание** ||
 || [documentgenerator.document.add](./document-generator-document-add.md) | Создает новый документ на основании шаблона ||
-|| [documentgenerator.document.delete](./document-generator-document-delete.md) | Удаляет документ ||
-|| [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md) | Включает/выключает публичную ссылку на документ ||
-|| [documentgenerator.document.getfields](./document-generator-document-get-fields.md) | Получает список полей документов ||
+|| [documentgenerator.document.update](./document-generator-document-update.md) | Изменяет существующий документ ||
 || [documentgenerator.document.get](./document-generator-document-get.md) | Получает документ по идентификатору ||
 || [documentgenerator.document.list](./document-generator-document-list.md) | Получает список документов ||
-|| [documentgenerator.document.update](./document-generator-document-update.md) | Изменяет существующий документ ||
-|#
-
-### Нумератор
-
-#|
-|| **Метод** | **Описание** ||
-|| [documentgenerator.numerator.add](./numerators/document-generator-numerator-add.md) | Добавляет нумератор ||
-|| [documentgenerator.numerator.delete](./numerators/document-generator-numerator-delete.md) | Удаляет нумератор ||
-|| [documentgenerator.numerator.get](./numerators/document-generator-numerator-get.md) | Получает нумератор по идентификатору ||
-|| [documentgenerator.numerator.list](./numerators/document-generator-numerator-list.md) | Получает список нумераторов ||
-|| [documentgenerator.numerator.update](./numerators/document-generator-numerator-update.md) | Изменяет нумератор ||
-|#
-
-### Регионы
-
-#|
-|| **Метод** | **Описание** ||
-|| [documentgenerator.region.get](./region/document-generator-region-get.md) | Возвращает информацию о регионе по его идентификатору ||
-|| [documentgenerator.region.list](./region/document-generator-region-list.md) | Возвращает список регионов, как установленных по умолчанию, так и пользовательских ||
-|| [documentgenerator.region.delete](./region/document-generator-region-delete.md) | Удаляет регион ||
-|| [documentgenerator.region.add](./region/document-generator-region-add.md) | Добавляет новый регион ||
-|| [documentgenerator.region.update](./region/document-generator-region-update.md) | Обновляет существующую страну ||
-|#
-
-### Роли
-
-#|
-|| **Метод** | **Описание** ||
-|| [documentgenerator.role.get](./role/document-generator-role-get.md) | Отдает информацию о роли и её правах доступа ||
-|| [documentgenerator.role.list](./role/document-generator-role-list.md) | Возвращает список ролей без их прав доступа ||
-|| [documentgenerator.role.delete](./role/document-generator-role-delete.md) | Удаляет роль ||
-|| [documentgenerator.role.add](./role/document-generator-role-add.md) | Добавляет новую роль ||
-|| [documentgenerator.role.update](./role/document-generator-role-update.md) | Обновляет роли ||
-|| [documentgenerator.role.fillaccesses](./role/document-generator-role-fill-accesses.md) | Устанавливает набор ролей и их привязок ||
+|| [documentgenerator.document.delete](./document-generator-document-delete.md) | Удаляет документ ||
+|| [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md) | Включает или выключает публичную ссылку на документ ||
+|| [documentgenerator.document.getfields](./document-generator-document-get-fields.md) | Получает список полей документа ||
 |#
 
 ### Шаблоны
@@ -139,5 +89,39 @@
 || [documentgenerator.template.get](./templates/document-generator-template-get.md) | Возвращает шаблон документа по идентификатору ||
 || [documentgenerator.template.list](./templates/document-generator-template-list.md) | Возвращает список шаблонов документов по фильтру ||
 || [documentgenerator.template.delete](./templates/document-generator-template-delete.md) | Удаляет шаблон документа ||
-|| [documentgenerator.template.getfields](./templates/document-generator-template-get-fields.md) | Возвращает перечень полей шаблонов документов ||
+|| [documentgenerator.template.getfields](./templates/document-generator-template-get-fields.md) | Возвращает карту полей шаблона ||
+|#
+
+### Нумераторы
+
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.numerator.add](./numerators/document-generator-numerator-add.md) | Добавляет нумератор ||
+|| [documentgenerator.numerator.update](./numerators/document-generator-numerator-update.md) | Изменяет нумератор ||
+|| [documentgenerator.numerator.get](./numerators/document-generator-numerator-get.md) | Получает нумератор по идентификатору ||
+|| [documentgenerator.numerator.list](./numerators/document-generator-numerator-list.md) | Получает список нумераторов ||
+|| [documentgenerator.numerator.delete](./numerators/document-generator-numerator-delete.md) | Удаляет нумератор ||
+|#
+
+### Регионы
+
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.region.add](./region/document-generator-region-add.md) | Добавляет пользовательский регион ||
+|| [documentgenerator.region.update](./region/document-generator-region-update.md) | Обновляет пользовательский регион ||
+|| [documentgenerator.region.get](./region/document-generator-region-get.md) | Возвращает данные региона по идентификатору или коду ||
+|| [documentgenerator.region.list](./region/document-generator-region-list.md) | Возвращает список предустановленных и пользовательских регионов ||
+|| [documentgenerator.region.delete](./region/document-generator-region-delete.md) | Удаляет пользовательский регион ||
+|#
+
+### Роли и права
+
+#|
+|| **Метод** | **Описание** ||
+|| [documentgenerator.role.add](./role/document-generator-role-add.md) | Добавляет роль и возвращает ее данные с правами ||
+|| [documentgenerator.role.update](./role/document-generator-role-update.md) | Обновляет роль и возвращает актуальные данные роли ||
+|| [documentgenerator.role.get](./role/document-generator-role-get.md) | Возвращает роль по идентификатору вместе с правами ||
+|| [documentgenerator.role.list](./role/document-generator-role-list.md) | Возвращает список ролей без детального состава прав ||
+|| [documentgenerator.role.delete](./role/document-generator-role-delete.md) | Удаляет роль по идентификатору ||
+|| [documentgenerator.role.fillaccesses](./role/document-generator-role-fill-accesses.md) | Полностью перезаписывает привязки ролей к кодам доступа ||
 |#
