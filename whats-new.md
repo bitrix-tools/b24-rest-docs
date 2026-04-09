@@ -9,12 +9,14 @@
 ### 08 апреля, 2026
 
 - Обновили главную страницу раздела [Интерактивные блоки](./api-reference/landing/block/interactive/index.md)
+- Обновили главную страницу раздела [Открытые линии](./api-reference/imopenlines/index.md)
+- Обновили главные страницы в подразделах [Открытые линии](./api-reference/imopenlines/openlines/index.md), [Операторы](./api-reference/imopenlines/openlines/operators/index.md), [Диалоги](./api-reference/imopenlines/openlines/sessions/index.md) раздела Открытые линии
 
 ### 07 апреля, 2026
 
 - Обновили главную страницу раздела [BitrixGPT](./api-reference/ai/index.md)
 - Обновили главную страницу раздела [Специальные блоки](./api-reference/landing/block/special/index.md)
-- Добавили страницу с перечнем актуальных изменений в API Чат-ботов 2.0 [Изменения API imbot.v2](./api-reference/chat-bots/chat-bots-v2/breaking-changes.md)
+- Добавили страницу с перечнем актуальных изменений в API Чат-ботов 2.0 [Изменения API imbot.v2](./api-reference/chat-bots/chat-bots-v2/change-log.md)
 - Добавили метод [imbot.v2.Revision.get](./api-reference/chat-bots/chat-bots-v2/imbot.v2/revision-get.md)
 - Обновили главную страницу раздела [Виджеты в мессенджере](./api-reference/widgets/im/index.md) в Виджетах. Добавили вводную информацию, а также обзор методов и связей
 - Обновили страницу [Работа с типами сайтов и скоупами](./api-reference/landing/types.md)

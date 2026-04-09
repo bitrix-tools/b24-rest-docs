@@ -222,6 +222,7 @@ HTTP-код: **200**
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./event-subscribe.md)
 - [{#T}](./event-unsubscribe.md)
 - [{#T}](./events.md)

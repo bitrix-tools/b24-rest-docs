@@ -30,5 +30,6 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](../../index.md)
 - [События imbot.v2](../events/index.md)

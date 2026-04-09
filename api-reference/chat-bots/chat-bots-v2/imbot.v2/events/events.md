@@ -587,6 +587,7 @@ Webhook-события доставляются через систему соб
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./event-get.md)
 - [{#T}](../../entities.md)
 - [{#T}](../messages/chat-message-reaction-add.md)

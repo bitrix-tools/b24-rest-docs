@@ -410,7 +410,7 @@ HTTP-статус: **400**, **403**
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./command-register.md)
 - [{#T}](./command-list.md)
 - [{#T}](./command-unregister.md)
-

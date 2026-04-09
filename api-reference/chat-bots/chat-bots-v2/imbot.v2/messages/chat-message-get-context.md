@@ -307,7 +307,7 @@ HTTP-статус: **400**, **403**
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./chat-message-get.md)
 - [{#T}](./chat-message-send.md)
 - [{#T}](../../index.md#bot-types)
-

@@ -560,9 +560,7 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../../change-log.md)
 - [{#T}](./index.md)
 - [{#T}](./block-collections/index.md)
 - [{#T}](../chat-message-send.md)
-
-
-

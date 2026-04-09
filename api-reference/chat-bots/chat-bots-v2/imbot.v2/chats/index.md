@@ -35,5 +35,6 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](../../index.md)
 - [Сообщения imbot.v2](../messages/index.md)

@@ -430,12 +430,10 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../../change-log.md)
 - [{#T}](./constructor.md)
 - [{#T}](./block-collections/index.md)
 - [{#T}](../message-keyboards.md)
 - [{#T}](../chat-message-send.md)
 - [{#T}](../chat-message-update.md)
 - [{#T}](../../../../../chats/notifications/im-notify.md)
-
-
-
