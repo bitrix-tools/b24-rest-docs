@@ -156,7 +156,7 @@ HTTP-статус: **200**
             "entityTypeId": 1,
             "fieldCode": "ADDRESS",
             "fieldTitle": "Адрес"
-        }
+        },
         {
             "entityTypeId": 1,
             "fieldCode": "UF_CRM_1750854801",
@@ -192,7 +192,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+Специфичные ошибки метода не выделены.
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
