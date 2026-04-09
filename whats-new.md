@@ -9,6 +9,7 @@
 - Обновили главную страницу раздела [Пользовательские поля](./api-reference/crm/universal/user-defined-fields/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
 - Обновили страницу [Обзор событий при работе с карточкой звонка WebRTC-клиента](./api-reference/widgets/ui-interaction/page-background-worker/events/index.md)
 - Добавили страницу [Управление карточкой звонка WebRTC-клиента: обзор методов](./api-reference/widgets/ui-interaction/page-background-worker/index.md)
+- Обновили главную страницу раздела [Шаблоны](./api-reference/tasks/template/index.md) в Задачах. Добавили вводную информацию, а также обзор методов и связей
 
 ### 08 апреля, 2026
 
