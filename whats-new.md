@@ -7,6 +7,8 @@
 - Обновили главную страницу раздела [Генератор документов](./api-reference/document-generator/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Множественные поля](./api-reference/crm/auxiliary/multifield/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Пользовательские поля](./api-reference/crm/universal/user-defined-fields/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили страницу [Обзор событий при работе с карточкой звонка WebRTC-клиента](./api-reference/widgets/ui-interaction/page-background-worker/events/index.md)
+- Добавили страницу [Управление карточкой звонка WebRTC-клиента: обзор методов](./api-reference/widgets/ui-interaction/page-background-worker/index.md)
 
 ### 08 апреля, 2026
 

@@ -2,7 +2,7 @@
 
 > Scope: [`placement`](../../scopes/permissions.md)
 
-Вы можете добавить "невидимый" виджет, который будет выводиться на всех страницах Битрикс24. Именно этот виджет позволяет реализовывать сценарий с внешним [WebRTC-клиентом](../ui-interaction/page-background-worker/index.md) в интеграциях с телефониями, однако это не единственный возможный сценарий использования.
+Вы можете добавить "невидимый" виджет, который будет выводиться на всех страницах Битрикс24. Именно этот виджет позволяет реализовывать сценарий с внешним [WebRTC-клиентом](../ui-interaction/page-background-worker/webrtc-scenario.md) в интеграциях с телефониями, однако это не единственный возможный сценарий использования.
 
 Например, с помощью механизма [интерактивного взаимодействия](../../../settings/interactivity/index.md) backend- и frontend-приложения, можно отправлять "сигнал" в виджет `PAGE_BACKGROUND_WORKER`, а по получении "сигнала", открывать слайдер приложения с помощью метода [openApplication](../bx24-widget-methods.md).
 
@@ -200,7 +200,7 @@ Array
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [{#T}](../ui-interaction/page-background-worker/index.md)
+- [{#T}](../ui-interaction/page-background-worker/webrtc-scenario.md)
 
 {% endnote %}
 
