@@ -12,6 +12,10 @@
 - Обновили главную страницу раздела [Привязка типов цен к группам покупателей](./api-reference/catalog/price-type/price-type-group/index.md)
 - Обновили главную страницу раздела [Секционные настройки свойств Торгового каталога](./api-reference/catalog/product-property-section/index.md)
 - Обновили главную страницу раздела [Пользовательские поля документов складского учета](./api-reference/catalog/userfield-document/index.md)
+- Обновили главную страницу раздела [Объект Шаблон представления](./api-reference/landing/template/index.md)
+- Обновили главные страницы разделов [Права](./api-reference/landing/rights/index.md), [Расширенная модель](./api-reference/landing/rights/extended-model/index.md), [Ролевая модель](./api-reference/landing/rights/role-model/index.md) в Сайтах и магазинах
+- Обновили главную страницу раздела [Специальные страницы сайта](./api-reference/landing/page/special-pages/index.md)
+- Обновили главные страницы разделов [Объект Страница](./api-reference/landing/page/index.md) и [Работа со страницей](./api-reference/landing/page/methods/index.md)
 
 ### 09 апреля, 2026
 
