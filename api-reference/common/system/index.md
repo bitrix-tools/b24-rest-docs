@@ -34,5 +34,9 @@
 || [access.name](./access-name.md) | Получает названия кодов доступа `ACCESS` ||
 || [feature.get](./feature-get.md) | Проверяет доступность функционала на портале ||
 || [server.time](./server-time.md) | Возвращает текущее время сервера ||
-|| [methods](./methods.md) | :::note DEPRECATED ||
+|| [methods](./methods.md) | {% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [method.get](./method-get.md).
+
+{% endnote %} ||
 |#
