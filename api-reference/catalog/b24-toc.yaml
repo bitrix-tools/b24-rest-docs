@@ -77,7 +77,7 @@ items:
     include:
       path: document/b24-toc.yaml
       mode: link
-  - name: Пользовательские поля документов складского учёта
+  - name: Пользовательские поля документов складского учета
     include:
       path: userfield-document/b24-toc.yaml
       mode: link

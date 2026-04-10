@@ -2,6 +2,13 @@
 
 ## 2026
 
+### 10 апреля, 2026
+
+- Обновили главную страницу раздела [Перечисления Торгового каталога](./api-reference/catalog/enum/index.md)
+- Обновили главную страницу раздела [Привязка типов цен к группам покупателей](./api-reference/catalog/price-type/price-type-group/index.md)
+- Обновили главную страницу раздела [Секционные настройки свойств Торгового каталога](./api-reference/catalog/product-property-section/index.md)
+- Обновили главную страницу раздела [Пользовательские поля документов складского учета](./api-reference/catalog/userfield-document/index.md)
+
 ### 09 апреля, 2026
 - Обновили страницу [Отвязать виджет от блока](./api-reference/landing/embedding/landing-repo-unbind.md)
 - Обновили главную страницу раздела [Push&Pull](./settings/interactivity/push-and-pull/index.md). Добавили вводную информацию, а также обзор методов и связей
