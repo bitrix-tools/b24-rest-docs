@@ -284,4 +284,5 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./landing-site-get-rights.md)
-- [Отличия моделей прав](../distinction.md)
+- [{#T}](../landing-role-is-enabled.md)
+- [{#T}](../landing-role-enable.md)
