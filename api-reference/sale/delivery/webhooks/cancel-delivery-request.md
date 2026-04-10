@@ -1,5 +1,11 @@
 # Отменить заказ на доставку CANCEL_DELIVERY_REQUEST_URL
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 Запрос отправляется на адрес указанный в `CANCEL_DELIVERY_REQUEST_URL` при создании обработчика доставки в методе [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md).
 
 ## Параметры запроса

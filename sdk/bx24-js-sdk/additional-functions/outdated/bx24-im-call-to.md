@@ -1,5 +1,11 @@
 # Позвонить по внутренней связи BX24.im.callTo
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 {% note warning "DEPRECATED" %}
 
 Развитие метода остановлено. Используйте [Messenger.startVideoCall](../messenger-start-video-call.md).

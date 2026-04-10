@@ -1,5 +1,11 @@
 # Дополнительные поля страницы
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 Дополнительные поля страницы передаются в массиве `ADDITIONAL_FIELDS` при вызове методов [landing.landing.add](./methods/landing-landing-add.md) и [landing.landing.update](./methods/landing-landing-update.md).
 
 Заполненные значения можно получить через метод [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md).

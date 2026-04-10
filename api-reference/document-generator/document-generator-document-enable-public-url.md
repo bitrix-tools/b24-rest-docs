@@ -1,5 +1,11 @@
 # Включить или выключить публичную ссылку на документ documentgenerator.document.enablepublicurl
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`documentgenerator`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом на изменение документов
