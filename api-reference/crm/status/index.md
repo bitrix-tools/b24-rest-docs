@@ -20,7 +20,7 @@
 * [Счета](../universal/invoice.md) — `SMART_INVOICE_STAGE_xx`, xx —  значение ID направления счетов
 * [Предложения](../quote/index.md) — `QUOTE_STATUS`
 * [Документы](https://helpdesk.bitrix24.ru/open/17572968/) — `SMART_DOCUMENT_STAGE_xx`, xx — значение ID направления документов 
-* [Смарт-процессы](../universal/index.md) —  `DYNAMIC_xx_STAGE_xx`, первый xx — это ID смарт-процесса, второй xx — это ID направления
+* [Смарт-процессы](../universal/index.md) —  `DYNAMIC_xx_STAGE_xx`, первый xx — это `entityTypeId` смарт-процесса, второй xx — это ID направления
 
 Чтобы получить ID направления на конкретном Битрикс24, используйте метод [crm.status.entity.types](./crm-status-entity-types.md).
 
