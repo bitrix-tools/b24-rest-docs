@@ -5,8 +5,6 @@ items:
     href: index.md
   - name: Поля шаблона представления
     href: fields.md
-  - name: Включаемые области
-    href: include-section.md
   - name: Получить список включаемых областей для страницы
     href: landing-template-get-landing-ref.md
   - name: Получить список включаемых областей для сайта

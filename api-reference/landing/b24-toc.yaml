@@ -37,6 +37,4 @@ items:
     include:
       path: rights/b24-toc.yaml
       mode: link
-  - name: Полезные ссылки
-    href: additional-links.md
 

@@ -1,118 +1,109 @@
-# Поля объекта Страница
+# Объект Страница: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Методы помогают работать со страницей и связанными с ней действиями. С помощью методов можно:
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+- изменять страницу,
+- управлять ее блоками,
+- назначать странице специальную роль на сайте.
 
-{% endnote %}
+Например, можно создать страницу акции, наполнить ее блоками и опубликовать. Когда акция закончится, страницу можно снять с публикации, перенести в другую папку или удалить.
 
-{% if build == 'dev' %}
+Поля страницы описаны в отдельной статье [Поля страницы](./fields.md).
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+> Быстрый переход: [все методы](#all-methods)
 
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не прописаны ссылки на несозданные ещё страницы (шаблон представления)
+## Как работать со страницей
 
-{% endnote %}
+Работа со страницей начинается с сайта. Сначала получите идентификатор сайта методом [landing.site.getList](../site/landing-site-get-list.md). Если страницу нужно разместить в папке, дополнительно получите идентификатор папки методом [landing.site.getFolders](../site/landing-site-get-folders.md).
 
-{% endif %}
+После этого выберите метод для создания страницы:
 
-> Быстрый переход: [все методы](#all-methods) 
+- [landing.landing.add](./methods/landing-landing-add.md), если нужна новая страница,
+- [landing.landing.addByTemplate](./methods/landing-landing-add-by-template.md), если нужна страница с готовой структурой,
+- [landing.landing.copy](./methods/landing-landing-copy.md), если нужно взять за основу существующую страницу.
 
-#|
+Когда страница будет создана, можно настроить ее параметры методами [landing.landing.update](./methods/landing-landing-update.md) и [landing.landing.move](./methods/landing-landing-move.md).
 
-|| **Поля** | **Описание** | **Чтение** | **Запись** ||
-|| **ID**
-[`unknown`](../../data-types.md) | Идентификатор страницы. Создается автоматически и уникален в рамках БД. | Да | Нет ||
-|| **CODE^*^**
-[`unknown`](../../data-types.md) | Уникальный символьный код страницы. Добавляется к адресу сайта, если это не главная страница. | Да | Да ||
-|| **RULE**
-[`unknown`](../../data-types.md) | Регулярное выражение для вывода страницы по маске. Например, правило `section/([\d]+)` для страницы в корне сайта будет отвечать всем страницам вида `/section/<n>/`, где <n> - любое число. | Да | Нет ||
-|| **ACTIVE**
-[`unknown`](../../data-types.md) | Активность страницы: Y / N. | Да | Нет ||
-|| **DELETED**
-[`unknown`](../../data-types.md) | Флаг [удаленной страницы](*deleted_page): Y / N.  | Да | Да ||
-|| **TITLE^*^**
-[`unknown`](../../data-types.md) | Название страницы. | Да | Да ||
-|| **XML_ID**
-[`unknown`](../../data-types.md) | Внешний ключ для нужд разработчика. Не используется сервисом. | Да | Да ||
-|| **DESCRIPTION**
-[`unknown`](../../data-types.md) | Произвольное описание страницы. Выводится в списке страниц. | Да | Да ||
-|| **SITE_ID^*^**
-[`unknown`](../../data-types.md) | Идентификатор сайта, к которому привязана страница. | Да | Да ||
-|| **CREATED_BY_ID**
-[`unknown`](../../data-types.md) | Идентификатор пользователя создавшего страницу. | Да | Нет ||
-|| **MODIFIED_BY_ID**
-[`unknown`](../../data-types.md) | Идентификатор пользователя изменившего страницу. | Да | Нет ||
-|| **DATE_CREATE**
-[`unknown`](../../data-types.md) | Дата создания. | Да | Нет ||
-|| **DATE_MODIFY**
-[`unknown`](../../data-types.md) | Дата изменения. | Да | Нет ||
-|| **SITEMAP**
-[`unknown`](../../data-types.md) | Страница присутствует в карте сайта (`/sitemap.xml`), Y / N. | Да | Да ||
-|| **FOLDER_ID**
-[`unknown`](../../data-types.md) | Идентификатор папки, где содержится страница. | Да | Да ||
-|| **TPL_ID**
-[`unknown`](../../data-types.md) | Идентификатор [шаблона представления](../template/index.md). | Да | Да ||
-|| **TPL_CODE**
-[`unknown`](../../data-types.md) | Идентификатор шаблона партнерского решения, на основе которого был создан сайт. Например, bitrix.eshop. | Да | Нет ||
-|#
+Готовую страницу можно опубликовать или скрыть. Для публикации используйте [landing.landing.publication](./methods/landing-landing-publication.md), а чтобы снять страницу с публикации — [landing.landing.unpublic](./methods/landing-landing-unpublic.md).
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+
+## Когда передавать scope
+
+Параметр `scope` показывает, в каком типе сайта или страницы должен работать метод. Это внутренний параметр лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+
+Если `scope` не указать, метод будет работать только в обычном контексте. Для непубличных типов, например `knowledge`, `group` и `vibe`, этого недостаточно. В таком случае сайт или страница могут не найтись, хотя они существуют.
+
+Параметр `scope` нужен в методах, которые ищут страницу, меняют ее видимость или работают с содержимым. Например, в [landing.landing.getList](./methods/landing-landing-get-list.md), [landing.landing.publication](./methods/landing-landing-publication.md), [landing.landing.unpublic](./methods/landing-landing-unpublic.md) и в методах раздела [Работа с блоками страницы](./block-methods/index.md).
+
+Например, если страница относится к базе знаний, в вызове нужно передать `scope=knowledge`. Тогда метод будет искать и изменять страницу внутри базы знаний. Без этого параметра страница может не найтись. Правила выбора значения и связь с типами сайтов описаны в статье [Работа с типами сайтов и скоупами](../types.md).
+
+## Связь с другими объектами
+
+Страница в Битрикс24 всегда связана с другими объектами. Сайт задает общий контекст, блоки — содержимое, а специальные страницы — назначение страницы на сайте.
+
+**Сайт.** Каждая страница относится к определенному сайту. Поэтому при создании страницы нужно передать `SITE_ID`. Идентификатор сайта можно получить методами [landing.site.getList](../site/landing-site-get-list.md) или [landing.site.add](../site/landing-site-add.md).
+
+**Папка.** Страницу можно разместить в папке, чтобы упорядочить структуру сайта. Для этого используют `FOLDER_ID`. Список папок сайта возвращает [landing.site.getFolders](../site/landing-site-get-folders.md), а перенести страницу в другую папку или в другой сайт позволяет [landing.landing.move](./methods/landing-landing-move.md).
+
+**Шаблон представления.** При создании или обновлении страницы можно передать `TPL_ID`, чтобы сразу задать ее оформление и структуру. Список шаблонов возвращает [landing.template.getlist](../template/landing-template-get-list.md). Подробнее о них рассказано в разделе [Шаблон представления](../template/index.md).
+
+**Блоки.** Содержимое страницы состоит из блоков. Методы этого раздела позволяют управлять блоками на странице: добавлять, удалять и менять их порядок. Чтобы изменить содержимое блока, используют методы раздела [Работа с блоками страницы](./block-methods/index.md).
+
+**Специальные страницы.** Страницу можно назначить специальной страницей сайта. Например, сделать ее главной страницей или служебной страницей для отдельного сценария. Для этого используют методы из раздела [Специальные страницы](./special-pages/index.md).
 
 ## Обзор методов {#all-methods}
 
-### Работа с блоками
-
-#|
-|| **Метод** | **Описание** | **С версии** ||
-|| [landing.landing.addblock](./block-methods/landing-landing-add-block.md) | Метод для добавление нового блока на страницу. | ||
-|| [landing.landing.copyblock](./block-methods/landing-landing-copy-block.md) | Метод для копирования блока со страницы на страницу. | ||
-|| [landing.landing.deleteblock](./block-methods/landing-landing-delete-block.md) | Метод для удаление блока со страницы. | ||
-|| [landing.landing.downblock](./block-methods/landing-landing-down-block.md) | Метод для опускания блока на одну позицию вниз на странице. | ||
-|| [landing.landing.favoriteBlock](./block-methods/landing-landing-favorite-block.md) | Метод сохраняет имеющийся на странице блок в «Мои блоки». | 21.800.0 ||
-|| [landing.landing.hideblock](./block-methods/landing-landing-hide-block.md) | Метод скрывает блок со страницы. | ||
-|| [landing.landing.markdeletedblock](./block-methods/landing-landing-mark-deleted-block.md) | Метод помечает блок как удаленный, но не удаляет его физически. | ||
-|| [landing.landing.markundeletedblock](./block-methods/landing-landing-mark-undeleted-block.md) | Метод восстанавливает блок из помеченных как удаленный | ||
-|| [landing.landing.moveblock](./block-methods/landing-landing-move-block.md) | Метод для переноса блока со страницы на страницу. | ||
-|| [landing.landing.showblock](./block-methods/landing-landing-show-block.md) | Метод показывает блок на странице. | ||
-|| [landing.landing.unFavoriteBlock](./block-methods/landing-landing-unfavorite-block.md) | Метод удаляет блок, который был сохранен в «Мои блоки». | 21.800.0 ||
-|| [landing.landing.upblock](./block-methods/landing-landing-up-block.md) | Метод для поднятия блока на одну позицию вверх на странице. | ||
-|#
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
 
 ### Работа со страницей
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| [landing.landing.add](./methods/landing-landing-add.md) | Метод для добавления страницы. | ||
-|| [landing.landing.addByTemplate](./methods/landing-landing-add-by-template.md) | Метод для добавления Страницы по шаблону. | ||
-|| [landing.landing.copy](./methods/landing-landing-copy.md) | Метод копирует указанную страницу. | ||
-|| [landing.landing.delete](./methods/landing-landing-delete.md) | Метод для удаления страницы. | ||
-|| [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md) | Метод для получения дополнительных полей страницы | ||
-|| [landing.landing.getlist](./methods/landing-landing-get-list.md) | Метод для получения списка страниц. | ||
-|| [landing.landing.getpreview](./methods/landing-landing-get-preview.md) | Метод возвращает путь до превью страницы. | ||
-|| [landing.landing.getpublicurl](./methods/landing-landing-get-public-url.md) | Метод возвращает веб-адрес страницы. | ||
-|| [landing.landing.markDelete](./methods/landing-landing-mark-delete.md) | Метод помечает страницу как удаленную. | ||
-|| [landing.landing.markUnDelete](./methods/landing-landing-mark-undelete.md) | Метод помечает страницу как не удаленную. | ||
-|| [landing.landing.move](./methods/landing-landing-move.md) | Метод перемещает страницу в другой сайт и/или папку. | 21.800.0 ||
-|| [landing.landing.publication](./methods/landing-landing-publication.md) | Метод для публикации страницы. | ||
-|| [landing.landing.removeEntities](./methods/landing-landing-remove-entities.md) | Метод удаляет блоки и изображения страницы. | ||
-|| [landing.landing.resolveIdByPublicUrl](./methods/landing-landing-resolve-id-by-public-url.md) | Метод по переданному публичному URL страницы возвращает идентификатор страницы. | 21.800.0 ||
-|| [landing.landing.unpublic](./methods/landing-landing-unpublic.md) | Метод для снятия с публикации страницы. | ||
-|| [landing.landing.update](./methods/landing-landing-update.md) | Метод для изменения страницы. | ||
+|| **Метод** | **Описание** ||
+|| [landing.landing.add](./methods/landing-landing-add.md) | Добавляет страницу ||
+|| [landing.landing.addByTemplate](./methods/landing-landing-add-by-template.md) | Создает страницу по шаблону ||
+|| [landing.landing.copy](./methods/landing-landing-copy.md) | Копирует страницу ||
+|| [landing.landing.update](./methods/landing-landing-update.md) | Изменяет параметры страницы ||
+|| [landing.landing.move](./methods/landing-landing-move.md) | Перемещает страницу в другой сайт или папку ||
+|| [landing.landing.getList](./methods/landing-landing-get-list.md) | Получает список страниц ||
+|| [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md) | Получает дополнительные поля страницы ||
+|| [landing.landing.getpreview](./methods/landing-landing-get-preview.md) | Возвращает путь к превью страницы ||
+|| [landing.landing.getpublicurl](./methods/landing-landing-get-public-url.md) | Возвращает публичный URL страницы ||
+|| [landing.landing.resolveIdByPublicUrl](./methods/landing-landing-resolve-id-by-public-url.md) | Возвращает идентификатор страницы по публичному URL ||
+|| [landing.landing.publication](./methods/landing-landing-publication.md) | Делает страницу доступной в текущем контексте ||
+|| [landing.landing.unpublic](./methods/landing-landing-unpublic.md) | Скрывает страницу в текущем контексте ||
+|| [landing.landing.markDelete](./methods/landing-landing-mark-delete.md) | Помечает страницу как удаленную ||
+|| [landing.landing.markUnDelete](./methods/landing-landing-mark-undelete.md) | Восстанавливает страницу из удаленных ||
+|| [landing.landing.removeEntities](./methods/landing-landing-remove-entities.md) | Удаляет блоки и изображения страницы ||
+|| [landing.landing.delete](./methods/landing-landing-delete.md) | Удаляет страницу ||
+|#
+
+### Работа с блоками
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.landing.addblock](./block-methods/landing-landing-add-block.md) | Добавляет новый блок на страницу ||
+|| [landing.landing.copyblock](./block-methods/landing-landing-copy-block.md) | Копирует блок со страницы на страницу ||
+|| [landing.landing.deleteblock](./block-methods/landing-landing-delete-block.md) | Удаляет блок со страницы ||
+|| [landing.landing.downblock](./block-methods/landing-landing-down-block.md) | Опускает блок на одну позицию вниз ||
+|| [landing.landing.favoriteBlock](./block-methods/landing-landing-favorite-block.md) | Сохраняет блок в «Мои блоки» ||
+|| [landing.landing.hideblock](./block-methods/landing-landing-hide-block.md) | Скрывает блок на странице ||
+|| [landing.landing.markdeletedblock](./block-methods/landing-landing-mark-deleted-block.md) | Помечает блок как удаленный без физического удаления ||
+|| [landing.landing.markundeletedblock](./block-methods/landing-landing-mark-undeleted-block.md) | Восстанавливает блок из удаленных ||
+|| [landing.landing.moveblock](./block-methods/landing-landing-move-block.md) | Перемещает блок со страницы на страницу ||
+|| [landing.landing.showblock](./block-methods/landing-landing-show-block.md) | Показывает блок на странице ||
+|| [landing.landing.unFavoriteBlock](./block-methods/landing-landing-unfavorite-block.md) | Удаляет блок из «Моих блоков» ||
+|| [landing.landing.upblock](./block-methods/landing-landing-up-block.md) | Поднимает блок на одну позицию вверх ||
 |#
 
 ### Специальные страницы
 
 #|
 || **Метод** | **Описание** ||
-|| [landing.syspage.deleteForLanding](./special-pages/landing-syspage-delete-for-landing.md) | Удаляет все привязки страницы как специальной ||
-|| [landing.syspage.deleteForSite](./special-pages/landing-syspage-delete-for-site.md) | Удаляет все специальные страницы ||
+|| [landing.syspage.deleteForLanding](./special-pages/landing-syspage-delete-for-landing.md) | Удаляет привязки страницы как специальной ||
+|| [landing.syspage.deleteForSite](./special-pages/landing-syspage-delete-for-site.md) | Удаляет все специальные страницы сайта ||
 || [landing.syspage.getSpecialPage](./special-pages/landing-syspage-get-special-page.md) | Получает адрес специальной страницы сайта ||
 || [landing.syspage.get](./special-pages/landing-syspage-get.md) | Получает список специальных страниц ||
-|| [landing.syspage.set](./special-pages/landing-syspage-set.md) | Устанавливает специальную страницу для сайта ||
+|| [landing.syspage.set](./special-pages/landing-syspage-set.md) | Назначает специальную страницу для сайта ||
 |#
-
-[*deleted_page]: Маркированные как удаленные сущности не фигурируют ни в одном запросе. Система их как бы не видит. Через REST вы сможете добраться до таких сущностей только явно указав в фильтрации DELETED=Y.
-
