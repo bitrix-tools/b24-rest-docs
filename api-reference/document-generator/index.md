@@ -45,11 +45,7 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [{#T}](./examples/index.md)
-- [{#T}](./examples/document-images-seals.md)
-- [{#T}](./examples/document-date-name.md)
-- [{#T}](./examples/document-table-data.md)
-- [{#T}](./examples/document-table-complex.md)
+- [Частые кейсы и сценарии генератора документов: обзор кейсов](./examples/index.md)
 
 {% endnote %}
 
