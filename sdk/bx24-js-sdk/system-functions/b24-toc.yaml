@@ -1,7 +1,7 @@
-title: Системные функции
+title: Инициализация и авторизация
 href: index.md
 items: 
-  - name: Обзор системных функций
+  - name: Обзор функций
     href: index.md
   - name: Инициализировать библиотеку
     href: bx24-init.md

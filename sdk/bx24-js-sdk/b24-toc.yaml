@@ -7,7 +7,7 @@ items:
     include:
       path: how-to-call-rest-methods/b24-toc.yaml
       mode: link
-  - name: Системные функции
+  - name: Инициализация и авторизация
     include:
       path: system-functions/b24-toc.yaml
       mode: link
@@ -19,7 +19,7 @@ items:
     include:
       path: system-dialogues/b24-toc.yaml
       mode: link
-  - name: Дополнительные
+  - name: Интерфейс, навигация и контекст
     include:
       path: additional-functions/b24-toc.yaml
       mode: link
