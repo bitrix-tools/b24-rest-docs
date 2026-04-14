@@ -187,10 +187,14 @@ HTTP-статус: **400**
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
+### Особенности обработки ошибок
+
+Для бизнес-ошибок метод может вернуть `error: 0`. В этом случае ориентируйтесь на `error_description` и сопоставляйте его со списком ошибок выше.
+
 {% include notitle [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./crm-item-payment-product-add.md)
 - [{#T}](./crm-item-payment-product-list.md)
-- [{#T}](./crm-item-payment-product-delete.md)
+- [{#T}](./crm-item-payment-product-set-quantity.md)
