@@ -1,118 +1,117 @@
-# Поля объекта Страница
+# Поля страницы
 
-{% note warning "Мы еще обновляем эту страницу" %}
+{% note tip "" %}
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-- не указаны типы параметров
-- не прописаны ссылки на несозданные ещё страницы (шаблон представления)
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
 
 {% endnote %}
 
-{% endif %}
+Поля страницы используются в методе [landing.landing.getList](./methods/landing-landing-get-list.md).
 
-> Быстрый переход: [все методы](#all-methods) 
+Часть полей можно передавать при создании и изменении страницы через методы [landing.landing.add](./methods/landing-landing-add.md) и [landing.landing.update](./methods/landing-landing-update.md).
+
+Дополнительные поля страницы не хранятся вместе с основными. Их передают отдельно в массиве `ADDITIONAL_FIELDS` и читают через [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md).
+
+## Что нужно знать
+
+- REST-методы объекта страницы относятся к скоупу `landing`
+- новая страница через `landing.landing.add` и `landing.landing.addByTemplate` создается неопубликованной со значением `ACTIVE = N`
+- если страницу поместить в корзину, она автоматически снимается с публикации
+- для публикации и снятия с публикации используйте [landing.landing.publication](./methods/landing-landing-publication.md) и [landing.landing.unpublic](./methods/landing-landing-unpublic.md)
+
+## Основные поля
 
 #|
-
-|| **Поля** | **Описание** | **Чтение** | **Запись** ||
+|| **Поле**
+`тип` | **Описание** ||
 || **ID**
-[`unknown`](../../data-types.md) | Идентификатор страницы. Создается автоматически и уникален в рамках БД. | Да | Нет ||
-|| **CODE^*^**
-[`unknown`](../../data-types.md) | Уникальный символьный код страницы. Добавляется к адресу сайта, если это не главная страница. | Да | Да ||
-|| **RULE**
-[`unknown`](../../data-types.md) | Регулярное выражение для вывода страницы по маске. Например, правило `section/([\d]+)` для страницы в корне сайта будет отвечать всем страницам вида `/section/<n>/`, где <n> - любое число. | Да | Нет ||
-|| **ACTIVE**
-[`unknown`](../../data-types.md) | Активность страницы: Y / N. | Да | Нет ||
-|| **DELETED**
-[`unknown`](../../data-types.md) | Флаг [удаленной страницы](*deleted_page): Y / N.  | Да | Да ||
-|| **TITLE^*^**
-[`unknown`](../../data-types.md) | Название страницы. | Да | Да ||
-|| **XML_ID**
-[`unknown`](../../data-types.md) | Внешний ключ для нужд разработчика. Не используется сервисом. | Да | Да ||
-|| **DESCRIPTION**
-[`unknown`](../../data-types.md) | Произвольное описание страницы. Выводится в списке страниц. | Да | Да ||
-|| **SITE_ID^*^**
-[`unknown`](../../data-types.md) | Идентификатор сайта, к которому привязана страница. | Да | Да ||
-|| **CREATED_BY_ID**
-[`unknown`](../../data-types.md) | Идентификатор пользователя создавшего страницу. | Да | Нет ||
-|| **MODIFIED_BY_ID**
-[`unknown`](../../data-types.md) | Идентификатор пользователя изменившего страницу. | Да | Нет ||
-|| **DATE_CREATE**
-[`unknown`](../../data-types.md) | Дата создания. | Да | Нет ||
-|| **DATE_MODIFY**
-[`unknown`](../../data-types.md) | Дата изменения. | Да | Нет ||
-|| **SITEMAP**
-[`unknown`](../../data-types.md) | Страница присутствует в карте сайта (`/sitemap.xml`), Y / N. | Да | Да ||
+[`integer`](../../data-types.md) | Идентификатор страницы. В `landing.landing.getList` поле всегда присутствует в ответе ||
+|| **TITLE**
+[`string`](../../data-types.md) | Название страницы. Поле обязательно при создании через `landing.landing.add` ||
+|| **CODE**
+[`string`](../../data-types.md) | Символьный код страницы. Формирует адрес страницы внутри сайта. При создании, если поле не передать или передать строку из пробелов, код генерируется из `TITLE`.
+
+Если сформированный адрес совпадет с адресом уже существующей страницы в том же разделе сайта, система автоматически добавит к `CODE` суффикс из 4 случайных символов, например `my-page_a1b2`. Итоговое значение `CODE` может отличаться от переданного ||
+|| **SITE_ID**
+[`integer`](../../data-types.md) | Идентификатор сайта, к которому относится страница ||
 || **FOLDER_ID**
-[`unknown`](../../data-types.md) | Идентификатор папки, где содержится страница. | Да | Да ||
+[`integer`](../../data-types.md) | Идентификатор папки, в которой находится страница. Если значение пустое или равно `0`, страница находится в корне сайта ||
 || **TPL_ID**
-[`unknown`](../../data-types.md) | Идентификатор [шаблона представления](../template/index.md). | Да | Да ||
-|| **TPL_CODE**
-[`unknown`](../../data-types.md) | Идентификатор шаблона партнерского решения, на основе которого был создан сайт. Например, bitrix.eshop. | Да | Нет ||
+[`integer`](../../data-types.md) | Идентификатор [шаблона представления](../template/index.md) страницы. Если значение пустое, страница использует шаблон сайта ||
+|| **ACTIVE**
+[`string`](../../data-types.md) | Статус публикации страницы.
+
+Возможные значения:
+`Y`  страница опубликована
+`N`  страница не опубликована
+
+Новая страница создается со значением `N`. Для изменения статуса используйте [landing.landing.publication](./methods/landing-landing-publication.md) и [landing.landing.unpublic](./methods/landing-landing-unpublic.md) ||
+|| **DELETED**
+[`string`](../../data-types.md) | Флаг корзины.
+
+Возможные значения:
+`Y`  страница находится в корзине
+`N`  страница не находится в корзине
+
+При переводе в корзину страница автоматически получает `ACTIVE = "N"`. Для удаления и восстановления используйте [landing.landing.markDelete](./methods/landing-landing-mark-delete.md) и [landing.landing.markUnDelete](./methods/landing-landing-mark-undelete.md) ||
+|| **DESCRIPTION**
+[`string`](../../data-types.md) | Произвольное описание страницы. Выводится в списке страниц ||
+|| **XML_ID**
+[`string`](../../data-types.md) | Внешний идентификатор страницы ||
+|| **SITEMAP**
+[`string`](../../data-types.md) | Флаг включения страницы в карту сайта.
+
+Возможные значения:
+`Y`  страница входит в `sitemap.xml`
+`N`  страница не входит в `sitemap.xml` ||
+|| **FOLDER**
+[`string`](../../data-types.md) | Признак того, что объект используется как папка в структуре сайта, а не как обычная страница.
+
+Возможные значения:
+`Y`  объект является папкой
+`N`  объект является страницей
+
+Папка нужна для группировки страниц внутри сайта. Создать ее можно методом [landing.landing.add](./methods/landing-landing-add.md), передав `FOLDER = Y` ||
+|| **RULE**
+[`string`](../../data-types.md) | Регулярное выражение для вывода страницы по маске. Например, правило `section/([\d]+)` для страницы в корне сайта будет соответствовать адресам вида `/section/<n>/`, где `<n>` — любое число ||
+|| **CREATED_BY_ID**
+[`integer`](../../data-types.md) | Идентификатор пользователя, который создал страницу ||
+|| **MODIFIED_BY_ID**
+[`integer`](../../data-types.md) | Идентификатор пользователя, который последним изменил страницу ||
+|| **DATE_CREATE**
+[`datetime`](../../data-types.md) | Дата и время создания страницы. Формат зависит от настроек Битрикс24 ||
+|| **DATE_MODIFY**
+[`datetime`](../../data-types.md) | Дата и время последнего изменения страницы. Формат зависит от настроек Битрикс24 ||
+|| **DATE_PUBLIC**
+[`datetime`](../../data-types.md) \| `null` | Дата и время публикации страницы. Изменение этого поля само по себе не публикует страницу. В ответе значение возвращается строкой в формате портала или `null` для страницы, которая ни разу не публиковалась ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+## Вычисляемые и связанные поля
 
-## Обзор методов {#all-methods}
-
-### Работа с блоками
+Эти поля не хранятся в таблице страницы. Метод `landing.landing.getList` возвращает их автоматически или добавляет по отдельным флагам выборки.
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| [landing.landing.addblock](./block-methods/landing-landing-add-block.md) | Метод для добавление нового блока на страницу. | ||
-|| [landing.landing.copyblock](./block-methods/landing-landing-copy-block.md) | Метод для копирования блока со страницы на страницу. | ||
-|| [landing.landing.deleteblock](./block-methods/landing-landing-delete-block.md) | Метод для удаление блока со страницы. | ||
-|| [landing.landing.downblock](./block-methods/landing-landing-down-block.md) | Метод для опускания блока на одну позицию вниз на странице. | ||
-|| [landing.landing.favoriteBlock](./block-methods/landing-landing-favorite-block.md) | Метод сохраняет имеющийся на странице блок в «Мои блоки». | 21.800.0 ||
-|| [landing.landing.hideblock](./block-methods/landing-landing-hide-block.md) | Метод скрывает блок со страницы. | ||
-|| [landing.landing.markdeletedblock](./block-methods/landing-landing-mark-deleted-block.md) | Метод помечает блок как удаленный, но не удаляет его физически. | ||
-|| [landing.landing.markundeletedblock](./block-methods/landing-landing-mark-undeleted-block.md) | Метод восстанавливает блок из помеченных как удаленный | ||
-|| [landing.landing.moveblock](./block-methods/landing-landing-move-block.md) | Метод для переноса блока со страницы на страницу. | ||
-|| [landing.landing.showblock](./block-methods/landing-landing-show-block.md) | Метод показывает блок на странице. | ||
-|| [landing.landing.unFavoriteBlock](./block-methods/landing-landing-unfavorite-block.md) | Метод удаляет блок, который был сохранен в «Мои блоки». | 21.800.0 ||
-|| [landing.landing.upblock](./block-methods/landing-landing-up-block.md) | Метод для поднятия блока на одну позицию вверх на странице. | ||
+|| **Поле**
+`тип` | **Описание** ||
+|| **DOMAIN_ID**
+[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор домена сайта, к которому привязана страница. Метод `landing.landing.getList` добавляет это поле в результат всегда ||
+|| **PUBLIC_URL**
+[`string`](../../data-types.md) \| `null` | Полный публичный URL страницы. Возвращается в `landing.landing.getList`, если включен флаг `get_urls`, и отдельным значением в методе [landing.landing.getpublicurl](./methods/landing-landing-get-public-url.md) ||
+|| **PREVIEW**
+[`string`](../../data-types.md) \| `null` | URL или относительный путь к превью страницы. Возвращается в `landing.landing.getList`, если включен флаг `get_preview`, и отдельным значением в методе [landing.landing.getpreview](./methods/landing-landing-get-preview.md) ||
+|| **IS_AREA**
+[`boolean`](../../data-types.md) | Признак того, что страница используется как включаемая область. Возвращается в `landing.landing.getList`, если включен флаг `check_area` ||
 |#
 
-### Работа со страницей
+## Продолжите изучение
 
-#|
-|| **Метод** | **Описание** | **С версии** ||
-|| [landing.landing.add](./methods/landing-landing-add.md) | Метод для добавления страницы. | ||
-|| [landing.landing.addByTemplate](./methods/landing-landing-add-by-template.md) | Метод для добавления Страницы по шаблону. | ||
-|| [landing.landing.copy](./methods/landing-landing-copy.md) | Метод копирует указанную страницу. | ||
-|| [landing.landing.delete](./methods/landing-landing-delete.md) | Метод для удаления страницы. | ||
-|| [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md) | Метод для получения дополнительных полей страницы | ||
-|| [landing.landing.getlist](./methods/landing-landing-get-list.md) | Метод для получения списка страниц. | ||
-|| [landing.landing.getpreview](./methods/landing-landing-get-preview.md) | Метод возвращает путь до превью страницы. | ||
-|| [landing.landing.getpublicurl](./methods/landing-landing-get-public-url.md) | Метод возвращает веб-адрес страницы. | ||
-|| [landing.landing.markDelete](./methods/landing-landing-mark-delete.md) | Метод помечает страницу как удаленную. | ||
-|| [landing.landing.markUnDelete](./methods/landing-landing-mark-undelete.md) | Метод помечает страницу как не удаленную. | ||
-|| [landing.landing.move](./methods/landing-landing-move.md) | Метод перемещает страницу в другой сайт и/или папку. | 21.800.0 ||
-|| [landing.landing.publication](./methods/landing-landing-publication.md) | Метод для публикации страницы. | ||
-|| [landing.landing.removeEntities](./methods/landing-landing-remove-entities.md) | Метод удаляет блоки и изображения страницы. | ||
-|| [landing.landing.resolveIdByPublicUrl](./methods/landing-landing-resolve-id-by-public-url.md) | Метод по переданному публичному URL страницы возвращает идентификатор страницы. | 21.800.0 ||
-|| [landing.landing.unpublic](./methods/landing-landing-unpublic.md) | Метод для снятия с публикации страницы. | ||
-|| [landing.landing.update](./methods/landing-landing-update.md) | Метод для изменения страницы. | ||
-|#
-
-### Специальные страницы
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.syspage.deleteForLanding](./special-pages/landing-syspage-delete-for-landing.md) | Удаляет все привязки страницы как специальной ||
-|| [landing.syspage.deleteForSite](./special-pages/landing-syspage-delete-for-site.md) | Удаляет все специальные страницы ||
-|| [landing.syspage.getSpecialPage](./special-pages/landing-syspage-get-special-page.md) | Получает адрес специальной страницы сайта ||
-|| [landing.syspage.get](./special-pages/landing-syspage-get.md) | Получает список специальных страниц ||
-|| [landing.syspage.set](./special-pages/landing-syspage-set.md) | Устанавливает специальную страницу для сайта ||
-|#
-
-[*deleted_page]: Маркированные как удаленные сущности не фигурируют ни в одном запросе. Система их как бы не видит. Через REST вы сможете добраться до таких сущностей только явно указав в фильтрации DELETED=Y.
-
+- [{#T}](./methods/landing-landing-add.md)
+- [{#T}](./methods/landing-landing-add-by-template.md)
+- [{#T}](./methods/landing-landing-update.md)
+- [{#T}](./methods/landing-landing-get-list.md)
+- [{#T}](./methods/landing-landing-get-additional-fields.md)
+- [{#T}](./methods/landing-landing-get-preview.md)
+- [{#T}](./methods/landing-landing-get-public-url.md)
+- [{#T}](./methods/landing-landing-mark-delete.md)
+- [{#T}](./methods/landing-landing-mark-undelete.md)
+- [{#T}](./additional-fields.md)

@@ -3,7 +3,7 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Поля
+  - name: Поля страницы
     href: fields.md
   - name: Дополнительные поля
     href: additional-fields.md
