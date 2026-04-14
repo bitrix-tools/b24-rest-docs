@@ -178,7 +178,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **extra**
-[`catalog_extra`](../data-types.md#catalog_price_type) | Объект с информацией о наценке с заданным идентификатором ||
+[`catalog_extra`](../data-types.md#catalog_extra) | Объект с информацией о наценке с заданным идентификатором ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

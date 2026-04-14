@@ -1,4 +1,4 @@
-# Параметры свойств товаров и вариаций
+# Параметры свойств товаров и вариаций: обзор методов
 
 {% note tip "" %}
 
@@ -6,26 +6,58 @@
 
 {% endnote %}
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Параметры свойства управляют тем, как конкретное свойство товара или вариации используется в каталоге.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+В объекте параметра используются:
 
-{% endnote %}
+- `id` — идентификатор параметра свойства
+- `propertyId` — идентификатор свойства, к которому относится параметр
+- `moduleId` — идентификатор модуля, которому принадлежит параметр
+- `featureId` — код параметра свойства
+- `isEnabled` — признак активности параметра
+
+> Быстрый переход: [все методы](#all-methods)
+
+## Какие бывают параметры свойств
+
+Набор параметров зависит от конкретного свойства. Актуальный список для выбранного `propertyId` возвращает метод [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md).
+
+Примеры сочетаний `moduleId + featureId`:
+
+- `moduleId = iblock` и `featureId = LIST_PAGE_SHOW` — показывать свойство на странице списка элементов
+- `moduleId = iblock` и `featureId = DETAIL_PAGE_SHOW` — показывать свойство на детальной странице элемента
+
+## Что учитывать перед вызовом методов
+
+- Для чтения параметров свойств нужно право «Просмотр каталога товаров». Для создания и обновления дополнительно нужно право на изменение инфоблока свойства.
+
+- Комбинация `propertyId + moduleId + featureId` должна быть уникальной. Если запись уже существует, метод [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md) вернет ошибку `Duplicate entry ... for key ...`.
+
+## Как работать с параметрами свойств
+
+1. Получите `propertyId` свойства методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md).
+2. Получите доступные для свойства коды `moduleId` и `featureId` методом [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md).
+3. Получите текущие параметры методом [catalog.productPropertyFeature.list](./catalog-product-property-feature-list.md) с фильтром по `propertyId`.
+4. Если параметр уже есть, измените его методом [catalog.productPropertyFeature.update](./catalog-product-property-feature-update.md). Если параметра нет, добавьте его методом [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md).
+5. Проверьте параметр по `id` методом [catalog.productPropertyFeature.get](./catalog-product-property-feature-get.md).
+6. При необходимости получите структуру полей через [catalog.productPropertyFeature.getFields](./catalog-product-property-feature-get-fields.md).
+
+## Связь параметров с другими объектами
+
+**Свойство товара или вариации.** Параметр связан со свойством через `propertyId`. Для работы со свойствами используйте методы раздела [catalog.productProperty.*](../product-property/index.md).
+
+## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
-
-Методы работы с [параметрами свойств](*ключ_параметрами) товаров и вариаций:
+> Кто может выполнять метод: в зависимости от метода
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md) | Метод добавляет параметр свойства товаров или вариаций ||
-|| [catalog.productPropertyFeature.update](./catalog-product-property-feature-update.md) | Метод изменяет параметры свойства товаров или вариаций ||
-|| [catalog.productPropertyFeature.get](./catalog-product-property-feature-get.md) | Метод для доступа к значению параметра свойства товаров или вариаций ||
-|| [catalog.productPropertyFeature.list](./catalog-product-property-feature-list.md) | Метод возвращает список параметров свойств товаров или вариаций ||
-|| [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md) | Метод получает доступные параметры свойства товаров или вариаций ||
-|| [catalog.productPropertyFeature.getFields](./catalog-product-property-feature-get-fields.md) | Метод возвращает поля параметра свойства товаров или вариаций ||
+|| [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md) | Добавляет параметр свойства товара или вариации ||
+|| [catalog.productPropertyFeature.update](./catalog-product-property-feature-update.md) | Изменяет параметр свойства товара или вариации ||
+|| [catalog.productPropertyFeature.get](./catalog-product-property-feature-get.md) | Возвращает параметр свойства по идентификатору ||
+|| [catalog.productPropertyFeature.list](./catalog-product-property-feature-list.md) | Возвращает список параметров свойств товаров и вариаций ||
+|| [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md) | Возвращает доступные параметры для указанного свойства ||
+|| [catalog.productPropertyFeature.getFields](./catalog-product-property-feature-get-fields.md) | Возвращает описание полей параметра свойства ||
 |#
-
-[*ключ_параметрами]: Настройки, касаемые показа, сгруппированы в секции **Параметры свойств** ![Параметры](../../../_images/prop_params.png)  Подробнее в [уроке](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=42&LESSON_ID=1986 "Настройка показа свойств инфоблоков").

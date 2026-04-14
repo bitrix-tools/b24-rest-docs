@@ -11,6 +11,12 @@
 - Обновили главную страницу раздела [Оплаты и доставки](./api-reference/crm/universal/payment/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Товарные позиции в составе оплаты](./api-reference/crm/universal/payment/products-in-payment/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Доставки в оплатах](./api-reference/crm/universal/payment/delivery-in-payment/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили страницу [Торговый каталог: обзор разделов](./api-reference/catalog/index.md)
+- Обновили главную страницу раздела [Наценки в Торговом каталоге](./api-reference/catalog/extra/index.md)
+- Обновили главную страницу раздела [Коэффициенты единиц измерения в Торговом каталоге](./api-reference/catalog/ratio/index.md)
+- Обновили главную страницу раздела [Значения списочных свойств товаров](./api-reference/catalog/product-property-enum/index.md)
+- Обновили главную страницу раздела [Параметры свойств товаров и вариаций](./api-reference/catalog/product-property-feature/index.md)
+- Обновили главную страницу раздела [Переводы названий типов цен](./api-reference/catalog/price-type/price-type-lang/index.md)
 
 ### 13 апреля, 2026
 
