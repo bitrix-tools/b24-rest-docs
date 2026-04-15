@@ -204,7 +204,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа
  ||
-|| **propertyRelations**
+|| **propertyRelation**
 [`sale_order_property_relation`](../data-types.md) | Объект с информацией о созданной привязке ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
