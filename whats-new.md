@@ -12,6 +12,7 @@
 - Обновили страницу [Места встраивания Базы знаний: обзор методов](./api-reference/landing/embedding/knowledge-base/index.md)
 - Обновили страницу [Устаревшие методы приложений для чата](./api-reference/chats/outdated/index.md)
 - Обновили страницу [Действия приложений: обзор методов](./api-reference/bizproc/bizproc-activity/index.md) в разделе Бизнес-процессы и роботы
+- Обновили страницу [Как вызывать методы REST API](./settings/how-to-call-rest-api/index.md)
 
 ### 15 апреля, 2026
 
