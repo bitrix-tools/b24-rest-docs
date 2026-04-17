@@ -32,11 +32,12 @@
 - Компания — `['crm', 'CCrmDocumentCompany', 'COMPANY_777']`
 - Контакт — `['crm', 'CCrmDocumentContact', 'CONTACT_777']`
 - Сделка — `['crm', 'CCrmDocumentDeal', 'DEAL_777']`
-- Файл диска — `['disk', 'Bitrix\\Disk\\BizProcDocument', '777']`
+- Коммерческое предложение — `['crm', 'Bitrix\Crm\Integration\BizProc\Document\Quote', 'QUOTE_777']`
+- Файл диска — `['disk', 'Bitrix\Disk\BizProcDocument', '777']`
 - Документ процессов в ленте новостей — `['lists', 'BizprocDocument', '777']`
-- Документ списков — `['lists', 'Bitrix\\Lists\\BizprocDocumentLists', '777']`
-- Элемент смарт-процесса — `['crm', 'Bitrix\\Crm\\Integration\\BizProc\\Document\\Dynamic', 'DYNAMIC_147_1']`, где `147` — это `ID` смарт-процесса, `1` — `ID` элемента смарт-процесса
-- Счет — `['crm', 'Bitrix\\Crm\\Integration\\BizProc\\Document\\SmartInvoice', 'SMART_INVOICE_3']`
+- Документ списков — `['lists', 'Bitrix\Lists\BizprocDocumentLists', '777']`
+- Элемент смарт-процесса — `['crm', 'Bitrix\Crm\Integration\BizProc\Document\Dynamic', 'DYNAMIC_147_1']`, где `147` — это `ID` смарт-процесса, `1` — `ID` элемента смарт-процесса
+- Счет — `['crm', 'Bitrix\Crm\Integration\BizProc\Document\SmartInvoice', 'SMART_INVOICE_3']`
 ||
 || **PARAMETERS**
 [`object`](../data-types.md) | Значения параметров шаблона бизнес-процесса.
