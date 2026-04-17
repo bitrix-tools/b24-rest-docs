@@ -2,11 +2,11 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
 
 {% endnote %}
 
-> Scope: [`pay_system `](../scopes/permissions.md)
+> Scope: [`pay_system `](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на создание и редактирование счетов CRM (старая версия)
 
@@ -14,19 +14,19 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **INVOICE_ID***
-[`integer`](../data-types.md) | Идентификатор счета старой версии. Для получения информации по счетам используется сервис [crm.invoice.*](../crm/outdated/invoice/index.md)
+[`integer`](../../data-types.md) | Идентификатор счета старой версии. Для получения информации по счетам используется сервис [crm.invoice.*](../../crm/outdated/invoice/index.md)
 ||
 || **PAY_SYSTEM_ID**
-[`sale_paysystem.ID`](../sale/data-types.md) | Идентификатор платежной системы
+[`sale_paysystem.ID`](../../sale/data-types.md) | Идентификатор платежной системы
 ||
 || **BX_REST_HANDLER**
-[`sale_paysystem.ACTION_FILE`](../sale/data-types.md) | Символьный идентификатор REST-обработчика платежной системы
+[`sale_paysystem.ACTION_FILE`](../../sale/data-types.md) | Символьный идентификатор обработчика платежной системы
 ||
 |#
 
@@ -38,7 +38,7 @@
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -187,16 +187,16 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа. 
+[`object`](../../data-types.md) | Корневой элемент ответа. 
 
-Ключами объекта являются коды параметров, указанные при добавлении обработчика через [sale.paysystem.handler.add](./sale-pay-system-handler-add.md) в параметре `CODES`. 
+Ключами объекта являются коды параметров, указанные при добавлении обработчика через [sale.paysystem.handler.add](../sale-pay-system-handler-add.md) в параметре `CODES`. 
 
 Значениями объекта являются значения параметров:
 - либо заполненные пользователем вручную при создании платежной системы
-- либо указанные при добавлении платежной системы через [sale.paysystem.add](./sale-pay-system-add.md)
+- либо указанные при добавлении платежной системы через [sale.paysystem.add](../sale-pay-system-add.md)
 ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -205,12 +205,12 @@ HTTP-статус: **400**, **403**
 
 ```json
 {
-    "error": " ERROR_CHECK_FAILURE",
+    "error": "ERROR_CHECK_FAILURE",
     "error_description": "Pay system not found"
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -221,20 +221,8 @@ HTTP-статус: **400**, **403**
 || `ERROR_INTERNAL_INVOICE_NOT_FOUND` | Не найден указанный счет | 400 ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./sale-pay-system-handler-add.md)
-- [{#T}](./sale-pay-system-handler-update.md)
-- [{#T}](./sale-pay-system-handler-list.md)
-- [{#T}](./sale-pay-system-handler-delete.md)
-- [{#T}](./sale-pay-system-add.md)
-- [{#T}](./sale-pay-system-update.md)
-- [{#T}](./sale-pay-system-list.md)
-- [{#T}](./sale-pay-system-settings-get.md)
-- [{#T}](./sale-pay-system-settings-update.md)
-- [{#T}](./sale-pay-system-delete.md)
-- [{#T}](./sale-pay-system-pay-payment.md)
 - [{#T}](./sale-pay-system-pay-invoice.md)
-- [{#T}](./sale-pay-system-settings-payment-get.md)

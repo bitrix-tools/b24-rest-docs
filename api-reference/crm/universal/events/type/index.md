@@ -6,10 +6,36 @@
 
 {% endnote %}
 
-События `onCrmTypeAdd`, `onCrmTypeUpdate`, `onCrmTypeDelete` позволяют отслеживать добавление, изменение и удаление [пользовательских типов CRM](../../user-defined-object-types/index.md).
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о добавлении, обновлении или удалении пользовательских типов CRM.
+
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
+
+> Быстрый переход: [все события](#all-events)
+
+## Как получать события
+
+Подписаться на события пользовательских типов CRM можно через:
+
+- [исходящий вебхук](../../../../../local-integrations/local-webhooks.md)
+- [приложение](../../../../../settings/app-installation/index.md) и метод [event.bind](../../../../events/event-bind.md)
+
+Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../../events/test-handler.md).
+
+## Доступность серверов для отправки и получения событий
+
+{% include notitle [Доступность серверов для отправки и получения событий](../../../../../_includes/events-index.md) %}
+
+## Обзор событий {#all-events}
+
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: `любой пользователь`
 
 ## События
 
-- [{#T}](on-crm-type-add.md)
-- [{#T}](on-crm-type-update.md)
-- [{#T}](on-crm-type-delete.md)
+#|
+|| **Событие** | **Вызывается** ||
+|| [onCrmTypeAdd](./on-crm-type-add.md) | При создании пользовательского типа CRM вручную или методом [crm.type.add](../../user-defined-object-types/crm-type-add.md) ||
+|| [onCrmTypeUpdate](./on-crm-type-update.md) | При обновлении пользовательского типа CRM вручную или методом [crm.type.update](../../user-defined-object-types/crm-type-update.md) ||
+|| [onCrmTypeDelete](./on-crm-type-delete.md) | При удалении пользовательского типа CRM вручную или методом [crm.type.delete](../../user-defined-object-types/crm-type-delete.md) ||
+|#

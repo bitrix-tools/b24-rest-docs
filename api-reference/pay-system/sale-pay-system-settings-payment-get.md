@@ -225,5 +225,3 @@ HTTP-статус: **400**, **403**
 - [{#T}](./sale-pay-system-settings-update.md)
 - [{#T}](./sale-pay-system-delete.md)
 - [{#T}](./sale-pay-system-pay-payment.md)
-- [{#T}](./sale-pay-system-pay-invoice.md)
-- [{#T}](./sale-pay-system-settings-invoice-get.md)

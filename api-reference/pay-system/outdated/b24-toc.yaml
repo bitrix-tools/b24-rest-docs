@@ -1,0 +1,9 @@
+title: Устаревшие методы
+href: index.md
+items: 
+  - name: Обзор методов
+    href: index.md 
+  - name: Оплатить счет через конкретную платежную систему
+    href: sale-pay-system-pay-invoice.md 
+  - name: Получить настройки платежной системы для конкретного счета
+    href: sale-pay-system-settings-invoice-get.md 

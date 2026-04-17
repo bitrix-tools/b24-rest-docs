@@ -6,6 +6,11 @@
 
 - Обновили главную страницу раздела [BIconnector](./api-reference/biconnector/index.md)
 - Обновили главную страницу раздела [Настройки пользовательских полей](./api-reference/crm/universal/userfieldconfig/index.md) в CRM
+- Обновили главную страницу раздела [Платежные системы](./api-reference/pay-system/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Связь CRM с заказами интернет-магазина](./api-reference/crm/universal/order-entity/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Универсальные методы CRM](./api-reference/crm/universal/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [События пользовательских типов CRM](./api-reference/crm/universal/events/type/index.md)
+- Обновили главную страницу раздела [Системные диалоги](./sdk/bx24-js-sdk/system-dialogues/index.md)
 
 ### 16 апреля, 2026
 

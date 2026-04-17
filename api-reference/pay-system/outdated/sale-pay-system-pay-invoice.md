@@ -2,11 +2,11 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
 
 {% endnote %}
 
-> Scope: [`pay_system `](../scopes/permissions.md)
+> Scope: [`pay_system `](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на создание и редактирование счетов CRM (старая версия)
 
@@ -14,19 +14,19 @@
 
 ## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **INVOICE_ID***
-[`integer`](../data-types.md) | Идентификатор счета старой версии. Для получения информации по счетам используется сервис [crm.invoice.*](../crm/outdated/invoice/index.md)
+[`integer`](../../data-types.md) | Идентификатор счета старой версии. Для получения информации по счетам используется сервис [crm.invoice.*](../../crm/outdated/invoice/index.md)
 ||
 || **PAY_SYSTEM_ID**
-[`sale_paysystem.ID`](../sale/data-types.md) | Идентификатор платежной системы
+[`sale_paysystem.ID`](../../sale/data-types.md) | Идентификатор платежной системы
 ||
 || **BX_REST_HANDLER**
-[`string`](../data-types.md) | Символьный идентификатор REST-обработчика платежной системы.
+[`string`](../../data-types.md) | Символьный идентификатор REST-обработчика платежной системы.
 
 Обязательно передавать либо параметр `PAY_SYSTEM_ID`, либо `BX_REST_HANDLER`:
 - при передаче `PAY_SYSTEM_ID` используется платежная система с указанным идентификтором 
@@ -38,7 +38,7 @@
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -181,9 +181,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Результат оплаты счета ||
+[`boolean`](../../data-types.md) | Результат оплаты счета ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -192,12 +192,12 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": " ERROR_CHECK_FAILURE",
+    "error": "ERROR_CHECK_FAILURE",
     "error_description": "Pay system not found"
 }
 ```
 
-{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -210,20 +210,8 @@ HTTP-статус: **400**
 || `ERROR_PROCESS_REQUEST_RESULT` | Не найдена платежная система с указанным `ID` либо произошла ошибка при обработке запроса платежной системой (детали смотрите в описании ошибки) | 400 ||
 |#
 
-{% include [системные ошибки](../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./sale-pay-system-handler-add.md)
-- [{#T}](./sale-pay-system-handler-update.md)
-- [{#T}](./sale-pay-system-handler-list.md)
-- [{#T}](./sale-pay-system-handler-delete.md)
-- [{#T}](./sale-pay-system-add.md)
-- [{#T}](./sale-pay-system-update.md)
-- [{#T}](./sale-pay-system-list.md)
-- [{#T}](./sale-pay-system-delete.md)
-- [{#T}](./sale-pay-system-settings-get.md)
-- [{#T}](./sale-pay-system-settings-update.md)
-- [{#T}](./sale-pay-system-pay-payment.md)
-- [{#T}](./sale-pay-system-settings-payment-get.md)
 - [{#T}](./sale-pay-system-settings-invoice-get.md)
