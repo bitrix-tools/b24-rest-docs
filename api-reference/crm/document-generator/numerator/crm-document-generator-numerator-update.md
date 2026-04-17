@@ -1,11 +1,5 @@
 # Изменить нумератор crm.documentgenerator.numerator.update
 
-{% note tip "" %}
-
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
-
-{% endnote %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом "изменения" шаблонов генератора документов
@@ -305,7 +299,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит данные нумератора формата [`result`](#result) ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит данные нумератора напрямую в формате [`result`](#result), без дополнительной обёртки `numerator` — в отличие от методов [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md) и [crm.documentgenerator.numerator.get](./crm-document-generator-numerator-get.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -324,7 +318,28 @@ HTTP-статус: **200**
 || **code**
 [`string`](../../data-types.md) | Символьный код нумератора. Может быть `null` ||
 || **settings**
-[`object`](../../data-types.md) | Сохраненные настройки генераторов ||
+[`object`](../../data-types.md) | Сохраненные настройки последовательной нумерации типа [`settings`](#settings) ||
+|#
+
+#### Тип settings {#settings}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **start**
+[`integer`](../../data-types.md) | Начальное значение счетчика ||
+|| **step**
+[`integer`](../../data-types.md) | Шаг увеличения счетчика ||
+|| **length**
+[`integer`](../../data-types.md) | Минимальная длина номера ||
+|| **padString**
+[`string`](../../data-types.md) | Символ добивки слева ||
+|| **periodicBy**
+[`string`](../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
+|| **timezone**
+[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
+|| **isDirectNumeration**
+[`boolean`](../../data-types.md) | Признак прямой нумерации ||
 |#
 
 ## Обработка ошибок

@@ -1,11 +1,5 @@
 # Получить список нумераторов crm.documentgenerator.numerator.list
 
-{% note tip "" %}
-
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
-
-{% endnote %}
-
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом "изменения" шаблонов генератора документов
@@ -193,7 +187,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа. Содержит массив объектов [`numerators`](#numerators) ||
 || **total**
-[`integer`](../../data-types.md) | Количество нумераторов в текущей странице ||
+[`integer`](../../data-types.md) | Общее количество нумераторов ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -210,7 +204,28 @@ HTTP-статус: **200**
 || **template**
 [`string`](../../data-types.md) | Шаблон номера ||
 || **settings**
-[`object`](../../data-types.md) | Сохраненные настройки генераторов ||
+[`object`](../../data-types.md) | Сохраненные настройки последовательной нумерации типа [`settings`](#settings) ||
+|#
+
+#### Тип settings {#settings}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **start**
+[`integer`](../../data-types.md) | Начальное значение счетчика ||
+|| **step**
+[`integer`](../../data-types.md) | Шаг увеличения счетчика ||
+|| **length**
+[`integer`](../../data-types.md) | Минимальная длина номера ||
+|| **padString**
+[`string`](../../data-types.md) | Символ добивки слева ||
+|| **periodicBy**
+[`string`](../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
+|| **timezone**
+[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
+|| **isDirectNumeration**
+[`boolean`](../../data-types.md) | Признак прямой нумерации ||
 |#
 
 ## Обработка ошибок
