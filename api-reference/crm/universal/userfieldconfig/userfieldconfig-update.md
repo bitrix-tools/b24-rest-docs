@@ -1,28 +1,30 @@
-# Добавить пользовательское поле userfieldconfig.add
+# Обновить пользовательское поле userfieldconfig.update
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
 
 {% endnote %}
 
-> Scope: [`userfieldconfig`](../../../../scopes/permissions.md), scope модуля из `moduleId` (например, [`crm`](../../../../scopes/permissions.md))
+> Scope: [`userfieldconfig`](../../../scopes/permissions.md), scope модуля из `moduleId` (например, [`crm`](../../../scopes/permissions.md))
 >
 > Кто может выполнять метод: пользователь с правом изменения настроек объекта в модуле `moduleId` (для `crm` — право «Разрешить изменять настройки»)
 
-Метод `userfieldconfig.add` добавляет новое пользовательское поле.
+Метод `userfieldconfig.update` обновляет настройки существующего пользовательского поля.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **moduleId***
-[`string`](../../../data-types.md) | Идентификатор модуля, в котором создается поле ||
+[`string`](../../../data-types.md) | Идентификатор модуля, в котором находится поле ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор настроек пользовательского поля ||
 || **field***
-[`object`](../../../data-types.md) | Объект с настройками пользовательского поля [(подробное описание)](#field) ||
+[`object`](../../../data-types.md) | Объект с новыми настройками поля [(подробное описание)](#field) ||
 |#
 
 ### Параметр field {#field}
@@ -30,41 +32,31 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **entityId***
-[`string`](../../../data-types.md) | Идентификатор объекта, для которого создается поле. Формат зависит от модуля, например `CRM_7` для смарт-процесса ||
-|| **fieldName***
-[`string`](../../../data-types.md) | Код поля в формате `UF_{ИДЕНТИФИКАТОР_ОБЪЕКТА}_{POSTFIX}`. Код должен быть уникальным в рамках объекта. Допустимы символы `A-Z`, `0-9`, `_`. Максимальная длина кода 50 символов ||
-|| **userTypeId***
-[`string`](../../../data-types.md) | Идентификатор типа поля. Список доступных типов возвращает метод [userfieldconfig.getTypes](./userfieldconfig-get-types.md) ||
 || **xmlId**
 [`string`](../../../data-types.md) | Внешний идентификатор поля ||
 || **sort**
-[`integer`](../../../data-types.md) | Индекс сортировки. По умолчанию `100` ||
-|| **multiple**
-[`boolean`](../../../data-types.md) | Является ли поле множественным. Возможные значения: `Y` или `N`. По умолчанию `N` ||
+[`integer`](../../../data-types.md) | Индекс сортировки ||
 || **mandatory**
-[`boolean`](../../../data-types.md) | Является ли поле обязательным. Возможные значения: `Y` или `N`. По умолчанию `N` ||
+[`boolean`](../../../data-types.md) | Флаг обязательного поля (`Y`/`N`) ||
 || **showFilter**
-[`boolean`](../../../data-types.md) | Показывать ли поле в фильтре. Возможные значения: `Y` или `N`. По умолчанию `N` ||
-|| **editInList**
-[`boolean`](../../../data-types.md) | Разрешать ли редактирование значения в списке. Возможные значения: `Y` или `N` ||
+[`boolean`](../../../data-types.md) | Флаг показа поля в фильтре (`Y`/`N`) ||
 || **isSearchable**
-[`boolean`](../../../data-types.md) | Участвуют ли значения поля в поиске. Возможные значения: `Y` или `N` ||
-|| **settings**
-[`object`](../../../data-types.md) | Дополнительные настройки поля. Набор ключей зависит от `userTypeId` [(подробное описание)](#settings) ||
+[`boolean`](../../../data-types.md) | Флаг участия поля в поиске (`Y`/`N`) ||
 || **editFormLabel**
-[`string`](../../../data-types.md)\|[`lang_map`](../../../data-types.md#lang_map) | Подпись в форме редактирования. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подпись по языкам ||
+[`lang_map`](../../../data-types.md) | Подписи в форме редактирования по языкам ||
 || **helpMessage**
-[`string`](../../../data-types.md)\|[`lang_map`](../../../data-types.md#lang_map) | Текст подсказки. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подсказку по языкам ||
+[`lang_map`](../../../data-types.md) | Текст подсказки по языкам ||
+|| **settings**
+[`object`](../../../data-types.md) | Дополнительные настройки поля. Набор ключей зависит от типа поля [(подробное описание)](#settings) ||
 || **enum**
-[`uf_enum_element[]`](#uf_enum_element) | Варианты значений для поля типа `enumeration` ||
+[`uf_enum_element[]`](#uf_enum_element) | Список вариантов значений для поля типа `enumeration`.
+
+Чтобы изменения `enum` применились, в `field.userTypeId` нужно передать `enumeration` ||
+|| **userTypeId**
+[`string`](../../../data-types.md) | Тип поля.
+
+Используется при обновлении `enum`, в этом случае передайте `enumeration` ||
 |#
-
-Метод использует фиксированный набор ключей в `field` (см. таблицу выше).
-
-Некорректные и неподдерживаемые ключи в `field` игнорируются.
-
-Ключи `showInList`, `listColumnLabel`, `listFilterLabel`, `errorMessage`, `label` не обрабатываются методом `userfieldconfig.add`, даже если переданы в `field`.
 
 ### Параметр settings {#settings}
 
@@ -246,8 +238,8 @@
     #|
     || **Название**
     `тип` | **Описание** ||
-    || **ENTITY_TYPE**
-    [`string`](../../../data-types.md) | Идентификатор типа справочника CRM. Возможные значения можно получить методом [`crm.status.entity.types`](../../../status/crm-status-entity-types.md) ||
+|| **ENTITY_TYPE**
+[`string`](../../../data-types.md) | Идентификатор типа справочника CRM. Возможные значения можно получить методом [`crm.status.entity.types`](../../status/crm-status-entity-types.md) ||
     |#
 
 - crm
@@ -288,19 +280,29 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **value***
-[`string`](../../../data-types.md) | Значение варианта списка ||
+|| **id**
+[`integer`](../../../data-types.md) | Идентификатор существующего варианта. Используется для обновления или удаления ||
+|| **value**
+[`string`](../../../data-types.md) | Значение варианта ||
 || **def**
 [`boolean`](../../../data-types.md) | Флаг значения по умолчанию (`Y`/`N`) ||
 || **sort**
-[`integer`](../../../data-types.md) | Индекс сортировки варианта ||
+[`integer`](../../../data-types.md) | Индекс сортировки ||
 || **xmlId**
 [`string`](../../../data-types.md) | Внешний идентификатор варианта ||
+|| **del**
+[`boolean`](../../../data-types.md) | Флаг удаления существующего варианта (`Y`/`N`) ||
 |#
+
+{% note info "" %}
+
+Некоторые параметры поля нельзя изменить после создания. Если передать их в `field`, изменение не будет применено
+
+{% endnote %}
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -308,152 +310,105 @@
 
     ```bash
     curl -X POST \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d '{
-        "moduleId": "crm",
-        "field": {
-          "entityId": "CRM_7",
-          "fieldName": "UF_CRM_7_NEW_REST_LIST_2026",
-          "userTypeId": "enumeration",
-          "multiple": "Y",
-          "editFormLabel": {
-            "ru": "Список характеристик",
-            "en": "List of characteristics"
-          },
-          "enum": [
-            { "value": "Характеристика 1", "def": "N", "sort": 100 },
-            { "value": "Характеристика 2", "def": "Y", "sort": 200 }
-          ]
-        }
-      }' \
-      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userfieldconfig.add"
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"moduleId":"crm","id":7095,"field":{"mandatory":"Y","editFormLabel":{"ru":"Список характеристик (обновлено)","en":"List of characteristics (updated)"}}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userfieldconfig.update
     ```
 
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d '{
-        "moduleId": "crm",
-        "field": {
-          "entityId": "CRM_7",
-          "fieldName": "UF_CRM_7_NEW_REST_LIST_2026",
-          "userTypeId": "enumeration",
-          "multiple": "Y",
-          "editFormLabel": {
-            "ru": "Список характеристик",
-            "en": "List of characteristics"
-          },
-          "enum": [
-            { "value": "Характеристика 1", "def": "N", "sort": 100 },
-            { "value": "Характеристика 2", "def": "Y", "sort": 200 }
-          ]
-        },
-        "auth": "**put_access_token_here**"
-      }' \
-      "https://**put_your_bitrix24_address**/rest/userfieldconfig.add"
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"moduleId":"crm","id":7095,"field":{"mandatory":"Y","editFormLabel":{"ru":"Список характеристик (обновлено)","en":"List of characteristics (updated)"}},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/userfieldconfig.update
     ```
 
 - JS
 
     ```js
-    const endpoint = "https://**put_your_bitrix24_address**/rest/userfieldconfig.add.json";
-
-    fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            auth: "**put_access_token_here**",
-            moduleId: "crm",
-            field: {
-                entityId: "CRM_7",
-                fieldName: "UF_CRM_7_NEW_REST_LIST_2026",
-                userTypeId: "enumeration",
-                multiple: "Y",
-                editFormLabel: {
-                    ru: "Список характеристик",
-                    en: "List of characteristics",
-                },
-                enum: [
-                    { value: "Характеристика 1", def: "N", sort: 100 },
-                    { value: "Характеристика 2", def: "Y", sort: 200 },
-                ],
-            },
-        }),
-    })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
+    try
+    {
+    	const response = await $b24.callMethod(
+    		'userfieldconfig.update',
+    		{
+    			moduleId: 'crm',
+    			id: 7095,
+    			field: {
+    				mandatory: 'Y',
+    				editFormLabel: {
+    					ru: 'Список характеристик (обновлено)',
+    					en: 'List of characteristics (updated)',
+    				},
+    			},
+    		}
+    	);
+    	
+    	const result = response.getData().result;
+    	console.info(result);
+    }
+    catch (error)
+    {
+    	console.error(error);
+    }
     ```
 
 - PHP
 
     ```php
-    $payload = [
-        'auth' => '**put_access_token_here**',
-        'moduleId' => 'crm',
-        'field' => [
-            'entityId' => 'CRM_7',
-            'fieldName' => 'UF_CRM_7_NEW_REST_LIST_2026',
-            'userTypeId' => 'enumeration',
-            'multiple' => 'Y',
-            'editFormLabel' => [
-                'ru' => 'Список характеристик',
-                'en' => 'List of characteristics',
-            ],
-            'enum' => [
-                ['value' => 'Характеристика 1', 'def' => 'N', 'sort' => 100],
-                ['value' => 'Характеристика 2', 'def' => 'Y', 'sort' => 200],
-            ],
-        ],
-    ];
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'userfieldconfig.update',
+                [
+                    'moduleId' => 'crm',
+                    'id' => 7095,
+                    'field' => [
+                        'mandatory' => 'Y',
+                        'editFormLabel' => [
+                            'ru' => 'Список характеристик (обновлено)',
+                            'en' => 'List of characteristics (updated)',
+                        ],
+                    ],
+                ]
+            );
 
-    $curl = curl_init('https://**put_your_bitrix24_address**/rest/userfieldconfig.add.json');
-    curl_setopt_array($curl, [
-        CURLOPT_POST => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-        CURLOPT_POSTFIELDS => json_encode($payload),
-    ]);
+        $result = $response
+            ->getResponseData()
+            ->getResult();
 
-    $result = curl_exec($curl);
-    curl_close($curl);
-
-    print_r($result);
+        echo 'Result: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js
 
     ```js
     BX24.callMethod(
-        "userfieldconfig.add",
+        'userfieldconfig.update',
         {
-            moduleId: "crm",
+            moduleId: 'crm',
+            id: 7095,
             field: {
-                entityId: "CRM_7",
-                fieldName: "UF_CRM_7_NEW_REST_LIST_2026",
-                userTypeId: "enumeration",
-                multiple: "Y",
+                mandatory: 'Y',
                 editFormLabel: {
-                    ru: "Список характеристик",
-                    en: "List of characteristics",
+                    ru: 'Список характеристик (обновлено)',
+                    en: 'List of characteristics (updated)',
                 },
-                enum: [
-                    { value: "Характеристика 1", def: "N", sort: 100 },
-                    { value: "Характеристика 2", def: "Y", sort: 200 },
-                ],
             },
         },
         (result) => {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data())
+            ;
+        },
     );
     ```
 
@@ -463,29 +418,23 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'userfieldconfig.add',
+        'userfieldconfig.update',
         [
             'moduleId' => 'crm',
+            'id' => 7095,
             'field' => [
-                'entityId' => 'CRM_7',
-                'fieldName' => 'UF_CRM_7_NEW_REST_LIST_2026',
-                'userTypeId' => 'enumeration',
-                'multiple' => 'Y',
+                'mandatory' => 'Y',
                 'editFormLabel' => [
-                    'ru' => 'Список характеристик',
-                    'en' => 'List of characteristics',
-                ],
-                'enum' => [
-                    ['value' => 'Характеристика 1', 'def' => 'N', 'sort' => 100],
-                    ['value' => 'Характеристика 2', 'def' => 'Y', 'sort' => 200],
+                    'ru' => 'Список характеристик (обновлено)',
+                    'en' => 'List of characteristics (updated)',
                 ],
             ],
         ]
     );
 
-    echo '<pre>';
+    echo '<PRE>';
     print_r($result);
-    echo '</pre>';
+    echo '</PRE>';
     ```
 
 {% endlist %}
@@ -498,14 +447,14 @@ HTTP-статус: **200**
 {
     "result": {
         "field": {
-            "id": "6953",
+            "id": "7095",
             "entityId": "CRM_7",
             "fieldName": "UF_CRM_7_NEW_REST_LIST_2026",
             "userTypeId": "enumeration",
             "xmlId": null,
             "sort": "100",
             "multiple": "Y",
-            "mandatory": "N",
+            "mandatory": "Y",
             "showFilter": "N",
             "showInList": "Y",
             "editInList": "Y",
@@ -521,8 +470,8 @@ HTTP-статус: **200**
                 "ru": "ru"
             },
             "editFormLabel": {
-                "en": "List of characteristics",
-                "ru": "Список характеристик"
+                "en": "List of characteristics (updated)",
+                "ru": "Список характеристик (обновлено)"
             },
             "listColumnLabel": {
                 "en": null,
@@ -542,31 +491,32 @@ HTTP-статус: **200**
             },
             "enum": [
                 {
-                    "id": "3363",
-                    "userFieldId": "6953",
+                    "id": "3671",
+                    "userFieldId": "7095",
                     "value": "Характеристика 1",
                     "def": "N",
                     "sort": "100",
-                    "xmlId": "56dff18efcfe25f3bae0117a6b372567"
+                    "xmlId": "38a8c98a5de02f8ccdca2244e5065ecd"
                 },
                 {
-                    "id": "3365",
-                    "userFieldId": "6953",
+                    "id": "3673",
+                    "userFieldId": "7095",
                     "value": "Характеристика 2",
                     "def": "Y",
                     "sort": "200",
-                    "xmlId": "42e3ebcf5506a65283bf3bf510d8f05a"
+                    "xmlId": "9520e17b39f3525b820b809914b52207"
                 }
             ]
         }
     },
     "time": {
-        "start": 1724239307.903115,
-        "finish": 1724239308.567422,
-        "duration": 0.6643068790435791,
-        "processing": 0.20090818405151367,
-        "date_start": "2024-08-21T13:21:47+02:00",
-        "date_finish": "2024-08-21T13:21:48+02:00",
+        "start": 1774356026,
+        "finish": 1774356026.949068,
+        "duration": 0.9490680694580078,
+        "processing": 0,
+        "date_start": "2026-03-24T15:40:26+03:00",
+        "date_finish": "2026-03-24T15:40:26+03:00",
+        "operating_reset_at": 1774356626,
         "operating": 0
     }
 }
@@ -589,7 +539,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **field**
-[`object`](../../../data-types.md) | Настройки созданного пользовательского поля [(подробное описание)](#result_field) ||
+[`object`](../../../data-types.md) | Настройки обновленного пользовательского поля [(подробное описание)](#result_field) ||
 |#
 
 ##### Объект field {#result_field}
@@ -622,7 +572,7 @@ HTTP-статус: **200**
 || **isSearchable**
 [`boolean`](../../../data-types.md) | Флаг участия в поиске ||
 || **settings**
-[`object`](../../../data-types.md) | Дополнительные настройки поля[(подробное описание)](#settings).
+[`object`](../../../data-types.md) | Дополнительные настройки поля. См. [Параметр settings](#settings).
 
 Состав ключей зависит от `userTypeId` ||
 || **languageId**
@@ -650,30 +600,27 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "The 'FIELD_NAME' field is not found."
+    "error_description": "Вы не можете изменить настройки пользьовательского поля"
 }
 ```
 
-{% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Access denied | Недостаточно прав для создания пользовательского поля ||
-|| `-` | Вы не можете создавать пользовательские поля | Ошибка может возвращаться, если `field.fieldName` не начинается с `UF_{entityId}_` ||
-|| `-` | The 'USER_TYPE_ID' field is not found | Не передан обязательный `field.userTypeId` ||
-|| `-` | The 'FIELD_NAME' field is not found | Не передан обязательный `field.fieldName` ||
-|| `-` | Поле ... уже существует | Переданный `field.fieldName` уже используется для этого объекта ||
-|| `-` | Fail to create new user field | Ошибка создания поля на стороне сервера ||
-|| `-` | Fail to save enumeration field values | Ошибка сохранения значений списка для типа `enumeration` ||
+|| `-` | Вы не можете изменить настройки пользовательского поля | Недостаточно прав на изменение поля. Эта же ошибка возвращается, если поле с переданным `id` уже удалено или недоступно в контексте `moduleId` ||
+|| `-` | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
+|| `-` | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
+|| `-` | Ошибка при попытке изменения настроек пользовательских полей | Общая ошибка изменения поля ||
 |#
 
-{% include [системные ошибки](../../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./userfieldconfig-update.md)
+- [{#T}](./userfieldconfig-add.md)
 - [{#T}](./userfieldconfig-get.md)
 - [{#T}](./userfieldconfig-list.md)
 - [{#T}](./userfieldconfig-delete.md)

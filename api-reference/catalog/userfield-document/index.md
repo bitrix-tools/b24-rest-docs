@@ -14,7 +14,7 @@
 
 ## Связь с другими объектами
 
-**Пользовательские поля.** Поля создаются и настраиваются с помощью методов раздела [userfieldconfig.*](../../crm/universal/userfieldconfig/userfieldconfig/index.md). Для документов складского учета используйте `moduleId = catalog` и `entityId` в формате `CAT_STORE_DOCUMENT_<documentType>`, например `CAT_STORE_DOCUMENT_A`.
+**Пользовательские поля.** Поля создаются и настраиваются с помощью методов раздела [userfieldconfig.*](../../crm/universal/userfieldconfig/index.md). Для документов складского учета используйте `moduleId = catalog` и `entityId` в формате `CAT_STORE_DOCUMENT_<documentType>`, например `CAT_STORE_DOCUMENT_A`.
 
 **Тип документа складского учета.** В методах раздела используется `documentType`. Допустимые значения можно получить методом [catalog.enum.getStoreDocumentTypes](../enum/catalog-enum-get-store-document-types.md).
 
@@ -31,7 +31,7 @@
 
 ## Порядок работы с пользовательскими полями документов
 
-1. Создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md).
+1. Создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md).
 2. Получите `documentType` через [catalog.enum.getStoreDocumentTypes](../enum/catalog-enum-get-store-document-types.md).
 3. Получите текущие значения полей методом [catalog.userfield.document.list](./catalog-userfield-document-list.md).
 4. Обновите значения методом [catalog.userfield.document.update](./catalog-userfield-document-update.md).

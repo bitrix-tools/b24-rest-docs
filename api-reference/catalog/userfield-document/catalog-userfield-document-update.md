@@ -39,7 +39,7 @@
 || **fieldN**
 [`mixed`](../../data-types.md) | Значение пользовательского поля, где `N` — идентификатор пользовательского поля, например `field287`.
 
-Идентификаторы и настройки пользовательских полей можно получить методом [userfieldconfig.list](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-list.md) ||
+Идентификаторы и настройки пользовательских полей можно получить методом [userfieldconfig.list](../../crm/universal/userfieldconfig/userfieldconfig-list.md) ||
 |#
 
 
@@ -233,4 +233,4 @@ HTTP-код: **400**
 
 - [{#T}](./catalog-userfield-document-list.md)
 - [{#T}](../enum/catalog-enum-get-store-document-types.md)
-- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-list.md)
+- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig-list.md)

@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 17 апреля, 2026
+
+- Обновили главную страницу раздела [BIconnector](./api-reference/biconnector/index.md)
+- Обновили главную страницу раздела [Настройки пользовательских полей](./api-reference/crm/universal/userfieldconfig/index.md) в CRM
+
 ### 16 апреля, 2026
 
 - Обновили страницу [Общие методы и события: обзор](./api-reference/common/index.md). Добавили вводную информацию, связи с другими объектами и обзор методов и событий с вкладками
@@ -163,7 +168,7 @@
 - Обновили документацию по методам [documentgenerator.region.*](./api-reference/document-generator/region/index.md) в разделе Регионы в Генераторе документов
 - Обновили документацию по методам [entity.item.*](./api-reference/entity/items/index.md) в разделе Элементы хранилища данных
 - Обновили документацию по методам [entity.item.property.*](./api-reference/entity/items/properties/index.md) в разделе Свойства элементов хранилища данных
-- Обновили документацию по методам [userfieldconfig.*](./api-reference/crm/universal/userfieldconfig/userfieldconfig/index.md) в разделе Пользовательские поля
+- Обновили документацию по методам [userfieldconfig.*](./api-reference/crm/universal/userfieldconfig/index.md) в разделе Настройки пользовательских полей
 - Обновили документацию по методам [landing.block.clonecard](./api-reference/landing/block/methods/landing-block-clone-card.md), [landing.block.removecard](./api-reference/landing/block/methods/landing-block-remove-card.md), [landing.block.updatenodes](./api-reference/landing/block/methods/landing-block-update-nodes.md), [landing.block.changeNodeName](./api-reference/landing/block/methods/landing-block-change-node-name.md), [landing.block.updateattrs](./api-reference/landing/block/methods/landing-block-update-attrs.md), [landing.block.updateStyles](./api-reference/landing/block/methods/landing-block-update-styles.md), [landing.block.getcontent](./api-reference/landing/block/methods/landing-block-get-content.md), [landing.block.getlist](./api-reference/landing/block/methods/landing-block-get-list.md), [landing.block.getbyid](./api-reference/landing/block/methods/landing-block-get-by-id.md), [landing.block.getmanifest](./api-reference/landing/block/methods/landing-block-get-manifest.md), [landing.block.getmanifestfile](./api-reference/landing/block/methods/landing-block-get-manifest-file.md), [landing.block.getrepository](./api-reference/landing/block/methods/landing-block-get-repository.md), [landing.block.uploadfile](./api-reference/landing/block/methods/landing-block-upload-file.md), [landing.block.updatecontent](./api-reference/landing/block/methods/landing-block-update-content.md), [landing.block.addcard](./api-reference/landing/block/methods/landing-block-add-card.md), [landing.block.updateCards](./api-reference/landing/block/methods/landing-block-update-cards.md), [landing.block.changeAnchor](./api-reference/landing/block/methods/landing-block-change-anchor.md), [landing.block.getContentFromRepository](./api-reference/landing/block/methods/landing-block-get-content-from-repository.md) в разделе Методы работы с блоками
 
 ### 25 марта, 2026

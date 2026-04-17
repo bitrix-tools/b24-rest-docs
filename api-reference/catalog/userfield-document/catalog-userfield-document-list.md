@@ -288,4 +288,4 @@ HTTP-код: **400**
 
 - [{#T}](./catalog-userfield-document-update.md)
 - [{#T}](../enum/catalog-enum-get-store-document-types.md)
-- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-list.md)
+- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig-list.md)

@@ -44,7 +44,7 @@
 
 **Склады.** Укажите склад, для которого создаете документ складского учета. Используйте методы [catalog.store.*](../store/index.md).
 
-**Пользовательские поля документов складского учета.** Для документов складского учета можно создать дополнительные поля с помощью метода [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md), где `moduleId` — catalog, а `entityId` — CAT_STORE_DOCUMENT_ИдентификаторТипаДокумента. Чтобы просмотреть дополнительные поля или изменить их значения, используйте методы [catalog.userfield.document.*](../userfield-document/index.md).
+**Пользовательские поля документов складского учета.** Для документов складского учета можно создать дополнительные поля с помощью метода [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md), где `moduleId` — catalog, а `entityId` — CAT_STORE_DOCUMENT_ИдентификаторТипаДокумента. Чтобы просмотреть дополнительные поля или изменить их значения, используйте методы [catalog.userfield.document.*](../userfield-document/index.md).
 
 ## Обзор методов {#all-methods}
 

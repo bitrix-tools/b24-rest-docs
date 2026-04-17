@@ -64,7 +64,7 @@ BX24.callMethod(
 
 Основное рабочее пространство в счетах — это вкладка Общее карточки. Она состоит из двух частей:
 
-- левая, в ней располагаются поля с информацией. Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей счетов используйте группу методов [userfieldconfig.*](./userfieldconfig/userfieldconfig/userfieldconfig-add.md)
+- левая, в ней располагаются поля с информацией. Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей счетов используйте группу методов [userfieldconfig.*](./userfieldconfig/userfieldconfig-add.md)
 
 - правая, в ней располагается таймлайн счета. В нем можно создавать, редактировать, фильтровать, удалять дела CRM — группа методов [crm.activity.*](../timeline/activities/index.md), и записи таймлайна — группа методов [crm.timeline.*](../timeline/index.md)
 
@@ -152,12 +152,12 @@ BX24.callMethod(
 
 #|
 || **Метод** | **Описание** ||
-|| [userfieldconfig.add](./userfieldconfig/userfieldconfig/userfieldconfig-add.md) | Создает пользовательское поле ||
-|| [userfieldconfig.update](./userfieldconfig/userfieldconfig/userfieldconfig-update.md) | Изменяет настройки поля ||
-|| [userfieldconfig.get](./userfieldconfig/userfieldconfig/userfieldconfig-get.md) | Возвращает настройки пользовательского поля по идентификатору ||
-|| [userfieldconfig.getTypes](./userfieldconfig/userfieldconfig/userfieldconfig-get-types.md) | Возвращает набор доступных типов пользовательских полей для модуля ||
-|| [userfieldconfig.list](./userfieldconfig/userfieldconfig/userfieldconfig-list.md) | Возвращает список настроек пользовательских полей ||
-|| [userfieldconfig.delete](./userfieldconfig/userfieldconfig/userfieldconfig-delete.md) | Удаляет пользовательское поле ||
+|| [userfieldconfig.add](./userfieldconfig/userfieldconfig-add.md) | Создает пользовательское поле ||
+|| [userfieldconfig.update](./userfieldconfig/userfieldconfig-update.md) | Изменяет настройки поля ||
+|| [userfieldconfig.get](./userfieldconfig/userfieldconfig-get.md) | Возвращает настройки пользовательского поля по идентификатору ||
+|| [userfieldconfig.getTypes](./userfieldconfig/userfieldconfig-get-types.md) | Возвращает набор доступных типов пользовательских полей для модуля ||
+|| [userfieldconfig.list](./userfieldconfig/userfieldconfig-list.md) | Возвращает список настроек пользовательских полей ||
+|| [userfieldconfig.delete](./userfieldconfig/userfieldconfig-delete.md) | Удаляет пользовательское поле ||
 |#
 
 ### Товарные позиции
