@@ -1,4 +1,4 @@
-# Получить список лог-записей таймлана crm.timeline.logmessage.list
+# Получить список лог-записей таймлайна crm.timeline.logmessage.list
 
 {% note tip "" %}
 
@@ -59,7 +59,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":1,"entityId":1,"order":{"created":"desc"},"start":1}' \
+    -d '{"entityTypeId":1,"entityId":1,"order":{"created":"desc"},"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.timeline.logmessage.list
     ```
 
@@ -69,7 +69,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"entityTypeId":1,"entityId":1,"order":{"created":"desc"},"start":1,"auth":"**put_access_token_here**"}' \
+    -d '{"entityTypeId":1,"entityId":1,"order":{"created":"desc"},"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.timeline.logmessage.list
     ```
 
@@ -86,7 +86,7 @@
           entityTypeId: 1,
           entityId: 1,
           order: { created: "desc" },
-          start: 1,
+          start: 0,
         },
         (progress) => { console.log('Progress:', progress) }
       )
@@ -99,7 +99,7 @@
     // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
     
     try {
-      const generator = $b24.fetchListMethod('crm.timeline.logmessage.list', { entityTypeId: 1, entityId: 1, order: { created: "desc" }, start: 1 }, 'ID')
+      const generator = $b24.fetchListMethod('crm.timeline.logmessage.list', { entityTypeId: 1, entityId: 1, order: { created: "desc" }, start: 0 }, 'ID')
       for await (const page of generator) {
         for (const entity of page) { console.log('Entity:', entity) }
       }
@@ -110,7 +110,7 @@
     // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
     
     try {
-      const response = await $b24.callMethod('crm.timeline.logmessage.list', { entityTypeId: 1, entityId: 1, order: { created: "desc" }, start: 1 }, 0)
+      const response = await $b24.callMethod('crm.timeline.logmessage.list', { entityTypeId: 1, entityId: 1, order: { created: "desc" }, start: 0 }, 0)
       const result = response.getData().result || []
       for (const entity of result) { console.log('Entity:', entity) }
     } catch (error) {
@@ -131,7 +131,7 @@
                     'entityTypeId' => 1,
                     'entityId'     => 1,
                     'order'        => ['created' => 'desc'],
-                    'start'        => 1,
+                    'start'        => 0,
                 ]
             );
     
@@ -160,7 +160,7 @@
             entityTypeId: 1,
             entityId: 1,
             order: { created: "desc" },
-            start: 1,
+            start: 0,
         },
         result => {
             if (result.error())
@@ -182,7 +182,7 @@
             'entityTypeId' => 1,
             'entityId' => 1,
             'order' => ['created' => 'desc'],
-            'start' => 1
+            'start' => 0
         ]
     );
 

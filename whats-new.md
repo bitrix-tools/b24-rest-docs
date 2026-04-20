@@ -5,6 +5,9 @@
 ### 20 апреля, 2026
 
 - Обновили главную страницу раздела [CRM](./api-reference/crm/index.md). Добавили вводную информацию, связи с другими объектами и обзор разделов и методов
+- Обновили главную страницу раздела [Журнал лог-записей](./api-reference/crm/timeline/logmessage/index.md)
+- Обновили главную страницу раздела [Иконки лог-записей](./api-reference/crm/timeline/logmessage/icons/index.md)
+- Обновили главную страницу раздела [Логотипы лог-записей](./api-reference/crm/timeline/logmessage/logo/index.md)
 
 ### 17 апреля, 2026
 
