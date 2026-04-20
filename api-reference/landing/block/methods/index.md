@@ -1,4 +1,4 @@
-# Обзор методов
+# Объект Блоки: обзор методов
 
 {% note tip "" %}
 
@@ -6,36 +6,84 @@
 
 {% endnote %}
 
-{% note warning "Мы еще обновляем эту страницу" %}
+Блоки — это основные элементы страницы сайта в Битрикс24. Например, блок может содержать текст, изображение, форму обратной связи или список новостей.
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Методы `landing.block.*` управляют содержимым уже размещенных блоков и работают с шаблонами из репозитория. Можно менять текст, изображения, стили, добавлять карточки и загружать файлы.
 
-{% endnote %}
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как создать и настроить сайт в Битрикс24](https://helpdesk.bitrix24.ru/open/25309314/)
 
-Методы работы с Блоками.
+## Как работать с блоками
+
+1. Получите список блоков страницы методом [landing.block.getlist](./landing-block-get-list.md). Для этого нужен идентификатор страницы `lid`.
+2. Выберите нужный блок и получите его данные методом [landing.block.getbyid](./landing-block-get-by-id.md) или [landing.block.getcontent](./landing-block-get-content.md).
+3. Внесите изменения. Используйте точечные методы (`updatenodes`, `updateattrs`) для частичного обновления или `updatecontent` для полной замены контента.
+4. Если нужно добавить или изменить карточки, например элементы списка, используйте методы группы [Карточки блока](#cards).
+5. Опубликуйте страницу методом [landing.landing.publication](../../page/methods/landing-landing-publication.md), чтобы изменения стали видны посетителям.
+
+## Связь с другими объектами
+
+**Страница.** Идентификатор страницы `lid` обязателен для всех операций. Получить его можно методом [landing.landing.getList](../../page/methods/landing-landing-get-list.md).
+
+**Методы страницы.** Методы раздела [Блоки на странице](../../page/block-methods/index.md) добавляют, перемещают, скрывают и удаляют блоки на странице. Методы `landing.block.*` изменяют содержимое и настраивают конкретный блок.
+
+**Манифест.** Структура блока, доступные поля и настройки описаны в манифесте. Получить манифест размещенного блока можно методом [landing.block.getmanifest](./landing-block-get-manifest.md), а шаблон из репозитория — методом [landing.block.getmanifestfile](./landing-block-get-manifest-file.md).
+
+## Особенности работы
+
+**Черновики.** Большинство методов изменения работают с черновиком страницы. Для опубликованных страниц используйте идентификаторы блоков из режима редактирования `edit_mode`.
+
+**Публикация.** Изменения в черновике не видны на сайте до публикации страницы методом [landing.landing.publication](../../page/methods/landing-landing-publication.md).
+
+**Файлы.** Метод [landing.block.uploadfile](./landing-block-upload-file.md) только загружает файл и привязывает его к блоку. Чтобы отобразить файл в контенте, дополнительно вызовите [landing.block.updatenodes](./landing-block-update-nodes.md).
+
+**Точечное обновление.** Для изменения отдельных элементов используйте `updatenodes`, `updateattrs` или `updateStyles`. Полная замена через `updatecontent` требует передачи всего контента блока.
+
+## Обзор методов {#all-methods}
 
 > Scope: [`landing`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять методы: в зависимости от метода
+
+### Карточки блока {#cards}
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| [landing.block.clonecard](./landing-block-clone-card.md) | Метод для клонирования карточки блока. | ||
-|| [landing.block.removecard](./landing-block-remove-card.md) | Метод для удаления карточки блока. | ||
-|| [landing.block.updatenodes](./landing-block-update-nodes.md) | Метод для изменения контента блока. | ||
-|| [landing.block.changeNodeName](./landing-block-change-node-name.md) | Метод изменяет название тега. | ||
-|| [landing.block.updateattrs](./landing-block-update-attrs.md) | Метод для изменения атрибутов ноды блока. | ||
-|| [landing.block.updateStyles](./landing-block-update-styles.md) | Метод для изменения стилей блока. | ||
-|| [landing.block.getcontent](./landing-block-get-content.md) | Метод для получения контента блока. | ||
-|| [landing.block.getlist](./landing-block-get-list.md) | Метод для получение списка блоков страницы. | ||
-|| [landing.block.getbyid](./landing-block-get-by-id.md) | Метод для получения блока по его идентификатору. | ||
-|| [landing.block.getmanifest](./landing-block-get-manifest.md) | Метод для получения манифеста конкретного блока, уже размещенного на странице. | ||
-|| [landing.block.getmanifestfile](./landing-block-get-manifest-file.md) | Метод для получения манифеста блока из репозитория. | ||
-|| [landing.block.getrepository](./landing-block-get-repository.md) | Метод возвращает список блоков из репозитория. | ||
-|| [landing.block.uploadfile](./landing-block-upload-file.md) | Метод загружает картинку и привязывает ее к указанному блоку. | ||
-|| [landing.block.updatecontent](./landing-block-update-content.md) | Метод обновляет содержимое уже размещенного на странице блока на любой произвольный. | ||
-|| [landing.block.addcard](./landing-block-add-card.md) | Метод полностью повторяет работу [landing.block.clonecard](./landing-block-clone-card.md) но дает возможность вставить карточку сразу с измененным контентом. | ||
-|| [landing.block.updateCards](./landing-block-update-cards.md) | Метод для массового изменения карточек блока. | ||
-|| [landing.block.changeAnchor](./landing-block-change-anchor.md) | Метод изменяет символьный код якоря. | ||
-|| [landing.block.getContentFromRepository](./landing-block-get-content-from-repository.md) | Метод получает контент блока из репозитория «как есть» до добавления блока на какую-либо страницу. | 18.7.500 ||
+|| **Метод** | **Описание** ||
+|| [landing.block.addcard](./landing-block-add-card.md) | Добавляет карточку в блок ||
+|| [landing.block.clonecard](./landing-block-clone-card.md) | Клонирует карточку блока ||
+|| [landing.block.updateCards](./landing-block-update-cards.md) | Массово обновляет карточки блока ||
+|| [landing.block.removecard](./landing-block-remove-card.md) | Удаляет карточку из блока ||
+|#
+
+### Контент и параметры блока
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.block.updatenodes](./landing-block-update-nodes.md) | Изменяет контент узлов блока ||
+|| [landing.block.updateattrs](./landing-block-update-attrs.md) | Изменяет атрибуты узлов блока ||
+|| [landing.block.updateStyles](./landing-block-update-styles.md) | Изменяет стили блока ||
+|| [landing.block.updatecontent](./landing-block-update-content.md) | Полностью заменяет контент блока ||
+|| [landing.block.changeNodeName](./landing-block-change-node-name.md) | Меняет тег узла ||
+|| [landing.block.changeAnchor](./landing-block-change-anchor.md) | Изменяет якорную ссылку блока ||
+|| [landing.block.uploadfile](./landing-block-upload-file.md) | Загружает и привязывает файл к блоку ||
+|#
+
+### Получение данных блока
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.block.getlist](./landing-block-get-list.md) | Возвращает список блоков страницы ||
+|| [landing.block.getbyid](./landing-block-get-by-id.md) | Возвращает данные блока по ID ||
+|| [landing.block.getcontent](./landing-block-get-content.md) | Возвращает контент блока ||
+|| [landing.block.getmanifest](./landing-block-get-manifest.md) | Возвращает манифест размещенного блока ||
+|#
+
+### Репозиторий блоков
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.block.getrepository](./landing-block-get-repository.md) | Возвращает список шаблонов из репозитория ||
+|| [landing.block.getmanifestfile](./landing-block-get-manifest-file.md) | Возвращает манифест шаблона из репозитория ||
+|| [landing.block.getContentFromRepository](./landing-block-get-content-from-repository.md) | Возвращает контент шаблона до добавления на страницу ||
 |#

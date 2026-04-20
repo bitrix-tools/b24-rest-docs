@@ -8,6 +8,10 @@
 - Обновили главную страницу раздела [Журнал лог-записей](./api-reference/crm/timeline/logmessage/index.md)
 - Обновили главную страницу раздела [Иконки лог-записей](./api-reference/crm/timeline/logmessage/icons/index.md)
 - Обновили главную страницу раздела [Логотипы лог-записей](./api-reference/crm/timeline/logmessage/logo/index.md)
+- Обновили главную страницу раздела [Методы работы с блоками](./api-reference/landing/block/methods/index.md) в Сайтах и магазинах. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Управление карточками элементов](./api-reference/crm/universal/item-details-configuration/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Комментарии](./api-reference/crm/timeline/comments/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [События](./api-reference/crm/timeline/comments/events/index.md) в Комментариях CRM
 
 ### 17 апреля, 2026
 
