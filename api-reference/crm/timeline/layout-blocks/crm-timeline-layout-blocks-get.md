@@ -24,14 +24,14 @@
 || **entityTypeId***
 [`integer`](../../../data-types.md) | Идентификатор типа объекта CRM, к которому привязана запись таймлайна ||
 || **entityId***
-[`integer`](../../../data-types.md) | Идентификатор объекта CRM, к которой привязана запись таймлайна ||
+[`integer`](../../../data-types.md) | Идентификатор объекта CRM, к которому привязана запись таймлайна ||
 || **timelineId***
 [`integer`](../../../data-types.md) | Идентификатор записи таймлайна ||
 |#
 
 ## Примеры кода
 
-Получить набор дополнительных контентных блоков для записи таймлайна с `id = 8`, привязанного к сделке с `id = 4`:
+Получить набор дополнительных контентных блоков для записи таймлайна с `id = 8`, привязанной к сделке с `id = 4`:
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -67,8 +67,8 @@
     		'crm.timeline.layout.blocks.get',
     		{
     			entityTypeId: 2, // Сделка
-    			entityId: 4,     // ID Сделки
-    			timelineId: 8,   // ID Записи таймлайна привязанного к данной сделке
+    			entityId: 4,     // ID сделки
+    			timelineId: 8,   // ID записи таймлайна, привязанной к данной сделке
     		}
     	);
     	
@@ -92,8 +92,8 @@
                 'crm.timeline.layout.blocks.get',
                 [
                     'entityTypeId' => 2, // Сделка
-                    'entityId'     => 4, // ID Сделки
-                    'timelineId'   => 8, // ID Записи таймлайна привязанного к данной сделке
+                    'entityId'     => 4, // ID сделки
+                    'timelineId'   => 8, // ID записи таймлайна, привязанной к данной сделке
                 ]
             );
     
@@ -121,8 +121,8 @@
         'crm.timeline.layout.blocks.get',
         {
             entityTypeId: 2, // Сделка
-            entityId: 4,     // ID Сделки
-            timelineId: 8,   // ID Записи таймлайна привязанного к данной сделке
+            entityId: 4,     // ID сделки
+            timelineId: 8,   // ID записи таймлайна, привязанной к данной сделке
         },
         (result) => {
             if (result.error()) {
@@ -157,54 +157,83 @@
 
 HTTP-статус: **200**
 
-Возвращает `object` с ключом `layout`, содержащим в себе [RestAppLayoutDto](../activities/configurable/structure/rest-app-layout-dto.md).
-
 ```json
 {
-    "layout": {
-        "blocks": {
-            "block_1": {
-                "type": "text",
-                "properties": {
-                    "value": "Здравствуйте!\nМы начинаем.",
-                    "multiline": true,
-                    "bold": true,
-                    "color": "base_90"
-                }
-            },
-            "block_2": {
-                "type": "largeText",
-                "properties": {
-                    "value": "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания."
-                }
-            },
-            "block_3": {
-                "type": "link",
-                "properties": {
-                    "text": "Открыть сделку",
-                    "bold": true,
-                    "action": {
-                        "type": "redirect",
-                        "uri": "/crm/deal/details/123/"
+    "result": {
+        "layout": {
+            "blocks": {
+                "block_1": {
+                    "type": "text",
+                    "properties": {
+                        "value": "Здравствуйте!\nМы начинаем.",
+                        "multiline": true,
+                        "bold": true,
+                        "color": "base_90"
                     }
-                }
-            },
-            "block_4": {
-                "type": "withTitle",
-                "properties": {
-                    "title": "Заголовок",
-                    "block": {
-                        "type": "text",
-                        "properties": {
-                            "value": "Какое-то значение"
+                },
+                "block_2": {
+                    "type": "largeText",
+                    "properties": {
+                        "value": "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания."
+                    }
+                },
+                "block_3": {
+                    "type": "link",
+                    "properties": {
+                        "text": "Открыть сделку",
+                        "bold": true,
+                        "action": {
+                            "type": "redirect",
+                            "uri": "/crm/deal/details/123/"
+                        }
+                    }
+                },
+                "block_4": {
+                    "type": "withTitle",
+                    "properties": {
+                        "title": "Заголовок",
+                        "block": {
+                            "type": "text",
+                            "properties": {
+                                "value": "Какое-то значение"
+                            }
                         }
                     }
                 }
             }
         }
+    },
+    "time": {
+        "start": 1753341040.475739,
+        "finish": 1753341040.582705,
+        "duration": 0.10696601867675781,
+        "processing": 0.04708504676818848,
+        "date_start": "2025-07-24T17:57:20+00:00",
+        "date_finish": "2025-07-24T17:57:20+00:00",
+        "operating": 0
     }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Корневой элемент ответа ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **layout**
+[`RestAppLayoutDto`](../activities/configurable/structure/rest-app-layout-dto.md) | Набор дополнительных контентных блоков, установленный приложением для записи таймлайна ||
+|#
 
 ## Обработка ошибок
 
