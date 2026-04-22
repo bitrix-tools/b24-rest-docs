@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 22 апреля, 2026
+
+- Добавили новые методы [sign.b2e.document.send](./api-reference/sign/sign-b2e-document-send.md), [sign.b2e.document.get](./api-reference/sign/sign-b2e-document-get.md), [sign.b2e.company.provider.list](./api-reference/sign/sign-b2e-company-provider-list.md) и события [OnSignB2eDocumentStatusChanged](./api-reference/sign/events/on-sign-b2e-document-status-changed.md), [OnSignB2eMemberStatusChanged](./api-reference/sign/events/on-sign-b2e-member-status-changed.md) в разделе [Подпись](./api-reference/sign/index.md)
+
 ### 21 апреля, 2026
 
 - Обновили главную страницу раздела [Дополнительные контентные блоки таймлайна](./api-reference/crm/timeline/layout-blocks/index.md)
