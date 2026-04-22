@@ -169,7 +169,7 @@ HTTP-статус: **200**
                 "isImmutable":false,
                 "isReadOnly":false,
                 "isRequired":true,
-                "type":"string"
+                "type":"any"
             }
         }
     },
