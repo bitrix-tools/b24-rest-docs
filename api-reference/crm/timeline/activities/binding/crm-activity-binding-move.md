@@ -126,7 +126,7 @@
             sourceEntityId: 1, // ID элемента, к которому дело привязано
             targetEntityTypeId: 2, // Тип объекта, к которому дело будет привязано
             targetEntityId: 100 // ID элемента, к которому дело будет привязано
-
+        },
         function(result) {
             if (result.error()) {
                 console.error('Ошибка:', result.error()); 
