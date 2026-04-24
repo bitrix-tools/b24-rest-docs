@@ -179,14 +179,17 @@
         {
             select: ['documentType', 'documentId', 'field7097'],
             filter: { documentType: 'A', documentId: 81 },
-            order:  { documentId: 'ASC' },
-            start:  0
+            order:  { documentId: 'ASC' }
         },
         function(result) {
             if (result.error()) {
                 console.error(result.error());
             } else {
                 console.log(result.data());
+
+                if (result.more()) {
+                    result.next();
+                }
             }
         }
     );

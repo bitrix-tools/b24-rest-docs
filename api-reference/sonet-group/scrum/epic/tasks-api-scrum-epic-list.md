@@ -287,12 +287,22 @@
                 'ID': 'asc',
                 'NAME': 'desc'
             },
-            select: ['ID', 'NAME', 'DESCRIPTION', 'CREATED_BY', 'MODIFIED_BY', 'COLOR'],
-            start: 0
+            select: ['ID', 'NAME', 'DESCRIPTION', 'CREATED_BY', 'MODIFIED_BY', 'COLOR']
         },
         function(res)
         {
-            console.log(res);
+            if (res.error())
+            {
+                console.error(res.error());
+                return;
+            }
+
+            console.log(res.data());
+
+            if (res.more())
+            {
+                res.next();
+            }
         }
     );
     ```

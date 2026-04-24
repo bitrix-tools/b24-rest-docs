@@ -234,8 +234,7 @@
               region: 'ru',
               active: 'Y',
               '>=createTime': '2026-03-18T00:00:00+03:00'
-          },
-          start: 0
+          }
       },
       function(result)
       {
@@ -246,6 +245,11 @@
           else
           {
               console.log(result.data());
+
+              if (result.more())
+              {
+                  result.next();
+              }
           }
       }
   );

@@ -181,13 +181,18 @@
             select: ['id', 'title', 'number', 'entityId', 'createTime'],
             order: { id: 'desc' },
             filter: { entityTypeId: 2, entityId: 101 },
-            start: 0,
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data())
-            ;
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            console.info(result.data());
+
+            if (result.more()) {
+                result.next();
+            }
         },
     );
     ```

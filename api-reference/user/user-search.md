@@ -168,15 +168,22 @@
         {
             "UF_DEPARTMENT": 1,
             "SORT": "ID",
-            "ORDER": "asc",
-            "start": 10
+            "ORDER": "asc"
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
+            {
                 console.error(result.error());
-            else
-                console.dir(result.data());
+                return;
+            }
+
+            console.dir(result.data());
+
+            if (result.more())
+            {
+                result.next();
+            }
         }
     );
     ```

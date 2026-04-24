@@ -281,14 +281,17 @@
             },
             ELEMENT_ORDER: {
                 NAME: 'asc'
-            },
-            start: 0
+            }
         },
         function(res) {
             if (res.error()) {
                 console.error(res.error());
             } else {
                 console.log(res.data());
+
+                if (res.more()) {
+                    res.next();
+                }
             }
         }
     );

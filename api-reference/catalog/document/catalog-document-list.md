@@ -212,8 +212,7 @@
         {
             select: ['id', 'docType', 'title', 'status'],
             filter: { '>=dateCreate': '2025-10-01T00:00:00+03:00', '<=dateCreate': '2025-10-15T23:59:59+03:00' },
-            order:  { id: 'ASC' },
-            start:  '50'
+            order:  { id: 'ASC' }
         },
         function(result)
         {

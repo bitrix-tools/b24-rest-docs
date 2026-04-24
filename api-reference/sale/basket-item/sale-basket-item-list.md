@@ -219,7 +219,6 @@
             order: {
                 id: 'desc',
             },
-            start: 0,
         },
     )
         .then(
@@ -232,6 +231,11 @@
                 else
                 {
                     console.log(result.data);
+
+                    if (result.more())
+                    {
+                        result.next();
+                    }
                 }
             },
             function(error)
