@@ -19,7 +19,7 @@
 ## 1. Получим идентификатор воронки
 
 Используем метод [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md) с параметрами:
-- `entityTypeId` — укажем `2` для сделок. Это идентификатор [типа объекта](../../../api-reference/crm/data-types.md#object_type). Чтобы узнать идентификатор смарт-процесса, выполните метод [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) без параметров.
+- `entityTypeId` — укажем `2` для сделок. Это идентификатор [типа объекта](../../../api-reference/crm/data-types.md#object_type). Чтобы узнать `entityTypeId` смарт-процесса, выполните метод [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) без параметров.
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -101,7 +101,7 @@
 Используем метод [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) с фильтром:
 
 - `ENTITY_ID` — укажем `DEAL_STAGE_10`, где `10` — идентификатор воронки, полученный на шаге 1.
- Для получения стадий смарт-процесса используйте формулу вида `DYNAMIC_185_STAGE_11`, где `185` — `ID` смарт-процесса, `11` — `ID` воронки.
+ Для получения стадий смарт-процесса используйте формулу вида `DYNAMIC_185_STAGE_11`, где `185` — `entityTypeId` смарт-процесса, `11` — `ID` воронки.
  Если `ID` воронки равно `0`, запрос стадий делайте без добавления `_ID`.
 
 {% list tabs %}
@@ -275,7 +275,7 @@
 ## 3. Получим список элементов на стадии
 
 Используем метод [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) с параметрами:
-- `entityTypeId` — укажем `2` для сделок. Это идентификатор [типа объекта](../../../api-reference/crm/data-types.md#object_type). Чтобы узнать идентификатор смарт-процесса, выполните метод [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) без параметров.
+- `entityTypeId` — укажем `2` для сделок. Это идентификатор [типа объекта](../../../api-reference/crm/data-types.md#object_type). Чтобы узнать `entityTypeId` смарт-процесса, выполните метод [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) без параметров.
 - `filter[stageId]` — укажем `C10:PREPAYMENT_INVOICE`. Это идентификатор стадии, полученный на шаге 2.
 - `select[]` — укажем поля элементов, которые хотим получить. Без параметра `select` будут возвращены все поля, в том числе пользовательские.
 

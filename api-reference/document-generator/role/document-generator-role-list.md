@@ -1,5 +1,11 @@
 # Получить список ролей documentgenerator.role.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`documentgenerator`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом на изменение настроек генератора документов
@@ -93,9 +99,7 @@
   ```js
   BX24.callMethod(
       'documentgenerator.role.list',
-      {
-          start: 0
-      },
+      {},
       function(result)
       {
           if (result.error())
@@ -105,6 +109,11 @@
           else
           {
               console.log(result.data());
+
+              if (result.more())
+              {
+                  result.next();
+              }
           }
       }
   );

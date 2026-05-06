@@ -1,5 +1,11 @@
 # Изменить значения пользовательских полей документов складского учета catalog.userfield.document.update
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «Создание и редактирование» на нужный тип документа
@@ -33,7 +39,7 @@
 || **fieldN**
 [`mixed`](../../data-types.md) | Значение пользовательского поля, где `N` — идентификатор пользовательского поля, например `field287`.
 
-Идентификаторы и настройки пользовательских полей можно получить методом [userfieldconfig.list](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-list.md) ||
+Идентификаторы и настройки пользовательских полей можно получить методом [userfieldconfig.list](../../crm/universal/userfieldconfig/userfieldconfig-list.md) ||
 |#
 
 
@@ -227,4 +233,4 @@ HTTP-код: **400**
 
 - [{#T}](./catalog-userfield-document-list.md)
 - [{#T}](../enum/catalog-enum-get-store-document-types.md)
-- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-list.md)
+- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig-list.md)

@@ -1,10 +1,16 @@
 # Зарегистрировать новый тип пользовательских полей userfieldtype.add
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`в зависимости от места встройки`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `userfieldtype.add` регистрирует новый тип пользовательских полей. После регистрации типа, создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md).
+Метод `userfieldtype.add` регистрирует новый тип пользовательских полей. После регистрации типа, создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md).
 
 При открытии карточки с полем пользовательского типа на обработчик приложения передается массив `PLACEMENT_OPTIONS` с данными о поле и элементе.
 
@@ -265,5 +271,5 @@ HTTP-статус: **400**
 - [{#T}](./userfieldtype-update.md)
 - [{#T}](./userfieldtype-list.md)
 - [{#T}](./userfieldtype-delete.md)
-- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md)
+- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig-add.md)
 - [{#T}](../../crm/universal/user-defined-fields/userfield-type.md)

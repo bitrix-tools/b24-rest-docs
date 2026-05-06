@@ -1,5 +1,11 @@
 # Получить список эпиков tasks.api.scrum.epic.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -281,12 +287,22 @@
                 'ID': 'asc',
                 'NAME': 'desc'
             },
-            select: ['ID', 'NAME', 'DESCRIPTION', 'CREATED_BY', 'MODIFIED_BY', 'COLOR'],
-            start: 0
+            select: ['ID', 'NAME', 'DESCRIPTION', 'CREATED_BY', 'MODIFIED_BY', 'COLOR']
         },
         function(res)
         {
-            console.log(res);
+            if (res.error())
+            {
+                console.error(res.error());
+                return;
+            }
+
+            console.log(res.data());
+
+            if (res.more())
+            {
+                res.next();
+            }
         }
     );
     ```

@@ -1,8 +1,10 @@
 title: Интеграция собственного WebRTC клиента
 href: index.md
 items: 
-  - name: Сценарий встройки WebRTC
+  - name: Обзор методов
     href: index.md
+  - name: Сценарий встройки WebRTC
+    href: webrtc-scenario.md
   - name: Карточка звонка
     href: card.md
   - name: Выключить микрофон оператора со стороны приложения

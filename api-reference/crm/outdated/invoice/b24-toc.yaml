@@ -1,10 +1,8 @@
 title: Счета (старые)
 href: index.md
 items:
-  - name: О счетах CRM
+  - name: Обзор методов
     href: index.md
-  - name: Список методов
-    href: methods.md
   - name: Добавить счет
     href: crm-invoice-add.md
   - name: Удалить счет

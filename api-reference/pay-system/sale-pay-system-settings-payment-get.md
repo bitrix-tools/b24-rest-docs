@@ -1,5 +1,11 @@
 # Получить настройки платежной системы для конкретной оплаты sale.paysystem.settings.payment.get
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`pay_system `](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на создание и редактирование заказов в CRM
@@ -219,5 +225,3 @@ HTTP-статус: **400**, **403**
 - [{#T}](./sale-pay-system-settings-update.md)
 - [{#T}](./sale-pay-system-delete.md)
 - [{#T}](./sale-pay-system-pay-payment.md)
-- [{#T}](./sale-pay-system-pay-invoice.md)
-- [{#T}](./sale-pay-system-settings-invoice-get.md)

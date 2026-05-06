@@ -1,5 +1,11 @@
 # Удалить связь дела с элементом CRM crm.activity.binding.delete
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь c правом редактирования элементов CRM
@@ -33,7 +39,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"activityId":999, "entityTypeId":2, entityId: 1}' \
+    -d '{"activityId":999, "entityTypeId":2, "entityId": 1}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.binding.delete
     ```
 
@@ -166,7 +172,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true` если связь успешно создана, иначе — `false` ||
+[`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true` если связь успешно удалена, иначе — `false` ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

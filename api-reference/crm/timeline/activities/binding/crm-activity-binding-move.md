@@ -1,5 +1,11 @@
 # Обновить связь дела с элементом CRM crm.activity.binding.move
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь c правом редактирования элементов CRM
@@ -120,7 +126,7 @@
             sourceEntityId: 1, // ID элемента, к которому дело привязано
             targetEntityTypeId: 2, // Тип объекта, к которому дело будет привязано
             targetEntityId: 100 // ID элемента, к которому дело будет привязано
-
+        },
         function(result) {
             if (result.error()) {
                 console.error('Ошибка:', result.error()); 

@@ -1,5 +1,11 @@
 # Получить сообщение imbot.v2.Chat.Message.get
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`imbot`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
@@ -266,6 +272,7 @@ HTTP-статус: **400**, **403**
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./chat-message-get-context.md)
 - [{#T}](./chat-message-send.md)
 - [{#T}](./chat-message-update.md)

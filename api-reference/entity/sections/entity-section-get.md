@@ -1,5 +1,11 @@
 # Получить список разделов хранилища entity.section.get
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`entity`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь при авторизации приложения
@@ -170,13 +176,18 @@
             ENTITY: 'dish',
             SORT: { NAME: 'ASC' },
             FILTER: { ACTIVE: 'Y' },
-            start: 0,
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data())
-            ;
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            console.info(result.data());
+
+            if (result.more()) {
+                result.next();
+            }
         },
     );
     ```

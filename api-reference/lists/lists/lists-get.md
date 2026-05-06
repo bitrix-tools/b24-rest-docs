@@ -1,5 +1,10 @@
 # Получить данные универсального списка или массив списков lists.get
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
 
 > Scope: [`lists`](../../scopes/permissions.md)
 >
@@ -159,14 +164,17 @@
          IBLOCK_ORDER: {
            SORT: 'asc',
            NAME: 'asc'
-         },
-         start: 0
+         }
       },
          function(result) {
              if (result.error()) {
                 console.error(result.error());
              } else {
                 console.log(result.data());
+
+                if (result.more()) {
+                   result.next();
+                }
              }
          }
     );

@@ -1,5 +1,11 @@
 # Цветовые темы страницы
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 В разделе перечислены коды цветовых тем для поля `THEME_CODE`.
 
 Задать значение `THEME_CODE` можно при создании и обновлении страницы через методы [landing.landing.add](./methods/landing-landing-add.md) и [landing.landing.update](./methods/landing-landing-update.md).

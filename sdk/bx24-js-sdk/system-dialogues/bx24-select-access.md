@@ -1,5 +1,11 @@
 # Показать диалог выбора прав доступа BX24.selectAccess
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 ```js
 BX24.selectAccess(value: array, callback: callable): void;
 BX24.selectAccess(callback: callable): void;

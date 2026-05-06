@@ -16,6 +16,4 @@ items:
   - name: Как получить список поставщиков
     href: how-to-get-contractors.md
   - name: Как отфильтровать элементы по названию стадии
-    href: how-to-get-elements-by-stage-filter.md    
-    
-    
+    href: how-to-get-elements-by-stage-filter.md

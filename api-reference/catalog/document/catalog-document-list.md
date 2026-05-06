@@ -1,5 +1,11 @@
 # Получить список документов складского учета catalog.document.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
@@ -206,8 +212,7 @@
         {
             select: ['id', 'docType', 'title', 'status'],
             filter: { '>=dateCreate': '2025-10-01T00:00:00+03:00', '<=dateCreate': '2025-10-15T23:59:59+03:00' },
-            order:  { id: 'ASC' },
-            start:  '50'
+            order:  { id: 'ASC' }
         },
         function(result)
         {

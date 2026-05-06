@@ -1,5 +1,11 @@
 # Объекты и поля чат-ботов 2.0
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 Описание объектов, которые возвращаются в ответах методов `im.v2` и `imbot.v2`, а также в данных событий и webhook-уведомлениях.
 
 > Быстрый переход: [User](#user) | [Bot](#bot) | [Chat](#chat) | [Message](#message) | [File](#file) | [Command](#command)
@@ -449,8 +455,8 @@
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](./change-log.md)
 - [{#T}](./index.md)
 - [{#T}](./imbot.v2/bots/index.md)
 - [{#T}](./imbot.v2/events/events.md)
 - [{#T}](./im.v2/events/events.md)
-

@@ -1,5 +1,11 @@
 # Получить параметры элемента или список элементов lists.element.get
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`lists`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» для нужного списка
@@ -275,14 +281,17 @@
             },
             ELEMENT_ORDER: {
                 NAME: 'asc'
-            },
-            start: 0
+            }
         },
         function(res) {
             if (res.error()) {
                 console.error(res.error());
             } else {
                 console.log(res.data());
+
+                if (res.more()) {
+                    res.next();
+                }
             }
         }
     );

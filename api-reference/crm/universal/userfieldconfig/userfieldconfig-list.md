@@ -1,6 +1,12 @@
 # Получить список настроек пользовательских полей userfieldconfig.list
 
-> Scope: [`userfieldconfig`](../../../../scopes/permissions.md), scope модуля из `moduleId` (например, [`crm`](../../../../scopes/permissions.md))
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
+> Scope: [`userfieldconfig`](../../../scopes/permissions.md), scope модуля из `moduleId` (например, [`crm`](../../../scopes/permissions.md))
 >
 > Кто может выполнять метод: пользователь с правом чтения объекта, которому принадлежат поля, в модуле `moduleId`
 
@@ -8,7 +14,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -147,7 +153,7 @@
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -255,13 +261,18 @@
             filter: {
                 multiple: 'Y',
             },
-            start: 0,
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data())
-            ;
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            console.info(result.data());
+
+            if (result.more()) {
+                result.next();
+            }
         },
     );
     ```
@@ -440,7 +451,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -451,7 +462,7 @@ HTTP-статус: **400**
 || `-` | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
 |#
 
-{% include [системные ошибки](../../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

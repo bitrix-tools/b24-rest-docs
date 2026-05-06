@@ -1,12 +1,18 @@
 # Пользовательские типы полей в CRM
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 В CRM можно создавать поля двух типов:
 - стандартные: число, строка, дата, адрес, ссылка, файл и так далее,
 - пользовательские: встройки приложений внутри карточки CRM.
   
 С помощью полей пользовательского типа можно:
 
-- выводить в карточке CRM данные, которым не подходят стандартные типы полей. Фактически данные будут храниться в базе приложения в нужном формате, а встройка будет показывать их внутри поля.
+- выводить в карточке CRM данные, которым не подходят стандартные типы полей. Значение поля сохраняется в Битрикс24, а приложение показывает его внутри поля и при необходимости дополняет данными из своего сервиса.
 - создавать элементы интерфейса в карточках CRM. Например, выводить внутри поля кнопки для управления приложением.
 - интегрировать внешние сервисы в карточку CRM. Например, выводить в поле динамическую информацию. При каждом открытии карточки поле будет совершать запрос к обработчику приложения и автоматически подгружать свежие данные.
 
@@ -17,13 +23,13 @@
 ## Связь с объектами CRM
 
 Пользовательские типы полей можно добавлять в карточки:
-- [сделок](../../deals/index.md) — используйте методы [crm.deal.userfield.add](../../deals/user-defined-fields/crm-deal-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig/userfieldconfig-add.md),
-- [лидов](../../leads/index.md) — [crm.lead.userfield.add](../../leads/userfield/crm-lead-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig/userfieldconfig-add.md),
-- [контактов](../../contacts/index.md) — [crm.contact.userfield.add](../../contacts/userfield/crm-contact-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig/userfieldconfig-add.md),
-- [компаний](../../companies/index.md) — [crm.company.userfield.add](../../companies/userfields/crm-company-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig/userfieldconfig-add.md),
-- [новых счетов](../invoice.md) — [userfieldconfig.add](../userfieldconfig/userfieldconfig/userfieldconfig-add.md),
-- [коммерческих предложений](../../quote/index.md) — [crm.quote.userfield.add](../../quote/user-field/crm-quote-user-field-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig/userfieldconfig-add.md),
-- [смарт-процессов](../index.md) — [userfieldconfig.add](../userfieldconfig/userfieldconfig/userfieldconfig-add.md).
+- [сделок](../../deals/index.md) — используйте методы [crm.deal.userfield.add](../../deals/user-defined-fields/crm-deal-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
+- [лидов](../../leads/index.md) — [crm.lead.userfield.add](../../leads/userfield/crm-lead-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
+- [контактов](../../contacts/index.md) — [crm.contact.userfield.add](../../contacts/userfield/crm-contact-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
+- [компаний](../../companies/index.md) — [crm.company.userfield.add](../../companies/userfields/crm-company-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
+- [новых счетов](../invoice.md) — [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
+- [коммерческих предложений](../../quote/index.md) — [crm.quote.userfield.add](../../quote/user-field/crm-quote-user-field-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
+- [смарт-процессов](../index.md) — [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md).
 
 В поле `USER_TYPE_ID` передавайте значение по форме `rest_#ID_приложения#_#USER_TYPE_ID#`. Например, для приложения с `ID: 123` и `USER_TYPE_ID: userfield1` значение будет `rest_123_test_userfield1`.
 

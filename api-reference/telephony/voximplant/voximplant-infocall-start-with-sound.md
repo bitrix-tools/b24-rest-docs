@@ -1,5 +1,11 @@
 # Осуществить автозвонок с проигрыванием MP3-файла voximplant.infocall.startwithsound
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`telephony`](../../scopes/permissions.md), [`call`](../../scopes/permissions.md) 
 >
 > Кто может выполнять метод: пользователь с правом Исходящий звонок — Выполнение

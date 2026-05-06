@@ -1,5 +1,11 @@
 # Событие на удаление товара onCrmProductDelete
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 {% note warning "Развитие события остановлено" %}
 
 Событие `onCrmProductDelete` продолжает работать, но у него есть более актуальный аналог [CATALOG.PRODUCT.ON.DELETE](../../../../catalog/product/events/catalog-product-on-delete.md).

@@ -1,5 +1,11 @@
 # Получить список пользователей с поиском по персональным данным user.search
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`user`](../scopes/permissions.md), [`user_brief`](../scopes/permissions.md), [`user_basic`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -162,15 +168,22 @@
         {
             "UF_DEPARTMENT": 1,
             "SORT": "ID",
-            "ORDER": "asc",
-            "start": 10
+            "ORDER": "asc"
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
+            {
                 console.error(result.error());
-            else
-                console.dir(result.data());
+                return;
+            }
+
+            console.dir(result.data());
+
+            if (result.more())
+            {
+                result.next();
+            }
         }
     );
     ```

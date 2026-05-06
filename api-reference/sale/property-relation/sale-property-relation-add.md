@@ -1,5 +1,11 @@
 # Добавить привязку свойства sale.propertyRelation.add
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
@@ -198,7 +204,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа
  ||
-|| **propertyRelations**
+|| **propertyRelation**
 [`sale_order_property_relation`](../data-types.md) | Объект с информацией о созданной привязке ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||

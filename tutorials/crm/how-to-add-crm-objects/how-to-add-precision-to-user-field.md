@@ -79,10 +79,10 @@
 
 Создадим поле с типом число с настройкой точности три знака после запятой. Если в поле ввести значение с четырьмя или более знаками после запятой, оно автоматически округлится до трех знаков.
 
-Чтобы создать пользовательское поле, используем метод [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md) с параметрами:
+Чтобы создать пользовательское поле, используем метод [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) с параметрами:
 
 - `moduleId` — идентификатор модуля в котором метод создаст поле, обязательный параметр. В примере создаем поле для сделок, модуль — `crm`
-- `field[entityId]` — идентификатор объекта по формуле `CRM_ + {ID}`, обязательный параметр. Перечень идентификаторов для объектов есть в статье — [Идентификаторы entityId](../../../api-reference/crm/universal/userfieldconfig/entity-id.md). В примере укажем `CRM_DEAL`
+- `field[entityId]` — идентификатор объекта по формуле `CRM_ + {ID}`, обязательный параметр. Перечень идентификаторов для объектов есть в статье [Настройки пользовательских полей](../../../api-reference/crm/universal/userfieldconfig/index.md#entity-id). В примере укажем `CRM_DEAL`
 
 - `field[fieldName]` — код поля по формуле `UF_ + {идентификатор объекта} + _ + {произвольная строка в UPPERCASE}` . Ограничение длины кода — 50 символов, обязательный параметр. В примере укажем `UF_CRM_DEAL_NEW_DOUBLE_FIELD`
 
@@ -201,7 +201,7 @@
 
 ## Изменяем настройку существующего числового поля
 
-Чтобы изменить настройку округления существующего поля используем метод [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-update.md) с указанием ID поля. ID поля можно получить двумя способами: при создании поля методом [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md) или через метод получения списка пользовательских полей объекта. В примере поле cделки, поэтому используем метод [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md).
+Чтобы изменить настройку округления существующего поля используем метод [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md) с указанием ID поля. ID поля можно получить двумя способами: при создании поля методом [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) или через метод получения списка пользовательских полей объекта. В примере поле cделки, поэтому используем метод [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md).
 
 ### 1. Получаем ID поля
 
@@ -309,7 +309,7 @@
 
 ### 2. Изменяем настройку для округления значения в поле
 
-Для изменения настройки существующего поля используем метод [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-update.md) с параметрами:
+Для изменения настройки существующего поля используем метод [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md) с параметрами:
 
 - `moduleId` — идентификатор модуля в котором метод изменит поле, обязательный параметр. В примере изменяем поле сделок, модуль — `crm`
 

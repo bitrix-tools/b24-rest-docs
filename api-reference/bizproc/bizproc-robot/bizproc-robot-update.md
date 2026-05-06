@@ -1,5 +1,11 @@
 # Обновить поля робота bizproc.robot.update
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`bizproc`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
@@ -144,6 +150,7 @@
   - `date` — дата
   - `datetime` — дата и время
   - `double` — число
+  - `file` — файл
   - `int` — целое число 
   - `select` — список
   - `string` — строка
@@ -175,54 +182,81 @@
 
 #### Примеры объектов
 
-```js
-// пример для типа select
-'docType': {
-    'Name': {
-        'ru': 'Тип документа',
-        'en': 'Document type'
-    },
-    'Required': 'Y',
-    'Multiple': 'N',
-    'Default': 'PDF',
-    'Type': 'select',
-    'Options': {
-        'pdf': 'PDF',
-        'docx': 'DOCX'
-    }
-}
+Ниже приведены примеры объектов `PROPERTY` для разных типов параметров.
 
-// пример для типа bool
-'saveDoc': {
-    'Name': {
-        'ru': 'Сохранить документ',
-        'en': 'Save document'
-    },
-    'Description': {
-        'ru': 'Присвоить порядковый номер',
-        'en': 'Assign a sequential number'
-    },
-    'Type': 'bool',
-    'Required': 'Y',
-    'Multiple': 'N',
-    'Default': 'Y'
-}
+- `select`
 
-// пример для типа string
-'Parameters': {
-    'Name': {
-        'ru': 'Параметры шаблона',
-        'en': 'Template\'s parameters'
-    },
-    'Description': {
-        'ru': 'ParamID={=ParamValue}',
-        'en': 'ParamID={=ParamValue}'
-    },
-    'Type': 'string',
-    'Required': 'N',
-    'Multiple': 'Y'
-}
-```
+  ```js
+  'docType': {
+      'Name': {
+          'ru': 'Тип документа',
+          'en': 'Document type'
+      },
+      'Required': 'Y',
+      'Multiple': 'N',
+      'Default': 'PDF',
+      'Type': 'select',
+      'Options': {
+          'pdf': 'PDF',
+          'docx': 'DOCX'
+      }
+  }
+  ```
+
+- `bool`
+
+  ```js
+  'saveDoc': {
+      'Name': {
+          'ru': 'Сохранить документ',
+          'en': 'Save document'
+      },
+      'Description': {
+          'ru': 'Присвоить порядковый номер',
+          'en': 'Assign a sequential number'
+      },
+      'Type': 'bool',
+      'Required': 'Y',
+      'Multiple': 'N',
+      'Default': 'Y'
+  }
+  ```
+
+- `file`
+
+  ```js
+  'attachment': {
+      'Name': {
+          'ru': 'Файл',
+          'en': 'File'
+      },
+      'Description': {
+          'ru': 'Файл для отправки',
+          'en': 'File to send'
+      },
+      'Type': 'file',
+      'Required': 'N',
+      'Multiple': 'Y'
+  }
+  ```
+
+- `string`
+
+  ```js
+  'Parameters': {
+      'Name': {
+          'ru': 'Параметры шаблона',
+          'en': 'Template\'s parameters'
+      },
+      'Description': {
+          'ru': 'ParamID={=ParamValue}',
+          'en': 'ParamID={=ParamValue}'
+      },
+      'Type': 'string',
+      'Required': 'N',
+      'Multiple': 'Y'
+  }
+  ```
 
 ## Примеры кода
 

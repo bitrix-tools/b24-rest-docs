@@ -1,29 +1,93 @@
-# Список методов работы с блоками
+# Работа с блоками страницы: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+{% note tip "" %}
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
 
 {% endnote %}
 
-> Scope: [`landing`](../../../scopes/permissions.md)
->
-> Кто может выполнять метод: любой пользователь
+Группа методов управляет блоками страницы в режиме редактирования. С ее помощью можно добавлять новые блоки, менять их порядок, скрывать, удалять, восстанавливать и сохранять в «Мои блоки».
 
-Добавление блока происходит в режиме редактирования страницы. В данном режиме иные идентификаторы блоков, чем у опубликованной страницы. После работы с блоками страницу необходимо опубликовать.
+{% note warning "" %}
+
+Методы изменяют блоки в черновике страницы. Если страница уже опубликована, у блока в опубликованной версии и в версии для редактирования могут быть разные идентификаторы. Для изменения передавайте идентификатор блока из версии для редактирования. Получите его методом [landing.block.getList](../../block/methods/landing-block-get-list.md) с параметром `params.edit_mode = 1`. После изменений опубликуйте страницу методом [landing.landing.publication](../methods/landing-landing-publication.md).
+
+{% endnote %}
+
+> Быстрый переход: [все методы](#all-methods)
+
+## Как работать с блоками
+
+1. Получите идентификатор страницы методом [landing.landing.getList](../methods/landing-landing-get-list.md) или используйте `lid`, который вернули методы [landing.landing.add](../methods/landing-landing-add.md), [landing.landing.addByTemplate](../methods/landing-landing-add-by-template.md) и [landing.landing.copy](../methods/landing-landing-copy.md)
+2. Если нужно работать с уже существующим блоком, получите список блоков методом [landing.block.getList](../../block/methods/landing-block-get-list.md) с параметром `params.edit_mode = 1`
+3. Выберите нужное действие в зависимости от сценария
+
+   - [landing.landing.addblock](./landing-landing-add-block.md) — добавить новый блок из репозитория. Доступные коды блоков возвращает [landing.block.getrepository](../../block/methods/landing-block-get-repository.md)
+   - [landing.landing.copyblock](./landing-landing-copy-block.md) — скопировать блок
+   - [landing.landing.moveblock](./landing-landing-move-block.md), [landing.landing.upblock](./landing-landing-up-block.md), [landing.landing.downblock](./landing-landing-down-block.md) — изменить положение блока
+   - [landing.landing.hideblock](./landing-landing-hide-block.md) и [landing.landing.showblock](./landing-landing-show-block.md) — управлять видимостью блока
+   - [landing.landing.markdeletedblock](./landing-landing-mark-deleted-block.md), [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md), [landing.landing.deleteblock](./landing-landing-delete-block.md) — удалить блок временно или полностью
+   - [landing.landing.favoriteBlock](./landing-landing-favorite-block.md) и [landing.landing.unFavoriteBlock](./landing-landing-unfavorite-block.md) — работать с сохраненными блоками
+4. После изменений опубликуйте страницу методом [landing.landing.publication](../methods/landing-landing-publication.md)
+
+## Что нужно учитывать
+
+Параметр `scope` задает внутренний тип сайта или страницы. Он не связан со скоупом доступа `landing`. Для страниц в скоупах `knowledge`, `group` и `mainpage` передавайте корректный `scope`, иначе метод может не найти страницу или блок.
+
+## Как выбрать метод
 
 #|
-|| **Метод** | **Описание** | **С версии** ||
-|| [landing.landing.addblock](./landing-landing-add-block.md) | Метод для добавление нового блока на страницу. | ||
-|| [landing.landing.copyblock](./landing-landing-copy-block.md) | Метод для копирования блока со страницы на страницу. | ||
-|| [landing.landing.deleteblock](./landing-landing-delete-block.md) | Метод для удаление блока со страницы. | ||
-|| [landing.landing.downblock](./landing-landing-down-block.md) | Метод для опускания блока на одну позицию вниз на странице. | ||
-|| [landing.landing.favoriteBlock](./landing-landing-favorite-block.md) | Метод сохраняет имеющийся на странице блок в «Мои блоки». | 21.800.0 ||
-|| [landing.landing.hideblock](./landing-landing-hide-block.md) | Метод скрывает блок со страницы. | ||
-|| [landing.landing.markdeletedblock](./landing-landing-mark-deleted-block.md) | Метод помечает блок как удаленный, но не удаляет его физически. | ||
-|| [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md) | Метод восстанавливает блок из помеченных как удаленный | ||
-|| [landing.landing.moveblock](./landing-landing-move-block.md) | Метод для переноса блока со страницы на страницу. | ||
-|| [landing.landing.showblock](./landing-landing-show-block.md) | Метод показывает блок на странице. | ||
-|| [landing.landing.unFavoriteBlock](./landing-landing-unfavorite-block.md) | Метод удаляет блок, который был сохранен в «Мои блоки». | 21.800.0 ||
-|| [landing.landing.upblock](./landing-landing-up-block.md) | Метод для поднятия блока на одну позицию вверх на странице. | ||
+|| **Если нужно** | **Метод** ||
+|| Добавить новый блок из репозитория на страницу | [landing.landing.addblock](./landing-landing-add-block.md) ||
+|| Скопировать блок на эту же или другую страницу | [landing.landing.copyblock](./landing-landing-copy-block.md) ||
+|| Перенести блок на другую страницу | [landing.landing.moveblock](./landing-landing-move-block.md) ||
+|| Изменить порядок блока на странице | [landing.landing.upblock](./landing-landing-up-block.md) или [landing.landing.downblock](./landing-landing-down-block.md) ||
+|| Временно скрыть или снова показать блок | [landing.landing.hideblock](./landing-landing-hide-block.md) или [landing.landing.showblock](./landing-landing-show-block.md) ||
+|| Пометить блок как удаленный или восстановить его | [landing.landing.markdeletedblock](./landing-landing-mark-deleted-block.md) или [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md) ||
+|| Удалить блок со страницы полностью | [landing.landing.deleteblock](./landing-landing-delete-block.md) ||
+|| Сохранить блок в «Мои блоки» или удалить его из сохраненных | [landing.landing.favoriteBlock](./landing-landing-favorite-block.md) или [landing.landing.unFavoriteBlock](./landing-landing-unfavorite-block.md) ||
+|#
+
+## Связь с другими объектами
+
+**Список блоков страницы.** Метод [landing.block.getList](../../block/methods/landing-block-get-list.md) возвращает состав страницы и текущее состояние ее блоков.
+
+**Репозиторий блоков.** В репозитории хранятся коды стандартных блоков и блоков, зарегистрированных приложением. Для блока приложения используйте код вида `repo_<ID>`.
+
+**Файл превью.** Для [landing.landing.favoriteBlock](./landing-landing-favorite-block.md) идентификатор файла превью возвращает [landing.block.uploadfile](../../block/methods/landing-block-upload-file.md).
+
+## Обзор методов {#all-methods}
+
+> Scope: [`landing`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правом редактировать страницу
+
+### Добавление и копирование
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.landing.addblock](./landing-landing-add-block.md) | Добавляет новый блок на страницу ||
+|| [landing.landing.copyblock](./landing-landing-copy-block.md) | Копирует блок на страницу ||
+|| [landing.landing.favoriteBlock](./landing-landing-favorite-block.md) | Сохраняет блок в «Мои блоки» ||
+|| [landing.landing.unFavoriteBlock](./landing-landing-unfavorite-block.md) | Удаляет блок из «Моих блоков» ||
+|#
+
+### Положение и видимость
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.landing.moveblock](./landing-landing-move-block.md) | Перемещает блок на страницу ||
+|| [landing.landing.upblock](./landing-landing-up-block.md) | Поднимает блок на одну позицию вверх ||
+|| [landing.landing.downblock](./landing-landing-down-block.md) | Опускает блок на одну позицию вниз ||
+|| [landing.landing.hideblock](./landing-landing-hide-block.md) | Скрывает блок на странице ||
+|| [landing.landing.showblock](./landing-landing-show-block.md) | Показывает блок на странице ||
+|#
+
+### Удаление и восстановление
+
+#|
+|| **Метод** | **Описание** ||
+|| [landing.landing.deleteblock](./landing-landing-delete-block.md) | Удаляет блок со страницы ||
+|| [landing.landing.markdeletedblock](./landing-landing-mark-deleted-block.md) | Помечает блок как удаленный без физического удаления ||
+|| [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md) | Восстанавливает блок из удаленных ||
 |#

@@ -1,5 +1,11 @@
 # Форматы событий imbot.v2
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 Описание всех событий, которые бот получает через [imbot.v2.Event.get](./event-get.md) (FETCH-режим) или через webhook.
 
 Поля объектов `message`, `chat`, `user` описаны в [{#T}](../../entities.md).
@@ -587,6 +593,7 @@ Webhook-события доставляются через систему соб
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./event-get.md)
 - [{#T}](../../entities.md)
 - [{#T}](../messages/chat-message-reaction-add.md)

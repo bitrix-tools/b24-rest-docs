@@ -1,11 +1,17 @@
 title: Настройки пользовательских полей
 href: index.md
 items: 
-  - name: Настройки пользовательских полей
+  - name: Обзор методов
     href: index.md
-  - name: Идентификаторы entityId
-    href: entity-id.md
-  - name: Работа с пользовательскими полями
-    include:
-      path: userfieldconfig/b24-toc.yaml
-      mode: link
+  - name: Добавить пользовательское поле
+    href: userfieldconfig-add.md
+  - name: Удалить настройки пользовательского поля
+    href: userfieldconfig-delete.md
+  - name: Получить данные о настройках пользовательского поля
+    href: userfieldconfig-get.md
+  - name: Получить доступные типы пользовательских полей
+    href: userfieldconfig-get-types.md
+  - name: Получить список настроек пользовательских полей
+    href: userfieldconfig-list.md
+  - name: Изменить значения пользовательского поля
+    href: userfieldconfig-update.md

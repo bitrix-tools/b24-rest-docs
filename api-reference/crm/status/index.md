@@ -1,5 +1,11 @@
 # Справочники в CRM: обзор методов
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 В карточках элементов CRM есть два вида полей типа «список»: 
 
 * пользовательские поля  — их можно создавать, изменять значения списка, удалять через методы crm.xx.userfield.*. Например, для создания пользовательского поля типа список в сделках используйте [crm.deal.userfield.add](../deals/user-defined-fields/crm-deal-userfield-add.md)
@@ -20,7 +26,7 @@
 * [Счета](../universal/invoice.md) — `SMART_INVOICE_STAGE_xx`, xx —  значение ID направления счетов
 * [Предложения](../quote/index.md) — `QUOTE_STATUS`
 * [Документы](https://helpdesk.bitrix24.ru/open/17572968/) — `SMART_DOCUMENT_STAGE_xx`, xx — значение ID направления документов 
-* [Смарт-процессы](../universal/index.md) —  `DYNAMIC_xx_STAGE_xx`, первый xx — это ID смарт-процесса, второй xx — это ID направления
+* [Смарт-процессы](../universal/index.md) —  `DYNAMIC_xx_STAGE_xx`, первый xx — это `entityTypeId` смарт-процесса, второй xx — это ID направления
 
 Чтобы получить ID направления на конкретном Битрикс24, используйте метод [crm.status.entity.types](./crm-status-entity-types.md).
 

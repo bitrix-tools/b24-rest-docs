@@ -1,5 +1,11 @@
 # Получить права доступа к сайту landing.site.getRights
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`landing`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «просмотр» раздела «Сайты и магазины»
@@ -216,4 +222,5 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./landing-site-set-rights.md)
-- [Отличия моделей прав](../distinction.md)
+- [{#T}](../landing-role-is-enabled.md)
+- [{#T}](../landing-role-enable.md)

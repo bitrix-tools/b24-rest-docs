@@ -1,5 +1,11 @@
 #  Получить список свойств корзины sale.basketproperties.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: менеджер магазина
@@ -236,7 +242,6 @@ start = (N-1) * 50, где N – номер нужной страницы
             order: {
                 id: 'desc',
             },
-            start: 0,
         },
     )
         .then(
@@ -249,6 +254,11 @@ start = (N-1) * 50, где N – номер нужной страницы
                 else
                 {
                     console.log(result.data);
+
+                    if (result.more())
+                    {
+                        result.next();
+                    }
                 }
             },
             function(error)

@@ -1,5 +1,11 @@
 # Сгенерировать ссылку на определенную оплату salescenter.payment.getPublicUrl
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`salescenter`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
@@ -157,11 +163,13 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **url**
+|| **result.payment**
+[`object`](../../../data-types.md) | Объект с данными ссылки на оплату ||
+|| **result.payment.url**
 [`string`](../../../data-types.md) | Ссылка на оплату ||
-|| **shortUrl**
+|| **result.payment.shortUrl**
 [`string`](../../../data-types.md) | Короткая ссылка на оплату ||
-|| **qr**
+|| **result.payment.qr**
 [`string`](../../../data-types.md) | QR-код, содержащий короткую ссылку на оплату ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||

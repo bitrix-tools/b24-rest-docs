@@ -1,5 +1,11 @@
 # Получить данные о рабочей группе socialnetwork.api.workgroup.get
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`socialnetwork`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

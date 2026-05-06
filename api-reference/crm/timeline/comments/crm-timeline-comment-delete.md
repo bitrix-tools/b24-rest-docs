@@ -1,5 +1,11 @@
 # Удалить комментарий crm.timeline.comment.delete
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: `любой пользователь`
@@ -16,14 +22,14 @@
 || **id***
 [`integer`](../../../data-types.md) | Целочисленный идентификатор дела типа «Комментарий» (например, `1`). Получить идентификаторы можно методом [`crm.timeline.comment.list`](./crm-timeline-comment-list.md) ||
 || **ownerTypeId**
-[`integer`](../../data-types.md#object_type) | [Целочисленный идентификатор типа сущности CRM](../../data-types.md#object_type), к которому привязан комментарий (например, `2` для сделки) ||
+[`integer`](../../data-types.md#object_type) | [Целочисленный идентификатор типа объекта CRM](../../data-types.md#object_type), к которому привязан комментарий (например, `2` для сделки) ||
 || **ownerId**
 [`integer`](../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязан комментарий (например, `1`). Получить список идентификаторов  можно с помощью метода [`crm.timeline.bindings.list`](../bindings/crm-timeline-bindings-list.md) (поле `ENTITY_ID`) ||
 |#
 
 {% note warning %}
 
-При указании `ownerTypeId` и `ownerTypeId`, если комментарий имеет привязки к нескольким элементам, комментарий удалится у сущности, идентификаторы которой были переданы. Получить список всех связей для комментария можно с помощью метода [`crm.timeline.bindings.list`](../bindings/crm-timeline-bindings-list.md)
+При указании `ownerTypeId` и `ownerId`, если комментарий имеет привязки к нескольким элементам, комментарий удалится у элемента, идентификаторы которого были переданы. Получить список всех связей для комментария можно с помощью метода [`crm.timeline.bindings.list`](../bindings/crm-timeline-bindings-list.md)
 
 {% endnote %}
 

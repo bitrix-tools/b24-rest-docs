@@ -1,5 +1,11 @@
 # Получить список привязок поставщиков к документам catalog.documentcontractor.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами:
@@ -194,8 +200,7 @@
         {
             select: ["id", "documentId"],
             filter: { "documentId": 7 },
-            order: { "id": "ASC" },
-            start: 0
+            order: { "id": "ASC" }
         },
         function(result)
         {
@@ -206,11 +211,10 @@
             else
             {
                 console.log(result.data());
-                
-                // Если есть следующая страница
+
                 if (result.more())
                 {
-                    console.log('Next page start: ' + result.next());
+                    result.next();
                 }
             }
         }

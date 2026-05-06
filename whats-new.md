@@ -2,11 +2,156 @@
 
 ## 2026
 
+### 28 апреля, 2026
+
+- Обновили страницы [Как добавить данные в CRM: обзор кейсов и сценариев](./tutorials/crm/how-to-add-crm-objects/index.md) и [Типовые кейсы и сценарии в Открытых линиях](./tutorials/openlines/index.md)
+
+### 24 апреля, 2026
+
+- Обновили кейсы раздела [Частые кейсы и сценарии генератора документов](./api-reference/document-generator/examples/index.md). Добавили пояснения по подготовке данных для генерации документов
+
+### 23 апреля, 2026
+
+- Обновили страницу [Рекомендации по безопасности в приложениях на REST API](./settings/cloud-and-on-premise/security-recommendations.md)
+- Обновили главную страницу раздела [Сайты и магазины](./api-reference/landing/index.md). Добавили пояснения по выбору методов для работы с блоками
+- Обновили страницу [Работа с блоками страницы](./api-reference/landing/page/block-methods/index.md). Добавили таблицу выбора метода по задаче
+- Обновили страницу [Как работать с файлами](./api-reference/files/index.md). Добавили вводную информацию, типы файловых полей, связи с другими объектами и выбор инструкции
+- Обновили страницу [Редактирование данных в CRM](./tutorials/crm/how-to-edit-crm-objects/index.md). Добавили вводную информацию, связи с объектами CRM и обзор сценариев
+- Обновили страницу [Получение списков в CRM](./tutorials/crm/how-to-get-lists/index.md). Добавили вводную информацию, связи с объектами CRM и обзор сценариев
+- Обновили главную страницу раздела [Системное дело](./api-reference/crm/timeline/activities/activity-base/index.md) в CRM. Добавили вводную информацию, сценарий начала работы, связи с другими объектами и обзор методов
+- Обновили главную страницу раздела [Связи дел с элементами CRM](./api-reference/crm/timeline/activities/binding/index.md). Добавили вводную информацию, сценарий начала работы, особенности работы и связи с другими объектами
+- Обновили главную страницу раздела [Связи записей таймлайна с элементами CRM](./api-reference/crm/timeline/bindings/index.md). Добавили вводную информацию, сценарий начала работы, связи с другими объектами и обзор методов
+- Обновили главную страницу раздела [Заметки к записям таймлайна](./api-reference/crm/timeline/note/index.md). Добавили вводную информацию, сценарий начала работы, связи с другими объектами и обзор методов
+
+### 22 апреля, 2026
+
+- Добавили новые методы [sign.b2e.document.send](./api-reference/sign/sign-b2e-document-send.md), [sign.b2e.document.get](./api-reference/sign/sign-b2e-document-get.md), [sign.b2e.company.provider.list](./api-reference/sign/sign-b2e-company-provider-list.md) и события [OnSignB2eDocumentStatusChanged](./api-reference/sign/events/on-sign-b2e-document-status-changed.md), [OnSignB2eMemberStatusChanged](./api-reference/sign/events/on-sign-b2e-member-status-changed.md) в разделе [Подпись](./api-reference/sign/index.md)
+
+### 21 апреля, 2026
+
+- Обновили главную страницу раздела [Дополнительные контентные блоки таймлайна](./api-reference/crm/timeline/layout-blocks/index.md)
+- Обновили главную страницу раздела [Роботы приложений](./api-reference/bizproc/bizproc-robot/index.md)
+
+### 20 апреля, 2026
+
+- Обновили главную страницу раздела [CRM](./api-reference/crm/index.md). Добавили вводную информацию, связи с другими объектами и обзор разделов и методов
+- Обновили главную страницу раздела [Журнал лог-записей](./api-reference/crm/timeline/logmessage/index.md)
+- Обновили главную страницу раздела [Иконки лог-записей](./api-reference/crm/timeline/logmessage/icons/index.md)
+- Обновили главную страницу раздела [Логотипы лог-записей](./api-reference/crm/timeline/logmessage/logo/index.md)
+- Обновили главную страницу раздела [Методы работы с блоками](./api-reference/landing/block/methods/index.md) в Сайтах и магазинах. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Управление карточками элементов](./api-reference/crm/universal/item-details-configuration/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Комментарии](./api-reference/crm/timeline/comments/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [События](./api-reference/crm/timeline/comments/events/index.md) в Комментариях CRM
+
+### 17 апреля, 2026
+
+- Обновили главную страницу раздела [События при работе с делами CRM](./api-reference/crm/timeline/activities/events/index.md). Добавили вводную информацию и обзор событий
+- Обновили главную страницу раздела [События при работе с реквизитами](./api-reference/crm/requisites/events/index.md). Добавили вводную информацию и обзор событий
+- Обновили страницу [Автоматизация CRM: обзор методов](./api-reference/crm/automation/index.md). Добавили вводную информацию, сценарии начала работы и связи с другими объектами
+- Обновили главную страницу раздела [Триггеры автоматизации CRM](./api-reference/crm/automation/triggers/index.md). Добавили вводную информацию и сценарий начала работы
+- Обновили страницу [Генератор документов: обзор методов и событий](./api-reference/crm/document-generator/index.md). Добавили вводную информацию, сценарий начала работы, связи с другими объектами и обзор методов и событий
+- Обновили главную страницу раздела [Документы](./api-reference/crm/document-generator/documents/index.md) в Генераторе документов. Добавили вводную информацию и сценарий начала работы
+- Обновили главную страницу раздела [Шаблоны документов](./api-reference/crm/document-generator/templates/index.md) в Генераторе документов. Добавили вводную информацию, сценарий начала работы и связи с другими объектами
+- Обновили главную страницу раздела [Нумераторы](./api-reference/crm/document-generator/numerator/index.md) в Генераторе документов. Добавили вводную информацию, сценарий начала работы и важные ограничения
+- Обновили главную страницу раздела [Воронки CRM](./api-reference/crm/universal/category/index.md). Добавили вводную информацию, сценарий начала работы и связи с другими объектами
+- Обновили главную страницу раздела [BIconnector](./api-reference/biconnector/index.md)
+- Обновили главную страницу раздела [Настройки пользовательских полей](./api-reference/crm/universal/userfieldconfig/index.md) в CRM
+- Обновили главную страницу раздела [Платежные системы](./api-reference/pay-system/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Связь CRM с заказами интернет-магазина](./api-reference/crm/universal/order-entity/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Универсальные методы CRM](./api-reference/crm/universal/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [События пользовательских типов CRM](./api-reference/crm/universal/events/type/index.md)
+- Обновили главную страницу раздела [Системные диалоги](./sdk/bx24-js-sdk/system-dialogues/index.md)
+
+### 16 апреля, 2026
+
+- Обновили страницу [Общие методы и события: обзор](./api-reference/common/index.md). Добавили вводную информацию, связи с другими объектами и обзор методов и событий с вкладками
+- Обновили главную страницу раздела [Сообщения](./api-reference/chats/messages/index.md) в Чатах. Добавили сценарий начала работы, связи с другими объектами и обновили обзор методов
+- Обновили главную страницу раздела [Объект Блоки](./api-reference/landing/block/index.md) в Сайтах и магазинах. Добавили вводную информацию, связи со страницей и репозиторием, а также обзор методов
+- Обновили страницу [Интерактивность в приложениях: обзор сценариев и методов](./settings/interactivity/index.md)
+- Обновили страницу [Места встраивания в разделе Сайты: обзор методов](./api-reference/landing/embedding/index.md)
+- Обновили страницу [Места встраивания Базы знаний: обзор методов](./api-reference/landing/embedding/knowledge-base/index.md)
+- Обновили страницу [Устаревшие методы приложений для чата](./api-reference/chats/outdated/index.md)
+- Обновили страницу [Действия приложений: обзор методов](./api-reference/bizproc/bizproc-activity/index.md) в разделе Бизнес-процессы и роботы
+- Обновили страницу [Как вызывать методы REST API](./settings/how-to-call-rest-api/index.md)
+
+### 15 апреля, 2026
+
+- Обновили главную страницу раздела [Чаты](./api-reference/chats/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Универсальные виджеты](./api-reference/widgets/universal/index.md) в Виджетах
+- Обновили главную страницу раздела [Виджеты в профиле пользователя](./api-reference/widgets/user-profile/index.md) в Виджетах
+- Обновили страницу [Интернет-магазин: обзор разделов](./api-reference/sale/index.md)
+- Обновили главную страницу раздела [События в Интернет-магазине](./api-reference/sale/events/index.md)
+- Обновили главную страницу раздела [Привязка свойств заказа в Интернет-магазине](./api-reference/sale/property-relation/index.md)
+- Обновили главную страницу раздела [Значения свойств заказа в Интернет-магазине](./api-reference/sale/property-value/index.md)
+
+### 14 апреля, 2026
+
+- Обновили главную страницу раздела [Частые кейсы и сценарии](./api-reference/document-generator/examples/index.md) в Генераторе документов
+- Обновили главные страницы разделов [Инициализация и авторизация](./sdk/bx24-js-sdk/system-functions/index.md) и [Интерфейс, навигация и контекст](./sdk/bx24-js-sdk/additional-functions/index.md) в BX24 JS SDK. Исправили вводную информацию, связи с другими объектами и ссылки на методы
+- Обновили главную страницу раздела [События](./api-reference/common/events/index.md) в Общих методах и событиях
+- Обновили главную страницу раздела [Доставки](./api-reference/crm/universal/delivery/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Оплаты и доставки](./api-reference/crm/universal/payment/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Товарные позиции в составе оплаты](./api-reference/crm/universal/payment/products-in-payment/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Доставки в оплатах](./api-reference/crm/universal/payment/delivery-in-payment/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили страницу [Торговый каталог: обзор разделов](./api-reference/catalog/index.md)
+- Обновили главную страницу раздела [Наценки в Торговом каталоге](./api-reference/catalog/extra/index.md)
+- Обновили главную страницу раздела [Коэффициенты единиц измерения в Торговом каталоге](./api-reference/catalog/ratio/index.md)
+- Обновили главную страницу раздела [Значения списочных свойств товаров](./api-reference/catalog/product-property-enum/index.md)
+- Обновили главную страницу раздела [Параметры свойств товаров и вариаций](./api-reference/catalog/product-property-feature/index.md)
+- Обновили главную страницу раздела [Переводы названий типов цен](./api-reference/catalog/price-type/price-type-lang/index.md)
+
+### 13 апреля, 2026
+
+- Обновили главную страницу раздела [Чек-листы шаблонов](./api-reference/tasks/template/checklist/index.md) в Задачах. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главные страницы разделов [Дополнительные услуги](./api-reference/sale/delivery/extra-service/index.md) и [Транспортные заявки](./api-reference/sale/delivery/delivery-request/index.md) в Интернет-магазине. Добавили вводную информацию, а также обзор методов и связей
+
+### 10 апреля, 2026
+
+- Обновили главную страницу раздела [Информация о пользователе](./api-reference/common/users/index.md). Исправили вводную информацию, структуру страницы и ссылки на методы
+- Обновили главную страницу раздела [Системные методы](./api-reference/common/system/index.md). Исправили вводную информацию, связи с другими объектами и ссылки на методы
+- Обновили главную страницу раздела [Настройки приложения](./api-reference/common/settings/index.md). Исправили вводную информацию, плашку с ограничением по контексту и ссылки на методы
+- Обновили главную страницу раздела [Триггеры автоматизации CRM](./api-reference/crm/automation/triggers/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Перечисления Торгового каталога](./api-reference/catalog/enum/index.md)
+- Обновили главную страницу раздела [Привязка типов цен к группам покупателей](./api-reference/catalog/price-type/price-type-group/index.md)
+- Обновили главную страницу раздела [Секционные настройки свойств Торгового каталога](./api-reference/catalog/product-property-section/index.md)
+- Обновили главную страницу раздела [Пользовательские поля документов складского учета](./api-reference/catalog/userfield-document/index.md)
+- Обновили главную страницу раздела [Объект Шаблон представления](./api-reference/landing/template/index.md)
+- Обновили главные страницы разделов [Права](./api-reference/landing/rights/index.md), [Расширенная модель](./api-reference/landing/rights/extended-model/index.md), [Ролевая модель](./api-reference/landing/rights/role-model/index.md) в Сайтах и магазинах
+- Обновили главную страницу раздела [Специальные страницы сайта](./api-reference/landing/page/special-pages/index.md)
+- Обновили главные страницы разделов [Объект Страница](./api-reference/landing/page/index.md) и [Работа со страницей](./api-reference/landing/page/methods/index.md)
+
+### 09 апреля, 2026
+
+- Обновили страницу [Отвязать виджет от блока](./api-reference/landing/embedding/landing-repo-unbind.md)
+- Обновили главную страницу раздела [Push&Pull](./settings/interactivity/push-and-pull/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Пользовательские блоки](./api-reference/landing/user-blocks/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Пользовательские шаблоны](./api-reference/landing/demos/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили страницу [Как подготовить пользовательский шаблон](./api-reference/landing/demos/introduction.md)
+- Обновили страницу [Локализация шаблона](./api-reference/landing/demos/localization.md)
+- Обновили главную страницу раздела [Хранилища данных](./api-reference/entity/entities/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Разделы хранилища данных](./api-reference/entity/sections/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Элементы хранилища данных](./api-reference/entity/items/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Свойства элементов хранилища данных](./api-reference/entity/items/properties/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Шаблоны](./api-reference/document-generator/templates/index.md) в Генераторе документов. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Генератор документов](./api-reference/document-generator/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Множественные поля](./api-reference/crm/auxiliary/multifield/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Пользовательские поля](./api-reference/crm/universal/user-defined-fields/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+- Обновили страницу [Обзор событий при работе с карточкой звонка WebRTC-клиента](./api-reference/widgets/ui-interaction/page-background-worker/events/index.md)
+- Добавили страницу [Управление карточкой звонка WebRTC-клиента: обзор методов](./api-reference/widgets/ui-interaction/page-background-worker/index.md)
+- Обновили главную страницу раздела [Шаблоны](./api-reference/tasks/template/index.md) в Задачах. Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Настройки поиска дубликатов по любым полям](./api-reference/crm/duplicates/volatile-type/index.md) в CRM. Добавили вводную информацию, а также обзор методов и связей
+
+### 08 апреля, 2026
+
+- Обновили главную страницу раздела [Интерактивные блоки](./api-reference/landing/block/interactive/index.md)
+- Обновили главную страницу раздела [Открытые линии](./api-reference/imopenlines/index.md)
+- Обновили главные страницы в подразделах [Открытые линии](./api-reference/imopenlines/openlines/index.md), [Операторы](./api-reference/imopenlines/openlines/operators/index.md), [Диалоги](./api-reference/imopenlines/openlines/sessions/index.md) раздела Открытые линии
+
 ### 07 апреля, 2026
 
 - Обновили главную страницу раздела [BitrixGPT](./api-reference/ai/index.md)
 - Обновили главную страницу раздела [Специальные блоки](./api-reference/landing/block/special/index.md)
-- Добавили страницу с перечнем актуальных изменений в API Чат-ботов 2.0 [Изменения API imbot.v2](./api-reference/chat-bots/chat-bots-v2/breaking-changes.md)
+- Добавили страницу с перечнем актуальных изменений в API Чат-ботов 2.0 [Изменения API imbot.v2](./api-reference/chat-bots/chat-bots-v2/change-log.md)
 - Добавили метод [imbot.v2.Revision.get](./api-reference/chat-bots/chat-bots-v2/imbot.v2/revision-get.md)
 - Обновили главную страницу раздела [Виджеты в мессенджере](./api-reference/widgets/im/index.md) в Виджетах. Добавили вводную информацию, а также обзор методов и связей
 - Обновили страницу [Работа с типами сайтов и скоупами](./api-reference/landing/types.md)
@@ -78,7 +223,7 @@
 - Обновили документацию по методам [documentgenerator.region.*](./api-reference/document-generator/region/index.md) в разделе Регионы в Генераторе документов
 - Обновили документацию по методам [entity.item.*](./api-reference/entity/items/index.md) в разделе Элементы хранилища данных
 - Обновили документацию по методам [entity.item.property.*](./api-reference/entity/items/properties/index.md) в разделе Свойства элементов хранилища данных
-- Обновили документацию по методам [userfieldconfig.*](./api-reference/crm/universal/userfieldconfig/userfieldconfig/index.md) в разделе Пользовательские поля
+- Обновили документацию по методам [userfieldconfig.*](./api-reference/crm/universal/userfieldconfig/index.md) в разделе Настройки пользовательских полей
 - Обновили документацию по методам [landing.block.clonecard](./api-reference/landing/block/methods/landing-block-clone-card.md), [landing.block.removecard](./api-reference/landing/block/methods/landing-block-remove-card.md), [landing.block.updatenodes](./api-reference/landing/block/methods/landing-block-update-nodes.md), [landing.block.changeNodeName](./api-reference/landing/block/methods/landing-block-change-node-name.md), [landing.block.updateattrs](./api-reference/landing/block/methods/landing-block-update-attrs.md), [landing.block.updateStyles](./api-reference/landing/block/methods/landing-block-update-styles.md), [landing.block.getcontent](./api-reference/landing/block/methods/landing-block-get-content.md), [landing.block.getlist](./api-reference/landing/block/methods/landing-block-get-list.md), [landing.block.getbyid](./api-reference/landing/block/methods/landing-block-get-by-id.md), [landing.block.getmanifest](./api-reference/landing/block/methods/landing-block-get-manifest.md), [landing.block.getmanifestfile](./api-reference/landing/block/methods/landing-block-get-manifest-file.md), [landing.block.getrepository](./api-reference/landing/block/methods/landing-block-get-repository.md), [landing.block.uploadfile](./api-reference/landing/block/methods/landing-block-upload-file.md), [landing.block.updatecontent](./api-reference/landing/block/methods/landing-block-update-content.md), [landing.block.addcard](./api-reference/landing/block/methods/landing-block-add-card.md), [landing.block.updateCards](./api-reference/landing/block/methods/landing-block-update-cards.md), [landing.block.changeAnchor](./api-reference/landing/block/methods/landing-block-change-anchor.md), [landing.block.getContentFromRepository](./api-reference/landing/block/methods/landing-block-get-content-from-repository.md) в разделе Методы работы с блоками
 
 ### 25 марта, 2026

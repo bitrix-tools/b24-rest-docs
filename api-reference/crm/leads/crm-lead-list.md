@@ -1,5 +1,11 @@
 # Получить список лидов crm.lead.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на чтение лидов
@@ -210,7 +216,6 @@
       'crm.lead.list',
       {
         select: ['*', 'UF_*'],
-        start: 50,
         filter: {
             '=OPPORTUNITY': 15000,
         },
@@ -227,6 +232,11 @@
         }
         
         console.info(result.data());
+
+        if (result.more())
+        {
+          result.next();
+        }
       }
     );
     ```

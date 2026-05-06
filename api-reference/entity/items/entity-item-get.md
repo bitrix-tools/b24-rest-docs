@@ -1,5 +1,11 @@
 # Получить список элементов хранилища entity.item.get
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`entity`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь авторизованный в приложении
@@ -186,13 +192,18 @@
                 '>=DATE_ACTIVE_FROM': '2026-03-01T00:00:00+03:00',
                 '<DATE_ACTIVE_FROM': '2026-04-01T00:00:00+03:00',
             },
-            start: 0,
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data())
-            ;
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            console.info(result.data());
+
+            if (result.more()) {
+                result.next();
+            }
         },
     );
     ```

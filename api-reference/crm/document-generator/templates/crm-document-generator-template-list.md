@@ -1,5 +1,11 @@
 # Получить список шаблонов документов crm.documentgenerator.template.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом "изменения" шаблонов генератора документов
@@ -184,13 +190,18 @@
             select: ['id', 'name', 'region', 'entityTypeId', 'users'],
             order: { id: 'desc' },
             filter: { region: 'ru', active: 'Y' },
-            start: 0,
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data())
-            ;
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            console.info(result.data());
+
+            if (result.more()) {
+                result.next();
+            }
         },
     );
     ```

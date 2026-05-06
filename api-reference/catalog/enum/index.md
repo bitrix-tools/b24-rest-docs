@@ -1,19 +1,29 @@
-# Методы перечисления
+# Перечисления Торгового каталога: обзор методов
 
-{% note warning "Мы еще обновляем эту страницу" %}
+{% note tip "" %}
 
-Тут может не хватать некоторых данных — дополним в ближайшее время
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
 
 {% endnote %}
+
+Методы раздела возвращают справочные перечисления Торгового каталога для использования в других методах.
+
+> Быстрый переход: [все методы](#all-methods)
+
+## Где используются перечисления каталога
+
+**Округление цен.** Метод [catalog.enum.getRoundTypes](./catalog-enum-get-round-types.md) возвращает коды типов округления. Эти значения используются при настройке правил округления через методы [catalog.roundingRule.*](../rounding-rule/index.md).
+
+**Складские документы.** Метод [catalog.enum.getStoreDocumentTypes](./catalog-enum-get-store-document-types.md) возвращает типы документов складского учета. Эти значения используются в методах раздела [catalog.document.*](../document/index.md) при создании и обработке документов.
+
+## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Методы работы с торговым каталогом:
-
 #|
 || **Метод** | **Описание** ||
-|| [catalog.enum.getRoundTypes](catalog-enum-get-round-types.md) | Метод перечисления типов округления. ||
-|| [catalog.enum.getStoreDocumentTypes](catalog-enum-get-store-document-types.md) | Метод возвращает типы документов складского учёта, доступные для REST. ||
+|| [catalog.enum.getRoundTypes](./catalog-enum-get-round-types.md) | Возвращает список типов округления, оступных в каталоге ||
+|| [catalog.enum.getStoreDocumentTypes](./catalog-enum-get-store-document-types.md) | Возвращает типы документов складского учета, доступные для REST ||
 |#

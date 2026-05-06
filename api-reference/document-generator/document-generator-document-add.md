@@ -1,5 +1,11 @@
 # Создать новый документ на основании шаблона documentgenerator.document.add
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`documentgenerator`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом на создание документов
@@ -424,7 +430,7 @@ HTTP-статус: **200**
 
 {% note info "" %}
 
-Конвертация файла в PDF выполняется асинхронно. Если поле `pdfUrl` не заполнено сразу после создания, выполните метод [documentgenerator.document.get](./document-generator-document-get.md) через 20-30 секунд.
+Конвертация файла в PDF выполняется асинхронно. Если поле `pdfUrl` не заполнено сразу после создания, повторно вызовите [documentgenerator.document.get](./document-generator-document-get.md), чтобы проверить результат конвертации.
 
 {% endnote %}
 

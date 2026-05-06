@@ -1,5 +1,11 @@
 # Получить список элементов (позиций) корзины sale.basketitem.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: менеджер магазина
@@ -213,7 +219,6 @@
             order: {
                 id: 'desc',
             },
-            start: 0,
         },
     )
         .then(
@@ -226,6 +231,11 @@
                 else
                 {
                     console.log(result.data);
+
+                    if (result.more())
+                    {
+                        result.next();
+                    }
                 }
             },
             function(error)

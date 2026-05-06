@@ -1,5 +1,11 @@
 # Список ботов приложения imbot.v2.Bot.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`imbot`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
@@ -221,13 +227,13 @@ HTTP-код: **200**
 || **isReactionsEnabled**
 [`boolean`](../../../../data-types.md) | Для сообщений бота включены реакции ||
 || **backgroundId**
-[`integer`](../../../../data-types.md) | Идентификатор фона чата ||
+[`string|null`](../../../../data-types.md) | ID фона чата или `null` ||
 || **language**
 [`string`](../../../../data-types.md) | Язык бота ||
 || **moduleId**
 [`string`](../../../../data-types.md) | Идентификатор модуля ||
 || **appId**
-[`integer`](../../../../data-types.md) | Идентификатор приложения или `0`, если бот не привязан к приложению ||
+[`string`](../../../../data-types.md) | ID приложения, зарегистрировавшего бота ||
 || **eventMode**
 [`string`](../../../../data-types.md) | Режим доставки событий: `webhook` или `fetch` ||
 || **countMessage**
@@ -290,8 +296,8 @@ HTTP-статус: **400**, **403**
 
 ## Продолжите изучение
 
+- [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./bot-register.md)
 - [{#T}](./bot-get.md)
 - [{#T}](./bot-update.md)
 - [{#T}](./bot-unregister.md)
-

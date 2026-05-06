@@ -1,5 +1,11 @@
 # Получить список значений пользовательских полей документов складского учета catalog.userfield.document.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
@@ -173,14 +179,17 @@
         {
             select: ['documentType', 'documentId', 'field7097'],
             filter: { documentType: 'A', documentId: 81 },
-            order:  { documentId: 'ASC' },
-            start:  0
+            order:  { documentId: 'ASC' }
         },
         function(result) {
             if (result.error()) {
                 console.error(result.error());
             } else {
                 console.log(result.data());
+
+                if (result.more()) {
+                    result.next();
+                }
             }
         }
     );
@@ -282,4 +291,4 @@ HTTP-код: **400**
 
 - [{#T}](./catalog-userfield-document-update.md)
 - [{#T}](../enum/catalog-enum-get-store-document-types.md)
-- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-list.md)
+- [{#T}](../../crm/universal/userfieldconfig/userfieldconfig-list.md)

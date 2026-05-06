@@ -1,5 +1,11 @@
 # События
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 {% note info "Права" %}
 
 **Scope**: [`crm`](../../../../scopes/permissions.md) | **Кто может подписаться**: `любой пользователь`
@@ -8,10 +14,10 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmInvoiceAdd](./on-crm-invoice-add.md) | при создании счёта ||
-|| [onCrmInvoiceDelete](./on-crm-invoice-delete.md) | при удалении счёта ||
-|| [onCrmInvoiceSetStatus](./on-crm-invoice-set-status.md) | при изменении статуса счёта ||
-|| [onCrmInvoiceUpdate](./on-crm-invoice-update.md) | при обновлении счёта ||
+|| [onCrmInvoiceAdd](./on-crm-invoice-add.md) | при создании счета ||
+|| [onCrmInvoiceDelete](./on-crm-invoice-delete.md) | при удалении счета ||
+|| [onCrmInvoiceSetStatus](./on-crm-invoice-set-status.md) | при изменении статуса счета ||
+|| [onCrmInvoiceUpdate](./on-crm-invoice-update.md) | при обновлении счета ||
 || [onCrmInvoiceUserFieldAdd](./on-crm-invoice-user-field-add.md) | при добавлении пользовательского поля ||
 || [onCrmInvoiceUserFieldUpdate](./on-crm-invoice-user-field-update.md) | при изменении пользовательского поля ||
 || [onCrmInvoiceUserFieldDelete](./on-crm-invoice-recurring-delete.md) | при удалении пользовательского поля ||

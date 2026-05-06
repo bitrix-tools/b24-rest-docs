@@ -1,5 +1,11 @@
 # Получить список шаблонов documentgenerator.template.list
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`documentgenerator`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом на изменение шаблонов генератора документов
@@ -228,8 +234,7 @@
               region: 'ru',
               active: 'Y',
               '>=createTime': '2026-03-18T00:00:00+03:00'
-          },
-          start: 0
+          }
       },
       function(result)
       {
@@ -240,6 +245,11 @@
           else
           {
               console.log(result.data());
+
+              if (result.more())
+              {
+                  result.next();
+              }
           }
       }
   );

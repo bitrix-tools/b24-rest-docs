@@ -20,7 +20,7 @@
 
 1. [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) — получим ID смарт-процесса
 
-2. [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md) — создадим пользовательское поле в смарт-процессе
+2. [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) — создадим пользовательское поле в смарт-процессе
 
 ## 1. Получаем идентификатор смарт-процесса {#spa-id}
 
@@ -102,7 +102,7 @@
 
 ## 2. Создаем пользовательское поле в смарт-процессе
 
-Для создания пользовательского поля используем метод [userfieldconfig.add ](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig/userfieldconfig-add.md)с параметрами:
+Для создания пользовательского поля используем метод [userfieldconfig.add ](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) с параметрами:
 
 - `moduleId` — идентификатор модуля в котором метод создаст поле, обязательный параметр. Модуль смарт-процессов — `crm`
 

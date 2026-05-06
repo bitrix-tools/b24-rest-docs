@@ -1,5 +1,11 @@
 # Поля сайта
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 Поля сайта используются в методе [landing.site.getList](./landing-site-get-list.md).
 
 Часть полей можно передавать при создании и изменении сайта через методы [landing.site.add](./landing-site-add.md) и [landing.site.update](./landing-site-update.md).

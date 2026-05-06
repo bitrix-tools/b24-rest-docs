@@ -1,5 +1,11 @@
 # Проверить, включена ли ролевая модель прав landing.role.isEnabled
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 > Scope: [`landing`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «полный доступ» к разделу «Сайты и магазины»
@@ -151,7 +157,7 @@ HTTP-статус: **200**
 
 `true` - используется ролевая модель прав. Для настройки прав используйте [landing.role.getList](./role-model/landing-role-get-list.md), [landing.role.getRights](./role-model/landing-role-get-rights.md), [landing.role.setAccessCodes](./role-model/landing-role-set-access-codes.md) и [landing.role.setRights](./role-model/landing-role-set-rights.md)
 
-`false` - используется [расширенная модель прав](./distinction.md). Для настройки прав конкретного сайта используйте [landing.site.getRights](./extended-model/landing-site-get-rights.md) и [landing.site.setRights](./extended-model/landing-site-set-rights.md) ||
+`false` - используется расширенная модель прав. Для настройки прав конкретного сайта используйте [landing.site.getRights](./extended-model/landing-site-get-rights.md) и [landing.site.setRights](./extended-model/landing-site-set-rights.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -183,7 +189,6 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./landing-role-enable.md)
-- [Отличия моделей прав](./distinction.md)
 - [{#T}](./extended-model/landing-site-get-rights.md)
 - [{#T}](./extended-model/landing-site-set-rights.md)
 - [{#T}](./role-model/landing-role-get-list.md)

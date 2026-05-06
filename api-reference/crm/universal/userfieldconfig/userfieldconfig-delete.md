@@ -1,6 +1,12 @@
 # Удалить пользовательское поле userfieldconfig.delete
 
-> Scope: [`userfieldconfig`](../../../../scopes/permissions.md), scope модуля из `moduleId` (например, [`crm`](../../../../scopes/permissions.md))
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
+> Scope: [`userfieldconfig`](../../../scopes/permissions.md), scope модуля из `moduleId` (например, [`crm`](../../../scopes/permissions.md))
 >
 > Кто может выполнять метод: пользователь с правом изменения настроек объекта в модуле `moduleId` (для `crm` — право «Разрешить изменять настройки»)
 
@@ -8,7 +14,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -23,7 +29,7 @@
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -173,7 +179,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -185,7 +191,7 @@ HTTP-статус: **400**
 || `-` | Ошибка при попытке изменения настроек пользовательских полей | Общая ошибка удаления поля ||
 |#
 
-{% include [системные ошибки](../../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

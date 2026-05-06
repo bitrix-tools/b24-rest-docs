@@ -1,5 +1,11 @@
 # Установить настройки для пользователя BX24.userOption.set
 
+{% note tip "" %}
+
+Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../mcp.md), чтобы ассистент использовал официальную REST-документацию.
+
+{% endnote %}
+
 ```js
 BX24.userOption.set(string name, string value): void;
 ```

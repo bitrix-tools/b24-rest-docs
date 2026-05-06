@@ -1,10 +1,8 @@
 title: Права
 href: index.md
 items:
-  - name: Основные положения
+  - name: Обзор методов
     href: index.md
-  - name: Отличия моделей
-    href: distinction.md
   - name: Переключить модели
     href: landing-role-enable.md
   - name: Определить модели прав
