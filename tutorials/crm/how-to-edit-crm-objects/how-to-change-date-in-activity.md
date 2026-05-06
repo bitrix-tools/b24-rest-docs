@@ -69,4 +69,35 @@
     ?>
     ```
 
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    activity_id = 42
+    time_start = datetime.now() + timedelta(days=1)
+    time_end = time_start + timedelta(hours=2)
+
+    try:
+        client.crm.activity.update(
+            bitrix_id=activity_id,
+            fields={
+                "START_TIME": time_start.strftime("%Y-%m-%d %H:%M:%S"),
+                "END_TIME": time_end.strftime("%Y-%m-%d %H:%M:%S"),
+            },
+        ).response
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
 {% endlist %}

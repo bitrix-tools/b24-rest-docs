@@ -166,6 +166,75 @@
    echo '</PRE>';
    ```
 
+- Python
+
+   ```python
+   from b24pysdk import BitrixWebhook, Client
+   from b24pysdk.errors import BitrixAPIError
+
+
+   client = Client(
+       BitrixWebhook(
+           domain="your-domain.bitrix24.com",
+           webhook_token="user_id/webhook_key",
+       )
+   )
+
+   try:
+       response = client.sale.cashbox.handler.add(
+       code="my_rest_cashbox",
+       name="Моя REST-касса",
+       sort=100,
+       settings={
+           "PRINT_URL": "http://example.ru/rest_print.php",
+           "CHECK_URL": "http://example.ru/rest_check.php",
+           "CONFIG": {
+               "AUTH": {
+                   "LABEL": "Авторизация",
+                   "ITEMS": {
+                       "LOGIN": {
+                           "TYPE": "STRING",
+                           "REQUIRED": "Y",
+                           "LABEL": "Логин",
+                       },
+                       "PASSWORD": {
+                           "TYPE": "STRING",
+                           "REQUIRED": "Y",
+                           "LABEL": "Пароль",
+                       },
+                   },
+               },
+               "COMPANY": {
+                   "LABEL": "Данные об организации",
+                   "ITEMS": {
+                       "INN": {
+                           "TYPE": "STRING",
+                           "REQUIRED": "Y",
+                           "LABEL": "ИНН организации",
+                       }
+                   },
+               },
+               "INTERACTION": {
+                   "LABEL": "Настройки взаимодействия с кассой",
+                   "ITEMS": {
+                       "MODE": {
+                           "TYPE": "ENUM",
+                           "LABEL": "Режим работы с кассой",
+                           "OPTIONS": {
+                               "ACTIVE": "боевой",
+                               "TEST": "тестовый",
+                           },
+                       }
+                   },
+               },
+           },
+       },
+       ).response
+       print(response.result)
+   except BitrixAPIError as error:
+       print(error)
+   ```
+
 {% endlist %}
 
 Если обработчик успешно добавлен, метод вернет его идентификатор. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.cashbox.handler.add](../../api-reference/sale/cashbox/sale-cashbox-handler-add.md).
@@ -287,6 +356,36 @@
    echo '<PRE>';
    print_r($result);
    echo '</PRE>';
+   ```
+
+- Python
+
+   ```python
+   try:
+       response = client.sale.cashbox.add(
+       rest_code="my_rest_cashbox",
+       name="REST касса",
+       email="owner@example.ru",
+       number_kkm="1",
+       ofd="bx_firstofd",
+       use_offline=True,
+       active=True,
+       settings={
+           "AUTH": {
+               "LOGIN": "rest_login",
+               "PASSWORD": "rest_password",
+           },
+           "COMPANY": {
+               "INN": "1234567890",
+           },
+           "INTERACTION": {
+               "MODE": "ACTIVE",
+           },
+       },
+       ).response
+       print(response.result)
+   except BitrixAPIError as error:
+       print(error)
    ```
 
 {% endlist %}
@@ -460,6 +559,25 @@
    print_r($result);
    echo '</PRE>';
    ```
+
+- Python
+
+    ```python
+    try:
+        response = client.sale.cashbox.check.apply(
+        uuid="00112233-4455-6677-8899-aabbccddeeff",
+        print_end_time="1609459200",
+        reg_number_kkt="000111222333",
+        fiscal_doc_attr="33445500",
+        fiscal_doc_number="123",
+        fiscal_receipt_number="10",
+        fn_number="0011223344556677",
+        shift_number="12",
+        ).response
+        print(response.result)
+    except BitrixAPIError as error:
+        print(error)
+    ```
 
 {% endlist %}
 

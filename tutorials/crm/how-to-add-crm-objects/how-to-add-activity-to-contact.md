@@ -50,6 +50,24 @@
    );
    ```
 
+- Python
+
+   ```python
+   from b24pysdk import BitrixWebhook, Client
+
+
+   client = Client(
+       BitrixWebhook(
+           domain="your-domain.bitrix24.com",
+           webhook_token="user_id/webhook_key",
+       )
+   )
+
+   response = client.crm.contact.get(
+       bitrix_id=1,
+   ).response
+   ```
+
 {% endlist %}
 
 В результате получим данные клиента, включая телефон `PHONE` и идентификатор ответственного сотрудника `ASSIGNED_BY_ID`.
@@ -215,6 +233,31 @@
         );
     ```
 
+- Python
+
+    ```python
+    response = client.crm.activity.add(
+        fields={
+            "SUBJECT": "calendar title",
+            "DESCRIPTION": "calendar body",
+            "DESCRIPTION_TYPE": 3,
+            "OWNER_ID": 1,
+            "OWNER_TYPE_ID": 3,
+            "TYPE_ID": 1,
+            "COMMUNICATIONS": [
+                {
+                    "VALUE": "88001001020",
+                    "ENTITY_ID": 1,
+                    "ENTITY_TYPE_ID": 3,
+                }
+            ],
+            "START_TIME": "2025-05-20T14:00:00",
+            "END_TIME": "2025-05-20T15:00:00",
+            "RESPONSIBLE_ID": 61,
+        }
+    ).response
+    ```
+
 {% endlist %}
 
 Если событие создано успешно, метод вернет его идентификатор. Если  вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md).
@@ -338,6 +381,60 @@
     {
         echo json_encode(['message' => 'Activity not added']);
     }
+    ```
+
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    contact_id = 1
+    result_activity = None
+
+    try:
+        contact = client.crm.contact.get(bitrix_id=contact_id).response.result
+
+        if contact.get("ASSIGNED_BY_ID") and contact.get("PHONE"):
+            contact_phone = contact["PHONE"][0]
+            staff_id = contact["ASSIGNED_BY_ID"]
+            now = datetime.now()
+            result_activity = client.crm.activity.add(
+                fields={
+                    "SUBJECT": "calendar title",
+                    "DESCRIPTION": "calendar body",
+                    "DESCRIPTION_TYPE": 3,
+                    "OWNER_ID": contact_id,
+                    "OWNER_TYPE_ID": 3,
+                    "TYPE_ID": 1,
+                    "COMMUNICATIONS": [
+                        {
+                            "VALUE": contact_phone["VALUE"],
+                            "ENTITY_ID": contact_id,
+                            "ENTITY_TYPE_ID": 3,
+                        }
+                    ],
+                    "START_TIME": now.isoformat(timespec="seconds"),
+                    "END_TIME": (now + timedelta(hours=1)).isoformat(timespec="seconds"),
+                    "RESPONSIBLE_ID": staff_id,
+                }
+            ).response
+    except BitrixAPIError as error:
+        print({"message": f"Activity not added: {error}"})
+    else:
+        if result_activity and result_activity.result:
+            print({"message": "Activity add"})
+        else:
+            print({"message": "Activity not added"})
     ```
 
 {% endlist %}

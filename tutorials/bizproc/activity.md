@@ -113,6 +113,58 @@
     ?>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        result = client.bizproc.activity.add(
+            code="activityAccount",
+            handler="https://yourdomain.yyy/handler.php",
+            auth_user_id=1,
+            name="ActivityAccount",
+            description="description",
+            properties={
+                "account_title": {
+                    "Name": "Format account title",
+                    "Description": "",
+                    "Type": "string",
+                    "Required": "Y",
+                    "Multiple": "N",
+                    "Default": "Account title",
+                },
+                "my_company_id": {
+                    "Name": "My Company id",
+                    "Description": "",
+                    "Type": "int",
+                    "Required": "Y",
+                    "Multiple": "N",
+                    "Default": "1",
+                },
+                "pay_system_id": {
+                    "Name": "Pay system id",
+                    "Description": "",
+                    "Type": "int",
+                    "Required": "Y",
+                    "Multiple": "N",
+                    "Default": "1",
+                },
+            },
+        ).response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
 {% endlist %}
 
 ## Обработчик действия 

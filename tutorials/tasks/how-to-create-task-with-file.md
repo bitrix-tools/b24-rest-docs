@@ -76,6 +76,30 @@
     echo '</PRE>';
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.disk.folder.uploadfile(
+        bitrix_id=1739,
+        data={
+            "NAME": "ava555.jpg",
+        },
+        file_content=[
+            "avatar.jpg",
+            "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q==",
+        ],
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате загрузки файла на диск получили два разных значения ID файла:
@@ -157,6 +181,20 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Python
+
+    ```python
+    result = client.tasks.task.add(
+        fields={
+            "TITLE": "task for test",
+            "RESPONSIBLE_ID": 1,
+            "UF_TASK_WEBDAV_FILES": [
+                "n6687",
+            ],
+        }
+    ).response.result
     ```
 
 {% endlist %}
@@ -444,6 +482,62 @@
 
     // Вызов функции для загрузки файла и создания задачи
     uploadFileToDisk();
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def upload_file_to_drive(client):
+        folder_id = "ваш_ID_папки"
+        file_name = "ваше_имя_файла"
+        file_content_base64 = "ваше_содержимое_файла_Base64"
+
+        try:
+            result = client.disk.folder.uploadfile(
+                bitrix_id=folder_id,
+                data={"NAME": file_name},
+                file_content=[file_name, file_content_base64],
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка загрузки файла: {error}")
+        else:
+            print("Файл успешно загружен!")
+            file_id = result["ID"]
+            create_task_with_file(client, file_id)
+
+
+    def create_task_with_file(client, file_id):
+        task_title = "ваше_название_задачи"
+        task_description = "ваше_описание_задачи"
+        responsible_id = "ваш_ID_ответственного"
+
+        try:
+            client.tasks.task.add(
+                fields={
+                    "TITLE": task_title,
+                    "DESCRIPTION": task_description,
+                    "RESPONSIBLE_ID": responsible_id,
+                    "UF_TASK_WEBDAV_FILES": [f"n{file_id}"],
+                },
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка создания задачи: {error}")
+        else:
+            print("Задача успешно создана!")
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    upload_file_to_drive(client)
     ```
 
 {% endlist %}

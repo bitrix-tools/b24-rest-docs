@@ -61,6 +61,25 @@
     $entityTypeId = $result['result']['types'][0]['entityTypeId'];
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    entity_type_id = int(
+        client.crm.type.list(
+            filter={"title": "Закупка оборудования"},
+        ).response.result["types"][0]["entityTypeId"]
+    )
+    ```
+
 {% endlist %}
 
 В результате получим и сохраним `entityTypeId` нужного смарт-процесса.
@@ -162,6 +181,20 @@
     $categoryId = $result['result']['category']['id'];
     ```
 
+- Python
+
+    ```python
+    category_id = int(
+        client.crm.category.add(
+            entity_type_id=entity_type_id,
+            fields={
+                "name": "Новая воронка",
+                "sort": 100,
+            },
+        ).response.result["category"]["id"]
+    )
+    ```
+
 {% endlist %}
 
 В результате получим и сохраним `id` созданной воронки.
@@ -228,6 +261,15 @@
         [ 'filter' => [ 'ENTITY_ID' => $entityId ] ]
     );
     $stages = $result['result'];
+    ```
+
+- Python
+
+    ```python
+    entity_id = f"DYNAMIC_{entity_type_id}_STAGE_{category_id}"
+    stages = client.crm.status.list(
+        filter={"ENTITY_ID": entity_id},
+    ).response.result
     ```
 
 {% endlist %}
@@ -362,6 +404,17 @@
     );
     ```
 
+- Python
+
+    ```python
+    client.crm.status.update(
+        stage_id,
+        fields={
+            "NAME": "Новое название",
+        },
+    ).response
+    ```
+
 {% endlist %}
 
 В результате получим `true`, изменение стадии прошло успешно. Если в результате вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.status.update](../../../api-reference/crm/status/crm-status-update.md).
@@ -437,6 +490,20 @@
         ]
     );
     $newStageId = $result['result'];
+    ```
+
+- Python
+
+    ```python
+    new_stage_id = client.crm.status.add(
+        fields={
+            "ENTITY_ID": entity_id,
+            "STATUS_ID": f"DT{entity_type_id}_{category_id}:MY_STAGE",
+            "NAME": "Моя стадия",
+            "SORT": 60,
+            "SEMANTICS": "F",
+        }
+    ).response.result
     ```
 
 {% endlist %}
@@ -727,6 +794,114 @@
     foreach ($tableData as $row) {
         echo "В работе: " . $row['В работе'] . " | Успех: " . $row['Успех'] . " | Провал: " . $row['Провал'] . "\n";
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def print_stages_table(stages):
+        columns = {
+            "В работе": [],
+            "Успех": [],
+            "Провал": [],
+        }
+
+        for stage in stages:
+            semantics = (stage.get("EXTRA") or {}).get("SEMANTICS") or stage.get("SEMANTICS")
+            if semantics == "S":
+                columns["Успех"].append(stage["NAME"])
+            elif semantics == "F":
+                columns["Провал"].append(stage["NAME"])
+            else:
+                columns["В работе"].append(stage["NAME"])
+
+        max_rows = max(
+            len(columns["В работе"]),
+            len(columns["Успех"]),
+            len(columns["Провал"]),
+        )
+
+        table_data = []
+        for index in range(max_rows):
+            table_data.append(
+                {
+                    "В работе": columns["В работе"][index] if index < len(columns["В работе"]) else "",
+                    "Успех": columns["Успех"][index] if index < len(columns["Успех"]) else "",
+                    "Провал": columns["Провал"][index] if index < len(columns["Провал"]) else "",
+                }
+            )
+
+        for row in table_data:
+            print(
+                "В работе: "
+                + row["В работе"]
+                + " | Успех: "
+                + row["Успех"]
+                + " | Провал: "
+                + row["Провал"]
+            )
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        entity_type_id = int(
+            client.crm.type.list(
+                filter={"title": "Закупка оборудования"},
+            ).response.result["types"][0]["entityTypeId"]
+        )
+
+        category_id = int(
+            client.crm.category.add(
+                entity_type_id=entity_type_id,
+                fields={
+                    "name": "Новая воронка",
+                    "sort": 100,
+                },
+            ).response.result["category"]["id"]
+        )
+        entity_id = f"DYNAMIC_{entity_type_id}_STAGE_{category_id}"
+
+        stages = client.crm.status.list(
+            filter={"ENTITY_ID": entity_id},
+        ).response.result
+
+        if stages:
+            first_stage_id = int(stages[0]["ID"])
+            client.crm.status.update(
+                first_stage_id,
+                fields={
+                    "NAME": "Первая стадия",
+                },
+            ).response
+
+        client.crm.status.add(
+            fields={
+                "ENTITY_ID": entity_id,
+                "STATUS_ID": f"DT{entity_type_id}_{category_id}:MY_STAGE",
+                "NAME": "Моя стадия",
+                "SORT": 60,
+                "SEMANTICS": "F",
+            }
+        ).response
+
+        stages = client.crm.status.list(
+            filter={"ENTITY_ID": entity_id},
+        ).response.result
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    else:
+        print("Таблица стадий:")
+        print_stages_table(stages)
     ```
 
 {% endlist %}

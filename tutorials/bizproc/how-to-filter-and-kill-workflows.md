@@ -54,6 +54,26 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    response = client.bizproc.workflow.instances(
+        filter={
+            "<STARTED": "2025-01-01T00:00:00Z",
+        }
+    ).response
+    ```
+
 {% endlist %}
 
 В результате получим `ID` всех активных бизнес-процессов, запущенных до указанной даты.
@@ -115,6 +135,14 @@
             'ID' => '660e559f34af10.95144732'
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    response = client.bizproc.workflow.kill(
+        bitrix_id="660e559f34af10.95144732",
+    ).response
     ```
 
 {% endlist %}
@@ -265,6 +293,46 @@
             }
         }
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    user_date_input = input("Введите дату в формате дд.мм.гггг: ")
+    day, month, year = user_date_input.split(".")
+    iso_date = f"{year}-{month}-{day}T00:00:00Z"
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    start = None
+    while True:
+        kwargs = {"filter": {"<STARTED": iso_date}}
+        if start is not None:
+            kwargs["start"] = start
+
+        response = client.bizproc.workflow.instances(**kwargs).response
+        instances = response.result or []
+
+        for instance in instances:
+            instance_id = instance["ID"]
+            try:
+                client.bizproc.workflow.kill(bitrix_id=instance_id).response
+            except BitrixAPIError as error:
+                print(f"Ошибка при удалении процесса {instance_id}: {error}")
+            else:
+                print(f"Процесс {instance_id} успешно удален.")
+
+        if response.next is None:
+            break
+        start = response.next
     ```
 
 {% endlist %}

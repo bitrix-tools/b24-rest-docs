@@ -116,6 +116,48 @@
     echo '</PRE>';
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        result = client.sale.basketitem.add(
+            fields={
+                "orderId": 5147,
+                "productId": 0,
+                "name": "Пробный товар",
+                "quantity": 2,
+                "basePrice": 1000,
+                "price": 900,
+                "discountPrice": 100,
+                "customPrice": "Y",
+                "canBuy": "Y",
+                "weight": 40,
+                "measureCode": "768",
+                "measureName": "шт",
+                "sort": 400,
+                "xmlId": "BasketPositionId",
+                "dimensions": 'a:3:{s:5:"WIDTH";i:244;s:6:"HEIGHT";i:100;s:6:"LENGTH";i:31;}',
+                "vatRate": 10,
+                "vatIncluded": "Y",
+                "productXmlId": "ProductKey",
+                "currency": "RUB",
+            },
+        ).response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
 {% endlist %}
 
 ## Результат

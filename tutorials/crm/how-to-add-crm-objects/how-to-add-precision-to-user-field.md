@@ -56,6 +56,26 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        result = client.crm.userfield.settings.fields(type="double").response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    ```
+
 {% endlist %}
 
 В результате получим две настройки: значение по умолчанию и точность.
@@ -141,6 +161,39 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        field = client.userfieldconfig.add(
+            module_id="crm",
+            field={
+                "entityId": "CRM_DEAL",
+                "fieldName": "UF_CRM_DEAL_NEW_DOUBLE_FIELD",
+                "userTypeId": "double",
+                "editFormLabel": {
+                    "ru": "Число с округлением",
+                },
+                "settings": {
+                    "PRECISION": 3,
+                },
+            },
+        ).response.result["field"]
+        print(field)
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
     ```
 
 {% endlist %}
@@ -241,6 +294,17 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    fields = client.crm.deal.userfield.list(
+        filter={
+            "LANG": "ru",
+            "USER_TYPE_ID": "double",
+        }
+    ).response.result
     ```
 
 {% endlist %}
@@ -353,6 +417,20 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    field = client.userfieldconfig.update(
+        module_id="crm",
+        bitrix_id=6807,
+        field={
+            "settings": {
+                "PRECISION": 3,
+            }
+        },
+    ).response.result["field"]
     ```
 
 {% endlist %}
@@ -537,6 +615,62 @@
 
     // Запускаем функцию
     updateUserField($fieldName);
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def update_user_field(client, field_name: str) -> None:
+        try:
+            fields = client.crm.deal.userfield.list(
+                filter={
+                    "LANG": "ru",
+                    "USER_TYPE_ID": "double",
+                }
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка: {error}")
+            return
+
+        field_id = None
+        for field in fields:
+            if field["EDIT_FORM_LABEL"] == field_name:
+                field_id = int(field["ID"])
+                break
+
+        if field_id is None:
+            print("Поле с указанным названием не найдено.")
+            return
+
+        try:
+            client.userfieldconfig.update(
+                module_id="crm",
+                bitrix_id=field_id,
+                field={
+                    "settings": {
+                        "PRECISION": 3
+                    }
+                },
+            ).response
+        except BitrixAPIError as error:
+                print(f"Ошибка: {error}")
+        else:
+            print("Настройки поля успешно обновлены.")
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    field_name = input("Введите название поля: ")
+    update_user_field(client, field_name)
     ```
 
 {% endlist %}

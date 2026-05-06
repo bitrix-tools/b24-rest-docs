@@ -65,6 +65,26 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.crm.activity.list(
+        filter={
+            "OWNER_TYPE_ID": 1,
+            "OWNER_ID": 1000977,
+        }
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим все дела, связанные с указанным элементом.
@@ -168,6 +188,17 @@
     );
     ```
 
+- Python
+
+    ```python
+    result = client.crm.company.list(
+        filter={
+            "TITLE": "Название_компании",
+        },
+        select=["ID", "TITLE"],
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим ID компании — `ID`: `173`.
@@ -224,6 +255,16 @@
     );
     ```
 
+- Python
+
+    ```python
+    result = client.crm.activity.binding.add(
+        activity_id=7685,
+        entity_type_id=4,
+        entity_id=173,
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим `true`, добавление связи для дела прошло успешно. Если в результате вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.activity.binding.add](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-add.md).
@@ -272,6 +313,16 @@
             'entityId' => 1000977 
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.crm.activity.binding.delete(
+        activity_id=7685,
+        entity_type_id=1,
+        entity_id=1000977,
+    ).response.result
     ```
 
 {% endlist %}
@@ -481,5 +532,86 @@
     // Запускаем функцию
     transferActivityToCompany($leadId, $companyName);
     ``` 
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def transfer_activity_to_company(client, lead_id, company_name):
+        try:
+            activity_result = client.crm.activity.list(
+                filter={
+                    "OWNER_TYPE_ID": 1,
+                    "OWNER_ID": lead_id,
+                }
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка: {error}")
+            return
+
+        if not activity_result:
+            print("Дела для указанного лида не найдены.")
+            return
+
+        activity_id = activity_result[0]["ID"]
+
+        try:
+            company_result = client.crm.company.list(
+                filter={"TITLE": company_name},
+                select=["ID", "TITLE"],
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка: {error}")
+            return
+
+        if not company_result:
+            print("Компания с указанным названием не найдена.")
+            return
+
+        company_id = company_result[0]["ID"]
+
+        try:
+            add_result = client.crm.activity.binding.add(
+                activity_id=activity_id,
+                entity_type_id=4,
+                entity_id=company_id,
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка: {error}")
+            return
+
+        if not add_result:
+            return
+
+        print("Связь дела с компанией успешно создана.")
+
+        try:
+            delete_result = client.crm.activity.binding.delete(
+                activity_id=activity_id,
+                entity_type_id=1,
+                entity_id=lead_id,
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка: {error}")
+        else:
+            if delete_result:
+                print("Связь дела с лидом успешно удалена.")
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    lead_id = int(input("Введите ID лида: "))
+    company_name = input("Введите название компании: ")
+
+    transfer_activity_to_company(client, lead_id, company_name)
+    ```
 
 {% endlist %}

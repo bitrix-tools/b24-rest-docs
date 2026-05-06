@@ -62,6 +62,26 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    response = client.crm.type.list(
+        filter={
+            "title": "Закупка оборудования",
+        }
+    ).response
+    ```
+
 {% endlist %}
 
 В результате получили два значения ID:
@@ -143,6 +163,18 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    response = client.crm.timeline.comment.add(
+        fields={
+            "ENTITY_ID": 19,
+            "ENTITY_TYPE": "DYNAMIC_177",
+            "COMMENT": "Подтвердить закупку по почте!",
+        }
+    ).response
     ```
 
 {% endlist %}
@@ -286,6 +318,61 @@
 
     // Вызов функции для поиска смарт-процесса и добавления комментария
     findSPA();
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def find_spa(client):
+        spa_title = "название_вашего_смарт_процесса"
+
+        try:
+            resp = client.crm.type.list(
+                filter={"title": spa_title},
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка при поиске смарт-процесса: {error}")
+            return
+
+        types = resp.result["types"]
+        if types:
+            spa_id = types[0]["entityTypeId"]
+            print(f"Смарт-процесс найден: {spa_id}")
+            create_comment(client, spa_id)
+        else:
+            print("Смарт-процесс не найден или данные пусты")
+
+
+    def create_comment(client, spa_id):
+        element_id = "ваш_ID_элемента"
+        comment_text = "ваш_комментарий"
+
+        try:
+            client.crm.timeline.comment.add(
+                fields={
+                    "ENTITY_ID": element_id,
+                    "ENTITY_TYPE": f"DYNAMIC_{spa_id}",
+                    "COMMENT": comment_text,
+                },
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка при создании комментария: {error}")
+        else:
+            print("Комментарий добавлен")
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    find_spa(client)
     ```
 
 {% endlist %}

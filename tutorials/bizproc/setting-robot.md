@@ -88,6 +88,40 @@
     echo '</PRE>';
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.bizproc.robot.add(
+        code="robot",
+        handler="http://handler.com",
+        auth_user_id=1,
+        name="Пример робота-встройки",
+        use_placement=True,
+        placement_handler="http://handler.com",
+        properties={
+            "string": {
+                "Name": "Параметр 1",
+                "Type": "string",
+            },
+            "stringm": {
+                "Name": "Параметр 2",
+                "Type": "string",
+                "Multiple": "Y",
+                "Default": ["value 1", "value 2"],
+            },
+        },
+    ).response
+    ```
+
 {% endlist %}
 
 Чтобы параметры можно было настраивать через приложение, при добавлении робота нужно передать параметры `USE_PLACEMENT=Y` и обработчик `PLACEMENT_HANDLER`.

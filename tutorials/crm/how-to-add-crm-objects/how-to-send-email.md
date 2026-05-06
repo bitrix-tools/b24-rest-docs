@@ -57,6 +57,24 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    contact_id = 1
+    result_contact = client.crm.contact.get(
+        bitrix_id=contact_id,
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим данные клиента, включая адрес электронной почты `EMAIL` и идентификатор ответственного сотрудника `ASSIGNED_BY_ID`.
@@ -122,6 +140,16 @@
     }
     ```
 
+- Python
+
+    ```python
+    result_user = client.user.get(
+        filter={
+            "ID": result_contact["ASSIGNED_BY_ID"],
+        }
+    ).response.result
+    ```
+
 {% endlist %}
 
 Получим данные сотрудника, включая адрес электронной почты `EMAIL`.
@@ -162,6 +190,13 @@
     ```php
         $contactEmail = reset($resultContact['result']['EMAIL']);
         $staff = reset($resultUser['result']);
+    ```
+
+- Python
+
+    ```python
+    contact_email = result_contact["EMAIL"][0]
+    staff = result_user[0]
     ```
 
 {% endlist %}
@@ -269,6 +304,42 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    contact_email = result_contact["EMAIL"][0]
+    staff = result_user[0]
+    now = datetime.now()
+
+    result_activity = client.crm.activity.add(
+        fields={
+            "SUBJECT": "subject email now",
+            "DESCRIPTION": "body email now",
+            "DESCRIPTION_TYPE": 3,
+            "COMPLETED": "Y",
+            "DIRECTION": 2,
+            "OWNER_ID": contact_id,
+            "OWNER_TYPE_ID": 3,
+            "TYPE_ID": 4,
+            "COMMUNICATIONS": [
+                {
+                    "VALUE": contact_email["VALUE"],
+                    "ENTITY_ID": contact_id,
+                    "ENTITY_TYPE_ID": 3,
+                }
+            ],
+            "START_TIME": now.isoformat(timespec="seconds"),
+            "END_TIME": (now + timedelta(hours=1)).isoformat(timespec="seconds"),
+            "RESPONSIBLE_ID": staff["ID"],
+            "SETTINGS": {
+                "MESSAGE_FROM": f"{staff['NAME']} {staff['LAST_NAME']} <{staff['EMAIL']}>"
+            },
+        }
+    ).response.result
     ```
 
 {% endlist %}
@@ -464,6 +535,72 @@
         echo json_encode(['message' => 'Activity not added']);
     }
     ?>
+    ```
+
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    contact_id = 1
+
+    try:
+        contact = client.crm.contact.get(bitrix_id=contact_id).response.result
+        result_activity = None
+
+        if contact.get("ASSIGNED_BY_ID") and contact.get("EMAIL"):
+            result_user = client.user.get(
+                filter={"ID": contact["ASSIGNED_BY_ID"]},
+            ).response.result
+
+            if result_user:
+                contact_email = contact["EMAIL"][0]
+                staff = result_user[0]
+
+                if contact_email.get("VALUE") and staff.get("EMAIL"):
+                    now = datetime.now()
+                    result_activity = client.crm.activity.add(
+                        fields={
+                            "SUBJECT": "subject email now",
+                            "DESCRIPTION": "body email now",
+                            "DESCRIPTION_TYPE": 3,
+                            "COMPLETED": "Y",
+                            "DIRECTION": 2,
+                            "OWNER_ID": contact_id,
+                            "OWNER_TYPE_ID": 3,
+                            "TYPE_ID": 4,
+                            "COMMUNICATIONS": [
+                                {
+                                    "VALUE": contact_email["VALUE"],
+                                    "ENTITY_ID": contact_id,
+                                    "ENTITY_TYPE_ID": 3,
+                                }
+                            ],
+                            "START_TIME": now.isoformat(timespec="seconds"),
+                            "END_TIME": (now + timedelta(hours=1)).isoformat(timespec="seconds"),
+                            "RESPONSIBLE_ID": staff["ID"],
+                            "SETTINGS": {
+                                "MESSAGE_FROM": f"{staff['NAME']} {staff['LAST_NAME']} <{staff['EMAIL']}>"
+                            },
+                        }
+                    ).response.result
+
+        if result_activity:
+            print({"message": "Activity add"})
+        else:
+            print({"message": "Activity not added"})
+    except BitrixAPIError as error:
+        print({"message": f"Activity not added: {error}"})
     ```
 
 {% endlist %}

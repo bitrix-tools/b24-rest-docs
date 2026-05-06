@@ -138,4 +138,43 @@
     <? endforeach; ?>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        categories = client.crm.category.list(entity_type_id=2).response.result.get("categories", [])
+        category_map = {item["id"]: item["name"] for item in categories}
+
+        for category_id, category_name in category_map.items():
+            entity_id = f"DEAL_STAGE_{category_id}" if int(category_id) > 0 else "DEAL_STAGE"
+            result_deal = client.crm.status.list(
+                filter={"ENTITY_ID": entity_id},
+            ).response.result
+
+            print(category_name)
+            print("STATUS ID\tNAME\tSEMANTICS")
+            for item in result_deal:
+                print(
+                    "\t".join(
+                        [
+                            str(item.get("STATUS_ID", "")),
+                            str(item.get("NAME", "")),
+                            str((item.get("EXTRA") or {}).get("SEMANTICS", "")),
+                        ]
+                    )
+                )
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
 {% endlist %}
