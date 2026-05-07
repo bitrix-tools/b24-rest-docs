@@ -76,6 +76,30 @@
     echo '</PRE>';
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.disk.folder.uploadfile(
+        bitrix_id=1739,
+        data={
+            "NAME": "ava555.jpg",
+        },
+        file_content=[
+            "avatar.jpg",
+            "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q==",
+        ],
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате загрузки файла на диск получили два разных значения ID файла:
@@ -145,6 +169,15 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Python
+
+    ```python
+    result = client.tasks.task.files.attach(
+        task_id=3709,
+        file_id=6687,
+    ).response.result
     ```
 
 {% endlist %}
@@ -298,6 +331,55 @@
 
     // Вызов функции для загрузки файла и прикрепления его к задаче
     uploadFileToDisk();
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def upload_file_to_disk(client):
+        folder_id = "ваш_ID_папки"
+        file_name = "ваше_имя_файла"
+        file_content_base64 = "ваше_содержимое_файла_Base64"
+        task_id = "ваш_ID_задачи"
+
+        try:
+            result = client.disk.folder.uploadfile(
+                bitrix_id=folder_id,
+                data={"NAME": file_name},
+                file_content=[file_name, file_content_base64],
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка загрузки файла: {error}")
+        else:
+            print("Файл успешно загружен!")
+            file_id = result["ID"]
+            attach_file_to_task(client, task_id, file_id)
+
+
+    def attach_file_to_task(client, task_id, file_id):
+        try:
+            client.tasks.task.files.attach(
+                task_id=task_id,
+                file_id=file_id,
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка прикрепления файла к задаче: {error}")
+        else:
+            print("Файл успешно прикреплен к задаче!")
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    upload_file_to_disk(client)
     ```
 
 {% endlist %}

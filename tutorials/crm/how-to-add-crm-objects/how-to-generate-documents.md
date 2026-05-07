@@ -50,6 +50,14 @@
    $sDocName = 'Демонстрационная реализация товара';
    ```
 
+- Python
+
+   ```python
+   file_path = "template.docx"
+   deal_id = 1
+   document_name = "Демонстрационная реализация товара"
+   ```
+
 {% endlist %}
 
 ## 1\. Создадим нумератор документа
@@ -95,6 +103,26 @@
            ]
        ]
    );
+   ```
+
+- Python
+
+   ```python
+   from b24pysdk import BitrixWebhook, Client
+
+   client = Client(
+       BitrixWebhook(
+           domain="your-domain.bitrix24.com",
+           webhook_token="user_id/webhook_key",
+       )
+   )
+
+   res_num = client.crm.documentgenerator.numerator.add(
+       fields={
+           "name": "Нумератор из REST",
+           "template": "{NUMBER}",
+       }
+   ).response.result
    ```
 
 {% endlist %}
@@ -207,6 +235,26 @@
    );
    ```
 
+- Python
+
+   ```python
+   import base64
+
+   with open(file_path, "rb") as file:
+       file_content = base64.b64encode(file.read()).decode("ascii")
+
+   res_template = client.crm.documentgenerator.template.add(
+       fields={
+           "name": document_name,
+           "numeratorId": res_num["numerator"]["id"],
+           "region": "ru",
+           "users": ["UA"],
+           "entityTypeId": ["2"],
+           "file": file_content,
+       }
+   ).response.result
+   ```
+
 {% endlist %}
 
 Метод [crm.documentgenerator.template.add](../../../api-reference/crm/document-generator/templates/crm-document-generator-template-add.md) вернет объект `resTemplate` с информацией о шаблоне.
@@ -274,6 +322,18 @@ template: {
            'entityId' => $iDealID,
        ]
    );
+   ```
+
+- Python
+
+   ```python
+   res_doc = client.crm.documentgenerator.document.add(
+       template_id=int(res_template["template"]["id"]),
+       entity_type_id=2,
+       entity_id=deal_id,
+       values={},
+       stamps_enabled=False,
+   ).response.result
    ```
 
 {% endlist %}
@@ -457,5 +517,68 @@ template: {
        echo json_encode(['message' => 'Документ не создан']);
    }
    ```
+
+- Python
+
+    ```python
+    import base64
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    template_path = "template.docx"
+    deal_id = 1
+    document_name = "Демонстрационная реализация товара"
+
+    try:
+        numerator = client.crm.documentgenerator.numerator.add(
+            fields={
+                "name": "Нумератор из REST",
+                "template": "{NUMBER}",
+            }
+        ).response.result["numerator"]
+    except BitrixAPIError as error:
+        print(f"Number generator not added: {error}")
+    else:
+        with open(template_path, "rb") as file:
+            template_content = base64.b64encode(file.read()).decode("ascii")
+
+        try:
+            template = client.crm.documentgenerator.template.add(
+                fields={
+                    "name": document_name,
+                    "numeratorId": numerator["id"],
+                    "region": "ru",
+                    "users": ["UA"],
+                    "entityTypeId": ["2"],
+                    "file": template_content,
+                }
+            ).response.result["template"]
+        except BitrixAPIError as error:
+            print(f"Template not added: {error}")
+        else:
+            try:
+                document = client.crm.documentgenerator.document.add(
+                    template_id=int(template["id"]),
+                    entity_type_id=2,
+                    entity_id=deal_id,
+                    values={},
+                    stamps_enabled=False,
+                ).response.result["document"]
+            except BitrixAPIError as error:
+                print(f"Document not created: {error}")
+            else:
+                if document:
+                    print("Документ создан")
+                else:
+                    print("Документ не создан")
+    ```
 
 {% endlist %}

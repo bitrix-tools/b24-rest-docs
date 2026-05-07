@@ -48,6 +48,24 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.crm.category.list(
+        entity_type_id=2,
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получили воронки сделок. Определим нужную воронку по названию в поле `name`. Идентификатор воронки возьмем из поля `id`.
@@ -130,6 +148,16 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.crm.status.list(
+        filter={
+            "ENTITY_ID": "DEAL_STAGE_10",
+        }
+    ).response.result
     ```
 
 {% endlist %}
@@ -323,6 +351,18 @@
     );
     ```
 
+- Python
+
+    ```python
+    result = client.crm.item.list(
+        entity_type_id=2,
+        select=["id", "title", "assignedById", "opportunity"],
+        filter={
+            "stageId": ["C10:PREPAYMENT_INVOICE"],
+        },
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получили список элементов на запрошенной стадии.
@@ -397,6 +437,14 @@
             'ID' => 29
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.user.get(
+        filter={"ID": 29},
+    ).response.result
     ```
 
 {% endlist %}
@@ -725,6 +773,89 @@
     foreach ($table as $row) {
         echo implode("\t", $row) . "\n";
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    funnel_name = input("Введите название воронки сделок: ")
+
+    try:
+        categories = client.crm.category.list(entity_type_id=2).response.result.get("categories", [])
+        selected_funnel = next(
+            (c for c in categories if c.get("name") == funnel_name),
+            None,
+        )
+
+        if not selected_funnel:
+            print("Воронка не найдена.")
+        else:
+            stage_name = input("Введите название стадии: ")
+            funnel_id = int(selected_funnel["id"])
+            entity_id = "DEAL_STAGE" if funnel_id == 0 else f"DEAL_STAGE_{funnel_id}"
+            stages = client.crm.status.list(filter={"ENTITY_ID": entity_id}).response.result
+            selected_stage = next(
+                (s for s in stages if s.get("NAME") == stage_name),
+                None,
+            )
+
+            if not selected_stage:
+                print("Стадия не найдена.")
+            else:
+                items = client.crm.item.list(
+                    entity_type_id=2,
+                    select=["id", "title", "assignedById", "opportunity"],
+                    filter={"stageId": selected_stage["STATUS_ID"]},
+                ).response.result.get("items", [])
+
+                user_ids = sorted({int(item["assignedById"]) for item in items if item.get("assignedById")})
+                users = client.user.get(filter={"ID": user_ids}).response.result if user_ids else []
+                user_map = {
+                    int(user["ID"]): {
+                        "name": user.get("NAME", ""),
+                        "lastName": user.get("LAST_NAME", ""),
+                    }
+                    for user in users
+                }
+
+                table = []
+
+                table.append(
+                    [
+                        "ID сделки",
+                        "Название",
+                        "Имя ответственного",
+                        "Фамилия ответственного",
+                        "Ожидаемый доход",
+                    ]
+                )
+
+                for deal in items:
+                    responsible = user_map.get(int(deal["assignedById"]), {"name": "Неизвестно", "lastName": "Неизвестно"})
+                    table.append(
+                        [
+                            str(deal["id"]),
+                            str(deal.get("title", "")),
+                            str(responsible["name"]),
+                            str(responsible["lastName"]),
+                            str(deal.get("opportunity", 0)),
+                        ]
+                    )
+
+                for row in table:
+                    print("\t".join(row))
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
     ```
 
 {% endlist %}

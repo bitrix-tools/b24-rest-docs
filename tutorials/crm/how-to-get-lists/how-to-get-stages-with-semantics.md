@@ -68,6 +68,24 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.crm.status.list(
+        order={"SORT": "ASC"},
+        filter={"ENTITY_ID": "STATUS"},
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим массив с объектами, где каждый объект — это описание стадии.
@@ -347,5 +365,79 @@
        }
    }
    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def load_statuses(client, entity_id: str) -> list:
+        return client.crm.status.list(
+            filter={"ENTITY_ID": entity_id},
+            order={"SORT": "ASC"},
+        ).response.result
+
+
+    def group_statuses_by_semantics(statuses: list) -> dict:
+        groups = {"success": [], "process": [], "failure": []}
+        for item in statuses:
+            semantics = (item.get("EXTRA") or {}).get("SEMANTICS", "")
+            name = item.get("NAME") or item.get("STATUS_ID")
+            if semantics == "success":
+                groups["success"].append(name)
+            elif semantics == "failure":
+                groups["failure"].append(name)
+            else:
+                groups["process"].append(name)
+        return groups
+
+
+    def build_table_rows(groups: dict) -> list:
+        success = groups["success"]
+        process = groups["process"]
+        failure = groups["failure"]
+        max_len = max(len(success), len(process), len(failure))
+
+        success = success + [""] * (max_len - len(success))
+        process = process + [""] * (max_len - len(process))
+        failure = failure + [""] * (max_len - len(failure))
+
+        rows = []
+        for i in range(max_len):
+            rows.append([success[i], process[i], failure[i]])
+        return rows
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    entities = [
+        {"title": "Статусы лидов", "entity_id": "STATUS"},
+        {"title": "Статусы коммерческих предложений", "entity_id": "QUOTE_STATUS"},
+    ]
+
+    try:
+        tables = {}
+        for entity in entities:
+            statuses = load_statuses(client, entity["entity_id"])
+            if not statuses:
+                continue
+            groups = group_statuses_by_semantics(statuses)
+            tables[entity["title"]] = build_table_rows(groups)
+
+        for title, rows in tables.items():
+            print(title)
+            print("✅ Успех\t⚠️ В работе\t❌ Неуспех")
+            for row in rows:
+                print("\t".join(row))
+    except BitrixAPIError as error:
+        print(f"Ошибка загрузки: {error}")
+    ```
 
 {% endlist %}

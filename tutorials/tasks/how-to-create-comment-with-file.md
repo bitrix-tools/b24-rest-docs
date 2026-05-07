@@ -72,6 +72,31 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    response = client.disk.folder.uploadfile(
+        bitrix_id=1739,
+        data={
+            "NAME": "file.pdf",
+        },
+        file_content=[
+            "file555.pdf",
+            "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q==",
+        ],
+    ).response
+    ```
+
 {% endlist %}
 
 В результате загрузки файла на диск получили два разных значения ID файла:
@@ -152,6 +177,21 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    response = client.task.commentitem.add(
+        task_id=3711,
+        fields={
+            "POST_MESSAGE": "comment for test",
+            "AUTHOR_ID": 29,
+            "UF_FORUM_MESSAGE_DOC": [
+                "n6687",
+            ],
+        },
+    ).response
     ```
 
 {% endlist %}
@@ -310,5 +350,60 @@
     uploadFileToDisk();
     ```
 
-{% endlist %}
+- Python
 
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def upload_file_to_drive(client):
+        folder_id = 1739
+        file_name = "имя_файла"
+        file_content_base64 = "содержимое_файла_Base64"
+
+        try:
+            result = client.disk.folder.uploadfile(
+                bitrix_id=folder_id,
+                data={"NAME": file_name},
+                file_content=[file_name, file_content_base64],
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка загрузки файла: {error}")
+        else:
+            print("Файл успешно загружен!")
+            file_id = result["ID"]
+            create_comment_with_file(client, file_id)
+
+
+    def create_comment_with_file(client, file_id):
+        task_id = "ID_задачи"
+        comment_message = "текст_комментария"
+        author_id = "ID_автора_комментария"
+
+        try:
+            client.task.commentitem.add(
+                task_id=task_id,
+                fields={
+                    "POST_MESSAGE": comment_message,
+                    "AUTHOR_ID": author_id,
+                    "UF_FORUM_MESSAGE_DOC": [f"n{file_id}"],
+                },
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка создания комментария: {error}")
+        else:
+            print("Комментарий успешно создан!")
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    upload_file_to_drive(client)
+    ```
+
+{% endlist %}

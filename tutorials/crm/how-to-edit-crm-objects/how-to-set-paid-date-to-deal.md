@@ -63,6 +63,26 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.crm.deal.userfield.list(
+        filter={
+            "LANG": "ru",
+            "USER_TYPE_ID": "date",
+        }
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим информацию обо всех полях сделок с типом «Дата». Определим подходящее поле по названию в параметре `EDIT_FORM_LABEL`. Идентификатор поля возьмем из поля `FIELD_NAME`.
@@ -184,6 +204,15 @@
     );
     ```
 
+- Python
+
+    ```python
+    result = client.crm.item.payment.list(
+        entity_id=6917,
+        entity_type_id=2,
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим список оплат с полями для сделки. Дату оплаты возьмем из поля `datePaid`.
@@ -245,6 +274,17 @@
     );
     ```
 
+- Python
+
+    ```python
+    result = client.crm.deal.update(
+        bitrix_id=6917,
+        fields={
+            "UF_CRM_1723209318": "2025-04-29T13:03:20+03:00",
+        },
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим `true`, изменение сделки прошло успешно. Если в результате вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md#обработка-ошибок).
@@ -285,6 +325,14 @@
             'id' => 6917
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.crm.deal.get(
+        bitrix_id=6917,
+    ).response.result
     ```
 
 {% endlist %}
@@ -493,6 +541,68 @@
             }
         }
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        user_fields = client.crm.deal.userfield.list(
+            filter={
+                "LANG": "ru",
+                "USER_TYPE_ID": "date",
+            }
+        ).response.result
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    else:
+        date_field = next(
+            (
+                field
+                for field in user_fields
+                if field.get("EDIT_FORM_LABEL") == "Дата оплаты"
+            ),
+            None,
+        )
+
+        if date_field:
+            print("FIELD_NAME для 'Дата оплаты':", date_field["FIELD_NAME"])
+
+            deal_id = int(input("Введите ID сделки: "))
+
+            try:
+                payments = client.crm.item.payment.list(
+                    entity_type_id=2,
+                    entity_id=deal_id,
+                ).response.result
+            except BitrixAPIError as error:
+                print(f"Ошибка: {error}")
+            else:
+                if payments:
+                    date_paid = payments[0]["datePaid"]
+                    print("Дата оплаты:", date_paid)
+
+                    try:
+                        client.crm.deal.update(
+                            bitrix_id=deal_id,
+                            fields={
+                                date_field["FIELD_NAME"]: date_paid,
+                            },
+                        ).response
+                    except BitrixAPIError as error:
+                        print(f"Ошибка: {error}")
+                    else:
+                        print("Сделка успешно обновлена")
     ```
 
 {% endlist %}

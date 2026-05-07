@@ -76,6 +76,33 @@
     print_r($result);
     echo '</PRE>';
     ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.crm.requisite.list(
+        filter={
+            "ENTITY_TYPE_ID": "3",
+            "ENTITY_ID": "2429",
+        },
+        select=[
+            "ID",
+            "ENTITY_TYPE_ID",
+            "ENTITY_ID",
+        ],
+    ).response.result
+    ```
+
 {% endlist %}
 
 Мы получили ID реквизита `361` — параметр, необходимый для следующего запроса. 
@@ -141,6 +168,19 @@
     print_r($result);
     echo '</PRE>';
     ```
+
+- Python
+
+    ```python
+    result = client.crm.address.list(
+        filter={
+            "ENTITY_TYPE_ID": 8,
+            "ENTITY_ID": 361,
+            "TYPE_ID": 11,
+        }
+    ).response.result
+    ```
+
 {% endlist %}
 
 Мы получили данные адреса для доставки контакта. 
@@ -307,5 +347,65 @@
             }
         }
     ```
-{% endlist %}
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    contact_id = "ваш_контакт_ID_здесь"
+
+    try:
+        requisites = client.crm.requisite.list(
+            filter={
+                "ENTITY_TYPE_ID": 3,
+                "ENTITY_ID": contact_id,
+            },
+            select=["ID"],
+        ).response.result
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    else:
+        if requisites:
+            requisite_id = requisites[0]["ID"]
+            print(f"ID реквизита: {requisite_id}")
+
+            try:
+                addresses = client.crm.address.list(
+                    filter={
+                        "ENTITY_TYPE_ID": 8,
+                        "ENTITY_ID": requisite_id,
+                        "TYPE_ID": 11,
+                    }
+                ).response.result
+            except BitrixAPIError as error:
+                print(f"Ошибка: {error}")
+            else:
+                if addresses:
+                    print("Адрес\tГород\tИндекс\tСтрана")
+                    for address in addresses:
+                        print(
+                            "\t".join(
+                                [
+                                    str(address.get("ADDRESS_1") or "Не указано"),
+                                    str(address.get("CITY") or "Не указано"),
+                                    str(address.get("POSTAL_CODE") or "Не указано"),
+                                    str(address.get("COUNTRY") or "Не указано"),
+                                ]
+                            )
+                        )
+                else:
+                    print("Адрес для доставки не найден.")
+        else:
+            print("Реквизит не найден.")
+    ```
+
+{% endlist %}

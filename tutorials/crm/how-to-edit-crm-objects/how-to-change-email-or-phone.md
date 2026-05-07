@@ -295,6 +295,67 @@ BX24.callMethod(
     ?>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        new_contact_id = int(
+            client.crm.contact.add(
+                fields={
+                    "NAME": "Новый контакт",
+                    "EMAIL": [
+                        {"VALUE": "work_email@nomail.com", "VALUE_TYPE": "WORK"},
+                        {"VALUE": "home_email@nomail.com", "VALUE_TYPE": "HOME"},
+                    ],
+                }
+            ).response.result
+        )
+    except BitrixAPIError as error:
+        print(f"Ошибка создания контакта: {error}")
+    else:
+        try:
+            contact_data = client.crm.contact.get(
+                bitrix_id=new_contact_id,
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка получения контакта: {error}")
+        else:
+            if len(contact_data.get("EMAIL", [])) >= 2:
+                update_email = [
+                    {
+                        "ID": contact_data["EMAIL"][0]["ID"],
+                        "VALUE": "new_work_email@example.com",
+                    },
+                    {
+                        "ID": contact_data["EMAIL"][1]["ID"],
+                        "DELETE": "Y",
+                    },
+                ]
+
+                try:
+                    change_result = client.crm.contact.update(
+                        bitrix_id=new_contact_id,
+                        fields={"EMAIL": update_email},
+                    ).response.result
+                except BitrixAPIError as error:
+                    print(f"Ошибка обновления контакта: {error}")
+                else:
+                    if change_result:
+                        print("Контакт успешно обновлен.")
+            else:
+                print("Не найдены email для обновления.")
+    ```
+
 {% endlist %}
 
 ## Пример с телефонными номерами
@@ -547,6 +608,60 @@ BX24.callMethod(
         echo 'Ошибка создания контакта: ' . $newContact['error_description'];
     }
     ?>
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        contact_id = int(
+            client.crm.contact.add(
+                fields={
+                    "NAME": "Новый контакт",
+                    "PHONE": [
+                        {"VALUE": "89991234567", "VALUE_TYPE": "WORK"},
+                        {"VALUE": "89997654321", "VALUE_TYPE": "HOME"},
+                    ],
+                }
+            ).response.result
+        )
+    except BitrixAPIError as error:
+        print(f"Ошибка создания контакта: {error}")
+    else:
+        try:
+            contact = client.crm.contact.get(bitrix_id=contact_id).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка получения контакта: {error}")
+        else:
+            values = contact.get("PHONE") or []
+
+            if len(values) >= 2:
+                updated_values = [
+                    {"ID": values[0]["ID"], "VALUE": "81119876541"},
+                    {"ID": values[1]["ID"], "VALUE": ""},
+                ]
+                try:
+                    change_result = client.crm.contact.update(
+                        bitrix_id=contact_id,
+                        fields={"PHONE": updated_values},
+                    ).response.result
+                except BitrixAPIError as error:
+                    print(f"Ошибка обновления контакта: {error}")
+                else:
+                    if change_result:
+                        print("Контакт успешно обновлен.")
+            else:
+                print("Не найдены телефоны для обновления.")
     ```
 
 {% endlist %}
