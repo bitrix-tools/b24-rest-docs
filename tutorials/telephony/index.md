@@ -1,20 +1,4 @@
-# Основные пользовательские сценарии и пример
-
-{% note warning "Мы еще обновляем эту страницу" %}
-
-Тут может не хватать некоторых данных — дополним в ближайшее время
-
-{% endnote %}
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- нужны правки под стандарт написания
-
-{% endnote %}
-
-{% endif %}
+# Как интегрировать внешнюю телефонию с Битрикс24
 
 {% note tip "" %}
 
@@ -22,325 +6,270 @@
 
 {% endnote %}
 
-1. Входящий звонок на АТС на внутренний номер конкретного пользователя должен показывать карточку звонка у сотрудника в Битрикс24, метод [telephony.externalcall.register](../../api-reference/telephony/telephony-external-call-register.md).
+Внешняя телефония передает в Битрикс24 данные о звонках из АТС: номер клиента, пользователя, линию, статус разговора и запись. Битрикс24 показывает карточку звонка сотруднику, связывает звонок с CRM и сохраняет результат в статистике.
 
-2. Входящий звонок с неизвестного номера, не зарегистрированного в CRM, должен попадать в очередь обработки из списка пользователей, которые должны отвечать на входящие звонки:
-   - Одновременная очередь: всем сотрудникам, которые не отвечают на другие звонки в данный момент, одновременно показывается карточка звонка, когда кто-то из них начинает отвечать на звонок, у остальных карточка пропадает. Сначала используем `telephony.externalcall.register` для первого в очереди, затем [telephony.externalcall.show](../../api-reference/telephony/telephony-external-call-show.md) для остальных.
-   - Последовательная очередь: каждому из сотрудников очереди, которые не отвечают на другие звонки в данный момент, показывается карточка звонка на какое-то время, 3-5-7 секунд. Если сотрудник не начинает отвечать на звонок, карточка у него пропадает, и звонок переводится на следующего в очереди. Сначала используем `telephony.externalcall.register` для первого в очереди, затем [telephony.externalcall.hide](../../api-reference/telephony/telephony-external-call-hide.md) и `telephony.externalcall.show` для следующего.
+Чтобы интегрировать внешнюю телефонию, выполним шесть шагов:
 
-3. Входящий звонок с известного номера в виде карточки звонка отображается в Битрикс24 у менеджера, ответственного за соответствующий объект CRM. Сначала `telephony.externalcall.register` с `SHOW = 0`, который вернет либо `CREATED_LEAD` в случае, если телефон не был найден в CRM и был создан новый лид, либо пару `CRM_ENTITY_TYPE` и `CRM_ENTITY_ID` с указанием найденного существующего клиента.
-Одновременно возвращается `CRM_ACTIVITY_ID` с идентификатором нового дела в CRM, в котором будет зафиксирован звонок в дальнейшем. Зная идентификатор объекта в CRM, можно при помощи методов по работе с CRM получить идентификатор менеджера, который отвечает за клиента, перевести звонок на него и показать ему карточку звонка `telephony.externalcall.show`.
+1. Соберем приложение и обработчики для АТС и Битрикс24
+2. Зарегистрируем входящий звонок
+3. Покажем карточку звонка группе сотрудников
+4. Направим звонок ответственному за клиента
+5. Обработаем исходящий звонок из CRM
+6. Завершим звонок и сохраним результат
 
-4. Сотрудник в Битрикс24 нажимает на номер телефона в интерфейсе CRM. Приложение инициирует исходящий звонок на указанный номер на стороне АТС, событие `onexternalcallstart`, сотруднику показывается карточка звонка `telephony.externalcall.register`.
+Отдельно разберем сценарий, когда звонок нужно зафиксировать без показа карточки.
 
-5. Звонок завершен, входящий или исходящий. Факт звонка и запись фиксируется в привязке к объекту CRM [telephony.externalcall.finish](../../api-reference/telephony/telephony-external-call-finish.md). Если на момент завершения звонка в АТС еще не готова запись разговора, то вместо `telephony.externalcall.finish` сначала просто скрываем карточку звонка `telephony.externalcall.hide`, а уже потом, когда запись готова, вызываем `telephony.externalcall.finish`.
+## 1. Соберем приложение
 
-6. На стороне АТС произошел входящий звонок в тот момент, когда связи между АТС и Битрикс24 по каким-то причинам нет. После восстановления связи информация о произошедшем звонке фиксируется в Битрикс24, пункты 1-3, но без показа карточки звонка – последовательный вызов методов `telephony.externalcall.register` с параметром `SHOW = 0` и `telephony.externalcall.finish`.
+Рабочая интеграция обычно состоит из двух частей:
 
-{% note info %}
+- серверного приложения
+- обработчиков для АТС и Битрикс24
 
-Чтобы запись добавлялась к звонку при сценарии обзвона, приложения должны передвать `CALL_LIST_ID` который им придет в [событии](../../api-reference/telephony/events/on-external-call-start.md) начала звонка.
+1. Создайте [локальное приложение](../../settings/app-installation/local-apps/index.md) или приложение для Маркета
+2. Завершите установку приложения и сохраните авторизацию по правилам [установки приложения](../../settings/app-installation/installation-finish.md)
+3. Зарегистрируйте внешнюю линию методом [telephony.externalLine.add](../../api-reference/telephony/telephony-external-line-add.md). Номер линии передавайте в `LINE_NUMBER` метода [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md)
+4. Подпишите приложение на [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md) методом [event.bind](../../api-reference/events/event-bind.md), если нужно запускать исходящие звонки из CRM
+5. Создайте обработчик входящих событий от АТС. Он должен вызывать методы по состоянию звонка:
+   - [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md) — зарегистрировать звонок
+   - [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md) — показать карточку звонка
+   - [telephony.externalCall.hide](../../api-reference/telephony/telephony-external-call-hide.md) — скрыть карточку звонка
+   - [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md) — завершить звонок
+6. Создайте обработчик [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md). Он должен принять данные события:
+   - `CALL_ID` — идентификатор звонка, который нужно завершить после разговора
+   - `PHONE_NUMBER` — номер клиента, на который нужно позвонить
+   - `USER_ID` — идентификатор сотрудника, который начал звонок
 
-{% endnote %}
+   После этого обработчик запускает звонок на стороне АТС и завершает тот же `CALL_ID` методом [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md).
+7. Если запись разговора появляется после завершения звонка, прикрепите ее методом [telephony.externalCall.attachRecord](../../api-reference/telephony/telephony-external-call-attach-record.md)
+
+Для PHP-приложений можно использовать [CRest PHP SDK](../../sdk/crest-php-sdk/index.md). Не храните токены в публичном файле приложения и не отключайте проверку SSL-сертификата при REST-запросах.
+
+## 2. Зарегистрируем входящий звонок
+
+Когда АТС получает входящий звонок, вызовите [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md). Передайте:
+
+- `USER_ID` — идентификатор сотрудника, которому нужно показать карточку звонка
+- `PHONE_NUMBER` — номер клиента
+- `TYPE = 2` — входящий звонок
+- `LINE_NUMBER` — номер внешней линии
+- `EXTERNAL_CALL_ID` — уникальный идентификатор звонка на стороне АТС
+
+Метод вернет `CALL_ID`. Этот идентификатор нужен для следующих действий со звонком:
+
+- показать карточку через [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md)
+- скрыть карточку через [telephony.externalCall.hide](../../api-reference/telephony/telephony-external-call-hide.md)
+- завершить звонок через [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md)
+- добавить запись через [telephony.externalCall.attachRecord](../../api-reference/telephony/telephony-external-call-attach-record.md)
+
+Если передать `SHOW = 1` или не передавать `SHOW`, карточка откроется у пользователя из `USER_ID`.
+
+## 3. Покажем звонок группе сотрудников
+
+Для очереди операторов сначала зарегистрируйте звонок методом [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md), а затем управляйте карточкой по `CALL_ID`.
+
+Для очереди можно зарегистрировать звонок на первого оператора, а затем показать карточку другим сотрудникам методом [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md).
+
+**Одновременная очередь.** Передайте массив идентификаторов сотрудников в `USER_ID` метода [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md). Битрикс24 покажет карточку нескольким сотрудникам. Когда АТС выберет оператора, скройте карточку у остальных методом [telephony.externalCall.hide](../../api-reference/telephony/telephony-external-call-hide.md).
+
+**Последовательная очередь.** Покажите карточку первому сотруднику методом [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md). Если сотрудник не ответил за время, заданное в АТС, скройте карточку методом [telephony.externalCall.hide](../../api-reference/telephony/telephony-external-call-hide.md) и покажите ее следующему сотруднику через [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md).
+
+В примере карточка сначала показывается трем сотрудникам. Когда сотрудник с идентификатором `1270` отвечает на звонок, карточка скрывается у остальных.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const queue = [1269, 1270, 1271];
+
+    await $b24.callMethod(
+        'telephony.externalCall.show',
+        {
+            CALL_ID: callId,
+            USER_ID: queue
+        }
+    );
+
+    const answeredUserId = 1270;
+    const usersToHide = queue.filter((userId) => userId !== answeredUserId);
+
+    await $b24.callMethod(
+        'telephony.externalCall.hide',
+        {
+            CALL_ID: callId,
+            USER_ID: usersToHide
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    $queue = [1269, 1270, 1271];
+
+    CRest::call(
+        'telephony.externalCall.show',
+        [
+            'CALL_ID' => $callId,
+            'USER_ID' => $queue
+        ]
+    );
+
+    $answeredUserId = 1270;
+    $usersToHide = array_values(
+        array_filter(
+            $queue,
+            fn($userId) => $userId !== $answeredUserId
+        )
+    );
+
+    CRest::call(
+        'telephony.externalCall.hide',
+        [
+            'CALL_ID' => $callId,
+            'USER_ID' => $usersToHide
+        ]
+    );
+    ```
+
+{% endlist %}
+
+## 4. Направим звонок ответственному за клиента
+
+Если нужно показать входящий звонок ответственному менеджеру, сначала зарегистрируйте звонок с `SHOW = 0` методом [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md). Битрикс24 проверит номер в CRM и вернет данные найденного или созданного объекта:
+
+- `CRM_ENTITY_TYPE` — тип найденного объекта CRM
+- `CRM_ENTITY_ID` — идентификатор найденного объекта CRM
+- `CRM_CREATED_LEAD` — идентификатор созданного лида, если включено автосоздание
+- `CRM_CREATED_ENTITIES` — массив созданных объектов CRM, если включено автосоздание
+
+По найденному объекту CRM получите ответственного сотрудника методами CRM и передайте его идентификатор в [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md). Если нужно только найти клиента по телефону без регистрации звонка, используйте [telephony.externalCall.searchCrmEntities](../../api-reference/telephony/telephony-external-call-search-crm-entities.md).
+
+## 5. Обработаем исходящий звонок из CRM
+
+Когда сотрудник нажимает на номер телефона в CRM, Битрикс24 регистрирует звонок и отправляет приложению событие [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md). В обработчик события приходят:
+
+- `PHONE_NUMBER` — номер клиента
+- `USER_ID` — идентификатор сотрудника, который начал звонок
+- `CALL_ID` — идентификатор зарегистрированного звонка
+- `LINE_NUMBER` — номер внешней линии
+- `CRM_ENTITY_TYPE` — тип объекта CRM, из которого начат звонок
+- `CRM_ENTITY_ID` — идентификатор объекта CRM
+- `CALL_LIST_ID` — идентификатор списка обзвона, если звонок запущен из списка обзвона
+
+После получения [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md) приложение должно инициировать вызов на стороне АТС. Когда разговор закончится, завершите тот же `CALL_ID` методом [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md).
+
+Если звонок идет из списка обзвона, используйте `CALL_LIST_ID` из [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md) при обработке звонка на стороне приложения. Завершайте звонок по `CALL_ID` из события, чтобы результат сохранился в привязке к обзвону.
+
+## 6. Завершим звонок и сохраним результат
+
+После окончания разговора вызовите [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md). Метод скрывает карточку звонка, сохраняет запись в статистике и создает или обновляет CRM-дело звонка.
+
+Передайте в [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md):
+
+- `CALL_ID` — идентификатор из [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md) или [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md)
+- `USER_ID` — сотрудник, за которым нужно сохранить звонок
+- `DURATION` — длительность разговора в секундах
+- `STATUS_CODE` — результат звонка, например `200` для успешного разговора или `304` для пропущенного входящего
+
+Если запись разговора еще не готова, используйте один из двух порядков:
+
+- вызовите [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md) без записи, чтобы сразу сохранить звонок в статистике и CRM-деле. Когда запись будет готова, прикрепите ее методом [telephony.externalCall.attachRecord](../../api-reference/telephony/telephony-external-call-attach-record.md)
+- скройте карточку методом [telephony.externalCall.hide](../../api-reference/telephony/telephony-external-call-hide.md), а [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md) вызовите после готовности записи. В этом случае звонок появится в статистике и CRM-деле только после вызова [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md)
+
+После прикрепления записи можно добавить расшифровку методом [telephony.call.attachTranscription](../../api-reference/telephony/telephony-call-attach-transcription.md). Метод работает только для завершенного звонка, который уже есть в статистике.
+
+## Зафиксируем звонок без показа карточки
+
+Если во время звонка связь между АТС и Битрикс24 была недоступна, после восстановления связи можно сохранить факт звонка без карточки. Для этого вызовите [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md) с `SHOW = 0`, а затем [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md) с фактическими данными звонка.
+
+Такой сценарий не показывает звонок сотруднику в реальном времени, но сохраняет историю, статистику и CRM-дело.
 
 ## Пример
 
-```php
-<?php
-/**
- * Created by PhpStorm.
- * User: sv
- * Date: 01.11.16
- * Time: 10:44
- */
-// ini_set('display_errors','Off');
-// формируем url нашего скрипта для использования в ajax-запросах из интерфейса приложения
-$script_url = ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . (in_array($_SERVER['SERVER_PORT'],
-    array(80, 443)) ? '' : ':' . $_SERVER['SERVER_PORT']) . $_SERVER['SCRIPT_NAME'];
-$appsConfig = array();
-$b24domain = $_REQUEST['DOMAIN'];
-// если нам пришло событие исходящего звонка, то авторизация передается через узел auth в массиве request
-// но нам оттуда нужен только домен, авторизацию мы уже сохранили к этому моменту
-if (!empty($_REQUEST['auth'])) {
-    $b24domain = $_REQUEST['auth']['domain'];
-}
-$configFileName = '/config_' . trim(str_replace('.', '_', $b24domain)) . '.php';
-echo getcwd().$configFileName."<br/>";
-if (file_exists(getcwd() . $configFileName)) {
-    include_once getcwd() . $configFileName;
-} else {
-    // сохраняем токены пользователя, устанавливающего приложение
-    $appsConfig = $_REQUEST;
-    saveParams($appsConfig);
-    // регистрируем событие исходящего звонка
-    restCommand('event.bind', array(
-        "event" => 'ONEXTERNALCALLSTART',
-        "handler" => $script_url."?action=outcoming",
-    ),
-    $b24domain, $appsConfig['AUTH_ID']);
-    /* тестовое событие для проверки механизма
-    restCommand('event.bind', array(
-        "event" => 'ONAPPTEST',
-        "handler" => $script_url."?action=test",
-        ),
-        $b24domain, $appsConfig['AUTH_ID']);
-    */
-}
-$action = $_REQUEST['action'];
-// мы просто запустили приложение в интерфейсе Битрикс24
-if ($action == '') {
-?>
-<html>
-<head>
-    <meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="//api.bitrix24.tech/api/v1/"></script>
-</head>
-<body>
-<div class="form-group">
-    <label for="IncomingNumber">Incoming call number</label>
-    <input type="text" class="form-control" id="incomingNumber" placeholder="phone">
-</div>
-<div class="form-group">
-    <label for="user1">User 1</label>
-    <input type="text" class="form-control" id="user1" placeholder="user id" value="1">
-</div>
-<div class="form-group">
-    <label for="user2">User 2 (for call transfer)</label>
-    <input type="text" class="form-control" id="user2" placeholder="user id">
-</div>
-<a class="btn btn-default" href="#" role="button" id="incoming">Incoming</a>
-<a class="btn btn-default" href="#" role="button" id="redirect">Redirect</a>
-<a class="btn btn-default" href="#" role="button" id="drop">Drop</a>
-<a class="btn btn-default" href="#" role="button" id="test">Event test</a>
-<div id="debug"></div>
-<?
-    // если любопытно, можно посмотреть, какие параметры авторизации передает Битрикс24 скрипту приложения
-    // в случае выполнения приложения во фрейме внутри Битрикс24
-    //echo "<pre>";
-    //print_r($_REQUEST);
-    //echo "</pre>";
-?>
-<script>
-    $( "#incoming" ).on( "click", function( event ) {
-        // здесь мы имитируем работу внешней АТС, в частности, получение входящего звонка
-        // поэтому AJAX, передача параметров авторизации и т.д.
-        // в реальной практике, REST телефонии будет вызываться со стороны АТС, а там мы уже сохранили
-        // авторизационные токены (см. $appsConfig$appsConfig) и сами знаем, на какой Битрикс24 отправлять
-        // вызов REST, каким пользователям показывать карточку и т.д.
-        auth = BX24.getAuth();
-        $.ajax({
-            url: "<?=$script_url?>",
-            data: {
-                action: 'incoming',
-                user1: $( "#user1" ).val(),
-                phone: $( "#incomingNumber" ).val(),
-                DOMAIN: auth['domain']
-            },
-            success: function( result ) {
-                $( "#debug" ).html( result );
-            }
-        });
-    });
-    $( "#redirect" ).on( "click", function( event ) {
-        auth = BX24.getAuth();
-        $.ajax({
-            url: "<?=$script_url?>",
-            data: {
-                action: 'redirect',
-                user1: $( "#user1" ).val(),
-                user2: $( "#user2" ).val(),
-                DOMAIN: auth['domain']
-            },
-            success: function( result ) {
-                $( "#debug" ).html( result );
-            }
-        });
-    });
-    $( "#drop" ).on( "click", function( event ) {
-        auth = BX24.getAuth();
-        $.ajax({
-            url: "<?=$script_url?>",
-            data: {
-                action: 'drop',
-                user1: $( "#user1" ).val(),
-                user2: $( "#user2" ).val(),
-                DOMAIN: auth['domain']
-            },
-            success: function( result ) {
-                $( "#debug" ).html( result );
-            }
-        });
-    });
-    /* инициация тестового события на стороне серверного скрипта, ничего важного
-    $( "#test" ).on( "click", function( event ) {
-        auth = BX24.getAuth();
-        $.ajax({
-            url: "<?=$script_url?>",
-            data: {
-                action: 'eventtest',
-                DOMAIN: auth['domain']
-            },
-            success: function( result ) {
-                $( "#debug" ).html( result );
-            }
-        });
-    });
-    */
-</script>
-</body>
-</html>
-<? } else {
-    switch ($action) {
-        case 'test': writeToLog(array('test' => $_REQUEST), 'telephony test event');
-                break;
-        case 'outcoming':
-            writeToLog(array('outcoming' => $_REQUEST), 'telephony event');
-            $result = restCommand('telephony.externalCall.register',
-                array(
-                    "USER_ID" => $_REQUEST['data']['USER_ID'],
-                    "PHONE_NUMBER"   => $_REQUEST['data']['PHONE_NUMBER'],
-                    "TYPE" => '1',
-                    "CRM_CREATE" => 1
-                ),
-                $b24domain, $appsConfig['AUTH_ID']);
-            $appsConfig['CALL'] = $result['result'];
-            saveParams($appsConfig);
-            break;
-        case 'eventtest':
-            writeToLog(array('eventtest' => $_REQUEST), 'test event call');
-            $result = restCommand('event.test',
-                array(
-                ),
-                $b24domain, $appsConfig['AUTH_ID']);
-            echo "test event call";
-            break;
-        case 'incoming':
-            $result = restCommand('telephony.externalCall.register',
-                array(
-                    "USER_ID" => $_REQUEST['user1'],
-                    "PHONE_NUMBER"   => $_REQUEST['phone'],
-                    "TYPE" => '2',
-                    "CRM_CREATE" => true
-                ),
-                $b24domain, $appsConfig['AUTH_ID']);
-            $appsConfig['CALL'] = $result['result'];
-            saveParams($appsConfig);
-            echo "incoming <pre>";
-            print_r($appsConfig);
-            echo "</pre>";
-            break;
-        case 'redirect':
-            echo "redirect <pre>";
-            print_r($appsConfig);
-            echo "</pre>";
-            if ($appsConfig['CALL']['CALL_ID'] != '') {
-                $result = restCommand('telephony.externalCall.hide',
-                    array(
-                        "CALL_ID" => $appsConfig['CALL']['CALL_ID'],
-                        "USER_ID" => $_REQUEST['user1']
-                    ),
-                    $b24domain, $appsConfig['AUTH_ID']);
-                $result = restCommand('telephony.externalCall.show',
-                    array(
-                        "CALL_ID" => $appsConfig['CALL']['CALL_ID'],
-                        "USER_ID" => $_REQUEST['user2']
-                    ),
-                    $b24domain, $appsConfig['AUTH_ID']);
-            }
-            echo "redirected to ".$_REQUEST['user2'];
-            break;
-        case 'drop':
-            writeToLog(array('config' => $appsConfig), 'call is finishing');
-            if ($appsConfig['CALL']['CALL_ID'] != '') {
-                $result = restCommand('telephony.externalCall.finish',
-                    array(
-                        "CALL_ID" => $appsConfig['CALL']['CALL_ID'],
-                        "USER_ID" => $_REQUEST['user1'],
-                        "DURATION"   => '120',
-                        "STATUS_CODE" => '200',
-                        "ADD_TO_CHAT" => true
-                    ),
-                    $b24domain, $appsConfig['AUTH_ID']);
-                $appsConfig['CALL'] = $result['result'];
-                saveParams($appsConfig);
-                echo "finished <pre>";
-                print_r($appsConfig);
-                echo "</pre>";
-                writeToLog(array('request' => $_REQUEST, 'config' => $appsConfig), 'call is finished');
-            }
-            echo "dropped and saved";
-        break;
-    }
-}
-/**
- * Save application configuration.
- *
- * @param $params
- *
- * @return bool
- */
-function saveParams($params) {
-    $config = "<?php\n";
-    $config .= "\$appsConfig = " . var_export($params, true) . ";\n";
-    $config .= "?>";
-    $configFileName = '/config_' . trim(str_replace('.', '_', $_REQUEST['DOMAIN'])) . '.php';
-    file_put_contents(getcwd() . $configFileName, $config);
-    return true;
-}
-/**
- * Send rest query to Bitrix24.
- *
- * @param	   $method - Rest method, ex: methods
- * @param array $params - Method params, ex: array()
- * @param array $auth   - Authorize data, ex: array('domain' => 'https://test.bitrix24.com', 'access_token' => '7inpwszbuu8vnwr5jmabqa467rqur7u6')
- *
- * @return mixed
- */
-function restCommand($method, array $params = array(), $auth_domain, $access_token) {
-    $queryUrl  = 'https://' . $auth_domain . '/rest/' . $method;
-    $queryData = http_build_query(array_merge($params, array('auth' => $access_token)));
-    writeToLog(array('URL' => $queryUrl, 'PARAMS' => array_merge($params, array("auth" => $access_token))), 'telephony send data');
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_SSL_VERIFYPEER => 0,
-        CURLOPT_POST		   => 1,
-        CURLOPT_HEADER		 => 0,
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL			=> $queryUrl,
-        CURLOPT_POSTFIELDS	 => $queryData,
-        CURLOPT_VERBOSE		 => 1
-    ));
-    $result = curl_exec($curl);
-    writeToLog(array('raw' => $result), 'telephony got data');
-    curl_close($curl);
-    $result = json_decode($result, 1);
-    return $result;
-}
-/**
- * Write data to log file.
- *
- * @param mixed  $data
- * @param string $title
- *
- * @return bool
- */
-function writeToLog($data, $title = '') {
-    $log = "\n------------------------\n";
-    $log .= date("Y.m.d G:i:s") . "\n";
-    $log .= (strlen($title) > 0 ? $title : 'DEBUG') . "\n";
-    $log .= print_r($data, 1);
-    $log .= "\n------------------------\n";
-    file_put_contents(getcwd() . '/tel.log', $log, FILE_APPEND);
-    return true;
-}
-?>
-```
+Пример показывает минимальный цикл для входящего звонка: регистрация, показ карточки другому сотруднику и завершение.
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
+{% list tabs %}
+
+- JS
+
+    ```js
+    const registerResult = await $b24.callMethod(
+        'telephony.externalCall.register',
+        {
+            USER_ID: 1269,
+            PHONE_NUMBER: '79062195047',
+            TYPE: 2,
+            LINE_NUMBER: '3',
+            EXTERNAL_CALL_ID: 'asterisk-1773130778.18441',
+            SHOW: 1
+        }
+    );
+
+    const callId = registerResult.getData().result.CALL_ID;
+
+    await $b24.callMethod(
+        'telephony.externalCall.show',
+        {
+            CALL_ID: callId,
+            USER_ID: 1270
+        }
+    );
+
+    await $b24.callMethod(
+        'telephony.externalCall.finish',
+        {
+            CALL_ID: callId,
+            USER_ID: 1270,
+            DURATION: 95,
+            STATUS_CODE: '200',
+            ADD_TO_CHAT: 1
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    $registerResult = CRest::call(
+        'telephony.externalCall.register',
+        [
+            'USER_ID' => 1269,
+            'PHONE_NUMBER' => '79062195047',
+            'TYPE' => 2,
+            'LINE_NUMBER' => '3',
+            'EXTERNAL_CALL_ID' => 'asterisk-1773130778.18441',
+            'SHOW' => 1
+        ]
+    );
+
+    $callId = $registerResult['result']['CALL_ID'];
+
+    CRest::call(
+        'telephony.externalCall.show',
+        [
+            'CALL_ID' => $callId,
+            'USER_ID' => 1270
+        ]
+    );
+
+    CRest::call(
+        'telephony.externalCall.finish',
+        [
+            'CALL_ID' => $callId,
+            'USER_ID' => 1270,
+            'DURATION' => 95,
+            'STATUS_CODE' => '200',
+            'ADD_TO_CHAT' => 1
+        ]
+    );
+    ```
+
+{% endlist %}
+
+## Продолжите изучение
+
+- [Обзор методов телефонии](../../api-reference/telephony/index.md)
+- [События телефонии](../../api-reference/telephony/events/index.md)
+- [Вкладка в карточке звонка CALL_CARD](../../api-reference/widgets/telephony/index.md)
