@@ -48,6 +48,21 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.crm.enum.ownertype().response.result
+    ```
+
 {% endlist %}
 
 Метод возвращает четыре разных идентификатора:
@@ -192,6 +207,18 @@
     );
     ```
 
+- Python
+
+    ```python
+    result = client.crm.item.list(
+        entity_type_id=177,
+        select=["id", "title"],
+        filter={
+            "title": "Стиральная машина",
+        },
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получили ID элемента смарт-процесса — параметр, необходимый для следующего запроса.
@@ -259,6 +286,20 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.tasks.task.add(
+        fields={
+            "TITLE": "task for test",
+            "RESPONSIBLE_ID": 1,
+            "UF_CRM_TASK": [
+                "Tb1_29",
+            ],
+        }
+    ).response.result
     ```
 
 {% endlist %}
@@ -436,6 +477,15 @@
             'select' => ['ID', 'UF_CRM_TASK'] // выбираемые поля
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.tasks.task.get(
+        bitrix_id=3731,
+        select=["ID", "UF_CRM_TASK"],
+    ).response.result
     ```
 
 {% endlist %}
@@ -652,6 +702,78 @@
 
     // Вызов функции для создания задачи
     createTaskWithSmartProcess($smartProcessName, $itemName, $responsibleId, $taskTitle);
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    smart_process_name = "название_смарт_процесса"
+    item_name = "название_элемента"
+    responsible_id = "ID_ответственного"
+    task_title = "название_задачи"
+
+
+    def create_task_with_smart_process(client, smart_process_name, item_name, responsible_id, task_title):
+        try:
+            result = client.crm.enum.ownertype().response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка получения типов сущностей: {error}")
+            return
+
+        smart_process = None
+        for process in result:
+            if process["NAME"] == smart_process_name:
+                smart_process = process
+                break
+
+        if smart_process is None:
+            print("Смарт-процесс не найден")
+            return
+
+        symbol_code_short = smart_process["SYMBOL_CODE_SHORT"]
+
+        try:
+            item_result = client.crm.item.list(
+                entity_type_id=int(smart_process["ID"]),
+                select=["id", "title"],
+                filter={"title": item_name},
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка получения элементов смарт-процесса: {error}")
+            return
+
+        if len(item_result["items"]) == 0:
+            print("Элемент смарт-процесса не найден")
+            return
+
+        item_id = item_result["items"][0]["id"]
+
+        try:
+            task_result = client.tasks.task.add(
+                fields={
+                    "TITLE": task_title,
+                    "RESPONSIBLE_ID": responsible_id,
+                    "UF_CRM_TASK": [f"{symbol_code_short}_{item_id}"],
+                }
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка создания задачи: {error}")
+        else:
+            print("Задача успешно создана!")
+            print(task_result)
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    create_task_with_smart_process(client, smart_process_name, item_name, responsible_id, task_title)
     ```
 
 {% endlist %}

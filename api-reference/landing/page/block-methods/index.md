@@ -34,6 +34,20 @@
 
 Параметр `scope` задает внутренний тип сайта или страницы. Он не связан со скоупом доступа `landing`. Для страниц в скоупах `knowledge`, `group` и `mainpage` передавайте корректный `scope`, иначе метод может не найти страницу или блок.
 
+## Как выбрать метод
+
+#|
+|| **Если нужно** | **Метод** ||
+|| Добавить новый блок из репозитория на страницу | [landing.landing.addblock](./landing-landing-add-block.md) ||
+|| Скопировать блок на эту же или другую страницу | [landing.landing.copyblock](./landing-landing-copy-block.md) ||
+|| Перенести блок на другую страницу | [landing.landing.moveblock](./landing-landing-move-block.md) ||
+|| Изменить порядок блока на странице | [landing.landing.upblock](./landing-landing-up-block.md) или [landing.landing.downblock](./landing-landing-down-block.md) ||
+|| Временно скрыть или снова показать блок | [landing.landing.hideblock](./landing-landing-hide-block.md) или [landing.landing.showblock](./landing-landing-show-block.md) ||
+|| Пометить блок как удаленный или восстановить его | [landing.landing.markdeletedblock](./landing-landing-mark-deleted-block.md) или [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md) ||
+|| Удалить блок со страницы полностью | [landing.landing.deleteblock](./landing-landing-delete-block.md) ||
+|| Сохранить блок в «Мои блоки» или удалить его из сохраненных | [landing.landing.favoriteBlock](./landing-landing-favorite-block.md) или [landing.landing.unFavoriteBlock](./landing-landing-unfavorite-block.md) ||
+|#
+
 ## Связь с другими объектами
 
 **Список блоков страницы.** Метод [landing.block.getList](../../block/methods/landing-block-get-list.md) возвращает состав страницы и текущее состояние ее блоков.

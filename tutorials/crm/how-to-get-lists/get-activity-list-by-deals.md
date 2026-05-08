@@ -48,6 +48,21 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.user.current().response.result
+    ```
+
 {% endlist %}
 
 В результате получим идентификатор пользователя `"ID": "29"`.
@@ -114,6 +129,16 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.crm.item.list(
+        entity_type_id=2,
+        select=["id", "title"],
+        filter={"assignedById": 29},
+    ).response.result
     ```
 
 {% endlist %}
@@ -199,6 +224,22 @@
     );
     ```
 
+- Python
+
+    ```python
+    result = client.crm.activity.list(
+        filter={
+            "BINDINGS": [
+                {"OWNER_TYPE_ID": 2, "OWNER_ID": 5111},
+                {"OWNER_TYPE_ID": 2, "OWNER_ID": 5199},
+                {"OWNER_TYPE_ID": 2, "OWNER_ID": 5257},
+            ],
+            "COMPLETED": "N",
+        },
+        select=["ID", "OWNER_ID", "SUBJECT", "DEADLINE", "RESPONSIBLE_ID"],
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим список дел с описанием каждого дела.
@@ -260,6 +301,16 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.user.get(
+        filter={
+            "ID": [29, 47],
+        }
+    ).response.result
     ```
 
 {% endlist %}
@@ -617,6 +668,127 @@
             $responsibleName
         ]) . "\n";
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+
+    def build_bindings_from_deal_ids(deal_ids):
+        return [{"OWNER_TYPE_ID": 2, "OWNER_ID": deal_id} for deal_id in deal_ids]
+
+
+    def fetch_all_items(fetch_page, data_key=None):
+        all_results = []
+        start = 0
+        batch_size = 50
+
+        while True:
+            response = fetch_page(start)
+            if data_key is None:
+                page_items = response.result or []
+            else:
+                page_items = response.result.get(data_key, [])
+
+            all_results.extend(page_items)
+
+            if len(page_items) < batch_size:
+                break
+
+            start += batch_size
+
+        return all_results
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    current = client.user.current().response.result
+    user_id = int(current["ID"])
+    print(f"Текущий пользователь ID: {user_id}")
+
+    all_items = fetch_all_items(
+        lambda start: client.crm.item.list(
+            entity_type_id=2,
+            select=["id", "title"],
+            filter={"assignedById": user_id},
+            start=start,
+        ).response,
+        data_key="items",
+    )
+
+    deal_ids = [int(item["id"]) for item in all_items]
+    deal_map = {int(item["id"]): item["title"] for item in all_items}
+
+    print(f"Найдено сделок: {len(deal_ids)}")
+
+    if not deal_ids:
+        print("У сотрудника нет сделок")
+    else:
+        bindings = build_bindings_from_deal_ids(deal_ids)
+
+        all_activities = fetch_all_items(
+            lambda start: client.crm.activity.list(
+                filter={
+                    "BINDINGS": bindings,
+                    "COMPLETED": "N",
+                },
+                select=["ID", "OWNER_ID", "SUBJECT", "DEADLINE", "RESPONSIBLE_ID"],
+                start=start,
+            ).response
+        )
+
+        if not all_activities:
+            print("Нет незавершенных дел по сделкам.")
+            print("\t".join(["ID дела", "Сделка", "Тема", "Дедлайн", "Ответственный"]))
+        else:
+            responsible_ids = sorted(
+                {
+                    int(item["RESPONSIBLE_ID"])
+                    for item in all_activities
+                    if item.get("RESPONSIBLE_ID")
+                }
+            )
+
+            user_map = {}
+            if responsible_ids:
+                users = fetch_all_items(
+                    lambda start: client.user.get(
+                        filter={"ID": responsible_ids},
+                        start=start,
+                    ).response
+                )
+                for user in users:
+                    full_name = f"{user.get('NAME', '')} {user.get('LAST_NAME', '')}".strip()
+                    user_map[str(user["ID"])] = full_name or user.get("LOGIN", f"Пользователь {user['ID']}")
+
+            print("\t".join(["ID дела", "Сделка", "Тема", "Дедлайн", "Ответственный"]))
+            for activity in all_activities:
+                activity_id = activity.get("ID", "")
+                owner_id = int(activity.get("OWNER_ID", 0))
+                deal_title = deal_map.get(owner_id, f"Сделка #{owner_id}")
+                subject = activity.get("SUBJECT", "")
+                deadline = activity.get("DEADLINE", "")
+                responsible_id = activity.get("RESPONSIBLE_ID", "")
+                responsible_name = user_map.get(str(responsible_id), f"Пользователь {responsible_id} (не найден)")
+
+                print(
+                    "\t".join(
+                        [
+                            str(activity_id),
+                            str(deal_title),
+                            str(subject),
+                            str(deadline),
+                            str(responsible_name),
+                        ]
+                    )
+                )
     ```
 
 {% endlist %}

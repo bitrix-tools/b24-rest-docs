@@ -61,8 +61,188 @@ blocks:
             url: '/first-steps/first-rest-api-call.html'
 
   - type: 'card-layout-block'
+    title: 'Как устроен REST API'
+    colSizes:
+      all: 12
+      md: 4
+      sm: 6
+    children:
+      - type: 'basic-card'
+        title: 'Версии API'
+        text: 'В Битрикс24 используются две версии REST API: REST и REST 3.0. Они различаются путем вызова, форматом некоторых ответов и составом документации. Перед началом работы уточните, какая версия REST используется в вашем сценарии.'
+        links:
+          - text: 'Сравнение версий REST'
+            theme: 'normal'
+            url: '/api-reference/rest-v3/index.html'
+      - type: 'basic-card'
+        title: 'Именование методов'
+        text: 'Название метода часто помогает понять область API и тип операции. Но одного имени метода недостаточно, чтобы точно определить его поведение, параметры и ограничения. Используйте название как ориентир, а подробности проверяйте в справочнике API.'
+        links:
+          - text: 'Справочник API'
+            theme: 'normal'
+            url: '/api-reference/index.html'
+      - type: 'basic-card'
+        title: 'Ответ метода'
+        text: 'Методы REST API возвращают ответ в JSON. Структура успешного ответа и формат ошибки зависят от версии REST и конкретного метода. Точные поля ответа смотрите в описании нужного метода.'
+        links:
+          - text: 'Коды ошибок'
+            theme: 'normal'
+            url: '/error-codes.html'
+
+  - type: 'card-layout-block'
+    title: 'Какой сценарий интеграции выбрать'
+    description: 'В Битрикс24 можно использовать webhook и разные типы приложений. Сначала определите, нужен ли вам webhook или приложение, затем выберите подходящий сценарий по архитектуре и интерфейсу.'
+    colSizes:
+      all: 12
+      md: 6
+      sm: 6
+    children:
+      - type: 'layout-item'
+        content:
+          title: 'Быстрые вызовы отдельных методов без разработки приложения'
+          text: 'Подходит для простых сценариев, когда нужно быстро обратиться к отдельным методам без серверной логики приложения и пользовательского интерфейса в слайдере.'
+          links:
+            - text: 'Webhook'
+              theme: 'normal'
+              url: '/local-integrations/local-webhooks.html'
+      - type: 'layout-item'
+        content:
+          title: 'Статичная страница внутри Битрикс24 без серверной логики'
+          text: 'Подходит для простых локальных приложений, которые открываются внутри портала, не выполняют серверную логику и не отправляют запросы на внешний сервер.'
+          links:
+            - text: 'Локальное приложение'
+              theme: 'normal'
+              url: '/local-integrations/local-apps.html'
+      - type: 'layout-item'
+        content:
+          title: 'Серверная логика с интерфейсом в слайдере'
+          text: 'Подходит и для локальных, и для тиражных приложений. Выбор зависит от того, нужно ли решение только для одного портала или для публикации в Маркетплейсе.'
+          links:
+            - text: 'Локальное приложение'
+              theme: 'normal'
+              url: '/local-integrations/local-apps.html'
+            - text: 'Приложение Маркетплейса'
+              theme: 'normal'
+              url: '/market/index.html'
+      - type: 'layout-item'
+        content:
+          title: 'Серверная логика без интерфейса'
+          text: 'Подходит и для локальных, и для тиражных приложений. Такой сценарий используется, когда приложение работает в фоне и пользователь не открывает его в слайдере.'
+          links:
+            - text: 'Локальное приложение'
+              theme: 'normal'
+              url: '/local-integrations/local-apps.html'
+            - text: 'Приложение Маркетплейса'
+              theme: 'normal'
+              url: '/market/index.html'
+
+
+  - dots: true
+    type: 'slider-block'
+    title:
+      text: 'Популярные разделы API'
+    description: 'Краткий список разделов, с которых чаще всего начинают работу. Полный список возможностей смотрите в <a href="/api-reference/index.html">справочнике API</a>.'
+    children:
+      - type: 'basic-card'
+        title: 'CRM'
+        text: 'Лиды, сделки, контакты, компании, смарт-процессы'
+        buttons:
+          - text: 'CRM: API-методы'
+            theme: 'outlined'
+            size: 'promo'
+            url: '/api-reference/crm/index.html'
+      - type: 'basic-card'
+        title: 'Задачи'
+        text: 'Задачи, чеклисты, комментарии, стадии и потоки'
+        buttons:
+          - text: 'Задачи: API-методы'
+            theme: 'outlined'
+            size: 'promo'
+            url: '/api-reference/tasks/index.html'
+      - type: 'basic-card'
+        title: 'Чаты'
+        text: 'Чаты, сообщения, уведомления, операции с диалогами'
+        buttons:
+          - text: 'Чаты: API-методы'
+            theme: 'outlined'
+            size: 'promo'
+            url: '/api-reference/chats/index.html'
+      - type: 'basic-card'
+        title: 'Каталог'
+        text: 'Товары, цены, разделы, свойства, остатки'
+        buttons:
+          - text: 'Каталог: API-методы'
+            theme: 'outlined'
+            size: 'promo'
+            url: '/api-reference/catalog/index.html'
+      - type: 'basic-card'
+        title: 'Пользователи'
+        text: 'Пользователи, структура компании, пользовательские поля'
+        buttons:
+          - text: 'Пользователи: API-методы'
+            theme: 'outlined'
+            size: 'promo'
+            url: '/api-reference/user/index.html'
+      - type: 'basic-card'
+        title: 'Календарь: API-методы'
+        text: 'События, календари, ресурсы и бронирование'
+        buttons:
+          - text: 'Календарь: API-методы'
+            theme: 'outlined'
+            size: 'promo'
+            url: '/api-reference/calendar/index.html'
+    arrows: false
+
+
+  - type: 'card-layout-block'
+    title: 'Ключевые концепции'
+    colSizes:
+      all: 12
+      md: 4
+      sm: 6
+    children:
+      - type: 'basic-card'
+        title: 'Scope'
+        text: 'Для вызова метода нужны соответствующие права доступа. Набор прав зависит от сценария интеграции и конкретного метода. Проверяйте требования на странице метода и в описании scope.'
+        links:
+          - text: 'Права доступа'
+            theme: 'normal'
+            url: '/api-reference/scopes/index.html'
+      - type: 'basic-card'
+        title: 'Лимиты'
+        text: 'В Битрикс24 действуют лимиты на интенсивность запросов и ресурсоемкость методов. Перед массовыми вызовами проверьте ограничения и рекомендации по снижению нагрузки.'
+        links:
+          - text: 'Лимиты REST API'
+            theme: 'normal'
+            url: '/limits.html'
+      - type: 'basic-card'
+        title: 'Batch'
+        text: 'Метод batch позволяет объединить несколько вызовов в один запрос и снизить нагрузку на лимиты.'
+        links:
+          - text: 'Как использовать batch'
+            theme: 'normal'
+            url: '/settings/how-to-call-rest-api/batch.html'
+      - type: 'basic-card'
+        title: 'Пагинация'
+        text: 'Многие методы списка возвращают данные частями. Способ постраничного получения результатов и параметры пагинации зависят от метода и версии REST. Проверяйте детали в описании конкретного метода.'
+        links:
+          - text: 'Особенности списочных методов'
+            theme: 'normal'
+            url: '/settings/how-to-call-rest-api/list-methods-pecularities.html'
+      - type: 'basic-card'
+        title: 'Файлы'
+        text: 'В Битрикс24 используются разные сценарии работы с файловыми полями. Способ передачи файла зависит от типа поля и метода. Перед загрузкой, обновлением или удалением файла проверьте, какой сценарий поддерживает нужный вам метод.'
+        links:
+          - text: 'Как загрузить файлы'
+            theme: 'normal'
+            url: '/api-reference/files/how-to-upload-files.html'
+          - text: 'Как обновить и удалить файлы'
+            theme: 'normal'
+            url: '/api-reference/files/how-to-update-files.html'
+
+  - type: 'card-layout-block'
     title: 'Частые кейсы и сценарии'
-    description: Если вам нужны быстрые решения для ваших практических задач, начните с <a href="/tutorials/index.html">этого раздела</a>. Дальше вы сможете адаптировать наши примеры к вашей ситуации, используя все многообразие методов REST API.
+    description: Если вам нужен готовый сценарий для практической задачи, начните с раздела <a href="/tutorials/index.html">Частые кейсы и сценарии</a>. Здесь собраны примеры интеграций и типовые задачи. Для точных параметров и ограничений используйте страницы конкретных методов в справочнике API.
     colSizes:
       all: 12
       md: 4
@@ -101,7 +281,7 @@ blocks:
         links:
           - text: 'Найти пример'
             theme: 'normal'
-            url: '/'
+            url: '/tutorials/index.html'
 
   - type: 'filter-block'
     centered: true
@@ -114,6 +294,8 @@ blocks:
         label: 'Битрикс24 Маркетплейс'
       - id: 'three'
         label: 'Справочник API'
+      - id: 'four'
+        label: 'Библиотеки для разработки'
     colSizes:
       all: 12
       xl: 12
@@ -166,13 +348,28 @@ blocks:
                 theme: 'normal'
                 arrow: true
                 color: #54BA7E
+      - tags:
+          - 'four'
+        card:
+          type: 'layout-item'
+          media:
+            image: '_images/sdk.jpg'
+            disableCompress: true
+          border: true
+          content:
+            links:
+              - text: 'Посмотреть документацию'
+                url: 'sdk'
+                theme: 'normal'
+                arrow: true
+                color: #54BA7E
 
   - type: 'card-layout-block'
     title: 'Комьюнити и коммуникация с Битрикс24'
     children:
       - type: 'background-card'
         title: 'Улучшить документацию'
-        text: 'Мы выложили исходный код нашей документации в открытый доступ. Вы можете помочь нам стать лучше.'
+        text: 'Мы выложили исходный код документации в открытый доступ. Вы можете помочь нам стать лучше.'
         background:
           src: '_images/img_restapi_banner_l_01.png'
           disableCompress: true
@@ -185,7 +382,7 @@ blocks:
         theme: 'light'
       - type: 'background-card'
         title: 'Общаться с коллегами'
-        text: 'Если не нашли ответ на свой вопрос в официальной документации, присоединяйтесь к коммьюнити разработчиков — это лучшая среда для обмена опытом.'
+        text: 'Если не нашли ответ в официальной документации, присоединяйтесь к комьюнити разработчиков — это лучшая среда для обмена опытом.'
         background:
           src: '_images/img_restapi_banner_l_02.png'
           disableCompress: true
@@ -198,7 +395,7 @@ blocks:
         theme: 'light'
       - type: 'background-card'
         title: 'Связаться с поддержкой'
-        text: 'Наша техническая поддержка помогает решать проблемы партнерам и клиентам. Мы всегда открыты к диалогу!'
+        text: 'Наша техническая поддержка помогает решать проблемы партнерам и клиентам. Мы всегда открыты к диалогу.'
         background:
           src: '_images/img_restapi_banner_l_03.png'
           disableCompress: true

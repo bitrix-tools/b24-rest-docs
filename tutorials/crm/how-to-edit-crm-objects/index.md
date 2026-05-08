@@ -1,4 +1,4 @@
-# Редактирование данных
+# Редактирование данных в CRM
 
 {% note tip "" %}
 
@@ -6,11 +6,39 @@
 
 {% endnote %}
 
-- [{#T}](./how-to-generate-edit-form-for-lead.md)
-- [{#T}](./how-to-make-contact-edit-card.md)
-- [{#T}](./how-to-generate-edit-form-for-company.md)
-- [{#T}](./how-to-generate-edit-form-for-deal.md)
-- [{#T}](./how-to-change-email-or-phone.md)
-- [{#T}](./how-to-move-activity.md)
-- [{#T}](./how-to-move-activity-between-objects.md)
-- [{#T}](./how-to-set-paid-date-to-deal.md)
+Редактирование данных CRM — это изменение значений в карточках и связанных объектах: полях лидов, контактов, компаний и сделок, телефонов и email, привязок дел и даты оплаты.
+
+Сценарий — это последовательность запросов для одной задачи. В нем описан порядок вызова методов и приведен пример кода.
+
+> Быстрый переход: [все сценарии](#choose-tutorial)
+
+## Связь с объектами CRM
+
+Сценарии связаны с карточками клиентов, сделками, делами, пользовательскими полями и оплатами.
+
+- **Лиды, контакты, компании и сделки.** Формы редактирования строят по полям объекта. Базовые операции выполняют методами [crm.lead.*](../../../api-reference/crm/leads/index.md), [crm.contact.*](../../../api-reference/crm/contacts/index.md), [crm.company.*](../../../api-reference/crm/companies/index.md) и [crm.deal.*](../../../api-reference/crm/deals/index.md)
+- **Телефоны и email.** Контактные данные хранятся в полях типа [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield). Чтобы изменить или удалить значение, передайте новый массив в метод обновления объекта
+- **Дела.** Дела связаны с объектами CRM через привязки. Получить дело можно методом [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), изменить связь — методами [crm.activity.binding.*](../../../api-reference/crm/timeline/activities/binding/index.md)
+- **Пользовательские поля и оплаты.** Дату оплаты можно получить методом [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md) и сохранить в пользовательское поле сделки методами [crm.deal.userfield.*](../../../api-reference/crm/deals/user-defined-fields/index.md) и [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md)
+
+## Как начать работу
+
+1. Определите объект CRM: лид, контакт, компания или сделка
+2. Выберите сценарий в таблице [Как выбрать сценарий](#choose-tutorial)
+3. Проверьте, какие права и scopes указаны в выбранном сценарии
+4. Получите идентификаторы объекта CRM, дела, поля или оплаты, которые нужны для сценария
+5. Выполните методы в порядке, который описан в сценарии
+
+## Как выбрать сценарий {#choose-tutorial}
+
+#|
+|| **Если нужно** | **Откройте** ||
+|| Собрать форму с полями лида и сохранить изменения | [Как сделать свою карточку редактирования лида](./how-to-generate-edit-form-for-lead.md) ||
+|| Собрать форму с полями контакта и сохранить изменения | [Как сделать свою карточку редактирования контакта](./how-to-make-contact-edit-card.md) ||
+|| Собрать форму с полями компании и сохранить изменения | [Как сделать свою карточку редактирования компании](./how-to-generate-edit-form-for-company.md) ||
+|| Собрать форму с полями сделки и сохранить изменения | [Как сделать свою карточку редактирования сделки](./how-to-generate-edit-form-for-deal.md) ||
+|| Обновить список телефонов или email в карточке контакта | [Как изменить или удалить номера телефонов и email](./how-to-change-email-or-phone.md) ||
+|| Перенести дело между двумя элементами одного типа | [Как перенести дело между элементами одного типа](./how-to-move-activity.md) ||
+|| Перенести дело, например из лида в компанию | [Как перенести дело из одного типа объекта в другой](./how-to-move-activity-between-objects.md) ||
+|| Записать дату оплаты в пользовательское поле сделки | [Как сохранить дату оплаты в поле сделки](./how-to-set-paid-date-to-deal.md) ||
+|#

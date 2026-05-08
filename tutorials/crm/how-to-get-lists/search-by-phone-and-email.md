@@ -87,6 +87,25 @@
    ];
    ```
 
+- Python
+
+   ```python
+   phone = input("Введите номер телефона: ")
+   email = input("Введите email: ")
+
+   entity_ids = {
+       "LEAD": [],
+       "CONTACT": [],
+       "COMPANY": [],
+   }
+
+   result_entity = {
+       "lead": [],
+       "contact": [],
+       "company": [],
+   }
+   ```
+
 {% endlist %}
 
 ## 1\. Найдем дубликаты объектов
@@ -199,6 +218,34 @@
    }
    ```
 
+- Python
+
+   ```python
+   if phone:
+       result = client.crm.duplicate.find_by_comm(
+           type="PHONE",
+           values=[phone],
+       ).response.result
+       if isinstance(result.get("LEAD"), list):
+           entity_ids["LEAD"].extend(result["LEAD"])
+       if isinstance(result.get("CONTACT"), list):
+           entity_ids["CONTACT"].extend(result["CONTACT"])
+       if isinstance(result.get("COMPANY"), list):
+           entity_ids["COMPANY"].extend(result["COMPANY"])
+
+   if email:
+       result = client.crm.duplicate.find_by_comm(
+           type="EMAIL",
+           values=[email],
+       ).response.result
+       if isinstance(result.get("LEAD"), list):
+           entity_ids["LEAD"].extend(result["LEAD"])
+       if isinstance(result.get("CONTACT"), list):
+           entity_ids["CONTACT"].extend(result["CONTACT"])
+       if isinstance(result.get("COMPANY"), list):
+           entity_ids["COMPANY"].extend(result["COMPANY"])
+   ```
+
 {% endlist %}
 
 Метод [crm.duplicate.findbycomm](../../../api-reference/crm/duplicates/crm-duplicate-find-by-comm.md) вернет списки идентификаторов лидов, контактов и компаний, где встречается указанный телефон или адрес электронной почты.
@@ -257,6 +304,19 @@
            $resultEntity['lead'] = $result['result'];
        }
    }
+   ```
+
+- Python
+
+   ```python
+   if entity_ids["LEAD"]:
+       result = client.crm.lead.list(
+           filter={"ID": entity_ids["LEAD"]},
+           select=["ID", "NAME", "LAST_NAME", "PHONE", "EMAIL", "TITLE"],
+       ).response.result
+
+       if result:
+           result_entity["lead"] = result
    ```
 
 {% endlist %}
@@ -336,6 +396,19 @@
    }
    ```
 
+- Python
+
+   ```python
+   if entity_ids["CONTACT"]:
+       result = client.crm.contact.list(
+           filter={"ID": entity_ids["CONTACT"]},
+           select=["ID", "NAME", "LAST_NAME", "PHONE", "EMAIL"],
+       ).response.result
+
+       if result:
+           result_entity["contact"] = result
+   ```
+
 {% endlist %}
 
 Метод [crm.contact.list](../../../api-reference/crm/contacts/crm-contact-list.md) вернет список контактов по фильтру.
@@ -410,6 +483,19 @@
            $resultEntity['company'] = $result['result'];
        }
    }
+   ```
+
+- Python
+
+   ```python
+   if entity_ids["COMPANY"]:
+       result = client.crm.company.list(
+           filter={"ID": entity_ids["COMPANY"]},
+           select=["ID", "PHONE", "EMAIL", "TITLE"],
+       ).response.result
+
+       if result:
+           result_entity["company"] = result
    ```
 
 {% endlist %}
@@ -528,6 +614,40 @@
    foreach ($table as $row) {
        echo implode("\t", $row) . "\n";
    }
+   ```
+
+- Python
+
+   ```python
+   table = [[
+       "Идентификатор",
+       "Тип объекта",
+       "Название/Имя и фамилия",
+       "Телефон",
+       "Email",
+   ]]
+
+   for entity_type, entities in result_entity.items():
+       for item in entities:
+           phones = ", ".join(phone["VALUE"] for phone in (item.get("PHONE") or []))
+           emails = ", ".join(email["VALUE"] for email in (item.get("EMAIL") or []))
+           title = item.get("TITLE") or ""
+           name_part = " ".join(filter(None, [item.get("NAME"), item.get("LAST_NAME")]))
+           if title and name_part:
+               title = f"{title}: {name_part}"
+           elif name_part:
+               title = name_part
+
+           table.append([
+               item["ID"],
+               entity_type,
+               title or "—",
+               phones or "—",
+               emails or "—",
+           ])
+
+   for row in table:
+       print("\t".join(map(str, row)))
    ```
 
 {% endlist %}
@@ -883,5 +1003,105 @@
    
    ?>
    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    phone = input("Введите номер телефона: ")
+    email = input("Введите email: ")
+
+    entity_ids = {"LEAD": [], "CONTACT": [], "COMPANY": []}
+    result_entity = {"lead": [], "contact": [], "company": []}
+
+    try:
+        if phone:
+            phone_result = client.crm.duplicate.find_by_comm(
+                type="PHONE",
+                values=[phone],
+            ).response.result
+            for key in entity_ids:
+                entity_ids[key].extend(phone_result.get(key, []))
+
+        if email:
+            email_result = client.crm.duplicate.find_by_comm(
+                type="EMAIL",
+                values=[email],
+            ).response.result
+            for key in entity_ids:
+                entity_ids[key].extend(email_result.get(key, []))
+
+        if entity_ids["LEAD"]:
+            result = client.crm.lead.list(
+                filter={"ID": entity_ids["LEAD"]},
+                select=["ID", "NAME", "LAST_NAME", "PHONE", "EMAIL", "TITLE"],
+            ).response.result
+            if result:
+                result_entity["lead"] = result
+
+        if entity_ids["CONTACT"]:
+            result = client.crm.contact.list(
+                filter={"ID": entity_ids["CONTACT"]},
+                select=["ID", "NAME", "LAST_NAME", "PHONE", "EMAIL"],
+            ).response.result
+            if result:
+                result_entity["contact"] = result
+
+        if entity_ids["COMPANY"]:
+            result = client.crm.company.list(
+                filter={"ID": entity_ids["COMPANY"]},
+                select=["ID", "PHONE", "EMAIL", "TITLE"],
+            ).response.result
+            if result:
+                result_entity["company"] = result
+    except BitrixAPIError as error:
+        print(error)
+
+    table = [[
+        "Идентификатор",
+        "Тип объекта",
+        "Название/Имя и фамилия",
+        "Телефон",
+        "Email",
+    ]]
+
+    for entity_type, entities in result_entity.items():
+        for item in entities:
+            phones = ""
+            if item.get("PHONE"):
+                phones = ", ".join(phone["VALUE"] for phone in item["PHONE"])
+
+            emails = ""
+            if item.get("EMAIL"):
+                emails = ", ".join(email["VALUE"] for email in item["EMAIL"])
+
+            title = item.get("TITLE") or ""
+            if item.get("NAME") or item.get("LAST_NAME"):
+                name_part = " ".join(filter(None, [item.get("NAME"), item.get("LAST_NAME")]))
+                if title:
+                    title = f"{title}: {name_part}"
+                else:
+                    title = name_part
+
+            table.append([
+                item["ID"],
+                entity_type,
+                title or "—",
+                phones or "—",
+                emails or "—",
+            ])
+
+    for row in table:
+        print("\t".join(map(str, row)))
+    ```
 
 {% endlist %}

@@ -64,6 +64,29 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.crm.category.list(
+        entity_type_id=3,
+    ).response.result
+    categories = [
+        category
+        for category in result.get("categories", [])
+        if category.get("code") == "CATALOG_CONTRACTOR_CONTACT"
+    ]
+    print(categories)
+    ```
+
 {% endlist %}
 
 В результате получим идентификатор категории. В примере `id`:`15`. Идентификатор может отличаться на разных Битрикс24.
@@ -129,6 +152,18 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    result = client.crm.item.list(
+        entity_type_id=3,
+        select=["id", "name", "lastName", "categoryId"],
+        filter={
+            "categoryId": 15,
+        },
+    ).response.result
     ```
 
 {% endlist %}
@@ -259,6 +294,55 @@
     } else {
         print_r($resultItems['result']);
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    entity_type_id = 3
+
+    category_code = (
+        "CATALOG_CONTRACTOR_CONTACT"
+        if entity_type_id == 3
+        else "CATALOG_CONTRACTOR_COMPANY"
+    )
+
+    try:
+        categories_response = client.crm.category.list(
+            entity_type_id=entity_type_id,
+        ).response.result.get("categories", [])
+        categories = [
+            category
+            for category in categories_response
+            if category.get("code") == category_code
+        ]
+    except BitrixAPIError as error:
+        print(error)
+    else:
+        if not categories:
+            print("Категория поставщиков не найдена")
+        else:
+            try:
+                items_result = client.crm.item.list(
+                    entity_type_id=entity_type_id,
+                    select=["id", "name", "lastName", "categoryId"],
+                    filter={"categoryId": categories[0]["id"]},
+                    order={"ID": "DESC"},
+                ).response.result
+            except BitrixAPIError as error:
+                print(error)
+            else:
+                print(items_result)
     ```
 
 {% endlist %}

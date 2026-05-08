@@ -60,6 +60,25 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    result = client.crm.type.list(
+        filter={
+            "title": "Закупка оборудования",
+        }
+    ).response.result
+    ```
+
 {% endlist %}
 
 В результате получим id -- это порядковый номер смарт-процесса в Битрикс24. В примере `id`: `7`.
@@ -184,6 +203,35 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    field = client.userfieldconfig.add(
+        module_id="crm",
+        field={
+            "entityId": "CRM_7",
+            "fieldName": "UF_CRM_7_NEW_REST_LIST",
+            "userTypeId": "enumeration",
+            "multiple": "Y",
+            "editFormLabel": {
+                "ru": "Список характеристик",
+            },
+            "enum": [
+                {
+                    "value": "Характеристика 1",
+                    "def": "N",
+                    "sort": 100,
+                },
+                {
+                    "value": "Характеристика 2",
+                    "def": "Y",
+                    "sort": 200,
+                },
+            ],
+        },
+    ).response.result["field"]
     ```
 
 {% endlist %}
@@ -403,6 +451,70 @@
     // Вызов функции для получения данных смарт-процесса и создания пользовательского поля
     $processTitle = readline("Введите название смарт-процесса для поиска: ");
     getCrmTypeAndAddUserField($processTitle);
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def get_crm_type_and_add_user_field(client):
+        process_title = input("Введите название смарт-процесса для поиска: ")
+
+        try:
+            resp = client.crm.type.list(
+                filter={"title": process_title},
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка при получении смарт-процесса: {error}")
+            return
+
+        print("Смарт-процесс успешно получен:")
+        print(resp.result)
+
+        types = resp.result.get("types") or []
+        if types:
+            spa_id = int(types[0]["id"])
+            add_user_field(client, spa_id)
+        else:
+            print("Смарт-процесс не найден.")
+
+
+    def add_user_field(client, spa_id):
+        try:
+            result = client.userfieldconfig.add(
+                module_id="crm",
+                field={
+                    "entityId": f"CRM_{spa_id}",
+                    "fieldName": f"UF_CRM_{spa_id}_NEW_REST_LIST",
+                    "userTypeId": "enumeration",
+                    "multiple": "Y",
+                    "editFormLabel": {
+                        "ru": "Список характеристик",
+                    },
+                    "enum": [
+                        {"value": "Характеристика 1", "def": "N", "sort": 100},
+                        {"value": "Характеристика 2", "def": "Y", "sort": 200},
+                    ],
+                },
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка создания пользовательского поля: {error}")
+        else:
+            print("Пользовательское поле успешно создано:")
+            print(result.result)
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    get_crm_type_and_add_user_field(client)
     ```
 
 {% endlist %}

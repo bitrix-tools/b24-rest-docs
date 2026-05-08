@@ -172,7 +172,6 @@
             select: ['id', 'code'],
             filter: {'%code': 'smart'},
             order: {'code': 'asc'},
-            start: 0,
         }, 
         function(result) 
         { 
@@ -183,6 +182,11 @@
             else
             {
                 console.dir(result);
+
+                if (result.more())
+                {
+                    result.next();
+                }
             } 
         } 
     );

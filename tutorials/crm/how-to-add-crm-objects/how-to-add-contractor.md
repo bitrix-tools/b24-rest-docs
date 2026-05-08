@@ -64,6 +64,26 @@
     );
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+
+    client = Client(BitrixWebhook(domain="your-domain.bitrix24.com", webhook_token="user_id/webhook_key"))
+
+    response = client.crm.category.list(
+        entity_type_id=3,
+    ).response
+    categories = [
+        category
+        for category in response.result.get("categories", [])
+        if category.get("code") == "CATALOG_CONTRACTOR_CONTACT"
+    ]
+
+    print(categories)
+    ```
+
 {% endlist %}
 
 В результате получим идентификатор категории. В примере `id`:`15`. Идентификатор может отличаться на разных Битрикс24.
@@ -157,6 +177,27 @@
             ]
         ]
     );
+    ```
+
+- Python
+
+    ```python
+    response = client.crm.item.add(
+        entity_type_id=3,
+        fields={
+            "name": "Иван",
+            "lastName": "Иванов",
+            "categoryId": 15,
+            "fm": [
+                {"typeId": "PHONE", "valueType": "WORK", "value": "+7 900 000 00 00"},
+                {"typeId": "PHONE", "valueType": "MOBILE", "value": "+7 495 111 22 33"},
+                {"typeId": "EMAIL", "valueType": "WORK", "value": "supplier@example.ru"},
+            ],
+            "comments": "Поставщик электроники",
+        },
+    ).response
+
+    print(response.result)
     ```
 
 {% endlist %}
@@ -366,6 +407,56 @@
     } else {
         print_r($resultItem['result']);
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    client = Client(BitrixWebhook(domain="your-domain.bitrix24.com", webhook_token="user_id/webhook_key"))
+
+    entity_type_id = 3  # 3 - контакт; для компании используйте 4
+    category_code = "CATALOG_CONTRACTOR_CONTACT"  # для компании используйте CATALOG_CONTRACTOR_COMPANY
+
+    try:
+        category_response = client.crm.category.list(
+            entity_type_id=entity_type_id,
+        ).response
+    except BitrixAPIError as error:
+        print(error)
+    else:
+        categories = [
+            category
+            for category in category_response.result.get("categories", [])
+            if category.get("code") == category_code
+        ]
+        if not categories:
+            print("Категория поставщиков не найдена")
+        else:
+            category_id = categories[0]["id"]
+
+            try:
+                item_response = client.crm.item.add(
+                    entity_type_id=entity_type_id,
+                    fields={
+                        "name": "Иван",
+                        "lastName": "Иванов",
+                        "categoryId": category_id,
+                        "fm": [
+                            {"typeId": "PHONE", "valueType": "WORK", "value": "+7 900 000 00 00"},
+                            {"typeId": "PHONE", "valueType": "MOBILE", "value": "+7 495 111 22 33"},
+                            {"typeId": "EMAIL", "valueType": "WORK", "value": "supplier@example.ru"},
+                        ],
+                        "comments": "Поставщик электроники",
+                    },
+                ).response
+            except BitrixAPIError as error:
+                print(error)
+            else:
+                print(item_response.result)
     ```
 
 {% endlist %}

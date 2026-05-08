@@ -216,7 +216,6 @@
       'crm.lead.list',
       {
         select: ['*', 'UF_*'],
-        start: 50,
         filter: {
             '=OPPORTUNITY': 15000,
         },
@@ -233,6 +232,11 @@
         }
         
         console.info(result.data());
+
+        if (result.more())
+        {
+          result.next();
+        }
       }
     );
     ```

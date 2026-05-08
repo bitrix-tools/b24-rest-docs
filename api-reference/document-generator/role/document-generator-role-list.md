@@ -99,9 +99,7 @@
   ```js
   BX24.callMethod(
       'documentgenerator.role.list',
-      {
-          start: 0
-      },
+      {},
       function(result)
       {
           if (result.error())
@@ -111,6 +109,11 @@
           else
           {
               console.log(result.data());
+
+              if (result.more())
+              {
+                  result.next();
+              }
           }
       }
   );

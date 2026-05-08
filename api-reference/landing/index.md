@@ -42,6 +42,19 @@
 4. Измените содержимое блока методами [landing.block.*](./block/index.md)
 5. Опубликуйте страницу методом [landing.landing.publication](./page/methods/landing-landing-publication.md) или весь сайт методом [landing.site.publication](./site/landing-site-publication.md)
 
+## Как выбрать методы для работы с блоками
+
+Для блоков страницы есть две группы методов. Методы [работы с блоками на странице](./page/block-methods/index.md) управляют размещением блока на конкретной странице: добавляют, копируют, перемещают, скрывают, удаляют и сохраняют блок в «Мои блоки». Методы [объекта Блоки](./block/index.md) изменяют содержимое уже размещенного блока: ноды, карточки, атрибуты, стили, контент и файлы.
+
+#|
+|| **Задача** | **Что использовать** ||
+|| Добавить блок из репозитория на страницу | [landing.landing.addblock](./page/block-methods/landing-landing-add-block.md) ||
+|| Изменить порядок, видимость или состояние блока на странице | Методы [работы с блоками на странице](./page/block-methods/index.md) ||
+|| Изменить текст, изображения, ссылки, карточки или стили блока | Методы [landing.block.*](./block/index.md) ||
+|| Получить код стандартного или пользовательского блока до добавления | [landing.block.getrepository](./block/methods/landing-block-get-repository.md) ||
+|| Получить идентификатор уже размещенного блока | [landing.block.getList](./block/methods/landing-block-get-list.md) с `params.edit_mode = true` ||
+|#
+
 ## Дополнительные сценарии
 
 #|

@@ -2,6 +2,31 @@
 
 ## 2026
 
+### 07 мая, 2026
+
+- Обновили туториал [Как интегрировать внешнюю телефонию с Битрикс24](./tutorials/telephony/index.md)
+
+### 28 апреля, 2026
+
+- Обновили страницы [Как добавить данные в CRM: обзор кейсов и сценариев](./tutorials/crm/how-to-add-crm-objects/index.md) и [Типовые кейсы и сценарии в Открытых линиях](./tutorials/openlines/index.md)
+
+### 24 апреля, 2026
+
+- Обновили кейсы раздела [Частые кейсы и сценарии генератора документов](./api-reference/document-generator/examples/index.md). Добавили пояснения по подготовке данных для генерации документов
+
+### 23 апреля, 2026
+
+- Обновили страницу [Рекомендации по безопасности в приложениях на REST API](./settings/cloud-and-on-premise/security-recommendations.md)
+- Обновили главную страницу раздела [Сайты и магазины](./api-reference/landing/index.md). Добавили пояснения по выбору методов для работы с блоками
+- Обновили страницу [Работа с блоками страницы](./api-reference/landing/page/block-methods/index.md). Добавили таблицу выбора метода по задаче
+- Обновили страницу [Как работать с файлами](./api-reference/files/index.md). Добавили вводную информацию, типы файловых полей, связи с другими объектами и выбор инструкции
+- Обновили страницу [Редактирование данных в CRM](./tutorials/crm/how-to-edit-crm-objects/index.md). Добавили вводную информацию, связи с объектами CRM и обзор сценариев
+- Обновили страницу [Получение списков в CRM](./tutorials/crm/how-to-get-lists/index.md). Добавили вводную информацию, связи с объектами CRM и обзор сценариев
+- Обновили главную страницу раздела [Системное дело](./api-reference/crm/timeline/activities/activity-base/index.md) в CRM. Добавили вводную информацию, сценарий начала работы, связи с другими объектами и обзор методов
+- Обновили главную страницу раздела [Связи дел с элементами CRM](./api-reference/crm/timeline/activities/binding/index.md). Добавили вводную информацию, сценарий начала работы, особенности работы и связи с другими объектами
+- Обновили главную страницу раздела [Связи записей таймлайна с элементами CRM](./api-reference/crm/timeline/bindings/index.md). Добавили вводную информацию, сценарий начала работы, связи с другими объектами и обзор методов
+- Обновили главную страницу раздела [Заметки к записям таймлайна](./api-reference/crm/timeline/note/index.md). Добавили вводную информацию, сценарий начала работы, связи с другими объектами и обзор методов
+
 ### 22 апреля, 2026
 
 - Добавили новые методы [sign.b2e.document.send](./api-reference/sign/sign-b2e-document-send.md), [sign.b2e.document.get](./api-reference/sign/sign-b2e-document-get.md), [sign.b2e.company.provider.list](./api-reference/sign/sign-b2e-company-provider-list.md) и события [OnSignB2eDocumentStatusChanged](./api-reference/sign/events/on-sign-b2e-document-status-changed.md), [OnSignB2eMemberStatusChanged](./api-reference/sign/events/on-sign-b2e-member-status-changed.md) в разделе [Подпись](./api-reference/sign/index.md)

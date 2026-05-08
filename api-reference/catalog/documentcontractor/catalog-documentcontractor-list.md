@@ -200,8 +200,7 @@
         {
             select: ["id", "documentId"],
             filter: { "documentId": 7 },
-            order: { "id": "ASC" },
-            start: 0
+            order: { "id": "ASC" }
         },
         function(result)
         {
@@ -212,11 +211,10 @@
             else
             {
                 console.log(result.data());
-                
-                // Если есть следующая страница
+
                 if (result.more())
                 {
-                    console.log('Next page start: ' + result.next());
+                    result.next();
                 }
             }
         }

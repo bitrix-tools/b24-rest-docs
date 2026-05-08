@@ -192,13 +192,18 @@
                 '>=DATE_ACTIVE_FROM': '2026-03-01T00:00:00+03:00',
                 '<DATE_ACTIVE_FROM': '2026-04-01T00:00:00+03:00',
             },
-            start: 0,
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data())
-            ;
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            console.info(result.data());
+
+            if (result.more()) {
+                result.next();
+            }
         },
     );
     ```

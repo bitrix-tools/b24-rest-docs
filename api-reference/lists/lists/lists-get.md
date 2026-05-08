@@ -164,14 +164,17 @@
          IBLOCK_ORDER: {
            SORT: 'asc',
            NAME: 'asc'
-         },
-         start: 0
+         }
       },
          function(result) {
              if (result.error()) {
                 console.error(result.error());
              } else {
                 console.log(result.data());
+
+                if (result.more()) {
+                   result.next();
+                }
              }
          }
     );

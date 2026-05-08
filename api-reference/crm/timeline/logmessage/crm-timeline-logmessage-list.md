@@ -160,13 +160,18 @@
             entityTypeId: 1,
             entityId: 1,
             order: { created: "desc" },
-            start: 0,
         },
         result => {
-            if (result.error())
+            if (result.error()) {
                 console.error(result.error());
-            else
-                console.dir(result.data());
+                return;
+            }
+
+            console.dir(result.data());
+
+            if (result.more()) {
+                result.next();
+            }
         }
     );
     ```

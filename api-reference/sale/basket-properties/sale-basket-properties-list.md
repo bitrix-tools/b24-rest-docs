@@ -242,7 +242,6 @@ start = (N-1) * 50, где N – номер нужной страницы
             order: {
                 id: 'desc',
             },
-            start: 0,
         },
     )
         .then(
@@ -255,6 +254,11 @@ start = (N-1) * 50, где N – номер нужной страницы
                 else
                 {
                     console.log(result.data);
+
+                    if (result.more())
+                    {
+                        result.next();
+                    }
                 }
             },
             function(error)

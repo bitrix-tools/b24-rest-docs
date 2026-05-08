@@ -1,19 +1,15 @@
 title: Частые кейсы и сценарии
 href: index.md
-items: 
+items:
   - name: Обзор кейсов
     href: index.md
   - name: Сгенерировать документ с текстом
     href: document-text-data.md
-  - name: Сгенерировать документ с изображениями и печатями 
+  - name: Сгенерировать документ с изображениями и печатями
     href: document-images-seals.md
-  - name: Сгенерировать документ с модификаторами даты и имени 
+  - name: Сгенерировать документ с модификаторами даты и имени
     href: document-date-name.md
-  - name: Сгенерировать документ с табличными данными 
+  - name: Сгенерировать документ с табличными данными
     href: document-table-data.md
   - name: Сгенерировать документ со сложными таблицами
     href: document-table-complex.md
-
-
-
-
