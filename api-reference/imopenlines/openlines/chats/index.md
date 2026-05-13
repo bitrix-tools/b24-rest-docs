@@ -20,7 +20,7 @@
 
 **Чат-бот**. В чат можно добавить бота. Работать с ботами следует с помощью методов [imopenlines.bot.\*](../../../imopenlines/openlines/chat-bots/index.md).
 
-{% note info"" %}
+{% note info "" %}
 
 Для добавления бота в чат открытой линии он должен иметь скоуп [crm](../../../scopes/permissions.md).
 

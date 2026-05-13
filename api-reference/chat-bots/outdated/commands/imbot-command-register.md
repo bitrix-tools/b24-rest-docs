@@ -74,8 +74,6 @@
 
 {% endnote %}
 
-{% endnote %}
-
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
