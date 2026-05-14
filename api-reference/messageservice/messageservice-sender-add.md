@@ -30,7 +30,9 @@
 
 Поддерживаемое значение: `SMS` ||
 || **HANDLER***
-[`string`](../data-types.md) | URL обработчика приложения, который вызывается при отправке сообщения ||
+[`string`](../data-types.md) | URL обработчика приложения, который вызывается при отправке сообщения.
+
+Данные, которые приходят в обработчик, описаны [ниже](#handler) ||
 || **NAME***
 [`string` \| `object`](../data-types.md) | Название провайдера.
 
@@ -57,6 +59,66 @@
 },
 ```
 ||
+|#
+
+## Что приходит в обработчик {#handler}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **module_id**
+[`string`](../data-types.md) | Модуль, из которого отправлено сообщение.
+
+Возможные значения:
+- `crm` — сообщение отправлено из карточки CRM
+- `bizproc` — сообщение отправлено из Бизнес-процессов или робота CRM ||
+|| **bindings**
+[`array`](../data-types.md) | Массив привязок сообщения к объектам CRM.
+
+Параметр приходит, если `module_id` равен `crm` ||
+|| **workflow_id**
+[`string`](../data-types.md) | Идентификатор бизнес-процесса.
+
+Параметр приходит, если `module_id` равен `bizproc` ||
+|| **document_id**
+[`array`](../data-types.md) | Идентификатор документа бизнес-процесса.
+
+Параметр приходит, если `module_id` равен `bizproc` ||
+|| **document_type**
+[`array`](../data-types.md) | Тип документа бизнес-процесса.
+
+Параметр приходит, если `module_id` равен `bizproc` ||
+|| **properties**
+[`object`](../data-types.md) | Объект с совместимыми [параметрами сообщения](#properties) ||
+|| **type**
+[`string`](../data-types.md) | Тип провайдера.
+
+Возможное значение: `SMS` ||
+|| **code**
+[`string`](../data-types.md) | Код провайдера ||
+|| **message_id**
+[`string`](../data-types.md) | Уникальный идентификатор сообщения.
+
+Используйте его в методе [messageservice.message.status.update](./messageservice-message-status-update.md) для обновления статуса сообщения ||
+|| **message_to**
+[`string`](../data-types.md) | Номер получателя сообщения ||
+|| **message_body**
+[`string`](../data-types.md) | Текст сообщения ||
+|| **ts**
+[`integer`](../data-types.md) | Время отправки запроса в формате Unix Timestamp ||
+|| **auth**
+[`object`](../data-types.md) | Данные авторизации приложения ||
+|#
+
+### Объект properties {#properties}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **phone_number**
+[`string`](../data-types.md) | Номер получателя сообщения ||
+|| **message_text**
+[`string`](../data-types.md) | Текст сообщения ||
 |#
 
 ## Примеры кода
