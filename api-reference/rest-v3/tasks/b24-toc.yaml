@@ -13,6 +13,10 @@ items:
     href: tasks-task-chat-message-send.md
   - name: Прикрепить файлы к задаче
     href: tasks-task-file-attach.md
+  - name: Результат
+    include:
+      path: result/b24-toc.yaml
+      mode: link
   - name: Получить задачу
     href: tasks-task-get.md
   - name: Удалить задачу
