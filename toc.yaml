@@ -83,7 +83,7 @@ navigation:
         url: '/tutorials/index.html' 
       - text: 'MCP'
         type: 'link'
-        url: '/sdk/mcp.html'         
+        url: '/ai-tools/mcp.html'         
       - text: 'GitHub'
         type: 'link'
         url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'

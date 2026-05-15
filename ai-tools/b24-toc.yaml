@@ -3,3 +3,5 @@ href: vibecode.md
 items:
   - name: Битрикс24 Вайбкод
     href: vibecode.md
+  - name: MCP-сервер для AI
+    href: mcp.md 
