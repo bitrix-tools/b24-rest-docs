@@ -97,7 +97,7 @@ CRM
 
 ## Получить список шаблонов
 
-Для получения списка всех шаблонов портала используется метод [bizproc.workflow.template.list](./bizproc-workflow-template-list.html). Чтобы получить список шаблонов приложения, укажите в параметре `FILTER` поле `SYSTEM_CODE` и символьный код приложения, например, `"SYSTEM_CODE": "rest_app_5"`.
+Для получения списка всех шаблонов портала используется метод [bizproc.workflow.template.list](./bizproc-workflow-template-list.md). Чтобы получить список шаблонов приложения, укажите в параметре `FILTER` поле `SYSTEM_CODE` и символьный код приложения, например, `"SYSTEM_CODE": "rest_app_5"`.
 
 ## Обзор методов {#all-methods}
 

@@ -33,7 +33,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [CATALOG.PRICE.TYPE.ON.ADD](catalog-price-type-on-add.md)| При добавлении типа цены вручную или методом [catalog.priceType.add](../catalog-price-type-add.html) ||
-|| [CATALOG.PRICE.TYPE.ON.UPDATE](catalog-price-type-on-update.md)| При обновлении типа цены вручную или методом [catalog.priceType.update](../catalog-price-type-update.html) ||
-|| [CATALOG.PRICE.TYPE.ON.DELETE](catalog-price-type-on-delete.md)| При удалении типа цены вручную или методом [catalog.priceType.delete](../catalog-price-type-delete.html) ||
+|| [CATALOG.PRICE.TYPE.ON.ADD](catalog-price-type-on-add.md)| При добавлении типа цены вручную или методом [catalog.priceType.add](../catalog-price-type-add.md) ||
+|| [CATALOG.PRICE.TYPE.ON.UPDATE](catalog-price-type-on-update.md)| При обновлении типа цены вручную или методом [catalog.priceType.update](../catalog-price-type-update.md) ||
+|| [CATALOG.PRICE.TYPE.ON.DELETE](catalog-price-type-on-delete.md)| При удалении типа цены вручную или методом [catalog.priceType.delete](../catalog-price-type-delete.md) ||
 |#

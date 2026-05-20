@@ -24,4 +24,4 @@
 - [{#T}](./crm-automated-solution-delete.md)
 - [{#T}](./crm-automated-solution-fields.md)
 
-В коробочной версии Битрикс 24 доступно с версии CRM [24.300.0](../../cloud-and-on-premise/on-premise/versions.html).
+В коробочной версии Битрикс 24 доступно с версии CRM [24.300.0](../../../settings/cloud-and-on-premise/on-premise/versions.md).
