@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 21 мая, 2026
+
+- Добавили описание методов [tasks.task.pin](./api-reference/tasks/tasks-task-pin.md) и [tasks.task.unpin](./api-reference/tasks/tasks-task-unpin.md) 
+
 ### 15 мая, 2026
 
 - Добавили описание методов работы с [Результатами задачи](./api-reference/rest-v3/tasks/result/index.md) REST 3.0
