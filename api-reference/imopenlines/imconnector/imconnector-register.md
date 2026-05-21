@@ -58,8 +58,6 @@
 [`boolean`](../../data-types.md) | Добавляет подпись оператора в сообщения. Значение по умолчанию `true` ||
 || **CHAT_GROUP**
 [`boolean`](../../data-types.md) | Признак режима обработки чатов коннектора: `true` — группировка по `chat.id` (групповой чат), `false` — по `user.id` (чат один на один). Значение по умолчанию `false` ||
-|| **COMMENT**
-[`string`](../../data-types.md) | Текстовое пояснение, которое отображается в блоке настроек коннектора в слайдере ||
 |#
 
 ### Параметр ICON {#icon}
@@ -125,7 +123,6 @@
         "NEED_SYSTEM_MESSAGES": true,
         "NEED_SIGNATURE": true,
         "CHAT_GROUP": false,
-        "COMMENT": "Настройка канала",
         "auth": "**put_access_token_here**"
       }' \
       https://**put_your_bitrix24_address**/rest/imconnector.register
@@ -155,7 +152,6 @@
       NEED_SYSTEM_MESSAGES: true,
       NEED_SIGNATURE: true,
       CHAT_GROUP: false,
-      COMMENT: 'Настройка канала',
     };
 
     const response = await $b24.callMethod('imconnector.register', payload);
@@ -188,7 +184,6 @@
             'NEED_SYSTEM_MESSAGES' => true,
             'NEED_SIGNATURE' => true,
             'CHAT_GROUP' => false,
-            'COMMENT' => 'Настройка канала',
         ]
     );
     ```
@@ -219,7 +214,6 @@
         NEED_SYSTEM_MESSAGES: true,
         NEED_SIGNATURE: true,
         CHAT_GROUP: false,
-        COMMENT: 'Настройка канала',
       },
       function(result) {
         console.log(result.data());
@@ -253,7 +247,6 @@
             'NEED_SYSTEM_MESSAGES' => true,
             'NEED_SIGNATURE' => true,
             'CHAT_GROUP' => false,
-            'COMMENT' => 'Настройка канала',
         ]
     );
     ```
