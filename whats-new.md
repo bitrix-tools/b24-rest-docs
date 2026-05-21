@@ -5,6 +5,7 @@
 ### 21 мая, 2026
 
 - Добавили описание методов [tasks.task.pin](./api-reference/tasks/tasks-task-pin.md) и [tasks.task.unpin](./api-reference/tasks/tasks-task-unpin.md) 
+- Обновили туториалы [Как использовать данные сквозной аналитики](./tutorials/crm/how-to-use-analitycs/index.md) и [Как передать данные в сквозную аналитику CRM](./tutorials/crm/how-to-use-analitycs/info-to-analitics.md)
 
 ### 15 мая, 2026
 
