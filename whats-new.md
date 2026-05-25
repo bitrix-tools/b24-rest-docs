@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 25 мая, 2026
+
+- Добавили подраздел [Автозаполнение реквизитов в карточке CRM](./api-reference/widgets/crm/requisites-autocomplete/index.md) в Виджетах. Описали точки встраивания для автозаполнения реквизитов клиента и банковских реквизитов
+- Обновили статью [Работа с клавиатурами](./api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-keyboards.md).
+
 ### 21 мая, 2026
 
 - Добавили описание методов [tasks.task.pin](./api-reference/tasks/tasks-task-pin.md) и [tasks.task.unpin](./api-reference/tasks/tasks-task-unpin.md) 
