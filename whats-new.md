@@ -2,10 +2,14 @@
 
 ## 2026
 
+### 28 мая, 2026
+
+- Добавили раздел для работы с [методами почты для REST 3.0](./api-reference/rest-v3/mail/index.md)
+
 ### 25 мая, 2026
 
 - Добавили подраздел [Автозаполнение реквизитов в карточке CRM](./api-reference/widgets/crm/requisites-autocomplete/index.md) в Виджетах. Описали точки встраивания для автозаполнения реквизитов клиента и банковских реквизитов
-- Обновили статью [Работа с клавиатурами](./api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-keyboards.md).
+- Обновили статью [Работа с клавиатурами](./api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-keyboards.md)
 
 ### 21 мая, 2026
 

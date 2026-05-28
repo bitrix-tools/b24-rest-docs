@@ -1,0 +1,17 @@
+title: Почта
+href: index.md
+items:
+  - name: Обзор разделов
+    href: index.md
+  - name: Почтовые ящики
+    include:
+      path: mailbox/b24-toc.yaml
+      mode: link
+  - name: Письма
+    include:
+      path: message/b24-toc.yaml
+      mode: link
+  - name: Получатели
+    include:
+      path: recipient/b24-toc.yaml
+      mode: link

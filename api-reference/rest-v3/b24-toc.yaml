@@ -7,6 +7,10 @@ items:
     include:
       path: main/b24-toc.yaml
       mode: link
+  - name: Почта
+    include:
+      path: mail/b24-toc.yaml
+      mode: link
   - name: Задачи
     include:
       path: tasks/b24-toc.yaml
