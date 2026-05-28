@@ -25,4 +25,8 @@ items:
     href: analytics-menu.md
   - name: Пункт выпадающего меню верхней кнопки CRM-аналитики
     href: analytics-toolbar.md
+  - name: Автозаполнение реквизитов в карточке CRM
+    include:
+      path: requisites-autocomplete/b24-toc.yaml
+      mode: link
 

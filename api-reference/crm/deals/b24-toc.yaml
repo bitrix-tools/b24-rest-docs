@@ -39,5 +39,3 @@ items:
     include:
       path: custom-form/b24-toc.yaml
       mode: link
-  - name: Виджеты
-    href: widgets.md      

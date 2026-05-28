@@ -18,6 +18,4 @@ items:
   - name: CRest PHP SDK
     include:
       path: crest-php-sdk/b24-toc.yaml
-      mode: link
-  - name: MCP-сервер для AI
-    href: mcp.md       
+      mode: link      

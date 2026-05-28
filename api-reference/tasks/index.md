@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -195,6 +198,8 @@
     || [tasks.task.stopwatch](./tasks-task-stop-watch.md) | Останавливает наблюдение за задачей ||
     || [tasks.task.favorite.add](./tasks-task-favorite-add.md) | Добавляет задачи в избранное ||
     || [tasks.task.favorite.remove](./tasks-task-favorite-remove.md) | Удаляет задачи из избранного ||
+    || [tasks.task.pin](./tasks-task-pin.md) | Закрепляет задачу в списке ||
+    || [tasks.task.unpin](./tasks-task-unpin.md) | Открепляет задачу в списке ||
     || [tasks.task.getFields](./tasks-task-get-fields.md) |	Получает доступные поля ||
     || [tasks.task.getaccess](./tasks-task-get-access.md) |	Проверяет доступ к задаче ||
     || [tasks.task.history.list](./tasks-task-history-list.md) | Получает историю задачи ||

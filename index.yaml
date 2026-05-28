@@ -30,6 +30,10 @@ blocks:
         theme: 'outlined'
         size: 'promo'
         url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
+      - text: 'Вайбкод'
+        theme: 'outlined'
+        size: 'promo'
+        url: 'https://vibecode.bitrix24.tech/'
 
   - type: 'extended-features-block'
     title:
@@ -59,6 +63,25 @@ blocks:
             theme: 'outlined'
             size: 'promo'
             url: '/first-steps/first-rest-api-call.html'
+
+  - type: 'content-layout-block'
+    textContent:
+      title: 'Битрикс24 Вайбкод'
+      text: |
+        Битрикс24 Вайбкод помогает создавать приложения для Битрикс24 с помощью AI-агентов: Codex, Claude Code, Cursor и других инструментов. Вайбкод передает агенту документацию, права доступа и данные для запуска приложения.
+        - Получите ключ Вайбкод
+        - Передайте ключ AI-агенту
+        - Опишите задачу на естественном языке
+        - Получите готовое приложение для Битрикс24
+      links:
+        - text: 'Как работать с платформой Вайбкод'
+          theme: 'normal'
+          url: '/ai-tools/vibecode.html'
+          arrow: true
+        - text: 'Открыть Битрикс24 Вайбкод'
+          theme: 'normal'
+          url: 'https://vibecode.bitrix24.tech/'
+          arrow: true
 
   - type: 'card-layout-block'
     title: 'Как устроен REST API'
@@ -184,7 +207,7 @@ blocks:
             size: 'promo'
             url: '/api-reference/user/index.html'
       - type: 'basic-card'
-        title: 'Календарь: API-методы'
+        title: 'Календарь'
         text: 'События, календари, ресурсы и бронирование'
         buttons:
           - text: 'Календарь: API-методы'

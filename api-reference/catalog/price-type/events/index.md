@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -30,7 +33,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [CATALOG.PRICE.TYPE.ON.ADD](catalog-price-type-on-add.md)| При добавлении типа цены вручную или методом [catalog.priceType.add](../catalog-price-type-add.html) ||
-|| [CATALOG.PRICE.TYPE.ON.UPDATE](catalog-price-type-on-update.md)| При обновлении типа цены вручную или методом [catalog.priceType.update](../catalog-price-type-update.html) ||
-|| [CATALOG.PRICE.TYPE.ON.DELETE](catalog-price-type-on-delete.md)| При удалении типа цены вручную или методом [catalog.priceType.delete](../catalog-price-type-delete.html) ||
+|| [CATALOG.PRICE.TYPE.ON.ADD](catalog-price-type-on-add.md)| При добавлении типа цены вручную или методом [catalog.priceType.add](../catalog-price-type-add.md) ||
+|| [CATALOG.PRICE.TYPE.ON.UPDATE](catalog-price-type-on-update.md)| При обновлении типа цены вручную или методом [catalog.priceType.update](../catalog-price-type-update.md) ||
+|| [CATALOG.PRICE.TYPE.ON.DELETE](catalog-price-type-on-delete.md)| При удалении типа цены вручную или методом [catalog.priceType.delete](../catalog-price-type-delete.md) ||
 |#

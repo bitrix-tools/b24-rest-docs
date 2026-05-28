@@ -7,6 +7,10 @@ items:
     include:
       path: first-steps/b24-toc.yaml
       mode: link
+  - name: AI-инструменты
+    include:
+      path: ai-tools/b24-toc.yaml
+      mode: link
   - name: Частые кейсы и сценарии 
     include:
       path: tutorials/b24-toc.yaml
@@ -79,9 +83,12 @@ navigation:
         url: '/tutorials/index.html' 
       - text: 'MCP'
         type: 'link'
-        url: '/sdk/mcp.html'         
+        url: '/ai-tools/mcp.html'         
       - text: 'GitHub'
         type: 'link'
         url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
+      - text: 'Битрикс24 Вайбкод'
+        type: 'link'
+        url: 'https://vibecode.bitrix24.tech/'
     rightItems:    
       - type: controls

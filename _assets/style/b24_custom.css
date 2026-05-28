@@ -115,6 +115,15 @@ blockquote:first-of-type {
     max-width: 100%;
 }
 
+.col.col-12.col-md-8.pc-content-layout-block__content {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.col.col-12.col-md-8.pc-content-layout-block__content .pc-content__links {
+    margin-top: 0;
+}
+
 .col.col-12.col-sm-8.col-reset {
     flex: 0 0 100%;
     max-width: 100%;

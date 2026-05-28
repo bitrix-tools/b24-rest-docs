@@ -35,6 +35,10 @@ items:
     href: tasks-task-favorite-add.md
   - name: Удалить задачу из Избранного
     href: tasks-task-favorite-remove.md
+  - name: Закрепить задачу
+    href: tasks-task-pin.md
+  - name: Открепить задачу
+    href: tasks-task-unpin.md
   - name: История задачи
     href: tasks-task-history-list.md
   - name: Включить наблюдение за задачей

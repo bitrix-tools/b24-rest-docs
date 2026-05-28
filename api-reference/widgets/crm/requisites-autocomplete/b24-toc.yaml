@@ -1,0 +1,9 @@
+title: Автозаполнение реквизитов в карточке CRM
+href: index.md
+items:
+  - name: Обзор
+    href: index.md
+  - name: Автозаполнение реквизитов клиента
+    href: requisite-autocomplete.md
+  - name: Автозаполнение банковских реквизитов
+    href: bank-detail-autocomplete.md
