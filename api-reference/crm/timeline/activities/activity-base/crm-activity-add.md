@@ -344,6 +344,50 @@ fields:
     }
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.activity.add(
+            fields={
+                "OWNER_TYPE_ID": 2,
+                "OWNER_ID": 101,
+                "TYPE_ID": 2,
+                "SUBJECT": "Follow up with customer",
+                "START_TIME": datetime.now().isoformat(timespec="seconds"),
+                "END_TIME": (datetime.now() + timedelta(hours=1)).isoformat(timespec="seconds"),
+                "DEADLINE": (datetime.now() + timedelta(hours=1)).isoformat(timespec="seconds"),
+                "COMPLETED": "N",
+                "RESPONSIBLE_ID": 1,
+                "PRIORITY": 2,
+                "DESCRIPTION": "Discuss proposal details",
+                "DESCRIPTION_TYPE": 3,
+                "DIRECTION": 2,
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 {% endlist %}    
 
 ## Обработка ответа

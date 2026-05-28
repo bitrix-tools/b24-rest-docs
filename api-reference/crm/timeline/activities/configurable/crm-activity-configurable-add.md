@@ -439,6 +439,67 @@ fields:
     }
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.activity.configurable.add(
+            owner_type_id=2,
+            owner_id=101,
+            fields={
+                "typeId": "CONFIGURABLE",
+                "completed": False,
+                "deadline": (datetime.now() + timedelta(hours=2)).isoformat(timespec="seconds"),
+                "pingOffsets": [15, 60],
+                "isIncomingChannel": "N",
+                "responsibleId": 1,
+                "badgeCode": "CUSTOM_STATUS",
+            },
+            layout={
+                "icon": {"code": "call-completed"},
+                "header": {"title": "Customer follow-up"},
+                "body": {
+                    "blocks": {
+                        "summary": {
+                            "type": "text",
+                            "properties": {"value": "Prepare proposal", "multiline": False},
+                        },
+                    },
+                },
+                "footer": {
+                    "buttons": {
+                        "openDeal": {
+                            "title": "Open deal",
+                            "action": {"type": "redirect", "uri": "/crm/deal/details/101/"},
+                            "type": "primary",
+                        },
+                    },
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 {% endlist %}
 
 ## Обработка ответа
