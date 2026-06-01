@@ -237,6 +237,110 @@
     echo '</PRE>';
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    order = {
+        "ID": "desc",
+        "SORT": "asc",
+    }
+    filter = {
+        "USER_TYPE_ID": "string",
+        "SHOW_IN_LIST": "Y",
+    }
+
+    try:
+        bitrix_response = client.user.userfield.list(
+            order=order,
+            filter=filter,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print("Bitrix SDK error", error.message, sep="\n")
+    except Exception as error:
+        print("Unexpected error", error, sep="\n")
+    ```
+
+    Пример `as_list`
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    order = {
+        "ID": "desc",
+    }
+    filter = {
+        "SHOW_IN_LIST": "Y",
+    }
+
+    try:
+        bitrix_response = client.user.userfield.list(
+            order=order,
+            filter=filter,
+        ).as_list().response
+        result = bitrix_response.result
+        for item in result:
+            print(item)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print("Bitrix SDK error", error.message, sep="\n")
+    except Exception as error:
+        print("Unexpected error", error, sep="\n")
+    ```
+
+    Пример `as_list_fast`
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    order = {
+        "ID": "desc",
+    }
+    filter = {
+        "SHOW_IN_LIST": "Y",
+    }
+
+    try:
+        bitrix_response = client.user.userfield.list(
+            order=order,
+            filter=filter,
+        ).as_list_fast(descending=True).response
+        result = bitrix_response.result
+        for item in result:
+            print(item)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print("Bitrix SDK error", error.message, sep="\n")
+    except Exception as error:
+        print("Unexpected error", error, sep="\n")
+    ```
 {% endlist %}
 
 ## Обработка ответа
