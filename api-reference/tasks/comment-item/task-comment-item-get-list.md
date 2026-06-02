@@ -98,71 +98,116 @@
     https://**put_your_bitrix24_address**/rest/task.commentitem.getlist
     ```
 
-- JS
+- TS
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
-    try {
-      const response = await $b24.callListMethod(
-        'task.commentitem.getlist',
-        {
-          "TASKID": 8017,
-          "ORDER": {
-            "POST_DATE": "asc",
-          },
-          "FILTER": {
-            "AUTHOR_ID": 503,
-            ">=POST_DATE": "2025-01-01",
-          }
-        },
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
+    declare const $b24: B24Frame
+
+    // Shape of each comment item returned in the result array
+    type TaskCommentItem = {
+      ID: string
+      AUTHOR_ID: string
+      AUTHOR_NAME: string
+      AUTHOR_EMAIL: string
+      POST_DATE: ISODate | null
+      POST_MESSAGE: string
+      POST_MESSAGE_HTML: string | null
+      ATTACHED_OBJECTS: Record<string, {
+        ATTACHMENT_ID: string
+        NAME: string
+        SIZE: string
+        FILE_ID: string
+        DOWNLOAD_URL: string
+        VIEW_URL: string
+      }>
     }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
+
     try {
-      const generator = $b24.fetchListMethod('task.commentitem.getlist', {
-        "TASKID": 8017,
-        "ORDER": {
-          "POST_DATE": "asc",
+      // task.commentitem.getlist returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<TaskCommentItem[]>({
+        method: 'task.commentitem.getlist',
+        params: {
+          TASKID: 8017,
+          ORDER: {
+            POST_DATE: 'asc',
+          },
+          FILTER: {
+            AUTHOR_ID: 503,
+            '>=POST_DATE': '2025-01-01',
+          },
         },
-        "FILTER": {
-          "AUTHOR_ID": 503,
-          ">=POST_DATE": "2025-01-01",
-        }
-      }, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Comments fetched:', result.length, result)
       }
     } catch (error) {
-      console.error('Request failed', error)
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('task.commentitem.getlist', {
-        "TASKID": 8017,
-        "ORDER": {
-          "POST_DATE": "asc",
-        },
-        "FILTER": {
-          "AUTHOR_ID": 503,
-          ">=POST_DATE": "2025-01-01",
+    ```
+
+- UMD
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getTaskCommentList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // task.commentitem.getlist returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'task.commentitem.getlist',
+            params: {
+              TASKID: 8017,
+              ORDER: {
+                POST_DATE: 'asc',
+              },
+              FILTER: {
+                AUTHOR_ID: 503,
+                '>=POST_DATE': '2025-01-01',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Comments fetched:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
         }
-      }, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
+      }
+
+      document.addEventListener('DOMContentLoaded', getTaskCommentList)
+    </script>
     ```
 
 - PHP
