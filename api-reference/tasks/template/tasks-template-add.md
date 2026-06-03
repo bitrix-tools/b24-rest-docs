@@ -102,7 +102,7 @@
     https://**put_your_bitrix24_address**/rest/tasks.template.add
     ```
 
-- TS
+- JS (TS)
 
     ```ts
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
@@ -157,7 +157,7 @@
     }
     ```
 
-- UMD
+- JS (UMD)
 
     ```html
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
