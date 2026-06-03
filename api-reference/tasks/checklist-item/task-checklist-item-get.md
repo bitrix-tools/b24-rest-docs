@@ -64,27 +64,106 @@
     https://**put_your_bitrix24_address**/rest/task.checklistitem.get
     ```
 
-- JS
+- TS
 
-    ```javascript
-    try
-    {
-        const response = await $b24.callMethod(
-            'task.checklistitem.get',
-            {
-                TASKID: 8017,
-                ITEMID: 479
-            }
-        );
-        
-        const result = response.getData().result;
-        console.log('Retrieved checklist item:', result);
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ChecklistItemResult = {
+      ID: string
+      TASK_ID: string
+      PARENT_ID: string
+      CREATED_BY: string
+      TITLE: string
+      SORT_INDEX: string
+      IS_COMPLETE: string
+      IS_IMPORTANT: string
+      TOGGLED_BY: string | null
+      TOGGLED_DATE: string
+      MEMBERS: Array<{
+        ID: string
+        TYPE: string
+        NAME: string
+        PERSONAL_PHOTO: string
+        PERSONAL_GENDER: string
+        IMAGE: string
+        IS_COLLABER: boolean
+      }>
+      ATTACHMENTS: Record<string, {
+        ATTACHMENT_ID: number
+        NAME: string
+        SIZE: string
+        FILE_ID: string
+        DOWNLOAD_URL: string
+        VIEW_URL: string
+      }>
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<ChecklistItemResult>({
+        method: 'task.checklistitem.get',
+        params: {
+          TASKID: 8017,
+          ITEMID: 479,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Checklist item:', result.ID, result.TITLE, 'complete:', result.IS_COMPLETE)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- UMD
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getChecklistItem() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'task.checklistitem.get',
+            params: {
+              TASKID: 8017,
+              ITEMID: 479,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Checklist item:', result.ID, result.TITLE, 'complete:', result.IS_COMPLETE)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getChecklistItem)
+    </script>
     ```
 
 - PHP

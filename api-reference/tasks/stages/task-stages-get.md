@@ -63,26 +63,91 @@
     https://your-domain.bitrix24.com/rest/task.stages.get
     ```
 
-- JS
+- TS
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'task.stages.get',
-    		{
-    			entityId: entityId,
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    // Shape of each stage in the result map
+    type StageInfo = {
+      ID: string
+      TITLE: string
+      SORT: string
+      COLOR: string
+      SYSTEM_TYPE: string | null
+      ENTITY_ID: string
+      ENTITY_TYPE: string
+      ADDITIONAL_FILTER: unknown[]
+      TO_UPDATE: unknown[]
+      TO_UPDATE_ACCESS: null
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
+
+    // result is a map of stage ID → StageInfo
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type StagesGetResult = Record<string, StageInfo>
+
+    try {
+      const response = await $b24.actions.v2.call.make<StagesGetResult>({
+        method: 'task.stages.get',
+        params: {
+          entityId: 0,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Stages:', Object.values(result).map(s => `${s.ID}: ${s.TITLE}`))
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- UMD
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getTaskStages() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'task.stages.get',
+            params: {
+              entityId: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Stages:', Object.values(result).map(s => `${s.ID}: ${s.TITLE}`))
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getTaskStages)
+    </script>
     ```
 
 - PHP

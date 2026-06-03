@@ -59,25 +59,103 @@
     https://**put_your_bitrix24_address**/rest/task.item.userfield.get
     ```
 
-- JS
+- TS
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'task.item.userfield.get',
-            {
-                ID: 1325
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log(result);
+    declare const $b24: B24Frame
+
+    // Shape of the user field object returned in result
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type UserFieldResult = {
+      ID: string
+      ENTITY_ID: string
+      FIELD_NAME: string
+      USER_TYPE_ID: string
+      XML_ID: string
+      SORT: string
+      MULTIPLE: string
+      MANDATORY: string
+      SHOW_FILTER: string
+      SHOW_IN_LIST: string
+      EDIT_IN_LIST: string
+      IS_SEARCHABLE: string
+      EDIT_FORM_LABEL: Record<string, string>
+      LIST_COLUMN_LABEL: Record<string, string>
+      LIST_FILTER_LABEL: Record<string, string>
+      ERROR_MESSAGE: Record<string, string>
+      HELP_MESSAGE: Record<string, string>
+      SETTINGS: {
+        SIZE: number
+        ROWS: number
+        REGEXP: string
+        MIN_LENGTH: number
+        MAX_LENGTH: number
+        DEFAULT_VALUE: string
+      }
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<UserFieldResult>({
+        method: 'task.item.userfield.get',
+        params: {
+          ID: 1325,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.ID, result.FIELD_NAME, result.USER_TYPE_ID)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- UMD
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getUserField() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'task.item.userfield.get',
+            params: {
+              ID: 1325,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.ID, result.FIELD_NAME, result.USER_TYPE_ID)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getUserField)
+    </script>
     ```
 
 - PHP
