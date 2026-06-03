@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 03 июня, 2026
+
+- Добавили статью [Передача контекста боту при открытии чата](./api-reference/chat-bots/chat-bots-v2/imbot.v2/bot-context.md)
+
 ### 28 мая, 2026
 
 - Добавили раздел для работы с [методами почты для REST 3.0](./api-reference/rest-v3/mail/index.md)

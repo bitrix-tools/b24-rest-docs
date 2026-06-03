@@ -203,7 +203,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -213,27 +213,84 @@ HTTP-код: **200**
             "dialogId": "chat5",
             "name": "Support Chat",
             "description": "",
+            "type": "chat",
+            "messageType": "C",
             "owner": 456,
             "color": "#4ba984",
             "avatar": "",
-            "type": "chat",
+            "extranet": false,
+            "containsCollaber": false,
+            "entityType": "",
+            "entityId": "",
+            "entityData1": "",
+            "entityData2": "",
+            "entityData3": "",
+            "entityLink": {},
+            "diskFolderId": 42,
             "role": "owner",
-            "dateCreate": "2025-01-15T10:00:00+03:00",
-            "lastMessageId": null,
+            "permissions": {},
             "muteList": [],
-            "managerList": []
+            "parentChatId": null,
+            "parentMessageId": null,
+            "isNew": true,
+            "textFieldEnabled": "Y",
+            "backgroundId": null,
+            "dateCreate": "2025-01-15T10:00:00+03:00",
+            "lastMessageId": 789,
+            "lastMessageViews": "{}",
+            "lastId": null,
+            "managerList": [],
+            "markedId": null,
+            "messageCount": 1,
+            "public": "",
+            "unreadId": null,
+            "userCounter": 3
         },
         "users": [
             {
                 "id": 1,
                 "active": true,
                 "name": "John Smith",
+                "firstName": "John",
+                "lastName": "Smith",
+                "workPosition": "Developer",
+                "color": "#ab7761",
+                "avatar": "",
+                "gender": "M",
+                "birthday": "15-03",
+                "extranet": false,
+                "bot": false,
+                "connector": false,
+                "externalAuthId": "default",
+                "status": "online",
+                "idle": false,
+                "lastActivityDate": "2025-01-15T14:25:00+03:00",
+                "absent": false,
+                "departments": [7],
+                "phones": false,
                 "type": "employee"
             },
             {
                 "id": 2,
                 "active": true,
                 "name": "Anna Davis",
+                "firstName": "Anna",
+                "lastName": "Davis",
+                "workPosition": "Manager",
+                "color": "#5b7e91",
+                "avatar": "",
+                "gender": "F",
+                "birthday": "22-08",
+                "extranet": false,
+                "bot": false,
+                "connector": false,
+                "externalAuthId": "default",
+                "status": "online",
+                "idle": false,
+                "lastActivityDate": "2025-01-15T14:20:00+03:00",
+                "absent": false,
+                "departments": [12],
+                "phones": false,
                 "type": "employee"
             }
         ]
@@ -270,32 +327,34 @@ HTTP-код: **200**
 || **Поле**
 `Тип` | **Описание** ||
 || **id**
-[`integer`](../../../../data-types.md) | Идентификатор чата ||
+[`integer`](../../../../data-types.md) | Уникальный идентификатор чата ||
 || **dialogId**
-[`string`](../../../../data-types.md) | Идентификатор диалога ||
+[`string`](../../../../data-types.md) | Идентификатор диалога: `chat5` для групповых, `123` для личных ||
 || **name**
 [`string`](../../../../data-types.md) | Название чата ||
 || **description**
 [`string`](../../../../data-types.md) | Описание чата ||
-|| **owner**
-[`integer`](../../../../data-types.md) | Идентификатор владельца чата ||
-|| **color**
-[`string`](../../../../data-types.md) | Цвет чата ||
-|| **avatar**
-[`string`](../../../../data-types.md) | URL аватара ||
 || **type**
-[`string`](../../../../data-types.md) | Тип чата ||
+[`string`](../../../../data-types.md) | Тип чата: `chat`, `open`, `channel` и другие ||
+|| **owner**
+[`integer`](../../../../data-types.md) | ID владельца чата ||
+|| **color**
+[`string\|null`](../../../../data-types.md) | Цвет чата в формате HEX ||
+|| **avatar**
+[`string`](../../../../data-types.md) | URL аватара чата. Пустая строка, если не установлен ||
 || **role**
-[`string`](../../../../data-types.md) | Роль бота в чате ||
+[`string`](../../../../data-types.md) | Роль текущего пользователя: `owner`, `manager`, `member`, `guest`, `none` ||
 || **dateCreate**
-[`string`](../../../../data-types.md) | Дата создания чата ||
+[`string\|null`](../../../../data-types.md) | Дата создания чата в формате ISO 8601 ||
 || **lastMessageId**
-[`integer`](../../../../data-types.md) | Идентификатор последнего сообщения ||
+[`integer\|null`](../../../../data-types.md) | ID последнего сообщения ||
 || **muteList**
-[`array`](../../../../data-types.md) | Список пользователей с отключенными уведомлениями ||
+[`array`](../../../../data-types.md) | Список ID пользователей, отключивших уведомления ||
 || **managerList**
-[`array`](../../../../data-types.md) | Список администраторов чата ||
+[`array`](../../../../data-types.md) | Массив ID менеджеров чата ||
 |#
+
+Полное описание всех полей — на странице [Объекты и поля — Chat](../../entities.md#chat).
 
 ### Поля объекта User {#user-object}
 
@@ -303,16 +362,16 @@ HTTP-код: **200**
 || **Поле**
 `Тип` | **Описание** ||
 || **id**
-[`integer`](../../../../data-types.md) | Идентификатор пользователя ||
+[`integer`](../../../../data-types.md) | Уникальный идентификатор пользователя ||
 || **active**
-[`boolean`](../../../../data-types.md) | Пользователь активен ||
+[`boolean`](../../../../data-types.md) | Активен ли пользователь в системе ||
 || **name**
-[`string`](../../../../data-types.md) | Имя и фамилия пользователя ||
+[`string`](../../../../data-types.md) | Полное имя ||
 || **type**
-[`string`](../../../../data-types.md) | Тип пользователя ||
+[`string`](../../../../data-types.md) | Тип пользователя: `employee`, `extranet`, `bot` и другие ||
 |#
 
-Полное описание всех полей объектов — на странице [Объекты и поля](../../entities.md)
+Полное описание всех полей — на странице [Объекты и поля — User](../../entities.md#user).
 
 ## Обработка ошибок
 

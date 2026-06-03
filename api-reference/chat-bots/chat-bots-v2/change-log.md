@@ -19,6 +19,80 @@
 
 Формат кода: `BOT-{TYPE}-{MMDD}-{N}`, где `MMDD` это дата публикации, а `N` это сквозной номер в рамках даты.
 
+## REST-ревизия 36 {#rest-revision-36}
+
+> Дата публикации: 06.05.2026
+
+### BOT-BC-0506-1: Bot.register, предстоящий лимит длины botToken {#bot-bc-0506-1}
+
+> Применение лимита: с 06.08.2026 (через три месяца)
+
+**Сейчас (временно)**
+
+[imbot.v2.Bot.register](./imbot.v2/bots/bot-register.md) принимает `botToken` любой длины — для совместимости с интеграциями, ранее зарегистрировавшими ботов с длинными токенами, например 64-символьные SHA-256-hex.
+
+**С 06.08.2026**
+
+[imbot.v2.Bot.register](./imbot.v2/bots/bot-register.md) начнет отклонять `botToken` длиннее **40 символов** ошибкой `BOT_TOKEN_INVALID_LENGTH`. Тот же лимит уже действует для ротации токена через [imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md) (`fields.botToken`) — см. [#BOT-NEW-0501-2](#bot-new-0501-2).
+
+**Что делать интеграторам**
+
+Если у вас есть боты, зарегистрированные с `botToken` длиннее 40 символов, в течение трех месяцев замените токен на токен не длиннее 40 символов через `Bot.update {fields: {botToken: '...'}}`. Авторизация запроса остается старым (длинным) токеном, новый передается в `fields`. После 06.08.2026 повторная регистрация бота с длинным токеном, например при потере состояния и `register-on-startup`, будет отклоняться. Уже зарегистрированные боты при этом продолжат работать без изменений.
+
+**Затронутый метод:** [imbot.v2.Bot.register](./imbot.v2/bots/bot-register.md)
+
+## REST-ревизия 35 {#rest-revision-35}
+
+> Дата публикации: 01.05.2026
+
+### BOT-FIX-0501-1: Bot.update / Bot.unregister, автоочистка подписок на события ONIMBOTV2* {#bot-fix-0501-1}
+
+**Было**
+
+При смене `webhookUrl` через [imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md), переключении `eventMode` с `webhook` на `fetch` или удалении бота через [imbot.v2.Bot.unregister](./imbot.v2/bots/bot-unregister.md) старые подписки на события `ONIMBOTV2*` оставались в реестре и продолжали посылать события на ранее настроенный URL. После нескольких смен URL события приходили на все прежние адреса одновременно. Удаленные webhook-боты также продолжали получать события до ручной очистки через `event.unbind`.
+
+**Стало**
+
+[imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md) и [imbot.v2.Bot.unregister](./imbot.v2/bots/bot-unregister.md) автоматически приводят подписки бота к актуальному состоянию:
+
+- при смене `webhookUrl` — старые подписки удаляются, новые создаются
+- при переходе `eventMode: webhook → fetch` — все подписки бота удаляются
+- при `Bot.unregister` — все подписки бота удаляются для любого режима
+
+Очистка выполняется по `APPLICATION_TOKEN` бота. Для OAuth-приложений с несколькими ботами очистка пропускается, если у бота есть активные соседи по тому же `APPLICATION_TOKEN`.
+
+**Влияние на интеграторов**
+
+Если в коде есть обходное решение с ручным `event.unbind` после `Bot.update {eventMode: 'fetch'}` или `Bot.unregister` — его можно удалить: после исправления оно ничего не делает.
+
+**Затронутые методы:** [imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md), [imbot.v2.Bot.unregister](./imbot.v2/bots/bot-unregister.md)
+
+### BOT-NEW-0501-2: Bot.update, ротация botToken {#bot-new-0501-2}
+
+В [imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md) добавлена возможность смены `botToken` через `fields.botToken`. Авторизация запроса выполняется старым токеном, новый передается в `fields`.
+
+После успешной ротации все подписки `ONIMBOTV2*` пере-биндятся под новый `APPLICATION_TOKEN` (если бот в режиме `webhook`), старый токен сразу теряет доступ. Все выполняется в одной транзакции.
+
+При коллизии токенов возвращается код `BOT_TOKEN_ROTATION_FAILED`. **Длина `botToken` — не более 40 символов.**
+
+**Затронутый метод:** [imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md)
+
+### BOT-FIX-0501-3: Удаление поля bot.appId из ответов методов и событий {#bot-fix-0501-3}
+
+**Было**
+
+Поле `bot.appId` присутствовало в ответах методов и в данных событий `ONIMBOTV2*`.
+
+**Стало**
+
+Поле `bot.appId` удалено из ответов всех методов и из всех событий `ONIMBOTV2*`.
+
+**Влияние на интеграторов**
+
+Если ваш код читал `result.bot.appId` или `data.bot.appId` — поле теперь отсутствует. Для проверки принадлежности бота используйте `result.bot.code` или сам факт успешного ответа метода (он доступен только владельцу).
+
+**Затронутые методы и события:** [imbot.v2.Bot.register](./imbot.v2/bots/bot-register.md), [imbot.v2.Bot.get](./imbot.v2/bots/bot-get.md), [imbot.v2.Bot.list](./imbot.v2/bots/bot-list.md), [imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md), все события `ONIMBOTV2*`
+
 ## REST-ревизия 34 {#rest-revision-34}
 
 > Дата публикации: 08.04.2026
@@ -44,7 +118,7 @@
 
 **Стало**
 
-`title` и `params` корректно возвращаются на языке текущего портала с fallback на язык по умолчанию.
+`title` и `params` корректно возвращаются на языке интерфейса с возвратом к языку по умолчанию.
 
 **Затронутый метод:** [imbot.v2.Command.list](./imbot.v2/commands/command-list.md)
 

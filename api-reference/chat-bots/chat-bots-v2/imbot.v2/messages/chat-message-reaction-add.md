@@ -73,7 +73,7 @@
 || `foldedHands` | Спасибо ||
 || `okHand` | ОК ||
 || `signHorns` | Рок! ||
-|| `loveYouGesture` | Всё круто ||
+|| `loveYouGesture` | Все круто ||
 || `clownFace` | Клоун ||
 || `partyingFace` | Поздравляю ||
 || `questionMark` | Вопрос ||
@@ -204,11 +204,13 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
-    "result": true,
+    "result": {
+        "result": true
+    },
     "time": {
         "start": 1728626400.123,
         "finish": 1728626400.234,
@@ -226,6 +228,8 @@ HTTP-код: **200**
 || **Название**
 `Тип` | **Описание** ||
 || **result**
+[`object`](../../../../data-types.md) | Результат операции ||
+|| **result.result**
 [`boolean`](../../../../data-types.md) | `true` при успешном добавлении реакции ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
