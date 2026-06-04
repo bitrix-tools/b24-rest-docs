@@ -2,6 +2,13 @@
 
 ## 2026
 
+### 04 июня, 2026
+
+- Обновили страницу [Права на методы и скоупы](./api-reference/scopes/index.md)
+- Обновили страницу [Импорт данных в CRM: обзор методов](./api-reference/crm/universal/import/index.md)
+- Обновили страницу [Товарные позиции в объектах CRM: обзор методов](./api-reference/crm/universal/product-rows/index.md)
+- Обновили страницу [Обзор событий при работе с элементами смарт-процессов](./api-reference/crm/universal/events/index.md)
+
 ### 03 июня, 2026
 
 - Добавили статью [Передача контекста боту при открытии чата](./api-reference/chat-bots/chat-bots-v2/imbot.v2/bot-context.md)
