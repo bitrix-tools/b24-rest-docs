@@ -288,9 +288,10 @@ HTTP-статус: **4xx**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ATTACH_NOT_FOUND` | Голосование не найдено ||
-|| `ATTACH_READ_ACCESS_DENIED` | Нет прав для участия в голосовании  ||
+|| **Код** | **Сообщение** | **Описание** ||
+|| `100` | Bitrix\Vote\Attach All parameters in the constructor must have real class type | Не передан или некорректен обязательный параметр. Передайте `attachId`, `signedAttachId` либо связку `moduleId` + `entityType` + `entityId` ||
+|| `ATTACH_NOT_FOUND` | Attach not found | Голосование не найдено ||
+|| `ATTACH_READ_ACCESS_DENIED` | Attach read access denied | Нет прав для участия в голосовании ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

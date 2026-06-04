@@ -431,10 +431,11 @@ HTTP-статус: **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `400` | Не удалось сохранить голосование ||
-|| `ATTACH_READ_ACCESS_DENIED` | Нет прав для участия в голосовании ||
-|| `403` | Опрос неактивен ||
+|| **Код** | **Сообщение** | **Описание** ||
+|| `100` | Bitrix\Vote\Attach All parameters in the constructor must have real class type | Не передан или некорректен обязательный параметр. Передайте `attachId`, `signedAttachId` либо связку `moduleId` + `entityType` + `entityId` ||
+|| `400` | Cannot save poll. | Не удалось сохранить голосование ||
+|| `403` | The poll is inactive. | Опрос неактивен ||
+|| `ATTACH_READ_ACCESS_DENIED` | Attach read access denied | Нет прав для участия в голосовании ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
