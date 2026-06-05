@@ -64,4 +64,4 @@ items:
       path: item-details-configuration/b24-toc.yaml
       mode: link
   - name: Виджеты
-    href: widgets.md      
+    href: widgets.md

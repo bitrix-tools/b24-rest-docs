@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -46,6 +49,7 @@
   ```json
   {
       "KEYBOARD": {
+          "BOT_ID": 456,
           "BUTTONS": [
               {"TEXT": "Кнопка", "LINK": "https://example.ru"}
           ]
@@ -174,7 +178,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat2725","fields":{"message":"Выберите действие","keyboard":{"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить команду","ACTION":"PUT","ACTION_VALUE":"/help"}]}}}' \
+    -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat2725","fields":{"message":"Выберите действие","keyboard":{"BOT_ID":456,"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить команду","ACTION":"PUT","ACTION_VALUE":"/help"}]}}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
   ```
 
@@ -184,7 +188,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"botId":456,"dialogId":"chat2725","fields":{"message":"Выберите действие","keyboard":{"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить команду","ACTION":"PUT","ACTION_VALUE":"/help"}]}},"auth":"**put_access_token_here**"}' \
+    -d '{"botId":456,"dialogId":"chat2725","fields":{"message":"Выберите действие","keyboard":{"BOT_ID":456,"BUTTONS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TYPE":"NEWLINE"},{"TEXT":"Подставить команду","ACTION":"PUT","ACTION_VALUE":"/help"}]}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
   ```
 
@@ -198,6 +202,7 @@
           fields: {
               message: 'Выберите действие',
               keyboard: {
+                  BOT_ID: 456,
                   BUTTONS: [
                       { TEXT: 'Открыть сайт', LINK: 'https://www.example.ru/' },
                       { TYPE: 'NEWLINE' },
@@ -228,6 +233,7 @@
                   'fields' => [
                       'message' => 'Выберите действие',
                       'keyboard' => [
+                          'BOT_ID' => 456,
                           'BUTTONS' => [
                               ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
                               ['TYPE' => 'NEWLINE'],
@@ -260,6 +266,7 @@
           fields: {
               message: 'Выберите действие',
               keyboard: {
+                  BOT_ID: 456,
                   BUTTONS: [
                       { TEXT: 'Открыть сайт', LINK: 'https://www.example.ru/' },
                       { TYPE: 'NEWLINE' },
@@ -291,6 +298,7 @@
           'fields' => [
               'message' => 'Выберите действие',
               'keyboard' => [
+                  'BOT_ID' => 456,
                   'BUTTONS' => [
                       ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
                       ['TYPE' => 'NEWLINE'],
@@ -317,6 +325,8 @@
 - [imbot.v2.Chat.Message.update](./chat-message-update.md)
 - [im.message.update](../../../../chats/messages/im-message-update.md)
 - [imbot.message.update](../../../outdated/messages/imbot-message-update.md)
+
+При обновлении клавиатуры укажите `BOT_ID` внутри объекта `keyboard` на одном уровне с `BUTTONS`. Если передать только `BUTTONS`, команда кнопки может не связаться с нужным ботом.
 
 Чтобы отключить вывод кнопок, передайте:
 

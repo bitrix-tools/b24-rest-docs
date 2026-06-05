@@ -29,6 +29,8 @@ items:
     include:
       path: files/b24-toc.yaml
       mode: link
+  - name: Передача контекста боту при открытии чата
+    href: bot-context.md
   - name: Ревизии API
-    href: revision-get.md      
+    href: revision-get.md
 

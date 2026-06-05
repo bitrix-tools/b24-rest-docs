@@ -2,13 +2,20 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
 Описание всех событий, которые бот получает через [imbot.v2.Event.get](./event-get.md) (FETCH-режим) или через webhook.
 
 Поля объектов `message`, `chat`, `user` описаны в [{#T}](../../entities.md).
+
+## Автоматическое управление подписками
+
+Подписка бота на события `ONIMBOTV2*` создается автоматически при [imbot.v2.Bot.register](../bots/bot-register.md) с `eventMode: "webhook"`, обновляется при [imbot.v2.Bot.update](../bots/bot-update.md) (при смене `webhookUrl` или `eventMode`) и удаляется при [imbot.v2.Bot.unregister](../bots/bot-unregister.md) или переходе в режим `fetch`. Ручной вызов [event.bind](https://apidocs.bitrix24.ru/api-reference/events/event-bind.html) / [event.unbind](https://apidocs.bitrix24.ru/api-reference/events/event-unbind.html) не требуется и может привести к расхождению с внутренним учетом.
 
 ## Какие события обрабатывать в первую очередь
 
@@ -61,6 +68,46 @@
 }
 ```
 
+### Структура webhook-уведомления {#webhook-payload}
+
+В webhook-режиме POST-запрос содержит **два разных `auth`**:
+
+- **top-level `auth`** — конверт всего запроса, присутствует всегда;
+- **`data.bot.auth`** — OAuth-токены конкретного бота для обратных вызовов.
+
+```json
+{
+    "event": "ONIMBOTV2MESSAGEADD",
+    "data": {
+        "bot": {
+            "id": 456,
+            "code": "support_bot",
+            "auth": {"access_token": "...", "refresh_token": "...", "application_token": "..."}
+        },
+        "message": {},
+        "chat": {},
+        "user": {}
+    },
+    "ts": 1772093963,
+    "auth": {
+        "domain": "your-portal.bitrix24.ru",
+        "application_token": "..."
+    }
+}
+```
+
+{% note warning "" %}
+
+Для верификации подлинности вебхука используйте `application_token` с **верхнего уровня** — `auth.application_token`, а не из `data.bot.auth.application_token`.
+
+{% endnote %}
+
+Запрос приходит как `application/x-www-form-urlencoded` через `http_build_query`, поэтому ключи имеют PHP вид: `data[bot][id]=...`, `auth[application_token]=...`.
+
+### Объект chat в событиях {#chat-in-events}
+
+Объект `chat` в событиях не содержит полей `role` и `muteList` — эти поля зависят от конкретного пользователя и не могут быть одинаковыми для всех получателей событий.
+
 ### Параметр auth {#auth}
 
 {% include notitle [Таблица с ключами в массиве auth](../../../../../_includes/auth-params-in-events.md) %}
@@ -100,7 +147,7 @@ Webhook-события доставляются через систему соб
 || **message** | [`Message`](../../entities.md#message) | Отправленное сообщение ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в котором отправлено сообщение ||
 || **user** | [`User`](../../entities.md#user) | Автор сообщения ||
-|| **language** | `string` | Язык портала (например, `en`, `ru`) ||
+|| **language** | `string` | Язык Битрикс24 (например, `en`, `ru`) ||
 |#
 
 ### Пример данных
@@ -117,7 +164,6 @@ Webhook-события доставляются через систему соб
         "backgroundId": null,
         "language": "en",
         "moduleId": "rest",
-        "appId": "custom123abc",
         "eventMode": "fetch",
         "countMessage": 150,
         "countCommand": 3,
@@ -185,7 +231,7 @@ Webhook-события доставляются через систему соб
 || **message** | [`Message`](../../entities.md#message) | Обновленное сообщение ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в котором отредактировано сообщение ||
 || **user** | [`User`](../../entities.md#user) | Автор сообщения ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 Формат данных идентичен [ONIMBOTV2MESSAGEADD](#onimbotv2messageadd). Поле `message` содержит обновленный текст.
@@ -202,7 +248,7 @@ Webhook-события доставляются через систему соб
 || **messageId** | `integer` | ID удаленного сообщения ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в котором удалено сообщение ||
 || **user** | [`User`](../../entities.md#user) | Автор удаленного сообщения ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 ---
@@ -217,7 +263,7 @@ Webhook-события доставляются через систему соб
 || **dialogId** | `string` | ID диалога (например, `chat5`) ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в который добавлен бот ||
 || **user** | [`User`](../../entities.md#user) | Пользователь, добавивший бота ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 ### Пример данных
@@ -234,7 +280,6 @@ Webhook-события доставляются через систему соб
         "backgroundId": null,
         "language": "en",
         "moduleId": "rest",
-        "appId": "custom123abc",
         "eventMode": "fetch",
         "countMessage": 150,
         "countCommand": 3,
@@ -304,7 +349,6 @@ Webhook-события доставляются через систему соб
         "backgroundId": null,
         "language": "en",
         "moduleId": "rest",
-        "appId": "custom123abc",
         "eventMode": "fetch",
         "countMessage": 150,
         "countCommand": 3,
@@ -327,7 +371,7 @@ Webhook-события доставляются через систему соб
 || **context** | `object` | Произвольные данные, переданные при открытии диалога ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат ||
 || **user** | [`User`](../../entities.md#user) | Пользователь, открывший диалог ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 ### Пример данных
@@ -344,7 +388,6 @@ Webhook-события доставляются через систему соб
         "backgroundId": null,
         "language": "en",
         "moduleId": "rest",
-        "appId": "custom123abc",
         "eventMode": "fetch",
         "countMessage": 150,
         "countCommand": 3,
@@ -407,7 +450,7 @@ Webhook-события доставляются через систему соб
 || **message** | [`Message`](../../entities.md#message) | Сообщение с командой ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, из которого вызвана команда ||
 || **user** | [`User`](../../entities.md#user) | Пользователь, вызвавший команду ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 ### Объект command {#command-object}
@@ -440,7 +483,6 @@ Webhook-события доставляются через систему соб
         "backgroundId": null,
         "language": "en",
         "moduleId": "rest",
-        "appId": "custom123abc",
         "eventMode": "fetch",
         "countMessage": 150,
         "countCommand": 3,
@@ -516,7 +558,7 @@ Webhook-события доставляются через систему соб
 || **message** | [`Message`](../../entities.md#message) | Сообщение, на которое поставлена реакция ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат ||
 || **user** | [`User`](../../entities.md#user) | Пользователь, изменивший реакцию ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 ### Пример данных
@@ -533,7 +575,6 @@ Webhook-события доставляются через систему соб
         "backgroundId": null,
         "language": "en",
         "moduleId": "rest",
-        "appId": "custom123abc",
         "eventMode": "fetch",
         "countMessage": 150,
         "countCommand": 3,

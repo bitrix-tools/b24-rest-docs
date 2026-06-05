@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -37,14 +40,16 @@ Content-Type: application/json
 
 {
     "access_token": "ydtj8pho532wydb5ixk78ol7uqlb7sch",
-    "client_endpoint": "http://portal.bitrix24.com/rest/",
+    "client_endpoint": "https://portal.bitrix24.com/rest/",
     "domain": "oauth.bitrix24.tech",
+    "expires": 1780319382,
     "expires_in": 3600,
     "member_id": "a223c6b3710f85df22e9377d6c4f7553",
     "refresh_token": "3s6lr4kr3cv2od4v853gvrchb875bwxb",
     "scope": "app",
-    "server_endpoint": "http://oauth.bitrix24.tech/rest/",
-    "status": "T"
+    "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+    "status": "T",
+    "user_id": 67
 }
 ```
 
@@ -55,6 +60,12 @@ Content-Type: application/json
 - **client_endpoint** — адрес REST-интерфейса портала
 - **server_endpoint** — адрес REST-интерфейса сервера
 - **status** — статус приложения на портале
+- **expires** — момент истечения срока действия `access_token` в формате Unix-времени
+- **expires_in** — время жизни `access_token` в секундах
+- **scope** — разделенный запятыми список прав доступа к REST API, предоставленных приложению
+- **domain** — домен сервера авторизации
+- **member_id** — уникальный идентификатор портала
+- **user_id** — идентификатор пользователя, для которого выдан токен
 
 На этом этапе приложение может получить ошибку авторизации. Например, если истек пробный или оплаченный период, или приложение было удалено с портала.
 

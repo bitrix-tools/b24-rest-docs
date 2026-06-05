@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -157,7 +160,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -172,9 +175,17 @@ HTTP-код: **200**
             "color": "#ab7761",
             "avatar": "",
             "gender": "M",
+            "birthday": "15-03",
             "extranet": false,
             "bot": false,
+            "connector": false,
+            "externalAuthId": "default",
             "status": "online",
+            "idle": false,
+            "lastActivityDate": "2025-01-15T14:25:00+03:00",
+            "absent": false,
+            "departments": [7],
+            "phones": false,
             "type": "employee"
         },
         {
@@ -187,9 +198,17 @@ HTTP-код: **200**
             "color": "#5b7e91",
             "avatar": "",
             "gender": "F",
+            "birthday": "22-08",
             "extranet": false,
             "bot": false,
+            "connector": false,
+            "externalAuthId": "default",
             "status": "online",
+            "idle": false,
+            "lastActivityDate": "2025-01-15T14:20:00+03:00",
+            "absent": false,
+            "departments": [12],
+            "phones": false,
             "type": "employee"
         }
     ],

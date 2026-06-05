@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -272,6 +275,45 @@
     - `N` — нет ||
     |#
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.deal.userfield.update(
+            bitrix_id=42,
+            fields={
+                "EDIT_FORM_LABEL": {"en": "Priority Score"},
+                "LIST_COLUMN_LABEL": {"en": "Priority Score"},
+                "LIST_FILTER_LABEL": {"en": "Priority Score"},
+                "MANDATORY": "N",
+                "SHOW_FILTER": "E",
+            },
+            list=[
+                {"ID": 1, "VALUE": "Low", "SORT": 100},
+                {"ID": 2, "VALUE": "High", "SORT": 200},
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 {% endlist %}
 
 ### Параметр LIST {#uf_enum_element}

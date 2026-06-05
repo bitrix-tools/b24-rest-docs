@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -125,29 +128,110 @@
     https://**put_your_bitrix24_address**/rest/user.get
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'user.get',
-    		{
-    			'UF_DEPARTMENT': 1,
-    			'SORT': 'ID',
-    			'ORDER': 'asc',
-    			'start': 10
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.dir(result);
+    declare const $b24: B24Frame
+
+    type UserData = {
+      ID: string
+      ACTIVE: boolean
+      NAME: string
+      LAST_NAME: string
+      SECOND_NAME: string
+      EMAIL: string
+      LAST_LOGIN: ISODate | ''
+      DATE_REGISTER: ISODate | ''
+      TIME_ZONE: string
+      IS_ONLINE: string
+      PERSONAL_GENDER: string
+      PERSONAL_BIRTHDAY: ISODate | ''
+      PERSONAL_CITY: string
+      WORK_PHONE: string
+      WORK_POSITION: string
+      UF_EMPLOYMENT_DATE: string
+      UF_DEPARTMENT: number[]
+      USER_TYPE: string
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
+
+    try {
+      // user.get returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<UserData[]>({
+        method: 'user.get',
+        params: {
+          UF_DEPARTMENT: 1,
+          SORT: 'ID',
+          ORDER: 'asc',
+          start: 10,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(`Fetched ${result.length} users:`, result.map(u => `${u.NAME} ${u.LAST_NAME}`))
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getUsers() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // user.get returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'user.get',
+            params: {
+              UF_DEPARTMENT: 1,
+              SORT: 'ID',
+              ORDER: 'asc',
+              start: 10,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(`Fetched ${result.length} users:`, result.map(u => `${u.NAME} ${u.LAST_NAME}`))
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getUsers)
+    </script>
     ```
 
 - PHP
@@ -257,28 +341,100 @@
     https://**put_your_bitrix24_address**/rest/user.get
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'user.get',
-    		{
-    			filter: {
-    				"NAME": "Ива%"
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    type UserData = {
+      ID: string
+      ACTIVE: boolean
+      NAME: string
+      LAST_NAME: string
+      EMAIL: string
+      LAST_LOGIN: ISODate | ''
+      DATE_REGISTER: ISODate | ''
+      IS_ONLINE: string
+      UF_DEPARTMENT: number[]
+      USER_TYPE: string
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      // user.get returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<UserData[]>({
+        method: 'user.get',
+        params: {
+          filter: {
+            NAME: 'Iva%',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(`Fetched ${result.length} users:`, result.map(u => `${u.NAME} ${u.LAST_NAME}`))
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getUsersByName() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // user.get returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'user.get',
+            params: {
+              filter: {
+                NAME: 'Iva%',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(`Fetched ${result.length} users:`, result.map(u => `${u.NAME} ${u.LAST_NAME}`))
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getUsersByName)
+    </script>
     ```
 
 - PHP
@@ -374,28 +530,100 @@
     https://**put_your_bitrix24_address**/rest/user.get
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"user.get",
-    		{
-    			filter: {
-    				"!%LAST_NAME": "ов"
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    type UserData = {
+      ID: string
+      ACTIVE: boolean
+      NAME: string
+      LAST_NAME: string
+      EMAIL: string
+      LAST_LOGIN: ISODate | ''
+      DATE_REGISTER: ISODate | ''
+      IS_ONLINE: string
+      UF_DEPARTMENT: number[]
+      USER_TYPE: string
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      // user.get returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<UserData[]>({
+        method: 'user.get',
+        params: {
+          filter: {
+            '!%LAST_NAME': 'ov',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(`Fetched ${result.length} users:`, result.map(u => `${u.NAME} ${u.LAST_NAME}`))
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getUsersByLastName() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // user.get returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'user.get',
+            params: {
+              filter: {
+                '!%LAST_NAME': 'ov',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(`Fetched ${result.length} users:`, result.map(u => `${u.NAME} ${u.LAST_NAME}`))
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getUsersByLastName)
+    </script>
     ```
 
 - PHP
@@ -491,28 +719,101 @@
     https://**put_your_bitrix24_address**/rest/user.get
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'user.get',
-    		{
-    			filter: {
-    				'@PERSONAL_CITY': ['Москва', 'Санкт-Петербург']
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    type UserData = {
+      ID: string
+      ACTIVE: boolean
+      NAME: string
+      LAST_NAME: string
+      EMAIL: string
+      LAST_LOGIN: ISODate | ''
+      DATE_REGISTER: ISODate | ''
+      IS_ONLINE: string
+      PERSONAL_CITY: string
+      UF_DEPARTMENT: number[]
+      USER_TYPE: string
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      // user.get returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<UserData[]>({
+        method: 'user.get',
+        params: {
+          filter: {
+            '@PERSONAL_CITY': ['Moscow', 'Saint Petersburg'],
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(`Fetched ${result.length} users:`, result.map(u => `${u.NAME} ${u.LAST_NAME} (${u.PERSONAL_CITY})`))
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getUsersByCity() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // user.get returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'user.get',
+            params: {
+              filter: {
+                '@PERSONAL_CITY': ['Moscow', 'Saint Petersburg'],
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(`Fetched ${result.length} users:`, result.map(u => `${u.NAME} ${u.LAST_NAME} (${u.PERSONAL_CITY})`))
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getUsersByCity)
+    </script>
     ```
 
 - PHP

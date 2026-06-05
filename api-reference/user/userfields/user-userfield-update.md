@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -278,6 +281,64 @@
     По умолчанию `N` ||
     |#
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    bitrix_id = 176
+    fields = {
+        "XML_ID": "UF_USR_SKILLS_PROFILE_V2",
+        "SORT": 200,
+        "MANDATORY": "N",
+        "SHOW_FILTER": "Y",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "Y",
+        "SETTINGS": {
+            "DEFAULT_VALUE": "Senior Python integration engineer",
+            "ROWS": 4,
+        },
+        "EDIT_FORM_LABEL": {
+            "en": "Skills profile",
+        },
+        "LIST_COLUMN_LABEL": {
+            "en": "Skills profile",
+        },
+        "LIST_FILTER_LABEL": {
+            "en": "Skills profile",
+        },
+        "ERROR_MESSAGE": {
+            "en": "Skills profile is invalid",
+        },
+        "HELP_MESSAGE": {
+            "en": "Update the short integration skills summary.",
+        },
+        "LABEL": "Skills profile",
+    }
+
+    try:
+        bitrix_response = client.user.userfield.update(
+            bitrix_id=bitrix_id,
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print("Bitrix SDK error", error.message, sep="\n")
+    except Exception as error:
+        print("Unexpected error", error, sep="\n")
+    ```
 {% endlist %}
 
 
@@ -322,31 +383,86 @@
     https://**put_your_bitrix24_address**/rest/user.userfield.update
     ```
 
-- JS
+- JS (TS)
 
-    ```javascript
-    try
-    {
-        const response = await $b24.callMethod(
-            'user.userfield.update',
-            {
-                id: 42,
-                fields: {
-                    SORT: 150,
-                    LIST_FILTER_LABEL: 'New Title',
-                    LIST_COLUMN_LABEL: 'New List Title',
-                }
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log('Updated element with ID:', result);
-        processResult(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type UpdateUserFieldResult = boolean
+
+    try {
+      const response = await $b24.actions.v2.call.make<UpdateUserFieldResult>({
+        method: 'user.userfield.update',
+        params: {
+          id: 42,
+          fields: {
+            SORT: 150,
+            LIST_FILTER_LABEL: 'New Title',
+            LIST_COLUMN_LABEL: 'New List Title',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('User field updated:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateUserField() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'user.userfield.update',
+            params: {
+              id: 42,
+              fields: {
+                SORT: 150,
+                LIST_FILTER_LABEL: 'New Title',
+                LIST_COLUMN_LABEL: 'New List Title',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('User field updated:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateUserField)
+    </script>
     ```
 
 - PHP

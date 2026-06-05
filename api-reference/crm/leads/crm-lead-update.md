@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -389,6 +392,56 @@
     );
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+    from datetime import datetime
+
+    client: BaseClient
+
+    updated_birthdate = datetime(1989, 7, 14).date().isoformat()
+
+    try:
+        bitrix_response = client.crm.lead.update(
+            bitrix_id=1201,
+            fields={
+            "TITLE": "Acme Industrial Subscription - Negotiation",
+            "STATUS_ID": "IN_PROCESS",
+            "OPPORTUNITY": 27500.0,
+            "CURRENCY_ID": "USD",
+            "ASSIGNED_BY_ID": 1,
+            "COMMENTS": "Budget approved, waiting for legal review.",
+            "SOURCE_DESCRIPTION": "Updated after discovery workshop",
+            "BIRTHDATE": updated_birthdate,
+            "PHONE": [{"VALUE": "+12025550120", "VALUE_TYPE": "WORK"}],
+            "EMAIL": [{"VALUE": "procurement@acme-industrial.com", "VALUE_TYPE": "WORK"}],
+            "WEB": [{"VALUE": "https://acme-industrial.com/contact", "VALUE_TYPE": "WORK"}],
+            "UTM_SOURCE": "linkedin",
+            "UTM_MEDIUM": "paid-social",
+            "UTM_CAMPAIGN": "enterprise_followup",
+            "UTM_CONTENT": "case_study_ad",
+            "UTM_TERM": "crm rollout",
+            },
+            params={"REGISTER_SONET_EVENT": "Y"},
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 {% endlist %}
 
 ## Обработка ответа

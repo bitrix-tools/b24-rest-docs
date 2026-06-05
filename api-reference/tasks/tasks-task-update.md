@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -74,41 +77,93 @@ SE_PARAMETER: [
     https://**put_your_bitrix24_address**/rest/tasks.task.update
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"tasks.task.update",
-    		{
-    			taskId: 11, // Идентификатор задачи, которую вы хотите обновить
-    			fields: {
-    				// Пример передачи нескольких значений в поле UF_CRM_TASK
-    				UF_CRM_TASK: [
-    					"L_4", // Привязка к лиду с id 4
-    					"C_7", // Привязка к контакту с id 7
-    					"CO_5", // Привязка к компании с id 5
-    					"D_10" // Привязка к сделке с id 10
-    				],
-    				// Пример передачи нескольких файлов в поле UF_TASK_WEBDAV_FILES
-    				UF_TASK_WEBDAV_FILES: [
-    					"n12345", // Идентификатор первого файла диска
-    					"n67890" // Идентификатор второго файла диска
-    				],
-    				RESPONSIBLE_ID: 123 // Идентификатор нового исполнителя
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info("Задача успешно обновлена");
+    declare const $b24: B24Frame
+
+    // Minimal shape of result.task; the API returns the full task object
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type TaskUpdateResult = {
+      task: { id: string }
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<TaskUpdateResult>({
+        method: 'tasks.task.update',
+        params: {
+          taskId: 11, // ID of the task to update
+          fields: {
+            // Bind the task to several CRM entities via UF_CRM_TASK
+            UF_CRM_TASK: ['L_4', 'C_7', 'CO_5', 'D_10'], // Lead 4 / Contact 7 / Company 5 / Deal 10
+            // Attach several Drive files via UF_TASK_WEBDAV_FILES (prefix IDs with "n")
+            UF_TASK_WEBDAV_FILES: ['n12345', 'n67890'],
+            RESPONSIBLE_ID: 123 // New responsible person ID
+          }
+        },
+        requestId: Text.getUuidRfc4122() // optional unique tracking id for this request
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(`Task ${result.task.id} updated`)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateTask() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'tasks.task.update',
+            params: {
+              taskId: 11, // ID of the task to update
+              fields: {
+                // Bind the task to several CRM entities via UF_CRM_TASK
+                UF_CRM_TASK: ['L_4', 'C_7', 'CO_5', 'D_10'], // Lead 4 / Contact 7 / Company 5 / Deal 10
+                // Attach several Drive files via UF_TASK_WEBDAV_FILES (prefix IDs with "n")
+                UF_TASK_WEBDAV_FILES: ['n12345', 'n67890'],
+                RESPONSIBLE_ID: 123 // New responsible person ID
+              }
+            },
+            requestId: B24Js.Text.getUuidRfc4122() // optional unique tracking id for this request
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(`Task ${result.task.id} updated`)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateTask)
+    </script>
     ```
 
 - PHP

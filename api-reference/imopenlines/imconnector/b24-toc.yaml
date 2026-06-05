@@ -3,8 +3,6 @@ href: index.md
 items: 
   - name: Обзор методов
     href: index.md
-  - name: Частые кейсы
-    href: tutorials.md
   - name: Зарегистрировать коннектор
     href: imconnector-register.md
   - name: Активировать коннектор

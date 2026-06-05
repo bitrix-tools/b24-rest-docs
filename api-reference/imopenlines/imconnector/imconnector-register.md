@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -55,8 +58,6 @@
 [`boolean`](../../data-types.md) | Добавляет подпись оператора в сообщения. Значение по умолчанию `true` ||
 || **CHAT_GROUP**
 [`boolean`](../../data-types.md) | Признак режима обработки чатов коннектора: `true` — группировка по `chat.id` (групповой чат), `false` — по `user.id` (чат один на один). Значение по умолчанию `false` ||
-|| **COMMENT**
-[`string`](../../data-types.md) | Текстовое пояснение, которое отображается в блоке настроек коннектора в слайдере ||
 |#
 
 ### Параметр ICON {#icon}
@@ -122,7 +123,6 @@
         "NEED_SYSTEM_MESSAGES": true,
         "NEED_SIGNATURE": true,
         "CHAT_GROUP": false,
-        "COMMENT": "Настройка канала",
         "auth": "**put_access_token_here**"
       }' \
       https://**put_your_bitrix24_address**/rest/imconnector.register
@@ -152,7 +152,6 @@
       NEED_SYSTEM_MESSAGES: true,
       NEED_SIGNATURE: true,
       CHAT_GROUP: false,
-      COMMENT: 'Настройка канала',
     };
 
     const response = await $b24.callMethod('imconnector.register', payload);
@@ -185,7 +184,6 @@
             'NEED_SYSTEM_MESSAGES' => true,
             'NEED_SIGNATURE' => true,
             'CHAT_GROUP' => false,
-            'COMMENT' => 'Настройка канала',
         ]
     );
     ```
@@ -216,7 +214,6 @@
         NEED_SYSTEM_MESSAGES: true,
         NEED_SIGNATURE: true,
         CHAT_GROUP: false,
-        COMMENT: 'Настройка канала',
       },
       function(result) {
         console.log(result.data());
@@ -250,7 +247,6 @@
             'NEED_SYSTEM_MESSAGES' => true,
             'NEED_SIGNATURE' => true,
             'CHAT_GROUP' => false,
-            'COMMENT' => 'Настройка канала',
         ]
     );
     ```

@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -50,7 +53,7 @@
 || **connector**
 [`boolean`](../../data-types.md) | Является ли пользователь коннектором Открытых линий ||
 || **externalAuthId**
-[`string`](../../data-types.md) | Тип внешней авторизации: `default`, `bot`, `email`, `replica` и др. ||
+[`string`](../../data-types.md) | Тип внешней авторизации: `default`, `bot`, `email`, `replica` и другие ||
 || **status**
 [`string`](../../data-types.md) | Статус: `online`, `dnd` ||
 || **idle**
@@ -141,8 +144,6 @@
 `Тип` | **Описание** ||
 || **moduleId**
 [`string`](../../data-types.md) | ID модуля, которому принадлежит бот ||
-|| **appId**
-[`string`](../../data-types.md) | ID приложения, зарегистрировавшего бота ||
 || **eventMode**
 [`string`](../../data-types.md) | Режим доставки событий: `webhook` или `fetch` ||
 || **countMessage**
@@ -168,7 +169,6 @@
     "backgroundId": null,
     "language": "en",
     "moduleId": "rest",
-    "appId": "custom123abc",
     "eventMode": "fetch",
     "countMessage": 150,
     "countCommand": 3,
@@ -193,7 +193,7 @@
 || **type**
 [`string`](../../data-types.md) | Тип: `chat`, `open`, `channel`, `openChannel`, `copilot`, `thread`, `generalChannel` ||
 || **messageType**
-[`string`](../../data-types.md) | Внутренний тип: `C` (chat), `O` (open), `P` (private) и др. ||
+[`string`](../../data-types.md) | Внутренний тип: `C` (chat), `O` (open), `P` (private) и другие ||
 || **owner**
 [`integer`](../../data-types.md) | ID владельца чата ||
 || **color**
@@ -319,7 +319,7 @@
 || **forward**
 [`object\|null`](../../data-types.md) | Информация о пересылке: `{id, userId, chatId, date}` или `null` ||
 || **params**
-[`object`](../../data-types.md) | Дополнительные параметры: attach, keyboard, файлы и др. ||
+[`object`](../../data-types.md) | Дополнительные параметры: attach, keyboard, файлы и другие ||
 || **viewedByOthers**
 [`boolean`](../../data-types.md) | Прочитано ли сообщение другими участниками ||
 |#
@@ -354,7 +354,7 @@
 
 ## File {#file}
 
-Файл, прикреплённый к сообщению. Возвращается в поле `file` ответа метода [imbot.v2.File.upload](./imbot.v2/files/file-upload.md).
+Файл, прикрепленный к сообщению. Возвращается в поле `file` ответа метода [imbot.v2.File.upload](./imbot.v2/files/file-upload.md).
 
 #|
 || **Поле**
@@ -427,9 +427,9 @@
 || **extranetSupport**
 [`boolean`](../../data-types.md) | Доступна ли команда для экстранет-пользователей ||
 || **title**
-[`string`](../../data-types.md) | Заголовок команды на языке портала. Только в ответах методов ||
+[`string`](../../data-types.md) | Заголовок команды на языке Битрикс24. Только в ответах методов ||
 || **params**
-[`string`](../../data-types.md) | Описание параметров команды на языке портала. Только в ответах методов ||
+[`string`](../../data-types.md) | Описание параметров команды на языке Битрикс24. Только в ответах методов ||
 || **category**
 [`string`](../../data-types.md) | Имя бота-владельца команды. Только в ответах методов ||
 || **context**

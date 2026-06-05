@@ -2,7 +2,10 @@
 
 {% note tip "" %}
 
-Если вы разрабатываете интеграции для Битрикс24 с помощью AI-инструментов (Codex, Claude Code, Cursor), подключите [MCP-сервер](../../../sdk/mcp.md), чтобы ассистент использовал официальную REST-документацию.
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -301,6 +304,65 @@
     По умолчанию `N` ||
     |#
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "FIELD_NAME": "UF_USR_SKILLS_PROFILE",
+        "USER_TYPE_ID": "string",
+        "XML_ID": "UF_USR_SKILLS_PROFILE",
+        "SORT": 150,
+        "MULTIPLE": "N",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "Y",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "Y",
+        "SETTINGS": {
+            "DEFAULT_VALUE": "Python integration engineer",
+            "ROWS": 3,
+        },
+        "EDIT_FORM_LABEL": {
+            "en": "Skills profile",
+        },
+        "LIST_COLUMN_LABEL": {
+            "en": "Skills profile",
+        },
+        "LIST_FILTER_LABEL": {
+            "en": "Skills profile",
+        },
+        "ERROR_MESSAGE": {
+            "en": "Skills profile is invalid",
+        },
+        "HELP_MESSAGE": {
+            "en": "Store a short integration skills summary.",
+        },
+        "LABEL": "Skills profile",
+    }
+
+    try:
+        bitrix_response = client.user.userfield.add(
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print("Bitrix SDK error", error.message, sep="\n")
+    except Exception as error:
+        print("Unexpected error", error, sep="\n")
+    ```
 {% endlist %}
 
 {% note info "" %}
@@ -372,43 +434,110 @@
     https://**put_your_bitrix24_address**/rest/user.userfield.add
     ```
     
-- JS
+- JS (TS)
 
-    ```javascript
-    try
-    {
-        const response = await $b24.callMethod(
-            'user.userfield.add',
-            {
-                fields: {
-                    FIELD_NAME: 'UF_USER_DEALS',
-                    USER_TYPE_ID: 'crm',
-                    XML_ID: 'UF_CRM_DEALS',
-                    SORT: 100,
-                    MULTIPLE: 'Y',
-                    MANDATORY: 'N',
-                    SHOW_FILTER: 'N',
-                    SHOW_IN_LIST: 'Y',
-                    EDIT_IN_LIST: 'Y',
-                    SETTINGS: {
-                        DEAL: 'Y',
-                    },
-                    LABEL: 'Привязка к сделкам CRM',
-                    EDIT_FORM_LABEL: {
-                        ru: 'Привязка к сделкам CRM'
-                    },
-                }
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log('Created element with ID:', result);
-        processResult(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type AddUserFieldResult = number
+
+    try {
+      const response = await $b24.actions.v2.call.make<AddUserFieldResult>({
+        method: 'user.userfield.add',
+        params: {
+          fields: {
+            FIELD_NAME: 'UF_USER_DEALS',
+            USER_TYPE_ID: 'crm',
+            XML_ID: 'UF_CRM_DEALS',
+            SORT: 100,
+            MULTIPLE: 'Y',
+            MANDATORY: 'N',
+            SHOW_FILTER: 'N',
+            SHOW_IN_LIST: 'Y',
+            EDIT_IN_LIST: 'Y',
+            SETTINGS: {
+              DEAL: 'Y',
+            },
+            LABEL: 'CRM deals binding',
+            EDIT_FORM_LABEL: {
+              ru: 'CRM deals binding',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created user field with ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addUserField() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'user.userfield.add',
+            params: {
+              fields: {
+                FIELD_NAME: 'UF_USER_DEALS',
+                USER_TYPE_ID: 'crm',
+                XML_ID: 'UF_CRM_DEALS',
+                SORT: 100,
+                MULTIPLE: 'Y',
+                MANDATORY: 'N',
+                SHOW_FILTER: 'N',
+                SHOW_IN_LIST: 'Y',
+                EDIT_IN_LIST: 'Y',
+                SETTINGS: {
+                  DEAL: 'Y',
+                },
+                LABEL: 'CRM deals binding',
+                EDIT_FORM_LABEL: {
+                  ru: 'CRM deals binding',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created user field with ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addUserField)
+    </script>
     ```
 
 - PHP
