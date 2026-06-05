@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 05 июня, 2026
+
+- Добавили методы раздела [Записи о рабочем времени](./api-reference/rest-v3/timeman/index.md)
+- Добавили методы раздела [Отделы и команды](./api-reference/rest-v3/humanresources/node/index.md)
+- Добавили методы раздела [Участники отделов и команд](./api-reference/rest-v3/humanresources/node-member/index.md)
+
 ### 04 июня, 2026
 
 - Обновили страницу [Права на методы и скоупы](./api-reference/scopes/index.md)

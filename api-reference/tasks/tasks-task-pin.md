@@ -383,6 +383,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `0` | wrong task id | В параметре `id` указано значение неверного типа ||
+|| `100` | CTaskItem All parameters in the constructor must have real class type | Параметр `id` не передан ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

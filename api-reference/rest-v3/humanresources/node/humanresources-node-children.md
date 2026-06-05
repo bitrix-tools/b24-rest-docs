@@ -1,0 +1,347 @@
+# Получить дочерние отделы humanresources.node.children
+
+{% note tip "" %}
+
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
+
+{% endnote %}
+
+> Scope: [`humanresources`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правом «Просмотр отделов» или «Просмотр команд»
+
+Метод `humanresources.node.children` возвращает прямые дочерние отделы и команды выбранного элемента структуры.
+
+## Параметры метода
+
+{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор родительского отдела или команды.
+
+Идентификатор можно получить методом [humanresources.node.list](./humanresources-node-list.md) ||
+|| **select**
+[`array`](../../../data-types.md) | Список полей отдела или команды, которые нужно вернуть.
+
+Доступные поля:
+
+- `id` — идентификатор элемента структуры
+- `name` — название отдела или команды
+- `type` — тип элемента структуры
+- `structureId` — идентификатор структуры компании
+- `parentId` — идентификатор родительского отдела или команды
+- `description` — описание элемента структуры
+- `accessCode` — код доступа элемента структуры
+- `userCount` — количество пользователей в отделе или команде
+- `colorName` — цвет команды
+- `xmlId` — внешний идентификатор элемента структуры
+- `createdAt` — дата и время создания
+- `updatedAt` — дата и время последнего обновления ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+{% note info "" %}
+
+Вызов нового api отличается добавлением параметра `/api/` в запросе:
+
+`https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/humanresources.node.children`
+
+{% endnote %}
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":1,"select":["id","name","type","structureId","parentId","description","accessCode","userCount","colorName","xmlId","createdAt","updatedAt"]}' \
+    https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/humanresources.node.children
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":1,"select":["id","name","type","structureId","parentId","description","accessCode","userCount","colorName","xmlId","createdAt","updatedAt"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/api/humanresources.node.children
+    ```
+
+- JS
+
+    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+
+    ```javascript
+    try
+    {
+        const response = await $b24.callMethod(
+            'humanresources.node.children',
+            {
+                id: 1,
+                select: [
+                    'id',
+                    'name',
+                    'type',
+                    'structureId',
+                    'parentId',
+                    'description',
+                    'accessCode',
+                    'userCount',
+                    'colorName',
+                    'xmlId',
+                    'createdAt',
+                    'updatedAt'
+                ]
+            }
+        );
+
+        const result = response.getData().result.items;
+        console.info(result.length);
+    }
+    catch (error)
+    {
+        console.error(error);
+    }
+    ```
+
+- PHP
+
+    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'humanresources.node.children',
+                [
+                    'id' => 1,
+                    'select' => [
+                        'id',
+                        'name',
+                        'type',
+                        'structureId',
+                        'parentId',
+                        'description',
+                        'accessCode',
+                        'userCount',
+                        'colorName',
+                        'xmlId',
+                        'createdAt',
+                        'updatedAt'
+                    ],
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting children: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+
+    ```js
+    BX24.callMethod(
+        'humanresources.node.children',
+        {
+            id: 1,
+            select: [
+                'id',
+                'name',
+                'type',
+                'structureId',
+                'parentId',
+                'description',
+                'accessCode',
+                'userCount',
+                'colorName',
+                'xmlId',
+                'createdAt',
+                'updatedAt'
+            ]
+        },
+        function(result){
+            console.info(result.data());
+            console.log(result);
+        }
+    );
+    ```
+
+- PHP CRest
+
+    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'humanresources.node.children',
+        [
+            'id' => 1,
+            'select' => [
+                'id',
+                'name',
+                'type',
+                'structureId',
+                'parentId',
+                'description',
+                'accessCode',
+                'userCount',
+                'colorName',
+                'xmlId',
+                'createdAt',
+                'updatedAt'
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "items": [
+            {
+                "id": 12,
+                "name": "Продажи B2B",
+                "type": "DEPARTMENT",
+                "structureId": 1,
+                "parentId": 1,
+                "description": "Работа с корпоративными клиентами",
+                "accessCode": "DR12",
+                "userCount": 9,
+                "colorName": null,
+                "xmlId": null,
+                "createdAt": "2026-05-20T10:15:00+03:00",
+                "updatedAt": "2026-06-01T16:30:00+03:00"
+            },
+            {
+                "id": 18,
+                "name": "Маркетинг",
+                "type": "DEPARTMENT",
+                "structureId": 1,
+                "parentId": 1,
+                "description": "Продвижение продуктов и бренда",
+                "accessCode": "DR18",
+                "userCount": 6,
+                "colorName": null,
+                "xmlId": null,
+                "createdAt": "2026-05-22T11:40:00+03:00",
+                "updatedAt": "2026-06-03T10:05:00+03:00"
+            }
+        ]
+    },
+    "time": {
+        "start": 1780396400,
+        "finish": 1780396400.428761,
+        "duration": 0.42876100540161133,
+        "processing": 0.3972141742706299,
+        "date_start": "2026-06-02T13:33:20+03:00",
+        "date_finish": "2026-06-02T13:33:20+03:00",
+        "operating_reset_at": 1780397000,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Объект с данными ответа ||
+|| **items**
+[`array`](../../../data-types.md) | Массив дочерних отделов и команд. Состав полей элемента зависит от `select` ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": {
+        "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION",
+        "message": "Ошибка при валидации объекта запроса",
+        "validation": [
+            {
+                "message": "Обязательное поле `id` не указано",
+                "field": "id"
+            }
+        ]
+    }
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info-v3.md) %}
+
+### Возможные коды ошибок
+
+#### Ошибки валидации запроса
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `id` | Обязательное поле `id` не указано | Добавьте `id` в тело запроса ||
+|| `id` | В поле `id` требуется тип данных `int` для такого запроса | Убедитесь, что значение `id` передано числом ||
+|| `select` | Передано неподдерживаемое имя поля для выборки | Используйте только значения из описания параметра `select` ||
+|#
+
+#### Ошибки доступа
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `-` | Доступ запрещен | У пользователя нет права просматривать указанный отдел или команду ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INSUFFICIENTSCOPEEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `-` | Недостаточно прав доступа: отсутствует необходимый scope | Проверьте scope `humanresources` ||
+|#
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./humanresources-node-get.md)
+- [{#T}](./humanresources-node-add.md)
+- [{#T}](./humanresources-node-list.md)
+- [{#T}](./index.md)

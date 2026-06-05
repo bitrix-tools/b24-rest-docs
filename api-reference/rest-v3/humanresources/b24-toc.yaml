@@ -1,0 +1,13 @@
+title: Структура компании
+href: index.md
+items:
+  - name: Обзор разделов
+    href: index.md
+  - name: Отделы и команды
+    include:
+      path: node/b24-toc.yaml
+      mode: link
+  - name: Участники отделов и команд
+    include:
+      path: node-member/b24-toc.yaml
+      mode: link
