@@ -168,20 +168,42 @@
     https://**put_your_bitrix24_address**/rest/crm.deal.list
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
-    const now = new Date();
-    const sixMonthAgo = new Date();
-    sixMonthAgo.setMonth(now.getMonth() - 6);
-    
+    declare const $b24: B24Frame
+
+    // Shape of each deal returned in result[] (subset shaped by `select`)
+    type CrmDealListItem = {
+      ID: string
+      TITLE: string
+      TYPE_ID: string
+      CATEGORY_ID: string
+      STAGE_ID: string
+      OPPORTUNITY: string
+      IS_MANUAL_OPPORTUNITY: string
+      ASSIGNED_BY_ID: string
+      DATE_CREATE: ISODate | null
+    }
+
+    const now = new Date()
+    const sixMonthAgo = new Date()
+    sixMonthAgo.setMonth(now.getMonth() - 6)
+
     try {
-      const response = await $b24.callListMethod(
-        'crm.deal.list',
-        {
+      // crm.deal.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<CrmDealListItem[]>({
+        method: 'crm.deal.list',
+        params: {
           select: [
             'ID',
             'TITLE',
@@ -208,104 +230,94 @@
             TITLE: 'ASC',
             OPPORTUNITY: 'ASC',
           },
+          start: 0,
         },
-        (result) => {
-          result.error()
-            ? console.error(result.error())
-            : console.info(result.data())
-          ;
-        },
-      );
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Deals on this page:', result.length, result)
+      }
     } catch (error) {
-      console.error('Request failed', error);
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    const now = new Date();
-    const sixMonthAgo = new Date();
-    sixMonthAgo.setMonth(now.getMonth() - 6);
-    
-    try {
-      const generator = $b24.fetchListMethod('crm.deal.list', {
-        select: [
-          'ID',
-          'TITLE',
-          'TYPE_ID',
-          'CATEGORY_ID',
-          'STAGE_ID',
-          'OPPORTUNITY',
-          'IS_MANUAL_OPPORTUNITY',
-          'ASSIGNED_BY_ID',
-          'DATE_CREATE',
-        ],
-        filter: {
-          '=%TITLE': '%а',
-          CATEGORY_ID: 1,
-          TYPE_ID: 'COMPLEX',
-          STAGE_ID: 'C1:NEW',
-          '>OPPORTUNITY': 10000,
-          '<=OPPORTUNITY': 20000,
-          IS_MANUAL_OPPORTUNITY: 'Y',
-          '@ASSIGNED_BY_ID': [1, 6],
-          '>DATE_CREATE': sixMonthAgo,
-        },
-        order: {
-          TITLE: 'ASC',
-          OPPORTUNITY: 'ASC',
-        },
-      }, 'ID');
-      for await (const page of generator) {
-        for (const entity of page) {
-          console.log('Entity:', entity);
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function listDeals() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const now = new Date()
+          const sixMonthAgo = new Date()
+          sixMonthAgo.setMonth(now.getMonth() - 6)
+
+          // crm.deal.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.deal.list',
+            params: {
+              select: [
+                'ID',
+                'TITLE',
+                'TYPE_ID',
+                'CATEGORY_ID',
+                'STAGE_ID',
+                'OPPORTUNITY',
+                'IS_MANUAL_OPPORTUNITY',
+                'ASSIGNED_BY_ID',
+                'DATE_CREATE',
+              ],
+              filter: {
+                '=%TITLE': '%а',
+                CATEGORY_ID: 1,
+                TYPE_ID: 'COMPLEX',
+                STAGE_ID: 'C1:NEW',
+                '>OPPORTUNITY': 10000,
+                '<=OPPORTUNITY': 20000,
+                IS_MANUAL_OPPORTUNITY: 'Y',
+                '@ASSIGNED_BY_ID': [1, 6],
+                '>DATE_CREATE': sixMonthAgo,
+              },
+              order: {
+                TITLE: 'ASC',
+                OPPORTUNITY: 'ASC',
+              },
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Deals on this page:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
         }
       }
-    } catch (error) {
-      console.error('Request failed', error);
-    }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    const now = new Date();
-    const sixMonthAgo = new Date();
-    sixMonthAgo.setMonth(now.getMonth() - 6);
-    
-    try {
-      const response = await $b24.callMethod('crm.deal.list', {
-        select: [
-          'ID',
-          'TITLE',
-          'TYPE_ID',
-          'CATEGORY_ID',
-          'STAGE_ID',
-          'OPPORTUNITY',
-          'IS_MANUAL_OPPORTUNITY',
-          'ASSIGNED_BY_ID',
-          'DATE_CREATE',
-        ],
-        filter: {
-          '=%TITLE': '%а',
-          CATEGORY_ID: 1,
-          TYPE_ID: 'COMPLEX',
-          STAGE_ID: 'C1:NEW',
-          '>OPPORTUNITY': 10000,
-          '<=OPPORTUNITY': 20000,
-          IS_MANUAL_OPPORTUNITY: 'Y',
-          '@ASSIGNED_BY_ID': [1, 6],
-          '>DATE_CREATE': sixMonthAgo,
-        },
-        order: {
-          TITLE: 'ASC',
-          OPPORTUNITY: 'ASC',
-        },
-      }, 0);
-      const result = response.getData().result || [];
-      for (const entity of result) {
-        console.log('Entity:', entity);
-      }
-    } catch (error) {
-      console.error('Request failed', error);
-    }
+
+      document.addEventListener('DOMContentLoaded', listDeals)
+    </script>
     ```
 
 - PHP

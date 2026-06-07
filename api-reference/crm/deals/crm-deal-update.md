@@ -231,42 +231,105 @@
     https://**put_your_bitrix24_address**/rest/crm.deal.update
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'crm.deal.update',
-    		{
-    			id: 123,
-    			fields: {
-    				TITLE: "Новое название сделки!",
-    				TYPE_ID: "GOODS",
-    				STAGE_ID: "WON",
-    				IS_RECCURING: "Y",
-    				IS_RETURN_CUSTOMER: "Y",
-    				OPPORTUNITY: 9999.99,
-    				IS_MANUAL_OPPORTUNITY: "Y",
-    				ASSIGNED_BY_ID: 1,
-    				UF_CRM_1725365197310: "Строка",
-    				PARENT_ID_1032: 1,
-    			},
-    			params: {
-    				REGISTER_SONET_EVENT: "N",
-    				REGISTER_HISTORY_EVENT: "N",
-    			},
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	result.error() ? console.error(result.error()) : console.info(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'crm.deal.update',
+        params: {
+          id: 123,
+          fields: {
+            TITLE: 'New deal title!',
+            TYPE_ID: 'GOODS',
+            STAGE_ID: 'WON',
+            IS_RECCURING: 'Y',
+            IS_RETURN_CUSTOMER: 'Y',
+            OPPORTUNITY: 9999.99,
+            IS_MANUAL_OPPORTUNITY: 'Y',
+            ASSIGNED_BY_ID: 1,
+            UF_CRM_1725365197310: 'String',
+            PARENT_ID_1032: 1,
+          },
+          params: {
+            REGISTER_SONET_EVENT: 'N',
+            REGISTER_HISTORY_EVENT: 'N',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Deal updated:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateDeal() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.deal.update',
+            params: {
+              id: 123,
+              fields: {
+                TITLE: 'New deal title!',
+                TYPE_ID: 'GOODS',
+                STAGE_ID: 'WON',
+                IS_RECCURING: 'Y',
+                IS_RETURN_CUSTOMER: 'Y',
+                OPPORTUNITY: 9999.99,
+                IS_MANUAL_OPPORTUNITY: 'Y',
+                ASSIGNED_BY_ID: 1,
+                UF_CRM_1725365197310: 'String',
+                PARENT_ID_1032: 1,
+              },
+              params: {
+                REGISTER_SONET_EVENT: 'N',
+                REGISTER_HISTORY_EVENT: 'N',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Deal updated:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateDeal)
+    </script>
     ```
 
 - PHP
