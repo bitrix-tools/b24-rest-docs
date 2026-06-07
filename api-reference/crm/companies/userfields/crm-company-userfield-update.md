@@ -326,55 +326,135 @@
     https://**put_your_bitrix24_address**/rest/crm.company.userfield.update
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'crm.company.userfield.update',
-            {
-                id: 536,
-                fields: {
-                    MANDATORY: 'N',
-                    SHOW_FILTER: 'N',
-                    SETTINGS: {
-                        DEFAULT_VALUE: 'Привет, мир! Значение по умолчанию (изменено)',
-                        ROWS: 10,
-                    },
-                    SORT: 2000,
-                    EDIT_IN_LIST: 'N',
-                    LIST_FILTER_LABEL: 'Привет, мир! Фильтр (изменено)',
-                    LIST_COLUMN_LABEL: {
-                        en: 'Hello, World! Column (changed)',
-                        ru: 'Привет, мир! Колонка (изменено)',
-                        de: 'Hallo, Welt! Spalte (geändert)',
-                    },
-                    EDIT_FORM_LABEL: {
-                        en: 'Hello, World! Edit (changed)',
-                        ru: 'Привет, мир! Редактировать (изменено)',
-                        de: 'Hallo, Welt! Bearbeiten (geändert)',
-                    },
-                    ERROR_MESSAGE: {
-                        en: 'Hello, World! Error (changed)',
-                        ru: 'Привет, мир! Ошибка (изменено)',
-                        de: 'Hallo, Welt! Fehler (geändert)',
-                    },
-                    HELP_MESSAGE: {
-                        en: 'Hello, World! Help (changed)',
-                        ru: 'Привет, мир! Помощь (изменено)',
-                        de: 'Hallo, Welt! Hilfe (geändert)',
-                    },
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'crm.company.userfield.update',
+        params: {
+          id: 536,
+          fields: {
+            MANDATORY: 'N',
+            SHOW_FILTER: 'N',
+            SETTINGS: {
+              DEFAULT_VALUE: 'Hello, World! default value (changed)',
+              ROWS: 10,
+            },
+            SORT: 2000,
+            EDIT_IN_LIST: 'N',
+            LIST_FILTER_LABEL: 'Hello, World! filter (changed)',
+            LIST_COLUMN_LABEL: {
+              en: 'Hello, World! Column (changed)',
+              ru: 'Привет, мир! Колонка (изменено)',
+              de: 'Hallo, Welt! Spalte (geändert)',
+            },
+            EDIT_FORM_LABEL: {
+              en: 'Hello, World! Edit (changed)',
+              ru: 'Привет, мир! Редактировать (изменено)',
+              de: 'Hallo, Welt! Bearbeiten (geändert)',
+            },
+            ERROR_MESSAGE: {
+              en: 'Hello, World! Error (changed)',
+              ru: 'Привет, мир! Ошибка (изменено)',
+              de: 'Hallo, Welt! Fehler (geändert)',
+            },
+            HELP_MESSAGE: {
+              en: 'Hello, World! Help (changed)',
+              ru: 'Привет, мир! Помощь (изменено)',
+              de: 'Hallo, Welt! Hilfe (geändert)',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Userfield updated:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateCompanyUserfield() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.company.userfield.update',
+            params: {
+              id: 536,
+              fields: {
+                MANDATORY: 'N',
+                SHOW_FILTER: 'N',
+                SETTINGS: {
+                  DEFAULT_VALUE: 'Hello, World! default value (changed)',
+                  ROWS: 10,
                 },
-            }
-        );
+                SORT: 2000,
+                EDIT_IN_LIST: 'N',
+                LIST_FILTER_LABEL: 'Hello, World! filter (changed)',
+                LIST_COLUMN_LABEL: {
+                  en: 'Hello, World! Column (changed)',
+                  ru: 'Привет, мир! Колонка (изменено)',
+                  de: 'Hallo, Welt! Spalte (geändert)',
+                },
+                EDIT_FORM_LABEL: {
+                  en: 'Hello, World! Edit (changed)',
+                  ru: 'Привет, мир! Редактировать (изменено)',
+                  de: 'Hallo, Welt! Bearbeiten (geändert)',
+                },
+                ERROR_MESSAGE: {
+                  en: 'Hello, World! Error (changed)',
+                  ru: 'Привет, мир! Ошибка (изменено)',
+                  de: 'Hallo, Welt! Fehler (geändert)',
+                },
+                HELP_MESSAGE: {
+                  en: 'Hello, World! Help (changed)',
+                  ru: 'Привет, мир! Помощь (изменено)',
+                  de: 'Hallo, Welt! Hilfe (geändert)',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
 
-        console.info(response.getData().result);
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Userfield updated:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateCompanyUserfield)
+    </script>
     ```
 
 - PHP
