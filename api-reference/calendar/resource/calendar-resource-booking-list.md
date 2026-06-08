@@ -86,62 +86,127 @@
     https://**put_your_bitrix24_address**/rest/calendar.resource.booking.list
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
+    declare const $b24: B24Frame
+
+    // Shape of each booking returned in result[]
+    type ResourceBooking = {
+      ID: string
+      PARENT_ID: string
+      DELETED: string
+      CAL_TYPE: string
+      OWNER_ID: string
+      NAME: string
+      DATE_FROM: string
+      DATE_TO: string
+      TZ_FROM: string
+      TZ_TO: string
+      TZ_OFFSET_FROM: string
+      TZ_OFFSET_TO: string
+      DATE_FROM_TS_UTC: string
+      DATE_TO_TS_UTC: string
+      DT_SKIP_TIME: string
+      DT_LENGTH: number
+      EVENT_TYPE: string
+      CREATED_BY: string
+      DATE_CREATE: string
+      TIMESTAMP_X: string
+      DESCRIPTION: string
+      IS_MEETING: boolean
+      MEETING_STATUS: string
+      MEETING_HOST: string
+      VERSION: string
+      SECTION_ID: string
+      DATE_FROM_FORMATTED: string
+      DATE_TO_FORMATTED: string
+      SECT_ID: string
+      RESOURCE_BOOKING_ID: string
+    }
+
     try {
-      const response = await $b24.callListMethod(
-        'calendar.resource.booking.list',
-        {
+      // calendar.resource.booking.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<ResourceBooking[]>({
+        method: 'calendar.resource.booking.list',
+        params: {
           filter: {
             resourceTypeIdList: [10852, 10888, 10873, 10871, 10853],
             from: '2024-06-20',
             to: '2024-08-20',
-          }
+          },
+          start: 0,
         },
-        (progress) => { console.log('Progress:', progress) }
-      );
-      const items = response.getData() || [];
-      for (const entity of items) { console.log('Entity:', entity); }
-    } catch (error) {
-      console.error('Request failed', error);
-    }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    try {
-      const generator = $b24.fetchListMethod('calendar.resource.booking.list', {
-        filter: {
-          resourceTypeIdList: [10852, 10888, 10873, 10871, 10853],
-          from: '2024-06-20',
-          to: '2024-08-20',
-        }
-      }, 'ID');
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity); }
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Bookings on this page:', result.length, result)
       }
     } catch (error) {
-      console.error('Request failed', error);
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('calendar.resource.booking.list', {
-        filter: {
-          resourceTypeIdList: [10852, 10888, 10873, 10871, 10853],
-          from: '2024-06-20',
-          to: '2024-08-20',
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchResourceBookings() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // calendar.resource.booking.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'calendar.resource.booking.list',
+            params: {
+              filter: {
+                resourceTypeIdList: [10852, 10888, 10873, 10871, 10853],
+                from: '2024-06-20',
+                to: '2024-08-20',
+              },
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Bookings on this page:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
         }
-      }, 0);
-      const result = response.getData().result || [];
-      for (const entity of result) { console.log('Entity:', entity); }
-    } catch (error) {
-      console.error('Request failed', error);
-    }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchResourceBookings)
+    </script>
     ```
 
 - PHP
@@ -241,56 +306,123 @@
     https://**put_your_bitrix24_address**/rest/calendar.resource.booking.list
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
-    try {
-      const response = await $b24.callListMethod(
-        'calendar.resource.booking.list',
-        {
-          filter: {
-            resourceIdList: [10, 18, 17]
-          }
-        },
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
+    declare const $b24: B24Frame
+
+    // Shape of each booking returned in result[]
+    type ResourceBooking = {
+      ID: string
+      PARENT_ID: string
+      DELETED: string
+      CAL_TYPE: string
+      OWNER_ID: string
+      NAME: string
+      DATE_FROM: string
+      DATE_TO: string
+      TZ_FROM: string
+      TZ_TO: string
+      TZ_OFFSET_FROM: string
+      TZ_OFFSET_TO: string
+      DATE_FROM_TS_UTC: string
+      DATE_TO_TS_UTC: string
+      DT_SKIP_TIME: string
+      DT_LENGTH: number
+      EVENT_TYPE: string
+      CREATED_BY: string
+      DATE_CREATE: string
+      TIMESTAMP_X: string
+      DESCRIPTION: string
+      IS_MEETING: boolean
+      MEETING_STATUS: string
+      MEETING_HOST: string
+      VERSION: string
+      SECTION_ID: string
+      DATE_FROM_FORMATTED: string
+      DATE_TO_FORMATTED: string
+      SECT_ID: string
+      RESOURCE_BOOKING_ID: string
     }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
+
     try {
-      const generator = $b24.fetchListMethod('calendar.resource.booking.list', {
-        filter: {
-          resourceIdList: [10, 18, 17]
-        }
-      }, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
+      // calendar.resource.booking.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<ResourceBooking[]>({
+        method: 'calendar.resource.booking.list',
+        params: {
+          filter: {
+            resourceIdList: [10, 18, 17],
+          },
+          start: 0,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Bookings on this page:', result.length, result)
       }
     } catch (error) {
-      console.error('Request failed', error)
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('calendar.resource.booking.list', {
-        filter: {
-          resourceIdList: [10, 18, 17]
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchResourceBookings() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // calendar.resource.booking.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'calendar.resource.booking.list',
+            params: {
+              filter: {
+                resourceIdList: [10, 18, 17],
+              },
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Bookings on this page:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
         }
-      }, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchResourceBookings)
+    </script>
     ```
 
 - PHP

@@ -256,64 +256,143 @@
     https://**put_your_bitrix24_address**/rest/crm.deal.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const day = 60 * 60 * 24 * 1000;
-    	
-    	const now = new Date();
-    	const after10Days = new Date(now.getTime() + 10 * day);
-    	
-    	const response = await $b24.callMethod(
-    		'crm.deal.add',
-    		{
-    			fields: {
-    				TITLE: "Новая сделка #1",
-    				TYPE_ID: "COMPLEX",
-    				CATEGORY_ID: 0,
-    				STAGE_ID: "PREPARATION",
-    				IS_RECURRING: "N",
-    				IS_RETURN_CUSTOMER: "Y",
-    				IS_REPEATED_APPROACH: "Y",
-    				PROBABILITY: 99,
-    				CURRENCY_ID: "EUR",
-    				OPPORTUNITY: 1000000,
-    				IS_MANUAL_OPPORTUNITY: "Y",
-    				TAX_VALUE: 0.10,
-    				COMPANY_ID: 9,
-    				CONTACT_IDS: [84, 83],
-    				BEGINDATE: now.toISOString(),
-    				CLOSEDATE: after10Days.toISOString(),
-    				OPENED: "Y",
-    				CLOSED: "N",
-    				COMMENTS: "[B]Пример комментария[/B]",
-    				SOURCE_ID: "CALLBACK",
-    				SOURCE_DESCRIPTION: "Дополнительно об источнике",
-    				ADDITIONAL_INFO: "Дополнительная информация",
-    				UTM_SOURCE: "google",
-    				UTM_MEDIUM: "CPC",
-    				PARENT_ID_1220: 22,
-    				UF_CRM_1721244482250: "Привет мир!",
-    			},
-    			params: {
-    				REGISTER_SONET_EVENT: "N",
-    			},
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	result.error()
-    		? console.error(result.error())
-    		: console.info(result)
-    	;
+    declare const $b24: B24Frame
+
+    const day = 60 * 60 * 24 * 1000
+
+    const now = new Date()
+    const after10Days = new Date(now.getTime() + 10 * day)
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'crm.deal.add',
+        params: {
+          fields: {
+            TITLE: 'New deal #1',
+            TYPE_ID: 'COMPLEX',
+            CATEGORY_ID: 0,
+            STAGE_ID: 'PREPARATION',
+            IS_RECURRING: 'N',
+            IS_RETURN_CUSTOMER: 'Y',
+            IS_REPEATED_APPROACH: 'Y',
+            PROBABILITY: 99,
+            CURRENCY_ID: 'EUR',
+            OPPORTUNITY: 1000000,
+            IS_MANUAL_OPPORTUNITY: 'Y',
+            TAX_VALUE: 0.10,
+            COMPANY_ID: 9,
+            CONTACT_IDS: [84, 83],
+            BEGINDATE: now.toISOString(),
+            CLOSEDATE: after10Days.toISOString(),
+            OPENED: 'Y',
+            CLOSED: 'N',
+            COMMENTS: '[B]Sample comment[/B]',
+            SOURCE_ID: 'CALLBACK',
+            SOURCE_DESCRIPTION: 'Additional information about the source',
+            ADDITIONAL_INFO: 'Additional information',
+            UTM_SOURCE: 'google',
+            UTM_MEDIUM: 'CPC',
+            PARENT_ID_1220: 22,
+            UF_CRM_1721244482250: 'Hello world!',
+          },
+          params: {
+            REGISTER_SONET_EVENT: 'N',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created deal id:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addDeal() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const day = 60 * 60 * 24 * 1000
+
+          const now = new Date()
+          const after10Days = new Date(now.getTime() + 10 * day)
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.deal.add',
+            params: {
+              fields: {
+                TITLE: 'New deal #1',
+                TYPE_ID: 'COMPLEX',
+                CATEGORY_ID: 0,
+                STAGE_ID: 'PREPARATION',
+                IS_RECURRING: 'N',
+                IS_RETURN_CUSTOMER: 'Y',
+                IS_REPEATED_APPROACH: 'Y',
+                PROBABILITY: 99,
+                CURRENCY_ID: 'EUR',
+                OPPORTUNITY: 1000000,
+                IS_MANUAL_OPPORTUNITY: 'Y',
+                TAX_VALUE: 0.10,
+                COMPANY_ID: 9,
+                CONTACT_IDS: [84, 83],
+                BEGINDATE: now.toISOString(),
+                CLOSEDATE: after10Days.toISOString(),
+                OPENED: 'Y',
+                CLOSED: 'N',
+                COMMENTS: '[B]Sample comment[/B]',
+                SOURCE_ID: 'CALLBACK',
+                SOURCE_DESCRIPTION: 'Additional information about the source',
+                ADDITIONAL_INFO: 'Additional information',
+                UTM_SOURCE: 'google',
+                UTM_MEDIUM: 'CPC',
+                PARENT_ID_1220: 22,
+                UF_CRM_1721244482250: 'Hello world!',
+              },
+              params: {
+                REGISTER_SONET_EVENT: 'N',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created deal id:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addDeal)
+    </script>
     ```
 
 - PHP

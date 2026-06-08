@@ -247,66 +247,160 @@ Cимвол `#` в цвете необходимо передавать в фо�
     https://**put_your_bitrix24_address**/rest/calendar.event.update
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'calendar.event.update',
-    		{
-    			id: 699,
-    			type: 'user',
-    			ownerId: 2,
-    			name: 'Changed Event Name',
-    			description: 'New description for event',
-    			from: '2024-06-17',
-    			to: '2024-06-17',
-    			skip_time: 'Y',
-    			section: 5,
-    			color: '#9cbe1c',
-    			text_color: '#283033',
-    			accessibility: 'free',
-    			importance: 'normal',
-    			is_meeting: 'Y',
-    			private_event: 'Y',
-    			recurrence_mode: 'next',
-    			current_date_from: '2024-12-04',
-    			remind: [
-    				{
-    					type: 'min',
-    					count: 10
-    				}
-    			],
-    			location: 'London',
-    			attendees: [1, 2, 3],
-    			host: 2,
-    			meeting: {
-    				notify: true,
-    				reinvite: false,
-    				allow_invite: false,
-    				hide_guests: false,
-    			},
-    			rrule: {
-    				FREQ: 'WEEKLY',
-    				BYDAY: ['MO', 'WE'],
-    				COUNT: 10,
-    				INTERVAL: 1,
-    			},
-    			crm_fields: ['C_5', 'L_11']
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log('Updated event with ID:', result);
-    	// Нужная вам логика обработки данных
-    	processResult(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type CalendarEventUpdateResult =
+      | number
+      | {
+          originalDate: string
+          originalDavXmlId: string
+          instanceTz: string
+          recEventId: number
+          id: number
+        }
+
+    try {
+      const response = await $b24.actions.v2.call.make<CalendarEventUpdateResult>({
+        method: 'calendar.event.update',
+        params: {
+          id: 699,
+          type: 'user',
+          ownerId: 2,
+          name: 'Changed Event Name',
+          description: 'New description for event',
+          from: '2024-06-17',
+          to: '2024-06-17',
+          skip_time: 'Y',
+          section: 5,
+          color: '#9cbe1c',
+          text_color: '#283033',
+          accessibility: 'free',
+          importance: 'normal',
+          is_meeting: 'Y',
+          private_event: 'Y',
+          recurrence_mode: 'next',
+          current_date_from: '2024-12-04',
+          remind: [
+            {
+              type: 'min',
+              count: 10,
+            },
+          ],
+          location: 'London',
+          attendees: [1, 2, 3],
+          host: 2,
+          meeting: {
+            notify: true,
+            reinvite: false,
+            allow_invite: false,
+            hide_guests: false,
+          },
+          rrule: {
+            FREQ: 'WEEKLY',
+            BYDAY: ['MO', 'WE'],
+            COUNT: 10,
+            INTERVAL: 1,
+          },
+          crm_fields: ['C_5', 'L_11'],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Updated calendar event:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateCalendarEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'calendar.event.update',
+            params: {
+              id: 699,
+              type: 'user',
+              ownerId: 2,
+              name: 'Changed Event Name',
+              description: 'New description for event',
+              from: '2024-06-17',
+              to: '2024-06-17',
+              skip_time: 'Y',
+              section: 5,
+              color: '#9cbe1c',
+              text_color: '#283033',
+              accessibility: 'free',
+              importance: 'normal',
+              is_meeting: 'Y',
+              private_event: 'Y',
+              recurrence_mode: 'next',
+              current_date_from: '2024-12-04',
+              remind: [
+                {
+                  type: 'min',
+                  count: 10,
+                },
+              ],
+              location: 'London',
+              attendees: [1, 2, 3],
+              host: 2,
+              meeting: {
+                notify: true,
+                reinvite: false,
+                allow_invite: false,
+                hide_guests: false,
+              },
+              rrule: {
+                FREQ: 'WEEKLY',
+                BYDAY: ['MO', 'WE'],
+                COUNT: 10,
+                INTERVAL: 1,
+              },
+              crm_fields: ['C_5', 'L_11'],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Updated calendar event:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateCalendarEvent)
+    </script>
     ```
 
 - PHP
