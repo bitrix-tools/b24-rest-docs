@@ -183,5 +183,3 @@ if (strpos($_SERVER['HTTP_REFERER'], $_GET['DOMAIN'])!== 0)
 echo 'OK';
 }
 ```
-
-Работа в таком режиме подробно рассмотрена в демо-примере, который вы можете скачать [здесь](https://dev.1c-bitrix.ru/images/chat_bot/im_app/iframe.zip).
