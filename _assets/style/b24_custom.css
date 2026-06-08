@@ -9,12 +9,12 @@
 
 @media screen and (min-width: 1280px){
     .dc-doc-layout__toc {
-      width: 320px !important;
+        width: 320px !important;
     }
     .dc-doc-layout__left{
-      width: 342px !important;
+        width: 342px !important;
     }
-  }
+}
 
 blockquote:first-of-type {
     background: rgba(2, 123, 243, 0.03);
@@ -31,7 +31,7 @@ blockquote:first-of-type {
 }
 
 .b24-info {
-    border-radius: 10px; 
+    border-radius: 10px;
     padding-left: 20px;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -120,10 +120,6 @@ blockquote:first-of-type {
     max-width: 100%;
 }
 
-.col.col-12.col-md-8.pc-content-layout-block__content .pc-content__links {
-    margin-top: 0;
-}
-
 .col.col-12.col-sm-8.col-reset {
     flex: 0 0 100%;
     max-width: 100%;
@@ -131,4 +127,13 @@ blockquote:first-of-type {
 
 .content-layout-block-custom-link .pc-link-block__link.pc-link-block__link_theme_light.pc-link-block__link_has-arrow{
     color: var(--g-color-text-link);
+}
+.col.col-12.col-md-6.pc-layout-item.pc-layout-item__content_margin_m {
+    margin-right: 0 !important;
+}
+.pc-layout-item__content_margin_m {
+    margin-right: 0 !important;
+}
+.pc-image-card .pc-image-card__image_margins_m .pc-image-card__image_inner {
+    width: 50%;
 }

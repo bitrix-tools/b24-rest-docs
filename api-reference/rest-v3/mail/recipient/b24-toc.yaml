@@ -1,0 +1,13 @@
+title: Получатели
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список контактов
+    href: mail-recipient-listcontacts.md
+  - name: Получить список сотрудников
+    href: mail-recipient-listemployees.md
+  - name: Получить список полей получателя
+    href: mail-recipient-field-list.md
+  - name: Получить поле получателя
+    href: mail-recipient-field-get.md

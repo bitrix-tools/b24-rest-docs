@@ -252,8 +252,6 @@ REST API работает и в коробочном Битрикс24. Но пр
 
 У нас появился новый REST, который позволит создавать (а значит и тиражировать) готовые триггеры для автоматизации CRM. Можно сделать триггеры, которые дадут сигнал в воронку продаж, если закончился новогодний запас спиртного, ребенок пошел в 1- класс или в голову ЛПР прилетела неожиданная идея. Все это и многое другое вы сможете интегрировать с Битрикс24, если вдумчиво посмотрите наш доклад!
 
-[Пример с архивом кода](https://restapi.bx24.net/triggers/crm-triggers.zip)
-
 @[youtube](https://www.youtube.com/watch?v=bkzppAq3FNs)
 
 ## Альтернативная воронка продаж на REST API
@@ -262,6 +260,6 @@ REST API работает и в коробочном Битрикс24. Но пр
 
 Когда пользователям не хватает стандартного функционала - есть REST! На докладе мы показали практический пример создания сквозной воронки продаж от лидов до выигрышных сделок с учетом потенциальной выборки больших данных
 
-[Пример с архивом кода](https://restapi.bx24.net/mp-sales-funnel/mp-sales-funnel.zip)
+[Пример с архивом кода](https://academy.1c-bitrix.ru/upload/academy-docs/kurs_bx24mp/mp-sales-funnel.zip)
 
-@[youtube](https://www.youtube.com/watch?v=RTo6mAG7NOY)
+<iframe src="https://vkvideo.ru/video_ext.php?oid=-211967493&id=456239698&hash=a18f2d40cf5dcb14&hd=3" width="720" height="405" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>

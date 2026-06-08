@@ -1,0 +1,35 @@
+title: Письма
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список писем
+    href: mail-message-list.md
+  - name: Получить письмо
+    href: mail-message-get.md
+  - name: Получить цепочку писем
+    href: mail-message-thread.md
+  - name: Отправить письмо
+    href: mail-message-send.md
+  - name: Ответить на письмо
+    href: mail-message-reply.md
+  - name: Переслать письмо
+    href: mail-message-forward.md
+  - name: Переместить письма в папку
+    href: mail-message-movetofolder.md
+  - name: Создать дело CRM из письма
+    href: mail-message-createcrmactivity.md
+  - name: Удалить связь письма с делом CRM
+    href: mail-message-removecrmactivity.md
+  - name: Создать задачу из письма
+    href: mail-message-createtask.md
+  - name: Создать событие календаря из письма
+    href: mail-message-createcalendarevent.md
+  - name: Создать чат из письма
+    href: mail-message-createchat.md
+  - name: Создать сообщение Ленты новостей из письма
+    href: mail-message-createfeedpost.md
+  - name: Получить список полей письма
+    href: mail-message-field-list.md
+  - name: Получить поле письма
+    href: mail-message-field-get.md

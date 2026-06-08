@@ -1,0 +1,25 @@
+title: Отделы и команды
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать отдел
+    href: humanresources-node-add.md
+  - name: Обновить отдел
+    href: humanresources-node-edit.md
+  - name: Получить отдел
+    href: humanresources-node-get.md
+  - name: Получить список отделов
+    href: humanresources-node-list.md
+  - name: Найти отделы
+    href: humanresources-node-search.md
+  - name: Получить дочерние отделы
+    href: humanresources-node-children.md
+  - name: Получить количество отделов
+    href: humanresources-node-count.md
+  - name: Переместить отдел
+    href: humanresources-node-move.md
+  - name: Получить список полей отдела
+    href: humanresources-node-field-list.md
+  - name: Получить поле отдела
+    href: humanresources-node-field-get.md

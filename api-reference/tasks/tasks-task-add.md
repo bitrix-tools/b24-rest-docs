@@ -81,42 +81,97 @@ SE_PARAMETER: [
     https://**put_your_bitrix24_address**/rest/tasks.task.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            "tasks.task.add",
-            {
-                fields: {               
-                    TITLE: "Название задачи", // Название задачи
-                    DEADLINE: "2025-12-31T23:59:59", // Крайний срок
-                    CREATED_BY: 456, // Идентификатор постановщика
-                    RESPONSIBLE_ID: 123, // Идентификатор исполнителя
-                    // Пример передачи нескольких значений в поле UF_CRM_TASK
-                    UF_CRM_TASK: [
-                        "L_4", // Привязка к лиду
-                        "C_7", // Привязка к контакту
-                        "CO_5", // Привязка к компании
-                        "D_10" // Привязка к сделке
-                    ],
-                    // Пример передачи нескольких файлов в поле UF_TASK_WEBDAV_FILES
-                    UF_TASK_WEBDAV_FILES: [
-                        "n12345", // Идентификатор первого файла диска
-                        "n67890" // Идентификатор второго файла диска
-                    ]
-                }
-            }
-        );
-        
-        const result = response.getData().result;
-        console.info("Задача успешно создана с ID " + result.task.id);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Minimal shape of result.task; the API returns the full task object
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type TaskAddResult = {
+      task: { id: string }
     }
-    catch( error )
-    {
-        console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<TaskAddResult>({
+        method: 'tasks.task.add',
+        params: {
+          fields: {
+            TITLE: 'Task title', // Task title (required)
+            DEADLINE: '2025-12-31T23:59:59', // Deadline, ISO 8601
+            CREATED_BY: 456, // Creator ID
+            RESPONSIBLE_ID: 123, // Responsible person ID (required)
+            // Bind the task to several CRM entities via UF_CRM_TASK
+            UF_CRM_TASK: ['L_4', 'C_7', 'CO_5', 'D_10'], // Lead 4 / Contact 7 / Company 5 / Deal 10
+            // Attach several Drive files via UF_TASK_WEBDAV_FILES (prefix IDs with "n")
+            UF_TASK_WEBDAV_FILES: ['n12345', 'n67890']
+          }
+        },
+        requestId: Text.getUuidRfc4122() // optional unique tracking id for this request
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(`Task created with ID ${result.task.id}`)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function createTask() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'tasks.task.add',
+            params: {
+              fields: {
+                TITLE: 'Task title', // Task title (required)
+                DEADLINE: '2025-12-31T23:59:59', // Deadline, ISO 8601
+                CREATED_BY: 456, // Creator ID
+                RESPONSIBLE_ID: 123, // Responsible person ID (required)
+                // Bind the task to several CRM entities via UF_CRM_TASK
+                UF_CRM_TASK: ['L_4', 'C_7', 'CO_5', 'D_10'], // Lead 4 / Contact 7 / Company 5 / Deal 10
+                // Attach several Drive files via UF_TASK_WEBDAV_FILES (prefix IDs with "n")
+                UF_TASK_WEBDAV_FILES: ['n12345', 'n67890']
+              }
+            },
+            requestId: B24Js.Text.getUuidRfc4122() // optional unique tracking id for this request
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(`Task created with ID ${result.task.id}`)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', createTask)
+    </script>
     ```
 
 - PHP

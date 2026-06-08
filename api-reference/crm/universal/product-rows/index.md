@@ -1,4 +1,4 @@
-# Товарные позиции 
+# Товарные позиции в объектах CRM: обзор методов
 
 {% note tip "" %}
 
@@ -9,40 +9,51 @@
 
 {% endnote %}
 
-## Описание
+Товарные позиции — это строки с товарами или услугами в карточке CRM. В них хранится состав продажи: название, цена, количество, скидки и налоги. По этим данным CRM рассчитывает итоговую сумму лида, сделки, предложения, счета или смарт-процесса.
 
-REST-методы из семейства **crm.item.productrow.\*** позволяют работать с товарными позициями, привязанными к различным объектам CRM. Методы универсальны и поддерживают любой тип владельца, кроме старых счетов:
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как добавить товары в карточку CRM](https://helpdesk.bitrix24.ru/open/27964692/)
 
-* лиды
-* сделки
-* контакты
-* компании
-* коммерческие предложения
-* новые счета
-* смарт-процессы
+## Как работать с товарными позициями
 
-## Права доступа
+Каждая товарная позиция относится к объекту CRM: лиду, сделке, предложению, новому счету или смарт-процессу. Чтобы добавить товар, заменить список товаров или получить товары объекта CRM, укажите `ownerType` и `ownerId`.
 
-При обращении к методам REST учитываются права доступа пользователя, от которого осуществляется вызов методов. Товарные позиции не являются самостоятельной сущностью CRM и всегда привязаны к какому-либо объекту CRM, выступающему как их владелец. Поэтому при всех операциях проверяются права пользователя на доступ и управление объектом-владельцем (предложением, смарт-процессом и т.п.). Например, если у пользователя нет доступа к чтению какого-либо элемента, то и прочитать его товарные позиции он не сможет.
+Например, для сделки с ID `13142` передайте `ownerType: "D"` и `ownerId: 13142`. Код `D` означает сделку, остальные коды смотрите в справочнике [типов объектов CRM](../../data-types.md#object_type). Идентификатор объекта можно получить методом [crm.item.list](../crm-item-list.md) или из ответа метода [crm.item.add](../crm-item-add.md).
 
-## Автоматические действия после любого изменения
+1. Получите описание полей товарной позиции методом [crm.item.productrow.fields](./crm-item-productrow-fields.md). Метод поможет понять, какие значения можно передавать при добавлении и изменении позиции
+2. Добавьте одну товарную позицию методом [crm.item.productrow.add](./crm-item-productrow-add.md). Если нужно заменить весь список товаров в объекте CRM, используйте метод [crm.item.productrow.set](./crm-item-productrow-set.md)
+3. Получите товарные позиции объекта CRM методом [crm.item.productrow.list](./crm-item-productrow-list.md). Если нужна одна позиция, передайте ее идентификатор в метод [crm.item.productrow.get](./crm-item-productrow-get.md)
+4. Измените товарную позицию методом [crm.item.productrow.update](./crm-item-productrow-update.md) или удалите ее методом [crm.item.productrow.delete](./crm-item-productrow-delete.md), если товар больше не нужен в объекте CRM
 
-После любого изменения, вносимого в товарные позиции, будут выполнены все стандартные проверки и процедуры, происходящие при изменении объекта CRM, в том числе пересчет суммы и запуск роботов после сохранения. Это относится ко всем методам, создающим/изменяющим товарные позиции: [crm.item.productrow.add](./crm-item-productrow-add.md), [crm.item.productrow.update](./crm-item-productrow-update.md), [crm.item.productrow.set](./crm-item-productrow-set.md).
+## Что важно учитывать
 
-## Обзор методов
+- Доступ к товарным позициям зависит от доступа к объекту CRM, в котором они находятся. Если пользователь не может открыть сделку, счет или смарт-процесс, он не сможет получить или изменить их товарные позиции
+- Методы [crm.item.productrow.*](#all-methods) не работают со старыми счетами. Для новых интеграций со счетами используйте методы [crm.item.*](../invoice.md)
+- Метод [crm.item.productrow.set](./crm-item-productrow-set.md) заменяет весь список товарных позиций объекта CRM на переданный набор. Если нужно добавить одну позицию, используйте [crm.item.productrow.add](./crm-item-productrow-add.md)
+
+## Связь с другими объектами
+
+**Элементы CRM.** Товарные позиции относятся к конкретному элементу CRM. Связь задается через `ownerType` и `ownerId` в методах [crm.item.productrow.add](./crm-item-productrow-add.md), [crm.item.productrow.set](./crm-item-productrow-set.md), [crm.item.productrow.list](./crm-item-productrow-list.md) и [crm.item.productrow.getAvailableForPayment](./crm-item-productrow-get-available-for-payment.md).
+
+**Каталог товаров.** Товарная позиция может быть связана с товаром каталога через поле `productId` в методах [crm.item.productrow.add](./crm-item-productrow-add.md) и [crm.item.productrow.set](./crm-item-productrow-set.md). Если передать `productId`, но не передать `productName` или `measureCode`, CRM использует название товара и единицу измерения из каталога.
+
+**Оплата.** Метод [crm.item.productrow.getAvailableForPayment](./crm-item-productrow-get-available-for-payment.md) получает товарные позиции объекта CRM, по которым клиенту еще не была выставлена оплата. Объект CRM указывается через `ownerType` и `ownerId`.
+
+## Обзор методов {#all-methods}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода
+> Кто может выполнять метод: зависит от метода
 
 #|
 || **Метод** | **Описание** ||
 || [crm.item.productrow.add](./crm-item-productrow-add.md) | Добавляет товарную позицию ||
 || [crm.item.productrow.update](./crm-item-productrow-update.md) | Обновляет товарную позицию ||
-|| [crm.item.productrow.get](./crm-item-productrow-get.md) | Получает информацию о товарной позиции по id ||
-|| [crm.item.productrow.set](./crm-item-productrow-set.md) | Привязывает товарную позицию к объекту CRM ||
+|| [crm.item.productrow.get](./crm-item-productrow-get.md) | Получает информацию о товарной позиции ||
 || [crm.item.productrow.list](./crm-item-productrow-list.md) | Получает список товарных позиций ||
-|| [crm.item.productrow.getAvailableForPayment](./crm-item-productrow-get-available-for-payment.md) | Получает список неоплаченных товаров ||
 || [crm.item.productrow.delete](./crm-item-productrow-delete.md) | Удаляет товарную позицию ||
-|| [crm.item.productrow.fields](./crm-item-productrow-fields.md) | Получает список полей товарных позиций ||
+|| [crm.item.productrow.set](./crm-item-productrow-set.md) | Сохраняет набор товарных позиций объекта CRM ||
+|| [crm.item.productrow.getAvailableForPayment](./crm-item-productrow-get-available-for-payment.md) | Получает товарные позиции без выставленной оплаты ||
+|| [crm.item.productrow.fields](./crm-item-productrow-fields.md) | Получает описание полей товарных позиций ||
 |#

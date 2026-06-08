@@ -26,8 +26,8 @@ title: Миграция с imbot на imbot.v2
 #|
 || **v1** | **v2** | **Изменения** ||
 || [imbot.register](../outdated/bots/imbot-register.md) | [imbot.v2.Bot.register](./imbot.v2/bots/bot-register.md) | Параметры вложены в `fields.*`, добавлен `fields.eventMode` (fetch/webhook) ||
-|| [imbot.update](../outdated/bots/imbot-update.md) | [imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md) | Параметры вложены в `fields.*` ||
-|| [imbot.unregister](../outdated/bots/imbot-unregister.md) | [imbot.v2.Bot.unregister](./imbot.v2/bots/bot-unregister.md) | Без изменений ||
+|| [imbot.update](../outdated/bots/imbot-update.md) | [imbot.v2.Bot.update](./imbot.v2/bots/bot-update.md) | Параметры вложены в `fields.*`. Смена `webhookUrl` или `eventMode` автоматически пересобирает подписки `ONIMBOTV2*` — ручной `event.unbind` не нужен ||
+|| [imbot.unregister](../outdated/bots/imbot-unregister.md) | [imbot.v2.Bot.unregister](./imbot.v2/bots/bot-unregister.md) | Подписки `ONIMBOTV2*` чистятся автоматически — workaround с ручным `event.unbind` после unregister не нужен ||
 || [imbot.bot.list](../outdated/bots/imbot-bot-list.md) | [imbot.v2.Bot.list](./imbot.v2/bots/bot-list.md) | Возвращает массив объектов Bot вместо плоского списка ||
 || — | [imbot.v2.Bot.get](./imbot.v2/bots/bot-get.md) | Новый метод: получение одного бота по ID ||
 || [imbot.message.add](../outdated/messages/imbot-message-add.md) | [imbot.v2.Chat.Message.send](./imbot.v2/messages/chat-message-send.md) | Текст и параметры в `fields.*` ||
@@ -92,7 +92,7 @@ title: Миграция с imbot на imbot.v2
 
 ### Параметры методов
 
-- v1: плоские параметры верхнего уровня (`MESSAGE_ADD`, `BOT_ID`, `TYPE` и т.д.)
+- v1: плоские параметры верхнего уровня (`MESSAGE_ADD`, `BOT_ID`, `TYPE` и так далее)
 - v2: группировка в `fields.*` / `properties.*`, camelCase имена
 
 ### Авторизация

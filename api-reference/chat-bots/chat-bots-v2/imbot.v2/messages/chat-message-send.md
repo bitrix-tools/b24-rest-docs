@@ -54,12 +54,12 @@
 || **templateId**
 [`string`](../../../../data-types.md) | UUID шаблона сообщения ||
 || **forwardIds**
-[`object`](../../../../data-types.md) | Сообщения для пересылки. Формат: `{uuid: messageId}`, где `uuid` — произвольная UUID-строка как ключ, `messageId` — ID исходного сообщения. В ответе `uuidMap` вернёт `{uuid: newMessageId}`.
+[`object`](../../../../data-types.md) | Сообщения для пересылки. Формат: `{uuid: messageId}`, где `uuid` — произвольная UUID-строка как ключ, `messageId` — ID исходного сообщения. В ответе `uuidMap` вернет `{uuid: newMessageId}`.
 
 Бот может пересылать только сообщения из чатов, в которых он является участником. Максимум 100 сообщений ||
 |#
 
-> Boolean-поля `system`, `urlPreview`, `skipConnector`, `silentConnector` принимают значения `true`, `false`, `"Y"`, `"N"`.
+> Boolean-параметры принимают `true` и `false`. Если клиент не поддерживает JSON boolean, можно передавать строки `"Y"` и `"N"`.
 
 ## Примеры кода
 
@@ -192,7 +192,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {

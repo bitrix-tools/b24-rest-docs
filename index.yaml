@@ -90,27 +90,38 @@ blocks:
       md: 4
       sm: 6
     children:
-      - type: 'basic-card'
+      - type: 'image-card'
         title: 'Версии API'
         text: 'В Битрикс24 используются две версии REST API: REST и REST 3.0. Они различаются путем вызова, форматом некоторых ответов и составом документации. Перед началом работы уточните, какая версия REST используется в вашем сценарии.'
         links:
           - text: 'Сравнение версий REST'
             theme: 'normal'
             url: '/api-reference/rest-v3/index.html'
-      - type: 'basic-card'
+        image:
+          dark: "_images/api_version.png"
+          light: "_images/api_version.png"
+
+      - type: 'image-card'
         title: 'Именование методов'
         text: 'Название метода часто помогает понять область API и тип операции. Но одного имени метода недостаточно, чтобы точно определить его поведение, параметры и ограничения. Используйте название как ориентир, а подробности проверяйте в справочнике API.'
         links:
           - text: 'Справочник API'
             theme: 'normal'
             url: '/api-reference/index.html'
-      - type: 'basic-card'
+        image:
+          dark: "_images/name_methods.png"
+          light: "_images/name_methods.png"
+
+      - type: 'image-card'
         title: 'Ответ метода'
         text: 'Методы REST API возвращают ответ в JSON. Структура успешного ответа и формат ошибки зависят от версии REST и конкретного метода. Точные поля ответа смотрите в описании нужного метода.'
         links:
           - text: 'Коды ошибок'
             theme: 'normal'
             url: '/error-codes.html'
+        image:
+          dark: "_images/response_method.png"
+          light: "_images/response_method.png"
 
   - type: 'card-layout-block'
     title: 'Какой сценарий интеграции выбрать'
@@ -128,6 +139,12 @@ blocks:
             - text: 'Webhook'
               theme: 'normal'
               url: '/local-integrations/local-webhooks.html'
+        media:
+          dark:
+            image: '_images/fast-api.png'
+          light:
+            image: '_images/fast-api.png'
+
       - type: 'layout-item'
         content:
           title: 'Статичная страница внутри Битрикс24 без серверной логики'
@@ -136,6 +153,12 @@ blocks:
             - text: 'Локальное приложение'
               theme: 'normal'
               url: '/local-integrations/local-apps.html'
+        media:
+          dark:
+            image: '_images/static_page.png'
+          light:
+            image: '_images/static_page.png'
+
       - type: 'layout-item'
         content:
           title: 'Серверная логика с интерфейсом в слайдере'
@@ -147,6 +170,12 @@ blocks:
             - text: 'Приложение Маркетплейса'
               theme: 'normal'
               url: '/market/index.html'
+        media:
+          dark:
+            image: '_images/server_logic.png'
+          light:
+            image: '_images/server_logic.png'
+
       - type: 'layout-item'
         content:
           title: 'Серверная логика без интерфейса'
@@ -158,6 +187,11 @@ blocks:
             - text: 'Приложение Маркетплейса'
               theme: 'normal'
               url: '/market/index.html'
+        media:
+          dark:
+            image: '_images/server_logic_2.png'
+          light:
+            image: '_images/server_logic_2.png'
 
 
   - dots: true
@@ -174,6 +208,8 @@ blocks:
             theme: 'outlined'
             size: 'promo'
             url: '/api-reference/crm/index.html'
+        icon: "_images/crm_icon.png"
+
       - type: 'basic-card'
         title: 'Задачи'
         text: 'Задачи, чеклисты, комментарии, стадии и потоки'
@@ -182,6 +218,8 @@ blocks:
             theme: 'outlined'
             size: 'promo'
             url: '/api-reference/tasks/index.html'
+        icon: "_images/task_icon.png"
+
       - type: 'basic-card'
         title: 'Чаты'
         text: 'Чаты, сообщения, уведомления, операции с диалогами'
@@ -190,6 +228,8 @@ blocks:
             theme: 'outlined'
             size: 'promo'
             url: '/api-reference/chats/index.html'
+        icon: "_images/chat_icon.png"
+
       - type: 'basic-card'
         title: 'Каталог'
         text: 'Товары, цены, разделы, свойства, остатки'
@@ -198,6 +238,8 @@ blocks:
             theme: 'outlined'
             size: 'promo'
             url: '/api-reference/catalog/index.html'
+        icon: "_images/catalog_icon.png"
+
       - type: 'basic-card'
         title: 'Пользователи'
         text: 'Пользователи, структура компании, пользовательские поля'
@@ -206,6 +248,8 @@ blocks:
             theme: 'outlined'
             size: 'promo'
             url: '/api-reference/user/index.html'
+        icon: "_images/users_icon.png"
+
       - type: 'basic-card'
         title: 'Календарь'
         text: 'События, календари, ресурсы и бронирование'
@@ -214,6 +258,8 @@ blocks:
             theme: 'outlined'
             size: 'promo'
             url: '/api-reference/calendar/index.html'
+        icon: "_images/calendar_icon.png"
+
     arrows: false
 
 
@@ -224,37 +270,58 @@ blocks:
       md: 4
       sm: 6
     children:
-      - type: 'basic-card'
+      - type: 'image-card'
         title: 'Scope'
         text: 'Для вызова метода нужны соответствующие права доступа. Набор прав зависит от сценария интеграции и конкретного метода. Проверяйте требования на странице метода и в описании scope.'
+        margins: 'm'
         links:
           - text: 'Права доступа'
             theme: 'normal'
             url: '/api-reference/scopes/index.html'
-      - type: 'basic-card'
+        image:
+          dark: '_images/scope.png'
+          light: '_images/scope.png'
+
+      - type: 'image-card'
         title: 'Лимиты'
         text: 'В Битрикс24 действуют лимиты на интенсивность запросов и ресурсоемкость методов. Перед массовыми вызовами проверьте ограничения и рекомендации по снижению нагрузки.'
+        margins: 'm'
         links:
           - text: 'Лимиты REST API'
             theme: 'normal'
             url: '/limits.html'
-      - type: 'basic-card'
+        image:
+          dark: '_images/limits.png'
+          light: '_images/limits.png'
+
+      - type: 'image-card'
         title: 'Batch'
         text: 'Метод batch позволяет объединить несколько вызовов в один запрос и снизить нагрузку на лимиты.'
+        margins: 'm'
         links:
           - text: 'Как использовать batch'
             theme: 'normal'
             url: '/settings/how-to-call-rest-api/batch.html'
-      - type: 'basic-card'
+        image:
+          dark: '_images/batch.png'
+          light: '_images/batch.png'
+
+      - type: 'image-card'
         title: 'Пагинация'
         text: 'Многие методы списка возвращают данные частями. Способ постраничного получения результатов и параметры пагинации зависят от метода и версии REST. Проверяйте детали в описании конкретного метода.'
+        margins: 'm'
         links:
           - text: 'Особенности списочных методов'
             theme: 'normal'
             url: '/settings/how-to-call-rest-api/list-methods-pecularities.html'
-      - type: 'basic-card'
+        image:
+          dark: '_images/pag.png'
+          light: '_images/pag.png'
+
+      - type: 'image-card'
         title: 'Файлы'
         text: 'В Битрикс24 используются разные сценарии работы с файловыми полями. Способ передачи файла зависит от типа поля и метода. Перед загрузкой, обновлением или удалением файла проверьте, какой сценарий поддерживает нужный вам метод.'
+        margins: 'm'
         links:
           - text: 'Как загрузить файлы'
             theme: 'normal'
@@ -262,6 +329,9 @@ blocks:
           - text: 'Как обновить и удалить файлы'
             theme: 'normal'
             url: '/api-reference/files/how-to-update-files.html'
+        image:
+          dark: '_images/file.png'
+          light: '_images/file.png'
 
   - type: 'card-layout-block'
     title: 'Частые кейсы и сценарии'

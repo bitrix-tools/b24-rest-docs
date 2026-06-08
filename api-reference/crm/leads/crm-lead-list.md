@@ -114,16 +114,41 @@
   https://**put_your_bitrix24_address**/rest/crm.lead.list
   ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
+    declare const $b24: B24Frame
+
+    // Shape of each lead object returned in result[]
+    type CrmLeadListItem = {
+      ID: string
+      TITLE: string
+      NAME: string | null
+      LAST_NAME: string | null
+      STATUS_ID: string
+      SOURCE_ID: string
+      CURRENCY_ID: string
+      OPPORTUNITY: string
+      ASSIGNED_BY_ID: string
+      OPENED: string
+      DATE_CREATE: ISODate | null
+      DATE_MODIFY: ISODate | null
+    }
+
     try {
-      const response = await $b24.callListMethod(
-        'crm.lead.list',
-        {
+      // crm.lead.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<CrmLeadListItem[]>({
+        method: 'crm.lead.list',
+        params: {
           select: ['*', 'UF_*'],
           filter: {
             '=OPPORTUNITY': 15000,
@@ -131,51 +156,71 @@
           order: {
             STATUS_ID: 'ASC',
           },
+          start: 50,
         },
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    try {
-      const generator = $b24.fetchListMethod('crm.lead.list', {
-        select: ['*', 'UF_*'],
-        filter: {
-          '=OPPORTUNITY': 15000,
-        },
-        order: {
-          STATUS_ID: 'ASC',
-        },
-      }, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Leads on this page:', result.length, result)
       }
     } catch (error) {
-      console.error('Request failed', error)
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('crm.lead.list', {
-        select: ['*', 'UF_*'],
-        filter: {
-          '=OPPORTUNITY': 15000,
-        },
-        order: {
-          STATUS_ID: 'ASC',
-        },
-      }, 50)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function listLeads() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // crm.lead.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.lead.list',
+            params: {
+              select: ['*', 'UF_*'],
+              filter: {
+                '=OPPORTUNITY': 15000,
+              },
+              order: {
+                STATUS_ID: 'ASC',
+              },
+              start: 50,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Leads on this page:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', listLeads)
+    </script>
     ```
 
 - PHP

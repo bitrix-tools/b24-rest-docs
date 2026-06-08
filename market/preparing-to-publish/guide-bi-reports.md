@@ -124,7 +124,7 @@
 
 Пример и описание Jinja-шаблонов в Superset [на русском](https://superset-bi.ru/examples-of-using-jinja-templates-in-apache-superset/)
 
-Официальная документация Superset [на англ.](https://superset.apache.org/docs/creating-charts/jinja-templating)
+Официальная документация Superset [на англ.](https://superset.apache.org/user-docs/intro/#documentation)
 
 ## 3. Использование конструкции select * from … в датасетах
 

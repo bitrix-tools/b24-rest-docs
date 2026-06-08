@@ -149,7 +149,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -165,7 +165,6 @@ HTTP-код: **200**
                 "backgroundId": null,
                 "language": "ru",
                 "moduleId": "rest",
-                "appId": "local.67890abcdef12.34567890",
                 "eventMode": "fetch",
                 "countMessage": 150,
                 "countCommand": 3,
@@ -235,8 +234,6 @@ HTTP-код: **200**
 [`string`](../../../../data-types.md) | Язык бота ||
 || **moduleId**
 [`string`](../../../../data-types.md) | Идентификатор модуля ||
-|| **appId**
-[`string`](../../../../data-types.md) | ID приложения, зарегистрировавшего бота ||
 || **eventMode**
 [`string`](../../../../data-types.md) | Режим доставки событий: `webhook` или `fetch` ||
 || **countMessage**

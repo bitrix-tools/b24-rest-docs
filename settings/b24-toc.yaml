@@ -16,7 +16,9 @@ items:
       path: app-installation/b24-toc.yaml
       mode: link
   - name: Удаление приложений
-    href: app-uninstallation.md  
+    href: app-uninstallation.md
+  - name: Системный пользователь
+    href: system-user.md
   - name: Интерактивность
     include:
       path: interactivity/b24-toc.yaml

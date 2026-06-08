@@ -2,10 +2,36 @@
 
 ## 2026
 
+### 05 июня, 2026
+
+- Добавили методы раздела [Записи о рабочем времени](./api-reference/rest-v3/timeman/index.md)
+- Добавили методы раздела [Отделы и команды](./api-reference/rest-v3/humanresources/node/index.md)
+- Добавили методы раздела [Участники отделов и команд](./api-reference/rest-v3/humanresources/node-member/index.md)
+
+### 04 июня, 2026
+
+- Обновили страницу [Права на методы и скоупы](./api-reference/scopes/index.md)
+- Обновили страницу [Импорт данных в CRM: обзор методов](./api-reference/crm/universal/import/index.md)
+- Обновили страницу [Товарные позиции в объектах CRM: обзор методов](./api-reference/crm/universal/product-rows/index.md)
+- Обновили страницу [Обзор событий при работе с элементами смарт-процессов](./api-reference/crm/universal/events/index.md)
+
+### 03 июня, 2026
+
+- Добавили статью [Передача контекста боту при открытии чата](./api-reference/chat-bots/chat-bots-v2/imbot.v2/bot-context.md)
+
+### 28 мая, 2026
+
+- Добавили раздел для работы с [методами почты для REST 3.0](./api-reference/rest-v3/mail/index.md)
+- Обновили главную страницу [Справочник REST API: инструменты и методы Битрикс24](./api-reference/index.md)
+- Обновили туториал [Бизнес-процессы и роботы: типовые сценарии](./tutorials/bizproc/index.md)
+- Обновили туториал [Как встраивать виджеты в CRM](./tutorials/crm/crm-widgets/index.md)
+- Обновили туториал [Онлайн-продажи: типовые сценарии](./tutorials/sale/index.md)
+- Обновили туториал [Задачи: типовые сценарии](./tutorials/tasks/index.md)
+
 ### 25 мая, 2026
 
 - Добавили подраздел [Автозаполнение реквизитов в карточке CRM](./api-reference/widgets/crm/requisites-autocomplete/index.md) в Виджетах. Описали точки встраивания для автозаполнения реквизитов клиента и банковских реквизитов
-- Обновили статью [Работа с клавиатурами](./api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-keyboards.md).
+- Обновили статью [Работа с клавиатурами](./api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-keyboards.md)
 
 ### 21 мая, 2026
 

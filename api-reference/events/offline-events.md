@@ -1,4 +1,4 @@
-# Особенности, преимущества и недостатки офлайн-событий
+# Офлайн-события
 
 {% note tip "" %}
 
@@ -9,128 +9,878 @@
 
 {% endnote %}
 
-Вы можете зарегистрировать обработчик офлайн-события при помощи того же метода [`event.bind`](event-bind.md). Однако параметры будут слегка отличаться:
+Офлайн-события — это механизм получения событий, при котором Битрикс24 не вызывает обработчик приложения, а сохраняет изменения в очереди на стороне Битрикс24. Приложение само забирает накопленные события методами `event.offline.*`.
 
-#|
-|| **Параметр**
-`тип` | **Описание** ||
-|| **event**
-`string` | Название события ||
-|| **event_type**
-`string` | Должно быть `offline` ||
-|| **auth_connector**
-`string` | Ключ источника. Позволяет [исключать ложные срабатывания](#how-to-avoid-cycles) ||
-|| **options**
-`array` | Дополнительные настройки для регистрируемого события. Возможные значения параметра зависят от конкретного события ||
-|#
-
-Во-первых, нужно указать параметр `event_type` равным `offline`.
-
-А во-вторых, больше не нужно указывать параметр `handler`, поскольку теперь не Битрикс24 будет вызывать ваш обработчик, а приложение должно будет вызывать Битрикс24 для получения информации о произошедших событиях.
+Механизм подходит приложениям, которые не могут принимать входящие вызовы: работают за файрволом, во внутренней сети или временно недоступны.
 
 ## Как работают офлайн-события
 
-В отличие от обычных событий, офлайновые события не вызывают внешние обработчики приложения, а журналируют произошедшие изменения. 
+Обычное событие вызывает внешний обработчик приложения по URL. Офлайн-событие вместо вызова записывает изменение в очередь на стороне Битрикс24.
 
-Приложение может получить данные этого журнала с помощью метода [event.offline.list](event-offline-list.md) и метода [event.offline.get](event-offline-get.md).
-
-В случае нескольких изменений одного и того же объекта, например, редактирования одной сделки пользователем, в журнале будет содержаться только одна запись об этом. Запись будет помечена датой и временем самого последнего изменения.
-
-И сколько бы раз мы не меняли одну и ту же сделку, это не будет добавлять новые офлайн-события друг за другом, а будет обновлять существующую информацию. Если одна и та же сделка будет обновлена 1000 раз, в офлайн-событиях будет находиться только одна запись о том, какая именно сделка была изменена.
+В очереди хранится не история всех изменений, а текущее состояние объекта. Если одну и ту же сделку изменили 1000 раз, в очереди останется одна запись со временем последнего изменения. Запись содержит имя события и идентификаторы измененного объекта — актуальные данные приложение получает методами получения объектов.
 
 ## Зачем нужны офлайн-события
 
-Смысл в том, что офлайн-события используются в основном для задачи синхронизации данных Битрикс24 и внешней системы.
+Офлайн-события применяют для синхронизации данных Битрикс24 с внешней системой, когда реакция в реальном времени не нужна.
 
-Такие задачи часто не требуют реакции в реальном времени. Для таких задач совершенно не нужно сразу реагировать на каждое изменение.
+Для синхронизации важно знать, какие объекты изменились с момента предыдущего обращения, а не каждый факт изменения. Поэтому очередь хранит только последнее состояние объекта.
 
-Важно, чтобы, обращаясь из вашего приложения к Битрикс24, вы точно знали о том, какие объекты Битрикс24 были изменены, или добавлены, или удалены с момента предыдущего обращения приложения к Битрикс24.
-
-И даже если одна и та же сделка была изменена сотню раз, для синхронизации этой сделки с внешней системой достаточно взять только текущее актуальное состояние сделки на момент синхронизации.
-
-Именно поэтому, Битрикс24 не записывает в журнал офлайн-событий все факты изменения одного и того же объекта. Это значительно упрощает вам разработку приложений.
-
-## Как построить работу с офлайн-событиями
+## Порядок работы с офлайн-событиями
 
 ![Как построить работу с офлайн-событиями](./_images/how_to_build_work_with_offline_events.png "Как построить работу с офлайн-событиями")
 
-С некоторой периодичностью, ваше приложение должно запрашивать список произошедших событий.
+1. Зарегистрируйте обработчик офлайн-события методом [event.bind](./event-bind.md) с параметром `event_type = offline`.
+2. С нужной периодичностью забирайте события из очереди методом [event.offline.get](./event-offline-get.md) или читайте очередь без изменений методом [event.offline.list](./event-offline-list.md).
+3. Получите актуальные данные измененных объектов методами их получения и передайте во внешнюю систему.
+4. Подтвердите обработку — удалите события из очереди, чтобы при следующем обращении не получать их повторно.
 
-Далее, обычными методами REST API, приложение должно получать актуальную информацию об измененных объектах и передавать обновленные данные во внешнюю систему и т.д.
+### Проверка доступности
 
-И самое важное — на последнем шаге, приложение должно сообщить Битрикс24 о том, что вот эти события были приложением обработаны и больше хранить информацию о них не нужно.
+Режим с подтверждением обработки доступен на отдельных тарифах. Проверьте доступность через метод [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`.
 
-Ведь если этого не делать, то каждый очередной раз, обращаясь к списку офлайн-событий, вы будете получать все больше и больше накопленных событий.
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
-### Метод event.offline.get
+{% list tabs %}
 
-Используя `event.offline.get` вы можете разобрать все накопившиеся события, забирая их пакетами по 50 штук.
+- cURL (OAuth)
 
-При этом работа метода оптимизирована для использования в асинхронном режиме. Это значит, что каждый параллельный вызов `event.offline.get` гарантировано получит свои события, не пересекающиеся с другими событиями, с какой бы интенсивностью вы эти данные не запрашивали.
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"CODE":"rest_offline_extended","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/feature.get
+    ```
 
-При этом, каждое обращение к методу `event.offline.get` с параметрами по умолчанию, будет не только забирать очередные 50 записей журнала, но и удалять эти записи.
+- JS
 
-Следовательно, возможна ситуация, когда ваше приложение сделало запрос `event.offline.get`, но по каким-то причинам (из-за переполнения памяти, из-за сетевых проблем и т.д.) не обработало эти события. Однако на стороне Битрикс24 информация об этих событиях уже была удалена и восстановлению информация не подлежит.
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'feature.get',
+            {
+                CODE: 'rest_offline_extended'
+            }
+        );
 
-Чтобы гарантировать обработку всех офлайн событий, можно вызывать метод `event.offline.get` с параметром `clear = 0`. В этом случае, пакет отдаваемых событий не будет удаляться в Битрикс24. А будет помечен уникальным идентификатором `process_id` и «спрятан».
+        console.log(response.getData().result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'feature.get',
+                [
+                    'CODE' => 'rest_offline_extended'
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "feature.get",
+        {
+            "CODE": "rest_offline_extended"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'feature.get',
+        [
+            'CODE' => 'rest_offline_extended'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+### Регистрация обработчика
+
+Зарегистрируйте офлайн-обработчик методом [event.bind](./event-bind.md). Укажите `event_type = offline` и не передавайте `handler` — URL обработчика не нужен.
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"event":"ONCRMDEALUPDATE","event_type":"offline","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/event.bind
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'event.bind',
+            {
+                event: 'ONCRMDEALUPDATE',
+                event_type: 'offline'
+            }
+        );
+
+        console.log(response.getData().result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'event.bind',
+                [
+                    'event' => 'ONCRMDEALUPDATE',
+                    'event_type' => 'offline'
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "event.bind",
+        {
+            "event": "ONCRMDEALUPDATE",
+            "event_type": "offline"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'event.bind',
+        [
+            'event' => 'ONCRMDEALUPDATE',
+            'event_type' => 'offline'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+### Получение и обработка событий
+
+Очередь можно забирать двумя способами.
+
+#### Получение с удалением
+
+Метод [event.offline.get](./event-offline-get.md) отдает первые записи очереди и сразу удаляет их. Размер пакета задается параметром `limit`, по умолчанию 50.
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"limit":50,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/event.offline.get
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'event.offline.get',
+            {
+                limit: 50
+            }
+        );
+
+        const events = response.getData().result.events;
+        for (const event of events) {
+            console.log(event.EVENT_NAME, event.MESSAGE_ID);
+        }
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'event.offline.get',
+                [
+                    'limit' => 50
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        foreach ($result['events'] as $event) {
+            echo $event['EVENT_NAME'] . ' ' . $event['MESSAGE_ID'] . PHP_EOL;
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "event.offline.get",
+        {
+            "limit": 50
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+                return;
+            }
+
+            result.data().events.forEach(function(event)
+            {
+                console.log(event.EVENT_NAME, event.MESSAGE_ID);
+            });
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'event.offline.get',
+        [
+            'limit' => 50
+        ]
+    );
+
+    foreach ($result['result']['events'] as $event) {
+        echo $event['EVENT_NAME'] . ' ' . $event['MESSAGE_ID'] . PHP_EOL;
+    }
+    ```
+
+{% endlist %}
+
+При таком вызове удаленные события восстановить нельзя. Если приложение получило события, но не обработало их из-за сбоя, данные будут потеряны.
+
+#### Получение с резервированием
+
+Чтобы не терять события при сбое, разделите получение и подтверждение.
 
 ![Метод event.offline.get](./_images/method_event_offline_get.png "Метод event.offline.get")
 
-Приложение, обработав полученные события, должно само сообщить Битрикс24, что эти события можно удалять.
+1. Вызовите [event.offline.get](./event-offline-get.md) с параметром `clear = 0`. Метод не удаляет события, а помечает пакет идентификатором `process_id` и скрывает его от других запросов. Идентификатор возвращается в ответе.
+2. Обработайте полученные события.
+3. Подтвердите обработку методом [event.offline.clear](./event-offline-clear.md), передав `process_id`. Чтобы удалить из пакета только часть записей, передайте дополнительно `message_id`.
 
-Для этого приложение должно вызвать [метод `event.offline.clear`](event-offline-clear.md), указав параметр `process_id` — тот самый уникальный идентификатор, полученный при вызове метода  `event.offline.get`, а также, опционально, указав параметр `message_id` в виде массива идентификаторов конкретных событий, которые нужно удалить.
+Зарезервированный пакет хранится до 30 дней, затем удаляется автоматически.
 
-## Как избегать замкнутых циклов обработки{#how-to-avoid-cycles}
+{% list tabs %}
 
-Представим ситуацию. Ваше приложение получает событие об изменении сделки.
+- cURL (OAuth)
 
-Затем запрашивает актуальную информацию о сделке при помощи соответствующего метода REST API. А затем хочет изменить эту же сделку в Битрикс24 исходя из своей бизнес-логики. Для этого приложение обращается к методу `crm.deal.update`.
+    ```bash
+    # Шаг 1. Зарезервировать пакет
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"clear":0,"limit":50,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/event.offline.get
+
+    # Шаг 2. Подтвердить обработку
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"process_id":"**put_process_id_here**","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/event.offline.clear
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        // Шаг 1. Зарезервировать пакет
+        const response = await $b24.callMethod(
+            'event.offline.get',
+            {
+                clear: 0,
+                limit: 50
+            }
+        );
+
+        const { process_id, events } = response.getData().result;
+
+        // Шаг 2. Обработать события
+        for (const event of events) {
+            console.log(event.EVENT_NAME, event.MESSAGE_ID);
+        }
+
+        // Шаг 3. Подтвердить обработку
+        await $b24.callMethod(
+            'event.offline.clear',
+            {
+                process_id: process_id
+            }
+        );
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        // Шаг 1. Зарезервировать пакет
+        $response = $b24Service
+            ->core
+            ->call(
+                'event.offline.get',
+                [
+                    'clear' => 0,
+                    'limit' => 50
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        $processId = $result['process_id'];
+
+        // Шаг 2. Обработать события
+        foreach ($result['events'] as $event) {
+            echo $event['EVENT_NAME'] . ' ' . $event['MESSAGE_ID'] . PHP_EOL;
+        }
+
+        // Шаг 3. Подтвердить обработку
+        $b24Service
+            ->core
+            ->call(
+                'event.offline.clear',
+                [
+                    'process_id' => $processId
+                ]
+            );
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    // Шаг 1. Зарезервировать пакет
+    BX24.callMethod(
+        "event.offline.get",
+        {
+            "clear": 0,
+            "limit": 50
+        },
+        function(result)
+        {
+            if(result.error())
+            {
+                console.error(result.error());
+                return;
+            }
+
+            var data = result.data();
+
+            // Шаг 2. Обработать события
+            data.events.forEach(function(event)
+            {
+                console.log(event.EVENT_NAME, event.MESSAGE_ID);
+            });
+
+            // Шаг 3. Подтвердить обработку
+            BX24.callMethod(
+                "event.offline.clear",
+                {
+                    "process_id": data.process_id
+                },
+                function(clearResult)
+                {
+                    if(clearResult.error())
+                        console.error(clearResult.error());
+                    else
+                        console.dir(clearResult.data());
+                }
+            );
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    // Шаг 1. Зарезервировать пакет
+    $response = CRest::call(
+        'event.offline.get',
+        [
+            'clear' => 0,
+            'limit' => 50
+        ]
+    );
+
+    $processId = $response['result']['process_id'];
+
+    // Шаг 2. Обработать события
+    foreach ($response['result']['events'] as $event) {
+        echo $event['EVENT_NAME'] . ' ' . $event['MESSAGE_ID'] . PHP_EOL;
+    }
+
+    // Шаг 3. Подтвердить обработку
+    CRest::call(
+        'event.offline.clear',
+        [
+            'process_id' => $processId
+        ]
+    );
+    ```
+
+{% endlist %}
+
+Метод `event.offline.get` поддерживает параллельные запросы: каждый получит свой набор записей, не пересекающийся с другими.
+
+### Регистрация ошибок
+
+Если события не удалось обработать, пометьте их методом [event.offline.error](./event-offline-error.md). Передайте `process_id` и массив `message_id` ошибочных записей.
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"process_id":"**put_process_id_here**","message_id":["**put_message_id_here**"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/event.offline.error
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'event.offline.error',
+            {
+                process_id: processId,
+                message_id: [messageId]
+            }
+        );
+
+        console.log(response.getData().result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'event.offline.error',
+                [
+                    'process_id' => $processId,
+                    'message_id' => [$messageId]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "event.offline.error",
+        {
+            "process_id": processId,
+            "message_id": [messageId]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'event.offline.error',
+        [
+            'process_id' => $processId,
+            'message_id' => [$messageId]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+## Как избегать замкнутых циклов {#how-to-avoid-cycles}
+
+Приложение получает событие об изменении сделки, запрашивает актуальные данные и меняет эту же сделку методом `crm.deal.update`. Вызов `crm.deal.update` снова добавляет событие в очередь — возникает замкнутый цикл.
 
 ![Как избегать циклов](./_images/how_to_avoid_cycles.png "Как избегать циклов")
 
-В случае с обычными событиями, как только приложение вызвало метод `crm.deal.update`, Битрикс24 тут же отправляет событие `ONCRMDEALUPDATE` на обработчик, зарегистрированный приложением.
+Чтобы разорвать цикл, используйте параметр `auth_connector` — ключ источника. Он создает отдельную очередь, привязанную к каналу обмена между Битрикс24 и приложением.
 
-А значит, возникает замкнутый цикл, когда изменение сделки на стороне Битрикс24 вызывает обработчик в приложении, который изменяет данные сделки в Битрикс24, который вызывает обработчик в приложении, который… и т.д.
+Укажите `auth_connector` при регистрации обработчика:
 
-Обработка такой ситуации требует определенных условий в приложении.
+{% list tabs %}
 
-В случае с офлайн событиями, подобного цикла можно избежать. Для этого, при регистрации обработчика офлайн-события, необходимо указать параметр `auth_connector`.
+- cURL (OAuth)
 
-Это создает как бы отдельную очередь офлайн-событий, привязанных к некому каналу обмена данными между Битрикс24 и приложением.
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"event":"ONCRMDEALUPDATE","event_type":"offline","auth_connector":"my_connector","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/event.bind
+    ```
 
-Затем, нужно использовать этот же параметр, когда вы вызываете `crm.deal.update`, если вы хотите изменить данные в Битрикс24, но чтобы это изменение не инициировало повторное офлайн-событие.
+- JS
 
-![Как избегать циклов 2](./_images/how_to_avoid_cycles_2.png "Как избегать циклов 2")
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'event.bind',
+            {
+                event: 'ONCRMDEALUPDATE',
+                event_type: 'offline',
+                auth_connector: 'my_connector'
+            }
+        );
 
-Вся схема с использованием параметра `auth_connector` предназначена, чтобы приложение, модифицируя данные, проинформировало Битрикс24: не надо сообщать мне об изменениях, которые я само же и инциировало.
+        console.log(response.getData().result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-Отсюда вывод – если вы используете механизм офлайн-событий в Битрикс24, все модифицирующие запросы из вашего приложения должны выполняться с параметром `auth_connector`, чтобы избежать ненужных событий. Это сильно упростит вам жизнь.
+- PHP
 
-Стоит лишь добавить, что данный параметр на текущий момент поддерживается в Битрикс24 на тарифе Pro и выше. Учитывайте это при разработке.
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'event.bind',
+                [
+                    'event' => 'ONCRMDEALUPDATE',
+                    'event_type' => 'offline',
+                    'auth_connector' => 'my_connector'
+                ]
+            );
 
-## Минусы механизма офлайн-событий
+        $result = $response
+            ->getResponseData()
+            ->getResult();
 
-У механизма офлайн-событий есть свои преимущества, но вы должны понимать и минусы такого подхода.
+        echo 'Success: ' . print_r($result, true);
 
-Во-первых, в отличие от обычных событий, когда Битрикс24 сам вызывает ваши обработчики, в случае офлайн-событий вам придётся создавать какой-то механизм, который с заданной периодичностью будет обращаться к Битрикс24. Это особенно нетривиальная задача для [тиражных приложений](../../market/index.md), которые могут быть установлены на сотнях и тысячах разных Битрикс24.
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
 
-Во-вторых, поскольку для получения новых событий ваше приложение будет обращаться к Битрикс24 через REST API, то на эти вызовы накладываются обычные ограничения по интенсивности запросов в секунду и по совокупному времени выполнения запросов. Подробнее об ограничениях вы можете узнать из [соответствующей статьи](../../limits.md).
+- BX24.js
 
-Главный вывод состоит в том, что получение приложением офлайн-событий может потребовать больше времени, чем это происходило бы в случае обычных онлайн-событий.
+    ```js
+    BX24.callMethod(
+        "event.bind",
+        {
+            "event": "ONCRMDEALUPDATE",
+            "event_type": "offline",
+            "auth_connector": "my_connector"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
 
-## «Хитрости» использования офлайн-событий
+- PHP CRest
 
-Однако, существует одна хитрая возможность, которая в некоторой степени объединяет преимущества онлайн- и офлайн-событий.
+    ```php
+    require_once('crest.php');
 
-А именно, [особое событие](on-offline-event.md) `ONOFFLINEEVENT`. Подписавшись на него обычным образом, то есть, указав свой обработчик на стороне приложения, вы будете получать вызовы на этот обработчик в случае, если в очереди офлайн-событий появились новые записи.
+    $result = CRest::call(
+        'event.bind',
+        [
+            'event' => 'ONCRMDEALUPDATE',
+            'event_type' => 'offline',
+            'auth_connector' => 'my_connector'
+        ]
+    );
 
-В параметре `minTimeout` можно указать таймаут в секундах. В этом случае ваш обработчик будет вызываться только, если прошло указанное количество секунд с момента предыдущего вызова.
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-Эта настройка очень удобна, если вы не хотите, чтобы ваше приложение получало сигнал слишком часто, когда офлайн-событий, возможно, накопилось слишком мало.
+{% endlist %}
 
-Таким образом, ваше приложение, с одной стороны, автоматически получает сигнал со стороны Битрикс24 о том, что пора бы забрать офлайн-события. Это значит, что вам не нужно придумывать схему с самостоятельным периодическим опросом Битрикс24.
+Передавайте тот же `auth_connector` в модифицирующих вызовах. Тогда Битрикс24 не запишет в очередь изменение, которое инициировало само приложение.
 
-А с другой стороны, сами события, которые вам интересны, вы сможете самостоятельно забрать из очереди офлайн-событий со всеми преимуществами этого механизма.
+![Как избегать циклов](./_images/how_to_avoid_cycles_2.png "Как избегать циклов")
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":1,"fields":{"TITLE":"Новое название"},"auth_connector":"my_connector","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.deal.update
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'crm.deal.update',
+            {
+                id: 1,
+                fields: {
+                    TITLE: 'Новое название'
+                },
+                auth_connector: 'my_connector'
+            }
+        );
+
+        console.log(response.getData().result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.deal.update',
+                [
+                    'id' => 1,
+                    'fields' => [
+                        'TITLE' => 'Новое название'
+                    ],
+                    'auth_connector' => 'my_connector'
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.deal.update",
+        {
+            "id": 1,
+            "fields": {
+                "TITLE": "Новое название"
+            },
+            "auth_connector": "my_connector"
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.deal.update',
+        [
+            'id' => 1,
+            'fields' => [
+                'TITLE' => 'Новое название'
+            ],
+            'auth_connector' => 'my_connector'
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+Чтобы забирать события этой очереди, передавайте тот же `auth_connector` в методы [event.offline.get](./event-offline-get.md) и [event.offline.list](./event-offline-list.md). Без совпадающего значения методы вернут только события без источника.
+
+Параметр `auth_connector` доступен на тарифе Профессиональный и выше.
+
+## Уведомление вместо периодического опроса
+
+Чтобы не опрашивать очередь по таймеру, подпишитесь на событие [onOfflineEvent](./on-offline-event.md) обычным способом — с указанием URL обработчика. Битрикс24 вызовет обработчик, когда в очереди появятся новые записи.
+
+Само событие не передает данные — это сигнал забрать события из очереди методами `event.offline.*`. Минимальный интервал между уведомлениями задается параметром `minTimeout`. Подробнее в статье [{#T}](./on-offline-event.md).
+
+## Ограничения механизма
+
+- Приложение само опрашивает Битрикс24 с заданной периодичностью. Для [тиражных приложений](../../market/index.md), установленных на множестве Битрикс24, это отдельная инженерная задача.
+- Запросы к очереди подчиняются [ограничениям](../../limits.md) по числу запросов в секунду и по общему времени выполнения.
+- Получение событий через REST занимает больше времени, чем вызов обработчика обычным событием.
 
 ## Продолжите изучение
 

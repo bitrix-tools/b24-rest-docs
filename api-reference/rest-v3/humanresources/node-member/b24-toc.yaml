@@ -1,0 +1,13 @@
+title: Участники отделов и команд
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить участников
+    href: humanresources-node-member-add.md
+  - name: Обновить состав участников
+    href: humanresources-node-member-set.md
+  - name: Перенести участников
+    href: humanresources-node-member-move.md
+  - name: Удалить участников
+    href: humanresources-node-member-remove.md

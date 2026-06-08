@@ -1,0 +1,15 @@
+title: Почтовые ящики
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список почтовых ящиков
+    href: mail-mailbox-list.md
+  - name: Получить почтовый ящик
+    href: mail-mailbox-get.md
+  - name: Получить отправителей
+    href: mail-mailbox-senders.md
+  - name: Получить список полей почтового ящика
+    href: mail-mailbox-field-list.md
+  - name: Получить поле почтового ящика
+    href: mail-mailbox-field-get.md

@@ -42,7 +42,7 @@
 || **message** | [`Message`](../../entities.md#message) | Отправленное сообщение. Описание полей объекта — [Message](../../entities.md#message) ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в котором отправлено сообщение. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Автор сообщения. Описание полей объекта — [User](../../entities.md#user) ||
-|| **language** | `string` | Язык портала (например, `en`, `ru`) ||
+|| **language** | `string` | Язык Битрикс24 (например, `en`, `ru`) ||
 |#
 
 ### Пример данных
@@ -129,7 +129,7 @@
 || **message** | [`Message`](../../entities.md#message) | Обновленное сообщение. Описание полей объекта — [Message](../../entities.md#message) ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в котором отредактировано сообщение. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Автор сообщения. Описание полей объекта — [User](../../entities.md#user) ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 Формат данных идентичен [ONIMV2MESSAGEADD](#onimv2messageadd). Поле `message` содержит обновленный текст.
@@ -145,7 +145,7 @@
 || **messageId** | `integer` | ID удаленного сообщения ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в котором удалено сообщение. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Автор сообщения. Описание полей объекта — [User](../../entities.md#user) ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 ---
@@ -161,7 +161,7 @@
 || **message** | [`Message`](../../entities.md#message) | Сообщение, на которое изменена реакция. Описание полей объекта — [Message](../../entities.md#message) ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Пользователь, изменивший реакцию. Описание полей объекта — [User](../../entities.md#user) ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 ---
@@ -175,7 +175,7 @@
 || **dialogId** | `string` | ID диалога (например, `chat5`) ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в который добавлен участник. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Добавленный пользователь. Описание полей объекта — [User](../../entities.md#user) ||
-|| **language** | `string` | Язык портала ||
+|| **language** | `string` | Язык Битрикс24 ||
 |#
 
 ## Продолжите изучение

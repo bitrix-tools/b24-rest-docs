@@ -127,7 +127,7 @@
 1. Напишите, с каким событием сложности. Можно приложить ссылку на страницу документации.
 
 2. Укажите URL обработчика, который подписан на событие:
-	- URL из поля `handler` метода [event.bind](//api-reference/events/event-bind.md),
+	- URL из поля `handler` метода [event.bind](./api-reference/events/event-bind.md),
 	- URL из поля `URL вашего обработчика*` [исходящего вебхука](./local-integrations/local-webhooks.md).
 
 3. Напишите дату и время, когда последний раз событие не сработало.

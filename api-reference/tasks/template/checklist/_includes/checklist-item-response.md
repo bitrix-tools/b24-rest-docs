@@ -4,39 +4,39 @@
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../../../data-types.md) | Идентификатор пункта чек-листа ||
+[`integer`](/api-reference/data-types.html) | Идентификатор пункта чек-листа ||
 || **copiedId**
-[`integer`](../../../../data-types.md) | Идентификатор исходного пункта при копировании, если есть ||
+[`integer`](/api-reference/data-types.html) | Идентификатор исходного пункта при копировании, если есть ||
 || **userId**
-[`integer`](../../../../data-types.md) | Идентификатор пользователя, в контексте которого сформирован объект ||
+[`integer`](/api-reference/data-types.html) | Идентификатор пользователя, в контексте которого сформирован объект ||
 || **createdBy**
-[`integer`](../../../../data-types.md) | Идентификатор автора пункта ||
+[`integer`](/api-reference/data-types.html) | Идентификатор автора пункта ||
 || **parentId**
-[`integer`](../../../../data-types.md) | Идентификатор родительского пункта. Значение `0` означает корневой пункт ||
+[`integer`](/api-reference/data-types.html) | Идентификатор родительского пункта. Значение `0` означает корневой пункт ||
 || **title**
-[`string`](../../../../data-types.md) | Текст пункта чек-листа ||
+[`string`](/api-reference/data-types.html) | Текст пункта чек-листа ||
 || **sortIndex**
-[`integer`](../../../../data-types.md) | Индекс сортировки. Чем меньше значение, тем выше пункт в списке или подсписке ||
+[`integer`](/api-reference/data-types.html) | Индекс сортировки. Чем меньше значение, тем выше пункт в списке или подсписке ||
 || **displaySortIndex**
-[`string`](../../../../data-types.md) | Вспомогательное значение порядка отображения ||
+[`string`](/api-reference/data-types.html) | Вспомогательное значение порядка отображения ||
 || **isComplete**
-[`boolean`](../../../../data-types.md) | Статус выполнения пункта ||
+[`boolean`](/api-reference/data-types.html) | Статус выполнения пункта ||
 || **isImportant**
-[`boolean`](../../../../data-types.md) | Отметка важности пункта ||
+[`boolean`](/api-reference/data-types.html) | Отметка важности пункта ||
 || **completedCount**
-[`integer`](../../../../data-types.md) | Количество завершений пункта ||
+[`integer`](/api-reference/data-types.html) | Количество завершений пункта ||
 || **members**
-[`array`](../../../../data-types.md) | Массив объектов с [описанием участников](#members).
+[`array`](/api-reference/data-types.html) | Массив объектов с [описанием участников](#members).
 
 Если данных нет, возвращается пустой массив `[]` ||
 || **attachments**
-[`object`](../../../../data-types.md) | Объект с [описанием вложений](#attachments).
+[`object`](/api-reference/data-types.html) | Объект с [описанием вложений](#attachments).
 
 Если данных нет, возвращается пустой массив `[]` ||
 || **nodeId**
-[`integer`](../../../../data-types.md) | Служебный идентификатор узла, если используется ||
+[`integer`](/api-reference/data-types.html) | Служебный идентификатор узла, если используется ||
 || **templateId**
-[`integer`](../../../../data-types.md) | Идентификатор шаблона задачи ||
+[`integer`](/api-reference/data-types.html) | Идентификатор шаблона задачи ||
 |#
 
 #### Объект members {#members}
@@ -45,23 +45,23 @@
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`string`](../../../../data-types.md) | Идентификатор пользователя ||
+[`string`](/api-reference/data-types.html) | Идентификатор пользователя ||
 || **type**
-[`string`](../../../../data-types.md) | Роль пользователя в пункте чек-листа. Возможные значения:
+[`string`](/api-reference/data-types.html) | Роль пользователя в пункте чек-листа. Возможные значения:
 - `A` — соисполнитель
 - `U` — наблюдатель ||
 || **name**
-[`string`](../../../../data-types.md) | Имя пользователя ||
+[`string`](/api-reference/data-types.html) | Имя пользователя ||
 || **personalPhoto**
-[`string`](../../../../data-types.md) | Идентификатор файла с аватаром пользователя на Диске ||
+[`string`](/api-reference/data-types.html) | Идентификатор файла с аватаром пользователя на Диске ||
 || **personalGender**
-[`string`](../../../../data-types.md) | Пол пользователя. Возможные значения:
+[`string`](/api-reference/data-types.html) | Пол пользователя. Возможные значения:
 - `M` — мужчина
 - `F` — женщина ||
 || **image**
-[`string`](../../../../data-types.md) | Ссылка на аватар пользователя ||
+[`string`](/api-reference/data-types.html) | Ссылка на аватар пользователя ||
 || **isCollaber**
-[`boolean`](../../../../data-types.md) | Признак, что пользователь является внешним участником ||
+[`boolean`](/api-reference/data-types.html) | Признак, что пользователь является внешним участником ||
 |#
 
 #### Объект attachments {#attachments}
@@ -70,5 +70,5 @@
 || **Название**
 `тип` | **Описание** ||
 || **attachmentId**
-[`string`](../../../../data-types.md) | Идентификатор файла на Диске в формате `n<fileId>`, где ключ — идентификатор прикрепления ||
+[`string`](/api-reference/data-types.html) | Идентификатор файла на Диске в формате `n<fileId>`, где ключ — идентификатор прикрепления ||
 |#

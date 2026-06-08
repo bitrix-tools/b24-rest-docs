@@ -45,25 +45,85 @@
     https://**put_your_bitrix24_address**/rest/tasks.task.getFields
     ```
 
-- JS
+- JS (TS)
 
-    ```javascript
-    try
-    {
-        const response = await $b24.callMethod(
-            'tasks.task.getFields',
-            {}
-        );
-        
-        const result = response.getData().result;
-        console.log('Task fields:', result);
-        
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // A single field descriptor and the map returned in result.fields
+    type TaskFieldDescription = {
+      title: string | null
+      type: string
+      required?: boolean
+      primary?: boolean
+      default?: unknown
+      values?: Record<string, string> | string[]
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type TaskFieldsResult = {
+      fields: Record<string, TaskFieldDescription>
     }
+
+    try {
+      // tasks.task.getFields takes no parameters
+      const response = await $b24.actions.v2.call.make<TaskFieldsResult>({
+        method: 'tasks.task.getFields',
+        params: {},
+        requestId: Text.getUuidRfc4122() // optional unique tracking id for this request
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const fields = response.getData()!.result.fields
+        console.info(`Loaded ${Object.keys(fields).length} task fields`)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function loadTaskFields() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // tasks.task.getFields takes no parameters
+          const response = await $b24.actions.v2.call.make({
+            method: 'tasks.task.getFields',
+            params: {},
+            requestId: B24Js.Text.getUuidRfc4122() // optional unique tracking id for this request
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const fields = response.getData().result.fields
+          console.info(`Loaded ${Object.keys(fields).length} task fields`)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', loadTaskFields)
+    </script>
     ```
 
 - PHP

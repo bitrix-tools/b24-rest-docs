@@ -160,7 +160,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -175,9 +175,17 @@ HTTP-код: **200**
             "color": "#ab7761",
             "avatar": "",
             "gender": "M",
+            "birthday": "15-03",
             "extranet": false,
             "bot": false,
+            "connector": false,
+            "externalAuthId": "default",
             "status": "online",
+            "idle": false,
+            "lastActivityDate": "2025-01-15T14:25:00+03:00",
+            "absent": false,
+            "departments": [7],
+            "phones": false,
             "type": "employee"
         },
         {
@@ -190,9 +198,17 @@ HTTP-код: **200**
             "color": "#5b7e91",
             "avatar": "",
             "gender": "F",
+            "birthday": "22-08",
             "extranet": false,
             "bot": false,
+            "connector": false,
+            "externalAuthId": "default",
             "status": "online",
+            "idle": false,
+            "lastActivityDate": "2025-01-15T14:20:00+03:00",
+            "absent": false,
+            "departments": [12],
+            "phones": false,
             "type": "employee"
         }
     ],

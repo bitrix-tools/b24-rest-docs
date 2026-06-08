@@ -7,7 +7,19 @@ items:
     include:
       path: main/b24-toc.yaml
       mode: link
+  - name: Почта
+    include:
+      path: mail/b24-toc.yaml
+      mode: link
+  - name: Структура компании
+    include:
+      path: humanresources/b24-toc.yaml
+      mode: link
   - name: Задачи
     include:
       path: tasks/b24-toc.yaml
+      mode: link
+  - name: Записи о рабочем времени
+    include:
+      path: timeman/b24-toc.yaml
       mode: link
