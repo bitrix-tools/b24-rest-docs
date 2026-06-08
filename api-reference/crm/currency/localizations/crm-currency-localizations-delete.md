@@ -45,8 +45,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":5}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.automatedsolution.delete
+    -d '{"id":"CLF","lids":["en","de"]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.currency.localizations.delete
     ```
 
 - cURL (OAuth)
@@ -55,34 +55,79 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":5,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/crm.automatedsolution.delete
+    -d '{"id":"CLF","lids":["en","de"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.currency.localizations.delete
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"crm.currency.localizations.delete",
-    		{
-    			id: 'CLF',
-    			lids: [
-    				'en',
-    				'de'
-    			]
-    		}
-    	);
-    
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'crm.currency.localizations.delete',
+        params: {
+          id: 'CLF',
+          lids: ['en', 'de'],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Localizations deleted:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function deleteCurrencyLocalizations() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.currency.localizations.delete',
+            params: {
+              id: 'CLF',
+              lids: ['en', 'de'],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Localizations deleted:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', deleteCurrencyLocalizations)
+    </script>
     ```
 
 - PHP
@@ -153,9 +198,13 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'crm.automatedsolution.delete',
+        'crm.currency.localizations.delete',
         [
-            'id' => 5
+            'id'   => 'CLF',
+            'lids' => [
+                'en',
+                'de'
+            ]
         ]
     );
 

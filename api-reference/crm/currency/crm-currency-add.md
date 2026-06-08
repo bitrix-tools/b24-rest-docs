@@ -141,56 +141,121 @@ fields: {
         https://**put_your_bitrix24_address**/rest/crm.currency.add
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        BX24.callMethod(
-            "crm.currency.add",
-            {
-                fields: {
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
+
+        declare const $b24: B24Frame
+
+        try {
+          const response = await $b24.actions.v2.call.make<string>({
+            method: 'crm.currency.add',
+            params: {
+              fields: {
+                CURRENCY: 'CNY',
+                BASE: 'N',
+                AMOUNT: 12.2251,
+                AMOUNT_CNT: 1,
+                SORT: 9000,
+                LANG: {
+                  ru: {
+                    DECIMALS: 2,
+                    DEC_POINT: '.',
+                    FORMAT_STRING: '# CNY',
+                    FULL_NAME: 'Yuan',
+                    HIDE_ZERO: 'Y',
+                    THOUSANDS_VARIANT: 'S',
+                  },
+                  en: {
+                    DECIMALS: 2,
+                    DEC_POINT: ',',
+                    FORMAT_STRING: '# CNY',
+                    FULL_NAME: 'Yuan',
+                    HIDE_ZERO: 'Y',
+                    THOUSANDS_SEP: '.',
+                  },
+                },
+              },
+            },
+            requestId: Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info('Created currency id:', result)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
+
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function addCurrency() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.currency.add',
+                params: {
+                  fields: {
                     CURRENCY: 'CNY',
                     BASE: 'N',
                     AMOUNT: 12.2251,
                     AMOUNT_CNT: 1,
                     SORT: 9000,
                     LANG: {
-                        ru: {
-                            DECIMALS: 2,
-                            DEC_POINT: '.',
-                            FORMAT_STRING: '# CNY',
-                            FULL_NAME: 'юань',
-                            HIDE_ZERO: 'Y',
-                            THOUSANDS_VARIANT: 'S',
-                        },
-                        en: {
-                            DECIMALS: 2,
-                            DEC_POINT: ',',
-                            FORMAT_STRING: '# CNY',
-                            FULL_NAME: 'yuan',
-                            HIDE_ZERO: 'Y',
-                            THOUSANDS_SEP: '.',
-                        },
+                      ru: {
+                        DECIMALS: 2,
+                        DEC_POINT: '.',
+                        FORMAT_STRING: '# CNY',
+                        FULL_NAME: 'Yuan',
+                        HIDE_ZERO: 'Y',
+                        THOUSANDS_VARIANT: 'S',
+                      },
+                      en: {
+                        DECIMALS: 2,
+                        DEC_POINT: ',',
+                        FORMAT_STRING: '# CNY',
+                        FULL_NAME: 'Yuan',
+                        HIDE_ZERO: 'Y',
+                        THOUSANDS_SEP: '.',
+                      },
                     },
-                }
-            },
-        )
-        .then(
-            function(result)
-            {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.log(result);
-                }
-            },
-            function(error)
-            {
-                console.info(error);
+                  },
+                },
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info('Created currency id:', result)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
             }
-        ); 
+          }
+
+          document.addEventListener('DOMContentLoaded', addCurrency)
+        </script>
         ```
 
     - PHP
@@ -250,7 +315,7 @@ fields: {
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"fields":{"CURRENCY":"IDR","AMOUNT":54.8738,"AMOUNT_CNT":10000,"SORT":8000,"LANG":{"ru":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"Rp#","FULL_NAME":"рупия","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"},"en":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"# CNY","FULL_NAME":"rupee","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"}}}}' \
+        -d '{"fields":{"CURRENCY":"IDR","AMOUNT":54.8738,"AMOUNT_CNT":10000,"SORT":8000,"LANG":{"ru":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"Rp#","FULL_NAME":"рупия","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"},"en":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"Rp#","FULL_NAME":"rupee","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"}}}}' \
         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.currency.add
         ```
 
@@ -260,59 +325,123 @@ fields: {
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"fields":{"CURRENCY":"IDR","AMOUNT":54.8738,"AMOUNT_CNT":10000,"SORT":8000,"LANG":{"ru":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"Rp#","FULL_NAME":"рупия","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"},"en":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"# CNY","FULL_NAME":"rupee","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"}}},"auth":"**put_access_token_here**"}' \
+        -d '{"fields":{"CURRENCY":"IDR","AMOUNT":54.8738,"AMOUNT_CNT":10000,"SORT":8000,"LANG":{"ru":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"Rp#","FULL_NAME":"рупия","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"},"en":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"Rp#","FULL_NAME":"rupee","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"C"}}},"auth":"**put_access_token_here**"}' \
         https://**put_your_bitrix24_address**/rest/crm.currency.add
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        BX24.callMethod(
-            "crm.currency.add",
-            {
-                fields: {
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
+
+        declare const $b24: B24Frame
+
+        try {
+          const response = await $b24.actions.v2.call.make<string>({
+            method: 'crm.currency.add',
+            params: {
+              fields: {
+                CURRENCY: 'IDR',
+                AMOUNT: 54.8738,
+                AMOUNT_CNT: 10000,
+                SORT: 8000,
+                LANG: {
+                  ru: {
+                    DECIMALS: 2,
+                    DEC_POINT: '.',
+                    FORMAT_STRING: 'Rp#',
+                    FULL_NAME: 'Rupee',
+                    HIDE_ZERO: 'Y',
+                    THOUSANDS_VARIANT: 'C',
+                  },
+                  en: {
+                    DECIMALS: 2,
+                    DEC_POINT: '.',
+                    FORMAT_STRING: 'Rp#',
+                    FULL_NAME: 'Rupee',
+                    HIDE_ZERO: 'Y',
+                    THOUSANDS_VARIANT: 'C',
+                  },
+                },
+              },
+            },
+            requestId: Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info('Created currency id:', result)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
+
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function addCurrency() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.currency.add',
+                params: {
+                  fields: {
                     CURRENCY: 'IDR',
                     AMOUNT: 54.8738,
                     AMOUNT_CNT: 10000,
                     SORT: 8000,
                     LANG: {
-                        ru: {
-                            DECIMALS: 2,
-                            DEC_POINT: '.',
-                            FORMAT_STRING: 'Rp#',
-                            FULL_NAME: 'рупия',
-                            HIDE_ZERO: 'Y',
-                            THOUSANDS_VARIANT: 'C'
-                        },
-                        en: {
-                            DECIMALS: 2,
-                            DEC_POINT: '.',
-                            FORMAT_STRING: '# CNY',
-                            FULL_NAME: 'rupee',
-                            HIDE_ZERO: 'Y',
-                            THOUSANDS_VARIANT: 'C'
-                        }
-                    }
-                }
-            },
-        )
-        .then(
-            function(result)
-            {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.log(result);
-                }
-            },
-            function(error)
-            {
-                console.info(error);
+                      ru: {
+                        DECIMALS: 2,
+                        DEC_POINT: '.',
+                        FORMAT_STRING: 'Rp#',
+                        FULL_NAME: 'Rupee',
+                        HIDE_ZERO: 'Y',
+                        THOUSANDS_VARIANT: 'C',
+                      },
+                      en: {
+                        DECIMALS: 2,
+                        DEC_POINT: '.',
+                        FORMAT_STRING: 'Rp#',
+                        FULL_NAME: 'Rupee',
+                        HIDE_ZERO: 'Y',
+                        THOUSANDS_VARIANT: 'C',
+                      },
+                    },
+                  },
+                },
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info('Created currency id:', result)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
             }
-        );
+          }
+
+          document.addEventListener('DOMContentLoaded', addCurrency)
+        </script>
         ```
 
     - PHP
@@ -340,7 +469,7 @@ fields: {
                         'en' => [
                             'DECIMALS' => 2,
                             'DEC_POINT' => '.',
-                            'FORMAT_STRING' => '# CNY',
+                            'FORMAT_STRING' => 'Rp#',
                             'FULL_NAME' => 'rupee',
                             'HIDE_ZERO' => 'Y',
                             'THOUSANDS_VARIANT' => 'C',
