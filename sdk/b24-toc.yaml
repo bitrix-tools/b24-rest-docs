@@ -11,6 +11,10 @@ items:
     include:
       path: bx24-js-sdk/b24-toc.yaml
       mode: link
+  - name: B24 Python SDK
+    include:
+      path: b24pysdk/b24-toc.yaml
+      mode: link
   - name: B24 PHP SDK
     include:
       path: b24phpsdk/b24-toc.yaml
