@@ -129,26 +129,117 @@
       https://**put_your_bitrix24_address**/rest/catalog.productProperty.update
     ```
 
-- JS
+- JS (TS)
 
-    ```js
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ProductPropertyUpdateResult = {
+      productProperty: {
+        active: 'Y' | 'N'
+        code: string | null
+        colCount: number
+        defaultValue: string | null
+        fileType: string | null
+        filtrable: 'Y' | 'N'
+        hint: string | null
+        iblockId: number
+        id: number
+        isRequired: 'Y' | 'N'
+        linkIblockId: number | null
+        listType: string | null
+        multiple: 'Y' | 'N'
+        multipleCnt: number | null
+        name: string
+        propertyType: string
+        rowCount: number
+        searchable: 'Y' | 'N'
+        sort: number
+        timestampX: ISODate
+        userType: string | null
+        userTypeSettings: Record<string, unknown> | null
+        withDescription: 'Y' | 'N' | null
+        xmlId: string | null
+      }
+    }
+
     try {
-        const response = await $b24.callMethod('catalog.productProperty.update', {
-            id: 115,
-            fields: {
+      const response = await $b24.actions.v2.call.make<ProductPropertyUpdateResult>({
+        method: 'catalog.productProperty.update',
+        params: {
+          id: 115,
+          fields: {
+            iblockId: 19,
+            name: 'Size',
+            propertyType: 'L',
+            isRequired: 'Y',
+            active: 'Y',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.productProperty.id, result.productProperty.name, result.productProperty.active)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateProductProperty() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'catalog.productProperty.update',
+            params: {
+              id: 115,
+              fields: {
                 iblockId: 19,
-                name: 'Размер',
+                name: 'Size',
                 propertyType: 'L',
                 isRequired: 'Y',
-                active: 'Y'
-            }
-        });
+                active: 'Y',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
 
-        console.log(response.getData().result);
-    }
-    catch (error) {
-    	console.error(error);
-    }
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.productProperty.id, result.productProperty.name, result.productProperty.active)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateProductProperty)
+    </script>
     ```
 
 - PHP
