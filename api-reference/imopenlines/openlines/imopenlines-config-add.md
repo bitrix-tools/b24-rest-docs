@@ -402,59 +402,123 @@
       https://**put_your_bitrix24_address**/rest/imopenlines.config.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'imopenlines.config.add',
-            {
-                PARAMS: {
-                    LINE_NAME: 'Линия поддержки интернет-магазина',
-                    QUEUE: [
-                        {
-                            ENTITY_TYPE: 'user',
-                            ENTITY_ID: '1'
-                        },
-                        {
-                            ENTITY_TYPE: 'user',
-                            ENTITY_ID: '15'
-                        },
-                        {
-                            ENTITY_TYPE: 'user',
-                            ENTITY_ID: '23'
-                        }
-                    ],
-                    QUEUE_TYPE: 'strictly',
-                    QUEUE_TIME: 45,
-                    NO_ANSWER_TIME: 120,
-                    WELCOME_MESSAGE: 'Y',
-                    WELCOME_MESSAGE_TEXT: 'Здравствуйте! Ответим в течение пары минут',
-                    CRM: 'Y',
-                    CRM_CREATE: 'deal',
-                    CRM_SOURCE: 'openline_web',
-                    CRM_FORWARD: 'Y',
-                    MAX_CHAT: 4,
-                    TYPE_MAX_CHAT: 'answered_new',
-                    WORKTIME_ENABLE: 'Y',
-                    WORKTIME_FROM: '09:00',
-                    WORKTIME_TO: '21:00',
-                    WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
-                    WORKTIME_DAYOFF: ['SA', 'SU'],
-                    WORKTIME_DAYOFF_RULE: 'text',
-                    WORKTIME_DAYOFF_TEXT: 'Сейчас линия не работает. Напишите, и мы ответим в рабочее время'
-                }
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'imopenlines.config.add',
+        params: {
+          PARAMS: {
+            LINE_NAME: 'Online store support line',
+            QUEUE: [
+              { ENTITY_TYPE: 'user', ENTITY_ID: '1' },
+              { ENTITY_TYPE: 'user', ENTITY_ID: '15' },
+              { ENTITY_TYPE: 'user', ENTITY_ID: '23' },
+            ],
+            QUEUE_TYPE: 'strictly',
+            QUEUE_TIME: 45,
+            NO_ANSWER_TIME: 120,
+            WELCOME_MESSAGE: 'Y',
+            WELCOME_MESSAGE_TEXT: 'Hello! We will respond within a couple of minutes',
+            CRM: 'Y',
+            CRM_CREATE: 'deal',
+            CRM_SOURCE: 'openline_web',
+            CRM_FORWARD: 'Y',
+            MAX_CHAT: 4,
+            TYPE_MAX_CHAT: 'answered_new',
+            WORKTIME_ENABLE: 'Y',
+            WORKTIME_FROM: '09:00',
+            WORKTIME_TO: '21:00',
+            WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
+            WORKTIME_DAYOFF: ['SA', 'SU'],
+            WORKTIME_DAYOFF_RULE: 'text',
+            WORKTIME_DAYOFF_TEXT: 'The line is currently unavailable. Write to us and we will respond during business hours',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created open line ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch (error)
-    {
-        console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addOpenlinesConfig() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imopenlines.config.add',
+            params: {
+              PARAMS: {
+                LINE_NAME: 'Online store support line',
+                QUEUE: [
+                  { ENTITY_TYPE: 'user', ENTITY_ID: '1' },
+                  { ENTITY_TYPE: 'user', ENTITY_ID: '15' },
+                  { ENTITY_TYPE: 'user', ENTITY_ID: '23' },
+                ],
+                QUEUE_TYPE: 'strictly',
+                QUEUE_TIME: 45,
+                NO_ANSWER_TIME: 120,
+                WELCOME_MESSAGE: 'Y',
+                WELCOME_MESSAGE_TEXT: 'Hello! We will respond within a couple of minutes',
+                CRM: 'Y',
+                CRM_CREATE: 'deal',
+                CRM_SOURCE: 'openline_web',
+                CRM_FORWARD: 'Y',
+                MAX_CHAT: 4,
+                TYPE_MAX_CHAT: 'answered_new',
+                WORKTIME_ENABLE: 'Y',
+                WORKTIME_FROM: '09:00',
+                WORKTIME_TO: '21:00',
+                WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
+                WORKTIME_DAYOFF: ['SA', 'SU'],
+                WORKTIME_DAYOFF_RULE: 'text',
+                WORKTIME_DAYOFF_TEXT: 'The line is currently unavailable. Write to us and we will respond during business hours',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created open line ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addOpenlinesConfig)
+    </script>
     ```
 
 - PHP

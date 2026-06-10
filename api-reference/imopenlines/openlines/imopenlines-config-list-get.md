@@ -125,35 +125,121 @@
       https://**put_your_bitrix24_address**/rest/imopenlines.config.list.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'imopenlines.config.list.get',
-            {
-                PARAMS: {
-                    select: ['ID', 'LINE_NAME', 'ACTIVE'],
-                    order: { ID: 'ASC' },
-                    filter: { ACTIVE: 'Y' },
-                    limit: 50,
-                    offset: 0
-                },
-                OPTIONS: {
-                    QUEUE: 'Y',
-                    CONFIG_QUEUE: 'Y'
-                }
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log(result);
+    declare const $b24: B24Frame
+
+    // Shape of each OpenLineItem returned in result[]
+    type OpenLineItem = {
+      ID: string
+      LINE_NAME: string
+      ACTIVE: string
+      QUEUE?: number[]
+      QUEUE_USERS_FIELDS?: Record<string, {
+        USER_NAME: string | null
+        USER_WORK_POSITION: string | null
+        USER_AVATAR: string | null
+        USER_AVATAR_ID: number | null
+      }>
+      CONFIG_QUEUE?: Array<{
+        ENTITY_ID: string
+        ENTITY_TYPE: string
+      }>
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      // imopenlines.config.list.get returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<OpenLineItem[]>({
+        method: 'imopenlines.config.list.get',
+        params: {
+          PARAMS: {
+            select: ['ID', 'LINE_NAME', 'ACTIVE'],
+            order: { ID: 'ASC' },
+            filter: { ACTIVE: 'Y' },
+            limit: 50,
+            offset: 0,
+          },
+          OPTIONS: {
+            QUEUE: 'Y',
+            CONFIG_QUEUE: 'Y',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Open lines count:', result.length, 'First line:', result[0]?.LINE_NAME)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getOpenLineList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // imopenlines.config.list.get returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'imopenlines.config.list.get',
+            params: {
+              PARAMS: {
+                select: ['ID', 'LINE_NAME', 'ACTIVE'],
+                order: { ID: 'ASC' },
+                filter: { ACTIVE: 'Y' },
+                limit: 50,
+                offset: 0,
+              },
+              OPTIONS: {
+                QUEUE: 'Y',
+                CONFIG_QUEUE: 'Y',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Open lines count:', result.length, 'First line:', result[0]?.LINE_NAME)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getOpenLineList)
+    </script>
     ```
 
 - PHP
