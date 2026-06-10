@@ -1,0 +1,9 @@
+title: Коммуникации отделов и команд
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить коммуникации
+    href: humanresources-node-communication-list.md
+  - name: Изменить коммуникации
+    href: humanresources-node-communication-edit.md

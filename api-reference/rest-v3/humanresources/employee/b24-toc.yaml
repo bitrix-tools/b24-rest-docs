@@ -1,0 +1,17 @@
+title: Сотрудники
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Найти сотрудников
+    href: humanresources-employee-search.md
+  - name: Получить подчиненных сотрудника
+    href: humanresources-employee-subordinates.md
+  - name: Получить количество сотрудников
+    href: humanresources-employee-count.md
+  - name: Получить сотрудников в нескольких отделах
+    href: humanresources-employee-multidepartment.md
+  - name: Получить список полей сотрудника
+    href: humanresources-employee-field-list.md
+  - name: Получить поле сотрудника
+    href: humanresources-employee-field-get.md
