@@ -112,28 +112,111 @@
     https://**put_your_bitrix24_address**/rest/socialnetwork.api.workgroup.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'socialnetwork.api.workgroup.get',
-    		{
-    			params: {
-    				groupId: 622,
-    				select: [ 'DEPARTMENTS', 'TAGS' ],
-    			},
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type WorkgroupGetResult = {
+      ID: number
+      ACTIVE: string
+      NAME: string
+      DESCRIPTION: string
+      CLOSED: string
+      VISIBLE: string
+      OPENED: string
+      DATE_CREATE: string
+      DATE_UPDATE: string
+      DATE_ACTIVITY: string
+      AVATAR_TYPE: string
+      OWNER_ID: number
+      INITIATE_PERMS: string
+      NUMBER_OF_MEMBERS: number
+      NUMBER_OF_MODERATORS: number
+      PROJECT: string
+      PROJECT_DATE_START: string | null
+      PROJECT_DATE_FINISH: string | null
+      TYPE: string
+      MEMBERS: number[]
+      CHAT_ID: number
+      DIALOG_ID: string
+      ORDINARY_MEMBERS: number[]
+      INVITED_MEMBERS: number[]
+      MODERATOR_MEMBERS: number[]
+      SITE_IDS: string[]
+      TAGS: string[]
+      DEPARTMENTS: number[]
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<WorkgroupGetResult>({
+        method: 'socialnetwork.api.workgroup.get',
+        params: {
+          params: {
+            groupId: 622,
+            select: ['DEPARTMENTS', 'TAGS'],
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.ID, result.NAME, result.TYPE, result.TAGS, result.DEPARTMENTS)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getWorkgroup() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'socialnetwork.api.workgroup.get',
+            params: {
+              params: {
+                groupId: 622,
+                select: ['DEPARTMENTS', 'TAGS'],
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.ID, result.NAME, result.TYPE, result.TAGS, result.DEPARTMENTS)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getWorkgroup)
+    </script>
     ```
 
 - PHP

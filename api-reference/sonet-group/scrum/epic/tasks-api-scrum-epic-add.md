@@ -109,32 +109,96 @@ fields: {
     https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'tasks.api.scrum.epic.add',
-    		{
-    			fields: {
-    				name: name,
-    				groupId: groupId,
-    				description: description,
-    				color: color,
-    				files: files
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type EpicAddResult = {
+      id: number
+      groupId: number
+      name: string
+      description: string
+      createdBy: number
+      modifiedBy: number
+      color: string
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<EpicAddResult>({
+        method: 'tasks.api.scrum.epic.add',
+        params: {
+          fields: {
+            name: 'Epic 1',
+            groupId: 1,
+            description: 'Description text',
+            color: '#69dafc',
+            files: ['n428', 'n345'],
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Added epic:', result.id, result.name)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addEpic() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'tasks.api.scrum.epic.add',
+            params: {
+              fields: {
+                name: 'Epic 1',
+                groupId: 1,
+                description: 'Description text',
+                color: '#69dafc',
+                files: ['n428', 'n345'],
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Added epic:', result.id, result.name)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addEpic)
+    </script>
     ```
 
 - PHP
