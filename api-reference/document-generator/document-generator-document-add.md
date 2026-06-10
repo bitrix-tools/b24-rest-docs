@@ -145,46 +145,138 @@
     https://**put_your_bitrix24_address**/rest/documentgenerator.document.add
   ```
 
-- JS
+- JS (TS)
 
-  ```js
-  try
-  {
-      const response = await $b24.callMethod(
-          'documentgenerator.document.add',
-          {
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type DocumentAddResult = {
+      document: {
+        id: number
+        title: string
+        number: string
+        templateId: string
+        provider: string
+        value: string
+        values: Record<string, unknown>
+        stampsEnabled: boolean
+        downloadUrl: string
+        downloadUrlMachine: string
+        publicUrl: string | null
+        isTransformationError: boolean
+        pullTag: string
+        emailDiskFile: number
+        createTime: ISODate
+        updateTime: ISODate
+        createdBy: number
+        updatedBy: number | null
+      }
+    }
+
+    try {
+      const response = await $b24.actions.v2.call.make<DocumentAddResult>({
+        method: 'documentgenerator.document.add',
+        params: {
+          templateId: 53,
+          value: 'SUPPLY_CONTRACT_2026_015',
+          values: {
+            DocumentNumber: 'DG-2026-001',
+            CurrentDate: '2026-03-18T00:00:00+03:00',
+            ClientName: 'Romashka LLC',
+            ClientPhone: '+7 999 123-45-67',
+            Total: '125000',
+            Comment: 'Payment within 5 business days after signing',
+            UserName: 'Ivan Petrov',
+          },
+          fields: {
+            CurrentDate: {
+              TYPE: 'DATE',
+              FORMAT: {
+                format: 'd.m.Y',
+              },
+              TITLE: 'Contract date',
+            },
+          },
+          stampsEnabled: 1,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created document id:', result.document.id, 'title:', result.document.title)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addDocument() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'documentgenerator.document.add',
+            params: {
               templateId: 53,
               value: 'SUPPLY_CONTRACT_2026_015',
               values: {
-                  DocumentNumber: 'ДГ-2026-001',
-                  CurrentDate: '2026-03-18T00:00:00+03:00',
-                  ClientName: 'ООО Ромашка',
-                  ClientPhone: '+7 999 123-45-67',
-                  Total: '125000',
-                  Comment: 'Оплата в течение 5 рабочих дней после подписания',
-                  UserName: 'Иван Петров'
+                DocumentNumber: 'DG-2026-001',
+                CurrentDate: '2026-03-18T00:00:00+03:00',
+                ClientName: 'Romashka LLC',
+                ClientPhone: '+7 999 123-45-67',
+                Total: '125000',
+                Comment: 'Payment within 5 business days after signing',
+                UserName: 'Ivan Petrov',
               },
               fields: {
-                  CurrentDate: {
-                      TYPE: 'DATE',
-                      FORMAT: {
-                          format: 'd.m.Y'
-                      },
-                      TITLE: 'Дата договора'
-                  }
+                CurrentDate: {
+                  TYPE: 'DATE',
+                  FORMAT: {
+                    format: 'd.m.Y',
+                  },
+                  TITLE: 'Contract date',
+                },
               },
-              stampsEnabled: 1
-          }
-      );
+              stampsEnabled: 1,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
 
-      const result = response.getData().result;
-      console.log(result);
-  }
-  catch (error)
-  {
-      console.error(error);
-  }
-  ```
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created document id:', result.document.id, 'title:', result.document.title)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addDocument)
+    </script>
+    ```
 
 - PHP
 
