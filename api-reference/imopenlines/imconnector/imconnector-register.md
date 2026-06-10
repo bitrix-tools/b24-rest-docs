@@ -128,34 +128,111 @@
       https://**put_your_bitrix24_address**/rest/imconnector.register
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    const payload = {
-      ID: 'myconnector',
-      NAME: 'Мой коннектор',
-      ICON: {
-        DATA_IMAGE: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E',
-        COLOR: '#69acc0',
-        SIZE: '90%',
-        POSITION: 'center',
-      },
-      PLACEMENT_HANDLER: 'https://example.com/connector/settings',
-      ICON_DISABLED: {
-        DATA_IMAGE: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E',
-        COLOR: '#99adb3',
-      },
-      DEL_EXTERNAL_MESSAGES: true,
-      EDIT_INTERNAL_MESSAGES: true,
-      DEL_INTERNAL_MESSAGES: true,
-      NEWSLETTER: true,
-      NEED_SYSTEM_MESSAGES: true,
-      NEED_SIGNATURE: true,
-      CHAT_GROUP: false,
-    };
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    const response = await $b24.callMethod('imconnector.register', payload);
-    console.log(response.getData());
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'imconnector.register',
+        params: {
+          ID: 'myconnector',
+          NAME: 'My Connector',
+          ICON: {
+            DATA_IMAGE: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E',
+            COLOR: '#69acc0',
+            SIZE: '90%',
+            POSITION: 'center',
+          },
+          PLACEMENT_HANDLER: 'https://example.com/connector/settings',
+          ICON_DISABLED: {
+            DATA_IMAGE: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E',
+            COLOR: '#99adb3',
+          },
+          DEL_EXTERNAL_MESSAGES: true,
+          EDIT_INTERNAL_MESSAGES: true,
+          DEL_INTERNAL_MESSAGES: true,
+          NEWSLETTER: true,
+          NEED_SYSTEM_MESSAGES: true,
+          NEED_SIGNATURE: true,
+          CHAT_GROUP: false,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Connector registered:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function registerConnector() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imconnector.register',
+            params: {
+              ID: 'myconnector',
+              NAME: 'My Connector',
+              ICON: {
+                DATA_IMAGE: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E',
+                COLOR: '#69acc0',
+                SIZE: '90%',
+                POSITION: 'center',
+              },
+              PLACEMENT_HANDLER: 'https://example.com/connector/settings',
+              ICON_DISABLED: {
+                DATA_IMAGE: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E',
+                COLOR: '#99adb3',
+              },
+              DEL_EXTERNAL_MESSAGES: true,
+              EDIT_INTERNAL_MESSAGES: true,
+              DEL_INTERNAL_MESSAGES: true,
+              NEWSLETTER: true,
+              NEED_SYSTEM_MESSAGES: true,
+              NEED_SIGNATURE: true,
+              CHAT_GROUP: false,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Connector registered:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', registerConnector)
+    </script>
     ```
 
 - PHP

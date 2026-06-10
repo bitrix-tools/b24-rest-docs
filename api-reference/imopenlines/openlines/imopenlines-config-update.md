@@ -113,51 +113,125 @@
       https://**put_your_bitrix24_address**/rest/imopenlines.config.update
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'imopenlines.config.update',
-            {
-                CONFIG_ID: 15,
-                PARAMS: {
-                    LINE_NAME: 'Линия поддержки интернет-магазина (VIP)',
-                    QUEUE: [
-                        {
-                            ENTITY_TYPE: 'user',
-                            ENTITY_ID: '1'
-                        },
-                        {
-                            ENTITY_TYPE: 'user',
-                            ENTITY_ID: '15'
-                        },
-                        {
-                            ENTITY_TYPE: 'user',
-                            ENTITY_ID: '23'
-                        }
-                    ],
-                    QUEUE_TYPE: 'strictly',
-                    QUEUE_TIME: 45,
-                    NO_ANSWER_TIME: 120,
-                    WELCOME_MESSAGE: 'Y',
-                    WELCOME_MESSAGE_TEXT: 'Здравствуйте! Ответим в течение пары минут',
-                    WORKTIME_ENABLE: 'Y',
-                    WORKTIME_FROM: '09:00',
-                    WORKTIME_TO: '21:00',
-                    WORKTIME_TIMEZONE: 'Europe/Kaliningrad'
-                }
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'imopenlines.config.update',
+        params: {
+          CONFIG_ID: 15,
+          PARAMS: {
+            LINE_NAME: 'Online Store Support Line (VIP)',
+            QUEUE: [
+              {
+                ENTITY_TYPE: 'user',
+                ENTITY_ID: '1',
+              },
+              {
+                ENTITY_TYPE: 'user',
+                ENTITY_ID: '15',
+              },
+              {
+                ENTITY_TYPE: 'user',
+                ENTITY_ID: '23',
+              },
+            ],
+            QUEUE_TYPE: 'strictly',
+            QUEUE_TIME: 45,
+            NO_ANSWER_TIME: 120,
+            WELCOME_MESSAGE: 'Y',
+            WELCOME_MESSAGE_TEXT: 'Hello! We will reply in a couple of minutes',
+            WORKTIME_ENABLE: 'Y',
+            WORKTIME_FROM: '09:00',
+            WORKTIME_TO: '21:00',
+            WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Open line updated:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch (error)
-    {
-        console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateOpenLine() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imopenlines.config.update',
+            params: {
+              CONFIG_ID: 15,
+              PARAMS: {
+                LINE_NAME: 'Online Store Support Line (VIP)',
+                QUEUE: [
+                  {
+                    ENTITY_TYPE: 'user',
+                    ENTITY_ID: '1',
+                  },
+                  {
+                    ENTITY_TYPE: 'user',
+                    ENTITY_ID: '15',
+                  },
+                  {
+                    ENTITY_TYPE: 'user',
+                    ENTITY_ID: '23',
+                  },
+                ],
+                QUEUE_TYPE: 'strictly',
+                QUEUE_TIME: 45,
+                NO_ANSWER_TIME: 120,
+                WELCOME_MESSAGE: 'Y',
+                WELCOME_MESSAGE_TEXT: 'Hello! We will reply in a couple of minutes',
+                WORKTIME_ENABLE: 'Y',
+                WORKTIME_FROM: '09:00',
+                WORKTIME_TO: '21:00',
+                WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Open line updated:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateOpenLine)
+    </script>
     ```
 
 - PHP
