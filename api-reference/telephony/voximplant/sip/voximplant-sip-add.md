@@ -84,29 +84,102 @@
     https://**put_your_bitrix24_address**/rest/voximplant.sip.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'voximplant.sip.add',
-            {
-                TYPE: 'cloud',
-                TITLE: 'SIP line 1',
-                SERVER: 'sip.provider.com',
-                LOGIN: 'sip_user',
-                PASSWORD: 'secret'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log('Data:', result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type SipAddResult = {
+      ID: string
+      TYPE: string
+      CONFIG_ID: string
+      REG_ID?: number
+      TITLE: string
+      SERVER: string
+      LOGIN: string
+      PASSWORD: string
+      AUTH_USER: string | null
+      OUTBOUND_PROXY: string | null
+      DETECT_LINE_NUMBER: string
+      LINE_DETECT_HEADER_ORDER: string
+      REGISTRATION_STATUS_CODE: number | null
+      REGISTRATION_ERROR_MESSAGE: string | null
+      INCOMING_SERVER?: string
+      INCOMING_LOGIN?: string
+      INCOMING_PASSWORD?: string
     }
-    catch (error)
-    {
-        console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<SipAddResult>({
+        method: 'voximplant.sip.add',
+        params: {
+          TYPE: 'cloud',
+          TITLE: 'SIP line 1',
+          SERVER: 'sip.provider.com',
+          LOGIN: 'sip_user',
+          PASSWORD: 'secret',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created SIP line:', result.ID, result.TYPE, result.TITLE)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addSipLine() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'voximplant.sip.add',
+            params: {
+              TYPE: 'cloud',
+              TITLE: 'SIP line 1',
+              SERVER: 'sip.provider.com',
+              LOGIN: 'sip_user',
+              PASSWORD: 'secret',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created SIP line:', result.ID, result.TYPE, result.TITLE)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addSipLine)
+    </script>
     ```
 
 - PHP
