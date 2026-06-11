@@ -11,3 +11,11 @@ items:
     include:
       path: node-member/b24-toc.yaml
       mode: link
+  - name: Коммуникации отделов и команд
+    include:
+      path: node-communication/b24-toc.yaml
+      mode: link
+  - name: Сотрудники
+    include:
+      path: employee/b24-toc.yaml
+      mode: link

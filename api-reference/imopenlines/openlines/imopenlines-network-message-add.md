@@ -164,67 +164,157 @@
       https://**put_your_bitrix24_address**/rest/imopenlines.network.message.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'imopenlines.network.message.add',
-            {
-                CODE: 'ab515f5d85a8b844d484f6ea75a2e494',
-                USER_ID: 2,
-                MESSAGE: 'Подготовили материалы по подключению открытых линий',
-                ATTACH: {
-                    ID: 1,
-                    COLOR_TOKEN: 'primary',
-                    BLOCKS: [
-                        {
-                            MESSAGE: 'Во вложении отправили чек-лист и схему подключения'
-                        },
-                        {
-                            FILE: [
-                                {
-                                    NAME: 'checklist-openlines.pdf',
-                                    LINK: 'https://cdn.example.com/docs/checklist-openlines.pdf',
-                                    SIZE: 428736
-                                }
-                            ]
-                        },
-                        {
-                            IMAGE: [
-                                {
-                                    NAME: 'Схема подключения',
-                                    LINK: 'https://cdn.example.com/images/openlines-setup.png',
-                                    PREVIEW: 'https://cdn.example.com/images/openlines-setup-preview.png',
-                                    WIDTH: 1280,
-                                    HEIGHT: 720
-                                }
-                            ]
-                        }
-                    ]
-                },
-                KEYBOARD: {
-                    BUTTONS: [
-                        {
-                            TEXT: 'Открыть инструкцию',
-                            LINK: 'https://help.example.com/openlines/setup',
-                            DISPLAY: 'LINE',
-                            BG_COLOR_TOKEN: 'primary'
-                        }
-                    ]
-                },
-                URL_PREVIEW: 'N'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'imopenlines.network.message.add',
+        params: {
+          CODE: 'ab515f5d85a8b844d484f6ea75a2e494',
+          USER_ID: 2,
+          MESSAGE: 'We have prepared materials on connecting open lines',
+          ATTACH: {
+            ID: 1,
+            COLOR_TOKEN: 'primary',
+            BLOCKS: [
+              {
+                MESSAGE: 'Attached are the checklist and connection diagram',
+              },
+              {
+                FILE: [
+                  {
+                    NAME: 'checklist-openlines.pdf',
+                    LINK: 'https://cdn.example.com/docs/checklist-openlines.pdf',
+                    SIZE: 428736,
+                  },
+                ],
+              },
+              {
+                IMAGE: [
+                  {
+                    NAME: 'Connection diagram',
+                    LINK: 'https://cdn.example.com/images/openlines-setup.png',
+                    PREVIEW: 'https://cdn.example.com/images/openlines-setup-preview.png',
+                    WIDTH: 1280,
+                    HEIGHT: 720,
+                  },
+                ],
+              },
+            ],
+          },
+          KEYBOARD: {
+            BUTTONS: [
+              {
+                TEXT: 'Open instructions',
+                LINK: 'https://help.example.com/openlines/setup',
+                DISPLAY: 'LINE',
+                BG_COLOR_TOKEN: 'primary',
+              },
+            ],
+          },
+          URL_PREVIEW: 'N',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Message sent successfully:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch (error)
-    {
-        console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function sendNetworkMessage() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imopenlines.network.message.add',
+            params: {
+              CODE: 'ab515f5d85a8b844d484f6ea75a2e494',
+              USER_ID: 2,
+              MESSAGE: 'We have prepared materials on connecting open lines',
+              ATTACH: {
+                ID: 1,
+                COLOR_TOKEN: 'primary',
+                BLOCKS: [
+                  {
+                    MESSAGE: 'Attached are the checklist and connection diagram',
+                  },
+                  {
+                    FILE: [
+                      {
+                        NAME: 'checklist-openlines.pdf',
+                        LINK: 'https://cdn.example.com/docs/checklist-openlines.pdf',
+                        SIZE: 428736,
+                      },
+                    ],
+                  },
+                  {
+                    IMAGE: [
+                      {
+                        NAME: 'Connection diagram',
+                        LINK: 'https://cdn.example.com/images/openlines-setup.png',
+                        PREVIEW: 'https://cdn.example.com/images/openlines-setup-preview.png',
+                        WIDTH: 1280,
+                        HEIGHT: 720,
+                      },
+                    ],
+                  },
+                ],
+              },
+              KEYBOARD: {
+                BUTTONS: [
+                  {
+                    TEXT: 'Open instructions',
+                    LINK: 'https://help.example.com/openlines/setup',
+                    DISPLAY: 'LINE',
+                    BG_COLOR_TOKEN: 'primary',
+                  },
+                ],
+              },
+              URL_PREVIEW: 'N',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Message sent successfully:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', sendNetworkMessage)
+    </script>
     ```
 
 - PHP

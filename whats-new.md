@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 10 июня, 2026
+
+- Добавили методы раздела [Коммуникации отделов и команд](./api-reference/rest-v3/humanresources/node-communication/index.md)
+- Добавили методы раздела [Сотрудники](./api-reference/rest-v3/humanresources/employee/index.md)
+- Обновили главную страницу раздела [Встраивание приложений в дела CRM](./api-reference/crm/timeline/activities/app-embedding/index.md)
+
 ### 05 июня, 2026
 
 - Добавили методы раздела [Записи о рабочем времени](./api-reference/rest-v3/timeman/index.md)

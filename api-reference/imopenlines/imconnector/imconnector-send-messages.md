@@ -187,43 +187,160 @@
       https://**put_your_bitrix24_address**/rest/imconnector.send.messages
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    const payload = {
-      CONNECTOR: 'myconnector',
-      LINE: 107,
-      MESSAGES: [
-        {
-          user: {
-            id: 'ext-user-42',
-            last_name: 'Иванов',
-            name: 'Иван',
-            picture: { url: 'https://example.ru/u42.png' },
-            url: 'https://example.ru/users/42',
-            gender: 'male',
-            email: 'ivan@example.ru',
-            phone: '+79990000000',
-            skip_phone_validate: 'Y',
-          },
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type SendMessagesResult = {
+      SUCCESS: boolean
+      DATA: {
+        RESULT: Array<{
+          user: string
           message: {
-            id: 'ext-msg-1001',
-            date: 1773265993,
-            text: 'Добрый день',
-            files: [{ url: 'https://example.ru/files/spec.pdf', name: 'spec.pdf' }],
-            disable_crm: 'Y',
-          },
+            id: string
+            date: object
+            text: string
+            files: unknown[]
+          }
           chat: {
-            id: 'channel-123',
-            name: 'Канал поддержки',
-            url: 'https://example.ru/chats/123',
-          },
-        },
-      ],
-    };
+            id: string
+            name: string
+            description: string
+          }
+          extra: {
+            skip_phone_validate?: string
+            disable_tracker?: string
+          }
+          SUCCESS: boolean
+          ERRORS?: string[]
+          session?: {
+            ID: string
+            CHAT_ID: string
+          }
+        }>
+      }
+    }
 
-    const response = await $b24.callMethod('imconnector.send.messages', payload);
-    console.log(response.getData());
+    try {
+      const response = await $b24.actions.v2.call.make<SendMessagesResult>({
+        method: 'imconnector.send.messages',
+        params: {
+          CONNECTOR: 'myconnector',
+          LINE: 107,
+          MESSAGES: [
+            {
+              user: {
+                id: 'ext-user-42',
+                last_name: 'Smith',
+                name: 'John',
+                picture: { url: 'https://example.com/u42.png' },
+                url: 'https://example.com/users/42',
+                gender: 'male',
+                email: 'john@example.com',
+                phone: '+79990000000',
+                skip_phone_validate: 'Y',
+              },
+              message: {
+                id: 'ext-msg-1001',
+                date: 1773265993,
+                text: 'Hello',
+                files: [{ url: 'https://example.com/files/spec.pdf', name: 'spec.pdf' }],
+                disable_crm: 'Y',
+              },
+              chat: {
+                id: 'channel-123',
+                name: 'Support channel',
+                url: 'https://example.com/chats/123',
+              },
+            },
+          ],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Success:', result.SUCCESS, 'Sessions:', result.DATA.RESULT.map(r => r.session?.CHAT_ID))
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function sendMessages() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imconnector.send.messages',
+            params: {
+              CONNECTOR: 'myconnector',
+              LINE: 107,
+              MESSAGES: [
+                {
+                  user: {
+                    id: 'ext-user-42',
+                    last_name: 'Smith',
+                    name: 'John',
+                    picture: { url: 'https://example.com/u42.png' },
+                    url: 'https://example.com/users/42',
+                    gender: 'male',
+                    email: 'john@example.com',
+                    phone: '+79990000000',
+                    skip_phone_validate: 'Y',
+                  },
+                  message: {
+                    id: 'ext-msg-1001',
+                    date: 1773265993,
+                    text: 'Hello',
+                    files: [{ url: 'https://example.com/files/spec.pdf', name: 'spec.pdf' }],
+                    disable_crm: 'Y',
+                  },
+                  chat: {
+                    id: 'channel-123',
+                    name: 'Support channel',
+                    url: 'https://example.com/chats/123',
+                  },
+                },
+              ],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Success:', result.SUCCESS, 'Sessions:', result.DATA.RESULT.map(r => r.session?.CHAT_ID))
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', sendMessages)
+    </script>
     ```
 
 - PHP
