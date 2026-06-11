@@ -583,6 +583,67 @@
     echo '</PRE>';
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.quote.userfield.add(
+            fields={
+                "LABEL": "Поле Привет, мир!",
+                "USER_TYPE_ID": "string",
+                "FIELD_NAME": "HELLO_WORLD",
+                "MULTIPLE": "Y",
+                "MANDATORY": "Y",
+                "SHOW_FILTER": "Y",
+                "SETTINGS": {
+                    "DEFAULT_VALUE": "Привет, мир! Значение по умолчанию",
+                    "ROWS": 3,
+                },
+                "SORT": 1000,
+                "EDIT_IN_LIST": "Y",
+                "LIST_FILTER_LABEL": "Привет, мир! Фильтр",
+                "LIST_COLUMN_LABEL": {
+                    "en": "Hello, World! Column",
+                    "ru": "Привет, мир! Колонка",
+                    "de": "Hallo, Welt! Spalte",
+                },
+                "EDIT_FORM_LABEL": {
+                    "en": "Hello, World! Edit",
+                    "ru": "Привет, мир! Редактировать",
+                    "de": "Hallo, Welt! Bearbeiten",
+                },
+                "ERROR_MESSAGE": {
+                    "en": "Hello, World! Error",
+                    "ru": "Привет, мир! Ошибка",
+                    "de": "Hallo, Welt! Fehler",
+                },
+                "HELP_MESSAGE": {
+                    "en": "Hello, World! Help",
+                    "ru": "Привет, мир! Помощь",
+                    "de": "Hallo, Welt! Hilfe",
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 {% endlist %}
 
 ### Пример создания пользовательского поля типа Список
@@ -743,6 +804,68 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.quote.userfield.add(
+            fields={
+                "LABEL": "Пользовательское поле (список)",
+                "USER_TYPE_ID": "enumeration",
+                "FIELD_NAME": "ENUMERATION_EXAMPLE",
+                "MULTIPLE": "N",
+                "MANDATORY": "N",
+                "SHOW_FILTER": "Y",
+                "LIST": [
+                    {
+                        "VALUE": "Элемент списка #1",
+                        "DEF": "Y",
+                        "XML_ID": "XML_ID_1",
+                        "SORT": 100,
+                    },
+                    {
+                        "VALUE": "Элемент списка #2",
+                        "XML_ID": "XML_ID_2",
+                        "SORT": 200,
+                    },
+                    {
+                        "VALUE": "Элемент списка #3",
+                        "XML_ID": "XML_ID_3",
+                        "SORT": 300,
+                    },
+                    {
+                        "VALUE": "Элемент списка #4",
+                        "XML_ID": "XML_ID_4",
+                        "SORT": 400,
+                    },
+                ],
+                "SETTINGS": {
+                    "DISPLAY": "UI",
+                    "LIST_HEIGHT": 2,
+                },
+                "SORT": 2000,
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 {% endlist %}

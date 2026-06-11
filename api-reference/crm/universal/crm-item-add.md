@@ -1457,6 +1457,65 @@
        }
         ```
 
+    - Python
+
+        Пример
+
+        ```python
+        from b24pysdk.client import BaseClient
+        from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+        client: BaseClient
+
+        try:
+            bitrix_response = client.crm.item.add(
+                entity_type_id=2,
+                fields={
+                    "title": "Новая сделка (специально для примера REST методов)",
+                    "typeId": "SERVICE",
+                    "categoryId": 9,
+                    "stageId": "C9:UC_KN8KFI",
+                    "isReccurring": "Y",
+                    "probability": 50,
+                    "currencyId": "RUB",
+                    "isManualOpportunity": "Y",
+                    "opportunity": 999.99,
+                    "taxValue": 99.9,
+                    "companyId": 5,
+                    "contactId": 4,
+                    "contactIds": [4, 5],
+                    "quoteId": 7,
+                    "begindate": "formatDate(monthAgo)",
+                    "closedate": "formatDate(twelveDaysInAdvance)",
+                    "opened": "N",
+                    "comments": "commentsExample",
+                    "assignedById": 6,
+                    "sourceId": "WEB",
+                    "sourceDescription": "Тут должно быть дополнительное описание об источнике",
+                    "leadId": 102,
+                    "additionalInfo": "Тут должна быть дополнительная информация",
+                    "observers": [2, 3],
+                    "utmSource": "google",
+                    "utmMedium": "CPC",
+                    "ufCrm_1721244707107": 1111.1,
+                    "parentId1220": 2,
+                },
+            ).response
+            result = bitrix_response.result
+            print(result)
+        except BitrixAPIError as error:
+            print(
+                "Ошибка Bitrix API",
+                f"error: {error.error}",
+                f"error_description: {error.error_description}",
+                sep="\n",
+            )
+        except BitrixSDKException as error:
+            print(f"Ошибка Bitrix SDK: {error.message}")
+        except Exception as error:
+            print(f"Непредвиденная ошибка: {error}")
+        ```
+
     {% endlist %}
 
 

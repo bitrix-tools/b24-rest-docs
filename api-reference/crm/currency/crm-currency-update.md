@@ -240,6 +240,36 @@ fields: {
         echo '</PRE>';
         ```
 
+    - Python
+
+        ```python
+        from b24pysdk.client import BaseClient
+        from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+        client: BaseClient
+
+        try:
+            bitrix_response = client.crm.currency.update(
+                bitrix_id="CNY",
+                fields={
+                    "AMOUNT": 15.3449,
+                },
+            ).response
+            result = bitrix_response.result
+            print(result)
+        except BitrixAPIError as error:
+            print(
+                "Ошибка Bitrix API",
+                f"error: {error.error}",
+                f"error_description: {error.error_description}",
+                sep="\n",
+            )
+        except BitrixSDKException as error:
+            print(f"Ошибка Bitrix SDK: {error.message}")
+        except Exception as error:
+            print(f"Непредвиденная ошибка: {error}")
+        ```
+
     {% endlist %}
 
 2. Изменение локализаций валюты (на примере доллара США)
@@ -416,6 +446,53 @@ fields: {
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Python
+
+        ```python
+        from b24pysdk.client import BaseClient
+        from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+        client: BaseClient
+
+        try:
+            bitrix_response = client.crm.currency.update(
+                bitrix_id="USD",
+                fields={
+                    "LANG": {
+                        "en": {
+                            "DECIMALS": 2,
+                            "DEC_POINT": ".",
+                            "FORMAT_STRING": "$#",
+                            "FULL_NAME": "доллар США",
+                            "HIDE_ZERO": "Y",
+                            "THOUSANDS_VARIANT": "S",
+                        },
+                        "de": {
+                            "DECIMALS": 2,
+                            "DEC_POINT": ".",
+                            "FORMAT_STRING": "# $",
+                            "FULL_NAME": "US-Dollar",
+                            "HIDE_ZERO": "Y",
+                            "THOUSANDS_VARIANT": "C",
+                        },
+                    },
+                },
+            ).response
+            result = bitrix_response.result
+            print(result)
+        except BitrixAPIError as error:
+            print(
+                "Ошибка Bitrix API",
+                f"error: {error.error}",
+                f"error_description: {error.error_description}",
+                sep="\n",
+            )
+        except BitrixSDKException as error:
+            print(f"Ошибка Bitrix SDK: {error.message}")
+        except Exception as error:
+            print(f"Непредвиденная ошибка: {error}")
         ```
 
     {% endlist %}
