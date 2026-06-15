@@ -372,58 +372,153 @@
         https://**put_your_bitrix24_address**/rest/crm.item.batchImport
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        const greenPixelInBase64 = "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg==";
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        BX24.callMethod(
-            'crm.item.batchImport', 
-            {
-                entityTypeId: 1302,
-                data: [
+        declare const $b24: B24Frame
+
+        // Shape of the payload returned in result (match the "response handling" section of the page)
+        type BatchImportResult = {
+          items: Array<
+            | { item: { id: number } }
+            | { error: string; error_description: string }
+          >
+        }
+
+        const greenPixelInBase64 = "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="
+
+        try {
+          const response = await $b24.actions.v2.call.make<BatchImportResult>({
+            method: 'crm.item.batchImport',
+            params: {
+              entityTypeId: 1302,
+              data: [
+                {
+                  ufCrm44_1721812760630: "String for custom field of type String",
+                  ufCrm44_1721812814433: 81,
+                  ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                  ufCrm44_1721812885588: [
+                    "example.com",
+                    "second-example.com",
+                  ],
+                  ufCrm44_1721812898903: [
+                    "green_pixel.png",
+                    greenPixelInBase64,
+                  ],
+                  ufCrm44_1721812915476: "300|RUB",
+                  ufCrm44_1721812935209: "Y",
+                  ufCrm44_1721812948498: 9999.9,
+                },
+                {
+                  ufCrm44_1721812760630: "String for custom field of type String",
+                  ufCrm44_1721812814433: 45,
+                  ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                  ufCrm44_1721812885588: [
+                    "example.com",
+                    "second-example.com",
+                  ],
+                  ufCrm44_1721812898903: [
+                    "green_pixel2.png",
+                    greenPixelInBase64,
+                  ],
+                  ufCrm44_1721812915476: "600|RUB",
+                  ufCrm44_1721812935209: "N",
+                  ufCrm44_1721812948498: 9999.9,
+                },
+              ],
+            },
+            requestId: Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info('Imported items:', result.items)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
+
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function batchImportItems() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const greenPixelInBase64 = "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.item.batchImport',
+                params: {
+                  entityTypeId: 1302,
+                  data: [
                     {
-                        ufCrm44_1721812760630: "Строка для пользовательского поля типа Строка",
-                        ufCrm44_1721812814433: 81,
-                        ufCrm44_1721812853419: (new Date()).toISOString().slice(0, 10),
-                        ufCrm44_1721812885588: [
-                            "example.com",
-                            "second-example.com",
-                        ],
-                        ufCrm44_1721812898903: [
-                            "green_pixel.png",
-                            greenpixelBase64,
-                        ],
-                        ufCrm44_1721812915476: "300|RUB",
-                        ufCrm44_1721812935209: "Y",
-                        ufCrm44_1721812948498: 9999.9,
+                      ufCrm44_1721812760630: "String for custom field of type String",
+                      ufCrm44_1721812814433: 81,
+                      ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                      ufCrm44_1721812885588: [
+                        "example.com",
+                        "second-example.com",
+                      ],
+                      ufCrm44_1721812898903: [
+                        "green_pixel.png",
+                        greenPixelInBase64,
+                      ],
+                      ufCrm44_1721812915476: "300|RUB",
+                      ufCrm44_1721812935209: "Y",
+                      ufCrm44_1721812948498: 9999.9,
                     },
                     {
-                        ufCrm44_1721812760630: "Строка для пользовательского поля типа Строка",
-                        ufCrm44_1721812814433: 45,
-                        ufCrm44_1721812853419: (new Date()).toISOString().slice(0, 10),
-                        ufCrm44_1721812885588: [
-                            "example.com",
-                            "second-example.com",
-                        ],
-                        ufCrm44_1721812898903: [
-                            "green_pixel2.png",
-                            greenpixelBase64,
-                        ],
-                        ufCrm44_1721812915476: "600|RUB",
-                        ufCrm44_1721812935209: "N",
-                        ufCrm44_1721812948498: 9999.9,
-                    }
-                ],
-            },
-            (result) => 
-            {
-                result.error() 
-                    ? console.error(result.error()) 
-                    : console.info(result.data())
-                ;
+                      ufCrm44_1721812760630: "String for custom field of type String",
+                      ufCrm44_1721812814433: 45,
+                      ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                      ufCrm44_1721812885588: [
+                        "example.com",
+                        "second-example.com",
+                      ],
+                      ufCrm44_1721812898903: [
+                        "green_pixel2.png",
+                        greenPixelInBase64,
+                      ],
+                      ufCrm44_1721812915476: "600|RUB",
+                      ufCrm44_1721812935209: "N",
+                      ufCrm44_1721812948498: 9999.9,
+                    },
+                  ],
+                },
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info('Imported items:', result.items)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
             }
-        );
+          }
+
+          document.addEventListener('DOMContentLoaded', batchImportItems)
+        </script>
         ```
 
     - PHP
