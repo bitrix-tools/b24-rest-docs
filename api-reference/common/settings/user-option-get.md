@@ -80,39 +80,114 @@
     https://**put_your_bitrix24_address**/rest/user.option.get
     ```
 
-- JS
+- JS (TS)
 
-    Пример №1
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    BX24.callMethod(
-        'user.option.get',
-        {
-            "option":"data"
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type UserOptionResult = Record<string, string>
+
+    // Example 1: get a specific option by key
+    try {
+      const response = await $b24.actions.v2.call.make<UserOptionResult>({
+        method: 'user.option.get',
+        params: {
+          option: 'data',
         },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.log(result.data());
-        }
-    );
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Option value:', result['data'])
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+
+    // Example 2: get all options (no parameters)
+    try {
+      const response = await $b24.actions.v2.call.make<UserOptionResult>({
+        method: 'user.option.get',
+        params: {},
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('All options:', Object.keys(result), result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
     ```
-    
-    Пример №2
-    
-    ```js
-    BX24.callMethod(
-        'user.option.get', {},
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.log(result.data());
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getUserOptions() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // Example 1: get a specific option by key
+          const response1 = await $b24.actions.v2.call.make({
+            method: 'user.option.get',
+            params: {
+              option: 'data',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response1.isSuccess) {
+            console.error(response1.getErrorMessages().join('; '))
+            return
+          }
+
+          const result1 = response1.getData().result
+          console.info('Option value:', result1['data'])
+
+          // Example 2: get all options (no parameters)
+          const response2 = await $b24.actions.v2.call.make({
+            method: 'user.option.get',
+            params: {},
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response2.isSuccess) {
+            console.error(response2.getErrorMessages().join('; '))
+            return
+          }
+
+          const result2 = response2.getData().result
+          console.info('All options:', Object.keys(result2), result2)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
         }
-    );
+      }
+
+      document.addEventListener('DOMContentLoaded', getUserOptions)
+    </script>
     ```
 
 - PHP
