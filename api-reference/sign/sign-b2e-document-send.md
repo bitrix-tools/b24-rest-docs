@@ -170,45 +170,136 @@
     https://**put_your_bitrix24_address**/rest/sign.b2e.document.send
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'sign.b2e.document.send',
-    		{
-    			fields: {
-    				company: { crmId: 12 },
-    				members: [
-    					{ userId: 25, role: 'signer' },
-    					{ userId: 42, role: 'assignee' }
-    				],
-    				responsible: { userId: 7 },
-    				companyProviderUid: 'd4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b',
-    				files: [
-    					{
-    						fileName: 'contract.pdf',
-    						fileType: 'application/pdf',
-    						fileContent: 'JVBERi0xLjQKJ...'
-    					}
-    				],
-    				regionDocumentType: '12.999',
-    				externalSettings: {
-    					externalId: 'EXT-123',
-    					externalDateCreate: '2025-02-18T09:19:34+03:00'
-    				}
-    			}
-    		}
-    	);
-    
-    	const result = response.getData().result;
-    	console.dir(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type SendDocumentResult = {
+      uid: string
+      state: {
+        code: string
+        name: string
+      }
+      members: {
+        uid: string
+        role: string
+        party: number
+        user: {
+          employeeCode: string
+          employeeId: number
+          userId: number
+        }
+        state: {
+          code: string
+          name: string
+        }
+      }[]
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<SendDocumentResult>({
+        method: 'sign.b2e.document.send',
+        params: {
+          fields: {
+            company: { crmId: 12 },
+            members: [
+              { userId: 25, role: 'signer' },
+              { userId: 42, role: 'assignee' },
+            ],
+            responsible: { userId: 7 },
+            companyProviderUid: 'd4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b',
+            files: [
+              {
+                fileName: 'contract.pdf',
+                fileType: 'application/pdf',
+                fileContent: 'JVBERi0xLjQKJ...',
+              },
+            ],
+            regionDocumentType: '12.999',
+            externalSettings: {
+              externalId: 'EXT-123',
+              externalDateCreate: '2025-02-18T09:19:34+03:00',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Document uid:', result.uid, 'state:', result.state.code, 'members:', result.members.length)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function sendDocument() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'sign.b2e.document.send',
+            params: {
+              fields: {
+                company: { crmId: 12 },
+                members: [
+                  { userId: 25, role: 'signer' },
+                  { userId: 42, role: 'assignee' },
+                ],
+                responsible: { userId: 7 },
+                companyProviderUid: 'd4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b',
+                files: [
+                  {
+                    fileName: 'contract.pdf',
+                    fileType: 'application/pdf',
+                    fileContent: 'JVBERi0xLjQKJ...',
+                  },
+                ],
+                regionDocumentType: '12.999',
+                externalSettings: {
+                  externalId: 'EXT-123',
+                  externalDateCreate: '2025-02-18T09:19:34+03:00',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Document uid:', result.uid, 'state:', result.state.code, 'members:', result.members.length)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', sendDocument)
+    </script>
     ```
 
 - PHP
