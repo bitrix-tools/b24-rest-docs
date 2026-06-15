@@ -54,26 +54,91 @@
     https://**put_your_bitrix24_address**/rest/timeman.pause
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'timeman.pause',
-    		{
-    			'USER_ID' : 503
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type TimemanPauseResult = {
+      STATUS: string
+      TIME_START: ISODate
+      TIME_FINISH: ISODate | null
+      DURATION: string
+      TIME_LEAKS: string
+      ACTIVE: boolean
+      IP_OPEN: string
+      IP_CLOSE: string
+      LAT_OPEN: number
+      LON_OPEN: number
+      LAT_CLOSE: number
+      LON_CLOSE: number
+      TZ_OFFSET: number
+      TIME_FINISH_DEFAULT?: ISODate
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<TimemanPauseResult>({
+        method: 'timeman.pause',
+        params: {
+          USER_ID: 503,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Status:', result.STATUS, 'Start:', result.TIME_START)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function pauseWorkday() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'timeman.pause',
+            params: {
+              USER_ID: 503,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Status:', result.STATUS, 'Start:', result.TIME_START)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', pauseWorkday)
+    </script>
     ```
 
 - PHP

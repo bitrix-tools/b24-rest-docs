@@ -52,28 +52,141 @@
     https://**put_your_bitrix24_address**/rest/timeman.schedule.get
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"timeman.schedule.get",
-    		{
-    			id: 1
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.dir(result);
-    	if(response.more())
-    		response.next();
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ScheduleGetResult = {
+      ID: number
+      NAME: string
+      SCHEDULE_TYPE: string
+      REPORT_PERIOD: string
+      REPORT_PERIOD_OPTIONS: {
+        START_WEEK_DAY: number
+      }
+      CALENDAR_ID: number
+      ALLOWED_DEVICES: {
+        browser: boolean
+      }
+      DELETED: string
+      IS_FOR_ALL_USERS: boolean
+      WORKTIME_RESTRICTIONS: string[]
+      CONTROLLED_ACTIONS: number
+      UPDATED_BY: number
+      DELETED_BY: number
+      DELETED_AT: string
+      CREATED_BY: number
+      CREATED_AT: ISODate
+      SHIFTS: {
+        ID: number
+        NAME: string
+        BREAK_DURATION: number
+        WORK_TIME_START: number
+        WORK_TIME_END: number
+        WORK_DAYS: string
+        SCHEDULE_ID: number
+        DELETED: boolean
+      }[]
+      CALENDAR: {
+        ID: number
+        NAME: string
+        PARENT_CALENDAR_ID: number
+        SYSTEM_CODE: string
+        EXCLUSIONS: string[]
+      }
+      SCHEDULE_VIOLATION_RULES: {
+        ID: number
+        SCHEDULE_ID: number
+        ENTITY_CODE: string
+        MAX_EXACT_START: number
+        MIN_EXACT_END: number
+        MAX_OFFSET_START: number
+        MIN_OFFSET_END: number
+        RELATIVE_START_FROM: number
+        RELATIVE_START_TO: number
+        RELATIVE_END_FROM: number
+        RELATIVE_END_TO: number
+        MIN_DAY_DURATION: number
+        MAX_ALLOWED_TO_EDIT_WORK_TIME: number
+        MAX_WORK_TIME_LACK_FOR_PERIOD: number
+        PERIOD_TIME_LACK_AGENT_ID: number
+        MAX_SHIFT_START_DELAY: number
+        MISSED_SHIFT_START: number
+        USERS_TO_NOTIFY: {
+          FIXED_START_END: string[]
+          FIXED_PER_RECORD: string[]
+          FIXED_EDIT_WORKTIME: string[]
+          FIXED_PERIODIC: string[]
+          SHIFT_DELAY: string[]
+          SHIFT_MISSED_START: string[]
+        }
+      }
     }
-    catch(error)
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<ScheduleGetResult>({
+        method: 'timeman.schedule.get',
+        params: {
+          id: 1,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Schedule:', result.ID, result.NAME, result.SCHEDULE_TYPE)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getSchedule() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'timeman.schedule.get',
+            params: {
+              id: 1,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Schedule:', result.ID, result.NAME, result.SCHEDULE_TYPE)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getSchedule)
+    </script>
     ```
 
 - PHP
