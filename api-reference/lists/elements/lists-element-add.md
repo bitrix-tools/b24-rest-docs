@@ -111,31 +111,89 @@
     https://**put_your_bitrix24_address**/rest/lists.element.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
     try {
-        const response = await $b24.callMethod(
-            'lists.element.add',
-            {
-                IBLOCK_TYPE_ID: 'lists',
-                IBLOCK_ID: 47,
-                ELEMENT_CODE: 'test_element',
-                LIST_ELEMENT_URL: '#list_id#/element/#section_id#/#element_id#/',
-                FIELDS: {
-                    NAME: 'Тестовый элемент',
-                    PROPERTY_951: ["1269", "1271"],
-                    PROPERTY_1003: "2024-12-31 23:59:59"
-                }
-            }
-        );
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'lists.element.add',
+        params: {
+          IBLOCK_TYPE_ID: 'lists',
+          IBLOCK_ID: 47,
+          ELEMENT_CODE: 'test_element',
+          LIST_ELEMENT_URL: '#list_id#/element/#section_id#/#element_id#/',
+          FIELDS: {
+            NAME: 'Test element',
+            PROPERTY_951: ['1269', '1271'],
+            PROPERTY_1003: '2024-12-31 23:59:59',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
 
-        const result = response.getData().result;
-        console.log('Created element with ID:', result);
-        processResult(result);
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created element ID:', result)
+      }
     } catch (error) {
-        console.error('Error:', error);
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addListElement() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'lists.element.add',
+            params: {
+              IBLOCK_TYPE_ID: 'lists',
+              IBLOCK_ID: 47,
+              ELEMENT_CODE: 'test_element',
+              LIST_ELEMENT_URL: '#list_id#/element/#section_id#/#element_id#/',
+              FIELDS: {
+                NAME: 'Test element',
+                PROPERTY_951: ['1269', '1271'],
+                PROPERTY_1003: '2024-12-31 23:59:59',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created element ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addListElement)
+    </script>
     ```
 
 - PHP
