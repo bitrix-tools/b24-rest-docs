@@ -140,59 +140,95 @@
     https://**put_your_bitrix24_address**/rest/crm.requisite.preset.list
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
+    declare const $b24: B24Frame
+
+    // Shape of each PresetItem returned in result[]
+    type PresetItem = {
+      ID: string
+      NAME: string
+    }
+
     try {
-      const response = await $b24.callListMethod(
-        'crm.requisite.preset.list',
-        {
-          order: { "ID": "ASC" },
-          filter: { "COUNTRY_ID": "1"},
-          select: [ "ID", "NAME"]
+      // crm.requisite.preset.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<PresetItem[]>({
+        method: 'crm.requisite.preset.list',
+        params: {
+          order: { ID: 'ASC' },
+          filter: { COUNTRY_ID: '1' },
+          select: ['ID', 'NAME'],
+          start: 0,
         },
-        (progress) => { 
-          if(progress.error())
-            console.error(progress.error());
-          else
-          {
-            console.dir(progress.data());
-            if(progress.more())
-              progress.next();
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Preset count on this page:', result.length, result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchRequisitePresets() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // crm.requisite.preset.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.requisite.preset.list',
+            params: {
+              order: { ID: 'ASC' },
+              filter: { COUNTRY_ID: '1' },
+              select: ['ID', 'NAME'],
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
           }
-        }
-      )
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    try {
-      const generator = $b24.fetchListMethod('crm.requisite.preset.list', { order: { "ID": "ASC" }, filter: { "COUNTRY_ID": "1"}, select: [ "ID", "NAME"] }, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { 
-          console.dir(entity);
+
+          const result = response.getData().result
+          console.info('Preset count on this page:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
         }
       }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('crm.requisite.preset.list', { order: { "ID": "ASC" }, filter: { "COUNTRY_ID": "1"}, select: [ "ID", "NAME"] }, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { 
-        console.dir(entity);
-      }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
+
+      document.addEventListener('DOMContentLoaded', fetchRequisitePresets)
+    </script>
     ```
 
 - PHP
