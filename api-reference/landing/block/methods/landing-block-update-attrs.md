@@ -141,32 +141,87 @@
       "https://**put.your-domain-here**/rest/landing.block.updateattrs.json"
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'landing.block.updateattrs',
-    		{
-    			lid: 313,
-    			block: 6134,
-    			data: {
-    				'.bitrix24forms': {
-    					'data-b24form': '#crmFormInline45',
-    					'data-b24form-use-style': 'N'
-    				}
-    			}
-    		}
-    	);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'landing.block.updateattrs',
+        params: {
+          lid: 313,
+          block: 6134,
+          data: {
+            '.bitrix24forms': {
+              'data-b24form': '#crmFormInline45',
+              'data-b24form-use-style': 'N',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Update attributes result:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch (error)
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateBlockAttrs() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'landing.block.updateattrs',
+            params: {
+              lid: 313,
+              block: 6134,
+              data: {
+                '.bitrix24forms': {
+                  'data-b24form': '#crmFormInline45',
+                  'data-b24form-use-style': 'N',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Update attributes result:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateBlockAttrs)
+    </script>
     ```
 
 - PHP

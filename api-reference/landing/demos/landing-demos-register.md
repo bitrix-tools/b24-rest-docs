@@ -299,68 +299,157 @@
       "https://**put.your-domain-here**/rest/landing.demos.register.json"
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-    	const data = {
-    		charset: 'UTF-8',
-    		code: 'ftmlt',
-    		site_code: '/ftmlt/',
-    		name: 'Бизнес',
-    		description: null,
-    		type: 'page',
-    		fields: {
-    			TITLE: 'Бизнес',
-    			LANDING_ID_INDEX: '0',
-    			LANDING_ID_404: '0',
-    			ADDITIONAL_FIELDS: {}
-    		},
-    		folders: [],
-    		items: {
-    			ftmlt: {
-    				old_id: '16',
-    				code: 'ftmlt',
-    				name: 'Бизнес',
-    				description: null,
-    				preview: '',
-    				preview2x: '',
-    				preview3x: '',
-    				preview_url: '',
-    				show_in_list: 'Y',
-    				type: 'page',
-    				version: 3,
-    				fields: {
-    					TITLE: 'Бизнес'
-    				},
-    				layout: [],
-    				items: {}
-    			}
-    		},
-    		layout: [],
-    		preview: '',
-    		preview2x: '',
-    		preview3x: '',
-    		preview_url: '',
-    		show_in_list: 'Y',
-    		syspages: [],
-    		version: 3
-    	};
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    	const response = await $b24.callMethod(
-    		'landing.demos.register',
-    		{
-    			data
-    		}
-    	);
+    declare const $b24: B24Frame
 
-    	console.info(response.getData().result);
+    try {
+      const response = await $b24.actions.v2.call.make<number[]>({
+        method: 'landing.demos.register',
+        params: {
+          data: {
+            charset: 'UTF-8',
+            code: 'ftmlt',
+            site_code: '/ftmlt/',
+            name: 'Business',
+            description: null,
+            type: 'page',
+            fields: {
+              TITLE: 'Business',
+              LANDING_ID_INDEX: '0',
+              LANDING_ID_404: '0',
+              ADDITIONAL_FIELDS: {},
+            },
+            folders: [],
+            items: {
+              ftmlt: {
+                old_id: '16',
+                code: 'ftmlt',
+                name: 'Business',
+                description: null,
+                preview: '',
+                preview2x: '',
+                preview3x: '',
+                preview_url: '',
+                show_in_list: 'Y',
+                type: 'page',
+                version: 3,
+                fields: {
+                  TITLE: 'Business',
+                },
+                layout: [],
+                items: {},
+              },
+            },
+            layout: [],
+            preview: '',
+            preview2x: '',
+            preview3x: '',
+            preview_url: '',
+            show_in_list: 'Y',
+            syspages: [],
+            version: 3,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Registered template IDs:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch (error)
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function registerDemo() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'landing.demos.register',
+            params: {
+              data: {
+                charset: 'UTF-8',
+                code: 'ftmlt',
+                site_code: '/ftmlt/',
+                name: 'Business',
+                description: null,
+                type: 'page',
+                fields: {
+                  TITLE: 'Business',
+                  LANDING_ID_INDEX: '0',
+                  LANDING_ID_404: '0',
+                  ADDITIONAL_FIELDS: {},
+                },
+                folders: [],
+                items: {
+                  ftmlt: {
+                    old_id: '16',
+                    code: 'ftmlt',
+                    name: 'Business',
+                    description: null,
+                    preview: '',
+                    preview2x: '',
+                    preview3x: '',
+                    preview_url: '',
+                    show_in_list: 'Y',
+                    type: 'page',
+                    version: 3,
+                    fields: {
+                      TITLE: 'Business',
+                    },
+                    layout: [],
+                    items: {},
+                  },
+                },
+                layout: [],
+                preview: '',
+                preview2x: '',
+                preview3x: '',
+                preview_url: '',
+                show_in_list: 'Y',
+                syspages: [],
+                version: 3,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Registered template IDs:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', registerDemo)
+    </script>
     ```
 
 - PHP

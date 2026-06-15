@@ -108,30 +108,103 @@
       "https://**put.your-domain-here**/rest/landing.block.getcontent.json"
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'landing.block.getcontent',
-    		{
-    			lid: 4858,
-    			block: 39556,
-    			editMode: true,
-    			params: {
-    				wrapper_show: false
-    			}
-    		}
-    	);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type BlockContentResult = {
+      id: number
+      sections: string
+      active: boolean
+      access: string
+      anchor: string
+      php: boolean
+      designed: boolean
+      repoId: number | null
+      content: string
+      content_ext: string
+      css: string[]
+      js: string[]
+      assetStrings: string[]
+      lang: string[] | Record<string, string>
+      manifest: Record<string, unknown>
+      dynamicParams: unknown[]
     }
-    catch (error)
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<BlockContentResult>({
+        method: 'landing.block.getcontent',
+        params: {
+          lid: 4858,
+          block: 39556,
+          editMode: true,
+          params: {
+            wrapper_show: false,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.id, result.content, result.active)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getBlockContent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'landing.block.getcontent',
+            params: {
+              lid: 4858,
+              block: 39556,
+              editMode: true,
+              params: {
+                wrapper_show: false,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.id, result.content, result.active)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getBlockContent)
+    </script>
     ```
 
 - PHP

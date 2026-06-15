@@ -141,43 +141,129 @@
       "https://**put.your-domain-here**/rest/landing.template.getlist.json"
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'landing.template.getlist',
-            {
-                params: {
-                    select: [
-                        'ID',
-                        'TITLE',
-                        'XML_ID',
-                        'SORT',
-                        'ACTIVE',
-                        'DATE_MODIFY'
-                    ],
-                    filter: {
-                        '=ACTIVE': 'Y'
-                    },
-                    order: {
-                        SORT: 'ASC',
-                        ID: 'ASC'
-                    },
-                    limit: 2,
-                    offset: 0
-                }
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.info(result);
+    declare const $b24: B24Frame
+
+    // Shape of each template item returned in result[]
+    type TemplateItem = {
+      ID: string
+      TITLE: string
+      XML_ID: string
+      SORT: string
+      ACTIVE: string
+      DATE_MODIFY: string
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      // landing.template.getlist returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<TemplateItem[]>({
+        method: 'landing.template.getlist',
+        params: {
+          params: {
+            select: [
+              'ID',
+              'TITLE',
+              'XML_ID',
+              'SORT',
+              'ACTIVE',
+              'DATE_MODIFY',
+            ],
+            filter: {
+              '=ACTIVE': 'Y',
+            },
+            order: {
+              SORT: 'ASC',
+              ID: 'ASC',
+            },
+            limit: 2,
+            offset: 0,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Templates count:', result.length, result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getTemplateList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // landing.template.getlist returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'landing.template.getlist',
+            params: {
+              params: {
+                select: [
+                  'ID',
+                  'TITLE',
+                  'XML_ID',
+                  'SORT',
+                  'ACTIVE',
+                  'DATE_MODIFY',
+                ],
+                filter: {
+                  '=ACTIVE': 'Y',
+                },
+                order: {
+                  SORT: 'ASC',
+                  ID: 'ASC',
+                },
+                limit: 2,
+                offset: 0,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Templates count:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getTemplateList)
+    </script>
     ```
 
 - PHP
