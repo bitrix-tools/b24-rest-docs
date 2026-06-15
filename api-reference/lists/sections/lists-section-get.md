@@ -135,53 +135,148 @@
     https://**put_your_bitrix24_address**/rest/lists.section.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'lists.section.get',
-            {
-                IBLOCK_TYPE_ID: 'lists',
-                IBLOCK_ID: 95,
-                FILTER: {
-                    ID: 169,
-                    ACTIVE: 'Y',
-                    NAME: '%маркетинг%',
-                    '>=DATE_CREATE': '2025-01-01',
-                    '<=DATE_CREATE': '2025-12-31'
-                },
-                SELECT: [
-                    'ID',
-                    'CODE',
-                    'XML_ID',
-                    'EXTERNAL_ID',
-                    'IBLOCK_SECTION_ID',
-                    'TIMESTAMP_X',
-                    'SORT',
-                    'NAME',
-                    'ACTIVE',
-                    'GLOBAL_ACTIVE',
-                    'LEFT_MARGIN',
-                    'RIGHT_MARGIN',
-                    'DEPTH_LEVEL',
-                    'SEARCHABLE_CONTENT',
-                    'MODIFIED_BY',
-                    'DATE_CREATE',
-                    'CREATED_BY',
-                ]
-            }
-        );
-        
-        const result = response.getData().result;
-        console.log('Retrieved sections:', result);
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of each SectionItem returned in result[]
+    type SectionItem = {
+      ID: string
+      CODE: string
+      XML_ID: string
+      EXTERNAL_ID: string
+      IBLOCK_SECTION_ID: string | null
+      TIMESTAMP_X: string
+      SORT: string
+      NAME: string
+      ACTIVE: string
+      GLOBAL_ACTIVE: string
+      LEFT_MARGIN: string
+      RIGHT_MARGIN: string
+      DEPTH_LEVEL: string
+      SEARCHABLE_CONTENT: string
+      MODIFIED_BY: string
+      DATE_CREATE: string
+      CREATED_BY: string
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<SectionItem[]>({
+        method: 'lists.section.get',
+        params: {
+          IBLOCK_TYPE_ID: 'lists',
+          IBLOCK_ID: 95,
+          FILTER: {
+            ID: 169,
+            ACTIVE: 'Y',
+            NAME: '%marketing%',
+            '>=DATE_CREATE': '2025-01-01',
+            '<=DATE_CREATE': '2025-12-31',
+          },
+          SELECT: [
+            'ID',
+            'CODE',
+            'XML_ID',
+            'EXTERNAL_ID',
+            'IBLOCK_SECTION_ID',
+            'TIMESTAMP_X',
+            'SORT',
+            'NAME',
+            'ACTIVE',
+            'GLOBAL_ACTIVE',
+            'LEFT_MARGIN',
+            'RIGHT_MARGIN',
+            'DEPTH_LEVEL',
+            'SEARCHABLE_CONTENT',
+            'MODIFIED_BY',
+            'DATE_CREATE',
+            'CREATED_BY',
+          ],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Retrieved sections:', result.length, result[0]?.NAME)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getListSections() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'lists.section.get',
+            params: {
+              IBLOCK_TYPE_ID: 'lists',
+              IBLOCK_ID: 95,
+              FILTER: {
+                ID: 169,
+                ACTIVE: 'Y',
+                NAME: '%marketing%',
+                '>=DATE_CREATE': '2025-01-01',
+                '<=DATE_CREATE': '2025-12-31',
+              },
+              SELECT: [
+                'ID',
+                'CODE',
+                'XML_ID',
+                'EXTERNAL_ID',
+                'IBLOCK_SECTION_ID',
+                'TIMESTAMP_X',
+                'SORT',
+                'NAME',
+                'ACTIVE',
+                'GLOBAL_ACTIVE',
+                'LEFT_MARGIN',
+                'RIGHT_MARGIN',
+                'DEPTH_LEVEL',
+                'SEARCHABLE_CONTENT',
+                'MODIFIED_BY',
+                'DATE_CREATE',
+                'CREATED_BY',
+              ],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Retrieved sections:', result.length, result[0]?.NAME)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getListSections)
+    </script>
     ```
 
 - PHP

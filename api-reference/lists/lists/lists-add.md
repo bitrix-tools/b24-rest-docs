@@ -135,45 +135,117 @@ RIGHTS: {
     https://**put_your_bitrix24_address**/rest/lists.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
     try {
-        const response = await $b24.callMethod(
-          'lists.add',
-          {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'lists.add',
+        params: {
+          IBLOCK_TYPE_ID: 'lists',
+          IBLOCK_CODE: 'my_custom_list',
+          FIELDS: {
+            NAME: 'My new list',
+            DESCRIPTION: 'List for tracking project tasks',
+            SORT: 500,
+            BIZPROC: 'Y',
+          },
+          MESSAGES: {
+            ELEMENTS_NAME: 'Tasks',
+            ELEMENT_NAME: 'Task',
+            ELEMENT_ADD: 'Add task',
+            ELEMENT_EDIT: 'Edit task',
+            ELEMENT_DELETE: 'Delete task',
+            SECTIONS_NAME: 'Sections',
+            SECTION_NAME: 'Section',
+            SECTION_ADD: 'Add section',
+            SECTION_EDIT: 'Edit section',
+            SECTION_DELETE: 'Delete section',
+          },
+          RIGHTS: {
+            'U1271': 'X',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created list with ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'lists.add',
+            params: {
               IBLOCK_TYPE_ID: 'lists',
               IBLOCK_CODE: 'my_custom_list',
               FIELDS: {
-                NAME: 'Мой новый список',
-                DESCRIPTION: 'Список для отслеживания задач в проекте',
+                NAME: 'My new list',
+                DESCRIPTION: 'List for tracking project tasks',
                 SORT: 500,
-                BIZPROC: 'Y'
+                BIZPROC: 'Y',
               },
               MESSAGES: {
-                ELEMENTS_NAME: 'Задачи',
-                ELEMENT_NAME: 'Задача',
-                ELEMENT_ADD: 'Добавить задачу',
-                ELEMENT_EDIT: 'Изменить задачу',
-                ELEMENT_DELETE: 'Удалить задачу',
-                SECTIONS_NAME: 'Разделы',
-                SECTION_NAME: 'Раздел',
-                SECTION_ADD: 'Добавить раздел',
-                SECTION_EDIT: 'Изменить раздел',
-                SECTION_DELETE: 'Удалить раздел'
+                ELEMENTS_NAME: 'Tasks',
+                ELEMENT_NAME: 'Task',
+                ELEMENT_ADD: 'Add task',
+                ELEMENT_EDIT: 'Edit task',
+                ELEMENT_DELETE: 'Delete task',
+                SECTIONS_NAME: 'Sections',
+                SECTION_NAME: 'Section',
+                SECTION_ADD: 'Add section',
+                SECTION_EDIT: 'Edit section',
+                SECTION_DELETE: 'Delete section',
               },
               RIGHTS: {
-                'U1271': 'X'
-              }
-          }
-      );
+                'U1271': 'X',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
 
-        const result = response.getData().result;
-        console.log('Created list with ID:', result);
-        processResult(result);
-    } catch (error) {
-        console.error('Error:', error);
-    }
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created list with ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addList)
+    </script>
     ```
 
 - PHP
