@@ -124,36 +124,117 @@
       https://**put_your_bitrix24_address**/rest/im.recent.list
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'im.recent.list',
-            {
-                LAST_MESSAGE_DATE: '2026-02-25T18:30:00+03:00',
-                SKIP_OPENLINES: 'N',
-                SKIP_DIALOG: 'N',
-                SKIP_CHAT: 'N',
-                UNREAD_ONLY: 'Y',
-                PARSE_TEXT: 'Y',
-                GET_ORIGINAL_TEXT: 'N',
-                SKIP_UNDISTRIBUTED_OPENLINES: 'Y',
-                ONLY_COPILOT: 'N',
-                ONLY_CHANNEL: 'N',
-                CAN_MANAGE_MESSAGES: 'Y',
-                OFFSET: 0,
-                LIMIT: 20
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type RecentListResult = {
+      items: Array<{
+        id: string | number
+        chat_id: number
+        type: string
+        title: string
+        counter: number
+        pinned: boolean
+        unread: boolean
+        has_reminder: boolean
+        date_update: ISODate
+        date_last_activity: ISODate
+      }>
+      hasMorePages: boolean
+      hasMore: boolean
+      copilot: object | null
+      messagesAutoDeleteConfigs: object[]
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<RecentListResult>({
+        method: 'im.recent.list',
+        params: {
+          LAST_MESSAGE_DATE: '2026-02-25T18:30:00+03:00',
+          SKIP_OPENLINES: 'N',
+          SKIP_DIALOG: 'N',
+          SKIP_CHAT: 'N',
+          UNREAD_ONLY: 'Y',
+          PARSE_TEXT: 'Y',
+          GET_ORIGINAL_TEXT: 'N',
+          SKIP_UNDISTRIBUTED_OPENLINES: 'Y',
+          ONLY_COPILOT: 'N',
+          ONLY_CHANNEL: 'N',
+          CAN_MANAGE_MESSAGES: 'Y',
+          OFFSET: 0,
+          LIMIT: 20,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Loaded dialogs:', result.items.length, 'hasMore:', result.hasMore)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchRecentList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.recent.list',
+            params: {
+              LAST_MESSAGE_DATE: '2026-02-25T18:30:00+03:00',
+              SKIP_OPENLINES: 'N',
+              SKIP_DIALOG: 'N',
+              SKIP_CHAT: 'N',
+              UNREAD_ONLY: 'Y',
+              PARSE_TEXT: 'Y',
+              GET_ORIGINAL_TEXT: 'N',
+              SKIP_UNDISTRIBUTED_OPENLINES: 'Y',
+              ONLY_COPILOT: 'N',
+              ONLY_CHANNEL: 'N',
+              CAN_MANAGE_MESSAGES: 'Y',
+              OFFSET: 0,
+              LIMIT: 20,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Loaded dialogs:', result.items.length, 'hasMore:', result.hasMore)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchRecentList)
+    </script>
     ```
 
 - PHP
