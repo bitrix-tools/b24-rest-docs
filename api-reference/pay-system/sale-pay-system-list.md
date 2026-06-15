@@ -90,149 +90,180 @@
     https://**put_your_bitrix24_address**/rest/sale.paysystem.list
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
+    declare const $b24: B24Frame
+
+    // Shape of each PaySystemItem returned in result[]
+    type PaySystemItem = {
+      ID: number
+      PERSON_TYPE_ID: number
+      NAME: string
+      PSA_NAME: string
+      SORT: number
+      DESCRIPTION: string
+      ACTION_FILE: string
+      RESULT_FILE: string | null
+      NEW_WINDOW: string
+      TARIFF: string | null
+      PS_MODE: string | null
+      HAVE_PAYMENT: string
+      HAVE_ACTION: string
+      HAVE_RESULT: string
+      HAVE_PREPAY: string
+      HAVE_PRICE: string
+      HAVE_RESULT_RECEIVE: string
+      ENCODING: string | null
+      ACTIVE: string
+      ALLOW_EDIT_PAYMENT: string
+      IS_CASH: string
+      AUTO_CHANGE_1C: string
+      CAN_PRINT_CHECK: string
+      ENTITY_REGISTRY_TYPE: string
+      XML_ID: string
+    }
+
     try {
-      const response = await $b24.callListMethod(
-        'sale.paysystem.list',
-        {
+      // sale.paysystem.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<PaySystemItem[]>({
+        method: 'sale.paysystem.list',
+        params: {
           SELECT: [
-            "ID",
-            "PERSON_TYPE_ID",
-            "NAME",
-            "PSA_NAME",
-            "SORT",
-            "DESCRIPTION",
-            "ACTION_FILE",
-            "RESULT_FILE",
-            "NEW_WINDOW",
-            "TARIF",
-            "PS_MODE",
-            "HAVE_PAYMENT",
-            "HAVE_ACTION",
-            "HAVE_RESULT",
-            "HAVE_PREPAY",
-            "HAVE_PRICE",
-            "HAVE_RESULT_RECEIVE",
-            "ENCODING",
-            "ACTIVE",
-            "ALLOW_EDIT_PAYMENT",
-            "IS_CASH",
-            "AUTO_CHANGE_1C",
-            "CAN_PRINT_CHECK",
-            "ENTITY_REGISTRY_TYPE",
-            "XML_ID",
+            'ID',
+            'PERSON_TYPE_ID',
+            'NAME',
+            'PSA_NAME',
+            'SORT',
+            'DESCRIPTION',
+            'ACTION_FILE',
+            'RESULT_FILE',
+            'NEW_WINDOW',
+            'TARIF',
+            'PS_MODE',
+            'HAVE_PAYMENT',
+            'HAVE_ACTION',
+            'HAVE_RESULT',
+            'HAVE_PREPAY',
+            'HAVE_PRICE',
+            'HAVE_RESULT_RECEIVE',
+            'ENCODING',
+            'ACTIVE',
+            'ALLOW_EDIT_PAYMENT',
+            'IS_CASH',
+            'AUTO_CHANGE_1C',
+            'CAN_PRINT_CHECK',
+            'ENTITY_REGISTRY_TYPE',
+            'XML_ID',
           ],
           FILTER: {
-            "@ID": [117, 118],
+            '@ID': [117, 118],
           },
           ORDER: {
-            SORT: "ASC",
-            ID: "DESC",
+            SORT: 'ASC',
+            ID: 'DESC',
           },
+          start: 0,
         },
-        (progress) => { console.log('Progress:', progress) }
-      );
-      const items = response.getData() || [];
-      for (const entity of items) { console.log('Entity:', entity); }
-    } catch (error) {
-      console.error('Request failed', error);
-    }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    try {
-      const generator = $b24.fetchListMethod('sale.paysystem.list', {
-        SELECT: [
-          "ID",
-          "PERSON_TYPE_ID",
-          "NAME",
-          "PSA_NAME",
-          "SORT",
-          "DESCRIPTION",
-          "ACTION_FILE",
-          "RESULT_FILE",
-          "NEW_WINDOW",
-          "TARIF",
-          "PS_MODE",
-          "HAVE_PAYMENT",
-          "HAVE_ACTION",
-          "HAVE_RESULT",
-          "HAVE_PREPAY",
-          "HAVE_PRICE",
-          "HAVE_RESULT_RECEIVE",
-          "ENCODING",
-          "ACTIVE",
-          "ALLOW_EDIT_PAYMENT",
-          "IS_CASH",
-          "AUTO_CHANGE_1C",
-          "CAN_PRINT_CHECK",
-          "ENTITY_REGISTRY_TYPE",
-          "XML_ID",
-        ],
-        FILTER: {
-          "@ID": [117, 118],
-        },
-        ORDER: {
-          SORT: "ASC",
-          ID: "DESC",
-        },
-      }, 'ID');
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity); }
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Pay systems fetched:', result.length, result[0]?.NAME)
       }
     } catch (error) {
-      console.error('Request failed', error);
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('sale.paysystem.list', {
-        SELECT: [
-          "ID",
-          "PERSON_TYPE_ID",
-          "NAME",
-          "PSA_NAME",
-          "SORT",
-          "DESCRIPTION",
-          "ACTION_FILE",
-          "RESULT_FILE",
-          "NEW_WINDOW",
-          "TARIF",
-          "PS_MODE",
-          "HAVE_PAYMENT",
-          "HAVE_ACTION",
-          "HAVE_RESULT",
-          "HAVE_PREPAY",
-          "HAVE_PRICE",
-          "HAVE_RESULT_RECEIVE",
-          "ENCODING",
-          "ACTIVE",
-          "ALLOW_EDIT_PAYMENT",
-          "IS_CASH",
-          "AUTO_CHANGE_1C",
-          "CAN_PRINT_CHECK",
-          "ENTITY_REGISTRY_TYPE",
-          "XML_ID",
-        ],
-        FILTER: {
-          "@ID": [117, 118],
-        },
-        ORDER: {
-          SORT: "ASC",
-          ID: "DESC",
-        },
-      }, 0);
-      const result = response.getData().result || [];
-      for (const entity of result) { console.log('Entity:', entity); }
-    } catch (error) {
-      console.error('Request failed', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchPaySystemList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // sale.paysystem.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'sale.paysystem.list',
+            params: {
+              SELECT: [
+                'ID',
+                'PERSON_TYPE_ID',
+                'NAME',
+                'PSA_NAME',
+                'SORT',
+                'DESCRIPTION',
+                'ACTION_FILE',
+                'RESULT_FILE',
+                'NEW_WINDOW',
+                'TARIF',
+                'PS_MODE',
+                'HAVE_PAYMENT',
+                'HAVE_ACTION',
+                'HAVE_RESULT',
+                'HAVE_PREPAY',
+                'HAVE_PRICE',
+                'HAVE_RESULT_RECEIVE',
+                'ENCODING',
+                'ACTIVE',
+                'ALLOW_EDIT_PAYMENT',
+                'IS_CASH',
+                'AUTO_CHANGE_1C',
+                'CAN_PRINT_CHECK',
+                'ENTITY_REGISTRY_TYPE',
+                'XML_ID',
+              ],
+              FILTER: {
+                '@ID': [117, 118],
+              },
+              ORDER: {
+                SORT: 'ASC',
+                ID: 'DESC',
+              },
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Pay systems fetched:', result.length, result[0]?.NAME)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchPaySystemList)
+    </script>
     ```
 
 - PHP
