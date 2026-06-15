@@ -95,26 +95,115 @@
       https://**put_your_bitrix24_address**/rest/im.disk.file.commit
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'im.disk.file.commit',
-            {
-                CHAT_ID: 1489,
-                FILE_ID: [5249, 5250],
-                MESSAGE: 'Документы по проекту',
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    type FileUploadItem = {
+      id: number
+      chatId: number
+      name: string
+      extension: string
+      size: number
+      status: string
+      authorId: number
+      authorName: string
+      urlPreview: string
+      urlShow: string
+      urlDownload: string
+      isTranscribable: boolean
+      isVideoNote: boolean
+      isVoiceNote: boolean
     }
-    catch (error)
-    {
-        console.error(error);
+
+    type FileModelItem = {
+      id: number
+      name: string
+      storageId: number
+      size: number
+      etag: string
+      links: {
+        download: string
+        showInGrid: string
+        preview: string
+      }
     }
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ImDiskFileCommitResult = {
+      FILES: Record<string, FileUploadItem>
+      DISK_ID: string[]
+      FILE_MODELS: Record<string, FileModelItem>
+      MESSAGE_ID: number
+    }
+
+    try {
+      const response = await $b24.actions.v2.call.make<ImDiskFileCommitResult>({
+        method: 'im.disk.file.commit',
+        params: {
+          CHAT_ID: 1489,
+          FILE_ID: [5249, 5250],
+          MESSAGE: 'Project documents',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.MESSAGE_ID, result.DISK_ID, result.FILES)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function commitFileToChat() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.disk.file.commit',
+            params: {
+              CHAT_ID: 1489,
+              FILE_ID: [5249, 5250],
+              MESSAGE: 'Project documents',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.MESSAGE_ID, result.DISK_ID, result.FILES)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', commitFileToChat)
+    </script>
     ```
 
 - PHP

@@ -65,22 +65,120 @@
       https://**put_your_bitrix24_address**/rest/im.search.user.list
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try {
-      const response = await $b24.callMethod('im.search.user.list', {
-        FIND: 'Иван',
-        BUSINESS: 'N',
-        OFFSET: 0,
-        LIMIT: 10,
-      });
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-      const { result, total, next } = response.getData();
-      console.log(result, total, next);
-    } catch (error) {
-      console.error(error);
+    declare const $b24: B24Frame
+
+    // Shape of each user returned in result[]
+    type UserResult = {
+      id: number
+      name: string
+      first_name: string
+      last_name: string
+      work_position: string
+      color: string
+      avatar: string | null
+      gender: string
+      birthday: string | false
+      extranet: boolean
+      network: boolean
+      bot: boolean
+      connector: boolean
+      external_auth_id: string
+      status: string
+      idle: ISODate | false
+      last_activity_date: ISODate | false
+      mobile_last_date: ISODate | false
+      departments: number[]
+      absent: ISODate | false
+      phones: {
+        work_phone: string
+        personal_mobile: string
+        inner_phone: string
+      } | false
     }
+
+    try {
+      // im.search.user.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<UserResult[]>({
+        method: 'im.search.user.list',
+        params: {
+          FIND: 'Ivan',
+          BUSINESS: 'N',
+          OFFSET: 0,
+          LIMIT: 10,
+          start: 0,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Found users:', result.length, result[0]?.name)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function searchUserList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // im.search.user.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.search.user.list',
+            params: {
+              FIND: 'Ivan',
+              BUSINESS: 'N',
+              OFFSET: 0,
+              LIMIT: 10,
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Found users:', result.length, result[0]?.name)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', searchUserList)
+    </script>
     ```
 
 - PHP
