@@ -138,49 +138,120 @@
          https://**put_your_bitrix24_address**/rest/biconnector.connector.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'biconnector.connector.add',
-    		{
-    			fields: {
-    				"title": "SUPER REST CONNECTOR",
-    				"logo": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjRkYzQjNCIiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPg==",
-    				"description": "Connector with token",
-    				"urlCheck": "http://example.com/api/check",
-    				"urlTableList": "http://example.com/api/table_list",
-    				"urlTableDescription": "http://example.com/api/table_description",
-    				"urlData": "http://example.com/api/data",
-    				"settings": [
-    					{
-    						"name": "Логин",
-    						"type": "STRING",
-    						"code": "login"
-    					},
-    					{
-    						"name": "Пароль",
-    						"type": "STRING",
-    						"code": "password"
-    					}
-    				],
-    				"sort": 100
-    			},
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	result.error()
-    		? console.error(result.error())
-    		: console.info(result.data());
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ConnectorAddResult = {
+      id: number
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<ConnectorAddResult>({
+        method: 'biconnector.connector.add',
+        params: {
+          fields: {
+            title: 'SUPER REST CONNECTOR',
+            logo: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjRkYzQjNCIiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPg==',
+            description: 'Connector with token',
+            urlCheck: 'http://example.com/api/check',
+            urlTableList: 'http://example.com/api/table_list',
+            urlTableDescription: 'http://example.com/api/table_description',
+            urlData: 'http://example.com/api/data',
+            settings: [
+              {
+                name: 'Login',
+                type: 'STRING',
+                code: 'login',
+              },
+              {
+                name: 'Password',
+                type: 'STRING',
+                code: 'password',
+              },
+            ],
+            sort: 100,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created connector ID:', result.id)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addConnector() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'biconnector.connector.add',
+            params: {
+              fields: {
+                title: 'SUPER REST CONNECTOR',
+                logo: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjRkYzQjNCIiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPg==',
+                description: 'Connector with token',
+                urlCheck: 'http://example.com/api/check',
+                urlTableList: 'http://example.com/api/table_list',
+                urlTableDescription: 'http://example.com/api/table_description',
+                urlData: 'http://example.com/api/data',
+                settings: [
+                  {
+                    name: 'Login',
+                    type: 'STRING',
+                    code: 'login',
+                  },
+                  {
+                    name: 'Password',
+                    type: 'STRING',
+                    code: 'password',
+                  },
+                ],
+                sort: 100,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created connector ID:', result.id)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addConnector)
+    </script>
     ```
 
 - PHP
