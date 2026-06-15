@@ -42,101 +42,138 @@
 
 {% list tabs %}
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
+    declare const $b24: B24Frame
+
+    // Shape of each activity item returned in result[]
+    type ActivityItem = {
+      ID: string,
+    }
+
     try {
-      const response = await $b24.callListMethod(
-        'crm.activity.list',
-        {
+      // crm.activity.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const listResponse = await $b24.actions.v2.call.make<ActivityItem[]>({
+        method: 'crm.activity.list',
+        params: {
           filter: {
-            "SUBJECT": "Обзвон #13",
+            SUBJECT: 'Call list #13',
           },
-          select: ["ID"]
-        }
-      )
-      const deals = response.getData() || []
-    
-      if (deals.length === 0) {
-        console.log("Дел с названием 'Обзвон #13' не найдено.");
-        return;
-      }
-    
-      let dealId = deals[0].ID;
-    
-      await $b24.callMethod(
-        'crm.activity.delete',
-        {
-          id: dealId,
-        }
-      )
-      console.log("Дело ID " + dealId + " успешно удалено.");
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    try {
-      const generator = $b24.fetchListMethod('crm.activity.list', {
-        filter: {
-          "SUBJECT": "Обзвон #13",
+          select: ['ID'],
+          start: 0,
         },
-        select: ["ID"]
-      }, 'ID')
-    
-      for await (const page of generator) {
-        if (page.length === 0) {
-          console.log("Дел с названием 'Обзвон #13' не найдено.");
-          return;
-        }
-    
-        let dealId = page[0].ID;
-    
-        await $b24.callMethod(
-          'crm.activity.delete',
-          {
-            id: dealId,
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!listResponse.isSuccess) {
+        console.error(listResponse.getErrorMessages().join('; '))
+      } else {
+        const activities = listResponse.getData()!.result
+        if (activities.length === 0) {
+          console.info('No activities named "Call list #13" found.')
+        } else {
+          const activityId = activities[0].ID
+
+          const deleteResponse = await $b24.actions.v2.call.make<boolean>({
+            method: 'crm.activity.delete',
+            params: {
+              id: activityId,
+            },
+            requestId: Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!deleteResponse.isSuccess) {
+            console.error(deleteResponse.getErrorMessages().join('; '))
+          } else {
+            const deleted = deleteResponse.getData()!.result
+            console.info('Activity ID', activityId, 'deleted:', deleted)
           }
-        )
-        console.log("Дело ID " + dealId + " успешно удалено.");
-      }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('crm.activity.list', {
-        filter: {
-          "SUBJECT": "Обзвон #13",
-        },
-        select: ["ID"]
-      }, 0)
-    
-      const deals = response.getData().result || []
-    
-      if (deals.length === 0) {
-        console.log("Дел с названием 'Обзвон #13' не найдено.");
-        return;
-      }
-    
-      let dealId = deals[0].ID;
-    
-      await $b24.callMethod(
-        'crm.activity.delete',
-        {
-          id: dealId,
         }
-      )
-      console.log("Дело ID " + dealId + " успешно удалено.");
+      }
     } catch (error) {
-      console.error('Request failed', error)
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function findAndDeleteActivity() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // crm.activity.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const listResponse = await $b24.actions.v2.call.make({
+            method: 'crm.activity.list',
+            params: {
+              filter: {
+                SUBJECT: 'Call list #13',
+              },
+              select: ['ID'],
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!listResponse.isSuccess) {
+            console.error(listResponse.getErrorMessages().join('; '))
+            return
+          }
+
+          const activities = listResponse.getData().result
+          if (activities.length === 0) {
+            console.info('No activities named "Call list #13" found.')
+            return
+          }
+
+          const activityId = activities[0].ID
+
+          const deleteResponse = await $b24.actions.v2.call.make({
+            method: 'crm.activity.delete',
+            params: {
+              id: activityId,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!deleteResponse.isSuccess) {
+            console.error(deleteResponse.getErrorMessages().join('; '))
+            return
+          }
+
+          const deleted = deleteResponse.getData().result
+          console.info('Activity ID', activityId, 'deleted:', deleted)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', findAndDeleteActivity)
+    </script>
     ```
 
 - PHP
