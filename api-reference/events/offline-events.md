@@ -52,24 +52,73 @@
     https://**put_your_bitrix24_address**/rest/feature.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'feature.get',
-            {
-                CODE: 'rest_offline_extended'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'feature.get',
+        params: {
+          CODE: 'rest_offline_extended',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Feature available:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function checkFeature() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'feature.get',
+            params: {
+              CODE: 'rest_offline_extended',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Feature available:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', checkFeature)
+    </script>
     ```
 
 - PHP
@@ -150,25 +199,75 @@
     https://**put_your_bitrix24_address**/rest/event.bind
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'event.bind',
-            {
-                event: 'ONCRMDEALUPDATE',
-                event_type: 'offline'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'event.bind',
+        params: {
+          event: 'ONCRMDEALUPDATE',
+          event_type: 'offline',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Event handler registered:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindOfflineEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'event.bind',
+            params: {
+              event: 'ONCRMDEALUPDATE',
+              event_type: 'offline',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Event handler registered:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindOfflineEvent)
+    </script>
     ```
 
 - PHP
@@ -256,27 +355,87 @@
     https://**put_your_bitrix24_address**/rest/event.offline.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'event.offline.get',
-            {
-                limit: 50
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const events = response.getData().result.events;
-        for (const event of events) {
-            console.log(event.EVENT_NAME, event.MESSAGE_ID);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type OfflineGetResult = {
+      events: {
+        EVENT_NAME: string
+        MESSAGE_ID: string
+      }[]
+    }
+
+    try {
+      const response = await $b24.actions.v2.call.make<OfflineGetResult>({
+        method: 'event.offline.get',
+        params: {
+          limit: 50,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Events received:', result.events.length)
+        for (const event of result.events) {
+          console.info(event.EVENT_NAME, event.MESSAGE_ID)
         }
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getOfflineEvents() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'event.offline.get',
+            params: {
+              limit: 50,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Events received:', result.events.length)
+          for (const event of result.events) {
+            console.info(event.EVENT_NAME, event.MESSAGE_ID)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getOfflineEvents)
+    </script>
     ```
 
 - PHP
@@ -383,39 +542,127 @@
     https://**put_your_bitrix24_address**/rest/event.offline.clear
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        // Шаг 1. Зарезервировать пакет
-        const response = await $b24.callMethod(
-            'event.offline.get',
-            {
-                clear: 0,
-                limit: 50
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const { process_id, events } = response.getData().result;
+    declare const $b24: B24Frame
 
-        // Шаг 2. Обработать события
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type OfflineGetResult = {
+      process_id: string
+      events: {
+        EVENT_NAME: string
+        MESSAGE_ID: string
+      }[]
+    }
+
+    try {
+      // Step 1. Reserve the batch
+      const getResponse = await $b24.actions.v2.call.make<OfflineGetResult>({
+        method: 'event.offline.get',
+        params: {
+          clear: 0,
+          limit: 50,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!getResponse.isSuccess) {
+        console.error(getResponse.getErrorMessages().join('; '))
+      } else {
+        const result = getResponse.getData()!.result
+        const { process_id, events } = result
+
+        // Step 2. Process events
         for (const event of events) {
-            console.log(event.EVENT_NAME, event.MESSAGE_ID);
+          console.info(event.EVENT_NAME, event.MESSAGE_ID)
         }
 
-        // Шаг 3. Подтвердить обработку
-        await $b24.callMethod(
-            'event.offline.clear',
-            {
-                process_id: process_id
-            }
-        );
+        // Step 3. Confirm processing
+        const clearResponse = await $b24.actions.v2.call.make<boolean>({
+          method: 'event.offline.clear',
+          params: {
+            process_id,
+          },
+          requestId: Text.getUuidRfc4122()
+        })
+
+        if (!clearResponse.isSuccess) {
+          console.error(clearResponse.getErrorMessages().join('; '))
+        } else {
+          console.info('Batch cleared:', clearResponse.getData()!.result)
+        }
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function processOfflineEvents() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // Step 1. Reserve the batch
+          const getResponse = await $b24.actions.v2.call.make({
+            method: 'event.offline.get',
+            params: {
+              clear: 0,
+              limit: 50,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!getResponse.isSuccess) {
+            console.error(getResponse.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = getResponse.getData().result
+          const { process_id, events } = result
+
+          // Step 2. Process events
+          for (const event of events) {
+            console.info(event.EVENT_NAME, event.MESSAGE_ID)
+          }
+
+          // Step 3. Confirm processing
+          const clearResponse = await $b24.actions.v2.call.make({
+            method: 'event.offline.clear',
+            params: {
+              process_id,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          if (!clearResponse.isSuccess) {
+            console.error(clearResponse.getErrorMessages().join('; '))
+            return
+          }
+
+          console.info('Batch cleared:', clearResponse.getData().result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', processOfflineEvents)
+    </script>
     ```
 
 - PHP
@@ -554,25 +801,77 @@
     https://**put_your_bitrix24_address**/rest/event.offline.error
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'event.offline.error',
-            {
-                process_id: processId,
-                message_id: [messageId]
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+    declare const processId: string
+    declare const messageId: string
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'event.offline.error',
+        params: {
+          process_id: processId,
+          message_id: [messageId],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Errors marked:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function markOfflineErrors() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'event.offline.error',
+            params: {
+              process_id: processId,
+              message_id: [messageId],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Errors marked:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', markOfflineErrors)
+    </script>
     ```
 
 - PHP
@@ -662,26 +961,77 @@
     https://**put_your_bitrix24_address**/rest/event.bind
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'event.bind',
-            {
-                event: 'ONCRMDEALUPDATE',
-                event_type: 'offline',
-                auth_connector: 'my_connector'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'event.bind',
+        params: {
+          event: 'ONCRMDEALUPDATE',
+          event_type: 'offline',
+          auth_connector: 'my_connector',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Event handler with connector registered:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindOfflineEventWithConnector() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'event.bind',
+            params: {
+              event: 'ONCRMDEALUPDATE',
+              event_type: 'offline',
+              auth_connector: 'my_connector',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Event handler with connector registered:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindOfflineEventWithConnector)
+    </script>
     ```
 
 - PHP
@@ -768,28 +1118,81 @@
     https://**put_your_bitrix24_address**/rest/crm.deal.update
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'crm.deal.update',
-            {
-                id: 1,
-                fields: {
-                    TITLE: 'Новое название'
-                },
-                auth_connector: 'my_connector'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'crm.deal.update',
+        params: {
+          id: 1,
+          fields: {
+            TITLE: 'New title',
+          },
+          auth_connector: 'my_connector',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Deal updated:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateDeal() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.deal.update',
+            params: {
+              id: 1,
+              fields: {
+                TITLE: 'New title',
+              },
+              auth_connector: 'my_connector',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Deal updated:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateDeal)
+    </script>
     ```
 
 - PHP
