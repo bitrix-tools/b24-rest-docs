@@ -164,34 +164,89 @@ UF_BLOG_POST_VOTE: 'n<ID_опроса>',
     https://**put_your_bitrix24_address**/rest/log.blogpost.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'log.blogpost.add',
-            {
-                POST_TITLE: 'Новый регламент',
-                POST_MESSAGE: 'С 1 ноября обновляется процесс согласования.',
-                DEST: ['UA'],
-                TAGS: 'регламент,согласование,обновление',
-                IMPORTANT: 'Y',
-                FILES: [
-                    ['first-image.jpg', 'iVBORw0KGgoAAAANSUhEUgAAAAUA...'],
-                    ['second-image.jpg', 'iVBORw0KGgoAAAANSUhEUgAAAAUA...']
-                ]
-            }
-        );
-        
-        const result = response.getData().result;
-        console.log('Created element with ID:', result);
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'log.blogpost.add',
+        params: {
+          POST_TITLE: 'New regulation',
+          POST_MESSAGE: 'As of November 1, the approval process is being updated.',
+          DEST: ['UA'],
+          TAGS: 'regulation,approval,update',
+          IMPORTANT: 'Y',
+          FILES: [
+            ['first-image.jpg', 'iVBORw0KGgoAAAANSUhEUgAAAAUA...'],
+            ['second-image.jpg', 'iVBORw0KGgoAAAANSUhEUgAAAAUA...'],
+          ],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created blog post with ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-        console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addBlogpost() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'log.blogpost.add',
+            params: {
+              POST_TITLE: 'New regulation',
+              POST_MESSAGE: 'As of November 1, the approval process is being updated.',
+              DEST: ['UA'],
+              TAGS: 'regulation,approval,update',
+              IMPORTANT: 'Y',
+              FILES: [
+                ['first-image.jpg', 'iVBORw0KGgoAAAANSUhEUgAAAAUA...'],
+                ['second-image.jpg', 'iVBORw0KGgoAAAANSUhEUgAAAAUA...'],
+              ],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created blog post with ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addBlogpost)
+    </script>
     ```
 
 - PHP
