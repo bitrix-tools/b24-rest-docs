@@ -71,51 +71,89 @@
     https://**put_your_bitrix24_address**/rest/sale.delivery.config.update
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'sale.delivery.config.update', {
-    			ID: 196,
-    			CONFIG: [{
-    					CODE: "SETTING_1",
-    					VALUE: "New SETTING_1 string value",
-    				},
-    				{
-    					CODE: "SETTING_2",
-    					VALUE: "N",
-    				},
-    				{
-    					CODE: "SETTING_3",
-    					VALUE: 999.99,
-    				},
-    				{
-    					CODE: "SETTING_4",
-    					VALUE: "Option2Code",
-    				},
-    				{
-    					CODE: "SETTING_5",
-    					VALUE: "25.03.2023",
-    				},
-    				{
-    					CODE: "SETTING_6",
-    					VALUE: "0000144962",
-    				},
-    			],
-    
-    		}
-    	);
-    
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'sale.delivery.config.update',
+        params: {
+          ID: 196,
+          CONFIG: [
+            { CODE: 'SETTING_1', VALUE: 'New SETTING_1 string value' },
+            { CODE: 'SETTING_2', VALUE: 'N' },
+            { CODE: 'SETTING_3', VALUE: 999.99 },
+            { CODE: 'SETTING_4', VALUE: 'Option2Code' },
+            { CODE: 'SETTING_5', VALUE: '25.03.2023' },
+            { CODE: 'SETTING_6', VALUE: '0000144962' },
+          ],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Config updated:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateDeliveryConfig() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'sale.delivery.config.update',
+            params: {
+              ID: 196,
+              CONFIG: [
+                { CODE: 'SETTING_1', VALUE: 'New SETTING_1 string value' },
+                { CODE: 'SETTING_2', VALUE: 'N' },
+                { CODE: 'SETTING_3', VALUE: 999.99 },
+                { CODE: 'SETTING_4', VALUE: 'Option2Code' },
+                { CODE: 'SETTING_5', VALUE: '25.03.2023' },
+                { CODE: 'SETTING_6', VALUE: '0000144962' },
+              ],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Config updated:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateDeliveryConfig)
+    </script>
     ```
 
 - PHP

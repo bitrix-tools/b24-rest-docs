@@ -106,206 +106,238 @@
     https://**put_your_bitrix24_address**/rest/sale.order.list
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
-    try {
-      const response = await $b24.callListMethod(
-        'sale.order.list',
-        {
-          "select": [
-            "id",
-            "lid",
-            "dateInsert",
-            "dateUpdate",
-            "personTypeId",
-            "personTypeXmlId",
-            "statusId",
-            "dateStatus",
-            "empStatusId",
-            "marked",
-            "dateMarked",
-            "empMarkedId",
-            "reasonMarked",
-            "price",
-            "discountValue",
-            "taxValue",
-            "userDescription",
-            "additionalInfo",
-            "comments",
-            "companyId",
-            "responsibleId",
-            "recurringId",
-            "lockedBy",
-            "dateLock",
-            "recountFlag",
-            "affiliateId",
-            "updated1c",
-            "orderTopic",
-            "xmlId",
-            "statusXmlId",
-            "id1c",
-            "version",
-            "version1c",
-            "externalOrder",
-            "canceled",
-            "dateCanceled",
-            "empCanceledId",
-            "reasonCanceled",
-            "userId",
-            "currency",
-            "accountNumber",
-            "payed",
-            "deducted",
-          ],
-          "filter": {
-            "<id": 10,
-            "@personTypeId": [3, 4],
-            "payed": "N",
-          },
-          "order": {
-            "id": "desc",
-          }
-        },
-        (progress) => { console.log('Progress:', progress) }
-      );
-      const items = response.getData() || [];
-      for (const entity of items) { console.log('Entity:', entity); }
-    } catch (error) {
-      console.error('Request failed', error);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type SaleOrderListResult = {
+      orders: {
+        id: number
+        accountNumber: string
+        additionalInfo: string
+        affiliateId: number | null
+        canceled: string
+        comments: string
+        companyId: number | null
+        currency: string
+        dateCanceled: ISODate | null
+        dateInsert: ISODate
+        dateLock: ISODate | null
+        dateMarked: ISODate | null
+        dateStatus: ISODate
+        dateUpdate: ISODate
+        deducted: string
+        discountValue: number
+        empCanceledId: number | null
+        empMarkedId: number | null
+        empStatusId: number
+        externalOrder: string
+        id1c: string
+        lid: string
+        lockedBy: string
+        marked: string
+        orderTopic: string
+        payed: string
+        personTypeId: number
+        personTypeXmlId: string
+        price: number
+        reasonCanceled: string
+        reasonMarked: string
+        recountFlag: string
+        recurringId: string
+        responsibleId: number
+        statusId: string
+        statusXmlId: string
+        taxValue: number
+        updated1c: string
+        userDescription: string
+        userId: number
+        version: number
+        version1c: string
+        xmlId: string
+      }[]
     }
-    
-    // fetchListMethod предпочтительн при работе с крупными наборами данных. Метод реализует итеративную выборку с использованием генератора, что позволяет обрабатывать данные по частям и эффективно использовать память.
-    
+
     try {
-      const generator = $b24.fetchListMethod('sale.order.list', {
-        "select": [
-          "id",
-          "lid",
-          "dateInsert",
-          "dateUpdate",
-          "personTypeId",
-          "personTypeXmlId",
-          "statusId",
-          "dateStatus",
-          "empStatusId",
-          "marked",
-          "dateMarked",
-          "empMarkedId",
-          "reasonMarked",
-          "price",
-          "discountValue",
-          "taxValue",
-          "userDescription",
-          "additionalInfo",
-          "comments",
-          "companyId",
-          "responsibleId",
-          "recurringId",
-          "lockedBy",
-          "dateLock",
-          "recountFlag",
-          "affiliateId",
-          "updated1c",
-          "orderTopic",
-          "xmlId",
-          "statusXmlId",
-          "id1c",
-          "version",
-          "version1c",
-          "externalOrder",
-          "canceled",
-          "dateCanceled",
-          "empCanceledId",
-          "reasonCanceled",
-          "userId",
-          "currency",
-          "accountNumber",
-          "payed",
-          "deducted",
-        ],
-        "filter": {
-          "<id": 10,
-          "@personTypeId": [3, 4],
-          "payed": "N",
+      // sale.order.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<SaleOrderListResult>({
+        method: 'sale.order.list',
+        params: {
+          select: [
+            'id',
+            'lid',
+            'dateInsert',
+            'dateUpdate',
+            'personTypeId',
+            'personTypeXmlId',
+            'statusId',
+            'dateStatus',
+            'empStatusId',
+            'marked',
+            'dateMarked',
+            'empMarkedId',
+            'reasonMarked',
+            'price',
+            'discountValue',
+            'taxValue',
+            'userDescription',
+            'additionalInfo',
+            'comments',
+            'companyId',
+            'responsibleId',
+            'recurringId',
+            'lockedBy',
+            'dateLock',
+            'recountFlag',
+            'affiliateId',
+            'updated1c',
+            'orderTopic',
+            'xmlId',
+            'statusXmlId',
+            'id1c',
+            'version',
+            'version1c',
+            'externalOrder',
+            'canceled',
+            'dateCanceled',
+            'empCanceledId',
+            'reasonCanceled',
+            'userId',
+            'currency',
+            'accountNumber',
+            'payed',
+            'deducted',
+          ],
+          filter: {
+            '<id': 10,
+            '@personTypeId': [3, 4],
+            payed: 'N',
+          },
+          order: {
+            id: 'desc',
+          },
+          start: 0,
         },
-        "order": {
-          "id": "desc",
-        }
-      }, 'ID');
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity); }
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(`Fetched ${result.orders.length} orders, first order id: ${result.orders[0]?.id}`)
       }
     } catch (error) {
-      console.error('Request failed', error);
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('sale.order.list', {
-        "select": [
-          "id",
-          "lid",
-          "dateInsert",
-          "dateUpdate",
-          "personTypeId",
-          "personTypeXmlId",
-          "statusId",
-          "dateStatus",
-          "empStatusId",
-          "marked",
-          "dateMarked",
-          "empMarkedId",
-          "reasonMarked",
-          "price",
-          "discountValue",
-          "taxValue",
-          "userDescription",
-          "additionalInfo",
-          "comments",
-          "companyId",
-          "responsibleId",
-          "recurringId",
-          "lockedBy",
-          "dateLock",
-          "recountFlag",
-          "affiliateId",
-          "updated1c",
-          "orderTopic",
-          "xmlId",
-          "statusXmlId",
-          "id1c",
-          "version",
-          "version1c",
-          "externalOrder",
-          "canceled",
-          "dateCanceled",
-          "empCanceledId",
-          "reasonCanceled",
-          "userId",
-          "currency",
-          "accountNumber",
-          "payed",
-          "deducted",
-        ],
-        "filter": {
-          "<id": 10,
-          "@personTypeId": [3, 4],
-          "payed": "N",
-        },
-        "order": {
-          "id": "desc",
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchOrderList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // sale.order.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'sale.order.list',
+            params: {
+              select: [
+                'id',
+                'lid',
+                'dateInsert',
+                'dateUpdate',
+                'personTypeId',
+                'personTypeXmlId',
+                'statusId',
+                'dateStatus',
+                'empStatusId',
+                'marked',
+                'dateMarked',
+                'empMarkedId',
+                'reasonMarked',
+                'price',
+                'discountValue',
+                'taxValue',
+                'userDescription',
+                'additionalInfo',
+                'comments',
+                'companyId',
+                'responsibleId',
+                'recurringId',
+                'lockedBy',
+                'dateLock',
+                'recountFlag',
+                'affiliateId',
+                'updated1c',
+                'orderTopic',
+                'xmlId',
+                'statusXmlId',
+                'id1c',
+                'version',
+                'version1c',
+                'externalOrder',
+                'canceled',
+                'dateCanceled',
+                'empCanceledId',
+                'reasonCanceled',
+                'userId',
+                'currency',
+                'accountNumber',
+                'payed',
+                'deducted',
+              ],
+              filter: {
+                '<id': 10,
+                '@personTypeId': [3, 4],
+                payed: 'N',
+              },
+              order: {
+                id: 'desc',
+              },
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(`Fetched ${result.orders.length} orders, first order id: ${result.orders[0]?.id}`)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
         }
-      }, 0);
-      const result = response.getData().result || [];
-      for (const entity of result) { console.log('Entity:', entity); }
-    } catch (error) {
-      console.error('Request failed', error);
-    }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchOrderList)
+    </script>
     ```
 
 - PHP

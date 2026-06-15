@@ -211,63 +211,197 @@ fields: {
     https://**put_your_bitrix24_address**/rest/sale.payment.update
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'sale.payment.update',
-    		{
-    			id: 144,
-    			fields: {
-    				paySystemId: 1,
-    				paid: 'Y',
-    				datePaid: '2024-04-10T10:00:00',
-    				empPaidId: 1,
-    				psStatus: 'Y',
-    				psStatusCode: '',
-    				psStatusDescription: '',
-    				psStatusMessage: '',
-    				psSum: 100,
-    				psCurrency: 'RUB',
-    				psResponseDate: '2024-04-10T10:00:00',
-    				payVoucherNum: '',
-    				payVoucherDate: '2024-04-10T10:00:00',
-    				datePayBefore: '2024-04-10T10:00:00',
-    				dateBill: '2024-04-10T10:00:00',
-    				xmlId: '',
-    				sum: 100,
-    				companyId: 1,
-    				payReturnNum: '',
-    				priceCod: 100,
-    				payReturnDate: '2024-04-10T10:00:00',
-    				empReturnId: 1,
-    				payReturnComment: '',
-    				responsibleId: 1,
-    				empResponsibleId: 1,
-    				isReturn: 'N',
-    				comments: '',
-    				updated1c: 'N',
-    				id1c: '',
-    				version1c: '',
-    				externalPayment: 'N',
-    				psInvoiceId: 1,
-    				marked: 'N',
-    				reasonMarked: '',
-    				empMarkedId: 1,
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type PaymentUpdateResult = {
+      payment: {
+        accountNumber: string,
+        comments: string,
+        companyId: number,
+        currency: string,
+        dateBill: ISODate | null,
+        dateMarked: ISODate | null,
+        datePaid: ISODate | null,
+        datePayBefore: ISODate | null,
+        dateResponsibleId: ISODate | null,
+        empMarkedId: number,
+        empPaidId: number,
+        empResponsibleId: number,
+        empReturnId: number,
+        externalPayment: string,
+        id: number,
+        id1c: string,
+        isReturn: string,
+        marked: string,
+        orderId: number,
+        paid: string,
+        payReturnComment: string,
+        payReturnDate: ISODate | null,
+        payReturnNum: string,
+        paySystemId: number,
+        paySystemIsCash: string,
+        paySystemName: string,
+        paySystemXmlId: string,
+        payVoucherDate: ISODate | null,
+        payVoucherNum: string,
+        priceCod: string,
+        psCurrency: string,
+        psInvoiceId: number,
+        psResponseDate: ISODate | null,
+        psStatus: string,
+        psStatusCode: string,
+        psStatusDescription: string,
+        psStatusMessage: string,
+        psSum: number,
+        reasonMarked: string,
+        responsibleId: number,
+        sum: number,
+        updated1c: string,
+        version1c: string,
+        xmlId: string,
+      },
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<PaymentUpdateResult>({
+        method: 'sale.payment.update',
+        params: {
+          id: 144,
+          fields: {
+            paySystemId: 1,
+            paid: 'Y',
+            datePaid: '2024-04-10T10:00:00',
+            empPaidId: 1,
+            psStatus: 'Y',
+            psStatusCode: '',
+            psStatusDescription: '',
+            psStatusMessage: '',
+            psSum: 100,
+            psCurrency: 'RUB',
+            psResponseDate: '2024-04-10T10:00:00',
+            payVoucherNum: '',
+            payVoucherDate: '2024-04-10T10:00:00',
+            datePayBefore: '2024-04-10T10:00:00',
+            dateBill: '2024-04-10T10:00:00',
+            xmlId: '',
+            sum: 100,
+            companyId: 1,
+            payReturnNum: '',
+            priceCod: 100,
+            payReturnDate: '2024-04-10T10:00:00',
+            empReturnId: 1,
+            payReturnComment: '',
+            responsibleId: 1,
+            empResponsibleId: 1,
+            isReturn: 'N',
+            comments: '',
+            updated1c: 'N',
+            id1c: '',
+            version1c: '',
+            externalPayment: 'N',
+            psInvoiceId: 1,
+            marked: 'N',
+            reasonMarked: '',
+            empMarkedId: 1,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Updated payment:', result.payment.id, 'paid:', result.payment.paid)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updatePayment() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'sale.payment.update',
+            params: {
+              id: 144,
+              fields: {
+                paySystemId: 1,
+                paid: 'Y',
+                datePaid: '2024-04-10T10:00:00',
+                empPaidId: 1,
+                psStatus: 'Y',
+                psStatusCode: '',
+                psStatusDescription: '',
+                psStatusMessage: '',
+                psSum: 100,
+                psCurrency: 'RUB',
+                psResponseDate: '2024-04-10T10:00:00',
+                payVoucherNum: '',
+                payVoucherDate: '2024-04-10T10:00:00',
+                datePayBefore: '2024-04-10T10:00:00',
+                dateBill: '2024-04-10T10:00:00',
+                xmlId: '',
+                sum: 100,
+                companyId: 1,
+                payReturnNum: '',
+                priceCod: 100,
+                payReturnDate: '2024-04-10T10:00:00',
+                empReturnId: 1,
+                payReturnComment: '',
+                responsibleId: 1,
+                empResponsibleId: 1,
+                isReturn: 'N',
+                comments: '',
+                updated1c: 'N',
+                id1c: '',
+                version1c: '',
+                externalPayment: 'N',
+                psInvoiceId: 1,
+                marked: 'N',
+                reasonMarked: '',
+                empMarkedId: 1,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Updated payment:', result.payment.id, 'paid:', result.payment.paid)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updatePayment)
+    </script>
     ```
 
 - PHP

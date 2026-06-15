@@ -160,70 +160,157 @@
     https://**put_your_bitrix24_address**/rest/sale.cashbox.handler.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"sale.cashbox.handler.add",
-    		{
-    			"CODE": "restcashbox01",
-    			"NAME": "REST-касса 01",
-    			"SORT": 100,
-    			"SUPPORTS_FFD105": "Y",
-    			"SETTINGS":
-    			{
-    				"PRINT_URL": "http://example.com/rest_print.php",
-    				"CHECK_URL": "http://example.com/rest_check.php",
-    				"HTTP_VERSION": "1.1",
-    				"CONFIG":
-    				{
-    					"AUTH": {
-    						"LABEL": "Авторизация",
-    						"ITEMS": {
-    							"KEYWORD": {
-    								"TYPE": "STRING",
-    								"LABEL": "Кодовое слово"
-    							},
-    							"PREFERENCE": {
-    								"TYPE": "ENUM",
-    								"LABEL": "Множественный выбор",
-    								"REQUIRED": "Y",
-    								"OPTIONS": {
-    									"FIRST": "Первый",
-    									"SECOND": "Второй",
-    									"THIRD": "Третий",
-    								}
-    							}
-    						}
-    					},
-    					"INTERACTION": {
-    						"LABEL": "Настройки взаимодействия с кассой",
-    						"ITEMS": {
-    							"MODE": {
-    								"TYPE": "ENUM",
-    								"LABEL": "Режим работы с кассой",
-    								"OPTIONS": {
-    									"ACTIVE": "боевой",
-    									"TEST": "тестовый"
-    								}
-    							}
-    						}
-    					}
-    				}
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.dir(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'sale.cashbox.handler.add',
+        params: {
+          CODE: 'restcashbox01',
+          NAME: 'REST cashbox 01',
+          SORT: 100,
+          SUPPORTS_FFD105: 'Y',
+          SETTINGS: {
+            PRINT_URL: 'http://example.com/rest_print.php',
+            CHECK_URL: 'http://example.com/rest_check.php',
+            HTTP_VERSION: '1.1',
+            CONFIG: {
+              AUTH: {
+                LABEL: 'Authorization',
+                ITEMS: {
+                  KEYWORD: {
+                    TYPE: 'STRING',
+                    LABEL: 'Keyword',
+                  },
+                  PREFERENCE: {
+                    TYPE: 'ENUM',
+                    LABEL: 'Multiple choice',
+                    REQUIRED: 'Y',
+                    OPTIONS: {
+                      FIRST: 'First',
+                      SECOND: 'Second',
+                      THIRD: 'Third',
+                    },
+                  },
+                },
+              },
+              INTERACTION: {
+                LABEL: 'Cash register interaction settings',
+                ITEMS: {
+                  MODE: {
+                    TYPE: 'ENUM',
+                    LABEL: 'Cash register operating mode',
+                    OPTIONS: {
+                      ACTIVE: 'active',
+                      TEST: 'test',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('New cashbox handler ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch(error)
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addCashboxHandler() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'sale.cashbox.handler.add',
+            params: {
+              CODE: 'restcashbox01',
+              NAME: 'REST cashbox 01',
+              SORT: 100,
+              SUPPORTS_FFD105: 'Y',
+              SETTINGS: {
+                PRINT_URL: 'http://example.com/rest_print.php',
+                CHECK_URL: 'http://example.com/rest_check.php',
+                HTTP_VERSION: '1.1',
+                CONFIG: {
+                  AUTH: {
+                    LABEL: 'Authorization',
+                    ITEMS: {
+                      KEYWORD: {
+                        TYPE: 'STRING',
+                        LABEL: 'Keyword',
+                      },
+                      PREFERENCE: {
+                        TYPE: 'ENUM',
+                        LABEL: 'Multiple choice',
+                        REQUIRED: 'Y',
+                        OPTIONS: {
+                          FIRST: 'First',
+                          SECOND: 'Second',
+                          THIRD: 'Third',
+                        },
+                      },
+                    },
+                  },
+                  INTERACTION: {
+                    LABEL: 'Cash register interaction settings',
+                    ITEMS: {
+                      MODE: {
+                        TYPE: 'ENUM',
+                        LABEL: 'Cash register operating mode',
+                        OPTIONS: {
+                          ACTIVE: 'active',
+                          TEST: 'test',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('New cashbox handler ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addCashboxHandler)
+    </script>
     ```
 
 - PHP
