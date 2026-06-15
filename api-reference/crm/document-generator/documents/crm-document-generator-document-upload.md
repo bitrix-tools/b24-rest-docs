@@ -105,34 +105,125 @@
     https://**put_your_bitrix24_address**/rest/crm.documentgenerator.document.upload
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-    		const response = await $b24.callMethod(
-    			'crm.documentgenerator.document.upload',
-    			{
-    				fields: {
-    					entityTypeId: 2,
-    					entityId: 101,
-    					fileContent: '**base64_docx_content**',
-    					region: 'ru',
-    					title: 'Демонстрационная реализация товара',
-    					number: '2026-001',
-    					pdfContent: '**base64_pdf_content**',
-    					imageContent: '**base64_image_content**',
-    				},
-    			}
-    		);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type DocumentUploadResult = {
+      document: {
+        id: string
+        title: string
+        number: string
+        createTime: ISODate
+        updateTime: ISODate
+        createdBy: string
+        updatedBy: string | null
+        changeStampsEnabled: boolean
+        changeStampsDisabledReason: string
+        changeQrCodeEnabled: boolean
+        qrCodeEnabled: boolean
+        changeQrCodeDisabledReason: string
+        products: {
+          currencyId: string
+          totalSum: string
+          totalRows: number
+        }
+        stampsEnabled: boolean
+        isTransformationError: boolean
+        downloadUrl: string
+        downloadUrlMachine: string
+        publicUrl: string | null
+        templateId: string
+        pullTag: string
+        emailDiskFile: number
+        entityTypeId: string
+        entityId: string
+        values: Record<string, unknown> | null
+      }
     }
-    catch (error)
-    {
-    	console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<DocumentUploadResult>({
+        method: 'crm.documentgenerator.document.upload',
+        params: {
+          fields: {
+            entityTypeId: 2,
+            entityId: 101,
+            fileContent: '**base64_docx_content**',
+            region: 'ru',
+            title: 'Demo Sales Document',
+            number: '2026-001',
+            pdfContent: '**base64_pdf_content**',
+            imageContent: '**base64_image_content**',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.document.id, result.document.title, result.document.downloadUrl)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function uploadDocument() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.documentgenerator.document.upload',
+            params: {
+              fields: {
+                entityTypeId: 2,
+                entityId: 101,
+                fileContent: '**base64_docx_content**',
+                region: 'ru',
+                title: 'Demo Sales Document',
+                number: '2026-001',
+                pdfContent: '**base64_pdf_content**',
+                imageContent: '**base64_image_content**',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.document.id, result.document.title, result.document.downloadUrl)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', uploadDocument)
+    </script>
     ```
 
 - PHP
