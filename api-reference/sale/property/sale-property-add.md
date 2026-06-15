@@ -323,51 +323,159 @@
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.property.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'sale.property.add', {
-    			fields: {
-    				personTypeId: 3,
-    				propsGroupId: 6,
-    				name: 'Телефон (для связи с курьером)',
-    				type: 'STRING',
-    				code: 'PHONE',
-    				active: 'Y',
-    				util: 'N',
-    				userProps: 'Y',
-    				isFiltered: 'N',
-    				sort: 500,
-    				description: 'описание свойства',
-    				required: 'Y',
-    				multiple: 'N',
-    				settings: {
-    					multiline: 'Y',
-    					maxlength: 100
-    				},
-    				xmlId: '',
-    				defaultValue: '',
-    				isProfileName: 'Y',
-    				isPayer: 'Y',
-    				isEmail: 'N',
-    				isPhone: 'N',
-    				isZip: 'N',
-    				isAddress: 'N',
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type PropertyAddResult = {
+      property: {
+        active: string
+        code: string
+        defaultValue: string
+        description: string
+        id: number
+        inputFieldLocation: string
+        isAddress: string
+        isAddressFrom: string
+        isAddressTo: string
+        isEmail: string
+        isFiltered: string
+        isLocation: string
+        isLocation4tax: string
+        isPayer: string
+        isPhone: string
+        isProfileName: string
+        isZip: string
+        multiple: string
+        name: string
+        personTypeId: number
+        propsGroupId: number
+        required: string
+        settings: Record<string, string>
+        sort: number
+        type: string
+        userProps: string
+        util: string
+        xmlId: string
+      }
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<PropertyAddResult>({
+        method: 'sale.property.add',
+        params: {
+          fields: {
+            personTypeId: 3,
+            propsGroupId: 6,
+            name: 'Phone (for courier contact)',
+            type: 'STRING',
+            code: 'PHONE',
+            active: 'Y',
+            util: 'N',
+            userProps: 'Y',
+            isFiltered: 'N',
+            sort: 500,
+            description: 'property description',
+            required: 'Y',
+            multiple: 'N',
+            settings: {
+              multiline: 'Y',
+              maxlength: 100,
+            },
+            xmlId: '',
+            defaultValue: '',
+            isProfileName: 'Y',
+            isPayer: 'Y',
+            isEmail: 'N',
+            isPhone: 'N',
+            isZip: 'N',
+            isAddress: 'N',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Added property id:', result.property.id, 'name:', result.property.name)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addProperty() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'sale.property.add',
+            params: {
+              fields: {
+                personTypeId: 3,
+                propsGroupId: 6,
+                name: 'Phone (for courier contact)',
+                type: 'STRING',
+                code: 'PHONE',
+                active: 'Y',
+                util: 'N',
+                userProps: 'Y',
+                isFiltered: 'N',
+                sort: 500,
+                description: 'property description',
+                required: 'Y',
+                multiple: 'N',
+                settings: {
+                  multiline: 'Y',
+                  maxlength: 100,
+                },
+                xmlId: '',
+                defaultValue: '',
+                isProfileName: 'Y',
+                isPayer: 'Y',
+                isEmail: 'N',
+                isPhone: 'N',
+                isZip: 'N',
+                isAddress: 'N',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Added property id:', result.property.id, 'name:', result.property.name)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addProperty)
+    </script>
     ```
 
 - PHP
