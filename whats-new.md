@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 17 июня, 2026
+
+- Добавили описание метода [tasks.task.list](./api-reference/rest-v3/tasks/tasks-task-list.md)
+
 ### 10 июня, 2026
 
 - Добавили методы раздела [Коммуникации отделов и команд](./api-reference/rest-v3/humanresources/node-communication/index.md)
