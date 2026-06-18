@@ -54,31 +54,110 @@
     https://**put_your_bitrix24_address**/rest/crm.requisite.bankdetail.get
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'crm.requisite.bankdetail.get',
-    		{ id: 357 }
-    	);
-    	
-    	const result = response.getData().result;
-    	if(result.error())
-    	{
-    		console.error(result.error());
-    	}
-    	else
-    	{
-    		console.dir(result);
-    	}
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type BankDetailGetResult = {
+      ID: string
+      ENTITY_ID: string
+      COUNTRY_ID: string
+      DATE_CREATE: ISODate | null
+      DATE_MODIFY: ISODate | null
+      CREATED_BY_ID: string
+      MODIFY_BY_ID: string | null
+      NAME: string
+      CODE: string | null
+      XML_ID: string
+      ORIGINATOR_ID: string | null
+      ACTIVE: string
+      SORT: string
+      RQ_BANK_NAME: string | null
+      RQ_BANK_CODE: string | null
+      RQ_BANK_ADDR: string | null
+      RQ_BANK_ROUTE_NUM: string | null
+      RQ_BIK: string | null
+      RQ_MFO: string | null
+      RQ_ACC_NAME: string | null
+      RQ_ACC_NUM: string | null
+      RQ_ACC_TYPE: string | null
+      RQ_IIK: string | null
+      RQ_ACC_CURRENCY: string | null
+      RQ_COR_ACC_NUM: string | null
+      RQ_IBAN: string | null
+      RQ_SWIFT: string | null
+      RQ_BIC: string | null
+      RQ_CODEB: string | null
+      RQ_CODEG: string | null
+      RQ_RIB: string | null
+      RQ_AGENCY_NAME: string | null
+      COMMENTS: string | null
     }
-    catch(error)
-    {
-    	console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<BankDetailGetResult>({
+        method: 'crm.requisite.bankdetail.get',
+        params: {
+          id: 357,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Bank detail:', result.ID, result.NAME, result.RQ_BIK)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getBankDetail() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.requisite.bankdetail.get',
+            params: {
+              id: 357,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Bank detail:', result.ID, result.NAME, result.RQ_BIK)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getBankDetail)
+    </script>
     ```
 
 - PHP

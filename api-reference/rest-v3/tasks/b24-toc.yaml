@@ -19,6 +19,8 @@ items:
       mode: link
   - name: Получить задачу
     href: tasks-task-get.md
+  - name: Получить список задач
+    href: tasks-task-list.md
   - name: Удалить задачу
     href: tasks-task-delete.md
   - name: Проверить права доступа

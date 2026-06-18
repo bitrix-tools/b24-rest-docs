@@ -96,48 +96,146 @@
     https://**put_your_bitrix24_address**/rest/api/main.eventlog.list
     ```
 
-- JS
+- JS (TS)
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```javascript
-    try
-    {
-        const response = await $b24.callMethod(
-            'main.eventlog.list',
-            {
-                select: [
-                    'id',
-                    'timestampX',
-                    'severity',
-                    'auditTypeId',
-                    'moduleId',
-                    'itemId',
-                    'userId',
-                    'description'
-                ],
-                filter: [
-                    ['timestampX', '>=', '2026-01-30T00:00:00+03:00'],
-                    ['timestampX', '<', '2026-01-31T00:00:00+03:00']
-                ],
-                order: {
-                    id: 'ASC'
-                },
-                pagination: {
-                    page: 1,
-                    limit: 20,
-                    offset: 0
-                }
-            }
-        );
+    declare const $b24: B24Frame
 
-        const result = response.getData().result;
-        console.log('Event log list:', result);
+    type EventLogItem = {
+      id: number
+      timestampX: ISODate | null
+      severity: string
+      auditTypeId: string
+      moduleId: string
+      itemId: string
+      remoteAddr: string
+      userAgent: string
+      requestUri: string
+      siteId: string
+      userId: number
+      guestId: number
+      description: string
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type EventLogListResult = {
+      items: EventLogItem[]
     }
+
+    try {
+      // main.eventlog.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v3.callList.make() returns every record as one
+      // array, $b24.actions.v3.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `pagination` variant when sort matters.
+      const response = await $b24.actions.v3.call.make<EventLogListResult>({
+        method: 'main.eventlog.list',
+        params: {
+          select: [
+            'id',
+            'timestampX',
+            'severity',
+            'auditTypeId',
+            'moduleId',
+            'itemId',
+            'userId',
+            'description',
+          ],
+          filter: [
+            ['timestampX', '>=', '2026-01-30T00:00:00+03:00'],
+            ['timestampX', '<', '2026-01-31T00:00:00+03:00'],
+          ],
+          order: {
+            id: 'ASC',
+          },
+          pagination: {
+            page: 1,
+            limit: 20,
+            offset: 0,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Event log entries:', result.items.length, result.items)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getEventLogList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // main.eventlog.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v3.callList.make() returns every record as one
+          // array, $b24.actions.v3.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `pagination` variant when sort matters.
+          const response = await $b24.actions.v3.call.make({
+            method: 'main.eventlog.list',
+            params: {
+              select: [
+                'id',
+                'timestampX',
+                'severity',
+                'auditTypeId',
+                'moduleId',
+                'itemId',
+                'userId',
+                'description',
+              ],
+              filter: [
+                ['timestampX', '>=', '2026-01-30T00:00:00+03:00'],
+                ['timestampX', '<', '2026-01-31T00:00:00+03:00'],
+              ],
+              order: {
+                id: 'ASC',
+              },
+              pagination: {
+                page: 1,
+                limit: 20,
+                offset: 0,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Event log entries:', result.items.length, result.items)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getEventLogList)
+    </script>
     ```
 
 - PHP

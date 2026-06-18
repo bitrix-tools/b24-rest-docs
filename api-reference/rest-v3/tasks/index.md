@@ -162,6 +162,7 @@
 || [tasks.task.add](./tasks-task-add.md) | Создает новую задачу ||
 || [tasks.task.file.attach](./tasks-task-file-attach.md) | Прикрепляет файлы Диска к задаче ||
 || [tasks.task.get](./tasks-task-get.md) | Получает данные задачи с поддержкой связей через `select` ||
+|| [tasks.task.list](./tasks-task-list.md) | Возвращает список задач по заданным условиям ||
 || [tasks.task.chat.message.send](./tasks-task-chat-message-send.md) | Отправляет сообщение в чат задачи ||
 || [tasks.task.result.add](./result/tasks-task-result-add.md) | Добавляет результат к задаче ||
 || [tasks.task.result.addfromchatmessage](./result/tasks-task-result-addfromchatmessage.md) | Создает результат из сообщения чата задачи ||

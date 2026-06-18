@@ -139,64 +139,99 @@
     https://**put_your_bitrix24_address**/rest/crm.quote.list
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try {
-      await $b24.callListMethod(
-        'crm.quote.list',
-        {
-          order: { STATUS_ID: 'ASC', ID: 'ASC' },
-          filter: { '=COMPANY_ID': 1, '=STATUS_ID': 'SENT' },
-          select: ['ID', 'TITLE', 'STATUS_ID', 'OPPORTUNITY', 'CURRENCY_ID', 'ASSIGNED_BY_ID'],
-        },
-        (progress) => {
-          progress.error()
-            ? console.error(progress.error())
-            : console.info(progress.data())
-          ;
-        },
-      );
-    } catch (error) {
-      console.error('Request failed', error);
-    }
-    
-    try {
-      const generator = $b24.fetchListMethod(
-        'crm.quote.list',
-        {
-          order: { STATUS_ID: 'ASC', ID: 'ASC' },
-          filter: { '=COMPANY_ID': 1, '=STATUS_ID': 'SENT' },
-          select: ['ID', 'TITLE', 'STATUS_ID', 'OPPORTUNITY', 'CURRENCY_ID', 'ASSIGNED_BY_ID'],
-        },
-        'ID',
-      );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-      for await (const page of generator) {
-        for (const entity of page) {
-          console.info(entity);
-        }
-      }
-    } catch (error) {
-      console.error('Request failed', error);
+    declare const $b24: B24Frame
+
+    // Shape of each QuoteItem returned in result[]
+    type QuoteItem = {
+      ID: string
+      TITLE: string
+      STATUS_ID: string
+      OPPORTUNITY: string
+      CURRENCY_ID: string
+      ASSIGNED_BY_ID: string
     }
 
     try {
-      const response = await $b24.callMethod(
-        'crm.quote.list',
-        {
+      // crm.quote.list returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<QuoteItem[]>({
+        method: 'crm.quote.list',
+        params: {
           order: { STATUS_ID: 'ASC', ID: 'ASC' },
           filter: { '=COMPANY_ID': 1, '=STATUS_ID': 'SENT' },
           select: ['ID', 'TITLE', 'STATUS_ID', 'OPPORTUNITY', 'CURRENCY_ID', 'ASSIGNED_BY_ID'],
           start: 0,
         },
-      );
+        requestId: Text.getUuidRfc4122()
+      })
 
-      const result = response.getData().result || [];
-      console.info(result);
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Quotes on this page:', result.length, result)
+      }
     } catch (error) {
-      console.error('Request failed', error);
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchQuoteList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // crm.quote.list returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.quote.list',
+            params: {
+              order: { STATUS_ID: 'ASC', ID: 'ASC' },
+              filter: { '=COMPANY_ID': 1, '=STATUS_ID': 'SENT' },
+              select: ['ID', 'TITLE', 'STATUS_ID', 'OPPORTUNITY', 'CURRENCY_ID', 'ASSIGNED_BY_ID'],
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Quotes on this page:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchQuoteList)
+    </script>
     ```
 
 - PHP

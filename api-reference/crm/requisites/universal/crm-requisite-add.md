@@ -239,45 +239,109 @@
     https://**put_your_bitrix24_address**/rest/crm.requisite.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"crm.requisite.add",
-    		{
-    			fields:
-    			{
-    				"ENTITY_TYPE_ID": 4,
-    				"ENTITY_ID": 1,
-    				"PRESET_ID": 1,
-    				"NAME": "Организация",
-    				"ACTIVE": "Y",
-    				"ADDRESS_ONLY": "N",
-    				"SORT": 500,
-    				"RQ_COMPANY_NAME": "ООО \"1С-БИТРИКС\"",
-    				"RQ_COMPANY_FULL_NAME": "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"1С-БИТРИКС\"",
-    				"RQ_COMPANY_REG_DATE": "06.04.2007",
-    				"RQ_DIRECTOR": "РЫЖИКОВ СЕРГЕЙ ВЛАДИМИРОВИЧ",
-    				"RQ_INN": "7717586110",
-    				"RQ_KPP": "770501001",
-    				"RQ_OGRN": "5077746476209",
-    				"UF_CRM_1707997209": "56",
-    				"UF_CRM_1708012333": "Категория 1",
-    				"XML_ID": "5e4641fd-1dd9-11e6-b2f2-005056c00008"
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info("Создан реквизит с ID " + result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'crm.requisite.add',
+        params: {
+          fields: {
+            ENTITY_TYPE_ID: 4,
+            ENTITY_ID: 1,
+            PRESET_ID: 1,
+            NAME: 'Organization',
+            ACTIVE: 'Y',
+            ADDRESS_ONLY: 'N',
+            SORT: 500,
+            RQ_COMPANY_NAME: 'LLC "1C-BITRIX"',
+            RQ_COMPANY_FULL_NAME: 'LIMITED LIABILITY COMPANY "1C-BITRIX"',
+            RQ_COMPANY_REG_DATE: '06.04.2007',
+            RQ_DIRECTOR: 'RYZHIKOV SERGEY VLADIMIROVICH',
+            RQ_INN: '7717586110',
+            RQ_KPP: '770501001',
+            RQ_OGRN: '5077746476209',
+            UF_CRM_1707997209: '56',
+            UF_CRM_1708012333: 'Category 1',
+            XML_ID: '5e4641fd-1dd9-11e6-b2f2-005056c00008',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created requisite with ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch(error)
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addRequisite() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.requisite.add',
+            params: {
+              fields: {
+                ENTITY_TYPE_ID: 4,
+                ENTITY_ID: 1,
+                PRESET_ID: 1,
+                NAME: 'Organization',
+                ACTIVE: 'Y',
+                ADDRESS_ONLY: 'N',
+                SORT: 500,
+                RQ_COMPANY_NAME: 'LLC "1C-BITRIX"',
+                RQ_COMPANY_FULL_NAME: 'LIMITED LIABILITY COMPANY "1C-BITRIX"',
+                RQ_COMPANY_REG_DATE: '06.04.2007',
+                RQ_DIRECTOR: 'RYZHIKOV SERGEY VLADIMIROVICH',
+                RQ_INN: '7717586110',
+                RQ_KPP: '770501001',
+                RQ_OGRN: '5077746476209',
+                UF_CRM_1707997209: '56',
+                UF_CRM_1708012333: 'Category 1',
+                XML_ID: '5e4641fd-1dd9-11e6-b2f2-005056c00008',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created requisite with ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addRequisite)
+    </script>
     ```
 
 - PHP

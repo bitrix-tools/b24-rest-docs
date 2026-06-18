@@ -78,28 +78,105 @@
     https://**put_your_bitrix24_address**/rest/im.dialog.messages.search
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'im.dialog.messages.search',
-            {
-                CHAT_ID: 3,
-                SEARCH_MESSAGE: 'test',
-                ORDER: { ID: 'DESC' },
-                LIMIT: 20
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log('Search result:', result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type DialogMessagesSearchResult = {
+      messages: Array<{
+        id: number
+        chat_id: number
+        author_id: number
+        date: ISODate
+        text: string
+        isSystem: boolean
+        uuid: string | null
+        forward: object | null
+        params: unknown[]
+        viewedByOthers: boolean
+        unread: boolean
+        viewed: boolean
+      }>
+      users: unknown[]
+      files: unknown[]
+      additionalMessages: unknown[]
+      copilot: object | null
+      stickers: unknown[]
+      reactions: unknown[]
+      tariffRestrictions: { isHistoryLimitExceeded: boolean }
+      usersShort: unknown[]
     }
-    catch (error)
-    {
-        console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<DialogMessagesSearchResult>({
+        method: 'im.dialog.messages.search',
+        params: {
+          CHAT_ID: 3,
+          SEARCH_MESSAGE: 'test',
+          ORDER: { ID: 'DESC' },
+          LIMIT: 20,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Found messages:', result.messages.length, result.messages)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function searchDialogMessages() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.dialog.messages.search',
+            params: {
+              CHAT_ID: 3,
+              SEARCH_MESSAGE: 'test',
+              ORDER: { ID: 'DESC' },
+              LIMIT: 20,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Found messages:', result.messages.length, result.messages)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', searchDialogMessages)
+    </script>
     ```
 
 - PHP

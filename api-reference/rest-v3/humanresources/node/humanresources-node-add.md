@@ -190,41 +190,125 @@
     https://**put_your_bitrix24_address**/rest/api/humanresources.node.add
     ```
 
-- JS
+- JS (TS)
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```javascript
-    try
-    {
-        const response = await $b24.callMethod(
-            'humanresources.node.add',
-            {
-                type: 'DEPARTMENT',
-                name: 'Отдел маркетинга',
-                parentId: 1,
-                description: 'Отвечает за продвижение',
-                userIds: {
-                    MEMBER_HEAD: [7],
-                    MEMBER_EMPLOYEE: [12, 15]
-                },
-                moveUsersToNode: true,
-                createChat: true,
-                bindingChatIds: [31],
-                settings: {
-                    BUSINESS_PROC_AUTHORITY: ['HEAD', 'DEPUTY_HEAD'],
-                    REPORTS_AUTHORITY: ['HEAD']
-                }
-            }
-        );
+    declare const $b24: B24Frame
 
-        const result = response.getData().result;
-        console.info('Department created with ID', result.id);
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type NodeAddResult = {
+      id: number
+      name: string
+      type: string
+      structureId: number
+      parentId: number
+      description: string | null
+      accessCode: string
+      userCount: number
+      colorName: string | null
+      xmlId: string | null
+      createdAt: ISODate
+      updatedAt: ISODate
+      members: Array<{
+        userId: number
+        name: string
+        workPosition: string
+        role: string
+        avatar: string | null
+        url: string
+      }>
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      const response = await $b24.actions.v3.call.make<NodeAddResult>({
+        method: 'humanresources.node.add',
+        params: {
+          type: 'DEPARTMENT',
+          name: 'Marketing department',
+          parentId: 1,
+          description: 'Handles promotion',
+          userIds: {
+            MEMBER_HEAD: [7],
+            MEMBER_EMPLOYEE: [12, 15],
+          },
+          moveUsersToNode: true,
+          createChat: true,
+          bindingChatIds: [31],
+          settings: {
+            BUSINESS_PROC_AUTHORITY: ['HEAD', 'DEPUTY_HEAD'],
+            REPORTS_AUTHORITY: ['HEAD'],
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Node created:', result.id, result.name, result.type)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addNode() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v3.call.make({
+            method: 'humanresources.node.add',
+            params: {
+              type: 'DEPARTMENT',
+              name: 'Marketing department',
+              parentId: 1,
+              description: 'Handles promotion',
+              userIds: {
+                MEMBER_HEAD: [7],
+                MEMBER_EMPLOYEE: [12, 15],
+              },
+              moveUsersToNode: true,
+              createChat: true,
+              bindingChatIds: [31],
+              settings: {
+                BUSINESS_PROC_AUTHORITY: ['HEAD', 'DEPUTY_HEAD'],
+                REPORTS_AUTHORITY: ['HEAD'],
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Node created:', result.id, result.name, result.type)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addNode)
+    </script>
     ```
 
 - PHP

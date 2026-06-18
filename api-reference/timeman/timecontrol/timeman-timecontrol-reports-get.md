@@ -68,30 +68,133 @@
     https://**put_your_bitrix24_address**/rest/timeman.timecontrol.reports.get
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'timeman.timecontrol.reports.get',
-    		{
-    			'USER_ID': 3,
-    			'MONTH': 5,
-    			'YEAR': 2025,
-    			'IDLE_MINUTES': 15,
-    			'WORKDAY_HOURS': 8
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type TimecontrolReportResult = {
+      report: {
+        month_title: string
+        date_start: ISODate
+        date_finish: ISODate
+        days: {
+          index: string
+          day_title: string
+          workday_date_start: ISODate
+          workday_date_finish: ISODate
+          workday_complete: boolean
+          workday_time_leaks_user: number
+          workday_time_leaks_final: number
+          workday_duration: number
+          workday_duration_final: number
+          workday_duration_config: number
+          reports: {
+            id: string
+            user_id: string
+            type: string
+            date_start: ISODate
+            date_finish: ISODate
+            duration: number
+            active: boolean
+            entry_id: string
+            report_type: string
+            report_text: string
+            system_text: string | null
+            source_start: string
+            source_finish: string
+            ip_start: string
+            ip_finish: string
+            ip_start_network: boolean | object
+            ip_finish_network: boolean | object
+          }[]
+          workday_time_leaks_real: number
+        }[]
+      }
+      user: {
+        id: number
+        active: boolean
+        name: string
+        first_name: string
+        last_name: string
+        work_position: string
+        avatar: string
+        personal_gender: string
+        last_activity_date: ISODate
+      }
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<TimecontrolReportResult>({
+        method: 'timeman.timecontrol.reports.get',
+        params: {
+          USER_ID: 3,
+          MONTH: 5,
+          YEAR: 2025,
+          IDLE_MINUTES: 15,
+          WORKDAY_HOURS: 8,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.report.month_title, result.report.days.length, result.user.name)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getTimecontrolReport() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'timeman.timecontrol.reports.get',
+            params: {
+              USER_ID: 3,
+              MONTH: 5,
+              YEAR: 2025,
+              IDLE_MINUTES: 15,
+              WORKDAY_HOURS: 8,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.report.month_title, result.report.days.length, result.user.name)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getTimecontrolReport)
+    </script>
     ```
 
 - PHP

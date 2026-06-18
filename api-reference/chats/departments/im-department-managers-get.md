@@ -61,25 +61,113 @@
       https://**put_your_bitrix24_address**/rest/im.department.managers.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'im.department.managers.get',
-            {
-                ID: [3, 7],
-                USER_DATA: 'Y'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    type ManagerUser = {
+      id: number
+      active: boolean
+      name: string
+      first_name: string
+      last_name: string
+      work_position: string
+      color: string
+      avatar: string
+      avatar_hr: string
+      gender: string
+      birthday: string
+      extranet: boolean
+      network: boolean
+      bot: boolean
+      connector: boolean
+      external_auth_id: string
+      status: string
+      idle: ISODate | false
+      last_activity_date: ISODate
+      mobile_last_date: ISODate | false
+      desktop_last_date: ISODate | false
+      absent: ISODate | false
+      departments: number[]
+      phones: { personal_mobile: string; inner_phone: string } | false
+      bot_data: Record<string, unknown> | null
+      type: string
+      website: string
+      email: string
     }
-    catch (error)
-    {
-        console.error(error);
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type DepartmentManagersResult = Record<string, ManagerUser[]>
+
+    try {
+      const response = await $b24.actions.v2.call.make<DepartmentManagersResult>({
+        method: 'im.department.managers.get',
+        params: {
+          ID: [3, 7],
+          USER_DATA: 'Y',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        for (const [deptId, managers] of Object.entries(result)) {
+          console.info(`Department ${deptId}:`, managers.map(m => `${m.name} (id: ${m.id})`))
+        }
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getDepartmentManagers() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.department.managers.get',
+            params: {
+              ID: [3, 7],
+              USER_DATA: 'Y',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          for (const [deptId, managers] of Object.entries(result)) {
+            console.info(`Department ${deptId}:`, managers.map(m => `${m.name} (id: ${m.id})`))
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getDepartmentManagers)
+    </script>
     ```
 
 - PHP

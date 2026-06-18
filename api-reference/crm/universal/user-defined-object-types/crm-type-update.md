@@ -139,37 +139,108 @@
         https://**put_your_bitrix24_address**/rest/crm.type.update
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        BX24.callMethod(
-            'crm.type.update',
-            {
-                id: 20,
-                fields: {
-                    isAutomationEnabled: "N",
-                    isBeginCloseDatesEnabled: "N",
-                    isClientEnabled: "N",
-                    isObserversEnabled: "N",
-                    isSourceEnabled: "Y",
-                    isStagesEnabled: "Y",
-                    isUseInUserfieldEnabled: "Y",
-                    linkedUserFields: {
-                        "TASKS_TASK|UF_CRM_TASK": "true",
-                    },
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
+
+        declare const $b24: B24Frame
+
+        type SmartProcessType = {
+          id: number
+          title: string
+          entityTypeId: number
+        }
+
+        // Shape of the payload returned in result (match the "response handling" section of the page)
+        type TypeUpdateResult = {
+          type: SmartProcessType
+        }
+
+        try {
+          const response = await $b24.actions.v2.call.make<TypeUpdateResult>({
+            method: 'crm.type.update',
+            params: {
+              id: 20,
+              fields: {
+                isAutomationEnabled: 'N',
+                isBeginCloseDatesEnabled: 'N',
+                isClientEnabled: 'N',
+                isObserversEnabled: 'N',
+                isSourceEnabled: 'Y',
+                isStagesEnabled: 'Y',
+                isUseInUserfieldEnabled: 'Y',
+                linkedUserFields: {
+                  'TASKS_TASK|UF_CRM_TASK': 'true',
                 },
+              },
             },
-            (result) => {
-                if (result.error())
-                {
-                    console.error(result.error());
+            requestId: Text.getUuidRfc4122()
+          })
 
-                    return;
-                }
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info(`Updated smart process #${result.type.id} (${result.type.title})`)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
 
-                console.info(result.data());
-            },
-        );
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function updateSmartProcessSettings() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.type.update',
+                params: {
+                  id: 20,
+                  fields: {
+                    isAutomationEnabled: 'N',
+                    isBeginCloseDatesEnabled: 'N',
+                    isClientEnabled: 'N',
+                    isObserversEnabled: 'N',
+                    isSourceEnabled: 'Y',
+                    isStagesEnabled: 'Y',
+                    isUseInUserfieldEnabled: 'Y',
+                    linkedUserFields: {
+                      'TASKS_TASK|UF_CRM_TASK': 'true',
+                    },
+                  },
+                },
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info(`Updated smart process #${result.type.id} (${result.type.title})`)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
+            }
+          }
+
+          document.addEventListener('DOMContentLoaded', updateSmartProcessSettings)
+        </script>
         ```
 
     - PHP
@@ -259,40 +330,114 @@
         https://**put_your_bitrix24_address**/rest/crm.type.update
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        BX24.callMethod(
-            'crm.type.update',
-            {
-                id: 20,
-                fields: {
-                    relations: {
-                        parent: [],
-                        child: [
-                            {
-                                "entityTypeId": 1,
-                                "isChildrenListEnabled": "true",
-                            },
-                            {
-                                "entityTypeId": 2,
-                                "isChildrenListEnabled": "false",
-                            }
-                        ],
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
+
+        declare const $b24: B24Frame
+
+        type SmartProcessType = {
+          id: number
+          title: string
+          entityTypeId: number
+        }
+
+        // Shape of the payload returned in result (match the "response handling" section of the page)
+        type TypeUpdateResult = {
+          type: SmartProcessType
+        }
+
+        try {
+          const response = await $b24.actions.v2.call.make<TypeUpdateResult>({
+            method: 'crm.type.update',
+            params: {
+              id: 20,
+              fields: {
+                relations: {
+                  parent: [],
+                  child: [
+                    {
+                      entityTypeId: 1,
+                      isChildrenListEnabled: 'true',
                     },
+                    {
+                      entityTypeId: 2,
+                      isChildrenListEnabled: 'false',
+                    },
+                  ],
                 },
+              },
             },
-            (result) => {
-                if (result.error())
-                {
-                    console.error(result.error());
+            requestId: Text.getUuidRfc4122()
+          })
 
-                    return;
-                }
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info(`Updated smart process #${result.type.id} (${result.type.title})`)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
 
-                console.info(result.data());
-            },
-        );
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function updateSmartProcessRelations() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.type.update',
+                params: {
+                  id: 20,
+                  fields: {
+                    relations: {
+                      parent: [],
+                      child: [
+                        {
+                          entityTypeId: 1,
+                          isChildrenListEnabled: 'true',
+                        },
+                        {
+                          entityTypeId: 2,
+                          isChildrenListEnabled: 'false',
+                        },
+                      ],
+                    },
+                  },
+                },
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info(`Updated smart process #${result.type.id} (${result.type.title})`)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
+            }
+          }
+
+          document.addEventListener('DOMContentLoaded', updateSmartProcessRelations)
+        </script>
         ```
 
     - PHP

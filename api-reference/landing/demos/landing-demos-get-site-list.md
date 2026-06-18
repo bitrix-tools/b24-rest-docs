@@ -92,27 +92,102 @@
       "https://**put.your-domain-here**/rest/landing.demos.getSiteList.json"
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'landing.demos.getSiteList',
-    		{
-    			type: 'page',
-    			filter: {
-    				TYPE: 'page'
-    			}
-    		}
-    	);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    	console.info(response.getData().result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type SiteListResult = Record<string, SiteTemplate>
+
+    type SiteTemplate = {
+      ID: string,
+      XML_ID: string,
+      TYPE: string[] | string,
+      TITLE: string,
+      ACTIVE: boolean,
+      PUBLICATION: boolean,
+      LOCK_DELETE: boolean,
+      AVAILABLE: boolean,
+      SINGLETON: boolean,
+      SECTION: string[],
+      DESCRIPTION: string,
+      PREVIEW: string,
+      PREVIEW2X: string,
+      PREVIEW3X: string,
+      APP_CODE: string,
+      REST: number,
+      DATA: Record<string, unknown>,
     }
-    catch (error)
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<SiteListResult>({
+        method: 'landing.demos.getSiteList',
+        params: {
+          type: 'page',
+          filter: {
+            TYPE: 'page',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Site demo templates:', Object.keys(result))
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchSiteList() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'landing.demos.getSiteList',
+            params: {
+              type: 'page',
+              filter: {
+                TYPE: 'page',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Site demo templates:', Object.keys(result))
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchSiteList)
+    </script>
     ```
 
 - PHP

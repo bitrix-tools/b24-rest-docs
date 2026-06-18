@@ -78,25 +78,108 @@
       https://**put_your_bitrix24_address**/rest/im.recent.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'im.recent.get',
-            {
-                SKIP_OPENLINES: 'Y',
-                LAST_UPDATE: '2026-02-25T18:30:00+01:00'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    // Shape of each item returned in result[]
+    type ImRecentItem = {
+      id: string
+      chat_id: number
+      type: string
+      title: string
+      counter: number
+      last_id: number
+      pinned: boolean
+      unread: boolean
+      has_reminder: boolean
+      date_update: ISODate
+      date_last_activity: ISODate
+      avatar: {
+        url: string
+        color: string
+      }
+      message: {
+        id: number
+        text: string
+        file: boolean
+        author_id: number
+        attach: boolean
+        sticker: number | null
+        date: ISODate
+        status: string
+        uuid: string | null
+      }
+      chat: Record<string, unknown>
+      user: { id: number }
+      options: unknown[]
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<ImRecentItem[]>({
+        method: 'im.recent.get',
+        params: {
+          SKIP_OPENLINES: 'Y',
+          LAST_UPDATE: '2026-02-25T18:30:00+01:00',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Recent chats count:', result.length, 'First chat title:', result[0]?.title)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getRecentChats() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.recent.get',
+            params: {
+              SKIP_OPENLINES: 'Y',
+              LAST_UPDATE: '2026-02-25T18:30:00+01:00',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Recent chats count:', result.length, 'First chat title:', result[0]?.title)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getRecentChats)
+    </script>
     ```
 
 - PHP

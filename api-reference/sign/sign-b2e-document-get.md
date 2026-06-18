@@ -48,26 +48,98 @@
     https://**put_your_bitrix24_address**/rest/sign.b2e.document.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'sign.b2e.document.get',
-    		{
-    			uid: 'b6f5f1f1-9d20-4b6b-ae0f-2f0a8a0c2b3c',
-    			language: 'ru'
-    		}
-    	);
-    
-    	const result = response.getData().result;
-    	console.dir(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type DocumentGetResult = {
+      uid: string
+      state: {
+        code: string
+        name: string
+      }
+      members: {
+        uid: string
+        role: string
+        party: number
+        user: {
+          employeeCode: string
+          employeeId: number
+          userId: number
+        }
+        state: {
+          code: string
+          name: string
+        }
+      }[]
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<DocumentGetResult>({
+        method: 'sign.b2e.document.get',
+        params: {
+          uid: 'b6f5f1f1-9d20-4b6b-ae0f-2f0a8a0c2b3c',
+          language: 'ru',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.uid, result.state.code, result.members.length)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getDocument() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'sign.b2e.document.get',
+            params: {
+              uid: 'b6f5f1f1-9d20-4b6b-ae0f-2f0a8a0c2b3c',
+              language: 'ru',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.uid, result.state.code, result.members.length)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getDocument)
+    </script>
     ```
 
 - PHP

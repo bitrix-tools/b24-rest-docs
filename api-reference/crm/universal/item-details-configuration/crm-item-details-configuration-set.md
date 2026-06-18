@@ -191,84 +191,189 @@
     https://**put_your_bitrix24_address**/rest/crm.item.details.configuration.set
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'crm.item.details.configuration.set',
-    		{
-    			entityTypeId: 3,
-    			userId: 1,
-    			data: [
-    				{
-    					name: "section_1",
-    					title: "Личные данные",
-    					type: "section",
-    					elements: [
-    						{
-    							name: "NAME",
-    							optionFlags: 1,
-    						},
-    						{
-    							name: "LAST_NAME",
-    							optionFlags: 1,
-    						},
-    						{
-    							name: "SECOND_NAME",
-    						},
-    						{
-    							name: "BIRTHDATE",
-    						},
-    						{
-    							name: "PHONE",
-    							optionFlags: 1,
-    							options: {
-    								defaultCountry: "GB",
-    							},
-    						},
-    						{
-    							name: "ADDRESS",
-    							optionFlags: 1,
-    							options: {
-    								defaultAddressType: 4,
-    							},
-    						},
-    					],
-    				},
-    				{
-    					name: "section_2",
-    					title: "Основная информация",
-    					type: "section",
-    					elements: [
-    						{ name: "TYPE_ID" },
-    						{ name: "SOURCE_ID" },
-    						{ name: "POST" },
-    					],
-    				},
-    				{
-    					name: "section_3",
-    					title: "Дополнительная информация",
-    					type: "section",
-    					elements: [
-    						{ name: "PHOTO" },
-    						{ name: "COMMENTS" },
-    						{ name: "UF_CRM_1720697698689" },
-    					],
-    				},
-    			],
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'crm.item.details.configuration.set',
+        params: {
+          entityTypeId: 3,
+          userId: 1,
+          data: [
+            {
+              name: 'section_1',
+              title: 'Personal data',
+              type: 'section',
+              elements: [
+                {
+                  name: 'NAME',
+                  optionFlags: 1,
+                },
+                {
+                  name: 'LAST_NAME',
+                  optionFlags: 1,
+                },
+                {
+                  name: 'SECOND_NAME',
+                },
+                {
+                  name: 'BIRTHDATE',
+                },
+                {
+                  name: 'PHONE',
+                  optionFlags: 1,
+                  options: {
+                    defaultCountry: 'GB',
+                  },
+                },
+                {
+                  name: 'ADDRESS',
+                  optionFlags: 1,
+                  options: {
+                    defaultAddressType: 4,
+                  },
+                },
+              ],
+            },
+            {
+              name: 'section_2',
+              title: 'Main information',
+              type: 'section',
+              elements: [
+                { name: 'TYPE_ID' },
+                { name: 'SOURCE_ID' },
+                { name: 'POST' },
+              ],
+            },
+            {
+              name: 'section_3',
+              title: 'Additional information',
+              type: 'section',
+              elements: [
+                { name: 'PHOTO' },
+                { name: 'COMMENTS' },
+                { name: 'UF_CRM_1720697698689' },
+              ],
+            },
+          ],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Configuration saved successfully:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function setDetailsConfiguration() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.item.details.configuration.set',
+            params: {
+              entityTypeId: 3,
+              userId: 1,
+              data: [
+                {
+                  name: 'section_1',
+                  title: 'Personal data',
+                  type: 'section',
+                  elements: [
+                    {
+                      name: 'NAME',
+                      optionFlags: 1,
+                    },
+                    {
+                      name: 'LAST_NAME',
+                      optionFlags: 1,
+                    },
+                    {
+                      name: 'SECOND_NAME',
+                    },
+                    {
+                      name: 'BIRTHDATE',
+                    },
+                    {
+                      name: 'PHONE',
+                      optionFlags: 1,
+                      options: {
+                        defaultCountry: 'GB',
+                      },
+                    },
+                    {
+                      name: 'ADDRESS',
+                      optionFlags: 1,
+                      options: {
+                        defaultAddressType: 4,
+                      },
+                    },
+                  ],
+                },
+                {
+                  name: 'section_2',
+                  title: 'Main information',
+                  type: 'section',
+                  elements: [
+                    { name: 'TYPE_ID' },
+                    { name: 'SOURCE_ID' },
+                    { name: 'POST' },
+                  ],
+                },
+                {
+                  name: 'section_3',
+                  title: 'Additional information',
+                  type: 'section',
+                  elements: [
+                    { name: 'PHOTO' },
+                    { name: 'COMMENTS' },
+                    { name: 'UF_CRM_1720697698689' },
+                  ],
+                },
+              ],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Configuration saved successfully:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', setDetailsConfiguration)
+    </script>
     ```
 
 - PHP

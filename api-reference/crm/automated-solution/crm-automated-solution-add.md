@@ -91,29 +91,88 @@
         https://**put_your_bitrix24_address**/rest/crm.automatedsolution.add
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        BX24.callMethod(
-            'crm.automatedsolution.add',
-            {
-                "fields": {
-                    "title": "HR",
-                    "typeIds": [
-                        1,
-                        2,
-                        3
-                    ]
-                }
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
+
+        declare const $b24: B24Frame
+
+        // Shape of the payload returned in result (match the "response handling" section of the page)
+        type AutomatedSolutionAddResult = {
+          automatedSolution: {
+            id: number
+            title: string
+            typeIds: number[]
+          }
+        }
+
+        try {
+          const response = await $b24.actions.v2.call.make<AutomatedSolutionAddResult>({
+            method: 'crm.automatedsolution.add',
+            params: {
+              fields: {
+                title: 'HR',
+                typeIds: [1, 2, 3],
+              },
             },
-            function(result) {
-                if (result.error()) {
-                    console.error(result.error());
-                } else {
-                    console.info(result.data());
-                }
+            requestId: Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info(result.automatedSolution)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
+
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function addAutomatedSolution() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.automatedsolution.add',
+                params: {
+                  fields: {
+                    title: 'HR',
+                    typeIds: [1, 2, 3],
+                  },
+                },
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info(result.automatedSolution)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
             }
-        );
+          }
+
+          document.addEventListener('DOMContentLoaded', addAutomatedSolution)
+        </script>
         ```
 
     - PHP
@@ -194,24 +253,86 @@
         https://**put_your_bitrix24_address**/rest/crm.automatedsolution.add
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        BX24.callMethod(
-            'crm.automatedsolution.add',
-            {
-                "fields": {
-                    "title": "HR"
-                }
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
+
+        declare const $b24: B24Frame
+
+        // Shape of the payload returned in result (match the "response handling" section of the page)
+        type AutomatedSolutionAddResult = {
+          automatedSolution: {
+            id: number
+            title: string
+            typeIds: number[]
+          }
+        }
+
+        try {
+          const response = await $b24.actions.v2.call.make<AutomatedSolutionAddResult>({
+            method: 'crm.automatedsolution.add',
+            params: {
+              fields: {
+                title: 'HR',
+              },
             },
-            function(result) {
-                if (result.error()) {
-                    console.error(result.error());
-                } else {
-                    console.info(result.data());
-                }
+            requestId: Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info(result.automatedSolution)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
+
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function addAutomatedSolution() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.automatedsolution.add',
+                params: {
+                  fields: {
+                    title: 'HR',
+                  },
+                },
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info(result.automatedSolution)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
             }
-        );
+          }
+
+          document.addEventListener('DOMContentLoaded', addAutomatedSolution)
+        </script>
         ```
 
     - PHP

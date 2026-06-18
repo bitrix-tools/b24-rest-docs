@@ -91,42 +91,124 @@
     https://**put_your_bitrix24_address**/rest/api/main.eventlog.tail
     ```
 
-- JS
+- JS (TS)
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```javascript
-    try
-    {
-        const response = await $b24.callMethod(
-            'main.eventlog.tail',
-            {
-                select: [
-                    'id',
-                    'timestampX',
-                    'severity',
-                    'auditTypeId',
-                    'moduleId',
-                    'itemId',
-                    'userId',
-                    'description'
-                ],
-                filter: [],
-                cursor: {
-                    field: 'id',
-                    value: 446313,
-                    order: 'ASC'
-                }
-            }
-        );
+    declare const $b24: B24Frame
 
-        const result = response.getData().result;
-        console.log('Event log tail:', result);
+    type EventLogEntry = {
+      id: number
+      timestampX: ISODate
+      severity: string
+      auditTypeId: string
+      moduleId: string
+      itemId: string
+      remoteAddr: string
+      userAgent: string
+      requestUri: string
+      siteId: string
+      userId: number
+      guestId: number
+      description: string
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type EventLogTailResult = {
+      items: EventLogEntry[]
     }
+
+    try {
+      const response = await $b24.actions.v3.call.make<EventLogTailResult>({
+        method: 'main.eventlog.tail',
+        params: {
+          select: [
+            'id',
+            'timestampX',
+            'severity',
+            'auditTypeId',
+            'moduleId',
+            'itemId',
+            'userId',
+            'description',
+          ],
+          filter: [],
+          cursor: {
+            field: 'id',
+            value: 446313,
+            order: 'ASC',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Received entries:', result.items.length, result.items[0]?.id)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchEventLogTail() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v3.call.make({
+            method: 'main.eventlog.tail',
+            params: {
+              select: [
+                'id',
+                'timestampX',
+                'severity',
+                'auditTypeId',
+                'moduleId',
+                'itemId',
+                'userId',
+                'description',
+              ],
+              filter: [],
+              cursor: {
+                field: 'id',
+                value: 446313,
+                order: 'ASC',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Received entries:', result.items.length, result.items[0]?.id)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchEventLogTail)
+    </script>
     ```
 
 - PHP

@@ -57,24 +57,147 @@
       https://**put_your_bitrix24_address**/rest/im.dialog.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'im.dialog.get',
-            {
-                DIALOG_ID: 'chat1435'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ImDialogGetResult = {
+      id: number
+      parent_chat_id: number
+      parent_message_id: number
+      name: string
+      description: string
+      owner: number
+      extranet: boolean
+      avatar: string
+      color: string
+      type: string
+      counter: number
+      user_counter: number
+      message_count: number
+      unread_id: number
+      restrictions: {
+        avatar: boolean
+        rename: boolean
+        extend: boolean
+        call: boolean
+        mute: boolean
+        leave: boolean
+        leave_owner: boolean
+        send: boolean
+        user_list: boolean
+        path: string
+        path_title: string
+      }
+      last_message_id: number
+      last_id: number
+      marked_id: number
+      disk_folder_id: number
+      entity_type: string
+      entity_id: string
+      entity_data_1: string
+      entity_data_2: string
+      entity_data_3: string
+      mute_list: number[]
+      date_create: ISODate
+      message_type: string
+      public: string
+      role: string
+      entity_link: {
+        type: string
+        url: string
+        id: string
+      }
+      text_field_enabled: boolean
+      background_id: number | null
+      permissions: {
+        manage_users_add: string
+        manage_users_delete: string
+        manage_ui: string
+        manage_settings: string
+        manage_messages: string
+        can_post: string
+      }
+      is_new: boolean
+      readed_list: {
+        user_id: number
+        user_name: string
+        message_id: number
+        date: ISODate | null
+      }[]
+      manager_list: number[]
+      last_message_views: {
+        message_id: number
+        first_viewers: number[]
+        count_of_viewers: number
+      }
+      dialog_id: string
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<ImDialogGetResult>({
+        method: 'im.dialog.get',
+        params: {
+          DIALOG_ID: 'chat1435',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Dialog:', result.id, result.name, result.type, result.role)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getDialog() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.dialog.get',
+            params: {
+              DIALOG_ID: 'chat1435',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Dialog:', result.id, result.name, result.type, result.role)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getDialog)
+    </script>
     ```
 
 - PHP
