@@ -48,4 +48,4 @@
 
 ## Продолжите изучение
 
--  [{#T}](./tutorial.md)
+-  [{#T}](../../tutorials/messageservice/index.md)

@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 18 июня, 2026
+
+- Обновили туториал [Открытые линии: типовые сценарии](./tutorials/openlines/index.md)
+- Обновили туториал [Как подключить СМС-провайдера к Битрикс24](./tutorials/messageservice/index.md)
+- Обновили страницу [Битрикс24 UI Kit: обзор](./api-reference/widgets/ui-kit/index.md)
+
 ### 17 июня, 2026
 
 - Добавили описание метода [tasks.task.list](./api-reference/rest-v3/tasks/tasks-task-list.md)

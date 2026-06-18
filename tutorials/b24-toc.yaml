@@ -19,6 +19,10 @@ items:
     include:
       path: chat-bots/b24-toc.yaml
       mode: link
+  - name: Провайдеры сообщений, СМС-провайдеры
+    include:
+      path: messageservice/b24-toc.yaml
+      mode: link
   - name: Телефония
     include:
       path: telephony/b24-toc.yaml
