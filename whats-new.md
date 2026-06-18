@@ -7,6 +7,7 @@
 - Обновили туториал [Открытые линии: типовые сценарии](./tutorials/openlines/index.md)
 - Обновили туториал [Как подключить СМС-провайдера к Битрикс24](./tutorials/messageservice/index.md)
 - Обновили страницу [Битрикс24 UI Kit: обзор](./api-reference/widgets/ui-kit/index.md)
+- Обновили туториал [Как использовать сквозную аналитику при создании лида](./tutorials/crm/how-to-use-analitycs/use-analitics-for-add-lead.md)
 
 ### 17 июня, 2026
 
