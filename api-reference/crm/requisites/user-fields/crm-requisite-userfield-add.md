@@ -268,6 +268,47 @@
     }
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.requisite.userfield.add(
+            fields={
+                "USER_TYPE_ID": "string",
+                "ENTITY_ID": "CRM_REQUISITE",
+                "SORT": 100,
+                "MULTIPLE": "N",
+                "MANDATORY": "N",
+                "SHOW_FILTER": "E",
+                "SHOW_IN_LIST": "Y",
+                "EDIT_FORM_LABEL": "ПП - Строка",
+                "LIST_COLUMN_LABEL": "ПП - Строка",
+                "LIST_FILTER_LABEL": "ПП - Строка",
+                "FIELD_NAME": "NEWTECH_v1_STRING",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - BX24.js
 
     ```js

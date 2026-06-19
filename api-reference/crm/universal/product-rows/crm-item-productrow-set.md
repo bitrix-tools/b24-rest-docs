@@ -266,6 +266,50 @@
     }
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.item.productrow.set(
+            owner_type="D",
+            owner_id=13143,
+            product_rows=[
+                {
+                    "productId": 9621,
+                    "price": 99999.99,
+                    "quantity": 1,
+                    "sort": 10,
+                },
+                {
+                    "productId": 9623,
+                    "price": 15900,
+                    "quantity": 2,
+                    "sort": 10,
+                },
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - BX24.js
 
     ```js

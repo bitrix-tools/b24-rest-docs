@@ -460,6 +460,105 @@
     }
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.item.details.configuration.set(
+            entity_type_id=3,
+            user_id=1,
+            data=[
+                {
+                    "name": "section_1",
+                    "title": "Личные данные",
+                    "type": "section",
+                    "elements": [
+                        {
+                            "name": "NAME",
+                            "optionFlags": 1,
+                        },
+                        {
+                            "name": "LAST_NAME",
+                            "optionFlags": 1,
+                        },
+                        {
+                            "name": "SECOND_NAME",
+                        },
+                        {
+                            "name": "BIRTHDATE",
+                        },
+                        {
+                            "name": "PHONE",
+                            "optionFlags": 1,
+                            "options": {
+                                "defaultCountry": "GB",
+                            },
+                        },
+                        {
+                            "name": "ADDRESS",
+                            "optionFlags": 1,
+                            "options": {
+                                "defaultAddressType": 4,
+                            },
+                        },
+                    ],
+                },
+                {
+                    "name": "section_2",
+                    "title": "Основная информация",
+                    "type": "section",
+                    "elements": [
+                        {
+                            "name": "TYPE_ID",
+                        },
+                        {
+                            "name": "SOURCE_ID",
+                        },
+                        {
+                            "name": "POST",
+                        },
+                    ],
+                },
+                {
+                    "name": "section_3",
+                    "title": "Дополнительная информация",
+                    "type": "section",
+                    "elements": [
+                        {
+                            "name": "PHOTO",
+                        },
+                        {
+                            "name": "COMMENTS",
+                        },
+                        {
+                            "name": "UF_CRM_1720697698689",
+                        },
+                    ],
+                },
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - BX24.js
 
     ```javascript

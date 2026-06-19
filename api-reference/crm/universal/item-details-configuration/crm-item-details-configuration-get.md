@@ -210,6 +210,40 @@
         echo '</PRE>';
         ```
 
+    - Python
+
+        Пример
+
+        ```python
+        from b24pysdk.client import BaseClient
+        from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+        client: BaseClient
+
+        try:
+            bitrix_response = client.crm.item.details.configuration.get(
+                entity_type_id=2,
+                user_id=1,
+                scope="C",
+                extras={
+                    "dealCategoryId": 9,
+                },
+            ).response
+            result = bitrix_response.result
+            print(result)
+        except BitrixAPIError as error:
+            print(
+                "Ошибка Bitrix API",
+                f"error: {error.error}",
+                f"error_description: {error.error_description}",
+                sep="\n",
+            )
+        except BitrixSDKException as error:
+            print(f"Ошибка Bitrix SDK: {error.message}")
+        except Exception as error:
+            print(f"Непредвиденная ошибка: {error}")
+        ```
+
     {% endlist %}
 
 2. Получить личную конфигурацию карточки элементов смарт-процесса с `entityTypeId = 1032` в воронке с `id = 5`

@@ -130,55 +130,51 @@ result = response["result"]
 
 ## Получение bitrix_token в маркетных приложениях
 
-Для маркетного приложения, которое открывается внутри интерфейса Битрикс24, используйте `BitrixApp` и OAuth-данные входящего запроса. Домен портала SDK возьмет из этих данных.
-
-В примере ниже `params` — это нормализованные параметры входящего POST-запроса от Битрикс24. В Django-интеграции SDK они доступны как `request.params`; в других фреймворках это такой же словарь, собранный из входящего request. В этих параметрах приходят `DOMAIN`, `PROTOCOL`, `LANG`, `APP_SID`, `AUTH_ID`, `AUTH_EXPIRES`, `REFRESH_ID`, `member_id`, `status`. Для виджетов дополнительно могут прийти `PLACEMENT` и `PLACEMENT_OPTIONS`.
+Для маркетного приложения используйте `BitrixApp` и OAuth-токены, которые Битрикс24 передал приложению. Домен портала передается явно:
 
 ```python
 from b24pysdk import BitrixApp, BitrixToken, Client
-from b24pysdk.credentials import OAuthPlacementData
 
 bitrix_app = BitrixApp(
     client_id="put-your-client-id-here",
     client_secret="put-your-client-secret-here",
 )
 
-placement_data = OAuthPlacementData.from_dict(params)
-bitrix_token = BitrixToken.from_oauth_placement_data(
-    oauth_placement_data=placement_data,
+bitrix_token = BitrixToken(
+    domain="example.bitrix24.com",
+    auth_token="put-access-token-here",
+    refresh_token="put-refresh-token-here",
     bitrix_app=bitrix_app,
 )
 
 client = Client(bitrix_token)
 ```
 
-Значения `client_id` и `client_secret` берутся из настроек приложения. `OAuthPlacementData.from_dict()` валидирует входящие параметры, извлекает домен портала и преобразует поля `AUTH_ID`, `REFRESH_ID`, `AUTH_EXPIRES` в OAuth-токен SDK.
+Значения `client_id` и `client_secret` берутся из настроек приложения. `auth_token` — текущий access token, `refresh_token` нужен SDK для автоматического обновления OAuth-токена.
 
 ## Получение bitrix_token в локальных приложениях
 
-Для локального приложения используйте `BitrixAppLocal` и `BitrixTokenLocal`. В отличие от маркетного приложения, `BitrixAppLocal` привязан к конкретному порталу. Переменная `params` — это тот же словарь входящих параметров от Битрикс24:
+Для локального приложения используйте `BitrixAppLocal` и `BitrixTokenLocal`. В отличие от маркетного приложения, `BitrixAppLocal` привязан к конкретному порталу:
 
 ```python
 from b24pysdk import BitrixAppLocal, BitrixTokenLocal, Client
-from b24pysdk.credentials import OAuthPlacementData
-
-placement_data = OAuthPlacementData.from_dict(params)
 
 bitrix_app = BitrixAppLocal(
-    domain=placement_data.domain,
+    domain="example.bitrix24.com",
     client_id="put-your-client-id-here",
     client_secret="put-your-client-secret-here",
 )
 
-bitrix_token = BitrixTokenLocal.from_oauth_placement_data(
-    oauth_placement_data=placement_data,
+bitrix_token = BitrixTokenLocal(
+    auth_token="put-access-token-here",
+    refresh_token="put-refresh-token-here",
     bitrix_app=bitrix_app,
 )
 
 client = Client(bitrix_token)
 ```
 
-В случае локального приложения, вам нужно будет взять значения `client_id`, `client_secret` и список прав из соответствующих настроек локального приложения в вашем Битрикс24. Значения `AUTH_ID` и `REFRESH_ID` приходят во входящих OAuth-данных при открытии приложения, вызове обработчиков событий и работе с бизнес-процессами.
+В случае локального приложения, значения `domain`, `client_id` и `client_secret` берутся из настроек локального приложения в вашем Битрикс24. Список прав задается там же и определяет, какие REST-методы будут доступны полученному токену.
 
 Инициировав объект `client`, вы можете использовать его для вызова различных методов REST API:
 
@@ -389,53 +385,20 @@ else:
 
 ## Валидация входящих данных от Битрикс24
 
-Битрикс24 передает данные в приложение при открытии приложения внутри интерфейса, открытии виджета, вызове обработчиков событий и работе бизнес-процессов. SDK умеет разбирать эти данные в типизированные объекты:
+Битрикс24 передает данные в приложение при открытии приложения внутри интерфейса, открытии виджета, вызове обработчиков событий и работе бизнес-процессов. Готовые интеграции SDK собирают параметры входящего запроса, валидируют payload и возвращают типизированные данные:
 
 - `OAuthPlacementData` - данные открытия приложения или виджета;
 - `OAuthEventData` - данные обработчика события;
 - `OAuthWorkflowData` - данные робота бизнес-процесса;
-- `OAuth`, `EventOAuth`, `WorkflowOAuth`, `RenewedOAuth` - модели OAuth-данных внутри входящих payload.
-
-Если вы не используете готовую интеграцию с веб-фреймворком, можно валидировать словарь из входящего запроса вручную:
-
-```python
-from b24pysdk.credentials import OAuthPlacementData
-
-try:
-    placement_data = OAuthPlacementData.from_dict(params)
-except OAuthPlacementData.ValidationError as error:
-    print(f"Некорректные данные открытия приложения: {error}")
-else:
-    print(placement_data.domain)
-```
-
-Для локального приложения можно создать токен прямо из валидированных OAuth-данных:
-
-```python
-from b24pysdk import BitrixAppLocal, BitrixTokenLocal, Client
-from b24pysdk.credentials import OAuthPlacementData
-
-placement_data = OAuthPlacementData.from_dict(params)
-
-bitrix_app = BitrixAppLocal(
-    domain=placement_data.domain,
-    client_id="put-your-client-id-here",
-    client_secret="put-your-client-secret-here",
-)
-
-bitrix_token = BitrixTokenLocal.from_oauth_placement_data(
-    oauth_placement_data=placement_data,
-    bitrix_app=bitrix_app,
-)
-
-client = Client(bitrix_token)
-```
+- `OAuth`, `EventOAuth`, `WorkflowOAuth`, `RenewedOAuth` - OAuth-данные внутри входящих payload.
 
 Если передать `bitrix_app` в интеграции Django, FastAPI или Flask, SDK сможет дополнительно проверить входящие OAuth-данные через `app.info`.
 
 ## Интеграция с Django
 
 Интеграция Django предоставляет декораторы для view-функций. Они собирают параметры запроса, валидируют payload и добавляют к `request` типизированные данные Битрикс24.
+
+Открытие приложения или виджета:
 
 ```python
 from django.http import JsonResponse
@@ -451,7 +414,7 @@ def placement_view(request: PlacementRequest):
     })
 ```
 
-Для событий и роботов бизнес-процессов используются `event_required` и `workflow_required`:
+Обработчик события:
 
 ```python
 from django.http import JsonResponse
@@ -467,13 +430,41 @@ def event_view(request: EventRequest):
     })
 ```
 
-Если нужно проверять входящие данные через `app.info`, передайте приложение в декоратор:
+Робот бизнес-процесса:
 
 ```python
-@placement_required(bitrix_app=bitrix_app)
-def placement_view(request: PlacementRequest):
+from django.http import JsonResponse
+
+from b24pysdk.integrations.django.decorators import workflow_required
+from b24pysdk.integrations.django.types import WorkflowRequest
+
+
+@workflow_required
+def workflow_view(request: WorkflowRequest):
     return JsonResponse({
-        "domain": request.oauth_placement_data.domain,
+        "workflow_id": request.oauth_workflow_data.workflow_id,
+    })
+```
+
+Проверка входящих данных через `app.info`:
+
+```python
+from django.http import JsonResponse
+
+from b24pysdk import BitrixApp
+from b24pysdk.integrations.django.decorators import event_required
+from b24pysdk.integrations.django.types import EventRequest
+
+bitrix_app = BitrixApp(
+    client_id="put-your-client-id-here",
+    client_secret="put-your-client-secret-here",
+)
+
+
+@event_required(bitrix_app=bitrix_app)
+def event_view(request: EventRequest):
+    return JsonResponse({
+        "event": request.oauth_event_data.event,
     })
 ```
 
@@ -483,55 +474,112 @@ def placement_view(request: PlacementRequest):
 
 Интеграция FastAPI использует зависимости. Они возвращают типизированные `OAuthPlacementData`, `OAuthEventData` или `OAuthWorkflowData`.
 
+Открытие приложения или виджета:
+
 ```python
 from typing import Annotated
 
 from fastapi import Depends, FastAPI
 
 from b24pysdk.credentials import OAuthPlacementData
-from b24pysdk.integrations.fastapi.dependencies import get_placement_dependency
+from b24pysdk.integrations.fastapi.dependencies import placement_dependency
 
 app = FastAPI()
 
 
 @app.post("/placement")
 async def placement_handler(
-    placement: Annotated[OAuthPlacementData, Depends(get_placement_dependency())],
+    placement: Annotated[OAuthPlacementData, Depends(placement_dependency)],
 ):
     return {
         "domain": placement.domain,
     }
 ```
 
-Для событий и роботов используйте `get_event_dependency()` и `get_workflow_dependency()`:
+Обработчик события:
 
 ```python
 from typing import Annotated
 
-from fastapi import Depends
+from fastapi import Depends, FastAPI
 
 from b24pysdk.credentials import OAuthEventData
-from b24pysdk.integrations.fastapi.dependencies import get_event_dependency
+from b24pysdk.integrations.fastapi.dependencies import event_dependency
+
+app = FastAPI()
 
 
 @app.post("/event")
 async def event_handler(
-    event: Annotated[OAuthEventData, Depends(get_event_dependency())],
+    event: Annotated[OAuthEventData, Depends(event_dependency)],
 ):
     return {
         "event": event.event,
     }
 ```
 
-Проверка через `app.info` включается передачей `bitrix_app`:
+Робот бизнес-процесса:
 
 ```python
-placement_dependency = get_placement_dependency(bitrix_app=bitrix_app)
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
+
+from b24pysdk.credentials import OAuthWorkflowData
+from b24pysdk.integrations.fastapi.dependencies import workflow_dependency
+
+app = FastAPI()
+
+
+@app.post("/workflow")
+async def workflow_handler(
+    workflow: Annotated[OAuthWorkflowData, Depends(workflow_dependency)],
+):
+    return {
+        "workflow_id": workflow.workflow_id,
+    }
 ```
+
+Проверка входящих данных через `app.info`:
+
+Если нужно передать `bitrix_app`, используйте `get_*_dependency(...)` с нужным аргументом:
+
+```python
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
+
+from b24pysdk import BitrixApp
+from b24pysdk.credentials import OAuthEventData
+from b24pysdk.integrations.fastapi.dependencies import get_event_dependency
+
+app = FastAPI()
+
+bitrix_app = BitrixApp(
+    client_id="put-your-client-id-here",
+    client_secret="put-your-client-secret-here",
+)
+
+
+@app.post("/event")
+async def event_handler(
+    event: Annotated[
+        OAuthEventData,
+        Depends(get_event_dependency(bitrix_app=bitrix_app)),
+    ],
+):
+    return {
+        "event": event.event,
+    }
+```
+
+Ошибки валидации интеграция возвращает как `401 Unauthorized`, а непредвиденные ошибки - как `500 Internal Server Error`.
 
 ## Интеграция с Flask
 
 Интеграция Flask предоставляет декораторы для маршрутов и helper-функции для типизированного доступа к данным. Данные сохраняются в `flask.g`.
+
+Открытие приложения или виджета:
 
 ```python
 from flask import Flask
@@ -550,11 +598,15 @@ def placement_handler():
     }
 ```
 
-Для событий и роботов бизнес-процессов используются `event_required`, `workflow_required`, `get_oauth_event_data()` и `get_oauth_workflow_data()`:
+Обработчик события:
 
 ```python
+from flask import Flask
+
 from b24pysdk.integrations.flask.decorators import event_required
 from b24pysdk.integrations.flask.dependencies import get_oauth_event_data
+
+app = Flask(__name__)
 
 
 @app.post("/event")
@@ -565,15 +617,51 @@ def event_handler():
     }
 ```
 
-Как и в других интеграциях, `bitrix_app` включает дополнительную проверку входящих данных:
+Робот бизнес-процесса:
 
 ```python
-@placement_required(bitrix_app=bitrix_app)
-def placement_handler():
+from flask import Flask
+
+from b24pysdk.integrations.flask.decorators import workflow_required
+from b24pysdk.integrations.flask.dependencies import get_oauth_workflow_data
+
+app = Flask(__name__)
+
+
+@app.post("/workflow")
+@workflow_required
+def workflow_handler():
     return {
-        "domain": get_oauth_placement_data().domain,
+        "workflow_id": get_oauth_workflow_data().workflow_id,
     }
 ```
+
+Проверка входящих данных через `app.info`:
+
+```python
+from flask import Flask
+
+from b24pysdk import BitrixApp
+from b24pysdk.integrations.flask.decorators import event_required
+from b24pysdk.integrations.flask.dependencies import get_oauth_event_data
+
+app = Flask(__name__)
+
+bitrix_app = BitrixApp(
+    client_id="put-your-client-id-here",
+    client_secret="put-your-client-secret-here",
+)
+
+
+@app.post("/event")
+@event_required(bitrix_app=bitrix_app)
+def event_handler():
+    return {
+        "event": get_oauth_event_data().event,
+    }
+```
+
+Ошибки валидации интеграция возвращает как `401 Unauthorized`, а непредвиденные ошибки - как `500 Internal Server Error`.
 
 ## События токена
 
