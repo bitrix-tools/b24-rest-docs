@@ -1,4 +1,4 @@
-title: Провайдеры сообщений, SMS-провайдеры
+title: Провайдеры сообщений, СМС-провайдеры
 href: index.md
 items:
   - name: Обзор методов
@@ -13,5 +13,3 @@ items:
     href: messageservice-sender-delete.md
   - name: Обновить статус доставки сообщения
     href: messageservice-message-status-update.md
-  - name: Пример провайдера сообщений
-    href: tutorial.md

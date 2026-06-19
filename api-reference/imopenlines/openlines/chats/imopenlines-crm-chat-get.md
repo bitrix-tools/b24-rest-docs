@@ -68,27 +68,84 @@
       https://**put_your_bitrix24_address**/rest/imopenlines.crm.chat.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'imopenlines.crm.chat.get',
-            {
-                CRM_ENTITY_TYPE: 'lead',
-                CRM_ENTITY: 1205,
-                ACTIVE_ONLY: 'N'
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const result = response.getData().result;
-        console.log(result);
+    declare const $b24: B24Frame
+
+    // Shape of each Chat returned in result[]
+    type Chat = {
+      CHAT_ID: string
+      CONNECTOR_ID: string
+      CONNECTOR_TITLE: string
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<Chat[]>({
+        method: 'imopenlines.crm.chat.get',
+        params: {
+          CRM_ENTITY_TYPE: 'lead',
+          CRM_ENTITY: 1205,
+          ACTIVE_ONLY: 'N',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Chats count:', result.length, 'First chat ID:', result[0]?.CHAT_ID)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getCrmChats() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imopenlines.crm.chat.get',
+            params: {
+              CRM_ENTITY_TYPE: 'lead',
+              CRM_ENTITY: 1205,
+              ACTIVE_ONLY: 'N',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Chats count:', result.length, 'First chat ID:', result[0]?.CHAT_ID)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getCrmChats)
+    </script>
     ```
 
 - PHP

@@ -74,26 +74,119 @@
       https://**put_your_bitrix24_address**/rest/im.dialog.messages.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'im.dialog.messages.get',
-            {
-                DIALOG_ID: 'chat1489',
-                FIRST_ID: 84869,
-                LIMIT: 10
-            }
-        );
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-        console.log(response.getData().result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type DialogMessagesGetResult = {
+      chat_id: number
+      messages: {
+        id: number
+        chat_id: number
+        author_id: number
+        date: ISODate
+        text: string
+        unread: boolean
+        uuid: string | null
+        replaces: unknown[]
+        params: Record<string, unknown>
+        disappearing_date: ISODate | null
+      }[]
+      users: {
+        id: number
+        active: boolean
+        name: string
+        first_name: string
+        last_name: string
+        status: string
+        last_activity_date: ISODate
+        type: string
+      }[]
+      files: {
+        id: number
+        chatId: number
+        date: ISODate
+        type: string
+        name: string
+        size: number
+        status: string
+        authorId: number
+        authorName: string
+        urlDownload: string
+        isTranscribable: boolean
+        isVideoNote: boolean
+        isVoiceNote: boolean
+      }[]
     }
-    catch (error)
-    {
-        console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<DialogMessagesGetResult>({
+        method: 'im.dialog.messages.get',
+        params: {
+          DIALOG_ID: 'chat1489',
+          FIRST_ID: 84869,
+          LIMIT: 10,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.chat_id, result.messages.length, result.messages)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getDialogMessages() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.dialog.messages.get',
+            params: {
+              DIALOG_ID: 'chat1489',
+              FIRST_ID: 84869,
+              LIMIT: 10,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.chat_id, result.messages.length, result.messages)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getDialogMessages)
+    </script>
     ```
 
 - PHP

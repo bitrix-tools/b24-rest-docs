@@ -107,39 +107,95 @@
     https://**put_your_bitrix24_address**/rest/crm.address.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"crm.address.add",
-    		{
-    			fields:
-    			{
-    				"TYPE_ID": 1,            // Тип адреса, см. crm.enum.addresstype
-    				"ENTITY_TYPE_ID": 8,     // Тип объекта (реквизит или лид)
-    				"ENTITY_ID": 1,          // Идентификатор реквизита
-    				"ADDRESS_1": "проспект Мира, 4",
-    				"ADDRESS_2": "Калининградский областной драматический театр",
-    				"CITY": "Калининград",
-    				"POSTAL_CODE": "236036",
-    				"REGION": "городской округ Калининград",
-    				"PROVINCE": "Калининградская область",
-    				"COUNTRY": "Россия",
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	if(result.error())
-    		console.error(result.error());
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'crm.address.add',
+        params: {
+          fields: {
+            TYPE_ID: 1,            // Address type, see crm.enum.addresstype
+            ENTITY_TYPE_ID: 8,     // Parent object type (requisite or lead)
+            ENTITY_ID: 1,          // Requisite identifier
+            ADDRESS_1: '4 Peace Avenue',
+            ADDRESS_2: 'Kaliningrad Regional Drama Theater',
+            CITY: 'Kaliningrad',
+            POSTAL_CODE: '236036',
+            REGION: 'Kaliningrad urban district',
+            PROVINCE: 'Kaliningrad Oblast',
+            COUNTRY: 'Russia',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Address added:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch(error)
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addAddress() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.address.add',
+            params: {
+              fields: {
+                TYPE_ID: 1,            // Address type, see crm.enum.addresstype
+                ENTITY_TYPE_ID: 8,     // Parent object type (requisite or lead)
+                ENTITY_ID: 1,          // Requisite identifier
+                ADDRESS_1: '4 Peace Avenue',
+                ADDRESS_2: 'Kaliningrad Regional Drama Theater',
+                CITY: 'Kaliningrad',
+                POSTAL_CODE: '236036',
+                REGION: 'Kaliningrad urban district',
+                PROVINCE: 'Kaliningrad Oblast',
+                COUNTRY: 'Russia',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Address added:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addAddress)
+    </script>
     ```
 
 - PHP

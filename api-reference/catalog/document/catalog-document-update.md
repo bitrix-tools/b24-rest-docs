@@ -79,32 +79,106 @@
     https://**put_your_bitrix24_address**/rest/catalog.document.update
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'catalog.document.update',
-            {
-                id: 142,
-                fields: {
-                    title: 'Поступление от Поставщик-1 (корректировка)',
-                    commentary: 'Обновили ответсвенного',
-                    responsibleId: 21,
-                }
-            }
-        );
-        
-        const result = response.getData().result;
-        console.log('Updated document with ID:', result);
-        
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type DocumentUpdateResult = {
+      document: {
+        commentary: string,
+        createdBy: number,
+        currency: string,
+        dateCreate: ISODate,
+        dateDocument: ISODate | null,
+        dateModify: ISODate,
+        dateStatus: ISODate,
+        docNumber: string,
+        docType: string,
+        id: number,
+        modifiedBy: number,
+        responsibleId: number,
+        siteId: string,
+        status: string,
+        statusBy: number | null,
+        title: string,
+        total: number | null,
+      },
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<DocumentUpdateResult>({
+        method: 'catalog.document.update',
+        params: {
+          id: 142,
+          fields: {
+            title: 'Product receipt from Supplier-1 (adjustment)',
+            commentary: 'Updated the responsible person',
+            responsibleId: 21,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Updated document:', result.document.id, result.document.title)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateDocument() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'catalog.document.update',
+            params: {
+              id: 142,
+              fields: {
+                title: 'Product receipt from Supplier-1 (adjustment)',
+                commentary: 'Updated the responsible person',
+                responsibleId: 21,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Updated document:', result.document.id, result.document.title)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateDocument)
+    </script>
     ```
 
 - PHP

@@ -107,19 +107,19 @@
   || **companyId**
   [`crm_company`][1] | Идентификатор компании привязанный к элементу.
 
-  Список компании можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 4`.
+  Список компании можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 4`.
 
   По умолчанию — `null` ||
   || **contactId**
   [`crm_contact`][1] | Идентификатор контакта привязанный к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   По умолчанию — `null` ||
   || **contactIds**
   [`crm_contact[]`][1] | Список идентификаторов контакта привязанных к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   По умолчанию — `null` ||
   || **originatorId**
@@ -164,7 +164,7 @@
   || **ufCrm...**
   [`crm_userfield`][1] | Пользовательское поле.
 
-  О пользовательских полях читайте раздел [{#T}](../universal/user-defined-fields/index.md)
+  О пользовательских полях читайте раздел [{#T}](/api-reference/crm/universal/user-defined-fields/index.html)
 
   Значения множественных полей передаются в виде массива.
 
@@ -200,7 +200,7 @@
 
   По умолчанию — первый доступный тип сущности ||
   || **categoryId**
-  [`integer`][1] | Идентификатор [направления](../universal/category/index.md) (воронки) сделки.
+  [`integer`][1] | Идентификатор [направления](/api-reference/crm/universal/category/index.html) (воронки) сделки.
 
   По умолчанию — `0` (общая) ||
   || **stageId**
@@ -211,7 +211,7 @@
   Список доступных стадий можно узнать с помощью [`crm.status.list`][2] применив фильтр:
   - Если сделка находится в общей воронке (направления)  — `{ ENTITY_ID: "DEAL_STAGE" }`
   - Если сделка находится не в общей воронке (направления) — `{ ENTITY_ID: "DEAL_STAGE_{categoryId}" }`, где
-    `categoryId` это идентификатор воронки ([направления](../universal/category/index.md)) сделки
+    `categoryId` это идентификатор воронки ([направления](/api-reference/crm/universal/category/index.html)) сделки
 
   По умолчанию — первая доступная стадия относительно воронки ||
   || **isRecurring**
@@ -247,19 +247,19 @@
   || **companyId**
   [`crm_company`][1] | Идентификатор компании привязанный к элементу.
 
-  Список компании можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 4`.
+  Список компании можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 4`.
 
   По умолчанию — `null` ||
   || **contactId**
   [`crm_contact`][1] | Идентификатор контакта привязанный к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   По умолчанию — `null` ||
   || **contactIds**
   [`crm_contact[]`][1] | Список идентификаторов контакта привязанных к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   По умолчанию — `null` ||
   || **quoteId**
@@ -346,7 +346,7 @@
 
   По умолчанию — `null` ||
   || **ufCrm...**
-  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](../universal/user-defined-fields/index.md)
+  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](/api-reference/crm/universal/user-defined-fields/index.html)
 
   - Значения множественных полей передаются в виде массива
   - Чтобы загрузить файл, в качестве значения пользовательского поля необходимо передать массив, где первый элемент — это имя файла, а второй — это закодированный в base64 контент файла.
@@ -441,7 +441,7 @@
   || **companyId**
   [`crm_company`][1] | Идентификатор компании привязанный к элементу.
 
-  Список компаний можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 4`.
+  Список компаний можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 4`.
 
   По умолчанию — `null` ||
   || **companyIds**
@@ -490,7 +490,7 @@
 
   По умолчанию — `null` ||
   || **ufCrm...**
-  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](../universal/user-defined-fields/index.md)
+  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](/api-reference/crm/universal/user-defined-fields/index.html)
 
     - Значения множественных полей передаются в виде массива
     - Чтобы загрузить файл, в качестве значения пользовательского поля необходимо передать массив, где первый элемент — это имя файла, а второй — это закодированный в base64 контент файла.
@@ -582,7 +582,7 @@
   || **contactIds**
   [`crm_contact[]`][1] | Список идентификаторов контакта привязанных к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   По умолчанию — `null`||
   || **leadId**
@@ -628,7 +628,7 @@
 
   По умолчанию — `null` ||
   || **ufCrm...**
-  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](../universal/user-defined-fields/index.md)
+  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](/api-reference/crm/universal/user-defined-fields/index.html)
 
     - Значения множественных полей передаются в виде массива
     - Чтобы загрузить файл, в качестве значения пользовательского поля необходимо передать массив, где первый элемент — это имя файла, а второй — это закодированный в base64 контент файла
@@ -710,19 +710,19 @@
   || **companyId**
   [`crm_company`][1] | Идентификатор компании привязанный к элементу.
 
-  Список компании можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 4`.
+  Список компании можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 4`.
 
   По умолчанию — `null` ||
   || **contactId**
   [`crm_contact`][1] | Идентификатор контакта привязанный к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`
 
   По умолчанию — `null` ||
   || **contactIds**
   [`crm_contact[]`][1] | Список идентификаторов контакта привязанных к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   По умолчанию — `null` ||
   || **locationId**
@@ -796,7 +796,7 @@
 
   По умолчанию — `null` ||
   || **ufCrm...**
-  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](../universal/user-defined-fields/index.md).
+  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](/api-reference/crm/universal/user-defined-fields/index.html).
 
     - Значения множественных полей передаются в виде массива
     - Чтобы загрузить файл, в качестве значения пользовательского поля необходимо передать массив, где первый элемент — это имя файла, а второй — это закодированный в base64 контент файла.
@@ -857,19 +857,19 @@
   || **companyId**
   [`crm_company`][1] | Идентификатор компании привязанный к элементу.
 
-  Список компании можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 4`.
+  Список компании можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 4`.
 
   По умолчанию — `null` ||
   || **contactId**
   [`crm_contact`][1] | Идентификатор контакта привязанный к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   По умолчанию — `null` ||
   || **contactIds**
   [`crm_contact[]`][1] | Список идентификаторов контакта привязанных к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   По умолчанию — `null` ||
   || **observers**
@@ -882,7 +882,7 @@
   Например `'DT31_13:N' = 'Новый'`.
 
   Список доступных стадий можно узнать с помощью [`crm.status.list`][2], применив фильтр: `{ ENTITY_ID: "SMART_INVOICE_STAGE_{categoryId}" }`, где
-  `categoryId` — идентификатор воронки счетов по умолчанию. Его можно узнать с помощью [`crm.category.list`](../universal/category/crm-category-list.md) по `entityTypeId = 31`.
+  `categoryId` — идентификатор воронки счетов по умолчанию. Его можно узнать с помощью [`crm.category.list`](/api-reference/crm/universal/category/crm-category-list.html) по `entityTypeId = 31`.
 
   По умолчанию — первая доступная стадия ||
   || **sourceId**
@@ -929,7 +929,7 @@
 
   По умолчанию — `null` ||
   || **ufCrm...**
-  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](../universal/user-defined-fields/index.md).
+  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](/api-reference/crm/universal/user-defined-fields/index.html).
 
     - Значения множественных полей передаются в виде массива
     - Чтобы загрузить файл, в качестве значения пользовательского поля необходимо передать массив, где первый элемент — это имя файла, а второй — это закодированный в base64 контент файла.
@@ -945,7 +945,7 @@
 
 - Смарт-процесс
 
-  Идентификатор объекта CRM **entityTypeId:** можно получить методом [`crm.type.list`](../universal/user-defined-object-types/crm-type-list.md) или создать новый методом [`crm.type.add`](../universal/user-defined-object-types/crm-type-add.md)
+  Идентификатор объекта CRM **entityTypeId:** можно получить методом [`crm.type.list`](/api-reference/crm/universal/user-defined-object-types/crm-type-list.html) или создать новый методом [`crm.type.add`](/api-reference/crm/universal/user-defined-object-types/crm-type-add.html)
 
   #|
   || **Название**
@@ -992,7 +992,7 @@
   || **companyId**
   [`crm_company`][1] | Идентификатор компании привязанный к элементу.
 
-  Список компании можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 4`.
+  Список компании можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 4`.
 
   Доступно лишь при включенной настройке `isClientEnabled` у соответствующего смарт-процесса.
 
@@ -1000,7 +1000,7 @@
   || **contactId**
   [`crm_contact`][1] | Идентификатор контакта привязанный к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   Доступно лишь при включенной настройке `isClientEnabled` у соответствующего смарт-процесса.
 
@@ -1008,7 +1008,7 @@
   || **contactIds**
   [`crm_contact[]`][1] | Список идентификаторов контакта привязанных к элементу.
 
-  Список контактов можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 3`.
+  Список контактов можно получить с помощью метода [`crm.item.list`](/api-reference/crm/universal/crm-item-list.html) по `entityTypeId = 3`.
 
   Доступно лишь при включенной настройке `isClientEnabled` у соответствующего смарт-процесса.
 
@@ -1022,7 +1022,7 @@
   || **categoryId**
   [`crm_category`][1] | Идентификатор воронки элемента смарт-процесса.
 
-  Список доступных воронок можно узнать с помощью [`crm.category.list`](../universal/category/crm-category-list.md) применив соответсвующий `entityTypeId` ||
+  Список доступных воронок можно узнать с помощью [`crm.category.list`](/api-reference/crm/universal/category/crm-category-list.html) применив соответсвующий `entityTypeId` ||
   || **stageId**
   [`crm_status`][1] | Строковый идентификатор стадии элемента.
 
@@ -1032,7 +1032,7 @@
     - `entityTypeId` — идентификатор типа смарт-процесса
     - `categoryId` — идентификатор воронки (направления) элемента смарт-процесса
 
-  [Подробнее о воронках (направлениях)](../universal/category/index.md).
+  [Подробнее о воронках (направлениях)](/api-reference/crm/universal/category/index.html).
 
   Доступно лишь при включенной настройке `isStagesEnabled` у соответствующего смарт-процесса.
 
@@ -1085,7 +1085,7 @@
 
   По умолчанию — Идентификатор первой доступной «моей» компании ||
   || **ufCrm...**
-  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](../universal/user-defined-fields/index.md).
+  [`crm_userfield`][1] | Пользовательское поле. Смотрите раздел [{#T}](/api-reference/crm/universal/user-defined-fields/index.html).
 
     - Значения множественных полей передаются в виде массива
     - Чтобы загрузить файл, в качестве значения пользовательского поля необходимо передать массив, где первый элемент — это имя файла, а второй — это закодированный в base64 контент файла.
@@ -1100,11 +1100,11 @@
 
   {% note info "Настройки смарт-процесса" %}
 
-  Подробнее об управлении настройками смарт-процессов Вы можете прочитать в [{#T}](../universal/user-defined-object-types/index.md)
+  Подробнее об управлении настройками смарт-процессов Вы можете прочитать в [{#T}](/api-reference/crm/universal/user-defined-object-types/index.html)
 
   {% endnote %}
 
 {% endlist %}
 
-[1]: ../data-types.md
-[2]: ../status/crm-status-list.md
+[1]: /api-reference/crm/data-types.html
+[2]: /api-reference/crm/status/crm-status-list.html

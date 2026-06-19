@@ -2,6 +2,23 @@
 
 ## 2026
 
+### 18 июня, 2026
+
+- Обновили туториал [Открытые линии: типовые сценарии](./tutorials/openlines/index.md)
+- Обновили туториал [Как подключить СМС-провайдера к Битрикс24](./tutorials/messageservice/index.md)
+- Обновили страницу [Битрикс24 UI Kit: обзор](./api-reference/widgets/ui-kit/index.md)
+- Обновили туториал [Как использовать сквозную аналитику при создании лида](./tutorials/crm/how-to-use-analitycs/use-analitics-for-add-lead.md)
+
+### 17 июня, 2026
+
+- Добавили описание метода [tasks.task.list](./api-reference/rest-v3/tasks/tasks-task-list.md)
+
+### 10 июня, 2026
+
+- Добавили методы раздела [Коммуникации отделов и команд](./api-reference/rest-v3/humanresources/node-communication/index.md)
+- Добавили методы раздела [Сотрудники](./api-reference/rest-v3/humanresources/employee/index.md)
+- Обновили главную страницу раздела [Встраивание приложений в дела CRM](./api-reference/crm/timeline/activities/app-embedding/index.md)
+
 ### 05 июня, 2026
 
 - Добавили методы раздела [Записи о рабочем времени](./api-reference/rest-v3/timeman/index.md)

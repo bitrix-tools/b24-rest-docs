@@ -420,58 +420,141 @@
     https://**put_your_bitrix24_address**/rest/crm.quote.userfield.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'crm.quote.userfield.add',
-            {
-                fields: {
-                    LABEL: 'Поле Привет, мир!',
-                    USER_TYPE_ID: 'string',
-                    FIELD_NAME: 'HELLO_WORLD',
-                    MULTIPLE: 'Y',
-                    MANDATORY: 'Y',
-                    SHOW_FILTER: 'Y',
-                    SETTINGS: {
-                        DEFAULT_VALUE: 'Привет, мир! Значение по умолчанию',
-                        ROWS: 3,
-                    },
-                    SORT: 1000,
-                    EDIT_IN_LIST: 'Y',
-                    LIST_FILTER_LABEL: 'Привет, мир! Фильтр',
-                    LIST_COLUMN_LABEL: {
-                        en: 'Hello, World! Column',
-                        ru: 'Привет, мир! Колонка',
-                        de: 'Hallo, Welt! Spalte',
-                    },
-                    EDIT_FORM_LABEL: {
-                        en: 'Hello, World! Edit',
-                        ru: 'Привет, мир! Редактировать',
-                        de: 'Hallo, Welt! Bearbeiten',
-                    },
-                    ERROR_MESSAGE: {
-                        en: 'Hello, World! Error',
-                        ru: 'Привет, мир! Ошибка',
-                        de: 'Hallo, Welt! Fehler',
-                    },
-                    HELP_MESSAGE: {
-                        en: 'Hello, World! Help',
-                        ru: 'Привет, мир! Помощь',
-                        de: 'Hallo, Welt! Hilfe',
-                    },
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'crm.quote.userfield.add',
+        params: {
+          fields: {
+            LABEL: 'Hello, World! Field',
+            USER_TYPE_ID: 'string',
+            FIELD_NAME: 'HELLO_WORLD',
+            MULTIPLE: 'Y',
+            MANDATORY: 'Y',
+            SHOW_FILTER: 'Y',
+            SETTINGS: {
+              DEFAULT_VALUE: 'Hello, World! Default value',
+              ROWS: 3,
+            },
+            SORT: 1000,
+            EDIT_IN_LIST: 'Y',
+            LIST_FILTER_LABEL: 'Hello, World! Filter',
+            LIST_COLUMN_LABEL: {
+              en: 'Hello, World! Column',
+              ru: 'Привет, мир! Колонка',
+              de: 'Hallo, Welt! Spalte',
+            },
+            EDIT_FORM_LABEL: {
+              en: 'Hello, World! Edit',
+              ru: 'Привет, мир! Редактировать',
+              de: 'Hallo, Welt! Bearbeiten',
+            },
+            ERROR_MESSAGE: {
+              en: 'Hello, World! Error',
+              ru: 'Привет, мир! Ошибка',
+              de: 'Hallo, Welt! Fehler',
+            },
+            HELP_MESSAGE: {
+              en: 'Hello, World! Help',
+              ru: 'Привет, мир! Помощь',
+              de: 'Hallo, Welt! Hilfe',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created userfield ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addStringQuoteUserfield() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.quote.userfield.add',
+            params: {
+              fields: {
+                LABEL: 'Hello, World! Field',
+                USER_TYPE_ID: 'string',
+                FIELD_NAME: 'HELLO_WORLD',
+                MULTIPLE: 'Y',
+                MANDATORY: 'Y',
+                SHOW_FILTER: 'Y',
+                SETTINGS: {
+                  DEFAULT_VALUE: 'Hello, World! Default value',
+                  ROWS: 3,
                 },
-            }
-        );
+                SORT: 1000,
+                EDIT_IN_LIST: 'Y',
+                LIST_FILTER_LABEL: 'Hello, World! Filter',
+                LIST_COLUMN_LABEL: {
+                  en: 'Hello, World! Column',
+                  ru: 'Привет, мир! Колонка',
+                  de: 'Hallo, Welt! Spalte',
+                },
+                EDIT_FORM_LABEL: {
+                  en: 'Hello, World! Edit',
+                  ru: 'Привет, мир! Редактировать',
+                  de: 'Hallo, Welt! Bearbeiten',
+                },
+                ERROR_MESSAGE: {
+                  en: 'Hello, World! Error',
+                  ru: 'Привет, мир! Ошибка',
+                  de: 'Hallo, Welt! Fehler',
+                },
+                HELP_MESSAGE: {
+                  en: 'Hello, World! Help',
+                  ru: 'Привет, мир! Помощь',
+                  de: 'Hallo, Welt! Hilfe',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
 
-        console.info(response.getData().result);
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created userfield ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addStringQuoteUserfield)
+    </script>
     ```
 
 - PHP
@@ -609,42 +692,109 @@
     https://**put_your_bitrix24_address**/rest/crm.quote.userfield.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'crm.quote.userfield.add',
-            {
-                fields: {
-                    LABEL: 'Пользовательское поле (список)',
-                    USER_TYPE_ID: 'enumeration',
-                    FIELD_NAME: 'ENUMERATION_EXAMPLE',
-                    MULTIPLE: 'N',
-                    MANDATORY: 'N',
-                    SHOW_FILTER: 'Y',
-                    LIST: [
-                        { VALUE: 'Элемент списка #1', DEF: 'Y', XML_ID: 'XML_ID_1', SORT: 100 },
-                        { VALUE: 'Элемент списка #2', XML_ID: 'XML_ID_2', SORT: 200 },
-                        { VALUE: 'Элемент списка #3', XML_ID: 'XML_ID_3', SORT: 300 },
-                        { VALUE: 'Элемент списка #4', XML_ID: 'XML_ID_4', SORT: 400 },
-                    ],
-                    SETTINGS: {
-                        DISPLAY: 'UI',
-                        LIST_HEIGHT: 2,
-                    },
-                    SORT: 2000,
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'crm.quote.userfield.add',
+        params: {
+          fields: {
+            LABEL: 'Custom field (enumeration)',
+            USER_TYPE_ID: 'enumeration',
+            FIELD_NAME: 'ENUMERATION_EXAMPLE',
+            MULTIPLE: 'N',
+            MANDATORY: 'N',
+            SHOW_FILTER: 'Y',
+            LIST: [
+              { VALUE: 'List item #1', DEF: 'Y', XML_ID: 'XML_ID_1', SORT: 100 },
+              { VALUE: 'List item #2', XML_ID: 'XML_ID_2', SORT: 200 },
+              { VALUE: 'List item #3', XML_ID: 'XML_ID_3', SORT: 300 },
+              { VALUE: 'List item #4', XML_ID: 'XML_ID_4', SORT: 400 },
+            ],
+            SETTINGS: {
+              DISPLAY: 'UI',
+              LIST_HEIGHT: 2,
+            },
+            SORT: 2000,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created userfield ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addEnumerationQuoteUserfield() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.quote.userfield.add',
+            params: {
+              fields: {
+                LABEL: 'Custom field (enumeration)',
+                USER_TYPE_ID: 'enumeration',
+                FIELD_NAME: 'ENUMERATION_EXAMPLE',
+                MULTIPLE: 'N',
+                MANDATORY: 'N',
+                SHOW_FILTER: 'Y',
+                LIST: [
+                  { VALUE: 'List item #1', DEF: 'Y', XML_ID: 'XML_ID_1', SORT: 100 },
+                  { VALUE: 'List item #2', XML_ID: 'XML_ID_2', SORT: 200 },
+                  { VALUE: 'List item #3', XML_ID: 'XML_ID_3', SORT: 300 },
+                  { VALUE: 'List item #4', XML_ID: 'XML_ID_4', SORT: 400 },
+                ],
+                SETTINGS: {
+                  DISPLAY: 'UI',
+                  LIST_HEIGHT: 2,
                 },
-            }
-        );
+                SORT: 2000,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
 
-        console.info(response.getData().result);
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created userfield ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addEnumerationQuoteUserfield)
+    </script>
     ```
 
 - PHP

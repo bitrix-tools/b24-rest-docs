@@ -106,33 +106,95 @@
     https://**put_your_bitrix24_address**/rest/vote.AttachedVote.getAnswerVoted
     ```
 
-- JS
+- JS (TS)
 
-    ```js  
-    try
-    {
-        const response = await $b24.callMethod(
-            'vote.AttachedVote.getAnswerVoted',
-            {
-                attachId: **put_attach_id**,
-                answerId: **put_answer_id**,
-                pageNavigation: {
-                    pageSize: **put_page_size**,
-                    currentPage: **put_page**
-                },
-                userForMobileFormat: false
-            }
-        );
-        
-        const result = response.getData().result;
-        console.log('Dat a:', result);
-        
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type GetAnswerVotedResult = {
+      items: {
+        ID: number
+        NAME: string
+        IMAGE: string
+        WORK_POSITION: string
+      }[]
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<GetAnswerVotedResult>({
+        method: 'vote.AttachedVote.getAnswerVoted',
+        params: {
+          attachId: 1,
+          answerId: 1,
+          pageNavigation: {
+            pageSize: 10,
+            currentPage: 1,
+          },
+          userForMobileFormat: false,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Voted users:', result.items.length, result.items)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getAnswerVoted() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'vote.AttachedVote.getAnswerVoted',
+            params: {
+              attachId: 1,
+              answerId: 1,
+              pageNavigation: {
+                pageSize: 10,
+                currentPage: 1,
+              },
+              userForMobileFormat: false,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Voted users:', result.items.length, result.items)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getAnswerVoted)
+    </script>
     ```
 
 - PHP

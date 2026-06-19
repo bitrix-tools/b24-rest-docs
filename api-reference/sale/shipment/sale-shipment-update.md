@@ -112,38 +112,130 @@
     https://**put_your_bitrix24_address**/rest/sale.shipment.update
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'sale.shipment.update', {
-    			id: 2452,
-    			fields: {
-    				allowDelivery: 'N',
-    				deducted: 'N',
-    				deliveryId: 3,
-    				statusId: 'DD',
-    				deliveryDocDate: '2024-02-13T15:05:49',
-    				deliveryDocNum: 'MyDocumentNumber',
-    				trackingNumber: 'MyTrackingNumber',
-    				basePriceDelivery: 1999.99,
-    				comments: 'My new comment for manager',
-    				responsibleId: 1,
-    				xmlId: 'myNewXmlId',
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ShipmentUpdateResult = {
+      shipment: {
+        id: number
+        orderId: number
+        accountNumber: string
+        deliveryId: number
+        deliveryName: string
+        statusId: string
+        allowDelivery: string
+        deducted: string
+        canceled: string
+        marked: string
+        priceDelivery: number
+        basePriceDelivery: number
+        discountPrice: number
+        currency: string
+        comments: string
+        trackingNumber: string
+        deliveryDocNum: string
+        deliveryDocDate: ISODate | null
+        xmlId: string
+        companyId: number | null
+        responsibleId: number | null
+        dateInsert: ISODate | null
+        dateAllowDelivery: ISODate | null
+        dateDeducted: ISODate | null
+        shipmentItems: unknown[]
+      }
     }
-    catch( error )
-    {
-    	console.error(error.ex);
+
+    try {
+      const response = await $b24.actions.v2.call.make<ShipmentUpdateResult>({
+        method: 'sale.shipment.update',
+        params: {
+          id: 2452,
+          fields: {
+            allowDelivery: 'N',
+            deducted: 'N',
+            deliveryId: 3,
+            statusId: 'DD',
+            deliveryDocDate: '2024-02-13T15:05:49',
+            deliveryDocNum: 'MyDocumentNumber',
+            trackingNumber: 'MyTrackingNumber',
+            basePriceDelivery: 1999.99,
+            comments: 'My new comment for manager',
+            responsibleId: 1,
+            xmlId: 'myNewXmlId',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Updated shipment id:', result.shipment.id, 'status:', result.shipment.statusId)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateShipment() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'sale.shipment.update',
+            params: {
+              id: 2452,
+              fields: {
+                allowDelivery: 'N',
+                deducted: 'N',
+                deliveryId: 3,
+                statusId: 'DD',
+                deliveryDocDate: '2024-02-13T15:05:49',
+                deliveryDocNum: 'MyDocumentNumber',
+                trackingNumber: 'MyTrackingNumber',
+                basePriceDelivery: 1999.99,
+                comments: 'My new comment for manager',
+                responsibleId: 1,
+                xmlId: 'myNewXmlId',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Updated shipment id:', result.shipment.id, 'status:', result.shipment.statusId)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateShipment)
+    </script>
     ```
 
 - PHP

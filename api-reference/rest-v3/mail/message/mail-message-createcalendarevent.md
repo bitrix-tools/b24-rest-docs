@@ -72,30 +72,86 @@
     https://**put_your_bitrix24_address**/rest/api/mail.message.createcalendarevent
     ```
 
-- JS
+- JS (TS)
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```javascript
-    try
-    {
-        const response = await $b24.callMethod(
-            'mail.message.createcalendarevent',
-            {
-                messageId: 15,
-                dateFrom: '2026-04-15 10:00:00',
-                dateTo: '2026-04-15 11:00:00',
-                name: 'Встреча по договору'
-            }
-        );
+    declare const $b24: B24Frame
 
-        const result = response.getData().result;
-        console.log('Calendar event:', result);
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type CreateCalendarEventResult = {
+      success: boolean
+      eventId: number
+      messageId: number
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v3.call.make<CreateCalendarEventResult>({
+        method: 'mail.message.createcalendarevent',
+        params: {
+          messageId: 15,
+          dateFrom: '2026-04-15 10:00:00',
+          dateTo: '2026-04-15 11:00:00',
+          name: 'Contract meeting',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created calendar event ID:', result.eventId, 'for message ID:', result.messageId)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function createCalendarEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v3.call.make({
+            method: 'mail.message.createcalendarevent',
+            params: {
+              messageId: 15,
+              dateFrom: '2026-04-15 10:00:00',
+              dateTo: '2026-04-15 11:00:00',
+              name: 'Contract meeting',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created calendar event ID:', result.eventId, 'for message ID:', result.messageId)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', createCalendarEvent)
+    </script>
     ```
 
 - PHP

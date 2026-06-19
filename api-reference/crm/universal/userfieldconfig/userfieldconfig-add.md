@@ -360,36 +360,134 @@
       "https://**put_your_bitrix24_address**/rest/userfieldconfig.add"
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    const endpoint = "https://**put_your_bitrix24_address**/rest/userfieldconfig.add.json";
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            auth: "**put_access_token_here**",
-            moduleId: "crm",
-            field: {
-                entityId: "CRM_7",
-                fieldName: "UF_CRM_7_NEW_REST_LIST_2026",
-                userTypeId: "enumeration",
-                multiple: "Y",
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type UserfieldconfigAddResult = {
+      field: {
+        id: string
+        entityId: string
+        fieldName: string
+        userTypeId: string
+        xmlId: string | null
+        sort: string
+        multiple: string
+        mandatory: string
+        showFilter: string
+        showInList: string
+        editInList: string
+        isSearchable: string
+        settings: Record<string, unknown>
+        languageId: Record<string, string>
+        editFormLabel: Record<string, string | null>
+        listColumnLabel: Record<string, string | null>
+        listFilterLabel: Record<string, string | null>
+        errorMessage: Record<string, string | null>
+        helpMessage: Record<string, string | null>
+        enum?: Array<{
+          id: string
+          userFieldId: string
+          value: string
+          def: string
+          sort: string
+          xmlId: string
+        }>
+      }
+    }
+
+    try {
+      const response = await $b24.actions.v2.call.make<UserfieldconfigAddResult>({
+        method: 'userfieldconfig.add',
+        params: {
+          moduleId: 'crm',
+          field: {
+            entityId: 'CRM_7',
+            fieldName: 'UF_CRM_7_NEW_REST_LIST_2026',
+            userTypeId: 'enumeration',
+            multiple: 'Y',
+            editFormLabel: {
+              ru: 'Список характеристик',
+              en: 'List of characteristics',
+            },
+            enum: [
+              { value: 'Characteristic 1', def: 'N', sort: 100 },
+              { value: 'Characteristic 2', def: 'Y', sort: 200 },
+            ],
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created field:', result.field.id, result.field.fieldName)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addUserfield() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'userfieldconfig.add',
+            params: {
+              moduleId: 'crm',
+              field: {
+                entityId: 'CRM_7',
+                fieldName: 'UF_CRM_7_NEW_REST_LIST_2026',
+                userTypeId: 'enumeration',
+                multiple: 'Y',
                 editFormLabel: {
-                    ru: "Список характеристик",
-                    en: "List of characteristics",
+                  ru: 'Список характеристик',
+                  en: 'List of characteristics',
                 },
                 enum: [
-                    { value: "Характеристика 1", def: "N", sort: 100 },
-                    { value: "Характеристика 2", def: "Y", sort: 200 },
+                  { value: 'Characteristic 1', def: 'N', sort: 100 },
+                  { value: 'Characteristic 2', def: 'Y', sort: 200 },
                 ],
+              },
             },
-        }),
-    })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created field:', result.field.id, result.field.fieldName)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addUserfield)
+    </script>
     ```
 
 - PHP

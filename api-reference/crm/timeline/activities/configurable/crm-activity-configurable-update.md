@@ -68,90 +68,204 @@ fields:
     https://**put_your_bitrix24_address**/rest/crm.activity.configurable.update
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"crm.activity.configurable.update",
-    		{
-    			id: 999,
-    			fields:
-    			{
-    				typeId: 'CONFIGURABLE',
-    				completed: false,
-    				deadline: new Date(),
-    				pingOffsets: [300],
-    				isIncomingChannel: 'Y',
-    				responsibleId: 5,
-    				badgeCode: 'CUSTOM',
-    			},
-    			layout:
-    			{
-    				"icon": {
-    					"code": "call-completed"
-    				},
-    				"header": {
-    					"title": "Входящий звонок"
-    				},
-    				"body": {
-    					"logo": {
-    						"code": "call-incoming"
-    					},
-    					"blocks": {
-    						"responsible": {
-    							"type": "lineOfBlocks",
-    							"properties": {
-    								"blocks": {
-    									"client": {
-    										"type": "link",
-    										"properties": {
-    											"text": "Сергей Востриков",
-    											"bold": true,
-    											"action": {
-    												"type": "redirect",
-    												"uri": "/crm/lead/details/789/"
-    											}
-    										}
-    									},
-    									"phone": {
-    										"type": "text",
-    										"properties": {
-    											"value": "+7 999 888 7777"
-    										}
-    									}
-    								}
-    							}
-    						}
-    					}
-    				},
-    				"footer": {
-    					"buttons": {
-    						"startCall": {
-    							"title": "О клиенте",
-    							"action": {
-    								"type": "openRestApp",
-    								"actionParams": {
-    									"clientId": 456
-    								}
-    							},
-    							"type": "primary"
-    						}
-    					}
-    				}
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.dir(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ActivityUpdateResult = {
+      activity: {
+        id: number
+      }
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<ActivityUpdateResult>({
+        method: 'crm.activity.configurable.update',
+        params: {
+          id: 999,
+          fields: {
+            typeId: 'CONFIGURABLE',
+            completed: false,
+            deadline: '2025-08-01T12:00:00+02:00',
+            pingOffsets: [300],
+            isIncomingChannel: 'Y',
+            responsibleId: 5,
+            badgeCode: 'CUSTOM',
+          },
+          layout: {
+            icon: {
+              code: 'call-completed',
+            },
+            header: {
+              title: 'Incoming call',
+            },
+            body: {
+              logo: {
+                code: 'call-incoming',
+              },
+              blocks: {
+                responsible: {
+                  type: 'lineOfBlocks',
+                  properties: {
+                    blocks: {
+                      client: {
+                        type: 'link',
+                        properties: {
+                          text: 'John Smith',
+                          bold: true,
+                          action: {
+                            type: 'redirect',
+                            uri: '/crm/lead/details/789/',
+                          },
+                        },
+                      },
+                      phone: {
+                        type: 'text',
+                        properties: {
+                          value: '+7 999 888 7777',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            footer: {
+              buttons: {
+                startCall: {
+                  title: 'About client',
+                  action: {
+                    type: 'openRestApp',
+                    actionParams: {
+                      clientId: 456,
+                    },
+                  },
+                  type: 'primary',
+                },
+              },
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Updated activity id:', result.activity.id)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateConfigurableActivity() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.activity.configurable.update',
+            params: {
+              id: 999,
+              fields: {
+                typeId: 'CONFIGURABLE',
+                completed: false,
+                deadline: '2025-08-01T12:00:00+02:00',
+                pingOffsets: [300],
+                isIncomingChannel: 'Y',
+                responsibleId: 5,
+                badgeCode: 'CUSTOM',
+              },
+              layout: {
+                icon: {
+                  code: 'call-completed',
+                },
+                header: {
+                  title: 'Incoming call',
+                },
+                body: {
+                  logo: {
+                    code: 'call-incoming',
+                  },
+                  blocks: {
+                    responsible: {
+                      type: 'lineOfBlocks',
+                      properties: {
+                        blocks: {
+                          client: {
+                            type: 'link',
+                            properties: {
+                              text: 'John Smith',
+                              bold: true,
+                              action: {
+                                type: 'redirect',
+                                uri: '/crm/lead/details/789/',
+                              },
+                            },
+                          },
+                          phone: {
+                            type: 'text',
+                            properties: {
+                              value: '+7 999 888 7777',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+                footer: {
+                  buttons: {
+                    startCall: {
+                      title: 'About client',
+                      action: {
+                        type: 'openRestApp',
+                        actionParams: {
+                          clientId: 456,
+                        },
+                      },
+                      type: 'primary',
+                    },
+                  },
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Updated activity id:', result.activity.id)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateConfigurableActivity)
+    </script>
     ```
 
 - PHP

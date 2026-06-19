@@ -199,44 +199,115 @@
     https://**put_your_bitrix24_address**/rest/lists.field.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
     try {
-        const response = await $b24.callMethod(
-            'lists.field.add',
-            {
-                IBLOCK_TYPE_ID: 'lists',
-                IBLOCK_ID: '123',
-                FIELDS: {
-                    NAME: 'Проект',
-                    IS_REQUIRED: 'Y',
-                    MULTIPLE: 'N',
-                    TYPE: 'L',
-                    SORT: '10',
-                    CODE: 'PROJECT',
-                    LIST: {
-                        '10': { VALUE: 'Планирование', SORT: 10, DEF: 'Y' },
-                        '20': { VALUE: 'В разработке', SORT: 20, DEF: 'N' }
-                    },
-                    LIST_TEXT_VALUES: 'Тестирование\nЗавершен\nОтложен',
-                    SETTINGS: {
-                        SHOW_ADD_FORM: 'Y',
-                        SHOW_EDIT_FORM: 'Y',
-                        ADD_READ_ONLY_FIELD: 'N',
-                        EDIT_READ_ONLY_FIELD: 'N',
-                        SHOW_FIELD_PREVIEW: 'N'
-                    }
-                }
-            }
-        );
+      const response = await $b24.actions.v2.call.make<string>({
+        method: 'lists.field.add',
+        params: {
+          IBLOCK_TYPE_ID: 'lists',
+          IBLOCK_ID: '123',
+          FIELDS: {
+            NAME: 'Project',
+            IS_REQUIRED: 'Y',
+            MULTIPLE: 'N',
+            TYPE: 'L',
+            SORT: '10',
+            CODE: 'PROJECT',
+            LIST: {
+              '10': { VALUE: 'Planning', SORT: 10, DEF: 'Y' },
+              '20': { VALUE: 'In progress', SORT: 20, DEF: 'N' },
+            },
+            LIST_TEXT_VALUES: 'Testing\nCompleted\nPostponed',
+            SETTINGS: {
+              SHOW_ADD_FORM: 'Y',
+              SHOW_EDIT_FORM: 'Y',
+              ADD_READ_ONLY_FIELD: 'N',
+              EDIT_READ_ONLY_FIELD: 'N',
+              SHOW_FIELD_PREVIEW: 'N',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
 
-        const result = response.getData().result;
-        console.log('Created field with ID:', result);
-        processResult(result);
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created field ID:', result)
+      }
     } catch (error) {
-        console.error('Error:', error);
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addListField() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'lists.field.add',
+            params: {
+              IBLOCK_TYPE_ID: 'lists',
+              IBLOCK_ID: '123',
+              FIELDS: {
+                NAME: 'Project',
+                IS_REQUIRED: 'Y',
+                MULTIPLE: 'N',
+                TYPE: 'L',
+                SORT: '10',
+                CODE: 'PROJECT',
+                LIST: {
+                  '10': { VALUE: 'Planning', SORT: 10, DEF: 'Y' },
+                  '20': { VALUE: 'In progress', SORT: 20, DEF: 'N' },
+                },
+                LIST_TEXT_VALUES: 'Testing\nCompleted\nPostponed',
+                SETTINGS: {
+                  SHOW_ADD_FORM: 'Y',
+                  SHOW_EDIT_FORM: 'Y',
+                  ADD_READ_ONLY_FIELD: 'N',
+                  EDIT_READ_ONLY_FIELD: 'N',
+                  SHOW_FIELD_PREVIEW: 'N',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created field ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addListField)
+    </script>
     ```
 
 - PHP

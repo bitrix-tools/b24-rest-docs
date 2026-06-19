@@ -49,4 +49,4 @@ oauth.bitrix24.tech/oauth/token/?grant_type=authorization_code...
 
 Есть альтернативный вариант, когда вы специально для конкретного клиента на стороне его коробочного Битрикс24 подключите свой механизм авторизации и событий. Подробнее о таком способе было рассказано в докладе Максима Сидоренко:
 
-@[youtube](https://www.youtube.com/watch?v=MtTVF9Vf0Wo)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/0becef7c826427edd5e05e55ffb24144/?p=6tgNGVLNFCycVzj1phG1xg" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>

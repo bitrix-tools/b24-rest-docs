@@ -13,4 +13,4 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-@[youtube](MCziK3KRg1s)
+<iframe width="720" height="405" src="https://rutube.ru/play/embed/102bb566090fb50fda60fe5b96b67b0e/" style="border: none;" allow="clipboard-write; autoplay" allowFullScreen></iframe>

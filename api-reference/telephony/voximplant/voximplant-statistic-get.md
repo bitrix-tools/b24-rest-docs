@@ -196,31 +196,128 @@
     https://**put_your_bitrix24_address**/rest/voximplant.statistic.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'voximplant.statistic.get',
-            {
-                FILTER: {
-                    ID: [1, 7],
-                    '>=CALL_START_DATE': '2025-01-01T00:00:00+03:00'
-                },
-                SORT: 'ID',
-                ORDER: 'ASC'
-            }
-        );
-        
-        const result = response.getData().result;
-        console.log('Statistics:', result);
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of each CallStatRecord returned in result[]
+    type CallStatRecord = {
+      ID: string
+      PORTAL_USER_ID: string
+      PORTAL_NUMBER: string
+      PHONE_NUMBER: string
+      CALL_ID: string
+      EXTERNAL_CALL_ID: string | null
+      CALL_CATEGORY: string
+      CALL_LOG: string | null
+      CALL_DURATION: string
+      CALL_START_DATE: ISODate
+      CALL_RECORD_URL: string | null
+      CALL_VOTE: string | null
+      COST: string
+      COST_CURRENCY: string
+      CALL_FAILED_CODE: string
+      CALL_FAILED_REASON: string
+      CRM_ENTITY_TYPE: string
+      CRM_ENTITY_ID: string
+      CRM_ACTIVITY_ID: string
+      REST_APP_ID: string | null
+      REST_APP_NAME: string | null
+      TRANSCRIPT_ID: string | null
+      TRANSCRIPT_PENDING: string
+      SESSION_ID: string | null
+      REDIAL_ATTEMPT: string | null
+      COMMENT: string | null
+      RECORD_DURATION: string | null
+      RECORD_FILE_ID: number | null
+      CALL_TYPE: string
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    try {
+      // voximplant.statistic.get returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<CallStatRecord[]>({
+        method: 'voximplant.statistic.get',
+        params: {
+          FILTER: {
+            ID: [1, 7],
+            '>=CALL_START_DATE': '2025-01-01T00:00:00+03:00',
+          },
+          SORT: 'ID',
+          ORDER: 'ASC',
+          start: 0,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Fetched call statistics:', result.length, 'records', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchCallStatistics() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // voximplant.statistic.get returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'voximplant.statistic.get',
+            params: {
+              FILTER: {
+                ID: [1, 7],
+                '>=CALL_START_DATE': '2025-01-01T00:00:00+03:00',
+              },
+              SORT: 'ID',
+              ORDER: 'ASC',
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Fetched call statistics:', result.length, 'records', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchCallStatistics)
+    </script>
     ```
 
 - PHP

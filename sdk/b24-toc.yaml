@@ -19,3 +19,7 @@ items:
     include:
       path: crest-php-sdk/b24-toc.yaml
       mode: link      
+  - name: B24 Python SDK
+    include:
+      path: b24pysdk/b24-toc.yaml
+      mode: link

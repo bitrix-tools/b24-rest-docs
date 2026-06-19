@@ -19,28 +19,80 @@
 
 {% list tabs %}
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'placement.bind',
-    		{
-    			PLACEMENT: 'CALENDAR_GRIDVIEW',
-    			HANDLER: 'http://your_site/handler.php',
-    			TITLE: 'Custom tab'
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type PlacementBindResult = boolean
+
+    try {
+      const response = await $b24.actions.v2.call.make<PlacementBindResult>({
+        method: 'placement.bind',
+        params: {
+          PLACEMENT: 'CALENDAR_GRIDVIEW',
+          HANDLER: 'http://your_site/handler.php',
+          TITLE: 'Custom tab',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('placement.bind result:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindCalendarPlacement() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.bind',
+            params: {
+              PLACEMENT: 'CALENDAR_GRIDVIEW',
+              HANDLER: 'http://your_site/handler.php',
+              TITLE: 'Custom tab',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('placement.bind result:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindCalendarPlacement)
+    </script>
     ```
 
 - PHP
@@ -126,33 +178,90 @@
 
 {% list tabs %}
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const dateFrom = new Date();
-    	const dateTo = new Date(dateFrom.getTime() + 86400 * 30 * 1000); // Умножаем на 1000, чтобы преобразовать секунды в миллисекунды
-    	dateFrom.setHours(0, 0, 0, 0);
-    	dateTo.setHours(0, 0, 0, 0);
-    
-    	const response = await $b24.callMethod(
-    		'placement.getEvents',
-    		{
-    			dateFrom: dateFrom,
-    			dateTo: dateTo
-    		}
-    	);
-    
-    	const events = response.getData().result;
-    	console.log('getEvents response:');
-    	console.dir(events);
+    declare const $b24: B24Frame
+
+    // Shape of each event returned in result[]
+    type PlacementEvent = {
+      id: string
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
+
+    try {
+      const dateFrom = new Date()
+      const dateTo = new Date(dateFrom.getTime() + 86400 * 30 * 1000) // Multiply by 1000 to convert seconds to milliseconds
+      dateFrom.setHours(0, 0, 0, 0)
+      dateTo.setHours(0, 0, 0, 0)
+
+      const response = await $b24.actions.v2.call.make<PlacementEvent[]>({
+        method: 'placement.getEvents',
+        params: {
+          dateFrom: dateFrom,
+          dateTo: dateTo,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('getEvents response:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getCalendarEvents() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const dateFrom = new Date()
+          const dateTo = new Date(dateFrom.getTime() + 86400 * 30 * 1000) // Multiply by 1000 to convert seconds to milliseconds
+          dateFrom.setHours(0, 0, 0, 0)
+          dateTo.setHours(0, 0, 0, 0)
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.getEvents',
+            params: {
+              dateFrom: dateFrom,
+              dateTo: dateTo,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('getEvents response:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getCalendarEvents)
+    </script>
     ```
 
 - PHP
@@ -217,26 +326,78 @@
 
 {% list tabs %}
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'placement.call',
-    		{
-    			id: "1431170", // идентификатор события
-    			dateFrom: "11.07.2018" // дата события. Не обязательна, но важна для регулярных событий
-    		}
-    	);
-    	
-    	const result = response.getData().result;
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ViewEventResult = boolean
+
+    try {
+      const response = await $b24.actions.v2.call.make<ViewEventResult>({
+        method: 'placement.call',
+        params: {
+          id: '1431170', // event identifier
+          dateFrom: '11.07.2018', // event date; optional but important for recurring events
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('placement.call viewEvent result:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function viewCalendarEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.call',
+            params: {
+              id: '1431170', // event identifier
+              dateFrom: '11.07.2018', // event date; optional but important for recurring events
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('placement.call viewEvent result:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', viewCalendarEvent)
+    </script>
     ```
 
 - PHP
@@ -287,24 +448,72 @@
 
 {% list tabs %}
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'placement.addEvent',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	// Нужная вам логика обработки данных
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type AddEventResult = boolean
+
+    try {
+      const response = await $b24.actions.v2.call.make<AddEventResult>({
+        method: 'placement.addEvent',
+        params: {},
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('placement.addEvent result:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addCalendarEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.addEvent',
+            params: {},
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('placement.addEvent result:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addCalendarEvent)
+    </script>
     ```
 
 - PHP
@@ -345,28 +554,82 @@
 
 {% list tabs %}
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'placement.call',
-    		{
-    			placement: 'editEvent',
-    			params: {
-    				uid: "1431171|19.07.2018"
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type EditEventResult = boolean
+
+    try {
+      const response = await $b24.actions.v2.call.make<EditEventResult>({
+        method: 'placement.call',
+        params: {
+          placement: 'editEvent',
+          params: {
+            uid: '1431171|19.07.2018',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('placement.call editEvent result:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function editCalendarEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.call',
+            params: {
+              placement: 'editEvent',
+              params: {
+                uid: '1431171|19.07.2018',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('placement.call editEvent result:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', editCalendarEvent)
+    </script>
     ```
 
 - PHP
@@ -415,25 +678,76 @@
 
 {% list tabs %}
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'placement.deleteEvent',
-    		{
-    			id: "1431169"
-    		}
-    	);
-    	
-    	const result = response.getData().result;
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type DeleteEventResult = boolean
+
+    try {
+      const response = await $b24.actions.v2.call.make<DeleteEventResult>({
+        method: 'placement.deleteEvent',
+        params: {
+          id: '1431169',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('placement.deleteEvent result:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function deleteCalendarEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.deleteEvent',
+            params: {
+              id: '1431169',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('placement.deleteEvent result:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', deleteCalendarEvent)
+    </script>
     ```
 
 - PHP

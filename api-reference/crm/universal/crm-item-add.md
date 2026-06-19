@@ -1299,55 +1299,146 @@
         https://**put_your_bitrix24_address**/rest/crm.item.add
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        const formatDate = (date) => {
-            return date.toISOString().slice(0, 10);
-        };
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        const day = 60 * 60 * 24 * 1000;
+        declare const $b24: B24Frame
 
-        const now = new Date();
-        const twelveDaysInAdvance = new Date(now.getTime() + 12 * day);
-        const monthAgo = new Date(now.getTime() - 30 * day);
+        type CrmItem = {
+          id: number
+          title: string
+        }
 
-        const commentsExample = `
-        Пример комментария внутри сделки
+        // Shape of the payload returned in result (match the "response handling" section of the page)
+        type ItemAddResult = {
+          item: CrmItem
+        }
 
-        [B]Жирный текст[/B]
-        [I]Курсив[/I]
-        [U]Подчеркнутый[/U]
-        [S]Зачеркнутый[/S]
-        [B][I][U][S]Микс[/S][/U][/I][/B]
+        const formatDate = (date: Date): string => date.toISOString().slice(0, 10)
+        const day = 60 * 60 * 24 * 1000
+        const now = new Date()
+        const twelveDaysInAdvance = new Date(now.getTime() + 12 * day)
+        const monthAgo = new Date(now.getTime() - 30 * day)
 
-        [LIST]
-        [*]Элемент списка #1
-        [*]Элемент списка #2
-        [*]Элемент списка #3
-        [/LIST]
+        const commentsExample = [
+          'Example comment inside a deal',
+          '',
+          '[B]Bold text[/B]',
+          '[I]Italic[/I]',
+          '[U]Underlined[/U]',
+          '[S]Strikethrough[/S]',
+          '[B][I][U][S]Mix[/S][/U][/I][/B]',
+          '',
+          '[LIST]',
+          '[*]List item #1',
+          '[*]List item #2',
+          '[*]List item #3',
+          '[/LIST]',
+        ].join('\n')
 
-        [LIST=1]
-        [*]Нумерованный элемент списка #1
-        [*]Нумерованный элемент списка #2
-        [*]Нумерованный элемент списка #3
-        [/LIST]
-        `;
+        try {
+          const response = await $b24.actions.v2.call.make<ItemAddResult>({
+            method: 'crm.item.add',
+            params: {
+              entityTypeId: 2,
+              fields: {
+                title: 'New deal (specifically for the REST methods example)',
+                typeId: 'SERVICE',
+                categoryId: 9,
+                stageId: 'C9:UC_KN8KFI',
+                isReccurring: 'Y',
+                probability: 50,
+                currencyId: 'RUB',
+                isManualOpportunity: 'Y',
+                opportunity: 999.99,
+                taxValue: 99.9,
+                companyId: 5,
+                contactId: 4,
+                contactIds: [4, 5],
+                quoteId: 7,
+                begindate: formatDate(monthAgo),
+                closedate: formatDate(twelveDaysInAdvance),
+                opened: 'N',
+                comments: commentsExample,
+                assignedById: 6,
+                sourceId: 'WEB',
+                sourceDescription: 'Additional description about the source goes here',
+                leadId: 102,
+                additionalInfo: 'Additional information goes here',
+                observers: [2, 3],
+                utmSource: 'google',
+                utmMedium: 'CPC',
+                ufCrm_1721244707107: 1111.1,
+                parentId1220: 2,
+              },
+            },
+            requestId: Text.getUuidRfc4122()
+          })
 
-        BX24.callMethod(
-            'crm.item.add', 
-            {
-                entityTypeId: 2,
-                fields: 
-                {
-                    title: "Новая сделка (специально для примера REST методов)",
-                    typeId: "SERVICE",
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info(`Created item #${result.item.id} (${result.item.title})`)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
+
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function addCrmItem() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const formatDate = (date) => date.toISOString().slice(0, 10)
+              const day = 60 * 60 * 24 * 1000
+              const now = new Date()
+              const twelveDaysInAdvance = new Date(now.getTime() + 12 * day)
+              const monthAgo = new Date(now.getTime() - 30 * day)
+
+              const commentsExample = [
+                'Example comment inside a deal',
+                '',
+                '[B]Bold text[/B]',
+                '[I]Italic[/I]',
+                '[U]Underlined[/U]',
+                '[S]Strikethrough[/S]',
+                '[B][I][U][S]Mix[/S][/U][/I][/B]',
+                '',
+                '[LIST]',
+                '[*]List item #1',
+                '[*]List item #2',
+                '[*]List item #3',
+                '[/LIST]',
+              ].join('\n')
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.item.add',
+                params: {
+                  entityTypeId: 2,
+                  fields: {
+                    title: 'New deal (specifically for the REST methods example)',
+                    typeId: 'SERVICE',
                     categoryId: 9,
-                    stageId: "C9:UC_KN8KFI",
-                    isReccurring: "Y",
+                    stageId: 'C9:UC_KN8KFI',
+                    isReccurring: 'Y',
                     probability: 50,
-                    currencyId: "RUB",
-                    isManualOpportunity: "Y",
+                    currencyId: 'RUB',
+                    isManualOpportunity: 'Y',
                     opportunity: 999.99,
                     taxValue: 99.9,
                     companyId: 5,
@@ -1356,28 +1447,39 @@
                     quoteId: 7,
                     begindate: formatDate(monthAgo),
                     closedate: formatDate(twelveDaysInAdvance),
-                    opened: "N",
+                    opened: 'N',
                     comments: commentsExample,
                     assignedById: 6,
-                    sourceId: "WEB",
-                    sourceDescription: "Тут должно быть дополнительное описание об источнике",
+                    sourceId: 'WEB',
+                    sourceDescription: 'Additional description about the source goes here',
                     leadId: 102,
-                    additionalInfo: "Тут должна быть дополнительная информация",
+                    additionalInfo: 'Additional information goes here',
                     observers: [2, 3],
-                    utmSource: "google",
-                    utmMedium: "CPC",
+                    utmSource: 'google',
+                    utmMedium: 'CPC',
                     ufCrm_1721244707107: 1111.1,
                     parentId1220: 2,
+                  },
                 },
-            },
-            (result) => 
-            {
-                result.error() 
-                    ? console.error(result.error()) 
-                    : console.info(result.data())
-                ;
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info(`Created item #${result.item.id} (${result.item.title})`)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
             }
-        );
+          }
+
+          document.addEventListener('DOMContentLoaded', addCrmItem)
+        </script>
         ```
 
     - PHP
@@ -1725,40 +1827,119 @@
         https://**put_your_bitrix24_address**/rest/crm.item.add
         ```
 
-    - JS
+    - JS (TS)
 
-        ```js
-        const greenPixelInBase64 = "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg==";
+        ```ts
+        // This snippet is an ES module: top-level await requires type="module" or a bundler.
+        // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
 
-        BX24.callMethod(
-            'crm.item.add', 
-            {
-                entityTypeId: 1302,
-                fields: {
-                    ufCrm44_1721812760630: "Строка для пользовательского поля типа Строка",
+        declare const $b24: B24Frame
+
+        type CrmItem = {
+          id: number
+          title: string
+        }
+
+        // Shape of the payload returned in result (match the "response handling" section of the page)
+        type ItemAddResult = {
+          item: CrmItem
+        }
+
+        const greenPixelInBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=='
+
+        try {
+          const response = await $b24.actions.v2.call.make<ItemAddResult>({
+            method: 'crm.item.add',
+            params: {
+              entityTypeId: 1302,
+              fields: {
+                ufCrm44_1721812760630: 'Value for a String-type custom field',
+                ufCrm44_1721812814433: 81,
+                ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                ufCrm44_1721812885588: [
+                  'example.com',
+                  'second-example.com',
+                ],
+                ufCrm44_1721812898903: [
+                  'green_pixel.png',
+                  greenPixelInBase64,
+                ],
+                ufCrm44_1721812915476: '300|RUB',
+                ufCrm44_1721812935209: 'Y',
+                ufCrm44_1721812948498: 9999.9,
+              },
+            },
+            requestId: Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+          } else {
+            const result = response.getData()!.result
+            console.info(`Created item #${result.item.id} (${result.item.title})`)
+          }
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+        ```
+
+    - JS (UMD)
+
+        ```html
+        <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function addCrmItemWithCustomFields() {
+            try {
+              // Initialize the SDK inside a Bitrix24 frame
+              const $b24 = await B24Js.initializeB24Frame()
+
+              const greenPixelInBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=='
+
+              const response = await $b24.actions.v2.call.make({
+                method: 'crm.item.add',
+                params: {
+                  entityTypeId: 1302,
+                  fields: {
+                    ufCrm44_1721812760630: 'Value for a String-type custom field',
                     ufCrm44_1721812814433: 81,
-                    ufCrm44_1721812853419: (new Date()).toISOString().slice(0, 10),
+                    ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
                     ufCrm44_1721812885588: [
-                        "example.com",
-                        "second-example.com",
+                      'example.com',
+                      'second-example.com',
                     ],
                     ufCrm44_1721812898903: [
-                        "green_pixel.png",
-                        greenpixelBase64,
+                      'green_pixel.png',
+                      greenPixelInBase64,
                     ],
-                    ufCrm44_1721812915476: "300|RUB",
-                    ufCrm44_1721812935209: "Y",
+                    ufCrm44_1721812915476: '300|RUB',
+                    ufCrm44_1721812935209: 'Y',
                     ufCrm44_1721812948498: 9999.9,
+                  },
                 },
-            },
-            (result) => 
-            {
-                result.error() 
-                    ? console.error(result.error()) 
-                    : console.info(result.data())
-                ;
+                requestId: B24Js.Text.getUuidRfc4122()
+              })
+
+              // The payload is available only on a successful response
+              if (!response.isSuccess) {
+                console.error(response.getErrorMessages().join('; '))
+                return
+              }
+
+              const result = response.getData().result
+              console.info(`Created item #${result.item.id} (${result.item.title})`)
+            } catch (error) {
+              // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+              console.error(error)
             }
-        );
+          }
+
+          document.addEventListener('DOMContentLoaded', addCrmItemWithCustomFields)
+        </script>
         ```
 
     - PHP

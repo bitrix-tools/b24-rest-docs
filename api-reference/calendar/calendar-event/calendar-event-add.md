@@ -251,63 +251,140 @@ Cимвол `#` в цвете необходимо передавать в фо�
     https://**put_your_bitrix24_address**/rest/calendar.event.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'calendar.event.add',
-    		{
-    			type: 'user',
-    			ownerId: 2,
-    			name: 'New Event Name',
-    			description: 'Description for event',
-    			from: '2024-06-14',
-    			to: '2024-06-14',
-    			skip_time: 'Y',
-    			section: 5,
-    			color: '#9cbe1c',
-    			text_color: '#283033',
-    			accessibility: 'absent',
-    			importance: 'normal',
-    			is_meeting: 'Y',
-    			private_event: 'N',
-    			remind: [
-    				{
-    					type: 'min',
-    					count: 20
-    				}
-    			],
-    			location: 'London',
-    			attendees: [1, 2, 3],
-    			host: 2,
-    			meeting: {
-    				notify: true,
-    				reinvite: false,
-    				allow_invite: false,
-    				hide_guests: false,
-    			},
-    			rrule: {
-    				FREQ: 'WEEKLY',
-    				BYDAY: ['MO', 'WE'],
-    				COUNT: 10,
-    				INTERVAL: 1,
-    			},
-    			crm_fields: ['C_5', 'L_11']
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log('Created event with ID:', result);
-    	// Нужная вам логика обработки данных
-    	processResult(result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type CalendarEventAddResult = number
+
+    try {
+      const response = await $b24.actions.v2.call.make<CalendarEventAddResult>({
+        method: 'calendar.event.add',
+        params: {
+          type: 'user',
+          ownerId: 2,
+          name: 'New Event Name',
+          description: 'Description for event',
+          from: '2024-06-14',
+          to: '2024-06-14',
+          skip_time: 'Y',
+          section: 5,
+          color: '#9cbe1c',
+          text_color: '#283033',
+          accessibility: 'absent',
+          importance: 'normal',
+          is_meeting: 'Y',
+          private_event: 'N',
+          remind: [
+            { type: 'min', count: 20 },
+          ],
+          location: 'London',
+          attendees: [1, 2, 3],
+          host: 2,
+          meeting: {
+            notify: true,
+            reinvite: false,
+            allow_invite: false,
+            hide_guests: false,
+          },
+          rrule: {
+            FREQ: 'WEEKLY',
+            BYDAY: ['MO', 'WE'],
+            COUNT: 10,
+            INTERVAL: 1,
+          },
+          crm_fields: ['C_5', 'L_11'],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created event ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error('Error:', error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addCalendarEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'calendar.event.add',
+            params: {
+              type: 'user',
+              ownerId: 2,
+              name: 'New Event Name',
+              description: 'Description for event',
+              from: '2024-06-14',
+              to: '2024-06-14',
+              skip_time: 'Y',
+              section: 5,
+              color: '#9cbe1c',
+              text_color: '#283033',
+              accessibility: 'absent',
+              importance: 'normal',
+              is_meeting: 'Y',
+              private_event: 'N',
+              remind: [
+                { type: 'min', count: 20 },
+              ],
+              location: 'London',
+              attendees: [1, 2, 3],
+              host: 2,
+              meeting: {
+                notify: true,
+                reinvite: false,
+                allow_invite: false,
+                hide_guests: false,
+              },
+              rrule: {
+                FREQ: 'WEEKLY',
+                BYDAY: ['MO', 'WE'],
+                COUNT: 10,
+                INTERVAL: 1,
+              },
+              crm_fields: ['C_5', 'L_11'],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created event ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addCalendarEvent)
+    </script>
     ```
 
 - PHP
@@ -498,59 +575,142 @@ Cимвол `#` в цвете необходимо передавать в фо�
     https://**put_your_bitrix24_address**/rest/calendar.event.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'calendar.event.add',
-    		{
-    			type: 'company_calendar',
-    			ownerId: '',
-    			from: '2025-01-31T18:00:00',
-    			to: '2025-01-31T20:00:00',
-    			section: 1,
-    			name: 'Важная встреча',
-    			skip_time: 'N',
-    			timezone_from: 'Europe/Moscow',
-    			timezone_to: 'Europe/Moscow',
-    			description: 'Описание события',
-    			color: '%23FF0000',
-    			text_color: '%23000000',
-    			accessibility: 'busy',
-    			importance: 'high',
-    			private_event: 'N',
-    			rrule: {
-    				FREQ: 'WEEKLY',
-    				COUNT: 10,
-    				INTERVAL: 1,
-    				BYDAY: ['MO', 'WE', 'FR']
-    			},
-    			is_meeting: 'Y',
-    			location: 'Конференц-зал',
-    			remind: [
-    				{ type: 'min', count: 30 }
-    			],
-    			attendees: [29, 93],
-    			host: 1,
-    			meeting: {
-    				notify: true,
-    				reinvite: false,
-    				allow_invite: true,
-    				hide_guests: false
-    			}
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log('Event added successfully', result);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type CalendarEventAddResult = number
+
+    try {
+      const response = await $b24.actions.v2.call.make<CalendarEventAddResult>({
+        method: 'calendar.event.add',
+        params: {
+          type: 'company_calendar',
+          ownerId: '',
+          from: '2025-01-31T18:00:00',
+          to: '2025-01-31T20:00:00',
+          section: 1,
+          name: 'Important Meeting',
+          skip_time: 'N',
+          timezone_from: 'Europe/Moscow',
+          timezone_to: 'Europe/Moscow',
+          description: 'Event description',
+          color: '%23FF0000',
+          text_color: '%23000000',
+          accessibility: 'busy',
+          importance: 'high',
+          private_event: 'N',
+          rrule: {
+            FREQ: 'WEEKLY',
+            COUNT: 10,
+            INTERVAL: 1,
+            BYDAY: ['MO', 'WE', 'FR'],
+          },
+          is_meeting: 'Y',
+          location: 'Conference room',
+          remind: [
+            { type: 'min', count: 30 },
+          ],
+          attendees: [29, 93],
+          host: 1,
+          meeting: {
+            notify: true,
+            reinvite: false,
+            allow_invite: true,
+            hide_guests: false,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created event ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addCalendarEvent() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'calendar.event.add',
+            params: {
+              type: 'company_calendar',
+              ownerId: '',
+              from: '2025-01-31T18:00:00',
+              to: '2025-01-31T20:00:00',
+              section: 1,
+              name: 'Important Meeting',
+              skip_time: 'N',
+              timezone_from: 'Europe/Moscow',
+              timezone_to: 'Europe/Moscow',
+              description: 'Event description',
+              color: '%23FF0000',
+              text_color: '%23000000',
+              accessibility: 'busy',
+              importance: 'high',
+              private_event: 'N',
+              rrule: {
+                FREQ: 'WEEKLY',
+                COUNT: 10,
+                INTERVAL: 1,
+                BYDAY: ['MO', 'WE', 'FR'],
+              },
+              is_meeting: 'Y',
+              location: 'Conference room',
+              remind: [
+                { type: 'min', count: 30 },
+              ],
+              attendees: [29, 93],
+              host: 1,
+              meeting: {
+                notify: true,
+                reinvite: false,
+                allow_invite: true,
+                hide_guests: false,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created event ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addCalendarEvent)
+    </script>
     ```
 
 - PHP

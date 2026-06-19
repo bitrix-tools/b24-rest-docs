@@ -147,14 +147,98 @@
       https://**put_your_bitrix24_address**/rest/catalog.productProperty.add
     ```
 
-- JS
+- JS (TS)
 
-    ```js
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type ProductPropertyResult = {
+      productProperty: {
+        active: string,
+        code: string | null,
+        colCount: number,
+        defaultValue: string | null,
+        fileType: string | null,
+        filtrable: string,
+        hint: string | null,
+        iblockId: number,
+        id: number,
+        isRequired: string,
+        linkIblockId: number | null,
+        listType: string,
+        multiple: string,
+        multipleCnt: number | null,
+        name: string,
+        propertyType: string,
+        rowCount: number,
+        searchable: string,
+        sort: number,
+        timestampX: ISODate,
+        userType: string | null,
+        userTypeSettings: Record<string, unknown> | null,
+        withDescription: string | null,
+        xmlId: string | null,
+      },
+    }
+
     try {
-        const response = await $b24.callMethod('catalog.productProperty.add', {
-            fields: {
+      const response = await $b24.actions.v2.call.make<ProductPropertyResult>({
+        method: 'catalog.productProperty.add',
+        params: {
+          fields: {
+            iblockId: 19,
+            name: 'Category',
+            code: 'CATEGORY',
+            propertyType: 'S',
+            userType: 'directory',
+            multiple: 'N',
+            isRequired: 'N',
+            active: 'Y',
+            sort: 100,
+            userTypeSettings: {
+              tableName: 'b_hlbd_categories', // existing catalog in Bitrix24
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.productProperty.id, result.productProperty.name)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addProductProperty() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'catalog.productProperty.add',
+            params: {
+              fields: {
                 iblockId: 19,
-                name: 'Рубрика',
+                name: 'Category',
                 code: 'CATEGORY',
                 propertyType: 'S',
                 userType: 'directory',
@@ -163,16 +247,29 @@
                 active: 'Y',
                 sort: 100,
                 userTypeSettings: {
-                    tableName: 'b_hlbd_categories', // существующий справочник в Битрикс24
-                }
-            }
-        });
+                  tableName: 'b_hlbd_categories', // existing catalog in Bitrix24
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
 
-        console.log(response.getData().result);
-    }
-    catch (error) {
-    	console.error('Error:', error);
-    }
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.productProperty.id, result.productProperty.name)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addProductProperty)
+    </script>
     ```
 
 - PHP

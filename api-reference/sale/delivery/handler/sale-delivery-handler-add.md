@@ -155,83 +155,137 @@
     https://**put_your_bitrix24_address**/rest/sale.delivery.handler.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'sale.delivery.handler.add', {
-    			CODE: "uber",
-    			NAME: "Uber",
-    			DESCRIPTION: "Uber Description",
-    			SORT: 250,
-    			SETTINGS: {
-    				CALCULATE_URL: "http://gateway.bx/calculate.php",
-    				CREATE_DELIVERY_REQUEST_URL: "http://gateway.bx/create_delivery_request.php",
-    				CANCEL_DELIVERY_REQUEST_URL: "http://gateway.bx/cancel_delivery_request.php",
-    				HAS_CALLBACK_TRACKING_SUPPORT: "Y",
-    				CONFIG: [{
-    						TYPE: "STRING",
-    						CODE: "SETTING_1",
-    						NAME: "String Example",
-    					},
-    					{
-    						TYPE: "Y/N",
-    						CODE: "SETTING_2",
-    						NAME: "Checkbox Example",
-    					},
-    					{
-    						TYPE: "NUMBER",
-    						CODE: "SETTING_3",
-    						NAME: "Number Example",
-    					},
-    					{
-    						TYPE: "ENUM",
-    						CODE: "SETTING_4",
-    						NAME: "Enum Example",
-    						OPTIONS: {
-    							"Option1Code": "Option1Value",
-    							"Option2Code": "Option2Value",
-    							"Option3Code": "Option3Value",
-    							"Option4Code": "Option4Value",
-    							"Option5Code": "Option5Value",
-    						},
-    					},
-    					{
-    						TYPE: "DATE",
-    						CODE: "SETTING_5",
-    						NAME: "Date Example",
-    					},
-    					{
-    						TYPE: "LOCATION",
-    						CODE: "SETTING_6",
-    						NAME: "Location Example",
-    					},
-    				],
-    			},
-    			PROFILES: [{
-    					NAME: "Taxi",
-    					CODE: "TAXI",
-    					DESCRIPTION: "Taxi Delivery",
-    				},
-    				{
-    					NAME: "Cargo",
-    					CODE: "CARGO",
-    					DESCRIPTION: "Cargo Delivery",
-    				},
-    			],
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'sale.delivery.handler.add',
+        params: {
+          CODE: 'uber',
+          NAME: 'Uber',
+          DESCRIPTION: 'Uber Description',
+          SORT: 250,
+          SETTINGS: {
+            CALCULATE_URL: 'http://gateway.bx/calculate.php',
+            CREATE_DELIVERY_REQUEST_URL: 'http://gateway.bx/create_delivery_request.php',
+            CANCEL_DELIVERY_REQUEST_URL: 'http://gateway.bx/cancel_delivery_request.php',
+            HAS_CALLBACK_TRACKING_SUPPORT: 'Y',
+            CONFIG: [
+              { TYPE: 'STRING', CODE: 'SETTING_1', NAME: 'String Example' },
+              { TYPE: 'Y/N', CODE: 'SETTING_2', NAME: 'Checkbox Example' },
+              { TYPE: 'NUMBER', CODE: 'SETTING_3', NAME: 'Number Example' },
+              {
+                TYPE: 'ENUM',
+                CODE: 'SETTING_4',
+                NAME: 'Enum Example',
+                OPTIONS: {
+                  Option1Code: 'Option1Value',
+                  Option2Code: 'Option2Value',
+                  Option3Code: 'Option3Value',
+                  Option4Code: 'Option4Value',
+                  Option5Code: 'Option5Value',
+                },
+              },
+              { TYPE: 'DATE', CODE: 'SETTING_5', NAME: 'Date Example' },
+              { TYPE: 'LOCATION', CODE: 'SETTING_6', NAME: 'Location Example' },
+            ],
+          },
+          PROFILES: [
+            { NAME: 'Taxi', CODE: 'TAXI', DESCRIPTION: 'Taxi Delivery' },
+            { NAME: 'Cargo', CODE: 'CARGO', DESCRIPTION: 'Cargo Delivery' },
+          ],
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Added delivery handler, ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error(error);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addDeliveryHandler() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'sale.delivery.handler.add',
+            params: {
+              CODE: 'uber',
+              NAME: 'Uber',
+              DESCRIPTION: 'Uber Description',
+              SORT: 250,
+              SETTINGS: {
+                CALCULATE_URL: 'http://gateway.bx/calculate.php',
+                CREATE_DELIVERY_REQUEST_URL: 'http://gateway.bx/create_delivery_request.php',
+                CANCEL_DELIVERY_REQUEST_URL: 'http://gateway.bx/cancel_delivery_request.php',
+                HAS_CALLBACK_TRACKING_SUPPORT: 'Y',
+                CONFIG: [
+                  { TYPE: 'STRING', CODE: 'SETTING_1', NAME: 'String Example' },
+                  { TYPE: 'Y/N', CODE: 'SETTING_2', NAME: 'Checkbox Example' },
+                  { TYPE: 'NUMBER', CODE: 'SETTING_3', NAME: 'Number Example' },
+                  {
+                    TYPE: 'ENUM',
+                    CODE: 'SETTING_4',
+                    NAME: 'Enum Example',
+                    OPTIONS: {
+                      Option1Code: 'Option1Value',
+                      Option2Code: 'Option2Value',
+                      Option3Code: 'Option3Value',
+                      Option4Code: 'Option4Value',
+                      Option5Code: 'Option5Value',
+                    },
+                  },
+                  { TYPE: 'DATE', CODE: 'SETTING_5', NAME: 'Date Example' },
+                  { TYPE: 'LOCATION', CODE: 'SETTING_6', NAME: 'Location Example' },
+                ],
+              },
+              PROFILES: [
+                { NAME: 'Taxi', CODE: 'TAXI', DESCRIPTION: 'Taxi Delivery' },
+                { NAME: 'Cargo', CODE: 'CARGO', DESCRIPTION: 'Cargo Delivery' },
+              ],
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Added delivery handler, ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addDeliveryHandler)
+    </script>
     ```
 
 - PHP

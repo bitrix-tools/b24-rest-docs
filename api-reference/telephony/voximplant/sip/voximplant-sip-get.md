@@ -161,30 +161,113 @@
     https://**put_your_bitrix24_address**/rest/voximplant.sip.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'voximplant.sip.get',
-            {
-                FILTER: {
-                    CONFIG_ID: [3, 7, 9]
-                },
-                SORT: 'CONFIG_ID',
-                ORDER: 'ASC'
-            }
-        );
-        
-        const result = response.getData().result;
-        console.log('Fetched SIP data:', result);
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of each SIP line item returned in result[]
+    type SipLineItem = {
+      TYPE: string
+      CONFIG_ID: string
+      TITLE: string
+      REG_ID?: string
+      SERVER: string
+      LOGIN: string
+      PASSWORD: string
+      INCOMING_SERVER?: string
+      INCOMING_LOGIN?: string
+      INCOMING_PASSWORD?: string
+      AUTH_USER: string | null
+      OUTBOUND_PROXY: string | null
+      DETECT_LINE_NUMBER: string
+      LINE_DETECT_HEADER_ORDER: string
+      REGISTRATION_STATUS_CODE: string
+      REGISTRATION_ERROR_MESSAGE: string | null
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    try {
+      // voximplant.sip.get returns a single page (max 50 records). For the whole result set
+      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      const response = await $b24.actions.v2.call.make<SipLineItem[]>({
+        method: 'voximplant.sip.get',
+        params: {
+          FILTER: {
+            CONFIG_ID: [3, 7, 9],
+          },
+          SORT: 'CONFIG_ID',
+          ORDER: 'ASC',
+          start: 0,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('SIP lines fetched:', result.length, result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function fetchSipLines() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          // voximplant.sip.get returns a single page (max 50 records). For the whole result set
+          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
+          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
+          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
+          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          const response = await $b24.actions.v2.call.make({
+            method: 'voximplant.sip.get',
+            params: {
+              FILTER: {
+                CONFIG_ID: [3, 7, 9],
+              },
+              SORT: 'CONFIG_ID',
+              ORDER: 'ASC',
+              start: 0,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('SIP lines fetched:', result.length, result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchSipLines)
+    </script>
     ```
 
 - PHP

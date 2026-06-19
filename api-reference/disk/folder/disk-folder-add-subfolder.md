@@ -63,30 +63,98 @@
     https://**put_your_bitrix24_address**/rest/disk.folder.addsubfolder
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try
-    {
-        const response = await $b24.callMethod(
-            'disk.folder.addsubfolder',
-            {
-                id: 8907,
-                data: {
-                    NAME: 'Папка в папке',
-                }
-            }
-        );
-        
-        const result = response.getData().result;
-        console.log('Created subfolder with ID:', result);
-        
-        processResult(result);
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type AddSubfolderResult = {
+      ID: number
+      NAME: string
+      CODE: string | null
+      STORAGE_ID: string
+      TYPE: string
+      REAL_OBJECT_ID: number
+      PARENT_ID: string
+      DELETED_TYPE: number
+      CREATE_TIME: ISODate
+      UPDATE_TIME: ISODate
+      DELETE_TIME: ISODate | null
+      CREATED_BY: string
+      UPDATED_BY: string
+      DELETED_BY: string | null
+      DETAIL_URL: string
     }
-    catch( error )
-    {
-        console.error('Error:', error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<AddSubfolderResult>({
+        method: 'disk.folder.addsubfolder',
+        params: {
+          id: 8907,
+          data: {
+            NAME: 'Subfolder name',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created subfolder:', result.ID, result.NAME)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addSubfolder() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'disk.folder.addsubfolder',
+            params: {
+              id: 8907,
+              data: {
+                NAME: 'Subfolder name',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created subfolder:', result.ID, result.NAME)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addSubfolder)
+    </script>
     ```
 
 - PHP
