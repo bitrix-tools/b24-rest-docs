@@ -1,0 +1,13 @@
+title: Файлы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Загрузить файл в документ
+    href: note-file-add.md
+  - name: Получить данные файла документа
+    href: note-file-get.md
+  - name: Получить поле файла документа
+    href: note-file-field-get.md
+  - name: Получить список полей файла документа
+    href: note-file-field-list.md

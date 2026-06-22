@@ -1,0 +1,31 @@
+title: Документы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать документ
+    href: note-document-add.md
+  - name: Обновить документ
+    href: note-document-update.md
+  - name: Получить документ
+    href: note-document-get.md
+  - name: Переместить документ в корзину
+    href: note-document-delete.md
+  - name: Архивировать документ
+    href: note-document-archive.md
+  - name: Получить дерево документов
+    href: note-document-tree-list.md
+  - name: Найти документы
+    href: note-document-search-list.md
+  - name: Получить поле документа
+    href: note-document-field-get.md
+  - name: Получить список полей документа
+    href: note-document-field-list.md
+  - name: Получить поле дерева документов
+    href: note-document-tree-field-get.md
+  - name: Получить список полей дерева документов
+    href: note-document-tree-field-list.md
+  - name: Получить поле поиска документов
+    href: note-document-search-field-get.md
+  - name: Получить список полей поиска документов
+    href: note-document-search-field-list.md

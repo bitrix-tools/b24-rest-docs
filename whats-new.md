@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 22 июня, 2026
+
+- Добавили методы раздела [База знаний 2.0](./api-reference/rest-v3/note/collection/index.md)
+- Добавили методы раздела [Документы в Базе знаний 2.0](./api-reference/rest-v3/note/document/index.md)
+- Добавили методы раздела [Файлы в Базе знаний 2.0](./api-reference/rest-v3/note/file/index.md)
+
 ### 19 июня, 2026
 
 - Обновили страницу [Как встроить виджет в лид в виде пользовательского поля](./tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md)

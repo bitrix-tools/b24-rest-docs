@@ -1,0 +1,21 @@
+title: Базы знаний
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать базу знаний
+    href: note-collection-add.md
+  - name: Переименовать базу знаний
+    href: note-collection-update.md
+  - name: Получить базу знаний
+    href: note-collection-get.md
+  - name: Получить список баз знаний
+    href: note-collection-list.md
+  - name: Переместить базу знаний в корзину
+    href: note-collection-delete.md
+  - name: Архивировать базу знаний
+    href: note-collection-archive.md
+  - name: Получить поле базы знаний
+    href: note-collection-field-get.md
+  - name: Получить список полей базы знаний
+    href: note-collection-field-list.md
