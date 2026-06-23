@@ -278,8 +278,8 @@ HTTP-статус: **200**
                 "policyLevel": "view",
                 "createdBy": 1,
                 "updatedBy": 1,
-                "createdAt": "2026-04-20T12:00:00+00:00",
-                "updatedAt": "2026-04-21T09:15:30+00:00"
+                "createdAt": "2026-04-20T12:00:00Z",
+                "updatedAt": "2026-04-21T09:15:30Z"
             }
         ],
         "nextCursor": {
@@ -331,9 +331,9 @@ HTTP-статус: **200**
 || **updatedBy**
 [`integer`](../../../data-types.md) | Идентификатор последнего редактора базы знаний ||
 || **createdAt**
-[`datetime`](../../../data-types.md) | Дата и время создания базы знаний ||
+[`datetime`](../../../data-types.md) | Дата и время создания базы знаний в UTC ||
 || **updatedAt**
-[`datetime`](../../../data-types.md) | Дата и время последнего изменения базы знаний ||
+[`datetime`](../../../data-types.md) | Дата и время последнего изменения базы знаний в UTC ||
 || **nextCursor**
 [`object`](../../../data-types.md) | Курсор следующей страницы или `null`, если страниц больше нет ||
 || **time**

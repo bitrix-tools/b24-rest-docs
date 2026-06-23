@@ -26,6 +26,15 @@
 [`integer`](../../../data-types.md) | Идентификатор базы знаний.
 
 Идентификатор можно получить методом [note.collection.list](./note-collection-list.md) ||
+|| **fields***
+[`object`](../../../data-types.md) | Объект с полями, которые нужно изменить. [Описание структуры объекта](#fields) ||
+|#
+
+### Параметр fields {#fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **name***
 [`string`](../../../data-types.md) | Новое название базы знаний.
 
@@ -52,7 +61,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":42,"name":"Документация продукта"}' \
+    -d '{"id":42,"fields":{"name":"Документация продукта"}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/note.collection.update
     ```
 
@@ -62,7 +71,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":42,"name":"Документация продукта","auth":"**put_access_token_here**"}' \
+    -d '{"id":42,"fields":{"name":"Документация продукта"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/note.collection.update
     ```
 
@@ -77,7 +86,16 @@
     declare const $b24: B24Frame
 
     type CollectionUpdateResult = {
-      result: boolean
+      item: {
+        id: number
+        name: string
+        position: number
+        policyLevel: string
+        createdBy: number
+        updatedBy: number
+        createdAt: string
+        updatedAt: string
+      }
     }
 
     try {
@@ -85,7 +103,9 @@
         method: 'note.collection.update',
         params: {
           id: 42,
-          name: 'Документация продукта',
+          fields: {
+            name: 'Документация продукта',
+          },
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -94,7 +114,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Collection updated:', result.result)
+        console.info('Collection updated:', result.item.id, result.item.name)
       }
     } catch (error) {
       console.error(error)
@@ -114,7 +134,9 @@
             method: 'note.collection.update',
             params: {
               id: 42,
-              name: 'Документация продукта',
+              fields: {
+                name: 'Документация продукта',
+              },
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -125,7 +147,7 @@
           }
 
           const result = response.getData().result
-          console.info('Collection updated:', result.result)
+          console.info('Collection updated:', result.item.id, result.item.name)
         } catch (error) {
           console.error(error)
         }
@@ -147,7 +169,9 @@
                 'note.collection.update',
                 [
                     'id' => 42,
-                    'name' => 'Документация продукта',
+                    'fields' => [
+                        'name' => 'Документация продукта',
+                    ],
                 ]
             );
 
@@ -172,7 +196,9 @@
         'note.collection.update',
         {
             id: 42,
-            name: 'Документация продукта'
+            fields: {
+                name: 'Документация продукта'
+            }
         },
         function(result){
             console.info(result.data());
@@ -192,7 +218,9 @@
         'note.collection.update',
         [
             'id' => 42,
-            'name' => 'Документация продукта'
+            'fields' => [
+                'name' => 'Документация продукта'
+            ]
         ]
     );
 
@@ -210,7 +238,16 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "result": true
+        "item": {
+            "id": 42,
+            "name": "Документация продукта",
+            "position": 100,
+            "policyLevel": "view",
+            "createdBy": 1,
+            "createdAt": "2026-04-20T12:00:00Z",
+            "updatedBy": 1,
+            "updatedAt": "2026-04-21T09:15:30Z"
+        }
     },
     "time": {
         "start": 1780388120,
@@ -232,8 +269,24 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Объект с результатом обновления базы знаний ||
-|| **result**
-[`boolean`](../../../data-types.md) | Значение `true`, если база знаний успешно обновлена ||
+|| **item**
+[`object`](../../../data-types.md) | Объект базы знаний после обновления ||
+|| **id**
+[`integer`](../../../data-types.md) | Идентификатор базы знаний ||
+|| **name**
+[`string`](../../../data-types.md) | Название базы знаний ||
+|| **position**
+[`integer`](../../../data-types.md) | Позиция базы знаний в общем списке ||
+|| **policyLevel**
+[`string`](../../../data-types.md) | Базовая политика доступа базы знаний ||
+|| **createdBy**
+[`integer`](../../../data-types.md) | Идентификатор автора базы знаний ||
+|| **createdAt**
+[`datetime`](../../../data-types.md) | Дата и время создания базы знаний в UTC ||
+|| **updatedBy**
+[`integer`](../../../data-types.md) | Идентификатор последнего редактора базы знаний ||
+|| **updatedAt**
+[`datetime`](../../../data-types.md) | Дата и время последнего изменения базы знаний в UTC ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -268,11 +321,17 @@ HTTP-статус: **400**
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `id`
-`name` | Обязательное поле `#FIELD#` не указано | Добавьте указанное поле в тело запроса ||
-|| `id`
-`name` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Убедитесь, что передаваемое значение нужного типа ||
-|| `name` | Название базы знаний не может быть пустым | Передайте непустую строку в поле `name` ||
-|| `name` | Название базы знаний не должно превышать 255 символов | Сократите значение `name` ||
+`fields` | Обязательное поле `#FIELD#` не указано | Добавьте указанное поле в тело запроса ||
+|| `id` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Убедитесь, что передаваемое значение нужного типа ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_DTOVALIDATIONEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `name` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Убедитесь, что передаваемое значение нужного типа ||
+|| `name` | Название базы знаний не может быть пустым | Передайте непустую строку в поле `fields.name` ||
+|| `name` | Название базы знаний не должно превышать 255 символов | Сократите значение `fields.name` ||
 |#
 
 #### Ошибки доступа

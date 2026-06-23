@@ -33,7 +33,7 @@
 8. Уточните поля документов, дерева и поиска методами `note.document.field.*`, `note.document.tree.field.*`, `note.document.search.field.*`
 9. Обновляйте заголовок и содержимое документа методом [note.document.update](./document/note-document-update.md)
 10. Загружайте изображения, видео и обычные файлы методом [note.file.add](./file/note-file-add.md)
-11. Получайте блок Markdown для вложения методом [note.file.get](./file/note-file-get.md) и добавляйте его в документ через [note.document.update](./document/note-document-update.md)
+11. Используйте `assetMarkdown` из ответа [note.file.add](./file/note-file-add.md) или получайте его методом [note.file.get](./file/note-file-get.md), а затем добавляйте вложение в документ через [note.document.update](./document/note-document-update.md)
 12. Уточните поля файла методами [note.file.field.list](./file/note-file-field-list.md) и [note.file.field.get](./file/note-file-field-get.md), если строите свою форму или таблицу
 13. Архивируйте или удаляйте базу знаний и документы соответствующими методами, когда нужно завершить работу с материалами
 
@@ -52,7 +52,7 @@
 
 **Документы.** База знаний наполняется документами. Сначала можно создать корневую страницу, а затем добавлять в нее дочерние страницы, чтобы собрать дерево материалов по темам. Для этого при создании документа указывают базу знаний, в которой он должен появиться, а для вложенных страниц дополнительно передают родительский документ.
 
-**Файлы.** Файлы добавляются не в базу знаний целиком, а в конкретный документ. Сначала файл загружают методом [note.file.add](./file/note-file-add.md), затем получают готовый блок для вставки методом [note.file.get](./file/note-file-get.md). После этого содержимое документа обновляют методом [note.document.update](./document/note-document-update.md), чтобы вложение появилось в тексте страницы.
+**Файлы.** Файлы добавляются не в базу знаний целиком, а в конкретный документ. Сначала файл загружают методом [note.file.add](./file/note-file-add.md), затем берут `assetMarkdown` из ответа метода или получают его методом [note.file.get](./file/note-file-get.md). После этого содержимое документа обновляют методом [note.document.update](./document/note-document-update.md), чтобы вложение появилось в тексте страницы.
 
 ## Обзор методов {#all-methods}
 

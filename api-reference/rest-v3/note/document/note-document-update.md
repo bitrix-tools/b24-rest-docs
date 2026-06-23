@@ -26,20 +26,8 @@
 [`integer`](../../../data-types.md) | Идентификатор документа.
 
 Идентификатор можно получить методом [note.document.tree.list](./note-document-tree-list.md) ||
-|| **title**
-[`string`](../../../data-types.md) | Новый заголовок документа.
-
-Заголовок документа не должен превышать 255 символов.
-
-Передайте `title`, `markdown` или оба поля сразу ||
-|| **markdown**
-[`string`](../../../data-types.md) | Новое содержимое документа в Markdown.
-
-Чтобы добавить в документ файл, вставьте `assetMarkdown`, полученный методом [note.file.get](../file/note-file-get.md), отдельной строкой с начала строки, без префикса и суффикса в той же строке.
-
-Максимальный размер: `1 048 576` байт.
-
-Передайте `title`, `markdown` или оба поля сразу ||
+|| **fields***
+[`object`](../../../data-types.md) | Объект с полями, которые нужно изменить. [Описание структуры объекта](#fields) ||
 || **overwrite**
 [`boolean`](../../../data-types.md) | Определяет, нужно ли принудительно перезаписать содержимое документа, если у него есть несохраненные изменения совместного редактора.
 
@@ -50,7 +38,28 @@
 
 По умолчанию: `false`
 
-Используйте, если передаете `markdown` ||
+Используйте, если передаете `fields.markdown` ||
+|#
+
+### Параметр fields {#fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **title**
+[`string`](../../../data-types.md) | Новый заголовок документа.
+
+Заголовок документа не должен превышать 255 символов.
+
+Передайте `fields.title`, `fields.markdown` или оба поля сразу ||
+|| **markdown**
+[`string`](../../../data-types.md) | Новое содержимое документа в Markdown.
+
+Чтобы добавить в документ файл, вставьте `assetMarkdown`, полученный методом [note.file.get](../file/note-file-get.md) или [note.file.add](../file/note-file-add.md), отдельной строкой с начала строки, без префикса и суффикса в той же строке.
+
+Максимальный размер: `1 048 576` байт.
+
+Передайте `fields.title`, `fields.markdown` или оба поля сразу ||
 |#
 
 {% note info "" %}
@@ -79,7 +88,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":77,"title":"Глава 1 (обновлено)","markdown":"# Глава 1\n\nОбновленный текст","overwrite":false}' \
+    -d '{"id":77,"fields":{"title":"Глава 1 (обновлено)","markdown":"# Глава 1\n\nОбновленный текст"},"overwrite":false}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/note.document.update
     ```
 
@@ -89,7 +98,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":77,"title":"Глава 1 (обновлено)","markdown":"# Глава 1\n\nОбновленный текст","overwrite":false,"auth":"**put_access_token_here**"}' \
+    -d '{"id":77,"fields":{"title":"Глава 1 (обновлено)","markdown":"# Глава 1\n\nОбновленный текст"},"overwrite":false,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/note.document.update
     ```
 
@@ -102,7 +111,18 @@
     declare const $b24: B24Frame
 
     type DocumentUpdateResult = {
-      result: boolean
+      item: {
+        id: number
+        collectionId: number | null
+        parentId: number | null
+        title: string
+        markdown: string
+        position: number
+        createdBy: number
+        updatedBy: number
+        createdAt: string
+        updatedAt: string
+      }
     }
 
     try {
@@ -110,8 +130,10 @@
         method: 'note.document.update',
         params: {
           id: 77,
-          title: 'Глава 1 (обновлено)',
-          markdown: '# Глава 1\n\nОбновленный текст',
+          fields: {
+            title: 'Глава 1 (обновлено)',
+            markdown: '# Глава 1\n\nОбновленный текст',
+          },
           overwrite: false,
         },
         requestId: Text.getUuidRfc4122()
@@ -121,7 +143,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Document updated:', result.result)
+        console.info('Document updated:', result.item.id, result.item.title)
       }
     } catch (error) {
       console.error(error)
@@ -141,8 +163,10 @@
             method: 'note.document.update',
             params: {
               id: 77,
-              title: 'Глава 1 (обновлено)',
-              markdown: '# Глава 1\n\nОбновленный текст',
+              fields: {
+                title: 'Глава 1 (обновлено)',
+                markdown: '# Глава 1\n\nОбновленный текст',
+              },
               overwrite: false,
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -154,7 +178,7 @@
           }
 
           const result = response.getData().result
-          console.info('Document updated:', result.result)
+          console.info('Document updated:', result.item.id, result.item.title)
         } catch (error) {
           console.error(error)
         }
@@ -176,8 +200,10 @@
                 'note.document.update',
                 [
                     'id' => 77,
-                    'title' => 'Глава 1 (обновлено)',
-                    'markdown' => "# Глава 1\n\nОбновленный текст",
+                    'fields' => [
+                        'title' => 'Глава 1 (обновлено)',
+                        'markdown' => "# Глава 1\n\nОбновленный текст",
+                    ],
                     'overwrite' => false,
                 ]
             );
@@ -203,8 +229,10 @@
         'note.document.update',
         {
             id: 77,
-            title: 'Глава 1 (обновлено)',
-            markdown: '# Глава 1\n\nОбновленный текст',
+            fields: {
+                title: 'Глава 1 (обновлено)',
+                markdown: '# Глава 1\n\nОбновленный текст'
+            },
             overwrite: false
         },
         function(result){
@@ -225,8 +253,10 @@
         'note.document.update',
         [
             'id' => 77,
-            'title' => 'Глава 1 (обновлено)',
-            'markdown' => "# Глава 1\n\nОбновленный текст",
+            'fields' => [
+                'title' => 'Глава 1 (обновлено)',
+                'markdown' => "# Глава 1\n\nОбновленный текст"
+            ],
             'overwrite' => false
         ]
     );
@@ -245,7 +275,18 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "result": true
+        "item": {
+            "id": 77,
+            "collectionId": 42,
+            "parentId": 10,
+            "title": "Глава 1 (обновлено)",
+            "markdown": "# Глава 1\n\nОбновленный текст",
+            "position": 5,
+            "createdBy": 1,
+            "updatedBy": 1,
+            "createdAt": "2026-04-20T12:00:00Z",
+            "updatedAt": "2026-04-21T09:15:30Z"
+        }
     },
     "time": {
         "start": 1780391100,
@@ -267,8 +308,28 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Объект с результатом обновления документа ||
-|| **result**
-[`boolean`](../../../data-types.md) | Значение `true`, если документ успешно обновлен ||
+|| **item**
+[`object`](../../../data-types.md) | Объект документа после обновления ||
+|| **id**
+[`integer`](../../../data-types.md) | Идентификатор документа ||
+|| **collectionId**
+[`integer`](../../../data-types.md) | Идентификатор базы знаний или `null`, если документ доступен через прямой доступ к документу ||
+|| **parentId**
+[`integer`](../../../data-types.md) | Идентификатор родительского документа или `null` ||
+|| **title**
+[`string`](../../../data-types.md) | Заголовок документа ||
+|| **markdown**
+[`string`](../../../data-types.md) | Содержимое документа в Markdown ||
+|| **position**
+[`integer`](../../../data-types.md) | Позиция документа среди соседних страниц ||
+|| **createdBy**
+[`integer`](../../../data-types.md) | Идентификатор автора документа ||
+|| **updatedBy**
+[`integer`](../../../data-types.md) | Идентификатор последнего редактора документа ||
+|| **createdAt**
+[`datetime`](../../../data-types.md) | Дата и время создания документа в UTC ||
+|| **updatedAt**
+[`datetime`](../../../data-types.md) | Дата и время последнего изменения документа в UTC ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -296,28 +357,35 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Обязательное поле `id` не указано | Добавьте `id` в тело запроса ||
 || `id`
-`title`
-`markdown`
+`fields` | Обязательное поле `#FIELD#` не указано | Добавьте указанное поле в тело запроса ||
+|| `id`
 `overwrite` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Убедитесь, что передаваемое значение нужного типа ||
-|| `title` | Заголовок документа не может быть пустым | Передайте непустую строку в поле `title` ||
-|| `title` | Заголовок документа не должен превышать 255 символов | Сократите значение `title` ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_DTOVALIDATIONEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `title`
+`markdown` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Убедитесь, что передаваемое значение нужного типа ||
+|| `title` | Заголовок документа не может быть пустым | Передайте непустую строку в поле `fields.title` ||
+|| `title` | Заголовок документа не должен превышать 255 символов | Сократите значение `fields.title` ||
 |#
 
 Код ошибки: `NOTE_EMPTY_UPDATE`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `title`
-`markdown` | Запрос не содержит изменяемых полей | Передайте `title`, `markdown` или оба поля сразу ||
+|| `fields.title`
+`fields.markdown` | Запрос не содержит изменяемых полей | Передайте `fields.title`, `fields.markdown` или оба поля сразу ||
 |#
 
 Код ошибки: `NOTE_MARKDOWN_TOO_LARGE`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `markdown` | Содержимое документа слишком большое. Максимально допустимый размер — `1 048 576` байт | Сократите содержимое `markdown` ||
+|| `markdown` | Содержимое документа слишком большое. Максимально допустимый размер — `1 048 576` байт | Сократите содержимое `fields.markdown` ||
 |#
 
 #### Ошибка конфликта изменений

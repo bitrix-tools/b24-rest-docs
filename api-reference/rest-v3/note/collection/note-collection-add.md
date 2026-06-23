@@ -13,11 +13,20 @@
 >
 > Кто может выполнять метод: пользователь с доступом к модулю База знаний и правом «Создание баз знаний»
 
-Метод `note.collection.add` создает новую базу знаний и возвращает ее идентификатор.
+Метод `note.collection.add` создает новую базу знаний и возвращает ее объект.
 
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **fields***
+[`object`](../../../data-types.md) | Объект с полями новой базы знаний. [Описание структуры объекта](#fields) ||
+|#
+
+### Параметр fields {#fields}
 
 #|
 || **Название**
@@ -52,7 +61,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"Продуктовая документация","position":100}' \
+    -d '{"fields":{"name":"Продуктовая документация","position":100}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/note.collection.add
     ```
 
@@ -62,7 +71,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"Продуктовая документация","position":100,"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"name":"Продуктовая документация","position":100},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/note.collection.add
     ```
 
@@ -78,15 +87,26 @@
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type CollectionAddResult = {
-      id: number
+      item: {
+        id: number
+        name: string
+        position: number
+        policyLevel: string
+        createdBy: number
+        updatedBy: number
+        createdAt: string
+        updatedAt: string
+      }
     }
 
     try {
       const response = await $b24.actions.v3.call.make<CollectionAddResult>({
         method: 'note.collection.add',
         params: {
-          name: 'Продуктовая документация',
-          position: 100,
+          fields: {
+            name: 'Продуктовая документация',
+            position: 100,
+          },
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -96,7 +116,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Collection created:', result.id)
+        console.info('Collection created:', result.item.id, result.item.name)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -118,8 +138,10 @@
           const response = await $b24.actions.v3.call.make({
             method: 'note.collection.add',
             params: {
-              name: 'Продуктовая документация',
-              position: 100,
+              fields: {
+                name: 'Продуктовая документация',
+                position: 100,
+              },
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -131,7 +153,7 @@
           }
 
           const result = response.getData().result
-          console.info('Collection created:', result.id)
+          console.info('Collection created:', result.item.id, result.item.name)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -153,8 +175,10 @@
             ->call(
                 'note.collection.add',
                 [
-                    'name' => 'Продуктовая документация',
-                    'position' => 100,
+                    'fields' => [
+                        'name' => 'Продуктовая документация',
+                        'position' => 100,
+                    ],
                 ]
             );
 
@@ -178,8 +202,10 @@
     BX24.callMethod(
         'note.collection.add',
         {
-            name: 'Продуктовая документация',
-            position: 100
+            fields: {
+                name: 'Продуктовая документация',
+                position: 100
+            }
         },
         function(result){
             console.info(result.data());
@@ -198,8 +224,10 @@
     $result = CRest::call(
         'note.collection.add',
         [
-            'name' => 'Продуктовая документация',
-            'position' => 100
+            'fields' => [
+                'name' => 'Продуктовая документация',
+                'position' => 100
+            ]
         ]
     );
 
@@ -217,7 +245,16 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "id": 42
+        "item": {
+            "id": 42,
+            "name": "Продуктовая документация",
+            "position": 100,
+            "policyLevel": "view",
+            "createdBy": 1,
+            "createdAt": "2026-04-20T12:00:00Z",
+            "updatedBy": 1,
+            "updatedAt": "2026-04-20T12:00:00Z"
+        }
     },
     "time": {
         "start": 1780388120,
@@ -239,8 +276,24 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Объект с результатом создания базы знаний ||
+|| **item**
+[`object`](../../../data-types.md) | Объект созданной базы знаний ||
 || **id**
 [`integer`](../../../data-types.md) | Идентификатор созданной базы знаний ||
+|| **name**
+[`string`](../../../data-types.md) | Название базы знаний ||
+|| **position**
+[`integer`](../../../data-types.md) | Позиция базы знаний в общем списке ||
+|| **policyLevel**
+[`string`](../../../data-types.md) | Базовая политика доступа базы знаний ||
+|| **createdBy**
+[`integer`](../../../data-types.md) | Идентификатор автора базы знаний ||
+|| **createdAt**
+[`datetime`](../../../data-types.md) | Дата и время создания базы знаний в UTC ||
+|| **updatedBy**
+[`integer`](../../../data-types.md) | Идентификатор последнего редактора базы знаний ||
+|| **updatedAt**
+[`datetime`](../../../data-types.md) | Дата и время последнего изменения базы знаний в UTC ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -252,11 +305,11 @@ HTTP-статус: **400**
 ```json
 {
     "error": {
-        "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION",
-        "message": "Ошибка при валидации объекта запроса",
+        "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_DTOVALIDATIONEXCEPTION",
+        "message": "Ошибка при валидации объекта",
         "validation": [
             {
-                "message": "Обязательное поле `name` не указано",
+                "message": "Не заполнено обязательное поле \"name\"",
                 "field": "name"
             }
         ]
@@ -274,11 +327,18 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `name` | Обязательное поле `name` не указано | Добавьте `name` в тело запроса ||
+|| `fields` | Обязательное поле `fields` не указано | Добавьте объект `fields` в тело запроса ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_DTOVALIDATIONEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `name` | Не заполнено обязательное поле `name` | Добавьте `fields.name` в тело запроса ||
 || `name`
 `position` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Убедитесь, что передаваемое значение нужного типа ||
-|| `name` | Название базы знаний не может быть пустым | Передайте непустую строку в поле `name` ||
-|| `name` | Название базы знаний не должно превышать 255 символов | Сократите значение `name` ||
+|| `name` | Название базы знаний не может быть пустым | Передайте непустую строку в поле `fields.name` ||
+|| `name` | Название базы знаний не должно превышать 255 символов | Сократите значение `fields.name` ||
 |#
 
 #### Ошибки доступа

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с доступом к модулю База знаний и правом «Редактирование» для базы знаний документа
 
-Метод `note.file.add` загружает файл в документ.
+Метод `note.file.add` загружает файл в документ и возвращает объект файла.
 
 {% note info "" %}
 
@@ -85,7 +85,15 @@
     declare const $b24: B24Frame
 
     type FileAddResult = {
-      id: number
+      item: {
+        id: number
+        documentId: number
+        name: string
+        size: number
+        mimeType: string
+        assetType: string
+        assetMarkdown: string
+      }
     }
 
     try {
@@ -103,7 +111,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('File uploaded:', result.id)
+        console.info('File uploaded:', result.item.id, result.item.assetMarkdown)
       }
     } catch (error) {
       console.error(error)
@@ -135,7 +143,7 @@
           }
 
           const result = response.getData().result
-          console.info('File uploaded:', result.id)
+          console.info('File uploaded:', result.item.id, result.item.assetMarkdown)
         } catch (error) {
           console.error(error)
         }
@@ -223,7 +231,15 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "id": 5001
+        "item": {
+            "id": 5001,
+            "documentId": 77,
+            "name": "diagram.png",
+            "size": 6321,
+            "mimeType": "image/png",
+            "assetType": "image",
+            "assetMarkdown": "[[image fileId=5001]]"
+        }
     },
     "time": {
         "start": 1780392000,
@@ -245,10 +261,22 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Объект с результатом загрузки файла ||
+|| **item**
+[`object`](../../../data-types.md) | Объект загруженного файла ||
 || **id**
-[`integer`](../../../data-types.md) | Идентификатор загруженного файла.
-
-Используйте этот идентификатор в методе [note.file.get](./note-file-get.md), чтобы получить готовый `assetMarkdown`, а затем добавьте его в `markdown` документа через [note.document.update](../document/note-document-update.md) ||
+[`integer`](../../../data-types.md) | Идентификатор загруженного файла ||
+|| **documentId**
+[`integer`](../../../data-types.md) | Идентификатор документа, к которому привязан файл ||
+|| **name**
+[`string`](../../../data-types.md) | Имя файла ||
+|| **size**
+[`integer`](../../../data-types.md) | Размер файла в байтах ||
+|| **mimeType**
+[`string`](../../../data-types.md) | MIME-тип файла ||
+|| **assetType**
+[`string`](../../../data-types.md) | Тип вложения для Markdown-блока ||
+|| **assetMarkdown**
+[`string`](../../../data-types.md) | Готовый Markdown-блок для вставки файла в документ через [note.document.update](../document/note-document-update.md) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

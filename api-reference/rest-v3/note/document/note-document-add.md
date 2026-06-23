@@ -13,11 +13,20 @@
 >
 > Кто может выполнять метод: пользователь с доступом к модулю База знаний и правом «Редактирование» для нужной базы знаний
 
-Метод `note.document.add` создает новый документ в базе знаний и возвращает его идентификатор.
+Метод `note.document.add` создает новый документ в базе знаний и возвращает его объект.
 
 ## Параметры метода
 
 {% include [Сноска о параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **fields***
+[`object`](../../../data-types.md) | Объект с полями нового документа. [Описание структуры объекта](#fields) ||
+|#
+
+### Параметр fields {#fields}
 
 #|
 || **Название**
@@ -62,7 +71,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"collectionId":42,"title":"Глава 1","parentId":10,"markdown":"# Глава 1\n\nТекст документа"}' \
+    -d '{"fields":{"collectionId":42,"title":"Глава 1","parentId":10,"markdown":"# Глава 1\n\nТекст документа"}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/note.document.add
     ```
 
@@ -72,7 +81,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"collectionId":42,"title":"Глава 1","parentId":10,"markdown":"# Глава 1\n\nТекст документа","auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"collectionId":42,"title":"Глава 1","parentId":10,"markdown":"# Глава 1\n\nТекст документа"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/note.document.add
     ```
 
@@ -85,17 +94,30 @@
     declare const $b24: B24Frame
 
     type DocumentAddResult = {
-      id: number
+      item: {
+        id: number
+        collectionId: number | null
+        parentId: number | null
+        title: string
+        markdown: string
+        position: number
+        createdBy: number
+        updatedBy: number
+        createdAt: string
+        updatedAt: string
+      }
     }
 
     try {
       const response = await $b24.actions.v3.call.make<DocumentAddResult>({
         method: 'note.document.add',
         params: {
-          collectionId: 42,
-          title: 'Глава 1',
-          parentId: 10,
-          markdown: '# Глава 1\n\nТекст документа',
+          fields: {
+            collectionId: 42,
+            title: 'Глава 1',
+            parentId: 10,
+            markdown: '# Глава 1\n\nТекст документа',
+          },
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -104,7 +126,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Document created:', result.id)
+        console.info('Document created:', result.item.id, result.item.title)
       }
     } catch (error) {
       console.error(error)
@@ -123,10 +145,12 @@
           const response = await $b24.actions.v3.call.make({
             method: 'note.document.add',
             params: {
-              collectionId: 42,
-              title: 'Глава 1',
-              parentId: 10,
-              markdown: '# Глава 1\n\nТекст документа',
+              fields: {
+                collectionId: 42,
+                title: 'Глава 1',
+                parentId: 10,
+                markdown: '# Глава 1\n\nТекст документа',
+              },
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -137,7 +161,7 @@
           }
 
           const result = response.getData().result
-          console.info('Document created:', result.id)
+          console.info('Document created:', result.item.id, result.item.title)
         } catch (error) {
           console.error(error)
         }
@@ -158,10 +182,12 @@
             ->call(
                 'note.document.add',
                 [
-                    'collectionId' => 42,
-                    'title' => 'Глава 1',
-                    'parentId' => 10,
-                    'markdown' => "# Глава 1\n\nТекст документа",
+                    'fields' => [
+                        'collectionId' => 42,
+                        'title' => 'Глава 1',
+                        'parentId' => 10,
+                        'markdown' => "# Глава 1\n\nТекст документа",
+                    ],
                 ]
             );
 
@@ -185,10 +211,12 @@
     BX24.callMethod(
         'note.document.add',
         {
-            collectionId: 42,
-            title: 'Глава 1',
-            parentId: 10,
-            markdown: '# Глава 1\n\nТекст документа'
+            fields: {
+                collectionId: 42,
+                title: 'Глава 1',
+                parentId: 10,
+                markdown: '# Глава 1\n\nТекст документа'
+            }
         },
         function(result){
             console.info(result.data());
@@ -207,10 +235,12 @@
     $result = CRest::call(
         'note.document.add',
         [
-            'collectionId' => 42,
-            'title' => 'Глава 1',
-            'parentId' => 10,
-            'markdown' => "# Глава 1\n\nТекст документа"
+            'fields' => [
+                'collectionId' => 42,
+                'title' => 'Глава 1',
+                'parentId' => 10,
+                'markdown' => "# Глава 1\n\nТекст документа"
+            ]
         ]
     );
 
@@ -228,7 +258,18 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "id": 77
+        "item": {
+            "id": 77,
+            "collectionId": 42,
+            "parentId": 10,
+            "title": "Глава 1",
+            "markdown": "# Глава 1\n\nТекст в Markdown...",
+            "position": 5,
+            "createdBy": 1,
+            "updatedBy": 1,
+            "createdAt": "2026-04-20T12:00:00Z",
+            "updatedAt": "2026-04-20T12:00:00Z"
+        }
     },
     "time": {
         "start": 1780390800,
@@ -250,8 +291,28 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Объект с результатом создания документа ||
+|| **item**
+[`object`](../../../data-types.md) | Объект созданного документа ||
 || **id**
 [`integer`](../../../data-types.md) | Идентификатор созданного документа ||
+|| **collectionId**
+[`integer`](../../../data-types.md) | Идентификатор базы знаний ||
+|| **parentId**
+[`integer`](../../../data-types.md) | Идентификатор родительского документа или `null` ||
+|| **title**
+[`string`](../../../data-types.md) | Заголовок документа ||
+|| **markdown**
+[`string`](../../../data-types.md) | Содержимое документа в Markdown ||
+|| **position**
+[`integer`](../../../data-types.md) | Позиция документа среди соседних страниц ||
+|| **createdBy**
+[`integer`](../../../data-types.md) | Идентификатор автора документа ||
+|| **updatedBy**
+[`integer`](../../../data-types.md) | Идентификатор последнего редактора документа ||
+|| **createdAt**
+[`datetime`](../../../data-types.md) | Дата и время создания документа в UTC ||
+|| **updatedAt**
+[`datetime`](../../../data-types.md) | Дата и время последнего изменения документа в UTC ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -263,11 +324,11 @@ HTTP-статус: **400**
 ```json
 {
     "error": {
-        "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION",
-        "message": "Ошибка при валидации объекта запроса",
+        "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_DTOVALIDATIONEXCEPTION",
+        "message": "Ошибка при валидации объекта",
         "validation": [
             {
-                "message": "Обязательное поле `title` не указано",
+                "message": "Не заполнено обязательное поле \"title\"",
                 "field": "title"
             }
         ]
@@ -285,28 +346,35 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `fields` | Обязательное поле `fields` не указано | Добавьте объект `fields` в тело запроса ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_DTOVALIDATIONEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
 || `collectionId`
-`title` | Обязательное поле `#FIELD#` не указано | Добавьте указанное поле в тело запроса ||
+`title` | Не заполнено обязательное поле `#FIELD#` | Добавьте указанное поле в объект `fields` ||
 || `collectionId`
 `title`
 `parentId`
 `markdown` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Убедитесь, что передаваемое значение нужного типа ||
-|| `title` | Заголовок документа не может быть пустым | Передайте непустую строку в поле `title` ||
-|| `title` | Заголовок документа не должен превышать 255 символов | Сократите значение `title` ||
+|| `title` | Заголовок документа не может быть пустым | Передайте непустую строку в поле `fields.title` ||
+|| `title` | Заголовок документа не должен превышать 255 символов | Сократите значение `fields.title` ||
 |#
 
 Код ошибки: `NOTE_MARKDOWN_TOO_LARGE`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `markdown` | Содержимое документа слишком большое. Максимально допустимый размер — `1 048 576` байт | Сократите содержимое `markdown` ||
+|| `markdown` | Содержимое документа слишком большое. Максимально допустимый размер — `1 048 576` байт | Сократите содержимое `fields.markdown` ||
 |#
 
 Код ошибки: `NOTE_INVALID_PARENT`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `parentId` | Родительский документ не принадлежит указанной коллекции | Укажите `parentId` документа из той же базы знаний, что и `collectionId`, или не передавайте `parentId` ||
+|| `parentId` | Родительский документ не принадлежит указанной коллекции | Укажите `fields.parentId` документа из той же базы знаний, что и `fields.collectionId`, или не передавайте `fields.parentId` ||
 |#
 
 #### Ошибки доступа

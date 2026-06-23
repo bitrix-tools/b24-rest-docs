@@ -214,9 +214,9 @@ HTTP-статус: **200**
             "position": 100,
             "policyLevel": "manage",
             "createdBy": 1,
-            "createdAt": "2026-04-20T12:00:00+00:00",
+            "createdAt": "2026-04-20T12:00:00Z",
             "updatedBy": 1,
-            "updatedAt": "2026-04-21T09:15:30+00:00"
+            "updatedAt": "2026-04-21T09:15:30Z"
         }
     },
     "time": {
@@ -259,11 +259,11 @@ HTTP-статус: **200**
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор автора базы знаний ||
 || **createdAt**
-[`datetime`](../../../data-types.md) | Дата и время создания базы знаний ||
+[`datetime`](../../../data-types.md) | Дата и время создания базы знаний в UTC ||
 || **updatedBy**
 [`integer`](../../../data-types.md) | Идентификатор последнего редактора базы знаний ||
 || **updatedAt**
-[`datetime`](../../../data-types.md) | Дата и время последнего изменения базы знаний ||
+[`datetime`](../../../data-types.md) | Дата и время последнего изменения базы знаний в UTC ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
