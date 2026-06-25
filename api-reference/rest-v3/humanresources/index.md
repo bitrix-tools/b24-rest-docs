@@ -84,6 +84,8 @@
 || [humanresources.node.member.set](./node-member/humanresources-node-member-set.md) | Обновляет состав участников отдела или команды по ролям ||
 || [humanresources.node.member.move](./node-member/humanresources-node-member-move.md) | Переносит пользователей в другой отдел или команду ||
 || [humanresources.node.member.remove](./node-member/humanresources-node-member-remove.md) | Удаляет пользователей из отдела или команды ||
+|| [humanresources.node.member.field.list](./node-member/humanresources-node-member-field-list.md) | Возвращает список полей участника отдела или команды ||
+|| [humanresources.node.member.field.get](./node-member/humanresources-node-member-field-get.md) | Возвращает описание поля участника отдела или команды ||
 |#
 
 ### Коммуникации отделов и команд
