@@ -3,7 +3,7 @@ href: index.md
 items: 
   - name: Обзор инструментов
     href: index.md
-  - name: Типовые кейсы и сценарии 
+  - name: "Локальные интеграции: сценарии использования"
     href: use-cases.md
   - name: Входящие и исходящие вебхуки
     href: local-webhooks.md

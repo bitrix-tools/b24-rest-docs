@@ -6,6 +6,11 @@
 
 - Обновили туториал [Как встроить виджет во вкладку карточки CRM](./tutorials/crm/crm-widgets/widget-as-detail-tab.md)
 - Добавили методы [humanresources.node.member.field.get](./api-reference/rest-v3/humanresources/node-member/humanresources-node-member-field-get.md) и [humanresources.node.member.field.list](./api-reference/rest-v3/humanresources/node-member/humanresources-node-member-field-list.md)
+- Обновили страницу [Как подготовить пользовательский шаблон](./api-reference/landing/demos/introduction.md)
+- Обновили страницу [Установка локальных приложений: обзор сценариев](./settings/app-installation/local-apps/index.md)
+- Обновили страницу [Локальные интеграции: сценарии использования](./local-integrations/use-cases.md)
+- Обновили страницу [BX24.js: обзор библиотеки](./sdk/bx24-js-sdk/index.md)
+- Обновили страницу [Вызов методов REST через BX24.js](./sdk/bx24-js-sdk/how-to-call-rest-methods/index.md)
 
 ### 22 июня, 2026
 
