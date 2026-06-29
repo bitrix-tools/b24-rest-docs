@@ -25,8 +25,9 @@ B24PySDK поддерживает:
 1. Авторизацию через [входящие вебхуки](../../local-integrations/local-webhooks.md) и [OAuth-протокол](../../settings/oauth/index.md);
 2. Подсказки типов и автодополнение в IDE для доступных методов и параметров;
 3. Проверку типов аргументов перед отправкой запроса;
-4. Пагинацию списочных методов через `.as_list()` и `.as_list_fast()`;
-5. Batch-запросы и единую обработку ошибок REST API.
+4. Типизированные адаптеры ответов через `.value` и `.values` для методов, у которых описаны Python-схемы результата;
+5. Пагинацию списочных методов через `.as_list()` и `.as_list_fast()`;
+6. Batch-запросы и единую обработку ошибок REST API.
 
 ## Основные модули SDK
 
@@ -35,11 +36,12 @@ B24PySDK состоит из нескольких групп модулей, к�
 - `b24pysdk.Client` - точка входа для вызова методов REST API. Через клиент доступны скоупы `crm`, `user`, `department`, `disk`, `bizproc`, `tasks` и другие.
 - `b24pysdk.credentials` - классы авторизации: `BitrixWebhook`, `BitrixToken`, `BitrixTokenLocal`, `BitrixApp`, `BitrixAppLocal`, а также модели OAuth-данных, которые приходят от Битрикс24.
 - `b24pysdk.api.requests` - объекты запросов, которые возвращают обертки методов: стандартные запросы, списочные запросы и batch-запросы.
-- `b24pysdk.api.responses` - объекты ответов, которые дают доступ к `result`, `time`, `total`, `next` и другим данным ответа.
+- `b24pysdk.api.responses` - объекты ответов, которые дают доступ к `result`, `value`, `values`, `time`, `total`, `next` и другим данным ответа.
+- `b24pysdk.schemas` - схемы для Python-friendly представления данных Битрикс24: профиля пользователя, информации о приложении, названий прав доступа, CRM-полей, CRM-перечислений, НДС, результатов объединения сущностей и payload ошибок API.
 - `b24pysdk.errors` - единая иерархия исключений для ошибок сети, HTTP-ответов, JSON, REST API, OAuth и валидации параметров.
 - `b24pysdk.integrations` - интеграции для Django, FastAPI и Flask: декораторы, зависимости и вспомогательные функции для обработки входящих запросов от Битрикс24.
 - `b24pysdk.constants` - константы для CRM, пользователей, задач, телефонии и других разделов API.
-- `b24pysdk.events` и `b24pysdk.signals` - события SDK, например обновление OAuth-токена или автоматическая смена домена портала после редиректа.
+- `b24pysdk.events` и `b24pysdk.signals` - события SDK, например обновление OAuth-токена или автоматическая смена домена портала после редиректа. Для прямой подписки на сигналы установите дополнительный набор зависимостей `signals`.
 - `b24pysdk.log` и `b24pysdk.Config` - настройка таймаутов, повторов, часового пояса и логирования.
 
 Базовый импорт для большинства сценариев выглядит так:
@@ -79,6 +81,14 @@ pip install "b24pysdk[django]"
 pip install "b24pysdk[fastapi]"
 pip install "b24pysdk[flask]"
 ```
+
+Если приложение подписывается на внутренние события SDK, установите дополнительный набор `signals`:
+
+```bash
+pip install "b24pysdk[signals]"
+```
+
+Обычные REST-вызовы и автоматическое обновление OAuth-токена работают без этого набора. Он нужен только для прямого импорта `b24pysdk.signals` и подписки на сигналы SDK.
 
 Репозиторий SDK доступен на GitHub: [bitrix24/b24pysdk](https://github.com/bitrix24/b24pysdk).
 
@@ -212,6 +222,8 @@ duration = request.time.duration
 `request.response` содержит объект ответа целиком:
 
 - `response.result` - данные, которые вернул REST-метод;
+- `response.value` - один адаптированный Python-объект для методов, у которых описана схема одиночного результата;
+- `response.values` - список или генератор адаптированных Python-объектов для методов, которые возвращают набор значений;
 - `response.time` - служебная информация о времени выполнения;
 - `response.total` и `response.next` - доступны у списочных ответов, если API вернул данные пагинации.
 
@@ -225,6 +237,30 @@ response = request.response
 print(response.result)
 print(response.total)
 print(response.next)
+```
+
+Для методов с типизированными адаптерами можно использовать `.value` или `.values`. Они преобразуют результат Битрикс24 в объекты из `b24pysdk.schemas`, но не заменяют `.result`: если нужен исходный API-ответ, продолжайте использовать `.result`.
+
+```python
+request = client.profile()
+
+raw_profile = request.result
+profile = request.value
+
+print(raw_profile["ID"])
+print(profile.bitrix_id)
+```
+
+Для методов, которые возвращают несколько однотипных значений, используйте `.values`:
+
+```python
+request = client.crm.enum.ownertype()
+
+raw_owner_types = request.result
+owner_types = request.values
+
+print(raw_owner_types[0]["ID"])
+print(owner_types[0].bitrix_id)
 ```
 
 ## Параметры методов и проверка типов
@@ -665,7 +701,15 @@ def event_handler():
 
 ## События токена
 
-SDK может автоматически обновить OAuth-токен или сменить домен портала, если Битрикс24 вернул редирект на новый домен. На эти действия можно подписаться:
+SDK может автоматически обновить OAuth-токен или сменить домен портала, если Битрикс24 вернул редирект на новый домен. На эти действия можно подписаться.
+
+Для подписки на сигналы установите SDK с дополнительным набором зависимостей `signals`:
+
+```bash
+pip install "b24pysdk[signals]"
+```
+
+Без этого набора обычные REST-вызовы и автоматическое обновление OAuth-токена работают, но прямой импорт `b24pysdk.signals` завершится `ImportError` с подсказкой по установке.
 
 ```python
 from b24pysdk.events import OAuthTokenRenewedEvent, PortalDomainChangedEvent
@@ -701,8 +745,11 @@ Config().configure(
     default_initial_retry_delay=1,
     default_retry_delay_increment=1,
     logger=logger,
+    secure_log=True,
 )
 ```
+
+Параметр `secure_log` по умолчанию включен. В этом режиме SDK маскирует OAuth-токены, client secret, auth-параметры и учетные данные из webhook URL в логах. Отключайте его только в контролируемой среде, где логи не попадут в общий доступ.
 
 Таймаут можно задать и для конкретного клиента или отдельного вызова:
 
