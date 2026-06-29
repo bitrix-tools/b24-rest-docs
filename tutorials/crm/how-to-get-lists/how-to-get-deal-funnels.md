@@ -1,8 +1,8 @@
-# Как получить воронку заданного направления с семантикой каждой стадии сделки
+# Как получить воронки сделок со стадиями и семантикой
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с административным доступом к разделу CRM
+> Кто может выполнять методы: любой пользователь с доступом к CRM
 
 {% note tip "" %}
 
@@ -13,74 +13,319 @@
 
 {% endnote %}
 
-Пример выводит все существующие направления сделок с семантикой по каждой стадии.
+Воронки сделок помогают разделить разные процессы продаж: новые продажи, продление договора, работу с партнерами или отдельные направления бизнеса. У каждой воронки свой набор стадий. У каждой стадии есть семантика — состояние сделки: в работе, успешно завершена или неуспешно завершена.
+
+Семантика нужна для отчетов, автоматизации и фильтрации сделок. Например, по ней можно отделить активные сделки от выигранных и проигранных, даже если названия стадий отличаются в разных воронках.
+
+В результате вы получите таблицу для каждой воронки сделок. В строках таблицы будут стадии, их названия и семантика.
+
+Чтобы получить воронки сделок со стадиями и семантикой, вызываем последовательно два метода:
+
+1. [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md) — получаем массив `categories` с воронками сделок и берем из него `id` и `name`
+2. [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) — для каждой воронки передаем код стадий в `filter.ENTITY_ID` и получаем стадии
+
+Данные переходят между методами так:
+
+- `id` воронки из `categories` определяет код стадий
+- для основной воронки с `id = 0` используем код `DEAL_STAGE`
+- для дополнительной воронки с `id > 0` используем код `DEAL_STAGE_{id}`
+- сформированный код передаем в `filter.ENTITY_ID` метода [crm.status.list](../../../api-reference/crm/status/crm-status-list.md)
+
+## 1\. Получаем список воронок сделок
+
+Вызываем метод [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md) с параметром `entityTypeId: 2`, где `2` — идентификатор типа объекта `сделка`. Идентификаторы типов объектов CRM можно получить методом [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md).
+
+Список воронок фильтруется по правам доступа пользователя. Если пользователь не может читать определенную воронку, метод не вернет ее в ответе.
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
 
     ```js
-    var arCategory = [];
+    var arCategory = {};
 
-    BX24.callMethod('crm.dealcategory.list', {}, function(result) {
+    BX24.callMethod('crm.category.list', { entityTypeId: 2 }, function(result) {
         if (result.error()) {
             console.error(result.error());
         } else {
-            arCategory = result.data().reduce(function(acc, item) {
-                acc[item.ID] = item.NAME;
+            arCategory = result.data().categories.reduce(function(acc, item) {
+                acc[item.id] = item.name;
+                return acc;
+            }, {});
+        }
+    });
+    ```
+
+- PHP
+
+    ```php
+    $arCategory = [];
+
+    $result = CRest::call(
+        'crm.category.list',
+        [
+            'entityTypeId' => 2
+        ]
+    );
+    if (!empty($result['result']['categories']))
+    {
+        $arCategory = array_column($result['result']['categories'], 'name', 'id');
+    }
+    ```
+
+- Python
+
+    ```python
+    categories = client.crm.category.list(entity_type_id=2).response.result.get("categories", [])
+    category_map = {item["id"]: item["name"] for item in categories}
+    ```
+
+{% endlist %}
+
+В ответе метод возвращает массив `categories` с доступными пользователю воронками сделок, включая основную. У каждой воронки есть `id` — идентификатор воронки, `name` — название, `isDefault` — признак основной воронки.
+
+```json
+{
+    "result": {
+        "categories": [
+            {
+                "id": 0,
+                "name": "Общая",
+                "sort": 100,
+                "entityTypeId": 2,
+                "isDefault": "Y"
+            },
+            {
+                "id": 7,
+                "name": "Продление договора",
+                "sort": 200,
+                "entityTypeId": 2,
+                "isDefault": "N"
+            }
+        ]
+    },
+    "total": 2
+}
+```
+
+Поле `total` показывает общее количество найденных воронок. Метод возвращает одну страницу ответа — до 50 записей. Примеры выше обрабатывают полученные в ответе элементы.
+
+## 2\. Получаем стадии и семантику для каждой воронки
+
+Метод [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) получает стадии по фильтру `ENTITY_ID`. Для сделок код стадий зависит от воронки:
+
+- `DEAL_STAGE` — стадии основной воронки
+- `DEAL_STAGE_{id}` — стадии дополнительной воронки, где `{id}` — идентификатор воронки
+
+Берем поле `id` из ответа [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md), формируем `ENTITY_ID` и вызываем [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) с сортировкой по `SORT`. Например, для воронки с идентификатором `7` нужно передать `DEAL_STAGE_7`.
+
+В ответе используем поля:
+
+- `STATUS_ID` — идентификатор стадии
+- `NAME` — название стадии
+- `EXTRA.SEMANTICS` — семантика стадии
+- `EXTRA.COLOR` — цвет стадии
+
+Значение `EXTRA.SEMANTICS` показывает группу стадии:
+
+- `process` — сделка находится в работе
+- `success` — сделка успешно завершена
+- `failure` — сделка завершена неуспешно
+- `apology` — отдельная группа неуспешно завершенных стадий
+
+В примерах ниже используются данные, полученные на предыдущем шаге.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    Object.keys(arCategory).forEach(function(id) {
+        var entity_id = id > 0 ? 'DEAL_STAGE_' + id : 'DEAL_STAGE';
+
+        BX24.callMethod(
+            'crm.status.list',
+            {
+                order: {
+                    SORT: 'ASC'
+                },
+                filter: {
+                    ENTITY_ID: entity_id
+                }
+            },
+            function(resultDeal) {
+                if (resultDeal.error()) {
+                    console.error(resultDeal.error());
+                } else {
+                    resultDeal.data().forEach(function(item) {
+                        console.log(arCategory[id], item.STATUS_ID, item.NAME, item.EXTRA && item.EXTRA.SEMANTICS);
+                    });
+                }
+            }
+        );
+    });
+    ```
+
+- PHP
+
+    ```php
+    foreach ($arCategory as $id => $name)
+    {
+        if ($id > 0)
+        {
+            $entity_id = 'DEAL_STAGE_' . $id;
+        }
+        else
+        {
+            $entity_id = 'DEAL_STAGE';
+        }
+
+        $resultDeal = CRest::call(
+            'crm.status.list',
+            [
+                'order' => [
+                    'SORT' => 'ASC'
+                ],
+                'filter' => [
+                    'ENTITY_ID' => $entity_id
+                ]
+            ]
+        );
+
+        if (!empty($resultDeal['result']))
+        {
+            foreach ($resultDeal['result'] as $item)
+            {
+                echo $name . ': ' . $item['STATUS_ID'] . ': ' . $item['NAME'] . ' - ' . ($item['EXTRA']['SEMANTICS'] ?? '') . PHP_EOL;
+            }
+        }
+    }
+    ```
+
+- Python
+
+    ```python
+    for category_id, category_name in category_map.items():
+        entity_id = f"DEAL_STAGE_{category_id}" if int(category_id) > 0 else "DEAL_STAGE"
+        result_deal = client.crm.status.list(
+            order={"SORT": "ASC"},
+            filter={"ENTITY_ID": entity_id},
+        ).response.result
+
+        for item in result_deal:
+            print(
+                category_name,
+                item.get("STATUS_ID", ""),
+                item.get("NAME", ""),
+                (item.get("EXTRA") or {}).get("SEMANTICS", ""),
+            )
+    ```
+
+{% endlist %}
+
+В ответе метод возвращает массив стадий для указанного `ENTITY_ID`.
+
+```json
+{
+    "result": [
+        {
+            "ENTITY_ID": "DEAL_STAGE_7",
+            "STATUS_ID": "NEW",
+            "NAME": "Новая",
+            "EXTRA": {
+                "SEMANTICS": "process",
+                "COLOR": "#39A8EF"
+            }
+        },
+        {
+            "ENTITY_ID": "DEAL_STAGE_7",
+            "STATUS_ID": "WON",
+            "NAME": "Сделка успешна",
+            "EXTRA": {
+                "SEMANTICS": "success",
+                "COLOR": "#7BD500"
+            }
+        },
+        {
+            "ENTITY_ID": "DEAL_STAGE_7",
+            "STATUS_ID": "LOSE",
+            "NAME": "Сделка провалена",
+            "EXTRA": {
+                "SEMANTICS": "failure",
+                "COLOR": "#FF5752"
+            }
+        }
+    ],
+    "total": 3
+}
+```
+
+Поле `total` показывает общее количество найденных стадий для указанного `ENTITY_ID`. Метод возвращает одну страницу ответа — до 50 записей. Примеры выше обрабатывают полученные в ответе элементы.
+
+## Полный пример кода
+
+Пример выводит таблицу для каждой воронки сделок. В таблице показаны идентификатор стадии, название стадии и семантика.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    var arCategory = {};
+
+    BX24.callMethod('crm.category.list', { entityTypeId: 2 }, function(result) {
+        if (result.error()) {
+            console.error(result.error());
+        } else {
+            arCategory = result.data().categories.reduce(function(acc, item) {
+                acc[item.id] = item.name;
                 return acc;
             }, {});
 
-            BX24.callMethod('crm.dealcategory.default.get', {}, function(result) {
-                if (result.error()) {
-                    console.error(result.error());
-                } else {
-                    arCategory[result.data().ID] = result.data().NAME;
+            Object.keys(arCategory).forEach(function(id) {
+                var entity_id = id > 0 ? 'DEAL_STAGE_' + id : 'DEAL_STAGE';
 
-                    Object.keys(arCategory).forEach(function(id) {
-                        var entity_id = id > 0 ? 'DEAL_STAGE_' + id : 'DEAL_STAGE';
+                BX24.callMethod('crm.status.list', { order: { SORT: 'ASC' }, filter: { ENTITY_ID: entity_id } }, function(resultDeal) {
+                    if (resultDeal.error()) {
+                        console.error(resultDeal.error());
+                    } else {
+                        var table = document.createElement('table');
+                        var caption = document.createElement('caption');
+                        caption.textContent = arCategory[id];
+                        table.appendChild(caption);
 
-                        BX24.callMethod('crm.status.list', { filter: { ENTITY_ID: entity_id } }, function(resultDeal) {
-                            if (resultDeal.error()) {
-                                console.error(resultDeal.error());
-                            } else {
-                                var table = document.createElement('table');
-                                var caption = document.createElement('caption');
-                                caption.textContent = arCategory[id];
-                                table.appendChild(caption);
-
-                                var thead = document.createElement('thead');
-                                var trHead = document.createElement('tr');
-                                ['STATUS ID', 'NAME', 'SEMANTICS'].forEach(function(text) {
-                                    var th = document.createElement('th');
-                                    th.textContent = text;
-                                    trHead.appendChild(th);
-                                });
-                                thead.appendChild(trHead);
-                                table.appendChild(thead);
-
-                                var tbody = document.createElement('tbody');
-                                resultDeal.data().forEach(function(item) {
-                                    var tr = document.createElement('tr');
-                                    if (item.EXTRA && item.EXTRA.COLOR) {
-                                        tr.style.color = item.EXTRA.COLOR;
-                                    }
-                                    ['STATUS_ID', 'NAME', 'EXTRA.SEMANTICS'].forEach(function(key) {
-                                        var td = document.createElement('td');
-                                        td.textContent = key.split('.').reduce(function(acc, k) {
-                                            return acc && acc[k];
-                                        }, item);
-                                        tr.appendChild(td);
-                                    });
-                                    tbody.appendChild(tr);
-                                });
-                                table.appendChild(tbody);
-
-                                document.body.appendChild(table);
-                            }
+                        var thead = document.createElement('thead');
+                        var trHead = document.createElement('tr');
+                        ['STATUS ID', 'NAME', 'SEMANTICS'].forEach(function(text) {
+                            var th = document.createElement('th');
+                            th.textContent = text;
+                            trHead.appendChild(th);
                         });
-                    });
-                }
+                        thead.appendChild(trHead);
+                        table.appendChild(thead);
+
+                        var tbody = document.createElement('tbody');
+                        resultDeal.data().forEach(function(item) {
+                            var tr = document.createElement('tr');
+                            if (item.EXTRA && item.EXTRA.COLOR) {
+                                tr.style.color = item.EXTRA.COLOR;
+                            }
+                            ['STATUS_ID', 'NAME', 'EXTRA.SEMANTICS'].forEach(function(key) {
+                                var td = document.createElement('td');
+                                td.textContent = key.split('.').reduce(function(acc, k) {
+                                    return acc && acc[k];
+                                }, item);
+                                tr.appendChild(td);
+                            });
+                            tbody.appendChild(tr);
+                        });
+                        table.appendChild(tbody);
+
+                        document.body.appendChild(table);
+                    }
+                });
             });
         }
     });
@@ -96,15 +341,15 @@
 
     ```php
     $arCategory = [];
-    $result = CRest::call('crm.dealcategory.list');
-    if (!empty($result['result']))
+    $result = CRest::call(
+        'crm.category.list',
+        [
+            'entityTypeId' => 2
+        ]
+    );
+    if (!empty($result['result']['categories']))
     {
-        $arCategory = array_column($result['result'], 'NAME', 'ID');
-    }
-    $result = CRest::call('crm.dealcategory.default.get');//get name default deal category
-    if (!empty($result['result']))
-    {
-        $arCategory[$result['result']['ID']] = $result['result']['NAME'];
+        $arCategory = array_column($result['result']['categories'], 'name', 'id');
     }
     foreach ($arCategory as $id => $name):
         if ($id > 0)
@@ -115,11 +360,21 @@
         {
             $entity_id = 'DEAL_STAGE';
         }
-        $resultDeal = CRest::call('crm.status.list', ['filter' => ['ENTITY_ID' => $entity_id]]);
+        $resultDeal = CRest::call(
+            'crm.status.list',
+            [
+                'order' => [
+                    'SORT' => 'ASC'
+                ],
+                'filter' => [
+                    'ENTITY_ID' => $entity_id
+                ]
+            ]
+        );
         if (!empty($resultDeal['result'])):
     ?>
             <table>
-                <caption><?=$name?></caption>
+                <caption><?=htmlspecialchars((string)$name, ENT_QUOTES, 'UTF-8')?></caption>
                 <thead>
                 <tr>
                     <th>STATUS ID</th>
@@ -128,17 +383,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <? foreach ($resultDeal['result'] as $item): ?>
-                <tr <?=(!empty($item['EXTRA']['COLOR']) ? ' style="color:' . $item['EXTRA']['COLOR'] . '"' : '');?>>
-                    <td><?=$item['STATUS_ID']?></td>
-                    <td><?=$item['NAME']?></td>
-                    <td><?=$item['EXTRA']['SEMANTICS']?></td>
-                <tr>
-                    <? endforeach; ?>
+                <?php foreach ($resultDeal['result'] as $item): ?>
+                    <?php
+                    $statusId = htmlspecialchars((string)($item['STATUS_ID'] ?? ''), ENT_QUOTES, 'UTF-8');
+                    $stageName = htmlspecialchars((string)($item['NAME'] ?? ''), ENT_QUOTES, 'UTF-8');
+                    $semantics = htmlspecialchars((string)($item['EXTRA']['SEMANTICS'] ?? ''), ENT_QUOTES, 'UTF-8');
+                    $color = (string)($item['EXTRA']['COLOR'] ?? '');
+                    $colorStyle = preg_match('/^#[0-9A-Fa-f]{6}$/', $color) ? ' style="color:' . $color . '"' : '';
+                    ?>
+                <tr<?=$colorStyle?>>
+                    <td><?=$statusId?></td>
+                    <td><?=$stageName?></td>
+                    <td><?=$semantics?></td>
+                </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
-        <? endif; ?>
-    <? endforeach; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
     ```
 
 - Python
@@ -161,6 +423,7 @@
         for category_id, category_name in category_map.items():
             entity_id = f"DEAL_STAGE_{category_id}" if int(category_id) > 0 else "DEAL_STAGE"
             result_deal = client.crm.status.list(
+                order={"SORT": "ASC"},
                 filter={"ENTITY_ID": entity_id},
             ).response.result
 
@@ -181,3 +444,37 @@
     ```
 
 {% endlist %}
+
+## Если результат пустой или возникла ошибка
+
+Если [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md) или [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) вернул ошибку, проверьте авторизацию и права пользователя. Для работы сценария нужен доступ к CRM и scope [`crm`](../../../api-reference/scopes/permissions.md).
+
+Если [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md) вернул пустой массив `categories`, пользователь не видит доступные воронки сделок. Проверьте права пользователя на чтение CRM и повторите сценарий с первого шага.
+
+Если [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) вернул пустой массив стадий, проверьте значение `ENTITY_ID`:
+
+- для основной воронки с `id = 0` передавайте `DEAL_STAGE`
+- для дополнительной воронки с `id > 0` передавайте `DEAL_STAGE_{id}`
+- не передавайте `DEAL_STAGE_0`
+
+После исправления `ENTITY_ID` повторите второй шаг для этой воронки.
+
+Если в ответе есть поле `total`, но обработаны не все элементы, учтите ограничение одной страницы ответа. Примеры в туториале обрабатывают только элементы, полученные в текущем ответе.
+
+## Проверяем результат
+
+После запуска примера на странице появятся таблицы по полученным воронкам сделок. Заголовок таблицы — название воронки. В строках таблицы отображаются стадии этой воронки:
+
+- `STATUS ID` — код стадии, который можно использовать в полях и фильтрах сделок
+- `NAME` — название стадии в интерфейсе CRM
+- `SEMANTICS` — группа стадии: `process`, `success`, `failure` или `apology`
+
+Если в Битрикс24 есть только основная воронка, пример выведет одну таблицу. Если созданы дополнительные воронки, для каждой из них будет своя таблица.
+
+Основная воронка имеет `id = 0`. Для нее код стадий — `DEAL_STAGE`, без суффикса `_0`.
+
+## Продолжите изучение
+
+- [{#T}](./how-to-get-stages-with-semantics.md)
+- [{#T}](./how-to-get-elements-by-stage-filter.md)
+- [{#T}](../../../api-reference/crm/status/crm-status-list.md)

@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 29 июня, 2026
+
+- Обновили туториал [Как получить воронки сделок со стадиями и семантикой](./tutorials/crm/how-to-get-lists\how-to-get-deal-funnels.md)
+
 ### 22 июня, 2026
 
 - Добавили методы раздела [База знаний 2.0](./api-reference/rest-v3/note/collection/index.md)
