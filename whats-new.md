@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 30 июня, 2026
+
+- Добавили метод [crm.activity.call.getTranscript](./api-reference/crm/timeline/activities/activity-base/crm-activity-call-get-transcript.md)
+
 ### 29 июня, 2026
 
 - Обновили туториал [Как получить воронки сделок со стадиями и семантикой](./tutorials/crm/how-to-get-lists\how-to-get-deal-funnels.md)
