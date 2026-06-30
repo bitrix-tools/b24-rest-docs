@@ -206,6 +206,49 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.currency.localizations.set(
+            bitrix_id="CLF",
+            localizations={
+                "en": {
+                    "FULL_NAME": "Unidad de Fomento",
+                    "FORMAT_STRING": "CLF#VALUE#",
+                    "DEC_POINT": ".",
+                    "THOUSANDS_VARIANT": "C",
+                    "DECIMALS": 4,
+                },
+                "ru": {
+                    "FULL_NAME": "Единица развития",
+                    "FORMAT_STRING": "#VALUE# CLF",
+                    "DEC_POINT": ".",
+                    "THOUSANDS_VARIANT": "B",
+                    "DECIMALS": 4,
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - BX24.js
 
     ```js

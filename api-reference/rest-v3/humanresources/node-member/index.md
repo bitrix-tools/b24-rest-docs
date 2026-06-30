@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Участники отделов и команд определяют, кто входит в отдел или команду и какую роль занимает в структуре компании. Методы `humanresources.node.member.*` помогают добавить пользователей, задать состав по ролям, перенести участников между отделами и командами, удалить их.
+Участники отделов и команд определяют, кто входит в отдел или команду и какую роль занимает в структуре компании. Методы `humanresources.node.member.*` помогают добавить пользователей, задать состав по ролям, перенести участников между отделами и командами, удалить их и получить описание полей участника.
 
 > Быстрый переход: [все методы](#all-methods)
 >
@@ -17,12 +17,13 @@
 
 ## Порядок работы с участниками
 
-1. Определите нужный отдел или команду и получите `nodeId` методом [humanresources.node.list](../node/humanresources-node-list.md). Если идентификатор уже известен, проверьте данные отдела или команды методом [humanresources.node.get](../node/humanresources-node-get.md)
-2. Получите идентификаторы пользователей методом [user.get](../../../user/user-get.md), если нужно подготовить `userIds` для добавления, переноса или удаления участников
-3. Добавьте пользователей в нужный отдел или команду методом [humanresources.node.member.add](./humanresources-node-member-add.md)
-4. Используйте [humanresources.node.member.set](./humanresources-node-member-set.md), если нужно задать полный состав участников по ролям в одном запросе
-5. Перенесите участников в другой отдел или команду методом [humanresources.node.member.move](./humanresources-node-member-move.md), если нужно сменить их место в структуре
-6. Удалите участников методом [humanresources.node.member.remove](./humanresources-node-member-remove.md), если они больше не должны входить в отдел или команду
+1. Получите описание полей методом [humanresources.node.member.field.list](./humanresources-node-member-field-list.md) и [humanresources.node.member.field.get](./humanresources-node-member-field-get.md), если нужно заранее проверить состав доступных полей участника
+2. Определите нужный отдел или команду и получите `nodeId` методом [humanresources.node.list](../node/humanresources-node-list.md). Если идентификатор уже известен, проверьте данные отдела или команды методом [humanresources.node.get](../node/humanresources-node-get.md)
+3. Получите идентификаторы пользователей методом [user.get](../../../user/user-get.md), если нужно подготовить `userIds` для добавления, переноса или удаления участников
+4. Добавьте пользователей в нужный отдел или команду методом [humanresources.node.member.add](./humanresources-node-member-add.md)
+5. Используйте [humanresources.node.member.set](./humanresources-node-member-set.md), если нужно задать полный состав участников по ролям в одном запросе
+6. Перенесите участников в другой отдел или команду методом [humanresources.node.member.move](./humanresources-node-member-move.md), если нужно сменить их место в структуре
+7. Удалите участников методом [humanresources.node.member.remove](./humanresources-node-member-remove.md), если они больше не должны входить в отдел или команду
 
 ## Ограничения раздела
 
@@ -55,6 +56,8 @@
 || [humanresources.node.member.set](./humanresources-node-member-set.md) | Обновляет состав участников отдела или команды по ролям ||
 || [humanresources.node.member.move](./humanresources-node-member-move.md) | Переносит пользователей в другой отдел или команду ||
 || [humanresources.node.member.remove](./humanresources-node-member-remove.md) | Удаляет пользователей из отдела или команды ||
+|| [humanresources.node.member.field.list](./humanresources-node-member-field-list.md) | Возвращает список полей участника отдела или команды ||
+|| [humanresources.node.member.field.get](./humanresources-node-member-field-get.md) | Возвращает описание поля участника отдела или команды ||
 |#
 
 ## Продолжите изучение

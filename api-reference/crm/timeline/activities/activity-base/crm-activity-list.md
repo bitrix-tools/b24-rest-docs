@@ -111,7 +111,7 @@ Cм. описание [списочных методов](../../../../../setting
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"order":{"ID":"DESC"},"filter":{"OWNER_TYPE_ID":3,"OWNER_ID":102},"select":["*","COMMUNICATIONS"]}' \
+    -d '{"order":{"ID":"DESC"},"filter":{"OWNER_TYPE_ID":3,"OWNER_ID":102},"select":["*","COMMUNICATIONS"],"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.list
     ```
 
@@ -121,7 +121,7 @@ Cм. описание [списочных методов](../../../../../setting
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"order":{"ID":"DESC"},"filter":{"OWNER_TYPE_ID":3,"OWNER_ID":102},"select":["*","COMMUNICATIONS"],"auth":"**put_access_token_here**"}' \
+    -d '{"order":{"ID":"DESC"},"filter":{"OWNER_TYPE_ID":3,"OWNER_ID":102},"select":["*","COMMUNICATIONS"],"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.list
     ```
 
@@ -234,6 +234,75 @@ Cм. описание [списочных методов](../../../../../setting
 - PHP
 
     ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'order' => [
+                        'ID' => 'DESC',
+                    ],
+                    'filter' => [
+                        'OWNER_TYPE_ID' => 3,
+                        'OWNER_ID' => 102,
+                    ],
+                    'select' => [
+                        '*',
+                        'COMMUNICATIONS',
+                    ],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Activities: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.list',
+        {
+            order: {
+                ID: 'DESC',
+            },
+            filter: {
+                OWNER_TYPE_ID: 3,
+                OWNER_ID: 102,
+            },
+            select: [
+                '*',
+                'COMMUNICATIONS',
+            ],
+            start: 0,
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.dir(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
     require_once('crest.php');
 
     $result = CRest::call(
@@ -244,7 +313,8 @@ Cм. описание [списочных методов](../../../../../setting
                 'OWNER_TYPE_ID' => 3,
                 'OWNER_ID' => 102
             ],
-            'select' => [ '*', 'COMMUNICATIONS' ]
+            'select' => [ '*', 'COMMUNICATIONS' ],
+            'start' => 0
         ]
     );
 
@@ -469,7 +539,7 @@ HTTP-статус: **400**, **403**
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"order":{"ID":"DESC"},"filter":{"BINDINGS":[{"OWNER_TYPE_ID":2},{"OWNER_TYPE_ID":3}]},"select":["*","COMMUNICATIONS"]}' \
+    -d '{"order":{"ID":"DESC"},"filter":{"BINDINGS":[{"OWNER_TYPE_ID":2},{"OWNER_TYPE_ID":3}]},"select":["*","COMMUNICATIONS"],"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.list
     ```
 
@@ -479,7 +549,7 @@ HTTP-статус: **400**, **403**
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"order":{"ID":"DESC"},"filter":{"BINDINGS":[{"OWNER_TYPE_ID":2},{"OWNER_TYPE_ID":3}]},"select":["*","COMMUNICATIONS"],"auth":"**put_access_token_here**"}' \
+    -d '{"order":{"ID":"DESC"},"filter":{"BINDINGS":[{"OWNER_TYPE_ID":2},{"OWNER_TYPE_ID":3}]},"select":["*","COMMUNICATIONS"],"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.list
     ```
 
@@ -596,6 +666,87 @@ HTTP-статус: **400**, **403**
 - PHP
 
     ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'order' => [
+                        'ID' => 'DESC',
+                    ],
+                    'filter' => [
+                        'BINDINGS' => [
+                            [
+                                'OWNER_TYPE_ID' => 2,
+                            ],
+                            [
+                                'OWNER_TYPE_ID' => 3,
+                            ],
+                        ],
+                    ],
+                    'select' => [
+                        '*',
+                        'COMMUNICATIONS',
+                    ],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Activities: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.list',
+        {
+            order: {
+                ID: 'DESC',
+            },
+            filter: {
+                BINDINGS: [
+                    {
+                        OWNER_TYPE_ID: 2,
+                    },
+                    {
+                        OWNER_TYPE_ID: 3,
+                    },
+                ],
+            },
+            select: [
+                '*',
+                'COMMUNICATIONS',
+            ],
+            start: 0,
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.dir(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
     require_once('crest.php');
 
     $result = CRest::call(
@@ -608,7 +759,8 @@ HTTP-статус: **400**, **403**
                     ['OWNER_TYPE_ID' => 3]
                 ]
             ],
-            'select' => ['*', 'COMMUNICATIONS']
+            'select' => ['*', 'COMMUNICATIONS'],
+            'start' => 0
         ]
     );
 
@@ -629,7 +781,7 @@ HTTP-статус: **400**, **403**
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"ID":"20"},"select":["*","COMMUNICATIONS"]}' \
+    -d '{"filter":{"ID":"20"},"select":["*","COMMUNICATIONS"],"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.list
     ```
 
@@ -639,7 +791,7 @@ HTTP-статус: **400**, **403**
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"ID":"20"},"select":["*","COMMUNICATIONS"],"auth":"**put_access_token_here**"}' \
+    -d '{"filter":{"ID":"20"},"select":["*","COMMUNICATIONS"],"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.list
     ```
 
@@ -749,6 +901,67 @@ HTTP-статус: **400**, **403**
 - PHP
 
     ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'filter' => [
+                        'ID' => '20',
+                    ],
+                    'select' => [
+                        '*',
+                        'COMMUNICATIONS',
+                    ],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Activity communications: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity communications: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.list',
+        {
+            filter: {
+                ID: '20',
+            },
+            select: [
+                '*',
+                'COMMUNICATIONS',
+            ],
+            start: 0,
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.dir(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
     require_once('crest.php');
 
     $result = CRest::call(
@@ -757,7 +970,8 @@ HTTP-статус: **400**, **403**
             'filter' => [
                 'ID' => '20'
             ],
-            'select' => ['*', 'COMMUNICATIONS']
+            'select' => ['*', 'COMMUNICATIONS'],
+            'start' => 0
         ]
     );
 
@@ -818,7 +1032,7 @@ HTTP-статус: **200**
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"ID":"101121"},"select":["*","STORAGE_ELEMENT_IDS"]}' \
+    -d '{"filter":{"ID":"101121"},"select":["*","STORAGE_ELEMENT_IDS"],"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.list
     ```
 
@@ -828,7 +1042,7 @@ HTTP-статус: **200**
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"ID":"101121"},"select":["*","STORAGE_ELEMENT_IDS"],"auth":"**put_access_token_here**"}' \
+    -d '{"filter":{"ID":"101121"},"select":["*","STORAGE_ELEMENT_IDS"],"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.list
     ```
 
@@ -935,6 +1149,67 @@ HTTP-статус: **200**
 - PHP
 
     ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'filter' => [
+                        'ID' => '101121',
+                    ],
+                    'select' => [
+                        '*',
+                        'STORAGE_ELEMENT_IDS',
+                    ],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Activity files: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity files: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.list',
+        {
+            filter: {
+                ID: '101121',
+            },
+            select: [
+                '*',
+                'STORAGE_ELEMENT_IDS',
+            ],
+            start: 0,
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.dir(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
     require_once('crest.php');
 
     $result = CRest::call(
@@ -943,7 +1218,8 @@ HTTP-статус: **200**
             'filter' => [
                 'ID' => '101121'
             ],
-            'select' => ['*', 'STORAGE_ELEMENT_IDS']
+            'select' => ['*', 'STORAGE_ELEMENT_IDS'],
+            'start' => 0
         ]
     );
 

@@ -64,7 +64,7 @@
   ```text
   Проект    | BUGS
   Категория | im
-  Дедлайн   | 04.11.2015 17:50:43
+  Дедлайн   | 24.06.2026 17:50:43
   ```
 
 {% note warning %}
@@ -279,6 +279,64 @@
                 'NAME' => 'Категория',
                 'VALUE' => 'Пожелания',
                 'DISPLAY' => 'ROW'
+            ]
+        ]
+    ]
+    ```
+
+{% endlist %}
+
+### Табличное представление
+
+`DISPLAY: 'TABLE'` выводит пары `NAME` и `VALUE` в компактной таблице.
+
+#### Пример
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    {
+        GRID: [
+            {
+                NAME: 'Проект',
+                VALUE: 'BUGS',
+                DISPLAY: 'TABLE'
+            },
+            {
+                NAME: 'Категория',
+                VALUE: 'im',
+                DISPLAY: 'TABLE'
+            },
+            {
+                NAME: 'Дедлайн',
+                VALUE: '24.06.2026 17:50:43',
+                DISPLAY: 'TABLE'
+            }
+        ]
+    }
+    ```
+
+- PHP
+
+    ```php
+    [
+        'GRID' => [
+            [
+                'NAME' => 'Проект',
+                'VALUE' => 'BUGS',
+                'DISPLAY' => 'TABLE'
+            ],
+            [
+                'NAME' => 'Категория',
+                'VALUE' => 'im',
+                'DISPLAY' => 'TABLE'
+            ],
+            [
+                'NAME' => 'Дедлайн',
+                'VALUE' => '24.06.2026 17:50:43',
+                'DISPLAY' => 'TABLE'
             ]
         ]
     ]

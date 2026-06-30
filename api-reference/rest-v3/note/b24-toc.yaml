@@ -1,0 +1,17 @@
+title: База знаний 2.0
+href: index.md
+items:
+  - name: Обзор разделов
+    href: index.md
+  - name: Базы знаний
+    include:
+      path: collection/b24-toc.yaml
+      mode: link
+  - name: Документы
+    include:
+      path: document/b24-toc.yaml
+      mode: link
+  - name: Файлы
+    include:
+      path: file/b24-toc.yaml
+      mode: link

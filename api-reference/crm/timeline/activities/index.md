@@ -114,6 +114,7 @@
     || [crm.activity.get](./activity-base/crm-activity-get.md) | Возвращает дело по идентификатору ||
     || [crm.activity.list](./activity-base/crm-activity-list.md) | Возвращает список дел всех типов по фильтру ||
     || [crm.activity.delete](./activity-base/crm-activity-delete.md) | Удаляет любой тип дел ||
+    || [crm.activity.call.getTranscript](./activity-base/crm-activity-call-get-transcript.md) | Возвращает готовую расшифровку звонка ||
     || [crm.activity.fields](./activity-base/crm-activity-fields.md) | Возвращает описание полей дел ||
     || [crm.activity.communication.fields](./activity-base/crm-activity-communication-fields.md) | Возвращает описание полей коммуникации ||
     |#

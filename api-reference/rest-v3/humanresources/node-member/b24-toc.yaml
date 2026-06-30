@@ -11,3 +11,7 @@ items:
     href: humanresources-node-member-move.md
   - name: Удалить участников
     href: humanresources-node-member-remove.md
+  - name: Получить список полей участника
+    href: humanresources-node-member-field-list.md
+  - name: Получить поле участника
+    href: humanresources-node-member-field-get.md
