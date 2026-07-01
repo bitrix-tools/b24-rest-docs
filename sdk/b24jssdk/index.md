@@ -27,7 +27,7 @@
 
 ### Установка в Node.js / Nuxt
 
-Подробности можно найти в [документации B24JsSDK](https://bitrix-tools.github.io/b24jssdk/guide/getting-started.html).
+Подробности можно найти в [документации B24JsSDK](https://bitrix-tools.github.io/b24jssdk/docs/getting-started).
 
 ### Использование в браузере
 
@@ -74,7 +74,7 @@
 
 ## Использование с вебхуками
 
-Для работы с локальными вебхуками используйте их только в [серверных приложениях](https://bitrix-tools.github.io/b24jssdk/guide/getting-started.html).
+Для работы с локальными вебхуками используйте их только в [серверных приложениях](https://bitrix-tools.github.io/b24jssdk/docs/getting-started#for-server-applications-with-webhook-b24hook).
 
 Пример серверного использования SDK: [https://github.com/bitrix24/b24sdk-examples/tree/main/js/05-node-hook](https://github.com/bitrix24/b24sdk-examples/tree/main/js/05-node-hook)
 
