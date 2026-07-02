@@ -14,6 +14,7 @@ staticContent: true
 
 extensions:
   - './extensions/copy-md-button'
+  - './extensions/faq-schema'
 
 feedback:
   url: https://util.1c-bitrix.ru/rest-doc/feedback-control.php
