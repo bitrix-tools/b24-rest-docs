@@ -34,7 +34,7 @@
 - [коммерческих предложений](../../quote/index.md) — [crm.quote.userfield.add](../../quote/user-field/crm-quote-user-field-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
 - [смарт-процессов](../index.md) — [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md).
 
-В поле `USER_TYPE_ID` передавайте значение по форме `rest_#ID_приложения#_#USER_TYPE_ID#`. Например, для приложения с `ID: 123` и `USER_TYPE_ID: userfield1` значение будет `rest_123_test_userfield1`.
+В поле `USER_TYPE_ID` передавайте значение по форме `rest_#ID_приложения#_#USER_TYPE_ID#`. Например, для приложения с `ID: 123` и `USER_TYPE_ID: userfield1` значение будет `rest_123_userfield1`.
 
 Чтобы получить `ID` приложения, используйте метод [app.info](../../../common/system/app-info.md).
 
@@ -90,7 +90,7 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
--  [Встроить виджет в лид в виде пользовательского свойства](../../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page)
+-  [Встроить виджет в лид в виде пользовательского поля](../../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page)
 
 -  [Механизм встройки виджетов](../../../widgets/index)
 

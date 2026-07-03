@@ -5,3 +5,5 @@ items:
     href: index.md
   - name: Как создать коннектор открытых линий для чата на сайте
     href: example-connector.md
+  - name: Как найти CRM-объект, созданный из диалога открытой линии
+    href: find-crm-object-by-dialog.md

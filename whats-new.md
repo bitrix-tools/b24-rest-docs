@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 03 июля, 2026
+
+- Добавили туториал [Как найти CRM-объект, созданный из диалога открытой линии](./tutorials/openlines/find-crm-object-by-dialog.md)
+
 ### 30 июня, 2026
 
 - Добавили метод [crm.activity.call.getTranscript](./api-reference/crm/timeline/activities/activity-base/crm-activity-call-get-transcript.md)
