@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
 Метод `event.offline.list` для чтения текущей очереди без внесения изменений в ее состояние в отличие от [event.offline.get](./event-offline-get.md). Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
 
@@ -307,6 +307,24 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied!"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
