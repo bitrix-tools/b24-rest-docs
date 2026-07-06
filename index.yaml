@@ -470,7 +470,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: 'change-article.html'
+            url: 'feedback.html'
         border: none
         theme: 'light'
       - type: 'background-card'

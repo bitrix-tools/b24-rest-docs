@@ -271,7 +271,9 @@ HTTP-статус: **200**
 || **assetMarkdown**
 [`string`](../../../data-types.md) | Готовый блок Markdown для вставки в документ в формате `[[<assetType> fileId=<id>]]`.
 
-Чтобы вложение появилось в документе, передайте этот блок в `markdown` через [note.document.update](../document/note-document-update.md) ||
+Чтобы вложение появилось в документе, передайте этот блок в `markdown` через [note.document.update](../document/note-document-update.md).
+
+Перед вставкой изображения или видео блок можно дополнить параметрами масштаба и выравнивания. Подробнее о параметрах читайте в описании поля `markdown` метода [note.document.update](../document/note-document-update.md) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

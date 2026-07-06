@@ -57,6 +57,12 @@
 
 Чтобы добавить в документ файл, вставьте `assetMarkdown`, полученный методом [note.file.get](../file/note-file-get.md) или [note.file.add](../file/note-file-add.md), отдельной строкой с начала строки, без префикса и суффикса в той же строке.
 
+Для изображений и видео блок можно дополнить параметрами `width` и `align`, например `[[image fileId=5001 width=30.98 align=left]]`.
+
+Параметр `width` задает ширину в процентах от контейнера редактора. Значение может содержать до двух знаков после запятой. Для блока без `align` допустим диапазон от `10` до `100`, для `align=left` или `align=right` — от `10` до `70`.
+
+Параметр `align` задает выравнивание. Возможные значения: `left`, `right`. Центрирование применяется по умолчанию, поэтому значение `center` передавать не нужно.
+
 Максимальный размер: `1 048 576` байт.
 
 Передайте `fields.title`, `fields.markdown` или оба поля сразу ||
@@ -88,7 +94,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":77,"fields":{"title":"Глава 1 (обновлено)","markdown":"# Глава 1\n\nОбновленный текст"},"overwrite":false}' \
+    -d '{"id":77,"fields":{"title":"Глава 1 (обновлено)","markdown":"# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]"},"overwrite":false}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/note.document.update
     ```
 
@@ -98,7 +104,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":77,"fields":{"title":"Глава 1 (обновлено)","markdown":"# Глава 1\n\nОбновленный текст"},"overwrite":false,"auth":"**put_access_token_here**"}' \
+    -d '{"id":77,"fields":{"title":"Глава 1 (обновлено)","markdown":"# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]"},"overwrite":false,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/note.document.update
     ```
 
@@ -132,7 +138,7 @@
           id: 77,
           fields: {
             title: 'Глава 1 (обновлено)',
-            markdown: '# Глава 1\n\nОбновленный текст',
+            markdown: '# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]',
           },
           overwrite: false,
         },
@@ -165,7 +171,7 @@
               id: 77,
               fields: {
                 title: 'Глава 1 (обновлено)',
-                markdown: '# Глава 1\n\nОбновленный текст',
+                markdown: '# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]',
               },
               overwrite: false,
             },
@@ -202,7 +208,7 @@
                     'id' => 77,
                     'fields' => [
                         'title' => 'Глава 1 (обновлено)',
-                        'markdown' => "# Глава 1\n\nОбновленный текст",
+                        'markdown' => "# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]",
                     ],
                     'overwrite' => false,
                 ]
@@ -231,7 +237,7 @@
             id: 77,
             fields: {
                 title: 'Глава 1 (обновлено)',
-                markdown: '# Глава 1\n\nОбновленный текст'
+                markdown: '# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]'
             },
             overwrite: false
         },
@@ -255,7 +261,7 @@
             'id' => 77,
             'fields' => [
                 'title' => 'Глава 1 (обновлено)',
-                'markdown' => "# Глава 1\n\nОбновленный текст"
+                'markdown' => "# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]"
             ],
             'overwrite' => false
         ]
@@ -280,7 +286,7 @@ HTTP-статус: **200**
             "collectionId": 42,
             "parentId": 10,
             "title": "Глава 1 (обновлено)",
-            "markdown": "# Глава 1\n\nОбновленный текст",
+            "markdown": "# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]",
             "position": 5,
             "createdBy": 1,
             "updatedBy": 1,
