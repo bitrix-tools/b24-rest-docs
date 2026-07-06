@@ -1,71 +1,303 @@
-# Как изменить время запланированного дела
-
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-Туториал убран из меню. Надо переделывать, crm.activity.update не актуален
-
-{% endnote %}
-
-{% endif %}
+# Как перенести запланированное дело на другую дату
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с административным доступом к разделу CRM
+> Кто может выполнять метод: пользователь с правом на редактирование элемента CRM, для которого обновляется дело
 
-Пример изменения времени запланированного дела на завтра с началом в то же время и завершением позднее на 2 часа.
+{% note tip "" %}
+
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
+
+{% endnote %}
+
+Запланированное дело помогает ответственному сотруднику не пропустить следующий шаг по клиенту: позвонить, написать письмо или подготовить документы. Если срок изменился, нужно обновить крайний срок дела в таймлайне CRM.
+
+Например, перенесем запланированное дело на завтра: дату крайнего срока изменим, а время оставим таким же. Также укажем название и добавим напоминания за 15 минут до срока и в момент наступления срока.
+
+Для переноса дела используем метод [crm.activity.todo.update](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update.md). В него нужно передать идентификатор дела и элемент CRM, к которому дело привязано.
+
+Сценарий состоит из двух шагов.
+
+1. Найти незакрытое дело методом [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md).
+2. Передать данные дела в метод [crm.activity.todo.update](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update.md) и обновить крайний срок.
+
+## 1. Подготовим данные
+
+Чтобы обновить дело, нужны значения:
+
+- `id` — идентификатор дела в таймлайне,
+- `ownerTypeId` — [идентификатор типа объекта CRM](../../../api-reference/crm/data-types.md#object_type), к которому привязано дело,
+- `ownerId` — идентификатор элемента CRM, к которому привязано дело,
+- `deadline` — текущий крайний срок дела, из которого возьмем время и часовой пояс для нового срока в формате [ISO 8601](https://www.php.net/manual/ru/class.datetimeinterface.php#datetimeinterface.constants.atom).
+
+Метод [crm.activity.todo.update](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update.md) не обновляет закрытые дела. Чтобы получить незакрытое дело, вызовите метод [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) с фильтром `COMPLETED: 'N'`.
+
+В примере получим первое незакрытое дело, которое привязано к сделке `18`. Для сделки значение `OWNER_TYPE_ID` равно `2`.
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    let activityID = 42;
-    let timeStart = Math.floor(Date.now() / 1000) + 86400; // tomorrow
-    let timeEnd = timeStart + 7200; // tomorrow plus 2 hours
+    ```js
+    const dealId = 18;
 
     BX24.callMethod(
-        "crm.activity.update",
+        'crm.activity.list',
         {
-            id: activityID,
-            fields: {
-                "START_TIME": new Date(timeStart * 1000).toISOString().slice(0, 19).replace('T', ' '),
-                "END_TIME": new Date(timeEnd * 1000).toISOString().slice(0, 19).replace('T', ' ')
-            }
+            filter: {
+                OWNER_TYPE_ID: 2,
+                OWNER_ID: dealId,
+                COMPLETED: 'N'
+            },
+            select: [
+                'ID',
+                'OWNER_TYPE_ID',
+                'OWNER_ID',
+                'SUBJECT',
+                'DEADLINE',
+                'COMPLETED',
+                'RESPONSIBLE_ID'
+            ]
         },
         function(result) {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
+            if (result.error()) {
+                console.error(result.error() + ': ' + result.error_description());
+                return;
+            }
+
+            const activity = result.data()[0];
+
+            if (!activity) {
+                console.log('Незакрытые дела не найдены');
+                return;
+            }
+
+            const activityId = Number(activity.ID);
+            const ownerTypeId = Number(activity.OWNER_TYPE_ID);
+            const ownerId = Number(activity.OWNER_ID);
+            const currentDeadline = activity.DEADLINE;
+            const responsibleId = Number(activity.RESPONSIBLE_ID);
+
+            console.log(activityId, ownerTypeId, ownerId, currentDeadline, responsibleId);
         }
     );
     ```
 
 - PHP
 
-    {% note info %}
-
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../first-steps/how-to-use-examples.md)
-
-    {% endnote %}
-
     ```php
     <?php
-    $activityID = 42;
-    $timeStart = time() + 86400; //tomorrow
-    $timeEnd = time() + 86400 + 7200; //tomorrow plus 2 hours
-    CRest::call(
-        'crm.activity.update',
+    require_once('crest.php');
+
+    $dealId = 18;
+
+    $activitiesResult = CRest::call(
+        'crm.activity.list',
         [
-            'id' => $activityID,
-            'fields' => [
-                "START_TIME" => date("Y-m-d H:i:s", $timeStart),
-                "END_TIME" => date("Y-m-d H:i:s", $timeEnd),
+            'filter' => [
+                'OWNER_TYPE_ID' => 2,
+                'OWNER_ID' => $dealId,
+                'COMPLETED' => 'N'
+            ],
+            'select' => [
+                'ID',
+                'OWNER_TYPE_ID',
+                'OWNER_ID',
+                'SUBJECT',
+                'DEADLINE',
+                'COMPLETED',
+                'RESPONSIBLE_ID'
             ]
         ]
     );
+
+    $activity = $activitiesResult['result'][0] ?? null;
+
+    if (empty($activity))
+    {
+        echo 'Незакрытые дела не найдены';
+        return;
+    }
+
+    $activityId = (int)$activity['ID'];
+    $ownerTypeId = (int)$activity['OWNER_TYPE_ID'];
+    $ownerId = (int)$activity['OWNER_ID'];
+    $currentDeadline = $activity['DEADLINE'];
+    $responsibleId = (int)$activity['RESPONSIBLE_ID'];
+    ?>
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    deal_id = 18
+
+    activities = client.crm.activity.list(
+        filter={
+            "OWNER_TYPE_ID": 2,
+            "OWNER_ID": deal_id,
+            "COMPLETED": "N",
+        },
+        select=[
+            "ID",
+            "OWNER_TYPE_ID",
+            "OWNER_ID",
+            "SUBJECT",
+            "DEADLINE",
+            "COMPLETED",
+            "RESPONSIBLE_ID",
+        ],
+    ).response.result
+
+    if not activities:
+        print("Незакрытые дела не найдены")
+        raise SystemExit
+
+    activity = activities[0]
+    activity_id = int(activity["ID"])
+    owner_type_id = int(activity["OWNER_TYPE_ID"])
+    owner_id = int(activity["OWNER_ID"])
+    current_deadline = activity["DEADLINE"]
+    responsible_id = int(activity["RESPONSIBLE_ID"])
+    ```
+
+{% endlist %}
+
+Из первого элемента массива `result` возьмите значения для обновления дела. Поле `ID` — идентификатор найденного дела.
+
+```json
+{
+    "ID": "555",
+    "OWNER_TYPE_ID": "2",
+    "OWNER_ID": "18",
+    "SUBJECT": "Связаться с клиентом",
+    "DEADLINE": "2026-08-14T10:00:00+03:00",
+    "COMPLETED": "N",
+    "RESPONSIBLE_ID": "1"
+}
+```
+
+## 2. Обновим крайний срок дела
+
+Метод [crm.activity.todo.update](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update.md) обновляет универсальное дело. Для переноса дела на завтра передадим параметры:
+
+- `id` — `555`, идентификатор найденного дела из поля `ID` ответа [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md).
+- `ownerTypeId` — `2`, идентификатор типа объекта CRM из поля `OWNER_TYPE_ID` предыдущего шага.
+- `ownerId` — `18`, идентификатор элемента CRM из поля `OWNER_ID` предыдущего шага.
+- `deadline` — новый крайний срок дела. Дату берем от завтрашнего дня, а время и часовой пояс переносим из `DEADLINE` предыдущего шага. Например, если код выполняется `2026-07-06`, значение `2026-08-14T10:00:00+03:00` станет `2026-07-07T10:00:00+03:00`.
+- `title` — `Связаться с клиентом`, название дела.
+- `responsibleId` — `1`, идентификатор ответственного сотрудника из поля `RESPONSIBLE_ID` предыдущего шага.
+- `pingOffsets` — `[0, 15]`, напоминания в момент наступления срока и за 15 минут до него.
+- `colorId` — `2`, цвет дела в таймлайне.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const activityId = 555;
+    const ownerTypeId = 2;
+    const ownerId = 18;
+    const responsibleId = 1;
+    const currentDeadline = '2026-08-14T10:00:00+03:00';
+
+    function getTomorrowDeadlineWithSameTime(isoDateTime) {
+        const dateTimeParts = isoDateTime.match(/^\d{4}-\d{2}-\d{2}(T.+)$/);
+
+        if (!dateTimeParts) {
+            throw new Error('Некорректный формат даты');
+        }
+
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        const year = tomorrow.getFullYear();
+        const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        const day = String(tomorrow.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}${dateTimeParts[1]}`;
+    }
+
+    const deadline = getTomorrowDeadlineWithSameTime(currentDeadline);
+
+    BX24.callMethod(
+        'crm.activity.todo.update',
+        {
+            id: activityId,
+            ownerTypeId: ownerTypeId,
+            ownerId: ownerId,
+            deadline: deadline,
+            title: 'Связаться с клиентом',
+            responsibleId: responsibleId,
+            pingOffsets: [0, 15],
+            colorId: '2'
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error() + ': ' + result.error_description());
+            } else {
+                console.log('Дело обновлено: ' + result.data().id);
+            }
+        }
+    );
+    ```
+
+- PHP
+
+    ```php
+    <?php
+    require_once('crest.php');
+
+    $activityId = 555;
+    $ownerTypeId = 2;
+    $ownerId = 18;
+    $responsibleId = 1;
+    $currentDeadline = '2026-08-14T10:00:00+03:00';
+
+    $currentDeadlineDate = new DateTime($currentDeadline);
+    $deadline = new DateTime('tomorrow', $currentDeadlineDate->getTimezone());
+    $deadline->setTime(
+        (int)$currentDeadlineDate->format('H'),
+        (int)$currentDeadlineDate->format('i'),
+        (int)$currentDeadlineDate->format('s')
+    );
+
+    $result = CRest::call(
+        'crm.activity.todo.update',
+        [
+            'id' => $activityId,
+            'ownerTypeId' => $ownerTypeId,
+            'ownerId' => $ownerId,
+            'deadline' => $deadline->format(DateTimeInterface::ATOM),
+            'title' => 'Связаться с клиентом',
+            'responsibleId' => $responsibleId,
+            'pingOffsets' => [0, 15],
+            'colorId' => '2'
+        ]
+    );
+
+    if (!empty($result['error']))
+    {
+        echo 'Ошибка: '.$result['error_description'];
+    }
+    else
+    {
+        echo 'Дело обновлено: '.$result['result']['id'];
+    }
     ?>
     ```
 
@@ -84,20 +316,57 @@
         )
     )
 
-    activity_id = 42
-    time_start = datetime.now() + timedelta(days=1)
-    time_end = time_start + timedelta(hours=2)
+    activity_id = 555
+    owner_type_id = 2
+    owner_id = 18
+    responsible_id = 1
+    current_deadline = datetime.fromisoformat("2026-08-14T10:00:00+03:00")
+    tomorrow = datetime.now(current_deadline.tzinfo).date() + timedelta(days=1)
+    deadline = datetime.combine(tomorrow, current_deadline.timetz())
 
     try:
-        client.crm.activity.update(
+        response = client.crm.activity.todo.update(
             bitrix_id=activity_id,
-            fields={
-                "START_TIME": time_start.strftime("%Y-%m-%d %H:%M:%S"),
-                "END_TIME": time_end.strftime("%Y-%m-%d %H:%M:%S"),
-            },
+            owner_type_id=owner_type_id,
+            owner_id=owner_id,
+            deadline=deadline,
+            title="Связаться с клиентом",
+            responsible_id=responsible_id,
+            ping_offsets=[0, 15],
+            color_id="2",
         ).response
+        print(f"Дело обновлено: {response.result['id']}")
     except BitrixAPIError as error:
-        print(error)
+        print(f"Ошибка: {error}")
     ```
 
 {% endlist %}
+
+Если дело обновлено успешно, метод вернет идентификатор дела.
+
+```json
+{
+    "result": {
+        "id": 555
+    }
+}
+```
+
+## Проверим результат
+
+Откройте элемент CRM, к которому привязано дело. В таймлайне изменится крайний срок дела. Если указаны `pingOffsets`, Битрикс24 создаст напоминания относительно нового срока.
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+- `CAN_NOT_UPDATE_COMPLETED_TODO` — дело уже закрыто. Закрытые дела нельзя изменять.
+- `WRONG_DATETIME_FORMAT` — значение `deadline` передано в некорректном формате.
+- `NOT_FOUND` — элемент CRM или дело не найдены. Проверьте `id`, `ownerTypeId` и `ownerId`.
+- `ACCESS_DENIED` — у пользователя нет прав на изменение элемента CRM.
+- `OWNER_NOT_FOUND` — элемент CRM, к которому привязано дело, не найден.
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update.md)
+- [{#T}](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-add.md)
+- [{#T}](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md)
+- [{#T}](./how-to-move-activity.md)

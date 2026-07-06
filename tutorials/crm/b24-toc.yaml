@@ -1,7 +1,7 @@
 title: Частые кейсы и сценарии по REST API для CRM
 href: index.md
 items: 
-  - name: Как сделать... в CRM?
+  - name: Типовые кейсы использования REST API в CRM и туториалы
     href: index.md
   - name: Добавить данные
     include:

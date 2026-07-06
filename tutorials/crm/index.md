@@ -1,6 +1,4 @@
-# Типовые кейсы использования REST API в CRM и туториалы
-
-В этом разделе вы найдете готовые примеры для решения типовых задач, связанных с CRM.
+# CRM: типовые сценарии
 
 {% note tip "" %}
 
@@ -11,46 +9,66 @@
 
 {% endnote %}
 
-## Как создавать лиды, сделки и другие объекты CRM
+Интеграция с CRM начинается с прикладной задачи: создать клиента или сделку, обновить карточку, получить списки, передать сквозную аналитику или встроить интерфейс приложения.
 
-- [{#T}](how-to-add-crm-objects/how-to-add-lead.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-lead-with-files.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md)
-- [{#T}](how-to-add-crm-objects/how-to-send-email.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-repeat-lead.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-contact.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-contact-with-requisite.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-company.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-company-with-requisite.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-activity-to-contact.md)
-- [{#T}](how-to-add-crm-objects/how-to-generate-documents.md) 
-- [{#T}](how-to-add-crm-objects/how-to-add-comment-to-spa.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
-- [{#T}](how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+Туториалы помогают выбрать рабочий сценарий и не собирать цепочку методов вручную. В каждом сценарии указаны права доступа, порядок запросов, идентификаторы для передачи между методами, пример кода и результат, который нужно проверить.
 
-## Как заменить устаревший номер телефона у существующего клиента, как обновить информацию о товаре и другие примеры
+> Быстрый переход: [как выбрать направление](#choose-section) и [частые сценарии](#popular-tutorials)
+> 
+> Пользовательская документация: [Как начать работать с CRM в Битрикс24](https://helpdesk.bitrix24.ru/open/26035204/)
 
-- [{#T}](how-to-edit-crm-objects/how-to-change-email-or-phone.md)
-- [{#T}](how-to-edit-crm-objects/how-to-generate-edit-form-for-lead.md)
-- [{#T}](how-to-edit-crm-objects/how-to-make-contact-edit-card.md)
-- [{#T}](how-to-edit-crm-objects/how-to-generate-edit-form-for-company.md)
-- [{#T}](how-to-edit-crm-objects/how-to-generate-edit-form-for-deal.md)
+## Связь с объектами CRM
 
-## Как найти клиентов по телефону, как получить все дела клиента и другие примеры работы со списками элементов
+Сценарии работают с основными объектами CRM и связанными данными.
 
-- [{#T}](how-to-get-lists/search-by-phone-and-email.md)
-- [{#T}](how-to-get-lists/get-activity-list-by-deals.md)
-- [{#T}](how-to-get-lists/how-to-get-stages-with-semantics.md)
-- [{#T}](how-to-get-lists/how-to-get-deal-funnels.md)
-- [{#T}](how-to-get-lists/how-to-get-address.md)
+**Лиды, контакты, компании и сделки.** Основные карточки клиентов и продаж можно создать, обновить и получить с помощью методов [crm.lead.*](../../api-reference/crm/leads/index.md), [crm.contact.*](../../api-reference/crm/contacts/index.md), [crm.company.*](../../api-reference/crm/companies/index.md) и [crm.deal.*](../../api-reference/crm/deals/index.md).
 
-## Как использовать инструменты сквозной аналитики Битрикс24
+**Дела и таймлайн.** Звонки, письма, встречи, задачи и комментарии связывают с карточками CRM через методы [дел](../../api-reference/crm/timeline/activities/index.md) и [комментариев таймлайна](../../api-reference/crm/timeline/comments/index.md).
 
-- [{#T}](how-to-use-analitycs/info-to-analitics.md)
-- [{#T}](how-to-use-analitycs/use-analitics-for-add-lead.md)
-- [{#T}](how-to-use-analitycs/use-analitics-for-add-contact.md)
+**Реквизиты, адреса и товарные позиции.** Связанные данные хранятся отдельно от карточки CRM. Их создают и привязывают к клиенту, сделке или документу методами [реквизитов](../../api-reference/crm/requisites/index.md), [адресов](../../api-reference/crm/requisites/addresses/index.md), [товарных позиций](../../api-reference/crm/universal/product-rows/index.md) и [каталога](../../api-reference/catalog/index.md).
 
-## Как добавить свою вкладку в карточку сделки, как добавить свои кнопки в карточку лида и другие примеры виджетов CRM
+**Смарт-процессы.** Пользовательские типы CRM работают через `entityTypeId` — идентификатор типа объекта. Для создания элементов, воронок, стадий и пользовательских полей применяют универсальные методы [crm.item.*](../../api-reference/crm/universal/index.md).
 
-- [{#T}](crm-widgets/widget-as-field-in-lead-page.md)
+**Сквозная аналитика.** Источник обращения и маршрут клиента передают в CRM через UTM-поля, поле `TRACE` или метод [crm.tracking.trace.add](../../api-reference/crm/tracking/crm-tracking-trace-add.md).
+
+**Виджеты CRM.** Интерфейс приложения можно встроить в карточку CRM через пользовательское поле или вкладку. Для регистрации обработчиков используйте методы и точки встраивания [виджетов](../../api-reference/widgets/index.md).
+
+## Как начать работу
+
+1. Определите задачу интеграции: создать объект, изменить данные, получить список, передать аналитику или встроить интерфейс.
+2. Выберите направление в таблице [Как выбрать направление](#choose-section).
+3. Откройте обзор выбранного направления и найдите сценарий по задаче.
+4. Проверьте права доступа и scopes, которые указаны в сценарии.
+5. Подготовьте идентификаторы объектов CRM, полей, стадий или пользователей, которые нужны для запросов.
+6. Выполните методы в порядке, который описан в сценарии.
+
+## Как выбрать направление {#choose-section}
+
+#|
+|| **Если нужно** | **Откройте** | **Что найдете** ||
+|| Создать лид, контакт, компанию, сделку, дело, документ или элемент смарт-процесса | [Добавить данные](./how-to-add-crm-objects/index.md) | 19 сценариев создания объектов CRM и связанных данных. Основные методы и группы: `crm.lead.add`, `crm.contact.add`, `crm.company.add`, `crm.deal.add`, `crm.item.add`, `crm.activity.*`, `crm.requisite.*` ||
+|| Изменить поля карточки, телефоны, email, дату дела, привязку дела или дату оплаты | [Редактировать данные](./how-to-edit-crm-objects/index.md) | 10 сценариев обновления данных CRM. Основные методы и группы: `crm.lead.update`, `crm.contact.update`, `crm.company.update`, `crm.deal.update`, `crm.activity.binding.*`, `crm.item.payment.list`, `crm.deal.userfield.*` ||
+|| Найти дубли, получить дела, стадии, воронки, адреса, поставщиков или элементы по фильтру | [Получить списки](./how-to-get-lists/index.md) | 7 сценариев выборки данных из CRM. Основные методы и группы: `crm.duplicate.findbycomm`, `crm.*.list`, `crm.activity.list`, `crm.status.*`, `crm.category.*`, `crm.item.list`, `crm.requisite.*` ||
+|| Передать UTM-метки, `TRACE` или связать созданные объекты с трейсом | [Сквозная аналитика](./how-to-use-analitycs/index.md) | 3 сценария передачи данных аналитики. Основные методы: `crm.lead.add`, `crm.contact.add`, `crm.company.add`, `crm.deal.add`, `crm.item.add`, `crm.tracking.trace.add` ||
+|| Добавить интерфейс приложения в карточку CRM | [Как встраивать виджеты в CRM](./crm-widgets/index.md) | 2 сценария для пользовательского поля лида и вкладки карточки CRM. Основные методы и точки встраивания: `userfieldtype.add`, `placement.bind`, CRM ||
+|#
+
+## Частые сценарии {#popular-tutorials}
+
+Таблица ниже — выборка задач, с которых начинают работу с CRM. Полный список материалов смотрите в обзорах направлений: [добавить данные](./how-to-add-crm-objects/index.md), [редактировать данные](./how-to-edit-crm-objects/index.md), [получить списки](./how-to-get-lists/index.md), [сквозная аналитика](./how-to-use-analitycs/index.md) и [виджеты CRM](./crm-widgets/index.md).
+
+#|
+|| **Если нужно** | **Откройте** ||
+|| Добавить лид из формы сайта | [Как добавить лид](./how-to-add-crm-objects/how-to-add-lead.md) ||
+|| Добавить лид с файлами | [Как добавить лид с файлами](./how-to-add-crm-objects/how-to-add-lead-with-files.md) ||
+|| Добавить контакт или компанию с реквизитами | [Как добавить контакт с реквизитами](./how-to-add-crm-objects/how-to-add-contact-with-requisite.md) или [как добавить компанию с реквизитами](./how-to-add-crm-objects/how-to-add-company-with-requisite.md) ||
+|| Добавить сделку и выбрать реквизиты компании | [Как добавить сделку и компанию с реквизитами](./how-to-add-crm-objects/how-to-add-deal-with-choice-of-requisite.md) ||
+|| Создать дело в лиде или сделке с учетом режима CRM | [Как добавить дело в новый лид или сделку в зависимости от режима CRM](./how-to-add-crm-objects/how-to-add-objects-with-crm-mode.md) ||
+|| Изменить дату запланированного дела | [Как изменить время запланированного дела](./how-to-edit-crm-objects/how-to-change-date-in-activity.md) ||
+|| Изменить телефон или email клиента | [Как изменить или удалить номера телефонов и email](./how-to-edit-crm-objects/how-to-change-email-or-phone.md) ||
+|| Перенести дело между карточками CRM | [Как перенести дело между элементами одного типа](./how-to-edit-crm-objects/how-to-move-activity.md) или [как перенести дело из одного типа объекта в другой](./how-to-edit-crm-objects/how-to-move-activity-between-objects.md) ||
+|| Найти дубли по телефону или email | [Как найти дубликаты в CRM по телефону и email](./how-to-get-lists/search-by-phone-and-email.md) ||
+|| Получить стадии, воронки или элементы по стадии | [Как получить список стадий с семантикой](./how-to-get-lists/how-to-get-stages-with-semantics.md), [как получить воронки сделок](./how-to-get-lists/how-to-get-deal-funnels.md) или [как отфильтровать элементы по названию стадии](./how-to-get-lists/how-to-get-elements-by-stage-filter.md) ||
+|| Передать данные сквозной аналитики при создании лида или сделки | [Как использовать сквозную аналитику при создании лида](./how-to-use-analitycs/use-analitics-for-add-lead.md) или [как использовать сквозную аналитику при создании сделки и контакта](./how-to-use-analitycs/use-analitics-for-add-contact.md) ||
+|| Встроить интерфейс приложения в карточку CRM | [Как встроить виджет в лид в виде пользовательского поля](./crm-widgets/widget-as-field-in-lead-page.md) или [как встроить виджет во вкладку карточки CRM](./crm-widgets/widget-as-detail-tab.md) ||
+|#

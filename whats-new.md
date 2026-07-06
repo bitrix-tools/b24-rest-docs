@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 06 июля, 2026
+
+- Добавили туториал [Как перенести запланированное дело на другую дату](./tutorials/crm/how-to-edit-crm-objects/how-to-change-date-in-activity.md)
+- Обновили страницу [CRM: типовые сценарии](./tutorials/crm/index.md)
+
 ### 03 июля, 2026
 
 - Добавили туториал [Как найти CRM-объект, созданный из диалога открытой линии](./tutorials/openlines/find-crm-object-by-dialog.md)
