@@ -5,6 +5,10 @@ items:
     href: index.md
   - name: Новая карточка задач
     href: tasks-new.md    
+  - name: Задачи в REST 3.0
+    include:
+      path: rest-v3/b24-toc.yaml
+      mode: link
   - name: Поля задачи
     href: fields.md
   - name: Добавить задачу

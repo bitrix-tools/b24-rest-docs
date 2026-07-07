@@ -30,7 +30,7 @@
 - **Пользователи.** Фотографию пользователя передают методом [user.add](../user/user-add.md)
 - **Чаты.** Файл в чат загружают методом [im.v2.File.upload](../chat-bots/chat-bots-v2/im.v2/files/file-upload.md), ссылку на скачивание получают методом [im.v2.File.download](../chat-bots/chat-bots-v2/im.v2/files/file-download.md)
 - **Чат-боты.** Файл от имени бота загружают методом [imbot.v2.File.upload](../chat-bots/chat-bots-v2/imbot.v2/files/file-upload.md), ссылку на скачивание получают методом [imbot.v2.File.download](../chat-bots/chat-bots-v2/imbot.v2/files/file-download.md)
-- **Задачи.** Файлы с Диска прикрепляют к задаче методом [tasks.task.file.attach](../rest-v3/tasks/tasks-task-file-attach.md)
+- **Задачи.** Файлы с Диска прикрепляют к задаче методом [tasks.task.file.attach](../tasks/rest-v3/tasks-task-file-attach.md)
 - **Сайты.** Изображение для блока сайта загружают и привязывают методом [landing.block.uploadfile](../landing/block/methods/landing-block-upload-file.md)
 
 ## Основные методы работы с файлами

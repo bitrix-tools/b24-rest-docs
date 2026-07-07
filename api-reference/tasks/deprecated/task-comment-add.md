@@ -15,7 +15,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [tasks.task.chat.message.send](../../rest-v3/tasks/tasks-task-chat-message-send.md).
+Развитие метода остановлено. Используйте [tasks.task.chat.message.send](../rest-v3/tasks-task-chat-message-send.md).
 
 {% endnote %}
 

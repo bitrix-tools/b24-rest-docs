@@ -108,7 +108,7 @@ POST https://{адрес_установки}/rest/api/{id_пользовател
 ## Как отправлять сообщения в задачу
 
 - Старый метод [task.commentitem.add](./comment-item/task-comment-item-add.md).
-- Новый метод [tasks.task.chat.message.send](../rest-v3/tasks/tasks-task-chat-message-send.md). Чтобы отправить файл в чат задачи, используйте метод [im.disk.file.commit](../chats/files/im-disk-file-commit.md).
+- Новый метод [tasks.task.chat.message.send](./rest-v3/tasks-task-chat-message-send.md). Чтобы отправить файл в чат задачи, используйте метод [im.disk.file.commit](../chats/files/im-disk-file-commit.md).
   
 ## События
 

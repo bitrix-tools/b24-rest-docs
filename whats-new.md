@@ -22,7 +22,7 @@
 ### 25 июня, 2026
 
 - Обновили туториал [Как встроить виджет во вкладку карточки CRM](./tutorials/crm/crm-widgets/widget-as-detail-tab.md)
-- Добавили методы [humanresources.node.member.field.get](./api-reference/rest-v3/humanresources/node-member/humanresources-node-member-field-get.md) и [humanresources.node.member.field.list](./api-reference/rest-v3/humanresources/node-member/humanresources-node-member-field-list.md)
+- Добавили методы [humanresources.node.member.field.get](./api-reference/departments/node-member/humanresources-node-member-field-get.md) и [humanresources.node.member.field.list](./api-reference/departments/node-member/humanresources-node-member-field-list.md)
 - Обновили страницу [Как подготовить пользовательский шаблон](./api-reference/landing/demos/introduction.md)
 - Обновили страницу [Установка локальных приложений: обзор сценариев](./settings/app-installation/local-apps/index.md)
 - Обновили страницу [Локальные интеграции: сценарии использования](./local-integrations/use-cases.md)
@@ -31,9 +31,9 @@
 
 ### 22 июня, 2026
 
-- Добавили методы раздела [База знаний 2.0](./api-reference/rest-v3/note/collection/index.md)
-- Добавили методы раздела [Документы в Базе знаний 2.0](./api-reference/rest-v3/note/document/index.md)
-- Добавили методы раздела [Файлы в Базе знаний 2.0](./api-reference/rest-v3/note/file/index.md)
+- Добавили методы раздела [База знаний 2.0](./api-reference/note/collection/index.md)
+- Добавили методы раздела [Документы в Базе знаний 2.0](./api-reference/note/document/index.md)
+- Добавили методы раздела [Файлы в Базе знаний 2.0](./api-reference/note/file/index.md)
 
 ### 19 июня, 2026
 
@@ -48,19 +48,19 @@
 
 ### 17 июня, 2026
 
-- Добавили описание метода [tasks.task.list](./api-reference/rest-v3/tasks/tasks-task-list.md)
+- Добавили описание метода [tasks.task.list](./api-reference/tasks/rest-v3/tasks-task-list.md)
 
 ### 10 июня, 2026
 
-- Добавили методы раздела [Коммуникации отделов и команд](./api-reference/rest-v3/humanresources/node-communication/index.md)
-- Добавили методы раздела [Сотрудники](./api-reference/rest-v3/humanresources/employee/index.md)
+- Добавили методы раздела [Коммуникации отделов и команд](./api-reference/departments/node-communication/index.md)
+- Добавили методы раздела [Сотрудники](./api-reference/departments/employee/index.md)
 - Обновили главную страницу раздела [Встраивание приложений в дела CRM](./api-reference/crm/timeline/activities/app-embedding/index.md)
 
 ### 05 июня, 2026
 
-- Добавили методы раздела [Записи о рабочем времени](./api-reference/rest-v3/timeman/index.md)
-- Добавили методы раздела [Отделы и команды](./api-reference/rest-v3/humanresources/node/index.md)
-- Добавили методы раздела [Участники отделов и команд](./api-reference/rest-v3/humanresources/node-member/index.md)
+- Добавили методы раздела [Записи о рабочем времени](./api-reference/timeman/record/index.md)
+- Добавили методы раздела [Отделы и команды](./api-reference/departments/node/index.md)
+- Добавили методы раздела [Участники отделов и команд](./api-reference/departments/node-member/index.md)
 
 ### 04 июня, 2026
 
@@ -75,7 +75,7 @@
 
 ### 28 мая, 2026
 
-- Добавили раздел для работы с [методами почты для REST 3.0](./api-reference/rest-v3/mail/index.md)
+- Добавили раздел для работы с [методами почты для REST 3.0](./api-reference/mail/index.md)
 - Обновили главную страницу [Справочник REST API: инструменты и методы Битрикс24](./api-reference/index.md)
 - Обновили туториал [Бизнес-процессы и роботы: типовые сценарии](./tutorials/bizproc/index.md)
 - Обновили туториал [Как встраивать виджеты в CRM](./tutorials/crm/crm-widgets/index.md)
@@ -94,7 +94,7 @@
 
 ### 15 мая, 2026
 
-- Добавили описание методов работы с [Результатами задачи](./api-reference/rest-v3/tasks/result/index.md) REST 3.0
+- Добавили описание методов работы с [Результатами задачи](./api-reference/tasks/rest-v3/result/index.md) REST 3.0
 
 ### 13 мая, 2026
 
@@ -392,7 +392,7 @@
 
 ### 16 марта, 2026
 
-- Добавили документацию по методам REST 3.0 для получения полей [журнала событий](./api-reference/rest-v3/main/index.md) и [задач](./api-reference/rest-v3/tasks/index.md)
+- Добавили документацию по методам REST 3.0 для получения полей [журнала событий](./api-reference/event-log/index.md) и [задач](./api-reference/tasks/rest-v3/index.md)
 
 ### 13 марта, 2026
 
@@ -489,7 +489,7 @@
 
 ### 03 февраля, 2026
 
-- Добавили методы [main.eventlog.*](./api-reference/rest-v3/main/index.md) для получения записей журнала событий
+- Добавили методы [main.eventlog.*](./api-reference/event-log/index.md) для получения записей журнала событий
 
 ### 30 января, 2026
 
@@ -541,15 +541,15 @@
 ### 24 декабря, 2025
 
 - Обновили главную страницу раздела [События](./api-reference/events/index.md)
-- Добавили статью [Задачи в REST 3.0: обзор методов](./api-reference/rest-v3/tasks/index.md)
+- Добавили статью [Задачи в REST 3.0: обзор методов](./api-reference/tasks/rest-v3/index.md)
 - Обновили документацию по методам [catalog.documentcontractor.add](./api-reference/catalog/documentcontractor/catalog-documentcontractor-add.md), [catalog.documentcontractor.delete](./api-reference/catalog/documentcontractor/catalog-documentcontractor-delete.md), [catalog.documentcontractor.getFields](./api-reference/catalog/documentcontractor/catalog-documentcontractor-get-fields.md), [catalog.documentcontractor.list](./api-reference/catalog/documentcontractor/catalog-documentcontractor-list.md)
 - Обновили документацию по методам [disk.attachedObject.get](./api-reference/disk/attached-object/disk-attached-object-get.md), [disk.rights.getTasks](./api-reference/disk/rights/disk-rights-get-tasks.md), [disk.version.get](./api-reference/disk/version/disk-version-get.md)
 
 ### 17 декабря, 2025
 
-- Добавили раздел [REST 3.0](./api-reference/rest-v3/index.md)
-- Добавили новые методы задач для REST 3.0 [tasks.task.access.get](./api-reference/rest-v3/tasks/tasks-task-access-get.md), [tasks.task.add](./api-reference/rest-v3/tasks/tasks-task-add.md), [tasks.task.chat.message.send](./api-reference/rest-v3/tasks/tasks-task-chat-message-send.md), [tasks.task.delete](./api-reference/rest-v3/tasks/tasks-task-delete.md), [tasks.task.file.attach](./api-reference/rest-v3/tasks/tasks-task-file-attach.md), [tasks.task.get](./api-reference/rest-v3/tasks/tasks-task-get.md), [tasks.task.update](./api-reference/rest-v3/tasks/tasks-task-update.md)
-- Добавили статью с описанием полей задачи и связанных объектов [Поля задачи в REST 3.0](./api-reference/rest-v3/tasks/fields.md)
+- Добавили раздел [REST 3.0](./api-reference/rest-v3.md)
+- Добавили новые методы задач для REST 3.0 [tasks.task.access.get](./api-reference/tasks/rest-v3/tasks-task-access-get.md), [tasks.task.add](./api-reference/tasks/rest-v3/tasks-task-add.md), [tasks.task.chat.message.send](./api-reference/tasks/rest-v3/tasks-task-chat-message-send.md), [tasks.task.delete](./api-reference/tasks/rest-v3/tasks-task-delete.md), [tasks.task.file.attach](./api-reference/tasks/rest-v3/tasks-task-file-attach.md), [tasks.task.get](./api-reference/tasks/rest-v3/tasks-task-get.md), [tasks.task.update](./api-reference/tasks/rest-v3/tasks-task-update.md)
+- Добавили статью с описанием полей задачи и связанных объектов [Поля задачи в REST 3.0](./api-reference/tasks/rest-v3/fields.md)
 
 ### 12 декабря, 2025
 
@@ -579,7 +579,7 @@
 ### 27 ноября, 2025
 
 - Добавили статью [Новая карточка задач: комментарии и события](./api-reference/tasks/tasks-new.md)
-- Добавили метод [tasks.task.chat.message.send](./api-reference/rest-v3/tasks/tasks-task-chat-message-send.md)
+- Добавили метод [tasks.task.chat.message.send](./api-reference/tasks/rest-v3/tasks-task-chat-message-send.md)
 
 ### 25 ноября, 2025
 

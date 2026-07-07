@@ -19,6 +19,10 @@
 
 В методах задач нужно соблюдать порядок следования параметров в запросе, указанный в таблицах параметров. Иначе запрос выполнится с ошибками.
 
+## Задачи в REST 3.0
+
+В [REST 3.0](../rest-v3.md) методы задач получили обновленную архитектуру, унифицированный формат ответов и поддержку связей между объектами. Сейчас REST 3.0 охватывает базовые операции над задачами, работу с чатом задачи, прикрепление файлов, результаты задачи и методы получения схемы полей (`*.field.list` / `*.field.get`).
+
 ## Карточка задачи
 
 Карточку задачи можно разделить на блоки:
@@ -159,7 +163,7 @@
 
 - [Пункт контекстного меню списка](../widgets/task/index.md) `TASK_LIST_CONTEXT_MENU` 
 
-В режимах работы с задачами канбан или «Мой план» есть ещё два специальных места для встройки:
+В режимах работы с задачами канбан или «Мой план» есть еще два специальных места для встройки:
 
 - [Пункт основного выпадающего меню](../widgets/task/list-toolbar.md) `TASK_USER_LIST_TOOLBAR`, `TASK_GROUP_LIST_TOOLBAR`
 - [Пункт основного выпадающего меню около настроек роботов](../widgets/task/robot-designer-toolbar.md) `TASK_ROBOT_DESIGNER_TOOLBAR`
@@ -317,4 +321,35 @@
 || [tasks.flow.Flow.delete](./flow/tasks-flow-flow-delete.md) | Удалить поток ||
 || [tasks.flow.Flow.isExists](./flow/tasks-flow-flow-is-exists.md) | Проверить, существует ли поток с таким названием ||
 || [tasks.flow.Flow.activate](./flow/tasks-flow-flow-activate.md) | Включить или выключить поток ||
+|#
+
+### Задачи в REST 3.0
+
+> Scope: [`tasks`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
+
+#|
+|| **Метод** | **Описание** ||
+|| [tasks.task.add](./rest-v3/tasks-task-add.md) | Создает новую задачу ||
+|| [tasks.task.file.attach](./rest-v3/tasks-task-file-attach.md) | Прикрепляет файлы Диска к задаче ||
+|| [tasks.task.get](./rest-v3/tasks-task-get.md) | Получает данные задачи с поддержкой связей через `select` ||
+|| [tasks.task.list](./rest-v3/tasks-task-list.md) | Возвращает список задач по заданным условиям ||
+|| [tasks.task.chat.message.send](./rest-v3/tasks-task-chat-message-send.md) | Отправляет сообщение в чат задачи ||
+|| [tasks.task.result.add](./rest-v3/result/tasks-task-result-add.md) | Добавляет результат к задаче ||
+|| [tasks.task.result.addfromchatmessage](./rest-v3/result/tasks-task-result-addfromchatmessage.md) | Создает результат из сообщения чата задачи ||
+|| [tasks.task.result.update](./rest-v3/result/tasks-task-result-update.md) | Обновляет текст результата ||
+|| [tasks.task.result.list](./rest-v3/result/tasks-task-result-list.md) | Возвращает список результатов задачи ||
+|| [tasks.task.result.delete](./rest-v3/result/tasks-task-result-delete.md) | Удаляет результат задачи ||
+|| [tasks.task.update](./rest-v3/tasks-task-update.md) | Обновляет задачу ||
+|| [tasks.task.delete](./rest-v3/tasks-task-delete.md) | Удаляет задачу ||
+|| [tasks.task.access.get](./rest-v3/tasks-task-access-get.md) | Проверяет права доступа к задаче ||
+|| [tasks.task.field.list](./rest-v3/tasks-task-field-list.md) | Возвращает список полей задачи ||
+|| [tasks.task.field.get](./rest-v3/tasks-task-field-get.md) | Возвращает описание поля задачи по имени ||
+|| [tasks.task.access.field.list](./rest-v3/tasks-task-access-field-list.md) | Возвращает список полей прав доступа задачи ||
+|| [tasks.task.access.field.get](./rest-v3/tasks-task-access-field-get.md) | Возвращает описание поля прав доступа задачи по имени ||
+|| [tasks.task.file.field.list](./rest-v3/tasks-task-file-field-list.md) | Возвращает список полей файлов задачи ||
+|| [tasks.task.file.field.get](./rest-v3/tasks-task-file-field-get.md) | Возвращает описание поля файлов задачи по имени ||
+|| [tasks.task.chat.message.field.list](./rest-v3/tasks-task-chat-message-field-list.md) | Возвращает список полей сообщения чата задачи ||
+|| [tasks.task.chat.message.field.get](./rest-v3/tasks-task-chat-message-field-get.md) | Возвращает описание поля сообщения чата задачи по имени ||
 |#

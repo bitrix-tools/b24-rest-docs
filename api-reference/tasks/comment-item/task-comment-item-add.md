@@ -17,7 +17,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено с версии модуля `tasks 25.700.0`. Используйте [tasks.task.chat.message.send](../../rest-v3/tasks/tasks-task-chat-message-send.md).
+Развитие метода остановлено с версии модуля `tasks 25.700.0`. Используйте [tasks.task.chat.message.send](../rest-v3/tasks-task-chat-message-send.md).
 
 {% endnote %}
 
