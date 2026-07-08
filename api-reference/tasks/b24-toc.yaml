@@ -5,28 +5,58 @@ items:
     href: index.md
   - name: Новая карточка задач
     href: tasks-new.md    
-  - name: Задачи в REST 3.0
-    include:
-      path: rest-v3/b24-toc.yaml
-      mode: link
   - name: Поля задачи
     href: fields.md
+  - name: Поля задачи v 3.0
+    href: fields-rest-v3.md
   - name: Добавить задачу
     href: tasks-task-add.md
+  - name: Добавить задачу v 3.0
+    href: tasks-task-add-rest-v3.md
   - name: Изменить задачу
     href: tasks-task-update.md
+  - name: Изменить задачу v 3.0
+    href: tasks-task-update-rest-v3.md
   - name: Получить задачу по идентификатору
     href: tasks-task-get.md
+  - name: Получить задачу по идентификатору v 3.0
+    href: tasks-task-get-rest-v3.md
   - name: Получить список задач
     href: tasks-task-list.md
+  - name: Получить список задач v 3.0
+    href: tasks-task-list-rest-v3.md
   - name: Удалить задачу
     href: tasks-task-delete.md
-  - name: Получить список полей
+  - name: Удалить задачу v 3.0
+    href: tasks-task-delete-rest-v3.md
+  - name: Получить список полей задачи
     href: tasks-task-get-fields.md
+  - name: Получить список полей задачи v 3.0
+    href: tasks-task-field-list.md
+  - name: Получить описание поля задачи
+    href: tasks-task-field-get.md
   - name: Проверить доступ к задаче
     href: tasks-task-get-access.md
+  - name: Проверить доступ к задаче v 3.0
+    href: tasks-task-access-get.md
+  - name: Получить список полей прав доступа
+    href: tasks-task-access-field-list.md
+  - name: Получить описание поля прав доступа
+    href: tasks-task-access-field-get.md
   - name: Прикрепить файлы к задаче
     href: tasks-task-files-attach.md
+  - name: Прикрепить файлы к задаче v 3.0
+    href: tasks-task-file-attach.md
+  - name: Получить список полей файлов задачи
+    href: tasks-task-file-field-list.md
+  - name: Получить описание поля файлов задачи
+    href: tasks-task-file-field-get.md
+  - name: Отправить сообщение в чат задачи
+    href: tasks-task-chat-message-send.md
+  - name: Получить список полей сообщения чата задачи
+    href: tasks-task-chat-message-field-list.md
+  - name: Получить описание поля сообщения чата задачи
+    href: tasks-task-chat-message-field-get.md
   - name: Получить счетчики пользователя
     href: tasks-task-counters-get.md
   - name: Делегировать задачу
@@ -35,38 +65,20 @@ items:
     href: tasks-task-approve.md
   - name: Отклонить задачу
     href: tasks-task-disapprove.md
-  - name: Добавить задачу в Избранное
-    href: tasks-task-favorite-add.md
-  - name: Удалить задачу из Избранного
-    href: tasks-task-favorite-remove.md
-  - name: Закрепить задачу
-    href: tasks-task-pin.md
-  - name: Открепить задачу
-    href: tasks-task-unpin.md
   - name: История задачи
     href: tasks-task-history-list.md
-  - name: Включить наблюдение за задачей
-    href: tasks-task-start-watch.md
-  - name: Отключить наблюдение за задачей
-    href: tasks-task-stop-watch.md
-  - name: Перевести задачу в статус Выполняется
-    href: tasks-task-start.md
-  - name: Перевести задачу в статус Ждет выполнения
-    href: tasks-task-pause.md
-  - name: Перевести задачу в статус Отложена
-    href: tasks-task-defer.md
-  - name: Перевести задачу в статус Завершена
-    href: tasks-task-complete.md
-  - name: Возобновить задачу после ее завершения
-    href: tasks-task-renew.md
-  - name: Включить режим «Без звука»
-    href: tasks-task-mute.md
-  - name: Отключить режим «Без звука»
-    href: tasks-task-unmute.md
   - name: Создать связь между задачами
     href: task-dependence-add.md
   - name: Удалить связь между задачами
     href: task-dependence-delete.md
+  - name: Смена статуса задачи
+    include:
+      path: status/b24-toc.yaml
+      mode: link
+  - name: Действия пользователя по задаче
+    include:
+      path: user-actions/b24-toc.yaml
+      mode: link
   - name: Результат задачи
     include:
       path: result/b24-toc.yaml

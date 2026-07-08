@@ -52,7 +52,7 @@ https://**put_your_bitrix24_address**/rest/api/tasks.task.chat.message.send
 
 - Тело запроса передавайте в формате JSON с заголовком `Content-Type: application/json`.
 
-- Все запросы с параметрами передавайте только в формате POST, например метод [tasks.task.chat.message.send](./tasks/rest-v3/tasks-task-chat-message-send.md) с параметрами `taskId` и `text`.
+- Все запросы с параметрами передавайте только в формате POST, например метод [tasks.task.chat.message.send](./tasks/tasks-task-chat-message-send.md) с параметрами `taskId` и `text`.
 
  ```json
  curl -X POST \
@@ -148,7 +148,7 @@ curl -X POST "https://{portal}/rest/api/{user_id}/{webhook}/documentation"
 
 REST 3.0 позволяет получать данные связанных объектов сразу в одном ответе. Например, у задачи есть поле `responsible` — это поле с идентификатором другого объекта, пользователя. В старой версии REST необходимо сначала получить идентификатор из поля `responsible` старым методом [tasks.task.get](./tasks/tasks-task-get.md), затем отдельно вызвать метод [user.get](./user/user-get.md), чтобы получить данные по идентификатору пользователя. 
 
-В новой версии REST можно сразу в запросе [tasks.task.get](./tasks/rest-v3/tasks-task-get.md) указать поля связанных объектов в `select`: `"select": ["responsible.name", "responsible.email"]`.
+В новой версии REST можно сразу в запросе [tasks.task.get](./tasks/tasks-task-get-rest-v3.md) указать поля связанных объектов в `select`: `"select": ["responsible.name", "responsible.email"]`.
 
 ```json
 curl -X POST \
@@ -187,7 +187,7 @@ https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_y
 }
 ```
 
-Чтобы узнать, какие связи и поля поддерживаются, используйте [OpenAPI-документацию](#openapi) или статью [Поля задачи в REST 3.0](./tasks/rest-v3/fields.md).
+Чтобы узнать, какие связи и поля поддерживаются, используйте [OpenAPI-документацию](#openapi) или статью [Поля задачи в REST 3.0](./tasks/fields-rest-v3.md).
 
 ## Фильтрация {#filter}
 

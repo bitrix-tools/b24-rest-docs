@@ -1,0 +1,21 @@
+title: Действия пользователя по задаче
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Включить наблюдение за задачей
+    href: tasks-task-start-watch.md
+  - name: Отключить наблюдение за задачей
+    href: tasks-task-stop-watch.md
+  - name: Добавить задачу в Избранное
+    href: tasks-task-favorite-add.md
+  - name: Удалить задачу из Избранного
+    href: tasks-task-favorite-remove.md
+  - name: Закрепить задачу
+    href: tasks-task-pin.md
+  - name: Открепить задачу
+    href: tasks-task-unpin.md
+  - name: Включить режим «Без звука»
+    href: tasks-task-mute.md
+  - name: Отключить режим «Без звука»
+    href: tasks-task-unmute.md

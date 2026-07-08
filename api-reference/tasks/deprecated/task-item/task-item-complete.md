@@ -17,7 +17,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [tasks.task.complete](../../tasks-task-complete.md).
+Развитие метода остановлено. Используйте [tasks.task.complete](../../status/tasks-task-complete.md).
 
 {% endnote %}
 

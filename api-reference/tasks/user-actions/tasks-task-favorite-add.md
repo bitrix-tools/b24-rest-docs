@@ -1,4 +1,4 @@
-# Добавить комментарий к задаче task.comment.add
+# Добавить задачу в Избранное tasks.task.favorite.add
 
 {% note tip "" %}
 
@@ -11,25 +11,22 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с доступом к задаче на чтение
 
-{% note warning "DEPRECATED" %}
-
-Развитие метода остановлено. Используйте [tasks.task.chat.message.send](../tasks-task-chat-message-send.md).
-
-{% endnote %}
-
-Метод добавляет комментарии к задаче.
+Метод `tasks.task.favorite.add` добавляет задачу в Избранное.
 
 ## Параметры метода
 
-#|
-|| **Название** | **Описание** ||
-|| **TASKID** | Идентификатор задачи ||
-|| **COMMENTTEXT** | Комментарий ||
-|#
+{% include [Сноска о параметрах](../../../_includes/required.md) %}
 
-Соблюдение порядка следования параметров в запросе обязательно. При его нарушении запрос будет выполнен с ошибками.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **taskId***
+[`integer`](../../data-types.md) | Идентификатор задачи.
+
+Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
+|#
 
 ## Примеры кода
 
@@ -43,8 +40,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID":1,"FIELDS":{"POST_MESSAGE":"текст комментария"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.comment.add
+    -d '{"taskId":119}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.task.favorite.add
     ```
 
 - cURL (OAuth)
@@ -53,8 +50,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID":1,"FIELDS":{"POST_MESSAGE":"текст комментария"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/task.comment.add
+    -d '{"taskId":119,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/tasks.task.favorite.add
     ```
 
 - JS (TS)
@@ -67,18 +64,11 @@
 
     declare const $b24: B24Frame
 
-    // TODO: verify API version
-    // Shape of the payload returned in result (comment ID)
-    type TaskCommentAddResult = number
-
     try {
-      const response = await $b24.actions.v2.call.make<TaskCommentAddResult>({
-        method: 'task.comment.add',
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'tasks.task.favorite.add',
         params: {
-          TASKID: 1,
-          FIELDS: {
-            POST_MESSAGE: 'comment text',
-          },
+          taskId: 119,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -88,7 +78,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Created comment ID:', result)
+        console.info('Task added to favorites:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -102,18 +92,15 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function addTaskComment() {
+      async function addTaskToFavorites() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'task.comment.add',
+            method: 'tasks.task.favorite.add',
             params: {
-              TASKID: 1,
-              FIELDS: {
-                POST_MESSAGE: 'comment text',
-              },
+              taskId: 119,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -125,43 +112,40 @@
           }
 
           const result = response.getData().result
-          console.info('Created comment ID:', result)
+          console.info('Task added to favorites:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', addTaskComment)
+      document.addEventListener('DOMContentLoaded', addTaskToFavorites)
     </script>
     ```
 
 - PHP
-
 
     ```php
     try {
         $response = $b24Service
             ->core
             ->call(
-                'task.comment.add',
+                'tasks.task.favorite.add',
                 [
-                    1,
-                    'текст комментария',
+                    'taskId' => 119
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error adding task comment: ' . $e->getMessage();
+        echo 'Error: ' . $e->getMessage();
     }
     ```
 
@@ -169,10 +153,11 @@
 
     ```js
     BX24.callMethod(
-        'task.comment.add',
-        [1, 'текст комментария'],
-        function(result)
+        'tasks.task.favorite.add',
         {
+            'taskId': 119
+        },
+        function(result){
             console.info(result.data());
             console.log(result);
         }
@@ -185,12 +170,9 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'task.comment.add',
+        'tasks.task.favorite.add',
         [
-            'TASKID' => 1,
-            'FIELDS' => [
-                'POST_MESSAGE' => 'текст комментария'
-            ]
+            'taskId' => 119
         ]
     );
 
@@ -201,7 +183,62 @@
 
 {% endlist %}
 
+## Обработка ответа
 
+HTTP-статус: **200**
 
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1758015040.372338,
+        "finish": 1758015040.421553,
+        "duration": 0.049214839935302734,
+        "processing": 0.015886783599853516,
+        "date_start": "2025-09-16T12:30:40+03:00",
+        "date_finish": "2025-09-16T12:30:40+03:00",
+        "operating_reset_at": 1758015640,
+        "operating": 0
+    }
+}
+```
 
+### Возвращаемые данные
 
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true`, если задача успешно добавлена в избранное ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"1",
+    "error_description":"Task not found or not accessible"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `0` | wrong task id | В параметре `taskId` указано значение неверного типа ||
+|| `1` | Task not found or not accessible | Задача не найдена или у пользователя нет доступа к задаче ||
+|| `100` | CTaskItem All parameters in the constructor must have real class type | Не указан обязательный параметр `taskId` ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение 
+
+- [{#T}](./index.md)
+- [{#T}](./tasks-task-favorite-remove.md)

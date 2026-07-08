@@ -17,7 +17,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [tasks.task.defer](../../tasks-task-defer.md).
+Развитие метода остановлено. Используйте [tasks.task.defer](../../status/tasks-task-defer.md).
 
 {% endnote %}
 

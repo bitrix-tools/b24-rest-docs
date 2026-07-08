@@ -30,7 +30,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [tasks.task.favorite.add](../../tasks-task-favorite-add.md).
+Развитие метода остановлено. Используйте [tasks.task.favorite.add](../../user-actions/tasks-task-favorite-add.md).
 
 {% endnote %}
 

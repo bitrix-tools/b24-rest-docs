@@ -48,7 +48,7 @@
 
 ### 17 июня, 2026
 
-- Добавили описание метода [tasks.task.list](./api-reference/tasks/rest-v3/tasks-task-list.md)
+- Добавили описание метода [tasks.task.list](./api-reference/tasks/tasks-task-list-rest-v3.md)
 
 ### 10 июня, 2026
 
@@ -89,12 +89,12 @@
 
 ### 21 мая, 2026
 
-- Добавили описание методов [tasks.task.pin](./api-reference/tasks/tasks-task-pin.md) и [tasks.task.unpin](./api-reference/tasks/tasks-task-unpin.md) 
+- Добавили описание методов [tasks.task.pin](./api-reference/tasks/user-actions/tasks-task-pin.md) и [tasks.task.unpin](./api-reference/tasks/user-actions/tasks-task-unpin.md) 
 - Обновили туториалы [Как использовать данные сквозной аналитики](./tutorials/crm/how-to-use-analitycs/index.md) и [Как передать данные в сквозную аналитику CRM](./tutorials/crm/how-to-use-analitycs/info-to-analitics.md)
 
 ### 15 мая, 2026
 
-- Добавили описание методов работы с [Результатами задачи](./api-reference/tasks/rest-v3/result/index.md) REST 3.0
+- Добавили описание методов работы с [Результатами задачи](./api-reference/tasks/result/index.md) REST 3.0
 
 ### 13 мая, 2026
 
@@ -392,7 +392,7 @@
 
 ### 16 марта, 2026
 
-- Добавили документацию по методам REST 3.0 для получения полей [журнала событий](./api-reference/event-log/index.md) и [задач](./api-reference/tasks/rest-v3/index.md)
+- Добавили документацию по методам REST 3.0 для получения полей [журнала событий](./api-reference/event-log/index.md) и [задач](./api-reference/tasks/index.md#all-methods)
 
 ### 13 марта, 2026
 
@@ -541,15 +541,15 @@
 ### 24 декабря, 2025
 
 - Обновили главную страницу раздела [События](./api-reference/events/index.md)
-- Добавили статью [Задачи в REST 3.0: обзор методов](./api-reference/tasks/rest-v3/index.md)
+- Добавили статью [Задачи: обзор методов](./api-reference/tasks/index.md#all-methods)
 - Обновили документацию по методам [catalog.documentcontractor.add](./api-reference/catalog/documentcontractor/catalog-documentcontractor-add.md), [catalog.documentcontractor.delete](./api-reference/catalog/documentcontractor/catalog-documentcontractor-delete.md), [catalog.documentcontractor.getFields](./api-reference/catalog/documentcontractor/catalog-documentcontractor-get-fields.md), [catalog.documentcontractor.list](./api-reference/catalog/documentcontractor/catalog-documentcontractor-list.md)
 - Обновили документацию по методам [disk.attachedObject.get](./api-reference/disk/attached-object/disk-attached-object-get.md), [disk.rights.getTasks](./api-reference/disk/rights/disk-rights-get-tasks.md), [disk.version.get](./api-reference/disk/version/disk-version-get.md)
 
 ### 17 декабря, 2025
 
 - Добавили раздел [REST 3.0](./api-reference/rest-v3.md)
-- Добавили новые методы задач для REST 3.0 [tasks.task.access.get](./api-reference/tasks/rest-v3/tasks-task-access-get.md), [tasks.task.add](./api-reference/tasks/rest-v3/tasks-task-add.md), [tasks.task.chat.message.send](./api-reference/tasks/rest-v3/tasks-task-chat-message-send.md), [tasks.task.delete](./api-reference/tasks/rest-v3/tasks-task-delete.md), [tasks.task.file.attach](./api-reference/tasks/rest-v3/tasks-task-file-attach.md), [tasks.task.get](./api-reference/tasks/rest-v3/tasks-task-get.md), [tasks.task.update](./api-reference/tasks/rest-v3/tasks-task-update.md)
-- Добавили статью с описанием полей задачи и связанных объектов [Поля задачи в REST 3.0](./api-reference/tasks/rest-v3/fields.md)
+- Добавили новые методы задач для REST 3.0 [tasks.task.access.get](./api-reference/tasks/tasks-task-access-get.md), [tasks.task.add](./api-reference/tasks/tasks-task-add-rest-v3.md), [tasks.task.chat.message.send](./api-reference/tasks/tasks-task-chat-message-send.md), [tasks.task.delete](./api-reference/tasks/tasks-task-delete-rest-v3.md), [tasks.task.file.attach](./api-reference/tasks/tasks-task-file-attach.md), [tasks.task.get](./api-reference/tasks/tasks-task-get-rest-v3.md), [tasks.task.update](./api-reference/tasks/tasks-task-update-rest-v3.md)
+- Добавили статью с описанием полей задачи и связанных объектов [Поля задачи в REST 3.0](./api-reference/tasks/fields-rest-v3.md)
 
 ### 12 декабря, 2025
 
@@ -579,7 +579,7 @@
 ### 27 ноября, 2025
 
 - Добавили статью [Новая карточка задач: комментарии и события](./api-reference/tasks/tasks-new.md)
-- Добавили метод [tasks.task.chat.message.send](./api-reference/tasks/rest-v3/tasks-task-chat-message-send.md)
+- Добавили метод [tasks.task.chat.message.send](./api-reference/tasks/tasks-task-chat-message-send.md)
 
 ### 25 ноября, 2025
 
@@ -671,7 +671,7 @@
 ### 18 сентября, 2025
 
 - Добавили статью [Завершение установки приложений](./settings/app-installation/installation-finish.md)
-- Обновили документацию по методам [tasks.task.favorite.add](./api-reference/tasks/tasks-task-favorite-add.md), [tasks.task.favorite.remove](./api-reference/tasks/tasks-task-favorite-remove.md), [tasks.task.getaccess](./api-reference/tasks/tasks-task-get-access.md) в Задачах
+- Обновили документацию по методам [tasks.task.favorite.add](./api-reference/tasks/user-actions/tasks-task-favorite-add.md), [tasks.task.favorite.remove](./api-reference/tasks/user-actions/tasks-task-favorite-remove.md), [tasks.task.getaccess](./api-reference/tasks/tasks-task-get-access.md) в Задачах
 - Обновили документацию по методам [tasks.task.delete](./api-reference/tasks/tasks-task-delete.md), [tasks.task.delegate](./api-reference/tasks/tasks-task-delegate.md), [tasks.task.approve](./api-reference/tasks/tasks-task-approve.md), [tasks.task.disapprove](./api-reference/tasks/tasks-task-disapprove.md) в Задачах
 
 ### 17 сентября, 2025
@@ -680,11 +680,11 @@
 
 ### 11 сентября, 2025
 
-- Обновили документацию по методам [tasks.task.mute](./api-reference/tasks/tasks-task-mute.md), [tasks.task.unmute](./api-reference/tasks/tasks-task-unmute.md), [tasks.task.startwatch](./api-reference/tasks/tasks-task-start-watch.md), [tasks.task.stopwatch](./api-reference/tasks/tasks-task-stop-watch.md) в Задачах
+- Обновили документацию по методам [tasks.task.mute](./api-reference/tasks/user-actions/tasks-task-mute.md), [tasks.task.unmute](./api-reference/tasks/user-actions/tasks-task-unmute.md), [tasks.task.startwatch](./api-reference/tasks/user-actions/tasks-task-start-watch.md), [tasks.task.stopwatch](./api-reference/tasks/user-actions/tasks-task-stop-watch.md) в Задачах
 
 ### 10 сентября, 2025
 
-- Обновили документацию по методам смены статуса задачи [tasks.task.complete](./api-reference/tasks/tasks-task-complete.md), [tasks.task.pause](./api-reference/tasks/tasks-task-pause.md), [tasks.task.start](./api-reference/tasks/tasks-task-start.md), [tasks.task.defer](./api-reference/tasks/tasks-task-defer.md), [tasks.task.renew](./api-reference/tasks/tasks-task-renew.md) в Задачах
+- Обновили документацию по методам смены статуса задачи [tasks.task.complete](./api-reference/tasks/status/tasks-task-complete.md), [tasks.task.pause](./api-reference/tasks/status/tasks-task-pause.md), [tasks.task.start](./api-reference/tasks/status/tasks-task-start.md), [tasks.task.defer](./api-reference/tasks/status/tasks-task-defer.md), [tasks.task.renew](./api-reference/tasks/status/tasks-task-renew.md) в Задачах
 
 ### 05 сентября, 2025
 

@@ -1,0 +1,15 @@
+title: Смена статуса задачи
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Перевести задачу в статус Выполняется
+    href: tasks-task-start.md
+  - name: Перевести задачу в статус Ждет выполнения
+    href: tasks-task-pause.md
+  - name: Перевести задачу в статус Отложена
+    href: tasks-task-defer.md
+  - name: Перевести задачу в статус Завершена
+    href: tasks-task-complete.md
+  - name: Возобновить задачу после ее завершения
+    href: tasks-task-renew.md

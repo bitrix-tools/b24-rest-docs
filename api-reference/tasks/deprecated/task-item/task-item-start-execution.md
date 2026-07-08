@@ -17,7 +17,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [tasks.task.start](../../tasks-task-start.md).
+Развитие метода остановлено. Используйте [tasks.task.start](../../status/tasks-task-start.md).
 
 {% endnote %}
 
