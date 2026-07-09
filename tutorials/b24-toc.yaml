@@ -11,6 +11,10 @@ items:
     include:
       path: sale/b24-toc.yaml
       mode: link
+  - name: Торговый каталог
+    include:
+      path: catalog/b24-toc.yaml
+      mode: link
   - name: Бизнес-процессы
     include:
       path: bizproc/b24-toc.yaml

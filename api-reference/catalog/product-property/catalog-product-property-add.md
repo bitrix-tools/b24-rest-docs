@@ -465,5 +465,6 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-property-update.md)
 - [{#T}](./catalog-product-property-get.md)
 - [{#T}](./catalog-product-property-list.md)
+- [{#T}](../../../tutorials/catalog/index.md)
 - [{#T}](./catalog-product-property-delete.md)
 - [{#T}](./catalog-product-property-get-fields.md)
