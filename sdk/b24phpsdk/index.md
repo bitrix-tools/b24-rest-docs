@@ -1,4 +1,4 @@
-# Загрузка и использование B24PhpSDK
+# B24PhpSDK: установка и первый вызов
 
 {% note tip "" %}
 
@@ -9,63 +9,71 @@
 
 {% endnote %}
 
-B24PhpSDK - это официальная и рекомендуемая библиотека для работы с REST API Битрикс24 на языке PHP. В отличие от CRest SDK, B24PhpSDK имеет целый ряд преимуществ:
+B24PhpSDK — официальная PHP-библиотека для серверных приложений и интеграций с Битрикс24. Без SDK разработчику нужно вручную отправлять HTTP-запросы к методам, передавать авторизацию и разбирать JSON-ответы. B24PhpSDK оформляет эти действия как PHP-классы и методы.
 
-1. Поддержку автокомплита кода и втнутренних структур в VSCode, PHPStorm, PyCharm;
-2. Встроенную конвертацию данных REST API к соответствующим типам PHP (в частности, дата/время и деньги);
-3. Эффективное использование возможностей PHP - использование генераторов при выполнении batch-запросов для экономии памяти, событийной модели для обработки особых ситуаций вроде обновления токенов авторизации и т.д.
-4. Автогенерация и "проброс" уникальных идентификаторов исходящих запросов, что упрощает отладку в случае потери исходящих событий;
-5. И многие другие.
+Чтобы SDK мог обращаться к Битрикс24, выберите сценарий подключения: входящий вебхук, локальное или тиражное приложение. Таблица ниже поможет выбрать подходящий вариант.
 
-## Установка
+| Если нужно | Выберите вариант |
+|---|---|
+| Настроить внутреннюю интеграцию без создания приложения | [Входящий вебхук](#incoming-webhook) |
+| Создать приложение для одного Битрикс24 | [Локальное приложение](#local-app) |
+| Устанавливать приложение в разных Битрикс24 | [Тиражное приложение](#market-app) |
 
-Для установки B24PhpSDK вы можете склонировать себе [соответствующий репозиторий](https://github.com/bitrix24/b24phpsdk) на гитхаб или скачать весь SDK архивом, но мы **настоятельно рекомендуем** использовать [composer](https://getcomposer.org/doc/00-intro.md) для установки.
+## Как начать работу
 
-```
-composer require bitrix24/b24phpsdk
-```
+Создайте или откройте PHP-проект, в котором будет работать интеграция с Битрикс24. В этот проект нужно добавить библиотеку B24PhpSDK, затем выбрать способ подключения к Битрикс24 и выполнить первый вызов метода.
 
-В результате, вы получите правильную файловую структуру, с которой в дальнейшем будет удобно работать. Например, для локального приложения это может быть:
+Перед началом проверьте, что у вас есть:
 
-```
-/vendor
-    /bitrix24
-        /b24phpsdk - сам SDK
-    /yyy - прочие open-source библиотеки, используемые в SDK
-/public - папка со "страницами" приложения
-    event-handler.php – обработчик событий         
-    index.php - базовая страница с UI приложения
-    install.php - страница установки приложения
-/src
-    Application.php - код с бизнес-логикой приложения         
-/var
-    /log
-        application-YYYY-m-d.log – логи приложения
-/composer.json - конфигурационный файл composer, доступный для изменения
-/composer.lock - автоматически генерируемый файл настроек composer, используемый для переноса сборки используемых библиотек в prod-среду
-```
+- PHP-проект на локальной машине или сервере. Подойдет и пустой каталог, в котором будет создан `composer.json`
+- [Composer](https://getcomposer.org/) для установки зависимостей
+- PHP 8.2–8.4 для SDK v1 или PHP 8.4+ для SDK v3 с расширениями `curl`, `intl` и `json`
+- Битрикс24, в котором можно создать вебхук или установить приложение
+- доступ к CRM — он понадобится для примера создания сделки
 
-Для работы со входящими вебхуками все может быть еще проще:
+### Добавьте B24PhpSDK в PHP-проект
 
-```
-/vendor
-    /bitrix24
-        /b24phpsdk - сам SDK
-    /yyy - прочие open-source библиотеки, используемые в SDK
-/public - папка с "функционалом"  
-    app.php - базовый скрипт, который обращается к REST API        
-/var
-    /log
-        application-YYYY-m-d.log – логи приложения
-/composer.json - конфигурационный файл composer, доступный для изменения
-/composer.lock - автоматически генерируемый файл настроек composer, используемый для переноса сборки используемых библиотек в prod-среду
+Откройте в терминале каталог вашего PHP-проекта. Обычно это каталог, где находится `composer.json` или где он должен быть создан.
+
+Добавьте Composer-пакет `bitrix24/b24phpsdk`. Composer скачает B24PhpSDK и зависимости в каталог `vendor`, а также подготовит автозагрузку классов.
+
+Актуальные требования, ветки и примеры смотрите в [официальном репозитории B24PhpSDK](https://github.com/bitrix24/b24phpsdk).
+
+Выберите major-версию SDK под проект:
+
+- v1 — стабильный вариант для продакшена и PHP 8.2–8.4
+- v3 — вариант для PHP 8.4+ и новых методов API. В v3 есть изменения с потерей обратной совместимости
+
+Если выполнить `composer require bitrix24/b24phpsdk` без ограничения версии, Composer выберет последнюю совместимую версию пакета. На PHP 8.4 это может быть v3. Чтобы зафиксировать major-версию, укажите ее явно:
+
+```bash
+# стабильная v1 для PHP 8.2–8.4
+composer require bitrix24/b24phpsdk:"^1.0"
+
+# v3 для PHP 8.4+ и новых методов API
+composer require bitrix24/b24phpsdk:"^3.3"
 ```
 
-В обоих случаях веб-сервер должен обращаться к папке public или её аналогу на вашем сервере. Остальные папки должны быть недоступны для него из соображений безопасности.
+Для веб-приложения удобно держать публичные файлы отдельно от кода и зависимостей:
 
-## Использование со входящими вебхуками
+```text
+/vendor              # зависимости Composer, включая B24PhpSDK
+/public              # файлы, доступные веб-серверу
+    index.php
+    install.php
+/src                 # бизнес-логика приложения
+/var/log             # логи приложения
+/composer.json
+/composer.lock
+```
 
-Чтобы подключить SDK внутри вашего кода (предполагая, что ваш файл находится в папке public из описанной выше структуры), используйте минимально необходимую конструкцию:
+Веб-сервер должен открывать только каталог `public` или его аналог. `vendor`, `src`, `var`, `composer.json` и `composer.lock` не должны быть доступны из браузера.
+
+### Подключите SDK через входящий вебхук {#incoming-webhook}
+
+Входящий вебхук — это URL с ключом доступа, по которому можно вызывать методы Битрикс24. Вебхук подходит для внутренней интеграции без приложения.
+
+Создайте [входящий вебхук](../../local-integrations/local-webhooks.md) в Битрикс24 и выберите для него права доступа. Для примера со сделкой понадобится CRM. Скопируйте полный URL вебхука и передайте его в `ServiceBuilderFactory::createServiceBuilderFromWebhook`:
 
 ```php
 <?php
@@ -74,44 +82,35 @@ declare(strict_types=1);
 
 use Bitrix24\SDK\Services\ServiceBuilderFactory;
 
-// следите за правильностью пути к autoload.php. он может быть другим, если
-// вы используете другую структуру папок 
-require_once '../vendor/autoload.php'; 
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$B24 = ServiceBuilderFactory::createServiceBuilderFromWebhook(
-    '--сюда надо вставить код вашего вебхука--'
+$b24Service = ServiceBuilderFactory::createServiceBuilderFromWebhook(
+    'https://example.bitrix24.ru/rest/1/your-webhook-code/'
 );
 ```
 
-Когда объект инициирован, его можно использовать для вызова различных методов REST API. В примере ниже переменная $result получит значение идентификатора сделки в результате её создания:
+После инициализации вызовите метод через готовый сервис SDK. Для сделки используйте `entityTypeId = 2` — это идентификатор типа объекта CRM «Сделка». Код ниже создает сделку и записывает ее идентификатор в `$dealId`:
 
 ```php
-$result = $B24->getCRMScope()->deal()->add([
-    'TITLE' => 'New Deal',
-    'TYPE_ID' => 'SALE',
-    'STAGE_ID' => 'NEW'
-])->getId();
+$result = $b24Service->getCRMScope()->item()->add(
+    2,
+    [
+        'title' => 'New Deal',
+    ]
+);
+
+$dealId = $result->item()->id;
+
+echo 'Created deal ID: ' . $dealId;
 ```
 
-Если для нужного вам метода нет готовой "обёртки" в SDK, вы можете использовать универсальный способ вызова методов REST API:
+Если запрос выполнен успешно, скрипт выведет идентификатор новой сделки, а сделка «New Deal» появится в CRM Битрикс24. Если вместо идентификатора возвращается ошибка, проверьте URL вебхука и его права доступа.
 
-```php
-$result = $B24->core->call('crm.deal.add', [
-    'TITLE' => 'New Deal',
-    'TYPE_ID' => 'SALE',
-    'STAGE_ID' => 'NEW'
-]);
-```
+### Подключите SDK в локальном приложении {#local-app}
 
-В этом случае не работает автокомплит кода в IDE и не происходит приведение типов в получаемых данных.
+Локальное приложение работает в одном Битрикс24 и использует OAuth 2.0. При открытии приложения Битрикс24 передает параметры авторизации в HTTP-запросе. SDK берет их из объекта `Request` и создает сервис для вызова методов.
 
-<iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
-
-[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-webhook-example.zip)
-
-## Использование в локальных и тиражных приложениях
-
-Чтобы подключить SDK внутри вашего кода (предполагая, что ваш файл находится в папке public из описанной выше структуры), используйте минимально необходимую конструкцию:
+Выберите [сценарий установки локального приложения](../../settings/app-installation/local-apps/index.md) и заполните карточку приложения. Скопируйте `client_id`, `client_secret` и scope из настроек приложения в массив `ApplicationProfile::initFromArray`:
 
 ```php
 <?php
@@ -122,34 +121,97 @@ use Bitrix24\SDK\Core\Credentials\ApplicationProfile;
 use Bitrix24\SDK\Services\ServiceBuilderFactory;
 use Symfony\Component\HttpFoundation\Request;
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $appProfile = ApplicationProfile::initFromArray([
     'BITRIX24_PHP_SDK_APPLICATION_CLIENT_ID' => 'put-your-client-id-here',
     'BITRIX24_PHP_SDK_APPLICATION_CLIENT_SECRET' => 'put-your-client-secret-here',
-    'BITRIX24_PHP_SDK_APPLICATION_SCOPE' => 'crm,user_basic'
+    'BITRIX24_PHP_SDK_APPLICATION_SCOPE' => 'crm,user_basic',
 ]);
 
-$B24 = ServiceBuilderFactory::createServiceBuilderFromPlacementRequest(
-    Request::createFromGlobals(), 
+$b24Service = ServiceBuilderFactory::createServiceBuilderFromPlacementRequest(
+    Request::createFromGlobals(),
     $appProfile
 );
 ```
 
-В случае локального приложения, вам нужно будет взять значения для `BITRIX24_PHP_SDK_APPLICATION_CLIENT_ID` (Код приложения (client_id)), `BITRIX24_PHP_SDK_APPLICATION_CLIENT_SECRET` (Ключ приложения (client_secret)) и `BITRIX24_PHP_SDK_APPLICATION_SCOPE` (Настройка прав) из соответствующих настроек локального приложения в вашем Битрикс24.
+`createServiceBuilderFromPlacementRequest` ожидает, что приложение открыто из Битрикс24, а в GET-параметрах запроса есть `DOMAIN`. Если открыть файл напрямую без параметров открытия приложения, SDK не сможет определить адрес Битрикс24. Для внешних приложений, которые не открываются из интерфейса Битрикс24, используйте другие способы инициализации `ServiceBuilder` — примеры смотрите в [официальном репозитории B24PhpSDK](https://github.com/bitrix24/b24phpsdk).
 
-Код, приведенный выше, также предполагает, что приложение открывается "внутри" Битрикс24 либо в качестве основного интерфейса, либо в качестве виджета. Другие сценарии использования SDK, например, внешние приложения, требуют других способов инициализации.
-
-Инициировав объект `$B24` вы можете использовать его для вызова различных методов REST API. В примере ниже переменная `$result` получит значение идентификатора сделки в результате её создания:
+После инициализации используйте те же сервисы, что и для вебхука:
 
 ```php
-$result = $B24->getCRMScope()->deal()->add([
-    'TITLE' => 'New Deal',
-    'TYPE_ID' => 'SALE',
-    'STAGE_ID' => 'NEW'
-])->getId();
+$result = $b24Service->getCRMScope()->item()->add(
+    2,
+    [
+        'title' => 'New Deal',
+    ]
+);
+
+$dealId = $result->item()->id;
 ```
+
+### Подготовьте тиражное приложение {#market-app}
+
+Тиражное приложение устанавливают в разные Битрикс24. Для него также используется OAuth 2.0, но приложению нужно собственное хранение токенов и данных установок.
+
+Выберите [сценарий установки тиражного приложения](../../settings/app-installation/mass-market-apps/index.md). В коде можно использовать `ApplicationProfile` и `ServiceBuilderFactory`, но хранение токенов, обновление токенов и учет разных Битрикс24 нужно проектировать отдельно.
+
+Для реализации используйте материалы SDK:
+
+- [пример приложения с хранением OAuth-токенов](https://github.com/bitrix24/b24phpsdk/tree/v3/tests/ApplicationBridge)
+- [контракты `Bitrix24\SDK\Application\Contracts`](https://github.com/bitrix24/b24phpsdk/tree/v3/src/Application/Contracts)
+- [пример подписки на `AuthTokenRenewedEvent`](https://github.com/bitrix24/b24phpsdk/blob/v3/tests/Integration/Factory.php)
+
+### Выполните универсальный вызов метода
+
+Если для нужного метода нет готового сервиса SDK, вызовите метод через `core->call`. В этом случае параметры нужно передавать в структуре REST-метода. Например, для `crm.item.add` нужно передать идентификатор типа объекта CRM и поля нового элемента:
+
+```php
+$response = $b24Service->core->call('crm.item.add', [
+    'entityTypeId' => 2,
+    'fields' => [
+        'title' => 'New Deal',
+    ],
+]);
+
+$dealId = $response
+    ->getResponseData()
+    ->getResult()['item']['id'];
+
+echo 'Created deal ID: ' . $dealId;
+```
+
+Универсальный вызов удобен для методов, у которых еще нет отдельной обертки в SDK. При этом IDE не подскажет сигнатуру метода так же точно, как при вызове через готовый сервис.
+
+## Видео с примерами
+
+Текстовые сценарии выше показывают минимальный путь до первого вызова. Видео можно использовать как дополнительный разбор после настройки.
+
+### Входящий вебхук
+
+<iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240173&hd=1&autoplay=0" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+
+[Скачать пример для входящего вебхука](https://helpdesk.bitrix24.ru/examples/b24phpsdk-webhook-example.zip)
+
+### Локальное приложение
 
 <iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240175&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
-[Скачать пример](https://helpdesk.bitrix24.ru/examples/b24phpsdk-local-app-example.zip)
+[Скачать пример локального приложения](https://helpdesk.bitrix24.ru/examples/b24phpsdk-local-app-example.zip)
+
+## Связь с другими инструментами
+
+**Другие SDK.** Сравнить B24PhpSDK с другими библиотеками можно в [обзоре SDK](../index.md). Если нужен минимальный стартовый набор PHP-файлов без типизированных сервисов, смотрите [CRest PHP SDK](../crest-php-sdk/index.md).
+
+**Авторизация.** Для внутренней интеграции используйте [входящий вебхук](../../local-integrations/local-webhooks.md). Для приложений с OAuth 2.0 смотрите [сценарии установки приложений](../../settings/app-installation/index.md) и [описание OAuth](../../settings/oauth/index.md).
+
+**Права доступа.** Scope зависит от методов, которые вызывает приложение или вебхук. Значения scope смотрите в справочнике [Права доступа](../../api-reference/scopes/permissions.md).
+
+## Что важно учитывать
+
+- Не публикуйте URL входящего вебхука, `client_secret`, access token и refresh token
+- Доступ к данным зависит от прав пользователя, от имени которого выполняется запрос, и от scope вебхука или приложения
+- B24PhpSDK добавляет идентификатор запроса `X-Request-ID`, а для большинства методов — параметр `bx24_request_id`, чтобы упростить диагностику запросов
+- При истечении access token SDK может обновить токен и вызвать событие `AuthTokenRenewedEvent`; в приложении нужно сохранить новый токен в своем хранилище
+- Для массовых операций используйте batch-сервисы SDK: они возвращают генераторы PHP и помогают обрабатывать большие наборы данных без загрузки всех результатов в память
+- Типизированные сервисы SDK преобразуют часть данных REST API в PHP-типы, например дату и время, поэтому сначала используйте готовый сервис, а `core->call` оставляйте для методов без обертки

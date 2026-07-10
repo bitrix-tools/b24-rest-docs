@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 10 июля, 2026
+
+- Обновили страницу [B24PhpSDK: установка и первый вызов](./sdk/b24phpsdk/index.md)
+- Обновили страницу [CRest PHP SDK: установка и первый вызов](./sdk/crest-php-sdk/index.md)
+- Обновили страницу [Как создать дело из приложения](./api-reference/crm/timeline/activities/app-embedding/activity-app.md)
+
 ### 09 июля, 2026
 
 - Добавили туториал [Как добавить товар со значениями пользовательских свойств](./tutorials/catalog/index.md)

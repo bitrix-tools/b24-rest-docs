@@ -1,4 +1,11 @@
-# Как создать дело из приложения 
+# Как создать дело из приложения
+
+> Scope: [`crm`](../../../../scopes/permissions.md)
+>
+> Права проверяются для связанного с делом элемента CRM:
+>
+> - [crm.activity.add](../activity-base/crm-activity-add.md) и [crm.activity.update](../activity-base/crm-activity-update.md) — право на изменение элемента
+> - [crm.activity.delete](../activity-base/crm-activity-delete.md) — право на удаление элемента
 
 {% note tip "" %}
 
@@ -9,172 +16,309 @@
 
 {% endnote %}
 
-Приложения могут создавать дела с провайдером специального типа. У такого дела будет соответствующая [иконка](*icon) в таймлайн. По клиику на дело откроется приложение в слайдере с опциями в [PLACEMENT_OPTIONS](../../../../widgets/crm/detail-activity.md#placement_options)
+Установленное приложение может добавить дело в таймлайн карточки CRM.
 
-{% note warning %}
+Когда сотрудник откроет его, Битрикс24 покажет страницу приложения в боковой панели. Так можно работать с приложением прямо из карточки: смотреть связанные данные, выполнять нужные действия или обращаться к внешнему сервису.
 
-Изменять/удалять дела с провайдером специального типа можно только в контексте приложения, которым дело создано. При обновлении такого дела методом [crm.activity.update](../activity-base/crm-activity-update.md) через вебхук будет ошибка: `Access denied! Application context required`.
+## Как работает сценарий {#workflow}
 
-{% endnote %}
+В сценарии участвуют пользователь, Битрикс24 и приложение:
 
-## Параметры
+- пользователь — выбирает элемент CRM и работает с созданным делом в таймлайне
+- Битрикс24 — сохраняет дело и передает странице приложения параметры его открытия
+- приложение — создает, изменяет или удаляет дело через REST API
 
-{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
+Сначала пользователь выбирает на странице приложения элемент CRM — в этом сценарии лид. Приложение создает для него дело методом [crm.activity.add](../activity-base/crm-activity-add.md). Дело появляется в таймлайне лида.
 
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **PROVIDER_ID***
-[`string`](../../../../data-types.md) | Идентификатор провайдера. Для специального типа значение должно быть равно `REST_APP` ||
-|| **PROVIDER_TYPE_ID***
-[`string`](../../../../data-types.md) | Идентификатор типа дела. В случае использования провайдера `REST_APP` разработчик может указывать произвольные идентификаторы типа в зависимости от своих задач ||
-|#
+Когда пользователь нажимает на это дело, Битрикс24 открывает страницу приложения и передает идентификатор дела в `PLACEMENT_OPTIONS`. Так приложение понимает, с каким делом нужно работать, и может изменить или удалить его.
 
-## Пример приложения
+В сценарии будем использовать методы:
+
+- [crm.activity.add](../activity-base/crm-activity-add.md) — создадим дело приложения
+- [crm.activity.update](../activity-base/crm-activity-update.md) — изменим или завершим дело
+- [crm.activity.delete](../activity-base/crm-activity-delete.md) — удалим дело
+
+Дальше соберем страницу приложения по шагам: подготовим файл, определим режим открытия, добавим интерфейс и настроим работу с делом. Для вызова REST-методов и функций интерфейса используем JavaScript-библиотеку [BX24.js](../../../../../sdk/bx24-js-sdk/index.md).
+
+## 1. Подготовьте приложение {#start}
+
+Создайте [приложение](../../../../../settings/app-installation/index.md) со scope [`crm`](../../../../scopes/permissions.md) и подготовьте сервер, доступный из внешней сети.
+
+Создайте на сервере файл `index.php`. В следующих шагах последовательно добавляйте в него блоки кода. После последнего шага получится готовая страница приложения.
+
+## 2. Определите режим открытия {#placement-options}
+
+Одна и та же страница приложения может открываться в двух ситуациях:
+
+- пользователь запускает приложение в Битрикс24 — на странице он выбирает лид и создает для него дело
+- пользователь нажимает на созданное дело в таймлайне лида — Битрикс24 открывает ту же страницу с действиями для завершения или удаления дела
+
+Чтобы определить ситуацию, приложение проверяет параметры, которые передал Битрикс24. При открытии дела из таймлайна Битрикс24 передает в POST-запросе `PLACEMENT_OPTIONS`. Значение содержит JSON-строку с двумя параметрами:
+
+- `action` — действие, с которым открыта страница. Для дела приложения значение равно `view_activity`
+- `activity_id` — числовой идентификатор открытого дела. Передайте его в методы [crm.activity.update](../activity-base/crm-activity-update.md) или [crm.activity.delete](../activity-base/crm-activity-delete.md)
+
+Добавьте в начало файла `index.php` код, который получает и проверяет эти параметры:
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
-{% list tabs %}
+```php
+<?php
+header('Content-Type: text/html; charset=UTF-8');
 
-- PHP
+$placementOptions = [];
 
-    ```php
-    <?php
-    header('Content-Type: text/html; charset=UTF-8');
-    ?>
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <style type="text/css">
+if (!empty($_POST['PLACEMENT_OPTIONS']))
+{
+    $decodedOptions = json_decode($_POST['PLACEMENT_OPTIONS'], true);
 
-        </style>
-    </head>
-    <body style="display: none">
-    <script src="//api.bitrix24.tech/api/v1/"></script>
+    if (is_array($decodedOptions))
+    {
+        $placementOptions = $decodedOptions;
+    }
+}
 
-    <?if (isset($_POST['PLACEMENT']) && !empty($_POST['PLACEMENT_OPTIONS'])):
-        $opt = json_decode($_POST['PLACEMENT_OPTIONS'], true);
-    ?>
-    <p>Activity ID: <?= (int)$opt['activity_id']?></p>
-    <button onclick="updateActivity(<?= (int)$opt['activity_id']?>);">Update activity (set new description + completed)</button>
-    <p><button onclick="deleteActivity(<?= (int)$opt['activity_id']?>);">Delete activity</button>
-    <?else:?>
-    <button onclick="selectCRMEntity();">Select LEAD</button>
-    <span id="selected-entity"></span>
-    <p>
-    <button onclick="addActivity();">Add activity</button>
-    <?endif;?>
-    <script type="text/javascript">
-        BX24.init(function()
-        {
-            document.body.style.display = '';
-        });
+$activityId = isset($placementOptions['activity_id'])
+    ? (int)$placementOptions['activity_id']
+    : 0;
 
-        var selectedEntityId = null;
+$isActivityView = ($placementOptions['action'] ?? '') === 'view_activity'
+    && $activityId > 0;
+?>
+```
 
-        function addActivity()
-        {
+Если страница открыта из дела, переменная `$isActivityView` получит значение `true`, а `$activityId` — числовой идентификатор дела.
 
-            if (!selectedEntityId)
-            {
-                alert('Lead not selected');
-                return;
+## 3. Добавьте интерфейс страницы {#interface}
+
+Сразу после PHP-блока добавьте HTML-разметку. Она покажет нужные кнопки в зависимости от значения `$isActivityView`:
+
+```php
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Дело приложения</title>
+</head>
+<body hidden>
+<script src="//api.bitrix24.tech/api/v1/"></script>
+
+<?php if ($isActivityView): ?>
+    <p>Идентификатор дела: <?= $activityId ?></p>
+    <button type="button" onclick="updateActivity(<?= $activityId ?>)">
+        Завершить дело
+    </button>
+    <button type="button" onclick="deleteActivity(<?= $activityId ?>)">
+        Удалить дело
+    </button>
+<?php else: ?>
+    <button type="button" onclick="selectCRMEntity()">Выбрать лид</button>
+    <span id="selected-entity">Лид не выбран</span>
+    <button type="button" onclick="addActivity()">Создать дело</button>
+<?php endif; ?>
+
+<p id="status" role="status"></p>
+```
+
+Когда пользователь запускает приложение в Битрикс24, страница показывает кнопки для выбора лида и создания дела. Когда пользователь открывает созданное дело из таймлайна, страница показывает его идентификатор и действия для завершения или удаления.
+
+## 4. Инициализируйте BX24.js {#initialize}
+
+После HTML-разметки добавьте общие переменные и вспомогательные функции. Замените значение `responsibleId` на идентификатор сотрудника, ответственного за дело.
+
+Библиотека [BX24.js](../../../../../sdk/bx24-js-sdk/index.md) уже подключена в предыдущем блоке. Дождитесь ее инициализации с помощью [BX24.init](../../../../../sdk/bx24-js-sdk/system-functions/bx24-init.md), прежде чем вызывать методы Битрикс24.
+
+```html
+<script>
+    const responsibleId = 1;
+    let selectedEntityId = null;
+
+    BX24.init(() => {
+        document.body.hidden = false;
+    });
+
+    function showStatus(message, isError = false)
+    {
+        const status = document.getElementById('status');
+        status.textContent = message;
+        status.style.color = isError ? 'red' : 'green';
+    }
+
+    function showError(result)
+    {
+        showStatus(
+            `Ошибка: ${result.error()} — ${result.error_description()}`,
+            true
+        );
+    }
+</script>
+```
+
+После выполнения `BX24.init` страница станет видимой. Функции `showStatus` и `showError` будут выводить результат REST-вызовов.
+
+## 5. Добавьте создание дела {#create}
+
+Чтобы создать дело приложения, вызовите метод [crm.activity.add](../activity-base/crm-activity-add.md) с полем `PROVIDER_ID=REST_APP`. Дело с `PROVIDER_ID=REST_APP` можно создать только из установленного приложения. Изменить или удалить его может только приложение, которое его создало.
+При вызове через вебхук Битрикс24 вернет ошибку `Application context required.`, а при вызове из другого приложения — `Access denied.`
+
+Метод [crm.activity.add](../activity-base/crm-activity-add.md) помечен как устаревший, но в этом сценарии заменить его на [crm.activity.todo.add](../todo/crm-activity-todo-add.md) нельзя: метод не принимает поле `PROVIDER_ID`.
+
+В примере пользователь выбирает лид через [BX24.selectCRM](../../../../../sdk/bx24-js-sdk/system-dialogues/bx24-select-crm.md). Для лида функция возвращает идентификатор с префиксом, например `L_123`. Приложение удаляет префикс `L_` и передает числовую часть в `OWNER_ID` метода [crm.activity.add](../activity-base/crm-activity-add.md).
+
+Для другого объекта CRM измените `entityType`, префикс идентификатора и `OWNER_TYPE_ID`.
+
+Основные поля для создания дела:
+
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
+
+- `OWNER_TYPE_ID*` — числовой идентификатор [типа объекта CRM](../../../data-types.md#object_type). Для лида передайте `1`
+- `OWNER_ID*` — числовой идентификатор выбранного лида
+- `PROVIDER_ID*` — идентификатор провайдера. Для дела приложения передайте `REST_APP`
+- `PROVIDER_TYPE_ID` — тип дела приложения. Если поле не передано, Битрикс24 использует значение `LINK`
+- `SUBJECT*` — название дела в таймлайне
+- `RESPONSIBLE_ID*` — идентификатор сотрудника, ответственного за дело
+
+Поле `TYPE_ID` обычно обязательно для [crm.activity.add](../activity-base/crm-activity-add.md). Для `REST_APP` его можно не передавать: метод автоматически устанавливает тип дела «Провайдер».
+
+Добавьте после предыдущего блока функции для выбора лида и создания дела:
+
+```html
+<script>
+    function selectCRMEntity()
+    {
+        BX24.selectCRM(
+            { entityType: ['lead'] },
+            (selected) => {
+                const lead = selected.lead && selected.lead[0];
+
+                if (!lead)
+                {
+                    return;
+                }
+
+                const id = Number(lead.id.replace(/^L_/, ''));
+
+                if (!Number.isInteger(id) || id <= 0)
+                {
+                    showStatus('Не удалось определить идентификатор лида', true);
+                    return;
+                }
+
+                selectedEntityId = id;
+                document.getElementById('selected-entity').textContent = lead.title;
+                showStatus(`Выбран лид с идентификатором ${id}`);
             }
-            BX24.callMethod(
-                'crm.activity.add',
-                {
-                    fields:
-                        {
-                            "OWNER_TYPE_ID": 1,
-                            "OWNER_ID": selectedEntityId,
-                            "PROVIDER_ID": 'REST_APP',
-                            "PROVIDER_TYPE_ID": 'LINK',
-                            "SUBJECT": "Новое дело",
-                            "COMPLETED": "N",
-                            "RESPONSIBLE_ID": 1,
-                            "DESCRIPTION": "Описание нового дела"
-                        }
-                },
-                function(result)
-                {
-                    if(result.error())
-                        alert("Error: " + result.error());
-                    else
-                    {
-                        alert("Success: " + result.data());
-                    }
-                }
-            );
-        }
-        function updateActivity(id)
+        );
+    }
+
+    function addActivity()
+    {
+        if (!selectedEntityId)
         {
-            BX24.callMethod(
-                'crm.activity.update',
-                {
-                    id: id,
-                    fields:
-                        {
-                            COMPLETED: 'Y',
-                            SUBJECT: "Дело выполнено!",
-                            DESCRIPTION: "Описание нового дела (выполнено)"
-                        }
-                },
-                function(result)
-                {
-                    if(result.error())
-                        alert("Error: " + result.error());
-                    else
-                    {
-                        alert("Success: " + result.data());
-                    }
-                }
-            );
+            showStatus('Сначала выберите лид', true);
+            return;
         }
 
-        function deleteActivity(id)
-        {
-            BX24.callMethod(
-                'crm.activity.delete',
-                {
-                    id: id
-                },
-                function(result)
-                {
-                    if(result.error())
-                        alert("Error: " + result.error());
-                    else
-                    {
-                        alert("Success: " + result.data());
-                    }
-                }
-            );
-        }
-
-        function selectCRMEntity()
-        {
-            document.getElementById('selected-entity').textContent = '';
-            BX24.selectCRM({
-                entityType: ['lead']
-            }, function(selected)
+        BX24.callMethod(
+            'crm.activity.add',
             {
-                if (selected['lead'] && selected['lead'][0])
-                {
-                    document.getElementById('selected-entity').textContent = selected['lead'][0]['title'];
-                    var    id = selected['lead'][0]['id'];
-
-                    selectedEntityId = id.substring(2);
-
-                    console.log(selectedEntityId);
+                fields: {
+                    OWNER_TYPE_ID: 1,
+                    OWNER_ID: selectedEntityId,
+                    PROVIDER_ID: 'REST_APP',
+                    PROVIDER_TYPE_ID: 'LINK',
+                    SUBJECT: 'Новое дело приложения',
+                    COMPLETED: 'N',
+                    RESPONSIBLE_ID: responsibleId,
+                    DESCRIPTION: 'Описание нового дела'
                 }
-            })
+            },
+            (result) => {
+                if (result.error())
+                {
+                    showError(result);
+                    return;
+                }
+
+                showStatus(`Дело создано. Идентификатор: ${result.data()}`);
+            }
+        );
+    }
+</script>
+```
+
+После успешного вызова [crm.activity.add](../activity-base/crm-activity-add.md) страница покажет числовой идентификатор созданного дела.
+
+## 6. Добавьте изменение и удаление дела {#manage}
+
+Чтобы завершить дело, передайте его идентификатор в метод [crm.activity.update](../activity-base/crm-activity-update.md) и установите поле `COMPLETED=Y`.
+
+Чтобы удалить дело, передайте тот же идентификатор в метод [crm.activity.delete](../activity-base/crm-activity-delete.md).
+
+Добавьте после функций создания дела следующий блок. Он также закрывает элементы `body` и `html`, поэтому разместите его в конце файла:
+
+```html
+<script>
+    function updateActivity(id)
+    {
+        BX24.callMethod(
+            'crm.activity.update',
+            {
+                id,
+                fields: {
+                    COMPLETED: 'Y',
+                    SUBJECT: 'Дело выполнено',
+                    DESCRIPTION: 'Описание выполненного дела'
+                }
+            },
+            (result) => {
+                if (result.error())
+                {
+                    showError(result);
+                    return;
+                }
+
+                showStatus('Дело изменено');
+            }
+        );
+    }
+
+    function deleteActivity(id)
+    {
+        if (!window.confirm('Удалить дело?'))
+        {
+            return;
         }
-    </script>
-    </body>
-    </html>
-    ```
 
-{% endlist %}
+        BX24.callMethod(
+            'crm.activity.delete',
+            { id },
+            (result) => {
+                if (result.error())
+                {
+                    showError(result);
+                    return;
+                }
 
-[*icon]: ![иконка](./_images/activity_application.png)
+                showStatus('Дело удалено');
+            }
+        );
+    }
+</script>
+</body>
+</html>
+```
+
+Методы вернут `true` после успешного изменения или удаления дела. Страница выведет сообщение о выполненном действии.
+
+## 7. Разместите и проверьте приложение {#check}
+
+Сохраните `index.php` и разместите его на сервере, доступном из внешней сети. Полученный URL укажите как адрес основной страницы приложения, затем установите приложение в Битрикс24.
+
+Проверьте сценарий:
+
+1. Откройте приложение, выберите лид и создайте дело
+2. Проверьте, что приложение показало числовой идентификатор нового дела
+3. Откройте карточку выбранного лида и найдите дело в таймлайне
+4. Нажмите на дело и проверьте, что Битрикс24 открыл приложение с тем же идентификатором
+5. Завершите или удалите дело и проверьте результат в таймлайне
