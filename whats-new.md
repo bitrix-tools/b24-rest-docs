@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 14 июля, 2026
+
+- Добавили методы [call.followup.*](./api-reference/telephony/follow-up/index.md) для работы с AI-итогами звонков 
+
 ### 10 июля, 2026
 
 - Обновили страницу [B24PhpSDK: установка и первый вызов](./sdk/b24phpsdk/index.md)

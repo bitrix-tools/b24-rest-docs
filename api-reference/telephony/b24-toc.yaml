@@ -25,6 +25,10 @@ items:
     href: telephony-external-call-attach-record.md
   - name: Добавить расшифровку записи к звонку
     href: telephony-call-attach-transcription.md
+  - name: Follow-up звонков
+    include:
+      path: follow-up/b24-toc.yaml
+      mode: link
   - name: События
     include:
       path: events/b24-toc.yaml

@@ -11,10 +11,11 @@
 
 Телефония Битрикс24 помогает работать со звонками в CRM: принимать и выполнять вызовы, вести историю разговоров, связывать звонки с карточками клиентов и сохранять записи.
 
-Через REST API поддерживаются два сценария работы с телефонией:
+Через REST API поддерживаются три сценария работы с телефонией:
 
 - интеграция внешней телефонии — приложение регистрирует линию, сообщает о звонке, управляет карточкой и завершает звонок
 - управление встроенной телефонией и SIP-коннектором — приложение работает с SIP-подключениями, исходящими линиями, пользователями и событиями звонков
+- получение AI Follow-up завершенных звонков — приложение получает транскрипцию, обзор, саммари, инсайты и оценку эффективности
 
 > Быстрый переход: [все методы и события](#all-methods)
 >
@@ -26,6 +27,7 @@
 || **Если вам нужно** | **Открывайте раздел** ||
 || Интегрировать внешнюю телефонию через REST | [Методы внешней телефонии](#external-telephony) ||
 || Управлять SIP-подключениями, линиями и SIP-настройками сотрудников | [SIP и встроенная телефония](./voximplant/index.md) ||
+|| Получать AI Follow-up завершенных звонков | [Follow-up звонков](./follow-up/index.md) ||
 || Подписываться на события внешней телефонии | [События](./events/index.md) ||
 |#
 
@@ -34,6 +36,8 @@
 **Пользователь.** Идентификатор `USER_ID` связывает звонок и SIP-настройки с сотрудником. Получить `USER_ID` можно методом [user.get](../user/user-get.md). Передавайте `USER_ID` в [telephony.externalCall.show](./telephony-external-call-show.md) и методах раздела [Управление пользователями](./voximplant/users/index.md).
 
 **Звонок.** Идентификатор `CALL_ID` создается в [telephony.externalCall.register](./telephony-external-call-register.md) и используется в [telephony.externalCall.show](./telephony-external-call-show.md), [telephony.externalCall.hide](./telephony-external-call-hide.md), [telephony.externalCall.finish](./telephony-external-call-finish.md), [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md) и [telephony.call.attachTranscription](./telephony-call-attach-transcription.md).
+
+**Follow-up звонков.** Методы [call.followup.list](./follow-up/call-followup-list.md) и [call.followup.get](./follow-up/call-followup-get.md) возвращают AI-итоги завершенных звонков по идентификатору `callId`. Обычный пользователь получает Follow-up звонков, в которых он участвовал или состоит в связанном чате. Администратор получает доступ ко всем Follow-up.
 
 **CRM.** Метод [telephony.externalCall.searchCrmEntities](./telephony-external-call-search-crm-entities.md) ищет объекты CRM по номеру телефона, чтобы связать звонок с карточкой клиента.
 
@@ -163,4 +167,18 @@
 || **Метод** | **Описание** ||
 || [voximplant.user.get](./voximplant/users/voximplant-user-get.md) | Возвращает настройки пользователей ||
 || [voximplant.user.activatePhone](./voximplant/users/voximplant-user-activate-phone.md) | Устанавливает сотруднику признак наличия SIP-аппарата ||
+|#
+
+### Follow-up звонков в REST 3.0
+
+> Scope: [`call`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: в зависимости от метода
+
+#|
+|| **Метод** | **Описание** ||
+|| [call.followup.list](./follow-up/call-followup-list.md) | Возвращает список Follow-up звонков за период ||
+|| [call.followup.get](./follow-up/call-followup-get.md) | Возвращает Follow-up одного звонка ||
+|| [call.followup.field.list](./follow-up/call-followup-field-list.md) | Возвращает список полей Follow-up ||
+|| [call.followup.field.get](./follow-up/call-followup-field-get.md) | Возвращает описание поля Follow-up по имени ||
 |#
