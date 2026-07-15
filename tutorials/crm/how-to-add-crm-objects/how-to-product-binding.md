@@ -23,217 +23,188 @@
 - JS
 
     ```javascript
-    document.addEventListener('DOMContentLoaded', function() {
-        async function createDealWithProducts() {
-            try {
-                let resultProduct = await new Promise((resolve, reject) => {
-                    BX24.callMethod(
-                        'crm.product.list',
-                        {
-                            'filter': {
-                                '>PRICE': 0
-                            }
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                reject(result.error());
-                            } else {
-                                resolve(result.data());
-                            }
-                        }
-                    );
-                });
+    import { B24Hook } from '@bitrix24/b24jssdk'
 
-                if (resultProduct.length === 0) {
-                    alert('Product error, create product in B24');
-                    return;
-                }
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-                let arProduct = resultProduct[0];
-
-                let resultDeal = await new Promise((resolve, reject) => {
-                    BX24.callMethod(
-                        'crm.deal.add',
-                        {
-                            'fields': {
-                                'TITLE': 'Example'
-                            }
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                reject(result.error());
-                            } else {
-                                resolve(result.data());
-                            }
-                        }
-                    );
-                });
-
-                if (resultDeal) {
-                    let dealId = resultDeal;
-
-                    let result = await new Promise((resolve, reject) => {
-                        BX24.callMethod(
-                            'crm.deal.productrows.set',
-                            {
-                                'id': dealId,
-                                'rows': [
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE_EXCLUSIVE': arProduct.PRICE,
-                                        'TAX_RATE': 15,
-                                        'TAX_INCLUDED': 'N',
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE': arProduct.PRICE,
-                                        'TAX_RATE': 15,
-                                        'TAX_INCLUDED': 'Y',
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE': arProduct.PRICE,
-                                        'DISCOUNT_SUM': 100,
-                                        'DISCOUNT_TYPE_ID': 1,
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE': arProduct.PRICE - 100,
-                                        'DISCOUNT_SUM': 100,
-                                        'DISCOUNT_TYPE_ID': 1,
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE_EXCLUSIVE': arProduct.PRICE,
-                                        'DISCOUNT_RATE': 10,
-                                        'DISCOUNT_TYPE_ID': 2,
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
-                                        'DISCOUNT_RATE': 10,
-                                        'DISCOUNT_TYPE_ID': 2,
-                                        'QUANTITY': 1
-                                    }
-                                ]
-                            },
-                            function(result) {
-                                if (result.error()) {
-                                    reject(result.error());
-                                } else {
-                                    resolve(result.data());
-                                }
-                            }
-                        );
-                    });
-
-                    alert('Deal and products added successfully');
-                } else {
-                    alert('Error creating deal');
-                }
-            } catch (error) {
-                console.error(error);
-                alert('An error occurred: ' + error.message);
-            }
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
         }
+        return result.getData().result;
+    }
 
-        createDealWithProducts();
-    });
+    async function createDealWithProducts() {
+        try {
+            let resultProduct = await call('crm.product.list', {
+                'filter': {
+                    '>PRICE': 0
+                }
+            });
+
+            if (resultProduct.length === 0) {
+                console.error('Product error, create product in B24');
+                return;
+            }
+
+            let arProduct = resultProduct[0];
+
+            let dealId = await call('crm.deal.add', {
+                'fields': {
+                    'TITLE': 'Example'
+                }
+            });
+
+            if (dealId) {
+                await call('crm.deal.productrows.set', {
+                    'id': dealId,
+                    'rows': [
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE_EXCLUSIVE': arProduct.PRICE,
+                            'TAX_RATE': 15,
+                            'TAX_INCLUDED': 'N',
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE': arProduct.PRICE,
+                            'TAX_RATE': 15,
+                            'TAX_INCLUDED': 'Y',
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE': arProduct.PRICE,
+                            'DISCOUNT_SUM': 100,
+                            'DISCOUNT_TYPE_ID': 1,
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE': arProduct.PRICE - 100,
+                            'DISCOUNT_SUM': 100,
+                            'DISCOUNT_TYPE_ID': 1,
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE_EXCLUSIVE': arProduct.PRICE,
+                            'DISCOUNT_RATE': 10,
+                            'DISCOUNT_TYPE_ID': 2,
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
+                            'DISCOUNT_RATE': 10,
+                            'DISCOUNT_TYPE_ID': 2,
+                            'QUANTITY': 1
+                        }
+                    ]
+                });
+
+                console.log('Deal and products added successfully');
+            } else {
+                console.error('Error creating deal');
+            }
+        } catch (error) {
+            console.error('An error occurred: ' + error.message);
+        }
+    }
+
+    createDealWithProducts();
     ```
 
 - PHP
 
-    {% note info %}
-
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../first-steps/how-to-use-examples.md)
-
-    {% endnote %}
-
     ```php
-    <?
-    $resultProduct = CRest::call(
+    <?php
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $crm = $serviceBuilder->getCRMScope();
+
+    $resultProduct = $serviceBuilder->core->call(
         'crm.product.list',
         [
             'filter' => [
                 '>PRICE' => 0,
             ]
         ]
-    );
+    )->getResponseData()->getResult();
 
-    if (empty($resultProduct['result']))
+    if (empty($resultProduct))
     {
         echo 'product error, create product in b24';
         exit;
     }
     else
     {
-        $arProduct = $resultProduct['result'][0];
+        $arProduct = $resultProduct[0];
     }
 
     //Deal product
-    $resultDeal = CRest::call(
-        'crm.deal.add',
-        [
-            'fields' => [
-                'TITLE' => 'Example',
-            ]
-        ]
-    );
-    if ($ID = $resultDeal['result'])
+    $ID = $crm->deal()->add(['TITLE' => 'Example'])->getId();
+    if ($ID)
     {
-        $result = CRest::call(
-            'crm.deal.productrows.set',
+        $result = $crm->dealProductRows()->set(
+            $ID,
             [
-                'id' => $ID,
-                'rows' => [
-                    [//product with auto calc tax
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                        'TAX_RATE' => 15,
-                        'TAX_INCLUDED' => 'N',
-                        'QUANTITY' => 1
-                    ],
-                    [//product with tax include
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'],
-                        'TAX_RATE' => 15,
-                        'TAX_INCLUDED' => 'Y',
-                        'QUANTITY' => 1
-                    ],
-                    [//product with discount
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'],
-                        'DISCOUNT_SUM' => 100,
-                        'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with a real discount
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'] - 100,
-                        'DISCOUNT_SUM' => 100,
-                        'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with discount percent
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                        'DISCOUNT_RATE' => 10,
-                        'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with real discount percent
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
-                        'DISCOUNT_RATE' => 10,
-                        'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                        'QUANTITY' => 1
-                    ],
-                ]
+                [//product with auto calc tax
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
+                    'TAX_RATE' => 15,
+                    'TAX_INCLUDED' => 'N',
+                    'QUANTITY' => 1
+                ],
+                [//product with tax include
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE' => $arProduct['PRICE'],
+                    'TAX_RATE' => 15,
+                    'TAX_INCLUDED' => 'Y',
+                    'QUANTITY' => 1
+                ],
+                [//product with discount
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE' => $arProduct['PRICE'],
+                    'DISCOUNT_SUM' => 100,
+                    'DISCOUNT_TYPE_ID' => 1,//is sum discount type
+                    'QUANTITY' => 1
+                ],
+                [//product with a real discount
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE' => $arProduct['PRICE'] - 100,
+                    'DISCOUNT_SUM' => 100,
+                    'DISCOUNT_TYPE_ID' => 1,//is sum discount type
+                    'QUANTITY' => 1
+                ],
+                [//product with discount percent
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
+                    'DISCOUNT_RATE' => 10,
+                    'DISCOUNT_TYPE_ID' => 2,//is percent discount type
+                    'QUANTITY' => 1
+                ],
+                [//product with real discount percent
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
+                    'DISCOUNT_RATE' => 10,
+                    'DISCOUNT_TYPE_ID' => 2,//is percent discount type
+                    'QUANTITY' => 1
+                ],
             ]
         );
     }
@@ -242,8 +213,89 @@
         echo 'error create deal';
         exit;
     }
-
     ?>
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    # метод crm.product.list вызываем напрямую через токен
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
+    )
+
+    try:
+        result_product = token.call_method("crm.product.list", {"filter": {">PRICE": 0}})["result"]
+
+        if not result_product:
+            print("product error, create product in b24")
+        else:
+            ar_product = result_product[0]
+
+            # Deal product
+            deal_id = client.crm.deal.add(fields={"TITLE": "Example"}).response.result
+            client.crm.deal.productrows.set(
+                deal_id,
+                [
+                    {  # product with auto calc tax
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE_EXCLUSIVE": ar_product["PRICE"],
+                        "TAX_RATE": 15,
+                        "TAX_INCLUDED": "N",
+                        "QUANTITY": 1,
+                    },
+                    {  # product with tax include
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE": ar_product["PRICE"],
+                        "TAX_RATE": 15,
+                        "TAX_INCLUDED": "Y",
+                        "QUANTITY": 1,
+                    },
+                    {  # product with discount
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE": ar_product["PRICE"],
+                        "DISCOUNT_SUM": 100,
+                        "DISCOUNT_TYPE_ID": 1,  # is sum discount type
+                        "QUANTITY": 1,
+                    },
+                    {  # product with a real discount
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE": float(ar_product["PRICE"]) - 100,
+                        "DISCOUNT_SUM": 100,
+                        "DISCOUNT_TYPE_ID": 1,  # is sum discount type
+                        "QUANTITY": 1,
+                    },
+                    {  # product with discount percent
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE_EXCLUSIVE": ar_product["PRICE"],
+                        "DISCOUNT_RATE": 10,
+                        "DISCOUNT_TYPE_ID": 2,  # is percent discount type
+                        "QUANTITY": 1,
+                    },
+                    {  # product with real discount percent
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE_EXCLUSIVE": float(ar_product["PRICE"]) - (float(ar_product["PRICE"]) * 0.1),
+                        "DISCOUNT_RATE": 10,
+                        "DISCOUNT_TYPE_ID": 2,  # is percent discount type
+                        "QUANTITY": 1,
+                    },
+                ],
+            ).response.result
+
+            print("Deal and products added successfully")
+    except BitrixAPIError as error:
+        print(f"An error occurred: {error}")
     ```
 
 {% endlist %}
@@ -255,217 +307,188 @@
 - JS
 
     ```js
-    document.addEventListener('DOMContentLoaded', function() {
-        async function createLeadWithProducts() {
-            try {
-                let resultProduct = await new Promise((resolve, reject) => {
-                    BX24.callMethod(
-                        'crm.product.list',
-                        {
-                            'filter': {
-                                '>PRICE': 0
-                            }
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                reject(result.error());
-                            } else {
-                                resolve(result.data());
-                            }
-                        }
-                    );
-                });
+    import { B24Hook } from '@bitrix24/b24jssdk'
 
-                if (resultProduct.length === 0) {
-                    alert('Product error, create product in B24');
-                    return;
-                }
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-                let arProduct = resultProduct[0];
-
-                let resultLead = await new Promise((resolve, reject) => {
-                    BX24.callMethod(
-                        'crm.lead.add',
-                        {
-                            'fields': {
-                                'TITLE': 'Example'
-                            }
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                reject(result.error());
-                            } else {
-                                resolve(result.data());
-                            }
-                        }
-                    );
-                });
-
-                if (resultLead) {
-                    let leadId = resultLead;
-
-                    let result = await new Promise((resolve, reject) => {
-                        BX24.callMethod(
-                            'crm.lead.productrows.set',
-                            {
-                                'id': leadId,
-                                'rows': [
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE_EXCLUSIVE': arProduct.PRICE,
-                                        'TAX_RATE': 15,
-                                        'TAX_INCLUDED': 'N',
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE': arProduct.PRICE,
-                                        'TAX_RATE': 15,
-                                        'TAX_INCLUDED': 'Y',
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE': arProduct.PRICE,
-                                        'DISCOUNT_SUM': 100,
-                                        'DISCOUNT_TYPE_ID': 1,
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE': arProduct.PRICE - 100,
-                                        'DISCOUNT_SUM': 100,
-                                        'DISCOUNT_TYPE_ID': 1,
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE_EXCLUSIVE': arProduct.PRICE,
-                                        'DISCOUNT_RATE': 10,
-                                        'DISCOUNT_TYPE_ID': 2,
-                                        'QUANTITY': 1
-                                    },
-                                    {
-                                        'PRODUCT_ID': arProduct.ID,
-                                        'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
-                                        'DISCOUNT_RATE': 10,
-                                        'DISCOUNT_TYPE_ID': 2,
-                                        'QUANTITY': 1
-                                    }
-                                ]
-                            },
-                            function(result) {
-                                if (result.error()) {
-                                    reject(result.error());
-                                } else {
-                                    resolve(result.data());
-                                }
-                            }
-                        );
-                    });
-
-                    alert('Lead and products added successfully');
-                } else {
-                    alert('Error creating lead');
-                }
-            } catch (error) {
-                console.error(error);
-                alert('An error occurred: ' + error.message);
-            }
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
         }
+        return result.getData().result;
+    }
 
-        createLeadWithProducts();
-    });
+    async function createLeadWithProducts() {
+        try {
+            let resultProduct = await call('crm.product.list', {
+                'filter': {
+                    '>PRICE': 0
+                }
+            });
+
+            if (resultProduct.length === 0) {
+                console.error('Product error, create product in B24');
+                return;
+            }
+
+            let arProduct = resultProduct[0];
+
+            let leadId = await call('crm.lead.add', {
+                'fields': {
+                    'TITLE': 'Example'
+                }
+            });
+
+            if (leadId) {
+                await call('crm.lead.productrows.set', {
+                    'id': leadId,
+                    'rows': [
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE_EXCLUSIVE': arProduct.PRICE,
+                            'TAX_RATE': 15,
+                            'TAX_INCLUDED': 'N',
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE': arProduct.PRICE,
+                            'TAX_RATE': 15,
+                            'TAX_INCLUDED': 'Y',
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE': arProduct.PRICE,
+                            'DISCOUNT_SUM': 100,
+                            'DISCOUNT_TYPE_ID': 1,
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE': arProduct.PRICE - 100,
+                            'DISCOUNT_SUM': 100,
+                            'DISCOUNT_TYPE_ID': 1,
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE_EXCLUSIVE': arProduct.PRICE,
+                            'DISCOUNT_RATE': 10,
+                            'DISCOUNT_TYPE_ID': 2,
+                            'QUANTITY': 1
+                        },
+                        {
+                            'PRODUCT_ID': arProduct.ID,
+                            'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
+                            'DISCOUNT_RATE': 10,
+                            'DISCOUNT_TYPE_ID': 2,
+                            'QUANTITY': 1
+                        }
+                    ]
+                });
+
+                console.log('Lead and products added successfully');
+            } else {
+                console.error('Error creating lead');
+            }
+        } catch (error) {
+            console.error('An error occurred: ' + error.message);
+        }
+    }
+
+    createLeadWithProducts();
     ```
 
 - PHP
 
-    {% note info %}
-
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../first-steps/how-to-use-examples.md)
-
-    {% endnote %}
-
     ```php
-    <?
-    $resultProduct = CRest::call(
+    <?php
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $crm = $serviceBuilder->getCRMScope();
+
+    $resultProduct = $serviceBuilder->core->call(
         'crm.product.list',
         [
             'filter' => [
                 '>PRICE' => 0,
             ]
         ]
-    );
+    )->getResponseData()->getResult();
 
-    if (empty($resultProduct['result']))
+    if (empty($resultProduct))
     {
         echo 'product error, create product in b24';
         exit;
     }
     else
     {
-        $arProduct = $resultProduct['result'][0];
+        $arProduct = $resultProduct[0];
     }
 
     //Lead product
-    $resultLead = CRest::call(
-        'crm.lead.add',
-        [
-            'fields' => [
-                'TITLE' => 'Example',
-            ]
-        ]
-    );
-    if ($ID = $resultLead['result'])
+    $ID = $crm->lead()->add(['TITLE' => 'Example'])->getId();
+    if ($ID)
     {
-        $result = CRest::call(
-            'crm.lead.productrows.set',
+        $result = $crm->leadProductRows()->set(
+            $ID,
             [
-                'id' => $ID,
-                'rows' => [
-                    [//product with auto calc tax
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                        'TAX_RATE' => 15,
-                        'TAX_INCLUDED' => 'N',
-                        'QUANTITY' => 1
-                    ],
-                    [//product with tax include
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'],
-                        'TAX_RATE' => 15,
-                        'TAX_INCLUDED' => 'Y',
-                        'QUANTITY' => 1
-                    ],
-                    [//product with discount
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'],
-                        'DISCOUNT_SUM' => 100,
-                        'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with a real discount
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'] - 100,
-                        'DISCOUNT_SUM' => 100,
-                        'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with discount percent
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                        'DISCOUNT_RATE' => 10,
-                        'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with real discount percent
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
-                        'DISCOUNT_RATE' => 10,
-                        'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                        'QUANTITY' => 1
-                    ],
-                ]
+                [//product with auto calc tax
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
+                    'TAX_RATE' => 15,
+                    'TAX_INCLUDED' => 'N',
+                    'QUANTITY' => 1
+                ],
+                [//product with tax include
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE' => $arProduct['PRICE'],
+                    'TAX_RATE' => 15,
+                    'TAX_INCLUDED' => 'Y',
+                    'QUANTITY' => 1
+                ],
+                [//product with discount
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE' => $arProduct['PRICE'],
+                    'DISCOUNT_SUM' => 100,
+                    'DISCOUNT_TYPE_ID' => 1,//is sum discount type
+                    'QUANTITY' => 1
+                ],
+                [//product with a real discount
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE' => $arProduct['PRICE'] - 100,
+                    'DISCOUNT_SUM' => 100,
+                    'DISCOUNT_TYPE_ID' => 1,//is sum discount type
+                    'QUANTITY' => 1
+                ],
+                [//product with discount percent
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
+                    'DISCOUNT_RATE' => 10,
+                    'DISCOUNT_TYPE_ID' => 2,//is percent discount type
+                    'QUANTITY' => 1
+                ],
+                [//product with real discount percent
+                    'PRODUCT_ID' => $arProduct['ID'],
+                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
+                    'DISCOUNT_RATE' => 10,
+                    'DISCOUNT_TYPE_ID' => 2,//is percent discount type
+                    'QUANTITY' => 1
+                ],
             ]
         );
     }
@@ -474,8 +497,89 @@
         echo 'error create lead';
         exit;
     }
-
     ?>
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    # метод crm.product.list вызываем напрямую через токен
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
+    )
+
+    try:
+        result_product = token.call_method("crm.product.list", {"filter": {">PRICE": 0}})["result"]
+
+        if not result_product:
+            print("product error, create product in b24")
+        else:
+            ar_product = result_product[0]
+
+            # Lead product
+            lead_id = client.crm.lead.add(fields={"TITLE": "Example"}).response.result
+            client.crm.lead.productrows.set(
+                lead_id,
+                [
+                    {  # product with auto calc tax
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE_EXCLUSIVE": ar_product["PRICE"],
+                        "TAX_RATE": 15,
+                        "TAX_INCLUDED": "N",
+                        "QUANTITY": 1,
+                    },
+                    {  # product with tax include
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE": ar_product["PRICE"],
+                        "TAX_RATE": 15,
+                        "TAX_INCLUDED": "Y",
+                        "QUANTITY": 1,
+                    },
+                    {  # product with discount
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE": ar_product["PRICE"],
+                        "DISCOUNT_SUM": 100,
+                        "DISCOUNT_TYPE_ID": 1,  # is sum discount type
+                        "QUANTITY": 1,
+                    },
+                    {  # product with a real discount
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE": float(ar_product["PRICE"]) - 100,
+                        "DISCOUNT_SUM": 100,
+                        "DISCOUNT_TYPE_ID": 1,  # is sum discount type
+                        "QUANTITY": 1,
+                    },
+                    {  # product with discount percent
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE_EXCLUSIVE": ar_product["PRICE"],
+                        "DISCOUNT_RATE": 10,
+                        "DISCOUNT_TYPE_ID": 2,  # is percent discount type
+                        "QUANTITY": 1,
+                    },
+                    {  # product with real discount percent
+                        "PRODUCT_ID": ar_product["ID"],
+                        "PRICE_EXCLUSIVE": float(ar_product["PRICE"]) - (float(ar_product["PRICE"]) * 0.1),
+                        "DISCOUNT_RATE": 10,
+                        "DISCOUNT_TYPE_ID": 2,  # is percent discount type
+                        "QUANTITY": 1,
+                    },
+                ],
+            ).response.result
+
+            print("Lead and products added successfully")
+    except BitrixAPIError as error:
+        print(f"An error occurred: {error}")
     ```
 
 {% endlist %}
@@ -487,164 +591,138 @@
 - JS
 
     ```js
-    document.addEventListener('DOMContentLoaded', function() {
-        async function createInvoiceWithProducts() {
-            try {
-                let resultProduct = await new Promise((resolve, reject) => {
-                    BX24.callMethod(
-                        'crm.product.list',
-                        {
-                            'filter': {
-                                '>PRICE': 0
-                            }
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                reject(result.error());
-                            } else {
-                                resolve(result.data());
-                            }
-                        }
-                    );
-                });
+    import { B24Hook } from '@bitrix24/b24jssdk'
 
-                if (resultProduct.length === 0) {
-                    alert('Product error, create product in B24');
-                    return;
-                }
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-                let arProduct = resultProduct[0];
-
-                let resultCompany = await new Promise((resolve, reject) => {
-                    BX24.callMethod(
-                        'crm.company.add',
-                        {
-                            'fields': {
-                                'TITLE': 'Example'
-                            }
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                reject(result.error());
-                            } else {
-                                resolve(result.data());
-                            }
-                        }
-                    );
-                });
-
-                if (resultCompany) {
-                    let companyId = resultCompany;
-
-                    let resultInvoice = await new Promise((resolve, reject) => {
-                        BX24.callMethod(
-                            'crm.invoice.add',
-                            {
-                                'fields': {
-                                    'ORDER_TOPIC': 'Invoice by company with product',
-                                    'UF_COMPANY_ID': companyId,
-                                    'PERSON_TYPE_ID': 1,
-                                    'PAY_SYSTEM_ID': 20,
-                                    'STATUS_ID': 'N',
-                                    'DATE_INSERT': new Date().toISOString(),
-                                    'DATE_BILL': new Date().toISOString(),
-                                    'DATE_PAY_BEFORE': new Date(Date.now() + 3600 * 24 * 20).toISOString(),
-                                    'PRODUCT_ROWS': [
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRODUCT_NAME': arProduct.NAME,
-                                            'PRICE': arProduct.PRICE + (arProduct.PRICE * 0.15),
-                                            'VAT_RATE': 0.15,
-                                            'QUANTITY': 1
-                                        },
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRODUCT_NAME': arProduct.NAME,
-                                            'PRICE': arProduct.PRICE,
-                                            'DISCOUNT_PRICE': 100,
-                                            'QUANTITY': 1
-                                        },
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRODUCT_NAME': arProduct.NAME,
-                                            'PRICE': arProduct.PRICE - 100,
-                                            'DISCOUNT_PRICE': 100,
-                                            'QUANTITY': 1
-                                        }
-                                    ]
-                                }
-                            },
-                            function(result) {
-                                if (result.error()) {
-                                    reject(result.error());
-                                } else {
-                                    resolve(result.data());
-                                }
-                            }
-                        );
-                    });
-
-                    alert('Invoice and products added successfully');
-                } else {
-                    alert('Error creating company');
-                }
-            } catch (error) {
-                console.error(error);
-                alert('An error occurred: ' + error.message);
-            }
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
         }
+        return result.getData().result;
+    }
 
-        createInvoiceWithProducts();
-    });
+    async function createInvoiceWithProducts() {
+        try {
+            let resultProduct = await call('crm.product.list', {
+                'filter': {
+                    '>PRICE': 0
+                }
+            });
+
+            if (resultProduct.length === 0) {
+                console.error('Product error, create product in B24');
+                return;
+            }
+
+            let arProduct = resultProduct[0];
+
+            let companyId = await call('crm.company.add', {
+                'fields': {
+                    'TITLE': 'Example'
+                }
+            });
+
+            if (companyId) {
+                await call('crm.invoice.add', {
+                    'fields': {
+                        'ORDER_TOPIC': 'Invoice by company with product',
+                        'UF_COMPANY_ID': companyId,
+                        'PERSON_TYPE_ID': 1,
+                        'PAY_SYSTEM_ID': 20,
+                        'STATUS_ID': 'N',
+                        'DATE_INSERT': new Date().toISOString(),
+                        'DATE_BILL': new Date().toISOString(),
+                        'DATE_PAY_BEFORE': new Date(Date.now() + 3600 * 24 * 20).toISOString(),
+                        'PRODUCT_ROWS': [
+                            {
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRODUCT_NAME': arProduct.NAME,
+                                'PRICE': arProduct.PRICE + (arProduct.PRICE * 0.15),
+                                'VAT_RATE': 0.15,
+                                'QUANTITY': 1
+                            },
+                            {
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRODUCT_NAME': arProduct.NAME,
+                                'PRICE': arProduct.PRICE,
+                                'DISCOUNT_PRICE': 100,
+                                'QUANTITY': 1
+                            },
+                            {
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRODUCT_NAME': arProduct.NAME,
+                                'PRICE': arProduct.PRICE - 100,
+                                'DISCOUNT_PRICE': 100,
+                                'QUANTITY': 1
+                            }
+                        ]
+                    }
+                });
+
+                console.log('Invoice and products added successfully');
+            } else {
+                console.error('Error creating company');
+            }
+        } catch (error) {
+            console.error('An error occurred: ' + error.message);
+        }
+    }
+
+    createInvoiceWithProducts();
     ```
 
 - PHP
 
-    {% note info %}
-
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../first-steps/how-to-use-examples.md)
-
-    {% endnote %}
-
     ```php
-    <?
-    $resultProduct = CRest::call(
+    <?php
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $crm = $serviceBuilder->getCRMScope();
+
+    $resultProduct = $serviceBuilder->core->call(
         'crm.product.list',
         [
             'filter' => [
                 '>PRICE' => 0,
             ]
         ]
-    );
+    )->getResponseData()->getResult();
 
-    if (empty($resultProduct['result']))
+    if (empty($resultProduct))
     {
         echo 'product error, create product in b24';
         exit;
     }
     else
     {
-        $arProduct = $resultProduct['result'][0];
+        $arProduct = $resultProduct[0];
     }
-    $resultCompany = CRest::call(
-        'crm.company.add',
-        [
-            'fields' => [
-                'TITLE' => 'Example',
-            ]
-        ]
-    );
+    $iCompanyID = $crm->company()->add(['TITLE' => 'Example'])->getId();
 
-    if ($iCompanyID = $resultCompany['result'])
+    if ($iCompanyID)
     {
-        $resultInvoice = CRest::call(
+        $resultInvoice = $serviceBuilder->core->call(
             'crm.invoice.add',
             [
                 'fields' => [
                     'ORDER_TOPIC' => 'Invoice by company with product',
                     'UF_COMPANY_ID' => $iCompanyID,
-                    'PERSON_TYPE_ID' => 1,//1 is company in CRest::call('crm.persontype.list')
-                    'PAY_SYSTEM_ID' => 20,//some in CRest::call('sale.paysystem.list')
+                    'PERSON_TYPE_ID' => 1,//1 is company in crm.persontype.list
+                    'PAY_SYSTEM_ID' => 20,//some in sale.paysystem.list
                     'STATUS_ID' => 'N',
                     'DATE_INSERT' => date(DATE_ATOM),
                     'DATE_BILL' => date(DATE_ATOM),
@@ -680,6 +758,83 @@
     ?>
     ```
 
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    # методы crm.product.list и crm.invoice.add вызываем напрямую через токен
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
+    )
+
+    try:
+        result_product = token.call_method("crm.product.list", {"filter": {">PRICE": 0}})["result"]
+
+        if not result_product:
+            print("product error, create product in b24")
+        else:
+            ar_product = result_product[0]
+            price = float(ar_product["PRICE"])
+
+            company_id = client.crm.company.add(fields={"TITLE": "Example"}).response.result
+
+            if company_id:
+                now = datetime.now()
+                token.call_method("crm.invoice.add", {
+                    "fields": {
+                        "ORDER_TOPIC": "Invoice by company with product",
+                        "UF_COMPANY_ID": company_id,
+                        "PERSON_TYPE_ID": 1,  # 1 is company in crm.persontype.list
+                        "PAY_SYSTEM_ID": 20,  # some in sale.paysystem.list
+                        "STATUS_ID": "N",
+                        "DATE_INSERT": now.isoformat(),
+                        "DATE_BILL": now.isoformat(),
+                        "DATE_PAY_BEFORE": (now + timedelta(days=20)).isoformat(),  # 20 day pay
+                        "PRODUCT_ROWS": [
+                            {  # product with tax
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRODUCT_NAME": ar_product["NAME"],
+                                "PRICE": price + (price * 0.15),
+                                "VAT_RATE": 0.15,
+                                "QUANTITY": 1,
+                            },
+                            {  # product with discount sum, percent not supported
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRODUCT_NAME": ar_product["NAME"],
+                                "PRICE": price,
+                                "DISCOUNT_PRICE": 100,
+                                "QUANTITY": 1,
+                            },
+                            {  # product with real discount sum, percent not supported
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRODUCT_NAME": ar_product["NAME"],
+                                "PRICE": price - 100,
+                                "DISCOUNT_PRICE": 100,
+                                "QUANTITY": 1,
+                            },
+                        ],
+                    }
+                })
+
+                print("Invoice and products added successfully")
+            else:
+                print("Error creating company")
+    except BitrixAPIError as error:
+        print(f"An error occurred: {error}")
+    ```
+
 {% endlist %}
 
 
@@ -691,264 +846,218 @@
 - JS
 
     ```js
-    document.addEventListener('DOMContentLoaded', function() {
-        async function createQuoteWithProducts() {
-            try {
-                let resultProduct = await new Promise((resolve, reject) => {
-                    BX24.callMethod(
-                        'crm.product.list',
-                        {
-                            'filter': {
-                                '>PRICE': 0
-                            }
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                reject(result.error());
-                            } else {
-                                resolve(result.data());
-                            }
-                        }
-                    );
-                });
+    import { B24Hook } from '@bitrix24/b24jssdk'
 
-                if (resultProduct.length === 0) {
-                    alert('Product error, create product in B24');
-                    return;
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
+        }
+        return result.getData().result;
+    }
+
+    async function createQuoteWithProducts() {
+        try {
+            let resultProduct = await call('crm.product.list', {
+                'filter': {
+                    '>PRICE': 0
                 }
+            });
 
-                let arProduct = resultProduct[0];
+            if (resultProduct.length === 0) {
+                console.error('Product error, create product in B24');
+                return;
+            }
 
-                let resultCompany = await new Promise((resolve, reject) => {
-                    BX24.callMethod(
-                        'crm.company.add',
-                        {
-                            'fields': {
-                                'TITLE': 'Example'
-                            }
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                reject(result.error());
-                            } else {
-                                resolve(result.data());
-                            }
-                        }
-                    );
+            let arProduct = resultProduct[0];
+
+            let companyId = await call('crm.company.add', {
+                'fields': {
+                    'TITLE': 'Example'
+                }
+            });
+
+            if (companyId) {
+                let quoteId = await call('crm.quote.add', {
+                    'fields': {
+                        "TITLE": "Quote by company with product",
+                        "OPENED": "Y",
+                        "ASSIGNED_BY_ID": 1,
+                        "CURRENCY_ID": "USD",
+                        "BEGINDATE": new Date().toISOString(),
+                        "CLOSEDATE": new Date(Date.now() + 3600 * 24 * 20).toISOString(),
+                        'COMPANY_ID': companyId,
+                        'STATUS_ID': 'N'
+                    }
                 });
 
-                if (resultCompany) {
-                    let companyId = resultCompany;
-
-                    let resultQuote = await new Promise((resolve, reject) => {
-                        BX24.callMethod(
-                            'crm.quote.add',
+                if (quoteId) {
+                    await call('crm.quote.productrows.set', {
+                        'id': quoteId,
+                        'rows': [
                             {
-                                'fields': {
-                                    "TITLE": "Quote by company with product",
-                                    "OPENED": "Y",
-                                    "ASSIGNED_BY_ID": 1,
-                                    "CURRENCY_ID": "USD",
-                                    "BEGINDATE": new Date().toISOString(),
-                                    "CLOSEDATE": new Date(Date.now() + 3600 * 24 * 20).toISOString(),
-                                    'COMPANY_ID': companyId,
-                                    'STATUS_ID': 'N'
-                                }
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRICE_EXCLUSIVE': arProduct.PRICE,
+                                'TAX_RATE': 15,
+                                'TAX_INCLUDED': 'N',
+                                'QUANTITY': 1
                             },
-                            function(result) {
-                                if (result.error()) {
-                                    reject(result.error());
-                                } else {
-                                    resolve(result.data());
-                                }
+                            {
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRICE': arProduct.PRICE,
+                                'TAX_RATE': 15,
+                                'TAX_INCLUDED': 'Y',
+                                'QUANTITY': 1
+                            },
+                            {
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRICE': arProduct.PRICE,
+                                'DISCOUNT_SUM': 100,
+                                'DISCOUNT_TYPE_ID': 1,
+                                'QUANTITY': 1
+                            },
+                            {
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRICE': arProduct.PRICE - 100,
+                                'DISCOUNT_SUM': 100,
+                                'DISCOUNT_TYPE_ID': 1,
+                                'QUANTITY': 1
+                            },
+                            {
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRICE_EXCLUSIVE': arProduct.PRICE,
+                                'DISCOUNT_RATE': 10,
+                                'DISCOUNT_TYPE_ID': 2,
+                                'QUANTITY': 1
+                            },
+                            {
+                                'PRODUCT_ID': arProduct.ID,
+                                'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
+                                'DISCOUNT_RATE': 10,
+                                'DISCOUNT_TYPE_ID': 2,
+                                'QUANTITY': 1
                             }
-                        );
+                        ]
                     });
 
-                    if (resultQuote) {
-                        let quoteId = resultQuote;
-
-                        let result = await new Promise((resolve, reject) => {
-                            BX24.callMethod(
-                                'crm.quote.productrows.set',
-                                {
-                                    'id': quoteId,
-                                    'rows': [
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRICE_EXCLUSIVE': arProduct.PRICE,
-                                            'TAX_RATE': 15,
-                                            'TAX_INCLUDED': 'N',
-                                            'QUANTITY': 1
-                                        },
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRICE': arProduct.PRICE,
-                                            'TAX_RATE': 15,
-                                            'TAX_INCLUDED': 'Y',
-                                            'QUANTITY': 1
-                                        },
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRICE': arProduct.PRICE,
-                                            'DISCOUNT_SUM': 100,
-                                            'DISCOUNT_TYPE_ID': 1,
-                                            'QUANTITY': 1
-                                        },
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRICE': arProduct.PRICE - 100,
-                                            'DISCOUNT_SUM': 100,
-                                            'DISCOUNT_TYPE_ID': 1,
-                                            'QUANTITY': 1
-                                        },
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRICE_EXCLUSIVE': arProduct.PRICE,
-                                            'DISCOUNT_RATE': 10,
-                                            'DISCOUNT_TYPE_ID': 2,
-                                            'QUANTITY': 1
-                                        },
-                                        {
-                                            'PRODUCT_ID': arProduct.ID,
-                                            'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
-                                            'DISCOUNT_RATE': 10,
-                                            'DISCOUNT_TYPE_ID': 2,
-                                            'QUANTITY': 1
-                                        }
-                                    ]
-                                },
-                                function(result) {
-                                    if (result.error()) {
-                                        reject(result.error());
-                                    } else {
-                                        resolve(result.data());
-                                    }
-                                }
-                            );
-                        });
-
-                        alert('Quote and products added successfully');
-                    } else {
-                        alert('Error creating quote');
-                    }
+                    console.log('Quote and products added successfully');
                 } else {
-                    alert('Error creating company');
+                    console.error('Error creating quote');
                 }
-            } catch (error) {
-                console.error(error);
-                alert('An error occurred: ' + error.message);
+            } else {
+                console.error('Error creating company');
             }
+        } catch (error) {
+            console.error('An error occurred: ' + error.message);
         }
+    }
 
-        createQuoteWithProducts();
-    });
+    createQuoteWithProducts();
     ```
 
 - PHP
 
-    {% note info %}
-
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../first-steps/how-to-use-examples.md)
-
-    {% endnote %}
-
     ```php
-    <?
-    $resultProduct = CRest::call(
+    <?php
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $crm = $serviceBuilder->getCRMScope();
+
+    $resultProduct = $serviceBuilder->core->call(
         'crm.product.list',
         [
             'filter' => [
                 '>PRICE' => 0,
             ]
         ]
-    );
+    )->getResponseData()->getResult();
 
-    if (empty($resultProduct['result']))
+    if (empty($resultProduct))
     {
         echo 'product error, create product in b24';
         exit;
     }
     else
     {
-        $arProduct = $resultProduct['result'][0];
+        $arProduct = $resultProduct[0];
     }
-    $resultCompany = CRest::call(
-        'crm.company.add',
-        [
-            'fields' => [
-                'TITLE' => 'Example',
-            ]
-        ]
-    );
+    $iCompanyID = $crm->company()->add(['TITLE' => 'Example'])->getId();
 
-    if ($iCompanyID = $resultCompany['result'])
+    if ($iCompanyID)
     {
-        $resultQuote = CRest::call(
-            'crm.quote.add',
+        $ID = $crm->quote()->add(
             [
-                'fields' => [
-                    "TITLE" => "Quote by company with product",
-                    "OPENED" => "Y",
-                    "ASSIGNED_BY_ID" => 1,
-                    "CURRENCY_ID" => "USD",
-                    "BEGINDATE" => date(DATE_ATOM),
-                    "CLOSEDATE" => date(DATE_ATOM, time() + 3600 * 24 * 20),//20 day
-                    'COMPANY_ID' => $iCompanyID,
-                    'STATUS_ID' => 'N',
-                ]
+                "TITLE" => "Quote by company with product",
+                "OPENED" => "Y",
+                "ASSIGNED_BY_ID" => 1,
+                "CURRENCY_ID" => "USD",
+                "BEGINDATE" => date(DATE_ATOM),
+                "CLOSEDATE" => date(DATE_ATOM, time() + 3600 * 24 * 20),//20 day
+                'COMPANY_ID' => $iCompanyID,
+                'STATUS_ID' => 'N',
             ]
-        );
-        if ($ID = $resultQuote['result'])
+        )->getId();
+        if ($ID)
         {
-            $result = CRest::call(
-                'crm.quote.productrows.set',
+            $result = $crm->quoteProductRows()->set(
+                $ID,
                 [
-                    'id' => $ID,
-                    'rows' => [
-                        [//product with auto calc tax
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                            'TAX_RATE' => 15,
-                            'TAX_INCLUDED' => 'N',
-                            'QUANTITY' => 1
-                        ],
-                        [//product with tax include
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRICE' => $arProduct['PRICE'],
-                            'TAX_RATE' => 15,
-                            'TAX_INCLUDED' => 'Y',
-                            'QUANTITY' => 1
-                        ],
-                        [//product with discount
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRICE' => $arProduct['PRICE'],
-                            'DISCOUNT_SUM' => 100,
-                            'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                            'QUANTITY' => 1
-                        ],
-                        [//product with a real discount
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRICE' => $arProduct['PRICE'] - 100,
-                            'DISCOUNT_SUM' => 100,
-                            'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                            'QUANTITY' => 1
-                        ],
-                        [//product with discount percent
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                            'DISCOUNT_RATE' => 10,
-                            'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                            'QUANTITY' => 1
-                        ],
-                        [//product with real discount percent
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
-                            'DISCOUNT_RATE' => 10,
-                            'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                            'QUANTITY' => 1
-                        ],
-                    ]
+                    [//product with auto calc tax
+                        'PRODUCT_ID' => $arProduct['ID'],
+                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
+                        'TAX_RATE' => 15,
+                        'TAX_INCLUDED' => 'N',
+                        'QUANTITY' => 1
+                    ],
+                    [//product with tax include
+                        'PRODUCT_ID' => $arProduct['ID'],
+                        'PRICE' => $arProduct['PRICE'],
+                        'TAX_RATE' => 15,
+                        'TAX_INCLUDED' => 'Y',
+                        'QUANTITY' => 1
+                    ],
+                    [//product with discount
+                        'PRODUCT_ID' => $arProduct['ID'],
+                        'PRICE' => $arProduct['PRICE'],
+                        'DISCOUNT_SUM' => 100,
+                        'DISCOUNT_TYPE_ID' => 1,//is sum discount type
+                        'QUANTITY' => 1
+                    ],
+                    [//product with a real discount
+                        'PRODUCT_ID' => $arProduct['ID'],
+                        'PRICE' => $arProduct['PRICE'] - 100,
+                        'DISCOUNT_SUM' => 100,
+                        'DISCOUNT_TYPE_ID' => 1,//is sum discount type
+                        'QUANTITY' => 1
+                    ],
+                    [//product with discount percent
+                        'PRODUCT_ID' => $arProduct['ID'],
+                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
+                        'DISCOUNT_RATE' => 10,
+                        'DISCOUNT_TYPE_ID' => 2,//is percent discount type
+                        'QUANTITY' => 1
+                    ],
+                    [//product with real discount percent
+                        'PRODUCT_ID' => $arProduct['ID'],
+                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
+                        'DISCOUNT_RATE' => 10,
+                        'DISCOUNT_TYPE_ID' => 2,//is percent discount type
+                        'QUANTITY' => 1
+                    ],
                 ]
             );
         }
@@ -962,6 +1071,107 @@
         echo 'Error create company';
     }
     ?>
+    ```
+
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    # метод crm.product.list вызываем напрямую через токен
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
+    )
+
+    try:
+        result_product = token.call_method("crm.product.list", {"filter": {">PRICE": 0}})["result"]
+
+        if not result_product:
+            print("product error, create product in b24")
+        else:
+            ar_product = result_product[0]
+            company_id = client.crm.company.add(fields={"TITLE": "Example"}).response.result
+
+            if company_id:
+                now = datetime.now()
+                quote_id = client.crm.quote.add(fields={
+                    "TITLE": "Quote by company with product",
+                    "OPENED": "Y",
+                    "ASSIGNED_BY_ID": 1,
+                    "CURRENCY_ID": "USD",
+                    "BEGINDATE": now.isoformat(),
+                    "CLOSEDATE": (now + timedelta(days=20)).isoformat(),  # 20 day
+                    "COMPANY_ID": company_id,
+                    "STATUS_ID": "N",
+                }).response.result
+
+                if quote_id:
+                    client.crm.quote.productrows.set(
+                        quote_id,
+                        [
+                            {  # product with auto calc tax
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRICE_EXCLUSIVE": ar_product["PRICE"],
+                                "TAX_RATE": 15,
+                                "TAX_INCLUDED": "N",
+                                "QUANTITY": 1,
+                            },
+                            {  # product with tax include
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRICE": ar_product["PRICE"],
+                                "TAX_RATE": 15,
+                                "TAX_INCLUDED": "Y",
+                                "QUANTITY": 1,
+                            },
+                            {  # product with discount
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRICE": ar_product["PRICE"],
+                                "DISCOUNT_SUM": 100,
+                                "DISCOUNT_TYPE_ID": 1,  # is sum discount type
+                                "QUANTITY": 1,
+                            },
+                            {  # product with a real discount
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRICE": float(ar_product["PRICE"]) - 100,
+                                "DISCOUNT_SUM": 100,
+                                "DISCOUNT_TYPE_ID": 1,  # is sum discount type
+                                "QUANTITY": 1,
+                            },
+                            {  # product with discount percent
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRICE_EXCLUSIVE": ar_product["PRICE"],
+                                "DISCOUNT_RATE": 10,
+                                "DISCOUNT_TYPE_ID": 2,  # is percent discount type
+                                "QUANTITY": 1,
+                            },
+                            {  # product with real discount percent
+                                "PRODUCT_ID": ar_product["ID"],
+                                "PRICE_EXCLUSIVE": float(ar_product["PRICE"]) - (float(ar_product["PRICE"]) * 0.1),
+                                "DISCOUNT_RATE": 10,
+                                "DISCOUNT_TYPE_ID": 2,  # is percent discount type
+                                "QUANTITY": 1,
+                            },
+                        ],
+                    ).response.result
+
+                    print("Quote and products added successfully")
+                else:
+                    print("Error create quote")
+            else:
+                print("Error create company")
+    except BitrixAPIError as error:
+        print(f"An error occurred: {error}")
     ```
 
 {% endlist %}

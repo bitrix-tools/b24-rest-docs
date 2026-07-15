@@ -70,12 +70,159 @@ b24Tracker.guest.getTrace()
 - `TRACE` — строку с данными сквозной аналитики
 - `ENTITIES` — список объектов, которые нужно связать с трейсом
 
+Вызовы REST выполняйте на стороне сервера, чтобы не раскрывать вебхук в браузере. Строку `TRACE` соберите на сайте через `b24Tracker.guest.getTrace()` и передайте на сервер вместе с данными формы.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    // npm install @bitrix24/b24jssdk
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/')
+
+    // contactId и dealId получены при создании объектов, trace — из b24Tracker.guest.getTrace()
+    const response = await $b24.actions.v2.call.make({
+        method: 'crm.tracking.trace.add',
+        params: {
+            TRACE: trace,
+            ENTITIES: [
+                { TYPE: 'CONTACT', ID: contactId },
+                { TYPE: 'DEAL', ID: dealId },
+            ],
+        },
+        requestId: 'trace-add',
+    })
+
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    const traceId = response.getData().result
+    console.log('Trace ID:', traceId)
+
+    $b24.destroy()
+    ```
+
+- PHP
+
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
+
+    // Метода crm.tracking.* нет среди типизированных сервисов SDK,
+    // поэтому вызываем его напрямую через ядро: $b24->core->call(...)
+    $response = $b24->core->call('crm.tracking.trace.add', [
+        'TRACE' => $trace,
+        'ENTITIES' => [
+            ['TYPE' => 'CONTACT', 'ID' => $contactId],
+            ['TYPE' => 'DEAL', 'ID' => $dealId],
+        ],
+    ]);
+
+    // Скалярный результат (ID трейса) ядро оборачивает в массив
+    $traceId = $response->getResponseData()->getResult()[0];
+    echo 'Trace ID: ' . $traceId;
+    ```
+
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from b24pysdk import Client, BitrixWebhook
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client = Client(BitrixWebhook(
+        domain="your-domain.bitrix24.ru",
+        webhook_token="1/xxxxxxxxxxxxxxxx",
+    ))
+
+    try:
+        bitrix_response = client.crm.tracking.trace.add(
+            trace=trace,
+            entities=[
+                {"TYPE": "CONTACT", "ID": contact_id},
+                {"TYPE": "DEAL", "ID": deal_id},
+            ],
+        ).response
+        trace_id = bitrix_response.result
+        print("Trace ID:", trace_id)
+    except BitrixAPIError as error:
+        print(
+            "Bitrix API error",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Bitrix SDK error: {error.message}")
+    except Exception as error:
+        print(f"Unexpected error: {error}")
+    ```
+
+{% endlist %}
+
 Этот способ подходит и для объектов, созданных универсальным методом [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md): трейс к ним можно привязать после создания.
 
 Метод вернет идентификатор созданного трейса. Его можно сохранить на стороне интеграции, если в сценарии нужно позже удалить трейс или очистить привязку.
+
+```json
+{
+    "result": 341
+}
+```
 
 ## Удаление трейса
 
 Удаляйте трейс, если его ошибочно привязали к объекту или нужно очистить тестовые данные.
 
 Для удаления используйте метод [crm.tracking.trace.delete](../../../api-reference/crm/tracking/crm-tracking-trace-delete.md). Укажите идентификатор трейса `id`, который вернул метод [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md).
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const response = await $b24.actions.v2.call.make({
+        method: 'crm.tracking.trace.delete',
+        params: { id: traceId },
+        requestId: 'trace-delete',
+    })
+
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+    ```
+
+- PHP
+
+    ```php
+    $response = $b24->core->call('crm.tracking.trace.delete', [
+        'id' => $traceId,
+    ]);
+
+    $isDeleted = $response->getResponseData()->getResult()[0];
+    ```
+
+- Python
+
+    ```python
+    bitrix_response = client.crm.tracking.trace.delete(traceId).response
+    result = bitrix_response.result
+    print(result)
+    ```
+
+{% endlist %}

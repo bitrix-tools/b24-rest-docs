@@ -73,10 +73,8 @@
 - PHP
 
    ```php
-   require_once('crest.php');
-   
    $phone = readline("Введите номер телефона: ");
-   $phone = readline("Введите email: ");
+   $email = readline("Введите email: ");
    
    $entityIDs = [
        'LEAD' => [],
@@ -126,98 +124,64 @@
 - JS
 
    ```js
+   // Объединяет идентификаторы из ответа метода с объектом entityIDs
+   function mergeDuplicates(data) {
+       for (const type of ['LEAD', 'CONTACT', 'COMPANY']) {
+           if (Array.isArray(data?.[type])) {
+               entityIDs[type] = entityIDs[type].concat(data[type]);
+           }
+       }
+   }
+
    if (phone) {
-       BX24.callMethod(
-           "crm.duplicate.findbycomm",
-           {
-               type: "PHONE",
-               values: [phone]
-           },
-           function (phoneResult) {
-               if (phoneResult.error()) {
-                   console.error("Ошибка при поиске дубликатов по телефону:", phoneResult.error());
-               } else {
-                   if (Array.isArray(phoneResult.data().LEAD)) {
-                       entityIDs.LEAD = entityIDs.LEAD.concat(phoneResult.data().LEAD);
-                   }
-                   if (Array.isArray(phoneResult.data().CONTACT)) {
-                       entityIDs.CONTACT = entityIDs.CONTACT.concat(phoneResult.data().CONTACT);
-                   }
-                   if (Array.isArray(phoneResult.data().COMPANY)) {
-                       entityIDs.COMPANY = entityIDs.COMPANY.concat(phoneResult.data().COMPANY);
-                   }
-               }
-           }
-       );
-    }
-   
+       const phoneResult = await $b24.actions.v2.call.make({
+           method: 'crm.duplicate.findbycomm',
+           params: { type: 'PHONE', values: [phone] }
+       });
+       if (phoneResult.isSuccess) {
+           mergeDuplicates(phoneResult.getData()?.result);
+       } else {
+           console.error('Ошибка при поиске дубликатов по телефону:', phoneResult.getErrorMessages().join('; '));
+       }
+   }
+
    if (email) {
-       BX24.callMethod(
-           "crm.duplicate.findbycomm",
-           {
-               type: "EMAIL",
-               values: [email]
-           },
-           function (emailResult) {
-               if (emailResult.error()) {
-                   console.error("Ошибка при поиске дубликатов по email:", emailResult.error());
-               } else {
-                   if (Array.isArray(emailResult.data().LEAD)) {
-                       entityIDs.LEAD = entityIDs.LEAD.concat(emailResult.data().LEAD);
-                   }
-                   if (Array.isArray(emailResult.data().CONTACT)) {
-                       entityIDs.CONTACT = entityIDs.CONTACT.concat(emailResult.data().CONTACT);
-                   }
-                   if (Array.isArray(emailResult.data().COMPANY)) {
-                       entityIDs.COMPANY = entityIDs.COMPANY.concat(emailResult.data().COMPANY);
-                   }
-               }
-           }
-       );
+       const emailResult = await $b24.actions.v2.call.make({
+           method: 'crm.duplicate.findbycomm',
+           params: { type: 'EMAIL', values: [email] }
+       });
+       if (emailResult.isSuccess) {
+           mergeDuplicates(emailResult.getData()?.result);
+       } else {
+           console.error('Ошибка при поиске дубликатов по email:', emailResult.getErrorMessages().join('; '));
+       }
    }
    ```
 
 - PHP
 
    ```php
-   if($phone)
+   use Bitrix24\SDK\Services\CRM\Duplicates\Result\DuplicateResult;
+
+   // Объединяет идентификаторы из ответа метода с массивом $entityIDs
+   function mergeDuplicates(DuplicateResult $result, array &$entityIDs): void
    {
-       $result = CRest::call('crm.duplicate.findbycomm', [
-           'type' => 'PHONE',
-           'values' => [$phone]
-       ]);
-       if(is_array($result['result']['LEAD']))
-       {
-           $entityIDs['LEAD'] = array_merge($entityIDs['LEAD'], $result['result']['LEAD']);
-       }
-       if(is_array($result['result']['CONTACT']))
-       {
-           $entityIDs['CONTACT'] = array_merge($entityIDs['CONTACT'], $result['result']['CONTACT']);
-       }
-       if(is_array($result['result']['COMPANY']))
-       {
-           $entityIDs['COMPANY'] = array_merge($entityIDs['COMPANY'], $result['result']['COMPANY']);
+       $data = $result->getCoreResponse()->getResponseData()->getResult();
+       foreach (['LEAD', 'CONTACT', 'COMPANY'] as $type) {
+           if (!empty($data[$type]) && is_array($data[$type])) {
+               $entityIDs[$type] = array_merge($entityIDs[$type], $data[$type]);
+           }
        }
    }
-   
+
+   if($phone)
+   {
+       mergeDuplicates($sb->getCRMScope()->duplicate()->findByPhone([$phone]), $entityIDs);
+   }
+
    if($email)
    {
-       $result = CRest::call('crm.duplicate.findbycomm', [
-           'type' => 'EMAIL',
-           'values' => [$email]
-       ]);
-       if(is_array($result['result']['LEAD']))
-       {
-           $entityIDs['LEAD'] = array_merge($entityIDs['LEAD'], $result['result']['LEAD']);
-       }
-       if(is_array($result['result']['CONTACT']))
-       {
-           $entityIDs['CONTACT'] = array_merge($entityIDs['CONTACT'], $result['result']['CONTACT']);
-       }
-       if(is_array($result['result']['COMPANY']))
-       {
-           $entityIDs['COMPANY'] = array_merge($entityIDs['COMPANY'], $result['result']['COMPANY']);
-       }
+       mergeDuplicates($sb->getCRMScope()->duplicate()->findByEmail([$email]), $entityIDs);
    }
    ```
 
@@ -225,28 +189,22 @@
 
    ```python
    if phone:
-       result = client.crm.duplicate.find_by_comm(
+       result = client.crm.duplicate.findbycomm(
            type="PHONE",
            values=[phone],
-       ).response.result
-       if isinstance(result.get("LEAD"), list):
-           entity_ids["LEAD"].extend(result["LEAD"])
-       if isinstance(result.get("CONTACT"), list):
-           entity_ids["CONTACT"].extend(result["CONTACT"])
-       if isinstance(result.get("COMPANY"), list):
-           entity_ids["COMPANY"].extend(result["COMPANY"])
+       ).result
+       for key in entity_ids:
+           if isinstance(result.get(key), list):
+               entity_ids[key].extend(result[key])
 
    if email:
-       result = client.crm.duplicate.find_by_comm(
+       result = client.crm.duplicate.findbycomm(
            type="EMAIL",
            values=[email],
-       ).response.result
-       if isinstance(result.get("LEAD"), list):
-           entity_ids["LEAD"].extend(result["LEAD"])
-       if isinstance(result.get("CONTACT"), list):
-           entity_ids["CONTACT"].extend(result["CONTACT"])
-       if isinstance(result.get("COMPANY"), list):
-           entity_ids["COMPANY"].extend(result["COMPANY"])
+       ).result
+       for key in entity_ids:
+           if isinstance(result.get(key), list):
+               entity_ids[key].extend(result[key])
    ```
 
 {% endlist %}
@@ -269,20 +227,21 @@
 
    ```js
    if (entityIDs.LEAD.length > 0) {
-       BX24.callMethod('crm.lead.list', {
-           'filter': {
-               'ID': entityIDs.LEAD
-           },
-           'select': ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL', 'TITLE']
-       }, function(result) {
-           if (result.error()) {
-               console.error(result.error());
-           } else {
-               if (result.data().length > 0) {
-                   resultEntity.lead = result.data();
-               }
+       const result = await $b24.actions.v2.call.make({
+           method: 'crm.lead.list',
+           params: {
+               filter: { ID: entityIDs.LEAD },
+               select: ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL', 'TITLE']
            }
        });
+       if (result.isSuccess) {
+           const leads = result.getData()?.result;
+           if (leads?.length > 0) {
+               resultEntity.lead = leads;
+           }
+       } else {
+           console.error(result.getErrorMessages().join('; '));
+       }
    }
    ```
 
@@ -291,20 +250,14 @@
    ```php
    if(!empty($entityIDs['LEAD']))
    {
-       $result = CRest::call(
-           'crm.lead.list',
-           [
-           'filter' => [
-               'ID' => $entityIDs['LEAD']
-           ],
-           'select' =>     [
-               'ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL', 'TITLE'
-           ]
-           ]
-       );
-       if(!empty($result['result']))
+       $leads = $sb->getCRMScope()->lead()->list(
+           [],
+           ['ID' => $entityIDs['LEAD']],
+           ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL', 'TITLE']
+       )->getLeads();
+       if(!empty($leads))
        {
-           $resultEntity['lead'] = $result['result'];
+           $resultEntity['lead'] = $leads;
        }
    }
    ```
@@ -316,7 +269,7 @@
        result = client.crm.lead.list(
            filter={"ID": entity_ids["LEAD"]},
            select=["ID", "NAME", "LAST_NAME", "PHONE", "EMAIL", "TITLE"],
-       ).response.result
+       ).result
 
        if result:
            result_entity["lead"] = result
@@ -359,20 +312,21 @@
 
    ```js
    if (entityIDs.CONTACT.length > 0) {
-       BX24.callMethod('crm.contact.list', {
-           'filter': {
-               'ID': entityIDs.CONTACT
-           },
-           'select': ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL']
-       }, function(result) {
-           if (result.error()) {
-               console.error(result.error());
-           } else {
-               if (result.data().length > 0) {
-                   resultEntity.contact = result.data();
-               }
+       const result = await $b24.actions.v2.call.make({
+           method: 'crm.contact.list',
+           params: {
+               filter: { ID: entityIDs.CONTACT },
+               select: ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL']
            }
        });
+       if (result.isSuccess) {
+           const contacts = result.getData()?.result;
+           if (contacts?.length > 0) {
+               resultEntity.contact = contacts;
+           }
+       } else {
+           console.error(result.getErrorMessages().join('; '));
+       }
    }
    ```
 
@@ -381,20 +335,15 @@
    ```php
    if(!empty($entityIDs['CONTACT']))
    {
-       $result = CRest::call(
-           'crm.contact.list',
-           [
-               'filter' => [
-                   'ID' => $entityIDs['CONTACT']
-               ],
-               'select' =>     [
-                   'ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL'
-               ]
-           ]
-       );
-       if(!empty($result['result']))
+       $contacts = $sb->getCRMScope()->contact()->list(
+           [],
+           ['ID' => $entityIDs['CONTACT']],
+           ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL'],
+           0
+       )->getContacts();
+       if(!empty($contacts))
        {
-           $resultEntity['contact'] = $result['result'];
+           $resultEntity['contact'] = $contacts;
        }
    }
    ```
@@ -406,7 +355,7 @@
        result = client.crm.contact.list(
            filter={"ID": entity_ids["CONTACT"]},
            select=["ID", "NAME", "LAST_NAME", "PHONE", "EMAIL"],
-       ).response.result
+       ).result
 
        if result:
            result_entity["contact"] = result
@@ -448,20 +397,21 @@
 
    ```js
    if (entityIDs.COMPANY.length > 0) {
-       BX24.callMethod('crm.company.list', {
-           'filter': {
-               'ID': entityIDs.COMPANY
-           },
-           'select': ['ID', 'PHONE', 'EMAIL', 'TITLE']
-       }, function(result) {
-           if (result.error()) {
-               console.error(result.error());
-           } else {
-               if (result.data().length > 0) {
-                   resultEntity.company = result.data();
-               }
+       const result = await $b24.actions.v2.call.make({
+           method: 'crm.company.list',
+           params: {
+               filter: { ID: entityIDs.COMPANY },
+               select: ['ID', 'PHONE', 'EMAIL', 'TITLE']
            }
        });
+       if (result.isSuccess) {
+           const companies = result.getData()?.result;
+           if (companies?.length > 0) {
+               resultEntity.company = companies;
+           }
+       } else {
+           console.error(result.getErrorMessages().join('; '));
+       }
    }
    ```
 
@@ -470,20 +420,14 @@
    ```php
    if(!empty($entityIDs['COMPANY']))
    {
-       $result = CRest::call(
-           'crm.company.list',
-           [
-               'filter' => [
-                   'ID' => $entityIDs['COMPANY']
-               ],
-               'select' =>     [
-                   'ID', 'PHONE', 'EMAIL', 'TITLE'
-               ]
-           ]
-       );
-       if(!empty($result['result']))
+       $companies = $sb->getCRMScope()->company()->list(
+           [],
+           ['ID' => $entityIDs['COMPANY']],
+           ['ID', 'PHONE', 'EMAIL', 'TITLE']
+       )->getCompanies();
+       if(!empty($companies))
        {
-           $resultEntity['company'] = $result['result'];
+           $resultEntity['company'] = $companies;
        }
    }
    ```
@@ -495,7 +439,7 @@
        result = client.crm.company.list(
            filter={"ID": entity_ids["COMPANY"]},
            select=["ID", "PHONE", "EMAIL", "TITLE"],
-       ).response.result
+       ).result
 
        if result:
            result_entity["company"] = result
@@ -587,16 +531,16 @@
    foreach ($resultEntity as $entityType => $entities) {
        foreach ($entities as $item) {
            $phones = '';
-           if (!empty($item['PHONE'])) {
-               $phones = implode(', ', array_column($item['PHONE'], 'VALUE'));
+           if (!empty($item->PHONE)) {
+               $phones = implode(', ', array_map(fn($phone) => $phone->VALUE, $item->PHONE));
            }
            $emails = '';
-           if (!empty($item['EMAIL'])) {
-               $emails = implode(', ', array_column($item['EMAIL'], 'VALUE'));
+           if (!empty($item->EMAIL)) {
+               $emails = implode(', ', array_map(fn($email) => $email->VALUE, $item->EMAIL));
            }
-           $title = !empty($item['TITLE']) ? $item['TITLE'] : '';
-           if (!empty($item['NAME']) || !empty($item['LAST_NAME'])) {
-               $namePart = trim($item['NAME'] . ' ' . $item['LAST_NAME']);
+           $title = !empty($item->TITLE) ? $item->TITLE : '';
+           if (!empty($item->NAME) || !empty($item->LAST_NAME)) {
+               $namePart = trim($item->NAME . ' ' . $item->LAST_NAME);
                if ($title) {
                    $title .= ': ' . $namePart;
                } else {
@@ -605,7 +549,7 @@
            }
    
            $table[] = [
-               $item['ID'],
+               $item->ID,
                $entityType,
                $title ?: '—',
                $phones ?: '—',
@@ -662,186 +606,187 @@
 - JS
 
    ```javascript
+   import { createInterface } from 'node:readline/promises'
+   import { B24Hook } from '@bitrix24/b24jssdk'
+
+   const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+   // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
    // Запрос у пользователя телефона и email
-   let phone = prompt("Введите номер телефона:");
-   let email = prompt("Введите email:");
-   
+   const rl = createInterface({ input: process.stdin, output: process.stdout })
+   const phone = await rl.question('Введите номер телефона: ')
+   const email = await rl.question('Введите email: ')
+   rl.close()
+
    // Инициализация переменных
-   let entityIDs = {
-       'LEAD': [],
-       'CONTACT': [],
-       'COMPANY': []
-   };
-   
-   let resultEntity = {
-       'lead': [],
-       'contact': [],
-       'company': []
-   };
-   
-   // Поиск дубликатов по телефону 
-   
-    if (phone) {
-       BX24.callMethod(
-           "crm.duplicate.findbycomm",
-           {
-               type: "PHONE",
-               values: [phone]
-           },
-           function (phoneResult) {
-               if (phoneResult.error()) {
-                   console.error("Ошибка при поиске дубликатов по телефону:", phoneResult.error());
-               } else {
-                   if (Array.isArray(phoneResult.data().LEAD)) {
-                       entityIDs.LEAD = entityIDs.LEAD.concat(phoneResult.data().LEAD);
-                   }
-                   if (Array.isArray(phoneResult.data().CONTACT)) {
-                       entityIDs.CONTACT = entityIDs.CONTACT.concat(phoneResult.data().CONTACT);
-                   }
-                   if (Array.isArray(phoneResult.data().COMPANY)) {
-                       entityIDs.COMPANY = entityIDs.COMPANY.concat(phoneResult.data().COMPANY);
-                   }
-               }
-           }
-       );
-    }
-   
-   //Поиск дубликатов по email 
-   
-   if (email) {
-       BX24.callMethod(
-           "crm.duplicate.findbycomm",
-           {
-               type: "EMAIL",
-               values: [email]
-           },
-           function (emailResult) {
-               if (emailResult.error()) {
-                   console.error("Ошибка при поиске дубликатов по email:", emailResult.error());
-               } else {
-                   if (Array.isArray(emailResult.data().LEAD)) {
-                       entityIDs.LEAD = entityIDs.LEAD.concat(emailResult.data().LEAD);
-                   }
-                   if (Array.isArray(emailResult.data().CONTACT)) {
-                       entityIDs.CONTACT = entityIDs.CONTACT.concat(emailResult.data().CONTACT);
-                   }
-                   if (Array.isArray(emailResult.data().COMPANY)) {
-                       entityIDs.COMPANY = entityIDs.COMPANY.concat(emailResult.data().COMPANY);
-                   }
-               }
-           }
-       );
+   const entityIDs = {
+       LEAD: [],
+       CONTACT: [],
+       COMPANY: []
    }
-   
-   setTimeout(function() {
-       // Обрабатываем лиды
-       if (entityIDs.LEAD.length > 0) {
-           BX24.callMethod('crm.lead.list', {
-               'filter': {
-                   'ID': entityIDs.LEAD
-               },
-               'select': ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL', 'TITLE']
-           }, 
-           function(result) {
-               if (result.error()) {
-                   console.error(result.error());
-               } else {
-                   if (result.data().length > 0) {
-                       resultEntity.lead = result.data();
-                  }
-               }
-           });
-       }
-   
-       // Обрабатываем контакты
-       if (entityIDs.CONTACT.length > 0) {
-           BX24.callMethod('crm.contact.list', {
-               'filter': {
-                   'ID': entityIDs.CONTACT
-               },
-               'select': ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL']
-           }, function(result) {
-               if (result.error()) {
-                   console.error(result.error());
-               } else {
-                   if (result.data().length > 0) {
-                       resultEntity.contact = result.data();
-                   }
-               }
-           });
-       }
-   
-       // Обрабатываем компании
-       if (entityIDs.COMPANY.length > 0) {
-           BX24.callMethod('crm.company.list', {
-               'filter': {
-                   'ID': entityIDs.COMPANY
-               },
-               'select': ['ID', 'PHONE', 'EMAIL', 'TITLE']
-           }, function(result) {
-               if (result.error()) {
-                   console.error(result.error());
-               } else {
-                   if (result.data().length > 0) {
-                       resultEntity.company = result.data();
-                   }
-               }
-           });
-       }
-   
-       setTimeout(function() {
-           let table = [];
-           // Заголовок таблицы
-           table.push([
-               "Идентификатор",
-               "Тип объекта",
-               "Название/Имя и фамилия",
-               "Телефон",
-               "Email"
-           ]);
-   
-           // Строки данных
-           for (let entity in resultEntity) {
-               resultEntity[entity].forEach(function(item) {
-                   let phones = '';
-                   if (item.PHONE) {
-                       phones = item.PHONE.map(phone => phone.VALUE).join(', ');
-                   }
-                   let emails = '';
-                   if (item.EMAIL) {
-                       emails = item.EMAIL.map(email => email.VALUE).join(', ');
-                   }
-                   let title = item.TITLE ? item.TITLE + (item.NAME || item.LAST_NAME ? ': ' : '') : '';
-                   if (item.NAME || item.LAST_NAME) {
-                       title += [item.NAME, item.LAST_NAME].join(' ');
-                   }
-   
-                   table.push([
-                       item.ID,
-                       entity,
-                       title,
-                       phones || '—',
-                       emails || '—'
-                   ]);
-               });
+
+   const resultEntity = {
+       lead: [],
+       contact: [],
+       company: []
+   }
+
+   // Объединяет идентификаторы из ответа метода с объектом entityIDs
+   function mergeDuplicates(data) {
+       for (const type of ['LEAD', 'CONTACT', 'COMPANY']) {
+           if (Array.isArray(data?.[type])) {
+               entityIDs[type] = entityIDs[type].concat(data[type])
            }
-           
-           // Выводим таблицу в консоль
-           console.table(table);
-       }, 1000); // Задержка для завершения всех запросов
-   }, 1000);
+       }
+   }
+
+   // Поиск дубликатов по телефону
+   if (phone) {
+       const phoneResult = await $b24.actions.v2.call.make({
+           method: 'crm.duplicate.findbycomm',
+           params: { type: 'PHONE', values: [phone] }
+       })
+       if (phoneResult.isSuccess) {
+           mergeDuplicates(phoneResult.getData()?.result)
+       } else {
+           console.error('Ошибка при поиске дубликатов по телефону:', phoneResult.getErrorMessages().join('; '))
+       }
+   }
+
+   // Поиск дубликатов по email
+   if (email) {
+       const emailResult = await $b24.actions.v2.call.make({
+           method: 'crm.duplicate.findbycomm',
+           params: { type: 'EMAIL', values: [email] }
+       })
+       if (emailResult.isSuccess) {
+           mergeDuplicates(emailResult.getData()?.result)
+       } else {
+           console.error('Ошибка при поиске дубликатов по email:', emailResult.getErrorMessages().join('; '))
+       }
+   }
+
+   // Обрабатываем лиды
+   if (entityIDs.LEAD.length > 0) {
+       const result = await $b24.actions.v2.call.make({
+           method: 'crm.lead.list',
+           params: {
+               filter: { ID: entityIDs.LEAD },
+               select: ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL', 'TITLE']
+           }
+       })
+       if (result.isSuccess) {
+           const leads = result.getData()?.result
+           if (leads?.length > 0) {
+               resultEntity.lead = leads
+           }
+       } else {
+           console.error(result.getErrorMessages().join('; '))
+       }
+   }
+
+   // Обрабатываем контакты
+   if (entityIDs.CONTACT.length > 0) {
+       const result = await $b24.actions.v2.call.make({
+           method: 'crm.contact.list',
+           params: {
+               filter: { ID: entityIDs.CONTACT },
+               select: ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL']
+           }
+       })
+       if (result.isSuccess) {
+           const contacts = result.getData()?.result
+           if (contacts?.length > 0) {
+               resultEntity.contact = contacts
+           }
+       } else {
+           console.error(result.getErrorMessages().join('; '))
+       }
+   }
+
+   // Обрабатываем компании
+   if (entityIDs.COMPANY.length > 0) {
+       const result = await $b24.actions.v2.call.make({
+           method: 'crm.company.list',
+           params: {
+               filter: { ID: entityIDs.COMPANY },
+               select: ['ID', 'PHONE', 'EMAIL', 'TITLE']
+           }
+       })
+       if (result.isSuccess) {
+           const companies = result.getData()?.result
+           if (companies?.length > 0) {
+               resultEntity.company = companies
+           }
+       } else {
+           console.error(result.getErrorMessages().join('; '))
+       }
+   }
+
+   // Формируем таблицу
+   const table = []
+   // Заголовок таблицы
+   table.push([
+       "Идентификатор",
+       "Тип объекта",
+       "Название/Имя и фамилия",
+       "Телефон",
+       "Email"
+   ])
+
+   // Строки данных
+   for (const entity in resultEntity) {
+       resultEntity[entity].forEach(function(item) {
+           let phones = ''
+           if (item.PHONE) {
+               phones = item.PHONE.map(phone => phone.VALUE).join(', ')
+           }
+           let emails = ''
+           if (item.EMAIL) {
+               emails = item.EMAIL.map(email => email.VALUE).join(', ')
+           }
+           let title = item.TITLE ? item.TITLE + (item.NAME || item.LAST_NAME ? ': ' : '') : ''
+           if (item.NAME || item.LAST_NAME) {
+               title += [item.NAME, item.LAST_NAME].join(' ')
+           }
+
+           table.push([
+               item.ID,
+               entity,
+               title,
+               phones || '—',
+               emails || '—'
+           ])
+       })
+   }
+
+   // Выводим таблицу в консоль
+   console.table(table)
    ```
 
 - PHP
 
    ```php
-   <?
-   require_once('crest.php');
-   
+   <?php
+   // composer require bitrix24/b24phpsdk:"^3.0"
+   require_once 'vendor/autoload.php';
+
+   use Bitrix24\SDK\Services\ServiceBuilderFactory;
+   use Bitrix24\SDK\Services\CRM\Duplicates\Result\DuplicateResult;
+   use Symfony\Component\EventDispatcher\EventDispatcher;
+   use Monolog\Logger;
+   use Monolog\Handler\StreamHandler;
+
+   $log = new Logger('b24');
+   $log->pushHandler(new StreamHandler('php://stdout'));
+
+   $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+       ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
    // Запрос у пользователя телефона и email
    $phone = readline("Введите номер телефона: ");
-   $phone = readline("Введите email: ");
-   
+   $email = readline("Введите email: ");
+
    // Инициализация переменных
    $entityIDs = [
        'LEAD' => [],
@@ -853,112 +798,76 @@
        'contact' => [],
        'company' => []
    ];
-   
-   // Поиск дубликатов по телефону    
+
+   // Объединяет идентификаторы из ответа метода с массивом $entityIDs
+   function mergeDuplicates(DuplicateResult $result, array &$entityIDs): void
+   {
+       $data = $result->getCoreResponse()->getResponseData()->getResult();
+       foreach (['LEAD', 'CONTACT', 'COMPANY'] as $type) {
+           if (!empty($data[$type]) && is_array($data[$type])) {
+               $entityIDs[$type] = array_merge($entityIDs[$type], $data[$type]);
+           }
+       }
+   }
+
+   // Поиск дубликатов по телефону
    if($phone)
    {
-       $result = CRest::call('crm.duplicate.findbycomm', [
-           'type' => 'PHONE',
-           'values' => [$phone]
-       ]);
-       if(is_array($result['result']['LEAD']))
-       {
-           $entityIDs['LEAD'] = array_merge($entityIDs['LEAD'], $result['result']['LEAD']);
-       }
-       if(is_array($result['result']['CONTACT']))
-       {
-           $entityIDs['CONTACT'] = array_merge($entityIDs['CONTACT'], $result['result']['CONTACT']);
-       }
-       if(is_array($result['result']['COMPANY']))
-       {
-           $entityIDs['COMPANY'] = array_merge($entityIDs['COMPANY'], $result['result']['COMPANY']);
-       }
+       mergeDuplicates($sb->getCRMScope()->duplicate()->findByPhone([$phone]), $entityIDs);
    }
-   
-   // Поиск дубликатов по email 
+
+   // Поиск дубликатов по email
    if($email)
    {
-       $result = CRest::call('crm.duplicate.findbycomm', [
-           'type' => 'EMAIL',
-           'values' => [$email]
-       ]);
-       if(is_array($result['result']['LEAD']))
-       {
-           $entityIDs['LEAD'] = array_merge($entityIDs['LEAD'], $result['result']['LEAD']);
-       }
-       if(is_array($result['result']['CONTACT']))
-       {
-           $entityIDs['CONTACT'] = array_merge($entityIDs['CONTACT'], $result['result']['CONTACT']);
-       }
-       if(is_array($result['result']['COMPANY']))
-       {
-           $entityIDs['COMPANY'] = array_merge($entityIDs['COMPANY'], $result['result']['COMPANY']);
-       }
+       mergeDuplicates($sb->getCRMScope()->duplicate()->findByEmail([$email]), $entityIDs);
    }
-   
+
    // Обрабатываем лиды
    if(!empty($entityIDs['LEAD']))
    {
-       $result = CRest::call(
-           'crm.lead.list',
-           [
-           'filter' => [
-               'ID' => $entityIDs['LEAD']
-           ],
-           'select' =>     [
-               'ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL', 'TITLE'
-           ]
-           ]
-       );
-       if(!empty($result['result']))
+       $leads = $sb->getCRMScope()->lead()->list(
+           [],
+           ['ID' => $entityIDs['LEAD']],
+           ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL', 'TITLE']
+       )->getLeads();
+       if(!empty($leads))
        {
-           $resultEntity['lead'] = $result['result'];
+           $resultEntity['lead'] = $leads;
        }
    }
-   
+
    // Обрабатываем контакты
    if(!empty($entityIDs['CONTACT']))
    {
-       $result = CRest::call(
-           'crm.contact.list',
-           [
-               'filter' => [
-                   'ID' => $entityIDs['CONTACT']
-               ],
-               'select' =>     [
-                   'ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL'
-               ]
-           ]
-       );
-       if(!empty($result['result']))
+       $contacts = $sb->getCRMScope()->contact()->list(
+           [],
+           ['ID' => $entityIDs['CONTACT']],
+           ['ID', 'NAME', 'LAST_NAME', 'PHONE', 'EMAIL'],
+           0
+       )->getContacts();
+       if(!empty($contacts))
        {
-           $resultEntity['contact'] = $result['result'];
+           $resultEntity['contact'] = $contacts;
        }
    }
-   
+
    // Обрабатываем компании
    if(!empty($entityIDs['COMPANY']))
    {
-       $result = CRest::call(
-           'crm.company.list',
-           [
-               'filter' => [
-                   'ID' => $entityIDs['COMPANY']
-               ],
-               'select' =>     [
-                   'ID', 'PHONE', 'EMAIL', 'TITLE'
-               ]
-           ]
-       );
-       if(!empty($result['result']))
+       $companies = $sb->getCRMScope()->company()->list(
+           [],
+           ['ID' => $entityIDs['COMPANY']],
+           ['ID', 'PHONE', 'EMAIL', 'TITLE']
+       )->getCompanies();
+       if(!empty($companies))
        {
-           $resultEntity['company'] = $result['result'];
+           $resultEntity['company'] = $companies;
        }
    }
-   
+
    // Формируем таблицу
    $table = [];
-   
+
    // Заголовок таблицы
    $table[] = [
        "Идентификатор",
@@ -967,30 +876,30 @@
        "Телефон",
        "Email"
    ];
-   
+
    // Строки данных
    foreach ($resultEntity as $entityType => $entities) {
        foreach ($entities as $item) {
            $phones = '';
-           if (!empty($item['PHONE'])) {
-               $phones = implode(', ', array_column($item['PHONE'], 'VALUE'));
+           if (!empty($item->PHONE)) {
+               $phones = implode(', ', array_map(fn($phone) => $phone->VALUE, $item->PHONE));
            }
            $emails = '';
-           if (!empty($item['EMAIL'])) {
-               $emails = implode(', ', array_column($item['EMAIL'], 'VALUE'));
+           if (!empty($item->EMAIL)) {
+               $emails = implode(', ', array_map(fn($email) => $email->VALUE, $item->EMAIL));
            }
-           $title = !empty($item['TITLE']) ? $item['TITLE'] : '';
-           if (!empty($item['NAME']) || !empty($item['LAST_NAME'])) {
-               $namePart = trim($item['NAME'] . ' ' . $item['LAST_NAME']);
+           $title = !empty($item->TITLE) ? $item->TITLE : '';
+           if (!empty($item->NAME) || !empty($item->LAST_NAME)) {
+               $namePart = trim($item->NAME . ' ' . $item->LAST_NAME);
                if ($title) {
                    $title .= ': ' . $namePart;
                } else {
                    $title = $namePart;
                }
            }
-   
+
            $table[] = [
-               $item['ID'],
+               $item->ID,
                $entityType,
                $title ?: '—',
                $phones ?: '—',
@@ -998,13 +907,11 @@
            ];
        }
    }
-   
+
    // Выводим таблицу в консоль через табуляцию
    foreach ($table as $row) {
        echo implode("\t", $row) . "\n";
    }
-   
-   ?>
    ```
 
 - Python
@@ -1028,7 +935,7 @@
 
     try:
         if phone:
-            phone_result = client.crm.duplicate.find_by_comm(
+            phone_result = client.crm.duplicate.findbycomm(
                 type="PHONE",
                 values=[phone],
             ).response.result
@@ -1036,7 +943,7 @@
                 entity_ids[key].extend(phone_result.get(key, []))
 
         if email:
-            email_result = client.crm.duplicate.find_by_comm(
+            email_result = client.crm.duplicate.findbycomm(
                 type="EMAIL",
                 values=[email],
             ).response.result

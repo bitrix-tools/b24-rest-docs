@@ -36,9 +36,14 @@
 - JS
 
     ```js
-    BX24.callMethod(
-        "sale.basketitem.add",
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const response = await $b24.actions.v2.call.make({
+        method: 'sale.basketitem.add',
+        params: {
             fields: { // минимальный набор необходимых полей
                 orderId: 5147,
                 quantity: 4,
@@ -49,49 +54,46 @@
                 customPrice: 'Y',
             }
         },
-    )
-        .then(
-            function(result)
-            {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.log(result.data());
-                }
-            },
-            function(error)
-            {
-                console.info(error);
-            }
-        );
+        requestId: 'basketitem-add'
+    })
+
+    if (response.isSuccess) {
+        console.log(response.getData().result)
+    } else {
+        console.error(response.getErrorMessages().join('; '))
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'sale.basketitem.add',
-        [
-            'fields' =>
-            [
-                'orderId' => 5147,
-                'quantity' => 4,
-                'productId' => 6544,
-                'currency' => 'RUB',
-                'price' => 1100,
-                'discountPrice' => -1070,
-                'customPrice' => 'Y',
-            ]
-        ]
-    );
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $sb->getSaleScope()->basketItem()->add([
+        'orderId' => 5147,
+        'quantity' => 4,
+        'productId' => 6544,
+        'currency' => 'RUB',
+        'price' => 1100,
+        'discountPrice' => -1070,
+        'customPrice' => 'Y',
+    ]);
 
     echo '<PRE>';
-    print_r($result);
+    print_r($result->getId());
     echo '</PRE>';
     ```
 

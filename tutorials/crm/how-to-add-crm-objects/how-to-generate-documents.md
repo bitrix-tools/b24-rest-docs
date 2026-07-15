@@ -76,34 +76,40 @@
 -  JS
 
    ```javascript
-   BX24.callMethod(
-       'crm.documentgenerator.numerator.add',
-       {
-           'fields': {
+   import { B24Hook } from '@bitrix24/b24jssdk'
+
+   const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+   // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+   const resNum = await $b24.actions.v2.call.make({
+       method: 'crm.documentgenerator.numerator.add',
+       params: {
+           fields: {
                'name': 'Нумератор из REST',
                'template': '{NUMBER}'
            }
        },
-       function(resNum) {
-           if (resNum.error()) {
-               console.error(resNum.error());
-               alert('Нумератор не добавлен: ' + resNum.error_description());
-               return;
-           }
-       }
-   );
+       requestId: 'numerator-add'
+   });
    ```
 
 -  PHP
 
    ```php
-   $resNum = CRest::call(
-       'crm.documentgenerator.numerator.add',
+   // composer require bitrix24/b24phpsdk:"^3.0"
+   require_once 'vendor/autoload.php';
+
+   use Bitrix24\SDK\Services\ServiceBuilderFactory;
+   use Symfony\Component\EventDispatcher\EventDispatcher;
+   use Psr\Log\NullLogger;
+
+   $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+       ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+   $resNum = $sb->getCRMScope()->documentgeneratorNumerator()->add(
        [
-           'fields' => [
-               'name' => 'Нумератор из REST',
-               'template' => '{NUMBER}',
-           ]
+           'name' => 'Нумератор из REST',
+           'template' => '{NUMBER}',
        ]
    );
    ```
@@ -196,44 +202,35 @@
    
    let fileContent = await fileToBase64(filePath);
    
-   BX24.callMethod(
-       'crm.documentgenerator.template.add',
-       {
-           'fields': {
+   const resTemplate = await $b24.actions.v2.call.make({
+       method: 'crm.documentgenerator.template.add',
+       params: {
+           fields: {
                'name': sDocName,
-               'numeratorId': resNum.data().numerator.id,
+               'numeratorId': resNum.getData().result.numerator.id,
                'region': 'ru',
                'users': ['UA'],
                'entityTypeId': ['2'],
                'file': fileContent
            }
        },
-       function(resTemplate) {
-           if (resTemplate.error()) {
-               console.error(resTemplate.error());
-               alert('Шаблон не добавлен: ' + resTemplate.error_description());
-               return;
-           }
-       }
-   );
+       requestId: 'template-add'
+   });
    ```
 
 -  PHP
 
    ```php
-   $resTemplate = CRest::call(
-       'crm.documentgenerator.template.add',
+   $resTemplate = $sb->getCRMScope()->documentgeneratorTemplate()->add(
        [
-           'fields' => [
-               'name' => $sDocName,
-               'numeratorId' => $resNum['result']['numerator']['id'],  
-               'region' => 'ru', 
-               'users' => [
-                   'UA'//User All
-               ],
-               'entityTypeId' => ['2'], 
-               'file' => base64_encode(file_get_contents($filePath))
-           ]
+           'name' => $sDocName,
+           'numeratorId' => $resNum->getId(), // crm.documentgenerator.numerator.add
+           'region' => 'ru', // eu,de,ua,by,ru
+           'users' => [
+               'UA'//User All
+           ],
+           'entityTypeId' => ['2'], // 2 — сделка (crm.enum.ownertype)
+           'file' => base64_encode(file_get_contents($filePath))
        ]
    );
    ```
@@ -296,34 +293,24 @@ template: {
 -  JS
 
    ```js
-   BX24.callMethod(
-       'crm.documentgenerator.document.add',
-       {
-           'templateId': resTemplate.data().template.id,
+   const resDoc = await $b24.actions.v2.call.make({
+       method: 'crm.documentgenerator.document.add',
+       params: {
+           'templateId': resTemplate.getData().result.template.id,
            'entityTypeId': '2',
            'entityId': iDealID
        },
-       function(resDoc) {
-           if (resDoc.error()) {
-               console.error(resDoc.error());
-               alert('Документ не создан: ' + resDoc.error_description());
-           } else {
-               alert('Документ создан');
-           }
-       }
-   );
+       requestId: 'document-add'
+   });
    ```
 
 -  PHP
 
    ```php
-   $resDoc = CRest::call(
-       'crm.documentgenerator.document.add',
-       [
-           'templateId' => $resTemplate['result']['template']['id'],
-           'entityTypeId' => '2', 
-           'entityId' => $iDealID,
-       ]
+   $resDoc = $sb->getCRMScope()->documentgeneratorDocument()->add(
+       templateId: $resTemplate->getId(),
+       entityTypeId: 2, // 2 — сделка (crm.enum.ownertype)
+       entityId: $iDealID,
    );
    ```
 
@@ -373,151 +360,134 @@ template: {
 -  JS
 
    ```javascript
-   document.addEventListener('DOMContentLoaded', function() {
-       let filePath = 'template.docx'; // путь к локальному файлу шаблона
-       let iDealID = 1; // идентификатор сделки
-       let sDocName = 'Демонстрационная реализация товара';
-   
-       function fileToBase64(filePath) {
-           return new Promise((resolve, reject) => {
-               fetch(filePath)
-                   .then(response => response.blob())
-                   .then(blob => {
-                       let reader = new FileReader();
-                       reader.onload end = () => resolve(reader.result.split(',')[1]);
-                       reader.oner ror = reject;
-                       reader.readAsDataURL(blob);
-                   });
+   import { B24Hook } from '@bitrix24/b24jssdk'
+
+   const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+   // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+   let filePath = 'template.docx'; // путь к локальному файлу шаблона
+   let iDealID = 1; // идентификатор сделки
+   let sDocName = 'Демонстрационная реализация товара';
+
+   function fileToBase64(filePath) {
+       return new Promise((resolve, reject) => {
+           fetch(filePath)
+               .then(response => response.blob())
+               .then(blob => {
+                   let reader = new FileReader();
+                   reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                   reader.onerror = reject;
+                   reader.readAsDataURL(blob);
+               });
+       });
+   }
+
+   async function createDocument() {
+       try {
+           let fileContent = await fileToBase64(filePath);
+
+           const resNum = await $b24.actions.v2.call.make({
+               method: 'crm.documentgenerator.numerator.add',
+               params: { fields: { 'name': 'Нумератор из REST', 'template': '{NUMBER}' } },
+               requestId: 'numerator-add'
            });
-       }
-   
-       async function createDocument() {
-           try {
-               let fileContent = await fileToBase64(filePath);
-   
-               BX24.callMethod(
-                   'crm.documentgenerator.numerator.add',
-                   {
-                       'fields': {
-                           'name': 'Нумератор из REST',
-                           'template': '{NUMBER}'
+
+           if (resNum.getData().result.numerator.id) {
+               const resTemplate = await $b24.actions.v2.call.make({
+                   method: 'crm.documentgenerator.template.add',
+                   params: {
+                       fields: {
+                           'name': sDocName,
+                           'numeratorId': resNum.getData().result.numerator.id,
+                           'region': 'ru',
+                           'users': ['UA'],
+                           'entityTypeId': ['2'],
+                           'file': fileContent
                        }
                    },
-                   function(resNum) {
-                       if (resNum.error()) {
-                           console.error(resNum.error());
-                           alert('Нумератор не добавлен: ' + resNum.error_description());
-                           return;
-                       }
-   
-                       if (resNum.data().numerator.id) {
-                           BX24.callMethod(
-                               'crm.documentgenerator.template.add',
-                               {
-                                   'fields': {
-                                       'name': sDocName,
-                                       'numeratorId': resNum.data().numerator.id,
-                                       'region': 'ru',
-                                       'users': ['UA'],
-                                       'entityTypeId': ['2'],
-                                       'file': fileContent
-                                   }
-                               },
-                               function(resTemplate) {
-                                   if (resTemplate.error()) {
-                                       console.error(resTemplate.error());
-                                       alert('Шаблон не добавлен: ' + resTemplate.error_description());
-                                       return;
-                                   }
-   
-                                   if (resTemplate.data().template.id) {
-                                       BX24.callMethod(
-                                           'crm.documentgenerator.document.add',
-                                           {
-                                               'templateId': resTemplate.data().template.id,
-                                               'entityTypeId': '2',
-                                               'entityId': iDealID
-                                           },
-                                           function(resDoc) {
-                                               if (resDoc.error()) {
-                                                   console.error(resDoc.error());
-                                                   alert('Документ не создан: ' + resDoc.error_description());
-                                               } else {
-                                                   alert('Документ создан');
-                                               }
-                                           }
-                                       );
-                                   }
-                               }
-                           );
-                       }
-                   }
-               );
-           } catch (error) {
-               console.error(error);
-               alert('Ошибка: ' + error.message);
+                   requestId: 'template-add'
+               });
+
+               if (resTemplate.getData().result.template.id) {
+                   await $b24.actions.v2.call.make({
+                       method: 'crm.documentgenerator.document.add',
+                       params: {
+                           'templateId': resTemplate.getData().result.template.id,
+                           'entityTypeId': '2',
+                           'entityId': iDealID
+                       },
+                       requestId: 'document-add'
+                   });
+                   alert('Документ создан');
+               }
            }
+       } catch (error) {
+           console.error(error);
+           alert('Ошибка: ' + error.message);
        }
-   
-       createDocument();
-   });
+   }
+
+   createDocument();
    ```
 
 -  PHP
 
    ```php
+   <?php
+   // composer require bitrix24/b24phpsdk:"^3.0"
+   require_once 'vendor/autoload.php';
+
+   use Bitrix24\SDK\Services\ServiceBuilderFactory;
+   use Symfony\Component\EventDispatcher\EventDispatcher;
+   use Psr\Log\NullLogger;
+
+   $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+       ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
    $filePath = __DIR__ . '/template.docx'; // путь к локальному файлу шаблона
    $iDealID = 1; // идентификатор сделки
    $sDocName = 'Демонстрационная реализация товара';
-   $resNum = CRest::call(
-       'crm.documentgenerator.numerator.add',
-       [
-           'fields' => [
+   try {
+       $resNum = $sb->getCRMScope()->documentgeneratorNumerator()->add(
+           [
                'name' => 'Нумератор из REST',
                'template' => '{NUMBER}',
            ]
-       ]
-   );
-   if (!empty($resNum['result']['numerator']['id']))
-   {
-       $resTemplate = CRest::call(
-           'crm.documentgenerator.template.add',
-           [
-               'fields' => [
+       );
+       $resDoc = null;
+       if (!empty($resNum->getId()))
+       {
+           $resTemplate = $sb->getCRMScope()->documentgeneratorTemplate()->add(
+               [
                    'name' => $sDocName,
-                   'numeratorId' => $resNum['result']['numerator']['id'], // crm.documentgenerator.numerator.add
+                   'numeratorId' => $resNum->getId(), // crm.documentgenerator.numerator.add
                    'region' => 'ru', // eu,de,ua,by,ru
                    'users' => [
                        'UA'//User All
                    ],
-                   'entityTypeId' => ['2'], //2 — сделка в CRest::call('crm.enum.ownertype');
+                   'entityTypeId' => ['2'], // 2 — сделка (crm.enum.ownertype)
                    'file' => base64_encode(file_get_contents($filePath))
                ]
-           ]
-       );
-       if (!empty($resTemplate['result']['template']['id']))
-       {
-           $resDoc = CRest::call(
-               'crm.documentgenerator.document.add',
-               [
-                   'templateId' => $resTemplate['result']['template']['id'],
-                   'entityTypeId' => '2', //2 — сделка в CRest::call('crm.enum.ownertype');
-                   'entityId' => $iDealID,
-               ]
            );
+           if (!empty($resTemplate->getId()))
+           {
+               $resDoc = $sb->getCRMScope()->documentgeneratorDocument()->add(
+                   templateId: $resTemplate->getId(),
+                   entityTypeId: 2, // 2 — сделка (crm.enum.ownertype)
+                   entityId: $iDealID,
+               );
+           }
        }
-   }
-   if (!empty($resDoc['result']))
-   {
-       echo json_encode(['message' => 'Документ создан']);
-   }
-   elseif (!empty($resDoc['error_description']))
-   {
-       echo json_encode(['message' => 'Документ не создан: ' . $resDoc['error_description']]);
-   }
-   else
-   {
-       echo json_encode(['message' => 'Документ не создан']);
+       if (!empty($resDoc) && !empty($resDoc->getId()))
+       {
+           echo json_encode(['message' => 'Документ создан']);
+       }
+       else
+       {
+           echo json_encode(['message' => 'Документ не создан']);
+       }
+   } catch (\Throwable $e) {
+       echo json_encode(['message' => 'Документ не создан: ' . $e->getMessage()]);
    }
    ```
 

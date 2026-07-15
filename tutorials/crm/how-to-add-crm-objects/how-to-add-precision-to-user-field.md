@@ -23,40 +23,39 @@
 - JS
   
     ```JavaScript
-    BX24.callMethod(
-        "crm.userfield.settings.fields",
-        {
-            type: "double" // тип пользовательского поля
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.userfield.settings.fields',
+        params: {
+            type: 'double' // тип пользовательского поля
         },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
+        requestId: 'settings-fields'
+    });
+    console.dir(result.getData().result);
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'crm.userfield.settings.fields',
-        [
-            'type' => 'double' // Тип пользовательского поля
-        ]
-    );
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
 
-    if (isset($result['error'])) {
-        echo 'Ошибка: ' . $result['error_description'];
-    } else {
-        echo '<PRE>';
-        print_r($result['result']);
-        echo '</PRE>';
-    }
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $sb->getCRMScope()->userfield()->settingsFields(
+        'double' // Тип пользовательского поля
+    )->getFieldsDescription();
+
+    print_r($result);
     ```
 
 - Python
@@ -120,9 +119,9 @@
 - JS
   
     ```JavaScript
-    BX24.callMethod(
-        'userfieldconfig.add',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'userfieldconfig.add',
+        params: {
             moduleId: 'crm', // Идентификатор модуля
             field: {
                 entityId: 'CRM_DEAL', // Идентификатор объекта
@@ -137,16 +136,16 @@
                     },
             }
         },
-    );
+        requestId: 'userfieldconfig-add'
+    });
     ```
 
 - PHP
   
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    // у userfieldconfig.add нет обёртки в SDK — вызываем метод напрямую
+    $result = $sb->core->call(
         'userfieldconfig.add',
         [
             'moduleId' => 'crm', // Идентификатор модуля
@@ -272,31 +271,28 @@
 - JS
   
     ```JavaScript
-    BX24.callMethod(
-        "crm.deal.userfield.list",
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.deal.userfield.list',
+        params: {
             filter: {
                 LANG: 'ru', // Фильтр по языку для вывода названия поля
                 USER_TYPE_ID: 'double' // Фильтр по типу поля
             }
-        }
-    );
+        },
+        requestId: 'userfield-list'
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.deal.userfield.list',
-        [
-            'filter' => [
-                'LANG' => 'ru', // Фильтр по языку для вывода названия поля
-                'USER_TYPE_ID' => 'double' // Фильтр по типу поля
-            ]
+    $result = $sb->getCRMScope()->dealUserfield()->list(
+        order: [],
+        filter: [
+            'LANG' => 'ru', // Фильтр по языку для вывода названия поля
+            'USER_TYPE_ID' => 'double' // Фильтр по типу поля
         ]
-    );
+    )->getUserfields();
     ```
 
 - Python
@@ -389,9 +385,9 @@
 - JS
   
     ```JavaScript
-    BX24.callMethod(
-        'userfieldconfig.update',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'userfieldconfig.update',
+        params: {
             moduleId: 'crm', // Идентификатор модуля
             id: 6807, // id пользовательского поля
             field: {
@@ -400,15 +396,15 @@
                     },
             }
         },
-    );
+        requestId: 'userfieldconfig-update'
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    // у userfieldconfig.update нет обёртки в SDK — вызываем метод напрямую
+    $result = $sb->core->call(
         'userfieldconfig.update',
         [
             'moduleId' => 'crm', // Идентификатор модуля
@@ -493,62 +489,62 @@
 - JS
   
     ```JavaScript
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
     // Функция для поиска и обновления пользовательского поля
-    function updateUserField() {
+    async function updateUserField() {
         // Запрашиваем у пользователя название поля
         var fieldName = prompt("Введите название поля:");
 
-        // Первый метод: Получаем список всех пользовательских полей типа 'double'
-        BX24.callMethod(
-            "crm.deal.userfield.list",
-            {
-                filter: {
-                    LANG: 'ru', // Фильтр по языку для вывода названия поля
-                    USER_TYPE_ID: 'double' // Фильтр по типу поля
-                }
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error(result.error());
-                } else {
-                    // Перебираем полученные поля, чтобы найти нужное по названию
-                    var fields = result.data();
-                    var fieldId = null;
-
-                    for (var i = 0; i < fields.length; i++) {
-                        if (fields[i].EDIT_FORM_LABEL === fieldName) {
-                            fieldId = fields[i].ID;
-                            break;
-                        }
+        try {
+            // Первый метод: Получаем список всех пользовательских полей типа 'double'
+            const result = await $b24.actions.v2.call.make({
+                method: 'crm.deal.userfield.list',
+                params: {
+                    filter: {
+                        LANG: 'ru', // Фильтр по языку для вывода названия поля
+                        USER_TYPE_ID: 'double' // Фильтр по типу поля
                     }
+                },
+                requestId: 'userfield-list'
+            });
 
-                    if (fieldId) {
-                        // Второй метод: Обновляем настройки найденного поля
-                        BX24.callMethod(
-                            'userfieldconfig.update',
-                            {
-                                moduleId: 'crm', // Идентификатор модуля
-                                id: fieldId, // ID найденного пользовательского поля
-                                field: {
-                                    settings: { 
-                                        PRECISION: 3 // Количество знаков после запятой
-                                    }
-                                }
-                            },
-                            function(updateResult) {
-                                if (updateResult.error()) {
-                                    console.error(updateResult.error());
-                                } else {
-                                    console.log("Настройки поля успешно обновлены.");
-                                }
-                            }
-                        );
-                    } else {
-                        console.log("Поле с указанным названием не найдено.");
-                    }
+            // Перебираем полученные поля, чтобы найти нужное по названию
+            var fields = result.getData().result;
+            var fieldId = null;
+
+            for (var i = 0; i < fields.length; i++) {
+                if (fields[i].EDIT_FORM_LABEL === fieldName) {
+                    fieldId = fields[i].ID;
+                    break;
                 }
             }
-        );
+
+            if (fieldId) {
+                // Второй метод: Обновляем настройки найденного поля
+                await $b24.actions.v2.call.make({
+                    method: 'userfieldconfig.update',
+                    params: {
+                        moduleId: 'crm', // Идентификатор модуля
+                        id: fieldId, // ID найденного пользовательского поля
+                        field: {
+                            settings: { 
+                                PRECISION: 3 // Количество знаков после запятой
+                            }
+                        }
+                    },
+                    requestId: 'userfieldconfig-update'
+                });
+                console.log("Настройки поля успешно обновлены.");
+            } else {
+                console.log("Поле с указанным названием не найдено.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     // Запускаем функцию
@@ -558,38 +554,43 @@
 - PHP
   
     ```php
-    require_once('crest.php');
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Bitrix24\SDK\Services\ServiceBuilder;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     // Функция для поиска и обновления пользовательского поля
-    function updateUserField($fieldName) {
-        // Первый метод: Получаем список всех пользовательских полей типа 'double'
-        $result = CRest::call(
-            'crm.deal.userfield.list',
-            [
-                'filter' => [
+    function updateUserField(ServiceBuilder $sb, $fieldName) {
+        try {
+            // Первый метод: Получаем список всех пользовательских полей типа 'double'
+            $fields = $sb->getCRMScope()->dealUserfield()->list(
+                order: [],
+                filter: [
                     'LANG' => 'ru', // Фильтр по языку для вывода названия поля
                     'USER_TYPE_ID' => 'double' // Фильтр по типу поля
                 ]
-            ]
-        );
+            )->getUserfields();
 
-        if (isset($result['error'])) {
-            echo 'Ошибка: ' . $result['error_description'];
-        } else {
             // Перебираем полученные поля, чтобы найти нужное по названию
-            $fields = $result['result'];
             $fieldId = null;
-
             foreach ($fields as $field) {
-                if ($field['EDIT_FORM_LABEL'] === $fieldName) {
-                    $fieldId = $field['ID'];
+                if ($field->EDIT_FORM_LABEL === $fieldName) {
+                    $fieldId = $field->ID;
                     break;
                 }
             }
 
             if ($fieldId) {
                 // Второй метод: Обновляем настройки найденного поля
-                $updateResult = CRest::call(
+                // у userfieldconfig.update нет обёртки в SDK — вызываем метод напрямую
+                $sb->core->call(
                     'userfieldconfig.update',
                     [
                         'moduleId' => 'crm', // Идентификатор модуля
@@ -601,15 +602,12 @@
                         ]
                     ]
                 );
-
-                if (isset($updateResult['error'])) {
-                    echo 'Ошибка: ' . $updateResult['error_description'];
-                } else {
-                    echo 'Настройки поля успешно обновлены.';
-                }
+                echo 'Настройки поля успешно обновлены.';
             } else {
                 echo 'Поле с указанным названием не найдено.';
             }
+        } catch (\Throwable $e) {
+            echo 'Ошибка: ' . $e->getMessage();
         }
     }
 
@@ -617,7 +615,7 @@
     $fieldName = readline("Введите название поля: ");
 
     // Запускаем функцию
-    updateUserField($fieldName);
+    updateUserField($sb, $fieldName);
     ```
 
 - Python

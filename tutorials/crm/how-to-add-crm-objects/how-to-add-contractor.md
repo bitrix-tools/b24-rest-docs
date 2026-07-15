@@ -37,26 +37,41 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.category.list',
-        {
-            entityTypeId: 3, 
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.category.list',
+        params: {
+            entityTypeId: 3,
             filter: {
                 code: 'CATALOG_CONTRACTOR_CONTACT'
             }
-        },
-        function(result) {
-            console.log(result.data());
         }
-    );
+    });
+
+    console.log(result.getData().result);
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $serviceBuilder->core->call(
         'crm.category.list',
         [
             'entityTypeId' => 3,
@@ -132,10 +147,10 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.item.add',
-        {
-            entityTypeId: 3, 
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.item.add',
+        params: {
+            entityTypeId: 3,
             fields: {
                 name: 'Иван',
                 lastName: 'Иванов',
@@ -147,37 +162,31 @@
                 ],
                 comments: 'Поставщик электроники'
             }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error() + ': ' + result.error_description());
-            } else {
-                console.log(result.data());
-            }
         }
-    );
+    });
+
+    if (!result.isSuccess) {
+        console.error(result.getErrorMessages().join('; '));
+    } else {
+        console.log(result.getData().result);
+    }
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.item.add',
+    $result = $serviceBuilder->getCRMScope()->item()->add(
+        3,
         [
-            'entityTypeId' => 3,
-            'fields' => [
-                'name' => 'Иван',
-                'lastName' => 'Иванов',
-                'categoryId' => 15, // id из шага 1
-                'fm' => [
-                    [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+7 900 000 00 00' ],
-                    [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+7 495 111 22 33' ],
-                    [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'supplier@example.ru' ]
-                ],
-                'comments' => 'Поставщик электроники'
-            ]
+            'name' => 'Иван',
+            'lastName' => 'Иванов',
+            'categoryId' => 15, // id из шага 1
+            'fm' => [
+                [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+7 900 000 00 00' ],
+                [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+7 495 111 22 33' ],
+                [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'supplier@example.ru' ]
+            ],
+            'comments' => 'Поставщик электроники'
         ]
     );
     ```
@@ -304,33 +313,35 @@
 - JS
   
     ```javascript
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
     var entityTypeId = 3; // 3 - контакт; для компании укажите 4
     var categoryCode = 'CATALOG_CONTRACTOR_CONTACT'; // для компании укажите CATALOG_CONTRACTOR_COMPANY
     var categoryId = null;
 
-    BX24.callMethod(
-        'crm.category.list',
-        {
+    const resultCategory = await $b24.actions.v2.call.make({
+        method: 'crm.category.list',
+        params: {
             entityTypeId: entityTypeId,
             filter: { code: categoryCode }
-        },
-        function(resultCategory) {
-            if (resultCategory.error()) {
-                console.error(resultCategory.error() + ': ' + resultCategory.error_description());
-                return;
-            }
+        }
+    });
 
-            var categories = resultCategory.data().categories || [];
-            if (!categories.length) {
-                console.error('Категория поставщиков не найдена');
-                return;
-            }
-
+    if (!resultCategory.isSuccess) {
+        console.error(resultCategory.getErrorMessages().join('; '));
+    } else {
+        var categories = resultCategory.getData().result.categories || [];
+        if (!categories.length) {
+            console.error('Категория поставщиков не найдена');
+        } else {
             categoryId = categories[0].id;
 
-            BX24.callMethod(
-                'crm.item.add',
-                {
+            const resultItem = await $b24.actions.v2.call.make({
+                method: 'crm.item.add',
+                params: {
                     entityTypeId: entityTypeId,
                     fields: {
                         name: 'Иван',
@@ -343,55 +354,59 @@
                         ],
                         comments: 'Поставщик электроники'
                     }
-                },
-                function(resultItem) {
-                    if (resultItem.error()) {
-                        console.error(resultItem.error() + ': ' + resultItem.error_description());
-                    } else {
-                        console.log(resultItem.data());
-                    }
                 }
-            );
+            });
+
+            if (!resultItem.isSuccess) {
+                console.error(resultItem.getErrorMessages().join('; '));
+            } else {
+                console.log(resultItem.getData().result);
+            }
         }
-    );
+    }
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     $entityTypeId = 3; // 3 - контакт; для компании укажите 4
     $categoryCode = 'CATALOG_CONTRACTOR_CONTACT'; // для компании укажите CATALOG_CONTRACTOR_COMPANY
 
-    $resultCategory = CRest::call(
-        'crm.category.list',
-        [
-            'entityTypeId' => $entityTypeId,
-            'filter' => [
-                'code' => $categoryCode
+    try {
+        $resultCategory = $serviceBuilder->core->call(
+            'crm.category.list',
+            [
+                'entityTypeId' => $entityTypeId,
+                'filter' => [
+                    'code' => $categoryCode
+                ]
             ]
-        ]
-    );
+        );
 
-    if (!empty($resultCategory['error_description'])) {
-        echo $resultCategory['error_description'];
-        return;
-    }
+        $categories = $resultCategory->getResponseData()->getResult()['categories'] ?? [];
+        if (empty($categories)) {
+            echo 'Категория поставщиков не найдена';
+            return;
+        }
 
-    $categories = $resultCategory['result']['categories'] ?? [];
-    if (empty($categories)) {
-        echo 'Категория поставщиков не найдена';
-        return;
-    }
+        $categoryId = $categories[0]['id'];
 
-    $categoryId = $categories[0]['id'];
-
-    $resultItem = CRest::call(
-        'crm.item.add',
-        [
-            'entityTypeId' => $entityTypeId,
-            'fields' => [
+        $resultItem = $serviceBuilder->getCRMScope()->item()->add(
+            $entityTypeId,
+            [
                 'name' => 'Иван',
                 'lastName' => 'Иванов',
                 'categoryId' => $categoryId,
@@ -402,13 +417,11 @@
                 ],
                 'comments' => 'Поставщик электроники'
             ]
-        ]
-    );
+        );
 
-    if (!empty($resultItem['error_description'])) {
-        echo $resultItem['error_description'];
-    } else {
-        print_r($resultItem['result']);
+        print_r($resultItem->item());
+    } catch (\Throwable $e) {
+        echo $e->getMessage();
     }
     ```
 

@@ -39,45 +39,58 @@
 - JS
 
     ```javascript
-   BX24.callMethod(
-    "crm.requisite.list",
-        {
-        filter: { 
-             "ENTITY_TYPE_ID": "3", 
-             "ENTITY_ID": "2429",      
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.requisite.list',
+        params: {
+            filter: {
+                ENTITY_TYPE_ID: '3',
+                ENTITY_ID: '2429',
             },
-        select: [
-            "ID",
-            "ENTITY_TYPE_ID",
-            "ENTITY_ID",
+            select: [
+                'ID',
+                'ENTITY_TYPE_ID',
+                'ENTITY_ID',
             ],
-        },
-    );
+        }
+    });
     ```
 
 - PHP
 
-    ```php  
-    require_once('crest.php');
+    ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-        $result = CRest::call(
-            'crm.requisite.list',
-            [
-                'filter' => [
-                    'ENTITY_TYPE_ID' => '3',
-                    'ENTITY_ID' => '2429',
-                ],
-                'select' => [
-                    'ID',
-                    'ENTITY_TYPE_ID',
-                    'ENTITY_ID',
-                ],
-            ]
-        );
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $requisites = $sb->getCRMScope()->requisite()->list(
+        [],
+        [
+            'ENTITY_TYPE_ID' => '3',
+            'ENTITY_ID' => '2429',
+        ],
+        [
+            'ID',
+            'ENTITY_TYPE_ID',
+            'ENTITY_ID',
+        ]
+    )->getRequisites();
+
+    print_r($requisites);
     ```
 
 - Python
@@ -139,37 +152,32 @@
 - JS
 
     ```javascript
-    BX24.callMethod(
-        "crm.address.list",
-        {
-            filter: { 
-            "ENTITY_TYPE_ID": 8, 
-            "ENTITY_ID": 361,  
-            "TYPE_ID": 11, 
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.address.list',
+        params: {
+            filter: {
+                ENTITY_TYPE_ID: 8,
+                ENTITY_ID: 361,
+                TYPE_ID: 11,
             },
-        },
-    );
+        }
+    });
     ```
 
 - PHP
 
-    ```php   
-    require_once('crest.php');
+    ```php
+    $addresses = $sb->getCRMScope()->address()->list(
+        [],
+        [
+            'ENTITY_TYPE_ID' => 8,
+            'ENTITY_ID' => 361,
+            'TYPE_ID' => 11,
+        ],
+        []
+    )->getAddresses();
 
-        $result = CRest::call(
-            'crm.address.list',
-            [
-                'filter' => [
-                    'ENTITY_TYPE_ID' => 8,
-                    'ENTITY_ID' => 361,
-                    'TYPE_ID' => 11,
-                ],
-            ]
-        );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    print_r($addresses);
     ```
 
 - Python
@@ -222,133 +230,140 @@
 - JS
 
     ```javascript
-    var contactId = "ваш_контакт_ID_здесь"; // Замените на фактический ID контакта
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const contactId = "ваш_контакт_ID_здесь"; // Замените на фактический ID контакта
 
     // Метод для получения ID реквизита
-    BX24.callMethod(
-        "crm.requisite.list",
-        {
+    const requisiteResult = await $b24.actions.v2.call.make({
+        method: 'crm.requisite.list',
+        params: {
             filter: {
-                "ENTITY_TYPE_ID": 3,
-                "ENTITY_ID": contactId
+                ENTITY_TYPE_ID: 3,
+                ENTITY_ID: contactId
             },
             select: ["ID"]
-        },
-        function(requisiteResult) {
-            if (requisiteResult.error()) {
-                console.error(requisiteResult.error());
-            } else {
-                var requisites = requisiteResult.data();
-                if (requisites.length > 0) {
-                    var requisiteId = requisites[0].ID;
-                    console.log("Requisite ID:", requisiteId);
+        }
+    });
 
-                    // Метод для получения адреса
-                    BX24.callMethod(
-                        "crm.address.list",
-                        {
-                            filter: {
-                                "ENTITY_TYPE_ID": 8,
-                                "ENTITY_ID": requisiteId,
-                                "TYPE_ID": 11
-                            }
-                        },
-                        function(addressResult) {
-                            if (addressResult.error()) {
-                                console.error(addressResult.error());
-                            } else {
-                                var addresses = addressResult.data();
-                                if (addresses.length > 0) {
-                                    // Создаем таблицу для отображения адресов
-                                    var table = [];
-                                    addresses.forEach(function(address) {
-                                        table.push({
-                                            "Адрес": address.ADDRESS_1 || "Не указано",
-                                            "Город": address.CITY || "Не указано",
-                                            "Индекс": address.POSTAL_CODE || "Не указано",
-                                            "Страна": address.COUNTRY || "Не указано"
-                                        });
-                                    });
-                                    console.table(table);
-                                } else {
-                                    console.log("Адрес для доставки не найден.");
-                                }
-                            }
-                        }
-                    );
+    if (!requisiteResult.isSuccess) {
+        console.error(requisiteResult.getErrorMessages().join('; '));
+    } else {
+        const requisites = requisiteResult.getData().result;
+        if (requisites.length > 0) {
+            const requisiteId = requisites[0].ID;
+            console.log("Requisite ID:", requisiteId);
+
+            // Метод для получения адреса
+            const addressResult = await $b24.actions.v2.call.make({
+                method: 'crm.address.list',
+                params: {
+                    filter: {
+                        ENTITY_TYPE_ID: 8,
+                        ENTITY_ID: requisiteId,
+                        TYPE_ID: 11
+                    }
+                }
+            });
+
+            if (!addressResult.isSuccess) {
+                console.error(addressResult.getErrorMessages().join('; '));
+            } else {
+                const addresses = addressResult.getData().result;
+                if (addresses.length > 0) {
+                    // Создаем таблицу для отображения адресов
+                    const table = [];
+                    addresses.forEach(function(address) {
+                        table.push({
+                            "Адрес": address.ADDRESS_1 || "Не указано",
+                            "Город": address.CITY || "Не указано",
+                            "Индекс": address.POSTAL_CODE || "Не указано",
+                            "Страна": address.COUNTRY || "Не указано"
+                        });
+                    });
+                    console.table(table);
                 } else {
-                    console.log("Реквизит не найден.");
+                    console.log("Адрес для доставки не найден.");
                 }
             }
+        } else {
+            console.log("Реквизит не найден.");
         }
-    );
+    }
     ```
 
 
 - PHP
 
-    ```php  
-    require_once('crest.php');
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-        $contactId = 'ваш_контакт_ID_здесь'; // Замените на фактический ID контакта
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
 
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $contactId = 'ваш_контакт_ID_здесь'; // Замените на фактический ID контакта
+
+    try {
         // Метод для получения ID реквизита
-        $requisiteResult = CRest::call(
-            'crm.requisite.list',
+        $requisites = $sb->getCRMScope()->requisite()->list(
+            [],
             [
-                'filter' => [
-                    'ENTITY_TYPE_ID' => 3,
-                    'ENTITY_ID' => $contactId
+                'ENTITY_TYPE_ID' => 3,
+                'ENTITY_ID' => $contactId
+            ],
+            ['ID']
+        )->getRequisites();
+
+        if (count($requisites) > 0) {
+            $requisiteId = $requisites[0]->ID;
+            echo 'Requisite ID: ' . $requisiteId . PHP_EOL;
+
+            // Метод для получения адреса
+            $addresses = $sb->getCRMScope()->address()->list(
+                [],
+                [
+                    'ENTITY_TYPE_ID' => 8,
+                    'ENTITY_ID' => $requisiteId,
+                    'TYPE_ID' => 11
                 ],
-                'select' => ['ID']
-            ]
-        );
+                []
+            )->getAddresses();
 
-        if (isset($requisiteResult['error'])) {
-            echo 'Error: ' . $requisiteResult['error_description'];
-        } else {
-            $requisites = $requisiteResult['result'];
-            if (count($requisites) > 0) {
-                $requisiteId = $requisites[0]['ID'];
-                echo 'Requisite ID: ' . $requisiteId . PHP_EOL;
-
-                // Метод для получения адреса
-                $addressResult = CRest::call(
-                    'crm.address.list',
-                    [
-                        'filter' => [
-                            'ENTITY_TYPE_ID' => 8,
-                            'ENTITY_ID' => $requisiteId,
-                            'TYPE_ID' => 11
-                        ]
-                    ]
-                );
-
-                if (isset($addressResult['error'])) {
-                    echo 'Error: ' . $addressResult['error_description'];
-                } else {
-                    $addresses = $addressResult['result'];
-                    if (count($addresses) > 0) {
-                        // Создаем таблицу для отображения адресов
-                        echo '<table border="1">';
-                        echo '<tr><th>Адрес</th><th>Город</th><th>Индекс</th><th>Страна</th></tr>';
-                        foreach ($addresses as $address) {
-                            echo '<tr>';
-                            echo '<td>' . ($address['ADDRESS_1'] ?? 'Не указано') . '</td>';
-                            echo '<td>' . ($address['CITY'] ?? 'Не указано') . '</td>';
-                            echo '<td>' . ($address['POSTAL_CODE'] ?? 'Не указано') . '</td>';
-                            echo '<td>' . ($address['COUNTRY'] ?? 'Не указано') . '</td>';
-                            echo '</tr>';
-                        }
-                        echo '</table>';
-                    } else {
-                        echo 'Адрес для доставки не найден.';
-                    }
+            if (count($addresses) > 0) {
+                // Создаем таблицу для отображения адресов
+                echo '<table border="1">';
+                echo '<tr><th>Адрес</th><th>Город</th><th>Индекс</th><th>Страна</th></tr>';
+                foreach ($addresses as $address) {
+                    echo '<tr>';
+                    echo '<td>' . ($address->ADDRESS_1 ?? 'Не указано') . '</td>';
+                    echo '<td>' . ($address->CITY ?? 'Не указано') . '</td>';
+                    echo '<td>' . ($address->POSTAL_CODE ?? 'Не указано') . '</td>';
+                    echo '<td>' . ($address->COUNTRY ?? 'Не указано') . '</td>';
+                    echo '</tr>';
                 }
+                echo '</table>';
             } else {
-                echo 'Реквизит не найден.';
+                echo 'Адрес для доставки не найден.';
             }
+        } else {
+            echo 'Реквизит не найден.';
         }
+    } catch (\Throwable $e) {
+        echo 'Error: ' . $e->getMessage();
+    }
     ```
 
 - Python

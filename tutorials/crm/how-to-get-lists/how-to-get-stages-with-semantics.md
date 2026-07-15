@@ -42,33 +42,47 @@
 -  JS
 
     ```javascript
-    BX24.callMethod(
-        "crm.status.list",
-        {
-            order: { SORT: "ASC" }, // сортируем по возрастанию значения в поле SORT
-            filter: { ENTITY_ID: "STATUS" }, // получим стадии для лидов
-        },
-        function(result) {
-            if(result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.status.list',
+        params: {
+            order: { SORT: 'ASC' }, // сортируем по возрастанию значения в поле SORT
+            filter: { ENTITY_ID: 'STATUS' }, // получим стадии для лидов
         }
-    );
+    });
+
+    if (result.isSuccess) {
+        console.dir(result.getData().result);
+    } else {
+        console.error(result.getErrorMessages().join('; '));
+    }
     ```
 
 -  PHP
 
     ```php
-    require_once('crest.php');
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'crm.status.list',
-        [
-            'order' => [ 'SORT' => 'ASC' ],
-            'filter' => [ 'ENTITY_ID' => 'STATUS' ]
-        ]
-    );
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $statuses = $sb->getCRMScope()->status()->list(
+        ['SORT' => 'ASC'],
+        ['ENTITY_ID' => 'STATUS']
+    )->getStatuses();
     ```
 
 - Python
@@ -183,25 +197,29 @@
 -  JS
 
    ```javascript
+   import { B24Hook } from '@bitrix24/b24jssdk'
+
+   const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+   // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
    /**
     * Загружает все статусы для заданного ENTITY_ID
     * @param {string} entityId — код сущности, например, 'STATUS' или 'QUOTE_STATUS'
     * @returns {Promise<Array>} — массив всех статусов
     */
-   function loadStatuses(entityId) {
-       return new Promise((resolve, reject) => {
-           BX24.callMethod('crm.status.list', {
+   async function loadStatuses(entityId) {
+       const result = await $b24.actions.v2.call.make({
+           method: 'crm.status.list',
+           params: {
                filter: { ENTITY_ID: entityId },
                select: ['STATUS_ID', 'NAME', 'EXTRA'],
                order: { SORT: 'ASC' }
-           }, (result) => {
-               if (result.error()) {
-                   reject(result.error());
-                   return;
-               }
-               resolve(result.data());
-           });
+           }
        });
+       if (!result.isSuccess) {
+           throw new Error(result.getErrorMessages().join('; '));
+       }
+       return result.getData().result;
    }
    
    /**
@@ -262,25 +280,32 @@
 
    ```php
    <?php
-   require_once 'crest.php';
-   
+   // composer require bitrix24/b24phpsdk:"^3.0"
+   require_once 'vendor/autoload.php';
+
+   use Bitrix24\SDK\Services\ServiceBuilderFactory;
+   use Symfony\Component\EventDispatcher\EventDispatcher;
+   use Monolog\Logger;
+   use Monolog\Handler\StreamHandler;
+
+   $log = new Logger('b24');
+   $log->pushHandler(new StreamHandler('php://stdout'));
+
+   $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+       ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
    /**
     * Получает все статусы для заданного ENTITY_ID
     * @param string $entityId
     * @return array
     */
    function loadStatuses($entityId) {
-       $result = CRest::call('crm.status.list', [
-           'filter' => ['ENTITY_ID' => $entityId],
-           'select' => ['STATUS_ID', 'NAME', 'EXTRA'],
-           'order'  => ['SORT' => 'ASC']
-       ]);
-   
-       if (!empty($result['error'])) {
-           throw new Exception("Ошибка при загрузке статусов $entityId: " . $result['error_description']);
-       }
-   
-       return $result['result'];
+       global $sb;
+       return $sb->getCRMScope()->status()->list(
+           ['SORT' => 'ASC'],
+           ['ENTITY_ID' => $entityId],
+           ['STATUS_ID', 'NAME', 'EXTRA']
+       )->getStatuses();
    }
    
    /**
@@ -290,8 +315,8 @@
        $groups = ['success' => [], 'process' => [], 'failure' => []];
    
        foreach ($statuses as $item) {
-           $semantics = $item['EXTRA']['SEMANTICS'] ?? '';
-           $name = $item['NAME'] ?? $item['STATUS_ID'];
+           $semantics = $item->EXTRA['SEMANTICS'] ?? '';
+           $name = $item->NAME ?? $item->STATUS_ID;
    
            if ($semantics === 'success') {
                $groups['success'][] = $name;
