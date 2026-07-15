@@ -44,15 +44,20 @@
 - JS
 
     ```js
-    const dealId = 18;
+    // npm install @bitrix24/b24jssdk
+    import { B24Hook } from '@bitrix24/b24jssdk'
 
-    BX24.callMethod(
-        'crm.activity.list',
-        {
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/')
+
+    const dealId = 18
+
+    const activityResponse = await $b24.actions.v2.call.make({
+        method: 'crm.activity.list',
+        params: {
             filter: {
                 OWNER_TYPE_ID: 2,
                 OWNER_ID: dealId,
-                COMPLETED: 'N'
+                COMPLETED: 'N',
             },
             select: [
                 'ID',
@@ -61,75 +66,84 @@
                 'SUBJECT',
                 'DEADLINE',
                 'COMPLETED',
-                'RESPONSIBLE_ID'
-            ]
+                'RESPONSIBLE_ID',
+            ],
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error() + ': ' + result.error_description());
-                return;
-            }
+        requestId: 'activity-list',
+    })
 
-            const activity = result.data()[0];
+    if (!activityResponse.isSuccess) {
+        throw new Error(activityResponse.getErrorMessages().join('; '))
+    }
 
-            if (!activity) {
-                console.log('Незакрытые дела не найдены');
-                return;
-            }
+    const activity = activityResponse.getData().result[0]
 
-            const activityId = Number(activity.ID);
-            const ownerTypeId = Number(activity.OWNER_TYPE_ID);
-            const ownerId = Number(activity.OWNER_ID);
-            const currentDeadline = activity.DEADLINE;
-            const responsibleId = Number(activity.RESPONSIBLE_ID);
+    if (!activity) {
+        console.log('Незакрытые дела не найдены')
+    } else {
+        const activityId = Number(activity.ID)
+        const ownerTypeId = Number(activity.OWNER_TYPE_ID)
+        const ownerId = Number(activity.OWNER_ID)
+        const currentDeadline = activity.DEADLINE
+        const responsibleId = Number(activity.RESPONSIBLE_ID)
 
-            console.log(activityId, ownerTypeId, ownerId, currentDeadline, responsibleId);
-        }
-    );
+        console.log(activityId, ownerTypeId, ownerId, currentDeadline, responsibleId)
+    }
     ```
 
 - PHP
 
     ```php
     <?php
-    require_once('crest.php');
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     $dealId = 18;
 
-    $activitiesResult = CRest::call(
-        'crm.activity.list',
+    $activities = $sb->getCRMScope()->activity()->list(
+        [],
         [
-            'filter' => [
-                'OWNER_TYPE_ID' => 2,
-                'OWNER_ID' => $dealId,
-                'COMPLETED' => 'N'
-            ],
-            'select' => [
-                'ID',
-                'OWNER_TYPE_ID',
-                'OWNER_ID',
-                'SUBJECT',
-                'DEADLINE',
-                'COMPLETED',
-                'RESPONSIBLE_ID'
-            ]
-        ]
-    );
+            'OWNER_TYPE_ID' => 2,
+            'OWNER_ID' => $dealId,
+            'COMPLETED' => 'N'
+        ],
+        [
+            'ID',
+            'OWNER_TYPE_ID',
+            'OWNER_ID',
+            'SUBJECT',
+            'DEADLINE',
+            'COMPLETED',
+            'RESPONSIBLE_ID'
+        ],
+        0
+    )->getActivities();
 
-    $activity = $activitiesResult['result'][0] ?? null;
+    $activity = $activities[0] ?? null;
 
-    if (empty($activity))
+    if ($activity === null)
     {
         echo 'Незакрытые дела не найдены';
         return;
     }
 
-    $activityId = (int)$activity['ID'];
-    $ownerTypeId = (int)$activity['OWNER_TYPE_ID'];
-    $ownerId = (int)$activity['OWNER_ID'];
-    $currentDeadline = $activity['DEADLINE'];
-    $responsibleId = (int)$activity['RESPONSIBLE_ID'];
-    ?>
+    $activityId = $activity->ID;
+    $ownerTypeId = $activity->OWNER_TYPE_ID;
+    $ownerId = $activity->OWNER_ID;
+    // DEADLINE типизирован в CarbonImmutable
+    $currentDeadline = $activity->DEADLINE;
+    $responsibleId = $activity->RESPONSIBLE_ID;
     ```
 
 - Python
@@ -209,6 +223,11 @@
 - JS
 
     ```js
+    // npm install @bitrix24/b24jssdk
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/')
+
     const activityId = 555;
     const ownerTypeId = 2;
     const ownerId = 18;
@@ -234,9 +253,9 @@
 
     const deadline = getTomorrowDeadlineWithSameTime(currentDeadline);
 
-    BX24.callMethod(
-        'crm.activity.todo.update',
-        {
+    const updateResponse = await $b24.actions.v2.call.make({
+        method: 'crm.activity.todo.update',
+        params: {
             id: activityId,
             ownerTypeId: ownerTypeId,
             ownerId: ownerId,
@@ -244,23 +263,36 @@
             title: 'Связаться с клиентом',
             responsibleId: responsibleId,
             pingOffsets: [0, 15],
-            colorId: '2'
+            colorId: '2',
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error() + ': ' + result.error_description());
-            } else {
-                console.log('Дело обновлено: ' + result.data().id);
-            }
-        }
-    );
+        requestId: 'activity-todo-update',
+    })
+
+    if (!updateResponse.isSuccess) {
+        console.error(updateResponse.getErrorMessages().join('; '))
+    } else {
+        console.log('Дело обновлено: ' + updateResponse.getData().result.id)
+    }
     ```
 
 - PHP
 
     ```php
     <?php
-    require_once('crest.php');
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Core\Exceptions\BaseException;
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     $activityId = 555;
     $ownerTypeId = 2;
@@ -276,29 +308,29 @@
         (int)$currentDeadlineDate->format('s')
     );
 
-    $result = CRest::call(
-        'crm.activity.todo.update',
-        [
-            'id' => $activityId,
-            'ownerTypeId' => $ownerTypeId,
-            'ownerId' => $ownerId,
-            'deadline' => $deadline->format(DateTimeInterface::ATOM),
-            'title' => 'Связаться с клиентом',
-            'responsibleId' => $responsibleId,
-            'pingOffsets' => [0, 15],
-            'colorId' => '2'
-        ]
-    );
+    try
+    {
+        // crm.activity.todo.update не имеет типизированной обертки — вызываем через core
+        $result = $sb->core->call(
+            'crm.activity.todo.update',
+            [
+                'id' => $activityId,
+                'ownerTypeId' => $ownerTypeId,
+                'ownerId' => $ownerId,
+                'deadline' => $deadline->format(DateTimeInterface::ATOM),
+                'title' => 'Связаться с клиентом',
+                'responsibleId' => $responsibleId,
+                'pingOffsets' => [0, 15],
+                'colorId' => '2'
+            ]
+        )->getResponseData()->getResult();
 
-    if (!empty($result['error']))
-    {
-        echo 'Ошибка: '.$result['error_description'];
+        echo 'Дело обновлено: ' . $result['id'];
     }
-    else
+    catch (BaseException $exception)
     {
-        echo 'Дело обновлено: '.$result['result']['id'];
+        echo 'Ошибка: ' . $exception->getMessage();
     }
-    ?>
     ```
 
 - Python

@@ -39,29 +39,43 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.deal.userfield.list',
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.deal.userfield.list',
+        params: {
             filter: {
-                LANG: 'ru', 
+                LANG: 'ru',
                 USER_TYPE_ID: 'date'
             }
         }
-    );
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'crm.deal.userfield.list',
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $serviceBuilder->getCRMScope()->dealUserfield()->list(
+        [],
         [
-            'filter' => [
-                'LANG' => 'ru',
-                'USER_TYPE_ID' => 'date'
-            ]
+            'LANG' => 'ru',
+            'USER_TYPE_ID' => 'date'
         ]
     );
     ```
@@ -185,20 +199,19 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.item.payment.list', {
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.item.payment.list',
+        params: {
             entityId: 6917,
             entityTypeId: 2,
-        },
-    );
+        }
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    $result = $serviceBuilder->core->call(
         'crm.item.payment.list',
         [
             'entityId' => 6917,
@@ -250,29 +263,24 @@
 - JS
     
     ```javascript
-    BX24.callMethod(
-        'crm.deal.update',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.deal.update',
+        params: {
             id: 6917,
             fields: {
                 UF_CRM_1723209318: "2025-04-29T13:03:20+03:00",
             },
-        },
-    );
+        }
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.deal.update',
+    $result = $serviceBuilder->getCRMScope()->deal()->update(
+        6917,
         [
-            'id' => 6917,
-            'fields' => [
-                'UF_CRM_1723209318' => '2025-04-29T13:03:20+03:00'
-            ]
+            'UF_CRM_1723209318' => '2025-04-29T13:03:20+03:00'
         ]
     );
     ```
@@ -309,25 +317,18 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.deal.get',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.deal.get',
+        params: {
             id: 6917,
-        },
-    );
+        }
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.deal.get',
-        [
-            'id' => 6917
-        ]
-    );
+    $result = $serviceBuilder->getCRMScope()->deal()->get(6917);
     ```
 
 - Python
@@ -410,139 +411,127 @@
 - JS
   
     ```javascript
-    // Шаг 1: Получение FIELD_NAME для поля с EDIT_FORM_LABEL "Дата оплаты"
-    BX24.callMethod(
-        'crm.deal.userfield.list',
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+    import { createInterface } from 'node:readline/promises'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
+        }
+        return result.getData().result;
+    }
+
+    try {
+        // Шаг 1: Получение FIELD_NAME для поля с EDIT_FORM_LABEL "Дата оплаты"
+        const fields = await call('crm.deal.userfield.list', {
             filter: {
                 LANG: 'ru',
                 USER_TYPE_ID: 'date'
             }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                const fields = result.data();
-                const dateField = fields.find(field => field.EDIT_FORM_LABEL === "Дата оплаты");
-                if (dateField) {
-                    const fieldName = dateField.FIELD_NAME;
-                    console.log("FIELD_NAME для 'Дата оплаты':", fieldName);
+        });
+        const dateField = fields.find(field => field.EDIT_FORM_LABEL === "Дата оплаты");
+        if (dateField) {
+            const fieldName = dateField.FIELD_NAME;
+            console.log("FIELD_NAME для 'Дата оплаты':", fieldName);
 
-                    // Шаг 2: Запрос ID сделки у пользователя и получение даты оплаты
-                    const dealId = prompt("Введите ID сделки:");
-                    BX24.callMethod(
-                        'crm.item.payment.list',
-                        {
-                            entityId: dealId,
-                            entityTypeId: 2
-                        },
-                        function(result) {
-                            if (result.error()) {
-                                console.error(result.error());
-                            } else {
-                                const payments = result.data();
-                                if (payments.length > 0) {
-                                    const datePaid = payments[0].datePaid;
-                                    console.log("Дата оплаты:", datePaid);
+            // Шаг 2: Запрос ID сделки у пользователя и получение даты оплаты
+            const rl = createInterface({ input: process.stdin, output: process.stdout });
+            const dealId = await rl.question("Введите ID сделки: ");
+            rl.close();
 
-                                    // Шаг 3: Изменение сделки
-                                    BX24.callMethod(
-                                        'crm.deal.update',
-                                        {
-                                            id: dealId,
-                                            fields: {
-                                                [fieldName]: datePaid
-                                            }
-                                        },
-                                        function(result) {
-                                            if (result.error()) {
-                                                console.error(result.error());
-                                            } else {
-                                                console.log("Сделка успешно обновлена");
-                                            }
-                                        }
-                                    );
-                                }
-                            }
-                        }
-                    );
-                }
+            const payments = await call('crm.item.payment.list', {
+                entityId: dealId,
+                entityTypeId: 2
+            });
+            if (payments.length > 0) {
+                const datePaid = payments[0].datePaid;
+                console.log("Дата оплаты:", datePaid);
+
+                // Шаг 3: Изменение сделки
+                await call('crm.deal.update', {
+                    id: dealId,
+                    fields: {
+                        [fieldName]: datePaid
+                    }
+                });
+                console.log("Сделка успешно обновлена");
             }
         }
-    );
+    } catch (error) {
+        console.error(error.message);
+    }
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    // Шаг 1: Получение FIELD_NAME для поля с EDIT_FORM_LABEL "Дата оплаты"
-    $result = CRest::call(
-        'crm.deal.userfield.list',
-        [
-            'filter' => [
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $crm = $serviceBuilder->getCRMScope();
+
+    try {
+        // Шаг 1: Получение FIELD_NAME для поля с EDIT_FORM_LABEL "Дата оплаты"
+        $fields = $crm->dealUserfield()->list(
+            [],
+            [
                 'LANG' => 'ru',
                 'USER_TYPE_ID' => 'date'
             ]
-        ]
-    );
+        )->getUserfields();
 
-    if (!empty($result['error'])) {
-        echo "Error: " . $result['error_description'];
-    } else {
-        $fields = $result['result'];
         $dateField = null;
-
         foreach ($fields as $field) {
-            if ($field['EDIT_FORM_LABEL'] === "Дата оплаты") {
+            if ($field->EDIT_FORM_LABEL === "Дата оплаты") {
                 $dateField = $field;
                 break;
             }
         }
 
         if ($dateField) {
-            $fieldName = $dateField['FIELD_NAME'];
+            $fieldName = $dateField->FIELD_NAME;
             echo "FIELD_NAME для 'Дата оплаты': " . $fieldName . "\n";
 
             // Шаг 2: Запрос ID сделки у пользователя и получение даты оплаты
             $dealId = readline("Введите ID сделки: ");
-            $paymentResult = CRest::call(
+            $payments = $serviceBuilder->core->call(
                 'crm.item.payment.list',
                 [
                     'entityId' => $dealId,
                     'entityTypeId' => 2
                 ]
-            );
+            )->getResponseData()->getResult();
 
-            if (!empty($paymentResult['error'])) {
-                echo "Error: " . $paymentResult['error_description'];
-            } else {
-                $payments = $paymentResult['result'];
-                if (count($payments) > 0) {
-                    $datePaid = $payments[0]['datePaid'];
-                    echo "Дата оплаты: " . $datePaid . "\n";
+            if (count($payments) > 0) {
+                $datePaid = $payments[0]['datePaid'];
+                echo "Дата оплаты: " . $datePaid . "\n";
 
-                    // Шаг 3: Изменение сделки
-                    $updateResult = CRest::call(
-                        'crm.deal.update',
-                        [
-                            'id' => $dealId,
-                            'fields' => [
-                                $fieldName => $datePaid
-                            ]
-                        ]
-                    );
-
-                    if (!empty($updateResult['error'])) {
-                        echo "Error: " . $updateResult['error_description'];
-                    } else {
-                        echo "Сделка успешно обновлена\n";
-                    }
-                }
+                // Шаг 3: Изменение сделки
+                $crm->deal()->update(
+                    (int)$dealId,
+                    [
+                        $fieldName => $datePaid
+                    ]
+                );
+                echo "Сделка успешно обновлена\n";
             }
         }
+    } catch (\Throwable $e) {
+        echo "Error: " . $e->getMessage();
     }
     ```
 

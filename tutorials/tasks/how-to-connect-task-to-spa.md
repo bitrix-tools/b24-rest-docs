@@ -33,22 +33,36 @@
 
 - JS
 
-    ```JavaScript
-    BX24.callMethod(
-    "crm.enum.ownertype",
-    {},
-    );     
+    ```javascript
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/')
+
+    const response = await $b24.actions.v2.call.make({
+        method: 'crm.enum.ownertype',
+        params: {},
+        requestId: 'crm-enum-ownertype'
+    })
+
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    const result = response.getData().result
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'crm.enum.ownertype',
-        []
-    );
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/');
+
+    $result = $serviceBuilder->getCRMScope()->enum()->ownerType()->getItems();
     ```
 
 - Python
@@ -175,39 +189,42 @@
 - JS
   
     ```javascript
-       BX24.callMethod(
-        'crm.item.list',
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'crm.item.list',
+        params: {
             entityTypeId: 177, // ID из результата  crm.enum.ownertype
             select: [
-                "id", // выбираемые поля
-                "title",
+                'id', // выбираемые поля
+                'title',
             ],
             filter: {
-                "title": "Стиральная машина", // название элемента
+                'title': 'Стиральная машина', // название элемента
             },
         },
-    );
+        requestId: 'crm-item-list'
+    })
+
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    const result = response.getData().result
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.item.list',
+    $result = $serviceBuilder->getCRMScope()->item()->list(
+        177, // ID из результата crm.enum.ownertype
+        [], // сортировка
         [
-            'entityTypeId' => 177, // ID из результата crm.enum.ownertype
-            'select' => [
-                'id', // выбираемые поля
-                'title',
-            ],
-            'filter' => [
-                'title' => 'Стиральная машина', // название элемента
-            ],
+            'title' => 'Стиральная машина', // название элемента
+        ],
+        [
+            'id', // выбираемые поля
+            'title',
         ]
-    );
+    )->getItems();
     ```
 
 - Python
@@ -258,26 +275,31 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'tasks.task.add',
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'tasks.task.add',
+        params: {
             fields: {
                 TITLE: 'task for test', // название задачи
                 RESPONSIBLE_ID: 1, // исполнитель
                 UF_CRM_TASK: [ // массив элементов CRM
-                    "Tb1_29"
+                    'Tb1_29'
                 ]
             }
-        }
-    );
+        },
+        requestId: 'task-add'
+    })
+
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    const result = response.getData().result
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    $result = $serviceBuilder->core->call(
         'tasks.task.add',
         [
             'fields' => [
@@ -288,7 +310,7 @@
                 ]
             ]
         ]
-    );
+    )->getResponseData()->getResult();
     ```
 
 - Python
@@ -459,27 +481,32 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'tasks.task.get',
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'tasks.task.get',
+        params: {
             taskId: 3731, // ID задачи
             select: ['ID', 'UF_CRM_TASK'] // выбираемые поля
         },
-    );
+        requestId: 'task-get'
+    })
+
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    const result = response.getData().result
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    $result = $serviceBuilder->core->call(
         'tasks.task.get',
         [
             'taskId' => 3731, // ID задачи
             'select' => ['ID', 'UF_CRM_TASK'] // выбираемые поля
         ]
-    );
+    )->getResponseData()->getResult();
     ```
 
 - Python
@@ -550,90 +577,103 @@
 
 - JS
     
-    ```JavaScript
+    ```javascript
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/')
+
     // Переменные для ввода данных пользователем
-    var smartProcessName = 'название_смарт_процесса'; // Название смарт-процесса
-    var itemName = 'название_элемента'; // Название элемента смарт-процесса
-    var responsibleId = 'ID_ответственного'; // ID ответственного за задачу
-    var taskTitle = 'название_задачи'; // Название задачи
+    const smartProcessName = 'название_смарт_процесса'; // Название смарт-процесса
+    const itemName = 'название_элемента'; // Название элемента смарт-процесса
+    const responsibleId = 'ID_ответственного'; // ID ответственного за задачу
+    const taskTitle = 'название_задачи'; // Название задачи
 
     // Функция для создания задачи с привязкой к элементу смарт-процесса
-    function createTaskWithSmartProcess() {
+    async function createTaskWithSmartProcess() {
         // Получение идентификаторов типов сущностей и смарт-процессов
-        BX24.callMethod(
-            'crm.enum.ownertype',
-            {},
-            function(result) {
-                if (result.error()) {
-                    console.error('Ошибка при получении типов сущностей:', result.error());
-                    return;
+        const ownerTypeResponse = await $b24.actions.v2.call.make({
+            method: 'crm.enum.ownertype',
+            params: {},
+            requestId: 'crm-enum-ownertype'
+        });
+
+        if (!ownerTypeResponse.isSuccess) {
+            console.error('Ошибка при получении типов сущностей:', ownerTypeResponse.getErrorMessages().join('; '));
+            return;
+        }
+
+        // Поиск нужного смарт-процесса
+        const smartProcess = ownerTypeResponse.getData().result.find(function(process) {
+            return process.NAME === smartProcessName;
+        });
+
+        if (!smartProcess) {
+            console.error('Смарт-процесс не найден');
+            return;
+        }
+
+        const symbolCodeShort = smartProcess.SYMBOL_CODE_SHORT;
+
+        // Поиск элемента смарт-процесса с использованием фильтра по названию
+        const itemResponse = await $b24.actions.v2.call.make({
+            method: 'crm.item.list',
+            params: {
+                entityTypeId: smartProcess.ID,
+                select: ['id', 'title'],
+                filter: { 'title': itemName }
+            },
+            requestId: 'crm-item-list'
+        });
+
+        if (!itemResponse.isSuccess) {
+            console.error('Ошибка при получении элементов смарт-процесса:', itemResponse.getErrorMessages().join('; '));
+            return;
+        }
+
+        if (itemResponse.getData().result.items.length === 0) {
+            console.error('Элемент смарт-процесса не найден');
+            return;
+        }
+
+        const itemId = itemResponse.getData().result.items[0].id;
+
+        // Создание задачи
+        const taskResponse = await $b24.actions.v2.call.make({
+            method: 'tasks.task.add',
+            params: {
+                fields: {
+                    TITLE: taskTitle, // Используем введенное название задачи
+                    RESPONSIBLE_ID: responsibleId, // Добавляем ID ответственного
+                    UF_CRM_TASK: [symbolCodeShort + '_' + itemId]
                 }
+            },
+            requestId: 'task-add'
+        });
 
-                // Поиск нужного смарт-процесса
-                var smartProcess = result.data().find(function(process) {
-                    return process.NAME === smartProcessName;
-                });
-
-                if (!smartProcess) {
-                    console.error('Смарт-процесс не найден');
-                    return;
-                }
-
-                var symbolCodeShort = smartProcess.SYMBOL_CODE_SHORT;
-
-                // Поиск элемента смарт-процесса с использованием фильтра по названию
-                BX24.callMethod(
-                    'crm.item.list',
-                    {
-                        entityTypeId: smartProcess.ID,
-                        select: ["id", "title"],
-                        filter: { "title": itemName }
-                    },
-                    function(itemResult) {
-                        if (itemResult.error()) {
-                            console.error('Ошибка при получении элементов смарт-процесса:', itemResult.error());
-                            return;
-                        }
-
-                        if (itemResult.data().items.length === 0) {
-                            console.error('Элемент смарт-процесса не найден');
-                            return;
-                        }
-
-                        var itemId = itemResult.data().items[0].id;
-
-                        // Создание задачи
-                        BX24.callMethod(
-                            'tasks.task.add',
-                            {
-                                fields: {
-                                    TITLE: taskTitle, // Используем введенное название задачи
-                                    RESPONSIBLE_ID: responsibleId, // Добавляем ID ответственного
-                                    UF_CRM_TASK: [symbolCodeShort + '_' + itemId]
-                                }
-                            },
-                            function(taskResult) {
-                                if (taskResult.error()) {
-                                    console.error('Ошибка при создании задачи:', taskResult.error());
-                                } else {
-                                    console.log('Задача успешно создана!', taskResult.data());
-                                }
-                            }
-                        );
-                    }
-                );
-            }
-        );
+        if (!taskResponse.isSuccess) {
+            console.error('Ошибка при создании задачи:', taskResponse.getErrorMessages().join('; '));
+        } else {
+            console.log('Задача успешно создана!', taskResponse.getData().result);
+        }
     }
 
     // Вызов функции для создания задачи
-    createTaskWithSmartProcess();
+    await createTaskWithSmartProcess();
+
+    $b24.destroy();
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Bitrix24\SDK\Core\Exceptions\BaseException;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/');
 
     // Переменные для ввода данных пользователем
     $smartProcessName = 'название_смарт_процесса'; // Название смарт-процесса
@@ -642,19 +682,19 @@
     $taskTitle = 'название_задачи'; // Название задачи
 
     // Функция для создания задачи с привязкой к элементу смарт-процесса
-    function createTaskWithSmartProcess($smartProcessName, $itemName, $responsibleId, $taskTitle) {
+    function createTaskWithSmartProcess($serviceBuilder, $smartProcessName, $itemName, $responsibleId, $taskTitle) {
         // Получение идентификаторов типов сущностей и смарт-процессов
-        $result = CRest::call('crm.enum.ownertype', []);
-
-        if (isset($result['error'])) {
-            echo 'Ошибка при получении типов сущностей: ' . $result['error_description'];
+        try {
+            $ownerTypes = $serviceBuilder->getCRMScope()->enum()->ownerType()->getItems();
+        } catch (BaseException $e) {
+            echo 'Ошибка при получении типов сущностей: ' . $e->getMessage();
             return;
         }
 
         // Поиск нужного смарт-процесса
         $smartProcess = null;
-        foreach ($result['result'] as $process) {
-            if ($process['NAME'] === $smartProcessName) {
+        foreach ($ownerTypes as $process) {
+            if ($process->NAME === $smartProcessName) {
                 $smartProcess = $process;
                 break;
             }
@@ -665,46 +705,48 @@
             return;
         }
 
-        $symbolCodeShort = $smartProcess['SYMBOL_CODE_SHORT'];
+        $symbolCodeShort = $smartProcess->SYMBOL_CODE_SHORT;
 
         // Поиск элемента смарт-процесса с использованием фильтра по названию
-        $itemResult = CRest::call('crm.item.list', [
-            'entityTypeId' => $smartProcess['ID'],
-            'select' => ['id', 'title'],
-            'filter' => ['title' => $itemName]
-        ]);
-
-        if (isset($itemResult['error'])) {
-            echo 'Ошибка при получении элементов смарт-процесса: ' . $itemResult['error_description'];
+        try {
+            $items = $serviceBuilder->getCRMScope()->item()->list(
+                $smartProcess->ID,
+                [],
+                ['title' => $itemName],
+                ['id', 'title']
+            )->getItems();
+        } catch (BaseException $e) {
+            echo 'Ошибка при получении элементов смарт-процесса: ' . $e->getMessage();
             return;
         }
 
-        if (count($itemResult['result']['items']) === 0) {
+        if (count($items) === 0) {
             echo 'Элемент смарт-процесса не найден';
             return;
         }
 
-        $itemId = $itemResult['result']['items'][0]['id'];
+        $itemId = $items[0]->id;
 
         // Создание задачи
-        $taskResult = CRest::call('tasks.task.add', [
-            'fields' => [
-                'TITLE' => $taskTitle, // Используем введенное название задачи
-                'RESPONSIBLE_ID' => $responsibleId, // Добавляем ID ответственного
-                'UF_CRM_TASK' => [$symbolCodeShort . '_' . $itemId]
-            ]
-        ]);
-
-        if (isset($taskResult['error'])) {
-            echo 'Ошибка при создании задачи: ' . $taskResult['error_description'];
-        } else {
-            echo 'Задача успешно создана!';
-            print_r($taskResult['result']);
+        try {
+            $taskResult = $serviceBuilder->core->call('tasks.task.add', [
+                'fields' => [
+                    'TITLE' => $taskTitle, // Используем введенное название задачи
+                    'RESPONSIBLE_ID' => $responsibleId, // Добавляем ID ответственного
+                    'UF_CRM_TASK' => [$symbolCodeShort . '_' . $itemId]
+                ]
+            ])->getResponseData()->getResult();
+        } catch (BaseException $e) {
+            echo 'Ошибка при создании задачи: ' . $e->getMessage();
+            return;
         }
+
+        echo 'Задача успешно создана!';
+        print_r($taskResult);
     }
 
     // Вызов функции для создания задачи
-    createTaskWithSmartProcess($smartProcessName, $itemName, $responsibleId, $taskTitle);
+    createTaskWithSmartProcess($serviceBuilder, $smartProcessName, $itemName, $responsibleId, $taskTitle);
     ```
 
 - Python

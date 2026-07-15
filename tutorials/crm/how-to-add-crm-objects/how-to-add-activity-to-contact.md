@@ -32,25 +32,32 @@
 -  JS
 
    ```javascript
-   BX24.callMethod(
-       'crm.contact.get',
-       {
-           'id': 1
-       },
-   );
+   import { B24Hook } from '@bitrix24/b24jssdk'
+
+   const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+   // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+   const response = await $b24.actions.v2.call.make({
+       method: 'crm.contact.get',
+       params: { id: 1 },
+       requestId: 'contact-get'
+   })
    ```
 
 -  PHP
 
    ```php
-   require_once('crest.php');
-   
-   $resultContact = CRest::call(
-       'crm.contact.get',
-       [
-           'id' => 1
-       ]
-   );
+   // composer require bitrix24/b24phpsdk:"^3.0"
+   require_once 'vendor/autoload.php';
+
+   use Bitrix24\SDK\Services\ServiceBuilderFactory;
+   use Symfony\Component\EventDispatcher\EventDispatcher;
+   use Psr\Log\NullLogger;
+
+   $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+       ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+   $resultContact = $sb->getCRMScope()->contact()->get(1)->contact();
    ```
 
 - Python
@@ -181,10 +188,10 @@
 - JS
 
     ```javascript
-    BX24.callMethod(
-        'crm.activity.add',
-        {
-            'fields': {
+    const response = await $b24.actions.v2.call.make({
+        method: 'crm.activity.add',
+        params: {
+            fields: {
                 "SUBJECT": "calendar title",
                 "DESCRIPTION": "calendar body",
                 "DESCRIPTION_TYPE": 3,
@@ -203,37 +210,33 @@
                 "RESPONSIBLE_ID": 61 
             }
         },
-    );
+        requestId: 'activity-add'
+    });
     ```
 
 -  PHP
 
     ```php
-    require_once('crest.php');
-    
-    $result = CRest::call(
-            'crm.activity.add',
-            [
-                'fields' => [
-                    "SUBJECT" => "calendar title",
-                    "DESCRIPTION" => "calendar body",
-                    "DESCRIPTION_TYPE" => 3,
-                    "OWNER_ID" => 1,
-                    "OWNER_TYPE_ID" => 3,
-                    "TYPE_ID" => 1,
-                    "COMMUNICATIONS" => [
-                        [
-                            'VALUE' => "88001001020",
-                            'ENTITY_ID' => 1,
-                            'ENTITY_TYPE_ID' => 3
-                        ]
-                    ],
-                    "START_TIME" => "2025-05-20T14:00:00",
-                    "END_TIME" => "2025-05-20T15:00:00",
-                    "RESPONSIBLE_ID" => 61,
+    $result = $sb->getCRMScope()->activity()->add(
+        [
+            "SUBJECT" => "calendar title",
+            "DESCRIPTION" => "calendar body",
+            "DESCRIPTION_TYPE" => 3,
+            "OWNER_ID" => 1,
+            "OWNER_TYPE_ID" => 3,
+            "TYPE_ID" => 1,
+            "COMMUNICATIONS" => [
+                [
+                    'VALUE' => "88001001020",
+                    'ENTITY_ID' => 1,
+                    'ENTITY_TYPE_ID' => 3
                 ]
-            ]
-        );
+            ],
+            "START_TIME" => "2025-05-20T14:00:00",
+            "END_TIME" => "2025-05-20T15:00:00",
+            "RESPONSIBLE_ID" => 61,
+        ]
+    );
     ```
 
 - Python
@@ -280,109 +283,115 @@
 - JS
 
     ```js
-    var contactID = 1;
-    BX24.callMethod(
-        'crm.contact.get',
-        {
-            'id': contactID
-        },
-        function(resultContact) {
-            if (resultContact.error()) {
-                console.error(resultContact.error() + ': ' + resultContact.error_description());
-            } else {
-                var resultActivity = [];
-                if (resultContact.data().ASSIGNED_BY_ID && resultContact.data().PHONE) {
-                    var contactPhone = resultContact.data().PHONE[0];
-                    var staffID = resultContact.data().ASSIGNED_BY_ID;
-                    BX24.callMethod(
-                        'crm.activity.add',
-                        {
-                            'fields': {
-                                "SUBJECT": "calendar title",
-                                "DESCRIPTION": "calendar body",
-                                "DESCRIPTION_TYPE": 3, // text, html, bbCode type id in: BX24.callMethod('crm.enum.contenttype');
-                                "OWNER_ID": contactID,
-                                "OWNER_TYPE_ID": 3, // BX24.callMethod('crm.enum.ownertype');
-                                "TYPE_ID": 1, // BX24.callMethod('crm.enum.activitytype');
-                                "COMMUNICATIONS": [
-                                    {
-                                        'VALUE': contactPhone.VALUE,
-                                        'ENTITY_ID': contactID,
-                                        'ENTITY_TYPE_ID': 3 // BX24.callMethod('crm.enum.ownertype');
-                                    }
-                                ],
-                                "START_TIME": new Date().toISOString(),
-                                "END_TIME": new Date(new Date().getTime() + 3600 * 1000).toISOString(),
-                                "RESPONSIBLE_ID": staffID,
-                            }
-                        },
-                        function(resultActivity) {
-                            if (resultActivity.error()) {
-                                console.error(resultActivity.error() + ': ' + resultActivity.error_description());
-                                console.log(JSON.stringify({ 'message': 'Activity not added: ' + resultActivity.error_description() }));
-                            } else {
-                                console.log(JSON.stringify({ 'message': 'Activity add' }));
-                            }
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    async function createCalendarActivity() {
+        try {
+            var contactID = 1;
+            const responseContact = await $b24.actions.v2.call.make({
+                method: 'crm.contact.get',
+                params: { id: contactID },
+                requestId: 'contact-get'
+            });
+            var resultContact = responseContact.getData().result;
+
+            if (resultContact.ASSIGNED_BY_ID && resultContact.PHONE) {
+                var contactPhone = resultContact.PHONE[0];
+                var staffID = resultContact.ASSIGNED_BY_ID;
+                await $b24.actions.v2.call.make({
+                    method: 'crm.activity.add',
+                    params: {
+                        fields: {
+                            "SUBJECT": "calendar title",
+                            "DESCRIPTION": "calendar body",
+                            "DESCRIPTION_TYPE": 3, // тип текста (crm.enum.contenttype): обычный, HTML, BB-код
+                            "OWNER_ID": contactID,
+                            "OWNER_TYPE_ID": 3, // crm.enum.ownertype
+                            "TYPE_ID": 1, // crm.enum.activitytype
+                            "COMMUNICATIONS": [
+                                {
+                                    'VALUE': contactPhone.VALUE,
+                                    'ENTITY_ID': contactID,
+                                    'ENTITY_TYPE_ID': 3 // crm.enum.ownertype
+                                }
+                            ],
+                            "START_TIME": new Date().toISOString(),
+                            "END_TIME": new Date(new Date().getTime() + 3600 * 1000).toISOString(),
+                            "RESPONSIBLE_ID": staffID,
                         }
-                    );
-                } else {
-                    console.log(JSON.stringify({ 'message': 'Activity not added' }));
-                }
+                    },
+                    requestId: 'activity-add'
+                });
+                console.log(JSON.stringify({ 'message': 'Activity add' }));
+            } else {
+                console.log(JSON.stringify({ 'message': 'Activity not added' }));
             }
+        } catch (error) {
+            console.error(error);
+            console.log(JSON.stringify({ 'message': 'Activity not added: ' + error.message }));
         }
-    );
+    }
+
+    createCalendarActivity();
     ```
 
 - PHP
 
     ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
     $contactID = 1;
-    $resultContact = CRest::call(
-        'crm.contact.get',
-        [
-            'id' => $contactID
-        ]
-    );
-    $resultActivity = [];
-    if (!empty($resultContact['result']['ASSIGNED_BY_ID']) && !empty($resultContact['result']['PHONE']))
-    {
-        $contactPhone = reset($resultContact['result']['PHONE']);
-        $staffID = $resultContact['result']['ASSIGNED_BY_ID'];
-        $resultActivity = CRest::call(
-            'crm.activity.add',
-            [
-                'fields' => [
+    try {
+        $resultContact = $sb->getCRMScope()->contact()->get($contactID)->contact();
+        $resultActivity = null;
+        if (!empty($resultContact->ASSIGNED_BY_ID) && !empty($resultContact->PHONE))
+        {
+            $phones = $resultContact->PHONE;
+            $contactPhone = reset($phones);
+            $staffID = $resultContact->ASSIGNED_BY_ID;
+            $resultActivity = $sb->getCRMScope()->activity()->add(
+                [
                     "SUBJECT" => "calendar title",
                     "DESCRIPTION" => "calendar body",
-                    "DESCRIPTION_TYPE" => 3,//text,html,bbCode type id in: CRest::call('crm.enum.contenttype');
+                    "DESCRIPTION_TYPE" => 3,// тип текста (crm.enum.contenttype): обычный, HTML, BB-код
                     "OWNER_ID" => $contactID,
-                    "OWNER_TYPE_ID" => 3, // CRest::call('crm.enum.ownertype');
-                    "TYPE_ID" => 1, // CRest::call('crm.enum.activitytype');
+                    "OWNER_TYPE_ID" => 3, // crm.enum.ownertype
+                    "TYPE_ID" => 1, // crm.enum.activitytype
                     "COMMUNICATIONS" => [
                         [
-                            'VALUE' => $contactPhone['VALUE'],
+                            'VALUE' => $contactPhone->VALUE,
                             'ENTITY_ID' => $contactID,
-                            'ENTITY_TYPE_ID' => 3// CRest::call('crm.enum.ownertype');
+                            'ENTITY_TYPE_ID' => 3// crm.enum.ownertype
                         ]
                     ],
                     "START_TIME" => date("Y-m-d H:i:s", time()),
                     "END_TIME" => date("Y-m-d H:i:s", time() + 3600),
                     "RESPONSIBLE_ID" => $staffID,
                 ]
-            ]
-        );
-    }
-    if (!empty($resultActivity['result']))
-    {
-        echo json_encode(['message' => 'Activity add']);
-    }
-    elseif (!empty($resultActivity['error_description']))
-    {
-        echo json_encode(['message' => 'Activity not added: ' . $resultActivity['error_description']]);
-    }
-    else
-    {
-        echo json_encode(['message' => 'Activity not added']);
+            )->getId();
+        }
+        if (!empty($resultActivity))
+        {
+            echo json_encode(['message' => 'Activity add']);
+        }
+        else
+        {
+            echo json_encode(['message' => 'Activity not added']);
+        }
+    } catch (\Throwable $e) {
+        echo json_encode(['message' => 'Activity not added: ' . $e->getMessage()]);
     }
     ```
 

@@ -38,31 +38,47 @@
 - JS
 
     ```JavaScript
-    BX24.callMethod(
-        "crm.activity.list",
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: "crm.activity.list",
+        params: {
             filter:
             {
-                "OWNER_TYPE_ID": 1, 
-                "OWNER_ID": 1000977 
+                "OWNER_TYPE_ID": 1,
+                "OWNER_ID": 1000977
             },
-        },
-    );
+        }
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'crm.activity.list',
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $serviceBuilder->getCRMScope()->activity()->list(
+        [],
         [
-            'filter' => [
-                'OWNER_TYPE_ID' => 1, 
-                'OWNER_ID' => 1000977 /
-            ]
-        ]
+            'OWNER_TYPE_ID' => 1,
+            'OWNER_ID' => 1000977,
+        ],
+        [],
+        0
     );
     ```
 
@@ -219,36 +235,31 @@
 - JS
 
     ```JavaScript
-    BX24.callMethod(
-        "crm.lead.add",
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: "crm.lead.add",
+        params: {
             fields:
             {
-                TITLE: "Второй лид", 
-                ASSIGNED_BY_ID: 1, 
+                TITLE: "Второй лид",
+                ASSIGNED_BY_ID: 1,
             },
             params: {
-                REGISTER_SONET_EVENT: "Y", 
+                REGISTER_SONET_EVENT: "Y",
             }
-        },
-    );
+        }
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.lead.add',
+    $result = $serviceBuilder->getCRMScope()->lead()->add(
         [
-            'fields' => [
-                'TITLE' => 'Второй лид', 
-                'ASSIGNED_BY_ID' => 1, 
-            ],
-            'params' => [
-                'REGISTER_SONET_EVENT' => 'Y', 
-            ]
+            'TITLE' => 'Второй лид',
+            'ASSIGNED_BY_ID' => 1,
+        ],
+        [
+            'REGISTER_SONET_EVENT' => 'Y',
         ]
     );
     ```
@@ -298,31 +309,29 @@
 - JS
 
     ```JavaScript
-    BX24.callMethod(
-        'crm.activity.binding.move',
-        {
-            activityId: 7687, 
-            sourceEntityTypeId: 1, 
-            sourceEntityId: 1000977, 
-            targetEntityTypeId: 1, 
-            targetEntityId: 1000979 
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.activity.binding.move',
+        params: {
+            activityId: 7687,
+            sourceEntityTypeId: 1,
+            sourceEntityId: 1000977,
+            targetEntityTypeId: 1,
+            targetEntityId: 1000979
         }
-    );
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    $result = $serviceBuilder->core->call(
         'crm.activity.binding.move',
         [
-            'activityId' => 7687, 
-            'sourceEntityTypeId' => 1, 
-            'sourceEntityId' => 1000977, 
+            'activityId' => 7687,
+            'sourceEntityTypeId' => 1,
+            'sourceEntityId' => 1000977,
             'targetEntityTypeId' => 1,
-            'targetEntityId' => 1000979 
+            'targetEntityId' => 1000979
         ]
     );
     ```
@@ -356,164 +365,151 @@
 - JS
 
     ```JavaScript
-    // Функция для выполнения всех шагов
-    function transferActivity() {
-        // Запрашиваем ID первого лида у пользователя
-        const firstLeadId = prompt("Введите ID первого лида:");
+    import { B24Hook } from '@bitrix24/b24jssdk'
+    import { createInterface } from 'node:readline/promises'
 
-        // Запрашиваем фразу для поиска по полю описание
-        const searchPhrase = prompt("Введите фразу для поиска по телу письма:");
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-        // Шаг 1: Получаем список дел для указанного лида
-        BX24.callMethod(
-            "crm.activity.list",
-            {
-                filter: {
-                    "OWNER_TYPE_ID": 1,
-                    "OWNER_ID": firstLeadId
-                },
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error(result.error());
-                    return;
-                }
-
-                const activities = result.data();
-                const targetActivity = activities.find(activity => activity.DESCRIPTION.includes(searchPhrase));
-
-                if (!targetActivity) {
-                    console.log(`Дело с описанием, содержащим '${searchPhrase}', не найдено.`);
-                    return;
-                }
-
-                const activityId = targetActivity.ID;
-
-                // Шаг 2: Создаем новый лид
-                BX24.callMethod(
-                    "crm.lead.add",
-                    {
-                        fields: {
-                            TITLE: "Второй лид",
-                            ASSIGNED_BY_ID: 1,
-                        },
-                        params: {
-                            REGISTER_SONET_EVENT: "Y",
-                        }
-                    },
-                    function(result) {
-                        if (result.error()) {
-                            console.error(result.error());
-                            return;
-                        }
-
-                        const newLeadId = result.data();
-
-                        // Шаг 3: Переносим дело
-                        BX24.callMethod(
-                            'crm.activity.binding.move',
-                            {
-                                activityId: activityId,
-                                sourceEntityTypeId: 1,
-                                sourceEntityId: firstLeadId,
-                                targetEntityTypeId: 1,
-                                targetEntityId: newLeadId
-                            },
-                            function(result) {
-                                if (result.error()) {
-                                    console.error(result.error());
-                                } else {
-                                    console.log("Дело успешно перенесено.");
-                                }
-                            }
-                        );
-                    }
-                );
-            }
-        );
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
+        }
+        return result.getData().result;
     }
 
+    // Функция для выполнения всех шагов
+    async function transferActivity(firstLeadId, searchPhrase) {
+        // Шаг 1: Получаем список дел для указанного лида
+        const activities = await call("crm.activity.list", {
+            filter: {
+                "OWNER_TYPE_ID": 1,
+                "OWNER_ID": firstLeadId
+            }
+        });
+
+        const targetActivity = activities.find(activity => activity.DESCRIPTION.includes(searchPhrase));
+
+        if (!targetActivity) {
+            console.log(`Дело с описанием, содержащим '${searchPhrase}', не найдено.`);
+            return;
+        }
+
+        const activityId = targetActivity.ID;
+
+        // Шаг 2: Создаем новый лид
+        const newLeadId = await call("crm.lead.add", {
+            fields: {
+                TITLE: "Второй лид",
+                ASSIGNED_BY_ID: 1,
+            },
+            params: {
+                REGISTER_SONET_EVENT: "Y",
+            }
+        });
+
+        // Шаг 3: Переносим дело
+        await call('crm.activity.binding.move', {
+            activityId: activityId,
+            sourceEntityTypeId: 1,
+            sourceEntityId: firstLeadId,
+            targetEntityTypeId: 1,
+            targetEntityId: newLeadId
+        });
+
+        console.log("Дело успешно перенесено.");
+    }
+
+    // Запрашиваем ID первого лида и фразу для поиска у пользователя
+    const rl = createInterface({ input: process.stdin, output: process.stdout });
+    const firstLeadId = await rl.question("Введите ID первого лида: ");
+    const searchPhrase = await rl.question("Введите фразу для поиска по телу письма: ");
+    rl.close();
+
     // Запускаем функцию
-    transferActivity();
+    try {
+        await transferActivity(firstLeadId, searchPhrase);
+    } catch (error) {
+        console.error(error.message);
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    <?php
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     // Функция для выполнения всех шагов
-    function transferActivity($firstLeadId, $searchPhrase) {
-        // Шаг 1: Получаем список дел для указанного лида
-        $result = CRest::call(
-            'crm.activity.list',
-            [
-                'filter' => [
+    function transferActivity($serviceBuilder, $firstLeadId, $searchPhrase) {
+        $crm = $serviceBuilder->getCRMScope();
+
+        try {
+            // Шаг 1: Получаем список дел для указанного лида
+            $activities = $crm->activity()->list(
+                [],
+                [
                     'OWNER_TYPE_ID' => 1,
-                    'OWNER_ID' => $firstLeadId
-                ]
-            ]
-        );
+                    'OWNER_ID' => $firstLeadId,
+                ],
+                [],
+                0
+            )->getActivities();
 
-        if (isset($result['error'])) {
-            echo 'Ошибка: ' . $result['error_description'];
-            return;
-        }
+            $targetActivity = null;
 
-        $activities = $result['result'];
-        $targetActivity = null;
-
-        foreach ($activities as $activity) {
-            if (strpos($activity['DESCRIPTION'], $searchPhrase) !== false) {
-                $targetActivity = $activity;
-                break;
+            foreach ($activities as $activity) {
+                if (strpos((string)$activity->DESCRIPTION, $searchPhrase) !== false) {
+                    $targetActivity = $activity;
+                    break;
+                }
             }
-        }
 
-        if (!$targetActivity) {
-            echo "Дело с описанием, содержащим '{$searchPhrase}', не найдено.";
-            return;
-        }
+            if (!$targetActivity) {
+                echo "Дело с описанием, содержащим '{$searchPhrase}', не найдено.";
+                return;
+            }
 
-        $activityId = $targetActivity['ID'];
+            $activityId = $targetActivity->ID;
 
-        // Шаг 2: Создаем новый лид
-        $leadResult = CRest::call(
-            'crm.lead.add',
-            [
-                'fields' => [
+            // Шаг 2: Создаем новый лид
+            $newLeadId = $crm->lead()->add(
+                [
                     'TITLE' => 'Второй лид',
                     'ASSIGNED_BY_ID' => 1,
                 ],
-                'params' => [
+                [
                     'REGISTER_SONET_EVENT' => 'Y',
                 ]
-            ]
-        );
+            )->getId();
 
-        if (isset($leadResult['error'])) {
-            echo 'Ошибка: ' . $leadResult['error_description'];
-            return;
-        }
+            // Шаг 3: Переносим дело
+            $serviceBuilder->core->call(
+                'crm.activity.binding.move',
+                [
+                    'activityId' => $activityId,
+                    'sourceEntityTypeId' => 1,
+                    'sourceEntityId' => $firstLeadId,
+                    'targetEntityTypeId' => 1,
+                    'targetEntityId' => $newLeadId
+                ]
+            );
 
-        $newLeadId = $leadResult['result'];
-
-        // Шаг 3: Переносим дело
-        $moveResult = CRest::call(
-            'crm.activity.binding.move',
-            [
-                'activityId' => $activityId,
-                'sourceEntityTypeId' => 1,
-                'sourceEntityId' => $firstLeadId,
-                'targetEntityTypeId' => 1,
-                'targetEntityId' => $newLeadId
-            ]
-        );
-
-        if (isset($moveResult['error'])) {
-            echo 'Ошибка: ' . $moveResult['error_description'];
-        } else {
             echo 'Дело успешно перенесено.';
+        } catch (\Throwable $e) {
+            echo 'Ошибка: ' . $e->getMessage();
         }
     }
 
@@ -522,7 +518,7 @@
     $searchPhrase = readline("Введите фразу для поиска по телу письма: ");
 
     // Запускаем функцию
-    transferActivity($firstLeadId, $searchPhrase);
+    transferActivity($serviceBuilder, $firstLeadId, $searchPhrase);
     ```
 
 - Python

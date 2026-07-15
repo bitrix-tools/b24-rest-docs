@@ -60,9 +60,14 @@
 - JS
 
     ```js
-    BX24.callMethod(
-        'sale.delivery.handler.add',
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const response = await $b24.actions.v2.call.make({
+        method: 'sale.delivery.handler.add',
+        params: {
             CODE: "uber",
             NAME: "Uber",
             SETTINGS: {
@@ -96,61 +101,71 @@
                 },
             ],
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
+        requestId: 'delivery-handler-add'
+    })
+
+    if (response.isSuccess) {
+        console.info(response.getData().result)
+    } else {
+        console.error(response.getErrorMessages().join('; '))
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-    
-    $result = CRest::call(
-        'sale.delivery.handler.add',
-        [
-            'CODE' => 'uber',
-            'NAME' => 'Uber',
-            'SETTINGS' => [
-                'CALCULATE_URL' => 'https://gateway.bx/calculate.php',
-                'CREATE_DELIVERY_REQUEST_URL' => 'https://gateway.bx/create_delivery_request.php',
-                'CANCEL_DELIVERY_REQUEST_URL' => 'https://gateway.bx/cancel_delivery_request.php',
-                'HAS_CALLBACK_TRACKING_SUPPORT' => 'Y',
-                'CONFIG' => [
-                    [
-                        'TYPE' => 'STRING',
-                        'CODE' => 'MY_FIRST_SETTING',
-                        'NAME' => 'My first setting',
-                    ],
-                    [
-                        'TYPE' => 'STRING',
-                        'CODE' => 'MY_SECOND_SETTING',
-                        'NAME' => 'My second setting',
-                    ],
-                ],
-            ],
-            'PROFILES' => [
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $sb->getSaleScope()->deliveryHandler()->add([
+        'CODE' => 'uber',
+        'NAME' => 'Uber',
+        'SETTINGS' => [
+            'CALCULATE_URL' => 'https://gateway.bx/calculate.php',
+            'CREATE_DELIVERY_REQUEST_URL' => 'https://gateway.bx/create_delivery_request.php',
+            'CANCEL_DELIVERY_REQUEST_URL' => 'https://gateway.bx/cancel_delivery_request.php',
+            'HAS_CALLBACK_TRACKING_SUPPORT' => 'Y',
+            'CONFIG' => [
                 [
-                    'NAME' => 'Taxi',
-                    'CODE' => 'TAXI',
-                    'DESCRIPTION' => 'Taxi Delivery',
+                    'TYPE' => 'STRING',
+                    'CODE' => 'MY_FIRST_SETTING',
+                    'NAME' => 'My first setting',
                 ],
                 [
-                    'NAME' => 'Cargo',
-                    'CODE' => 'CARGO',
-                    'DESCRIPTION' => 'Cargo Delivery',
+                    'TYPE' => 'STRING',
+                    'CODE' => 'MY_SECOND_SETTING',
+                    'NAME' => 'My second setting',
                 ],
             ],
-        ]
-    );
-    
+        ],
+        'PROFILES' => [
+            [
+                'NAME' => 'Taxi',
+                'CODE' => 'TAXI',
+                'DESCRIPTION' => 'Taxi Delivery',
+            ],
+            [
+                'NAME' => 'Cargo',
+                'CODE' => 'CARGO',
+                'DESCRIPTION' => 'Cargo Delivery',
+            ],
+        ],
+    ]);
+
     echo '<PRE>';
-    print_r($result);
+    print_r($result->getId());
     echo '</PRE>';
     ```
 
@@ -244,9 +259,9 @@
 - JS
 
     ```js
-    BX24.callMethod(
-        'sale.delivery.add',
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'sale.delivery.add',
+        params: {
             REST_CODE: "uber",
             NAME: "Uber Taxi",
             CURRENCY: "RUB",
@@ -262,43 +277,38 @@
                 },
             ]
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
+        requestId: 'delivery-add'
+    })
+
+    if (response.isSuccess) {
+        console.info(response.getData().result)
+    } else {
+        console.error(response.getErrorMessages().join('; '))
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-    
-    $result = CRest::call(
-        'sale.delivery.add',
-        [
-            'REST_CODE' => 'uber',
-            'NAME' => 'Uber Taxi',
-            'CURRENCY' => 'RUB',
-            'ACTIVE' => 'Y',
-            'CONFIG' => [
-                [
-                    'CODE' => 'MY_FIRST_SETTING',
-                    'VALUE' => 'My first setting value',
-                ],
-                [
-                    'CODE' => 'MY_SECOND_SETTING',
-                    'VALUE' => 'My second setting value',
-                ],
-            ]
+    $result = $sb->getSaleScope()->delivery()->add([
+        'REST_CODE' => 'uber',
+        'NAME' => 'Uber Taxi',
+        'CURRENCY' => 'RUB',
+        'ACTIVE' => 'Y',
+        'CONFIG' => [
+            [
+                'CODE' => 'MY_FIRST_SETTING',
+                'VALUE' => 'My first setting value',
+            ],
+            [
+                'CODE' => 'MY_SECOND_SETTING',
+                'VALUE' => 'My second setting value',
+            ],
         ]
-    );
-    
+    ]);
+
     echo '<PRE>';
-    print_r($result);
+    print_r($result->getParent()->ID);
     echo '</PRE>';
     ```
 
@@ -407,8 +417,9 @@
 - JS
 
     ```js
-    BX24.callMethod(
-        'sale.shipmentproperty.add', {
+    const response = await $b24.actions.v2.call.make({
+        method: 'sale.shipmentproperty.add',
+        params: {
             fields: {
                 personTypeId: 3,
                 propsGroupId: 6,
@@ -420,39 +431,32 @@
                 isAddressFrom: "Y"
             }
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
+        requestId: 'shipmentproperty-add-from'
+    })
+
+    if (response.isSuccess) {
+        console.info(response.getData().result)
+    } else {
+        console.error(response.getErrorMessages().join('; '))
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-    
-    $result = CRest::call(
-        'sale.shipmentproperty.add',
-        [
-            'fields' => [
-                'personTypeId' => 3,
-                'propsGroupId' => 6,
-                'name' => 'Address From',
-                'active' => 'Y',
-                'sort' => '100',
-                'type' => 'ADDRESS',
-                'required' => 'Y',
-                'isAddressFrom' => 'Y'
-            ]
-        ]
-    );
-    
+    $result = $sb->getSaleScope()->shipmentProperty()->add([
+        'personTypeId' => 3,
+        'propsGroupId' => 6,
+        'name' => 'Address From',
+        'active' => 'Y',
+        'sort' => '100',
+        'type' => 'ADDRESS',
+        'required' => 'Y',
+        'isAddressFrom' => 'Y'
+    ]);
+
     echo '<PRE>';
-    print_r($result);
+    print_r($result->getId());
     echo '</PRE>';
     ```
 
@@ -523,8 +527,9 @@
 - JS
 
     ```js
-    BX24.callMethod(
-        'sale.shipmentproperty.add', {
+    const response = await $b24.actions.v2.call.make({
+        method: 'sale.shipmentproperty.add',
+        params: {
             fields: {
                 personTypeId: 3,
                 propsGroupId: 6,
@@ -536,39 +541,32 @@
                 isAddressTo: "Y"
             }
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
+        requestId: 'shipmentproperty-add-to'
+    })
+
+    if (response.isSuccess) {
+        console.info(response.getData().result)
+    } else {
+        console.error(response.getErrorMessages().join('; '))
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-    
-    $result = CRest::call(
-        'sale.shipmentproperty.add',
-        [
-            'fields' => [
-                'personTypeId' => 3,
-                'propsGroupId' => 6,
-                'name' => 'Address To',
-                'active' => 'Y',
-                'sort' => '100',
-                'type' => 'ADDRESS',
-                'required' => 'Y',
-                'isAddressTo' => 'Y'
-            ]
-        ]
-    );
-    
+    $result = $sb->getSaleScope()->shipmentProperty()->add([
+        'personTypeId' => 3,
+        'propsGroupId' => 6,
+        'name' => 'Address To',
+        'active' => 'Y',
+        'sort' => '100',
+        'type' => 'ADDRESS',
+        'required' => 'Y',
+        'isAddressTo' => 'Y'
+    ]);
+
     echo '<PRE>';
-    print_r($result);
+    print_r($result->getId());
     echo '</PRE>';
     ```
 
@@ -645,40 +643,33 @@
 - JS
 
     ```js
-    BX24.callMethod(
-        'sale.propertyrelation.add',
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'sale.propertyrelation.add',
+        params: {
             fields: {
                 entityId: 227,
                 entityType: 'D',
                 propertyId: 102
             }
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
+        requestId: 'propertyrelation-add'
+    })
+
+    if (response.isSuccess) {
+        console.info(response.getData().result)
+    } else {
+        console.error(response.getErrorMessages().join('; '))
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-    
-    $result = CRest::call(
-        'sale.propertyrelation.add',
-        [
-            'fields' => [
-                'entityId' => 227,
-                'entityType' => 'D',
-                'propertyId' => 102
-            ]
-        ]
-    );
+    $result = $sb->getSaleScope()->propertyRelation()->add([
+        'entityId' => 227,
+        'entityType' => 'D',
+        'propertyId' => 102
+    ]);
     ```
 
 - Python
@@ -758,8 +749,9 @@
 - JS
 
     ```js
-    BX24.callMethod(
-        'sale.delivery.extra.service.add', {
+    const response = await $b24.actions.v2.call.make({
+        method: 'sale.delivery.extra.service.add',
+        params: {
             DELIVERY_ID: 227,
             ACTIVE: "Y",
             CODE: "door_delivery",
@@ -767,35 +759,30 @@
             TYPE: "checkbox",
             PRICE: 1000
         },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
+        requestId: 'delivery-extra-service-add'
+    })
+
+    if (response.isSuccess) {
+        console.info(response.getData().result)
+    } else {
+        console.error(response.getErrorMessages().join('; '))
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-    
-    $result = CRest::call(
-        'sale.delivery.extra.service.add',
-        [
-            'DELIVERY_ID' => 227,
-            'ACTIVE' => 'Y',
-            'CODE' => 'door_delivery',
-            'NAME' => 'Door Delivery',
-            'TYPE' => 'checkbox',
-            'PRICE' => 1000,
-        ]
-    );
-    
+    $result = $sb->getSaleScope()->deliveryExtraService()->add([
+        'DELIVERY_ID' => 227,
+        'ACTIVE' => 'Y',
+        'CODE' => 'door_delivery',
+        'NAME' => 'Door Delivery',
+        'TYPE' => 'checkbox',
+        'PRICE' => 1000,
+    ]);
+
     echo '<PRE>';
-    print_r($result);
+    print_r($result->getId());
     echo '</PRE>';
     ```
 
@@ -809,7 +796,7 @@
             name="Door Delivery",
             active=True,
             code="door_delivery",
-            price=1000,
+            price=1000.0,
         ).response
         print(response.result)
     except BitrixAPIError as error:

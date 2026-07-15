@@ -46,52 +46,55 @@
 - JS
 
    ```js
-   BX24.callMethod(
-       "sale.cashbox.handler.add",
-       {
-           "CODE": "my_rest_cashbox",
-           "NAME": "Моя REST-касса",
-           "SORT": 100,
-           "SETTINGS":
-           {
-               "PRINT_URL": "http://example.ru/rest_print.php",
-               "CHECK_URL": "http://example.ru/rest_check.php",
-               "CONFIG":
-               {
-                   "AUTH": {
-                       "LABEL": "Авторизация",
-                       "ITEMS": {
-                           "LOGIN": {
-                               "TYPE": "STRING",
-                               "REQUIRED": "Y",
-                               "LABEL": "Логин"
+   import { B24Hook } from '@bitrix24/b24jssdk'
+
+   const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+   // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+   const response = await $b24.actions.v2.call.make({
+       method: 'sale.cashbox.handler.add',
+       params: {
+           CODE: 'my_rest_cashbox',
+           NAME: 'Моя REST-касса',
+           SORT: 100,
+           SETTINGS: {
+               PRINT_URL: 'http://example.ru/rest_print.php',
+               CHECK_URL: 'http://example.ru/rest_check.php',
+               CONFIG: {
+                   AUTH: {
+                       LABEL: 'Авторизация',
+                       ITEMS: {
+                           LOGIN: {
+                               TYPE: 'STRING',
+                               REQUIRED: 'Y',
+                               LABEL: 'Логин'
                            },
-                           "PASSWORD": {
-                               "TYPE": "STRING",
-                               "REQUIRED": "Y",
-                               "LABEL": "Пароль"
-                           },
-                       }
-                   },
-                   "COMPANY": {
-                       "LABEL": "Данные об организации",
-                       "ITEMS": {
-                           "INN": {
-                               "TYPE": "STRING",
-                               "REQUIRED": "Y",
-                               "LABEL": "ИНН организации"
+                           PASSWORD: {
+                               TYPE: 'STRING',
+                               REQUIRED: 'Y',
+                               LABEL: 'Пароль'
                            }
                        }
                    },
-                   "INTERACTION": {
-                       "LABEL": "Настройки взаимодействия с кассой",
-                       "ITEMS": {
-                           "MODE": {
-                               "TYPE": "ENUM",
-                               "LABEL": "Режим работы с кассой",
-                               "OPTIONS": {
-                                   "ACTIVE": "боевой",
-                                   "TEST": "тестовый"
+                   COMPANY: {
+                       LABEL: 'Данные об организации',
+                       ITEMS: {
+                           INN: {
+                               TYPE: 'STRING',
+                               REQUIRED: 'Y',
+                               LABEL: 'ИНН организации'
+                           }
+                       }
+                   },
+                   INTERACTION: {
+                       LABEL: 'Настройки взаимодействия с кассой',
+                       ITEMS: {
+                           MODE: {
+                               TYPE: 'ENUM',
+                               LABEL: 'Режим работы с кассой',
+                               OPTIONS: {
+                                   ACTIVE: 'боевой',
+                                   TEST: 'тестовый'
                                }
                            }
                        }
@@ -99,26 +102,38 @@
                }
            }
        },
-       function(result)
-       {
-           if(result.error())
-               console.error(result.error());
-           else
-               console.dir(result.data());
-       }
-   );
+       requestId: 'cashbox-handler-add'
+   })
+
+   if (response.isSuccess) {
+       console.dir(response.getData().result)
+   } else {
+       console.error(response.getErrorMessages().join('; '))
+   }
    ```
 
 - PHP
 
    ```php
-   require_once('crest.php');
-   
-   $result = CRest::call('sale.cashbox.handler.add', [
-       'CODE' => 'my_rest_cashbox',
-       'NAME' => 'Моя REST-касса',
-       'SORT' => 100,
-       'SETTINGS' => [
+   <?php
+   // composer require bitrix24/b24phpsdk:"^3.0"
+   require_once 'vendor/autoload.php';
+
+   use Bitrix24\SDK\Services\ServiceBuilderFactory;
+   use Symfony\Component\EventDispatcher\EventDispatcher;
+   use Monolog\Logger;
+   use Monolog\Handler\StreamHandler;
+
+   $log = new Logger('b24');
+   $log->pushHandler(new StreamHandler('php://stdout'));
+
+   $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+       ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+   $result = $sb->getSaleScope()->cashboxHandler()->add(
+       'my_rest_cashbox',
+       'Моя REST-касса',
+       [
            'PRINT_URL' => 'http://example.ru/rest_print.php',
            'CHECK_URL' => 'http://example.ru/rest_check.php',
            'CONFIG' => [
@@ -161,11 +176,12 @@
                    ]
                ]
            ]
-       ]
-   ]);
-   
+       ],
+       100
+   );
+
    echo '<PRE>';
-   print_r($result);
+   print_r($result->getId());
    echo '</PRE>';
    ```
 
@@ -293,71 +309,66 @@
 - JS
 
    ```js
-   BX24.callMethod(
-       "sale.cashbox.add",
-       {
-           "REST_CODE": "my_rest_cashbox",
-           "NAME": "REST касса",
-           "NUMBER_KKM": "1",
-           "OFD": "bx_firstofd",
-           "EMAIL": "owner@example.ru",
-           "USE_OFFLINE": "Y",
-           "ACTIVE": "Y",
-           "SETTINGS": {
-               "AUTH": {
-                   "LOGIN": "rest_login",
-                   "PASSWORD": "rest_password"
+   const response = await $b24.actions.v2.call.make({
+       method: 'sale.cashbox.add',
+       params: {
+           REST_CODE: 'my_rest_cashbox',
+           NAME: 'REST касса',
+           NUMBER_KKM: '1',
+           OFD: 'bx_firstofd',
+           EMAIL: 'owner@example.ru',
+           USE_OFFLINE: 'Y',
+           ACTIVE: 'Y',
+           SETTINGS: {
+               AUTH: {
+                   LOGIN: 'rest_login',
+                   PASSWORD: 'rest_password'
                },
-               "COMPANY": {
-                   "INN": "1234567890"
+               COMPANY: {
+                   INN: '1234567890'
                },
-               "INTERACTION": {
-                   "MODE": "ACTIVE"
+               INTERACTION: {
+                   MODE: 'ACTIVE'
                }
            }
        },
-       function(result)
-       {
-           if(result.error())
-           console.error(result.error());
-           else
-           console.dir(result.data());
-       }
-   );
+       requestId: 'cashbox-add'
+   })
+
+   if (response.isSuccess) {
+       console.dir(response.getData().result)
+   } else {
+       console.error(response.getErrorMessages().join('; '))
+   }
    ```
 
 - PHP
 
    ```php
-   require_once('crest.php');
-   
-   $result = CRest::call(
-       'sale.cashbox.add',
-       [
-           'REST_CODE' => 'my_rest_cashbox',
-           'NAME' => 'REST касса',
-           'NUMBER_KKM' => '1',
-           'OFD' => 'bx_firstofd',
-           'EMAIL' => 'owner@example.ru',
-           'USE_OFFLINE' => 'Y',
-           'ACTIVE' => 'Y',
-           'SETTINGS' => [
-               'AUTH' => [
-                   'LOGIN' => 'rest_login',
-                   'PASSWORD' => 'rest_password'
-               ],
-               'COMPANY' => [
-                   'INN' => '1234567890'
-               ],
-               'INTERACTION' => [
-                   'MODE' => 'ACTIVE'
-               ]
+   $result = $sb->getSaleScope()->cashbox()->add([
+       'REST_CODE' => 'my_rest_cashbox',
+       'NAME' => 'REST касса',
+       'NUMBER_KKM' => '1',
+       'OFD' => 'bx_firstofd',
+       'EMAIL' => 'owner@example.ru',
+       'USE_OFFLINE' => 'Y',
+       'ACTIVE' => 'Y',
+       'SETTINGS' => [
+           'AUTH' => [
+               'LOGIN' => 'rest_login',
+               'PASSWORD' => 'rest_password'
+           ],
+           'COMPANY' => [
+               'INN' => '1234567890'
+           ],
+           'INTERACTION' => [
+               'MODE' => 'ACTIVE'
            ]
        ]
-   );
-   
+   ]);
+
    echo '<PRE>';
-   print_r($result);
+   print_r($result->getId());
    echo '</PRE>';
    ```
 
@@ -517,49 +528,44 @@
 - JS
 
    ```js
-   BX24.callMethod(
-       "sale.cashbox.check.apply",
-       {
-           'UUID':'00112233-4455-6677-8899-aabbccddeeff',
-           'PRINT_END_TIME':'1609459200',
-           'REG_NUMBER_KKT':'000111222333',
-           'FISCAL_DOC_ATTR':'33445500',
-           'FISCAL_DOC_NUMBER':'123',
-           'FISCAL_RECEIPT_NUMBER':'10',
-           'FN_NUMBER':'0011223344556677',
-           'SHIFT_NUMBER':'12'
+   const response = await $b24.actions.v2.call.make({
+       method: 'sale.cashbox.check.apply',
+       params: {
+           UUID: '00112233-4455-6677-8899-aabbccddeeff',
+           PRINT_END_TIME: '1609459200',
+           REG_NUMBER_KKT: '000111222333',
+           FISCAL_DOC_ATTR: '33445500',
+           FISCAL_DOC_NUMBER: '123',
+           FISCAL_RECEIPT_NUMBER: '10',
+           FN_NUMBER: '0011223344556677',
+           SHIFT_NUMBER: '12'
        },
-       function(result)
-       {
-           if(result.error())
-               console.error(result.error());
-           else
-               console.dir(result.data());
-       }
-   );
+       requestId: 'cashbox-check-apply'
+   })
+
+   if (response.isSuccess) {
+       console.dir(response.getData().result)
+   } else {
+       console.error(response.getErrorMessages().join('; '))
+   }
    ```
 
 - PHP
 
    ```php
-   require_once('crest.php');
-   
-   $result = CRest::call(
-       'sale.cashbox.check.apply',
-       [
-           'UUID' => '00112233-4455-6677-8899-aabbccddeeff',
-           'PRINT_END_TIME' => '1609459200',
-           'REG_NUMBER_KKT' => '000111222333',
-           'FISCAL_DOC_ATTR' => '33445500',
-           'FISCAL_DOC_NUMBER' => '123',
-           'FISCAL_RECEIPT_NUMBER' => '10',
-           'FN_NUMBER' => '0011223344556677',
-           'SHIFT_NUMBER' => '12'
-       ]
-   );
-   
+   $result = $sb->getSaleScope()->cashbox()->checkApply([
+       'UUID' => '00112233-4455-6677-8899-aabbccddeeff',
+       'PRINT_END_TIME' => '1609459200',
+       'REG_NUMBER_KKT' => '000111222333',
+       'FISCAL_DOC_ATTR' => '33445500',
+       'FISCAL_DOC_NUMBER' => '123',
+       'FISCAL_RECEIPT_NUMBER' => '10',
+       'FN_NUMBER' => '0011223344556677',
+       'SHIFT_NUMBER' => '12'
+   ]);
+
    echo '<PRE>';
-   print_r($result);
+   print_r($result->isSuccess());
    echo '</PRE>';
    ```
 

@@ -28,7 +28,7 @@
 2. [app.info](../../../api-reference/common/system/app-info.md) — получим идентификатор приложения и сформируем полный код типа поля
 3. [crm.lead.userfield.add](../../../api-reference/crm/leads/userfield/crm-lead-userfield-add.md) — создадим поле в карточке лида
 4. [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) — получим телефон лида в обработчике поля
-5. [BX24.placement.call](../../../api-reference/widgets/ui-interaction/bx24-placement-call.md) — передадим новое значение поля в форму карточки
+5. [setValue](../../../api-reference/widgets/ui-interaction/bx24-placement-call.md) — передадим новое значение поля в форму карточки
 
 {% note info "" %}
 
@@ -43,10 +43,10 @@
 Когда пользователь открывает карточку лида с полем такого типа, Битрикс24 открывает URL обработчика внутри поля и передает ему `PLACEMENT_OPTIONS`. В режиме редактирования обработчик может изменить значение поля вызовом:
 
 ```js
-BX24.placement.call('setValue', value, () => {});
+$b24.placement.setValue(value)
 ```
 
-Для команды `setValue` вторым параметром передается само значение поля. Команда записывает его в скрытое поле формы карточки. В лиде значение сохранится после сохранения карточки. В режиме просмотра обработчик может только показать интерфейс или текстовое значение.
+Метод `setValue` принимает само значение поля и записывает его в скрытое поле формы карточки. В лиде значение сохранится после сохранения карточки. В режиме просмотра обработчик может только показать интерфейс или текстовое значение.
 
 ## Подготовьте обработчик
 
@@ -60,7 +60,67 @@ BX24.placement.call('setValue', value, () => {});
 https://your-domain.example/handler.php
 ```
 
-Если выполняете JS-примеры регистрации на странице приложения, вызывайте `BX24.callMethod` после инициализации SDK методом [BX24.init](../../../sdk/bx24-js-sdk/system-functions/bx24-init.md).
+Все вызовы выполняются в контексте установленного приложения. Авторизацию (`access_token`, `domain`) приложение получает при установке и в каждом вызове обработчика. Ниже — как инициализировать SDK в этом контексте:
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    // npm install @bitrix24/b24jssdk
+    // Страница приложения открывается внутри iframe Битрикс24
+    import { initializeB24Frame } from '@bitrix24/b24jssdk'
+
+    const $b24 = await initializeB24Frame()
+    // ... вызовы $b24.actions.v2.call.make(...) и $b24.placement.*
+    // в конце работы страницы: $b24.destroy()
+    ```
+
+- PHP
+
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Core\Credentials\ApplicationProfile;
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\HttpFoundation\Request;
+
+    $appProfile = ApplicationProfile::initFromArray([
+        'BITRIX24_PHP_SDK_APPLICATION_CLIENT_ID' => 'local.xxxxxxxx.xxxxxxxx',
+        'BITRIX24_PHP_SDK_APPLICATION_CLIENT_SECRET' => 'yyyyyyyy',
+        'BITRIX24_PHP_SDK_APPLICATION_SCOPE' => 'crm,placement',
+    ]);
+
+    // Битрикс24 передает DOMAIN и токен приложения в запросе обработчика
+    $b24 = ServiceBuilderFactory::createServiceBuilderFromPlacementRequest(
+        Request::createFromGlobals(),
+        $appProfile
+    );
+    ```
+
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from b24pysdk import BitrixApp, BitrixToken, Client
+
+    bitrix_app = BitrixApp(
+        client_id="local.xxxxxxxx.xxxxxxxx",
+        client_secret="yyyyyyyy",
+    )
+
+    # auth приходит в запросе установки или вызова приложения
+    client = Client(BitrixToken(
+        domain=auth["domain"],
+        auth_token=auth["access_token"],
+        refresh_token=auth["refresh_token"],
+        bitrix_app=bitrix_app,
+    ))
+    ```
+
+{% endlist %}
 
 ## 1\. Зарегистрируем тип поля
 
@@ -81,12 +141,12 @@ https://your-domain.example/handler.php
 - JS
 
     ```js
-    const handlerUrl = 'https://your-domain.example/handler.php';
-    const userTypeId = 'phone_data';
+    const handlerUrl = 'https://your-domain.example/handler.php'
+    const userTypeId = 'phone_data'
 
-    BX24.callMethod(
-        'userfieldtype.add',
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'userfieldtype.add',
+        params: {
             USER_TYPE_ID: userTypeId,
             HANDLER: handlerUrl,
             TITLE: 'Phone data',
@@ -95,48 +155,50 @@ https://your-domain.example/handler.php
                 height: 60,
             },
         },
-        (result) => {
-            if (result.error())
-            {
-                console.error(result.error() + ': ' + result.error_description());
-                return;
-            }
+        requestId: 'userfieldtype-add',
+    })
 
-            console.info('User field type registered');
-        }
-    );
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    console.info('User field type registered')
     ```
 
-- PHP CRest
+- PHP
 
     ```php
     <?php
-    require_once('crest.php');
-
     $handlerUrl = 'https://your-domain.example/handler.php';
     $userTypeId = 'phone_data';
 
-    $result = CRest::call(
-        'userfieldtype.add',
-        [
-            'USER_TYPE_ID' => $userTypeId,
-            'HANDLER' => $handlerUrl,
-            'TITLE' => 'Phone data',
-            'DESCRIPTION' => 'Lead phone data field',
-            'OPTIONS' => [
-                'height' => 60,
-            ],
-        ]
-    );
+    // Типизированный аналог не принимает OPTIONS:
+    // $b24->getPlacementScope()->userfieldtype()->add($userTypeId, $handlerUrl, 'Phone data', 'Lead phone data field');
+    // Чтобы передать OPTIONS (height), вызываем метод напрямую через ядро:
+    $response = $b24->core->call('userfieldtype.add', [
+        'USER_TYPE_ID' => $userTypeId,
+        'HANDLER' => $handlerUrl,
+        'TITLE' => 'Phone data',
+        'DESCRIPTION' => 'Lead phone data field',
+        'OPTIONS' => ['height' => 60],
+    ]);
 
-    if (!empty($result['error']))
-    {
-        echo $result['error'] . ': ' . $result['error_description'];
-    }
-    else
-    {
-        echo 'User field type registered';
-    }
+    // core->call оборачивает скалярный результат в массив
+    $isRegistered = $response->getResponseData()->getResult()[0];
+    echo $isRegistered ? 'User field type registered' : 'Error';
+    ```
+
+- Python
+
+    ```python
+    bitrix_response = client.userfieldtype.add(
+        "phone_data",
+        "https://your-domain.example/handler.php",
+        title="Phone data",
+        description="Lead phone data field",
+        options={"height": 60},
+    ).response
+    print("User field type registered" if bitrix_response.result else "Error")
     ```
 
 {% endlist %}
@@ -169,43 +231,53 @@ https://your-domain.example/handler.php
 - JS
 
     ```js
-    BX24.callMethod(
-        'app.info',
-        {},
-        (result) => {
-            if (result.error())
-            {
-                console.error(result.error() + ': ' + result.error_description());
-                return;
-            }
+    const response = await $b24.actions.v2.call.make({
+        method: 'app.info',
+        params: {},
+        requestId: 'app-info',
+    })
 
-            const applicationId = result.data().ID;
-            const userTypeId = 'rest_' + applicationId + '_phone_data';
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
 
-            console.info('Full user type ID: ' + userTypeId);
-        }
-    );
+    const applicationId = response.getData().result.ID
+    const fullUserTypeId = `rest_${applicationId}_phone_data`
+
+    console.info('Full user type ID: ' + fullUserTypeId)
     ```
 
-- PHP CRest
+- PHP
 
     ```php
     <?php
-    require_once('crest.php');
+    use Bitrix24\SDK\Core\Exceptions\BaseException;
 
-    $result = CRest::call('app.info', []);
-
-    if (!empty($result['error']))
+    try
     {
-        echo $result['error'] . ': ' . $result['error_description'];
-    }
-    else
-    {
-        $applicationId = (int)$result['result']['ID'];
-        $userTypeId = 'rest_' . $applicationId . '_phone_data';
+        $applicationId = $b24->getMainScope()->main()->getApplicationInfo()->applicationInfo()->ID;
+        $fullUserTypeId = 'rest_' . $applicationId . '_phone_data';
 
-        echo 'Full user type ID: ' . $userTypeId;
+        echo 'Full user type ID: ' . $fullUserTypeId;
     }
+    catch (BaseException $exception)
+    {
+        echo $exception->getMessage();
+    }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError
+
+    try:
+        application_id = client.app.info().response.result["ID"]
+        full_user_type_id = f"rest_{application_id}_phone_data"
+
+        print("Full user type ID:", full_user_type_id)
+    except BitrixAPIError as error:
+        print(error)
     ```
 
 {% endlist %}
@@ -223,7 +295,7 @@ https://your-domain.example/handler.php
 }
 ```
 
-Если `INSTALLED` имеет значение `false`, завершите установку приложения методом [BX24.installFinish](../../../sdk/bx24-js-sdk/system-functions/bx24-install-finish.md).
+Если `INSTALLED` имеет значение `false`, завершите установку приложения — в B24JsSDK для этого есть метод `$b24.installFinish()`. Подробнее — в описании [BX24.installFinish](../../../sdk/bx24-js-sdk/system-functions/bx24-install-finish.md).
 
 ## 3\. Создадим поле лида
 
@@ -252,14 +324,14 @@ https://your-domain.example/handler.php
 - JS
 
     ```js
-    const applicationId = 123;
-    const registeredUserTypeId = 'phone_data';
-    const userTypeId = 'rest_' + applicationId + '_' + registeredUserTypeId;
-    const fieldName = 'PHONE_DATA';
+    const applicationId = 123
+    const registeredUserTypeId = 'phone_data'
+    const userTypeId = `rest_${applicationId}_${registeredUserTypeId}`
+    const fieldName = 'PHONE_DATA'
 
-    BX24.callMethod(
-        'crm.lead.userfield.add',
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'crm.lead.userfield.add',
+        params: {
             fields: {
                 USER_TYPE_ID: userTypeId,
                 FIELD_NAME: fieldName,
@@ -272,54 +344,76 @@ https://your-domain.example/handler.php
                 SETTINGS: {},
             },
         },
-        (result) => {
-            if (result.error())
-            {
-                console.error(result.error() + ': ' + result.error_description());
-                return;
-            }
+        requestId: 'lead-userfield-add',
+    })
 
-            console.info('Lead field created, ID: ' + result.data());
-        }
-    );
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    console.info('Lead field created, ID: ' + response.getData().result)
     ```
 
-- PHP CRest
+- PHP
 
     ```php
     <?php
-    require_once('crest.php');
+    use Bitrix24\SDK\Core\Exceptions\BaseException;
 
     $applicationId = 123;
     $registeredUserTypeId = 'phone_data';
     $userTypeId = 'rest_' . $applicationId . '_' . $registeredUserTypeId;
     $fieldName = 'PHONE_DATA';
 
-    $result = CRest::call(
-        'crm.lead.userfield.add',
-        [
-            'fields' => [
-                'USER_TYPE_ID' => $userTypeId,
-                'FIELD_NAME' => $fieldName,
-                'XML_ID' => $fieldName,
-                'MANDATORY' => 'N',
-                'SHOW_IN_LIST' => 'Y',
-                'EDIT_IN_LIST' => 'Y',
-                'EDIT_FORM_LABEL' => 'Phone data',
-                'LIST_COLUMN_LABEL' => 'Phone data',
-                'SETTINGS' => [],
-            ],
-        ]
-    );
+    try
+    {
+        $fieldId = $b24->getCRMScope()->leadUserfield()->add([
+            'USER_TYPE_ID' => $userTypeId,
+            'FIELD_NAME' => $fieldName,
+            'XML_ID' => $fieldName,
+            'MANDATORY' => 'N',
+            'SHOW_IN_LIST' => 'Y',
+            'EDIT_IN_LIST' => 'Y',
+            'EDIT_FORM_LABEL' => 'Phone data',
+            'LIST_COLUMN_LABEL' => 'Phone data',
+            'SETTINGS' => [],
+        ])->getId();
 
-    if (!empty($result['error']))
-    {
-        echo $result['error'] . ': ' . $result['error_description'];
+        echo 'Lead field created, ID: ' . $fieldId;
     }
-    else
+    catch (BaseException $exception)
     {
-        echo 'Lead field created, ID: ' . $result['result'];
+        echo $exception->getMessage();
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError
+
+    application_id = 123
+    registered_user_type_id = "phone_data"
+    user_type_id = f"rest_{application_id}_{registered_user_type_id}"
+    field_name = "PHONE_DATA"
+
+    try:
+        bitrix_response = client.crm.lead.userfield.add(
+            fields={
+                "USER_TYPE_ID": user_type_id,
+                "FIELD_NAME": field_name,
+                "XML_ID": field_name,
+                "MANDATORY": "N",
+                "SHOW_IN_LIST": "Y",
+                "EDIT_IN_LIST": "Y",
+                "EDIT_FORM_LABEL": "Phone data",
+                "LIST_COLUMN_LABEL": "Phone data",
+                "SETTINGS": {},
+            },
+        ).response
+        print("Lead field created, ID:", bitrix_response.result)
+    except BitrixAPIError as error:
+        print(error)
     ```
 
 {% endlist %}
@@ -351,13 +445,13 @@ https://your-domain.example/handler.php
 Обработчик выполняет два действия:
 
 1. Если поле пустое, получим телефон лида методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md)
-2. Передадим новое значение в форму карточки командой [BX24.placement.call](../../../api-reference/widgets/ui-interaction/bx24-placement-call.md) с командой `setValue`
+2. Передадим новое значение в форму карточки методом `setValue`
 
 Для лида в `crm.item.get` укажите `entityTypeId: 1`. В параметр `id` передайте идентификатор лида из `PLACEMENT_OPTIONS.ENTITY_VALUE_ID`. Если карточка уже сохранена, `ENTITY_VALUE_ID` содержит идентификатор лида. Для новой карточки значение может быть `0`.
 
 Если поле уже содержит значение, обработчик покажет его без повторной загрузки телефона.
 
-Вариант PHP CRest предполагает, что [авторизация приложения для CRest](../../../first-steps/how-to-use-examples.md) уже настроена. `CRest::call` выполнит метод с правами пользователя, чей токен хранится в настройках CRest. Если там сохранен токен администратора, проверка прав `crm.item.get` будет выполнена не для пользователя, который открыл карточку лида.
+Записать значение в форму карточки может только код, который выполняется в iframe поля, поэтому `setValue` вызывается из JS. В вариантах PHP и Python сервер получает телефон лида и отдает готовую страницу, а запись значения выполняет небольшой JS-фрагмент на этой странице.
 
 {% list tabs %}
 
@@ -369,114 +463,97 @@ https://your-domain.example/handler.php
         <head>
             <meta charset="UTF-8">
             <title>Phone data</title>
-            <script src="https://api.bitrix24.com/api/v1/"></script>
         </head>
         <body style="margin: 0; padding: 0;">
             <div id="field-content"></div>
 
-            <script>
-                BX24.init(() => {
-                    const placementOptions = BX24.getPlacementOptions();
+            <script type="module">
+                // npm install @bitrix24/b24jssdk
+                import { initializeB24Frame } from '@bitrix24/b24jssdk'
 
-                    if (BX24.getPlacement() !== 'USERFIELD_TYPE')
-                    {
-                        document.getElementById('field-content').textContent =
-                            'Не удалось определить тип встройки';
-                        return;
-                    }
+                const $b24 = await initializeB24Frame()
+                const options = $b24.placement.options
+                const container = document.getElementById('field-content')
 
-                    const currentValue = placementOptions.VALUE || '';
-                    const leadId = Number(placementOptions.ENTITY_VALUE_ID);
-
-                    if (currentValue !== '')
-                    {
-                        renderValue(currentValue, placementOptions);
-                        return;
-                    }
+                if ($b24.placement.placement !== 'USERFIELD_TYPE') {
+                    container.textContent = 'Не удалось определить тип встройки'
+                } else {
+                    let value = options.VALUE || ''
+                    const leadId = Number(options.ENTITY_VALUE_ID)
 
                     if (
-                        placementOptions.ENTITY_ID !== 'CRM_LEAD'
-                        || !Number.isInteger(leadId)
-                        || leadId <= 0
-                    )
-                    {
-                        renderValue(currentValue, placementOptions);
-                        return;
-                    }
+                        value === ''
+                        && options.ENTITY_ID === 'CRM_LEAD'
+                        && Number.isInteger(leadId)
+                        && leadId > 0
+                    ) {
+                        const response = await $b24.actions.v2.call.make({
+                            method: 'crm.item.get',
+                            params: {
+                                entityTypeId: 1,
+                                id: leadId,
+                            },
+                            requestId: 'lead-get',
+                        })
 
-                    BX24.callMethod(
-                        'crm.item.get',
-                        {
-                            entityTypeId: 1,
-                            id: leadId,
-                        },
-                        (result) => {
-                            if (result.error())
-                            {
-                                renderValue(currentValue, placementOptions);
-                                console.error(
-                                    result.error() + ': ' + result.error_description()
-                                );
-                                return;
-                            }
-
-                            const item = result.data().item;
+                        if (!response.isSuccess) {
+                            console.error(response.getErrorMessages().join('; '))
+                        } else {
+                            const item = response.getData().result.item
                             const phone = (item?.fm || [])
                                 .find((field) => field.typeId === 'PHONE' && field.value)
                                 ?.value
                                 ?.trim()
                                 || item?.phone?.trim()
-                                || '';
-                            const value = phone
-                                ? 'Lead phone: ' + phone
-                                : 'Phone is empty';
+                                || ''
 
-                            renderValue(value, placementOptions);
+                            value = phone ? 'Lead phone: ' + phone : 'Phone is empty'
                         }
-                    );
-                });
-
-                function renderValue(value, placementOptions)
-                {
-                    const container = document.getElementById('field-content');
-
-                    document.body.style.backgroundColor =
-                        placementOptions.MODE === 'edit' ? '#fff' : '#f9fafb';
-
-                    if (placementOptions.MODE === 'edit')
-                    {
-                        container.innerHTML =
-                            '<input id="phone-data" type="text" style="width: 90%;" />';
-                        const input = document.getElementById('phone-data');
-
-                        input.value = value;
-                        input.addEventListener('keyup', () => setValue(input.value));
-                        setValue(value);
                     }
-                    else
-                    {
-                        container.textContent = value;
-                    }
+
+                    renderValue(value)
                 }
 
-                function setValue(value)
-                {
-                    BX24.placement.call('setValue', value, () => {});
+                function renderValue(value) {
+                    document.body.style.backgroundColor =
+                        options.MODE === 'edit' ? '#fff' : '#f9fafb'
+
+                    if (options.MODE === 'edit') {
+                        container.innerHTML =
+                            '<input id="phone-data" type="text" style="width: 90%;" />'
+                        const input = document.getElementById('phone-data')
+
+                        input.value = value
+                        input.addEventListener('keyup', () => $b24.placement.setValue(input.value))
+                        $b24.placement.setValue(value)
+                    } else {
+                        container.textContent = value
+                    }
                 }
             </script>
         </body>
     </html>
     ```
 
-- PHP CRest
+- PHP
 
     ```php
     <?php
-    require_once('crest.php');
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    $placement = (string)($_REQUEST['PLACEMENT'] ?? '');
-    $placementOptionsJson = (string)($_REQUEST['PLACEMENT_OPTIONS'] ?? '{}');
-    $placementOptions = json_decode($placementOptionsJson, true);
+    use Bitrix24\SDK\Core\Credentials\ApplicationProfile;
+    use Bitrix24\SDK\Core\Exceptions\BaseException;
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\HttpFoundation\Request;
+
+    $request = Request::createFromGlobals();
+
+    $placement = (string)$request->request->get('PLACEMENT', '');
+    $placementOptions = json_decode(
+        (string)$request->request->get('PLACEMENT_OPTIONS', '{}'),
+        true
+    );
 
     if ($placement !== 'USERFIELD_TYPE' || !is_array($placementOptions))
     {
@@ -492,26 +569,28 @@ https://your-domain.example/handler.php
         && (int)($placementOptions['ENTITY_VALUE_ID'] ?? 0) > 0
     )
     {
-        $lead = CRest::call(
-            'crm.item.get',
-            [
-                'entityTypeId' => 1,
-                'id' => (int)$placementOptions['ENTITY_VALUE_ID'],
-            ]
-        );
+        $appProfile = ApplicationProfile::initFromArray([
+            'BITRIX24_PHP_SDK_APPLICATION_CLIENT_ID' => 'local.xxxxxxxx.xxxxxxxx',
+            'BITRIX24_PHP_SDK_APPLICATION_CLIENT_SECRET' => 'yyyyyyyy',
+            'BITRIX24_PHP_SDK_APPLICATION_SCOPE' => 'crm,placement',
+        ]);
 
-        if (!empty($lead['error']))
+        try
         {
-            $errorMessage = ($lead['error'] ?? 'ERROR')
-                . ': '
-                . ($lead['error_description'] ?? 'Не удалось получить данные лида');
-        }
-        else
-        {
-            $item = $lead['result']['item'] ?? [];
+            // SDK возьмет DOMAIN и токен пользователя, открывшего карточку, из запроса
+            $b24 = ServiceBuilderFactory::createServiceBuilderFromPlacementRequest(
+                $request,
+                $appProfile
+            );
+
+            $item = $b24->getCRMScope()->item()->get(
+                1,
+                (int)$placementOptions['ENTITY_VALUE_ID']
+            )->item();
+
             $phone = '';
 
-            foreach (($item['fm'] ?? []) as $field)
+            foreach (($item->fm ?? []) as $field)
             {
                 if (
                     ($field['typeId'] ?? '') === 'PHONE'
@@ -523,12 +602,11 @@ https://your-domain.example/handler.php
                 }
             }
 
-            if ($phone === '')
-            {
-                $phone = trim((string)($item['phone'] ?? ''));
-            }
-
             $value = $phone !== '' ? 'Lead phone: ' . $phone : 'Phone is empty';
+        }
+        catch (BaseException $exception)
+        {
+            $errorMessage = $exception->getMessage();
         }
     }
     ?>
@@ -537,7 +615,6 @@ https://your-domain.example/handler.php
         <head>
             <meta charset="UTF-8">
             <title>Phone data</title>
-            <script src="https://api.bitrix24.com/api/v1/"></script>
         </head>
         <body style="margin: 0; padding: 0; background-color: <?=($placementOptions['MODE'] ?? '') === 'edit' ? '#fff' : '#f9fafb'?>;">
             <?php if ($errorMessage !== ''): ?>
@@ -551,23 +628,109 @@ https://your-domain.example/handler.php
                     style="width: 90%;"
                     value="<?=htmlspecialchars($value, ENT_QUOTES, 'UTF-8')?>"
                 >
-                <script>
-                    BX24.init(() => {
-                        const input = document.getElementById('phone-data');
+                <script type="module">
+                    // Значение в форму карточки записывает код внутри iframe поля
+                    import { initializeB24Frame } from '@bitrix24/b24jssdk'
 
-                        input.addEventListener('keyup', () => setValue(input.value));
-                        setValue(input.value);
-                    });
+                    const $b24 = await initializeB24Frame()
+                    const input = document.getElementById('phone-data')
 
-                    function setValue(value) {
-                        BX24.placement.call('setValue', value, () => {});
-                    }
+                    input.addEventListener('keyup', () => $b24.placement.setValue(input.value))
+                    $b24.placement.setValue(input.value)
                 </script>
             <?php else: ?>
                 <?=htmlspecialchars($value, ENT_QUOTES, 'UTF-8')?>
             <?php endif; ?>
         </body>
     </html>
+    ```
+
+- Python
+
+    ```python
+    # pip install b24pysdk flask
+    from flask import Flask, request
+    from b24pysdk import BitrixApp, BitrixToken, Client
+    from b24pysdk.errors import BitrixAPIError
+    from markupsafe import escape
+    import json
+
+    app = Flask(__name__)
+
+    bitrix_app = BitrixApp(
+        client_id="local.xxxxxxxx.xxxxxxxx",
+        client_secret="yyyyyyyy",
+    )
+
+
+    @app.post("/handler")
+    def handler():
+        placement = request.form.get("PLACEMENT", "")
+        options = json.loads(request.form.get("PLACEMENT_OPTIONS", "{}") or "{}")
+
+        if placement != "USERFIELD_TYPE":
+            return ""
+
+        value = options.get("VALUE") or ""
+        error_message = ""
+        lead_id = int(options.get("ENTITY_VALUE_ID", 0))
+
+        if value == "" and options.get("ENTITY_ID") == "CRM_LEAD" and lead_id > 0:
+            # Битрикс24 передает обработчику домен и токен пользователя
+            client = Client(
+                BitrixToken(
+                    domain=request.args.get("DOMAIN", ""),
+                    auth_token=request.form.get("AUTH_ID", ""),
+                    bitrix_app=bitrix_app,
+                )
+            )
+
+            try:
+                item = client.crm.item.get(
+                    entity_type_id=1,
+                    bitrix_id=lead_id,
+                ).response.result["item"]
+
+                phone = next(
+                    (
+                        field["value"].strip()
+                        for field in item.get("fm") or []
+                        if field.get("typeId") == "PHONE" and (field.get("value") or "").strip()
+                    ),
+                    (item.get("phone") or "").strip(),
+                )
+
+                value = f"Lead phone: {phone}" if phone else "Phone is empty"
+            except BitrixAPIError as error:
+                error_message = str(error)
+
+        background = "#fff" if options.get("MODE") == "edit" else "#f9fafb"
+
+        if options.get("MODE") == "edit":
+            # Значение в форму карточки записывает код внутри iframe поля
+            body = f"""
+                <input id="phone-data" type="text" style="width: 90%;" value="{escape(value)}">
+                <script type="module">
+                    import {{ initializeB24Frame }} from '@bitrix24/b24jssdk'
+
+                    const $b24 = await initializeB24Frame()
+                    const input = document.getElementById('phone-data')
+
+                    input.addEventListener('keyup', () => $b24.placement.setValue(input.value))
+                    $b24.placement.setValue(input.value)
+                </script>
+            """
+        else:
+            body = escape(value)
+
+        return f"""<!DOCTYPE html>
+    <html lang="ru">
+        <head><meta charset="UTF-8"><title>Phone data</title></head>
+        <body style="margin: 0; padding: 0; background-color: {background};">
+            {f'<div>{escape(error_message)}</div>' if error_message else ''}
+            {body}
+        </body>
+    </html>"""
     ```
 
 {% endlist %}
@@ -595,7 +758,7 @@ https://your-domain.example/handler.php
 
 ## Что получает обработчик
 
-В HTTP-запросе обработчика `PLACEMENT_OPTIONS` передается как JSON-строка. Метод `BX24.getPlacementOptions()` возвращает эти данные уже как объект. В PHP `$_REQUEST['PLACEMENT_OPTIONS']` содержит JSON-строку, которую нужно преобразовать в массив.
+В HTTP-запросе обработчика `PLACEMENT_OPTIONS` передается как JSON-строка. В B24JsSDK свойство `$b24.placement.options` возвращает эти данные уже как объект. В PHP и Python JSON-строку из запроса нужно преобразовать самостоятельно — например, функцией `json_decode` или `json.loads`.
 
 #|
 || **Поле**
@@ -633,7 +796,7 @@ https://your-domain.example/handler.php
 - если поле не загружается, проверьте HTTPS-адрес `HANDLER`, его домен и доступность из интернета
 - ошибка `ACCESS_DENIED` в `crm.item.get` означает, что у пользователя нет права на чтение лида
 - при ошибке `NOT_FOUND` в `crm.item.get` проверьте `ENTITY_VALUE_ID` и значение `entityTypeId`
-- если интерфейс поля не запускается, проверьте подключение SDK и выполнение клиентского кода внутри `BX24.init`
+- если интерфейс поля не запускается, проверьте подключение SDK и то, что клиентский код выполняется после `initializeB24Frame()`
 
 ## Как адаптировать сценарий для других карточек CRM
 
@@ -652,5 +815,5 @@ https://your-domain.example/handler.php
 - [Пользовательские типы полей в CRM](../../../api-reference/crm/universal/user-defined-fields/userfield-type.md)
 - [Получить информацию о приложении app.info](../../../api-reference/common/system/app-info.md)
 - [Получить список типов пользовательских полей userfieldtype.list](../../../api-reference/widgets/user-field/userfieldtype-list.md)
-- [Инициализировать библиотеку BX24.init](../../../sdk/bx24-js-sdk/system-functions/bx24-init.md)
 - [Вызвать команду интерфейса BX24.placement.call](../../../api-reference/widgets/ui-interaction/bx24-placement-call.md)
+- [{#T}](../../../sdk/b24jssdk/index.md)
