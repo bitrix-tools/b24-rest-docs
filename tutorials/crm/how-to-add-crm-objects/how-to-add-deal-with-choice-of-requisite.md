@@ -154,23 +154,33 @@
 
 - Python
 
-    ```html
-    <!-- Jinja2-шаблон: список реквизитов и поля адреса подставляются из данных -->
-    <form id="form_to_crm">
-        <select name="REQ_TYPE" required>
-            <option value="" disabled selected>Select</option>
-            {% for id, name in requisite_types.items() %}
-                <option value="{{ id }}">{{ name }}</option>
-            {% endfor %}
-        </select>
-        <input type="text" name="TITLE" placeholder="Org name" required>
-        <input type="text" name="INN" placeholder="INN">
-        <input type="text" name="PHONE" placeholder="Phone">
-        {% for key, field in address_fields.items() %}
-            <input type="text" name="ADDRESS[{{ key }}]" placeholder="{{ field.title }}" {{ 'required' if field.isRequired else '' }}>
-        {% endfor %}
-        <input type="submit" value="Submit">
-    </form>
+    ```python
+    # строку с формой собираем из полученных данных и вставляем в ответ сервера
+    from markupsafe import escape
+
+    options = "".join(
+        f'<option value="{escape(preset_id)}">{escape(name)}</option>'
+        for preset_id, name in requisite_types.items()
+    )
+    address_inputs = "".join(
+        f'<input type="text" name="ADDRESS[{escape(key)}]" '
+        f'placeholder="{escape(field["title"])}" '
+        f'{"required" if field["isRequired"] else ""}>'
+        for key, field in address_fields.items()
+    )
+
+    form_html = f"""
+        <form id="form_to_crm">
+            <select name="REQ_TYPE" required>
+                <option value="" disabled selected>Select</option>
+                {options}
+            </select>
+            <input type="text" name="TITLE" placeholder="Org name" required>
+            <input type="text" name="INN" placeholder="INN">
+            <input type="text" name="PHONE" placeholder="Phone">
+            {address_inputs}
+            <input type="submit" value="Submit">
+        </form>"""
     ```
 
 {% endlist %}
@@ -321,7 +331,8 @@
 
     ```python
     # pip install b24pysdk flask
-    from flask import Flask, render_template_string
+    from flask import Flask
+    from markupsafe import escape
     from b24pysdk import BitrixWebhook, Client
 
     app = Flask(__name__)
@@ -331,23 +342,8 @@
         webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
     ))
 
-    PAGE = """
-        {% if requisite_types %}
-        <form id="form_to_crm">
-            <select name="REQ_TYPE" required>
-                <option value="" disabled selected>Select</option>
-                {% for id, name in requisite_types.items() %}
-                    <option value="{{ id }}">{{ name }}</option>
-                {% endfor %}
-            </select>
-            <input type="text" name="TITLE" placeholder="Org name" required>
-            <input type="text" name="INN" placeholder="INN">
-            <input type="text" name="PHONE" placeholder="Phone">
-            {% for key, field in address_fields.items() %}
-                <input type="text" name="ADDRESS[{{ key }}]" placeholder="{{ field.title }}" {{ 'required' if field.isRequired else '' }}>
-            {% endfor %}
-            <input type="submit" value="Submit">
-        </form>
+    # обычная строка без подстановок: фигурные скобки JS не нужно экранировать
+    SCRIPT = """
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
         $(document).ready(function() {
@@ -361,9 +357,6 @@
             });
         });
         </script>
-        {% else %}
-        No requisite types.
-        {% endif %}
     """
 
 
@@ -373,12 +366,37 @@
         presets = client.crm.requisite.preset.list(select=["ID", "NAME"]).result
 
         requisite_types = {p["ID"]: p["NAME"] for p in presets}
+        if not requisite_types:
+            return "No requisite types."
 
         # unset system + uninteresting address fields
         for f in ("TYPE_ID", "ENTITY_TYPE_ID", "ENTITY_ID", "COUNTRY_CODE", "ANCHOR_TYPE_ID", "ANCHOR_ID"):
             address_fields.pop(f, None)
 
-        return render_template_string(PAGE, requisite_types=requisite_types, address_fields=address_fields)
+        # строку с формой собираем из полученных данных
+        options = "".join(
+            f'<option value="{escape(preset_id)}">{escape(name)}</option>'
+            for preset_id, name in requisite_types.items()
+        )
+        address_inputs = "".join(
+            f'<input type="text" name="ADDRESS[{escape(key)}]" '
+            f'placeholder="{escape(field["title"])}" '
+            f'{"required" if field["isRequired"] else ""}>'
+            for key, field in address_fields.items()
+        )
+
+        return f"""
+            <form id="form_to_crm">
+                <select name="REQ_TYPE" required>
+                    <option value="" disabled selected>Select</option>
+                    {options}
+                </select>
+                <input type="text" name="TITLE" placeholder="Org name" required>
+                <input type="text" name="INN" placeholder="INN">
+                <input type="text" name="PHONE" placeholder="Phone">
+                {address_inputs}
+                <input type="submit" value="Submit">
+            </form>""" + SCRIPT
     ```
 
 {% endlist %}
