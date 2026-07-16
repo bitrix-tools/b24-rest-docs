@@ -287,17 +287,19 @@ await $b24.placement.call('setPropertyValue', {
         )
         rows.append(f'<label>{html.escape(prop["NAME"])}:</label>{inputs}')
 
-    page = f"""<!DOCTYPE html><html><body>
-    <form name="props">{''.join(rows)}</form>
-    <script type="module">
-        import {{ initializeB24Frame }} from 'https://esm.sh/@bitrix24/b24jssdk'
+    # JS держим в обычной строке без f-префикса — фигурные скобки остаются как есть
+    script = """<script type="module">
+        import { initializeB24Frame } from 'https://esm.sh/@bitrix24/b24jssdk'
         const $b24 = await initializeB24Frame()
-        window.setPropertyValue = (id, inputName, multiple) => {{
+        window.setPropertyValue = (id, inputName, multiple) => {
             const data = new FormData(document.forms.props)
             const value = multiple ? data.getAll(inputName) : data.get(inputName)
-            $b24.placement.call('setPropertyValue', {{ [id]: value }})
-        }}
-    </script></body></html>"""
+            $b24.placement.call('setPropertyValue', { [id]: value })
+        }
+    </script>"""
+
+    form_html = f'<form name="props">{"".join(rows)}</form>'
+    page = f"<!DOCTYPE html><html><body>\n{form_html}\n" + script + "</body></html>"
     ```
 
 {% endlist %}

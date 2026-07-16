@@ -708,17 +708,19 @@ https://your-domain.example/handler.php
 
         if options.get("MODE") == "edit":
             # Значение в форму карточки записывает код внутри iframe поля
-            body = f"""
-                <input id="phone-data" type="text" style="width: 90%;" value="{escape(value)}">
-                <script type="module">
-                    import {{ initializeB24Frame }} from '@bitrix24/b24jssdk'
+            script = """<script type="module">
+                    import { initializeB24Frame } from '@bitrix24/b24jssdk'
 
                     const $b24 = await initializeB24Frame()
                     const input = document.getElementById('phone-data')
 
                     input.addEventListener('keyup', () => $b24.placement.setValue(input.value))
                     $b24.placement.setValue(input.value)
-                </script>
+                </script>"""
+
+            body = f"""
+                <input id="phone-data" type="text" style="width: 90%;" value="{escape(value)}">
+                {script}
             """
         else:
             body = escape(value)
