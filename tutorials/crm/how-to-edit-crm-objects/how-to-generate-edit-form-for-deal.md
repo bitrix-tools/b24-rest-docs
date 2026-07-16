@@ -896,7 +896,8 @@
 
     ```python
     # pip install b24pysdk flask
-    from flask import Flask, request, render_template_string, jsonify
+    from html import escape
+    from flask import Flask, request, jsonify
     from b24pysdk import BitrixWebhook, Client
 
     app = Flask(__name__)
@@ -960,11 +961,11 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
         <div class="container">
             <form id="auto_form" enctype="multipart/form-data" method="post">
-                {% if item_id %}<input type="hidden" name="form[ID]" value="{{ item_id }}">{% endif %}
+                %(hidden_id)s
                 <h2>Standard fields</h2>
-                <div class="row">{{ standard | safe }}</div>
+                <div class="row">%(standard)s</div>
                 <h2>Custom fields</h2>
-                <div class="row">{{ custom | safe }}</div>
+                <div class="row">%(custom)s</div>
                 <div class="row"><div class="col-sm-10 mt-5">
                     <input type="submit" class="btn btn-primary" value="Submit">
                 </div></div>
@@ -999,8 +1000,9 @@
             ar_result["ITEM"] = client.crm.deal.get(bitrix_id=item_id).result
             # Воронки (направления) сделок — для поля CATEGORY_ID.
             # Метод crm.dealcategory.list пока без обёртки в SDK — вызываем напрямую.
+            category_filter = {"IS_LOCKED": "N"}
             ar_result["VALUE_CATEGORY_ID"] = token.call_method(
-                "crm.dealcategory.list", {"filter": {"IS_LOCKED": "N"}})["result"]
+                "crm.dealcategory.list", {"filter": category_filter})["result"]
             # Предложения сделки — для read-only поля QUOTE_ID
             ar_result["VALUE_QUOTE_ID"] = client.crm.quote.list(
                 filter={"DEAL_ID": item_id}, select=["ID", "TITLE"]).result
@@ -1101,7 +1103,12 @@
             else:
                 s_result += block
 
-        return render_template_string(PAGE, item_id=item.get("ID"), standard=s_result, custom=s_result_custom)
+        # Скрытое поле ID добавляем только для формы редактирования
+        item_id_value = item.get("ID")
+        hidden_id = ""
+        if item_id_value:
+            hidden_id = f'<input type="hidden" name="form[ID]" value="{escape(str(item_id_value))}">'
+        return PAGE % {"hidden_id": hidden_id, "standard": s_result, "custom": s_result_custom}
 
 
     if __name__ == "__main__":
