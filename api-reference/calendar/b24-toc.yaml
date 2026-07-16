@@ -18,7 +18,7 @@ items:
   - name: Установить пользовательские настройки календаря
     href: calendar-user-settings-set.md
   - name: Как встроить приложение в календарь
-    href: calendar-grid-veiw.md
+    href: calendar-grid-view.md
   - name: События календаря
     include:
       path: calendar-event/b24-toc.yaml

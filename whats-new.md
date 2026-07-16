@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 16 июля, 2026
+
+- Обновили страницу [Как получить доступ к REST API](first-steps/access-to-rest-api.md)
+- Обновили страницу [Как проверить свой обработчик для обработки событий Битрикс24](api-reference/events/test-handler.md)
+- Обновили страницу [Как встроить приложение в календарь](api-reference/calendar/calendar-grid-view.md)
+
 ### 14 июля, 2026
 
 - Добавили методы [call.followup.*](./api-reference/telephony/follow-up/index.md) для работы с AI-итогами звонков 
