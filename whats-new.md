@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 17 июля, 2026
+
+- Обновили страницу [Как исправить ошибку «Сайт не позволяет установить соединение» при открытии приложения](./local-integrations/site-does-not-allow-connection.md)
+- Обновили туториал [Как связать контакт и сделку со сквозной аналитикой](./tutorials/crm/how-to-use-analitycs/use-analitics-for-add-contact.md)
+- Обновили страницу [Пример приложения с дополнительными контентными блоками](./api-reference/crm/timeline/layout-blocks/content-blocks-test-app.md)
+
 ### 16 июля, 2026
 
 - Обновили страницу [Как получить доступ к REST API](first-steps/access-to-rest-api.md)
