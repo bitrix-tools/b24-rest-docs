@@ -19,25 +19,33 @@
 || **call** | Телефония (совершение звонков). В скоуп входят методы: [voximplant.infocall.startwithsound](../telephony/voximplant/voximplant-infocall-start-with-sound.md), [voximplant.infocall.startwithtext](../telephony/voximplant/voximplant-infocall-start-with-text.md)| Телефония ||
 || **cashbox** | [Кассы](../sale/cashbox/index.md) | Кассы ||
 || **catalog** | [Торговый каталог](../catalog/index.md) | Торговый каталог, складской учет ||
+|| **contact_center** | [Виджет Контакт-центра](../widgets/contact-center.md) | Контакт-центр ||
 || **crm** | [CRM](../crm/index.md) | CRM ||
 || **documentgenerator** | [Генератор документов](../document-generator/index.md), [Генератор документов CRM](../crm/document-generator/index.md) | Генератор документов ||
 || **delivery** | [Доставки](../sale/delivery/index.md) | Интернет-магазин, CRM ||
 || **department** | [Структура компании](../departments/index.md) | Структура компании ||
 || **disk** | [Диск](../disk/index.md) | Битрикс24.Диск ||
 || **entity** | [Хранилище данных](../entity/index.md) | Хранилище данных ||
+|| **humanresources** | [Структура компании REST 3.0](../departments/index.md) | Структура компании ||
+|| **humanresources.hcmlink** | [HCM Link](../sign/index.md#osobennosti-scope) | КЭДО, Подпись ||
 || **im** | [Чат и уведомления](../chats/index.md) | Чат и уведомления ||
 || **imbot** | [Создание и управление Чат-ботами](../chat-bots/index.md) | Боты для чата ||
+|| **imconnector** | [Коннекторы для внешних мессенджеров](../imopenlines/imconnector/index.md) | Открытые линии ||
 || **imopenlines** | [Открытые линии](../imopenlines/index.md) | Открытые линии ||
+|| **intranet** | [Виджеты](../widgets/index.md) | Виджеты ||
 || **landing** | [Сайты](../landing/index.md) | Сайты ||
 || **lists** | [Списки](../lists/index.md) | Универсальные списки ||
 || **log** | [Живая лента](../log/index.md) | Лента новостей ||
 || **mailservice** | [Почтовые сервисы](../mailservice/index.md) | Почтовые сервисы ||
 || **main** | [Журнал событий](../event-log/index.md) | Журнал событий ||
 || **messageservice** | [Служба сообщений](../messageservice/index.md) | Служба сообщений ||
+|| **mobile** | [Виджеты мобильного приложения](../widgets/mobile-app.md) | Мобильное приложение ||
 || **pay_system** | [Платежные системы](../pay-system/index.md) | Платежные системы ||
+|| **placement** | [Виджеты](../widgets/index.md) | Встраивание приложений ||
 || **pull** | [Pull&Push](../../settings/interactivity/push-and-pull/index.md) | Pull&Push ||
 || **rpa** | [Роботизация бизнеса](../outdated/rpa/index.md) | Роботизация бизнеса ||
 || **sale** | [Интернет-магазин](../sale/index.md) | Интернет-магазин ||
+|| **salescenter** | [CRM. Оплата](../crm/universal/payment/index.md) | Продажи в чате ||
 || **sign.b2e** | [КЭДО + Госключ](../sign/index.md) | КЭДО, Подпись ||
 || **sonet_group, socialnetwork** | [Рабочие группы соцсети](../sonet-group/sonet-group-create.md) | Рабочие группы соцсети ||
 || **task** | [Задачи](../tasks/index.md) | Задачи ||
@@ -54,3 +62,7 @@
 |#
 
 [*ключ_task]: Кроме этого, доступны еще три устаревших скоупа — tasks, tasks_extended, tasksmobile. Их не нужно использовать.
+
+## Служебные скоупы
+
+`rest.developer` — служебный скоуп Битрикс24 Вайбкод. Он выдается системным вебхукам, которые Вайбкод создает для синхронизации приложений и AI-агентов с каталогом Битрикс24.

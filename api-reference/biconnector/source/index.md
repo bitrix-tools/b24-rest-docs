@@ -11,7 +11,9 @@
 
 Источник — это отдельное подключение к внешней системе в модуле BIconnector. Источник определяет, какие именно данные внешней системы будут доступны для использования в отчетах и аналитике Битрикс24.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [BI Конструктор: наборы данных](https://helpdesk.bitrix24.ru/open/24355590/)
 
 {% note info "" %}
 
@@ -29,37 +31,45 @@
 ## Описание полей источника {#fields}
 
 #|
-|| **Название**
-`тип` | **Описание** | Чтение | Запись ||
-|| **id**
-[`integer`](../../data-types.md) | Уникальный идентификатор источника | ✅ | ❌ ||
-|| **title**
-[`string`](../../data-types.md) | Название источника | ✅ | ✅ ||
-|| **type**
-[`string`](../../data-types.md) | Тип источника, значение всегда равно `rest` | ✅ | ❌ ||
-|| **code**
-[`string`](../../data-types.md) | Код источника, служебное поле | ✅ | ❌ ||
-|| **description**
-[`string`](../../data-types.md) | Описание источника | ✅ | ✅ ||
-|| **active**
-[`boolean`](../../data-types.md) | Статус активности источника | ✅ | ✅ ||
-|| **dateCreate**
-[`datetime`](../../data-types.md) | Дата создания источника | ✅ | ❌ ||
-|| **dateUpdate**
-[`datetime`](../../data-types.md) | Дата обновления источника | ✅ | ❌ ||
-|| **createdById**
-[`integer`](../../data-types.md) | Идентификатор пользователя, создавшего источник | ✅ | ❌ ||
-|| **updatedById**
-[`integer`](../../data-types.md) | Идентификатор пользователя, обновившего источник | ✅ | ❌ ||
-|| **connectorId**
-[`integer`](../../data-types.md) | Идентификатор коннектора, к которому привязан источник | ✅ | ✅ ||
-|| **settings**
-[`array`](../../data-types.md) | [Список параметров авторизации](#settings) | ✅ | ✅ ||
+|| **Название** | **Описание** ||
+|| **id** | Уникальный идентификатор источника ||
+|| **title** | Название источника ||
+|| **type** | Тип источника, значение всегда равно `rest` ||
+|| **code** | Код источника, служебное поле ||
+|| **description** | Описание источника ||
+|| **active** | Статус активности источника ||
+|| **dateCreate** | Дата создания источника ||
+|| **dateUpdate** | Дата обновления источника ||
+|| **createdById** | Идентификатор пользователя, создавшего источник ||
+|| **updatedById** | Идентификатор пользователя, обновившего источник ||
+|| **connectorId** | Идентификатор коннектора, к которому привязан источник ||
+|| **settings** | [Список параметров авторизации](#settings) ||
 |#
 
 ### Поле settings {#settings}
 
-Поле `settings` содержит список параметров для авторизации через коннектор. Параметры передаются в формате объекта, где ключ это идентификатор параметра — `code`. Значения `code` можно получить с помощью методов [biconnector.connector.list](../connector/biconnector-connector-list.md) или [biconnector.connector.get](../connector/biconnector-connector-get.md).
+Поле `settings` содержит список параметров для авторизации через коннектор. Параметры передаются в формате объекта, где ключ — идентификатор параметра `code`.
+
+Значения `code` хранятся в поле `settings` коннектора. Получить их можно методами [biconnector.connector.list](../connector/biconnector-connector-list.md) или [biconnector.connector.get](../connector/biconnector-connector-get.md). Если в коннекторе есть параметр с кодом `token`, при создании источника передайте значение в объекте `settings`:
+
+```json
+{
+    "fields": {
+        "connectorId": 12,
+        "title": "Sales source",
+        "settings": {
+            "token": "12345"
+        }
+    }
+}
+```
+
+## Перед началом работы
+
+1. Создайте коннектор методом [biconnector.connector.add](../connector/biconnector-connector-add.md) или выберите существующий коннектор методом [biconnector.connector.list](../connector/biconnector-connector-list.md)
+2. Получите коды параметров авторизации из поля `settings` коннектора
+3. Создайте источник методом [biconnector.source.add](./biconnector-source-add.md) и передайте `connectorId` и значения авторизации в поле `settings`
+4. Проверьте источник методом [biconnector.source.get](./biconnector-source-get.md) или [biconnector.source.list](./biconnector-source-list.md)
 
 ## Обзор методов {#all-methods}
 

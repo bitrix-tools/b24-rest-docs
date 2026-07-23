@@ -10,13 +10,29 @@
 {% endnote %}
 
 Заказы можно создать вручную методом [sale.order.add](../order/sale-order-add.md) или получить из внутренних источников:
-- счет,
-- документ реализации,
-- сделка,
-- дело,
-- лендинг.
+
+- счет
+- документ реализации
+- сделка
+- дело
+- лендинг
 
 Чтобы просмотреть заказы из конкретного источника, используйте метод [sale.tradeBinding.list](./sale-trade-binding-list.md).
+
+> Быстрый переход: [все методы](#all-methods)
+
+## Как начать работу
+
+1. Получите список источников заказов методом [sale.tradePlatform.list](../trade-platform/sale-trade-platform-list.md)
+2. Проверьте доступные поля привязки методом [sale.tradeBinding.getFields](./sale-trade-binding-get-fields.md)
+3. Получите список заказов по источнику методом [sale.tradeBinding.list](./sale-trade-binding-list.md)
+4. Откройте данные нужного заказа методом [sale.order.get](../order/sale-order-get.md)
+
+## Идентификаторы источников заказов
+
+- `tradingPlatformId` — идентификатор источника заказа. Получить список источников и их идентификаторы можно методом [sale.tradePlatform.list](../trade-platform/sale-trade-platform-list.md)
+- `orderId` — идентификатор заказа, который связан с источником. Подробные данные заказа можно получить методом [sale.order.get](../order/sale-order-get.md)
+- Доступные поля привязки, которые можно использовать в `select`, `filter` и `order`, возвращает метод [sale.tradeBinding.getFields](./sale-trade-binding-get-fields.md)
 
 ## Связь привязки источников заказа с другими объектами
 

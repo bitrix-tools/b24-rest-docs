@@ -299,25 +299,23 @@ HTTP-статус: **200**
 
 #### Обзор полей коммуникации дела {#all-fields}
 
-{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
-
 #|
 || **Поле** `тип` | **Описание** ||
-|| **ID***
-[`integer`](../../../data-types.md) | Идентификатор коммуниуации ||
-|| **ACTIVITY_ID***
-[`integer`](../../../data-types.md) | Идентификатор дела ||
-|| **ENTITY_ID***
-[`integer`](../../../data-types.md) | Идентификатор элемента CRM ||
-|| **ENTITY_TYPE_ID***
-[`integer`](../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) ||
-|| **TYPE_ID***
-[`integer`](../../../data-types.md) | Тип коммуникации ||
-|| **VALUE***
-[`integer`](../../../data-types.md) | Значение коммуникации ||
+|| **ID**
+[`integer`](../../../../data-types.md) | Идентификатор коммуникации ||
+|| **ACTIVITY_ID**
+[`integer`](../../../../data-types.md) | Идентификатор дела ||
+|| **ENTITY_ID**
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM ||
+|| **ENTITY_TYPE_ID**
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) ||
+|| **TYPE**
+[`string`](../../../../data-types.md) | Тип коммуникации ||
+|| **VALUE**
+[`string`](../../../../data-types.md) | Значение коммуникации ||
 |#
 
-# Обработка ошибок
+## Обработка ошибок
 
 HTTP-статус: **400**
 

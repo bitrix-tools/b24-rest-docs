@@ -11,9 +11,15 @@
 
 Шаблон бизнес-процесса — это логическая схема. Она реализует бизнес-логику с помощью действий и операций в дизайнере бизнес-процессов.
 
-> Быстрый переход: [все методы и события](#all-methods) 
-> 
-> Пользовательская документация: 
+{% note info "" %}
+
+Методы добавления, обновления и удаления шаблонов работают только в контексте [приложения](../../../settings/app-installation/index.md). Обновить или удалить шаблон может только приложение, которое его создало.
+
+{% endnote %}
+
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация:
 > - [Как создать шаблон последовательного бизнес-процесса](https://helpdesk.bitrix24.ru/open/21918154/)
 > - [Как настроить параметры шаблона](https://helpdesk.bitrix24.ru/open/22478438/)
 
@@ -27,14 +33,10 @@
 
 {% note tip "Пользовательская документация" %}
 
--  [Дизайнер бизнес-процессов](https://helpdesk.bitrix24.ru/open/22955798/)
--  [Экспорт и импорт шаблонов бизнес-процессов](https://helpdesk.bitrix24.ru/open/5435897/)
+- [Дизайнер бизнес-процессов](https://helpdesk.bitrix24.ru/open/22955798/)
+- [Экспорт и импорт шаблонов бизнес-процессов](https://helpdesk.bitrix24.ru/open/5435897/)
 
 {% endnote %}
-
-## Контекст приложения
-
-Система привязывает новый шаблон к [приложению](../../../settings/app-installation/index.md). Обновить или удалить шаблоны, созданные методом [bizproc.workflow.template.add](./bizproc-workflow-template-add.md), можно только в контексте того приложения, которым они были созданы.
 
 ## Связь шаблона с документом
 
@@ -44,9 +46,9 @@
 
 Шаблон связан с документом через параметр `DOCUMENT_TYPE`, который представляет собой массив из трех элементов:
 
--  идентификатор модуля
--  тип объекта
--  тип документа
+- идентификатор модуля
+- тип объекта
+- тип документа
 
 Например, `['crm', 'CCrmDocumentLead', 'LEAD']`.
 
@@ -56,44 +58,44 @@
 
 **Идентификатор модуля.** Указывает область применения шаблона бизнес-процесса.
 
--  `crm` — CRM
--  `lists` — Универсальные списки
--  `disk` — Битрикс24 Диск
+- `crm` — CRM
+- `lists` — Универсальные списки
+- `disk` — Битрикс24 Диск
 
 **Идентификатор объекта.** Объект в рамках указанного модуля. Например, для CRM объектом может быть лид или сделка.
 
 CRM
--  `CCrmDocumentLead` — лиды
--  `CCrmDocumentContact` — контакты
--  `CCrmDocumentCompany` — компании
--  `CCrmDocumentDeal` — сделки
--  `Bitrix\Crm\Integration\BizProc\Document\Quote` — коммерческие предложения
--  `Bitrix\Crm\Integration\BizProc\Document\SmartInvoice` — счета
--  `Bitrix\Crm\Integration\BizProc\Document\Dynamic` — смарт-процессы
+- `CCrmDocumentLead` — лиды
+- `CCrmDocumentContact` — контакты
+- `CCrmDocumentCompany` — компании
+- `CCrmDocumentDeal` — сделки
+- `Bitrix\Crm\Integration\BizProc\Document\Quote` — коммерческие предложения
+- `Bitrix\Crm\Integration\BizProc\Document\SmartInvoice` — счета
+- `Bitrix\Crm\Integration\BizProc\Document\Dynamic` — смарт-процессы
 
 Списки
--  `BizprocDocument` — процессы в ленте новостей
--  `Bitrix\Lists\BizprocDocumentLists` — списки в группах
+- `BizprocDocument` — процессы в ленте новостей
+- `Bitrix\Lists\BizprocDocumentLists` — списки в группах
 
 Диск
--  `Bitrix\Disk\BizProcDocument`
+- `Bitrix\Disk\BizProcDocument`
 
 **Тип документа.** Привязка к конкретному документу указанного объекта.
 
 CRM
--  `LEAD` — лиды
--  `CONTACT` — контакты
--  `COMPANY` — компании
--  `DEAL` — сделки
--  `QUOTE` — коммерческие предложения
--  `SMART_INVOICE` — счета
--  `DYNAMIC_XXX` — смарт-процессы, где XXX — идентификатор смарт-процесса
+- `LEAD` — лиды
+- `CONTACT` — контакты
+- `COMPANY` — компании
+- `DEAL` — сделки
+- `QUOTE` — коммерческие предложения
+- `SMART_INVOICE` — счета
+- `DYNAMIC_XXX` — смарт-процессы, где XXX — идентификатор смарт-процесса
 
 Универсальные списки
--  `iblock_XXX` — информационный блок, где XXX — идентификатор информационного блока
+- `iblock_XXX` — информационный блок, где XXX — идентификатор информационного блока
 
 Диск
--  `STORAGE_XXX` — хранилище диска, где XXX — идентификатор хранилища
+- `STORAGE_XXX` — хранилище диска, где XXX — идентификатор хранилища
 
 ## Получить список шаблонов
 
