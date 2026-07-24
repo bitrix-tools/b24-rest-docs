@@ -3,3 +3,5 @@ href: index.md
 items:
   - name: Добавить товар со значениями пользовательских свойств
     href: index.md
+  - name: Изменить значения пользовательских полей товара
+    href: how-to-change-product-custom-field-values.md

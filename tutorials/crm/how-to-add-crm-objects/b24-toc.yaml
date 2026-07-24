@@ -23,6 +23,8 @@ items:
     href: how-to-add-contractor.md
   - name: Добавить сделку и компанию с реквизитами
     href: how-to-add-deal-with-choice-of-requisite.md
+  - name: Создать объект CRM с товарами, скидками и налогами
+    href: how-to-product-binding.md
   - name: Добавить событие календаря для работы с клиентами
     href: how-to-add-activity-to-contact.md
   - name: Добавить шаблон и создать документ на его основе

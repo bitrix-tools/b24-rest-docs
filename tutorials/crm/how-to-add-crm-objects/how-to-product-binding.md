@@ -1,1177 +1,739 @@
-# Добавить сделку (лид, счет, компред) с товарами, с применением скидок и налогов
+# Как создать объект CRM с товарами, скидками и налогами
 
-{% if build == 'dev' %}
+> Scope: [`crm`](../../../api-reference/scopes/permissions.md), [`catalog`](../../../api-reference/scopes/permissions.md)
+>
+> Кто может выполнять методы:
+> - [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md) — пользователь с правом на просмотр каталога товаров и правом на чтение инфоблока торгового каталога
+> - [catalog.price.list](../../../api-reference/catalog/price/catalog-price-list.md) — пользователь с правом на просмотр каталога товаров или правом на изменение цен
+> - [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) — пользователь с правом на добавление объекта выбранного типа
+> - [crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md) — пользователь с правом на изменение созданного объекта CRM
+> - [crm.item.productrow.list](../../../api-reference/crm/universal/product-rows/crm-item-productrow-list.md) — пользователь с правом на чтение созданного объекта CRM
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+{% note tip "" %}
 
-убрала из меню, чтобы не публиковался. Надо полностью переделывать, crm.product.list не актуальный, все примеры можно заменить одним с универсальным методом 
+Выберите инструмент для разработки с AI-агентом:
+
+- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
-{% endif %}
+Товарные позиции можно привязать к лиду, сделке, счету или коммерческому предложению. В примере создаем объект CRM, находим товар в каталоге, получаем его цену и сохраняем несколько товарных позиций с разными вариантами налога и скидки.
 
-> Scope: [`crm`](../../../api-reference/scopes/permissions.md)
->
-> Кто может выполнять метод: пользователи с административным доступом к разделу CRM
+Сценарий состоит из четырех шагов.
 
-Примеры создания различных объектов с одновременным добавленем товаров к ним. Добавляемый товар берется из Битрикс24 с ценой больше нуля. Все примеры добавляют товар в максимально возможном количестве вариаций, около каждой вариации есть мини комментарий с описанием, с какими дополнительными условиями будет отображаться товар.
+1. Найти товар методом [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md)
+2. Получить цену товара методом [catalog.price.list](../../../api-reference/catalog/price/catalog-price-list.md)
+3. Создать объект CRM методом [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md)
+4. Сохранить товарные позиции методом [crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md)
 
-## Прикрепление товаров к сделке
+## Подготовьте данные
 
-{% list tabs %}
+Для выполнения примера нужны:
 
-- JS
+- входящий вебхук со scope `crm` и `catalog`
+- идентификатор торгового каталога `iblockId`. Его можно получить методом [catalog.catalog.list](../../../api-reference/catalog/catalog/catalog-catalog-list.md)
+- тип объекта CRM, к которому нужно привязать товары
 
-    ```javascript
-    import { B24Hook } from '@bitrix24/b24jssdk'
+#|
+|| **Объект CRM** | **entityTypeId для crm.item.add** | **ownerType для crm.item.productrow.set** ||
+|| Лид | `1` | `L` ||
+|| Сделка | `2` | `D` ||
+|| Счет | `31` | `SI` ||
+|| Коммерческое предложение | `7` | `Q` ||
+|#
 
-    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
-    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+{% note info "" %}
 
-    async function call(method, params) {
-        const result = await $b24.actions.v2.call.make({ method, params });
-        if (!result.isSuccess) {
-            throw new Error(result.getErrorMessages().join('; '));
-        }
-        return result.getData().result;
-    }
+Для новых интеграций создавайте счета как «Счет (новый)» с `entityTypeId = 31` и `ownerType = SI`. Старый тип счета `INVOICE` оставлен для совместимости и не рекомендуется для новых сценариев.
 
-    async function createDealWithProducts() {
-        try {
-            let resultProduct = await call('crm.product.list', {
-                'filter': {
-                    '>PRICE': 0
-                }
-            });
+{% endnote %}
 
-            if (resultProduct.length === 0) {
-                console.error('Product error, create product in B24');
-                return;
-            }
+Проверьте, какие обязательные поля настроены для выбранного типа объекта в вашем Битрикс24. Все обязательные поля нужно передать в `fields` метода [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md).
 
-            let arProduct = resultProduct[0];
+Для серверных JS-примеров с `B24Hook` нужен Node.js 20 либо 22 и выше. B24JsSDK — ES module: сохраните код в файле `.mjs` или добавьте `"type": "module"` в `package.json`.
 
-            let dealId = await call('crm.deal.add', {
-                'fields': {
-                    'TITLE': 'Example'
-                }
-            });
+Для примеров с b24pysdk нужен Python 3.9 или новее.
 
-            if (dealId) {
-                await call('crm.deal.productrows.set', {
-                    'id': dealId,
-                    'rows': [
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE_EXCLUSIVE': arProduct.PRICE,
-                            'TAX_RATE': 15,
-                            'TAX_INCLUDED': 'N',
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE': arProduct.PRICE,
-                            'TAX_RATE': 15,
-                            'TAX_INCLUDED': 'Y',
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE': arProduct.PRICE,
-                            'DISCOUNT_SUM': 100,
-                            'DISCOUNT_TYPE_ID': 1,
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE': arProduct.PRICE - 100,
-                            'DISCOUNT_SUM': 100,
-                            'DISCOUNT_TYPE_ID': 1,
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE_EXCLUSIVE': arProduct.PRICE,
-                            'DISCOUNT_RATE': 10,
-                            'DISCOUNT_TYPE_ID': 2,
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
-                            'DISCOUNT_RATE': 10,
-                            'DISCOUNT_TYPE_ID': 2,
-                            'QUANTITY': 1
-                        }
-                    ]
-                });
+## 1. Найдите товар в каталоге
 
-                console.log('Deal and products added successfully');
-            } else {
-                console.error('Error creating deal');
-            }
-        } catch (error) {
-            console.error('An error occurred: ' + error.message);
-        }
-    }
+Вызовите [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md) с фильтром по `iblockId`. В `select` передайте обязательные поля `id` и `iblockId`, а также `name`, чтобы использовать название товара в диагностике.
 
-    createDealWithProducts();
-    ```
-
-- PHP
-
-    ```php
-    <?php
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
-
-    $logger = new Logger('b24');
-    $logger->pushHandler(new StreamHandler('php://stdout'));
-
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $crm = $serviceBuilder->getCRMScope();
-
-    $resultProduct = $serviceBuilder->core->call(
-        'crm.product.list',
-        [
-            'filter' => [
-                '>PRICE' => 0,
-            ]
-        ]
-    )->getResponseData()->getResult();
-
-    if (empty($resultProduct))
-    {
-        echo 'product error, create product in b24';
-        exit;
-    }
-    else
-    {
-        $arProduct = $resultProduct[0];
-    }
-
-    //Deal product
-    $ID = $crm->deal()->add(['TITLE' => 'Example'])->getId();
-    if ($ID)
-    {
-        $result = $crm->dealProductRows()->set(
-            $ID,
-            [
-                [//product with auto calc tax
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                    'TAX_RATE' => 15,
-                    'TAX_INCLUDED' => 'N',
-                    'QUANTITY' => 1
-                ],
-                [//product with tax include
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE' => $arProduct['PRICE'],
-                    'TAX_RATE' => 15,
-                    'TAX_INCLUDED' => 'Y',
-                    'QUANTITY' => 1
-                ],
-                [//product with discount
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE' => $arProduct['PRICE'],
-                    'DISCOUNT_SUM' => 100,
-                    'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                    'QUANTITY' => 1
-                ],
-                [//product with a real discount
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE' => $arProduct['PRICE'] - 100,
-                    'DISCOUNT_SUM' => 100,
-                    'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                    'QUANTITY' => 1
-                ],
-                [//product with discount percent
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                    'DISCOUNT_RATE' => 10,
-                    'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                    'QUANTITY' => 1
-                ],
-                [//product with real discount percent
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
-                    'DISCOUNT_RATE' => 10,
-                    'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                    'QUANTITY' => 1
-                ],
-            ]
-        );
-    }
-    else
-    {
-        echo 'error create deal';
-        exit;
-    }
-    ?>
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    # метод crm.product.list вызываем напрямую через токен
-    token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
-    )
-
-    try:
-        result_product = token.call_method("crm.product.list", {"filter": {">PRICE": 0}})["result"]
-
-        if not result_product:
-            print("product error, create product in b24")
-        else:
-            ar_product = result_product[0]
-
-            # Deal product
-            deal_id = client.crm.deal.add(fields={"TITLE": "Example"}).response.result
-            client.crm.deal.productrows.set(
-                deal_id,
-                [
-                    {  # product with auto calc tax
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE_EXCLUSIVE": ar_product["PRICE"],
-                        "TAX_RATE": 15,
-                        "TAX_INCLUDED": "N",
-                        "QUANTITY": 1,
-                    },
-                    {  # product with tax include
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE": ar_product["PRICE"],
-                        "TAX_RATE": 15,
-                        "TAX_INCLUDED": "Y",
-                        "QUANTITY": 1,
-                    },
-                    {  # product with discount
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE": ar_product["PRICE"],
-                        "DISCOUNT_SUM": 100,
-                        "DISCOUNT_TYPE_ID": 1,  # is sum discount type
-                        "QUANTITY": 1,
-                    },
-                    {  # product with a real discount
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE": float(ar_product["PRICE"]) - 100,
-                        "DISCOUNT_SUM": 100,
-                        "DISCOUNT_TYPE_ID": 1,  # is sum discount type
-                        "QUANTITY": 1,
-                    },
-                    {  # product with discount percent
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE_EXCLUSIVE": ar_product["PRICE"],
-                        "DISCOUNT_RATE": 10,
-                        "DISCOUNT_TYPE_ID": 2,  # is percent discount type
-                        "QUANTITY": 1,
-                    },
-                    {  # product with real discount percent
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE_EXCLUSIVE": float(ar_product["PRICE"]) - (float(ar_product["PRICE"]) * 0.1),
-                        "DISCOUNT_RATE": 10,
-                        "DISCOUNT_TYPE_ID": 2,  # is percent discount type
-                        "QUANTITY": 1,
-                    },
-                ],
-            ).response.result
-
-            print("Deal and products added successfully")
-    except BitrixAPIError as error:
-        print(f"An error occurred: {error}")
-    ```
-
-{% endlist %}
-
-## Прикрепление товаров к лиду
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
 
     ```js
+    // npm install @bitrix24/b24jssdk
     import { B24Hook } from '@bitrix24/b24jssdk'
 
     const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
     // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
     async function call(method, params) {
-        const result = await $b24.actions.v2.call.make({ method, params });
-        if (!result.isSuccess) {
-            throw new Error(result.getErrorMessages().join('; '));
+        const response = await $b24.actions.v2.call.make({ method, params })
+
+        if (!response.isSuccess) {
+            throw new Error(response.getErrorMessages().join('; '))
         }
-        return result.getData().result;
+
+        return response.getData().result
     }
 
-    async function createLeadWithProducts() {
-        try {
-            let resultProduct = await call('crm.product.list', {
-                'filter': {
-                    '>PRICE': 0
-                }
-            });
+    async function getProducts(iblockId) {
+        const result = await call('catalog.product.list', {
+            select: ['id', 'iblockId', 'name'],
+            filter: {
+                iblockId: iblockId,
+                active: 'Y',
+            },
+            order: {
+                id: 'ASC',
+            },
+            start: 0,
+        })
 
-            if (resultProduct.length === 0) {
-                console.error('Product error, create product in B24');
-                return;
-            }
-
-            let arProduct = resultProduct[0];
-
-            let leadId = await call('crm.lead.add', {
-                'fields': {
-                    'TITLE': 'Example'
-                }
-            });
-
-            if (leadId) {
-                await call('crm.lead.productrows.set', {
-                    'id': leadId,
-                    'rows': [
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE_EXCLUSIVE': arProduct.PRICE,
-                            'TAX_RATE': 15,
-                            'TAX_INCLUDED': 'N',
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE': arProduct.PRICE,
-                            'TAX_RATE': 15,
-                            'TAX_INCLUDED': 'Y',
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE': arProduct.PRICE,
-                            'DISCOUNT_SUM': 100,
-                            'DISCOUNT_TYPE_ID': 1,
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE': arProduct.PRICE - 100,
-                            'DISCOUNT_SUM': 100,
-                            'DISCOUNT_TYPE_ID': 1,
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE_EXCLUSIVE': arProduct.PRICE,
-                            'DISCOUNT_RATE': 10,
-                            'DISCOUNT_TYPE_ID': 2,
-                            'QUANTITY': 1
-                        },
-                        {
-                            'PRODUCT_ID': arProduct.ID,
-                            'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
-                            'DISCOUNT_RATE': 10,
-                            'DISCOUNT_TYPE_ID': 2,
-                            'QUANTITY': 1
-                        }
-                    ]
-                });
-
-                console.log('Lead and products added successfully');
-            } else {
-                console.error('Error creating lead');
-            }
-        } catch (error) {
-            console.error('An error occurred: ' + error.message);
-        }
+        return result.products
     }
-
-    createLeadWithProducts();
     ```
 
 - PHP
 
     ```php
     <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
     require_once 'vendor/autoload.php';
 
     use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
 
-    $logger = new Logger('b24');
-    $logger->pushHandler(new StreamHandler('php://stdout'));
+    $webhookUrl = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/';
+    $b24 = ServiceBuilderFactory::createServiceBuilderFromWebhook($webhookUrl);
 
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+    function callMethod($b24, string $method, array $params): array
+    {
+        return $b24->core
+            ->call($method, $params)
+            ->getResponseData()
+            ->getResult();
+    }
 
-    $crm = $serviceBuilder->getCRMScope();
-
-    $resultProduct = $serviceBuilder->core->call(
-        'crm.product.list',
-        [
+    function getProducts($b24, int $iblockId): array
+    {
+        $result = callMethod($b24, 'catalog.product.list', [
+            'select' => ['id', 'iblockId', 'name'],
             'filter' => [
-                '>PRICE' => 0,
-            ]
-        ]
-    )->getResponseData()->getResult();
+                'iblockId' => $iblockId,
+                'active' => 'Y',
+            ],
+            'order' => [
+                'id' => 'ASC',
+            ],
+            'start' => 0,
+        ]);
 
-    if (empty($resultProduct))
-    {
-        echo 'product error, create product in b24';
-        exit;
+        return $result['products'];
     }
-    else
-    {
-        $arProduct = $resultProduct[0];
-    }
-
-    //Lead product
-    $ID = $crm->lead()->add(['TITLE' => 'Example'])->getId();
-    if ($ID)
-    {
-        $result = $crm->leadProductRows()->set(
-            $ID,
-            [
-                [//product with auto calc tax
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                    'TAX_RATE' => 15,
-                    'TAX_INCLUDED' => 'N',
-                    'QUANTITY' => 1
-                ],
-                [//product with tax include
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE' => $arProduct['PRICE'],
-                    'TAX_RATE' => 15,
-                    'TAX_INCLUDED' => 'Y',
-                    'QUANTITY' => 1
-                ],
-                [//product with discount
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE' => $arProduct['PRICE'],
-                    'DISCOUNT_SUM' => 100,
-                    'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                    'QUANTITY' => 1
-                ],
-                [//product with a real discount
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE' => $arProduct['PRICE'] - 100,
-                    'DISCOUNT_SUM' => 100,
-                    'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                    'QUANTITY' => 1
-                ],
-                [//product with discount percent
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                    'DISCOUNT_RATE' => 10,
-                    'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                    'QUANTITY' => 1
-                ],
-                [//product with real discount percent
-                    'PRODUCT_ID' => $arProduct['ID'],
-                    'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
-                    'DISCOUNT_RATE' => 10,
-                    'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                    'QUANTITY' => 1
-                ],
-            ]
-        );
-    }
-    else
-    {
-        echo 'error create lead';
-        exit;
-    }
-    ?>
     ```
 
 - Python
 
     ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
+    # pip install b24pysdk
+    from b24pysdk import BitrixWebhook
 
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    # метод crm.product.list вызываем напрямую через токен
     token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
+        domain="your-domain.bitrix24.ru",
+        webhook_token="USER_ID/TOKEN",
     )
 
-    try:
-        result_product = token.call_method("crm.product.list", {"filter": {">PRICE": 0}})["result"]
+    def call_method(method: str, params: dict):
+        return token.call_method(method, params)["result"]
 
-        if not result_product:
-            print("product error, create product in b24")
-        else:
-            ar_product = result_product[0]
+    def get_products(iblock_id: int):
+        result = call_method("catalog.product.list", {
+            "select": ["id", "iblockId", "name"],
+            "filter": {
+                "iblockId": iblock_id,
+                "active": "Y",
+            },
+            "order": {
+                "id": "ASC",
+            },
+            "start": 0,
+        })
 
-            # Lead product
-            lead_id = client.crm.lead.add(fields={"TITLE": "Example"}).response.result
-            client.crm.lead.productrows.set(
-                lead_id,
-                [
-                    {  # product with auto calc tax
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE_EXCLUSIVE": ar_product["PRICE"],
-                        "TAX_RATE": 15,
-                        "TAX_INCLUDED": "N",
-                        "QUANTITY": 1,
-                    },
-                    {  # product with tax include
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE": ar_product["PRICE"],
-                        "TAX_RATE": 15,
-                        "TAX_INCLUDED": "Y",
-                        "QUANTITY": 1,
-                    },
-                    {  # product with discount
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE": ar_product["PRICE"],
-                        "DISCOUNT_SUM": 100,
-                        "DISCOUNT_TYPE_ID": 1,  # is sum discount type
-                        "QUANTITY": 1,
-                    },
-                    {  # product with a real discount
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE": float(ar_product["PRICE"]) - 100,
-                        "DISCOUNT_SUM": 100,
-                        "DISCOUNT_TYPE_ID": 1,  # is sum discount type
-                        "QUANTITY": 1,
-                    },
-                    {  # product with discount percent
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE_EXCLUSIVE": ar_product["PRICE"],
-                        "DISCOUNT_RATE": 10,
-                        "DISCOUNT_TYPE_ID": 2,  # is percent discount type
-                        "QUANTITY": 1,
-                    },
-                    {  # product with real discount percent
-                        "PRODUCT_ID": ar_product["ID"],
-                        "PRICE_EXCLUSIVE": float(ar_product["PRICE"]) - (float(ar_product["PRICE"]) * 0.1),
-                        "DISCOUNT_RATE": 10,
-                        "DISCOUNT_TYPE_ID": 2,  # is percent discount type
-                        "QUANTITY": 1,
-                    },
-                ],
-            ).response.result
-
-            print("Lead and products added successfully")
-    except BitrixAPIError as error:
-        print(f"An error occurred: {error}")
+        return result["products"]
     ```
 
 {% endlist %}
 
-## Создание счета с товарами
+Метод возвращает товары постранично. В примере используется первая страница, до 50 товаров. Если в вашем каталоге больше товаров, переберите страницы через параметр `start`.
+
+Сокращенный ответ:
+
+```json
+{
+    "result": {
+        "products": [
+            {
+                "id": 1243,
+                "iblockId": 23,
+                "name": "Монитор"
+            }
+        ]
+    },
+    "total": 1
+}
+```
+
+Сохраните `result.products[].id`. Идентификатор товара понадобится для получения цены и для параметра `productId` товарной позиции.
+
+## 2. Получите цену товара
+
+Цена товара хранится отдельно от карточки товара. Для каждого найденного товара вызовите [catalog.price.list](../../../api-reference/catalog/price/catalog-price-list.md) с фильтром по `productId` и выберите первую цену больше нуля.
 
 {% list tabs %}
 
 - JS
 
     ```js
-    import { B24Hook } from '@bitrix24/b24jssdk'
+    async function getFirstPrice(productId) {
+        const result = await call('catalog.price.list', {
+            select: ['id', 'productId', 'price', 'currency'],
+            filter: {
+                productId: productId,
+                '>price': 0,
+            },
+            order: {
+                id: 'ASC',
+            },
+            start: 0,
+        })
 
-    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
-    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
-
-    async function call(method, params) {
-        const result = await $b24.actions.v2.call.make({ method, params });
-        if (!result.isSuccess) {
-            throw new Error(result.getErrorMessages().join('; '));
-        }
-        return result.getData().result;
+        return result.prices[0] ?? null
     }
 
-    async function createInvoiceWithProducts() {
-        try {
-            let resultProduct = await call('crm.product.list', {
-                'filter': {
-                    '>PRICE': 0
-                }
-            });
+    async function findProductWithPrice(iblockId) {
+        const products = await getProducts(iblockId)
 
-            if (resultProduct.length === 0) {
-                console.error('Product error, create product in B24');
-                return;
+        for (const product of products) {
+            const price = await getFirstPrice(product.id)
+
+            if (price) {
+                return { product, price }
             }
-
-            let arProduct = resultProduct[0];
-
-            let companyId = await call('crm.company.add', {
-                'fields': {
-                    'TITLE': 'Example'
-                }
-            });
-
-            if (companyId) {
-                await call('crm.invoice.add', {
-                    'fields': {
-                        'ORDER_TOPIC': 'Invoice by company with product',
-                        'UF_COMPANY_ID': companyId,
-                        'PERSON_TYPE_ID': 1,
-                        'PAY_SYSTEM_ID': 20,
-                        'STATUS_ID': 'N',
-                        'DATE_INSERT': new Date().toISOString(),
-                        'DATE_BILL': new Date().toISOString(),
-                        'DATE_PAY_BEFORE': new Date(Date.now() + 3600 * 24 * 20).toISOString(),
-                        'PRODUCT_ROWS': [
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRODUCT_NAME': arProduct.NAME,
-                                'PRICE': arProduct.PRICE + (arProduct.PRICE * 0.15),
-                                'VAT_RATE': 0.15,
-                                'QUANTITY': 1
-                            },
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRODUCT_NAME': arProduct.NAME,
-                                'PRICE': arProduct.PRICE,
-                                'DISCOUNT_PRICE': 100,
-                                'QUANTITY': 1
-                            },
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRODUCT_NAME': arProduct.NAME,
-                                'PRICE': arProduct.PRICE - 100,
-                                'DISCOUNT_PRICE': 100,
-                                'QUANTITY': 1
-                            }
-                        ]
-                    }
-                });
-
-                console.log('Invoice and products added successfully');
-            } else {
-                console.error('Error creating company');
-            }
-        } catch (error) {
-            console.error('An error occurred: ' + error.message);
         }
-    }
 
-    createInvoiceWithProducts();
+        throw new Error('В каталоге нет активного товара с ценой больше нуля')
+    }
     ```
 
 - PHP
 
     ```php
-    <?php
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
-
-    $logger = new Logger('b24');
-    $logger->pushHandler(new StreamHandler('php://stdout'));
-
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $crm = $serviceBuilder->getCRMScope();
-
-    $resultProduct = $serviceBuilder->core->call(
-        'crm.product.list',
-        [
+    function getFirstPrice($b24, int $productId): ?array
+    {
+        $result = callMethod($b24, 'catalog.price.list', [
+            'select' => ['id', 'productId', 'price', 'currency'],
             'filter' => [
-                '>PRICE' => 0,
-            ]
-        ]
-    )->getResponseData()->getResult();
+                'productId' => $productId,
+                '>price' => 0,
+            ],
+            'order' => [
+                'id' => 'ASC',
+            ],
+            'start' => 0,
+        ]);
 
-    if (empty($resultProduct))
-    {
-        echo 'product error, create product in b24';
-        exit;
+        return $result['prices'][0] ?? null;
     }
-    else
-    {
-        $arProduct = $resultProduct[0];
-    }
-    $iCompanyID = $crm->company()->add(['TITLE' => 'Example'])->getId();
 
-    if ($iCompanyID)
+    function findProductWithPrice($b24, int $iblockId): array
     {
-        $resultInvoice = $serviceBuilder->core->call(
-            'crm.invoice.add',
-            [
-                'fields' => [
-                    'ORDER_TOPIC' => 'Invoice by company with product',
-                    'UF_COMPANY_ID' => $iCompanyID,
-                    'PERSON_TYPE_ID' => 1,//1 is company in crm.persontype.list
-                    'PAY_SYSTEM_ID' => 20,//some in sale.paysystem.list
-                    'STATUS_ID' => 'N',
-                    'DATE_INSERT' => date(DATE_ATOM),
-                    'DATE_BILL' => date(DATE_ATOM),
-                    'DATE_PAY_BEFORE' => date(DATE_ATOM, time() + 3600 * 24 * 20),//20 day pay
+        foreach (getProducts($b24, $iblockId) as $product) {
+            $price = getFirstPrice($b24, (int)$product['id']);
 
-                    'PRODUCT_ROWS' => [
-                        [//product with tax
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRODUCT_NAME' => $arProduct['NAME'],
-                            'PRICE' => $arProduct['PRICE'] + ($arProduct['PRICE'] * 0.15),
-                            'VAT_RATE' => 0.15,
-                            'QUANTITY' => 1
-                        ],
-                        [//product with discount sum, percent not supported
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRODUCT_NAME' => $arProduct['NAME'],
-                            'PRICE' => $arProduct['PRICE'],
-                            'DISCOUNT_PRICE' => 100,
-                            'QUANTITY' => 1
-                        ],
-                        [//product with real discount sum, percent not supported
-                            'PRODUCT_ID' => $arProduct['ID'],
-                            'PRODUCT_NAME' => $arProduct['NAME'],
-                            'PRICE' => $arProduct['PRICE'] - 100,
-                            'DISCOUNT_PRICE' => 100,
-                            'QUANTITY' => 1
-                        ],
-                    ],
-                ]
-            ]
-        );
+            if ($price !== null) {
+                return [
+                    'product' => $product,
+                    'price' => $price,
+                ];
+            }
+        }
+
+        throw new RuntimeException('В каталоге нет активного товара с ценой больше нуля');
     }
-    ?>
     ```
 
 - Python
 
     ```python
-    from datetime import datetime, timedelta
+    def get_first_price(product_id: int):
+        result = call_method("catalog.price.list", {
+            "select": ["id", "productId", "price", "currency"],
+            "filter": {
+                "productId": product_id,
+                ">price": 0,
+            },
+            "order": {
+                "id": "ASC",
+            },
+            "start": 0,
+        })
 
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
+        return result["prices"][0] if result["prices"] else None
 
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
+    def find_product_with_price(iblock_id: int):
+        for product in get_products(iblock_id):
+            price = get_first_price(int(product["id"]))
 
-    # методы crm.product.list и crm.invoice.add вызываем напрямую через токен
-    token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
-    )
+            if price:
+                return {
+                    "product": product,
+                    "price": price,
+                }
 
-    try:
-        result_product = token.call_method("crm.product.list", {"filter": {">PRICE": 0}})["result"]
-
-        if not result_product:
-            print("product error, create product in b24")
-        else:
-            ar_product = result_product[0]
-            price = float(ar_product["PRICE"])
-
-            company_id = client.crm.company.add(fields={"TITLE": "Example"}).response.result
-
-            if company_id:
-                now = datetime.now()
-                token.call_method("crm.invoice.add", {
-                    "fields": {
-                        "ORDER_TOPIC": "Invoice by company with product",
-                        "UF_COMPANY_ID": company_id,
-                        "PERSON_TYPE_ID": 1,  # 1 is company in crm.persontype.list
-                        "PAY_SYSTEM_ID": 20,  # some in sale.paysystem.list
-                        "STATUS_ID": "N",
-                        "DATE_INSERT": now.isoformat(),
-                        "DATE_BILL": now.isoformat(),
-                        "DATE_PAY_BEFORE": (now + timedelta(days=20)).isoformat(),  # 20 day pay
-                        "PRODUCT_ROWS": [
-                            {  # product with tax
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRODUCT_NAME": ar_product["NAME"],
-                                "PRICE": price + (price * 0.15),
-                                "VAT_RATE": 0.15,
-                                "QUANTITY": 1,
-                            },
-                            {  # product with discount sum, percent not supported
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRODUCT_NAME": ar_product["NAME"],
-                                "PRICE": price,
-                                "DISCOUNT_PRICE": 100,
-                                "QUANTITY": 1,
-                            },
-                            {  # product with real discount sum, percent not supported
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRODUCT_NAME": ar_product["NAME"],
-                                "PRICE": price - 100,
-                                "DISCOUNT_PRICE": 100,
-                                "QUANTITY": 1,
-                            },
-                        ],
-                    }
-                })
-
-                print("Invoice and products added successfully")
-            else:
-                print("Error creating company")
-    except BitrixAPIError as error:
-        print(f"An error occurred: {error}")
+        raise RuntimeError("В каталоге нет активного товара с ценой больше нуля")
     ```
 
 {% endlist %}
 
+Сокращенный ответ:
 
+```json
+{
+    "result": {
+        "prices": [
+            {
+                "id": 381,
+                "productId": 1243,
+                "price": 1000,
+                "currency": "RUB"
+            }
+        ]
+    },
+    "total": 1
+}
+```
 
-## Прикрепление товаров к компред
+Сохраните `result.prices[].price` и `result.prices[].currency`. Цена понадобится для расчета товарных позиций, валюта — для поля `currencyId` создаваемого объекта CRM.
+
+## 3. Создайте объект CRM
+
+Вызовите [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md). Передайте:
+
+- `entityTypeId` — числовой идентификатор типа объекта CRM
+- `fields.title` — название объекта
+- `fields.currencyId` — валюту цены из шага 2
 
 {% list tabs %}
 
 - JS
 
     ```js
-    import { B24Hook } from '@bitrix24/b24jssdk'
+    async function createCrmItem(entityTypeId, title, currency) {
+        const result = await call('crm.item.add', {
+            entityTypeId: entityTypeId,
+            fields: {
+                title: title,
+                currencyId: currency,
+            },
+        })
 
-    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
-    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
-
-    async function call(method, params) {
-        const result = await $b24.actions.v2.call.make({ method, params });
-        if (!result.isSuccess) {
-            throw new Error(result.getErrorMessages().join('; '));
-        }
-        return result.getData().result;
+        return result.item.id
     }
-
-    async function createQuoteWithProducts() {
-        try {
-            let resultProduct = await call('crm.product.list', {
-                'filter': {
-                    '>PRICE': 0
-                }
-            });
-
-            if (resultProduct.length === 0) {
-                console.error('Product error, create product in B24');
-                return;
-            }
-
-            let arProduct = resultProduct[0];
-
-            let companyId = await call('crm.company.add', {
-                'fields': {
-                    'TITLE': 'Example'
-                }
-            });
-
-            if (companyId) {
-                let quoteId = await call('crm.quote.add', {
-                    'fields': {
-                        "TITLE": "Quote by company with product",
-                        "OPENED": "Y",
-                        "ASSIGNED_BY_ID": 1,
-                        "CURRENCY_ID": "USD",
-                        "BEGINDATE": new Date().toISOString(),
-                        "CLOSEDATE": new Date(Date.now() + 3600 * 24 * 20).toISOString(),
-                        'COMPANY_ID': companyId,
-                        'STATUS_ID': 'N'
-                    }
-                });
-
-                if (quoteId) {
-                    await call('crm.quote.productrows.set', {
-                        'id': quoteId,
-                        'rows': [
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRICE_EXCLUSIVE': arProduct.PRICE,
-                                'TAX_RATE': 15,
-                                'TAX_INCLUDED': 'N',
-                                'QUANTITY': 1
-                            },
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRICE': arProduct.PRICE,
-                                'TAX_RATE': 15,
-                                'TAX_INCLUDED': 'Y',
-                                'QUANTITY': 1
-                            },
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRICE': arProduct.PRICE,
-                                'DISCOUNT_SUM': 100,
-                                'DISCOUNT_TYPE_ID': 1,
-                                'QUANTITY': 1
-                            },
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRICE': arProduct.PRICE - 100,
-                                'DISCOUNT_SUM': 100,
-                                'DISCOUNT_TYPE_ID': 1,
-                                'QUANTITY': 1
-                            },
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRICE_EXCLUSIVE': arProduct.PRICE,
-                                'DISCOUNT_RATE': 10,
-                                'DISCOUNT_TYPE_ID': 2,
-                                'QUANTITY': 1
-                            },
-                            {
-                                'PRODUCT_ID': arProduct.ID,
-                                'PRICE_EXCLUSIVE': arProduct.PRICE - (arProduct.PRICE * 0.1),
-                                'DISCOUNT_RATE': 10,
-                                'DISCOUNT_TYPE_ID': 2,
-                                'QUANTITY': 1
-                            }
-                        ]
-                    });
-
-                    console.log('Quote and products added successfully');
-                } else {
-                    console.error('Error creating quote');
-                }
-            } else {
-                console.error('Error creating company');
-            }
-        } catch (error) {
-            console.error('An error occurred: ' + error.message);
-        }
-    }
-
-    createQuoteWithProducts();
     ```
 
 - PHP
 
     ```php
-    <?php
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
-
-    $logger = new Logger('b24');
-    $logger->pushHandler(new StreamHandler('php://stdout'));
-
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $crm = $serviceBuilder->getCRMScope();
-
-    $resultProduct = $serviceBuilder->core->call(
-        'crm.product.list',
-        [
-            'filter' => [
-                '>PRICE' => 0,
-            ]
-        ]
-    )->getResponseData()->getResult();
-
-    if (empty($resultProduct))
+    function createCrmItem($b24, int $entityTypeId, string $title, string $currency): int
     {
-        echo 'product error, create product in b24';
-        exit;
-    }
-    else
-    {
-        $arProduct = $resultProduct[0];
-    }
-    $iCompanyID = $crm->company()->add(['TITLE' => 'Example'])->getId();
+        $result = callMethod($b24, 'crm.item.add', [
+            'entityTypeId' => $entityTypeId,
+            'fields' => [
+                'title' => $title,
+                'currencyId' => $currency,
+            ],
+        ]);
 
-    if ($iCompanyID)
-    {
-        $ID = $crm->quote()->add(
-            [
-                "TITLE" => "Quote by company with product",
-                "OPENED" => "Y",
-                "ASSIGNED_BY_ID" => 1,
-                "CURRENCY_ID" => "USD",
-                "BEGINDATE" => date(DATE_ATOM),
-                "CLOSEDATE" => date(DATE_ATOM, time() + 3600 * 24 * 20),//20 day
-                'COMPANY_ID' => $iCompanyID,
-                'STATUS_ID' => 'N',
-            ]
-        )->getId();
-        if ($ID)
-        {
-            $result = $crm->quoteProductRows()->set(
-                $ID,
-                [
-                    [//product with auto calc tax
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                        'TAX_RATE' => 15,
-                        'TAX_INCLUDED' => 'N',
-                        'QUANTITY' => 1
-                    ],
-                    [//product with tax include
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'],
-                        'TAX_RATE' => 15,
-                        'TAX_INCLUDED' => 'Y',
-                        'QUANTITY' => 1
-                    ],
-                    [//product with discount
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'],
-                        'DISCOUNT_SUM' => 100,
-                        'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with a real discount
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE' => $arProduct['PRICE'] - 100,
-                        'DISCOUNT_SUM' => 100,
-                        'DISCOUNT_TYPE_ID' => 1,//is sum discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with discount percent
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'],
-                        'DISCOUNT_RATE' => 10,
-                        'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                        'QUANTITY' => 1
-                    ],
-                    [//product with real discount percent
-                        'PRODUCT_ID' => $arProduct['ID'],
-                        'PRICE_EXCLUSIVE' => $arProduct['PRICE'] - ($arProduct['PRICE'] * 0.1),
-                        'DISCOUNT_RATE' => 10,
-                        'DISCOUNT_TYPE_ID' => 2,//is percent discount type
-                        'QUANTITY' => 1
-                    ],
-                ]
-            );
-        }
-        else
-        {
-            echo 'Error create quote';
-        }
+        return (int)$result['item']['id'];
     }
-    else
-    {
-        echo 'Error create company';
-    }
-    ?>
     ```
 
 - Python
 
     ```python
-    from datetime import datetime, timedelta
+    def create_crm_item(entity_type_id: int, title: str, currency: str) -> int:
+        result = call_method("crm.item.add", {
+            "entityTypeId": entity_type_id,
+            "fields": {
+                "title": title,
+                "currencyId": currency,
+            },
+        })
 
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    # метод crm.product.list вызываем напрямую через токен
-    token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
-    )
-
-    try:
-        result_product = token.call_method("crm.product.list", {"filter": {">PRICE": 0}})["result"]
-
-        if not result_product:
-            print("product error, create product in b24")
-        else:
-            ar_product = result_product[0]
-            company_id = client.crm.company.add(fields={"TITLE": "Example"}).response.result
-
-            if company_id:
-                now = datetime.now()
-                quote_id = client.crm.quote.add(fields={
-                    "TITLE": "Quote by company with product",
-                    "OPENED": "Y",
-                    "ASSIGNED_BY_ID": 1,
-                    "CURRENCY_ID": "USD",
-                    "BEGINDATE": now.isoformat(),
-                    "CLOSEDATE": (now + timedelta(days=20)).isoformat(),  # 20 day
-                    "COMPANY_ID": company_id,
-                    "STATUS_ID": "N",
-                }).response.result
-
-                if quote_id:
-                    client.crm.quote.productrows.set(
-                        quote_id,
-                        [
-                            {  # product with auto calc tax
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRICE_EXCLUSIVE": ar_product["PRICE"],
-                                "TAX_RATE": 15,
-                                "TAX_INCLUDED": "N",
-                                "QUANTITY": 1,
-                            },
-                            {  # product with tax include
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRICE": ar_product["PRICE"],
-                                "TAX_RATE": 15,
-                                "TAX_INCLUDED": "Y",
-                                "QUANTITY": 1,
-                            },
-                            {  # product with discount
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRICE": ar_product["PRICE"],
-                                "DISCOUNT_SUM": 100,
-                                "DISCOUNT_TYPE_ID": 1,  # is sum discount type
-                                "QUANTITY": 1,
-                            },
-                            {  # product with a real discount
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRICE": float(ar_product["PRICE"]) - 100,
-                                "DISCOUNT_SUM": 100,
-                                "DISCOUNT_TYPE_ID": 1,  # is sum discount type
-                                "QUANTITY": 1,
-                            },
-                            {  # product with discount percent
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRICE_EXCLUSIVE": ar_product["PRICE"],
-                                "DISCOUNT_RATE": 10,
-                                "DISCOUNT_TYPE_ID": 2,  # is percent discount type
-                                "QUANTITY": 1,
-                            },
-                            {  # product with real discount percent
-                                "PRODUCT_ID": ar_product["ID"],
-                                "PRICE_EXCLUSIVE": float(ar_product["PRICE"]) - (float(ar_product["PRICE"]) * 0.1),
-                                "DISCOUNT_RATE": 10,
-                                "DISCOUNT_TYPE_ID": 2,  # is percent discount type
-                                "QUANTITY": 1,
-                            },
-                        ],
-                    ).response.result
-
-                    print("Quote and products added successfully")
-                else:
-                    print("Error create quote")
-            else:
-                print("Error create company")
-    except BitrixAPIError as error:
-        print(f"An error occurred: {error}")
+        return int(result["item"]["id"])
     ```
 
 {% endlist %}
+
+Сокращенный ответ:
+
+```json
+{
+    "result": {
+        "item": {
+            "id": 342,
+            "title": "Сделка с товарами"
+        }
+    }
+}
+```
+
+Сохраните `result.item.id`. Идентификатор понадобится для параметра `ownerId` метода [crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md).
+
+## 4. Сохраните товарные позиции
+
+Вызовите [crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md). Передайте:
+
+- `ownerType` — краткий символьный код типа объекта CRM
+- `ownerId` — идентификатор объекта из шага 3
+- `productRows` — массив товарных позиций
+
+В примере сохраняются четыре варианта:
+
+- товар с налогом 20%, налог не включен в цену
+- товар с налогом 20%, налог включен в цену
+- товар с фиксированной скидкой в валюте цены
+- товар со скидкой 10%
+
+Для фиксированной скидки пример берет меньшее значение: 100 единиц валюты или половину цены товара. Так итоговая цена товарной позиции не станет отрицательной.
+
+{% note info "" %}
+
+Метод [crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md) перезаписывает все товарные позиции объекта CRM. Позиции, которые не переданы в `productRows`, будут удалены из объекта.
+
+{% endnote %}
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    function buildProductRows(productId, basePrice) {
+        const price = Number(basePrice)
+        const fixedDiscount = Math.min(100, price / 2)
+
+        return [
+            {
+                productId: productId,
+                price: price,
+                taxRate: 20,
+                taxIncluded: 'N',
+                quantity: 1,
+                sort: 10,
+            },
+            {
+                productId: productId,
+                price: price * 1.2,
+                taxRate: 20,
+                taxIncluded: 'Y',
+                quantity: 1,
+                sort: 20,
+            },
+            {
+                productId: productId,
+                price: price - fixedDiscount,
+                discountTypeId: 1,
+                discountSum: fixedDiscount,
+                quantity: 1,
+                sort: 30,
+            },
+            {
+                productId: productId,
+                price: price * 0.9,
+                discountTypeId: 2,
+                discountRate: 10,
+                quantity: 1,
+                sort: 40,
+            },
+        ]
+    }
+
+    async function setProductRows(ownerType, ownerId, productRows) {
+        const result = await call('crm.item.productrow.set', {
+            ownerType: ownerType,
+            ownerId: ownerId,
+            productRows: productRows,
+        })
+
+        return result.productRows
+    }
+    ```
+
+- PHP
+
+    ```php
+    function buildProductRows(int $productId, float $basePrice): array
+    {
+        $fixedDiscount = min(100, $basePrice / 2);
+
+        return [
+            [
+                'productId' => $productId,
+                'price' => $basePrice,
+                'taxRate' => 20,
+                'taxIncluded' => 'N',
+                'quantity' => 1,
+                'sort' => 10,
+            ],
+            [
+                'productId' => $productId,
+                'price' => $basePrice * 1.2,
+                'taxRate' => 20,
+                'taxIncluded' => 'Y',
+                'quantity' => 1,
+                'sort' => 20,
+            ],
+            [
+                'productId' => $productId,
+                'price' => $basePrice - $fixedDiscount,
+                'discountTypeId' => 1,
+                'discountSum' => $fixedDiscount,
+                'quantity' => 1,
+                'sort' => 30,
+            ],
+            [
+                'productId' => $productId,
+                'price' => $basePrice * 0.9,
+                'discountTypeId' => 2,
+                'discountRate' => 10,
+                'quantity' => 1,
+                'sort' => 40,
+            ],
+        ];
+    }
+
+    function setProductRows($b24, string $ownerType, int $ownerId, array $productRows): array
+    {
+        $result = callMethod($b24, 'crm.item.productrow.set', [
+            'ownerType' => $ownerType,
+            'ownerId' => $ownerId,
+            'productRows' => $productRows,
+        ]);
+
+        return $result['productRows'];
+    }
+    ```
+
+- Python
+
+    ```python
+    def build_product_rows(product_id: int, base_price: float):
+        fixed_discount = min(100, base_price / 2)
+
+        return [
+            {
+                "productId": product_id,
+                "price": base_price,
+                "taxRate": 20,
+                "taxIncluded": "N",
+                "quantity": 1,
+                "sort": 10,
+            },
+            {
+                "productId": product_id,
+                "price": base_price * 1.2,
+                "taxRate": 20,
+                "taxIncluded": "Y",
+                "quantity": 1,
+                "sort": 20,
+            },
+            {
+                "productId": product_id,
+                "price": base_price - fixed_discount,
+                "discountTypeId": 1,
+                "discountSum": fixed_discount,
+                "quantity": 1,
+                "sort": 30,
+            },
+            {
+                "productId": product_id,
+                "price": base_price * 0.9,
+                "discountTypeId": 2,
+                "discountRate": 10,
+                "quantity": 1,
+                "sort": 40,
+            },
+        ]
+
+    def set_product_rows(owner_type: str, owner_id: int, product_rows: list):
+        result = call_method("crm.item.productrow.set", {
+            "ownerType": owner_type,
+            "ownerId": owner_id,
+            "productRows": product_rows,
+        })
+
+        return result["productRows"]
+    ```
+
+{% endlist %}
+
+Сокращенный ответ:
+
+```json
+{
+    "result": {
+        "productRows": [
+            {
+                "id": 17654,
+                "ownerId": 342,
+                "ownerType": "D",
+                "productId": 1243,
+                "price": 1000,
+                "quantity": 1,
+                "taxRate": 20,
+                "taxIncluded": "N"
+            }
+        ]
+    }
+}
+```
+
+## Запустите сценарий
+
+После добавления функций из предыдущих шагов выберите нужный тип объекта в настройках `crmEntity`. Для лида укажите `entityTypeId = 1` и `ownerType = L`, для сделки — `2` и `D`, для счета — `31` и `SI`, для коммерческого предложения — `7` и `Q`.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const crmEntity = {
+        entityTypeId: 2,
+        ownerType: 'D',
+        title: 'Сделка с товарами',
+    }
+
+    const iblockId = 23
+
+    const { product, price } = await findProductWithPrice(iblockId)
+    const itemId = await createCrmItem(
+        crmEntity.entityTypeId,
+        crmEntity.title,
+        price.currency,
+    )
+    const productRows = buildProductRows(product.id, price.price)
+    const savedRows = await setProductRows(crmEntity.ownerType, itemId, productRows)
+
+    console.log(`Создан объект CRM #${itemId}`)
+    console.log(`Товар: ${product.name}`)
+    console.log(savedRows)
+    ```
+
+- PHP
+
+    ```php
+    $crmEntity = [
+        'entityTypeId' => 2,
+        'ownerType' => 'D',
+        'title' => 'Сделка с товарами',
+    ];
+
+    $iblockId = 23;
+
+    $productWithPrice = findProductWithPrice($b24, $iblockId);
+    $product = $productWithPrice['product'];
+    $price = $productWithPrice['price'];
+
+    $itemId = createCrmItem(
+        $b24,
+        $crmEntity['entityTypeId'],
+        $crmEntity['title'],
+        $price['currency']
+    );
+
+    $productRows = buildProductRows((int)$product['id'], (float)$price['price']);
+    $savedRows = setProductRows($b24, $crmEntity['ownerType'], $itemId, $productRows);
+
+    print('Создан объект CRM #' . $itemId . PHP_EOL);
+    print('Товар: ' . $product['name'] . PHP_EOL);
+    print_r($savedRows);
+    ```
+
+- Python
+
+    ```python
+    crm_entity = {
+        "entityTypeId": 2,
+        "ownerType": "D",
+        "title": "Сделка с товарами",
+    }
+
+    iblock_id = 23
+
+    product_with_price = find_product_with_price(iblock_id)
+    product = product_with_price["product"]
+    price = product_with_price["price"]
+
+    item_id = create_crm_item(
+        crm_entity["entityTypeId"],
+        crm_entity["title"],
+        price["currency"],
+    )
+
+    product_rows = build_product_rows(int(product["id"]), float(price["price"]))
+    saved_rows = set_product_rows(crm_entity["ownerType"], item_id, product_rows)
+
+    print("Создан объект CRM #%s" % item_id)
+    print("Товар: %s" % product["name"])
+    print(saved_rows)
+    ```
+
+{% endlist %}
+
+## Проверим результат
+
+Откройте созданный объект CRM в интерфейсе и проверьте вкладку с товарами. В списке должны появиться четыре товарные позиции с одним товаром и разными расчетами:
+
+- налог не включен в цену
+- налог включен в цену
+- фиксированная скидка
+- процентная скидка
+
+Проверить результат через REST можно методом [crm.item.productrow.list](../../../api-reference/crm/universal/product-rows/crm-item-productrow-list.md). Передайте фильтр:
+
+- `=ownerType` — краткий символьный код типа объекта CRM
+- `=ownerId` — идентификатор созданного объекта CRM
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Код** | **Причина и действие** ||
+|| `200040300010` | Недостаточно прав для чтения каталога или цен. Проверьте права пользователя и scope `catalog` ||
+|| `ACCESS_DENIED` | Нет права на создание или изменение объекта CRM. Проверьте права пользователя в CRM ||
+|| `OWNER_NOT_FOUND` | В `ownerId` передан идентификатор несуществующего объекта CRM ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | В `ownerType` передан неподдерживаемый тип объекта CRM ||
+|| `100` | Не переданы обязательные параметры. Проверьте `entityTypeId`, `fields`, `ownerType`, `ownerId` и `productRows` ||
+|#
+
+## Что важно учитывать
+
+- [crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md) заменяет все товарные позиции объекта CRM
+- [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md) возвращает товары, но не возвращает цены. Цены нужно получать методом [catalog.price.list](../../../api-reference/catalog/price/catalog-price-list.md)
+- Для товаров с вариациями используйте идентификатор конкретной вариации товара
+- Повторный запуск примера создает новый объект CRM и новые товарные позиции
+- Если сумма объекта должна рассчитываться по товарным позициям, не передавайте ручную сумму в `opportunity`
+
+## Продолжите изучение
+
+- [Получить список товаров по фильтру catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md)
+- [Получить список цен по фильтру catalog.price.list](../../../api-reference/catalog/price/catalog-price-list.md)
+- [Создать новый элемент CRM crm.item.add](../../../api-reference/crm/universal/crm-item-add.md)
+- [Сохранить товарную позицию объекта CRM crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md)
+- [Получить список товарных позиций crm.item.productrow.list](../../../api-reference/crm/universal/product-rows/crm-item-productrow-list.md)

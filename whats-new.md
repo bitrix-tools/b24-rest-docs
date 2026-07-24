@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 24 июля, 2026
+
+- Обновили страницу [Как создать объект CRM с товарами, скидками и налогами](./tutorials/crm/how-to-add-crm-objects/how-to-product-binding.md)
+- Обновили страницу [Как изменить значения пользовательских полей товара](./tutorials/catalog/how-to-change-product-custom-field-values.md)
+
 ### 21 июля, 2026
 
 - Обновили страницу [Лимиты REST API](./limits.md)
