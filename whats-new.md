@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 27 июля, 2026
+
+- Обновили туториал [Как создать канал поддержки через открытую линию Битрикс24 Network](./tutorials/chat-bots/support-bot.md)
+- Обновили туториал [Как сделать свою карточку редактирования компании](./tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-company.md)
+
 ### 24 июля, 2026
 
 - Обновили страницу [Как создать объект CRM с товарами, скидками и налогами](./tutorials/crm/how-to-add-crm-objects/how-to-product-binding.md)
