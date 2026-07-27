@@ -10,6 +10,8 @@ items:
   - name: Замена контрагента
     href: change-legal-entity.md
   - name: Порядок выплат 
+    href: transferring-app.md
+  - name: Передача решений другому партнеру 
     href: payments.md
   - name: НДС и счет-фактуры 
     href: vat-invoice.md 
