@@ -364,6 +364,7 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-add.md)
 - [{#T}](./catalog-product-update.md)
 - [{#T}](./catalog-product-list.md)
+- [{#T}](../../../tutorials/catalog/index.md)
 - [{#T}](./catalog-product-download.md)
 - [{#T}](./catalog-product-delete.md)
 - [{#T}](./catalog-product-get-fields-by-filter.md)

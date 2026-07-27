@@ -362,3 +362,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-todo-update-description.md)
 - [{#T}](./crm-activity-todo-update-color.md)
 - [{#T}](./crm-activity-todo-update-responsible-user.md)
+- [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-date-in-activity.md)

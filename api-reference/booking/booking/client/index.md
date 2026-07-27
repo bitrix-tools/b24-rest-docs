@@ -11,21 +11,32 @@
 
 К бронированию ресурса можно добавить клиента: контакт или компанию. На телефонный номер клиента отправляются сообщения о записи: подтверждение, напоминания, запрос обратной связи.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как записать клиента на услугу из карточки CRM](https://helpdesk.bitrix24.ru/open/23758612/)
 
 ## Связь с другими объектами
 
 **Бронирование.** Используйте `ID` брони в параметре `bookingId` методов [booking.v1.booking.client.*](./index.md), чтобы добавить или заменить клиента. Получить `ID` брони можно методами [создания](../booking-v1-booking-add.md) или [фильтрации](../booking-v1-booking-list.md).
 
-**Контакт.** Чтобы прикрепить к брони контакт, передайте `ID` контакта в методе [booking.v1.booking.client.set](./booking-v1-booking-client-set). Получить `ID` контакта можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 3`.
+**Контакт.** Чтобы прикрепить к брони контакт, передайте `ID` контакта в методе [booking.v1.booking.client.set](./booking-v1-booking-client-set.md). Получить `ID` контакта можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 3`.
 
-**Компания.** Чтобы прикрепить к брони компанию, передайте `ID` компании в методе [booking.v1.booking.client.set](./booking-v1-booking-client-set). Получить `ID` компании можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 4`.
+**Компания.** Чтобы прикрепить к брони компанию, передайте `ID` компании в методе [booking.v1.booking.client.set](./booking-v1-booking-client-set.md). Получить `ID` компании можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 4`.
 
 {% note info "" %}
 
 Если клиент новый, предварительно добавьте его в CRM методом [crm.item.add](../../../crm/universal/crm-item-add.md) с параметром `entityTypeId = 3` для контакта или `entityTypeId = 4` для компании.
 
 {% endnote %}
+
+## Как начать работу
+
+1. Получите `ID` брони методом [booking.v1.booking.add](../booking-v1-booking-add.md) или [booking.v1.booking.list](../booking-v1-booking-list.md)
+2. Найдите контакт или компанию в CRM методом [crm.item.list](../../../crm/universal/crm-item-list.md)
+3. Если клиента нет в CRM, создайте контакт или компанию методом [crm.item.add](../../../crm/universal/crm-item-add.md)
+4. Передайте `ID` брони и клиента в метод [booking.v1.booking.client.set](./booking-v1-booking-client-set.md)
+5. Проверьте привязку методом [booking.v1.booking.client.list](./booking-v1-booking-client-list.md)
+6. При необходимости удалите клиента из брони методом [booking.v1.booking.client.unset](./booking-v1-booking-client-unset.md)
 
 ## Обзор методов {#all-methods}
 

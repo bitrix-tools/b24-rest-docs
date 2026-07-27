@@ -1,4 +1,4 @@
-# Цифровые рабочие места
+# Цифровые рабочие места: обзор методов
 
 {% note tip "" %}
 
@@ -13,15 +13,43 @@
 
 На портале вы найдете их в разделе *Автоматизация > Цифровые рабочие места > Список цифровых рабочих мест*.
 
-Узнать больше информации о цифровых рабочих местах вы можете на [helpdesk.bitrix24.ru](https://helpdesk.bitrix24.ru/open/18913896).
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Цифровые рабочие места](https://helpdesk.bitrix24.ru/open/18913896)
 
-Методы для управления цифровыми рабочими местами:
+## Как начать работу
 
-- [{#T}](./crm-automated-solution-add.md)
-- [{#T}](./crm-automated-solution-update.md)
-- [{#T}](./crm-automated-solution-get.md)
-- [{#T}](./crm-automated-solution-list.md)
-- [{#T}](./crm-automated-solution-delete.md)
-- [{#T}](./crm-automated-solution-fields.md)
+1. Создайте рабочее место методом [crm.automatedsolution.add](./crm-automated-solution-add.md)
+2. Измените название, сортировку или другие параметры методом [crm.automatedsolution.update](./crm-automated-solution-update.md)
+3. Получите рабочее место по идентификатору методом [crm.automatedsolution.get](./crm-automated-solution-get.md)
+4. Найдите рабочие места по фильтру методом [crm.automatedsolution.list](./crm-automated-solution-list.md)
+5. Если рабочее место больше не нужно, удалите его методом [crm.automatedsolution.delete](./crm-automated-solution-delete.md)
+6. Чтобы проверить доступные поля, используйте метод [crm.automatedsolution.fields](./crm-automated-solution-fields.md)
 
-В коробочной версии Битрикс 24 доступно с версии CRM [24.300.0](../../../settings/cloud-and-on-premise/on-premise/versions.md).
+## Связь с другими объектами
+
+**Смарт-процессы.** Рабочее место объединяет один или несколько смарт-процессов. Сначала создайте рабочее место, затем используйте его идентификатор при настройке типа смарт-процесса.
+
+**CRM.** Рабочее место находится в CRM, но его смарт-процессы не обязаны быть связаны с лидами, сделками, контактами или компаниями.
+
+{% note info "" %}
+
+В коробочной версии Битрикс24 цифровые рабочие места доступны с версии CRM [24.300.0](../../../settings/cloud-and-on-premise/on-premise/versions.md).
+
+{% endnote %}
+
+## Обзор методов {#all-methods}
+
+> Scope: [`crm`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: зависит от метода
+
+#|
+|| **Метод** | **Описание** ||
+|| [crm.automatedsolution.add](./crm-automated-solution-add.md) | Создает цифровое рабочее место ||
+|| [crm.automatedsolution.update](./crm-automated-solution-update.md) | Обновляет цифровое рабочее место ||
+|| [crm.automatedsolution.get](./crm-automated-solution-get.md) | Возвращает цифровое рабочее место по идентификатору ||
+|| [crm.automatedsolution.list](./crm-automated-solution-list.md) | Возвращает список цифровых рабочих мест ||
+|| [crm.automatedsolution.delete](./crm-automated-solution-delete.md) | Удаляет цифровое рабочее место ||
+|| [crm.automatedsolution.fields](./crm-automated-solution-fields.md) | Возвращает описание полей цифрового рабочего места ||
+|#

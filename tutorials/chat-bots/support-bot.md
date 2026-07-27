@@ -9,50 +9,103 @@
 
 {% endnote %}
 
-Благодаря модулю **Открытые линии** можно организовать техническую поддержку по любому приложению *Битрикс24*, в том числе и по чат-ботам.
+С помощью модуля **Открытые линии** можно организовать техническую поддержку по любому приложению *Битрикс24*, в том числе по чат-ботам.
 
-Для этого выполните следующие действия:
+Подготовка в интерфейсе:
 
-- Перейдите в раздел **Контакт-центр** и подключите канал коммуникации `Битрикс24.Network`:
+- Перейдите в раздел **Контакт-центр** и подключите канал коммуникации `Битрикс24.Network`
+- Заполните `Название`, `Краткое описание` и установите `Аватар` — это поможет клиентам легче вас найти
+- Создайте новую открытую линию технической поддержки или выберите действующую
 
-![Добавление Битрикс24.Network](./_images/add_network01.png)
+{% note info "" %}
 
-- После этого станет доступна форма настроек подключения к `Битрикс24.Network`:
+Методы `imopenlines.network.*` работают в контексте [приложения](../../settings/app-installation/index.md). Авторизацию (`access_token`, `domain`) приложение получает в теле запроса. Инициализацию SDK смотрите в [примере чат-бота](./index.md#инициализация-sdk-по-данным-события).
 
-![Настройки Битрикс24.Network](./_images/add_network02.png)
+{% endnote %}
 
-  - Обязательно заполните поля `Название` и `Краткое описание`, а также установите `Аватар` — это поможет клиентам легче вас найти
+## Подключение открытой линии к порталу
 
-  - Как только пользователь перейдет в вашу Открытую линию *Битрикс24.Network*, он автоматически получит приветственное сообщение:
-         
-  ![Приветственное сообщение](./_images/openlines4.png)
+Метод [imopenlines.network.join](../../api-reference/imopenlines/openlines/imopenlines-network-join.md) автоматически подключает вашу открытую линию к порталу пользователя. В параметр `CODE` передается код со страницы коннекторов.
 
-- Создайте новую открытую линию технической поддержки по вашему продукту или выберите действующую:
+{% list tabs %}
 
-![Создание или выбор открытой линии](./_images/add_network000.png)
+- JS
 
-С помощью метода [imopenlines.network.join](../../api-reference/imopenlines/openlines/imopenlines-network-join.md) можно автоматически подключать вашу открытую линию к порталу пользователей:
+    ```js
+    const response = await $b24.actions.v2.call.make({
+        method: 'imopenlines.network.join',
+        params: { CODE: 'a588e1a88baaf301b9d0b0b33b1eefc2b' },
+        requestId: 'network-join',
+    })
 
-```php
-$result = restCommand(
-    'imopenlines.network.join',
-    Array(
-        'CODE' => 'a588e1a88baaf301b9d0b0b33b1eefc2b' // код для поиска со страницы коннекторов
-    ),
-    $_REQUEST[
-        "auth"
-    ]
-);
-```
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+    ```
 
-После установки Открытой линии вы можете написать клиенту приветственное сообщение с помощью метода [imopenlines.network.message.add](../../api-reference/imopenlines/openlines/imopenlines-network-message-add.md):
+- PHP
 
-```php
-Спасибо за установку, будем рады помочь, если будут вопросы — пишите в этот чат. Хорошего дня! :)
-```
+    ```php
+    // Типизированный аналог: $b24->getIMOpenLinesScope()->Network()->join(...)
+    $b24->core->call('imopenlines.network.join', [
+        'CODE' => 'a588e1a88baaf301b9d0b0b33b1eefc2b',
+    ]);
+    ```
 
-{% note info %}
+- Python
 
-`restCommand` — это метод отправки данных в *Битрикс24*, данный метод есть в [ЭхоБоте](https://github.com/bitrix24com/bots) и представлен здесь в качестве примера. Вы можете использовать свою функцию или javascript-метод [BX24.callMethod](../../first-steps/how-to-use-examples.md), а также [bitrix24-php-sdk](https://github.com/mesilov/bitrix24-php-sdk). Еще можно открыть такой канал поддержки через javascript-метод [BX24.im.openMessenger](../../sdk/bx24-js-sdk/additional-functions/messenger-open-chat.md).
+    ```python
+    client.imopenlines.network.join(
+        code="a588e1a88baaf301b9d0b0b33b1eefc2b",
+    ).response
+    ```
+
+{% endlist %}
+
+## Приветственное сообщение
+
+После подключения отправьте клиенту приветствие методом [imopenlines.network.message.add](../../api-reference/imopenlines/openlines/imopenlines-network-message-add.md).
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    await $b24.actions.v2.call.make({
+        method: 'imopenlines.network.message.add',
+        params: {
+            CODE: 'a588e1a88baaf301b9d0b0b33b1eefc2b',
+            MESSAGE: 'Спасибо за установку! Если будут вопросы — пишите в этот чат. Хорошего дня! :)',
+            USER_ID: userId,
+        },
+        requestId: 'network-message',
+    })
+    ```
+
+- PHP
+
+    ```php
+    $b24->core->call('imopenlines.network.message.add', [
+        'CODE' => 'a588e1a88baaf301b9d0b0b33b1eefc2b',
+        'MESSAGE' => 'Спасибо за установку! Если будут вопросы — пишите в этот чат. Хорошего дня! :)',
+        'USER_ID' => $userId,
+    ]);
+    ```
+
+- Python
+
+    ```python
+    client.imopenlines.network.message.add(
+        code="a588e1a88baaf301b9d0b0b33b1eefc2b",
+        message="Спасибо за установку! Если будут вопросы — пишите в этот чат. Хорошего дня! :)",
+        user_id=user_id,
+    ).response
+    ```
+
+{% endlist %}
+
+{% note tip "" %}
+
+Открыть канал поддержки можно и из фронтенда iframe-приложения через b24jssdk: `await $b24.parent.imOpenMessenger(dialogId)` — аналог метода `BX24.im.openMessenger`.
 
 {% endnote %}

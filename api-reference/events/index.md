@@ -120,6 +120,12 @@ array(
 
 Если важно обработать все события без потерь, используйте [офлайн-события](./offline-events.md). Они позволяют получить события из очереди вручную.
 
+## Права доступа
+
+Обычный пользователь может регистрировать, получать и удалять свои обработчики online-событий методами [event.bind](./event-bind.md), [event.get](./event-get.md) и [event.unbind](./event-unbind.md). Если в `event.bind` или `event.unbind` указать `auth_type` другого пользователя, метод вернет ошибку доступа.
+
+С очередью офлайн-событий может работать только администратор. Это ограничение действует для методов [event.offline.get](./event-offline-get.md), [event.offline.list](./event-offline-list.md), [event.offline.clear](./event-offline-clear.md) и [event.offline.error](./event-offline-error.md).
+
 ## Обзор методов и событий {#all-methods}
 
 {% list tabs %}

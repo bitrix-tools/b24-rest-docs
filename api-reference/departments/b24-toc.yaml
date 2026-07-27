@@ -13,3 +13,19 @@ items:
     href: department-delete.md
   - name: Получить справочник полей подразделений
     href: department-fields.md
+  - name: Отделы и команды
+    include:
+      path: node/b24-toc.yaml
+      mode: link
+  - name: Участники отделов и команд
+    include:
+      path: node-member/b24-toc.yaml
+      mode: link
+  - name: Коммуникации отделов и команд
+    include:
+      path: node-communication/b24-toc.yaml
+      mode: link
+  - name: Сотрудники
+    include:
+      path: employee/b24-toc.yaml
+      mode: link

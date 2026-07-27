@@ -321,5 +321,6 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-property-enum-update.md)
 - [{#T}](./catalog-product-property-enum-get.md)
 - [{#T}](./catalog-product-property-enum-list.md)
+- [{#T}](../../../tutorials/catalog/index.md)
 - [{#T}](./catalog-product-property-enum-delete.md)
 - [{#T}](./catalog-product-property-enum-get-fields.md)

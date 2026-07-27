@@ -31,19 +31,35 @@
 - JS
 
     ```javascript  
-    BX24.callMethod(
-        "crm.category.list",
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: "crm.category.list",
+        params: {
             entityTypeId: 2,
-        },
-    );
+        }
+    });
     ```
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $serviceBuilder->core->call(
         'crm.category.list',
         [
             'entityTypeId' => 2
@@ -130,25 +146,21 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        "crm.status.list",
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: "crm.status.list",
+        params: {
             filter: { "ENTITY_ID": "DEAL_STAGE_10"}
-        },
-    );
+        }
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.status.list',
+    $result = $serviceBuilder->getCRMScope()->status()->list(
+        [],
         [
-            'filter' => [
-                'ENTITY_ID' => 'DEAL_STAGE_10'
-            ]
+            'ENTITY_ID' => 'DEAL_STAGE_10'
         ]
     );
     ```
@@ -315,41 +327,37 @@
 - JS
 
     ```javascript
-    BX24.callMethod(
-        'crm.item.list',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.item.list',
+        params: {
             entityTypeId: 2,
             select: [
-                "id", 
-                "title",
-                "assignedById", 
-                "opportunity", 
-            ],
-            filter: {
-                "stageId": ["C10:PREPAYMENT_INVOICE"],
-            },
-        },
-    );
-    ```
-
-- PHP
-  
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.item.list',
-        [
-            'entityTypeId' => 2,
-            'select' => [
                 "id",
                 "title",
                 "assignedById",
                 "opportunity",
             ],
-            'filter' => [
-                "stageId" => ["C10:PREPAYMENT_INVOICE"],
-            ],
+            filter: {
+                "stageId": ["C10:PREPAYMENT_INVOICE"],
+            },
+        }
+    });
+    ```
+
+- PHP
+  
+    ```php
+    $result = $serviceBuilder->getCRMScope()->item()->list(
+        2,
+        [],
+        [
+            "stageId" => ["C10:PREPAYMENT_INVOICE"],
+        ],
+        [
+            "id",
+            "title",
+            "assignedById",
+            "opportunity",
         ]
     );
     ```
@@ -421,24 +429,20 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        "user.get",
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: "user.get",
+        params: {
             "ID": 29
-        },
-    );
+        }
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'user.get',
-        [
-            'ID' => 29
-        ]
+    $result = $serviceBuilder->getUserScope()->user()->get(
+        [],
+        ['ID' => 29]
     );
     ```
 
@@ -494,163 +498,140 @@
 - JS
   
     ```javascript
-    // Шаг 1: Запрос названия воронки у пользователя
-    let funnelName = prompt("Введите название воронки сделок:");
+    import { B24Hook } from '@bitrix24/b24jssdk'
+    import { createInterface } from 'node:readline/promises'
 
-    // Шаг 2: Получаем список воронок
-    BX24.callMethod(
-        "crm.category.list",
-        {
-            entityTypeId: 2,
-        },
-        function (result) {
-            if (result.error()) {
-                console.error(result.error().ex);
-                return;
-            }
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-            let categories = result.data().categories;
-            let selectedFunnel = categories.find(cat => cat.name === funnelName);
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
+        }
+        return result.getData().result;
+    }
 
-            if (!selectedFunnel) {
-                alert("Воронка не найдена.");
-                return;
-            }
+    try {
+        const rl = createInterface({ input: process.stdin, output: process.stdout });
 
+        // Шаг 1: Запрос названия воронки у пользователя
+        let funnelName = await rl.question("Введите название воронки сделок: ");
+
+        // Шаг 2: Получаем список воронок
+        let categories = (await call("crm.category.list", { entityTypeId: 2 })).categories;
+        let selectedFunnel = categories.find(cat => cat.name === funnelName);
+
+        if (!selectedFunnel) {
+            console.log("Воронка не найдена.");
+            rl.close();
+        } else {
             let funnelId = selectedFunnel.id;
 
             // Шаг 3: Запрос названия стадии у пользователя
-            let stageName = prompt("Введите название стадии:");
+            let stageName = await rl.question("Введите название стадии: ");
+            rl.close();
 
             // Шаг 4: Получаем список стадий для выбранной воронки
             let entityID = funnelId === 0 ? "DEAL_STAGE" : `DEAL_STAGE_${funnelId}`;
 
-            BX24.callMethod(
-                "crm.status.list",
-                {
-                    filter: { "ENTITY_ID": entityID }
-                },
-                function (result) {
-                    if (result.error()) {
-                        console.error(result.error().ex);
-                        return;
-                    }
+            let stages = await call("crm.status.list", { filter: { "ENTITY_ID": entityID } });
+            let selectedStage = stages.find(stage => stage.NAME === stageName);
 
-                    let stages = result.data();
-                    let selectedStage = stages.find(stage => stage.NAME === stageName);
+            if (!selectedStage) {
+                console.log("Стадия не найдена.");
+            } else {
+                let stageId = selectedStage.STATUS_ID;
 
-                    if (!selectedStage) {
-                        alert("Стадия не найдена.");
-                        return;
-                    }
+                // Шаг 5: Получаем список сделок на выбранной стадии
+                let deals = (await call("crm.item.list", {
+                    entityTypeId: 2,
+                    select: ["id", "title", "assignedById", "opportunity"],
+                    filter: {
+                        "stageId": stageId,
+                    },
+                })).items;
 
-                    let stageId = selectedStage.STATUS_ID;
+                let uniqueResponsibleIds = [...new Set(deals.map(deal => deal.assignedById))];
 
-                    // Шаг 5: Получаем список сделок на выбранной стадии
-                    BX24.callMethod(
-                        "crm.item.list",
-                        {
-                            entityTypeId: 2,
-                            select: ["id", "title", "assignedById", "opportunity"],
-                            filter: {
-                                "stageId": stageId,
-                            },
-                        },
-                        function (result) {
-                            if (result.error()) {
-                                console.error(result.error().ex);
-                                return;
-                            }
+                let userMap = {};
 
-                            let deals = result.data().items;
-                            let uniqueResponsibleIds = [...new Set(deals.map(deal => deal.assignedById))];
-
-                            let userMap = {};
-
-                            // Шаг 6: Получаем информацию о пользователях
-                            uniqueResponsibleIds.forEach(userId => {
-                                BX24.callMethod(
-                                    "user.get",
-                                    {
-                                        "ID": userId
-                                    },
-                                    function (userResult) {
-                                        if (userResult.error()) {
-                                            console.error(userResult.error().ex);
-                                            return;
-                                        }
-
-                                        let user = userResult.data()[0];
-                                        userMap[userId] = {
-                                            name: user.NAME,
-                                            lastName: user.LAST_NAME
-                                        };
-                                    }
-                                );
-                            });
-
-                            // Шаг 7: Выводим результаты в консоль в виде текстовой таблицы
-                            setTimeout(() => {
-                                let table = [];
-
-                                // Заголовок
-                                table.push([
-                                    "ID сделки",
-                                    "Название",
-                                    "Имя ответственного",
-                                    "Фамилия ответственного",
-                                    "Ожидаемый доход"
-                                ]);
-
-                                // Строки данных
-                                deals.forEach(deal => {
-                                    let responsible = userMap[deal.assignedById] || { name: "Неизвестно", lastName: "Неизвестно" };
-                                    table.push([
-                                        deal.id,
-                                        deal.title,
-                                        responsible.name,
-                                        responsible.lastName,
-                                        deal.opportunity || 0
-                                    ]);
-                                });
-
-                                // Выводим таблицу в консоль
-                                console.table(table);
-                            }, 1000); // Задержка для завершения всех запросов
-                        }
-                    );
+                // Шаг 6: Получаем информацию о пользователях
+                for (const userId of uniqueResponsibleIds) {
+                    let users = await call("user.get", { "ID": userId });
+                    let user = users[0];
+                    userMap[userId] = {
+                        name: user.NAME,
+                        lastName: user.LAST_NAME
+                    };
                 }
-            );
+
+                // Шаг 7: Выводим результаты в консоль в виде текстовой таблицы
+                let table = [];
+
+                // Заголовок
+                table.push([
+                    "ID сделки",
+                    "Название",
+                    "Имя ответственного",
+                    "Фамилия ответственного",
+                    "Ожидаемый доход"
+                ]);
+
+                // Строки данных
+                deals.forEach(deal => {
+                    let responsible = userMap[deal.assignedById] || { name: "Неизвестно", lastName: "Неизвестно" };
+                    table.push([
+                        deal.id,
+                        deal.title,
+                        responsible.name,
+                        responsible.lastName,
+                        deal.opportunity || 0
+                    ]);
+                });
+
+                // Выводим таблицу в консоль
+                console.table(table);
+            }
         }
-    );
+    } catch (error) {
+        console.error(error.message);
+    }
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $crm = $serviceBuilder->getCRMScope();
 
     // Шаг 1: Запрос названия воронки у пользователя
     $funnelName = readline("Введите название воронки сделок: ");
 
     // Шаг 2: Получаем список воронок
-    $result = CRest::call(
+    $categories = $serviceBuilder->core->call(
         'crm.category.list',
         [
             'entityTypeId' => 2
         ]
-    );
+    )->getResponseData()->getResult()['categories'];
 
-    if (!empty($result['error'])) {
-        echo "Ошибка: " . $result['error_description'] . "\n";
-        exit;
-    }
-
-    $categories = $result['result']['categories'];
     $selectedFunnel = null;
 
     foreach ($categories as $category) {
-        if ($category['NAME'] === $funnelName) {
+        if ($category['name'] === $funnelName) {
             $selectedFunnel = $category;
             break;
         }
@@ -661,7 +642,7 @@
         exit;
     }
 
-    $funnelId = $selectedFunnel['ID'];
+    $funnelId = $selectedFunnel['id'];
 
     // Шаг 3: Запрос названия стадии у пользователя
     $stageName = readline("Введите название стадии: ");
@@ -669,25 +650,17 @@
     // Шаг 4: Получаем список стадий для выбранной воронки
     $entityID = $funnelId === 0 ? "DEAL_STAGE" : "DEAL_STAGE_{$funnelId}";
 
-    $result = CRest::call(
-        'crm.status.list',
+    $stages = $crm->status()->list(
+        [],
         [
-            'filter' => [
-                'ENTITY_ID' => $entityID
-            ]
+            'ENTITY_ID' => $entityID
         ]
-    );
+    )->getStatuses();
 
-    if (!empty($result['error'])) {
-        echo "Ошибка: " . $result['error_description'] . "\n";
-        exit;
-    }
-
-    $stages = $result['result'];
     $selectedStage = null;
 
     foreach ($stages as $stage) {
-        if ($stage['NAME'] === $stageName) {
+        if ($stage->NAME === $stageName) {
             $selectedStage = $stage;
             break;
         }
@@ -698,53 +671,45 @@
         exit;
     }
 
-    $stageId = $selectedStage['STATUS_ID'];
+    $stageId = $selectedStage->STATUS_ID;
 
     // Шаг 5: Получаем список сделок на выбранной стадии
-    $result = CRest::call(
-        'crm.item.list',
+    $deals = $crm->item()->list(
+        2,
+        [],
         [
-            'entityTypeId' => 2,
-            'select' => [
-                "id",
-                "title",
-                "assignedById",
-                "opportunity"
-            ],
-            'filter' => [
-                "stageId" => $stageId
-            ]
+            "stageId" => $stageId
+        ],
+        [
+            "id",
+            "title",
+            "assignedById",
+            "opportunity"
         ]
-    );
+    )->getItems();
 
-    if (!empty($result['error'])) {
-        echo "Ошибка: " . $result['error_description'] . "\n";
-        exit;
+    $uniqueResponsibleIds = [];
+    foreach ($deals as $deal) {
+        $uniqueResponsibleIds[$deal->assignedById] = $deal->assignedById;
     }
-
-    $deals = $result['result']['items'];
-    $uniqueResponsibleIds = array_unique(array_column($deals, 'assignedById'));
 
     $userMap = [];
 
     // Шаг 6: Получаем информацию о пользователях
     foreach ($uniqueResponsibleIds as $userId) {
-        $result = CRest::call(
-            'user.get',
-            [
-                'ID' => $userId
-            ]
-        );
+        $users = $serviceBuilder->getUserScope()->user()->get(
+            [],
+            ['ID' => $userId]
+        )->getUsers();
 
-        if (!empty($result['error'])) {
-            echo "Ошибка: " . $result['error_description'] . "\n";
+        if (empty($users)) {
             continue;
         }
 
-        $user = $result['result'][0];
+        $user = $users[0];
         $userMap[$userId] = [
-            'name' => $user['NAME'],
-            'lastName' => $user['LAST_NAME']
+            'name' => $user->NAME,
+            'lastName' => $user->LAST_NAME
         ];
     }
 
@@ -762,13 +727,13 @@
 
     // Строки данных
     foreach ($deals as $deal) {
-        $responsible = $userMap[$deal['assignedById']] ?? ['name' => 'Неизвестно', 'lastName' => 'Неизвестно'];
+        $responsible = $userMap[$deal->assignedById] ?? ['name' => 'Неизвестно', 'lastName' => 'Неизвестно'];
         $table[] = [
-            $deal['id'],
-            $deal['title'],
+            $deal->id,
+            $deal->title,
             $responsible['name'],
             $responsible['lastName'],
-            $deal['opportunity'] ?? 0
+            $deal->opportunity ?? 0
         ];
     }
 

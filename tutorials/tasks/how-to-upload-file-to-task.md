@@ -40,42 +40,54 @@
 - JS
 
     ```javascript
-    BX24.callMethod(
-        "disk.folder.uploadfile",
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/')
+
+    const response = await $b24.actions.v2.call.make({
+        method: 'disk.folder.uploadfile',
+        params: {
             id: 1739,
             data: {
-                NAME: "ava555.jpg"
+                NAME: 'ava555.jpg'
             },
             fileContent: [
                 'avatar.jpg',
                 '/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q=='
             ]
-        }
-    );
+        },
+        requestId: 'disk-uploadfile'
+    })
+
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    const result = response.getData().result
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'disk.folder.uploadfile',
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/');
+
+    $result = $serviceBuilder->getDiskScope()->folder()->uploadFile(
+        1739,
+        ['NAME' => 'ava555.jpg'],
         [
-            'id' => 1739,
-            'data' => [
-                'NAME' => 'ava555.jpg'
-            ],
-            'fileContent' => [
-                'avatar.jpg',
-                '/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q=='
-            ]
+            'avatar.jpg',
+            '/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q=='
         ]
     );
 
     echo '<PRE>';
-    print_r($result);
+    print_r($result->getFile());
     echo '</PRE>';
     ```
 
@@ -147,27 +159,32 @@
 - JS
 
     ```javascript
-    BX24.callMethod(
-        'tasks.task.files.attach',
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'tasks.task.files.attach',
+        params: {
             taskId: 3709,
             fileId: 6687
-        }
-    );
+        },
+        requestId: 'task-files-attach'
+    })
+
+    if (!response.isSuccess) {
+        throw new Error(response.getErrorMessages().join('; '))
+    }
+
+    const result = response.getData().result
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    $result = $serviceBuilder->core->call(
         'tasks.task.files.attach',
         [
             'taskId' => 3709,
             'fileId' => 6687
         ]
-    );
+    )->getResponseData()->getResult();
 
     echo '<PRE>';
     print_r($result);
@@ -212,20 +229,24 @@
 - JS
 
     ```javascript
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/')
+
     // Функция для загрузки файла
-    function uploadFileToDisk() {
+    async function uploadFileToDisk() {
         // ID папки, в которую вы хотите загрузить файл
-        var folderId = 'ваш_ID_папки';
+        const folderId = 'ваш_ID_папки';
         // Имя файла и его содержимое в формате Base64
-        var fileName = 'ваше_имя_файла';
-        var fileContentBase64 = 'ваше_содержимое_файла_Base64';
+        const fileName = 'ваше_имя_файла';
+        const fileContentBase64 = 'ваше_содержимое_файла_Base64';
         // ID задачи, к которой нужно прикрепить файл
-        var taskId = 'ваш_ID_задачи';
+        const taskId = 'ваш_ID_задачи';
 
         // Вызываем метод disk.folder.uploadfile
-        BX24.callMethod(
-            'disk.folder.uploadfile',
-            {
+        const response = await $b24.actions.v2.call.make({
+            method: 'disk.folder.uploadfile',
+            params: {
                 id: folderId,
                 data: {
                     NAME: fileName
@@ -235,48 +256,59 @@
                     fileContentBase64
                 ]
             },
-            function(result) {
-                if (result.error()) {
-                    console.error('Ошибка при загрузке файла:', result.error());
-                } else {
-                    console.log('Файл успешно загружен!', result.data());
-                    var fileId = result.data().ID; // Используем ID из результата
-                    attachFileToTask(taskId, fileId);
-                }
-            }
-        );
+            requestId: 'disk-uploadfile'
+        });
+
+        if (!response.isSuccess) {
+            console.error('Ошибка при загрузке файла:', response.getErrorMessages().join('; '));
+            return;
+        }
+
+        console.log('Файл успешно загружен!', response.getData().result);
+        const fileId = response.getData().result.ID; // Используем ID из результата
+        await attachFileToTask(taskId, fileId);
     }
 
     // Функция для прикрепления файла к существующей задаче
-    function attachFileToTask(taskId, fileId) {
+    async function attachFileToTask(taskId, fileId) {
         // Вызываем метод tasks.task.files.attach
-        BX24.callMethod(
-            'tasks.task.files.attach',
-            {
+        const response = await $b24.actions.v2.call.make({
+            method: 'tasks.task.files.attach',
+            params: {
                 taskId: taskId,
-                fileIds: [fileId]
+                fileId: fileId
             },
-            function(result) {
-                if (result.error()) {
-                    console.error('Ошибка при прикреплении файла к задаче:', result.error());
-                } else {
-                    console.log('Файл успешно прикреплен к задаче!', result.data());
-                }
-            }
-        );
+            requestId: 'task-files-attach'
+        });
+
+        if (!response.isSuccess) {
+            console.error('Ошибка при прикреплении файла к задаче:', response.getErrorMessages().join('; '));
+            return;
+        }
+
+        console.log('Файл успешно прикреплен к задаче!', response.getData().result);
     }
 
     // Вызов функции для загрузки файла и прикрепления его к задаче
-    uploadFileToDisk();
+    await uploadFileToDisk();
+
+    $b24.destroy();
     ```
     
 - PHP
 
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Bitrix24\SDK\Core\Exceptions\BaseException;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/');
 
     // Функция для загрузки файла
-    function uploadFileToDisk() {
+    function uploadFileToDisk($serviceBuilder) {
         // ID папки, в которую вы хотите загрузить файл
         $folderId = 'ваш_ID_папки';
         // Имя файла, который вы хотите загрузить
@@ -291,49 +323,46 @@
         $taskId = 'ваш_ID_задачи';
 
         // Вызываем метод disk.folder.uploadfile
-        $result = CRest::call(
-            'disk.folder.uploadfile',
-            [
-                'id' => $folderId,
-                'data' => [
-                    'NAME' => $fileName
-                ],
-                'fileContent' => [
+        try {
+            $result = $serviceBuilder->getDiskScope()->folder()->uploadFile(
+                (int)$folderId,
+                ['NAME' => $fileName],
+                [
                     $fileName,
                     $fileContentBase64
                 ]
-            ]
-        );
-
-        if (isset($result['error'])) {
-            echo 'Ошибка при загрузке файла: ' . $result['error'];
-        } else {
-            echo 'Файл успешно загружен!';
-            $fileId = $result['result']['ID']; // Используем ID из результата
-            attachFileToTask($taskId, $fileId);
+            );
+        } catch (BaseException $e) {
+            echo 'Ошибка при загрузке файла: ' . $e->getMessage();
+            return;
         }
+
+        echo 'Файл успешно загружен!';
+        $fileId = $result->getId(); // Используем ID из результата
+        attachFileToTask($serviceBuilder, $taskId, $fileId);
     }
 
     // Функция для прикрепления файла к существующей задаче
-    function attachFileToTask($taskId, $fileId) {
+    function attachFileToTask($serviceBuilder, $taskId, $fileId) {
         // Вызываем метод tasks.task.files.attach
-        $result = CRest::call(
-            'tasks.task.files.attach',
-            [
-                'taskId' => $taskId,
-                'fileIds' => [$fileId]
-            ]
-        );
-
-        if (isset($result['error'])) {
-            echo 'Ошибка при прикреплении файла к задаче: ' . $result['error'];
-        } else {
-            echo 'Файл успешно прикреплен к задаче!';
+        try {
+            $serviceBuilder->core->call(
+                'tasks.task.files.attach',
+                [
+                    'taskId' => $taskId,
+                    'fileId' => $fileId
+                ]
+            );
+        } catch (BaseException $e) {
+            echo 'Ошибка при прикреплении файла к задаче: ' . $e->getMessage();
+            return;
         }
+
+        echo 'Файл успешно прикреплен к задаче!';
     }
 
     // Вызов функции для загрузки файла и прикрепления его к задаче
-    uploadFileToDisk();
+    uploadFileToDisk($serviceBuilder);
     ```
 
 - Python

@@ -44,35 +44,33 @@
 - JS
 
     ```js
-    var arCategory = {};
+    const categoryResponse = await $b24.actions.v2.call.make({
+        method: 'crm.category.list',
+        params: {
+            entityTypeId: 2,
+        },
+        requestId: 'category-list',
+    })
 
-    BX24.callMethod('crm.category.list', { entityTypeId: 2 }, function(result) {
-        if (result.error()) {
-            console.error(result.error());
-        } else {
-            arCategory = result.data().categories.reduce(function(acc, item) {
-                acc[item.id] = item.name;
-                return acc;
-            }, {});
-        }
-    });
+    if (!categoryResponse.isSuccess) {
+        throw new Error(categoryResponse.getErrorMessages().join('; '))
+    }
+
+    const arCategory = categoryResponse.getData().result.categories.reduce((acc, item) => {
+        acc[item.id] = item.name
+        return acc
+    }, {})
     ```
 
 - PHP
 
     ```php
-    $arCategory = [];
+    // crm.category.list не имеет типизированной обертки — вызываем через core
+    $result = $sb->core->call('crm.category.list', ['entityTypeId' => 2])
+        ->getResponseData()
+        ->getResult();
 
-    $result = CRest::call(
-        'crm.category.list',
-        [
-            'entityTypeId' => 2
-        ]
-    );
-    if (!empty($result['result']['categories']))
-    {
-        $arCategory = array_column($result['result']['categories'], 'name', 'id');
-    }
+    $arCategory = array_column($result['categories'] ?? [], 'name', 'id');
     ```
 
 - Python
@@ -142,30 +140,27 @@
 - JS
 
     ```js
-    Object.keys(arCategory).forEach(function(id) {
-        var entity_id = id > 0 ? 'DEAL_STAGE_' + id : 'DEAL_STAGE';
+    for (const [id, name] of Object.entries(arCategory)) {
+        const entityId = Number(id) > 0 ? `DEAL_STAGE_${id}` : 'DEAL_STAGE'
 
-        BX24.callMethod(
-            'crm.status.list',
-            {
-                order: {
-                    SORT: 'ASC'
-                },
-                filter: {
-                    ENTITY_ID: entity_id
-                }
+        const stageResponse = await $b24.actions.v2.call.make({
+            method: 'crm.status.list',
+            params: {
+                order: { SORT: 'ASC' },
+                filter: { ENTITY_ID: entityId },
             },
-            function(resultDeal) {
-                if (resultDeal.error()) {
-                    console.error(resultDeal.error());
-                } else {
-                    resultDeal.data().forEach(function(item) {
-                        console.log(arCategory[id], item.STATUS_ID, item.NAME, item.EXTRA && item.EXTRA.SEMANTICS);
-                    });
-                }
-            }
-        );
-    });
+            requestId: `status-list-${id}`,
+        })
+
+        if (!stageResponse.isSuccess) {
+            console.error(stageResponse.getErrorMessages().join('; '))
+            continue
+        }
+
+        for (const item of stageResponse.getData().result) {
+            console.log(name, item.STATUS_ID, item.NAME, item.EXTRA?.SEMANTICS)
+        }
+    }
     ```
 
 - PHP
@@ -173,33 +168,17 @@
     ```php
     foreach ($arCategory as $id => $name)
     {
-        if ($id > 0)
-        {
-            $entity_id = 'DEAL_STAGE_' . $id;
-        }
-        else
-        {
-            $entity_id = 'DEAL_STAGE';
-        }
+        $entityId = $id > 0 ? 'DEAL_STAGE_' . $id : 'DEAL_STAGE';
 
-        $resultDeal = CRest::call(
-            'crm.status.list',
-            [
-                'order' => [
-                    'SORT' => 'ASC'
-                ],
-                'filter' => [
-                    'ENTITY_ID' => $entity_id
-                ]
-            ]
-        );
+        $stages = $sb->getCRMScope()->status()->list(
+            ['SORT' => 'ASC'],
+            ['ENTITY_ID' => $entityId]
+        )->getStatuses();
 
-        if (!empty($resultDeal['result']))
+        foreach ($stages as $item)
         {
-            foreach ($resultDeal['result'] as $item)
-            {
-                echo $name . ': ' . $item['STATUS_ID'] . ': ' . $item['NAME'] . ' - ' . ($item['EXTRA']['SEMANTICS'] ?? '') . PHP_EOL;
-            }
+            echo $name . ': ' . $item->STATUS_ID . ': ' . $item->NAME
+                . ' - ' . ($item->EXTRA['SEMANTICS'] ?? '') . PHP_EOL;
         }
     }
     ```
@@ -273,105 +252,115 @@
 - JS
 
     ```js
-    var arCategory = {};
+    // npm install @bitrix24/b24jssdk
+    import { B24Hook } from '@bitrix24/b24jssdk'
 
-    BX24.callMethod('crm.category.list', { entityTypeId: 2 }, function(result) {
-        if (result.error()) {
-            console.error(result.error());
-        } else {
-            arCategory = result.data().categories.reduce(function(acc, item) {
-                acc[item.id] = item.name;
-                return acc;
-            }, {});
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/')
 
-            Object.keys(arCategory).forEach(function(id) {
-                var entity_id = id > 0 ? 'DEAL_STAGE_' + id : 'DEAL_STAGE';
+    const categoryResponse = await $b24.actions.v2.call.make({
+        method: 'crm.category.list',
+        params: {
+            entityTypeId: 2,
+        },
+        requestId: 'category-list',
+    })
 
-                BX24.callMethod('crm.status.list', { order: { SORT: 'ASC' }, filter: { ENTITY_ID: entity_id } }, function(resultDeal) {
-                    if (resultDeal.error()) {
-                        console.error(resultDeal.error());
-                    } else {
-                        var table = document.createElement('table');
-                        var caption = document.createElement('caption');
-                        caption.textContent = arCategory[id];
-                        table.appendChild(caption);
+    if (!categoryResponse.isSuccess) {
+        throw new Error(categoryResponse.getErrorMessages().join('; '))
+    }
 
-                        var thead = document.createElement('thead');
-                        var trHead = document.createElement('tr');
-                        ['STATUS ID', 'NAME', 'SEMANTICS'].forEach(function(text) {
-                            var th = document.createElement('th');
-                            th.textContent = text;
-                            trHead.appendChild(th);
-                        });
-                        thead.appendChild(trHead);
-                        table.appendChild(thead);
+    const arCategory = categoryResponse.getData().result.categories.reduce((acc, item) => {
+        acc[item.id] = item.name
+        return acc
+    }, {})
 
-                        var tbody = document.createElement('tbody');
-                        resultDeal.data().forEach(function(item) {
-                            var tr = document.createElement('tr');
-                            if (item.EXTRA && item.EXTRA.COLOR) {
-                                tr.style.color = item.EXTRA.COLOR;
-                            }
-                            ['STATUS_ID', 'NAME', 'EXTRA.SEMANTICS'].forEach(function(key) {
-                                var td = document.createElement('td');
-                                td.textContent = key.split('.').reduce(function(acc, k) {
-                                    return acc && acc[k];
-                                }, item);
-                                tr.appendChild(td);
-                            });
-                            tbody.appendChild(tr);
-                        });
-                        table.appendChild(tbody);
+    for (const [id, name] of Object.entries(arCategory)) {
+        const entityId = Number(id) > 0 ? `DEAL_STAGE_${id}` : 'DEAL_STAGE'
 
-                        document.body.appendChild(table);
-                    }
-                });
-            });
+        const stageResponse = await $b24.actions.v2.call.make({
+            method: 'crm.status.list',
+            params: {
+                order: { SORT: 'ASC' },
+                filter: { ENTITY_ID: entityId },
+            },
+            requestId: `status-list-${id}`,
+        })
+
+        if (!stageResponse.isSuccess) {
+            console.error(stageResponse.getErrorMessages().join('; '))
+            continue
         }
-    });
+
+        const table = document.createElement('table')
+        const caption = document.createElement('caption')
+        caption.textContent = name
+        table.appendChild(caption)
+
+        const thead = document.createElement('thead')
+        const trHead = document.createElement('tr')
+        for (const text of ['STATUS ID', 'NAME', 'SEMANTICS']) {
+            const th = document.createElement('th')
+            th.textContent = text
+            trHead.appendChild(th)
+        }
+        thead.appendChild(trHead)
+        table.appendChild(thead)
+
+        const tbody = document.createElement('tbody')
+        for (const item of stageResponse.getData().result) {
+            const tr = document.createElement('tr')
+            if (item.EXTRA?.COLOR) {
+                tr.style.color = item.EXTRA.COLOR
+            }
+            for (const value of [item.STATUS_ID, item.NAME, item.EXTRA?.SEMANTICS]) {
+                const td = document.createElement('td')
+                td.textContent = value ?? ''
+                tr.appendChild(td)
+            }
+            tbody.appendChild(tr)
+        }
+        table.appendChild(tbody)
+
+        document.body.appendChild(table)
+    }
+
+    $b24.destroy()
     ```
 
 - PHP
 
-    {% note info %}
-
-    Для использования примеров на PHP настройте работу класса *CRest* и подключите файл **crest.php** в файлах, где используется этот класс. [Подробнее](../../../first-steps/how-to-use-examples.md)
-
-    {% endnote %}
-
     ```php
-    $arCategory = [];
-    $result = CRest::call(
-        'crm.category.list',
-        [
-            'entityTypeId' => 2
-        ]
-    );
-    if (!empty($result['result']['categories']))
-    {
-        $arCategory = array_column($result['result']['categories'], 'name', 'id');
-    }
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    // crm.category.list не имеет типизированной обертки — вызываем через core
+    $result = $sb->core->call('crm.category.list', ['entityTypeId' => 2])
+        ->getResponseData()
+        ->getResult();
+
+    $arCategory = array_column($result['categories'] ?? [], 'name', 'id');
+
     foreach ($arCategory as $id => $name):
-        if ($id > 0)
-        {
-            $entity_id = 'DEAL_STAGE_' . $id;
-        }
-        else
-        {
-            $entity_id = 'DEAL_STAGE';
-        }
-        $resultDeal = CRest::call(
-            'crm.status.list',
-            [
-                'order' => [
-                    'SORT' => 'ASC'
-                ],
-                'filter' => [
-                    'ENTITY_ID' => $entity_id
-                ]
-            ]
-        );
-        if (!empty($resultDeal['result'])):
+        $entityId = $id > 0 ? 'DEAL_STAGE_' . $id : 'DEAL_STAGE';
+
+        $stages = $sb->getCRMScope()->status()->list(
+            ['SORT' => 'ASC'],
+            ['ENTITY_ID' => $entityId]
+        )->getStatuses();
+
+        if (!empty($stages)):
     ?>
             <table>
                 <caption><?=htmlspecialchars((string)$name, ENT_QUOTES, 'UTF-8')?></caption>
@@ -383,12 +372,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($resultDeal['result'] as $item): ?>
+                <?php foreach ($stages as $item): ?>
                     <?php
-                    $statusId = htmlspecialchars((string)($item['STATUS_ID'] ?? ''), ENT_QUOTES, 'UTF-8');
-                    $stageName = htmlspecialchars((string)($item['NAME'] ?? ''), ENT_QUOTES, 'UTF-8');
-                    $semantics = htmlspecialchars((string)($item['EXTRA']['SEMANTICS'] ?? ''), ENT_QUOTES, 'UTF-8');
-                    $color = (string)($item['EXTRA']['COLOR'] ?? '');
+                    $statusId = htmlspecialchars((string)($item->STATUS_ID ?? ''), ENT_QUOTES, 'UTF-8');
+                    $stageName = htmlspecialchars((string)($item->NAME ?? ''), ENT_QUOTES, 'UTF-8');
+                    $semantics = htmlspecialchars((string)($item->EXTRA['SEMANTICS'] ?? ''), ENT_QUOTES, 'UTF-8');
+                    $color = (string)($item->EXTRA['COLOR'] ?? '');
                     $colorStyle = preg_match('/^#[0-9A-Fa-f]{6}$/', $color) ? ' style="color:' . $color . '"' : '';
                     ?>
                 <tr<?=$colorStyle?>>

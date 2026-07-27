@@ -17,7 +17,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [tasks.task.favorite.remove](../../tasks-task-favorite-remove.md).
+Развитие метода остановлено. Используйте [tasks.task.favorite.remove](../../user-actions/tasks-task-favorite-remove.md).
 
 {% endnote %}
 

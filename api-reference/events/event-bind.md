@@ -201,7 +201,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -215,8 +215,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ERROR_EVENT_NOT_FOUND` | Event not found | Неверно указано событие ||
+|| **Статус** | **Код** | **Сообщение об ошибке** | **Описание** ||
+|| `400` | `ERROR_EVENT_NOT_FOUND` | Event not found | Неверно указано событие ||
+|| `403` | `ACCESS_DENIED` | Access denied! Offline events binding requires administrator access rights | Метод запустил не администратор при регистрации обработчика офлайн-события ||
+|| `403` | `ACCESS_DENIED` | Access denied! Event binding with AUTH_TYPE requires administrator access rights | Метод запустил не администратор и указал `auth_type` другого пользователя ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
@@ -233,4 +235,4 @@ HTTP-статус: **400**
 - [{#T}](./event-offline-clear.md)
 - [{#T}](./event-offline-error.md)
 - [{#T}](./on-offline-event.md)
-- [{#T}](../../tutorials/openlines/example-connector.md)s
+- [{#T}](../../tutorials/openlines/example-connector.md)

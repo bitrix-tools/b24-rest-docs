@@ -38,28 +38,38 @@
 - JS
   
     ```JavaScript
-    BX24.callMethod(
-        'crm.type.list',
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.type.list',
+        params: {
             filter: { // массив полей для фильтрации
                 "title": "Закупка оборудования" // название смарт-процесса
             }
-        }
-    );
+        },
+        requestId: 'type-list'
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'crm.type.list',
-        [
-            'filter' => [
-                'title' => 'Закупка оборудования' // название смарт-процесса
-            ]
-        ]
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $sb->getCRMScope()->type()->list(
+        order: [],
+        filter: ['title' => 'Закупка оборудования'] // название смарт-процесса
     );
     ```
 
@@ -143,9 +153,9 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'userfieldconfig.add',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'userfieldconfig.add',
+        params: {
             moduleId: 'crm', // Идентификатор модуля
             field: {
                 entityId: 'CRM_7', // Идентификатор объекта
@@ -170,15 +180,15 @@
                 ]
             }
         },
-    );
+        requestId: 'userfieldconfig-add'
+    });
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    // у userfieldconfig.add нет обёртки в SDK — вызываем метод напрямую
+    $result = $sb->core->call(
         'userfieldconfig.add',
         [
             'moduleId' => 'crm', // Идентификатор модуля
@@ -317,68 +327,67 @@
 - JS
   
     ```JavaScript
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
     // Функция для получения смарт-процесса и создания пользовательского поля
-    function getCrmTypeAndAddUserField() {
-    // Переменная для ввода названия смарт-процесса пользователем
-    var processTitle = prompt("Введите название смарт-процесса для поиска:", "Название_вашего_процесса");
-        // Вызываем метод crm.type.list для получения смарт-процесса
-        BX24.callMethod(
-            'crm.type.list',
-            {
-                filter: {
-                    "title": processTitle // Используем введенное пользователем название
-                }
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error('Ошибка при получении смарт-процесса:', result.error());
-                } else {
-                    console.log('Смарт-процесс успешно получен:', result.data());
-                    var spaId = result.data().types[0].id; // Используем id из результата
-                    addUserField(spaId);
-                }
-            }
-        );
+    async function getCrmTypeAndAddUserField() {
+        // Переменная для ввода названия смарт-процесса пользователем
+        var processTitle = prompt("Введите название смарт-процесса для поиска:", "Название_вашего_процесса");
+        try {
+            // Вызываем метод crm.type.list для получения смарт-процесса
+            const result = await $b24.actions.v2.call.make({
+                method: 'crm.type.list',
+                params: { filter: { "title": processTitle } }, // Используем введенное пользователем название
+                requestId: 'type-list'
+            });
+            console.log('Смарт-процесс успешно получен:', result.getData().result);
+            var spaId = result.getData().result.types[0].id; // Используем id из результата
+            await addUserField(spaId);
+        } catch (error) {
+            console.error('Ошибка при получении смарт-процесса:', error);
+        }
     }
 
     // Функция для создания пользовательского поля
-    function addUserField(spaId) {
-        // Вызываем метод userfieldconfig.add для создания пользовательского поля
-        BX24.callMethod(
-            'userfieldconfig.add',
-            {
-                moduleId: 'crm',
-                field: {
-                    entityId: 'CRM_' + spaId, // Используем id из предыдущего результата
-                    fieldName: 'UF_CRM_' + spaId + '_NEW_REST_LIST', // Используем id
-                    userTypeId: 'enumeration',
-                    multiple: 'Y',
-                    editFormLabel: {
-                        'ru': 'Список характеристик',
-                        'en': 'List of characteristics'
-                    },
-                    enum: [
-                        {
-                            value: 'Характеристика 1',
-                            def: 'N',
-                            sort: 100
+    async function addUserField(spaId) {
+        try {
+            // Вызываем метод userfieldconfig.add для создания пользовательского поля
+            const result = await $b24.actions.v2.call.make({
+                method: 'userfieldconfig.add',
+                params: {
+                    moduleId: 'crm',
+                    field: {
+                        entityId: 'CRM_' + spaId, // Используем id из предыдущего результата
+                        fieldName: 'UF_CRM_' + spaId + '_NEW_REST_LIST', // Используем id
+                        userTypeId: 'enumeration',
+                        multiple: 'Y',
+                        editFormLabel: {
+                            'ru': 'Список характеристик',
+                            'en': 'List of characteristics'
                         },
-                        {
-                            value: 'Характеристика 2',
-                            def: 'Y',
-                            sort: 200
-                        }
-                    ]
-                }
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error('Ошибка создания пользовательского поля:', result.error());
-                } else {
-                    console.log('Пользовательское поле успешно создано:', result.data());
-                }
-            }
-        );
+                        enum: [
+                            {
+                                value: 'Характеристика 1',
+                                def: 'N',
+                                sort: 100
+                            },
+                            {
+                                value: 'Характеристика 2',
+                                def: 'Y',
+                                sort: 200
+                            }
+                        ]
+                    }
+                },
+                requestId: 'userfieldconfig-add'
+            });
+            console.log('Пользовательское поле успешно создано:', result.getData().result);
+        } catch (error) {
+            console.error('Ошибка создания пользовательского поля:', error);
+        }
     }
 
     // Вызов функции для получения данных смарт-процесса и создания пользовательского поля
@@ -388,72 +397,76 @@
 - PHP
   
     ```php
-    require_once('crest.php');
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Bitrix24\SDK\Services\ServiceBuilder;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     // Функция для получения смарт-процесса и создания пользовательского поля
-    function getCrmTypeAndAddUserField($processTitle) {
-        // Вызываем метод crm.type.list для получения смарт-процесса
-        $result = CRest::call('crm.type.list', [
-            'filter' => [
-                'title' => $processTitle // Используем введенное пользователем название
-            ]
-        ]);
+    function getCrmTypeAndAddUserField(ServiceBuilder $sb, $processTitle) {
+        try {
+            // Вызываем метод crm.type.list для получения смарт-процесса
+            $types = $sb->getCRMScope()->type()->list(
+                order: [],
+                filter: ['title' => $processTitle] // Используем введенное пользователем название
+            )->getTypes();
 
-        if (isset($result['error'])) {
-            echo 'Ошибка при получении смарт-процесса: ' . $result['error_description'];
-        } else {
-            echo 'Смарт-процесс успешно получен: ';
-            print_r($result['result']);
-            
-            if (!empty($result['result']['types'])) {
-                $spaId = $result['result']['types'][0]['id']; // Используем id из результата
-                addUserField($spaId);
+            if (!empty($types)) {
+                $spaId = $types[0]->id; // Используем id из результата
+                addUserField($sb, $spaId);
             } else {
                 echo 'Смарт-процесс не найден.';
             }
+        } catch (\Throwable $e) {
+            echo 'Ошибка при получении смарт-процесса: ' . $e->getMessage();
         }
     }
 
     // Функция для создания пользовательского поля
-    function addUserField($spaId) {
-        // Вызываем метод userfieldconfig.add для создания пользовательского поля
-        $result = CRest::call('userfieldconfig.add', [
-            'moduleId' => 'crm',
-            'field' => [
-                'entityId' => 'CRM_' . $spaId, // Используем id из предыдущего результата
-                'fieldName' => 'UF_CRM_' . $spaId . '_NEW_REST_LIST', // Используем id
-                'userTypeId' => 'enumeration',
-                'multiple' => 'Y',
-                'editFormLabel' => [
-                    'ru' => 'Список характеристик',
-                    'en' => 'List of characteristics'
-                ],
-                'enum' => [
-                    [
-                        'value' => 'Характеристика 1',
-                        'def' => 'N',
-                        'sort' => 100
+    function addUserField(ServiceBuilder $sb, $spaId) {
+        try {
+            // у userfieldconfig.add нет обёртки в SDK — вызываем метод напрямую
+            $sb->core->call('userfieldconfig.add', [
+                'moduleId' => 'crm',
+                'field' => [
+                    'entityId' => 'CRM_' . $spaId, // Используем id из предыдущего результата
+                    'fieldName' => 'UF_CRM_' . $spaId . '_NEW_REST_LIST', // Используем id
+                    'userTypeId' => 'enumeration',
+                    'multiple' => 'Y',
+                    'editFormLabel' => [
+                        'ru' => 'Список характеристик',
+                        'en' => 'List of characteristics'
                     ],
-                    [
-                        'value' => 'Характеристика 2',
-                        'def' => 'Y',
-                        'sort' => 200
+                    'enum' => [
+                        [
+                            'value' => 'Характеристика 1',
+                            'def' => 'N',
+                            'sort' => 100
+                        ],
+                        [
+                            'value' => 'Характеристика 2',
+                            'def' => 'Y',
+                            'sort' => 200
+                        ]
                     ]
                 ]
-            ]
-        ]);
-
-        if (isset($result['error'])) {
-            echo 'Ошибка создания пользовательского поля: ' . $result['error_description'];
-        } else {
-            echo 'Пользовательское поле успешно создано: ';
-            print_r($result['result']);
+            ]);
+            echo 'Пользовательское поле успешно создано.';
+        } catch (\Throwable $e) {
+            echo 'Ошибка создания пользовательского поля: ' . $e->getMessage();
         }
     }
 
     // Вызов функции для получения данных смарт-процесса и создания пользовательского поля
     $processTitle = readline("Введите название смарт-процесса для поиска: ");
-    getCrmTypeAndAddUserField($processTitle);
+    getCrmTypeAndAddUserField($sb, $processTitle);
     ```
 
 - Python

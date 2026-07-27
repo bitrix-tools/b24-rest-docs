@@ -40,31 +40,47 @@
 - JS
 
     ```JavaScript
-    BX24.callMethod(
-        "crm.activity.list",
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: "crm.activity.list",
+        params: {
             filter:
             {
-                "OWNER_TYPE_ID": 1, 
-                "OWNER_ID": 1000977 
+                "OWNER_TYPE_ID": 1,
+                "OWNER_ID": 1000977
             },
-        },
-    );
+        }
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'crm.activity.list',
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $serviceBuilder->getCRMScope()->activity()->list(
+        [],
         [
-            'filter' => [
-                'OWNER_TYPE_ID' => 1, 
-                'OWNER_ID' => 1000977 /
-            ]
-        ]
+            'OWNER_TYPE_ID' => 1,
+            'OWNER_ID' => 1000977,
+        ],
+        [],
+        0
     );
     ```
 
@@ -164,30 +180,27 @@
 - JS
 
     ```JavaScript
-    BX24.callMethod(
-        "crm.company.list",
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: "crm.company.list",
+        params: {
             filter: { "TITLE": "Название_компании" },
             select: [ "ID", "TITLE" ]
-        },
-    );
+        }
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.company.list',
+    $result = $serviceBuilder->getCRMScope()->company()->list(
+        [],
         [
-            'filter' => [
-                'TITLE' => 'Название_компании' 
-            ],
-            'select' => [
-                'ID', 'TITLE'
-            ]
-        ]
+            'TITLE' => 'Название_компании'
+        ],
+        [
+            'ID', 'TITLE'
+        ],
+        0
     );
     ```
 
@@ -233,27 +246,25 @@
 - JS
 
     ```JavaScript
-    BX24.callMethod(
-        'crm.activity.binding.add',
-        {
-            activityId: 7685, 
-            entityTypeId: 4, 
-            entityId: 173 
-        },
-    );
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.activity.binding.add',
+        params: {
+            activityId: 7685,
+            entityTypeId: 4,
+            entityId: 173
+        }
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    $result = $serviceBuilder->core->call(
         'crm.activity.binding.add',
         [
-            'activityId' => 7685, 
-            'entityTypeId' => 4, 
-            'entityId' => 173 
+            'activityId' => 7685,
+            'entityTypeId' => 4,
+            'entityId' => 173
         ]
     );
     ```
@@ -293,27 +304,25 @@
 - JS
 
     ```JavaScript
-    BX24.callMethod(
-        'crm.activity.binding.delete',
-        {
-            activityId: 7685, 
-            entityTypeId: 1, 
-            entityId: 1000977 
-        },
-    );
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.activity.binding.delete',
+        params: {
+            activityId: 7685,
+            entityTypeId: 1,
+            entityId: 1000977
+        }
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
+    $result = $serviceBuilder->core->call(
         'crm.activity.binding.delete',
         [
-            'activityId' => 7685, 
-            'entityTypeId' => 1, 
-            'entityId' => 1000977 
+            'activityId' => 7685,
+            'entityTypeId' => 1,
+            'entityId' => 1000977
         ]
     );
     ```
@@ -345,186 +354,161 @@
 - JS
 
     ```JavaScript
-    // Функция для выполнения всех шагов
-    function transferActivityToCompany() {
-        // Запрашиваем ID лида у пользователя
-        const leadId = prompt("Введите ID лида:");
+    import { B24Hook } from '@bitrix24/b24jssdk'
+    import { createInterface } from 'node:readline/promises'
 
-        // Запрашиваем название компании у пользователя
-        const companyName = prompt("Введите название компании:");
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-        // Шаг 1: Получаем список дел для указанного лида
-        BX24.callMethod(
-            "crm.activity.list",
-            {
-                filter: {
-                    "OWNER_TYPE_ID": 1,
-                    "OWNER_ID": leadId
-                },
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error(result.error());
-                    return;
-                }
-
-                const activities = result.data();
-                if (activities.length === 0) {
-                    console.log("Дела для указанного лида не найдены.");
-                    return;
-                }
-
-                const activityId = activities[0].ID;
-
-                // Шаг 2: Ищем компанию по названию
-                BX24.callMethod(
-                    "crm.company.list",
-                    {
-                        filter: { "TITLE": companyName },
-                        select: [ "ID", "TITLE" ]
-                    },
-                    function(result) {
-                        if (result.error()) {
-                            console.error(result.error());
-                            return;
-                        }
-
-                        const companies = result.data();
-                        if (companies.length === 0) {
-                            console.log("Компания с указанным названием не найдена.");
-                            return;
-                        }
-
-                        const companyId = companies[0].ID;
-
-                        // Шаг 3: Создаем связь для найденного дела и компании
-                        BX24.callMethod(
-                            'crm.activity.binding.add',
-                            {
-                                activityId: activityId,
-                                entityTypeId: 4,
-                                entityId: companyId
-                            },
-                            function(result) {
-                                if (result.error()) {
-                                    console.error(result.error());
-                                    return;
-                                }
-
-                                console.log("Связь дела с компанией успешно создана.");
-
-                                // Шаг 4: Удаляем связь дела и лида
-                                BX24.callMethod(
-                                    'crm.activity.binding.delete',
-                                    {
-                                        activityId: activityId,
-                                        entityTypeId: 1,
-                                        entityId: leadId
-                                    },
-                                    function(result) {
-                                        if (result.error()) {
-                                            console.error(result.error());
-                                        } else {
-                                            console.log("Связь дела с лидом успешно удалена.");
-                                        }
-                                    }
-                                );
-                            }
-                        );
-                    }
-                );
-            }
-        );
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
+        }
+        return result.getData().result;
     }
 
+    // Функция для выполнения всех шагов
+    async function transferActivityToCompany(leadId, companyName) {
+        // Шаг 1: Получаем список дел для указанного лида
+        const activities = await call("crm.activity.list", {
+            filter: {
+                "OWNER_TYPE_ID": 1,
+                "OWNER_ID": leadId
+            }
+        });
+        if (activities.length === 0) {
+            console.log("Дела для указанного лида не найдены.");
+            return;
+        }
+
+        const activityId = activities[0].ID;
+
+        // Шаг 2: Ищем компанию по названию
+        const companies = await call("crm.company.list", {
+            filter: { "TITLE": companyName },
+            select: [ "ID", "TITLE" ]
+        });
+        if (companies.length === 0) {
+            console.log("Компания с указанным названием не найдена.");
+            return;
+        }
+
+        const companyId = companies[0].ID;
+
+        // Шаг 3: Создаем связь для найденного дела и компании
+        await call('crm.activity.binding.add', {
+            activityId: activityId,
+            entityTypeId: 4,
+            entityId: companyId
+        });
+
+        console.log("Связь дела с компанией успешно создана.");
+
+        // Шаг 4: Удаляем связь дела и лида
+        await call('crm.activity.binding.delete', {
+            activityId: activityId,
+            entityTypeId: 1,
+            entityId: leadId
+        });
+
+        console.log("Связь дела с лидом успешно удалена.");
+    }
+
+    // Запрашиваем ID лида и название компании у пользователя
+    const rl = createInterface({ input: process.stdin, output: process.stdout });
+    const leadId = await rl.question("Введите ID лида: ");
+    const companyName = await rl.question("Введите название компании: ");
+    rl.close();
+
     // Запускаем функцию
-    transferActivityToCompany();
+    try {
+        await transferActivityToCompany(leadId, companyName);
+    } catch (error) {
+        console.error(error.message);
+    }
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    <?php
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     // Функция для выполнения всех шагов
-    function transferActivityToCompany($leadId, $companyName) {
-        // Шаг 1: Получаем список дел для указанного лида
-        $activityResult = CRest::call(
-            'crm.activity.list',
-            [
-                'filter' => [
+    function transferActivityToCompany($serviceBuilder, $leadId, $companyName) {
+        $crm = $serviceBuilder->getCRMScope();
+
+        try {
+            // Шаг 1: Получаем список дел для указанного лида
+            $activities = $crm->activity()->list(
+                [],
+                [
                     'OWNER_TYPE_ID' => 1,
                     'OWNER_ID' => $leadId
+                ],
+                [],
+                0
+            )->getActivities();
+
+            if (empty($activities)) {
+                echo "Дела для указанного лида не найдены.";
+                return;
+            }
+
+            $activityId = $activities[0]->ID;
+
+            // Шаг 2: Ищем компанию по названию
+            $companies = $crm->company()->list(
+                [],
+                ['TITLE' => $companyName],
+                ['ID', 'TITLE'],
+                0
+            )->getCompanies();
+
+            if (empty($companies)) {
+                echo "Компания с указанным названием не найдена.";
+                return;
+            }
+
+            $companyId = $companies[0]->ID;
+
+            // Шаг 3: Создаем связь для найденного дела и компании
+            $serviceBuilder->core->call(
+                'crm.activity.binding.add',
+                [
+                    'activityId' => $activityId,
+                    'entityTypeId' => 4,
+                    'entityId' => $companyId
                 ]
-            ]
-        );
+            );
 
-        if (isset($activityResult['error'])) {
-            echo 'Ошибка: ' . $activityResult['error_description'];
-            return;
-        }
+            echo "Связь дела с компанией успешно создана.";
 
-        $activities = $activityResult['result'];
-        if (empty($activities)) {
-            echo "Дела для указанного лида не найдены.";
-            return;
-        }
+            // Шаг 4: Удаляем связь дела и лида
+            $serviceBuilder->core->call(
+                'crm.activity.binding.delete',
+                [
+                    'activityId' => $activityId,
+                    'entityTypeId' => 1,
+                    'entityId' => $leadId
+                ]
+            );
 
-        $activityId = $activities[0]['ID'];
-
-        // Шаг 2: Ищем компанию по названию
-        $companyResult = CRest::call(
-            'crm.company.list',
-            [
-                'filter' => ['TITLE' => $companyName],
-                'select' => ['ID', 'TITLE']
-            ]
-        );
-
-        if (isset($companyResult['error'])) {
-            echo 'Ошибка: ' . $companyResult['error_description'];
-            return;
-        }
-
-        $companies = $companyResult['result'];
-        if (empty($companies)) {
-            echo "Компания с указанным названием не найдена.";
-            return;
-        }
-
-        $companyId = $companies[0]['ID'];
-
-        // Шаг 3: Создаем связь для найденного дела и компании
-        $bindingAddResult = CRest::call(
-            'crm.activity.binding.add',
-            [
-                'activityId' => $activityId,
-                'entityTypeId' => 4,
-                'entityId' => $companyId
-            ]
-        );
-
-        if (isset($bindingAddResult['error'])) {
-            echo 'Ошибка: ' . $bindingAddResult['error_description'];
-            return;
-        }
-
-        echo "Связь дела с компанией успешно создана.";
-
-        // Шаг 4: Удаляем связь дела и лида
-        $bindingDeleteResult = CRest::call(
-            'crm.activity.binding.delete',
-            [
-                'activityId' => $activityId,
-                'entityTypeId' => 1,
-                'entityId' => $leadId
-            ]
-        );
-
-        if (isset($bindingDeleteResult['error'])) {
-            echo 'Ошибка: ' . $bindingDeleteResult['error_description'];
-        } else {
             echo "Связь дела с лидом успешно удалена.";
+        } catch (\Throwable $e) {
+            echo 'Ошибка: ' . $e->getMessage();
         }
     }
 
@@ -533,7 +517,7 @@
     $companyName = readline("Введите название компании: ");
 
     // Запускаем функцию
-    transferActivityToCompany($leadId, $companyName);
+    transferActivityToCompany($serviceBuilder, $leadId, $companyName);
     ``` 
 
 - Python
