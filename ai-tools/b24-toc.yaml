@@ -3,5 +3,14 @@ href: vibecode.md
 items:
   - name: Битрикс24 Вайбкод
     href: vibecode.md
+    items:
+      - name: Битрикс24 Вайбкод
+        href: vibecode.md
+      - name: Как создать первое приложение
+        href: vibecode-create-app.md
+      - name: Инструменты Вайбкод
+        href: vibecode-tools.md
+      - name: Битрикс24 Вайбкод в коробочной версии
+        href: vibecode-onpremise.md
   - name: MCP-сервер для AI
     href: mcp.md 
