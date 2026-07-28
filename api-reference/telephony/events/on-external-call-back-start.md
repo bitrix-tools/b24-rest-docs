@@ -99,6 +99,8 @@
 
 ## Продолжите изучение
 
+- [{#T}](../../events/index.md)
+- [{#T}](../../events/event-bind.md)
 - [{#T}](../voximplant/voximplant-callback-start.md)
 - [{#T}](../voximplant/voximplant-tts-voices-get.md)
 - [{#T}](./on-external-call-start.md)

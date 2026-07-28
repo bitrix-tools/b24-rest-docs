@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`imopenlines`](../../../scopes/permissions.md) 
+> Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnOpenLineMessageAdd` срабатывает при добавлении сообщения в чат открытой линии. 
+Событие `OnOpenLineMessageAdd` срабатывает при добавлении сообщения в чат открытой линии.
 
 [Подписаться](../../../events/event-bind.md) на событие можно только через приложение. Получить в обработчик можно только те события, которые предназначены для [коннектора](../../imconnector/index.md), который добавило приложение.
 
@@ -25,122 +25,180 @@
 
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса
+Данные передаются в виде POST-запроса {.b24-info}
 
-```php
-[
-    'event' => 'ONOPENLINEMESSAGEADD',
-    'eventId' => 1,
-    'data' => [
-        'DATA' => [
-            [
-                'connector' => [
-                    'connector_id' => 'livechat',
-                    'line_id' => 128,
-                    'chat_id' => 10587,
-                    'user_id' => 1985,
-                ],
-                'chat' => [
-                    'id' => 10585
-                ],
-                'message' => [
-                    'id' => 80964,
-                    'date' => '',
-                    'text' => 'hello',
-                    'files' => [
-                    ],
-                    'attach' => '',
-                    'system' => 'N',
-                    'user_id' => 1985
-                ],
-                'ref' => [
-                ],
-                'extra' => [
-                    'EXTRA_URL' => '' 
-                ],
-            ],
-        ],
-    ],
-    'ts' => 1714649632,
-    'auth' => [
-        'access_token' => 's6p6eclrvim6da22ft9ch94ekreb52lv',
-        'expires_in' => 3600,
-        'scope' => 'imopenlines',
-        'domain' => 'some-domain.bitrix24.com',
-        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/&#39;',
-        'status' => 'F',
-        'client_endpoint' => 'https://some-domain.bitrix24.com/rest/&#39;',
-        'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',
-        'refresh_token' => '4s386p3q0tr8dy89xvmt96234v3dljg8',
-        'application_token' => '51856fefc120afa4b628cc82d3935cce',
-    ],
-]
+```json
+{
+    "event": "ONOPENLINEMESSAGEADD",
+    "eventId": 1,
+    "data": {
+        "DATA": [
+            {
+                "connector": {
+                    "connector_id": "livechat",
+                    "line_id": 128,
+                    "chat_id": 10587,
+                    "user_id": 1985
+                },
+                "chat": {
+                    "id": 10585
+                },
+                "message": {
+                    "id": 80964,
+                    "date": "",
+                    "text": "hello",
+                    "files": [],
+                    "attach": "",
+                    "system": "N",
+                    "user_id": 1985
+                },
+                "ref": [],
+                "extra": {
+                    "EXTRA_URL": ""
+                }
+            }
+        ]
+    },
+    "ts": 1714649632,
+    "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "expires_in": 3600,
+        "scope": "imopenlines",
+        "domain": "some-domain.bitrix24.com",
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "status": "F",
+        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
+        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
+    }
+}
 ```
-
-## Параметры
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Название**
+|| **Параметр**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../../data-types.md) | Символьный код события ||
+[`string`](../../../data-types.md) | Символьный код события.
+
+В данном случае — `ONOPENLINEMESSAGEADD` ||
 || **eventId***
 [`integer`](../../../data-types.md) | Идентификатор события ||
 || **data***
-[`object`](../../../data-types.md) | Объект с [данными события](#data) ||
+[`object`](../../../data-types.md) | Объект, содержащий данные события.
+
+Структура описана [ниже](#data) ||
 || **ts***
-[`integer`](../../../data-types.md) | timestamp отправки события из очереди событий ||
+[`timestamp`](../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../events/index.md) ||
 || **auth***
-[`object`](../../../data-types.md) | Объект с параметрами авторизации и данными о портале, на котором произошло событие ||
+[`object`](../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+
+Структура описана [ниже](#auth) ||
 |#
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
-
 #|
-|| **Название**
+|| **Параметр**
 `тип` | **Описание** ||
 || **DATA***
-[`object`](../../../data-types.md) | Объект с [данными чата](#chat-params) ||
+[`array`](../../../data-types.md) | Массив объектов с данными сообщения.
+
+Структура объекта описана [ниже](#chat-params) ||
 |#
 
-#### Параметр DATA {#chat-params}
+#### Элемент массива DATA {#chat-params}
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+Каждый элемент массива `DATA` — объект со структурой:
 
 #|
-|| **Название**
+|| **Параметр**
 `тип` | **Описание** ||
 || **connector***
-[`object`](../../../data-types.md) | Объект с информацией о коннекторе:
-- `connector_id` — идентификатор коннектора
-- `line_id` — идентификатор открытой линии
-- `chat_id` — идентификатор чата
-- `user_id` — идентификатор пользователя во внешней системе
-||
+[`object`](../../../data-types.md) | Объект с информацией о коннекторе.
+
+Структура описана [ниже](#connector) ||
 || **chat***
-[`object`](../../../data-types.md) | Объект с информацией о чате:
-- `id` — идентификатор чата ||
+[`object`](../../../data-types.md) | Объект с информацией о чате.
+
+Структура описана [ниже](#chat) ||
 || **message***
-[`object`](../../../data-types.md) | Объект с информацией о сообщении:
-- `id` — идентификатор сообщения
-- `date` — дата и время добавления
-- `text` — текст сообщения
-- `files` — файлы
-- `attach` — прикрепленные файлы
-- `system` — отметка, что сообщения вляется системным. Имеет значение `Y`, если системное 
-- `user_id` — идентификатор пользователя
-||
+[`object`](../../../data-types.md) | Объект с информацией о сообщении.
+
+Структура описана [ниже](#message) ||
 || **ref***
-[`object`](../../../data-types.md) | Код трекера `trackId` для привязки сообщения к объекту CRM ||
+[`array`](../../../data-types.md) | Массив с кодом трекера `trackId` для привязки сообщения к объекту CRM. В примере передается пустым ||
 || **extra***
-[`object`](../../../data-types.md) | Объект дополнительной информацией:
-- `EXTRA_URL` — внешняя ссылка для Bitrix24.Network ||
+[`object`](../../../data-types.md) | Объект с дополнительной информацией.
+
+Структура описана [ниже](#extra) ||
 |#
 
-### Параметр auth
+##### Параметр connector {#connector}
 
-{% include notitle [Параметр auth](../../../../_includes/auth-params-in-events.md) %}
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **connector_id***
+[`string`](../../../data-types.md) | Идентификатор коннектора ||
+|| **line_id***
+[`integer`](../../../data-types.md) | Идентификатор открытой линии ||
+|| **chat_id***
+[`integer`](../../../data-types.md) | Идентификатор чата ||
+|| **user_id***
+[`integer`](../../../data-types.md) | Идентификатор пользователя во внешней системе ||
+|#
+
+##### Параметр chat {#chat}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор чата ||
+|#
+
+##### Параметр message {#message}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор сообщения ||
+|| **date***
+[`string`](../../../data-types.md) | Дата и время добавления сообщения ||
+|| **text***
+[`string`](../../../data-types.md) | Текст сообщения ||
+|| **files***
+[`array`](../../../data-types.md) | Файлы сообщения ||
+|| **attach***
+[`string`](../../../data-types.md) | Прикрепленные данные ||
+|| **system***
+[`string`](../../../data-types.md) | Отметка, что сообщение является системным: `Y` — да, `N` — нет ||
+|| **user_id***
+[`integer`](../../../data-types.md) | Идентификатор пользователя ||
+|#
+
+##### Параметр extra {#extra}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **EXTRA_URL***
+[`string`](../../../data-types.md) | Внешняя ссылка для Bitrix24.Network ||
+|#
+
+### Параметр auth {#auth}
+
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
+- [{#T}](./on-open-line-message-update.md)
+- [{#T}](./on-open-line-message-delete.md)
+- [{#T}](./on-session-start.md)
+- [{#T}](./on-session-finish.md)

@@ -15,7 +15,6 @@
 
 Событие `ONCRMCOMPANYADD` сработает при создании компании.
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
@@ -57,7 +56,7 @@
 || **event**
 [`string`](../../../data-types.md) | Символьный код события.
 
-В данном случае — `ONCRMCOMPANYADD`||
+В данном случае — `ONCRMCOMPANYADD` ||
 || **event_handler_id**
 [`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**

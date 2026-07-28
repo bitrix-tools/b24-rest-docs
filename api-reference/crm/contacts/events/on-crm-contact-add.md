@@ -10,11 +10,10 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
-> 
+>
 > Кто может подписаться: любой пользователь
 
-Событие `onCrmContactAdd` сработает при создании контакта.
-
+Событие `ONCRMCONTACTADD` сработает при создании контакта.
 
 {% note info "" %}
 
@@ -57,7 +56,7 @@
 || **event**
 [`string`](../../../data-types.md) | Символьный код события.
 
-В данном случае — `ONCRMCONTACTADD`||
+В данном случае — `ONCRMCONTACTADD` ||
 || **event_handler_id**
 [`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
@@ -65,7 +64,7 @@
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../data-types.md) | Объект содержащий информацию о полях созданного контакта.
+[`object`](../../../data-types.md) | Объект, содержащий информацию о полях созданного контакта.
 
 Структура описана [ниже](#fields) ||
 || **ts**
@@ -91,6 +90,7 @@
 
 ## Продолжите изучение
 
-- [{#T}](./index.md)
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-crm-contact-update.md)
 - [{#T}](./on-crm-contact-delete.md)

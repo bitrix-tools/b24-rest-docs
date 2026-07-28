@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие срабатывает после удаления комментария в задаче. 
+Событие `ONTASKCOMMENTDELETE` срабатывает после удаления комментария в задаче.
 
 {% note info "" %}
 
@@ -28,28 +28,35 @@
 При работе со старой карточкой задачи до версии модуля `tasks 25.700.0`:
 
 ```json
-array(
-    'event' => 'ONTASKCOMMENDELETE',
-    'data' => array(
-        'FIELDS_BEFORE' => array('ID' => 123, 'TASK_ID' => 555),
-        'FIELDS_AFTER' => array('ID' => 123, 'TASK_ID' => 555, 'ACTION' => 'DEL'),
-        'IS_ACCESSIBLE_BEFORE' => 'undefined',
-        'IS_ACCESSIBLE_AFTER' => 'undefined',
-    ),
-    'ts' => '1466439714',
-    'auth' => array(
-        'access_token' => 's6p6eclrvim6da22ft9ch94ekreb52lv',
-        'expires_in' => '3600',
-        'scope' => 'crm',
-        'domain' => 'some-domain.bitrix24.com',
-        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/',
-        'status' => 'F',
-        'client_endpoint' => 'https://some-domain.bitrix24.com/rest/',
-        'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',
-        'refresh_token' => '4s386p3q0tr8dy89xvmt96234v3dljg8',
-        'application_token' => '51856fefc120afa4b628cc82d3935cce',
-        ),
-)
+{
+    "event": "ONTASKCOMMENTDELETE",
+    "data": {
+        "FIELDS_BEFORE": {
+            "ID": 123,
+            "TASK_ID": 555
+        },
+        "FIELDS_AFTER": {
+            "ID": 123,
+            "TASK_ID": 555,
+            "ACTION": "DEL"
+        },
+        "IS_ACCESSIBLE_BEFORE": "undefined",
+        "IS_ACCESSIBLE_AFTER": "undefined"
+    },
+    "ts": "1466439714",
+    "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "expires_in": "3600",
+        "scope": "task",
+        "domain": "some-domain.bitrix24.com",
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "status": "F",
+        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
+        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
+    }
+}
 ```
 
 {% note warning " " %}
@@ -64,18 +71,22 @@ array(
 || **Параметр**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../../data-types.md) | Символьный код события, в данном случае `OnTaskDelete`||
+[`string`](../../../data-types.md) | Символьный код события.
+
+В данном случае — `ONTASKCOMMENTDELETE` ||
 || **data***
-[`array`](../../../data-types.md) | Массив с данными комментария задачи ||
+[`object`](../../../data-types.md) | Объект, содержащий данные о событии удаления комментария.
+
+Структура описана [ниже](#data) ||
 || **ts***
 [`timestamp`](../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../events/index.md) ||
 || **auth***
-[`array`](../../../data-types.md) | Параметры авторизации и данные о портале, на котором произошло событие ||
+[`object`](../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+
+Структура описана [ниже](#auth) ||
 |#
 
-### Параметр data[]
-
-{% include notitle [Сноска о параметрах](../../../../_includes/required.md) %}
+### Параметр data[] {#data}
 
 #|
 || **Название**
@@ -92,8 +103,6 @@ array(
 
 ### Поле FIELDS_BEFORE {#fields_before}
 
-{% include notitle [Сноска о параметрах](../../../../_includes/required.md) %}
-
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -104,8 +113,6 @@ array(
 |#
 
 ### Поле FIELDS_AFTER {#fields_after}
-
-{% include notitle [Сноска о параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -120,8 +127,6 @@ array(
 
 ### Поле IS_ACCESSIBLE_BEFORE {#is_accessible_before}
 
-{% include notitle [Сноска о параметрах](../../../../_includes/required.md) %}
-
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -130,11 +135,9 @@ array(
 - `Y` (Yes) — да
 - `N` (No) — нет
 - `undefined` — не определено или проверка не производилась ||
-  |#
+|#
 
 ### Поле IS_ACCESSIBLE_AFTER {#is_accessible_after}
-
-{% include notitle [Сноска о параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -144,7 +147,11 @@ array(
 - `Y` (Yes) — да
 - `N` (No) — нет
 - `undefined` — не определено или проверка не производилась ||
-  |#
+|#
+
+### Параметр auth {#auth}
+
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
 ## Примеры кода
 
@@ -294,9 +301,10 @@ array(
 
 {% endlist %}
 
-
 ## Продолжите изучение
 
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./index.md)
 - [{#T}](./on-task-comment-add.md)
 - [{#T}](./on-task-comment-update.md)

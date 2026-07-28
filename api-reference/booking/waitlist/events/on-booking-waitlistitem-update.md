@@ -15,7 +15,6 @@
 
 Событие `ONBOOKINGWAITLISTITEMUPDATE` сработает при обновлении записи в листе ожидания вручную или методом [booking.v1.waitlist.update](../booking-v1-waitlist-update.md).
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)

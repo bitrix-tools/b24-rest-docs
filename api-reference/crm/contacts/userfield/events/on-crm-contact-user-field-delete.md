@@ -10,11 +10,10 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
-> 
+>
 > Кто может подписаться: любой пользователь
 
 Событие `onCrmContactUserFieldDelete` срабатывает при удалении пользовательского поля у контакта.
-
 
 {% note info "" %}
 
@@ -59,7 +58,7 @@
 || **event**
 [`string`](../../../../data-types.md) | Символьный код события.
 
-В данном случае — `ONCRMCONTACTUSERFIELDDELETE`||
+В данном случае — `ONCRMCONTACTUSERFIELDDELETE` ||
 || **event_handler_id**
 [`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
@@ -67,7 +66,7 @@
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект содержащий информацию о полях удаленного пользовательского поля.
+[`object`](../../../../data-types.md) | Объект, содержащий свойства пользовательского поля.
 
 Структура описана [ниже](#fields) ||
 || **ts**
@@ -86,7 +85,7 @@
 || **ID**
 [`integer`](../../../../data-types.md) | Идентификатор удаленного пользовательского поля ||
 || **ENTITY_ID**
-[`userFieldEntityId`](../../../data-types.md#object_type) | Тип объекта CRM, к которому привязано пользовательское поле. 
+[`userFieldEntityId`](../../../data-types.md#object_type) | Тип объекта CRM, к которому привязано пользовательское поле.
 
 В данном случае — `CRM_CONTACT` ||
 || **FIELD_NAME**
@@ -99,7 +98,8 @@
 
 ## Продолжите изучение
 
-- [{#T}](./index.md)
+- [{#T}](../../../../events/index.md)
+- [{#T}](../../../../events/event-bind.md)
 - [{#T}](./on-crm-contact-user-field-add.md)
 - [{#T}](./on-crm-contact-user-field-update.md)
 - [{#T}](./on-crm-contact-user-field-set-enum-values.md)

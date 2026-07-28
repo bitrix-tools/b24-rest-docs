@@ -15,7 +15,6 @@
 
 Событие `ONBOOKINGRESOURCETYPEUPDATE` сработает при обновлении типа ресурса методом [booking.v1.resourcetype.update](../booking-v1-resourcetype-update.md).
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../../settings/app-installation/installation-finish.md)

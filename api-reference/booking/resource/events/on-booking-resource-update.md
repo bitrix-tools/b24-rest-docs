@@ -15,7 +15,6 @@
 
 Событие `ONBOOKINGRESOURCEUPDATE` сработает при обновлении ресурса вручную или методом [booking.v1.resource.update](../booking-v1-resource-update.md).
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)

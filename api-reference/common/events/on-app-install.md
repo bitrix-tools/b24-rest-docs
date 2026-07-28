@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnAppInstall` вызывается сразу после успешной установки приложения на Битрикс24. В обработчик передается `application_token`, который важно сохранить. Подробнее читайте в статье [{#T}](../../events/safe-event-handlers.md).
+Событие `ONAPPINSTALL` вызывается сразу после успешной установки приложения на Битрикс24. В обработчик передается `application_token`, который важно сохранить. Подробнее читайте в статье [{#T}](../../events/safe-event-handlers.md).
 
 {% note info "" %}
 
@@ -37,6 +37,10 @@
     "ts": "1696527000",
     "auth": {
         "domain": "some-domain.bitrix24.ru",
+        "scope": "imbot",
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
+        "expires_in": 3600,
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "F",
         "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
@@ -69,38 +73,42 @@
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
-
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **LANGUAGE_ID***
-[`string`](../../data-types.md) | Установленный язык: `ru`, `en` и другие ||
 || **VERSION***
-[`integer`](../../data-types.md) | Версия установленного приложения ||
+[`string`](../../data-types.md) | Версия установленного приложения ||
 || **ACTIVE***
-[`string`](../../data-types.md) | Статус активности приложения. 
+[`string`](../../data-types.md) | Статус активности приложения.
 
 Возможные значения:
 `Y` — активно
 `N` — неактивно ||
 || **INSTALLED***
-[`string`](../../data-types.md) | Готово ли приложение к использованию. 
+[`string`](../../data-types.md) | Готово ли приложение к использованию.
 
-Возможные значения: 
+Возможные значения:
 `Y` — готово
 `N` — не установлено полностью ||
+|| **LANGUAGE_ID***
+[`string`](../../data-types.md) | Установленный язык: `ru`, `en` и другие ||
 |#
 
 ### Параметр auth {#auth}
-
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **domain***
 [`string`](../../data-types.md) | Адрес портала Битрикс24 ||
+|| **scope***
+[`string`](../../data-types.md) | Список прав, выданных приложению, через пробел ||
+|| **access_token***
+[`string`](../../data-types.md) | Токен авторизации OAuth 2.0 ||
+|| **refresh_token***
+[`string`](../../data-types.md) | Токен для продления авторизации OAuth 2.0 ||
+|| **expires_in***
+[`integer`](../../data-types.md) | Время жизни токена доступа в секундах ||
 || **server_endpoint***
 [`string`](../../data-types.md) | Адрес сервера авторизации для обновления токена||
 || **status***

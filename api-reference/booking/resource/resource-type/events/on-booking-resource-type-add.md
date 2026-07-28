@@ -15,7 +15,6 @@
 
 Событие `ONBOOKINGRESOURCETYPEADD` сработает при создании нового типа ресурса вручную или методом [booking.v1.resourcetype.add](../booking-v1-resourcetype-add.md).
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../../settings/app-installation/installation-finish.md)
@@ -80,5 +79,5 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
-- [{#T}](./on-booking-resource-type-delete.md)
 - [{#T}](./on-booking-resource-type-update.md)
+- [{#T}](./on-booking-resource-type-delete.md)

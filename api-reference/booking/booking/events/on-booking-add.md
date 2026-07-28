@@ -33,7 +33,7 @@
         "ID": "66"
     },
     "ts": "1751285594",
-        "auth": {
+    "auth": {
         "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
         "expires_in": "3600",
         "scope": "booking",

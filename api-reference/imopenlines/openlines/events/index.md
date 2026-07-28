@@ -33,9 +33,9 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [OnSessionStart](./on-session-start.md) | При создании чата вручную или методом [imopenlines.session.start](../sessions/imopenlines-session-start.md) ||
+|| [OnSessionStart](./on-session-start.md) | При создании сессии открытой линии вручную или методом [imopenlines.session.start](../sessions/imopenlines-session-start.md) ||
 || [OnOpenLineMessageAdd](./on-open-line-message-add.md) | При добавлении сообщения в чат вручную или методом [imopenlines.crm.message.add](../messages/imopenlines-crm-message-add.md)||
 || [OnOpenLineMessageUpdate](./on-open-line-message-update.md) | При изменении сообщения в чате вручную ||
 || [OnOpenLineMessageDelete](./on-open-line-message-delete.md) | При удалении сообщения в чате вручную ||
-|| [OnSessionFinish](./on-session-finish.md) | При закрытии чата вручную ||
+|| [OnSessionFinish](./on-session-finish.md) | При закрытии сессии открытой линии вручную ||
 |#

@@ -54,15 +54,15 @@
 || **event**
 [`string`](../../../data-types.md) | Символьный код события.
 
-В данном случае — `ONCRMDEALUSERFIELDSETENUMVALUES`||
+В данном случае — `ONCRMDEALUSERFIELDSETENUMVALUES` ||
 || **event_handler_id**
 [`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../../data-types.md) | Объект, содержащий информацию об обновленном поле списочного типа.
+[`object`](../../../data-types.md) | Объект, содержащий информацию о пользовательском поле списочного типа.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../data-types.md) | Объект содержащий информацию о полях обновленного поля списочного типа.
+[`object`](../../../data-types.md) | Объект, содержащий свойства пользовательского поля списочного типа.
 
 Структура описана [ниже](#fields) ||
 || **ts**
@@ -97,5 +97,3 @@
 - [{#T}](./on-crm-deal-user-field-add.md)
 - [{#T}](./on-crm-deal-user-field-delete.md)
 - [{#T}](./on-crm-deal-user-field-update.md)
-
-

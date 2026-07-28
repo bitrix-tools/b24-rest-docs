@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnAppUpdate` вызывается после установки новой версии приложения в Битрикс24. Событие передает информацию о текущей и предыдущей версиях приложения, а также обновленный `application_token`. Подробнее читайте в статье [{#T}](../../events/safe-event-handlers.md).
+Событие `ONAPPUPDATE` вызывается после установки новой версии приложения в Битрикс24. Событие передает информацию о текущей и предыдущей версиях приложения, а также обновленный `application_token`. Подробнее читайте в статье [{#T}](../../events/safe-event-handlers.md).
 
 ## Что получает обработчик
 
@@ -34,6 +34,9 @@
         "access_token": "lh8ze36o8ulgrljbyscr36c7ay5sinva",
         "refresh_token": "5f1ih5tsnsb11sc5heg3kp4ywqnjhd09",
         "expires_in": 3600,
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "status": "F",
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
         "member_id": "d41d8cd98f00b204e9800998ecf8427e",
         "application_token": "c917d38f6bdb84e9d9e0bfe9d585be73"
     }
@@ -63,22 +66,18 @@
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
-
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **LANGUAGE_ID***
-[`string`](../../data-types.md) | Установленный язык: `ru`, `en` и другие ||
 || **VERSION***
 [`string`](../../data-types.md) | Текущая установленная версия приложения ||
 || **PREVIOUS_VERSION***
 [`string`](../../data-types.md) | Предыдущая версия до обновления ||
+|| **LANGUAGE_ID***
+[`string`](../../data-types.md) | Установленный язык: `ru`, `en` и другие ||
 |#
 
 ### Параметр auth {#auth}
-
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -91,10 +90,12 @@
 [`string`](../../data-types.md) | Токен авторизации OAuth 2.0 ||
 || **refresh_token***
 [`string`](../../data-types.md) | Токен для продления авторизации OAuth 2.0 ||
+|| **expires_in***
+[`integer`](../../data-types.md) | Время жизни токена доступа в секундах ||
 || **server_endpoint***
 [`string`](../../data-types.md) | Адрес сервера авторизации Битрикс24, необходимый для обновления токенов OAuth 2.0 ||
 || **status***
-[`string`](/api-reference/data-types.html) | Статус приложения, подписавшегося на это событие:
+[`string`](../../data-types.md) | Статус приложения, подписавшегося на это событие:
 
 - `L` — локальное приложение
 - `F` — бесплатное тиражное приложение

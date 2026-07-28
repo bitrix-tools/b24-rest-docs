@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие вызывается при добавлении события календаря.
+Событие `ONCALENDARENTRYADD` срабатывает при добавлении события календаря.
 
 {% note info "" %}
 
@@ -56,7 +56,7 @@
 || **event**
 [`string`][1] | Символьный код события.
 
-В данном случае — `ONCALENDARENTRYADD`||
+В данном случае — `ONCALENDARENTRYADD` ||
 || **event_handler_id**
 [`integer`][1] | Идентификатор обработчика события ||
 || **data**
@@ -77,13 +77,12 @@
 
 {% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](../../../events/index.md)
 - [{#T}](../../../events/event-bind.md)
 - [{#T}](./index.md)
 - [{#T}](./on-calendar-entry-update.md)
 - [{#T}](./on-calendar-entry-delete.md)
-
 
 [1]: ../../../data-types.md

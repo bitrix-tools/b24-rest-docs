@@ -9,12 +9,11 @@
 
 {% endnote %}
 
-> Scope: `sonet`
-> 
+> Scope: [`sonet`](../../scopes/permissions.md)
+>
 > Кто может подписаться: любой пользователь
 
-Событие `onSonetGroupDelete` вызывается при удалении рабочей группы/проекта. Это позволяет стороннему приложению реагировать на удаление групп и выполнять необходимые действия — такие как синхронизация данных или отправка уведомлений.
-
+Событие `ONSONETGROUPDELETE` срабатывает при удалении рабочей группы или проекта.
 
 {% note info "" %}
 
@@ -56,7 +55,7 @@
 || **event**
 [`string`](../../data-types.md) | Символьный код события.
 
-В данном случае — `ONSONETGROUPDELETE`||
+В данном случае — `ONSONETGROUPDELETE` ||
 || **event_handler_id**
 [`integer`](../../data-types.md) | Идентификатор обработчика события ||
 || **data**
@@ -80,14 +79,17 @@
 #|
 || **Параметр**
 `тип` | **Описание** ||
-|| **ID** 
+|| **ID**
 [`integer`](../../data-types.md) | Идентификатор удаленной рабочей группы ||
 |#
 
-### Параметр auth
+### Параметр auth {#auth}
 
 {% include notitle [Таблица с ключами в массиве auth](../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение
+
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./on-sonet-group-add.md)
+- [{#T}](./on-sonet-group-update.md)
