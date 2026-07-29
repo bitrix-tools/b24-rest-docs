@@ -93,7 +93,7 @@
 
 **Контентные блоки** можно добавлять к делам и удалять их. Используйте группу методов [crm.activity.layout.blocks.*](./layout-blocks/index.md). 
 
- * [Доступные контентные блоки](./configurable/structure/body.md#contentblockdto)
+ * [Доступные контентные блоки](./configurable/structure/content-block.md)
 
 ## Обзор методов и событий {#all-methods}
 
