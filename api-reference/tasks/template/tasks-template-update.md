@@ -167,6 +167,43 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "TITLE": "Подготовка еженедельного статуса по проекту и согласование",
+        "DESCRIPTION": "Обновленный шаблон задачи для подготовки еженедельного статуса по проекту и финального согласования перед отправкой",
+        "PRIORITY": 1,
+        "TASK_CONTROL": "Y",
+        "ADD_IN_REPORT": "Y",
+        "UF_CRM_TASK": [
+            "L_1179",
+            "D_1833",
+        ],
+    }
+
+    try:
+        bitrix_response = client.tasks.template.update(
+            template_id=139,
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

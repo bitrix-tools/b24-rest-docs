@@ -403,6 +403,78 @@ Cимвол `#` в цвете необходимо передавать в фо�
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.calendar.event.update(
+            bitrix_id=699,
+            type="user",
+            owner_id=2,
+            name="Changed Event Name",
+            description="New description for event",
+            from_date="2024-06-17",
+            to="2024-06-17",
+            skip_time="Y",
+            section=5,
+            color="#9cbe1c",
+            text_color="#283033",
+            accessibility="free",
+            importance="normal",
+            is_meeting="Y",
+            private_event="Y",
+            recurrence_mode="next",
+            current_date_from="2024-12-04",
+            remind=[
+                {
+                    "type": "min",
+                    "count": 10,
+                },
+            ],
+            location="London",
+            attendees=[
+                1,
+                2,
+                3,
+            ],
+            host=2,
+            meeting={
+                "notify": True,
+                "reinvite": False,
+                "allow_invite": False,
+                "hide_guests": False,
+            },
+            rrule={
+                "FREQ": "WEEKLY",
+                "BYDAY": [
+                    "MO",
+                    "WE",
+                ],
+                "COUNT": 10,
+                "INTERVAL": 1,
+            },
+            crm_fields=[
+                "C_5",
+                "L_11",
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

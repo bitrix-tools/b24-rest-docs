@@ -288,6 +288,94 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    settings = {
+        "CALCULATE_URL": "http://gateway.bx/calculate.php",
+        "CREATE_DELIVERY_REQUEST_URL": "http://gateway.bx/create_delivery_request.php",
+        "CANCEL_DELIVERY_REQUEST_URL": "http://gateway.bx/cancel_delivery_request.php",
+        "HAS_CALLBACK_TRACKING_SUPPORT": "Y",
+        "CONFIG": [
+            {
+                "TYPE": "STRING",
+                "CODE": "SETTING_1",
+                "NAME": "String Example",
+            },
+            {
+                "TYPE": "Y/N",
+                "CODE": "SETTING_2",
+                "NAME": "Checkbox Example",
+            },
+            {
+                "TYPE": "NUMBER",
+                "CODE": "SETTING_3",
+                "NAME": "Number Example",
+            },
+            {
+                "TYPE": "ENUM",
+                "CODE": "SETTING_4",
+                "NAME": "Enum Example",
+                "OPTIONS": {
+                    "Option1Code": "Option1Value",
+                    "Option2Code": "Option2Value",
+                    "Option3Code": "Option3Value",
+                    "Option4Code": "Option4Value",
+                    "Option5Code": "Option5Value",
+                },
+            },
+            {
+                "TYPE": "DATE",
+                "CODE": "SETTING_5",
+                "NAME": "Date Example",
+            },
+            {
+                "TYPE": "LOCATION",
+                "CODE": "SETTING_6",
+                "NAME": "Location Example",
+            },
+        ],
+    }
+
+    profiles = [
+        {
+            "NAME": "Taxi",
+            "CODE": "TAXI",
+            "DESCRIPTION": "Taxi Delivery",
+        },
+        {
+            "NAME": "Cargo",
+            "CODE": "CARGO",
+            "DESCRIPTION": "Cargo Delivery",
+        },
+    ]
+
+    try:
+        bitrix_response = client.sale.delivery.handler.add(
+            code='uber',
+            name='Uber',
+            settings=settings,
+            profiles=profiles,
+            sort=250,
+            description='Uber Description',
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

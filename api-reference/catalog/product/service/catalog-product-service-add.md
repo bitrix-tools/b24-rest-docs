@@ -298,6 +298,66 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.catalog.product.service.add(
+            fields={
+                "iblockId": 23,
+                "name": "Услуга",
+                "active": "Y",
+                "code": "service",
+                "createdBy": 1,
+                "dateActiveFrom": "2024-05-28T10:00:00",
+                "dateActiveTo": "2024-05-29T10:00:00",
+                "dateCreate": "2024-05-27T10:00:00",
+                "detailPicture": {
+                    "fileData": [
+                        "detailPicture.png",
+                        "put_base64_file_content_here",
+                    ],
+                },
+                "detailText": "",
+                "detailTextType": "text",
+                "iblockSectionId": 47,
+                "modifiedBy": 1,
+                "previewPicture": {
+                    "fileData": [
+                        "previewPicture.png",
+                        "put_base64_file_content_here",
+                    ],
+                },
+                "previewText": "",
+                "previewTextType": "text",
+                "sort": 100,
+                "vatId": 1,
+                "vatIncluded": "Y",
+                "xmlId": "",
+                "property258": "test",
+                "property259": [
+                    "test1",
+                    "test2",
+                ],
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

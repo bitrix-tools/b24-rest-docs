@@ -224,8 +224,37 @@
     </script>
     ```
 
-- PHP
+- Python
 
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.landing.block.updateattrs(
+            lid=313,
+            block=6134,
+            data={
+                ".bitrix24forms": {
+                    "data-b24form": "#crmFormInline45",
+                    "data-b24form-use-style": "N",
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+- PHP
     ```php
     try {
         $response = $b24Service

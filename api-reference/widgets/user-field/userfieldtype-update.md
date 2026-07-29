@@ -163,6 +163,37 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    options = {
+        "height": 60,
+    }
+
+    try:
+        bitrix_response = client.userfieldtype.update(
+            user_type_id="test_type",
+            handler="https://www.myapplication.com/handler/",
+            title="Updated test type",
+            description="Test userfield type for documentation with updated description",
+            options=options,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     ```php        

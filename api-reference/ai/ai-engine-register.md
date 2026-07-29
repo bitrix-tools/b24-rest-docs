@@ -323,6 +323,39 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.ai.engine.register(
+            name='Acme GPT',
+            code='acme_gpt',
+            category='text',
+            completions_url='https://api.example.com/bitrix24/ai/completions',
+            settings={
+                "code_alias": "ChatGPT",
+                "model_context_type": "token",
+                "model_context_limit": 15666,
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+
 - PHP
 
     ```php

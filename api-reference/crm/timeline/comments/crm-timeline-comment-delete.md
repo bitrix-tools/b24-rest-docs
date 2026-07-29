@@ -191,18 +191,15 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.timeline.comment.delete(
             bitrix_id=999,
             owner_type_id=2,
             owner_id=10,
-        )
-        result = bitrix_response.response.result
+        ).response
+        result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
         print(

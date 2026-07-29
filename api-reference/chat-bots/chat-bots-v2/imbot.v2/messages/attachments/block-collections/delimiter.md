@@ -52,6 +52,17 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = {
+        "DELIMITER": {
+            "SIZE": 200,
+            "COLOR": "#c6c6c6",
+        },
+    }
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

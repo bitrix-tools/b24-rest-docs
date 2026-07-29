@@ -160,7 +160,6 @@
         echo 'Error fetching quote fields: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

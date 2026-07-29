@@ -175,16 +175,13 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.timeline.logo.delete(
             code="info",
-        )
-        result = bitrix_response.response.result
+        ).response
+        result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
         print(

@@ -376,25 +376,22 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
-
     try:
-        bitrix_response = client.crm.deal.userfield.list(
-            filter={"MANDATORY": "N", "USER_TYPE_ID": "string"},
-            order={"SORT": "ASC", "ID": "ASC"},
-        ).response
+        bitrix_response = client.crm.deal.userfield.list(filter={
+            "MANDATORY": "N",
+            "USER_TYPE_ID": "string",
+            "MULTIPLE": "Y",
+            "LANG": "ru",
+        }, order={
+            "SORT": "ASC",
+            "ID": "ASC",
+            "USER_TYPE_ID": "ASC",
+        }).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
+        print('Ошибка Bitrix API', f'error: {error.error}', f'error_description: {error.error_description}', sep='\n')
     except BitrixSDKException as error:
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
@@ -404,15 +401,16 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.deal.userfield.list(
-            filter={"MANDATORY": "N"},
-            order={"ID": "ASC"},
+            filter={
+                "MANDATORY": "N",
+            },
+            order={
+                "ID": "ASC",
+            },
         ).as_list().response
         result = bitrix_response.result
         for item in result:
@@ -433,15 +431,16 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.deal.userfield.list(
-            filter={"MANDATORY": "N"},
-            order={"ID": "DESC"},
+            filter={
+                "MANDATORY": "N",
+            },
+            order={
+                "ID": "DESC",
+            },
         ).as_list_fast(descending=True).response
         result = bitrix_response.result
         for item in result:

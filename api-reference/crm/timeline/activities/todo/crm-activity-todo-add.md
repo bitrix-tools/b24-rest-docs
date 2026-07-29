@@ -250,10 +250,7 @@
     ```python
     from datetime import datetime, timedelta
 
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.activity.todo.add(
@@ -264,7 +261,10 @@
             description="Discuss proposal details",
             responsible_id=1,
             parent_activity_id=998,
-            ping_offsets=[0, 15],
+            ping_offsets=[
+                0,
+                15,
+            ],
             color_id="2",
         ).response
         result = bitrix_response.result

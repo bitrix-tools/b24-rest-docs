@@ -309,6 +309,47 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    params = {
+        "USER_TYPE_ID": "string",
+        "FIELD_NAME": "UF_TASK_CLIENT_REQUEST",
+        "XML_ID": "UF_TASK_CLIENT_REQUEST",
+        "EDIT_FORM_LABEL": {
+            "ru": "Запрос клиента",
+            "en": "Client request",
+        },
+        "LABEL": "Запрос клиента",
+        "SORT": 220,
+        "MULTIPLE": "N",
+        "MANDATORY": "Y",
+        "SETTINGS": {
+            "DEFAULT_VALUE": "Уточнить цель и ожидаемый результат",
+            "ROWS": 10,
+        },
+    }
+
+    try:
+        bitrix_response = client.task.item.userfield.add(
+            params=params,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     ```php

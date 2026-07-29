@@ -521,6 +521,67 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imopenlines.config.add(
+            params={
+                "LINE_NAME": "Online store support line",
+                "QUEUE": [
+                    {
+                        "ENTITY_TYPE": "user",
+                        "ENTITY_ID": "1",
+                    },
+                    {
+                        "ENTITY_TYPE": "user",
+                        "ENTITY_ID": "15",
+                    },
+                    {
+                        "ENTITY_TYPE": "user",
+                        "ENTITY_ID": "23",
+                    },
+                ],
+                "QUEUE_TYPE": "strictly",
+                "QUEUE_TIME": 45,
+                "NO_ANSWER_TIME": 120,
+                "WELCOME_MESSAGE": "Y",
+                "WELCOME_MESSAGE_TEXT": "Hello! We will respond within a couple of minutes",
+                "CRM": "Y",
+                "CRM_CREATE": "deal",
+                "CRM_SOURCE": "openline_web",
+                "CRM_FORWARD": "Y",
+                "MAX_CHAT": 4,
+                "TYPE_MAX_CHAT": "answered_new",
+                "WORKTIME_ENABLE": "Y",
+                "WORKTIME_FROM": "09:00",
+                "WORKTIME_TO": "21:00",
+                "WORKTIME_TIMEZONE": "Europe/Kaliningrad",
+                "WORKTIME_DAYOFF": [
+                    "SA",
+                    "SU",
+                ],
+                "WORKTIME_DAYOFF_RULE": "text",
+                "WORKTIME_DAYOFF_TEXT": "The line is currently unavailable. Write to us and we will respond during business hours",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

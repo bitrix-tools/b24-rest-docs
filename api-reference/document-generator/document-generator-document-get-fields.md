@@ -164,6 +164,39 @@
     </script>
     ```
 
+- Python
+
+  ```python
+  from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+  try:
+      bitrix_response = client.documentgenerator.document.getfields(
+          bitrix_id=51,
+          values={
+              "DocumentNumber": "ДГ-2026-001",
+              "CurrentDate": "2026-03-18T00:00:00+03:00",
+              "ClientName": "ООО Ромашка",
+              "ClientPhone": "+7 999 123-45-67",
+              "Total": "125000",
+              "Comment": "Оплата в течение 5 рабочих дней после подписания",
+              "UserName": "Иван Петров",
+          },
+      ).response
+      result = bitrix_response.result
+      print(result)
+  except BitrixAPIError as error:
+      print(
+          "Ошибка Bitrix API",
+          f"error: {error.error}",
+          f"error_description: {error.error_description}",
+          sep="\n",
+      )
+  except BitrixSDKException as error:
+      print(f"Ошибка Bitrix SDK: {error.message}")
+  except Exception as error:
+      print(f"Непредвиденная ошибка: {error}")
+  ```
+
 - PHP
 
   ```php

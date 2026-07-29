@@ -276,7 +276,6 @@
         echo 'Error updating company: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

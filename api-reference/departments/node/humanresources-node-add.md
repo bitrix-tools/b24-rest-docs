@@ -317,6 +317,61 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    user_ids = {
+        "MEMBER_HEAD": [
+            7,
+        ],
+        "MEMBER_EMPLOYEE": [
+            12,
+            15,
+        ],
+    }
+
+    settings = {
+        "BUSINESS_PROC_AUTHORITY": [
+            "HEAD",
+            "DEPUTY_HEAD",
+        ],
+        "REPORTS_AUTHORITY": [
+            "HEAD",
+        ],
+    }
+
+    try:
+        bitrix_response = client.humanresources.node.add(
+            type='DEPARTMENT',
+            name='Отдел маркетинга',
+            parent_id=1,
+            description='Отвечает за продвижение',
+            user_ids=user_ids,
+            move_users_to_node=True,
+            create_chat=True,
+            binding_chat_ids=[
+                31,
+            ],
+            create_channel=False,
+            create_collab=False,
+            settings=settings,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.

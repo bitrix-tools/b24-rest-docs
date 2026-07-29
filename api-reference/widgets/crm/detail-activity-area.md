@@ -50,6 +50,35 @@ BX24.callMethod(
 );
 ```
 
+```python
+from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+try:
+    bitrix_response = client.placement.bind(
+        placement="CRM_DEAL_DETAIL_ACTIVITY",
+        handler="https://your-handler-uri.com",
+        title="Моя встройка",
+        options={
+            "useBuiltInInterface": "Y",
+            "newUserNotificationTitle": "Встречайте новое приложение",
+            "newUserNotificationText": "E-invoice поможет работать со счетами",
+        },
+    ).response
+    result = bitrix_response.result
+    print(result)
+except BitrixAPIError as error:
+    print(
+        "Ошибка Bitrix API",
+        f"error: {error.error}",
+        f"error_description: {error.error_description}",
+        sep="\n",
+    )
+except BitrixSDKException as error:
+    print(f"Ошибка Bitrix SDK: {error.message}")
+except Exception as error:
+    print(f"Непредвиденная ошибка: {error}")
+```
+
  ![img_15.png 11569](_images/f6081652-9fee-439d-b7c8-378411be9782.png)
 
 ## Работа с интерфейсом встройки {#Interface}

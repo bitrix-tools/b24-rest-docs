@@ -218,6 +218,39 @@
   </script>
   ```
 
+- Python
+
+  ```python
+  from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+  region_fields = {
+      "title": "Россия (Пользовательский)",
+      "formatDate": "YYYY-MM-DD",
+      "phrases": {
+          "TAX_INCLUDED": "Налог включен в цену",
+      },
+  }
+
+  try:
+      bitrix_response = client.documentgenerator.region.update(
+          bitrix_id=1,
+          fields=region_fields,
+      ).response
+      result = bitrix_response.result
+      print(result)
+  except BitrixAPIError as error:
+      print(
+          "Ошибка Bitrix API",
+          f"error: {error.error}",
+          f"error_description: {error.error_description}",
+          sep="\n",
+      )
+  except BitrixSDKException as error:
+      print(f"Ошибка Bitrix SDK: {error.message}")
+  except Exception as error:
+      print(f"Непредвиденная ошибка: {error}")
+  ```
+
 - PHP
 
   ```php

@@ -214,16 +214,17 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.entity.merge_batch(
             params={
                 "entityTypeId": 3,
-                "entityIds": [100, 101, 102],
+                "entityIds": [
+                    100,
+                    101,
+                    102,
+                ],
             },
         ).response
         result = bitrix_response.result

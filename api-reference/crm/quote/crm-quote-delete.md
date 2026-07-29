@@ -155,7 +155,6 @@
         echo 'Error deleting quote: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

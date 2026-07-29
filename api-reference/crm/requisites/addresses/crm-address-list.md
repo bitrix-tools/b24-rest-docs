@@ -351,16 +351,27 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.address.list(
-            select=["TYPE_ID", "ENTITY_TYPE_ID", "ENTITY_ID", "ADDRESS_1", "ADDRESS_2", "CITY", "POSTAL_CODE", "COUNTRY"],
-            filter={"ENTITY_TYPE_ID": 8, "ENTITY_ID": 7335},
-            order={"TYPE_ID": "ASC"},
+            select=[
+                "TYPE_ID",
+                "ENTITY_TYPE_ID",
+                "ENTITY_ID",
+                "ADDRESS_1",
+                "ADDRESS_2",
+                "CITY",
+                "POSTAL_CODE",
+                "COUNTRY",
+            ],
+            filter={
+                "ENTITY_TYPE_ID": 8,
+                "ENTITY_ID": 7335,
+            },
+            order={
+                "TYPE_ID": "ASC",
+            },
             start=0,
         ).response
         result = bitrix_response.result
@@ -381,16 +392,25 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.address.list(
-            select=["TYPE_ID", "ENTITY_TYPE_ID", "ENTITY_ID", "ADDRESS_1", "CITY", "COUNTRY"],
-            filter={"ENTITY_TYPE_ID": 8, "ENTITY_ID": 7335},
-            order={"TYPE_ID": "ASC"},
+            select=[
+                "TYPE_ID",
+                "ENTITY_TYPE_ID",
+                "ENTITY_ID",
+                "ADDRESS_1",
+                "CITY",
+                "COUNTRY",
+            ],
+            filter={
+                "ENTITY_TYPE_ID": 8,
+                "ENTITY_ID": 7335,
+            },
+            order={
+                "TYPE_ID": "ASC",
+            },
         ).as_list().response
         result = bitrix_response.result
         for item in result:

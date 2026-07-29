@@ -528,10 +528,7 @@ fields:
     ```python
     from datetime import datetime, timedelta
 
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.activity.configurable.update(
@@ -539,7 +536,9 @@ fields:
             fields={
                 "completed": True,
                 "deadline": (datetime.now() + timedelta(days=1)).isoformat(timespec="seconds"),
-                "pingOffsets": [30],
+                "pingOffsets": [
+                    30,
+                ],
                 "responsibleId": 1,
                 "badgeCode": "CUSTOM_STATUS",
             },

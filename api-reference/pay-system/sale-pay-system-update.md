@@ -170,6 +170,41 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "NAME": "New payment system name",
+        "DESCRIPTION": "New payment system description",
+        "PERSON_TYPE_ID": 1,
+        "BX_REST_HANDLER": "resthandlercode",
+        "ACTIVE": "Y",
+        "NEW_WINDOW": "N",
+        "LOGOTYPE": "/* base64 image */",
+    }
+
+    try:
+        bitrix_response = client.sale.paysystem.update(
+            bitrix_id=12,
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

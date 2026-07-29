@@ -142,6 +142,31 @@ BB-коды позволяют форматировать текст сообщ�
   }
   ```
 
+- Python
+
+  ```python
+  from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+  try:
+      bitrix_response = client.im.message.add(
+          dialog_id="chat2725",
+          message="[B]Важное[/B][BR]Откройте [URL=https://bitrix24.com]сайт[/URL][BR][SEND=/help]Помощь[/SEND]",
+      ).response
+      result = bitrix_response.result
+      print(result)
+  except BitrixAPIError as error:
+      print(
+          "Ошибка Bitrix API",
+          f"error: {error.error}",
+          f"error_description: {error.error_description}",
+          sep="\n",
+      )
+  except BitrixSDKException as error:
+      print(f"Ошибка Bitrix SDK: {error.message}")
+  except Exception as error:
+      print(f"Непредвиденная ошибка: {error}")
+  ```
+
 - BX24.js
 
   ```js

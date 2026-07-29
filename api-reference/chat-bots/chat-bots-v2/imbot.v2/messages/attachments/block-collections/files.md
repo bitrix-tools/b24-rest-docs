@@ -60,6 +60,20 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = {
+        "FILE": [
+            {
+                "NAME": "mantis.jpg",
+                "LINK": "https://files.shelenkov.com/bitrix/images/mantis.jpg",
+                "SIZE": 1500000,
+            },
+        ],
+    }
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

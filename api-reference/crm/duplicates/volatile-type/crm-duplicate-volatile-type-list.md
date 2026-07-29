@@ -163,10 +163,7 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.duplicate.volatile_type.list().response
@@ -188,10 +185,7 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.duplicate.volatile_type.list().as_list().response
@@ -214,10 +208,7 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.duplicate.volatile_type.list().as_list_fast(descending=True).response

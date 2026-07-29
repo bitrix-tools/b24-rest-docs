@@ -235,6 +235,45 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "orderId": 2068,
+        "allowDelivery": "Y",
+        "deducted": "Y",
+        "deliveryId": 2,
+        "statusId": "DN",
+        "deliveryDocDate": "2024-02-13T14:05:48",
+        "deliveryDocNum": "DocumentNumber123456",
+        "trackingNumber": "trackingNumber",
+        "basePriceDelivery": 999.99,
+        "comments": "My comment for manager",
+        "responsibleId": 25,
+        "xmlId": "myXmlId",
+    }
+
+    try:
+        bitrix_response = client.sale.shipment.add(
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

@@ -239,6 +239,49 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imconnector.register(
+            bitrix_id="myconnector",
+            name="My Connector",
+            icon={
+                "DATA_IMAGE": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E",
+                "COLOR": "#69acc0",
+                "SIZE": "90%",
+                "POSITION": "center",
+            },
+            placement_handler="https://example.com/connector/settings",
+            icon_disabled={
+                "DATA_IMAGE": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E",
+                "COLOR": "#99adb3",
+            },
+            del_external_messages=True,
+            edit_internal_messages=True,
+            del_internal_messages=True,
+            newsletter=True,
+            need_system_messages=True,
+            need_signature=True,
+            chat_group=False,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

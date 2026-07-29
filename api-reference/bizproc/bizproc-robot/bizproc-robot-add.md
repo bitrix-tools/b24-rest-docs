@@ -320,6 +320,61 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.bizproc.robot.add(
+            code="test_robot",
+            handler="https://example.com/robot.php",
+            name="Отправить сообщение",
+            auth_user_id=1,
+            use_subscription=True,
+            properties={
+                "datetime": {
+                    "Name": "Во сколько",
+                    "Type": "datetime",
+                },
+                "text": {
+                    "Name": "Текст",
+                    "Type": "text",
+                },
+                "user": {
+                    "Name": "Кому",
+                    "Type": "user",
+                    "Default": "Автор;",
+                },
+            },
+            filter={
+                "INCLUDE": [
+                    [
+                        "crm",
+                        "CCrmDocumentDeal",
+                    ],
+                    [
+                        "crm",
+                        "CCrmDocumentLead",
+                    ],
+                ],
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

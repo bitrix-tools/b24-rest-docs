@@ -219,6 +219,40 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.im.chat.add(
+            users=[
+                103,
+                547,
+            ],
+            type="CHAT",
+            title="Чат по сделке",
+            description="Здесь обсуждаем сделку",
+            color="PINK",
+            message="Добро пожаловать в чат сделки",
+            entity_type="CRM",
+            entity_id="DEAL|1663",
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

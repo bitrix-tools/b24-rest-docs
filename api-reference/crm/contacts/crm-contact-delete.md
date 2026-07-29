@@ -160,7 +160,6 @@
         echo 'Error deleting contact: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

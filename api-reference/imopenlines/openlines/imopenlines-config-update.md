@@ -234,6 +234,56 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imopenlines.config.update(
+            config_id=15,
+            params={
+                "LINE_NAME": "Online Store Support Line (VIP)",
+                "QUEUE": [
+                    {
+                        "ENTITY_TYPE": "user",
+                        "ENTITY_ID": "1",
+                    },
+                    {
+                        "ENTITY_TYPE": "user",
+                        "ENTITY_ID": "15",
+                    },
+                    {
+                        "ENTITY_TYPE": "user",
+                        "ENTITY_ID": "23",
+                    },
+                ],
+                "QUEUE_TYPE": "strictly",
+                "QUEUE_TIME": 45,
+                "NO_ANSWER_TIME": 120,
+                "WELCOME_MESSAGE": "Y",
+                "WELCOME_MESSAGE_TEXT": "Hello! We will reply in a couple of minutes",
+                "WORKTIME_ENABLE": "Y",
+                "WORKTIME_FROM": "09:00",
+                "WORKTIME_TO": "21:00",
+                "WORKTIME_TIMEZONE": "Europe/Kaliningrad",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php
