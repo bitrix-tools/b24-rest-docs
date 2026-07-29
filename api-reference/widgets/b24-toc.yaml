@@ -7,9 +7,7 @@ items:
     include:
       path: ui-kit/b24-toc.yaml
       mode: link
-  - name: Частые кейсы 
-    href: tutorials.md
-  - name: Места для встройки виджетов 
+  - name: Места для встройки виджетов
     href: placements.md
   - name: Виджеты в главном меню
     href: left-menu.md
