@@ -44,8 +44,8 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Как перенести дело из одного типа объекта в другой](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
-- [Как перенести дело между объектами CRM](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
+- [Как перенести дело между элементами одного типа](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
+- [Как перенести дело из одного типа объекта в другой](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
 
 {% endnote %}
 

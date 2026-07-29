@@ -15,21 +15,33 @@
 
 Дела, связанные с элементами CRM, хранятся в таймлайне карточки элемента. Перенос дела из одного элемента в другой может потребоваться, когда в один лид попадает несколько писем или звонков, которые с точки зрения бизнеса относятся к разным лидам. В этом случае можно разделить исходный лид на несколько новых и перенести дела для корректного учета данных.
 
+Метод переносит связь дела, а не копирует ее. В результате сценария дело появится в таймлайне нового лида и исчезнет из таймлайна исходного.
+
+{% note warning "" %}
+
+Дело можно перенести только между элементами одного типа: значения `sourceEntityTypeId` и `targetEntityTypeId` должны совпадать. Если типы разные, метод вернет ошибку `SOURCE_AND_TARGET_ENTITY_TYPES_ARE_NOT_EQUAL_ERROR`. Чтобы перенести дело между объектами разных типов, например из лида в компанию, используйте сценарий [Как перенести дело из одного типа объекта в другой](./how-to-move-activity-between-objects.md).
+
+{% endnote %}
+
 Для переноса дела последовательно выполним три метода:
 
-1. [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) — получим ID дела
+1. [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) — получим ID дела,
 
-2. [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md) — создадим элемент, в который перенесем дело, в примере лид
+2. [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md) — создадим элемент, в который перенесем дело, в примере лид,
 
-3. [crm.activity.binding.move](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md) — выполним перенос дела
+3. [crm.activity.binding.move](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md) — выполним перенос дела.
 
 ## 1. Получаем ID дела {#first}
 
 Используем метод [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) с фильтром:
 
-- `OWNER_TYPE_ID` — [тип объекта](../../../api-reference/crm/data-types.md#object_type), укажем `1` для лида
+- `OWNER_TYPE_ID` — [тип объекта](../../../api-reference/crm/data-types.md#object_type), укажем `1` для лида,
 
-- `OWNER_ID` — ID элемента, из которого будем переносить дело
+- `OWNER_ID` — ID элемента, из которого будем переносить дело.
+
+В примере переносим дело из лида `1000977`. ID лида виден в адресной строке его карточки, например `/crm/lead/details/1000977/`, или его можно получить методом [crm.lead.list](../../../api-reference/crm/leads/crm-lead-list.md).
+
+Без параметра `select` метод возвращает все поля дела. Чтобы сократить ответ, укажем только те поля, которые нужны сценарию: `ID`, `OWNER_TYPE_ID`, `OWNER_ID`, `SUBJECT` и `DESCRIPTION`. По полю `DESCRIPTION` в [примере кода](#example) выбирается нужное дело.
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -51,6 +63,7 @@
                 "OWNER_TYPE_ID": 1,
                 "OWNER_ID": 1000977
             },
+            select: [ "ID", "OWNER_TYPE_ID", "OWNER_ID", "SUBJECT", "DESCRIPTION" ]
         }
     });
     ```
@@ -69,36 +82,43 @@
     $logger->pushHandler(new StreamHandler('php://stdout'));
 
     $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+        ->initFromWebhook(getenv('B24_HOOK'));
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-    $result = $serviceBuilder->getCRMScope()->activity()->list(
+    $activities = $serviceBuilder->getCRMScope()->activity()->list(
         [],
         [
             'OWNER_TYPE_ID' => 1,
             'OWNER_ID' => 1000977,
         ],
-        [],
+        [
+            'ID', 'OWNER_TYPE_ID', 'OWNER_ID', 'SUBJECT', 'DESCRIPTION'
+        ],
         0
-    );
+    )->getActivities();
     ```
 
 - Python
 
     ```python
+    import os
+
     from b24pysdk import BitrixWebhook, Client
 
     client = Client(
         BitrixWebhook(
             domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
+            webhook_token=os.environ["B24_HOOK_TOKEN"],
         )
     )
+    # B24_HOOK_TOKEN = 'user_id/webhook_key'
 
     result = client.crm.activity.list(
         filter={
             "OWNER_TYPE_ID": 1,
             "OWNER_ID": 1000977,
-        }
+        },
+        select=["ID", "OWNER_TYPE_ID", "OWNER_ID", "SUBJECT", "DESCRIPTION"],
     ).response.result
     ```
 
@@ -111,122 +131,34 @@
     "result": [
         {
             "ID": "7685",
-            "OWNER_ID": "1000977",
             "OWNER_TYPE_ID": "1",
-            "TYPE_ID": "4",
-            "PROVIDER_ID": "CRM_EMAIL",
-            "PROVIDER_TYPE_ID": "EMAIL",
-            "PROVIDER_GROUP_ID": null,
-            "ASSOCIATED_ENTITY_ID": "0",
+            "OWNER_ID": "1000977",
             "SUBJECT": "для лидов",
-            "CREATED": "2025-03-10T10:57:41+03:00",
-            "LAST_UPDATED": "2025-03-10T10:57:41+03:00",
-            "START_TIME": "2025-03-10T10:57:34+03:00",
-            "END_TIME": "2025-03-10T20:00:00+03:00",
-            "DEADLINE": "9999-12-31T00:00:00+03:00",
-            "COMPLETED": "N",
-            "STATUS": "1",
-            "RESPONSIBLE_ID": "29",
-            "PRIORITY": "2",
-            "NOTIFY_TYPE": "0",
-            "NOTIFY_VALUE": "0",
-            "DESCRIPTION": "<div>письмо первое</div>\r\n",
-            "DESCRIPTION_TYPE": "3",
-            "DIRECTION": "1",
-            "LOCATION": "",
-            "SETTINGS": {
-                "EMAIL_META": {
-                    "__email": "some_email@gmail.com",
-                    "from": "Some client <some_client@gmail.com>",
-                    "replyTo": "",
-                    "to": "\"some_email@gmail.com\" <some_email@gmail.com>",
-                    "cc": "",
-                    "bcc": ""
-                },
-                "SANITIZE_ON_VIEW": 1
-            },
-            "ORIGINATOR_ID": null,
-            "ORIGIN_ID": null,
-            "AUTHOR_ID": "1",
-            "EDITOR_ID": "29",
-            "PROVIDER_PARAMS": [],
-            "PROVIDER_DATA": null,
-            "RESULT_MARK": "0",
-            "RESULT_VALUE": null,
-            "RESULT_SUM": null,
-            "RESULT_CURRENCY_ID": null,
-            "RESULT_STATUS": "0",
-            "RESULT_STREAM": "0",
-            "RESULT_SOURCE_ID": null,
-            "AUTOCOMPLETE_RULE": "0"
+            "DESCRIPTION": "<div>письмо первое</div>\r\n"
         },
         {
             "ID": "7687",
-            "OWNER_ID": "1000977",
             "OWNER_TYPE_ID": "1",
-            "TYPE_ID": "4",
-            "PROVIDER_ID": "CRM_EMAIL",
-            "PROVIDER_TYPE_ID": "EMAIL",
-            "PROVIDER_GROUP_ID": null,
-            "ASSOCIATED_ENTITY_ID": "0",
+            "OWNER_ID": "1000977",
             "SUBJECT": "для лидов",
-            "CREATED": "2025-03-10T10:58:13+03:00",
-            "LAST_UPDATED": "2025-03-10T10:58:13+03:00",
-            "START_TIME": "2025-03-10T10:58:08+03:00",
-            "END_TIME": "2025-03-10T20:00:00+03:00",
-            "DEADLINE": "9999-12-31T00:00:00+03:00",
-            "COMPLETED": "N",
-            "STATUS": "1",
-            "RESPONSIBLE_ID": "29",
-            "PRIORITY": "2",
-            "NOTIFY_TYPE": "0",
-            "NOTIFY_VALUE": "0",
-            "DESCRIPTION": "<div>письмо второе</div>\r\n",
-            "DESCRIPTION_TYPE": "3",
-            "DIRECTION": "1",
-            "LOCATION": "",
-            "SETTINGS": {
-                "EMAIL_META": {
-                    "__email": "some_email@gmail.com",
-                    "from": "Some client <some_client@gmail.com>",
-                    "replyTo": "",
-                    "to": "\"some_email@gmail.com\" <some_email@gmail.com>",
-                    "cc": "",
-                    "bcc": ""
-                },
-                "SANITIZE_ON_VIEW": 1
-            },
-            "ORIGINATOR_ID": null,
-            "ORIGIN_ID": null,
-            "AUTHOR_ID": "1",
-            "EDITOR_ID": "29",
-            "PROVIDER_PARAMS": [],
-            "PROVIDER_DATA": null,
-            "RESULT_MARK": "0",
-            "RESULT_VALUE": null,
-            "RESULT_SUM": null,
-            "RESULT_CURRENCY_ID": null,
-            "RESULT_STATUS": "0",
-            "RESULT_STREAM": "0",
-            "RESULT_SOURCE_ID": null,
-            "AUTOCOMPLETE_RULE": "0"
+            "DESCRIPTION": "<div>письмо второе</div>\r\n"
         }
     ],
-    "total": 2,
+    "total": 2
 }
 ```
 
-Выберем нужное дело из списка полученных и сохраним его `ID`: `7687`. В [примере кода](#example) выбор дела реализован через поиск по фразе из поля `DESCRIPTION`.
+Выберем нужное дело из списка полученных и сохраним его `ID`: `7687`. Это значение передадим в параметр `activityId` на шаге 3.
 
 ## 2. Создаем новый элемент {#second}
 
 Для создания нового лида, в который перенесем дело письма, выполним метод [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md) с параметрами:
 
-- `fields[TITLE]` — название лида
+- `fields[TITLE]` — название лида,
 
-- `fields[ASSIGNED_BY_ID]` — идентификатор ответственного за новый лид
+- `fields[ASSIGNED_BY_ID]` — идентификатор ответственного за новый лид,
 
-- `params[REGISTER_SONET_EVENT]` — параметр для регистрации уведомлений, укажем `Y`, чтобы на новый лид сработали системные уведомления при создании
+- `params[REGISTER_SONET_EVENT]` — параметр для регистрации уведомлений, укажем `Y`, чтобы на новый лид сработали системные уведомления при создании.
 
 В методе должны быть указаны все обязательные поля для лидов вашего Битрикс24, иначе лид создан не будет. Проверить, какие поля обязательные, можно методом [crm.lead.fields](../../../api-reference/crm/leads/crm-lead-fields.md), он вызывается без параметров.
 
@@ -253,7 +185,7 @@
 - PHP
 
     ```php
-    $result = $serviceBuilder->getCRMScope()->lead()->add(
+    $newLeadId = $serviceBuilder->getCRMScope()->lead()->add(
         [
             'TITLE' => 'Второй лид',
             'ASSIGNED_BY_ID' => 1,
@@ -261,7 +193,7 @@
         [
             'REGISTER_SONET_EVENT' => 'Y',
         ]
-    );
+    )->getId();
     ```
 
 - Python
@@ -280,11 +212,11 @@
 
 {% endlist %}
 
-В результате получим ID созданного лида.
+В результате получим ID созданного лида. Это значение передадим в параметр `targetEntityId` на шаге 3.
 
 ```JSON
 {
-    "result": 1000979,
+    "result": 1000979
 }
 ```
 
@@ -292,17 +224,17 @@
 
 Для переноса дела используем метод [crm.activity.binding.move](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md) с параметрами:
 
-- `activityId` — ID дела, получили на [шаге 1](#first) в методе [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md)
+- `activityId` — ID дела, получили на [шаге 1](#first) в методе [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md),
 
-- `sourceEntityTypeId` — ID [типа объекта](../../../api-reference/crm/data-types.md#object_type), откуда переносим дело
+- `sourceEntityTypeId` — ID [типа объекта](../../../api-reference/crm/data-types.md#object_type), откуда переносим дело,
 
-- `sourceEntityId` — ID элемента, откуда переносим дело
+- `sourceEntityId` — ID элемента, откуда переносим дело,
 
-- `targetEntityTypeId` — ID [типа объекта](../../../api-reference/crm/data-types.md#object_type), куда переносим дело
+- `targetEntityTypeId` — ID [типа объекта](../../../api-reference/crm/data-types.md#object_type), куда переносим дело,
 
-- `targetEntityId` — ID элемента, куда переносим дело, получили на [шаге 2](#second) в методе [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md)
+- `targetEntityId` — ID элемента, куда переносим дело, получили на [шаге 2](#second) в методе [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md).
 
-`sourceEntityTypeId` и `targetEntityTypeId` должны иметь одинаковое значение типа объекта.
+В примере оба типа объекта равны `1` — дело переносится из лида в лид.
 
 {% list tabs %}
 
@@ -324,6 +256,7 @@
 - PHP
 
     ```php
+    // crm.activity.binding.move не имеет типизированной обертки — вызываем через core
     $result = $serviceBuilder->core->call(
         'crm.activity.binding.move',
         [
@@ -350,11 +283,11 @@
 
 {% endlist %}
 
-В результате получим `true`, перенос дела прошел успешно. Если в результате вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.activity.binding.move](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md#обработка-ошибок).
+В результате получим `true`, перенос дела прошел успешно.
 
 ```JSON
 {
-    "result": true,
+    "result": true
 }
 ```
 
@@ -386,7 +319,8 @@
             filter: {
                 "OWNER_TYPE_ID": 1,
                 "OWNER_ID": firstLeadId
-            }
+            },
+            select: [ "ID", "OWNER_TYPE_ID", "OWNER_ID", "SUBJECT", "DESCRIPTION" ]
         });
 
         const targetActivity = activities.find(activity => activity.DESCRIPTION.includes(searchPhrase));
@@ -450,7 +384,8 @@
     $logger->pushHandler(new StreamHandler('php://stdout'));
 
     $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+        ->initFromWebhook(getenv('B24_HOOK'));
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
     // Функция для выполнения всех шагов
     function transferActivity($serviceBuilder, $firstLeadId, $searchPhrase) {
@@ -464,7 +399,9 @@
                     'OWNER_TYPE_ID' => 1,
                     'OWNER_ID' => $firstLeadId,
                 ],
-                [],
+                [
+                    'ID', 'OWNER_TYPE_ID', 'OWNER_ID', 'SUBJECT', 'DESCRIPTION'
+                ],
                 0
             )->getActivities();
 
@@ -496,6 +433,7 @@
             )->getId();
 
             // Шаг 3: Переносим дело
+            // crm.activity.binding.move не имеет типизированной обертки — вызываем через core
             $serviceBuilder->core->call(
                 'crm.activity.binding.move',
                 [
@@ -524,6 +462,8 @@
 - Python
 
     ```python
+    import os
+
     from b24pysdk import BitrixWebhook, Client
     from b24pysdk.errors import BitrixAPIError
 
@@ -534,7 +474,8 @@
                 filter={
                     "OWNER_TYPE_ID": 1,
                     "OWNER_ID": first_lead_id,
-                }
+                },
+                select=["ID", "OWNER_TYPE_ID", "OWNER_ID", "SUBJECT", "DESCRIPTION"],
             ).response.result
         except BitrixAPIError as error:
             print(f"Ошибка: {error}")
@@ -584,9 +525,10 @@
     client = Client(
         BitrixWebhook(
             domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
+            webhook_token=os.environ["B24_HOOK_TOKEN"],
         )
     )
+    # B24_HOOK_TOKEN = 'user_id/webhook_key'
 
     first_lead_id = int(input("Введите ID первого лида: "))
     search_phrase = input("Введите фразу для поиска по телу письма: ")
@@ -595,3 +537,52 @@
     ```
 
 {% endlist %}
+
+## Проверим результат
+
+Откройте карточку нового лида — в таймлайне появится перенесенное дело. В карточке исходного лида этого дела больше не будет: метод переносит связь, а не копирует ее.
+
+Проверить результат через REST можно методом [crm.activity.binding.list](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-list.md). Передайте в него `activityId` перенесенного дела — метод вернет все связи дела. После успешного переноса в ответе останется одна связь: тип объекта `1` и ID нового лида.
+
+```JSON
+{
+    "result": [
+        {
+            "entityTypeId": 1,
+            "entityId": 1000979
+        }
+    ]
+}
+```
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Код** | **Причина и действие** ||
+|| `SOURCE_AND_TARGET_ENTITY_TYPES_ARE_NOT_EQUAL_ERROR` | Значения `sourceEntityTypeId` и `targetEntityTypeId` не совпадают. Между объектами разных типов дело переносят по сценарию [Как перенести дело из одного типа объекта в другой](./how-to-move-activity-between-objects.md) ||
+|| `SOURCE_AND_TARGET_ENTITY_ID_ARE_EQUAL_ERROR` | В `sourceEntityId` и `targetEntityId` передан один и тот же элемент. Укажите разные элементы ||
+|| `BINDING_NOT_FOUND` | Дело не привязано к элементу из `sourceEntityTypeId` и `sourceEntityId`. Проверьте, из какого элемента переносите дело ||
+|| `ACTIVITY_IS_ALREADY_BOUND` | Дело уже привязано к элементу, в который вы его переносите ||
+|| `NOT_FOUND` | Дело или элемент CRM не найдены. Проверьте `activityId`, `sourceEntityId` и `targetEntityId` ||
+|| `ACCESS_DENIED` | У пользователя нет прав на изменение элементов CRM ||
+|| `100` | Не переданы обязательные параметры. Метод требует все пять: `activityId`, `sourceEntityTypeId`, `sourceEntityId`, `targetEntityTypeId` и `targetEntityId` ||
+|#
+
+## Что важно учитывать
+
+- Метод [crm.activity.binding.move](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md) переносит дело только между элементами одного типа
+- Сценарий работает не только для лидов. Чтобы перенести дело между двумя сделками, укажите `2` в `OWNER_TYPE_ID` шага 1 и в обоих параметрах типа объекта шага 3, а целевую сделку создайте методом [crm.deal.add](../../../api-reference/crm/deals/crm-deal-add.md). Значения для остальных типов — в справочнике [типов объектов](../../../api-reference/crm/data-types.md#object_type)
+- Дело переносится вместе со всей историей: письмо или звонок исчезнет из таймлайна исходного элемента
+- Вместе со связью у дела меняются собственные поля `OWNER_TYPE_ID` и `OWNER_ID` — когда связь остается одна, владельцем становится ее элемент. Поэтому [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) с фильтром по исходному лиду перенесенное дело больше не вернет, ищите его по новому лиду
+- Метод [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md) требует все обязательные поля лида вашего Битрикс24, состав полей проверяйте методом [crm.lead.fields](../../../api-reference/crm/leads/crm-lead-fields.md)
+- Повторный запуск примера создает еще один лид. Уже перенесенное дело в исходном лиде не найдется, и пример завершится сообщением, что дело не найдено
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md)
+- [{#T}](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-list.md)
+- [{#T}](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md)
+- [{#T}](./how-to-move-activity-between-objects.md)
+- [{#T}](./how-to-change-date-in-activity.md)
