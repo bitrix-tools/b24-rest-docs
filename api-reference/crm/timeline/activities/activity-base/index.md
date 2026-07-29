@@ -2,7 +2,7 @@
 
 Дело CRM — запись в таймлайне, которая фиксирует взаимодействие с клиентом. Оно привязано к элементу CRM и отображается в его карточке.
 
-Методы раздела работают с делами CRM: создают и обновляют универсальные дела, возвращают дело по идентификатору, получают список по фильтру, удаляют дело и описывают поля.
+Методы раздела работают с делами CRM: создают и обновляют универсальные дела, возвращают дело по идентификатору, получают список по фильтру, удаляют дело, возвращают расшифровку звонка и описывают поля.
 
 Например, нужно убрать из таймлайна сделки звонок. Для этого получите список дел по сделке и удалите нужное дело.
 
@@ -36,8 +36,9 @@
 4. Для изменения универсального дела используйте метод [crm.activity.todo.update](../todo/crm-activity-todo-update.md)
 5. Чтобы найти дела по фильтру, используйте метод [crm.activity.list](./crm-activity-list.md)
 6. Удалите нужное дело методом [crm.activity.delete](./crm-activity-delete.md)
-7. Для проверки структуры полей дела используйте метод [crm.activity.fields](./crm-activity-fields.md)
-8. Проверьте структуру полей коммуникации методом [crm.activity.communication.fields](./crm-activity-communication-fields.md)
+7. Если нужно получить готовую расшифровку звонка, используйте метод [crm.activity.call.getTranscript](./crm-activity-call-get-transcript.md)
+8. Для проверки структуры полей дела используйте метод [crm.activity.fields](./crm-activity-fields.md)
+9. Проверьте структуру полей коммуникации методом [crm.activity.communication.fields](./crm-activity-communication-fields.md)
 
 ## Связь с другими объектами
 
@@ -58,6 +59,7 @@
 || [crm.activity.get](./crm-activity-get.md) | Возвращает дело по идентификатору ||
 || [crm.activity.list](./crm-activity-list.md) | Возвращает список дел по фильтру ||
 || [crm.activity.delete](./crm-activity-delete.md) | Удаляет дело ||
+|| [crm.activity.call.getTranscript](./crm-activity-call-get-transcript.md) | Возвращает готовую расшифровку звонка ||
 || [crm.activity.fields](./crm-activity-fields.md) | Возвращает описание полей дела ||
 || [crm.activity.communication.fields](./crm-activity-communication-fields.md) | Возвращает описание полей коммуникации дела ||
 |#

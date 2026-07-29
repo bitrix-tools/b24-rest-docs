@@ -13,6 +13,8 @@ items:
     href: crm-activity-list.md
   - name: Удалить дело
     href: crm-activity-delete.md
+  - name: Получить расшифровку звонка
+    href: crm-activity-call-get-transcript.md
   - name: Получить список полей дела
     href: crm-activity-fields.md
   - name: Получить описание коммуникации

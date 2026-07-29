@@ -15,7 +15,6 @@
 
 Событие `ONBOOKINGWAITLISTITEMADD` сработает при создании новой записи в листе ожидания вручную или методами [booking.v1.waitlist.add](../booking-v1-waitlist-add.md), [booking.v1.waitlist.createfrombooking](../booking-v1-waitlist-createfrombooking.md).
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
@@ -80,5 +79,5 @@
 
 - [{#T}](../../../events/index.md)
 - [{#T}](../../../events/event-bind.md)
-- [{#T}](./on-booking-waitlistitem-delete.md)
 - [{#T}](./on-booking-waitlistitem-update.md)
+- [{#T}](./on-booking-waitlistitem-delete.md)

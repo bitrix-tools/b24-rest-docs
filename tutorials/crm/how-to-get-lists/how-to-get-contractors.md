@@ -37,26 +37,41 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.category.list',
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.category.list',
+        params: {
             entityTypeId: 3,
             filter: {
                 code: 'CATALOG_CONTRACTOR_CONTACT'
             }
-        },
-        function(result) {
-            console.log(result.data());
         }
-    );
+    });
+
+    console.log(result.getData().result);
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $serviceBuilder->core->call(
         'crm.category.list',
         [
             'entityTypeId' => 3,
@@ -125,35 +140,30 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.item.list',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.item.list',
+        params: {
             entityTypeId: 3,
             select: ['id', 'name', 'lastName', 'categoryId'],
             filter: {
                 categoryId: 15
             }
-        },
-        function(result) {
-            console.log(result.data());
         }
-    );
+    });
+
+    console.log(result.getData().result);
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.item.list',
+    $result = $serviceBuilder->getCRMScope()->item()->list(
+        3,
+        [],
         [
-            'entityTypeId' => 3,
-            'select' => ['id', 'name', 'lastName', 'categoryId'],
-            'filter' => [
-                'categoryId' => 15
-            ]
-        ]
+            'categoryId' => 15
+        ],
+        ['id', 'name', 'lastName', 'categoryId']
     );
     ```
 
@@ -204,98 +214,102 @@
 - JS
   
     ```javascript
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
     var entityTypeId = 3; // 3 - контакт; для компании укажите 4
     var categoryCode = 'CATALOG_CONTRACTOR_CONTACT'; // для компании укажите CATALOG_CONTRACTOR_COMPANY
 
-    BX24.callMethod(
-        'crm.category.list',
-        {
+    const resultCategory = await $b24.actions.v2.call.make({
+        method: 'crm.category.list',
+        params: {
             entityTypeId: entityTypeId,
             filter: { code: categoryCode }
-        },
-        function(resultCategory) {
-            if (resultCategory.error()) {
-                console.error(resultCategory.error() + ': ' + resultCategory.error_description());
-                return;
-            }
+        }
+    });
 
-            var categories = resultCategory.data().categories || [];
-            if (!categories.length) {
-                console.error('Категория поставщиков не найдена');
-                return;
-            }
-
+    if (!resultCategory.isSuccess) {
+        console.error(resultCategory.getErrorMessages().join('; '));
+    } else {
+        var categories = resultCategory.getData().result.categories || [];
+        if (!categories.length) {
+            console.error('Категория поставщиков не найдена');
+        } else {
             var categoryId = categories[0].id;
 
-            BX24.callMethod(
-                'crm.item.list',
-                {
+            const resultItems = await $b24.actions.v2.call.make({
+                method: 'crm.item.list',
+                params: {
                     entityTypeId: entityTypeId,
                     select: ['id', 'name', 'lastName', 'categoryId'],
                     filter: { categoryId: categoryId },
                     order: { ID: 'DESC' }
-                },
-                function(resultItems) {
-                    if (resultItems.error()) {
-                        console.error(resultItems.error() + ': ' + resultItems.error_description());
-                    } else {
-                        console.log(resultItems.data());
-                    }
                 }
-            );
+            });
+
+            if (!resultItems.isSuccess) {
+                console.error(resultItems.getErrorMessages().join('; '));
+            } else {
+                console.log(resultItems.getData().result);
+            }
         }
-    );
+    }
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     $entityTypeId = 3; // 3 - контакт; для компании укажите 4
     $categoryCode = 'CATALOG_CONTRACTOR_CONTACT'; // для компании укажите CATALOG_CONTRACTOR_COMPANY
 
-    $resultCategory = CRest::call(
-        'crm.category.list',
-        [
-            'entityTypeId' => $entityTypeId,
-            'filter' => [
-                'code' => $categoryCode
+    try {
+        $resultCategory = $serviceBuilder->core->call(
+            'crm.category.list',
+            [
+                'entityTypeId' => $entityTypeId,
+                'filter' => [
+                    'code' => $categoryCode
+                ]
             ]
-        ]
-    );
+        );
 
-    if (!empty($resultCategory['error_description'])) {
-        echo $resultCategory['error_description'];
-        return;
-    }
+        $categories = $resultCategory->getResponseData()->getResult()['categories'] ?? [];
+        if (empty($categories)) {
+            echo 'Категория поставщиков не найдена';
+            return;
+        }
 
-    $categories = $resultCategory['result']['categories'] ?? [];
-    if (empty($categories)) {
-        echo 'Категория поставщиков не найдена';
-        return;
-    }
+        $categoryId = $categories[0]['id'];
 
-    $categoryId = $categories[0]['id'];
-
-    $resultItems = CRest::call(
-        'crm.item.list',
-        [
-            'entityTypeId' => $entityTypeId,
-            'select' => ['id', 'name', 'lastName', 'categoryId'],
-            'filter' => [
+        $resultItems = $serviceBuilder->getCRMScope()->item()->list(
+            $entityTypeId,
+            [
+                'ID' => 'DESC'
+            ],
+            [
                 'categoryId' => $categoryId
             ],
-            'order' => [
-                'ID' => 'DESC'
-            ]
-        ]
-    );
+            ['id', 'name', 'lastName', 'categoryId']
+        );
 
-    if (!empty($resultItems['error_description'])) {
-        echo $resultItems['error_description'];
-    } else {
-        print_r($resultItems['result']);
+        print_r($resultItems->getItems());
+    } catch (\Throwable $e) {
+        echo $e->getMessage();
     }
     ```
 

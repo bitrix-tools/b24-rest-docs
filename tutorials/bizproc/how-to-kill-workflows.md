@@ -33,40 +33,56 @@
 
 - `ACTIVE` — параметр регулирует поиск по активным или уволенным сотрудникам. Если параметр не передавать, поиск будет идти по всем сотрудникам вне зависимости от их статуса. Укажем `0` для поиска только среди уволенных сотрудников
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
-
 {% list tabs %}
 
 - JS
 
-    ```javascript
-    BX24.callMethod(
-        "user.get",
-        {
+    ```js
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/')
+
+    const response = await $b24.actions.v2.call.make({
+        method: 'user.get',
+        params: {
             filter: {
-                "NAME": "employee's name",
-                "LAST_NAME": "employee's last name",
-                "ACTIVE": 0
-            }
+                NAME: "employee's name",
+                LAST_NAME: "employee's last name",
+                ACTIVE: 0,
+            },
         },
-    );
+        requestId: 'user-get',
+    })
+
+    const users = response.getData().result
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'user.get',
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
+
+    $users = $b24->getUserScope()->user()->get(
+        [],
         [
-            'filter' => [
-                'NAME' => "employee's name",
-                'LAST_NAME' => "employee's last name",
-                'ACTIVE' => 0
-            ]
+            'NAME' => "employee's name",
+            'LAST_NAME' => "employee's last name",
+            'ACTIVE' => 0,
         ]
-    );
+    )->getUsers();
     ```
 
 - Python
@@ -74,12 +90,11 @@
     ```python
     from b24pysdk import BitrixWebhook, Client
 
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
     )
+    client = Client(token)
 
     result = client.user.get(
         filter={
@@ -99,58 +114,15 @@
     "result": [
         {
             "ID": "29",
-            "XML_ID": "28936832",
             "ACTIVE": false,
             "NAME": "employee's name",
             "LAST_NAME": "employee's last name",
-            "SECOND_NAME": "",
-            "TITLE": "",
             "EMAIL": "employee_email@gmail.com",
-            "LAST_LOGIN": "2025-03-27T13:49:36+03:00",
-            "DATE_REGISTER": "2020-04-23T03:00:00+03:00",
-            "TIME_ZONE": "Asia/Yekaterinburg",
-            "IS_ONLINE": "N",
-            "TIMESTAMP_X": {},
-            "LAST_ACTIVITY_DATE": {},
-            "PERSONAL_GENDER": "",
-            "PERSONAL_PROFESSION": "",
-            "PERSONAL_WWW": "",
-            "PERSONAL_BIRTHDAY": "",
-            "PERSONAL_PHOTO": "https://cdn-ru.bitrix24.ru/b13743910/main/3f2/3f212fkdjf8c3627cfe51633f959de/avatar.png",
-            "PERSONAL_ICQ": "",
-            "PERSONAL_PHONE": "",
-            "PERSONAL_FAX": "",
-            "PERSONAL_MOBILE": "",
-            "PERSONAL_PAGER": "",
-            "PERSONAL_STREET": "",
-            "PERSONAL_CITY": "",
-            "PERSONAL_STATE": "",
-            "PERSONAL_ZIP": "",
-            "PERSONAL_COUNTRY": "0",
-            "PERSONAL_MAILBOX": "",
-            "PERSONAL_NOTES": "",
-            "WORK_PHONE": "",
-            "WORK_COMPANY": "",
             "WORK_POSITION": "Менеджер",
-            "WORK_DEPARTMENT": "",
-            "WORK_WWW": "",
-            "WORK_FAX": "",
-            "WORK_PAGER": "",
-            "WORK_STREET": "",
-            "WORK_MAILBOX": "",
-            "WORK_CITY": "",
-            "WORK_STATE": "",
-            "WORK_ZIP": "",
-            "WORK_COUNTRY": "0",
-            "WORK_PROFILE": "",
-            "WORK_NOTES": "",
-            "UF_EMPLOYMENT_DATE": "",
             "UF_DEPARTMENT": [
                 7,
                 1
             ],
-            "UF_PHONE_INNER": "555",
-            "UF_USR_1619099890455": "12132132123",
             "USER_TYPE": "employee"
         }
     ],
@@ -169,33 +141,32 @@
 {% list tabs %}
 
 - JS
-  
-    ```javascript
-    BX24.callMethod(
-        'bizproc.task.list',
-        {
+
+    ```js
+    const response = await $b24.actions.v2.call.make({
+        method: 'bizproc.task.list',
+        params: {
             filter: {
-                'USER_ID': 29,
-                'STATUS': 0,
-            }
+                USER_ID: 29,
+                STATUS: 0,
+            },
         },
-    );
+        requestId: 'bizproc-task-list',
+    })
+
+    const tasks = response.getData().result
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'bizproc.task.list',
+    $tasks = $b24->getBizProcScope()->task()->list(
+        [],
         [
-            'filter' => [
-                'USER_ID' => 29,
-                'STATUS' => 0
-            ]
+            'USER_ID' => 29,
+            'STATUS' => 0,
         ]
-    );
+    )->getTasks();
     ```
 
 - Python
@@ -224,81 +195,9 @@
             "DOCUMENT_NAME": "widget contact",
             "NAME": "Адрес",
             "DOCUMENT_URL": "/crm/contact/details/2437/"
-        },
-        {
-            "ENTITY": "CCrmDocumentContact",
-            "DOCUMENT_ID": "CONTACT_2435",
-            "ID": "877",
-            "WORKFLOW_ID": "67c5b492d0b426.74280093",
-            "DOCUMENT_NAME": "Контакт #2435",
-            "NAME": "Адрес",
-            "DOCUMENT_URL": "/crm/contact/details/2435/"
-        },
-        {
-            "ENTITY": "CCrmDocumentContact",
-            "DOCUMENT_ID": "CONTACT_2433",
-            "ID": "875",
-            "WORKFLOW_ID": "67c598a987d387.85575151",
-            "DOCUMENT_NAME": "Контакт #2433",
-            "NAME": "Адрес",
-            "DOCUMENT_URL": "/crm/contact/details/2433/"
-        },
-        {
-            "ENTITY": "CCrmDocumentContact",
-            "DOCUMENT_ID": "CONTACT_2429",
-            "ID": "871",
-            "WORKFLOW_ID": "67091df4b13dd2.83077613",
-            "DOCUMENT_NAME": "Петечкин Вася",
-            "NAME": "Адрес",
-            "DOCUMENT_URL": "/crm/contact/details/2429/"
-        },
-        {
-            "ENTITY": "CCrmDocumentContact",
-            "DOCUMENT_ID": "CONTACT_2427",
-            "ID": "859",
-            "WORKFLOW_ID": "66e2d5d5c64f82.28057011",
-            "DOCUMENT_NAME": "Иванович",
-            "NAME": "Адрес",
-            "DOCUMENT_URL": "/crm/contact/details/2427/"
-        },
-        {
-            "ENTITY": "CCrmDocumentContact",
-            "DOCUMENT_ID": "CONTACT_2425",
-            "ID": "857",
-            "WORKFLOW_ID": "66e0242399d303.52288141",
-            "DOCUMENT_NAME": "Петровна",
-            "NAME": "Адрес",
-            "DOCUMENT_URL": "/crm/contact/details/2425/"
-        },
-        {
-            "ENTITY": "CCrmDocumentContact",
-            "DOCUMENT_ID": "CONTACT_2423",
-            "ID": "855",
-            "WORKFLOW_ID": "66d870dfbb9542.91956540",
-            "DOCUMENT_NAME": "Смирнов",
-            "NAME": "Адрес",
-            "DOCUMENT_URL": "/crm/contact/details/2423/"
-        },
-        {
-            "ENTITY": "CCrmDocumentContact",
-            "DOCUMENT_ID": "CONTACT_2421",
-            "ID": "853",
-            "WORKFLOW_ID": "66d7fb6f86c0c2.49741539",
-            "DOCUMENT_NAME": "Калашников",
-            "NAME": "Адрес",
-            "DOCUMENT_URL": "/crm/contact/details/2421/"
-        },
-        {
-            "ENTITY": "CCrmDocumentContact",
-            "DOCUMENT_ID": "CONTACT_2419",
-            "ID": "851",
-            "WORKFLOW_ID": "66d073d9c9fc08.23457428",
-            "DOCUMENT_NAME": "Без имени",
-            "NAME": "Адрес",
-            "DOCUMENT_URL": "/crm/contact/details/2419/"
         }
     ],
-    "total": 9,
+    "total": 1,
 }
 ```
 
@@ -312,39 +211,44 @@
 
 - JS
 
-    ```javascript
-    BX24.callMethod(
-        'bizproc.workflow.kill',
-        {
-            ID: '67e3db8e581121.72266518',
-        },
-    );
+    ```js
+    const response = await $b24.actions.v2.call.make({
+        method: 'bizproc.workflow.kill',
+        params: { ID: '67e3db8e581121.72266518' },
+        requestId: 'bizproc-workflow-kill',
+    })
+
+    const isKilled = response.getData().result
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'bizproc.workflow.kill',
-        [
-            'ID' => '67e3db8e581121.72266518'
-        ]
-    );
+    $isKilled = $b24->getBizProcScope()->workflow()
+        ->kill('67e3db8e581121.72266518')
+        ->isSuccess();
     ```
 
 - Python
 
     ```python
-    result = client.bizproc.workflow.kill(
-        bitrix_id="67e3db8e581121.72266518",
-    ).response.result
+    # ID бизнес-процесса — строка, а типизированный client.bizproc.workflow.kill
+    # ожидает int, поэтому вызываем метод напрямую через token.call_method
+    result = token.call_method(
+        "bizproc.workflow.kill",
+        {"ID": "67e3db8e581121.72266518"},
+    )
     ```
 
 {% endlist %}
 
-В результате получим `true`, удаление процесса прошло успешно. Если  вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [bizproc.workflow.kill](../../api-reference/bizproc/bizproc-workflow-kill.md).
+{% note warning "" %}
+
+В b24pysdk типизированный метод `client.bizproc.workflow.kill(bitrix_id=...)` ожидает целочисленный `bitrix_id`, а идентификатор бизнес-процесса — строка вида `67e3db8e581121.72266518`. Поэтому для завершения процесса используйте универсальный вызов `token.call_method("bizproc.workflow.kill", {"ID": workflow_id})`, где `token` — объект `BitrixWebhook`.
+
+{% endnote %}
+
+В результате получим `true`, удаление процесса прошло успешно. Если вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [bizproc.workflow.kill](../../api-reference/bizproc/bizproc-workflow-kill.md).
 
 ```json
 {
@@ -360,169 +264,111 @@
 
 - JS
 
-    ```javascript
-    // Функция для получения ID сотрудника по имени и фамилии
-    function getUserId(firstName, lastName, callback) {
-        BX24.callMethod(
-            "user.get",
-            {
-                "NAME": firstName,
-                "LAST_NAME": lastName,
-                "ACTIVE": 0,
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error(result.error());
-                } else {
-                    // Предполагаем, что найден только один пользователь
-                    const userId = result.data()[0].ID;
-                    callback(userId);
-                }
-            }
-        );
+    ```js
+    // npm install @bitrix24/b24jssdk
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/')
+
+    async function getUserId(firstName, lastName) {
+        const response = await $b24.actions.v2.call.make({
+            method: 'user.get',
+            params: { filter: { NAME: firstName, LAST_NAME: lastName, ACTIVE: 0 } },
+            requestId: 'user-get',
+        })
+        if (!response.isSuccess) throw new Error(response.getErrorMessages().join('; '))
+        const users = response.getData().result
+        return users.length ? users[0].ID : null
     }
 
-    // Функция для получения списка невыполненных заданий сотрудника
-    function getUserTasks(userId, callback) {
-        BX24.callMethod(
-            'bizproc.task.list',
-            {
-                filter: {
-                    'USER_ID': userId,
-                    'STATUS': 0,
-                }
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error(result.error());
-                } else {
-                    // Извлекаем WORKFLOW_ID из каждого задания
-                    const workflowIds = result.data().map(task => task.WORKFLOW_ID);
-                    callback(workflowIds);
-                }
-            }
-        );
+    async function getWorkflowIds(userId) {
+        const response = await $b24.actions.v2.call.make({
+            method: 'bizproc.task.list',
+            params: { filter: { USER_ID: userId, STATUS: 0 } },
+            requestId: 'bizproc-task-list',
+        })
+        if (!response.isSuccess) throw new Error(response.getErrorMessages().join('; '))
+        return response.getData().result.map((task) => task.WORKFLOW_ID)
     }
 
-    // Функция для завершения бизнес-процессов по списку WORKFLOW_ID
-    function killWorkflows(workflowIds) {
-        workflowIds.forEach(workflowId => {
-            BX24.callMethod(
-                'bizproc.workflow.kill',
-                {
-                    ID: workflowId,
-                },
-                function(result) {
-                    if (result.error()) {
-                        console.error(result.error());
-                    } else {
-                        console.log(`Workflow ${workflowId} завершен успешно.`);
-                    }
-                }
-            );
-        });
+    async function killWorkflows(workflowIds) {
+        for (const workflowId of workflowIds) {
+            const response = await $b24.actions.v2.call.make({
+                method: 'bizproc.workflow.kill',
+                params: { ID: workflowId },
+                requestId: `kill-${workflowId}`,
+            })
+            console.log(response.isSuccess
+                ? `Workflow ${workflowId} завершен успешно.`
+                : `Ошибка: ${response.getErrorMessages().join('; ')}`)
+        }
     }
 
-    // Основная функция, которая объединяет все шаги
-    function processEmployeeTasks(firstName, lastName) {
-        getUserId(firstName, lastName, function(userId) {
-            getUserTasks(userId, function(workflowIds) {
-                killWorkflows(workflowIds);
-            });
-        });
+    // Имя и фамилия сотрудника передаются аргументами: node kill.mjs Иван Иванов
+    const [firstName, lastName] = process.argv.slice(2)
+    const userId = await getUserId(firstName, lastName)
+    if (userId) {
+        await killWorkflows(await getWorkflowIds(userId))
     }
-
-    // Запрашиваем у пользователя имя и фамилию
-    const firstName = prompt("Введите имя сотрудника:");
-    const lastName = prompt("Введите фамилию сотрудника:");
-
-    // Запускаем процесс
-    processEmployeeTasks(firstName, lastName);
+    $b24.destroy()
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    // Функция для получения ID сотрудника по имени и фамилии
-    function getUserId($firstName, $lastName) {
-        $result = CRest::call(
-            'user.get',
-            [
-                'filter' => [
-                    'NAME' => $firstName,
-                    'LAST_NAME' => $lastName,
-                    'ACTIVE' => 0
-                ]
-            ]
-        );
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Bitrix24\SDK\Services\ServiceBuilder;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
 
-        if (!empty($result['error'])) {
-            echo "Error: " . $result['error_description'];
-            return null;
-        }
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
 
-        // Предполагаем, что найден только один пользователь
-        return $result['result'][0]['ID'] ?? null;
+    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
+
+    function getUserId(ServiceBuilder $b24, string $firstName, string $lastName): ?int
+    {
+        $users = $b24->getUserScope()->user()->get(
+            [],
+            ['NAME' => $firstName, 'LAST_NAME' => $lastName, 'ACTIVE' => 0]
+        )->getUsers();
+
+        return $users === [] ? null : $users[0]->ID;
     }
 
-    // Функция для получения списка невыполненных заданий сотрудника
-    function getUserTasks($userId) {
-        $result = CRest::call(
-            'bizproc.task.list',
-            [
-                'filter' => [
-                    'USER_ID' => $userId,
-                    'STATUS' => 0
-                ]
-            ]
-        );
+    function getWorkflowIds(ServiceBuilder $b24, int $userId): array
+    {
+        $tasks = $b24->getBizProcScope()->task()->list(
+            [],
+            ['USER_ID' => $userId, 'STATUS' => 0]
+        )->getTasks();
 
-        if (!empty($result['error'])) {
-            echo "Error: " . $result['error_description'];
-            return [];
-        }
-
-        // Извлекаем WORKFLOW_ID из каждого задания
-        return array_map(function($task) {
-            return $task['WORKFLOW_ID'];
-        }, $result['result']);
+        return array_map(static fn($task) => $task->WORKFLOW_ID, $tasks);
     }
 
-    // Функция для завершения бизнес-процессов по списку WORKFLOW_ID
-    function killWorkflows($workflowIds) {
+    function killWorkflows(ServiceBuilder $b24, array $workflowIds): void
+    {
         foreach ($workflowIds as $workflowId) {
-            $result = CRest::call(
-                'bizproc.workflow.kill',
-                [
-                    'ID' => $workflowId
-                ]
-            );
-
-            if (!empty($result['error'])) {
-                echo "Error: " . $result['error_description'];
-            } else {
-                echo "Workflow $workflowId завершен успешно.\n";
-            }
+            $isKilled = $b24->getBizProcScope()->workflow()->kill($workflowId)->isSuccess();
+            echo $isKilled
+                ? "Workflow {$workflowId} завершен успешно.\n"
+                : "Ошибка при удалении процесса {$workflowId}\n";
         }
     }
 
-    // Основная функция, которая объединяет все шаги
-    function processEmployeeTasks($firstName, $lastName) {
-        $userId = getUserId($firstName, $lastName);
-        if ($userId) {
-            $workflowIds = getUserTasks($userId);
-            killWorkflows($workflowIds);
-        }
+    $firstName = readline('Введите имя сотрудника: ');
+    $lastName = readline('Введите фамилию сотрудника: ');
+
+    $userId = getUserId($b24, $firstName, $lastName);
+    if ($userId !== null) {
+        killWorkflows($b24, getWorkflowIds($b24, $userId));
     }
-
-    // Запрашиваем у пользователя имя и фамилию
-    $firstName = readline("Введите имя сотрудника: ");
-    $lastName = readline("Введите фамилию сотрудника: ");
-
-    // Запускаем процесс
-    processEmployeeTasks($firstName, $lastName);
     ```
 
 - Python
@@ -563,35 +409,36 @@
         return [task["WORKFLOW_ID"] for task in tasks]
 
 
-    def kill_workflows(client, workflow_ids: list[str]) -> None:
+    def kill_workflows(token, workflow_ids: list[str]) -> None:
+        # ID процесса — строка, поэтому используем универсальный token.call_method,
+        # а не типизированный client.bizproc.workflow.kill (он ожидает int)
         for workflow_id in workflow_ids:
             try:
-                client.bizproc.workflow.kill(bitrix_id=workflow_id).response
+                token.call_method("bizproc.workflow.kill", {"ID": workflow_id})
             except BitrixAPIError as error:
                 print(f"Ошибка: {error}")
             else:
                 print(f"Workflow {workflow_id} завершен успешно.")
 
 
-    def process_employee_tasks(client, first_name: str, last_name: str) -> None:
+    def process_employee_tasks(client, token, first_name: str, last_name: str) -> None:
         user_id = get_user_id(client, first_name, last_name)
         if user_id is None:
             return
         workflow_ids = get_user_tasks(client, user_id)
-        kill_workflows(client, workflow_ids)
+        kill_workflows(token, workflow_ids)
 
 
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
     )
+    client = Client(token)
 
     first_name = input("Введите имя сотрудника: ")
     last_name = input("Введите фамилию сотрудника: ")
 
-    process_employee_tasks(client, first_name, last_name)
+    process_employee_tasks(client, token, first_name, last_name)
     ```
 
 {% endlist %}

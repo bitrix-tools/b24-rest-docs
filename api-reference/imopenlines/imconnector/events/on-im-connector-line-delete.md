@@ -53,7 +53,7 @@
 || **event**
 [`string`](../../../data-types.md) | Символьный код события.
 
-В данном случае - `ONIMCONNECTORLINEDELETE` ||
+В данном случае — `ONIMCONNECTORLINEDELETE` ||
 || **event_handler_id**
 [`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
@@ -72,6 +72,8 @@
 
 ## Продолжите изучение
 
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-im-connector-message-add.md)
 - [{#T}](./on-im-connector-dialog-start.md)
 - [{#T}](./on-im-connector-message-update.md)

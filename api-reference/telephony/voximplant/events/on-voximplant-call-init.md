@@ -81,7 +81,7 @@
             "application_token": "52610fefc120afg4b628cc82d6298cce"
         }
     }
-        ```
+    ```
 
 {% endlist %}
 
@@ -93,7 +93,7 @@
 
 В данном случае — `ONVOXIMPLANTCALLINIT` ||
 || **event_handler_id**
-[`string`](../../../data-types.md) | Идентификатор обработчика события ||
+[`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
 [`object`](../../../data-types.md) | Объект с данными события.
 
@@ -151,6 +151,8 @@
 
 ## Продолжите изучение
 
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-voximplant-call-start.md)
 - [{#T}](./on-voximplant-call-end.md)
 - [{#T}](../../telephony-external-call-register.md)

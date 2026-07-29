@@ -10,7 +10,7 @@
 {% endnote %}
 
 ```js
-BX24.appOption.get(string name, mixed value): mixed;
+BX24.appOption.get(string name): mixed;
 ```
 
 Метод `BX24.appOption.get` возвращает настройку по ее коду.
@@ -39,6 +39,10 @@ BX24.init(() => {
 ```
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Возвращаемое значение
+
+Возвращает значение настройки приложения с именем `name`. Тип значения зависит от того, что было сохранено методом [BX24.appOption.set](./bx24-app-option-set.md).
 
 ## Продолжите изучение
 

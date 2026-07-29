@@ -326,7 +326,7 @@
     https://**put_your_bitrix24_address**/rest/crm.deal.userfield.update
     ```
 
-- JS
+- BX24.js
 
     ```js
     BX24.callMethod(

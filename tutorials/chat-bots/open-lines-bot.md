@@ -9,134 +9,154 @@
 
 {% endnote %}
 
-Процесс создания чат-бота для *Открытых линий* аналогичен [созданию обычного чат-бота](./index.md), но есть два отличия:
+Создание чат-бота для *Открытых линий* аналогично [созданию обычного чат-бота](./index.md), но есть два отличия:
 
-1. При создании чат-бота для *Открытых линий* в [imbot.register](../../api-reference/chat-bots/outdated/bots/imbot-register.md) в параметр `TYPE` нужно передать `O`
+1. При регистрации в [imbot.register](../../api-reference/chat-bots/outdated/bots/imbot-register.md) в параметр `TYPE` передаем `O`. Чтобы расширить уже существующего бота, передаем `OPENLINE => Y` — тогда бот работает в гибридном режиме (групповой чат, личный чат и Открытые линии)
 
-2. Если необходимо расширить возможности уже существующего чат-бота, то следует передать новый ключ `OPENLINE => Y`, и тогда чат-бот будет работать в гибридном режиме.
-   
-   В гибридном режиме чат-бот должен корректно работать в групповом чате, персональном чате и чате открытых линий. Для этого нужно во всех входящих событиях ([ONIMBOTMESSAGEADD](../../api-reference/chat-bots/outdated/messages/events/on-imbot-message-add.md) и [ONIMBOTJOINCHAT](../../api-reference/chat-bots/outdated/chats/events/on-imbot-join-chat.md)) проверять параметр `CHAT_ENTITY_TYPE` — для *Открытых линий* он должен быть `CHAT_ENTITY_TYPE => LINES`.
+2. В гибридном режиме во всех входящих событиях ([ONIMBOTMESSAGEADD](../../api-reference/chat-bots/outdated/messages/events/on-imbot-message-add.md) и [ONIMBOTJOINCHAT](../../api-reference/chat-bots/outdated/chats/events/on-imbot-join-chat.md)) проверяем `CHAT_ENTITY_TYPE` — для Открытых линий он равен `LINES`
 
-Во всем остальном это привычный и уже знакомый [чат-бот](./index.md).
+Для тесной интеграции с Открытыми линиями нужен scope [`imopenlines`](../../api-reference/scopes/permissions.md). Инициализацию SDK по данным события смотрите в [примере обычного чат-бота](./index.md#инициализация-sdk-по-данным-события).
 
-Для более тесной интеграции с *Открытыми линиями* необходимо иметь права доступа на scope [`imopenlines`](../../api-reference/scopes/permissions.md).
+## Регистрация бота для Открытых линий
 
-С данным правом будут доступны команды:
+{% list tabs %}
 
-- [imopenlines.network.join](../../api-reference/imopenlines/openlines/imopenlines-network-join.md) — подключение открытой линии вашей компании к порталу *Битрикс24*, после чего сотрудники смогут вам писать
-- [imopenlines.bot.session.operator](../../api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-operator.md) — переключение разговора на свободного оператора
-- [imopenlines.bot.session.transfer](../../api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-transfer.md) — переключение разговора на конкретного оператора
-- [imopenlines.bot.session.finish](../../api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-finish.md) — завершение текущей сессии
+- JS
 
-{% note warning %}
+    ```js
+    await $b24.actions.v2.call.make({
+        method: 'imbot.register',
+        params: {
+            CODE: 'OpenLineBot',
+            TYPE: 'O',          // тип бота для Открытых линий
+            OPENLINE: 'Y',      // гибридный режим
+            EVENT_MESSAGE_ADD: HANDLER_URL,
+            EVENT_WELCOME_MESSAGE: HANDLER_URL,
+            EVENT_BOT_DELETE: HANDLER_URL,
+            PROPERTIES: { NAME: 'Линия поддержки', COLOR: 'GREEN' },
+        },
+        requestId: 'imbot-register-ol',
+    })
+    ```
 
-Использование сертификата HTTPS для чат-ботов не обязательно, но крайне рекомендуется для защиты конфиденциальных данных клиента. Приложение должно быть в кодировке `UTF-8`.
+- PHP
 
-{% endnote %}
+    ```php
+    // imbot.* нет среди типизированных сервисов PHP — вызываем через ядро
+    $b24->core->call('imbot.register', [
+        'CODE' => 'OpenLineBot',
+        'TYPE' => 'O',
+        'OPENLINE' => 'Y',
+        'EVENT_MESSAGE_ADD' => $handlerUrl,
+        'EVENT_WELCOME_MESSAGE' => $handlerUrl,
+        'EVENT_BOT_DELETE' => $handlerUrl,
+        'PROPERTIES' => ['NAME' => 'Линия поддержки', 'COLOR' => 'GREEN'],
+    ]);
+    ```
 
-## Скачать пример чат-бота для Открытых линий
+- Python
 
-В качестве примера чат-бота для открытых линий мы подготовили чат-бот «ITR Bot». Получить его можно следующими способами:
+    ```python
+    client.imbot.register(
+        code="OpenLineBot",
+        properties={"NAME": "Линия поддержки", "COLOR": "GREEN"},
+        event_message_add=HANDLER_URL,
+        event_welcome_message=HANDLER_URL,
+        event_bot_delete=HANDLER_URL,
+        type="O",
+        openline=True,
+    ).response
+    ```
 
-- [скачать](https://github.com/bitrix24com/bots) c сервиса GitHub, файл `itr.php`
-- найти и скопировать в продукте *«Битрикс24 в коробке»* в папке `\Bitrix\ImBot\Bot\OpenlinesMenuExample`
+{% endlist %}
 
-Данный чат-бот выступает в качестве первой линии поддержки: сначала все сообщения будут поступать к нему, а только потом — сотрудникам в очередь. Время, через которое сообщения будут переадресованы с чат-бота на сотрудников, задается в настройках открытой линии. 
+## Проверка типа чата в обработчике
 
-Также в чат-бот добавлен класс для построения многоуровневого меню в чатах.
+В гибридном режиме обрабатываем сообщения из Открытых линий отдельно — по полю `CHAT_ENTITY_TYPE`.
 
-## Запуск на своем портале
+{% list tabs %}
 
-Вы можете [взять код примера чат-бота](#скачать-пример-чат-бота-для-открытых-линий) выше, выложить на своем сервере и запустить чат-бота на своем портале в качестве локального приложения, не публикуя его через *Маркет*:
+- JS
 
-- В левом меню в разделе **Приложения** (1) перейдите в подраздел **Разработчикам** (2) и выберите пункт **Другое** (3):
+    ```js
+    if (data.PARAMS.CHAT_ENTITY_TYPE === 'LINES') {
+        // сообщение из Открытой линии — логика первой линии поддержки
+    }
+    ```
 
-![Добавление приложения](./_images/chatbot1_sm.png)
+- PHP
 
-- Используйте сценарий **Локальное приложение** (4):
+    ```php
+    if (($data['PARAMS']['CHAT_ENTITY_TYPE'] ?? '') === 'LINES') {
+        // сообщение из Открытой линии
+    }
+    ```
 
-![Локальное приложение](./_images/chatbot2_sm.png)
+- Python
 
-- Выберите тип приложения **Серверное** и настройте его параметры:
-  -  Смените название бота 
-  -  Включите опцию `Использует только API` и задайте приложению права доступа на:
-     - `Создание и управление Чат-ботами` — без этих прав приложение не сможет зарегистрировать чат-бота
-     - `Открытые линии` — без этих прав приложение не сможет работать с открытыми линиями
-  - Поскольку скрипт написан таким образом, что является обработчиком всех событий, то в полях `Путь вашего обработчика` и `Путь для первоначальной установки` ссылки будут вести на один и тот же URL
+    ```python
+    if data.get("data[PARAMS][CHAT_ENTITY_TYPE]") == "LINES":
+        # сообщение из Открытой линии
+        ...
+    ```
 
-![Добавить приложение ITR Bot](./_images/chatbot3_sm.png)
+{% endlist %}
 
-- После сохранения настроек появятся дополнительные поля: `Код приложения (client_id)` и `Ключ приложения (client_secret)`
+## Управление сессией
 
-![Настройки бота](./_images/chatbot4_sm.png)
+С правом `imopenlines` доступны команды для управления разговором:
 
-- Скопируйте данные из этих полей и вставьте в файл `itr.php`
+- [imopenlines.bot.session.operator](../../api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-operator.md) — перевести на свободного оператора
+- [imopenlines.bot.session.transfer](../../api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-transfer.md) — перевести на конкретного оператора
+- [imopenlines.bot.session.finish](../../api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-finish.md) — завершить сессию
 
-![Настройки открытых линий](./_images/chatbot5.png)
+{% list tabs %}
 
-- В настройках бота нажмите `Переустановить`. Теперь бот готов к работе.
+- JS
 
-Этот бот не публикует сообщения о том, что его пригласили на портал. После установки он будет доступен в настройках открытых линий. Выберите его ответственным и укажите время, через которое разговор будет переведен от чат-бота в очередь к сотрудникам:
+    ```js
+    // Перевести разговор на свободного оператора
+    await $b24.actions.v2.call.make({
+        method: 'imopenlines.bot.session.operator',
+        params: { CHAT_ID: chatId },
+        requestId: 'session-operator',
+    })
 
-![Настройки открытых линий](./_images/ol_options_sm.png)
+    // Перевести на конкретного оператора
+    await $b24.actions.v2.call.make({
+        method: 'imopenlines.bot.session.transfer',
+        params: { CHAT_ID: chatId, USER_ID: operatorId },
+        requestId: 'session-transfer',
+    })
 
-{% note info %}
+    // Завершить сессию
+    await $b24.actions.v2.call.make({
+        method: 'imopenlines.bot.session.finish',
+        params: { CHAT_ID: chatId },
+        requestId: 'session-finish',
+    })
+    ```
 
-Клиент может переключиться на оператора раньше, отправив сообщение `0` или выбрав пункт меню `0. Wait operator answer`. 
+- PHP
 
-При любом чат-боте нажатие `0` перенаправит пользователя на оператора, дополнительная обработка не требуется. 
+    ```php
+    $b24->core->call('imopenlines.bot.session.operator', ['CHAT_ID' => $chatId]);
+    $b24->core->call('imopenlines.bot.session.transfer', ['CHAT_ID' => $chatId, 'USER_ID' => $operatorId]);
+    $b24->core->call('imopenlines.bot.session.finish', ['CHAT_ID' => $chatId]);
+    ```
 
-{% endnote %}
+- Python
 
-Ниже показан диалог: сначала отвечает «ITR Bot», клиент кликает в меню по пунктам, далее очередь переходит на оператора, так как клиент выбрал пункт меню **0. Wait operator answer**:
+    ```python
+    client.imopenlines.bot.session.operator(chat_id=chat_id).response
+    client.imopenlines.bot.session.transfer(chat_id=chat_id, user_id=operator_id).response
+    client.imopenlines.bot.session.finish(chat_id=chat_id).response
+    ```
 
-![Диалог с ITR Bot](./_images/ol_chat_sm.png)
+{% endlist %}
 
-Настроить собственное меню в «ITR Bot» можно в методе `itrRun`:
+## Готовый пример: ITR Bot
 
-```php
-/**
-* Run ITR menu
-*
-* @param $portalId
-* @param $dialogId
-* @param $userId
-* @param string $message
-* @return bool
-*/
-function itrRun($portalId, $dialogId, $userId, $message = '')
-{
-    if ($userId <= 0)
-        return false;
+В качестве примера бота для Открытых линий с многоуровневым меню используйте «ITR Bot»: его можно [скачать с GitHub](https://github.com/bitrix24com/bots) (файл `itr.php`) или найти в коробочной версии в папке `\Bitrix\ImBot\Bot\OpenlinesMenuExample`.
 
-    $menu0 = new ItrMenu(0);
-    $menu0->setText('Main menu (#0)');
-    $menu0->addItem(1, 'Text', ItrItem::sendText('Text message (for #USER_NAME#)'));
-    $menu0->addItem(2, 'Text without menu', ItrItem::sendText('Text message without menu', true));
-    $menu0->addItem(3, 'Open menu #1', ItrItem::openMenu(1));
-    $menu0->addItem(0, 'Wait operator answer', ItrItem::sendText('Wait operator answer', true));
-
-    $menu1 = new ItrMenu(1);
-    $menu1->setText('Second menu (#1)');
-    $menu1->addItem(2, 'Transfer to queue', ItrItem::transferToQueue('Transfer to queue'));
-    $menu1->addItem(3, 'Transfer to user', ItrItem::transferToUser(1, false, 'Transfer to user #1'));
-    $menu1->addItem(4, 'Transfer to bot', ItrItem::transferToBot('marta', true, 'Transfer to bot Marta', 'Marta not found :('));
-    $menu1->addItem(5, 'Finish session', ItrItem::finishSession('Finish session'));
-    $menu1->addItem(6, 'Exec function', ItrItem::execFunction(function($context){
-        $result = restCommand('imbot.message.add', Array(
-            "DIALOG_ID" => $_REQUEST['data']['PARAMS']['DIALOG_ID'],
-            "MESSAGE" => 'Function executed (action)',
-        ), $_REQUEST["auth"]);
-        writeToLog($result, 'Exec function');
-    }, 'Function executed (text)'));
-    $menu1->addItem(9, 'Back to main menu', ItrItem::openMenu(0));
-
-    $itr = new Itr($portalId, $dialogId, 0, $userId);
-    $itr->addMenu($menu0);
-    $itr->addMenu($menu1);
-    $itr->run(prepareText($message));
-
-    return true;
-}
-```
-
+Бот выступает первой линией поддержки: сначала сообщения поступают к нему, затем — операторам в очередь. Клиент может в любой момент переключиться на оператора, отправив `0`.

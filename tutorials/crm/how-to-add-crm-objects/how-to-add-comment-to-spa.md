@@ -40,28 +40,38 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.type.list',
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const response = await $b24.actions.v2.call.make({
+        method: 'crm.type.list',
+        params: {
             filter: {
                 "title": "Закупка оборудования"
             }
-        }
-    );
+        },
+        requestId: 'type-list'
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'crm.type.list',
-        [
-            'filter' => [
-                'title' => 'Закупка оборудования'
-            ]
-        ]
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $sb->getCRMScope()->type()->list(
+        order: [],
+        filter: ['title' => 'Закупка оборудования']
     );
     ```
 
@@ -138,32 +148,28 @@
 - JS
 
     ```javascript
-    BX24.callMethod(
-        "crm.timeline.comment.add",
-        {
+    const response = await $b24.actions.v2.call.make({
+        method: 'crm.timeline.comment.add',
+        params: {
             fields:
             {
                 "ENTITY_ID": 19,
                 "ENTITY_TYPE": "DYNAMIC_177",
                 "COMMENT": "Подтвердить закупку по почте!",
             }
-        }
-    );
+        },
+        requestId: 'comment-add'
+    });
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.timeline.comment.add',
+    $result = $sb->getCRMScope()->timelineComment()->add(
         [
-            'fields' => [
-                'ENTITY_ID' => 19,
-                'ENTITY_TYPE' => 'DYNAMIC_177',
-                'COMMENT' => 'Подтвердить закупку по почте!',
-            ]
+            'ENTITY_ID' => 19,
+            'ENTITY_TYPE' => 'DYNAMIC_177',
+            'COMMENT' => 'Подтвердить закупку по почте!',
         ]
     );
     ```
@@ -197,61 +203,61 @@
 - JS
 
     ```javascript
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
     // Функция для поиска идентификатора смарт-процесса
-    function findSPA() {
+    async function findSPA() {
         // Название смарт-процесса, для получения entityTypeId
         var SPAtitle = 'название_вашего_смарт_процесса';
 
-        // Вызываем метод crm.type.list для получения entityTypeId
-        BX24.callMethod(
-            'crm.type.list',
-            {
-                filter: {
-                    title: SPAtitle
-                }
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error('Ошибка при поиске смарт-процесса:', result.error());
-                } else {
-                    var types = result.data().types;
-                    if (Array.isArray(types) && types.length > 0) {
-                        var SPAId = types[0].entityTypeId; // Предполагаем, что нужный объект первый в массиве
-                        console.log('Смарт-процесс найден', SPAId);
-                        createComment(SPAId);
-                    } else {
-                        console.error('Смарт-процесс не найден или данные пусты');
-                    }
-                }
+        try {
+            // Вызываем метод crm.type.list для получения entityTypeId
+            const result = await $b24.actions.v2.call.make({
+                method: 'crm.type.list',
+                params: { filter: { title: SPAtitle } },
+                requestId: 'type-list'
+            });
+
+            var types = result.getData().result.types;
+            if (Array.isArray(types) && types.length > 0) {
+                var SPAId = types[0].entityTypeId; // Предполагаем, что нужный объект первый в массиве
+                console.log('Смарт-процесс найден', SPAId);
+                await createComment(SPAId);
+            } else {
+                console.error('Смарт-процесс не найден или данные пусты');
             }
-        );
+        } catch (error) {
+            console.error('Ошибка при поиске смарт-процесса:', error);
+        }
     }
 
     // Функция для создания комментария в элементе смарт-процесса
-    function createComment(SPAId) {
+    async function createComment(SPAId) {
         // ID элемента, в который будет добавлен комментарий
         var elementId = 'ваш_ID_элемента';
         // Текст комментария
         var commentText = 'ваш_комментарий';
 
-        // Вызываем метод crm.timeline.comment.add для добавления комментария
-        BX24.callMethod(
-            "crm.timeline.comment.add",
-            {
-                fields: {
-                    ENTITY_ID: elementId,
-                    ENTITY_TYPE: 'DYNAMIC_' + SPAId,
-                    COMMENT: commentText
-                }
-            },
-            function(result) {
-                if (result.error()) {
-                    console.error('Ошибка при создании комментария:', result.error());
-                } else {
-                    console.log('Комментарий добавлен', result.data());
-                }
-            }
-        );
+        try {
+            // Вызываем метод crm.timeline.comment.add для добавления комментария
+            const result = await $b24.actions.v2.call.make({
+                method: 'crm.timeline.comment.add',
+                params: {
+                    fields: {
+                        ENTITY_ID: elementId,
+                        ENTITY_TYPE: 'DYNAMIC_' + SPAId,
+                        COMMENT: commentText
+                    }
+                },
+                requestId: 'comment-add'
+            });
+            console.log('Комментарий добавлен', result.getData().result);
+        } catch (error) {
+            console.error('Ошибка при создании комментария:', error);
+        }
     }
 
     // Вызов функции для поиска смарт-процесса и добавления комментария
@@ -262,65 +268,66 @@
 - PHP
 
     ```php
-    require_once('crest.php');
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Bitrix24\SDK\Services\ServiceBuilder;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
     // Функция для поиска идентификатора смарт-процесса
-    function findSPA() {
+    function findSPA(ServiceBuilder $sb) {
         // Название смарт-процесса, для получения entityTypeId
         $SPAtitle = 'название_вашего_смарт_процесса';
 
-        // Вызываем метод crm.type.list для получения entityTypeId
-        $result = CRest::call(
-            'crm.type.list',
-            [
-                'filter' => [
-                    'title' => $SPAtitle
-                ]
-            ]
-        );
+        try {
+            // Вызываем метод crm.type.list для получения entityTypeId
+            $types = $sb->getCRMScope()->type()->list(
+                order: [],
+                filter: ['title' => $SPAtitle]
+            )->getTypes();
 
-        if (isset($result['error'])) {
-            echo 'Ошибка при поиске смарт-процесса: ' . $result['error'];
-        } else {
-            $types = $result['result']['types'];
             if (is_array($types) && count($types) > 0) {
-                $SPAId = $types[0]['entityTypeId']; // Предполагаем, что нужный объект первый в массиве
+                $SPAId = $types[0]->entityTypeId; // Предполагаем, что нужный объект первый в массиве
                 echo 'Смарт-процесс найден: ' . $SPAId;
-                createComment($SPAId);
+                createComment($sb, $SPAId);
             } else {
                 echo 'Смарт-процесс не найден или данные пусты';
             }
+        } catch (\Throwable $e) {
+            echo 'Ошибка при поиске смарт-процесса: ' . $e->getMessage();
         }
     }
 
     // Функция для создания комментария в элементе смарт-процесса
-    function createComment($SPAId) {
+    function createComment(ServiceBuilder $sb, $SPAId) {
         // ID элемента, в который будет добавлен комментарий
         $elementId = 'ваш_ID_элемента';
         // Текст комментария
         $commentText = 'ваш_комментарий';
 
-        // Вызываем метод crm.timeline.comment.add для добавления комментария
-        $result = CRest::call(
-            'crm.timeline.comment.add',
-            [
-                'fields' => [
+        try {
+            // Вызываем метод crm.timeline.comment.add для добавления комментария
+            $sb->getCRMScope()->timelineComment()->add(
+                [
                     'ENTITY_ID' => $elementId,
                     'ENTITY_TYPE' => 'DYNAMIC_' . $SPAId,
                     'COMMENT' => $commentText
                 ]
-            ]
-        );
-
-        if (isset($result['error'])) {
-            echo 'Ошибка при создании комментария: ' . $result['error'];
-        } else {
+            );
             echo 'Комментарий добавлен';
+        } catch (\Throwable $e) {
+            echo 'Ошибка при создании комментария: ' . $e->getMessage();
         }
     }
 
     // Вызов функции для поиска смарт-процесса и добавления комментария
-    findSPA();
+    findSPA($sb);
     ```
 
 - Python

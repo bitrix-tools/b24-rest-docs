@@ -15,7 +15,6 @@
 
 Событие `ONBOOKINGUPDATE` сработает при обновлении бронирования вручную или методом [booking.v1.booking.update](../booking-v1-booking-update.md).
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)

@@ -175,8 +175,8 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [OnSessionStart](./events/on-session-start.md) | При создании чата ||
-    || [OnSessionFinish](./events/on-session-finish.md) | При закрытии чата ||
+    || [OnSessionStart](./events/on-session-start.md) | При создании сессии открытой линии ||
+    || [OnSessionFinish](./events/on-session-finish.md) | При закрытии сессии открытой линии ||
     |#
 
 {% endlist %}

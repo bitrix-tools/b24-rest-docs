@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Типы данных и форматы параметров
     href: data-types.md
+  - name: Обзор REST 3.0
+    href: rest-v3.md
   - name: Скоупы методов
     include:
       path: scopes/b24-toc.yaml
@@ -12,10 +14,6 @@ items:
   - name: Виджеты
     include:
       path: widgets/b24-toc.yaml
-      mode: link
-  - name: REST 3.0
-    include:
-      path: rest-v3/b24-toc.yaml
       mode: link
   - name: События
     include:
@@ -37,6 +35,10 @@ items:
     include:
       path: crm/b24-toc.yaml
       mode: link
+  - name: База знаний 2.0
+    include:
+      path: note/b24-toc.yaml
+      mode: link
   - name: Бизнес-процессы и роботы
     include:
       path: bizproc/b24-toc.yaml
@@ -56,6 +58,10 @@ items:
   - name: Диск
     include:
       path: disk/b24-toc.yaml
+      mode: link
+  - name: Журнал событий
+    include:
+      path: event-log/b24-toc.yaml
       mode: link
   - name: Задачи
     include:
@@ -100,6 +106,10 @@ items:
   - name: Пользовательские соглашения
     include:
       path: user-consent/b24-toc.yaml
+      mode: link
+  - name: Почта
+    include:
+      path: mail/b24-toc.yaml
       mode: link
   - name: Почтовые сервисы
     include:

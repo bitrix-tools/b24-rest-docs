@@ -11,10 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может подписаться: `любой пользователь`
+> Кто может подписаться: любой пользователь
 
 Событие `onCrmAddressUnregister` вызывается при удалении адреса.
-
 
 {% note info "" %}
 
@@ -26,32 +25,32 @@
 
 Данные передаются в виде POST-запроса {.b24-info}
 
-```php
-[
-    'event' => 'onCrmAddressUnregister',
-    'data' => [
-        'FIELDS' => [
-            'TYPE_ID' => 1,
-            'ENTITY_TYPE_ID' => 8,
-            'ENTITY_ID' => 1,
-            'ANCHOR_ID' => 17192,
-            'ANCHOR_TYPE_ID' => 3,
-        ],
-    ],
-    'ts' => '1466439714',
-    'auth' => [
-        'access_token' => 's6p6eclrvim6da22ft9ch94ekreb52lv',
-        'expires_in' => '3600',
-        'scope' => 'crm',
-        'domain' => 'some-domain.bitrix24.com',
-        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/',
-        'status' => 'F',
-        'client_endpoint' => 'https://some-domain.bitrix24.com/rest/',
-        'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',
-        'refresh_token' => '4s386p3q0tr8dy89xvmt96234v3dljg8',
-        'application_token' => '51856fefc120afa4b628cc82d3935cce',
-    ],
-]
+```json
+{
+    "event": "onCrmAddressUnregister",
+    "data": {
+        "FIELDS": {
+            "TYPE_ID": 1,
+            "ENTITY_TYPE_ID": 8,
+            "ENTITY_ID": 1,
+            "ANCHOR_ID": 17192,
+            "ANCHOR_TYPE_ID": 3
+        }
+    },
+    "ts": "1466439714",
+    "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "expires_in": "3600",
+        "scope": "crm",
+        "domain": "some-domain.bitrix24.com",
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "status": "F",
+        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
+        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
+    }
+}
 ```
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
@@ -60,29 +59,26 @@
 || **Параметр**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../../data-types.md) | Символьный код события. В данном случае это `onCrmAddressUnregister`||
+[`string`](../../../data-types.md) | Символьный код события.
+
+В данном случае — `onCrmAddressUnregister` ||
 || **data***
-[`array`](../../../data-types.md) | Массив с данными удаляемого адреса ||
+[`object`](../../../data-types.md) | Объект, содержащий данные удаляемого адреса.
+
+Содержит единственный ключ `FIELDS` ||
+|| **data.FIELDS***
+[`object`](../../../data-types.md) | Объект, содержащий поля удаляемого адреса.
+
+Структура описана [ниже](#fields) ||
 || **ts***
 [`timestamp`](../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../events/index.md) ||
 || **auth***
-[`array`](../../../data-types.md) | Параметры авторизации и данные о портале, на котором произошло событие ||
+[`object`](../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+
+Структура описана [ниже](#auth) ||
 |#
 
-### Параметр data[]
-
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
-
-#|
-|| **Параметр**
-`тип` | **Описание** ||
-|| **FIELDS***
-[`array`](../../../data-types.md) | Массив с полями удаляемого адреса ||
-|#
-
-### Параметр FIELDS[]
-
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+### Параметр FIELDS {#fields}
 
 #|
 || **Параметр**
@@ -97,7 +93,7 @@
 
 Идентификаторы типов объектов возвращает метод [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md).
 
-Адреса могут быть привязаны только к Реквизитам (а реквизиты уже к компаниям либо контактам) или Лидам. Для обратной совместимости оставлена возможность связывать Адреса с Контактами или Компаниями. Но эта связь возможна только на некоторых старых порталах, где специально техподдержкой был включен старый режим работы с адресами 
+Адреса могут быть привязаны только к Реквизитам (а реквизиты уже к компаниям либо контактам) или Лидам. Для обратной совместимости оставлена возможность связывать Адреса с Контактами или Компаниями. Но эта связь возможна только на некоторых старых порталах, где специально техподдержкой был включен старый режим работы с адресами
 ||
 || **ENTITY_ID***
 [`integer`](../../../data-types.md) | Идентификатор родительского объекта ||
@@ -119,12 +115,14 @@
 ||
 |#
 
-### Параметр auth[]
+### Параметр auth {#auth}
 
 {% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-crm-address-register.md)
 - [{#T}](./on-crm-requisite-add.md)
 - [{#T}](./on-crm-requisite-update.md)

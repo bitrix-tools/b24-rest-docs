@@ -34,34 +34,49 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.type.list',
-        {
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.type.list',
+        params: {
             filter: { title: 'Закупка оборудования' }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-                return;
-            }
-            var types = result.data().types;
-            if (types.length > 0) {
-                var entityTypeId = types[0].entityTypeId;
-                console.log('entityTypeId:', entityTypeId);
-            }
         }
-    );
+    });
+
+    if (!result.isSuccess) {
+        console.error(result.getErrorMessages().join('; '));
+    } else {
+        const types = result.getData().result.types;
+        if (types.length > 0) {
+            var entityTypeId = types[0].entityTypeId;
+            console.log('entityTypeId:', entityTypeId);
+        }
+    }
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
-    $result = CRest::call(
-        'crm.type.list',
-        [ 'filter' => [ 'title' => 'Закупка оборудования' ] ]
-    );
-    $entityTypeId = $result['result']['types'][0]['entityTypeId'];
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $types = $serviceBuilder->getCRMScope()->type()
+        ->list([], ['title' => 'Закупка оборудования'])
+        ->getTypes();
+    $entityTypeId = $types[0]->entityTypeId;
     ```
 
 - Python
@@ -148,30 +163,29 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.category.add',
-        {
-            entityTypeId: entityTypeId, 
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.category.add',
+        params: {
+            entityTypeId: entityTypeId,
             fields: {
                 name: 'Новая воронка',
                 sort: 100
             }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-                return;
-            }
-            var categoryId = result.data().category.id;
-            console.log('categoryId:', categoryId);
         }
-    );
+    });
+
+    if (!result.isSuccess) {
+        console.error(result.getErrorMessages().join('; '));
+    } else {
+        var categoryId = result.getData().result.category.id;
+        console.log('categoryId:', categoryId);
+    }
     ```
 
 - PHP
   
     ```php
-    $result = CRest::call(
+    $result = $serviceBuilder->core->call(
         'crm.category.add',
         [
             'entityTypeId' => $entityTypeId,
@@ -181,7 +195,7 @@
             ]
         ]
     );
-    $categoryId = $result['result']['category']['id'];
+    $categoryId = $result->getResponseData()->getResult()['category']['id'];
     ```
 
 - Python
@@ -240,30 +254,27 @@
   
     ```javascript
     var entityId = `DYNAMIC_${entityTypeId}_STAGE_${categoryId}`;
-    BX24.callMethod(
-        'crm.status.list',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.status.list',
+        params: {
             filter: { ENTITY_ID: entityId }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-                return;
-            }
-            var stages = result.data();
-            console.log('Стадии:', stages);
         }
-    );
+    });
+
+    if (!result.isSuccess) {
+        console.error(result.getErrorMessages().join('; '));
+    } else {
+        var stages = result.getData().result;
+        console.log('Стадии:', stages);
+    }
     ```
 - PHP
   
     ```php
     $entityId = "DYNAMIC_{$entityTypeId}_STAGE_{$categoryId}";
-    $result = CRest::call(
-        'crm.status.list',
-        [ 'filter' => [ 'ENTITY_ID' => $entityId ] ]
-    );
-    $stages = $result['result'];
+    $stages = $serviceBuilder->getCRMScope()->status()
+        ->list([], ['ENTITY_ID' => $entityId])
+        ->getStatuses();
     ```
 
 - Python
@@ -375,34 +386,30 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.status.update',
-        {
-            id: stageId, 
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.status.update',
+        params: {
+            id: stageId,
             fields: {
                 NAME: 'Новое название'
             }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-                return;
-            }
-            console.log('Стадия обновлена');
         }
-    );
+    });
+
+    if (!result.isSuccess) {
+        console.error(result.getErrorMessages().join('; '));
+    } else {
+        console.log('Стадия обновлена');
+    }
     ```
 
 - PHP
   
     ```php
-    $result = CRest::call(
-        'crm.status.update',
+    $result = $serviceBuilder->getCRMScope()->status()->update(
+        $stageId,
         [
-            'id' => $stageId,
-            'fields' => [
-                'NAME' => 'Новое название',
-            ]
+            'NAME' => 'Новое название',
         ]
     );
     ```
@@ -457,9 +464,9 @@
 - JS
   
     ```javascript
-    BX24.callMethod(
-        'crm.status.add',
-        {
+    const result = await $b24.actions.v2.call.make({
+        method: 'crm.status.add',
+        params: {
             fields: {
                 ENTITY_ID: entityId,
                 STATUS_ID: `DT${entityTypeId}_${categoryId}:MY_STAGE`,
@@ -467,32 +474,29 @@
                 SORT: 60,
                 SEMANTICS: "F",
             }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-                return;
-            }
-            console.log('ID новой стадии:', result.data());
         }
-    );
+    });
+
+    if (!result.isSuccess) {
+        console.error(result.getErrorMessages().join('; '));
+    } else {
+        console.log('ID новой стадии:', result.getData().result);
+    }
     ```
 
 - PHP
   
     ```php
-    $result = CRest::call(
-        'crm.status.add',
+    $result = $serviceBuilder->getCRMScope()->status()->add(
         [
-            'fields' => [
-                'ENTITY_ID' => $entityId,
-                'STATUS_ID' => 'DT' . $entityTypeId . '_' . $categoryId . ':MY_STAGE',,
-                'SORT' => 60,
-                'SEMANTICS' => 'F',
-            ]
+            'ENTITY_ID' => $entityId,
+            'STATUS_ID' => 'DT' . $entityTypeId . '_' . $categoryId . ':MY_STAGE',
+            'NAME' => 'Моя стадия',
+            'SORT' => 60,
+            'SEMANTICS' => 'F',
         ]
     );
-    $newStageId = $result['result'];
+    $newStageId = $result->getId();
     ```
 
 - Python
@@ -538,68 +542,68 @@
 - JS
   
    ```javascript
-    // 1. Получаем entityTypeId по названию смарт-процесса
-    BX24.callMethod('crm.type.list', {
-        filter: {
-            title: 'Закупка оборудования'
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    async function call(method, params) {
+        const result = await $b24.actions.v2.call.make({ method, params });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
         }
-    }, function(result) {
-        if (result.error()) return;
-        var entityTypeId = result.data().types[0].entityTypeId;
+        return result.getData().result;
+    }
+
+    try {
+        // 1. Получаем entityTypeId по названию смарт-процесса
+        const types = (await call('crm.type.list', {
+            filter: { title: 'Закупка оборудования' }
+        })).types;
+        const entityTypeId = types[0].entityTypeId;
 
         // 2. Создаем новую воронку
-        BX24.callMethod('crm.category.add', {
+        const category = (await call('crm.category.add', {
             entityTypeId: entityTypeId,
             fields: {
                 name: 'Новая воронка',
                 sort: 100
             }
-        }, function(result) {
-            if (result.error()) return;
-            var categoryId = result.data().category.id;
-            var entityId = `DYNAMIC_${entityTypeId}_STAGE_${categoryId}`;
+        })).category;
+        const categoryId = category.id;
+        const entityId = `DYNAMIC_${entityTypeId}_STAGE_${categoryId}`;
 
-            // 3. Получаем список стадий
-            BX24.callMethod('crm.status.list', {
-                filter: {
-                    ENTITY_ID: entityId
-                }
-            }, function(result) {
-                if (result.error()) return;
-                var stages = result.data();
-
-                // 4. Изменяем первую стадию
-                var firstStageId = stages[0].ID;
-                BX24.callMethod('crm.status.update', {
-                    id: firstStageId,
-                    fields: {
-                        NAME: 'Первая стадия'
-                    }
-                }, function() {
-                    // 5. Добавляем новую стадию
-                    BX24.callMethod('crm.status.add', {
-                        fields: {
-                            ENTITY_ID: entityId,
-                            STATUS_ID: `DT${entityTypeId}_${categoryId}:MY_STAGE`,
-                            NAME: 'Моя стадия',
-                            SORT: 60,
-                            SEMANTICS: "F"
-                        }
-                    }, function() {
-                        // 6. Получаем и выводим итоговую таблицу стадий
-                        BX24.callMethod('crm.status.list', {
-                            filter: {
-                                ENTITY_ID: entityId
-                            }
-                        }, function(result) {
-                            if (result.error()) return;
-                            printStagesTable(result.data());
-                        });
-                    });
-                });
-            });
+        // 3. Получаем список стадий
+        let stages = await call('crm.status.list', {
+            filter: { ENTITY_ID: entityId }
         });
-    });
+
+        // 4. Изменяем первую стадию
+        const firstStageId = stages[0].ID;
+        await call('crm.status.update', {
+            id: firstStageId,
+            fields: { NAME: 'Первая стадия' }
+        });
+
+        // 5. Добавляем новую стадию
+        await call('crm.status.add', {
+            fields: {
+                ENTITY_ID: entityId,
+                STATUS_ID: `DT${entityTypeId}_${categoryId}:MY_STAGE`,
+                NAME: 'Моя стадия',
+                SORT: 60,
+                SEMANTICS: "F"
+            }
+        });
+
+        // 6. Получаем и выводим итоговую таблицу стадий
+        stages = await call('crm.status.list', {
+            filter: { ENTITY_ID: entityId }
+        });
+        printStagesTable(stages);
+    } catch (error) {
+        console.error(error.message);
+    }
 
     function printStagesTable(stages) {
         const columns = {
@@ -645,116 +649,70 @@
   
     ```php
     <?php
-    require_once('crest.php');
+    require_once 'vendor/autoload.php';
 
-    // 1. Получаем entityTypeId по названию смарт-процесса
-    $result = CRest::call(
-        'crm.type.list',
-        [
-            'filter' => [
-                'title' => 'Закупка оборудования'
-            ]
-        ]
-    );
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
 
-    if ($result['error']) {
-        echo 'Ошибка: ' . $result['error_description'];
-        exit;
-    }
+    $logger = new Logger('b24');
+    $logger->pushHandler(new StreamHandler('php://stdout'));
 
-    $entityTypeId = $result['result']['types'][0]['entityTypeId'];
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
-    // 2. Создаем новую воронку
-    $result = CRest::call(
-        'crm.category.add',
-        [
-            'entityTypeId' => $entityTypeId,
-            'fields' => [
-                'name' => 'Новая воронка',
-                'sort' => 100
-            ]
-        ]
-    );
+    $crm = $serviceBuilder->getCRMScope();
 
-    if ($result['error']) {
-        echo 'Ошибка: ' . $result['error_description'];
-        exit;
-    }
+    try {
+        // 1. Получаем entityTypeId по названию смарт-процесса
+        $types = $crm->type()
+            ->list([], ['title' => 'Закупка оборудования'])
+            ->getTypes();
+        $entityTypeId = $types[0]->entityTypeId;
 
-    $categoryId = $result['result']['category']['id'];
-    $entityId = 'DYNAMIC_' . $entityTypeId . '_STAGE_' . $categoryId;
-
-    // 3. Получаем список стадий
-    $result = CRest::call(
-        'crm.status.list',
-        [
-            'filter' => [
-                'ENTITY_ID' => $entityId
-            ]
-        ]
-    );
-
-    if ($result['error']) {
-        echo 'Ошибка: ' . $result['error_description'];
-        exit;
-    }
-
-    $stages = $result['result'];
-
-    // 4. Изменяем первую стадию
-    if (!empty($stages)) {
-        $firstStageId = $stages[0]['ID'];
-        $result = CRest::call(
-            'crm.status.update',
+        // 2. Создаем новую воронку
+        $result = $serviceBuilder->core->call(
+            'crm.category.add',
             [
-                'id' => $firstStageId,
+                'entityTypeId' => $entityTypeId,
                 'fields' => [
-                    'NAME' => 'Первая стадия'
+                    'name' => 'Новая воронка',
+                    'sort' => 100
                 ]
             ]
         );
+        $categoryId = $result->getResponseData()->getResult()['category']['id'];
+        $entityId = 'DYNAMIC_' . $entityTypeId . '_STAGE_' . $categoryId;
 
-        if ($result['error']) {
-            echo 'Ошибка: ' . $result['error_description'];
-            exit;
+        // 3. Получаем список стадий
+        $stages = $crm->status()
+            ->list([], ['ENTITY_ID' => $entityId])
+            ->getStatuses();
+
+        // 4. Изменяем первую стадию
+        if (!empty($stages)) {
+            $firstStageId = $stages[0]->ID;
+            $crm->status()->update($firstStageId, ['NAME' => 'Первая стадия']);
         }
-    }
 
-    // 5. Добавляем новую стадию
-    $result = CRest::call(
-        'crm.status.add',
-        [
-            'fields' => [
-                'ENTITY_ID' => $entityId,
-                'STATUS_ID' => 'DT' . $entityTypeId . '_' . $categoryId . ':MY_STAGE',
-                'NAME' => 'Моя стадия',
-                'SORT' => 60,
-                'SEMANTICS' => 'F',
-            ]
-        ]
-    );
+        // 5. Добавляем новую стадию
+        $crm->status()->add([
+            'ENTITY_ID' => $entityId,
+            'STATUS_ID' => 'DT' . $entityTypeId . '_' . $categoryId . ':MY_STAGE',
+            'NAME' => 'Моя стадия',
+            'SORT' => 60,
+            'SEMANTICS' => 'F',
+        ]);
 
-    if ($result['error']) {
-        echo 'Ошибка: ' . $result['error_description'];
+        // 6. Получаем итоговую таблицу стадий
+        $stages = $crm->status()
+            ->list([], ['ENTITY_ID' => $entityId])
+            ->getStatuses();
+    } catch (\Throwable $e) {
+        echo 'Ошибка: ' . $e->getMessage();
         exit;
     }
-
-    // 6. Получаем и выводим итоговую таблицу стадий
-    $result = CRest::call(
-        'crm.status.list',
-        [
-            'filter' => [
-                'ENTITY_ID' => $entityId
-            ]
-        ]
-    );
-
-    if ($result['error']) {
-        echo 'Ошибка: ' . $result['error_description'];
-        exit;
-    }
-
-    $stages = $result['result'];
 
     // Формируем таблицу стадий
     $columns = [
@@ -764,13 +722,13 @@
     ];
 
     foreach ($stages as $stage) {
-        $semantics = ($stage['EXTRA'] && $stage['EXTRA']['SEMANTICS']) ? $stage['EXTRA']['SEMANTICS'] : $stage['SEMANTICS'];
+        $semantics = $stage->EXTRA['SEMANTICS'] ?? $stage->SEMANTICS;
         if ($semantics === 'S') {
-            $columns['Успех'][] = $stage['NAME'];
+            $columns['Успех'][] = $stage->NAME;
         } elseif ($semantics === 'F') {
-            $columns['Провал'][] = $stage['NAME'];
+            $columns['Провал'][] = $stage->NAME;
         } else {
-            $columns['В работе'][] = $stage['NAME'];
+            $columns['В работе'][] = $stage->NAME;
         }
     }
 

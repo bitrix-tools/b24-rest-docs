@@ -15,7 +15,6 @@
 
 Событие `ONCRMDOCUMENTGENERATORDOCUMENTADD` сработает при создании нового документа.
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../../settings/app-installation/installation-finish.md)

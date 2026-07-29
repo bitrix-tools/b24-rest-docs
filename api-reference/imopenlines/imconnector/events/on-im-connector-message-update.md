@@ -77,7 +77,7 @@
 || **event**
 [`string`](../../../data-types.md) | Символьный код события.
 
-В данном случае - `ONIMCONNECTORMESSAGEUPDATE` ||
+В данном случае — `ONIMCONNECTORMESSAGEUPDATE` ||
 || **event_handler_id**
 [`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
@@ -163,6 +163,8 @@
 
 ## Продолжите изучение
 
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-im-connector-message-add.md)
 - [{#T}](./on-im-connector-dialog-start.md)
 - [{#T}](./on-im-connector-message-delete.md)

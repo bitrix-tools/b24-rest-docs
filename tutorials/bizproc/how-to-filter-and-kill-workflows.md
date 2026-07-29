@@ -25,36 +25,47 @@
 
 - `<STARTED` — укажем дату запуска с префиксом `<`, будут отобраны только те процессы, которые были запущены до этой даты
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
-
 {% list tabs %}
 
 - JS
   
-    ```javascript
-    BX24.callMethod(
-        'bizproc.workflow.instances',
-        {
-            filter: {
-                '<STARTED': '2025-01-01T00:00:00Z'
-            }
+    ```js
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/')
+
+    const response = await $b24.actions.v2.call.make({
+        method: 'bizproc.workflow.instances',
+        params: {
+            filter: { '<STARTED': '2025-01-01T00:00:00Z' },
         },
-    );
+        requestId: 'workflow-instances',
+    })
+
+    const instances = response.getData().result
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    $result = CRest::call(
-        'bizproc.workflow.instances',
-        [
-            'filter' => [
-                '<STARTED' => '2025-01-01T00:00:00Z'
-            ]
-        ]
-    );
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
+
+    $instances = $b24->getBizProcScope()->workflow()->instances(
+        filter: ['<STARTED' => '2025-01-01T00:00:00Z']
+    )->getInstances();
     ```
 
 - Python
@@ -63,12 +74,11 @@
     from b24pysdk import BitrixWebhook, Client
 
 
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
     )
+    client = Client(token)
 
     response = client.bizproc.workflow.instances(
         filter={
@@ -93,19 +103,9 @@
             "ID": "6639c7b59e9eb5.40607056",
             "MODIFIED": "2024-12-04T09:52:40+03:00",
             "OWNED_UNTIL": null
-        },
-        {
-            "ID": "66ea9200131729.26195442",
-            "MODIFIED": "2024-09-18T11:42:28+03:00",
-            "OWNED_UNTIL": null
-        },
-        {
-            "ID": "65ef0868368978.47049110",
-            "MODIFIED": "2024-03-11T16:34:32+03:00",
-            "OWNED_UNTIL": null
         }
     ],
-    "total": 4,
+    "total": 2,
 }
 ```
 
@@ -118,39 +118,38 @@
 
 - JS
 
-    ```javascript
-    BX24.callMethod(
-        'bizproc.workflow.kill',
-        {
-            ID: '660e559f34af10.95144732',
-        },
-    );
+    ```js
+    const response = await $b24.actions.v2.call.make({
+        method: 'bizproc.workflow.kill',
+        params: { ID: '660e559f34af10.95144732' },
+        requestId: 'workflow-kill',
+    })
+
+    const isKilled = response.getData().result
     ```
 
 - PHP
 
     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'bizproc.workflow.kill',
-        [
-            'ID' => '660e559f34af10.95144732'
-        ]
-    );
+    $isKilled = $b24->getBizProcScope()->workflow()
+        ->kill('660e559f34af10.95144732')
+        ->isSuccess();
     ```
 
 - Python
 
     ```python
-    response = client.bizproc.workflow.kill(
-        bitrix_id="660e559f34af10.95144732",
-    ).response
+    # ID процесса — строка, поэтому вызываем метод напрямую через token.call_method
+    # (типизированный client.bizproc.workflow.kill ожидает int)
+    response = token.call_method(
+        "bizproc.workflow.kill",
+        {"ID": "660e559f34af10.95144732"},
+    )
     ```
 
 {% endlist %}
 
-В результате получим `true`, удаление процесса прошло успешно. Если  вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [bizproc.workflow.kill](../../api-reference/bizproc/bizproc-workflow-kill.md).
+В результате получим `true`, удаление процесса прошло успешно. Если вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [bizproc.workflow.kill](../../api-reference/bizproc/bizproc-workflow-kill.md).
 
 ```json
 {
@@ -166,136 +165,79 @@
 
 - JS
   
-    ```javascript  
-    // Функция для преобразования даты из формата дд.мм.гггг в формат ISO
-    function convertDateToISO(dateString) {
-        const [day, month, year] = dateString.split('.');
-        return `${year}-${month}-${day}T00:00:00Z`;
+    ```js
+    // npm install @bitrix24/b24jssdk
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/')
+
+    // Дату вводим в формате дд.мм.гггг аргументом: node kill.mjs 01.01.2025
+    const [day, month, year] = (process.argv[2] || '').split('.')
+    const isoDate = `${year}-${month}-${day}T00:00:00Z`
+
+    // callList сам обходит все страницы выборки; getData() возвращает массив элементов
+    const listResponse = await $b24.actions.v2.callList.make({
+        method: 'bizproc.workflow.instances',
+        params: { filter: { '<STARTED': isoDate }, select: ['ID'] },
+        requestId: 'workflow-instances',
+    })
+
+    const instances = listResponse.getData()
+
+    for (const instance of instances) {
+        const response = await $b24.actions.v2.call.make({
+            method: 'bizproc.workflow.kill',
+            params: { ID: instance.ID },
+            requestId: `kill-${instance.ID}`,
+        })
+        console.log(response.isSuccess
+            ? `Процесс ${instance.ID} успешно удален.`
+            : `Ошибка при удалении процесса ${instance.ID}: ${response.getErrorMessages().join('; ')}`)
     }
 
-    // Запрос даты у пользователя
-    const userDateInput = prompt("Введите дату в формате дд.мм.гггг:");
-    const isoDate = convertDateToISO(userDateInput);
-
-    // Вызов метода bizproc.workflow.instances с фильтром по дате
-    BX24.callMethod(
-        'bizproc.workflow.instances',
-        {
-            filter: {
-                '<STARTED': isoDate
-            }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                const instances = result.data();
-                instances.forEach(instance => {
-                    const instanceId = instance.ID;
-                    
-                    // Вызов метода bizproc.workflow.kill для каждого ID
-                    BX24.callMethod(
-                        'bizproc.workflow.kill',
-                        {
-                            ID: instanceId
-                        },
-                        function(killResult) {
-                            if (killResult.error()) {
-                                console.error(`Ошибка при удалении процесса ${instanceId}:`, killResult.error());
-                            } else {
-                                console.log(`Процесс ${instanceId} успешно удален.`);
-                            }
-                        }
-                    );
-                });
-
-                if (result.more()) {
-                    result.next();
-                }
-            }
-        }
-    );
+    $b24.destroy()
     ```
 
 - PHP
   
     ```php
-    require_once('crest.php');
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
 
-    // Функция для преобразования даты из формата дд.мм.гггг в формат ISO
-    function convertDateToISO($dateString) {
-        list($day, $month, $year) = explode('.', $dateString);
-        return "{$year}-{$month}-{$day}T00:00:00Z";
-    }
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
 
-    // Запрос даты у пользователя
-    $userDateInput = readline("Введите дату в формате дд.мм.гггг: ");
-    $isoDate = convertDateToISO($userDateInput);
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
 
-    // Вызов метода bizproc.workflow.instances с фильтром по дате
-    $result = CRest::call(
-        'bizproc.workflow.instances',
-        [
-            'filter' => [
-                '<STARTED' => $isoDate
-            ]
-        ]
-    );
+    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
 
-    if (!empty($result['error'])) {
-        echo "Error: " . $result['error_description'];
-    } else {
-        $instances = $result['result'];
-        foreach ($instances as $instance) {
-            $instanceId = $instance['ID'];
+    $userDateInput = readline('Введите дату в формате дд.мм.гггг: ');
+    [$day, $month, $year] = explode('.', $userDateInput);
+    $isoDate = "{$year}-{$month}-{$day}T00:00:00Z";
 
-            // Вызов метода bizproc.workflow.kill для каждого ID
-            $killResult = CRest::call(
-                'bizproc.workflow.kill',
-                [
-                    'ID' => $instanceId
-                ]
-            );
+    // Метод instances() возвращает одну страницу. Для постраничного обхода
+    // вызываем метод напрямую через ядро и читаем смещение следующей страницы.
+    $start = 0;
+    do {
+        $response = $b24->core->call('bizproc.workflow.instances', [
+            'filter' => ['<STARTED' => $isoDate],
+            'start' => $start,
+        ]);
 
-            if (!empty($killResult['error'])) {
-                echo "Ошибка при удалении процесса {$instanceId}: " . $killResult['error_description'] . "\n";
-            } else {
-                echo "Процесс {$instanceId} успешно удален.\n";
-            }
+        foreach ($response->getResponseData()->getResult() as $instance) {
+            $isKilled = $b24->getBizProcScope()->workflow()->kill($instance['ID'])->isSuccess();
+            echo $isKilled
+                ? "Процесс {$instance['ID']} успешно удален.\n"
+                : "Ошибка при удалении процесса {$instance['ID']}\n";
         }
 
-        // Проверка на наличие дополнительных данных
-        while (!empty($result['next'])) {
-            $result = CRest::call(
-                'bizproc.workflow.instances',
-                [
-                    'filter' => [
-                        '<STARTED' => $isoDate
-                    ],
-                    'start' => $result['next']
-                ]
-            );
-
-            $instances = $result['result'];
-            foreach ($instances as $instance) {
-                $instanceId = $instance['ID'];
-
-                // Вызов метода bizproc.workflow.kill для каждого ID
-                $killResult = CRest::call(
-                    'bizproc.workflow.kill',
-                    [
-                        'ID' => $instanceId
-                    ]
-                );
-
-                if (!empty($killResult['error'])) {
-                    echo "Ошибка при удалении процесса {$instanceId}: " . $killResult['error_description'] . "\n";
-                } else {
-                    echo "Процесс {$instanceId} успешно удален.\n";
-                }
-            }
-        }
-    }
+        $start = $response->getResponseData()->getPagination()->getNextItem();
+    } while ($start !== null);
     ```
 
 - Python
@@ -308,12 +250,11 @@
     day, month, year = user_date_input.split(".")
     iso_date = f"{year}-{month}-{day}T00:00:00Z"
 
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
     )
+    client = Client(token)
 
     start = None
     while True:
@@ -327,7 +268,7 @@
         for instance in instances:
             instance_id = instance["ID"]
             try:
-                client.bizproc.workflow.kill(bitrix_id=instance_id).response
+                token.call_method("bizproc.workflow.kill", {"ID": instance_id})
             except BitrixAPIError as error:
                 print(f"Ошибка при удалении процесса {instance_id}: {error}")
             else:

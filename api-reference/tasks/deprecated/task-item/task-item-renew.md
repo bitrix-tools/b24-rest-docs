@@ -17,7 +17,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [tasks.task.renew](../../tasks-task-renew.md).
+Развитие метода остановлено. Используйте [tasks.task.renew](../../status/tasks-task-renew.md).
 
 {% endnote %}
 

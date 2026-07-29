@@ -297,7 +297,7 @@ HTTP-статус: **400**
 || `100` | Не переданы обязательные поля ||
 || `NOT_FOUND` | Элемент не найден ||
 || `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `SOURCE_AND_TARGET_ENTITY_TYPES_ARE_NOT_EQUAL` | Невозможно перенести дело из одного типа объекта CRM в другой ||
+|| `SOURCE_AND_TARGET_ENTITY_TYPES_ARE_NOT_EQUAL_ERROR` | Невозможно перенести дело из одного типа объекта CRM в другой ||
 || `SOURCE_AND_TARGET_ENTITY_ID_ARE_EQUAL_ERROR` | Невозможно перенести дело в то же самое дело ||
 || `ACCESS_DENIED` | Недостаточно прав для выполнении операции ||
 || `ACTIVITY_IS_ALREADY_BOUND` | Дело уже привязано к этому элементу ||

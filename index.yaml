@@ -96,7 +96,7 @@ blocks:
         links:
           - text: 'Сравнение версий REST'
             theme: 'normal'
-            url: '/api-reference/rest-v3/index.html'
+            url: '/api-reference/rest-v3.html'
         image:
           dark: "_images/api_version.png"
           light: "_images/api_version.png"
@@ -470,7 +470,7 @@ blocks:
         buttons:
           - text: 'Подробности'
             theme: 'raised'
-            url: 'change-article.html'
+            url: 'feedback.html'
         border: none
         theme: 'light'
       - type: 'background-card'

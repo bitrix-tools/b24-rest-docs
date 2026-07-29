@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`sale`](../../scopes/permissions.md) 
+> Scope: [`sale`](../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
@@ -23,33 +23,33 @@
 
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса
+Данные передаются в виде POST-запроса {.b24-info}
 
-```
-[
-    'event' => 'ONSALEORDERSAVED',
-    'event_handler_id' => 1,
-    'data' => [
-        'FIELDS' => [
-            'ID' => 300,
-            'XML_ID' => '',
-            'ACTION' => 'save',
-        ],
-    ],
-    'ts' => 1714649632,
-    'auth' => [
-        'access_token' => 's6p6eclrvim6da22ft9ch94ekreb52lv',
-        'expires_in' => 3600,
-        'scope' => 'sale',
-        'domain' => 'some-domain.bitrix24.com',
-        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/',
-        'status' => 'F',
-        'client_endpoint' => 'https://some-domain.bitrix24.com/rest/',
-        'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',
-        'refresh_token' => '4s386p3q0tr8dy89xvmt96234v3dljg8',
-        'application_token' => '51856fefc120afa4b628cc82d3935cce',
-    ],
-]
+```json
+{
+    "event": "ONSALEORDERSAVED",
+    "event_handler_id": 1,
+    "data": {
+        "FIELDS": {
+            "ID": 300,
+            "XML_ID": "",
+            "ACTION": "save"
+        }
+    },
+    "ts": 1714649632,
+    "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "expires_in": 3600,
+        "scope": "sale",
+        "domain": "some-domain.bitrix24.com",
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "status": "F",
+        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
+        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
+    }
+}
 ```
 
 ## Параметры
@@ -60,31 +60,35 @@
 || **Название**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../data-types.md) | Символьный код события ||
+[`string`](../../data-types.md) | Символьный код события.
+
+В данном случае — `ONSALEORDERSAVED` ||
 || **event_handler_id***
 [`integer`](../../data-types.md) | Идентификатор обработчика события ||
 || **data***
-[`object`](../../data-types.md) | Объект с данными события ||
+[`object`](../../data-types.md) | Объект, содержащий информацию о сохраненном заказе.
+
+Структура описана [ниже](#data) ||
 || **ts***
-[`integer`](../../data-types.md) | timestamp отправки события из очереди событий ||
+[`timestamp`](../../data-types.md) | Дата и время отправки события из [очереди событий](../../events/index.md) ||
 || **auth***
-[`object`](../../data-types.md) | Объект с параметрами авторизации и данными о портале, на котором произошло событие ||
+[`object`](../../data-types.md) | Объект с параметрами авторизации и данными о портале, на котором произошло событие.
+
+Структура описана [ниже](#auth) ||
 |#
 
-### Параметр data
-
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+### Параметр data {#data}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **FIELDS***
-[`object`](../../data-types.md) | Объект со свойствами заказа ||
+[`object`](../../data-types.md) | Объект со свойствами заказа.
+
+Структура описана [ниже](#fields) ||
 |#
 
-#### Параметр FIELDS
-
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+#### Параметр FIELDS {#fields}
 
 #|
 || **Название**
@@ -92,11 +96,19 @@
 || **ID***
 [`sale_order.id`](../data-types.md) | Идентификатор заказа. Для получения всех полей заказа по идентификатору используется метод [sale.order.get](../order/sale-order-get.md) ||
 || **XML_ID***
-[`string`](../data-types.md) | Внешний идентификатор заказа ||
+[`string`](../../data-types.md) | Внешний идентификатор заказа ||
 || **ACTION***
 [`string`](../../data-types.md) | Действие. Для данного события имеет постоянное значение `save` ||
 |#
 
-### Параметр auth
+### Параметр auth {#auth}
 
 {% include notitle [Параметр auth](../../../_includes/auth-params-in-events.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../events/index.md)
+- [{#T}](../../events/event-bind.md)
+- [{#T}](./on-sale-before-order-delete.md)
+- [{#T}](./on-order-entity-saved.md)
+- [{#T}](./on-order-deleted.md)

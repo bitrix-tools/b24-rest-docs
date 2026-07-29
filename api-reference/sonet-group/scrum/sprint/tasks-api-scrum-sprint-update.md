@@ -72,7 +72,7 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.update
     ```
 
-- cURL (oAuth)
+- cURL (OAuth)
 
     ```bash
     curl -X POST \

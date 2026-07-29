@@ -3,6 +3,16 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Добавить результат к задаче
+    href: tasks-task-result-add.md
+  - name: Создать результат из сообщения чата
+    href: tasks-task-result-addfromchatmessage.md
+  - name: Изменить результат задачи
+    href: tasks-task-result-update.md
+  - name: Получить список результатов задачи v 3.0
+    href: tasks-task-result-list-rest-v3.md
+  - name: Удалить результат задачи
+    href: tasks-task-result-delete.md
   - name: Добавить комментарий в результат
     href: tasks-task-result-add-from-comment.md
   - name: Получить список результатов задачи

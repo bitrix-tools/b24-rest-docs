@@ -378,7 +378,7 @@
     https://**put_your_bitrix24_address**/rest/crm.contact.userfield.update
     ```
 
-- JS
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -427,6 +427,45 @@
     ```
 
 - PHP
+
+    ```php
+    try {
+        $contactUserfieldItemId = 123; // Example ID
+        $userfieldFieldsToUpdate = [
+            'FIELD_NAME' => 'New Field Name',
+            'USER_TYPE_ID' => 'string',
+            'SORT' => '100',
+            'MULTIPLE' => 'N',
+            'MANDATORY' => 'N',
+            'SHOW_FILTER' => 'Y',
+            'SHOW_IN_LIST' => 'Y',
+            'EDIT_IN_LIST' => 'Y',
+            'IS_SEARCHABLE' => 'Y',
+            'EDIT_FORM_LABEL' => 'New Label',
+            'LIST_COLUMN_LABEL' => 'Column Label',
+            'LIST_FILTER_LABEL' => 'Filter Label',
+            'ERROR_MESSAGE' => 'Error Message',
+            'HELP_MESSAGE' => 'Help Message',
+            'LIST' => '',
+            'SETTINGS' => '',
+        ];
+
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->contactUserfield()
+            ->update($contactUserfieldItemId, $userfieldFieldsToUpdate);
+
+        if ($result->isSuccess()) {
+            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
+        } else {
+            print("Update failed.");
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage());
+    }
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -532,45 +571,6 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-- PHP (B24PhpSdk)
-
-    ```php
-    try {
-        $contactUserfieldItemId = 123; // Example ID
-        $userfieldFieldsToUpdate = [
-            'FIELD_NAME' => 'New Field Name',
-            'USER_TYPE_ID' => 'string',
-            'SORT' => '100',
-            'MULTIPLE' => 'N',
-            'MANDATORY' => 'N',
-            'SHOW_FILTER' => 'Y',
-            'SHOW_IN_LIST' => 'Y',
-            'EDIT_IN_LIST' => 'Y',
-            'IS_SEARCHABLE' => 'Y',
-            'EDIT_FORM_LABEL' => 'New Label',
-            'LIST_COLUMN_LABEL' => 'Column Label',
-            'LIST_FILTER_LABEL' => 'Filter Label',
-            'ERROR_MESSAGE' => 'Error Message',
-            'HELP_MESSAGE' => 'Help Message',
-            'LIST' => '',
-            'SETTINGS' => '',
-        ];
-
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->contactUserfield()
-            ->update($contactUserfieldItemId, $userfieldFieldsToUpdate);
-
-        if ($result->isSuccess()) {
-            print($result->getCoreResponse()->getResponseData()->getResult()[0]);
-        } else {
-            print("Update failed.");
-        }
-    } catch (Throwable $e) {
-        print("Error: " . $e->getMessage());
-    }
-    ```
-
 {% endlist %}
 
 ### Пример изменения пользовательского поля типа Список
@@ -639,7 +639,7 @@
     https://**put_your_bitrix24_address**/rest/crm.contact.userfield.update
     ```
 
-- JS
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -684,7 +684,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

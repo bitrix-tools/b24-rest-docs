@@ -88,6 +88,8 @@
 
 ## Продолжите изучение
 
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-im-connector-message-add.md)
 - [{#T}](./on-im-connector-dialog-start.md)
 - [{#T}](./on-im-connector-message-update.md)

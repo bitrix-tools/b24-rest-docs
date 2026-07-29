@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`imopenlines`](../../../scopes/permissions.md) 
+> Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
@@ -25,101 +25,143 @@
 
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса
+Данные передаются в виде POST-запроса {.b24-info}
 
-```php
-[
-    'event' => 'ONOPENLINEMESSAGEDELETE',
-    'eventId' => 1,
-    'data' => [
-        'CONNECTOR' => 'livechat',
-        'LINE' => 128,
-        'DATA' => [
-            [
-                'im' => [
-                    'chat_id' => 1024,
-                    'message_id' => 2056,
-                ],
-                'message' => [
-                    'id' => 2056,
-                ],
-                'chat' => [
-                    'id' => 1024
-                ],
-            ],
-        ],
-    ],
-    'ts' => 1714649632,
-    'auth' => [
-        'access_token' => 's6p6eclrvim6da22ft9ch94ekreb52lv',
-        'expires_in' => 3600,
-        'scope' => 'imopenlines',
-        'domain' => 'some-domain.bitrix24.com',
-        'server_endpoint' => 'https://oauth.bitrix24.tech/rest/&#39;',
-        'status' => 'F',
-        'client_endpoint' => 'https://some-domain.bitrix24.com/rest/&#39;',
-        'member_id' => 'a223c6b3710f85df22e9377d6c4f7553',
-        'refresh_token' => '4s386p3q0tr8dy89xvmt96234v3dljg8',
-        'application_token' => '51856fefc120afa4b628cc82d3935cce',
-    ],
-]
+```json
+{
+    "event": "ONOPENLINEMESSAGEDELETE",
+    "eventId": 1,
+    "data": {
+        "CONNECTOR": "livechat",
+        "LINE": 128,
+        "DATA": [
+            {
+                "im": {
+                    "chat_id": 1024,
+                    "message_id": 2056
+                },
+                "message": {
+                    "id": 2056
+                },
+                "chat": {
+                    "id": 1024
+                }
+            }
+        ]
+    },
+    "ts": 1714649632,
+    "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "expires_in": 3600,
+        "scope": "imopenlines",
+        "domain": "some-domain.bitrix24.com",
+        "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "status": "F",
+        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
+        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
+    }
+}
 ```
-
-## Параметры
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
-|| **Название**
+|| **Параметр**
 `тип` | **Описание** ||
 || **event***
-[`string`](../../../data-types.md) | Символьный код события ||
+[`string`](../../../data-types.md) | Символьный код события.
+
+В данном случае — `ONOPENLINEMESSAGEDELETE` ||
 || **eventId***
 [`integer`](../../../data-types.md) | Идентификатор события ||
 || **data***
-[`object`](../../../data-types.md) | Объект с [данными события](#data) ||
+[`object`](../../../data-types.md) | Объект, содержащий данные события.
+
+Структура описана [ниже](#data) ||
 || **ts***
-[`integer`](../../../data-types.md) | timestamp отправки события из очереди событий ||
+[`timestamp`](../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../events/index.md) ||
 || **auth***
-[`object`](../../../data-types.md) | Объект с параметрами авторизации и данными о портале, на котором произошло событие ||
+[`object`](../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+
+Структура описана [ниже](#auth) ||
 |#
 
 ### Параметр data {#data}
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
-
 #|
-|| **Название**
+|| **Параметр**
 `тип` | **Описание** ||
 || **CONNECTOR***
 [`string`](../../../data-types.md) | Идентификатор коннектора ||
 || **LINE***
 [`integer`](../../../data-types.md) | Идентификатор открытой линии ||
 || **DATA***
-[`object`](../../../data-types.md) | Объект с [данными чата](#chat-params) ||
+[`array`](../../../data-types.md) | Массив объектов с данными удаленного сообщения.
+
+Структура объекта описана [ниже](#chat-params) ||
 |#
 
-#### Параметр DATA {#chat-params}
+#### Элемент массива DATA {#chat-params}
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+Каждый элемент массива `DATA` — объект со структурой:
 
 #|
-|| **Название**
+|| **Параметр**
 `тип` | **Описание** ||
 || **im***
-[`object`](../../../data-types.md) | Объект с информацией об удаленном сообщении в чате:
-- `chat_id` — идентификатор чата
-- `message_id` — идентификатор сообщения
-||
+[`object`](../../../data-types.md) | Объект с информацией об удаленном сообщении в чате.
+
+Структура описана [ниже](#im) ||
 || **message***
-[`object`](../../../data-types.md) | Объект с информацией о сообщении:
-- `id` — идентификатор сообщения
-||
+[`object`](../../../data-types.md) | Объект с информацией о сообщении.
+
+Структура описана [ниже](#message) ||
 || **chat***
-[`object`](../../../data-types.md) | Объект с информацией о чате:
-- `id` — идентификатор чата ||
+[`object`](../../../data-types.md) | Объект с информацией о чате.
+
+Структура описана [ниже](#chat) ||
 |#
 
-### Параметр auth
+##### Параметр im {#im}
 
-{% include notitle [Параметр auth](../../../../_includes/auth-params-in-events.md) %}
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **chat_id***
+[`integer`](../../../data-types.md) | Идентификатор чата ||
+|| **message_id***
+[`integer`](../../../data-types.md) | Идентификатор сообщения ||
+|#
+
+##### Параметр message {#message}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор сообщения ||
+|#
+
+##### Параметр chat {#chat}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../../data-types.md) | Идентификатор чата ||
+|#
+
+### Параметр auth {#auth}
+
+{% include notitle [Таблица с ключами в массиве auth](../../../../_includes/auth-params-in-events.md) %}
+
+## Продолжите изучение
+
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
+- [{#T}](./on-open-line-message-add.md)
+- [{#T}](./on-open-line-message-update.md)
+- [{#T}](./on-session-start.md)
+- [{#T}](./on-session-finish.md)

@@ -10,11 +10,10 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
-> 
+>
 > Кто может подписаться: любой пользователь
 
-Событие `onCrmContactDelete` сработает при удалении контакта.
-
+Событие `ONCRMCONTACTDELETE` сработает при удалении контакта.
 
 {% note info "" %}
 
@@ -57,15 +56,15 @@
 || **event**
 [`string`](../../../data-types.md) | Символьный код события.
 
-В данном случае — `ONCRMCONTACTDELETE`||
+В данном случае — `ONCRMCONTACTDELETE` ||
 || **event_handler_id**
 [`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../../data-types.md) | Объект, содержащий информацию об удаленном контакте
+[`object`](../../../data-types.md) | Объект, содержащий информацию об удаленном контакте.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../data-types.md) | Объект содержащий информацию о полях удаленного контакта.
+[`object`](../../../data-types.md) | Объект, содержащий информацию о полях удаленного контакта.
 
 Структура описана [ниже](#fields) ||
 || **ts**
@@ -91,6 +90,7 @@
 
 ## Продолжите изучение
 
-- [{#T}](./index.md)
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-crm-contact-add.md)
 - [{#T}](./on-crm-contact-update.md)

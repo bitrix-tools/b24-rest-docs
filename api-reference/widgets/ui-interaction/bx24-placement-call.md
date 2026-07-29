@@ -13,6 +13,10 @@
 
 Метод `BX24.placement.call` вызывает зарегистрированную команду интерфейса.
 
+```js
+BX24.placement.call(command, parameters[, callback]);
+```
+
 ## Параметры
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -23,11 +27,16 @@
 || **command***
 [`string`](../../data-types.md) | Вызываемая команда ||
 || **parameters**
-[`object`](../../data-types.md) | Передаваемые параметры ||
-|| **callback***
-[`callable`](../../data-types.md) | Функция обратного вызова ||
+[`any`](../../data-types.md) | Передаваемые параметры. Тип значения зависит от команды: объект, строка, число, массив или `null` ||
+|| **callback**
+[`callable`](../../data-types.md) | Необязательная функция обратного вызова ||
 |#
 
+Например, команда `setValue` точки встраивания `USERFIELD_TYPE` принимает новым значением поля второй параметр:
+
+```js
+BX24.placement.call('setValue', value, () => {});
+```
 
 ## Пример кода
 

@@ -10,11 +10,10 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
-> 
+>
 > Кто может подписаться: любой пользователь
 
 Событие `onCrmContactUserFieldUpdate` срабатывает при изменении пользовательского поля у контактов.
-
 
 {% note info "" %}
 
@@ -59,15 +58,15 @@
 || **event**
 [`string`](../../../../data-types.md) | Символьный код события.
 
-В данном случае — `ONCRMCONTACTUSERFIELDUPDATE`||
+В данном случае — `ONCRMCONTACTUSERFIELDUPDATE` ||
 || **event_handler_id**
 [`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию об измененном пользовательском поле
+[`object`](../../../../data-types.md) | Объект, содержащий информацию об измененном пользовательском поле.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект содержащий информацию о полях измененного пользовательского поля
+[`object`](../../../../data-types.md) | Объект, содержащий свойства пользовательского поля.
 
 Структура описана [ниже](#fields) ||
 || **ts**
@@ -99,7 +98,8 @@
 
 ## Продолжите изучение
 
-- [{#T}](./index.md)
+- [{#T}](../../../../events/index.md)
+- [{#T}](../../../../events/event-bind.md)
 - [{#T}](./on-crm-contact-user-field-add.md)
 - [{#T}](./on-crm-contact-user-field-set-enum-values.md)
 - [{#T}](./on-crm-contact-user-field-delete.md)

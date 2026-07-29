@@ -57,7 +57,7 @@
 
 В данном случае — `ONVOXIMPLANTCALLSTART` ||
 || **event_handler_id**
-[`string`](../../../data-types.md) | Идентификатор обработчика события ||
+[`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
 [`object`](../../../data-types.md) | Объект с данными события.
 
@@ -87,6 +87,8 @@
 
 ## Продолжите изучение
 
+- [{#T}](../../../events/index.md)
+- [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-voximplant-call-init.md)
 - [{#T}](./on-voximplant-call-end.md)
 - [{#T}](../voximplant-statistic-get.md)

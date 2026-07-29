@@ -15,7 +15,6 @@
 
 Событие `ONCRMCOMPANYDELETE` сработает при удалении компании.
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
@@ -57,7 +56,7 @@
 || **event**
 [`string`](../../../data-types.md) | Символьный код события.
 
-В данном случае — `ONCRMCOMPANYDELETE`||
+В данном случае — `ONCRMCOMPANYDELETE` ||
 || **event_handler_id**
 [`integer`](../../../data-types.md) | Идентификатор обработчика события ||
 || **data**

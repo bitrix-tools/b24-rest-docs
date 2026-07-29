@@ -3,7 +3,7 @@ href: index.md
 items: 
   - name: Обзор событий
     href: index.md
-  - name: При создании чата
+  - name: При создании сессии
     href: on-session-start.md    
   - name: При добавлении сообщения
     href: on-open-line-message-add.md
@@ -11,5 +11,5 @@ items:
     href: on-open-line-message-update.md
   - name: При удалении сообщения
     href: on-open-line-message-delete.md 
-  - name: При закрытии чата
+  - name: При закрытии сессии
     href: on-session-finish.md

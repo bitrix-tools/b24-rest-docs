@@ -62,7 +62,7 @@
     https://**put_your_bitrix24_address**/rest/events
     ```
 
-- JS
+- BX24.js
 
     Пример №1
 

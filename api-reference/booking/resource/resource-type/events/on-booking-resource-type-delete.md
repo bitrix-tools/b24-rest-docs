@@ -15,7 +15,6 @@
 
 Событие `ONBOOKINGRESOURCETYPEDELETE` сработает при удалении типа ресурса методом [booking.v1.resourcetype.delete](../booking-v1-resourcetype-delete.md).
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../../settings/app-installation/installation-finish.md)
@@ -63,7 +62,7 @@
 
 Содержит ключ `ID` ||
 || **data.ID**
-[`integer`](../../../../data-types.md) | Идентификатор удаленого типа ресурса ||
+[`integer`](../../../../data-types.md) | Идентификатор удаленного типа ресурса ||
 || **ts**
 [`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
 || **auth**

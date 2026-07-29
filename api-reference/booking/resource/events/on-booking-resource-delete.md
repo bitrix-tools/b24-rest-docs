@@ -15,7 +15,6 @@
 
 Событие `ONBOOKINGRESOURCEDELETE` сработает при удалении ресурса вручную или методом [booking.v1.resource.delete](../booking-v1-resource-delete.md).
 
-
 {% note info "" %}
 
 События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)

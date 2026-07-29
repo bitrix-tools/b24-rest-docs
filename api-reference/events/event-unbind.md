@@ -9,11 +9,14 @@
 
 {% endnote %}
 
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: любой пользователь
 
 Метод `event.unbind` выполняет отмену зарегистрированного обработчика события.
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md) и только при авторизации под пользователем с правами администрирования портала.
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Может работать как при авторизации под пользователем с правами администрирования Битрикс24, так и под обычным пользователем. Метод для пользователя без прав администратора доступен с ограничениями:
+
+1. Офлайн-события недоступны
+2. Можно удалить только обработчики online-событий, зарегистрированные для текущего пользователя
 
 ## Параметры метода
 
@@ -141,6 +144,23 @@
 
 - PHP
 
+    ```php        
+    try {
+        $eventCode = 'your_event_code'; // Replace with your actual event code
+        $handlerUrl = 'https://your.handler.url'; // Replace with your actual handler URL
+        $userId = null; // Replace with your actual user ID or leave as null
+        $result = $serviceBuilder
+            ->getMainScope()
+            ->event()
+            ->unbind($eventCode, $handlerUrl, $userId);
+        print($result->getUnbindedHandlersCount());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+- PHP CRest
+
     ```php
     require_once('crest.php');
 
@@ -156,23 +176,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php        
-    try {
-        $eventCode = 'your_event_code'; // Replace with your actual event code
-        $handlerUrl = 'https://your.handler.url'; // Replace with your actual handler URL
-        $userId = null; // Replace with your actual user ID or leave as null
-        $result = $serviceBuilder
-            ->getMainScope()
-            ->event()
-            ->unbind($eventCode, $handlerUrl, $userId);
-        print($result->getUnbindedHandlersCount());
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
     ```
 
 {% endlist %}
@@ -212,6 +215,25 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied! Offline events unbinding requires administrator access rights"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! Offline events unbinding requires administrator access rights | Метод запустил не администратор при удалении обработчика офлайн-события ||
+|| `403` | `ACCESS_DENIED` | Access denied! Event unbinding with AUTH_TYPE requires administrator access rights | Метод запустил не администратор и указал `auth_type` другого пользователя ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 

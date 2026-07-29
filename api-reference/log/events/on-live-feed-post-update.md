@@ -13,8 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnLiveFeedPostUpdate` вызывается после изменения сообщения в Ленте новостей. Это позволяет стороннему приложению выполнять при изменении сообщений необходимые действия. Например, отправлять уведомления участникам обсуждений.
-
+Событие `ONLIVEFEEDPOSTUPDATE` срабатывает при изменении сообщения в Ленте новостей.
 
 {% note info "" %}
 
@@ -47,7 +46,6 @@
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
         "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
-
     }
 }
 ```
@@ -57,7 +55,7 @@
 || **event**
 [`string`](../../data-types.md) | Символьный код события.
 
-В данном случае — `ONLIVEFEEDPOSTUPDATE`||
+В данном случае — `ONLIVEFEEDPOSTUPDATE` ||
 || **event_handler_id**
 [`integer`](../../data-types.md) | Идентификатор обработчика события ||
 || **data**
@@ -81,14 +79,17 @@
 #|
 || **Параметр**
 `тип` | **Описание** ||
-|| **POST_ID** 
+|| **POST_ID**
 [`integer`](../../data-types.md) | Идентификатор измененного сообщения в Ленте новостей ||
 |#
 
-### Параметр auth
+### Параметр auth {#auth}
 
 {% include notitle [Таблица с ключами в массиве auth](../../../_includes/auth-params-in-events.md) %}
 
 ## Продолжите изучение
+
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./on-live-feed-post-add.md)
+- [{#T}](./on-live-feed-post-delete.md)

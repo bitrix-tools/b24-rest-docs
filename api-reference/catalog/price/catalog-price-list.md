@@ -379,6 +379,7 @@ HTTP-статус: **400**
 - [{#T}](./catalog-price-add.md)
 - [{#T}](./catalog-price-update.md)
 - [{#T}](./catalog-price-get.md)
+- [{#T}](../../../tutorials/catalog/index.md)
 - [{#T}](./catalog-price-delete.md)
 - [{#T}](./catalog-price-get-fields.md)
 - [{#T}](./catalog-price-modify.md)
