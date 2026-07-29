@@ -420,7 +420,7 @@
     https://**put_your_bitrix24_address**/rest/crm.deal.userfield.add
     ```
 
-- JS
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -472,6 +472,41 @@
     ```
 
 - PHP
+
+    ```php
+    try {
+        $userfieldItemFields = [
+            'FIELD_NAME' => 'Test Field',
+            'USER_TYPE_ID' => 'string',
+            'XML_ID' => 'test_field_1',
+            'SORT' => '100',
+            'MULTIPLE' => 'N',
+            'MANDATORY' => 'N',
+            'SHOW_FILTER' => 'Y',
+            'SHOW_IN_LIST' => 'Y',
+            'EDIT_IN_LIST' => 'Y',
+            'IS_SEARCHABLE' => 'Y',
+            'EDIT_FORM_LABEL' => 'Test Field Label',
+            'LIST_COLUMN_LABEL' => 'Test Field List Label',
+            'LIST_FILTER_LABEL' => 'Test Field Filter Label',
+            'ERROR_MESSAGE' => 'Error occurred',
+            'HELP_MESSAGE' => 'Help message for Test Field',
+            'LIST' => '',
+            'SETTINGS' => '',
+        ];
+
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealUserfield()
+            ->add($userfieldItemFields);
+
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -581,41 +616,6 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
-    ```
-
-- PHP (B24PhpSdk)
-
-    ```php
-    try {
-        $userfieldItemFields = [
-            'FIELD_NAME' => 'Test Field',
-            'USER_TYPE_ID' => 'string',
-            'XML_ID' => 'test_field_1',
-            'SORT' => '100',
-            'MULTIPLE' => 'N',
-            'MANDATORY' => 'N',
-            'SHOW_FILTER' => 'Y',
-            'SHOW_IN_LIST' => 'Y',
-            'EDIT_IN_LIST' => 'Y',
-            'IS_SEARCHABLE' => 'Y',
-            'EDIT_FORM_LABEL' => 'Test Field Label',
-            'LIST_COLUMN_LABEL' => 'Test Field List Label',
-            'LIST_FILTER_LABEL' => 'Test Field Filter Label',
-            'ERROR_MESSAGE' => 'Error occurred',
-            'HELP_MESSAGE' => 'Help message for Test Field',
-            'LIST' => '',
-            'SETTINGS' => '',
-        ];
-
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->dealUserfield()
-            ->add($userfieldItemFields);
-
-        print($result->getId());
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
     ```
 
 - Python
@@ -734,7 +734,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

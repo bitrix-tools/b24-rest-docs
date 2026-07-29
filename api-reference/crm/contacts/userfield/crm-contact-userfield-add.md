@@ -439,7 +439,7 @@
     https://**put_your_bitrix24_address**/rest/crm.contact.userfield.add
     ```
 
-- JS
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -491,6 +491,41 @@
     ```
 
 - PHP
+
+    ```php
+    try {
+        $userfieldItemFields = [
+            'FIELD_NAME' => 'UF_CRM_example',
+            'USER_TYPE_ID' => 'string',
+            'XML_ID' => 'xml_example',
+            'SORT' => '100',
+            'MULTIPLE' => 'N',
+            'MANDATORY' => 'Y',
+            'SHOW_FILTER' => 'Y',
+            'SHOW_IN_LIST' => 'Y',
+            'EDIT_IN_LIST' => 'Y',
+            'IS_SEARCHABLE' => 'Y',
+            'EDIT_FORM_LABEL' => 'Example Field',
+            'LIST_COLUMN_LABEL' => 'Example Column',
+            'LIST_FILTER_LABEL' => 'Example Filter',
+            'ERROR_MESSAGE' => 'Error occurred',
+            'HELP_MESSAGE' => 'Help message',
+            'LIST' => 'list_value',
+            'SETTINGS' => 'settings_value',
+        ];
+
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->contactUserfield()
+            ->add($userfieldItemFields);
+
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -602,41 +637,6 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-- PHP (B24PhpSdk)
-
-    ```php
-    try {
-        $userfieldItemFields = [
-            'FIELD_NAME' => 'UF_CRM_example',
-            'USER_TYPE_ID' => 'string',
-            'XML_ID' => 'xml_example',
-            'SORT' => '100',
-            'MULTIPLE' => 'N',
-            'MANDATORY' => 'Y',
-            'SHOW_FILTER' => 'Y',
-            'SHOW_IN_LIST' => 'Y',
-            'EDIT_IN_LIST' => 'Y',
-            'IS_SEARCHABLE' => 'Y',
-            'EDIT_FORM_LABEL' => 'Example Field',
-            'LIST_COLUMN_LABEL' => 'Example Column',
-            'LIST_FILTER_LABEL' => 'Example Filter',
-            'ERROR_MESSAGE' => 'Error occurred',
-            'HELP_MESSAGE' => 'Help message',
-            'LIST' => 'list_value',
-            'SETTINGS' => 'settings_value',
-        ];
-
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->contactUserfield()
-            ->add($userfieldItemFields);
-
-        print($result->getId());
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
-    ```
-
 {% endlist %}
 
 ### Пример создания пользовательского поля типа Список
@@ -663,7 +663,7 @@
     https://**put_your_bitrix24_address**/rest/crm.contact.userfield.add
     ```
 
-- JS
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -715,7 +715,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');

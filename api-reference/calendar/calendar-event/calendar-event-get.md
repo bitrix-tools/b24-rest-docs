@@ -71,7 +71,7 @@
         https://**put_your_bitrix24_address**/rest/calendar.event.get
         ```
 
-    - JS
+    - BX24.js
 
         ```js
         BX24.callMethod(
@@ -134,7 +134,7 @@
         https://**put_your_bitrix24_address**/rest/calendar.event.get
         ```
 
-    - JS
+    - BX24.js
 
         ```js
         BX24.callMethod(

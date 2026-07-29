@@ -80,7 +80,7 @@
     https://**put_your_bitrix24_address**/rest/app.option.get
     ```
 
-- JS
+- BX24.js
 
     Пример №1
 

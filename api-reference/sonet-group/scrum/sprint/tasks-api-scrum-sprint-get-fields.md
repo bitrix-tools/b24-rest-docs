@@ -23,7 +23,7 @@
 
 {% list tabs %}
 
-- cUrl (Webhook)
+- cURL (Webhook)
 
     ```bash
     curl -X POST \
@@ -33,7 +33,7 @@
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.getFields
     ```
 
-- cURL (oAuth)
+- cURL (OAuth)
 
     ```bash
     curl -X POST \

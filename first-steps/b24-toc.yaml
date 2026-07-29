@@ -3,9 +3,9 @@ href: index.md
 items:
   - name: С чего начать
     href: index.md
-  - name: Как получить доступ к REST API 
+  - name: Как получить доступ к REST API
     href: access-to-rest-api.md
-  - name: Как выполнить свой первый запрос к API 
+  - name: Как выполнить свой первый запрос к API
     href: first-rest-api-call.md
-  - name: Как использовать примеры 
+  - name: Как использовать примеры в документации
     href: how-to-use-examples.md

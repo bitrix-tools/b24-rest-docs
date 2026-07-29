@@ -23,7 +23,7 @@
 
 {% note info %}
 
-Эти особенности работы с REST API уже учтены в [SDK Битрикс](../../first-steps/how-to-use-examples.md).
+Эти особенности работы с REST API уже учтены в [SDK Битрикс24](../../sdk/index.md).
 
 {% endnote %}
 

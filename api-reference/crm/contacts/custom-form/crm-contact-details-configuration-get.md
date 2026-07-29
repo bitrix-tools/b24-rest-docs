@@ -74,7 +74,7 @@
         https://**put_your_bitrix24_address**/rest/crm.contact.details.configuration.get
         ```
 
-    - JS
+    - BX24.js
 
         ```js
         BX24.callMethod(
@@ -136,7 +136,7 @@
         https://**put_your_bitrix24_address**/rest/crm.contact.details.configuration.get
         ```
 
-    - JS
+    - BX24.js
 
         ```js
         BX24.callMethod(
