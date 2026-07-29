@@ -1,4 +1,4 @@
-# Как загрузить файлы 
+# Как загрузить файлы
 
 {% note tip "" %}
 
@@ -9,17 +9,27 @@
 
 {% endnote %}
 
+На странице описано, как передать новый файл в Битрикс24 через REST API: как закодировать файл в Base64, в каком формате передать его в метод и какие ограничения учесть.
+
+Единого формата для всех методов нет: одни принимают строку с Base64, другие — массив из имени файла и такой строки, третьи — отдельный параметр. Перед вызовом сверьтесь с таблицей [Как выбрать формат](#formats).
+
+Обновление, замена и удаление файлов описаны в статье [Как обновить и удалить файлы](./how-to-update-files.md). Как получить уже загруженный файл, смотрите на странице нужного метода.
+
+Права пользователя и [scope](../scopes/permissions.md), которые нужны для вызова, указаны в начале страницы каждого метода — проверяйте их перед загрузкой файла.
+
+## Типы файловых полей
+
 В Битрикс24 есть два типа файловых полей.
 
-- **Файл.** Поле не связано с Диском, в него файлы загружаются напрямую, через строку формата Base64.
+- **Файл.** Поле не связано с Диском. Файл передается прямо в поле — строкой в формате Base64 или массивом из имени файла и такой строки. Битрикс24 декодирует строку и сохраняет файл, а в поле остается `ID` файла.
 
-- **Файл (диск).** Поле связано с Диском, в поле хранится ID объекта диска. Формат Bаse64 в поле не обрабатывается, поэтому сначала файл загружается на Диск Битрикс24 методами [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md) или [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md).
+- **Файл (диск).** Поле связано с Диском, в поле хранится `ID` объекта на Диске. Часть методов принимает Base64 и загружает файл на Диск сама — так работают поля типа «файл (диск)» в CRM. Если метод ожидает готовый `ID`, сначала загрузите файл на Диск, а потом передайте `ID` в поле. Подробнее — в разделе [Как передать файл в поле, связанное с Диском](#disk-field).
 
-Для загрузки файлов в Битрикс24 используйте стандарт кодирования Base64. Кодирование используется, когда нужно передать файл через текстовые протоколы, например HTTP.
+## Как кодировать файл в Base64
 
-## Как кодировать файл в Bаse64
+Base64 — стандарт кодирования, который представляет двоичные данные в виде текстовой строки. Кодирование нужно, чтобы передать файл через текстовые протоколы, например HTTP.
 
-В JavaScript можно использовать встроенный объект [FileReader](https://www.w3.org/TR/FileAPI/). Код считывает файл, который выбрал пользователь, и преобразует его в Bаse64.
+В JavaScript используйте встроенный объект [FileReader](https://www.w3.org/TR/FileAPI/). Код считывает файл, который выбрал пользователь, и преобразует его в Base64.
 
 ```JavaScript
 const fileInput = document.getElementById('fileInput'); // Поле для выбора файла
@@ -37,7 +47,7 @@ fileInput.addEventListener('change', function() {
 });
 ```
 
-В PHP можно использовать функцию [base64_encode](https://www.php.net/manual/en/function.base64-encode.php). Код читает файл с диска и кодирует его в Bаse64.
+В PHP используйте функцию [base64_encode](https://www.php.net/manual/en/function.base64-encode.php). Код читает файл с диска и кодирует его в Base64.
 
 ```PHP
 $filePath = 'path/to/your/file.jpg'; // Путь к файлу
@@ -45,24 +55,78 @@ $fileData = file_get_contents($filePath); // Читаем файл
 $base64 = base64_encode($fileData); // Кодируем в base64
 ```
 
-В результате кодирования файла получим строку вида `YmFzZSDRgtC10YHRgg==`. Чем больше размер файла, тем длиннее будет строка.
+В результате кодирования получим строку вида `YmFzZSDRgtC10YHRgg==`. Чем больше размер файла, тем длиннее строка.
 
-## Как передать строку с Bаse64 в поле
+Учитывайте особенности формата.
 
-В Битрикс24 есть 4 особенности загрузки файлов.
+- Строка в Base64 примерно на треть длиннее исходного файла: каждые 3 байта превращаются в 4 символа. Файл на 1,5 Мбайт займет в запросе около 2 Мбайт.
 
-1. Передавайте строку с Bаse64 в поле `file`, если используете методы:
+- Передавайте строку без префикса `data:image/png;base64,`. В примере на JavaScript префикс отсекается методом `split(',')[1]`.
 
-   - [documentgenerator.template.add](../document-generator/templates/document-generator-template-add.md)
+- Проверяйте строку перед отправкой. Битрикс24 декодирует ее и сохраняет результат в файл как есть: из испорченной строки получится поврежденный файл, а из пустой — ошибка метода.
 
-   - [crm.documentgenerator.template.add](../crm/document-generator/templates/crm-document-generator-template-add.md)
+- Имя файла в большинстве форматов передается отдельно. Если передать только строку Base64 без имени, Битрикс24 сгенерирует имя автоматически — файл будет сложно опознать в интерфейсе.
 
-    {% list tabs %}
+## Как выбрать формат передачи {#formats}
 
-    - JS
-    
-        ```JavaScript
-        BX24.callMethod(
+Формат зависит от метода и от того, множественное поле или нет.
+
+#|
+|| **Метод** | **Один файл** | **Несколько файлов** ||
+|| [documentgenerator.template.add](../document-generator/templates/document-generator-template-add.md) | [строка Base64](#string) в поле `file` | — ||
+|| [crm.documentgenerator.template.add](../crm/document-generator/templates/crm-document-generator-template-add.md) | [строка Base64](#string) в поле `file` | — ||
+|| [bizproc.workflow.template.add](../bizproc/template/bizproc-workflow-template-add.md) | [массив «имя — Base64»](#array) в поле `TEMPLATE_DATA` | — ||
+|| [user.add](../user/user-add.md) | [массив «имя — Base64»](#array) в поле `PERSONAL_PHOTO` | — ||
+|| [crm.item.add](../crm/universal/crm-item-add.md) | [массив «имя — Base64»](#array) в поле типа «файл» | [массив пар](#multiple-array) ||
+|| [crm.timeline.comment.add](../crm/timeline/comments/crm-timeline-comment-add.md) | [массив пар](#multiple-array) из одного элемента в поле `FILES` | [массив пар](#multiple-array) в поле `FILES` ||
+|| [log.blogpost.add](../log/log-blogpost-add.md) | [массив пар](#multiple-array) из одного элемента в поле `FILES` | [массив пар](#multiple-array) в поле `FILES` ||
+|| [lists.element.add](../lists/elements/lists-element-add.md) | [массив «имя — Base64»](#array) в свойстве типа «файл» | [массив пар](#multiple-array) ||
+|| [entity.item.add](../entity/items/entity-item-add.md) | [массив «имя — Base64»](#array) в свойстве типа «файл» | [массив пар](#multiple-array) ||
+|| [crm.lead.add](../crm/leads/crm-lead-add.md), [crm.deal.add](../crm/deals/crm-deal-add.md), [crm.contact.add](../crm/contacts/crm-contact-add.md), [crm.company.add](../crm/companies/crm-company-add.md) | [объект `fileData`](#filedata) в поле типа «файл» | [массив объектов `fileData`](#multiple-filedata) ||
+|| [catalog.product.add](../catalog/product/catalog-product-add.md) | [объект `fileData`](#filedata) в полях `previewPicture`, `detailPicture` | [массив объектов `value.fileData`](#multiple-value) ||
+|| [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md), [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md), [disk.file.uploadversion](../disk/file/disk-file-upload-version.md) | [параметр `fileContent`](#filecontent) | — ||
+|| [catalog.productImage.add](../catalog/product-image/catalog-product-image-add.md) | [параметр `fileContent`](#filecontent) | — ||
+|| [telephony.externalCall.attachRecord](../telephony/telephony-external-call-attach-record.md) | [параметры `FILENAME` и `FILE_CONTENT`](#filename) | — ||
+|#
+
+Если нужного метода нет в таблице, формат смотрите в описании параметров на странице метода.
+
+## Форматы передачи файла
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
+### Строка Base64 в поле file {#string}
+
+Передавайте строку с Base64 в поле `file`. Имя файла в этом формате не передается.
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"name":"Пример шаблона","file":"base64_encoded_content_here","code":"example_template_code"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/documentgenerator.template.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"name":"Пример шаблона","file":"base64_encoded_content_here","code":"example_template_code"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/documentgenerator.template.add
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
             'documentgenerator.template.add',
             {
                 fields: {
@@ -72,381 +136,775 @@ $base64 = base64_encode($fileData); // Кодируем в base64
                 }
             }
         );
-        ```
 
-    - PHP
-    
-        ```php
-        require_once('crest.php');
+        const result = response.getData().result;
+        console.log(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-        $result = CRest::call(
-            'documentgenerator.template.add',
-            [
-                'fields' => [
-                    'name' => 'Пример шаблона',
-                    'file' => 'base64_encoded_content_here', // Контент файла, закодированный в base64
-                    'code' => 'example_template_code' 
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'documentgenerator.template.add',
+                [
+                    'fields' => [
+                        'name' => 'Пример шаблона',
+                        'file' => 'base64_encoded_content_here', // Контент файла, закодированный в base64
+                        'code' => 'example_template_code'
+                    ]
                 ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding template: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'documentgenerator.template.add',
+        {
+            fields: {
+                name: "Пример шаблона",
+                file: "base64_encoded_content_here", // Контент файла, закодированный в base64
+                code: "example_template_code"
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'documentgenerator.template.add',
+        [
+            'fields' => [
+                'name' => 'Пример шаблона',
+                'file' => 'base64_encoded_content_here', // Контент файла, закодированный в base64
+                'code' => 'example_template_code'
             ]
-        );
-        ```
+        ]
+    );
 
-    - cURL (OAuth)
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"fields":{"name":"Пример шаблона","file":"base64_encoded_content_here","code":"example_template_code"},"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/documentgenerator.template.add
-        ```
+{% endlist %}
 
-    - cURL (Webhook)
+### Массив «имя файла — Base64» {#array}
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"fields":{"name":"Пример шаблона","file":"base64_encoded_content_here","code":"example_template_code"}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/documentgenerator.template.add
-        ```
+Передавайте массив из двух элементов: первый — имя файла с расширением, второй — строка с Base64.
 
-    {% endlist %}
+{% list tabs %}
 
-2. Передавайте массив из имени файла и строки с Bаse64, если используете методы:
+- cURL (Webhook)
 
-   - [crm.timeline.comment.add](../crm/timeline/comments/crm-timeline-comment-add.md) — в поле `FILES`
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"DOCUMENT_TYPE":["lists","BizprocDocument","iblock_164"],"NAME":"App template","TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/bizproc.workflow.template.add
+    ```
 
-   - [crm.item.add](../crm/universal/crm-item-add.md) — в поля типа «файл» объектов CRM
-  
-   - [user.add](../user/user-add.md) — в поле `PERSONAL_PHOTO`
+- cURL (OAuth)
 
-   - [log.blogpost.add](../log/log-blogpost-add.md) — в поле `FILES`
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"DOCUMENT_TYPE":["lists","BizprocDocument","iblock_164"],"NAME":"App template","TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/bizproc.workflow.template.add
+    ```
 
-   - [lists.element.add](../lists/elements/lists-element-add.md) — в свойства типа «файл»
+- JS
 
-   - [entity.item.add](../entity/items/entity-item-add.md) — в свойства типа «файл»
-
-   - [bizproc.workflow.template.add](../bizproc/template/bizproc-workflow-template-add.md) — в поле `TEMPLATE_DATA`
-
-
-    {% list tabs %}
-
-    - JS
-    
-        ```JavaScript
-        BX24.callMethod(
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
             'bizproc.workflow.template.add',
             {
                 DOCUMENT_TYPE: ['lists', 'BizprocDocument', 'iblock_164'],
-                NAME: 'App template', 
-                // Контент файла с шаблоном бизнес-процесса
-                TEMPLATE_DATA: [   
-                    "bp-379.bpt", // Первый элемент массива - имя файла
-                    "base64_encoded_content_here" // Второй элемент массива - контент файла, закодированный в base64
+                NAME: 'App template',
+                TEMPLATE_DATA: [
+                    "bp-379.bpt", // Первый элемент массива — имя файла
+                    "base64_encoded_content_here" // Второй элемент массива — контент файла в base64
                 ]
             }
         );
-        ```
 
-    - PHP
-    
-        ```php
-        require_once('crest.php');
+        const result = response.getData().result;
+        console.log(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-        $result = CRest::call(
-            'bizproc.workflow.template.add',
-            [
-                'DOCUMENT_TYPE' => ['lists', 'BizprocDocument', 'iblock_164'],
-                'NAME' => 'App template',
-                // Контент файла с шаблоном бизнес-процесса
-                'TEMPLATE_DATA' => [
-                    'bp-379.bpt', // Имя файла
-                    'base64_encoded_content_here' // Контент файла, закодированный в base64
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'bizproc.workflow.template.add',
+                [
+                    'DOCUMENT_TYPE' => ['lists', 'BizprocDocument', 'iblock_164'],
+                    'NAME'          => 'App template',
+                    'TEMPLATE_DATA' => [
+                        'bp-379.bpt', // Первый элемент массива — имя файла
+                        'base64_encoded_content_here' // Второй элемент массива — контент файла в base64
+                    ]
                 ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding workflow template: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'bizproc.workflow.template.add',
+        {
+            DOCUMENT_TYPE: ['lists', 'BizprocDocument', 'iblock_164'],
+            NAME: 'App template',
+            TEMPLATE_DATA: [
+                "bp-379.bpt", // Первый элемент массива — имя файла
+                "base64_encoded_content_here" // Второй элемент массива — контент файла в base64
             ]
-        );
-        ```
+        }
+    );
+    ```
 
-    - cURL (OAuth)
+- PHP CRest
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"DOCUMENT_TYPE":["lists","BizprocDocument","iblock_164"],"NAME":"App template","TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"],"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/bizproc.workflow.template.add
-        ```
+    ```php
+    require_once('crest.php');
 
-    - cURL (Webhook)
+    $result = CRest::call(
+        'bizproc.workflow.template.add',
+        [
+            'DOCUMENT_TYPE' => ['lists', 'BizprocDocument', 'iblock_164'],
+            'NAME' => 'App template',
+            'TEMPLATE_DATA' => [
+                'bp-379.bpt', // Имя файла
+                'base64_encoded_content_here' // Контент файла в base64
+            ]
+        ]
+    );
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"DOCUMENT_TYPE":["lists","BizprocDocument","iblock_164"],"NAME":"App template","TEMPLATE_DATA":["bp-379.bpt","base64_encoded_content_here"]}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/bizproc.workflow.template.add
-        ```
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-    {% endlist %}
+{% endlist %}
 
-3. Передавайте объект с ключом `fileData`, который содержит массив из имени файла и строки с Bаse64, если используете методы:
+### Объект fileData {#filedata}
 
-   - [catalog.product.add](../catalog/product/catalog-product-add.md) — в поля `previewPicture`, `detailPicture`
-   
-   - [crm.lead.add](../crm/leads/crm-lead-add.md) — в поля типа «файл»
+Передавайте объект с ключом `fileData`. В ключе — массив из имени файла и строки с Base64.
 
-   - [crm.deal.add](../crm/deals/crm-deal-add.md) — в поля типа «файл»
+{% list tabs %}
 
-   - [crm.contact.add](../crm/contacts/crm-contact-add.md) — в поля типа «файл»
+- cURL (Webhook)
 
-   - [crm.company.add](../crm/companies/crm-company-add.md) — в поля типа «файл»
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"iblockId":"24","name":"Пример товара","previewPicture":{"fileData":["example.jpg","base64_encoded_content_here"]}}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.add
+    ```
 
-    {% list tabs %}
+- cURL (OAuth)
 
-    - JS
-    
-        ```JavaScript
-        BX24.callMethod(
-            "catalog.product.add",
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"iblockId":"24","name":"Пример товара","previewPicture":{"fileData":["example.jpg","base64_encoded_content_here"]}},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.product.add
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'catalog.product.add',
             {
                 fields: {
-                    iblockId: '24', 
+                    iblockId: '24',
                     name: "Пример товара",
-                    // Превью изображение товара, fileData - массив, где первый элемент - имя файла, второй - контент файла в формате base64
                     previewPicture: {
                         fileData: [
                             "example.jpg", // Имя файла изображения
-                            "base64_encoded_content_here" // Контент изображения в формате base64
+                            "base64_encoded_content_here" // Контент изображения в base64
                         ]
                     }
                 }
             }
         );
-        ```
 
-    - PHP
-    
-        ```php
-        require_once('crest.php');
+        const result = response.getData().result;
+        console.log(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-        $result = CRest::call(
-            'catalog.product.add',
-            [
-                'fields' => [
-                    'iblockId' => '24', 
-                    'name' => 'Пример товара', 
-                    // Превью изображение товара, fileData - массив, где первый элемент - имя файла, второй - контент файла в формате base64            
-                    'previewPicture' => [
-                        'fileData' => [
-                            'example.jpg', // Имя файла изображения
-                            'base64_encoded_content_here' // Контент изображения в формате base64
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.product.add',
+                [
+                    'fields' => [
+                        'iblockId'       => '24',
+                        'name'           => 'Пример товара',
+                        'previewPicture' => [
+                            'fileData' => [
+                                'example.jpg', // Имя файла изображения
+                                'base64_encoded_content_here' // Контент изображения в base64
+                            ]
                         ]
                     ]
                 ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding product: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'catalog.product.add',
+        {
+            fields: {
+                iblockId: '24',
+                name: "Пример товара",
+                previewPicture: {
+                    fileData: [
+                        "example.jpg", // Имя файла изображения
+                        "base64_encoded_content_here" // Контент изображения в base64
+                    ]
+                }
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.product.add',
+        [
+            'fields' => [
+                'iblockId' => '24',
+                'name' => 'Пример товара',
+                'previewPicture' => [
+                    'fileData' => [
+                        'example.jpg', // Имя файла изображения
+                        'base64_encoded_content_here' // Контент изображения в base64
+                    ]
+                ]
             ]
-        );
-        ```
+        ]
+    );
 
-    - cURL (OAuth)
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"fields":{"iblockId":"24","name":"Пример товара","previewPicture":{"fileData":["example.jpg","base64_encoded_content_here"]}},"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/catalog.product.add
-        ```
+{% endlist %}
 
-    - cURL (Webhook)
+### Параметр fileContent {#filecontent}
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"fields":{"iblockId":"24","name":"Пример товара","previewPicture":{"fileData":["example.jpg","base64_encoded_content_here"]}}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.add
-        ```
+Передавайте отдельный параметр `fileContent` с массивом из имени файла и строки с Base64. Параметр передается на верхнем уровне запроса, а не внутри `fields`.
 
-    {% endlist %}
+{% list tabs %}
 
-4. Передавайте параметр `fileContent`, который содержит массив из имени файла и строки с Bаse64, если используете методы:
+- cURL (Webhook)
 
-   - [disk.file.uploadversion](../disk/file/disk-file-upload-version.md)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":4,"fileContent":["1.gif","base64_encoded_content_here"]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.uploadversion
+    ```
 
-   - [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md)
+- cURL (OAuth)
 
-   - [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md)
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":4,"fileContent":["1.gif","base64_encoded_content_here"],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/disk.file.uploadversion
+    ```
 
-   - [telephony.externalCall.attachRecord](../telephony/telephony-external-call-attach-record.md)
+- JS
 
-   - [catalog.productImage.add](../catalog/product-image/catalog-product-image-add.md)
-
-    {% list tabs %}
-
-    - JS
-    
-        ```JavaScript
-        BX24.callMethod(
-            "disk.file.uploadversion",
-            {    
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'disk.file.uploadversion',
+            {
                 id: 4, // Идентификатор файла, для которого загружается новая версия
-                // Содержимое файла, который загружается как новая версия
                 fileContent: [
-                    '1.gif', // Первый элемент массива - имя файла
-                    'base64_encoded_content_here' // Второй элемент массива - контент файла в формате base64
+                    '1.gif', // Первый элемент массива — имя файла
+                    'base64_encoded_content_here' // Второй элемент массива — контент файла в base64
                 ]
             }
         );
-        ```
 
-    - PHP
-    
-        ```php
-        require_once('crest.php');
+        const result = response.getData().result;
+        console.log(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-        $result = CRest::call(
-            'disk.file.uploadversion',
-            [
-                'id' => 4, // Идентификатор файла, для которого загружается новая версия
-                'fileContent' => [
-                    '1.gif', // Имя файла
-                    'base64_encoded_content_here' // Контент файла в формате base64
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'disk.file.uploadversion',
+                [
+                    'id'          => 4, // Идентификатор файла, для которого загружается новая версия
+                    'fileContent' => [
+                        '1.gif', // Имя файла
+                        'base64_encoded_content_here' // Контент файла в base64
+                    ]
                 ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error uploading file version: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'disk.file.uploadversion',
+        {
+            id: 4, // Идентификатор файла, для которого загружается новая версия
+            fileContent: [
+                '1.gif', // Первый элемент массива — имя файла
+                'base64_encoded_content_here' // Второй элемент массива — контент файла в base64
             ]
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'disk.file.uploadversion',
+        [
+            'id' => 4, // Идентификатор файла, для которого загружается новая версия
+            'fileContent' => [
+                '1.gif', // Имя файла
+                'base64_encoded_content_here' // Контент файла в base64
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
+### Параметры FILENAME и FILE_CONTENT {#filename}
+
+Метод [telephony.externalCall.attachRecord](../telephony/telephony-external-call-attach-record.md) принимает имя файла и его контент в двух отдельных параметрах: `FILENAME` и `FILE_CONTENT`.
+
+Если передать `FILENAME` без `FILE_CONTENT`, метод вернет `uploadUrl` — по этому адресу файл загружается отдельным запросом. Такой способ подходит для больших записей разговоров.
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"CALL_ID":"externalCall.716f1cb73def9700a23842adf9c4c568.1773130779","FILENAME":"call-001.mp3","FILE_CONTENT":"base64_encoded_content_here"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/telephony.externalCall.attachRecord
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"CALL_ID":"externalCall.716f1cb73def9700a23842adf9c4c568.1773130779","FILENAME":"call-001.mp3","FILE_CONTENT":"base64_encoded_content_here","auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/telephony.externalCall.attachRecord
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
+            'telephony.externalCall.attachRecord',
+            {
+                CALL_ID: 'externalCall.716f1cb73def9700a23842adf9c4c568.1773130779',
+                FILENAME: 'call-001.mp3', // Имя файла записи
+                FILE_CONTENT: 'base64_encoded_content_here' // Контент записи в base64
+            }
         );
-        ```
 
-    - cURL (OAuth)
+        const result = response.getData().result;
+        console.log(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"id":4,"fileContent":["1.gif","base64_encoded_content_here"],"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/disk.file.uploadversion
-        ```
+- PHP
 
-    - cURL (Webhook)
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'telephony.externalCall.attachRecord',
+                [
+                    'CALL_ID'      => 'externalCall.716f1cb73def9700a23842adf9c4c568.1773130779',
+                    'FILENAME'     => 'call-001.mp3', // Имя файла записи
+                    'FILE_CONTENT' => 'base64_encoded_content_here' // Контент записи в base64
+                ]
+            );
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"id":4,"fileContent":["1.gif","base64_encoded_content_here"]}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.uploadversion
-        ```
+        $result = $response
+            ->getResponseData()
+            ->getResult();
 
-    {% endlist %}
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error attaching call record: ' . $e->getMessage();
+    }
+    ```
 
-## Как загрузить файлы во множественное поле
+- BX24.js
 
-Если у поля есть флаг «множественное», в него можно загрузить несколько файлов. Формат зависит от метода.
+    ```js
+    BX24.callMethod(
+        'telephony.externalCall.attachRecord',
+        {
+            CALL_ID: 'externalCall.716f1cb73def9700a23842adf9c4c568.1773130779',
+            FILENAME: 'call-001.mp3', // Имя файла записи
+            FILE_CONTENT: 'base64_encoded_content_here' // Контент записи в base64
+        }
+    );
+    ```
 
-1. Передавайте массив, где каждый элемент — это имя файла и файл в формате Bаse64, если используете методы:
+- PHP CRest
 
-   - [crm.item.add](../crm/universal/crm-item-add.md) — поля типа «файл»
+    ```php
+    require_once('crest.php');
 
-   - [lists.element.add](../lists/elements/lists-element-add.md) — свойства типа «файл»
+    $result = CRest::call(
+        'telephony.externalCall.attachRecord',
+        [
+            'CALL_ID' => 'externalCall.716f1cb73def9700a23842adf9c4c568.1773130779',
+            'FILENAME' => 'call-001.mp3', // Имя файла записи
+            'FILE_CONTENT' => 'base64_encoded_content_here' // Контент записи в base64
+        ]
+    );
 
-   - [crm.timeline.comment.add](../crm/timeline/comments/crm-timeline-comment-add.md) — поле `FILES`
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-   - [log.blogpost.add](../log/log-blogpost-add.md) — поле `FILES`
+{% endlist %}
 
-    {% list tabs %}
+## Как загрузить несколько файлов во множественное поле
 
-    - JS
-    
-        ```JavaScript
-        BX24.callMethod(
+Если у поля есть флаг «множественное», в него можно загрузить несколько файлов за один запрос. Формат зависит от метода — сверьтесь с колонкой «Несколько файлов» в таблице [Как выбрать формат](#formats).
+
+Поле `FILES` в методах [crm.timeline.comment.add](../crm/timeline/comments/crm-timeline-comment-add.md) и [log.blogpost.add](../log/log-blogpost-add.md) всегда принимает массив, даже когда файл один. Файлы из этих методов сохраняются на Диск в служебную папку загруженных файлов.
+
+### Массив пар «имя файла — Base64» {#multiple-array}
+
+Передавайте массив, каждый элемент которого — массив из имени файла и строки с Base64.
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":2,"fields":{"title":"Новая сделка (специально для примера REST методов)","ufCrm_123456":[["green_pixel.png","base64_encoded_content_here"],["blue_pixel.png","base64_encoded_content_here"],["red_pixel.png","base64_encoded_content_here"]]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.add
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":2,"fields":{"title":"Новая сделка (специально для примера REST методов)","ufCrm_123456":[["green_pixel.png","base64_encoded_content_here"],["blue_pixel.png","base64_encoded_content_here"],["red_pixel.png","base64_encoded_content_here"]]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.item.add
+    ```
+
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
             'crm.item.add',
             {
-                entityTypeId: 2, 
+                entityTypeId: 2,
                 fields: {
-                    title: "Новая сделка (специально для примера REST методов)", 
-                    // Множественное поле с массивом файлов
-                    ufCrm_123456: [ 
+                    title: "Новая сделка (специально для примера REST методов)",
+                    ufCrm_123456: [ // Множественное поле с массивом файлов
                         [
-                            "green_pixel.png", // Имя файла №1
-                            "base64_encoded_content_here" // Base64-контент первого файла
+                            "green_pixel.png", // Имя файла № 1
+                            "base64_encoded_content_here" // Контент первого файла
                         ],
                         [
-                            "blue_pixel.png", // Имя файла №2
-                            "base64_encoded_content_here" // Base64-контент второго файла
+                            "blue_pixel.png", // Имя файла № 2
+                            "base64_encoded_content_here" // Контент второго файла
                         ],
                         [
-                            "red_pixel.png", // Имя файла №3
-                            "base64_encoded_content_here" // Base64-контент третьего файла
+                            "red_pixel.png", // Имя файла № 3
+                            "base64_encoded_content_here" // Контент третьего файла
                         ]
                     ]
                 }
             }
         );
-        ```
 
-    - PHP
+        const result = response.getData().result;
+        console.log(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-        ```php
-        require_once('crest.php');
+- PHP
 
-        $result = CRest::call(
-            'crm.item.add',
-            [
-                'entityTypeId' => 2, 
-                'fields' => [
-                    'title' => 'Новая сделка (специально для примера REST методов)', 
-                    // Множественное поле с массивом файлов
-                    'ufCrm_123456' => [
-                        [
-                            'green_pixel.png', // Имя файла №1
-                            'base64_encoded_content_here' // Base64-контент первого файла
-                        ],
-                        [
-                            'blue_pixel.png', // Имя файла №2
-                            'base64_encoded_content_here' // Base64-контент второго файла
-                        ],
-                        [
-                            'red_pixel.png', // Имя файла №3
-                            'base64_encoded_content_here' // Base64-контент третьего файла
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.add',
+                [
+                    'entityTypeId' => 2,
+                    'fields'       => [
+                        'title'        => 'Новая сделка (специально для примера REST методов)',
+                        'ufCrm_123456' => [ // Множественное поле с массивом файлов
+                            [
+                                'green_pixel.png', // Имя файла № 1
+                                'base64_encoded_content_here' // Контент первого файла
+                            ],
+                            [
+                                'blue_pixel.png', // Имя файла № 2
+                                'base64_encoded_content_here' // Контент второго файла
+                            ],
+                            [
+                                'red_pixel.png', // Имя файла № 3
+                                'base64_encoded_content_here' // Контент третьего файла
+                            ]
                         ]
                     ]
                 ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding CRM item: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'crm.item.add',
+        {
+            entityTypeId: 2,
+            fields: {
+                title: "Новая сделка (специально для примера REST методов)",
+                ufCrm_123456: [ // Множественное поле с массивом файлов
+                    [
+                        "green_pixel.png", // Имя файла № 1
+                        "base64_encoded_content_here" // Контент первого файла
+                    ],
+                    [
+                        "blue_pixel.png", // Имя файла № 2
+                        "base64_encoded_content_here" // Контент второго файла
+                    ],
+                    [
+                        "red_pixel.png", // Имя файла № 3
+                        "base64_encoded_content_here" // Контент третьего файла
+                    ]
+                ]
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.item.add',
+        [
+            'entityTypeId' => 2,
+            'fields' => [
+                'title' => 'Новая сделка (специально для примера REST методов)',
+                'ufCrm_123456' => [
+                    [
+                        'green_pixel.png', // Имя файла № 1
+                        'base64_encoded_content_here' // Контент первого файла
+                    ],
+                    [
+                        'blue_pixel.png', // Имя файла № 2
+                        'base64_encoded_content_here' // Контент второго файла
+                    ],
+                    [
+                        'red_pixel.png', // Имя файла № 3
+                        'base64_encoded_content_here' // Контент третьего файла
+                    ]
+                ]
             ]
-        );
-        ```
+        ]
+    );
 
-    - cURL (OAuth)
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"entityTypeId":2,"fields":{"title":"Новая сделка (специально для примера REST методов)","ufCrm_123456":[["green_pixel.png","base64_encoded_content_here"],["blue_pixel.png","base64_encoded_content_here"],["red_pixel.png","base64_encoded_content_here"]]},"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/crm.item.add
-        ```
+{% endlist %}
 
-    - cURL (Webhook)
+### Массив объектов value.fileData {#multiple-value}
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"entityTypeId":2,"fields":{"title":"Новая сделка (специально для примера REST методов)","ufCrm_123456":[["green_pixel.png","base64_encoded_content_here"],["blue_pixel.png","base64_encoded_content_here"],["red_pixel.png","base64_encoded_content_here"]]}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.add
-        ```
+Передавайте массив объектов. В каждом объекте — поле `value` с ключом `fileData`.
 
-    {% endlist %}
+{% list tabs %}
 
-2. Передавайте массив объектов, где каждый объект содержит поле `value` с ключом `fileData`, если используете метод:
+- cURL (Webhook)
 
-   - [catalog.product.add](../catalog/product/catalog-product-add.md) — поля типа «файл»
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"iblockId":1,"name":"Пример товара","PROPERTY_1077":[{"value":{"fileData":["blue_pixel.txt","YmFzZSDRgtC10YHRgg=="]}},{"value":{"fileData":["red_pixel.txt","YmFzZSDRgtC10YHRgg=="]}}]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.add
+    ```
 
-    {% list tabs %}
+- cURL (OAuth)
 
-    - JS
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"iblockId":1,"name":"Пример товара","PROPERTY_1077":[{"value":{"fileData":["blue_pixel.txt","YmFzZSDRgtC10YHRgg=="]}},{"value":{"fileData":["red_pixel.txt","YmFzZSDRgtC10YHRgg=="]}}]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/catalog.product.add
+    ```
 
-        ```js
-        BX24.callMethod(
+- JS
+
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
             'catalog.product.add',
             {
                 fields: {
@@ -457,15 +915,15 @@ $base64 = base64_encode($fileData); // Кодируем в base64
                             value: {
                                 fileData: [
                                     "blue_pixel.txt", // Имя файла
-                                    "YmFzZSDRgtC10YHRgg==" // Base64-контент
+                                    "YmFzZSDRgtC10YHRgg==" // Контент файла в base64
                                 ]
                             }
                         },
                         {
                             value: {
                                 fileData: [
-                                    "red_pixel.txt", // Имя файла
-                                    "YmFzZSDRgtC10YHRgg==" // Base64-контент
+                                    "red_pixel.txt",
+                                    "YmFzZSDRgtC10YHRgg=="
                                 ]
                             }
                         }
@@ -473,76 +931,165 @@ $base64 = base64_encode($fileData); // Кодируем в base64
                 }
             }
         );
-        ```
 
-    - PHP
+        const result = response.getData().result;
+        console.log(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-        ```php
-        require_once('crest.php');
+- PHP
 
-        $result = CRest::call(
-            'catalog.product.add',
-            [
-                'fields' => [
-                    'iblockId' => 1,
-                    'name' => 'Пример товара',
-                    'PROPERTY_1077' => [
-                        [
-                            'value' => [
-                                'fileData' => [
-                                    'blue_pixel.txt',
-                                    'YmFzZSDRgtC10YHRgg=='
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.product.add',
+                [
+                    'fields' => [
+                        'iblockId'      => 1,
+                        'name'          => 'Пример товара',
+                        'PROPERTY_1077' => [
+                            [
+                                'value' => [
+                                    'fileData' => [
+                                        'blue_pixel.txt', // Имя файла
+                                        'YmFzZSDRgtC10YHRgg==' // Контент файла в base64
+                                    ]
                                 ]
-                            ]
-                        ],
-                        [
-                            'value' => [
-                                'fileData' => [
-                                    'red_pixel.txt',
-                                    'YmFzZSDRgtC10YHRgg=='
+                            ],
+                            [
+                                'value' => [
+                                    'fileData' => [
+                                        'red_pixel.txt',
+                                        'YmFzZSDRgtC10YHRgg=='
+                                    ]
                                 ]
                             ]
                         ]
                     ]
                 ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding product: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'catalog.product.add',
+        {
+            fields: {
+                iblockId: 1,
+                name: "Пример товара",
+                PROPERTY_1077: [
+                    {
+                        value: {
+                            fileData: [
+                                "blue_pixel.txt", // Имя файла
+                                "YmFzZSDRgtC10YHRgg==" // Контент файла в base64
+                            ]
+                        }
+                    },
+                    {
+                        value: {
+                            fileData: [
+                                "red_pixel.txt",
+                                "YmFzZSDRgtC10YHRgg=="
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'catalog.product.add',
+        [
+            'fields' => [
+                'iblockId' => 1,
+                'name' => 'Пример товара',
+                'PROPERTY_1077' => [
+                    [
+                        'value' => [
+                            'fileData' => [
+                                'blue_pixel.txt',
+                                'YmFzZSDRgtC10YHRgg=='
+                            ]
+                        ]
+                    ],
+                    [
+                        'value' => [
+                            'fileData' => [
+                                'red_pixel.txt',
+                                'YmFzZSDRgtC10YHRgg=='
+                            ]
+                        ]
+                    ]
+                ]
             ]
-        );
+        ]
+    );
 
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```        
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-    - cURL (Webhook)
+{% endlist %}
 
-        ```bash
-        curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"fields": {"iblockId": 1, "name": "Пример товара", "PROPERTY_1077": [{"value": {"fileData": ["blue_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}, {"value": {"fileData": ["red_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}]}}' https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.add
-        ```
+### Массив объектов fileData {#multiple-filedata}
 
-    - cURL (OAuth)
+Передавайте массив объектов, каждый объект содержит ключ `fileData` с именем файла и строкой Base64.
 
-        ```bash
-        curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"fields": {"iblockId": 1, "name": "Пример товара", "PROPERTY_1077": [{"value": {"fileData": ["blue_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}, {"value": {"fileData": ["red_pixel.txt", "YmFzZSDRgtC10YHRgg=="]}}]}, "auth": "**put_access_token_here**"}' https://**put_your_bitrix24_address**/rest/catalog.product.add
-        ```
+{% list tabs %}
 
-    {% endlist %}
+- cURL (Webhook)
 
-3. Передавайте массив объектов с ключом `fileData`, если используете методы:
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"TITLE":"Пример лида","UF_CRM_1711610801":[{"fileData":["file1.png","base64_encoded_content_here"]},{"fileData":["file2.png","base64_encoded_content_here"]}]}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.lead.add
+    ```
 
-   - [crm.lead.add](../crm/leads/crm-lead-add.md) — поля типа «файл»
+- cURL (OAuth)
 
-   - [crm.deal.add](../crm/deals/crm-deal-add.md) — поля типа «файл»
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"TITLE":"Пример лида","UF_CRM_1711610801":[{"fileData":["file1.png","base64_encoded_content_here"]},{"fileData":["file2.png","base64_encoded_content_here"]}]},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.lead.add
+    ```
 
-   - [crm.contact.add](../crm/contacts/crm-contact-add.md) — поля типа «файл»
+- JS
 
-   - [crm.company.add](../crm/companies/crm-company-add.md) — поля типа «файл»
-
-    {% list tabs %}
-
-    - JS
-
-        ```JavaScript
-        BX24.callMethod(
+    ```js
+    try
+    {
+        const response = await $b24.callMethod(
             'crm.lead.add',
             {
                 fields: {
@@ -551,90 +1098,192 @@ $base64 = base64_encode($fileData); // Кодируем в base64
                         {
                             fileData: [
                                 "file1.png", // Имя файла
-                                "base64_1" // Base64-контент
+                                "base64_encoded_content_here" // Контент файла в base64
                             ]
                         },
                         {
                             fileData: [
-                                "file2.png", // Имя файла
-                                "base64_2" // Base64-контент
-                            ]
-                        },
-                        {
-                            fileData: [
-                                "file3.png", // Имя файла
-                                "base64_3" // Base64-контент
+                                "file2.png",
+                                "base64_encoded_content_here"
                             ]
                         }
                     ]
                 }
             }
         );
-        ```
 
-    - PHP
+        const result = response.getData().result;
+        console.log(result);
+    }
+    catch( error )
+    {
+        console.error('Error:', error);
+    }
+    ```
 
-        ```php
-        require_once('crest.php');
+- PHP
 
-        $result = CRest::call(
-            'crm.lead.add',
-            [
-                'fields' => [
-                    'TITLE' => 'Пример лида',
-                    'UF_CRM_1711610801' => [
-                        [
-                            'fileData' => [
-                                'file1.png', // Имя файла
-                                'base64_1' // Base64-контент
-                            ]
-                        ],
-                        [
-                            'fileData' => [
-                                'file2.png', // Имя файла
-                                'base64_2' // Base64-контент
-                            ]
-                        ],
-                        [
-                            'fileData' => [
-                                'file3.png', // Имя файла
-                                'base64_3' // Base64-контент
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.lead.add',
+                [
+                    'fields' => [
+                        'TITLE'             => 'Пример лида',
+                        'UF_CRM_1711610801' => [
+                            [
+                                'fileData' => [
+                                    'file1.png', // Имя файла
+                                    'base64_encoded_content_here' // Контент файла в base64
+                                ]
+                            ],
+                            [
+                                'fileData' => [
+                                    'file2.png',
+                                    'base64_encoded_content_here'
+                                ]
                             ]
                         ]
                     ]
                 ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding lead: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'crm.lead.add',
+        {
+            fields: {
+                TITLE: "Пример лида",
+                UF_CRM_1711610801: [
+                    {
+                        fileData: [
+                            "file1.png", // Имя файла
+                            "base64_encoded_content_here" // Контент файла в base64
+                        ]
+                    },
+                    {
+                        fileData: [
+                            "file2.png",
+                            "base64_encoded_content_here"
+                        ]
+                    }
+                ]
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.lead.add',
+        [
+            'fields' => [
+                'TITLE' => 'Пример лида',
+                'UF_CRM_1711610801' => [
+                    [
+                        'fileData' => [
+                            'file1.png',
+                            'base64_encoded_content_here'
+                        ]
+                    ],
+                    [
+                        'fileData' => [
+                            'file2.png',
+                            'base64_encoded_content_here'
+                        ]
+                    ]
+                ]
             ]
-        );
-        ```
+        ]
+    );
 
-    - cURL (OAuth)
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"fields":{"TITLE":"Пример лида","UF_CRM_1711610801":[{"fileData":["file1.png","base64_1"]},{"fileData":["file2.png","base64_2"]},{"fileData":["file3.png","base64_3"]}]},"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/crm.lead.add
-        ```
+{% endlist %}
 
-    - cURL (Webhook)
+## Как передать файл в поле, связанное с Диском {#disk-field}
 
-        ```bash
-        curl -X POST \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/json" \
-        -d '{"fields":{"TITLE":"Пример лида","UF_CRM_1711610801":[{"fileData":["file1.png","base64_1"]},{"fileData":["file2.png","base64_2"]},{"fileData":["file3.png","base64_3"]}]}}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.lead.add
-        ```
+Поле типа «файл (диск)» хранит `ID` объекта на Диске. Если метод не принимает Base64 в такое поле, загрузка занимает два шага.
 
-    {% endlist %}
+1. Загрузите файл на Диск методом [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md) или [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md) — файл передается в параметре [fileContent](#filecontent).
+
+2. Возьмите `ID` из ответа и передайте его в поле объекта. Например, метод [tasks.task.file.attach](../tasks/tasks-task-file-attach.md) прикрепляет к задаче файл, который уже лежит на Диске.
+
+Поля типа «файл (диск)» в CRM — исключение. Они принимают [объект `fileData`](#filedata) с Base64, а Битрикс24 сам сохраняет файл на Диск в служебную папку для файлов из REST.
+
+## Что вернется в ответе
+
+Методы `disk.*` возвращают объект файла на Диске: `ID`, имя, размер и ссылку на скачивание `DOWNLOAD_URL`.
+
+```json
+{
+    "result": {
+        "ID": 9035,
+        "NAME": "picture.png",
+        "TYPE": "file",
+        "STORAGE_ID": "1357",
+        "FILE_ID": 32895,
+        "SIZE": "1679",
+        "DOWNLOAD_URL": "https://your-domain.bitrix24.com/rest/download.json?auth=b8d880690000071b006e2cf2000004f5...",
+        "DETAIL_URL": "https://your-domain.bitrix24.com/company/personal/user/1269/disk/file/picture.png"
+    }
+}
+```
+
+Методы, которые загружают файл в поле объекта, возвращают идентификатор созданного объекта, а не файла. Чтобы получить `ID` файла и ссылки на скачивание, запросите объект методом чтения — например, [crm.item.get](../crm/universal/crm-item-get.md). В файловом поле придет массив объектов.
+
+```json
+{
+    "ufCrm_123456": [
+        {
+            "id": 30577,
+            "url": "https://your-domain.bitrix24.com/bitrix/services/main/ajax.php?action=crm.controller.item.getFile&fileId=30577",
+            "urlMachine": "https://your-domain.bitrix24.com/rest/crm.controller.item.getFile.json?auth=c2a8ad670000071b..."
+        }
+    ]
+}
+```
+
+Эти `ID` понадобятся, когда файлы нужно будет [обновить или удалить](./how-to-update-files.md).
 
 ## Ограничения при работе с файлами
 
-- Ограничение на длину GET-запроса — 2048 символов, это длина URL-адреса. Файлы, кодированные в Bаse64, часто превышают это значение. Для передачи больших файлов используйте POST-запрос.
+- GET-запрос ограничен длиной URL-адреса — около 2048 символов. Это общее ограничение браузеров и веб-серверов, а не особенность Битрикс24. Строка Base64 почти всегда длиннее, поэтому передавайте файлы POST-запросом.
 
-- Ограничение на размер POST-запроса в Битрикс24 — 2Гб. Файлы больше 2Гб обработаны не будут. Если в одном в запросе передается несколько файлов суммарно больше 2Гб — запрос прервется. Для загрузки нескольких файлов большого размера передавайте данные в отдельных запросах.
+- Размер POST-запроса в облачном Битрикс24 ограничен настройками серверов — 2 Гбайт. Файл больше этого размера обработан не будет. Если в одном запросе передается несколько файлов суммарно больше лимита, запрос прервется — передавайте такие файлы отдельными запросами. Сверяйтесь с размером строки Base64, а не исходного файла: строка примерно на треть длиннее.
 
-- Ограничение на время выполнения запроса — 60 секунд для облачного Битрикс24. Запрос прервется по таймауту, если обработка занимает дольше 60 секунд. Проверить время выполнения запроса можно в объекте [time](../data-types.md#time) ответа на запрос, параметр `duration`.
+- В коробочной версии предел размера запроса задается настройками вашего сервера, а не Битрикс24. Уточняйте его у администратора портала.
 
-- Если при передаче файла, закодированного строку в Bаse64, метод выполняется в адресной строке GET-запросом или метод выполняется через curl — Bаse64 нужно дополнительно [закодировать в urlencode](../../settings/how-to-call-rest-api/data-encoding.md), иначе файл не прочитается.
+- Ограничение на время выполнения запроса — 60 секунд для облачного Битрикс24. Запрос прервется по таймауту, если обработка занимает дольше. Проверить время выполнения можно в объекте [time](../data-types.md#time) ответа, параметр `duration`.
+
+- Если метод выполняется GET-запросом в адресной строке или через cURL, строку Base64 нужно дополнительно [закодировать в urlencode](../../settings/how-to-call-rest-api/data-encoding.md), иначе файл не прочитается.
+
+## Что дальше
+
+- [Как обновить и удалить файлы](./how-to-update-files.md) — замена файла, удаление и сохранение остальных файлов множественного поля
+
+- [Как работать с файлами](./index.md) — обзор раздела: типы полей, связь файлов с объектами Битрикс24 и основные методы
+
+- [Кодирование данных](../../settings/how-to-call-rest-api/data-encoding.md) — как передавать данные в GET-запросах и cURL
