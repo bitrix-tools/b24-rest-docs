@@ -1,8 +1,11 @@
 # Как прикрепить задачу к смарт-процессу
 
-> Scope: [`crm, tasks`](../../api-reference/scopes/permissions.md)
+> Scope: [`crm`, `task`](../../api-reference/scopes/permissions.md)
 > 
-> Кто может выполнять метод: пользователи с доступом к разделам CRM и задачи
+> Кто может выполнять методы:
+> - [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) — любой пользователь
+> - [crm.item.list](../../api-reference/crm/universal/crm-item-list.md) — любой пользователь с правом на чтение элементов объекта CRM
+> - [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) и [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) — любой пользователь
 
 {% note tip "" %}
 
@@ -13,19 +16,48 @@
 
 {% endnote %}
 
-Ключевой параметр для прикрепления задачи к элементу CRM — [идентификатор типа объекта](../../api-reference/crm/data-types.md#object_type). Идентификатор показывает, в какой тип объекта связь будет добавлена: в сделку, в лид, в определенный смарт-процесс.
+Задача связывается с элементом CRM через поле «Элементы CRM» — `UF_CRM_TASK`. Поле принимает значения в [формате](../../api-reference/crm/data-types.md#crm-binding-format) `{PREFIX}_{ID}`:
 
-Чтобы создать задачу и прикрепить ее к смарт-процессу, последовательно выполним три метода:
+- `PREFIX` — краткий символьный код [типа объекта CRM](../../api-reference/crm/data-types.md#object_type). Он показывает, к чему добавляется связь: к сделке, к лиду, к определенному смарт-процессу
+- `ID` — идентификатор конкретного элемента этого типа
 
-1. [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) — получим `entityTypeId` и `SYMBOL_CODE_SHORT` смарт-процесса
+Например, `Tb1_29` — это элемент с `id`: `29` смарт-процесса с кратким кодом `Tb1`.
 
-2. [crm.item.list](../../api-reference/crm/universal/crm-item-list.md) — получим элемент смарт-процесса с параметром `entityTypeId`
+Обе части значения нужно получить до создания задачи. Поэтому сценарий состоит из трех шагов.
 
-3. [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) — создадим задачу и свяжем ее с элементом смарт-процесса при помощи `SYMBOL_CODE_SHORT`
-   
+1. Получить `entityTypeId` и `SYMBOL_CODE_SHORT` смарт-процесса методом [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
+
+2. Получить идентификатор элемента смарт-процесса методом [crm.item.list](../../api-reference/crm/universal/crm-item-list.md) с параметром `entityTypeId`
+
+3. Создать задачу методом [tasks.task.add](../../api-reference/tasks/tasks-task-add.md), передав в `UF_CRM_TASK` значение, собранное из `SYMBOL_CODE_SHORT` и `id` элемента
+
+В результате получим задачу, у которой в поле «Элементы CRM» указан элемент смарт-процесса. Проверим привязку методом [tasks.task.get](../../api-reference/tasks/tasks-task-get.md).
+
+## Подготовьте данные
+
+Для выполнения примера нужны:
+
+- входящий вебхук со scope `crm` и `task`
+- созданный смарт-процесс и хотя бы один его элемент
+- идентификатор пользователя, которого назначим исполнителем задачи. Получить его можно методами [user.get](../../api-reference/user/user-get.md) и [user.current](../../api-reference/user/user-current.md)
+- состав обязательных полей задачи. Если на портале настроены обязательные пользовательские поля, их тоже нужно передать в `tasks.task.add` — проверьте состав методом [tasks.task.getFields](../../api-reference/tasks/tasks-task-get-fields.md)
+
+Вебхук выполняет запросы с правами создавшего его пользователя. Не публикуйте секретный код вебхука в клиентском коде и репозиториях — храните его в переменных окружения.
+
+Смарт-процесс должен быть настроен на привязку к задачам. В методах [crm.type.add](../../api-reference/crm/universal/user-defined-object-types/crm-type-add.md) или [crm.type.update](../../api-reference/crm/universal/user-defined-object-types/crm-type-update.md) для него нужно передать две настройки сразу:
+
+- `isUseInUserfieldEnabled`: `Y` — [разрешает использовать смарт-процесс в пользовательских полях](../../api-reference/crm/universal/user-defined-object-types/index.md)
+- `linkedUserFields`: `{"TASKS_TASK|UF_CRM_TASK": "true"}` — добавляет смарт-процесс именно в поле задачи. Значение по умолчанию — пустой объект
+
+Одной опции `isUseInUserfieldEnabled` недостаточно: без `linkedUserFields` смарт-процесс не попадет в список типов, доступных полю `UF_CRM_TASK`, и привязка не сохранится.
+
+Для серверных JS-примеров с `B24Hook` нужен Node.js 18, 20, 22 или новее, для новых проектов — 22 или новее. B24JsSDK — ES module: сохраните код в файле `.mjs` или добавьте `"type": "module"` в `package.json`.
+
+Для примеров с b24pysdk нужен Python 3.9 или новее.
+
 ## 1. Получаем идентификаторы смарт-процесса {#SPA-ids}
 
-Чтобы получить идентификатор смарт-процесса, используем метод [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md). Метод вызывается без параметров и возвращает перечисление всех типов объектов CRM.
+Чтобы получить идентификатор смарт-процесса, используем метод [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md). Метод вызывается без параметров и возвращает стандартные типы объектов CRM и смарт-процессы.
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
@@ -36,19 +68,20 @@
     ```javascript
     import { B24Hook } from '@bitrix24/b24jssdk'
 
-    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/')
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/'
 
-    const response = await $b24.actions.v2.call.make({
+    const ownerTypeResponse = await $b24.actions.v2.call.make({
         method: 'crm.enum.ownertype',
         params: {},
         requestId: 'crm-enum-ownertype'
     })
 
-    if (!response.isSuccess) {
-        throw new Error(response.getErrorMessages().join('; '))
+    if (!ownerTypeResponse.isSuccess) {
+        throw new Error(ownerTypeResponse.getErrorMessages().join('; '))
     }
 
-    const result = response.getData().result
+    const ownerTypes = ownerTypeResponse.getData().result
     ```
 
 - PHP
@@ -58,9 +91,11 @@
 
     use Bitrix24\SDK\Services\ServiceBuilderFactory;
     use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
 
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
-        ->initFromWebhook('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/');
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook(getenv('B24_HOOK'));
+    // B24_HOOK = 'https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/'
 
     $result = $serviceBuilder->getCRMScope()->enum()->ownerType()->getItems();
     ```
@@ -68,34 +103,33 @@
 - Python
 
     ```python
+    import os
+
     from b24pysdk import BitrixWebhook, Client
 
     client = Client(
         BitrixWebhook(
             domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
+            webhook_token=os.environ["B24_HOOK_TOKEN"],
         )
     )
+    # B24_HOOK_TOKEN = 'user_id/webhook_key'
 
     result = client.crm.enum.ownertype().response.result
     ```
 
 {% endlist %}
 
-Метод возвращает четыре разных идентификатора:
+У каждого типа объекта метод возвращает четыре поля:
 
-```JSON
-     "ID": 130, // entityTypeId — получаем, чтобы найти элемент CRM по фильтру
-     "NAME": "Всё включено", // название
-     "SYMBOL_CODE": "DYNAMIC_130", // символьный код
-     "SYMBOL_CODE_SHORT": "T82" // краткий символьный код — получаем, чтобы привязать элемент CRM к задаче
-```
+- `ID` — числовой идентификатор типа `entityTypeId`. Понадобится в следующем шаге, чтобы найти элемент смарт-процесса
+- `NAME` — название типа. По нему находим нужный смарт-процесс в списке
+- `SYMBOL_CODE` — символьный код типа
+- `SYMBOL_CODE_SHORT` — краткий символьный код. Это первая часть значения привязки, которое передадим в задачу
 
-`ID` получаем, чтобы найти элемент CRM по фильтру.
+Сокращенный ответ:
 
-`SYMBOL_CODE_SHORT` получаем, чтобы привязать элемент CRM к задаче.
-
-```JSON
+```json
 {
     "result": [
         {
@@ -170,11 +204,12 @@
             "SYMBOL_CODE": "DYNAMIC_156",
             "SYMBOL_CODE_SHORT": "T9c"
         },
-    ],
+        ...
+    ]
 }
 ```
 
-В результате получили перечень всех типов объектов CRM в Битрикс24 с идентификаторами. Для следующих запросов используем `ID`: `177` и `SYMBOL_CODE_SHORT`: `Tb1` смарт-процесса «Закупка оборудования».
+В результате получили типы объектов CRM с идентификаторами. Дальше работаем со смарт-процессом «Закупка оборудования» и сохраняем два его значения: `ID`: `177` для поиска элемента и `SYMBOL_CODE_SHORT`: `Tb1` для привязки.
 
 ## 2. Получаем ID элемента смарт-процесса {#element-id}
 
@@ -182,17 +217,19 @@
 
 -  `entityTypeId` — `177`, значение равно `ID` из результата предыдущего метода
 
--  `filter[title]` — укажем название элемента для поиска  
+-  `filter[title]` — укажем название элемента для поиска
+
+-  `select` — список возвращаемых полей. Для сценария достаточно `id` и `title`
 
 {% list tabs %}
 
 - JS
   
     ```javascript
-    const response = await $b24.actions.v2.call.make({
+    const itemResponse = await $b24.actions.v2.call.make({
         method: 'crm.item.list',
         params: {
-            entityTypeId: 177, // ID из результата  crm.enum.ownertype
+            entityTypeId: 177, // ID из результата crm.enum.ownertype
             select: [
                 'id', // выбираемые поля
                 'title',
@@ -204,11 +241,11 @@
         requestId: 'crm-item-list'
     })
 
-    if (!response.isSuccess) {
-        throw new Error(response.getErrorMessages().join('; '))
+    if (!itemResponse.isSuccess) {
+        throw new Error(itemResponse.getErrorMessages().join('; '))
     }
 
-    const result = response.getData().result
+    const items = itemResponse.getData().result.items
     ```
 
 - PHP
@@ -241,9 +278,9 @@
 
 {% endlist %}
 
-В результате получили ID элемента смарт-процесса — параметр, необходимый для следующего запроса.
+В результате получили `id`: `29` элемента смарт-процесса — вторую часть значения привязки.
 
-```JSON
+```json
 {
     "result": {
         "items": [
@@ -253,29 +290,39 @@
             }
         ]
     },
-    "total": 1,
+    "total": 1
 }
 ```
 
+Если элементов с таким названием несколько, метод вернет их все. Уточните фильтр или выберите нужный элемент по `id`.
+
 ## 3. Создаем задачу с привязкой к элементу смарт-процесса
+
+Соберем значение привязки из двух полученных частей. Между ними ставим символ подчеркивания:
+
+```text
+SYMBOL_CODE_SHORT + "_" + id
+Tb1 + "_" + 29 = Tb1_29
+```
+
+Собирайте значение из ответов методов, а не из готовой строки в примере. Краткий код смарт-процесса зависит от `entityTypeId` и на другом портале будет другим.
 
 Для создания задачи используем метод [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) с параметрами:
 
--  `UF_CRM_TASK` — укажем значение `Tb1_29`. Это краткий символьный код типа `SYMBOL_CODE_SHORT`: `Tb1` из результатов [crm.enum.ownertype](./how-to-connect-task-to-spa.md#SPA-ids) и ID элемента смарт-процесса `id`: `29` из результатов [crm.item.list](./how-to-connect-task-to-spa.md#element-id)
+-  `UF_CRM_TASK` — массив привязок к элементам CRM. Передаем в нем собранное значение `Tb1_29` из [шага 1](#SPA-ids) и [шага 2](#element-id)
 
 -  `TITLE` — название задачи, обязательное поле. Без названия задача не будет создана
 
--  `CREATED_BY` — ID постановщика задачи, поле не может быть пустым. Если его не заполнить, постановщиком автоматически станет тот, кто отправляет запрос
+-  `CREATED_BY` — ID постановщика задачи. В примере не передаем его: постановщиком станет пользователь, от имени которого выполняется запрос
 
 -  `RESPONSIBLE_ID` — ID исполнителя задачи, обязательное поле. Без исполнителя задача не будет создана
-  
 
 {% list tabs %}
 
 - JS
   
     ```javascript
-    const response = await $b24.actions.v2.call.make({
+    const taskResponse = await $b24.actions.v2.call.make({
         method: 'tasks.task.add',
         params: {
             fields: {
@@ -289,11 +336,11 @@
         requestId: 'task-add'
     })
 
-    if (!response.isSuccess) {
-        throw new Error(response.getErrorMessages().join('; '))
+    if (!taskResponse.isSuccess) {
+        throw new Error(taskResponse.getErrorMessages().join('; '))
     }
 
-    const result = response.getData().result
+    const task = taskResponse.getData().result.task
     ```
 
 - PHP
@@ -329,249 +376,34 @@
 
 {% endlist %}
 
-В результате создали задачу с ID `3731`.
+В результате создали задачу с ID `3731`. Сохраните идентификатор — по нему проверим привязку. Обратите внимание: методы задач возвращают идентификаторы строками — `"id": "3731"`. В `taskId` следующего вызова метод приведет значение к числу, поэтому строка с числом подойдет. А вот нечисловое значение превратится в `0`, и метод вернет ошибку.
 
-```JSON
+Метод возвращает все поля задачи, кроме привязки к элементам CRM: поля `ufCrmTask` в ответе нет.
+
+Сокращенный ответ:
+
+```json
 {
     "result": {
         "task": {
             "id": "3731",
-            "parentId": null,
             "title": "task for test",
-            "description": "",
-            "mark": null,
-            "priority": "1",
-            "multitask": "N",
-            "notViewed": "N",
-            "replicate": "N",
-            "stageId": "0",
-            "createdBy": "1",
-            "createdDate": "2025-01-20T14:30:58+02:00",
-            "responsibleId": "1",
-            "changedBy": "1",
-            "changedDate": "2025-01-20T14:30:58+02:00",
-            "statusChangedBy": null,
-            "closedBy": null,
-            "closedDate": null,
-            "activityDate": "2025-01-20T14:30:58+02:00",
-            "dateStart": null,
-            "deadline": null,
-            "startDatePlan": null,
-            "endDatePlan": null,
-            "guid": "{34429425-80c6-4927-83bd-220e67bcc202}",
-            "xmlId": null,
-            "commentsCount": null,
-            "serviceCommentsCount": null,
-            "allowChangeDeadline": "N",
-            "allowTimeTracking": "N",
-            "taskControl": "N",
-            "addInReport": "N",
-            "forkedByTemplateId": null,
-            "timeEstimate": "0",
-            "timeSpentInLogs": null,
-            "matchWorkTime": "N",
-            "forumTopicId": null,
-            "forumId": null,
-            "siteId": "s1",
-            "subordinate": "Y",
-            "exchangeModified": null,
-            "exchangeId": null,
-            "outlookVersion": "1",
-            "viewedDate": null,
-            "sorting": null,
-            "durationFact": null,
-            "isMuted": "N",
-            "isPinned": "N",
-            "isPinnedInGroup": "N",
-            "flowId": null,
-            "descriptionInBbcode": "Y",
             "status": "2",
-            "statusChangedDate": "2025-01-20T14:30:58+02:00",
-            "durationPlan": null,
-            "durationType": "days",
-            "favorite": "N",
-            "groupId": "0",
-            "auditors": [],
-            "accomplices": [],
+            "createdBy": "1",
+            "responsibleId": "1",
+            "createdDate": "2025-01-20T14:30:58+02:00",
+            "changedDate": "2025-01-20T14:30:58+02:00",
+            "group": [],
             "checklist": [],
-            "group": [],
-            "creator": {
-                "id": "1",
-                "name": "Viola",
-                "link": "/company/personal/user/1/",
-                "icon": "https://your-domain.bitrix24.com/b13743910/resize_cache/2267/c0120a8d7c10d63c83e32398d1ec4d9e/main/c7b/c7bd44b1babaa5448125dd97d038ce1b/d5fb56b94dc2c3cd8c006a2c595a4895.jpg",
-                "workPosition": ""
-            },
-            "responsible": {
-                "id": "1",
-                "name": "Viola",
-                "link": "/company/personal/user/1/",
-                "icon": "https://your-domain.bitrix24.com/b13743910/resize_cache/2267/c0120a8d7c10d63c83e32398d1ec4d9e/main/c7b/c7bd44b1babaa5448125dd97d038ce1b/d5fb56b94dc2c3cd8c006a2c595a4895.jpg",
-                "workPosition": ""
-            },
-            "accomplicesData": [],
-            "auditorsData": [],
-            "newCommentsCount": 0,
-            "action": {
-                "accept": false,
-                "decline": false,
-                "complete": true,
-                "approve": false,
-                "disapprove": false,
-                "start": true,
-                "pause": false,
-                "delegate": true,
-                "remove": true,
-                "edit": true,
-                "defer": true,
-                "renew": false,
-                "create": true,
-                "changeDeadline": true,
-                "checklistAddItems": true,
-                "addFavorite": true,
-                "deleteFavorite": false,
-                "rate": true,
-                "take": false,
-                "edit.originator": false,
-                "checklist.reorder": true,
-                "elapsedtime.add": true,
-                "dayplan.timer.toggle": false,
-                "edit.plan": true,
-                "checklist.add": true,
-                "favorite.add": true,
-                "favorite.delete": false
-            },
-            "checkListTree": {
-                "nodeId": 0,
-                "fields": {
-                    "id": null,
-                    "copiedId": null,
-                    "entityId": null,
-                    "userId": 1,
-                    "createdBy": null,
-                    "parentId": null,
-                    "title": "",
-                    "sortIndex": null,
-                    "displaySortIndex": "",
-                    "isComplete": false,
-                    "isImportant": false,
-                    "completedCount": 0,
-                    "members": [],
-                    "attachments": []
-                },
-                "action": [],
-                "descendants": []
-            },
-            "checkListCanAdd": true
+            ...
         }
-    },
-}
-```
-
-## Проверка созданной задачи
-
-В полученном результате нет информации о связанных элементах CRM. Чтобы проверить, успешно ли прикреплен элемент смарт-процесса к задаче, выполним метод  [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) с параметрами:
-
--  `taskId` — `3731`, ID созданной задачи из результата предыдущего метода
-
--  `select` — `UF_CRM_TASK`, поле «Привязка к элементам CRM». Метод [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) не вернет поле привязки без `UF_CRM_TASK` в `select`
-  
-{% list tabs %}
-
-- JS
-  
-    ```javascript
-    const response = await $b24.actions.v2.call.make({
-        method: 'tasks.task.get',
-        params: {
-            taskId: 3731, // ID задачи
-            select: ['ID', 'UF_CRM_TASK'] // выбираемые поля
-        },
-        requestId: 'task-get'
-    })
-
-    if (!response.isSuccess) {
-        throw new Error(response.getErrorMessages().join('; '))
     }
-
-    const result = response.getData().result
-    ```
-
-- PHP
-  
-    ```php
-    $result = $serviceBuilder->core->call(
-        'tasks.task.get',
-        [
-            'taskId' => 3731, // ID задачи
-            'select' => ['ID', 'UF_CRM_TASK'] // выбираемые поля
-        ]
-    )->getResponseData()->getResult();
-    ```
-
-- Python
-
-    ```python
-    result = client.tasks.task.get(
-        bitrix_id=3731,
-        select=["ID", "UF_CRM_TASK"],
-    ).response.result
-    ```
-
-{% endlist %}
-
-В результате получили значение поля `ufCrmTask`: `Tb1_29`. Элемент смарт-процесса прикреплен успешно.
-
-```JSON
-{
-    "result": {
-        "task": {
-            "id": "3731",
-            "ufCrmTask": ["Tb1_29"],
-            "ufTaskWebdavFiles": false,
-            "ufMailMessage": null,
-            "ufAuto615763798639": null,
-            "ufAuto885808697713": null,
-            "ufAuto168639979930": null,
-            "ufAuto441714695872": null,
-            "ufAuto179124361273": null,
-            "favorite": "N",
-            "group": [],
-            "action": {
-                "accept": false,
-                "decline": false,
-                "complete": true,
-                "approve": false,
-                "disapprove": false,
-                "start": true,
-                "pause": false,
-                "delegate": true,
-                "remove": true,
-                "edit": true,
-                "defer": true,
-                "renew": false,
-                "create": true,
-                "changeDeadline": true,
-                "checklistAddItems": true,
-                "addFavorite": true,
-                "deleteFavorite": false,
-                "rate": true,
-                "take": false,
-                "edit.originator": false,
-                "checklist.reorder": true,
-                "elapsedtime.add": true,
-                "dayplan.timer.toggle": false,
-                "edit.plan": true,
-                "checklist.add": true,
-                "favorite.add": true,
-                "favorite.delete": false
-            }
-        }
-    },
 }
 ```
 
-## Пример кода
+## Запустите сценарий
+
+Скрипт выполняет все три шага подряд: находит смарт-процесс по названию, находит его элемент, собирает значение привязки и создает задачу. Замените значения переменных на свои — в примерах выше это смарт-процесс «Закупка оборудования», элемент «Стиральная машина» и задача `task for test`.
 
 {% list tabs %}
 
@@ -580,12 +412,13 @@
     ```javascript
     import { B24Hook } from '@bitrix24/b24jssdk'
 
-    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/')
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/'
 
     // Переменные для ввода данных пользователем
     const smartProcessName = 'название_смарт_процесса'; // Название смарт-процесса
     const itemName = 'название_элемента'; // Название элемента смарт-процесса
-    const responsibleId = 'ID_ответственного'; // ID ответственного за задачу
+    const responsibleId = 1; // ID ответственного за задачу, число
     const taskTitle = 'название_задачи'; // Название задачи
 
     // Функция для создания задачи с привязкой к элементу смарт-процесса
@@ -671,14 +504,16 @@
     use Bitrix24\SDK\Services\ServiceBuilderFactory;
     use Bitrix24\SDK\Core\Exceptions\BaseException;
     use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
 
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
-        ->initFromWebhook('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/');
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook(getenv('B24_HOOK'));
+    // B24_HOOK = 'https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/'
 
     // Переменные для ввода данных пользователем
     $smartProcessName = 'название_смарт_процесса'; // Название смарт-процесса
     $itemName = 'название_элемента'; // Название элемента смарт-процесса
-    $responsibleId = 'ID_ответственного'; // ID ответственного за задачу
+    $responsibleId = 1; // ID ответственного за задачу, число
     $taskTitle = 'название_задачи'; // Название задачи
 
     // Функция для создания задачи с привязкой к элементу смарт-процесса
@@ -752,12 +587,14 @@
 - Python
 
     ```python
+    import os
+
     from b24pysdk import BitrixWebhook, Client
     from b24pysdk.errors import BitrixAPIError
 
     smart_process_name = "название_смарт_процесса"
     item_name = "название_элемента"
-    responsible_id = "ID_ответственного"
+    responsible_id = 1
     task_title = "название_задачи"
 
 
@@ -814,11 +651,130 @@
     client = Client(
         BitrixWebhook(
             domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
+            webhook_token=os.environ["B24_HOOK_TOKEN"],
         )
     )
+    # B24_HOOK_TOKEN = 'user_id/webhook_key'
 
     create_task_with_smart_process(client, smart_process_name, item_name, responsible_id, task_title)
     ```
 
 {% endlist %}
+
+## Проверим результат
+
+Откройте созданную задачу в Битрикс24. Привязанный элемент смарт-процесса отображается в карточке задачи в поле «Элементы CRM».
+
+Через REST привязку проверяет метод [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) с параметрами:
+
+-  `taskId` — `3731`, ID созданной задачи из результата предыдущего метода
+
+-  `select` — `UF_CRM_TASK`, поле «Элементы CRM». Без этого поля в `select` метод не вернет привязку: `UF_CRM_TASK` относится к системным полям, которые не возвращаются по умолчанию. В запросе имя поля пишется в верхнем регистре, а в ответе возвращается в camelCase — `ufCrmTask`
+
+{% list tabs %}
+
+- JS
+  
+    ```javascript
+    const checkResponse = await $b24.actions.v2.call.make({
+        method: 'tasks.task.get',
+        params: {
+            taskId: 3731, // ID задачи
+            select: ['ID', 'UF_CRM_TASK'] // выбираемые поля
+        },
+        requestId: 'task-get'
+    })
+
+    if (!checkResponse.isSuccess) {
+        throw new Error(checkResponse.getErrorMessages().join('; '))
+    }
+
+    const checkedTask = checkResponse.getData().result.task
+    ```
+
+- PHP
+  
+    ```php
+    $result = $serviceBuilder->core->call(
+        'tasks.task.get',
+        [
+            'taskId' => 3731, // ID задачи
+            'select' => ['ID', 'UF_CRM_TASK'] // выбираемые поля
+        ]
+    )->getResponseData()->getResult();
+    ```
+
+- Python
+
+    ```python
+    result = client.tasks.task.get(
+        bitrix_id=3731,
+        select=["ID", "UF_CRM_TASK"],
+    ).response.result
+    ```
+
+{% endlist %}
+
+Сценарий выполнен успешно, если в ответе поле `ufCrmTask` содержит собранное значение `Tb1_29`.
+
+Сокращенный ответ:
+
+```json
+{
+    "result": {
+        "task": {
+            "id": "3731",
+            "ufCrmTask": ["Tb1_29"],
+            "ufTaskWebdavFiles": false,
+            "ufMailMessage": null,
+            "favorite": "N",
+            "group": [],
+            ...
+        }
+    }
+}
+```
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Код** | **Причина и действие** ||
+|| `NOT_FOUND` | Смарт-процесс не найден. В `entityTypeId` метода [crm.item.list](../../api-reference/crm/universal/crm-item-list.md) передан идентификатор несуществующего смарт-процесса — возьмите `ID` из ответа [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | В `entityTypeId` передано значение, которое не относится к смарт-процессам. Берите `ID` из ответа [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md), а не подставляйте произвольное число ||
+|| `ERROR_CORE` | Не введено значение обязательного поля. На портале настроены обязательные пользовательские поля задач — получите их состав методом [tasks.task.getFields](../../api-reference/tasks/tasks-task-get-fields.md) и передайте в `fields` ||
+|| `INVALID_ARG_VALUE` | Поле недоступно для фильтрации или в него передано некорректное значение. Проверьте `filter` в [crm.item.list](../../api-reference/crm/universal/crm-item-list.md) ||
+|| `allowed_only_intranet_user` | Действие в [crm.item.list](../../api-reference/crm/universal/crm-item-list.md) разрешено только интранет-пользователям. Проверьте, от имени какого пользователя создан вебхук ||
+|| `ERROR_CORE` | Не указано название задачи или не указан исполнитель. Заполните `TITLE` и `RESPONSIBLE_ID` ||
+|| `ERROR_CORE` | Пользователь, указанный в поле «Исполнитель», не найден. В `RESPONSIBLE_ID` передан идентификатор несуществующего пользователя ||
+|| `100` | Не переданы обязательные параметры. Проверьте `fields` в [tasks.task.add](../../api-reference/tasks/tasks-task-add.md), `taskId` и `select` в [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) ||
+|| `0` | В параметре `taskId` метода [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) указано значение неверного типа ||
+|#
+
+Задача может создаться без ошибки, но с пустым полем `ufCrmTask`. Тогда проверьте значение привязки и настройки смарт-процесса:
+
+- смарт-процесс добавлен в `linkedUserFields` по ключу `TASKS_TASK|UF_CRM_TASK`, а не только помечен опцией `isUseInUserfieldEnabled`. Это самая частая причина: пока обе настройки не заданы, поле `UF_CRM_TASK` не принимает элементы этого смарт-процесса
+- значение собрано по формуле из шага 3 — `Tb1_29`, а не `Tb1 29`, `Tb1-29` или `177_29` с идентификатором типа вместо идентификатора элемента
+
+Если [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) вернул пустой `result`, задачи с таким идентификатором нет или у пользователя вебхука нет к ней доступа. Это не признак того, что привязка не сохранилась.
+
+Повторяйте сценарий с того шага, который вернул ошибку. Шаги 1 и 2 ничего не создают, их можно выполнять сколько угодно раз. Если ошибку вернул [tasks.task.add](../../api-reference/tasks/tasks-task-add.md), задача не создана: исправьте поля и повторите только шаг 3. Если задача создана, но привязка неверная, не создавайте новую задачу — обновите поле `UF_CRM_TASK` методом [tasks.task.update](../../api-reference/tasks/tasks-task-update.md).
+
+## Что важно учитывать
+
+- краткий код смарт-процесса вычисляется из `entityTypeId`: число переводится в шестнадцатеричный вид и получает префикс `T`. Например, `entityTypeId`: `177` дает `b1` и код `Tb1`
+- `UF_CRM_TASK` принимает массив, поэтому к одной задаче можно привязать несколько объектов CRM разных типов, например `["Tb1_29", "D_10"]`
+- к задаче можно привязать не только смарт-процесс. Поле `UF_CRM_TASK` по умолчанию принимает лид, контакт, компанию, сделку и заказ — подставьте краткий код нужного типа: `L`, `C`, `CO`, `D`, `O`. Для этих типов шаг с [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) не нужен: коды постоянны и перечислены в [таблице типов объектов CRM](../../api-reference/crm/data-types.md#object_type). Предложение и счет в этот список по умолчанию не входят
+- [crm.item.list](../../api-reference/crm/universal/crm-item-list.md) возвращает 50 элементов на страницу. Если нужный элемент не нашелся, уточните фильтр или переберите страницы параметром `start`
+- повторный запуск примера создает новую задачу
+
+## Продолжите изучение
+
+- [Создать задачу tasks.task.add](../../api-reference/tasks/tasks-task-add.md)
+- [Получить задачу по идентификатору tasks.task.get](../../api-reference/tasks/tasks-task-get.md)
+- [Обновить задачу tasks.task.update](../../api-reference/tasks/tasks-task-update.md)
+- [Получить список типов объектов CRM crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
+- [Получить список элементов смарт-процесса crm.item.list](../../api-reference/crm/universal/crm-item-list.md)
+- [Формат значений для привязки к элементам CRM](../../api-reference/crm/data-types.md#crm-binding-format)
+- [{#T}](./how-to-create-task-with-file.md)
