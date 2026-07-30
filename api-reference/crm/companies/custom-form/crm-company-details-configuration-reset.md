@@ -370,6 +370,68 @@
         echo '</PRE>';
         ```
 
+
+    - Python
+
+        Пример
+
+        ```python
+        from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+        try:
+            bitrix_response = client.crm.company.details.configuration.reset(
+                scope="C",
+            ).response
+            result = bitrix_response.result
+            print(result)
+        except BitrixAPIError as error:
+            print(
+                "Ошибка Bitrix API",
+                f"error: {error.error}",
+                f"error_description: {error.error_description}",
+                sep="\n",
+            )
+        except BitrixSDKException as error:
+            print(f"Ошибка Bitrix SDK: {error.message}")
+        except Exception as error:
+            print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - BX24.js
+
+        ```js
+        BX24.callMethod(
+            "crm.company.details.configuration.reset",
+            {
+                scope: "C"
+            },
+            function(result)
+            {
+                if(result.error())
+                    console.error(result.error());
+                else
+                    console.dir(result.data());
+            }
+        );
+        ```
+
+    - PHP CRest
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.company.details.configuration.reset',
+            [
+                'scope' => 'C'
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+        ```
+
     {% endlist %}
 
 ## Обработка ответа

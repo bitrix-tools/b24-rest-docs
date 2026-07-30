@@ -109,11 +109,7 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
-
-
-
-
-- PHP
+    - PHP
 
         ```php
         require_once('crest.php');
