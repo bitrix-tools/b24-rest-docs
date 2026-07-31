@@ -23,6 +23,8 @@
 
 Изменить название файла позволяет метод [disk.file.rename](./disk-file-rename.md).
 
+Найти файлы и папки по имени или по тексту внутри документа можно методом [disk.file.search](./disk-file-search.md). Поиск можно ограничить одним хранилищем или папкой.
+
 {% note tip "Пользовательская документация" %}
 
 - [Документы Онлайн: начало работы](https://helpdesk.bitrix24.ru/open/20338924/)
@@ -79,6 +81,7 @@
 || **Метод** | **Описание** ||
 || [disk.file.getfields](./disk-file-get-fields.md) | Возвращает описание полей файла ||
 || [disk.file.get](./disk-file-get.md) | Возвращает файл по идентификатору ||
+|| [disk.file.search](./disk-file-search.md) | Находит файлы и папки по текстовому запросу ||
 || [disk.file.rename](./disk-file-rename.md) | Переименовывает файл ||
 || [disk.file.copyto](./disk-file-copy-to.md) | Копирует файл в указанную папку ||
 || [disk.file.moveto](./disk-file-move-to.md) | Перемещает файл в указанную папку ||

@@ -4,6 +4,7 @@
 
 ### 31 июля, 2026
 
+- Добавили метод [disk.file.search](./api-reference/disk/file/disk-file-search.md)
 - Обновили туториал [Как сделать свою карточку редактирования сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-deal.md)
 - Обновили туториал [Как сделать свою карточку редактирования лида](./tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-lead.md)
 

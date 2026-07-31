@@ -135,6 +135,7 @@
 || **Метод** | **Описание** ||
 || [disk.file.getfields](file/disk-file-get-fields.md) | Возвращает описание полей файла ||
 || [disk.file.get](file/disk-file-get.md) | Возвращает файл по идентификатору ||
+|| [disk.file.search](file/disk-file-search.md) | Находит файлы и папки по текстовому запросу ||
 || [disk.file.rename](file/disk-file-rename.md) | Переименовывает файл ||
 || [disk.file.copyto](file/disk-file-copy-to.md) | Копирует файл в указанную папку ||
 || [disk.file.moveto](file/disk-file-move-to.md) | Перемещает файл в указанную папку ||
