@@ -22,12 +22,10 @@
 - генератор получает описание полей, данные лида и значения справочников, затем выводит HTML-форму
 - обработчик принимает данные формы и вызывает метод добавления или обновления
 
-В универсальных методах идентификатор типа лида `entityTypeId` равен `1`. Значения для других объектов приведены в таблице [Тип объекта CRM](../../../api-reference/crm/data-types.md#object_type).
-
 ## Как работает сценарий
 
-1. [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) возвращает описание полей в `result.fields`
-2. Если в адресе есть `ID`, [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) возвращает значения лида в `result.item`
+1. Генератор получает описание полей методом [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md)
+2. Если в адресе есть `ID`, генератор получает значения лида методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md)
 3. Генератор подставляет читаемые названия вместо служебных кодов с помощью дополнительных методов
    - [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) — поля `STATUS_ID` и `NAME` для стадий, источников и других CRM-справочников
    - [crm.currency.list](../../../api-reference/crm/currency/crm-currency-list.md) — поля `CURRENCY` и `FULL_NAME` для валют
@@ -35,11 +33,11 @@
    - [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) — поля `id`, `name`, `lastName` связанных контактов
    - [user.get](../../../api-reference/user/user-get.md) — поля `ID`, `NAME`, `LAST_NAME` пользователей
 4. Обработчик повторно получает описание полей методом [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) и приводит значения формы к типам REST API
-5. Для новой записи [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) возвращает созданный лид в `result.item`. Для существующей записи [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) возвращает обновленный лид в том же ключе
+5. Обработчик добавляет новый лид методом [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) или обновляет существующий методом [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md)
 
 ## 1. Подготовим окружение
 
-Создайте [входящий вебхук](../../../local-integrations/local-webhooks.md#входящий-вебхук) с правами `crm` и `user_brief`. Пользователю вебхука нужны права на чтение, добавление и изменение лидов, чтение компаний и контактов, а также доступ к настройкам CRM. Доступ к настройкам нужен, чтобы получить описание пользовательских полей.
+Создайте [входящий вебхук](../../../local-integrations/local-webhooks.md#входящий-вебхук) с правами `crm` и `user_brief`. Пользователю вебхука нужны права на чтение, добавление и изменение лидов, чтение компаний и контактов и доступ к настройкам CRM.
 
 {% note warning "Храните вебхук в секрете" %}
 
@@ -47,7 +45,7 @@
 
 {% endnote %}
 
-Создайте два файла:
+Выберите один язык, создайте для примера отдельную папку и откройте в ней терминал. Сохраните код из шагов 2 и 3 в два соответствующих файла и только затем выполните команду запуска.
 
 #|
 || Язык | Генератор формы | Обработчик ||
@@ -140,7 +138,7 @@
 
 Генератор передает в [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) два параметра:
 
-- `entityTypeId: 1` — тип объекта «лид»
+- `entityTypeId: 1` — тип объекта «лид». Значения для других объектов приведены в таблице [Тип объекта CRM](../../../api-reference/crm/data-types.md#object_type)
 - `useOriginalUfNames: Y` — вернуть оригинальные имена пользовательских полей `UF_*`
 
 В Python SDK параметр `useOriginalUfNames` называется `use_original_uf_names` и принимает логическое значение `True`.
@@ -243,9 +241,9 @@
 }
 ```
 
-Идентификатор `id` обработчик использует для выбора между добавлением и обновлением. Поле `companyId` содержит один идентификатор компании, а `contactIds` — массив идентификаторов контактов. Само поле `contactIds` устроено так же, как у компании. Отличие лида в дополнительной одиночной связи `companyId`: лид может одновременно иметь одну компанию и несколько контактов. Устаревшее одиночное поле `contactId` и служебное поле `contacts` пример не выводит, чтобы не отправлять несколько представлений одной связи.
+Поле `companyId` содержит один идентификатор компании, а `contactIds` — массив идентификаторов контактов. Само поле `contactIds` устроено так же, как у компании. Отличие лида в дополнительной одиночной связи `companyId`: лид может одновременно иметь одну компанию и несколько контактов. Устаревшее одиночное поле `contactId` и служебное поле `contacts` пример не выводит, чтобы не отправлять несколько представлений одной связи.
 
-Мультиполе `fm` применимо к лидам. В примере доступны типы `PHONE`, `EMAIL`, `WEB`, `IM`. Существующее значение содержит `id`; при обновлении его нужно сохранить. Для нового значения обработчик использует ключ `n0`, `n1` и так далее. Пустое значение с существующим `id` удаляет запись.
+Мультиполе `fm` применимо к лидам. В форме доступны типы `PHONE`, `EMAIL`, `WEB`, `IM`.
 
 Сумма лида хранится в `opportunity` типа `double`, валюта — в `currencyId` типа `crm_currency`. Режим расчета суммы хранится отдельно в логическом поле `isManualOpportunity`, поэтому форма выводит для него отдельный флажок.
 
@@ -302,7 +300,7 @@
 
     function input(params) {
         const values = params.MULTIPLE
-            ? [...(Array.isArray(params.VALUE) ? params.VALUE : [params.VALUE || '']), '']
+            ? [...(Array.isArray(params.VALUE) ? params.VALUE : [params.VALUE ?? '']), '']
             : [params.VALUE ?? '']
         return values.map((value, index) => {
             let html = '<input class="form-control"'
@@ -665,11 +663,15 @@
             }
             elseif ($field['type'] === 'date')
             {
-                $control = inputField(['TYPE' => 'date', 'VALUE' => $value ? date('Y-m-d', strtotime($value)) : ''] + $params);
+                $formatted = $value ? substr((string)$value, 0, 10) : '';
+                $control = inputField(['TYPE' => 'date', 'VALUE' => $formatted] + $params);
             }
             elseif ($field['type'] === 'datetime')
             {
-                $control = inputField(['TYPE' => 'datetime-local', 'VALUE' => $value ? date('Y-m-d\TH:i:s', strtotime($value)) : ''] + $params);
+                $formatted = $value
+                    ? (new DateTimeImmutable((string)$value))->format('Y-m-d\TH:i:s')
+                    : '';
+                $control = inputField(['TYPE' => 'datetime-local', 'VALUE' => $formatted] + $params);
             }
             elseif (in_array($field['type'], ['boolean', 'char'], true))
             {
@@ -738,10 +740,15 @@
     ))
 
 
+    def value_or_empty(value):
+        return "" if value is None else value
+
+
     def input_field(params):
+        value = params.get("VALUE")
         values = (
-            [*(params["VALUE"] if isinstance(params.get("VALUE"), list) else [params.get("VALUE") or ""]), ""]
-            if params.get("MULTIPLE") else [params.get("VALUE") or ""]
+            [*(value if isinstance(value, list) else [value_or_empty(value)]), ""]
+            if params.get("MULTIPLE") else [value_or_empty(value)]
         )
         html = ""
         for index, value in enumerate(values):
@@ -770,7 +777,8 @@
         html += ">"
         if not params.get("REQUIRED") and not params.get("MULTIPLE"):
             html += '<option value="">-- Не выбрано --</option>'
-        selected_values = params.get("VALUE") if isinstance(params.get("VALUE"), list) else [params.get("VALUE") or ""]
+        value = params.get("VALUE")
+        selected_values = value if isinstance(value, list) else [value_or_empty(value)]
         selected_values = [str(value) for value in selected_values]
         for key, title in options.items():
             selected = " selected" if str(key) in selected_values else ""
@@ -824,7 +832,12 @@
 
     @app.route("/")
     def form_page():
-        item_id = int(request.args.get("ID", 0) or 0)
+        raw_id = request.args.get("ID", "0")
+        try:
+            item_id = int(raw_id)
+        except ValueError:
+            return "Параметр ID должен быть целым числом", 400
+
         fields = client.crm.item.fields(
             entity_type_id=ENTITY_TYPE_ID,
             use_original_uf_names=True,
@@ -843,7 +856,7 @@
         for key, field in fields.items():
             if key in SKIPPED_FIELDS:
                 continue
-            value = item.get(key) or ""
+            value = value_or_empty(item.get(key))
             params = {
                 "NAME": f"form[{key}]", "VALUE": value,
                 "REQUIRED": field.get("isRequired"), "DISABLE": field.get("isReadOnly"), "MULTIPLE": field.get("isMultiple"),
@@ -931,9 +944,7 @@
 
 Браузер не отправляет снятый флажок. Поэтому обработчик передает `Y` для установленного поля `boolean` или `char` и `N` для снятого. Для множественных полей обработчик собирает массив, для поля `money` соединяет сумму и валюту через `|`, для `companyId` передает один числовой идентификатор, для `contactIds` — массив числовых идентификаторов.
 
-Если доступного для изменения поля нет в отправленной форме, обработчик очищает его: одиночному полю передает пустую строку, множественному — пустой массив. Поэтому не удаляйте поле из HTML-формы без соответствующей правки обработчика.
-
-Пустой массив очищает доступное для изменения необязательное множественное поле через [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md), в том числе пользовательское поле типа «список». Для универсального метода передавать `[false]` не нужно.
+Если доступного для изменения поля нет в отправленной форме, обработчик передает пустое значение: одиночному полю — пустую строку, множественному, в том числе пользовательскому полю типа «список», — пустой массив. Поэтому не удаляйте поле из HTML-формы без соответствующей правки обработчика.
 
 Каждая строка `fm` содержит `id`, `typeId`, `valueType`, `value`:
 
@@ -1292,7 +1303,7 @@
 1. Откройте страницу формы без параметра `ID`
 2. Заполните название лида, стадию, источник, сумму и валюту. Установите флажок ручного расчета суммы. При необходимости укажите идентификатор компании, несколько идентификаторов контактов, телефон и адрес почты
 3. Нажмите **Сохранить**. В сообщении скопируйте идентификатор созданного лида, например `123`
-4. Откройте форму с этим идентификатором: JavaScript — `http://localhost:3000/?ID=123`, PHP — `http://localhost:8000/?ID=123`, Python — `http://localhost:5000/?ID=123`
+4. Откройте форму с этим идентификатором: JavaScript — `http://localhost:3000/?ID=123`, PHP — `http://localhost:8000/index.php?ID=123`, Python — `http://localhost:5000/?ID=123`
 5. Проверьте, что форма содержит сохраненные значения, включая компанию, все контакты и строки `fm`
 6. Измените название, сумму или источник, затем снова нажмите **Сохранить**
 7. Откройте карточку лида в Битрикс24 и проверьте измененные поля
@@ -1303,11 +1314,12 @@
 #|
 || Признак | Что проверить и исправить ||
 || Первый запрос к Битрикс24 завершается ошибкой авторизации | Проверьте полный адрес вебхука, идентификатор пользователя и секретный токен. Убедитесь, что в Python `domain` не содержит `https://`, а `webhook_token` содержит только `USER_ID/TOKEN`. После исправления перезагрузите страницу формы ||
-|| `ACCESS_DENIED` | Выдайте пользователю вебхука нужные права на лиды и чтение связанных компаний и контактов. Для описания пользовательских полей проверьте доступ к настройкам CRM. После исправления перезагрузите страницу формы ||
+|| `ACCESS_DENIED` | Выдайте пользователю вебхука права на чтение, добавление и изменение лидов и чтение связанных компаний и контактов, а также доступ к настройкам CRM. После исправления перезагрузите страницу формы ||
 || [user.get](../../../api-reference/user/user-get.md) возвращает ошибку доступа | Добавьте вебхуку scope [`user_brief`](../../../api-reference/scopes/permissions.md), затем перезагрузите страницу формы ||
 || [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) возвращает `NOT_FOUND` | Проверьте, что лид с таким идентификатором существует и доступен пользователю вебхука. После исправления откройте форму с корректным `ID` ||
 || `CRM_FIELD_ERROR_VALUE_NOT_VALID` | Проверьте значение поля, названного в `error_description`: код стадии или источника, валюту, идентификатор компании, контакта или пользователя. Исправьте значение и повторно отправьте форму ||
 || Ошибка о множественном поле | Передавайте `contactIds` и другие множественные поля массивом. Для существующих значений `fm` сохраняйте числовой `id`, для новых используйте ключи `n0`, `n1`. Исправьте данные и повторно отправьте форму ||
+|| После снятия всех значений множественного пользовательского поля типа «список» прежние значения остались | Обработчик отправляет пустой массив, запрос [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) проходит успешно, но [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) возвращает прежние значения. Способ очистки в примере не реализован ||
 || После отправки обязательного поля лид не сохраняется | Проверьте `isRequired` в ответе [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), заполните поле и повторно отправьте форму ||
 || Пустое название лида не сохранилось | Поле `title` нельзя очистить. При обновлении остается прежнее название, при добавлении Битрикс24 формирует название по умолчанию. Чтобы изменить название, введите непустое значение и повторно отправьте форму ||
 || PHP не запускается после установки зависимостей | Выполните `composer check-platform-reqs`, включите расширения `bcmath`, `curl`, `intl`, `json` и перезапустите PHP-сервер ||
@@ -1317,13 +1329,13 @@
 ## Что важно учитывать
 
 - пример выводит все доступные поля, поэтому большая форма может быть неудобной для реального приложения
-- тип `resourcebooking` не реализован: вместо элемента формы выводится сообщение, обработчик поле не изменяет
-- тип `file` в примере не реализован: вместо элемента формы выводится сообщение, обработчик поле не изменяет
+- загрузка файлов требует отдельной реализации
 
-  Чтобы загрузить файл через [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) или [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md), передайте в поле [массив из имени файла и содержимого в Base64](../../../api-reference/files/how-to-upload-files.md#array), например `["document.pdf", "Base64"]`. Для множественного поля передайте массив таких пар. [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) возвращает уже загруженный файл как объект с ключами `id` и `url`: для чтения файла используйте `url`. В прежней версии примера использовался ключ `downloadUrl`, но универсальный метод его не возвращает
+  Чтобы загрузить файл через [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) или [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md), передайте в поле [массив из имени файла и содержимого в Base64](../../../api-reference/files/how-to-upload-files.md#array), например `["document.pdf", "Base64"]`. Для множественного поля передайте массив таких пар. [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) возвращает уже загруженный файл как объект с ключами `id` и `url`: для чтения файла используйте `url`
 - неизвестные генератору типы выводятся как текстовые поля; перед использованием в рабочем приложении добавьте обработку их формата
 - множественное пользовательское поле типа `money` требует отдельной реализации нескольких пар «сумма — валюта»
-- [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) возвращает данные постранично. В примере метод используется только для идентификаторов уже связанных контактов, поэтому дополнительная пагинация не нужна
+- если снять все значения множественного пользовательского поля типа «список», обработчик отправит пустой массив. Запрос [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) пройдет успешно, но [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) вернет прежние значения
+- [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) возвращает данные постранично. В примере загружается только первая страница. Если у лида больше 50 связанных контактов, подписи будут неполными. Для рабочего приложения разбивайте `contactIds` на группы до 50 идентификаторов и объединяйте результаты. Тот же лимит действует для множественных полей типа `user`. В примере из [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) и [crm.currency.list](../../../api-reference/crm/currency/crm-currency-list.md) также загружается только первая страница — не более 50 записей. Если справочник содержит больше значений, варианты в форме будут неполными
 - пример не проверяет формат телефона, адреса почты, дат и других значений в браузере сверх возможностей стандартных HTML-полей
 
 {% note warning "Не публикуйте пример без собственной аутентификации" %}
@@ -1331,9 +1343,3 @@
 Страница формы позволяет выполнять действия от имени пользователя вебхука. Перед размещением в интернете добавьте собственную аутентификацию, проверку прав пользователя, защиту от CSRF и безопасное журналирование ошибок.
 
 {% endnote %}
-
-## Продолжите изучение
-
-- [{#T}](./how-to-generate-edit-form-for-company.md)
-- [{#T}](./how-to-generate-edit-form-for-deal.md)
-- [{#T}](./how-to-make-contact-edit-card.md)

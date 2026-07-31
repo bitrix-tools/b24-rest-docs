@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 31 июля, 2026
+
+- Обновили туториал [Как сделать свою карточку редактирования сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-deal.md)
+- Обновили туториал [Как сделать свою карточку редактирования лида](./tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-lead.md)
+
 ### 27 июля, 2026
 
 - Обновили туториал [Как создать канал поддержки через открытую линию Битрикс24 Network](./tutorials/chat-bots/support-bot.md)
