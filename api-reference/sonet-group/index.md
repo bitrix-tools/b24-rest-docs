@@ -51,13 +51,13 @@
 
 ## Виджеты рабочих групп и проектов
 
-Добавляйте свои пункты в выпадающие меню, чтобы расширить функциональность рабочих групп и проектов:
+Добавляйте свои пункты в меню, чтобы расширить функциональность рабочих групп и проектов:
 
--  [Пункт основного выпадающего меню проекта SONET_GROUP_DETAIL_TAB](../widgets/workgroups/index.md). 
+-  [Пункт меню группы SONET_GROUP_DETAIL_TAB](../widgets/workgroups/index.md)
 
--  [Пункт выпадающего меню над списком задач TASK_GROUP_LIST_TOOLBAR](../widgets/workgroups/toolbar.md).
+-  [Пункт меню расширений группы SONET_GROUP_TOOLBAR](../widgets/workgroups/toolbar.md)
 
--  [Пункт основного выпадающего меню около настроек роботов TASK_ROBOT_DESIGNER_TOOLBAR](../widgets/workgroups/robot-designer-toolbar.md).
+-  [Кнопка в дизайнере роботов группы SONET_GROUP_ROBOT_DESIGNER_TOOLBAR](../widgets/workgroups/robot-designer-toolbar.md)
 
 Код конкретного места встройки виджета указывайте в параметре `PLACEMENT` метода [placement.bind](../widgets/placement-bind.md).
 
