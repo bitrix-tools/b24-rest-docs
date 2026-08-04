@@ -21,16 +21,9 @@
 
 ## Параметр OPTIONS
 
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **useBuiltInInterface**
-[`boolean`](../../data-types.md) | Использовать стандартный интерфейс Битрикс24. По умолчанию `N`. Если `Y`, то интерфейс строится по описанной структуре [LayoutDto](#LayoutDto). Процесс работы с интерфейсом описан [ниже](#Interface) ||
-|| **newUserNotificationTitle**
-[`string`](../../data-types.md) | Заголовок уведомления для нового пользователя ||
-|| **newUserNotificationText**
-[`string`](../../data-types.md) | Текст уведомления для нового пользователя. При клике на «Подробнее» откроется слайдер с контекстом `newUserNotification=Y` и шириной `800px` ||
-|#
+Штатный интерфейс включается параметром `useBuiltInInterface` при регистрации точки. Полный список параметров `OPTIONS` описан на странице [{#T}](./detail-activity.md).
+
+При значении `useBuiltInInterface = Y` интерфейс строится по структуре [LayoutDto](#LayoutDto), процесс работы с ним описан [ниже](#Interface).
 
 ## Пример регистрации 
 
@@ -892,6 +885,7 @@ BX24.callMethod(
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../../../settings/interactivity/index.md)

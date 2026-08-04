@@ -11,13 +11,11 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавить свой пункт в меню таймлана объектов CRM: [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md), [пользовательские типы объектов](../../crm/universal/index.md).
-
-![Виджет в виде пункта меню таймлайна в Сделке](./_images/CRM_DEAL_DETAIL_ACTIVITY.png "Виджет в виде пункта меню таймлайна в Сделке")
+Виджет добавляет свою кнопку в панель над таймлайном карточки объекта CRM: [лида](../../crm/leads/index.md), [контакта](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческого предложения](../../crm/quote/index.md), [нового счета](../../crm/universal/invoice.md), [заказа](../../sale/order/index.md) или [пользовательского типа объектов](../../crm/universal/index.md).
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
-Расширенные возможности кнопки над таймлайном описаны в статье [Дополнительные возможности встройки CRM_XXX_DETAIL_ACTIVITY](./detail-activity-area.md)
+Дополнительные возможности кнопки над таймлайном описаны в статье [Дополнительные возможности встройки CRM_XXX_DETAIL_ACTIVITY](./detail-activity-area.md)
 
 {% note info "" %}
 
@@ -29,169 +27,49 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `CRM_LEAD_DETAIL_ACTIVITY` | Пункт в меню таймлана [лида](../../crm/leads/index.md) ||
-|| `CRM_CONTACT_DETAIL_ACTIVITY` | Пункт в меню таймлана [контакта](../../crm/contacts/index.md) ||
-|| `CRM_COMPANY_DETAIL_ACTIVITY` | Пункт в меню таймлана [компании](../../crm/companies/index.md) ||
-|| `CRM_DEAL_DETAIL_ACTIVITY` | Пункт в меню таймлана [сделки](../../crm/deals/index.md) ||
-|| `CRM_QUOTE_DETAIL_ACTIVITY` | Пункт в меню таймлана [коммерческого предложения](../../crm/quote/index.md) ||
-|| `CRM_SMART_INVOICE_DETAIL_ACTIVITY` | Пункт в меню таймлана [счетов](../../crm/universal/invoice.md) ||
-|| `CRM_DYNAMIC_XXX_DETAIL_ACTIVITY` | Пункт в меню таймлана пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DETAIL_ACTIVITY` ||
+|| `CRM_LEAD_DETAIL_ACTIVITY` | Кнопка над таймлайном [лида](../../crm/leads/index.md) ||
+|| `CRM_CONTACT_DETAIL_ACTIVITY` | Кнопка над таймлайном [контакта](../../crm/contacts/index.md) ||
+|| `CRM_COMPANY_DETAIL_ACTIVITY` | Кнопка над таймлайном [компании](../../crm/companies/index.md) ||
+|| `CRM_DEAL_DETAIL_ACTIVITY` | Кнопка над таймлайном [сделки](../../crm/deals/index.md) ||
+|| `CRM_QUOTE_DETAIL_ACTIVITY` | Кнопка над таймлайном [коммерческого предложения](../../crm/quote/index.md) ||
+|| `CRM_SMART_INVOICE_DETAIL_ACTIVITY` | Кнопка над таймлайном [нового счета](../../crm/universal/invoice.md) ||
+|| `CRM_ORDER_DETAIL_ACTIVITY` | Кнопка над таймлайном [заказа интернет-магазина](../../sale/order/index.md) ||
+|| `CRM_DYNAMIC_XXX_DETAIL_ACTIVITY` | Кнопка над таймлайном пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DETAIL_ACTIVITY` ||
 |#
+
+### Где находится в интерфейсе
+
+Откройте карточку объекта CRM и нажмите *Еще* в панели над таймлайном — в ряду кнопок *Дело*, *Комментарий*, *Сообщение*. Пункт приложения выводится в этом меню.
+
+![Кнопка над таймлайном карточки сделки](./_images/CRM_DEAL_DETAIL_ACTIVITY.png "Кнопка над таймлайном карточки сделки")
 
 ## Что получает обработчик
 
 Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
-{% list tabs %}
+Пример показан для точки `CRM_DEAL_DETAIL_ACTIVITY`. У остальных кодов состав данных такой же: меняются значение `PLACEMENT` и идентификатор объекта в `PLACEMENT_OPTIONS`.
 
-- CRM_LEAD_DETAIL_ACTIVITY
+```php
 
-    ```php
+Array
+(
+    [DOMAIN] => xxx.bitrix24.com
+    [PROTOCOL] => 1
+    [LANG] => ru
+    [APP_SID] => 79adf5ce0f12cdb9e4137fd8ea6741bf
+    [AUTH_ID] => a15e7166007e9c94001e30ba00000001f0f1073c7d9e0512b8a46f0ed37c951
+    [AUTH_EXPIRES] => 3600
+    [REFRESH_ID] => 904d9966007e9c94001e30ba00000001f0f10748e2b1d3906f57ca2b81de640
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => crm,placement
+    [member_id] => d897063e1ce7c5eb9f04b9751eef5915
+    [status] => L
+    [PLACEMENT] => CRM_DEAL_DETAIL_ACTIVITY
+    [PLACEMENT_OPTIONS] => {"ID":"8061","URI":"\/crm\/deal\/details\/8061\/?any=details%2F8061%2F"}
+)
 
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 231dec2797809e63f2183cd9e5c1db79
-        [AUTH_ID] => 29d1a06600631fcd00005a4b00000001f0f1071497cc09c28ec609a43bb0c802d2ad41
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 1950c86600631fcd00005a4b00000001f0f107804dc35e52c3002c7e7e155337b89e25
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_LEAD_DETAIL_ACTIVITY
-        [PLACEMENT_OPTIONS] => {"ID":"6591"}
-    )
-
-    ```
-
-- CRM_DEAL_DETAIL_ACTIVITY
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => fb219fe14b3bb927487324b3bf561e3a
-        [AUTH_ID] => 4ad1a06600631fcd00005a4b00000001f0f107e9193b10f6ec5579451a015c78a66829
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 3a50c86600631fcd00005a4b00000001f0f107d9898b9feec5e1fd2e9cf59d40121087
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_DEAL_DETAIL_ACTIVITY
-        [PLACEMENT_OPTIONS] => {"ID":"3473"}
-    )
-
-    ```
-
-- CRM_CONTACT_DETAIL_ACTIVITY
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => a3e8af64160b5eaa51e16d4cc14f23dc
-        [AUTH_ID] => 65d1a06600631fcd00005a4b00000001f0f107635565dfe5bc6e1924790e68da8091f7
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 5550c86600631fcd00005a4b00000001f0f10715d6275f1e55e90b58fa5444cc00efdf
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_CONTACT_DETAIL_ACTIVITY
-        [PLACEMENT_OPTIONS] => {"ID":"13037"}
-    )
-
-    ```
-
-- CRM_COMPANY_DETAIL_ACTIVITY
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => c718482c9df48a3115d039967d5183a6
-        [AUTH_ID] => 8dd1a06600631fcd00005a4b00000001f0f10753abde956bcff8eea8801f6ae598becc
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 7d50c86600631fcd00005a4b00000001f0f1079035d2a1022c0def3c60824ec692788b
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_COMPANY_DETAIL_ACTIVITY
-        [PLACEMENT_OPTIONS] => {"ID":"2946"}
-    )
-        
-    ```
-
-- CRM_QUOTE_DETAIL_ACTIVITY
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 7e776f9d59d8346b452bd9b60a8f3925
-        [AUTH_ID] => b4d1a06600631fcd00005a4b00000001f0f107d6fc31ffbd4740c5a0a5393c8744ac8a
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => a450c86600631fcd00005a4b00000001f0f10755a4090ea60da33ae27abd087bded527
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_QUOTE_DETAIL_ACTIVITY
-        [PLACEMENT_OPTIONS] => {"ID":"5"}
-    )
-    
-    ```
-
-- CRM_SMART_INVOICE_DETAIL_ACTIVITY
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => adada92053b22a4de3895402a01693cf
-        [AUTH_ID] => 69c7ca670076a4b8006f518000000001201c0720c9c9d78077b5f2c5530f64b061c8a1
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 5946f2670076a4b8006f518000000001201c07709da4b12d3c7e82e120a20e547b638f
-        [member_id] => e8857f161a1a8288f312b6cc6ad67995
-        [status] => L
-        [PLACEMENT] => CRM_SMART_INVOICE_DETAIL_ACTIVITY
-        [PLACEMENT_OPTIONS] => {"ID":"32"}
-    )
-    
-    ```
-
-- CRM_DYNAMIC_XXX_DETAIL_ACTIVITY
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => e1f8a9f4be2f07b8645216f7b3104a20
-        [AUTH_ID] => e1d1a06600631fcd00005a4b00000001f0f1077ebff8b4fdddb2a57ccdbc1edd9ce1cf
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => d150c86600631fcd00005a4b00000001f0f1070a03cba852bafb9c58de5ea9fe9a0daa
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_DYNAMIC_183_DETAIL_ACTIVITY
-        [PLACEMENT_OPTIONS] => {"ID":"3"}
-    )
-    
-    ```
-
-{% endlist %}
+```
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -199,7 +77,7 @@
 
 ### PLACEMENT_OPTIONS
 
-Значением `PLACEMENT_OPTIONS` является JSON-строка, содержащая массив из одного и более ключей.
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова. Кроме универсального ключа `URI` в контекст попадает идентификатор объекта.
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -210,20 +88,274 @@
 
 Может быть использован для получения дополнительной информации с помощью соответствующих методов:
 
-- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [т.д.](../../crm/data-types.md#object_type)
+- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [так далее](../../crm/data-types.md#object_type)
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
 - компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
  
-В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше — `183`
+Идентификатор типа объекта отдельным ключом не приходит. Для пользовательского типа объектов его можно взять из значения параметра `PLACEMENT`: например, у кода `CRM_DYNAMIC_183_DETAIL_ACTIVITY` идентификатор типа равен `183`
 
 ||
 |#
 
+## OPTIONS при регистрации через placement.bind
+
+Для точек `CRM_XXX_DETAIL_ACTIVITY` метод `placement.bind` поддерживает параметры `OPTIONS`. Они включают штатный интерфейс Битрикс24 вместо собственной верстки приложения и настраивают приветственное уведомление.
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **useBuiltInInterface**
+[`boolean`](../../data-types.md) | Использовать стандартный интерфейс Битрикс24, по умолчанию `N`. При значении `Y` интерфейс строится по структуре [LayoutDto](./detail-activity-area.md#LayoutDto) ||
+|| **newUserNotificationTitle**
+[`string`](../../data-types.md) | Заголовок уведомления для нового пользователя ||
+|| **newUserNotificationText**
+[`string`](../../data-types.md) | Текст уведомления для нового пользователя. По нажатию на *Подробнее* откроется слайдер с контекстом `newUserNotification=Y` и шириной `800px` ||
+|#
+
+### Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PLACEMENT": "CRM_DEAL_DETAIL_ACTIVITY",
+        "HANDLER": "https://your-domain.com/widgets/crm-detail-activity-handler.php",
+        "TITLE": "Моя кнопка над таймлайном",
+        "LANG_ALL": {
+          "ru": {
+            "TITLE": "Моя кнопка над таймлайном"
+          },
+          "en": {
+            "TITLE": "My timeline button"
+          }
+        },
+        "OPTIONS": {
+          "useBuiltInInterface": "Y",
+          "newUserNotificationTitle": "Встречайте новое приложение",
+          "newUserNotificationText": "Приложение поможет работать со сделками"
+        },
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/placement.bind
+    ```
+
+- JS (TS)
+
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'placement.bind',
+        params: {
+          PLACEMENT: 'CRM_DEAL_DETAIL_ACTIVITY',
+          HANDLER: 'https://your-domain.com/widgets/crm-detail-activity-handler.php',
+          TITLE: 'My timeline button',
+          LANG_ALL: {
+            ru: {
+              TITLE: 'Моя кнопка над таймлайном',
+            },
+            en: {
+              TITLE: 'My timeline button',
+            },
+          },
+          OPTIONS: {
+            useBuiltInInterface: 'Y',
+            newUserNotificationTitle: 'Meet the new app',
+            newUserNotificationText: 'The app helps you work with deals',
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Placement bound successfully:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindCrmDealDetailActivity() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.bind',
+            params: {
+              PLACEMENT: 'CRM_DEAL_DETAIL_ACTIVITY',
+              HANDLER: 'https://your-domain.com/widgets/crm-detail-activity-handler.php',
+              TITLE: 'My timeline button',
+              LANG_ALL: {
+                ru: {
+                  TITLE: 'Моя кнопка над таймлайном',
+                },
+                en: {
+                  TITLE: 'My timeline button',
+                },
+              },
+              OPTIONS: {
+                useBuiltInInterface: 'Y',
+                newUserNotificationTitle: 'Meet the new app',
+                newUserNotificationText: 'The app helps you work with deals',
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Placement bound successfully:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindCrmDealDetailActivity)
+    </script>
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'CRM_DEAL_DETAIL_ACTIVITY',
+                    'HANDLER' => 'https://your-domain.com/widgets/crm-detail-activity-handler.php',
+                    'TITLE' => 'Моя кнопка над таймлайном',
+                    'LANG_ALL' => [
+                        'ru' => [
+                            'TITLE' => 'Моя кнопка над таймлайном',
+                        ],
+                        'en' => [
+                            'TITLE' => 'My timeline button',
+                        ],
+                    ],
+                    'OPTIONS' => [
+                        'useBuiltInInterface' => 'Y',
+                        'newUserNotificationTitle' => 'Встречайте новое приложение',
+                        'newUserNotificationText' => 'Приложение поможет работать со сделками',
+                    ],
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult();
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bind',
+        {
+            PLACEMENT: 'CRM_DEAL_DETAIL_ACTIVITY',
+            HANDLER: 'https://your-domain.com/widgets/crm-detail-activity-handler.php',
+            TITLE: 'Моя кнопка над таймлайном',
+            LANG_ALL: {
+                ru: { TITLE: 'Моя кнопка над таймлайном' },
+                en: { TITLE: 'My timeline button' }
+            },
+            OPTIONS: {
+                useBuiltInInterface: 'Y',
+                newUserNotificationTitle: 'Встречайте новое приложение',
+                newUserNotificationText: 'Приложение поможет работать со сделками'
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'CRM_DEAL_DETAIL_ACTIVITY',
+            'HANDLER' => 'https://your-domain.com/widgets/crm-detail-activity-handler.php',
+            'TITLE' => 'Моя кнопка над таймлайном',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Моя кнопка над таймлайном',
+                ],
+                'en' => [
+                    'TITLE' => 'My timeline button',
+                ],
+            ],
+            'OPTIONS' => [
+                'useBuiltInInterface' => 'Y',
+                'newUserNotificationTitle' => 'Встречайте новое приложение',
+                'newUserNotificationText' => 'Приложение поможет работать со сделками',
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./detail-activity-area.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)

@@ -11,9 +11,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
-Вы можете добавить свой пункт контекстного меню дела в карточке объектов CRM: [лиды](../../crm/leads/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md), [пользовательские типы объектов](../../crm/universal/index.md).
-
-![Виджет в виде пункта контекстного меню дела в лиде](./_images/CRM__ACTIVITY_TIMELINE_MENU.png "Виджет в виде пункта контекстного меню дела в лиде")
+Виджет добавляет свой пункт в контекстное меню записи дела в таймлайне карточки объекта CRM: [лида](../../crm/leads/index.md), [сделки](../../crm/deals/index.md), [коммерческого предложения](../../crm/quote/index.md), [нового счета](../../crm/universal/invoice.md) или [пользовательского типа объектов](../../crm/universal/index.md).
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -30,130 +28,53 @@
 || `CRM_LEAD_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [лиде](../../crm/leads/index.md) ||
 || `CRM_DEAL_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [сделке](../../crm/deals/index.md) ||
 || `CRM_QUOTE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [коммерческом предложении](../../crm/quote/index.md) ||
-|| `CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [новых счетах](../../crm/universal/invoice.md) ||
-|| `CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU` |  Пункт контекстного меню дела в пользовательских типах объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_LIST_MENU` ||
+|| `CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [новом счете](../../crm/universal/invoice.md) ||
+|| `CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в пользовательском типе объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_ACTIVITY_TIMELINE_MENU` ||
 |#
+
+### Где находится в интерфейсе
+
+Откройте карточку объекта CRM, найдите в таймлайне запись дела, нажмите *•••* в правом нижнем углу записи и наведите курсор на пункт *Расширения*. Пункт приложения выводится в этом подменю.
+
+![Пункт контекстного меню дела в карточке сделки](./_images/CRM_DEAL_ACTIVITY_TIMELINE_MENU.png "Пункт контекстного меню дела в карточке сделки")
 
 ## Что получает обработчик
 
 Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
-{% list tabs %}
+Пример показан для точки `CRM_DEAL_ACTIVITY_TIMELINE_MENU` на записи дела.
 
-- CRM_LEAD_ACTIVITY_TIMELINE_MENU
+```php
 
-    ```php
+Array
+(
+    [DOMAIN] => xxx.bitrix24.com
+    [PROTOCOL] => 1
+    [LANG] => ru
+    [APP_SID] => 4e0ec6b5f934a6af21bd9719f1d5444c
+    [AUTH_ID] => b26f7166007e9c94001e30ba00000001f0f1075d0a9b2e73f14c86ad25e0b39
+    [AUTH_EXPIRES] => 3600
+    [REFRESH_ID] => a15e9966007e9c94001e30ba00000001f0f10769b3c04d182ea75f0cb384e12
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => crm,placement
+    [member_id] => d897063e1ce7c5eb9f04b9751eef5915
+    [status] => L
+    [PLACEMENT] => CRM_DEAL_ACTIVITY_TIMELINE_MENU
+    [PLACEMENT_OPTIONS] => {"ENTITY_ID":"8061","ASSOCIATED_ENTITY_ID":"8097","ASSOCIATED_ENTITY_TYPE_ID":"6","URI":"\/crm\/deal\/details\/8061\/?any=details%2F8061%2F"}
+)
 
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => e6a18a6abe41ba3bd944897d8dc5186d
-        [AUTH_ID] => 45d4a06600631fcd00005a4b00000001f0f10767246d86a580fae119d2a2601665eb33
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 3553c86600631fcd00005a4b00000001f0f1074bdbcddd7232d3413e2b9ff1ee91dc96
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_LEAD_ACTIVITY_TIMELINE_MENU
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"6591","TYPE_ID":"1","TYPE_CATEGORY_ID":"6","ASSOCIATED_ENTITY_ID":"1523","ASSOCIATED_ENTITY_TYPE_ID":"6","TIMELINE_ITEM_ID":"29937"}
-    )
-
-    ```
-
-- CRM_DEAL_ACTIVITY_TIMELINE_MENU
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 71cc8c707a630542d5e2cf7435bf88c4
-        [AUTH_ID] => 87d4a06600631fcd00005a4b00000001f0f10758d4aabbf27967a9af747de646c5447c
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 7753c86600631fcd00005a4b00000001f0f1078ec2dd6e94d5dc8f1aebf6524a86ee78
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_DEAL_ACTIVITY_TIMELINE_MENU
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"3463","ASSOCIATED_ENTITY_ID":"1517","ASSOCIATED_ENTITY_TYPE_ID":"6"}
-    )
-
-    ```
-
-- CRM_QUOTE_ACTIVITY_TIMELINE_MENU
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => a63d2f88ffd62d6a300aaea7bf5ebf32
-        [AUTH_ID] => 757ba26600631fcd00005a4b00000001f0f107b07473a33f9378bf912d602ecb056119
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 65fac96600631fcd00005a4b00000001f0f10726b77ceb5a0aaa50e143b1086fa03324
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_QUOTE_ACTIVITY_TIMELINE_MENU
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"5","ASSOCIATED_ENTITY_ID":"1529","ASSOCIATED_ENTITY_TYPE_ID":"6"}
-    )
-    
-    ```
-
-- CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => a2032d292bcc91a22022db330433a933
-        [AUTH_ID] => ee2ad0670076a4b8006f518000000001201c07383646b2116914be86aecd467ade5a3e
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => dea9f7670076a4b8006f518000000001201c07e183b89e2613ce88ba7c56f8f80f19d9
-        [member_id] => e8857f161a1a8288f312b6cc6ad67995
-        [status] => L
-        [PLACEMENT] => CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"32","ASSOCIATED_ENTITY_ID":"238","ASSOCIATED_ENTITY_TYPE_ID":"6"}
-    )
-    
-    ```
-
-- CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => d659900f7e966c5d135d349b7b7f3c0d
-        [AUTH_ID] => 4a7ba26600631fcd00005a4b00000001f0f1071e1f009645e93bf550bc02ac4f8fdcf6
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 3afac96600631fcd00005a4b00000001f0f107adfab4bb11ae71eaf061319f2b4b2f87
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_DYNAMIC_183_ACTIVITY_TIMELINE_MENU
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"3","ASSOCIATED_ENTITY_ID":"1527","ASSOCIATED_ENTITY_TYPE_ID":"6"}
-    )
-    
-    ```
-
-{% endlist %}
+```
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 {% include notitle [описание стандартных данных](../_includes/widget_data.md) %}
 
-#### PLACEMENT_OPTIONS
+### PLACEMENT_OPTIONS
 
-Значением `PLACEMENT_OPTIONS` является JSON-строка, содержащая массив из одного и более ключей.
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова. Кроме универсального ключа `URI` в контекст попадают идентификаторы объекта и записи таймлайна.
+
+Ключи `ENTITY_ID`, `ASSOCIATED_ENTITY_ID` и `ASSOCIATED_ENTITY_TYPE_ID` приходят для записи дела. Состав остальных ключей зависит от типа записи таймлайна, на которой открыт виджет.
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -164,12 +85,12 @@
 
 Может быть использован для получения дополнительной информации с помощью соответствующих методов:
 
-- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [т.д.](../../crm/data-types.md#object_type)
+- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [так далее](../../crm/data-types.md#object_type)
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
 
-В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше, это `183`
+Идентификатор типа объекта отдельным ключом не приходит. Для пользовательского типа объектов его можно взять из значения параметра `PLACEMENT`: например, у кода `CRM_DYNAMIC_183_ACTIVITY_TIMELINE_MENU` идентификатор типа равен `183`
 
 ||
 || **ASSOCIATED_ENTITY_ID***
@@ -179,25 +100,234 @@
 
 ||
 || **ASSOCIATED_ENTITY_TYPE_ID***
-[`string`](../../data-types.md) | Идентификатор типа сущности дела (Activity)
+[`string`](../../data-types.md) | Идентификатор типа объекта, к которому относится дело. Для дел это значение `6`
 
 ||
-|| **TYPE_ID***
+|| **TYPE_ID**
 [`string`](../../data-types.md) | Идентификатор типа события
 
 ||
-|| **TYPE_CATEGORY_ID***
+|| **TYPE_CATEGORY_ID**
 [`string`](../../data-types.md) | Идентификатор типа записи таймлайна
 
 ||
-|| **TIMELINE_ITEM_ID***
+|| **TIMELINE_ITEM_ID**
 [`string`](../../data-types.md) | Идентификатор записи таймлайна
 
 ||
 |#
 
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PLACEMENT": "CRM_DEAL_ACTIVITY_TIMELINE_MENU",
+        "HANDLER": "https://your-domain.com/widgets/crm-timeline-menu-handler.php",
+        "TITLE": "Мой пункт меню дела",
+        "LANG_ALL": {
+          "ru": {
+            "TITLE": "Мой пункт меню дела"
+          },
+          "en": {
+            "TITLE": "My activity menu item"
+          }
+        },
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/placement.bind
+    ```
+
+- JS (TS)
+
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'placement.bind',
+        params: {
+          PLACEMENT: 'CRM_DEAL_ACTIVITY_TIMELINE_MENU',
+          HANDLER: 'https://your-domain.com/widgets/crm-timeline-menu-handler.php',
+          TITLE: 'My activity menu item',
+          LANG_ALL: {
+            ru: {
+              TITLE: 'Мой пункт меню дела',
+            },
+            en: {
+              TITLE: 'My activity menu item',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Placement bound successfully:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindCrmDealActivityTimelineMenu() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.bind',
+            params: {
+              PLACEMENT: 'CRM_DEAL_ACTIVITY_TIMELINE_MENU',
+              HANDLER: 'https://your-domain.com/widgets/crm-timeline-menu-handler.php',
+              TITLE: 'My activity menu item',
+              LANG_ALL: {
+                ru: {
+                  TITLE: 'Мой пункт меню дела',
+                },
+                en: {
+                  TITLE: 'My activity menu item',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Placement bound successfully:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindCrmDealActivityTimelineMenu)
+    </script>
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'CRM_DEAL_ACTIVITY_TIMELINE_MENU',
+                    'HANDLER' => 'https://your-domain.com/widgets/crm-timeline-menu-handler.php',
+                    'TITLE' => 'Мой пункт меню дела',
+                    'LANG_ALL' => [
+                        'ru' => [
+                            'TITLE' => 'Мой пункт меню дела',
+                        ],
+                        'en' => [
+                            'TITLE' => 'My activity menu item',
+                        ],
+                    ],
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult();
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bind',
+        {
+            PLACEMENT: 'CRM_DEAL_ACTIVITY_TIMELINE_MENU',
+            HANDLER: 'https://your-domain.com/widgets/crm-timeline-menu-handler.php',
+            TITLE: 'Мой пункт меню дела',
+            LANG_ALL: {
+                ru: { TITLE: 'Мой пункт меню дела' },
+                en: { TITLE: 'My activity menu item' }
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'CRM_DEAL_ACTIVITY_TIMELINE_MENU',
+            'HANDLER' => 'https://your-domain.com/widgets/crm-timeline-menu-handler.php',
+            'TITLE' => 'Мой пункт меню дела',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Мой пункт меню дела',
+                ],
+                'en' => [
+                    'TITLE' => 'My activity menu item',
+                ],
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
+
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./detail-activity.md)
+- [{#T}](./detail-tab.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../../../settings/interactivity/index.md)

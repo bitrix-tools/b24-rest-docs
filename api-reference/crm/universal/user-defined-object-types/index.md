@@ -100,7 +100,7 @@
 
 - [`CRM_DYNAMIC_XXX_DOCUMENTGENERATOR_BUTTON`](../../../widgets/crm/document-generator-button.md) — пункт выпадающего меню генератора документов
 
-- [`CRM_DYNAMIC_XXX_LIST_MENU`](../../../widgets/crm/index.md) — пункт контекстного меню в списке элементов
+- [`CRM_DYNAMIC_XXX_LIST_MENU`](../../../widgets/crm/list-menu.md) — пункт контекстного меню в списке элементов
 
 - [`CRM_DYNAMIC_XXX_LIST_TOOLBAR`](../../../widgets/crm/list-toolbar.md) — пункт выпадающего меню над списком элементов
 
