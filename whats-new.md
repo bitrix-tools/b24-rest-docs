@@ -2,6 +2,13 @@
 
 ## 2026
 
+### 04 августа, 2026
+
+- Обновили туториал [Как добавить действие для создания смарт-счета на основании лида или сделки](./tutorials/bizproc/activity.md)
+- Обновили туториал [Как встроить свой UI в параметры робота](./tutorials/bizproc/setting-robot.md)
+- Обновили туториал [Как создать чат-бота для Открытых линий](./tutorials/chat-bots/open-lines-bot.md)
+- Обновили туториал [Как создать коннектор открытых линий для чата на сайте](./tutorials/openlines/example-connector.md)
+
 ### 31 июля, 2026
 
 - Добавили метод [disk.file.search](./api-reference/disk/file/disk-file-search.md)
