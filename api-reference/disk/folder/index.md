@@ -11,34 +11,41 @@
 
 Папки в Битрикс24 Диск позволяют создавать логическую структуру для хранения файлов, например по типам документов, дате или клиентам. Это облегчает поиск и доступ к нужной информации.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
+
+## Как начать работу
+
+1. Получите хранилище методом [disk.storage.getList](../storage/disk-storage-get-list.md)
+2. Получите корневые папки методом [disk.storage.getChildren](../storage/disk-storage-get-children.md)
+3. Создайте дочернюю папку методом [disk.folder.addSubFolder](./disk-folder-add-subfolder.md)
+4. Загружайте файлы методом [disk.folder.uploadFile](./disk-folder-upload-file.md)
 
 ## Структура папок
 
-Папки на Диске организованы иерархически. Каждая папка может содержать вложенные папки и файлы. Список файлов и подпапок можно получить с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md).
+Папки на Диске организованы иерархически. Каждая папка может содержать вложенные папки и файлы. Список файлов и подпапок можно получить с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md).
 
-Новую папку можно создать с помощью метода [disk.folder.addsubfolder](./disk-folder-add-subfolder.md), а файл загрузить методом [disk.folder.uploadfile](./disk-folder-upload-file.md).
+Новую папку можно создать с помощью метода [disk.folder.addSubFolder](./disk-folder-add-subfolder.md), а файл загрузить методом [disk.folder.uploadFile](./disk-folder-upload-file.md).
 
-Родительские и дочерние папки связаны через параметр `PARENT_ID`. Получить его можно методом [disk.folder.get](./disk-folder-get.md). Помимо `PARENT_ID`, метод вернет все параметры папки по идентификатору `id`. 
+Родительские и дочерние папки связаны через параметр `PARENT_ID`. Получить его можно методом [disk.folder.get](./disk-folder-get.md). Помимо `PARENT_ID`, метод вернет все параметры папки по идентификатору `id`.
 
 ## Операции с папками
 
 С папками Диска можно выполнить следующие операции:
 
-- назначить права доступа методом [disk.folder.sharetouser](./disk-folder-share-to-user.md)
-- переместить по структуре с помощью метода [disk.folder.moveto](./disk-folder-move-to.md) 
-- скопировать в другие папки Диска методом [disk.folder.copyto](./disk-folder-copy-to.md)
+- назначить права доступа методом [disk.folder.shareToUser](./disk-folder-share-to-user.md)
+- переместить по структуре с помощью метода [disk.folder.moveTo](./disk-folder-move-to.md)
+- скопировать в другие папки Диска методом [disk.folder.copyTo](./disk-folder-copy-to.md)
 - изменить название методом [disk.folder.rename](./disk-folder-rename.md)
 
 ## Доступ внешнему пользователю
 
-Чтобы предоставить доступ внешнему пользователю к папке, нужно создать публичную ссылку. Это позволит поделиться содержимым папки с людьми, не имеющими доступа к Битрикс24. Публичную ссылку для папки можно получить методом [disk.folder.getexternallink](./disk-folder-get-external-link.md).
+Чтобы предоставить доступ внешнему пользователю к папке, нужно создать публичную ссылку. Это позволит поделиться содержимым папки с людьми, не имеющими доступа к Битрикс24. Публичную ссылку для папки можно получить методом [disk.folder.getExternalLink](./disk-folder-get-external-link.md).
 
 ## Как удалить папки
 
-Папки можно переместить в корзину методом [disk.folder.markdeleted](./disk-folder-mark-deleted.md). Удаленные папки можно восстановить с помощью метода [disk.folder.restore](./disk-folder-restore.md) в течение 30 дней. 
+Папки можно переместить в корзину методом [disk.folder.markDeleted](./disk-folder-mark-deleted.md). Удаленные папки можно восстановить с помощью метода [disk.folder.restore](./disk-folder-restore.md) в течение 30 дней.
 
-Чтобы полностью удалить папку без возможности восстановления, нужно использовать метод [disk.folder.deletetree](./disk-folder-delete-tree.md). Он уничтожит папку со всеми вложенными папками и файлами навсегда.
+Чтобы полностью удалить папку без возможности восстановления, нужно использовать метод [disk.folder.deleteTree](./disk-folder-delete-tree.md). Он уничтожит папку со всеми вложенными папками и файлами навсегда.
 
 {% note tip "Пользовательская документация" %}
 
@@ -50,21 +57,21 @@
 
 > Scope: [`disk`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять методы: любой пользователь
 
 #|
 || **Метод** | **Описание** ||
-|| [disk.folder.getfields](./disk-folder-get-fields.md) | Возвращает описание полей папки ||
 || [disk.folder.get](./disk-folder-get.md) | Возвращает папку по идентификатору ||
-|| [disk.folder.getchildren](./disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
-|| [disk.folder.addsubfolder](./disk-folder-add-subfolder.md) | Создает дочернюю папку ||
-|| [disk.folder.sharetouser](./disk-folder-share-to-user.md) | Назначает права доступа на папку ||
-|| [disk.folder.copyto](./disk-folder-copy-to.md) | Копирует папку в указанную папку ||
-|| [disk.folder.moveto](./disk-folder-move-to.md) | Перемещает папку в указанную папку ||
+|| [disk.folder.getChildren](./disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
+|| [disk.folder.addSubFolder](./disk-folder-add-subfolder.md) | Создает дочернюю папку ||
+|| [disk.folder.shareToUser](./disk-folder-share-to-user.md) | Назначает права доступа на папку ||
+|| [disk.folder.copyTo](./disk-folder-copy-to.md) | Копирует папку в указанную папку ||
+|| [disk.folder.moveTo](./disk-folder-move-to.md) | Перемещает папку в указанную папку ||
 || [disk.folder.rename](./disk-folder-rename.md) | Переименовывает папку ||
-|| [disk.folder.deletetree](./disk-folder-delete-tree.md) | Удаляет папку и все ее содержимое навсегда ||
-|| [disk.folder.markdeleted](./disk-folder-mark-deleted.md) | Перемещает папку в корзину ||
+|| [disk.folder.deleteTree](./disk-folder-delete-tree.md) | Удаляет папку и все ее содержимое навсегда ||
+|| [disk.folder.markDeleted](./disk-folder-mark-deleted.md) | Перемещает папку в корзину ||
 || [disk.folder.restore](./disk-folder-restore.md) | Восстанавливает папку из корзины ||
-|| [disk.folder.uploadfile](./disk-folder-upload-file.md) | Загружает новый файл в указанную папку ||
-|| [disk.folder.getexternallink](./disk-folder-get-external-link.md) | Возвращает публичную ссылку на папку ||
+|| [disk.folder.uploadFile](./disk-folder-upload-file.md) | Загружает новый файл в указанную папку ||
+|| [disk.folder.getExternalLink](./disk-folder-get-external-link.md) | Возвращает публичную ссылку на папку ||
+|| [disk.folder.getFields](./disk-folder-get-fields.md) | Возвращает описание полей папки ||
 |#

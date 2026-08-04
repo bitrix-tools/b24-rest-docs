@@ -31,7 +31,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор хранилища приложения.
 
-Идентификатор можно получить с помощью метода [disk.storage.getforapp](./disk-storage-get-for-app.md) || 
+Идентификатор можно получить с помощью метода [disk.storage.getForApp](./disk-storage-get-for-app.md) ||
 || **newName***
 [`string`](../../data-types.md) | Новое имя хранилища ||
 |#

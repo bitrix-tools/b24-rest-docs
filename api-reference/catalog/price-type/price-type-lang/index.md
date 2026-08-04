@@ -22,17 +22,16 @@
 
 ## Что учитывать перед вызовом методов
 
-- Методы `catalog.priceTypeLang.*` доступны только администратору.
+- Методы `catalog.priceTypeLang.*` доступны только администратору
+- Для одного типа цены можно создать только один перевод на конкретный язык. Пара `catalogGroupId + lang` должна быть уникальной. Перед созданием или обновлением проверьте существующий перевод через [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) с фильтром по `catalogGroupId` и `lang`
 
-- Для одного типа цены можно создать только один перевод на конкретный язык. Пара `catalogGroupId + lang` должна быть уникальной. Перед созданием или обновлением проверьте существующий перевод через [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) с фильтром по `catalogGroupId` и `lang`.
+## Как начать работу
 
-## Как работать с переводами названий типов цен
-
-1. Получите список доступных языков через [catalog.priceTypeLang.getLanguages](./catalog-price-type-lang-get-languages.md).
-2. Проверьте структуру полей через [catalog.priceTypeLang.getFields](./catalog-price-type-lang-get-fields.md).
-3. Добавьте перевод методом [catalog.priceTypeLang.add](./catalog-price-type-lang-add.md).
-4. Для изменения перевода используйте [catalog.priceTypeLang.update](./catalog-price-type-lang-update.md), для удаления — [catalog.priceTypeLang.delete](./catalog-price-type-lang-delete.md).
-5. Для чтения одного перевода по `id` используйте [catalog.priceTypeLang.get](./catalog-price-type-lang-get.md), для получения списка переводов по фильтру — [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md).
+1. Получите список доступных языков через [catalog.priceTypeLang.getLanguages](./catalog-price-type-lang-get-languages.md)
+2. Проверьте структуру полей через [catalog.priceTypeLang.getFields](./catalog-price-type-lang-get-fields.md)
+3. Добавьте перевод методом [catalog.priceTypeLang.add](./catalog-price-type-lang-add.md)
+4. Для изменения перевода используйте [catalog.priceTypeLang.update](./catalog-price-type-lang-update.md), для удаления — [catalog.priceTypeLang.delete](./catalog-price-type-lang-delete.md)
+5. Для чтения одного перевода по `id` используйте [catalog.priceTypeLang.get](./catalog-price-type-lang-get.md), для получения списка переводов по фильтру — [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md)
 
 ## Связь переводов с другими объектами
 
@@ -44,7 +43,7 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы: администратор
 
 #|
 || **Метод** | **Описание** ||

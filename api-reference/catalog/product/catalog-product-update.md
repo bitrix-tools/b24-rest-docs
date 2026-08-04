@@ -167,7 +167,7 @@
 || **sort**
 [`integer`](../../data-types.md)| Сортировка ||
 || **subscribe**
-[`string`](../../data-types.md)| Разрешение подписки на товар. Варинты:
+[`string`](../../data-types.md)| Разрешение подписки на товар. Варианты:
 - `Y` — да
 - `N` — нет
 - `D` — по умолчанию
@@ -884,7 +884,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **element**
-[`catalog_product`](../data-types.md#catalog_product) | Объект с информацией о обновленном товаре ||
+[`catalog_product`](../data-types.md#catalog_product) | Объект с информацией об обновленном товаре ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#

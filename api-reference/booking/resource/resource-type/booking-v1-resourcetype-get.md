@@ -24,7 +24,8 @@
 `тип` | **Описание** ||
 || **id***
 [`integer`](../../../data-types.md) | Идентификатор типа ресурса.
-Можно получить в методах [booking.v1.resourcType.add](./booking-v1-resourcetype-add.md) и [booking.v1.resourceType.list](./booking-v1-resourcetype-list.md) ||
+
+Можно получить в методах [booking.v1.resourceType.add](./booking-v1-resourcetype-add.md) и [booking.v1.resourceType.list](./booking-v1-resourcetype-list.md) ||
 |#
 
 ## Примеры кода

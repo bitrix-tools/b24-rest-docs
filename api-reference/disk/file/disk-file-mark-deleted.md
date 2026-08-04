@@ -1,4 +1,4 @@
-# Переместить файл в корзину disk.file.markdeleted
+# Переместить файл в корзину disk.file.markDeleted
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Редактирование» для нужного файла
 
-Метод `disk.file.markdeleted` перемещает файл в корзину.
+Метод `disk.file.markDeleted` перемещает файл в корзину.
 
 {% note info "" %}
 
@@ -31,7 +31,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор файла.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getchildren](../folder/disk-folder-get-children.md), если файл находится в папке
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getChildren](../folder/disk-folder-get-children.md), если файл находится в папке
 ||
 |#
 
@@ -48,7 +48,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":9037}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.markdeleted
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.markDeleted
     ```
 
 - cURL (OAuth)
@@ -58,7 +58,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":9037,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.file.markdeleted
+    https://**put_your_bitrix24_address**/rest/disk.file.markDeleted
     ```
 
 - JS (TS)
@@ -95,7 +95,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<MarkDeletedResult>({
-        method: 'disk.file.markdeleted',
+        method: 'disk.file.markDeleted',
         params: {
           id: 9037,
         },
@@ -127,7 +127,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.file.markdeleted',
+            method: 'disk.file.markDeleted',
             params: {
               id: 9037,
             },
@@ -159,7 +159,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.file.markdeleted',
+                'disk.file.markDeleted',
                 [
                     'id' => 9037
                 ]
@@ -182,7 +182,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.file.markdeleted",
+        "disk.file.markDeleted",
         {
             id: 9037
         },
@@ -202,7 +202,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.file.markdeleted',
+        'disk.file.markDeleted',
         [
             'id' => 9037
         ]

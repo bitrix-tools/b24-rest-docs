@@ -1,4 +1,4 @@
-# Копировать папку и все ее содержимое в указанную папку disk.folder.copyto
+# Копировать папку и все ее содержимое в указанную папку disk.folder.copyTo
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» для исходной папки и правом «Добавление» для целевой папки
 
-Метод `disk.folder.copyto` копирует папку и все ее содержимое в указанную папку.
+Метод `disk.folder.copyTo` копирует папку и все ее содержимое в указанную папку.
 
 ## Параметры метода
 
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор исходной папки, которую нужно скопировать.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке
 ||
 || **targetFolderId***
 [`integer`](../../data-types.md) | Идентификатор целевой папки, куда копируется папка ||
@@ -44,7 +44,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8930,"targetFolderId":8895}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.copyto
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.copyTo
     ```
 
 - cURL (OAuth)
@@ -54,7 +54,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8930,"targetFolderId":8895,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.copyto
+    https://**put_your_bitrix24_address**/rest/disk.folder.copyTo
     ```
 
 - JS (TS)
@@ -88,7 +88,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<FolderCopyToResult>({
-        method: 'disk.folder.copyto',
+        method: 'disk.folder.copyTo',
         params: {
           id: 8930,
           targetFolderId: 8895,
@@ -121,7 +121,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.copyto',
+            method: 'disk.folder.copyTo',
             params: {
               id: 8930,
               targetFolderId: 8895,
@@ -154,7 +154,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.copyto',
+                'disk.folder.copyTo',
                 [
                     'id' => 8930,
                     'targetFolderId' => 8895
@@ -178,7 +178,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.copyto",
+        "disk.folder.copyTo",
         {
             id: 8930,
             targetFolderId: 8895
@@ -198,7 +198,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.copyto',
+        'disk.folder.copyTo',
         [
             'id' => 8930,
             'targetFolderId' => 8895

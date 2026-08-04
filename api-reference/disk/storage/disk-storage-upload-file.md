@@ -1,4 +1,4 @@
-# Загрузить новый файл в корень хранилища disk.storage.uploadfile
+# Загрузить новый файл в корень хранилища disk.storage.uploadFile
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Добавление» для нужного хранилища
 
-Метод `disk.storage.uploadfile` загружает новый файл в корень хранилища.
+Метод `disk.storage.uploadFile` загружает новый файл в корень хранилища.
 
 ## Параметры метода
 
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор хранилища, в которое нужно загрузить файл.
 
-Идентификатор можно получить с помощью метода [disk.storage.getlist](../storage/disk-storage-get-list.md)
+Идентификатор можно получить с помощью метода [disk.storage.getList](../storage/disk-storage-get-list.md)
 ||
 || **data***
 [`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя файла ||
@@ -66,7 +66,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":1357,"data":{"NAME":"picture.png"},"fileContent":["picture.png","iVBORw0KGgoAAAANSUhEUgAAAD4AAABDCAYAAADEfbZbAAAACXBIWXMAABJ0AAASdAHeZh94...RK5CYII="],"generateUniqueName":true,"rights":[{"TASK_ID":79,"ACCESS_CODE":"U1271"}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.uploadfile
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.uploadFile
     ```
 
 - cURL (OAuth)
@@ -76,7 +76,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":1357,"data":{"NAME":"picture.png"},"fileContent":["picture.png","iVBORw0KGgoAAAANSUhEUgAAAD4AAABDCAYAAADEfbZbAAAACXBIWXMAABJ0AAASdAHeZh94...RK5CYII="],"generateUniqueName":true,"rights":[{"TASK_ID":79,"ACCESS_CODE":"U1271"}],"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.storage.uploadfile
+    https://**put_your_bitrix24_address**/rest/disk.storage.uploadFile
     ```
 
 - JS (TS)
@@ -113,7 +113,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<UploadFileResult>({
-        method: 'disk.storage.uploadfile',
+        method: 'disk.storage.uploadFile',
         params: {
           id: 1357,
           data: {
@@ -159,7 +159,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.storage.uploadfile',
+            method: 'disk.storage.uploadFile',
             params: {
               id: 1357,
               data: {
@@ -205,7 +205,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.storage.uploadfile',
+                'disk.storage.uploadFile',
                 [
                     'id' => 1357,
                     'data' => [
@@ -242,7 +242,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.storage.uploadfile",
+        "disk.storage.uploadFile",
         {
             id: 1357,
             data: {
@@ -276,7 +276,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.storage.uploadfile',
+        'disk.storage.uploadFile',
         [
             'id' => 1357,
             'data' => [

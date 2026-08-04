@@ -270,7 +270,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-store-product-get.md)
 - [{#T}](./catalog-store-product-list.md)

@@ -1,4 +1,4 @@
-# Получить список файлов и папок, находящихся в папке disk.folder.getchildren
+# Получить список файлов и папок, находящихся в папке disk.folder.getChildren
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `disk.folder.getchildren` возвращает список файлов и папок, которые находятся в папке. 
+Метод `disk.folder.getChildren` возвращает список файлов и папок, которые находятся в папке.
 
 {% note info "" %}
 
@@ -31,7 +31,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке ||
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке ||
 || **filter**
 [`array`](../../data-types.md) | Массив формата:
 
@@ -66,7 +66,7 @@
 - `!=` — не равно
 - `!` — не равно
 
-Список доступных для фильтрации полей можно узнать с помощью метода [disk.folder.getfields](./disk-folder-get-fields.md) ||
+Список доступных для фильтрации полей можно узнать с помощью метода [disk.folder.getFields](./disk-folder-get-fields.md) ||
 || **order**
 [`array`](../../data-types.md) | Массив формата:
 
@@ -85,7 +85,7 @@
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
 
-Список доступных для сортировки полей можно узнать с помощью метода [disk.folder.getfields](./disk-folder-get-fields.md) ||
+Список доступных для сортировки полей можно узнать с помощью метода [disk.folder.getFields](./disk-folder-get-fields.md) ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -111,7 +111,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8907,"filter":{">=CREATE_TIME":"2026-01-12"},"order":{"NAME":"DESC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.getchildren
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.getChildren
     ```
 
 - cURL (OAuth)
@@ -121,7 +121,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8907,"filter":{">=CREATE_TIME":"2026-01-12"},"order":{"NAME":"DESC"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.getchildren
+    https://**put_your_bitrix24_address**/rest/disk.folder.getChildren
     ```
 
 - JS (TS)
@@ -158,13 +158,13 @@
     }
 
     try {
-      // disk.folder.getchildren returns a single page (max 50 records). For the whole result set
+      // disk.folder.getChildren returns a single page (max 50 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
       // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
       // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<FolderChild[]>({
-        method: 'disk.folder.getchildren',
+        method: 'disk.folder.getChildren',
         params: {
           id: 8907,
           filter: {
@@ -201,13 +201,13 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // disk.folder.getchildren returns a single page (max 50 records). For the whole result set
+          // disk.folder.getChildren returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
           // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
           // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.getchildren',
+            method: 'disk.folder.getChildren',
             params: {
               id: 8907,
               filter: {
@@ -245,7 +245,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.getchildren',
+                'disk.folder.getChildren',
                 [
                     'id' => 8907,
                     'filter' => [
@@ -274,7 +274,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.getchildren",
+        "disk.folder.getChildren",
         {
             id: 8907,
             filter: {
@@ -299,7 +299,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.getchildren',
+        'disk.folder.getChildren',
         [
             'id' => 8907,
             'filter' => [

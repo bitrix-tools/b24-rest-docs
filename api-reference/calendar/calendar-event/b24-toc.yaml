@@ -24,4 +24,4 @@ items:
   - name: События
     include:
       path: events/b24-toc.yaml
-      mode: link 
+      mode: link

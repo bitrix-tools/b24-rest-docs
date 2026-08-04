@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке ||
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке ||
 || **newName***
 [`string`](../../data-types.md) | Новое имя папки ||
 |#

@@ -1,4 +1,4 @@
-# Переместить папку в корзину disk.folder.markdeleted
+# Переместить папку в корзину disk.folder.markDeleted
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Полный доступ» для нужной папки
 
-Метод `disk.folder.markdeleted` перемещает папку в корзину.
+Метод `disk.folder.markDeleted` перемещает папку в корзину.
 
 {% note info "" %}
 
@@ -31,7 +31,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки.
 
-Идентификатор можно получить с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md) ||
+Идентификатор можно получить с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md) ||
 |#
 
 {% note info "" %}
@@ -53,7 +53,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8996}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.markdeleted
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.markDeleted
     ```
 
 - cURL (OAuth)
@@ -63,7 +63,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8996,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.markdeleted
+    https://**put_your_bitrix24_address**/rest/disk.folder.markDeleted
     ```
 
 - JS (TS)
@@ -97,7 +97,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<MarkDeletedResult>({
-        method: 'disk.folder.markdeleted',
+        method: 'disk.folder.markDeleted',
         params: {
           id: 8996,
         },
@@ -129,7 +129,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.markdeleted',
+            method: 'disk.folder.markDeleted',
             params: {
               id: 8996,
             },
@@ -161,7 +161,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.markdeleted',
+                'disk.folder.markDeleted',
                 [
                     'id' => 8996
                 ]
@@ -184,7 +184,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.markdeleted",
+        "disk.folder.markDeleted",
         {
             id: 8996
         },
@@ -204,7 +204,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.markdeleted',
+        'disk.folder.markDeleted',
         [
             'id' => 8996
         ]

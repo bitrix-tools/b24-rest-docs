@@ -243,7 +243,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-store-add.md)
 - [{#T}](./catalog-store-update.md)

@@ -13,15 +13,23 @@
 
 - хранить документы компании и личные файлы
 - загружать, редактировать документы и просматривать историю изменений
-- настраивать права доступа к файлам и папкам 
+- настраивать права доступа к файлам и папкам
 - делиться файлами через публичные ссылки с внешними пользователями
 - синхронизировать файлы с компьютером
 
-Диск интегрирован с Задачами, Чатами, CRM, Рабочими группами и другими инструментами Битрикс24. Это упрощает работу за счет быстрого доступа к файлам, совместной работы над ними и автоматизации документооборота.  
+Диск интегрирован с Задачами, Чатами, CRM, Рабочими группами и другими инструментами Битрикс24. Это упрощает работу за счет быстрого доступа к файлам, совместной работы над ними и автоматизации документооборота.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
 >
 > Пользовательская документация: [Битрикс24 Диск](https://helpdesk.bitrix24.ru/open/20811344/)
+
+## Как начать работу
+
+1. Получите доступные хранилища методом [disk.storage.getList](./storage/disk-storage-get-list.md)
+2. Получите файлы и папки в корне хранилища методом [disk.storage.getChildren](./storage/disk-storage-get-children.md)
+3. Создайте папку или загрузите файл методами [disk.folder.addSubFolder](./folder/disk-folder-add-subfolder.md) и [disk.folder.uploadFile](./folder/disk-folder-upload-file.md)
+4. Управляйте файлами методами [disk.file.*](./file/index.md), папками — методами [disk.folder.*](./folder/index.md)
+5. Настраивайте доступ через уровни прав из [disk.rights.getTasks](./rights/disk-rights-get-tasks.md)
 
 ## Хранилища Диска
 
@@ -42,7 +50,7 @@
 
 ## Работа с папками и файлами
 
-Папки и файлы можно создавать, перемещать, удалять, а также изменять права доступа  к ним. Для этого используйте группы методов [disk.folder.*](./folder/index.md) и [disk.file.*](./file/index.md).
+Папки и файлы можно создавать, перемещать, удалять, а также изменять права доступа к ним. Для этого используйте группы методов [disk.folder.*](./folder/index.md) и [disk.file.*](./file/index.md).
 
 Узнать версию файла можно с помощью метода [disk.version.get](./version/disk-version-get.md).
 
@@ -54,19 +62,19 @@
 
 {% endnote %}
 
-## Связь Диска с другими объектами {#diskconnection}
+## Связь с другими объектами {#diskconnection}
 
 **CRM.** Файлы можно прикрепить к делам и коммерческим предложениям. За работу с делами отвечает группа методов [crm.activity.*](../crm/timeline/activities/index.md), за работу с предложениями — [crm.quote.*](../crm/quote/index.md).
 
 **Бизнес-процессы.** Можно запустить для документов общего диска. Управление бизнес-процессами выполняется методами [bizproc.workflow.*](../bizproc/index.md).
 
-**Задачи.** Файлы прикрепляются к описанию задачи. Все участники задачи могут просматривать, редактировать и скачивать прикрепленные файлы. Работать с задачами необходимо через методы [tasks.task.*](../tasks/index.md). 
+**Задачи.** Файлы прикрепляются к описанию задачи. Все участники задачи могут просматривать, редактировать и скачивать прикрепленные файлы. Работать с задачами необходимо через методы [tasks.task.*](../tasks/index.md).
 
 **Календарь.** Файлы добавляются к событию и становятся доступными всем участникам. Создать и изменить событие можно с помощью методов [calendar.event.*](../calendar/index.md).
 
 **Лента новостей.** Файлы прикрепляются к сообщениям и комментариям. Метод [log.blogpost.add](../log/log-blogpost-add.md) создает новое сообщение, а метод [log.blogcomment.add](../log/blogcomment/log-blogcomment-add.md) — новый комментарий.
 
-**Почта.** Вложения из писем сохраняются на Диске. С письмами можно работать только через интерфейс Битрикс24. Если письмо сохранено в CRM, то с вложениями можно взаимодействовать методами [crm.activity.*](../crm/timeline/activities/index.md) через поле `FILES`. 
+**Почта.** Вложения из писем сохраняются на Диске. С письмами можно работать только через интерфейс Битрикс24. Если письмо сохранено в CRM, то с вложениями можно взаимодействовать методами [crm.activity.*](../crm/timeline/activities/index.md) через поле `FILES`.
 
 **Рабочие группы и проекты.** Диск интегрирован [в рабочие группы и проекты](../sonet-group/sonet-group-create.md), для каждого из них есть отдельное хранилище.
 
@@ -87,7 +95,7 @@
 
 > Scope: [`disk`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять методы: любой пользователь
 
 ### Версия
 
@@ -100,19 +108,19 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [disk.folder.getfields](folder/disk-folder-get-fields.md) | Возвращает описание полей папки ||
 || [disk.folder.get](folder/disk-folder-get.md) | Возвращает папку по идентификатору ||
-|| [disk.folder.getchildren](folder/disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
-|| [disk.folder.addsubfolder](folder/disk-folder-add-subfolder.md) | Создает дочернюю папку ||
-|| [disk.folder.sharetouser](folder/disk-folder-share-to-user.md) | Назначает права доступа на папку ||
-|| [disk.folder.copyto](folder/disk-folder-copy-to.md) | Копирует папку в указанную папку ||
-|| [disk.folder.moveto](folder/disk-folder-move-to.md) | Перемещает папку в указанную папку ||
+|| [disk.folder.getChildren](folder/disk-folder-get-children.md) | Возвращает список файлов и папок, которые находятся в папке ||
+|| [disk.folder.addSubFolder](folder/disk-folder-add-subfolder.md) | Создает дочернюю папку ||
+|| [disk.folder.shareToUser](folder/disk-folder-share-to-user.md) | Назначает права доступа на папку ||
+|| [disk.folder.copyTo](folder/disk-folder-copy-to.md) | Копирует папку в указанную папку ||
+|| [disk.folder.moveTo](folder/disk-folder-move-to.md) | Перемещает папку в указанную папку ||
 || [disk.folder.rename](folder/disk-folder-rename.md) | Переименовывает папку ||
-|| [disk.folder.deletetree](folder/disk-folder-delete-tree.md) | Удаляет папку и все ее содержимое навсегда ||
-|| [disk.folder.markdeleted](folder/disk-folder-mark-deleted.md) | Перемещает папку в корзину ||
+|| [disk.folder.deleteTree](folder/disk-folder-delete-tree.md) | Удаляет папку и все ее содержимое навсегда ||
+|| [disk.folder.markDeleted](folder/disk-folder-mark-deleted.md) | Перемещает папку в корзину ||
 || [disk.folder.restore](folder/disk-folder-restore.md) | Восстанавливает папку из корзины ||
-|| [disk.folder.uploadfile](folder/disk-folder-upload-file.md) | Загружает новый файл в указанную папку ||
-|| [disk.folder.getexternallink](folder/disk-folder-get-external-link.md) | Возвращает публичную ссылку на папку ||
+|| [disk.folder.uploadFile](folder/disk-folder-upload-file.md) | Загружает новый файл в указанную папку ||
+|| [disk.folder.getExternalLink](folder/disk-folder-get-external-link.md) | Возвращает публичную ссылку на папку ||
+|| [disk.folder.getFields](folder/disk-folder-get-fields.md) | Возвращает описание полей папки ||
 |#
 
 ### Права доступа
@@ -133,32 +141,32 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [disk.file.getfields](file/disk-file-get-fields.md) | Возвращает описание полей файла ||
 || [disk.file.get](file/disk-file-get.md) | Возвращает файл по идентификатору ||
 || [disk.file.search](file/disk-file-search.md) | Находит файлы и папки по текстовому запросу ||
 || [disk.file.rename](file/disk-file-rename.md) | Переименовывает файл ||
-|| [disk.file.copyto](file/disk-file-copy-to.md) | Копирует файл в указанную папку ||
-|| [disk.file.moveto](file/disk-file-move-to.md) | Перемещает файл в указанную папку ||
+|| [disk.file.copyTo](file/disk-file-copy-to.md) | Копирует файл в указанную папку ||
+|| [disk.file.moveTo](file/disk-file-move-to.md) | Перемещает файл в указанную папку ||
 || [disk.file.delete](file/disk-file-delete.md) | Уничтожает файл навсегда ||
-|| [disk.file.markdeleted](file/disk-file-mark-deleted.md) | Перемещает файл в корзину ||
+|| [disk.file.markDeleted](file/disk-file-mark-deleted.md) | Перемещает файл в корзину ||
 || [disk.file.restore](file/disk-file-restore.md) | Восстанавливает файл из корзины ||
-|| [disk.file.uploadversion](file/disk-file-upload-version.md) | Загружает новую версию файла ||
+|| [disk.file.uploadVersion](file/disk-file-upload-version.md) | Загружает новую версию файла ||
 || [disk.file.getVersions](file/disk-file-get-versions.md) | Возвращает список версий файла ||
 || [disk.file.restoreFromVersion](file/disk-file-restore-from-version.md) | Восстанавливает файл из конкретной версии ||
 || [disk.file.getExternalLink](file/disk-file-get-external-link.md) | Возвращает публичную ссылку на файл ||
+|| [disk.file.getFields](file/disk-file-get-fields.md) | Возвращает описание полей файла ||
 |#
 
 ### Хранилище
 
 #|
 || **Метод** | **Описание** ||
-|| [disk.storage.getfields](storage/disk-storage-get-fields.md) | Возвращает описание полей хранилища ||
 || [disk.storage.get](storage/disk-storage-get.md) | Возвращает хранилище по идентификатору ||
 || [disk.storage.rename](storage/disk-storage-rename.md) | Переименовывает хранилище приложения ||
-|| [disk.storage.getlist](storage/disk-storage-get-list.md) | Возвращает список доступных хранилищ ||
-|| [disk.storage.gettypes](storage/disk-storage-get-types.md) | Возвращает список типов хранилищ ||
-|| [disk.storage.addfolder](storage/disk-storage-add-folder.md) | Создает папку в корне хранилища ||
-|| [disk.storage.getchildren](storage/disk-storage-get-children.md) | Возвращает список файлов и папок, которые находятся непосредственно в корне хранилища ||
-|| [disk.storage.uploadfile](storage/disk-storage-upload-file.md) | Загружает новый файл в корне хранилища ||
-|| [disk.storage.getforapp](storage/disk-storage-get-for-app.md) | Возвращает описание хранилища приложения ||
+|| [disk.storage.getList](storage/disk-storage-get-list.md) | Возвращает список доступных хранилищ ||
+|| [disk.storage.getTypes](storage/disk-storage-get-types.md) | Возвращает список типов хранилищ ||
+|| [disk.storage.addFolder](storage/disk-storage-add-folder.md) | Создает папку в корне хранилища ||
+|| [disk.storage.getChildren](storage/disk-storage-get-children.md) | Возвращает список файлов и папок, которые находятся непосредственно в корне хранилища ||
+|| [disk.storage.uploadFile](storage/disk-storage-upload-file.md) | Загружает новый файл в корне хранилища ||
+|| [disk.storage.getForApp](storage/disk-storage-get-for-app.md) | Возвращает описание хранилища приложения ||
+|| [disk.storage.getFields](storage/disk-storage-get-fields.md) | Возвращает описание полей хранилища ||
 |#

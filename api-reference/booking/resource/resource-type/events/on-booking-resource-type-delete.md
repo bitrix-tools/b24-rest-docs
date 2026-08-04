@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONBOOKINGRESOURCETYPEDELETE` сработает при удалении типа ресурса методом [booking.v1.resourcetype.delete](../booking-v1-resourcetype-delete.md).
+Событие `ONBOOKINGRESOURCETYPEDELETE` сработает при удалении типа ресурса методом [booking.v1.resourceType.delete](../booking-v1-resourcetype-delete.md).
 
 {% note info "" %}
 

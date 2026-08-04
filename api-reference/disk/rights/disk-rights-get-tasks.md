@@ -15,7 +15,7 @@
 
 Метод `disk.rights.getTasks` возвращает список доступных уровней доступа.
 
-Используйте полученные идентификаторы уровней доступа для установки прав на файлы при их загрузке. Указывайте идентификаторы как значение параметра `TASK_ID` в методах [disk.storage.uploadfile](../storage/disk-storage-upload-file.md) и [disk.folder.uploadfile](../folder/disk-folder-upload-file.md).
+Используйте полученные идентификаторы уровней доступа для установки прав на файлы при их загрузке. Указывайте идентификаторы как значение параметра `TASK_ID` в методах [disk.storage.uploadFile](../storage/disk-storage-upload-file.md) и [disk.folder.uploadFile](../folder/disk-folder-upload-file.md).
 
 ## Параметры метода
 

@@ -21,7 +21,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **select** 
-[`array`](../../data-types.md)| Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_store](../data-types.md#catalog_store)) 
+[`array`](../../data-types.md)| Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_store](../data-types.md#catalog_store))
 ||
 || **filter** 
 [`object`](../../data-types.md)| Объект для фильтрации выбранных складов в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
@@ -449,7 +449,7 @@ HTTP-статус: **200**
         "duration": 0.5149741172790527,
         "processing": 0.04066300392150879,
         "date_start": "2024-10-21T18:26:28+03:00",
-        "date_finish": "2024-10-21T18:26:29+03:00",
+        "date_finish": "2024-10-21T18:26:29+03:00"
     }
 }
 ```
@@ -492,7 +492,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-store-add.md)
 - [{#T}](./catalog-store-update.md)

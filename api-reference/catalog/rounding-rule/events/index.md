@@ -17,7 +17,7 @@
 
 ## Как получать события
 
-Подписаться на события правила округления можно через [приложение](./../../../../settings/app-installation/index.md) и метод [event.bind](./../../../events/event-bind.md).
+Подписаться на события правила округления можно через [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md).
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
 
@@ -25,7 +25,7 @@
 
 {% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
 
-## Обзор событий
+## Обзор событий {#all-events}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
@@ -33,7 +33,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [CATALOG.ROUNDING.ON.ADD](catalog-rounding-on-add.md) | При добавлении правила округления вручную или методом [catalog.roundingRule.add](../catalog-rounding-rule-add.md) ||
-|| [CATALOG.ROUNDING.ON.UPDATE](catalog-rounding-on-update.md) | При обновлении правила округления вручную или методом [catalog.roundingRule.update](../catalog-rounding-rule-update.md) ||
-|| [CATALOG.ROUNDING.ON.DELETE](catalog-rounding-on-delete.md) | При удалении правила округления вручную или методом [catalog.roundingRule.delete](../catalog-rounding-rule-delete.md) ||
+|| [CATALOG.ROUNDING.ON.ADD](./catalog-rounding-on-add.md) | При добавлении правила округления вручную или методом [catalog.roundingRule.add](../catalog-rounding-rule-add.md) ||
+|| [CATALOG.ROUNDING.ON.UPDATE](./catalog-rounding-on-update.md) | При обновлении правила округления вручную или методом [catalog.roundingRule.update](../catalog-rounding-rule-update.md) ||
+|| [CATALOG.ROUNDING.ON.DELETE](./catalog-rounding-on-delete.md) | При удалении правила округления вручную или методом [catalog.roundingRule.delete](../catalog-rounding-rule-delete.md) ||
 |#

@@ -1,4 +1,4 @@
-# Обзор событий при работе с событиями календаря
+# События при работе с событиями календаря: обзор событий
 
 {% note tip "" %}
 
@@ -14,13 +14,15 @@
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
 > Быстрый переход: [все события](#all-events)
+>
+> Пользовательская документация: [Как создать событие в календаре](https://helpdesk.bitrix24.ru/open/5257065/)
 
 ## Как получать события
 
-Подписаться на события задач можно через:
+Подписаться на события календаря можно через:
 
--  [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
--  [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
+- [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
+- [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
 
@@ -37,6 +39,6 @@
 #|
 || **Событие** | **Вызывается** ||
 || [OnCalendarEntryAdd](./on-calendar-entry-add.md) | При добавлении события календаря вручную или методом [calendar.event.add](../calendar-event-add.md) ||
-|| [OnCalendarEntryUpdate](./on-calendar-entry-update.md) | При добавлении события календаря вручную или методом [calendar.event.update](../calendar-event-update.md) ||
-|| [OnCalendarEntryDelete](./on-calendar-entry-delete.md) | При добавлении события календаря вручную или методом [calendar.event.delete](../calendar-event-delete.md) ||
+|| [OnCalendarEntryUpdate](./on-calendar-entry-update.md) | При изменении события календаря вручную или методом [calendar.event.update](../calendar-event-update.md) ||
+|| [OnCalendarEntryDelete](./on-calendar-entry-delete.md) | При удалении события календаря вручную или методом [calendar.event.delete](../calendar-event-delete.md) ||
 |#

@@ -1,4 +1,4 @@
-# Получить доступные для перевода языков catalog.priceTypeLang.getLanguages
+# Получить доступные для перевода языки catalog.priceTypeLang.getLanguages
 
 {% note tip "" %}
 

@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор хранилища.
 
-Идентификатор можно получить с помощью метода [disk.storage.getlist](./disk-storage-get-list.md) ||
+Идентификатор можно получить с помощью метода [disk.storage.getList](./disk-storage-get-list.md) ||
 |#
 
 ## Примеры кода

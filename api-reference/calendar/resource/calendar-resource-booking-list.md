@@ -280,7 +280,7 @@
 {% endlist %}
 
 
-**Пример 2**. Выбрать бронирования по их идентификаторам из пользовательских полей CRM сущности.
+**Пример 2**. Выбрать бронирования по их идентификаторам из пользовательских полей CRM.
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -639,7 +639,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list""
+    "error_description": "Не задан обязательный параметр \"filter['resourceTypeIdList']\" для метода \"calendar.resource.booking.list\""
 }
 ```
 
@@ -649,8 +649,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустая строка | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
-|| Пустая строка | Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list" | Не передан ни один из обязательных параметров: `resourceTypeIdList` или `resourceIdList`. ||
+|| Пустое значение | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
+|| Пустое значение | Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list" | Не передан ни один из обязательных параметров: `resourceTypeIdList` или `resourceIdList` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

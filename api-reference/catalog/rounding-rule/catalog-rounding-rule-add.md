@@ -322,7 +322,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-rounding-rule-update.md)
 - [{#T}](./catalog-rounding-rule-get.md)

@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONBOOKINGRESOURCETYPEUPDATE` сработает при обновлении типа ресурса методом [booking.v1.resourcetype.update](../booking-v1-resourcetype-update.md).
+Событие `ONBOOKINGRESOURCETYPEUPDATE` сработает при обновлении типа ресурса методом [booking.v1.resourceType.update](../booking-v1-resourcetype-update.md).
 
 {% note info "" %}
 

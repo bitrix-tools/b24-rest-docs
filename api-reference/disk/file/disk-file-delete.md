@@ -15,7 +15,7 @@
 
 Метод `disk.file.delete` удаляет файл навсегда.
 
-Если вы хотите переместить файл в корзину, используйте метод [disk.file.markdeleted](./disk-file-mark-deleted.md).
+Если вы хотите переместить файл в корзину, используйте метод [disk.file.markDeleted](./disk-file-mark-deleted.md).
 
 ## Параметры метода
 
@@ -27,7 +27,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор файла.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getchildren](../folder/disk-folder-get-children.md), если файл находится в папке
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getChildren](../folder/disk-folder-get-children.md), если файл находится в папке
 ||
 |#
 

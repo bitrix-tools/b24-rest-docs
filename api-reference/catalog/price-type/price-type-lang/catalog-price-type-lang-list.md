@@ -1,4 +1,4 @@
-# Получить список переводов названия типов цен по фильтру catalog.priceTypeLang.list
+# Получить список переводов названий типов цен по фильтру catalog.priceTypeLang.list
 
 {% note tip "" %}
 

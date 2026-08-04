@@ -1,4 +1,4 @@
-# Создать дочернюю папку disk.folder.addsubfolder
+# Создать дочернюю папку disk.folder.addSubFolder
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Добавление» или «Редактирование» для нужной папки
 
-Метод `disk.folder.addsubfolder` создает дочернюю папку.
+Метод `disk.folder.addSubFolder` создает дочернюю папку.
 
 ## Параметры метода
 
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор родительской папки.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке
 ||
 || **data***
 [`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя дочерней папки ||
@@ -33,7 +33,7 @@
 
 {% note info "" %}
 
-Для управления доступом к созданной папке используйте метод [disk.folder.sharetouser](./disk-folder-share-to-user.md)
+Для управления доступом к созданной папке используйте метод [disk.folder.shareToUser](./disk-folder-share-to-user.md)
 
 {% endnote %} 
 
@@ -50,7 +50,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8907,"data":{"NAME":"Папка в папке"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.addsubfolder
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.addSubFolder
     ```
 
 - cURL (OAuth)
@@ -60,7 +60,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8907,"data":{"NAME":"Папка в папке"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.addsubfolder
+    https://**put_your_bitrix24_address**/rest/disk.folder.addSubFolder
     ```
 
 - JS (TS)
@@ -94,7 +94,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<AddSubfolderResult>({
-        method: 'disk.folder.addsubfolder',
+        method: 'disk.folder.addSubFolder',
         params: {
           id: 8907,
           data: {
@@ -129,7 +129,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.addsubfolder',
+            method: 'disk.folder.addSubFolder',
             params: {
               id: 8907,
               data: {
@@ -164,7 +164,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.addsubfolder',
+                'disk.folder.addSubFolder',
                 [
                     'id' => 8907,
                     'data' => [
@@ -190,7 +190,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.addsubfolder",
+        "disk.folder.addSubFolder",
         {
             id: 8907,
             data: {
@@ -212,7 +212,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.addsubfolder',
+        'disk.folder.addSubFolder',
         [
             'id' => 8907,
             'data' => [

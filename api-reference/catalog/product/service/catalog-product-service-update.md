@@ -524,7 +524,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **service**
-[`catalog_product_service`](../../data-types.md#catalog_product_service) | Объект с информацией о обновленной услуге ||
+[`catalog_product_service`](../../data-types.md#catalog_product_service) | Объект с информацией об обновленной услуге ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#

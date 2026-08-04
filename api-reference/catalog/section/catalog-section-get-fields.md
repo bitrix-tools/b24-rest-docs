@@ -298,7 +298,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-section-add.md)
 - [{#T}](./catalog-section-update.md)

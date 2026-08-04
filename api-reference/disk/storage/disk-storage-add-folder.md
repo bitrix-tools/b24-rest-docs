@@ -1,4 +1,4 @@
-# Создать папку в корне хранилища disk.storage.addfolder
+# Создать папку в корне хранилища disk.storage.addFolder
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Добавление» нужного хранилища
 
-Метод `disk.storage.addfolder` создает папку в корне хранилища.
+Метод `disk.storage.addFolder` создает папку в корне хранилища.
 
 ## Параметры метода
 
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор хранилища.
 
-Идентификатор можно получить с помощью метода [disk.storage.getlist](./disk-storage-get-list.md)
+Идентификатор можно получить с помощью метода [disk.storage.getList](./disk-storage-get-list.md)
 ||
 || **data***
 [`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя новой папки ||
@@ -56,7 +56,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":1357,"data":{"NAME":"Новая папка"},"rights":[{"TASK_ID":71,"ACCESS_CODE":"U1271"}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.addfolder
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.addFolder
     ```
 
 - cURL (OAuth)
@@ -66,7 +66,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":1357,"data":{"NAME":"Новая папка"},"rights":[{"TASK_ID":71,"ACCESS_CODE":"U1271"}],"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.storage.addfolder
+    https://**put_your_bitrix24_address**/rest/disk.storage.addFolder
     ```
 
 - JS (TS)
@@ -100,7 +100,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<AddFolderResult>({
-        method: 'disk.storage.addfolder',
+        method: 'disk.storage.addFolder',
         params: {
           id: 1357,
           data: {
@@ -141,7 +141,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.storage.addfolder',
+            method: 'disk.storage.addFolder',
             params: {
               id: 1357,
               data: {
@@ -182,7 +182,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.storage.addfolder',
+                'disk.storage.addFolder',
                 [
                     'id' => 1357,
                     'data' => [
@@ -214,7 +214,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.storage.addfolder",
+        "disk.storage.addFolder",
         {
             id: 1357,
             data: {
@@ -243,7 +243,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.storage.addfolder',
+        'disk.storage.addFolder',
         [
             'id' => 1357,
             'data' => [

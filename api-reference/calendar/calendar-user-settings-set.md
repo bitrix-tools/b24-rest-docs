@@ -465,7 +465,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Не задан обязательный параметр "settings" для метода "calendar.user.settings.set""
+    "error_description": "Не задан обязательный параметр \"settings\" для метода \"calendar.user.settings.set\""
 }
 ```
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
@@ -474,7 +474,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустая строка | Не задан обязательный параметр "settings" для метода "calendar.user.settings.set" | Не передан обязательный параметр `settings` ||
+|| Пустое значение | Не задан обязательный параметр "settings" для метода "calendar.user.settings.set" | Не передан обязательный параметр `settings` ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
