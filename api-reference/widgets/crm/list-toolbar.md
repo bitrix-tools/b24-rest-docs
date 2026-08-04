@@ -31,7 +31,6 @@
 || `CRM_CONTACT_LIST_TOOLBAR` | Пункт выпадающего меню над списком [контактов](../../crm/contacts/index.md) ||
 || `CRM_COMPANY_LIST_TOOLBAR` | Пункт выпадающего меню над списком [компаний](../../crm/companies/index.md) ||
 || `CRM_DEAL_LIST_TOOLBAR` | Пункт выпадающего меню над списком [сделок](../../crm/deals/index.md) ||
-|| `CRM_INVOICE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [старых счетов](../../crm/outdated/invoice/index.md) ||
 || `CRM_SMART_INVOICE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [новых счетов](../../crm/universal/invoice.md) ||
 || `CRM_QUOTE_LIST_TOOLBAR` | Пункт выпадающего меню над списком [коммерческих предложений](../../crm/quote/index.md) ||
 || `CRM_DYNAMIC_XXX_LIST_TOOLBAR` | Пункт выпадающего меню над списком элементов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_LIST_TOOLBAR` ||
