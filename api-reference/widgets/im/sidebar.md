@@ -77,7 +77,7 @@ Array
 || **Параметр**
 `тип` | **Описание** ||
 || **iconName***
-[`string`](../../data-types.md) | Подпись пункта в интерфейсе. До 50 символов, допускаются латинские буквы, пробел и `-` ||
+[`string`](../../data-types.md) | Имя иконки Font Awesome 4, например `fa-file-text-o`. Класс набора `fa` Битрикс24 подставляет сам. До 50 символов, значение должно содержать латинские буквы, пробел или `-` ||
 || **extranet**
 [`string`](../../data-types.md) | Доступ в экстранете, по умолчанию `N`.
 
@@ -153,7 +153,7 @@ Array
           }
         },
         "OPTIONS": {
-          "iconName": "chat-tools",
+          "iconName": "fa-file-text-o",
           "context": "ALL",
           "role": "USER",
           "extranet": "N",
@@ -190,7 +190,7 @@ Array
             },
           },
           OPTIONS: {
-            iconName: 'chat-tools',
+            iconName: 'fa-file-text-o',
             context: 'ALL',
             role: 'USER',
             extranet: 'N',
@@ -239,7 +239,7 @@ Array
                 },
               },
               OPTIONS: {
-                iconName: 'chat-tools',
+                iconName: 'fa-file-text-o',
                 context: 'ALL',
                 role: 'USER',
                 extranet: 'N',
@@ -288,7 +288,7 @@ Array
                         ],
                     ],
                     'OPTIONS' => [
-                        'iconName' => 'chat-tools',
+                        'iconName' => 'fa-file-text-o',
                         'context' => 'ALL',
                         'role' => 'USER',
                         'extranet' => 'N',
@@ -323,7 +323,7 @@ Array
                 en: { TITLE: 'My sidebar item' }
             },
             OPTIONS: {
-                iconName: 'chat-tools',
+                iconName: 'fa-file-text-o',
                 context: 'ALL',
                 role: 'USER',
                 extranet: 'N',
@@ -360,7 +360,7 @@ Array
                 ],
             ],
             'OPTIONS' => [
-                'iconName' => 'chat-tools',
+                'iconName' => 'fa-file-text-o',
                 'context' => 'ALL',
                 'role' => 'USER',
                 'extranet' => 'N',

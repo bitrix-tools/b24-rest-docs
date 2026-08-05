@@ -31,6 +31,7 @@
 - расширить автоматизацию — [CRM_XXX_ROBOT_DESIGNER_TOOLBAR](./robot-designer-toolbar.md)
 - дополнить воронки и туннели — [CRM_FUNNELS_TOOLBAR](./funnels-toolbar.md)
 - показать свой отчет — [CRM_ANALYTICS_MENU](./analytics-menu.md), а добавить действие над разделом аналитики — [CRM_ANALYTICS_TOOLBAR](./analytics-toolbar.md)
+- искать клиента во внешнем источнике и подставлять его в карточку — [CRM_DETAIL_SEARCH](./detail-search.md)
 - подставлять данные организации из внешнего источника — [автозаполнение реквизитов](./requisites-autocomplete/index.md)
 
 ## Как начать работу
@@ -64,6 +65,7 @@
 || [CRM_FUNNELS_TOOLBAR](./funnels-toolbar.md) | нет | Виджет открывается над списком воронок ||
 || [CRM_ANALYTICS_MENU](./analytics-menu.md) | нет | Виджет открывается в разделе аналитики ||
 || [CRM_ANALYTICS_TOOLBAR](./analytics-toolbar.md) | нет | Виджет открывается в разделе аналитики ||
+|| [CRM_DETAIL_SEARCH](./detail-search.md) | `entityTypeName`, `searchQuery` | Тип клиента и поисковый запрос из карточки ||
 |#
 
 ## Связь с другими объектами
@@ -99,11 +101,12 @@
 || [CRM_XXX_DETAIL_ACTIVITY](./detail-activity.md) | Кнопка в панели над таймлайном карточки ||
 || [CRM_XXX_DETAIL_TOOLBAR](./detail-toolbar.md) | Пункт меню верхней кнопки карточки ||
 || [CRM_XXX_ACTIVITY_TIMELINE_MENU](./activity-timeline-menu.md) | Пункт контекстного меню записи дела в таймлайне ||
-|| [CRM_XXX_DOCUMENTGENERATOR_BUTTON](./document-generator-button.md) | Пункт меню генератора документов ||
+|| [CRM_XXX_DOCUMENTGENERATOR_BUTTON](./document-generator-button.md) | Пункт выпадающего меню генератора документов ||
 || [CRM_XXX_ROBOT_DESIGNER_TOOLBAR](./robot-designer-toolbar.md) | Кнопка в дизайнере роботов ||
 || [CRM_FUNNELS_TOOLBAR](./funnels-toolbar.md) | Кнопка в воронках и туннелях продаж ||
 || [CRM_ANALYTICS_MENU](./analytics-menu.md) | Отчет приложения в левом меню CRM-аналитики ||
 || [CRM_ANALYTICS_TOOLBAR](./analytics-toolbar.md) | Кнопка в шапке CRM-аналитики ||
+|| [CRM_DETAIL_SEARCH](./detail-search.md) | Поиск клиента во внешнем источнике из карточки CRM ||
 || [CRM_REQUISITE_AUTOCOMPLETE, CRM_BANK_DETAIL_AUTOCOMPLETE](./requisites-autocomplete/index.md) | Подстановка данных организации и банковских реквизитов из внешнего источника ||
 || [Дополнительные возможности CRM_XXX_DETAIL_ACTIVITY](./detail-activity-area.md) | Интерфейс кнопки над таймлайном средствами Битрикс24 ||
 |#

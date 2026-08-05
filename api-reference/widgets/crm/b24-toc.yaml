@@ -19,6 +19,8 @@ items:
     href: activity-timeline-menu.md
   - name: Пункт выпадающего меню генератора документов
     href: document-generator-button.md
+  - name: Поиск клиента в карточке
+    href: detail-search.md
   - name: Кнопка в дизайнере роботов
     href: robot-designer-toolbar.md
   - name: Кнопка в воронках и туннелях продаж
