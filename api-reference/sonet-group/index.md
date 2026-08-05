@@ -53,13 +53,13 @@
 
 Добавляйте свои пункты в меню, чтобы расширить функциональность рабочих групп и проектов:
 
--  [Пункт меню группы SONET_GROUP_DETAIL_TAB](../widgets/workgroups/index.md)
+-  [Пункт меню группы SONET_GROUP_DETAIL_TAB](../widgets/workgroups/detail-tab.md)
 
 -  [Пункт меню расширений группы SONET_GROUP_TOOLBAR](../widgets/workgroups/toolbar.md)
 
 -  [Кнопка в дизайнере роботов группы SONET_GROUP_ROBOT_DESIGNER_TOOLBAR](../widgets/workgroups/robot-designer-toolbar.md)
 
-Код конкретного места встройки виджета указывайте в параметре `PLACEMENT` метода [placement.bind](../widgets/placement-bind.md).
+Код конкретного места встройки виджета указывайте в параметре `PLACEMENT` метода [placement.bind](../widgets/placement-bind.md). Как выбрать точку и что приходит обработчику, описано в [обзоре точек встраивания](../widgets/workgroups/index.md).
 
 ## Специализированные рабочие группы: Скрам и Поток
 
