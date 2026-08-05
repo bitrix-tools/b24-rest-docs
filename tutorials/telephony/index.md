@@ -497,4 +497,4 @@ REST-методы `telephony.externalCall.*` и `telephony.externalLine.*` ра�
 
 - [Обзор методов телефонии](../../api-reference/telephony/index.md)
 - [События телефонии](../../api-reference/telephony/events/index.md)
-- [Вкладка в карточке звонка CALL_CARD](../../api-reference/widgets/telephony/index.md)
+- [Вкладка в карточке звонка CALL_CARD](../../api-reference/widgets/telephony/call-card.md)

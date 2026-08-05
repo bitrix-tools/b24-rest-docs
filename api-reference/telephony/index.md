@@ -64,7 +64,8 @@
 
 В карточку звонка можно встроить приложение и показывать интерфейс оператора прямо во время разговора.
 
-- [Вкладка в карточке звонка CALL_CARD](../widgets/telephony/index.md)
+- [Вкладка в карточке звонка CALL_CARD](../widgets/telephony/call-card.md)
+- [Виджеты в телефонии: обзор точек встраивания](../widgets/telephony/index.md)
 - [JS-интерфейс карточки звонка](../widgets/ui-interaction/call-card/index.md)
 
 ## Ограничения и проверки
