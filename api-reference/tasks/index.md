@@ -169,20 +169,19 @@
 
 В карточку задачи можно встроить приложение. Благодаря встраиванию можно будет использовать приложение и не покидать карточку. 
 
-- [Вкладка в карточке задачи](../widgets/task/view-tab.md) `TASK_VIEW_TAB`
-- [Правая панель карточки задачи](../widgets/task/view-sidebar.md) `TASK_VIEW_SIDEBAR`
-- [Ссылка в верхней части карточки задачи](../widgets/task/view-top-panel.md) `TASK_VIEW_TOP_PANEL`
+- [Встройка приложения на вкладке карточки задачи](../widgets/task/view-tab.md) `TASK_VIEW_TAB`
+- [Встройка приложения в правой панели карточки задачи](../widgets/task/view-sidebar.md) `TASK_VIEW_SIDEBAR`
+- [Встройка приложения в верхней части карточки задачи](../widgets/task/view-top-panel.md) `TASK_VIEW_TOP_PANEL`
 
 Приложение можно встроить в списке задач:
 
-- [Пункт контекстного меню списка](../widgets/task/index.md) `TASK_LIST_CONTEXT_MENU` 
-
-В режимах работы с задачами канбан или «Мой план» есть еще два специальных места для встройки:
-
-- [Пункт основного выпадающего меню](../widgets/task/list-toolbar.md) `TASK_USER_LIST_TOOLBAR`, `TASK_GROUP_LIST_TOOLBAR`
-- [Пункт основного выпадающего меню около настроек роботов](../widgets/task/robot-designer-toolbar.md) `TASK_ROBOT_DESIGNER_TOOLBAR`
+- [Пункт контекстного меню задачи в списке](../widgets/task/list-context-menu.md) `TASK_LIST_CONTEXT_MENU`
+- [Пункт выпадающего меню над списком задач](../widgets/task/list-toolbar.md) `TASK_USER_LIST_TOOLBAR`, `TASK_GROUP_LIST_TOOLBAR`
+- [Кнопка в дизайнере роботов задач](../widgets/task/robot-designer-toolbar.md) `TASK_ROBOT_DESIGNER_TOOLBAR`
 
 В новой карточке задач с версии модуля `tasks 25.700.0` места `TASK_VIEW_TAB`, `TASK_VIEW_SIDEBAR` и `TASK_VIEW_TOP_PANEL` объединены в блок «Приложения» в нижней части карточки.
+
+Как выбрать точку и что приходит обработчику, описано в [обзоре точек встраивания](../widgets/task/index.md).
 
 ## Чат задачи в REST 3.0
 

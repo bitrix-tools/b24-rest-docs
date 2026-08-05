@@ -1,4 +1,4 @@
-# Встройка приложения на вкладке карточки задачи TASK_VIEW_TAB
+# Пункт контекстного меню задачи в списке TASK_LIST_CONTEXT_MENU
 
 {% note tip "" %}
 
@@ -11,9 +11,7 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 
-Виджет добавляет встройку приложения в карточку задачи. В прежней карточке пункт выводился отдельной вкладкой, отсюда название точки. Обработчик получает идентификатор той задачи, из карточки которой открыт виджет.
-
-Вывод встройки можно ограничить задачами конкретных проектов — это описано в разделе [Параметры подключения](#options).
+Виджет добавляет свой пункт в контекстное меню отдельной задачи в списке. Обработчик получает идентификатор той задачи, из меню которой открыт виджет.
 
 Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -27,16 +25,14 @@
 
 #|
 || **Код встройки** | **Место** ||
-|| `TASK_VIEW_TAB` | Встройка приложения на вкладке карточки задачи ||
+|| `TASK_LIST_CONTEXT_MENU` | Пункт контекстного меню задачи в списке ||
 |#
 
 ### Где находится в интерфейсе
 
-С версии модуля `tasks 25.700.0` вышла [новая карточка задач](../../tasks/tasks-new.md). Отдельной вкладки у точки в ней нет: все встройки карточки выводятся строками в блоке «Приложения» — под полями задачи, перед списком дополнительных полей. Откройте задачу и нажмите строку с названием приложения.
+Откройте список задач, нажмите кнопку меню слева от задачи и наведите курсор на пункт *Маркетплейс*. Пункт приложения выводится в этом подменю.
 
-![Встройка приложения на вкладке карточки задачи](./_images/TASK_VIEW_TAB.png "Встройка приложения на вкладке карточки задачи")
-
-Точки [TASK_VIEW_SIDEBAR](./view-sidebar.md) и [TASK_VIEW_TOP_PANEL](./view-top-panel.md) выводятся в том же блоке. Ранее зарегистрированные встройки продолжают работать.
+![Пункт контекстного меню задачи в списке](./_images/TASK_LIST_CONTEXT_MENU.png "Пункт контекстного меню задачи в списке")
 
 ## Что получает обработчик
 
@@ -49,17 +45,17 @@ Array
     [DOMAIN] => xxx.bitrix24.com
     [PROTOCOL] => 1
     [LANG] => ru
-    [APP_SID] => 0063a02ba25315469678f946ece50010
-    [AUTH_ID] => 9c52ba6600705a0700005a4b00000001f0f107e81691773d119eb941ad045e36
+    [APP_SID] => d7092a1d8c53d8be01cbb43a856e21ac
+    [AUTH_ID] => cb50ba6600631fcd00005a4b00000001f0f107523405e8ed8e45f3a87951e631
     [AUTH_EXPIRES] => 3600
-    [REFRESH_ID] => 8cd1e16600705a0700005a4b00000001f0f1070aef2cbe270a6f27bcaf791e45
+    [REFRESH_ID] => bbcfe16600631fcd00005a4b00000001f0f1078b3cbb2ae3909b492b397f73c3
     [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
     [APPLICATION_TOKEN] => 3f0a7c19e5b84d2196c8ad470e5f2b31
     [APPLICATION_SCOPE] => task,placement
     [member_id] => da45a03b265edd8787f8a258d793cc5d
     [status] => L
-    [PLACEMENT] => TASK_VIEW_TAB
-    [PLACEMENT_OPTIONS] => {"taskId":"3957","URI":"\/company\/personal\/user\/1\/tasks\/task\/view\/3957\/"}
+    [PLACEMENT] => TASK_LIST_CONTEXT_MENU
+    [PLACEMENT_OPTIONS] => {"ID":"3957","URI":"\/company\/personal\/user\/1\/tasks\/"}
 )
 
 ```
@@ -76,45 +72,13 @@ Array
 
 #|
 || **Параметр** | **Описание** ||
-|| **taskId***
-[`string`](../../data-types.md) | Идентификатор задачи, из карточки которой открыт виджет.
+|| **ID***
+[`string`](../../data-types.md) | Идентификатор задачи, из контекстного меню которой открыт виджет.
 
 Данные задачи возвращает метод [tasks.task.get](../../tasks/tasks-task-get.md)
 
 ||
 |#
-
-## Параметры подключения {#options}
-
-Параметр подключения передается в поле `OPTIONS` метода [placement.bind](../placement-bind.md) при регистрации обработчика. Это не те данные, которые Битрикс24 передает обработчику при вызове точки: входящие данные описаны выше.
-
-#|
-|| **Параметр** | **Описание** ||
-|| **groupId**
-[`string`](../../data-types.md) | Ограничивает вывод встройки задачами перечисленных проектов. Значение — идентификаторы проектов через запятую, например `129,130`.
-
-Если параметр не передан или пуст, встройка выводится во всех задачах. Если параметр заполнен, встройка выводится только в задачах перечисленных проектов и не выводится в задачах без проекта
-
-||
-|#
-
-Пример регистрации с ограничением по проектам:
-
-```bash
-curl -X POST \
-  -H "Content-Type: application/json" \
-  -H "Accept: application/json" \
-  -d '{
-    "PLACEMENT": "TASK_VIEW_TAB",
-    "HANDLER": "https://your-domain.com/widgets/task-view-tab-handler.php",
-    "TITLE": "Моя встройка в задаче",
-    "OPTIONS": {
-      "groupId": "129,130"
-    },
-    "auth": "**put_access_token_here**"
-  }' \
-  https://**put_your_bitrix24_address**/rest/placement.bind
-```
 
 ## Примеры кода
 
@@ -129,15 +93,15 @@ curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{
-        "PLACEMENT": "TASK_VIEW_TAB",
-        "HANDLER": "https://your-domain.com/widgets/task-view-tab-handler.php",
-        "TITLE": "Моя встройка в задаче",
+        "PLACEMENT": "TASK_LIST_CONTEXT_MENU",
+        "HANDLER": "https://your-domain.com/widgets/task-list-context-menu-handler.php",
+        "TITLE": "Мой пункт меню задачи",
         "LANG_ALL": {
           "ru": {
-            "TITLE": "Моя встройка в задаче"
+            "TITLE": "Мой пункт меню задачи"
           },
           "en": {
-            "TITLE": "My task widget"
+            "TITLE": "My task menu item"
           }
         },
         "auth": "**put_access_token_here**"
@@ -159,15 +123,15 @@ curl -X POST \
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'placement.bind',
         params: {
-          PLACEMENT: 'TASK_VIEW_TAB',
-          HANDLER: 'https://your-domain.com/widgets/task-view-tab-handler.php',
-          TITLE: 'My task widget',
+          PLACEMENT: 'TASK_LIST_CONTEXT_MENU',
+          HANDLER: 'https://your-domain.com/widgets/task-list-context-menu-handler.php',
+          TITLE: 'My task menu item',
           LANG_ALL: {
             ru: {
-              TITLE: 'Моя встройка в задаче',
+              TITLE: 'Мой пункт меню задачи',
             },
             en: {
-              TITLE: 'My task widget',
+              TITLE: 'My task menu item',
             },
           },
         },
@@ -193,7 +157,7 @@ curl -X POST \
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function bindTaskViewTab() {
+      async function bindTaskListContextMenu() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
@@ -201,15 +165,15 @@ curl -X POST \
           const response = await $b24.actions.v2.call.make({
             method: 'placement.bind',
             params: {
-              PLACEMENT: 'TASK_VIEW_TAB',
-              HANDLER: 'https://your-domain.com/widgets/task-view-tab-handler.php',
-              TITLE: 'My task widget',
+              PLACEMENT: 'TASK_LIST_CONTEXT_MENU',
+              HANDLER: 'https://your-domain.com/widgets/task-list-context-menu-handler.php',
+              TITLE: 'My task menu item',
               LANG_ALL: {
                 ru: {
-                  TITLE: 'Моя встройка в задаче',
+                  TITLE: 'Мой пункт меню задачи',
                 },
                 en: {
-                  TITLE: 'My task widget',
+                  TITLE: 'My task menu item',
                 },
               },
             },
@@ -230,7 +194,7 @@ curl -X POST \
         }
       }
 
-      document.addEventListener('DOMContentLoaded', bindTaskViewTab)
+      document.addEventListener('DOMContentLoaded', bindTaskListContextMenu)
     </script>
     ```
 
@@ -243,15 +207,15 @@ curl -X POST \
             ->call(
                 'placement.bind',
                 [
-                    'PLACEMENT' => 'TASK_VIEW_TAB',
-                    'HANDLER' => 'https://your-domain.com/widgets/task-view-tab-handler.php',
-                    'TITLE' => 'Моя встройка в задаче',
+                    'PLACEMENT' => 'TASK_LIST_CONTEXT_MENU',
+                    'HANDLER' => 'https://your-domain.com/widgets/task-list-context-menu-handler.php',
+                    'TITLE' => 'Мой пункт меню задачи',
                     'LANG_ALL' => [
                         'ru' => [
-                            'TITLE' => 'Моя встройка в задаче',
+                            'TITLE' => 'Мой пункт меню задачи',
                         ],
                         'en' => [
-                            'TITLE' => 'My task widget',
+                            'TITLE' => 'My task menu item',
                         ],
                     ],
                 ]
@@ -275,12 +239,12 @@ curl -X POST \
     BX24.callMethod(
         'placement.bind',
         {
-            PLACEMENT: 'TASK_VIEW_TAB',
-            HANDLER: 'https://your-domain.com/widgets/task-view-tab-handler.php',
-            TITLE: 'Моя встройка в задаче',
+            PLACEMENT: 'TASK_LIST_CONTEXT_MENU',
+            HANDLER: 'https://your-domain.com/widgets/task-list-context-menu-handler.php',
+            TITLE: 'Мой пункт меню задачи',
             LANG_ALL: {
-                ru: { TITLE: 'Моя встройка в задаче' },
-                en: { TITLE: 'My task widget' }
+                ru: { TITLE: 'Мой пункт меню задачи' },
+                en: { TITLE: 'My task menu item' }
             }
         },
         function(result) {
@@ -301,15 +265,15 @@ curl -X POST \
     $result = CRest::call(
         'placement.bind',
         [
-            'PLACEMENT' => 'TASK_VIEW_TAB',
-            'HANDLER' => 'https://your-domain.com/widgets/task-view-tab-handler.php',
-            'TITLE' => 'Моя встройка в задаче',
+            'PLACEMENT' => 'TASK_LIST_CONTEXT_MENU',
+            'HANDLER' => 'https://your-domain.com/widgets/task-list-context-menu-handler.php',
+            'TITLE' => 'Мой пункт меню задачи',
             'LANG_ALL' => [
                 'ru' => [
-                    'TITLE' => 'Моя встройка в задаче',
+                    'TITLE' => 'Мой пункт меню задачи',
                 ],
                 'en' => [
-                    'TITLE' => 'My task widget',
+                    'TITLE' => 'My task menu item',
                 ],
             ],
         ]
@@ -325,8 +289,8 @@ curl -X POST \
 ## Продолжите изучение
 
 - [{#T}](./index.md)
-- [{#T}](./view-sidebar.md)
-- [{#T}](./view-top-panel.md)
+- [{#T}](./list-toolbar.md)
+- [{#T}](./view-tab.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../../../settings/interactivity/index.md)
