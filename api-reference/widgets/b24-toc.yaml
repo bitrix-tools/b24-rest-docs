@@ -9,7 +9,7 @@ items:
       mode: link
   - name: Места для встройки виджетов
     href: placements.md
-  - name: Виджеты в главном меню
+  - name: Пункт в главном меню
     href: left-menu.md
   - name: Виджеты в CRM
     include:
@@ -27,7 +27,7 @@ items:
     include:
       path: user-profile/b24-toc.yaml
       mode: link
-  - name: Виджет в календаре
+  - name: Вид отображения в календаре
     href: calendar.md
   - name: Виджеты в телефонии
     include:
@@ -37,7 +37,7 @@ items:
     include:
       path: im/b24-toc.yaml
       mode: link
-  - name: Виджет в контакт-центре
+  - name: Плитка в контакт-центре
     href: contact-center.md
   - name: Универсальные виджеты
     include:
