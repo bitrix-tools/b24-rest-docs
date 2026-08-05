@@ -24,7 +24,7 @@
 {% note tip "Пользовательская документация" %}
 
 - [Битрикс24.Скрам](https://helpdesk.bitrix24.ru/open/13660630/)
-- [Как создать группу и проект](https://helpdesk.bitrix24.ru/open/22699004/)
+- [Как создать проект в Битрикс24](https://helpdesk.bitrix24.ru/open/28540716/)
 
 {% endnote %}
 

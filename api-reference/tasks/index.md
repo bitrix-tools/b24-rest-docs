@@ -97,7 +97,7 @@
 {% note tip "Пользовательская документация" %}
 
   - [Как создать подзадачу](https://helpdesk.bitrix24.ru/open/17750248/)
-  - [Как создать группу и проект](https://helpdesk.bitrix24.ru/open/22699004/)
+  - [Как создать проект в Битрикс24](https://helpdesk.bitrix24.ru/open/28540716/)
 
 {% endnote %}
 
