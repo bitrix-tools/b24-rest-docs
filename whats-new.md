@@ -8,6 +8,9 @@
 - Обновили туториал [Как встроить свой UI в параметры робота](./tutorials/bizproc/setting-robot.md)
 - Обновили туториал [Как создать чат-бота для Открытых линий](./tutorials/chat-bots/open-lines-bot.md)
 - Обновили туториал [Как создать коннектор открытых линий для чата на сайте](./tutorials/openlines/example-connector.md)
+- Обновили туториал [Как сделать свою карточку редактирования контакта](./tutorials/crm/how-to-edit-crm-objects/how-to-make-contact-edit-card.md)
+- Обновили страницу [Онлайн-запись: обзор методов и событий](./api-reference/booking/index.md)
+- Обновили страницу [Бронирование: обзор методов](./api-reference/booking/booking/index.md)
 
 ### 31 июля, 2026
 

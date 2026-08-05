@@ -53,7 +53,7 @@
 
 #|
 || **Если нужно** | **Используйте** | **Что получит обработчик** ||
-|| Добавить пункт к делу в списке дел CRM | [`CRM_ACTIVITY_LIST_MENU`](../../../../widgets/crm/index.md) | [`PLACEMENT_OPTIONS`](../../../../widgets/crm/index.md#placement_options) с идентификатором дела `ID` ||
+|| Добавить пункт к делу в списке дел CRM | [`CRM_ACTIVITY_LIST_MENU`](../../../../widgets/crm/list-menu.md) | [`PLACEMENT_OPTIONS`](../../../../widgets/crm/list-menu.md#placement_options) с идентификатором дела `ID` ||
 || Добавить пункт к делу в таймлайне карточки CRM | [`CRM_XXX_ACTIVITY_TIMELINE_MENU`](../../../../widgets/crm/activity-timeline-menu.md) | [`PLACEMENT_OPTIONS`](../../../../widgets/crm/activity-timeline-menu.md#placement_options) с идентификатором карточки CRM `ENTITY_ID` и идентификатором дела `ASSOCIATED_ENTITY_ID` ||
 || Создать дело, которое открывает приложение | [Как создать дело из приложения](./activity-app.md) | [`PLACEMENT_OPTIONS`](./activity-app.md) с идентификатором дела `activity_id` ||
 |#

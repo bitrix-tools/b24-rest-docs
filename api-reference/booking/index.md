@@ -1,4 +1,4 @@
-# Онлайн-запись: обзор методов
+# Онлайн-запись: обзор методов и событий
 
 {% note tip "" %}
 
@@ -11,7 +11,7 @@
 
 Онлайн-запись — это инструмент для автоматизации бронирования ресурсов: помещений, оборудования, услуг специалистов и так далее. Вы можете переносить клиентов между листом ожидания и бронированием, управлять загруженностью, синхронизировать ресурсы с внешними системами.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы и события](#all-methods)
 > 
 > Пользовательская документация: [Битрикс24 Онлайн-запись: начало работы](https://helpdesk.bitrix24.ru/open/23712054/)
 
@@ -41,7 +41,7 @@
 
 - добавлять, изменять и удалять записи  в листе ожидания — [booking.v1.waitlist.*](./waitlist/index.md)
 - переносить запись из брони в лист ожидания — [booking.v1.waitlist.createfrombooking](./waitlist/booking-v1-waitlist-createfrombooking.md)
-- управлять связями записей в листе ожидания с клиентами CRM — [booking.v1.waitlist.client.*](./waitlist/client/index.md) и другими объектами — [booking.v1.waitList.externalData.*](./waitlist/external-data/index.md)
+- управлять связями записей в листе ожидания с клиентами CRM — [booking.v1.waitlist.client.*](./waitlist/client/index.md) и другими объектами — [booking.v1.waitlist.externalData.*](./waitlist/external-data/index.md)
 
 ## Бронирование ресурсов
 
@@ -51,7 +51,16 @@
 - создавать бронь из записи в лист ожидания — [booking.v1.booking.createfromwaitlist](./booking/booking-v1-booking-createfromwaitlist.md)
 - управлять связями брони с клиентами CRM — [booking.v1.booking.client.*](./booking/client/index.md) и другими объектами — [booking.v1.booking.externalData.*](./booking/external-data/index.md)
 
-## Обзор методов {#all-methods}
+## Как начать работу
+
+1. Создайте тип ресурса — [booking.v1.resourceType.add](./resource/resource-type/booking-v1-resourcetype-add.md). Без типа ресурс создать нельзя: в методе создания ресурса параметр `typeId` обязательный.
+2. Создайте ресурс — [booking.v1.resource.add](./resource/booking-v1-resource-add.md).
+3. Настройте доступность ресурса по времени — [booking.v1.resource.slots.set](./resource/slots/booking-v1-resource-slots-set.md).
+4. Создайте бронирование — [booking.v1.booking.add](./booking/booking-v1-booking-add.md). Если подходящего времени нет, добавьте запись в лист ожидания — [booking.v1.waitlist.add](./waitlist/booking-v1-waitlist-add.md), а позже перенесите ее в бронь — [booking.v1.booking.createfromwaitlist](./booking/booking-v1-booking-createfromwaitlist.md).
+5. Привяжите к брони клиента — [booking.v1.booking.client.set](./booking/client/booking-v1-booking-client-set.md), и сделку CRM — [booking.v1.booking.externalData.set](./booking/external-data/booking-v1-booking-externaldata-set.md).
+6. Подпишитесь на [события раздела](#all-methods), чтобы приложение узнавало о создании, изменении и удалении объектов.
+
+## Обзор методов и событий {#all-methods}
 
 > Scope: [`booking`](../scopes/permissions.md)
 >
@@ -113,7 +122,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [booking.v1.waitList.externalData.list](./waitlist/external-data/booking-v1-waitlist-externaldata-list.md) | Получает связи записи в лист ожидания ||
+|| [booking.v1.waitlist.externalData.list](./waitlist/external-data/booking-v1-waitlist-externaldata-list.md) | Получает связи записи в лист ожидания ||
 || [booking.v1.waitlist.externalData.set](./waitlist/external-data/booking-v1-waitlist-externaldata-set.md) | Устанавливает связи для записи в лист ожидания ||
 || [booking.v1.waitlist.externalData.unset](./waitlist/external-data/booking-v1-waitlist-externaldata-unset.md) | Удаляет связи для записи в лист ожидания ||
 |#
@@ -135,7 +144,7 @@
 #|
 || **Метод** | **Описание** ||
 || [booking.v1.booking.client.list](./booking/client/booking-v1-booking-client-list.md) | Получает список клиентов бронирования ||
-|| [booking.v1.booking.client.set](./booking/client/booking-v1-booking-client-set.md) | Добавляет клиентав к бронированию ||
+|| [booking.v1.booking.client.set](./booking/client/booking-v1-booking-client-set.md) | Добавляет клиентов к бронированию ||
 || [booking.v1.booking.client.unset](./booking/client/booking-v1-booking-client-unset.md) | Удаляет клиентов из бронирования ||
 |#
 
@@ -153,4 +162,22 @@
 #|
 || **Метод** | **Описание** ||
 || [booking.v1.clienttype.list](./booking-v1-clienttype-list.md) | Получает список типов клиентов ||
+|#
+
+### События
+
+#|
+|| **Событие** | **Вызывается** ||
+|| [onBookingResourceTypeAdd](./resource/resource-type/events/on-booking-resource-type-add.md) | При создании типа ресурса вручную или методом [booking.v1.resourceType.add](./resource/resource-type/booking-v1-resourcetype-add.md) ||
+|| [onBookingResourceTypeUpdate](./resource/resource-type/events/on-booking-resource-type-update.md) | При обновлении типа ресурса вручную или методом [booking.v1.resourceType.update](./resource/resource-type/booking-v1-resourcetype-update.md) ||
+|| [onBookingResourceTypeDelete](./resource/resource-type/events/on-booking-resource-type-delete.md) | При удалении типа ресурса вручную или методом [booking.v1.resourceType.delete](./resource/resource-type/booking-v1-resourcetype-delete.md) ||
+|| [onBookingResourceAdd](./resource/events/on-booking-resource-add.md) | При создании ресурса вручную или методом [booking.v1.resource.add](./resource/booking-v1-resource-add.md) ||
+|| [onBookingResourceUpdate](./resource/events/on-booking-resource-update.md) | При обновлении ресурса вручную или методом [booking.v1.resource.update](./resource/booking-v1-resource-update.md) ||
+|| [onBookingResourceDelete](./resource/events/on-booking-resource-delete.md) | При удалении ресурса вручную или методом [booking.v1.resource.delete](./resource/booking-v1-resource-delete.md) ||
+|| [onBookingWaitListItemAdd](./waitlist/events/on-booking-waitlistitem-add.md) | При создании записи в листе ожидания вручную или методом [booking.v1.waitlist.add](./waitlist/booking-v1-waitlist-add.md) ||
+|| [onBookingWaitListItemUpdate](./waitlist/events/on-booking-waitlistitem-update.md) | При обновлении записи в листе ожидания вручную или методом [booking.v1.waitlist.update](./waitlist/booking-v1-waitlist-update.md) ||
+|| [onBookingWaitListItemDelete](./waitlist/events/on-booking-waitlistitem-delete.md) | При удалении записи из листа ожидания вручную или методом [booking.v1.waitlist.delete](./waitlist/booking-v1-waitlist-delete.md) ||
+|| [onBookingAdd](./booking/events/on-booking-add.md) | При создании бронирования вручную или методами [booking.v1.booking.add](./booking/booking-v1-booking-add.md), [booking.v1.booking.createfromwaitlist](./booking/booking-v1-booking-createfromwaitlist.md) ||
+|| [onBookingUpdate](./booking/events/on-booking-update.md) | При обновлении бронирования вручную или методом [booking.v1.booking.update](./booking/booking-v1-booking-update.md) ||
+|| [onBookingDelete](./booking/events/on-booking-delete.md) | При удалении бронирования вручную или методом [booking.v1.booking.delete](./booking/booking-v1-booking-delete.md) ||
 |#

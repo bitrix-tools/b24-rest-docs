@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`intranet`](../../scopes/permissions.md)
+> Scope: [`crm`](../../scopes/permissions.md)
 
 Вы можете добавить свой пункт в выпадающее меню генератора документов объектов CRM: [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md), [пользовательские типы объектов](../../crm/universal/index.md).
 
@@ -206,7 +206,7 @@
 
 Может быть использован для получения дополнительной информации с помощью соответствующих методов:
 
-- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [т.д.](../../crm/data-types.md#object_type)
+- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [так далее](../../crm/data-types.md#object_type)
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
@@ -220,6 +220,7 @@
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../../../settings/interactivity/index.md)

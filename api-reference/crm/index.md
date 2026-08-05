@@ -88,7 +88,7 @@
 
 - [`CRM_XXX_ACTIVITY_TIMELINE_MENU`](../widgets/crm/activity-timeline-menu.md) — пункт контекстного меню дела в карточке
 
-- [`CRM_XXX_LIST_MENU`](../widgets/crm/index.md) — пункт контекстного меню в списке элементов
+- [`CRM_XXX_LIST_MENU`](../widgets/crm/list-menu.md) — пункт контекстного меню в списке элементов
 
 - [`CRM_XXX_LIST_TOOLBAR`](../widgets/crm/list-toolbar.md) — пункт выпадающего меню над списком элементов
 

@@ -101,7 +101,7 @@ BX24.callMethod(
 
 - [`CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON`](../../widgets/crm/document-generator-button.md) — пункт выпадающего меню генератора документов
 
-- [`CRM_SMART_INVOICE_LIST_MENU`](../../widgets/crm/index.md) — пункт контекстного меню в списке элементов
+- [`CRM_SMART_INVOICE_LIST_MENU`](../../widgets/crm/list-menu.md) — пункт контекстного меню в списке элементов
 
 - [`CRM_SMART_INVOICE_LIST_TOOLBAR`](../../widgets/crm/list-toolbar.md) — пункт выпадающего меню над списком элементов
 
