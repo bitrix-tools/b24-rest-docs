@@ -48,10 +48,13 @@ Array
     [AUTH_ID] => 6061e72600631fcd00005a4b00000001f0f1076700000000f69dd5fc643d9ce2fdbc1
     [AUTH_EXPIRES] => 3600
     [REFRESH_ID] => 50e00aa340631fcd00005a4b00000001f0f1071111116580a5b83c2de639ef28c12
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => im,placement
     [member_id] => da45a03b265ed12127f8a258d793cc5d
-    [status] => F
+    [status] => L
     [PLACEMENT] => IM_CONTEXT_MENU
-    [PLACEMENT_OPTIONS] => {"messageId":84889, "dialogId":"chat1489"}
+    [PLACEMENT_OPTIONS] => {"messageId":"38507","dialogId":"chat4339","URI":"\/online\/"}
 )
 ```
 
@@ -63,10 +66,16 @@ Array
 
 Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
 
-Для `IM_CONTEXT_MENU` в контекст передаются ключи:
-
-- `dialogId` — идентификатор текущего чата
-- `messageId` — идентификатор выбранного сообщения
+#|
+|| **Параметр**
+[`тип`](../../data-types.md) | **Описание** ||
+|| **messageId***
+[`string`](../../data-types.md) | Идентификатор сообщения, из меню которого вызван виджет. Значение приходит строкой. По нему приложение работает с сообщением [методами чатов](../../chats/messages/index.md) ||
+|| **dialogId***
+[`string`](../../data-types.md) | Идентификатор чата: `chatNNN` для группового чата, идентификатор пользователя для личной переписки. Получить чат по нему можно методом [im.dialog.get](../../chats/im-dialog-get.md) ||
+|| **URI***
+[`string`](../../data-types.md) | Адрес страницы, с которой открыт виджет. Для мессенджера это `/online/` ||
+|#
 
 ## OPTIONS при регистрации через placement.bind
 

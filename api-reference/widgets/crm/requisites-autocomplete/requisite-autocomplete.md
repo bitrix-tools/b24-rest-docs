@@ -73,8 +73,6 @@ BX24.callMethod(
 
 Битрикс24 отправляет обработчику POST-запрос с данными точки. Часть параметров приходит в query-строке адреса обработчика, остальные — в теле запроса.
 
-В параметре `PLACEMENT_OPTIONS` передается `searchQuery` [`string`](../../../data-types.md) — строка, которую пользователь ввел в поле поиска реквизитов.
-
 Пример POST-запроса:
 
 ```php
@@ -87,14 +85,30 @@ Array
     [AUTH_ID] => 1f0f107e5806d5fe9a98e02021a72e57645f86a
     [AUTH_EXPIRES] => 3600
     [REFRESH_ID] => 1f0f107a80816604b24a8719792ac2a21d629b5
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => crm,placement
     [member_id] => da45a03b265edd8787f8a258d793cc5d
     [status] => L
     [PLACEMENT] => CRM_REQUISITE_AUTOCOMPLETE
-    [PLACEMENT_OPTIONS] => {"searchQuery":"7707083893"}
+    [PLACEMENT_OPTIONS] => {"searchQuery":"7712345678","URI":"\/crm\/company\/details\/2979\/?any=details%2F2979%2F&IFRAME=Y&IFRAME_TYPE=SIDE_SLIDER"}
 )
 ```
 
 {% include notitle [описание стандартных данных](../../_includes/widget_data.md) %}
+
+### PLACEMENT_OPTIONS
+
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
+
+#|
+|| **Параметр**
+[`тип`](../../../data-types.md) | **Описание** ||
+|| **searchQuery***
+[`string`](../../../data-types.md) | Строка, которую пользователь ввел в поле поиска реквизитов ||
+|| **URI***
+[`string`](../../../data-types.md) | Адрес карточки, из которой вызван поиск. Карточка открывается слайдером, поэтому в адресе есть параметры `IFRAME=Y` и `IFRAME_TYPE=SIDE_SLIDER` ||
+|#
 
 ## Как вернуть найденные варианты
 
