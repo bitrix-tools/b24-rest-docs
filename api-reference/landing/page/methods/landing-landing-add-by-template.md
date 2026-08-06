@@ -348,6 +348,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.addByTemplate", b24.Params{
+    	"siteId": 157,
+    	"code":   "krayt.monotovar@KraytPetShop",
+    	"fields": b24.Params{
+    		"TITLE":       "Весенняя акция",
+    		"DESCRIPTION": "SEO-описание страницы акции",
+    		"FOLDER_ID":   95,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.addByTemplate: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -389,6 +389,34 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.updateStyles", b24.Params{
+    	"lid":   313,
+    	"block": 6134,
+    	"data": b24.Params{
+    		".landing-block-node-text": b24.Params{
+    			"classList": []string{"landing-block-node-text", "g-color-white", "text-right"},
+    			"affect":    []string{"text-align", "color"},
+    			"style": b24.Params{
+    				"font-weight": "700",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.updateStyles: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

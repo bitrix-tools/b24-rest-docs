@@ -199,6 +199,26 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.session.open", b24.Params{
+    	"USER_CODE": "livechat|22|1761|587",
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.session.open: %w", err)
+    }
+
+    var item struct {
+    	ChatID b24.ID `json:"chatId"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ChatID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

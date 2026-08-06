@@ -170,6 +170,27 @@
         ]
     );
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.activate", b24.Params{
+    	"CONNECTOR": "myconnector",
+    	"LINE":      107,
+    	"ACTIVE":    "1",
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.activate: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

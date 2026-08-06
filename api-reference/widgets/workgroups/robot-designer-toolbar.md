@@ -276,6 +276,32 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "SONET_GROUP_ROBOT_DESIGNER_TOOLBAR",
+    	"HANDLER":   "https://your-domain.com/widgets/sonet-group-robot-designer-handler.php",
+    	"TITLE":     "Моя автоматизация группы",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Моя автоматизация группы",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My group automation",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

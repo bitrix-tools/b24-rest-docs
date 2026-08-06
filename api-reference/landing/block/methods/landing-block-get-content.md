@@ -292,6 +292,36 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.getcontent", b24.Params{
+    	"lid":      4858,
+    	"block":    39556,
+    	"editMode": true,
+    	"params": b24.Params{
+    		"wrapper_show": false,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.getcontent: %w", err)
+    }
+
+    var item struct {
+    	ID       b24.ID `json:"id"`
+    	Sections string `json:"sections"`
+    	Active   bool   `json:"active"`
+    	Access   string `json:"access"`
+    	Anchor   string `json:"anchor"`
+    	Php      bool   `json:"php"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Sections)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

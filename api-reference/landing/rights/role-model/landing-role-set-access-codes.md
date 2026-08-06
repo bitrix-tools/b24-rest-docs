@@ -252,6 +252,25 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.role.setAccessCodes", b24.Params{
+    	"id":    11,
+    	"codes": []string{"U45", "DR7", "SG3_A"},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.role.setAccessCodes: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

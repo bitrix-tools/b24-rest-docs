@@ -321,6 +321,32 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "CRM_DEAL_ACTIVITY_TIMELINE_MENU",
+    	"HANDLER":   "https://your-domain.com/widgets/crm-timeline-menu-handler.php",
+    	"TITLE":     "Мой пункт меню дела",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Мой пункт меню дела",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My activity menu item",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

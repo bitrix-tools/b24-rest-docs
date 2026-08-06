@@ -683,6 +683,58 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.config.add", b24.Params{
+    	"PARAMS": b24.Params{
+    		"LINE_NAME": "Линия поддержки интернет-магазина",
+    		"QUEUE": []b24.Params{
+    			{
+    				"ENTITY_TYPE": "user",
+    				"ENTITY_ID":   "1",
+    			},
+    			{
+    				"ENTITY_TYPE": "user",
+    				"ENTITY_ID":   "15",
+    			},
+    			{
+    				"ENTITY_TYPE": "user",
+    				"ENTITY_ID":   "23",
+    			},
+    		},
+    		"QUEUE_TYPE":           "strictly",
+    		"QUEUE_TIME":           45,
+    		"NO_ANSWER_TIME":       120,
+    		"WELCOME_MESSAGE":      "Y",
+    		"WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
+    		"CRM":                  "Y",
+    		"CRM_CREATE":           "deal",
+    		"CRM_SOURCE":           "openline_web",
+    		"CRM_FORWARD":          "Y",
+    		"MAX_CHAT":             4,
+    		"TYPE_MAX_CHAT":        "answered_new",
+    		"WORKTIME_ENABLE":      "Y",
+    		"WORKTIME_FROM":        "09:00",
+    		"WORKTIME_TO":          "21:00",
+    		"WORKTIME_TIMEZONE":    "Europe/Kaliningrad",
+    		"WORKTIME_DAYOFF":      []string{"SA", "SU"},
+    		"WORKTIME_DAYOFF_RULE": "text",
+    		"WORKTIME_DAYOFF_TEXT": "Сейчас линия не работает. Напишите, и мы ответим в рабочее время",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.config.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

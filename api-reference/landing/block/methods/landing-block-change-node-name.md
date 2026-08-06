@@ -308,6 +308,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.changeNodeName", b24.Params{
+    	"lid":   311,
+    	"block": 6058,
+    	"data": b24.Params{
+    		".landing-block-node-title@0": "h1",
+    		".landing-block-node-text@2":  "p",
+    	},
+    	"preventHistory": true,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.changeNodeName: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

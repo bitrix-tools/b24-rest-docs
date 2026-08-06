@@ -312,6 +312,38 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.fullExport", b24.Params{
+    	"id": 326,
+    	"params": b24.Params{
+    		"edit_mode":   "Y",
+    		"code":        "myfirstsite2026",
+    		"name":        "Сайт автомастерской",
+    		"description": "Сайт для автосервиса",
+    		"preview_url": "https://example.com/previews/myfirstsite2026",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.fullExport: %w", err)
+    }
+
+    var item struct {
+    	Charset     string `json:"charset"`
+    	Code        string `json:"code"`
+    	SiteCode    string `json:"site_code"`
+    	Name        string `json:"name"`
+    	Description string `json:"description"`
+    	Preview     string `json:"preview"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Charset, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -279,6 +279,43 @@
         ]
     );
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.send.status.delivery", b24.Params{
+    	"CONNECTOR": "myconnector",
+    	"LINE":      107,
+    	"MESSAGES": []b24.Params{
+    		{
+    			"im": b24.Params{
+    				"chat_id":    323,
+    				"message_id": 85911,
+    			},
+    			"message": b24.Params{
+    				"id":   []string{"ext-msg-1007"},
+    				"date": 1738065600,
+    			},
+    			"chat": b24.Params{
+    				"id": "channel-123",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.send.status.delivery: %w", err)
+    }
+
+    var item struct {
+    	Success bool `json:"SUCCESS"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -293,6 +293,32 @@
     echo '</pre>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.uploadfile", b24.Params{
+    	"block":   39556,
+    	"picture": []string{"banner.png", "**base64_image_content**"},
+    	"params": b24.Params{
+    		"width":  1200,
+    		"height": 675,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.uploadfile: %w", err)
+    }
+
+    var item struct {
+    	ID  b24.ID `json:"id"`
+    	Src string `json:"src"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Src)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

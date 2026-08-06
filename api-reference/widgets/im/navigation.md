@@ -340,6 +340,37 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "IM_NAVIGATION",
+    	"HANDLER":   "https://your-domain.com/widgets/im-navigation-handler.php",
+    	"TITLE":     "Мой раздел",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Мой раздел",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My section",
+    		},
+    	},
+    	"OPTIONS": b24.Params{
+    		"iconName": "fa-rocket",
+    		"role":     "USER",
+    		"extranet": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

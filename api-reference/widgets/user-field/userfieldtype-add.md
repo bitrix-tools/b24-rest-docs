@@ -267,6 +267,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldtype.add", b24.Params{
+    	"USER_TYPE_ID": "test_type",
+    	"HANDLER":      "https://www.myapplication.com/handler/",
+    	"TITLE":        "Updated test type",
+    	"DESCRIPTION":  "Test userfield type for documentation with updated description",
+    	"OPTIONS": b24.Params{
+    		"height": 60,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldtype.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

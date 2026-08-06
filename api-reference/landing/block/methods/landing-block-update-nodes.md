@@ -407,6 +407,42 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.updatenodes", b24.Params{
+    	"lid":   311,
+    	"block": 6058,
+    	"data": b24.Params{
+    		".landing-block-node-text": "Новый текст блока",
+    		".landing-block-node-img": b24.Params{
+    			"src": "https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img12.jpg",
+    			"alt": "Новый баннер",
+    		},
+    		".landing-block-node-link": b24.Params{
+    			"text":   "Подробнее",
+    			"href":   "https://www.bitrix24.ru",
+    			"target": "_blank",
+    		},
+    		".landing-block-node-icon": []string{"fa", "fa-telegram"},
+    		".landing-block-node-embed": b24.Params{
+    			"src":    "//www.youtube.com/embed/q4d8g9Dn3ww?autoplay=1&controls=0&loop=1&mute=1&rel=0",
+    			"source": "https://www.youtube.com/watch?v=q4d8g9Dn3ww",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.updatenodes: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ### Обновление параметров компонента

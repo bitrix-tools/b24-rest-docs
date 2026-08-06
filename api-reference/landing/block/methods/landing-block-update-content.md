@@ -234,6 +234,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.updatecontent", b24.Params{
+    	"lid":            311,
+    	"block":          6058,
+    	"content":        "<section class=\"g-pt-60 g-pb-60\"><div class=\"container\"><h2 class=\"landing-block-node-title\">Весенняя акция</h2><p class=\"landing-block-node-text\" bxstyle=\"color:#1d1d1d;\">Скидка 15% до конца месяца</p></div></section>",
+    	"preventHistory": true,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.updatecontent: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
