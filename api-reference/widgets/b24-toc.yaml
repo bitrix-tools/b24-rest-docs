@@ -45,7 +45,7 @@ items:
     include:
       path: universal/b24-toc.yaml
       mode: link
-  - name: Встройка в мобильное приложение Битрикс24
+  - name: Виджет в чате мобильного приложения
     href: mobile-app.md
   - name: Зарегистрировать виджет
     href: placement-bind.md

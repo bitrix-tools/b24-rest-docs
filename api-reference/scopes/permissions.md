@@ -39,7 +39,7 @@
 || **mailservice** | [Почтовые сервисы](../mailservice/index.md) | Почтовые сервисы ||
 || **main** | [Журнал событий](../event-log/index.md) | Журнал событий ||
 || **messageservice** | [Служба сообщений](../messageservice/index.md) | Служба сообщений ||
-|| **mobile** | [Виджеты мобильного приложения](../widgets/mobile-app.md) | Мобильное приложение ||
+|| **mobile** | [Мобильное приложение](../widgets/mobile-app.md) | Мобильное приложение ||
 || **pay_system** | [Платежные системы](../pay-system/index.md) | Платежные системы ||
 || **placement** | [Виджеты](../widgets/index.md) | Встраивание приложений ||
 || **pull** | [Pull&Push](../../settings/interactivity/push-and-pull/index.md) | Pull&Push ||

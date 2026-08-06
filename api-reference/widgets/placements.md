@@ -21,5 +21,6 @@
 - [Календарь](./calendar.md)
 - [Телефония](./telephony/index.md)
 - [Мессенджер](./im/index.md)
+- [Мобильное приложение](./mobile-app.md)
 - [Контакт-центр](./contact-center.md)
 - [Универсальные виджеты](./universal/app-url.md)
