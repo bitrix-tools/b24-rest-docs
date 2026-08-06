@@ -491,7 +491,10 @@
 - Go
 
     ```go
-    // go get github.com/bitrix24/b24gosdk
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //   go mod init example && go get github.com/bitrix24/b24gosdk
+    // Запуск:
+    //   export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
     package main
 
     import (
