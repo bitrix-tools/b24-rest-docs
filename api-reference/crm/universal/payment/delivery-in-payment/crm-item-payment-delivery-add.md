@@ -220,6 +220,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.payment.delivery.add", b24.Params{
+    	"paymentId":  1039,
+    	"deliveryId": 4072,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.payment.delivery.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

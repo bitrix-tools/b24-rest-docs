@@ -110,6 +110,31 @@
         echo '</PRE>';
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.contact.details.configuration.get", b24.Params{
+        	"scope":  "P",
+        	"userId": 6,
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.contact.details.configuration.get: %w", err)
+        }
+
+        var items []struct {
+        	Name  string `json:"name"`
+        	Title string `json:"title"`
+        	Type  string `json:"type"`
+        }
+        if err := json.Unmarshal(res.Result, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.Name, it.Title)
+        }
+        ```
+
     {% endlist %}
 
 2. Получить общую конфигурацию карточки
@@ -197,6 +222,30 @@
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.contact.details.configuration.get", b24.Params{
+        	"scope": "C",
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.contact.details.configuration.get: %w", err)
+        }
+
+        var items []struct {
+        	Name  string `json:"name"`
+        	Title string `json:"title"`
+        	Type  string `json:"type"`
+        }
+        if err := json.Unmarshal(res.Result, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.Name, it.Title)
+        }
         ```
 
     {% endlist %}

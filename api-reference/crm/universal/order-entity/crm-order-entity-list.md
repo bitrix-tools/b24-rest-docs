@@ -316,6 +316,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.orderentity.list", b24.Params{
+    	"select": []string{"orderId", "ownerId"},
+    	"filter": b24.Params{
+    		"=ownerTypeId": 2,
+    		"@ownerId":     []int{6938, 6937, 6933},
+    	},
+    	"order": b24.Params{
+    		"orderId": "asc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.orderentity.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "orderEntity".
+    raw, ok := b24.Unwrap(res.Result, "orderEntity")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа orderEntity")
+    }
+
+    var items []struct {
+    	OrderID b24.ID `json:"orderId"`
+    	OwnerID b24.ID `json:"ownerId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.OrderID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

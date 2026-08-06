@@ -220,6 +220,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.call.getTranscript", b24.Params{
+    	"activityId": 12345,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.activity.call.getTranscript: %w", err)
+    }
+
+    var item struct {
+    	Transcription string `json:"transcription"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Transcription)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

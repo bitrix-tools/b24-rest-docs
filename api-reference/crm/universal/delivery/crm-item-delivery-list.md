@@ -330,6 +330,43 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.delivery.list", b24.Params{
+    	"entityId":     13127,
+    	"entityTypeId": 2,
+    	"filter": b24.Params{
+    		"@id": []int{4077, 4078},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.item.delivery.list: %w", err)
+    }
+
+    var items []struct {
+    	ID            b24.ID  `json:"id"`
+    	AccountNumber string  `json:"accountNumber"`
+    	Deducted      string  `json:"deducted"`
+    	DeliveryID    b24.ID  `json:"deliveryId"`
+    	PriceDelivery float64 `json:"priceDelivery"`
+    	Currency      string  `json:"currency"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.AccountNumber)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

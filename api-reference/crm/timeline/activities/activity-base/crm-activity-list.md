@@ -414,6 +414,31 @@ Cм. описание [списочных методов](../../../../../setting
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.list", b24.Params{
+    	"order": b24.Params{
+    		"ID": "DESC",
+    	},
+    	"filter": b24.Params{
+    		"OWNER_TYPE_ID": 3,
+    		"OWNER_ID":      102,
+    	},
+    	"select": []string{"*", "COMMUNICATIONS"},
+    	"start":  0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 {% note tip "Частые кейсы и сценарии" %}
@@ -769,6 +794,48 @@ HTTP-статус: **400**, **403**
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.list", b24.Params{
+    	"order": b24.Params{
+    		"ID": "DESC",
+    	},
+    	"filter": b24.Params{
+    		"BINDINGS": []b24.Params{
+    			{
+    				"OWNER_TYPE_ID": 2,
+    			},
+    			{
+    				"OWNER_TYPE_ID": 3,
+    			},
+    		},
+    	},
+    	"select": []string{"*", "COMMUNICATIONS"},
+    	"start":  0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    var items []struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ### Получение COMMUNICATIONS {#example-communications}
@@ -978,6 +1045,38 @@ HTTP-статус: **400**, **403**
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.list", b24.Params{
+    	"filter": b24.Params{
+    		"ID": "20",
+    	},
+    	"select": []string{"*", "COMMUNICATIONS"},
+    	"start":  0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    var items []struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}
@@ -1226,6 +1325,38 @@ HTTP-статус: **200**
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.list", b24.Params{
+    	"filter": b24.Params{
+    		"ID": "101121",
+    	},
+    	"select": []string{"*", "STORAGE_ELEMENT_IDS"},
+    	"start":  0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    var items []struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}

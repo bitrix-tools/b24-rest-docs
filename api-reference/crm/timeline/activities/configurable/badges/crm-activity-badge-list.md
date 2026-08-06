@@ -208,6 +208,36 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.badge.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.badge.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "badges".
+    raw, ok := b24.Unwrap(res.Result, "badges")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа badges")
+    }
+
+    var items []struct {
+    	Code  string `json:"code"`
+    	Title string `json:"title"`
+    	Value string `json:"value"`
+    	Type  string `json:"type"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Code)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -374,6 +374,54 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.productrow.set", b24.Params{
+    	"ownerType": "D",
+    	"ownerId":   13143,
+    	"productRows": []b24.Params{
+    		{
+    			"productId": 9621,
+    			"price":     99999.99,
+    			"quantity":  1,
+    			"sort":      10,
+    		},
+    		{
+    			"productId": 9623,
+    			"price":     15900,
+    			"quantity":  2,
+    			"sort":      10,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.productrow.set: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "productRows".
+    raw, ok := b24.Unwrap(res.Result, "productRows")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа productRows")
+    }
+
+    var items []struct {
+    	ID          b24.ID  `json:"id"`
+    	OwnerID     b24.ID  `json:"ownerId"`
+    	OwnerType   string  `json:"ownerType"`
+    	ProductID   b24.ID  `json:"productId"`
+    	ProductName string  `json:"productName"`
+    	Price       float64 `json:"price"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

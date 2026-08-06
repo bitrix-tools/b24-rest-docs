@@ -589,6 +589,59 @@
     echo '</pre>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldconfig.add", b24.Params{
+    	"moduleId": "crm",
+    	"field": b24.Params{
+    		"entityId":   "CRM_7",
+    		"fieldName":  "UF_CRM_7_NEW_REST_LIST_2026",
+    		"userTypeId": "enumeration",
+    		"multiple":   "Y",
+    		"editFormLabel": b24.Params{
+    			"ru": "Список характеристик",
+    			"en": "List of characteristics",
+    		},
+    		"enum": []b24.Params{
+    			{
+    				"value": "Характеристика 1",
+    				"def":   "N",
+    				"sort":  100,
+    			},
+    			{
+    				"value": "Характеристика 2",
+    				"def":   "Y",
+    				"sort":  200,
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "field".
+    raw, ok := b24.Unwrap(res.Result, "field")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа field")
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	EntityID   string `json:"entityId"`
+    	FieldName  string `json:"fieldName"`
+    	UserTypeID string `json:"userTypeId"`
+    	Sort       string `json:"sort"`
+    	Multiple   string `json:"multiple"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

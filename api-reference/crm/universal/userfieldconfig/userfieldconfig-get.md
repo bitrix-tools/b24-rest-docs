@@ -221,6 +221,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldconfig.get", b24.Params{
+    	"moduleId": "crm",
+    	"id":       7095,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "field".
+    raw, ok := b24.Unwrap(res.Result, "field")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа field")
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	EntityID   string `json:"entityId"`
+    	FieldName  string `json:"fieldName"`
+    	UserTypeID string `json:"userTypeId"`
+    	Sort       string `json:"sort"`
+    	Multiple   string `json:"multiple"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

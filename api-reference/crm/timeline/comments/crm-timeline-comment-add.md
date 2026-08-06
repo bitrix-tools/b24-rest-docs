@@ -315,6 +315,32 @@ fields:
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.comment.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_ID":   10,
+    		"ENTITY_TYPE": "deal",
+    		"COMMENT":     "New comment was added",
+    		"FILES": []any{
+    			[]string{"1.gif", "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="},
+    			[]string{"2.gif", "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.comment.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

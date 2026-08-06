@@ -239,6 +239,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.logo.add", b24.Params{
+    	"code":        "info",
+    	"fileContent": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU",
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.logo.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "logo".
+    raw, ok := b24.Unwrap(res.Result, "logo")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа logo")
+    }
+
+    var item struct {
+    	Code     string `json:"code"`
+    	IsSystem bool   `json:"isSystem"`
+    	FileUri  string `json:"fileUri"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Code, item.IsSystem)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

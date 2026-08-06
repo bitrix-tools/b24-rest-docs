@@ -313,6 +313,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.bindings.list", b24.Params{
+    	"filter": b24.Params{
+    		"OWNER_ID": 999,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.bindings.list: %w", err)
+    }
+
+    var items []struct {
+    	OwnerID    b24.ID `json:"OWNER_ID"`
+    	EntityID   b24.ID `json:"ENTITY_ID"`
+    	EntityType string `json:"ENTITY_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.OwnerID, it.EntityID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

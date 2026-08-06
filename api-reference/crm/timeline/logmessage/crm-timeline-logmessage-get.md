@@ -234,6 +234,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.logmessage.get", b24.Params{
+    	"id": 1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.logmessage.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "logMessage".
+    raw, ok := b24.Unwrap(res.Result, "logMessage")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа logMessage")
+    }
+
+    var item struct {
+    	ID       b24.ID `json:"id"`
+    	Created  string `json:"created"`
+    	AuthorID b24.ID `json:"authorId"`
+    	Title    string `json:"title"`
+    	Text     string `json:"text"`
+    	IconCode string `json:"iconCode"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Created)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

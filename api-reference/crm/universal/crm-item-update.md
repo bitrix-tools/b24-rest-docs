@@ -1239,6 +1239,53 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.update", b24.Params{
+    	"entityTypeId": 2,
+    	"id":           351,
+    	"fields": b24.Params{
+    		"title":               "REST Сделка #1",
+    		"stageId":             "C9:UC_NYL06U",
+    		"assignedById":        6,
+    		"observers":           []int{1, 2, 3},
+    		"opened":              "N",
+    		"typeId":              "SERVICE",
+    		"opportunity":         10000,
+    		"currencyId":          "USD",
+    		"additionalInfo":      "Изменение сделки через REST",
+    		"isManualOpportunity": "N",
+    		"utmSource":           "google",
+    		"ufCrm_1721244707107": 200.05,
+    		"parentId1220":        2,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	CreatedTime  string `json:"createdTime"`
+    	UpdatedTime  string `json:"updatedTime"`
+    	CreatedBy    int    `json:"createdBy"`
+    	UpdatedBy    int    `json:"updatedBy"`
+    	AssignedByID b24.ID `json:"assignedById"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.CreatedTime)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

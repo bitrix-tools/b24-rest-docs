@@ -293,6 +293,35 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.todo.update", b24.Params{
+    	"id":            999,
+    	"ownerTypeId":   2,
+    	"ownerId":       1,
+    	"deadline":      "**put_current_date_here**",
+    	"title":         "Новый заголовок дела",
+    	"description":   "Новое описание дела",
+    	"responsibleId": 1,
+    	"pingOffsets":   []int{15, 30},
+    	"colorId":       "7",
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.activity.todo.update: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

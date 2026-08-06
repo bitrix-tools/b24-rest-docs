@@ -642,6 +642,61 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.list", b24.Params{
+    	"entityTypeId": 1,
+    	"select":       []string{"id", "title", "lastName", "name", "stageId", "sourceId", "assignedById", "opportunity", "isManualOpportunity"},
+    	"filter": b24.Params{
+    		"0": b24.Params{
+    			"logic": "OR",
+    			"0": b24.Params{
+    				"!=name": "",
+    			},
+    			"1": b24.Params{
+    				"!=lastName": "",
+    			},
+    		},
+    		"@stageId":            []string{"NEW", "IN_PROCESS"},
+    		"@sourceId":           []string{"WEB", "ADVERTISING"},
+    		"@assignedById":       []int{1, 6},
+    		">=opportunity":       5000,
+    		"<=opportunity":       20000,
+    		"isManualOpportunity": "Y",
+    	},
+    	"order": b24.Params{
+    		"lastName": "ASC",
+    		"name":     "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.item.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	AssignedByID b24.ID `json:"assignedById"`
+    	StageID      string `json:"stageId"`
+    	Opportunity  int    `json:"opportunity"`
+    	SourceID     string `json:"sourceId"`
+    	Title        string `json:"title"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ### Пример запроса с фильтром по дате с логикой OR
@@ -902,6 +957,53 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.list", b24.Params{
+    	"entityTypeId": 2,
+    	"select":       []string{"id", "title", "createdTime"},
+    	"filter": b24.Params{
+    		"0": b24.Params{
+    			"logic": "OR",
+    			"0": b24.Params{
+    				">=createdTime": "2025-10-31T00:00:00+02:00",
+    				"<createdTime":  "2025-11-01T00:00:00+02:00",
+    			},
+    			"1": b24.Params{
+    				">=createdTime": "2025-02-28T00:00:00+02:00",
+    				"<createdTime":  "2025-03-01T00:00:00+02:00",
+    			},
+    		},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.item.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	AssignedByID b24.ID `json:"assignedById"`
+    	StageID      string `json:"stageId"`
+    	Opportunity  int    `json:"opportunity"`
+    	SourceID     string `json:"sourceId"`
+    	Title        string `json:"title"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
     ```
 
 {% endlist %}
