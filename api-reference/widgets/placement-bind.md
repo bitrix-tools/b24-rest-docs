@@ -379,7 +379,9 @@ HTTP-статус: **400**, **403**, **200**
 
 #|
 || **Код** | **Описание** | **Статус** ||
-|| `ERROR_PLACEMENT_MAX_COUNT` | Произошла попытка повторной регистрации обработчика виджета `PAGE_BACKGROUND_WORKER` | 200 ||
+|| `ERROR_PLACEMENT_MAX_COUNT` | Произошла попытка повторной регистрации обработчика виджета, который допускает только одну регистрацию: `PAGE_BACKGROUND_WORKER` или [`REST_APP_URI`](./universal/app-url.md) | 200 ||
+|| `ERROR_PLACEMENT_USER_MODE` | Параметр `USER_ID` передан для виджета, который не поддерживает регистрацию для отдельного пользователя | 200 ||
+|| `EMPTY_ERROR_HANDLER_URL` | При регистрации виджета `PAGE_BACKGROUND_WORKER` не передан обязательный параметр `OPTIONS[errorHandlerUrl]` | 200 ||
 || `ERROR_ARGUMENT` | Не указано значение обязательного поля. Код обязательного поля возвращается в `argument`| 200 ||
 || `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | 403 ||
 |#

@@ -1,4 +1,4 @@
-# Невидимый виджет на каждой странице PAGE_BACKGROUND_WORKER
+# Фоновый обработчик на всех страницах PAGE_BACKGROUND_WORKER
 
 {% note tip "" %}
 
@@ -11,46 +11,112 @@
 
 > Scope: [`placement`](../../scopes/permissions.md)
 
-Вы можете добавить "невидимый" виджет, который будет выводиться на всех страницах Битрикс24. Именно этот виджет позволяет реализовывать сценарий с внешним [WebRTC-клиентом](../ui-interaction/page-background-worker/webrtc-scenario.md) в интеграциях с телефониями, однако это не единственный возможный сценарий использования.
+Битрикс24 загружает обработчик этой точки на каждой странице — в скрытом фрейме, без видимого элемента интерфейса. Пользователь виджет не открывает и не видит: код приложения выполняется в фоне на любой странице, которую открыл сотрудник.
 
-Например, с помощью механизма [интерактивного взаимодействия](../../../settings/interactivity/index.md) backend- и frontend-приложения, можно отправлять "сигнал" в виджет `PAGE_BACKGROUND_WORKER`, а по получении "сигнала", открывать слайдер приложения с помощью метода [openApplication](../bx24-widget-methods.md).
+Точка нужна там, где приложение должно реагировать не на клик, а на внешнее событие: принять сигнал от своего backend через [интерактивное взаимодействие](../../../settings/interactivity/index.md), показать входящий звонок в интеграции телефонии, открыть слайдер приложения методом [openApplication](../bx24-widget-methods.md).
 
-Код места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md). Регистрация требует параметр `OPTIONS[errorHandlerUrl]` — адрес, по которому Битрикс24 сообщит об отключении обработчика.
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Встройка не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
-## Особенности регистрации обработчика виджета
+## Куда встраивается виджет
 
-В отличие от других типов виджетов, для `PAGE_BACKGROUND_WORKER` приложение может зарегистрировать только один обработчик.
+#|
+|| **Код встройки** | **Место** ||
+|| `PAGE_BACKGROUND_WORKER` | Скрытый фрейм на каждой странице Битрикс24 ||
+|#
 
-Поскольку загрузка этого виджета происходит всегда и на всех страницах, обработчик, который грузится дольше 3-5 секунд, может вызывать задержки в формировании пользовательского интерфейса Битрикс24. Если это происходит более 10 раз в течение суток на одном и том же Битрикс24, то обработчик будет автоматически отключен.
+### Когда вызывается обработчик
 
-Битрикс24 проинформирует приложение об отключении обработчика. Для этого, в методе [placement.bind](../placement-bind.md), необходимо указать URL в параметре `OPTIONS[errorHandlerUrl]`. Битрикс24 будет вызывать этот URL в случае отключения обработчика виджета `PAGE_BACKGROUND_WORKER`.
+Обработчик загружается при каждой загрузке страницы Битрикс24. Страница, открытая слайдером, — это отдельный документ, поэтому в нем обработчик загружается еще раз, уже со своим адресом в ключе `URI`.
+
+Из этого следует главное требование к обработчику: он должен отвечать быстро. Если ответ идет дольше пяти секунд и это повторяется больше десяти раз за сутки на одном Битрикс24, регистрация обработчика удаляется.
+
+Об удалении Битрикс24 сообщает приложению: на адрес из `OPTIONS[errorHandlerUrl]` приходит запрос с ошибкой `ERROR_PLACEMENT_LOADING_OVERTIME` и описанием, какое время загрузки было превышено. Запрос отправляется без токенов авторизации. Чтобы вернуть виджет, приложение регистрирует обработчик заново методом [placement.bind](../placement-bind.md).
+
+## Что получает обработчик
+
+Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
+
+```php
+Array
+(
+    [DOMAIN] => xxx.bitrix24.com
+    [PROTOCOL] => 1
+    [LANG] => ru
+    [APP_SID] => 588b8a98e848778a4ffb38fbcf70f2b9
+    [AUTH_ID] => 4172bb660070f28d001e30ba00000001f0f107c42ca5bd5f61030c5d9c3e4d60
+    [AUTH_EXPIRES] => 3600
+    [REFRESH_ID] => 31f1e2660070f28d001e30ba00000001f0f107b1918506d8a2ed9ecf76e8fdac
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => placement
+    [member_id] => d897063e1ce7c5eb9f04b9751eef5915
+    [status] => L
+    [PLACEMENT] => PAGE_BACKGROUND_WORKER
+    [PLACEMENT_OPTIONS] => {"ID":"PAGE_BACKGROUND_WORKER","URI":"\/company\/personal\/user\/1\/blog\/"}
+)
+```
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+{% include notitle [описание стандартных данных](../_includes/widget_data.md) %}
+
+### PLACEMENT_OPTIONS
+
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
+
+#|
+|| **Параметр** | **Описание** ||
+|| **ID***
+[`string`](../../data-types.md) | Код точки встраивания, всегда равен `PAGE_BACKGROUND_WORKER` ||
+|| **URI***
+[`string`](../../data-types.md) | Путь с query-строкой страницы, на которой загрузился обработчик. По нему приложение понимает, где сейчас находится пользователь ||
+|#
+
+## OPTIONS при регистрации через placement.bind
+
+Для `PAGE_BACKGROUND_WORKER` метод `placement.bind` поддерживает один параметр `OPTIONS`.
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **errorHandlerUrl***
+[`string`](../../data-types.md) | Адрес, на который Битрикс24 сообщит об удалении регистрации обработчика.
+
+Параметр обязателен: без него `placement.bind` возвращает ошибку `EMPTY_ERROR_HANDLER_URL`. Другие ключи `OPTIONS` не сохраняются — [placement.get](../placement-get.md) вернет только `errorHandlerUrl`
+||
+|#
+
+Приложение регистрирует один обработчик этой точки. Повторный вызов `placement.bind` возвращает ошибку `ERROR_PLACEMENT_MAX_COUNT` — чтобы сменить адрес обработчика, сначала снимите регистрацию методом [placement.unbind](../placement-unbind.md).
+
+### Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"PAGE_BACKGROUND_WORKER","HANDLER":"http://myapp.com/handler/?type=1","OPTIONS":{"errorHandlerUrl":"http://myapp.com/error/"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/placement.bind
-    ```
 
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"PAGE_BACKGROUND_WORKER","HANDLER":"http://myapp.com/handler/?type=1","OPTIONS":{"errorHandlerUrl":"http://myapp.com/error/"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/placement.bind
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PLACEMENT": "PAGE_BACKGROUND_WORKER",
+        "HANDLER": "https://your-domain.com/widgets/background-handler.php",
+        "OPTIONS": {
+          "errorHandlerUrl": "https://your-domain.com/widgets/background-error.php"
+        },
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/placement.bind
     ```
 
 - JS (TS)
@@ -68,9 +134,9 @@
         method: 'placement.bind',
         params: {
           PLACEMENT: 'PAGE_BACKGROUND_WORKER',
-          HANDLER: 'http://myapp.com/handler/?type=1',
+          HANDLER: 'https://your-domain.com/widgets/background-handler.php',
           OPTIONS: {
-            errorHandlerUrl: 'http://myapp.com/error/',
+            errorHandlerUrl: 'https://your-domain.com/widgets/background-error.php',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -81,7 +147,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Placement registered:', result)
+        console.info('Placement bound successfully:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -104,9 +170,9 @@
             method: 'placement.bind',
             params: {
               PLACEMENT: 'PAGE_BACKGROUND_WORKER',
-              HANDLER: 'http://myapp.com/handler/?type=1',
+              HANDLER: 'https://your-domain.com/widgets/background-handler.php',
               OPTIONS: {
-                errorHandlerUrl: 'http://myapp.com/error/',
+                errorHandlerUrl: 'https://your-domain.com/widgets/background-error.php',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -119,7 +185,7 @@
           }
 
           const result = response.getData().result
-          console.info('Placement registered:', result)
+          console.info('Placement bound successfully:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -132,7 +198,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -141,23 +206,19 @@
                 'placement.bind',
                 [
                     'PLACEMENT' => 'PAGE_BACKGROUND_WORKER',
-                    'HANDLER'   => 'http://myapp.com/handler/?type=1',
-                    'OPTIONS'   => [
-                        'errorHandlerUrl' => 'http://myapp.com/error/'
-                    ]
+                    'HANDLER' => 'https://your-domain.com/widgets/background-handler.php',
+                    'OPTIONS' => [
+                        'errorHandlerUrl' => 'https://your-domain.com/widgets/background-error.php',
+                    ],
                 ]
             );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
+
+        $result = $response->getResponseData()->getResult();
         if ($result->error()) {
             error_log($result->error());
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error binding placement: ' . $e->getMessage();
@@ -168,20 +229,20 @@
 
     ```js
     BX24.callMethod(
-        "placement.bind",
-        { 
-            PLACEMENT: "PAGE_BACKGROUND_WORKER",
-            HANDLER: "http://myapp.com/handler/?type=1",
+        'placement.bind',
+        {
+            PLACEMENT: 'PAGE_BACKGROUND_WORKER',
+            HANDLER: 'https://your-domain.com/widgets/background-handler.php',
             OPTIONS: {
-                errorHandlerUrl: "http://myapp.com/error/"
+                errorHandlerUrl: 'https://your-domain.com/widgets/background-error.php'
             }
         },
-        function(result)
-        {
-            if(result.error())
+        function(result) {
+            if (result.error()) {
                 console.error(result.error());
-            else
-                console.info(result.data());
+            } else {
+                console.log(result.data());
+            }
         }
     );
     ```
@@ -195,10 +256,10 @@
         'placement.bind',
         [
             'PLACEMENT' => 'PAGE_BACKGROUND_WORKER',
-            'HANDLER' => 'http://myapp.com/handler/?type=1',
+            'HANDLER' => 'https://your-domain.com/widgets/background-handler.php',
             'OPTIONS' => [
-                'errorHandlerUrl' => 'http://myapp.com/error/'
-            ]
+                'errorHandlerUrl' => 'https://your-domain.com/widgets/background-error.php',
+            ],
         ]
     );
 
@@ -209,50 +270,28 @@
 
 {% endlist %}
 
-## Что получает обработчик
+## Обработчик для одного пользователя
 
-Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
+`PAGE_BACKGROUND_WORKER` — единственная точка встраивания, которая поддерживает параметр `USER_ID` метода [placement.bind](../placement-bind.md). Обработчик, зарегистрированный с `USER_ID`, загружается только на страницах этого пользователя. Так фоновый код подключают тем, кому он нужен, — например, только операторам телефонии.
 
-```php
+Ограничение в один обработчик считается отдельно для общей регистрации и для каждого пользователя, поэтому персональный обработчик и обработчик для всех сотрудников можно зарегистрировать одновременно.
 
-Array
-(
-    [handler] => 1
-    [DOMAIN] => restapi.bitrix24.ru
-    [PROTOCOL] => 1
-    [LANG] => ru
-    [APP_SID] => 588b8a98e848778a4ffb38fbcf70f2b9
-    [AUTH_ID] => 4172bb6600705a0700005a4b00000001f0f107c42ca5bd5f61030c5d9c3e4d60d11b5a
-    [AUTH_EXPIRES] => 3600
-    [REFRESH_ID] => 31f1e26600705a0700005a4b00000001f0f107b1918506d8a2ed9ecf76e8fdac962471
-    [member_id] => da45a03b265edd8787f8a258d793cc5d
-    [status] => L
-    [PLACEMENT] => PAGE_BACKGROUND_WORKER
-    [PLACEMENT_OPTIONS] => {"ID":"PAGE_BACKGROUND_WORKER","URI":"\/company\/personal\/user\/1\/blog\/"}
-)
+## Связь с другими объектами
 
-```
+**Карточка звонка.** Из фонового обработчика приложение управляет карточкой звонка: меняет ее состояние, кнопки и заголовок, подписывается на действия оператора. Методы и события — в разделе [{#T}](../ui-interaction/page-background-worker/index.md), сценарий целиком — в статье [{#T}](../ui-interaction/page-background-worker/webrtc-scenario.md).
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+**Сигналы от backend.** Обработчик получает сообщения от серверной части приложения механизмом [интерактивного взаимодействия](../../../settings/interactivity/index.md) и по ним открывает интерфейс приложения [методами JavaScript для виджетов](../bx24-widget-methods.md).
 
-{% include notitle [описание стандартных данных](../_includes/widget_data.md) %}
+**Пользователь.** Идентификатор для параметра `USER_ID` при регистрации персонального обработчика возвращают методы раздела [{#T}](../../user/index.md).
 
-### PLACEMENT_OPTIONS
-
-Значением `PLACEMENT_OPTIONS` является JSON-строка, содержащая массив из одного и более ключей.
-
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+## Типовые ошибки
 
 #|
-|| **Параметр** | **Описание** ||
-|| **ID***
-[`string`](../../data-types.md) | Всегда равен `PAGE_BACKGROUND_WORKER` и используется для внутренних нужд
-
-||
-|| **URI***
-[`string`](../../data-types.md) | Экранированный с помощью urlencode адрес текущей страницы, на которой был открыт виджет.
-
-||
+|| **Ошибка** | **Решение** ||
+|| `placement.bind` возвращает `EMPTY_ERROR_HANDLER_URL` | Передайте `OPTIONS[errorHandlerUrl]`: без адреса для сообщений об отключении точка не регистрируется ||
+|| `placement.bind` возвращает `ERROR_PLACEMENT_MAX_COUNT` | Обработчик уже зарегистрирован. Снимите старую регистрацию методом [placement.unbind](../placement-unbind.md) ||
+|| Обработчик перестал вызываться, в `placement.get` его нет | Регистрацию удалили из-за долгой загрузки. Ускорьте ответ обработчика и зарегистрируйте его заново ||
+|| Обработчик вызывается по несколько раз на одном экране | Страницы в слайдерах — отдельные документы, и в каждом обработчик загружается заново. Проверяйте `URI`, если сценарий должен отработать один раз ||
 |#
 
 {% note tip "Частые кейсы и сценарии" %}
@@ -263,8 +302,10 @@ Array
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./app-url.md)
 - [{#T}](../placement-bind.md)
-- [{#T}](../ui-interaction/index.md)
-- [{#T}](../../../settings/interactivity/index.md)
+- [{#T}](../placement-unbind.md)
+- [{#T}](../ui-interaction/page-background-worker/index.md)
 - [{#T}](../bx24-widget-methods.md)
-
+- [{#T}](../../../settings/interactivity/index.md)
