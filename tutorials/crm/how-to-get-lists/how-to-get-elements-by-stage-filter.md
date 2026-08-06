@@ -85,6 +85,41 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.category.list", b24.Params{
+    	"entityTypeId": entityTypeDeal,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.category.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом categories.
+    var categories struct {
+    	Categories []struct {
+    		ID        int    `json:"id"`
+    		Name      string `json:"name"`
+    		IsDefault string `json:"isDefault"`
+    	} `json:"categories"`
+    }
+    if err := json.Unmarshal(res.Result, &categories); err != nil {
+    	return fmt.Errorf("разбор воронок: %w", err)
+    }
+
+    // Нужную воронку определяем по названию в поле name.
+    funnel := -1
+    for i, c := range categories.Categories {
+    	if (funnelName == "" && c.IsDefault == "Y") || c.Name == funnelName {
+    		funnel = i
+    		break
+    	}
+    }
+    if funnel < 0 {
+    	return fmt.Errorf("воронка %q не найдена", funnelName)
+    }
+    ```
+
 {% endlist %}
 
 В результате получили воронки сделок. Определим нужную воронку по названию в поле `name`. Идентификатор воронки возьмем из поля `id`.
@@ -173,6 +208,50 @@
             "ENTITY_ID": "DEAL_STAGE_10",
         }
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    // У воронки по умолчанию идентификатор стадий без суффикса, никогда не
+    // DEAL_STAGE_0. У смарт-процесса формула другая: DYNAMIC_185_STAGE_11.
+    entityID := "DEAL_STAGE"
+    if id := categories.Categories[funnel].ID; id > 0 {
+    	entityID = fmt.Sprintf("DEAL_STAGE_%d", id)
+    }
+
+    res, err = core.Call(ctx, "crm.status.list", b24.Params{
+    	"filter": b24.Params{"ENTITY_ID": entityID},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.status.list: %w", err)
+    }
+
+    var stages []struct {
+    	StatusID string `json:"STATUS_ID"`
+    	Name     string `json:"NAME"`
+    	// Настоящая семантика стадии лежит в EXTRA: верхнеуровневое поле
+    	// SEMANTICS у стадий в работе приходит пустым.
+    	Extra struct {
+    		Semantics string `json:"SEMANTICS"`
+    	} `json:"EXTRA"`
+    }
+    if err := json.Unmarshal(res.Result, &stages); err != nil {
+    	return fmt.Errorf("разбор стадий: %w", err)
+    }
+
+    // Нужную стадию определяем по названию в поле NAME, а идентификатор берём
+    // из STATUS_ID — именно он попадёт в фильтр следующего шага.
+    stage := -1
+    for i, s := range stages {
+    	if (stageName == "" && s.Extra.Semantics == "process") || s.Name == stageName {
+    		stage = i
+    		break
+    	}
+    }
+    if stage < 0 {
+    	return fmt.Errorf("стадия %q не найдена в воронке %s", stageName, entityID)
+    }
     ```
 
 {% endlist %}
@@ -374,6 +453,33 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    res, err = core.Call(ctx, "crm.item.list", b24.Params{
+    	"entityTypeId": entityTypeDeal,
+    	"select":       []string{"id", "title", "assignedById", "opportunity"},
+    	"filter":       b24.Params{"stageId": stages[stage].StatusID},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.item.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом items, и поля здесь в
+    // camelCase — в отличие от crm.status.list двумя вызовами выше.
+    var list struct {
+    	Items []struct {
+    		ID           int     `json:"id"`
+    		Title        string  `json:"title"`
+    		AssignedByID int     `json:"assignedById"`
+    		Opportunity  float64 `json:"opportunity"`
+    	} `json:"items"`
+    }
+    if err := json.Unmarshal(res.Result, &list); err != nil {
+    	return fmt.Errorf("разбор элементов: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате получили список элементов на запрошенной стадии.
@@ -452,6 +558,30 @@
     result = client.user.get(
         filter={"ID": 29},
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    res, err = core.Call(ctx, "user.get", b24.Params{
+    	"filter": b24.Params{"ID": ids},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+
+    // user.get отвечает в UPPER_SNAKE, а идентификатор присылает строкой.
+    var rows []struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	LastName string `json:"LAST_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &rows); err != nil {
+    	return fmt.Errorf("разбор сотрудников: %w", err)
+    }
+    for _, u := range rows {
+    	users[int(u.ID)] = u.Name + " " + u.LastName
+    }
     ```
 
 {% endlist %}
@@ -824,6 +954,247 @@
                     print("\t".join(row))
     except BitrixAPIError as error:
         print(f"Ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он находит воронку и стадию, кладёт на эту стадию
+    // свою сделку, показывает список элементов стадии с ответственными и убирает за
+    // собой. Запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+    	"sort"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // entityTypeDeal — идентификатор типа объекта «сделка». Идентификатор
+    // смарт-процесса отдаёт crm.enum.ownertype.
+    const entityTypeDeal = 2
+
+    // Названия воронки и стадии, с которыми работаем. Пустая строка означает
+    // «выбрать самостоятельно»: названия на каждом портале свои, а пример должен
+    // запускаться везде без правок. Подставьте сюда свои — логика не изменится.
+    const (
+    	funnelName = ""
+    	stageName  = ""
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- шаг 1: идентификатор воронки
+    	res, err := core.Call(ctx, "crm.category.list", b24.Params{
+    		"entityTypeId": entityTypeDeal,
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.category.list: %w", err)
+    	}
+
+    	// Метод заворачивает ответ в объект с ключом categories.
+    	var categories struct {
+    		Categories []struct {
+    			ID        int    `json:"id"`
+    			Name      string `json:"name"`
+    			IsDefault string `json:"isDefault"`
+    		} `json:"categories"`
+    	}
+    	if err := json.Unmarshal(res.Result, &categories); err != nil {
+    		return fmt.Errorf("разбор воронок: %w", err)
+    	}
+
+    	// Нужную воронку определяем по названию в поле name.
+    	funnel := -1
+    	for i, c := range categories.Categories {
+    		if (funnelName == "" && c.IsDefault == "Y") || c.Name == funnelName {
+    			funnel = i
+    			break
+    		}
+    	}
+    	if funnel < 0 {
+    		return fmt.Errorf("воронка %q не найдена", funnelName)
+    	}
+    	fmt.Printf("воронка %q: id=%d\n", categories.Categories[funnel].Name, categories.Categories[funnel].ID)
+
+    	// --- шаг 2: идентификатор стадии
+    	// У воронки по умолчанию идентификатор стадий без суффикса, никогда не
+    	// DEAL_STAGE_0. У смарт-процесса формула другая: DYNAMIC_185_STAGE_11.
+    	entityID := "DEAL_STAGE"
+    	if id := categories.Categories[funnel].ID; id > 0 {
+    		entityID = fmt.Sprintf("DEAL_STAGE_%d", id)
+    	}
+
+    	res, err = core.Call(ctx, "crm.status.list", b24.Params{
+    		"filter": b24.Params{"ENTITY_ID": entityID},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.status.list: %w", err)
+    	}
+
+    	var stages []struct {
+    		StatusID string `json:"STATUS_ID"`
+    		Name     string `json:"NAME"`
+    		// Настоящая семантика стадии лежит в EXTRA: верхнеуровневое поле
+    		// SEMANTICS у стадий в работе приходит пустым.
+    		Extra struct {
+    			Semantics string `json:"SEMANTICS"`
+    		} `json:"EXTRA"`
+    	}
+    	if err := json.Unmarshal(res.Result, &stages); err != nil {
+    		return fmt.Errorf("разбор стадий: %w", err)
+    	}
+
+    	// Нужную стадию определяем по названию в поле NAME, а идентификатор берём
+    	// из STATUS_ID — именно он попадёт в фильтр следующего шага.
+    	stage := -1
+    	for i, s := range stages {
+    		if (stageName == "" && s.Extra.Semantics == "process") || s.Name == stageName {
+    			stage = i
+    			break
+    		}
+    	}
+    	if stage < 0 {
+    		return fmt.Errorf("стадия %q не найдена в воронке %s", stageName, entityID)
+    	}
+    	fmt.Printf("стадия %q: stageId=%s\n", stages[stage].Name, stages[stage].StatusID)
+
+    	// --- подготовка: своя сделка на этой стадии, чтобы шагу 3 было что найти
+
+    	dealID, err := addDeal(ctx, core, categories.Categories[funnel].ID, stages[stage].StatusID)
+    	if err != nil {
+    		return err
+    	}
+    	defer del(ctx, core, "crm.item.delete", b24.Params{
+    		"entityTypeId": entityTypeDeal, "id": dealID,
+    	})
+
+    	// --- шаг 3: элементы на стадии
+    	res, err = core.Call(ctx, "crm.item.list", b24.Params{
+    		"entityTypeId": entityTypeDeal,
+    		"select":       []string{"id", "title", "assignedById", "opportunity"},
+    		"filter":       b24.Params{"stageId": stages[stage].StatusID},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.item.list: %w", err)
+    	}
+
+    	// Метод заворачивает ответ в объект с ключом items, и поля здесь в
+    	// camelCase — в отличие от crm.status.list двумя вызовами выше.
+    	var list struct {
+    		Items []struct {
+    			ID           int     `json:"id"`
+    			Title        string  `json:"title"`
+    			AssignedByID int     `json:"assignedById"`
+    			Opportunity  float64 `json:"opportunity"`
+    		} `json:"items"`
+    	}
+    	if err := json.Unmarshal(res.Result, &list); err != nil {
+    		return fmt.Errorf("разбор элементов: %w", err)
+    	}
+    	fmt.Printf("на стадии элементов: %d\n", len(list.Items))
+
+    	// --- шаг 4: данные ответственных
+
+    	// Один запрос на всех ответственных, а не по запросу на элемент: портал
+    	// пропускает около двух обращений в секунду.
+    	ids := make([]int, 0, len(list.Items))
+    	seen := map[int]bool{}
+    	for _, it := range list.Items {
+    		if it.AssignedByID > 0 && !seen[it.AssignedByID] {
+    			seen[it.AssignedByID] = true
+    			ids = append(ids, it.AssignedByID)
+    		}
+    	}
+    	sort.Ints(ids)
+
+    	users := map[int]string{}
+    	if len(ids) > 0 {
+    		res, err = core.Call(ctx, "user.get", b24.Params{
+    			"filter": b24.Params{"ID": ids},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("user.get: %w", err)
+    		}
+
+    		// user.get отвечает в UPPER_SNAKE, а идентификатор присылает строкой.
+    		var rows []struct {
+    			ID       b24.ID `json:"ID"`
+    			Name     string `json:"NAME"`
+    			LastName string `json:"LAST_NAME"`
+    		}
+    		if err := json.Unmarshal(res.Result, &rows); err != nil {
+    			return fmt.Errorf("разбор сотрудников: %w", err)
+    		}
+    		for _, u := range rows {
+    			users[int(u.ID)] = u.Name + " " + u.LastName
+    		}
+    	}
+
+    	fmt.Println("ID сделки\tНазвание\tОтветственный\tОжидаемый доход")
+    	for _, it := range list.Items {
+    		who := users[it.AssignedByID]
+    		if who == "" {
+    			who = "Неизвестно"
+    		}
+    		fmt.Printf("%d\t%s\t%s\t%.0f\n", it.ID, it.Title, who, it.Opportunity)
+    	}
+    	return nil
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    // addDeal кладёт сделку на выбранную стадию, чтобы шагу 3 было что найти даже
+    // на пустом портале.
+    func addDeal(ctx context.Context, core *b24.Core, categoryID int, stageID string) (b24.ID, error) {
+    	res, err := core.Call(ctx, "crm.item.add", b24.Params{
+    		"entityTypeId": entityTypeDeal,
+    		"fields": b24.Params{
+    			"title":       "Закупка печей (пример b24gosdk)",
+    			"categoryId":  categoryID,
+    			"stageId":     stageID,
+    			"opportunity": 500,
+    		},
+    	})
+    	if err != nil {
+    		return 0, fmt.Errorf("crm.item.add: %w", err)
+    	}
+    	raw, ok := b24.Unwrap(res.Result, "item", "id")
+    	if !ok {
+    		return 0, fmt.Errorf("нет item.id в %s", res.Result)
+    	}
+    	var id b24.ID
+    	return id, json.Unmarshal(raw, &id)
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}
