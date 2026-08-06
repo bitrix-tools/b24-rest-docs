@@ -122,22 +122,19 @@
     	return fmt.Errorf("imbot.bot.list: %w", err)
     }
 
-    // Метод заворачивает ответ в объект с ключом "39".
-    raw, ok := b24.Unwrap(res.Result, "39")
-    if !ok {
-    	return fmt.Errorf("в ответе нет ключа 39")
-    }
-
-    var item struct {
+    // Ответ — объект, где ключ верхнего уровня — идентификатор.
+    var items map[string]struct {
     	ID       b24.ID `json:"ID"`
     	Name     string `json:"NAME"`
     	Code     string `json:"CODE"`
     	Openline string `json:"OPENLINE"`
     }
-    if err := json.Unmarshal(raw, &item); err != nil {
+    if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.ID, item.Name)
+    for id, it := range items {
+    	fmt.Println(id, it.Name)
+    }
     ```
 
 {% endlist %}
