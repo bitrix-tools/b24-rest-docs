@@ -31,6 +31,7 @@
 - расширить автоматизацию — [CRM_XXX_ROBOT_DESIGNER_TOOLBAR](./robot-designer-toolbar.md)
 - дополнить воронки и туннели — [CRM_FUNNELS_TOOLBAR](./funnels-toolbar.md)
 - показать свой отчет — [CRM_ANALYTICS_MENU](./analytics-menu.md), а добавить действие над разделом аналитики — [CRM_ANALYTICS_TOOLBAR](./analytics-toolbar.md)
+- показать отчет рядом с готовыми отчетами BI-аналитики — [BI_ANALYTICS_MENU](./bi-analytics-menu.md)
 - искать клиента во внешнем источнике и подставлять его в карточку — [CRM_DETAIL_SEARCH](./detail-search.md)
 - подставлять данные организации из внешнего источника — [автозаполнение реквизитов](./requisites-autocomplete/index.md)
 
@@ -44,7 +45,7 @@
 
 ## Что получает обработчик
 
-Все точки раздела передают обработчику один и тот же набор стандартных параметров.
+Точки раздела передают обработчику один и тот же набор стандартных параметров. Исключение — [BI_ANALYTICS_MENU](./bi-analytics-menu.md): эта точка открывает адрес обработчика обычным GET-запросом и не передает ему ничего.
 
 {% include notitle [описание стандартных данных](../_includes/widget_data.md) %}
 
@@ -66,6 +67,7 @@
 || [CRM_ANALYTICS_MENU](./analytics-menu.md) | нет | Виджет открывается в разделе аналитики ||
 || [CRM_ANALYTICS_TOOLBAR](./analytics-toolbar.md) | нет | Виджет открывается в разделе аналитики ||
 || [CRM_DETAIL_SEARCH](./detail-search.md) | `entityTypeName`, `searchQuery` | Тип клиента и поисковый запрос из карточки ||
+|| [BI_ANALYTICS_MENU](./bi-analytics-menu.md) | — | `PLACEMENT_OPTIONS` не передается: обработчик открывается GET-запросом ||
 |#
 
 ## Связь с другими объектами
@@ -93,6 +95,8 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 
+Исключение — `BI_ANALYTICS_MENU`: точка объявлена в глобальном scope [`placement`](../../scopes/permissions.md), отдельного доступа к CRM для нее не нужно.
+
 #|
 || **Точка встраивания** | **Когда использовать** ||
 || [CRM_XXX_LIST_MENU](./list-menu.md) | Пункт контекстного меню элемента в списке ||
@@ -107,6 +111,7 @@
 || [CRM_ANALYTICS_MENU](./analytics-menu.md) | Отчет приложения в левом меню CRM-аналитики ||
 || [CRM_ANALYTICS_TOOLBAR](./analytics-toolbar.md) | Кнопка в шапке CRM-аналитики ||
 || [CRM_DETAIL_SEARCH](./detail-search.md) | Поиск клиента во внешнем источнике из карточки CRM ||
+|| [BI_ANALYTICS_MENU](./bi-analytics-menu.md) | Отчет приложения в меню BI-аналитики ||
 || [CRM_REQUISITE_AUTOCOMPLETE, CRM_BANK_DETAIL_AUTOCOMPLETE](./requisites-autocomplete/index.md) | Подстановка данных организации и банковских реквизитов из внешнего источника ||
 || [Дополнительные возможности CRM_XXX_DETAIL_ACTIVITY](./detail-activity-area.md) | Интерфейс кнопки над таймлайном средствами Битрикс24 ||
 |#

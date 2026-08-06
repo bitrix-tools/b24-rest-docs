@@ -39,6 +39,8 @@ items:
       mode: link
   - name: Плитка в контакт-центре
     href: contact-center.md
+  - name: Страница настройки коннектора
+    href: setting-connector.md
   - name: Универсальные виджеты
     include:
       path: universal/b24-toc.yaml
