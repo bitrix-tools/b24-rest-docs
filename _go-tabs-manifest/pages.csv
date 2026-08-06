@@ -42,64 +42,64 @@ api-reference/bizproc/template/bizproc-workflow-template-add.md,bizproc,Аня,�
 api-reference/bizproc/template/bizproc-workflow-template-delete.md,bizproc,Аня,ожидает,1,1,0,bizproc.workflow.template.delete
 api-reference/bizproc/template/bizproc-workflow-template-list.md,bizproc,Аня,ожидает,1,1,0,bizproc.workflow.template.list
 api-reference/bizproc/template/bizproc-workflow-template-update.md,bizproc,Аня,ожидает,1,1,0,bizproc.workflow.template.update
-api-reference/booking/booking/booking-v1-booking-add.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.add
-api-reference/booking/booking/booking-v1-booking-createfromwaitlist.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.createfromwaitlist
-api-reference/booking/booking/booking-v1-booking-delete.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.delete
-api-reference/booking/booking/booking-v1-booking-get.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.get
-api-reference/booking/booking/booking-v1-booking-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.list
-api-reference/booking/booking/booking-v1-booking-update.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.update
-api-reference/booking/booking/client/booking-v1-booking-client-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.client.list
-api-reference/booking/booking/client/booking-v1-booking-client-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.booking.client.set
-api-reference/booking/booking/client/booking-v1-booking-client-unset.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.booking.client.unset
-api-reference/booking/booking/external-data/booking-v1-booking-externaldata-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.externalData.list
-api-reference/booking/booking/external-data/booking-v1-booking-externaldata-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.booking.externalData.set
-api-reference/booking/booking/external-data/booking-v1-booking-externaldata-unset.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.booking.externalData.unset
-api-reference/booking/booking-v1-clienttype-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.clienttype.list
-api-reference/booking/resource/booking-v1-resource-add.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.add
-api-reference/booking/resource/booking-v1-resource-delete.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.delete
-api-reference/booking/resource/booking-v1-resource-get.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.get
-api-reference/booking/resource/booking-v1-resource-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.list
-api-reference/booking/resource/booking-v1-resource-update.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.update
-api-reference/booking/resource/resource-type/booking-v1-resourcetype-add.md,booking,Владимир,ожидает,1,1,0,booking.v1.resourceType.add
-api-reference/booking/resource/resource-type/booking-v1-resourcetype-delete.md,booking,Владимир,ожидает,1,1,0,booking.v1.resourceType.delete
-api-reference/booking/resource/resource-type/booking-v1-resourcetype-get.md,booking,Владимир,ожидает,1,1,0,booking.v1.resourceType.get
-api-reference/booking/resource/resource-type/booking-v1-resourcetype-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.resourceType.list
-api-reference/booking/resource/resource-type/booking-v1-resourcetype-update.md,booking,Владимир,ожидает,1,1,0,booking.v1.resourceType.update
-api-reference/booking/resource/slots/booking-v1-resource-slots-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.slots.list
-api-reference/booking/resource/slots/booking-v1-resource-slots-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.resource.slots.set
-api-reference/booking/resource/slots/booking-v1-resource-slots-unset.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.slots.unset
-api-reference/booking/waitlist/booking-v1-waitlist-add.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.add
-api-reference/booking/waitlist/booking-v1-waitlist-createfrombooking.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.createfrombooking
-api-reference/booking/waitlist/booking-v1-waitlist-delete.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.delete
-api-reference/booking/waitlist/booking-v1-waitlist-get.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.get
-api-reference/booking/waitlist/booking-v1-waitlist-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.list
-api-reference/booking/waitlist/booking-v1-waitlist-update.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.update
-api-reference/booking/waitlist/client/booking-v1-waitlist-client-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.client.list
-api-reference/booking/waitlist/client/booking-v1-waitlist-client-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.waitlist.client.set
-api-reference/booking/waitlist/client/booking-v1-waitlist-client-unset.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.waitlist.client.unset
-api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.externalData.list
-api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.waitlist.externalData.set
-api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-unset.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.waitlist.externalData.unset
-api-reference/calendar/calendar-event/calendar-accessibility-get.md,calendar,Владимир,ожидает,1,1,0,calendar.accessibility.get
-api-reference/calendar/calendar-event/calendar-event-add.md,calendar,Владимир,ожидает,2,2,0,calendar.event.add
-api-reference/calendar/calendar-event/calendar-event-delete.md,calendar,Владимир,ожидает,1,1,0,calendar.event.delete
-api-reference/calendar/calendar-event/calendar-event-get-by-id.md,calendar,Владимир,ожидает,1,1,0,calendar.event.getbyid
-api-reference/calendar/calendar-event/calendar-event-update.md,calendar,Владимир,ожидает,1,1,0,calendar.event.update
-api-reference/calendar/calendar-event/calendar-meeting-status-get.md,calendar,Владимир,ожидает,1,1,0,calendar.meeting.status.get
-api-reference/calendar/calendar-event/calendar-meeting-status-set.md,calendar,Владимир,ожидает,1,1,0,calendar.meeting.status.set
-api-reference/calendar/calendar-grid-view.md,calendar,Владимир,нужен разбор вручную,2,0,0,
-api-reference/calendar/calendar-section-add.md,calendar,Владимир,ожидает,1,1,0,calendar.section.add
-api-reference/calendar/calendar-section-delete.md,calendar,Владимир,ожидает,1,1,0,calendar.section.delete
-api-reference/calendar/calendar-section-get.md,calendar,Владимир,ожидает,1,1,0,calendar.section.get
-api-reference/calendar/calendar-section-update.md,calendar,Владимир,ожидает,1,1,0,calendar.section.update
-api-reference/calendar/calendar-settings-get.md,calendar,Владимир,ожидает,1,1,0,calendar.settings.get
-api-reference/calendar/calendar-user-settings-get.md,calendar,Владимир,ожидает,1,1,0,calendar.user.settings.get
-api-reference/calendar/calendar-user-settings-set.md,calendar,Владимир,ожидает,1,1,0,calendar.user.settings.set
-api-reference/calendar/resource/calendar-resource-add.md,calendar,Владимир,ожидает,1,1,0,calendar.resource.add
-api-reference/calendar/resource/calendar-resource-booking-list.md,calendar,Владимир,ожидает,2,2,0,calendar.resource.booking.list
-api-reference/calendar/resource/calendar-resource-delete.md,calendar,Владимир,ожидает,1,1,0,calendar.resource.delete
-api-reference/calendar/resource/calendar-resource-list.md,calendar,Владимир,ожидает,1,1,0,calendar.resource.list
-api-reference/calendar/resource/calendar-resource-update.md,calendar,Владимир,ожидает,1,1,0,calendar.resource.update
+api-reference/booking/booking/booking-v1-booking-add.md,booking,Аня,ожидает,1,1,0,booking.v1.booking.add
+api-reference/booking/booking/booking-v1-booking-createfromwaitlist.md,booking,Аня,ожидает,1,1,0,booking.v1.booking.createfromwaitlist
+api-reference/booking/booking/booking-v1-booking-delete.md,booking,Аня,ожидает,1,1,0,booking.v1.booking.delete
+api-reference/booking/booking/booking-v1-booking-get.md,booking,Аня,ожидает,1,1,0,booking.v1.booking.get
+api-reference/booking/booking/booking-v1-booking-list.md,booking,Аня,ожидает,1,1,0,booking.v1.booking.list
+api-reference/booking/booking/booking-v1-booking-update.md,booking,Аня,ожидает,1,1,0,booking.v1.booking.update
+api-reference/booking/booking/client/booking-v1-booking-client-list.md,booking,Аня,ожидает,1,1,0,booking.v1.booking.client.list
+api-reference/booking/booking/client/booking-v1-booking-client-set.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.booking.client.set
+api-reference/booking/booking/client/booking-v1-booking-client-unset.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.booking.client.unset
+api-reference/booking/booking/external-data/booking-v1-booking-externaldata-list.md,booking,Аня,ожидает,1,1,0,booking.v1.booking.externalData.list
+api-reference/booking/booking/external-data/booking-v1-booking-externaldata-set.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.booking.externalData.set
+api-reference/booking/booking/external-data/booking-v1-booking-externaldata-unset.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.booking.externalData.unset
+api-reference/booking/booking-v1-clienttype-list.md,booking,Аня,ожидает,1,1,0,booking.v1.clienttype.list
+api-reference/booking/resource/booking-v1-resource-add.md,booking,Аня,ожидает,1,1,0,booking.v1.resource.add
+api-reference/booking/resource/booking-v1-resource-delete.md,booking,Аня,ожидает,1,1,0,booking.v1.resource.delete
+api-reference/booking/resource/booking-v1-resource-get.md,booking,Аня,ожидает,1,1,0,booking.v1.resource.get
+api-reference/booking/resource/booking-v1-resource-list.md,booking,Аня,ожидает,1,1,0,booking.v1.resource.list
+api-reference/booking/resource/booking-v1-resource-update.md,booking,Аня,ожидает,1,1,0,booking.v1.resource.update
+api-reference/booking/resource/resource-type/booking-v1-resourcetype-add.md,booking,Аня,ожидает,1,1,0,booking.v1.resourceType.add
+api-reference/booking/resource/resource-type/booking-v1-resourcetype-delete.md,booking,Аня,ожидает,1,1,0,booking.v1.resourceType.delete
+api-reference/booking/resource/resource-type/booking-v1-resourcetype-get.md,booking,Аня,ожидает,1,1,0,booking.v1.resourceType.get
+api-reference/booking/resource/resource-type/booking-v1-resourcetype-list.md,booking,Аня,ожидает,1,1,0,booking.v1.resourceType.list
+api-reference/booking/resource/resource-type/booking-v1-resourcetype-update.md,booking,Аня,ожидает,1,1,0,booking.v1.resourceType.update
+api-reference/booking/resource/slots/booking-v1-resource-slots-list.md,booking,Аня,ожидает,1,1,0,booking.v1.resource.slots.list
+api-reference/booking/resource/slots/booking-v1-resource-slots-set.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.resource.slots.set
+api-reference/booking/resource/slots/booking-v1-resource-slots-unset.md,booking,Аня,ожидает,1,1,0,booking.v1.resource.slots.unset
+api-reference/booking/waitlist/booking-v1-waitlist-add.md,booking,Аня,ожидает,1,1,0,booking.v1.waitlist.add
+api-reference/booking/waitlist/booking-v1-waitlist-createfrombooking.md,booking,Аня,ожидает,1,1,0,booking.v1.waitlist.createfrombooking
+api-reference/booking/waitlist/booking-v1-waitlist-delete.md,booking,Аня,ожидает,1,1,0,booking.v1.waitlist.delete
+api-reference/booking/waitlist/booking-v1-waitlist-get.md,booking,Аня,ожидает,1,1,0,booking.v1.waitlist.get
+api-reference/booking/waitlist/booking-v1-waitlist-list.md,booking,Аня,ожидает,1,1,0,booking.v1.waitlist.list
+api-reference/booking/waitlist/booking-v1-waitlist-update.md,booking,Аня,ожидает,1,1,0,booking.v1.waitlist.update
+api-reference/booking/waitlist/client/booking-v1-waitlist-client-list.md,booking,Аня,ожидает,1,1,0,booking.v1.waitlist.client.list
+api-reference/booking/waitlist/client/booking-v1-waitlist-client-set.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.waitlist.client.set
+api-reference/booking/waitlist/client/booking-v1-waitlist-client-unset.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.waitlist.client.unset
+api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-list.md,booking,Аня,ожидает,1,1,0,booking.v1.waitlist.externalData.list
+api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-set.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.waitlist.externalData.set
+api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-unset.md,booking,Аня,нужен разбор вручную,1,0,0,booking.v1.waitlist.externalData.unset
+api-reference/calendar/calendar-event/calendar-accessibility-get.md,calendar,Аня,ожидает,1,1,0,calendar.accessibility.get
+api-reference/calendar/calendar-event/calendar-event-add.md,calendar,Аня,ожидает,2,2,0,calendar.event.add
+api-reference/calendar/calendar-event/calendar-event-delete.md,calendar,Аня,ожидает,1,1,0,calendar.event.delete
+api-reference/calendar/calendar-event/calendar-event-get-by-id.md,calendar,Аня,ожидает,1,1,0,calendar.event.getbyid
+api-reference/calendar/calendar-event/calendar-event-update.md,calendar,Аня,ожидает,1,1,0,calendar.event.update
+api-reference/calendar/calendar-event/calendar-meeting-status-get.md,calendar,Аня,ожидает,1,1,0,calendar.meeting.status.get
+api-reference/calendar/calendar-event/calendar-meeting-status-set.md,calendar,Аня,ожидает,1,1,0,calendar.meeting.status.set
+api-reference/calendar/calendar-grid-view.md,calendar,Аня,нужен разбор вручную,2,0,0,
+api-reference/calendar/calendar-section-add.md,calendar,Аня,ожидает,1,1,0,calendar.section.add
+api-reference/calendar/calendar-section-delete.md,calendar,Аня,ожидает,1,1,0,calendar.section.delete
+api-reference/calendar/calendar-section-get.md,calendar,Аня,ожидает,1,1,0,calendar.section.get
+api-reference/calendar/calendar-section-update.md,calendar,Аня,ожидает,1,1,0,calendar.section.update
+api-reference/calendar/calendar-settings-get.md,calendar,Аня,ожидает,1,1,0,calendar.settings.get
+api-reference/calendar/calendar-user-settings-get.md,calendar,Аня,ожидает,1,1,0,calendar.user.settings.get
+api-reference/calendar/calendar-user-settings-set.md,calendar,Аня,ожидает,1,1,0,calendar.user.settings.set
+api-reference/calendar/resource/calendar-resource-add.md,calendar,Аня,ожидает,1,1,0,calendar.resource.add
+api-reference/calendar/resource/calendar-resource-booking-list.md,calendar,Аня,ожидает,2,2,0,calendar.resource.booking.list
+api-reference/calendar/resource/calendar-resource-delete.md,calendar,Аня,ожидает,1,1,0,calendar.resource.delete
+api-reference/calendar/resource/calendar-resource-list.md,calendar,Аня,ожидает,1,1,0,calendar.resource.list
+api-reference/calendar/resource/calendar-resource-update.md,calendar,Аня,ожидает,1,1,0,calendar.resource.update
 api-reference/catalog/catalog/catalog-catalog-get-fields.md,catalog,Аня,ожидает,1,1,0,catalog.catalog.getFields
 api-reference/catalog/catalog/catalog-catalog-get.md,catalog,Аня,ожидает,1,1,0,catalog.catalog.get
 api-reference/catalog/catalog/catalog-catalog-is-offers.md,catalog,Аня,ожидает,1,1,0,catalog.catalog.isOffers
@@ -889,57 +889,57 @@ api-reference/disk/storage/disk-storage-get.md,disk,Аня,ожидает,1,1,0,
 api-reference/disk/storage/disk-storage-rename.md,disk,Аня,ожидает,1,1,0,disk.storage.rename
 api-reference/disk/storage/disk-storage-upload-file.md,disk,Аня,ожидает,1,1,0,disk.storage.uploadFile
 api-reference/disk/version/disk-version-get.md,disk,Аня,ожидает,1,1,0,disk.version.get
-api-reference/document-generator/document-generator-document-add.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.document.add
-api-reference/document-generator/document-generator-document-delete.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.document.delete
-api-reference/document-generator/document-generator-document-enable-public-url.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.document.enablepublicurl
-api-reference/document-generator/document-generator-document-get-fields.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.document.getfields
-api-reference/document-generator/document-generator-document-get.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.document.get
-api-reference/document-generator/document-generator-document-list.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.document.list
-api-reference/document-generator/document-generator-document-update.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.document.update
-api-reference/document-generator/numerators/document-generator-numerator-add.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.numerator.add
-api-reference/document-generator/numerators/document-generator-numerator-delete.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.numerator.delete
-api-reference/document-generator/numerators/document-generator-numerator-get.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.numerator.get
-api-reference/document-generator/numerators/document-generator-numerator-list.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.numerator.list
-api-reference/document-generator/numerators/document-generator-numerator-update.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.numerator.update
-api-reference/document-generator/region/document-generator-region-add.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.region.add
-api-reference/document-generator/region/document-generator-region-delete.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.region.delete
-api-reference/document-generator/region/document-generator-region-get.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.region.get
-api-reference/document-generator/region/document-generator-region-list.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.region.list
-api-reference/document-generator/region/document-generator-region-update.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.region.update
-api-reference/document-generator/role/document-generator-role-add.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.role.add
-api-reference/document-generator/role/document-generator-role-delete.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.role.delete
-api-reference/document-generator/role/document-generator-role-fill-accesses.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.role.fillaccesses
-api-reference/document-generator/role/document-generator-role-get.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.role.get
-api-reference/document-generator/role/document-generator-role-list.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.role.list
-api-reference/document-generator/role/document-generator-role-update.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.role.update
-api-reference/document-generator/templates/document-generator-template-add.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.template.add
-api-reference/document-generator/templates/document-generator-template-delete.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.template.delete
-api-reference/document-generator/templates/document-generator-template-get-fields.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.template.getfields
-api-reference/document-generator/templates/document-generator-template-get.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.template.get
-api-reference/document-generator/templates/document-generator-template-list.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.template.list
-api-reference/document-generator/templates/document-generator-template-update.md,document-generator,Владимир,ожидает,1,1,0,documentgenerator.template.update
-api-reference/entity/entities/entity-add.md,entity,Владимир,ожидает,1,1,0,entity.add
-api-reference/entity/entities/entity-delete.md,entity,Владимир,ожидает,1,1,0,entity.delete
-api-reference/entity/entities/entity-get.md,entity,Владимир,ожидает,1,1,0,entity.get
-api-reference/entity/entities/entity-rights.md,entity,Владимир,ожидает,1,1,0,entity.rights
-api-reference/entity/entities/entity-update.md,entity,Владимир,ожидает,1,1,0,entity.update
-api-reference/entity/items/entity-item-add.md,entity,Владимир,ожидает,1,1,0,entity.item.add
-api-reference/entity/items/entity-item-delete.md,entity,Владимир,ожидает,1,1,0,entity.item.delete
-api-reference/entity/items/entity-item-get.md,entity,Владимир,ожидает,1,1,0,entity.item.get
-api-reference/entity/items/entity-item-update.md,entity,Владимир,ожидает,1,1,0,entity.item.update
-api-reference/entity/items/properties/entity-item-property-add.md,entity,Владимир,ожидает,1,1,0,entity.item.property.add
-api-reference/entity/items/properties/entity-item-property-delete.md,entity,Владимир,ожидает,1,1,0,entity.item.property.delete
-api-reference/entity/items/properties/entity-item-property-get.md,entity,Владимир,ожидает,1,1,0,entity.item.property.get
-api-reference/entity/items/properties/entity-item-property-update.md,entity,Владимир,ожидает,1,1,0,entity.item.property.update
-api-reference/entity/sections/entity-section-add.md,entity,Владимир,ожидает,1,1,0,entity.section.add
-api-reference/entity/sections/entity-section-delete.md,entity,Владимир,ожидает,1,1,0,entity.section.delete
-api-reference/entity/sections/entity-section-get.md,entity,Владимир,ожидает,1,1,0,entity.section.get
-api-reference/entity/sections/entity-section-update.md,entity,Владимир,нужен разбор вручную,1,0,0,entity.section.update
-api-reference/event-log/main-eventlog-field-get.md,event-log,Владимир,ожидает,1,1,0,main.eventlog.field.get
-api-reference/event-log/main-eventlog-field-list.md,event-log,Владимир,ожидает,1,1,0,main.eventlog.field.list
-api-reference/event-log/main-eventlog-get.md,event-log,Владимир,ожидает,1,1,0,main.eventlog.get
-api-reference/event-log/main-eventlog-list.md,event-log,Владимир,ожидает,1,1,0,main.eventlog.list
-api-reference/event-log/main-eventlog-tail.md,event-log,Владимир,ожидает,1,1,0,main.eventlog.tail
+api-reference/document-generator/document-generator-document-add.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.document.add
+api-reference/document-generator/document-generator-document-delete.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.document.delete
+api-reference/document-generator/document-generator-document-enable-public-url.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.document.enablepublicurl
+api-reference/document-generator/document-generator-document-get-fields.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.document.getfields
+api-reference/document-generator/document-generator-document-get.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.document.get
+api-reference/document-generator/document-generator-document-list.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.document.list
+api-reference/document-generator/document-generator-document-update.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.document.update
+api-reference/document-generator/numerators/document-generator-numerator-add.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.numerator.add
+api-reference/document-generator/numerators/document-generator-numerator-delete.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.numerator.delete
+api-reference/document-generator/numerators/document-generator-numerator-get.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.numerator.get
+api-reference/document-generator/numerators/document-generator-numerator-list.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.numerator.list
+api-reference/document-generator/numerators/document-generator-numerator-update.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.numerator.update
+api-reference/document-generator/region/document-generator-region-add.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.region.add
+api-reference/document-generator/region/document-generator-region-delete.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.region.delete
+api-reference/document-generator/region/document-generator-region-get.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.region.get
+api-reference/document-generator/region/document-generator-region-list.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.region.list
+api-reference/document-generator/region/document-generator-region-update.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.region.update
+api-reference/document-generator/role/document-generator-role-add.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.role.add
+api-reference/document-generator/role/document-generator-role-delete.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.role.delete
+api-reference/document-generator/role/document-generator-role-fill-accesses.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.role.fillaccesses
+api-reference/document-generator/role/document-generator-role-get.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.role.get
+api-reference/document-generator/role/document-generator-role-list.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.role.list
+api-reference/document-generator/role/document-generator-role-update.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.role.update
+api-reference/document-generator/templates/document-generator-template-add.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.template.add
+api-reference/document-generator/templates/document-generator-template-delete.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.template.delete
+api-reference/document-generator/templates/document-generator-template-get-fields.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.template.getfields
+api-reference/document-generator/templates/document-generator-template-get.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.template.get
+api-reference/document-generator/templates/document-generator-template-list.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.template.list
+api-reference/document-generator/templates/document-generator-template-update.md,document-generator,Аня,ожидает,1,1,0,documentgenerator.template.update
+api-reference/entity/entities/entity-add.md,entity,Аня,ожидает,1,1,0,entity.add
+api-reference/entity/entities/entity-delete.md,entity,Аня,ожидает,1,1,0,entity.delete
+api-reference/entity/entities/entity-get.md,entity,Аня,ожидает,1,1,0,entity.get
+api-reference/entity/entities/entity-rights.md,entity,Аня,ожидает,1,1,0,entity.rights
+api-reference/entity/entities/entity-update.md,entity,Аня,ожидает,1,1,0,entity.update
+api-reference/entity/items/entity-item-add.md,entity,Аня,ожидает,1,1,0,entity.item.add
+api-reference/entity/items/entity-item-delete.md,entity,Аня,ожидает,1,1,0,entity.item.delete
+api-reference/entity/items/entity-item-get.md,entity,Аня,ожидает,1,1,0,entity.item.get
+api-reference/entity/items/entity-item-update.md,entity,Аня,ожидает,1,1,0,entity.item.update
+api-reference/entity/items/properties/entity-item-property-add.md,entity,Аня,ожидает,1,1,0,entity.item.property.add
+api-reference/entity/items/properties/entity-item-property-delete.md,entity,Аня,ожидает,1,1,0,entity.item.property.delete
+api-reference/entity/items/properties/entity-item-property-get.md,entity,Аня,ожидает,1,1,0,entity.item.property.get
+api-reference/entity/items/properties/entity-item-property-update.md,entity,Аня,ожидает,1,1,0,entity.item.property.update
+api-reference/entity/sections/entity-section-add.md,entity,Аня,ожидает,1,1,0,entity.section.add
+api-reference/entity/sections/entity-section-delete.md,entity,Аня,ожидает,1,1,0,entity.section.delete
+api-reference/entity/sections/entity-section-get.md,entity,Аня,ожидает,1,1,0,entity.section.get
+api-reference/entity/sections/entity-section-update.md,entity,Аня,нужен разбор вручную,1,0,0,entity.section.update
+api-reference/event-log/main-eventlog-field-get.md,event-log,Аня,ожидает,1,1,0,main.eventlog.field.get
+api-reference/event-log/main-eventlog-field-list.md,event-log,Аня,ожидает,1,1,0,main.eventlog.field.list
+api-reference/event-log/main-eventlog-get.md,event-log,Аня,ожидает,1,1,0,main.eventlog.get
+api-reference/event-log/main-eventlog-list.md,event-log,Аня,ожидает,1,1,0,main.eventlog.list
+api-reference/event-log/main-eventlog-tail.md,event-log,Аня,ожидает,1,1,0,main.eventlog.tail
 api-reference/events/event-bind.md,events,Аня,ожидает,1,1,0,event.bind
 api-reference/events/event-get.md,events,Аня,ожидает,1,1,0,event.get
 api-reference/events/event-offline-clear.md,events,Аня,ожидает,1,1,0,event.offline.clear
@@ -950,8 +950,8 @@ api-reference/events/event-unbind.md,events,Аня,нужен разбор вр�
 api-reference/events/events.md,events,Аня,нужен разбор вручную,1,0,0,
 api-reference/events/offline-events.md,events,Аня,нужен разбор вручную,7,6,0,crm.deal.update;event.bind;event.offline.clear;event.offline.error;event.offline.get;feature.get
 api-reference/events/test-handler.md,events,Аня,нужен разбор вручную,4,2,0,event.bind;event.test
-api-reference/files/how-to-update-files.md,files,Владимир,ожидает,12,12,0,bizproc.workflow.template.update;catalog.product.get;catalog.product.update;crm.item.list;crm.item.update;crm.timeline.comment.update;lists.element.get;lists.element.update;log.blogpost.get;log.blogpost.update
-api-reference/files/how-to-upload-files.md,files,Владимир,ожидает,8,8,0,bizproc.workflow.template.add;catalog.product.add;crm.item.add;crm.lead.add;disk.file.uploadversion;documentgenerator.template.add;telephony.externalCall.attachRecord
+api-reference/files/how-to-update-files.md,files,Аня,ожидает,12,12,0,bizproc.workflow.template.update;catalog.product.get;catalog.product.update;crm.item.list;crm.item.update;crm.timeline.comment.update;lists.element.get;lists.element.update;log.blogpost.get;log.blogpost.update
+api-reference/files/how-to-upload-files.md,files,Аня,ожидает,8,8,0,bizproc.workflow.template.add;catalog.product.add;crm.item.add;crm.lead.add;disk.file.uploadversion;documentgenerator.template.add;telephony.externalCall.attachRecord
 api-reference/imopenlines/imconnector/imconnector-activate.md,imopenlines,Владимир,ожидает,1,1,0,imconnector.activate
 api-reference/imopenlines/imconnector/imconnector-chat-name-set.md,imopenlines,Владимир,ожидает,1,1,0,imconnector.chat.name.set
 api-reference/imopenlines/imconnector/imconnector-connector-data-set.md,imopenlines,Владимир,ожидает,1,1,0,imconnector.connector.data.set
@@ -1103,58 +1103,58 @@ api-reference/landing/user-blocks/landing-repo-check-content.md,landing,Влад
 api-reference/landing/user-blocks/landing-repo-get-list.md,landing,Владимир,ожидает,1,1,0,landing.repo.getList
 api-reference/landing/user-blocks/landing-repo-register.md,landing,Владимир,ожидает,1,1,0,landing.repo.register
 api-reference/landing/user-blocks/landing-repo-unregister.md,landing,Владимир,ожидает,1,1,0,landing.repo.unregister
-api-reference/lists/elements/lists-element-add.md,lists,Владимир,ожидает,1,1,0,lists.element.add
-api-reference/lists/elements/lists-element-delete.md,lists,Владимир,ожидает,1,1,0,lists.element.delete
-api-reference/lists/elements/lists-element-get-file-url.md,lists,Владимир,ожидает,1,1,0,lists.element.get.file.url
-api-reference/lists/elements/lists-element-get.md,lists,Владимир,ожидает,1,1,0,lists.element.get
-api-reference/lists/elements/lists-element-update.md,lists,Владимир,ожидает,1,1,0,lists.element.update
-api-reference/lists/fields/lists-field-add.md,lists,Владимир,ожидает,1,1,0,lists.field.add
-api-reference/lists/fields/lists-field-delete.md,lists,Владимир,ожидает,1,1,0,lists.field.delete
-api-reference/lists/fields/lists-field-get.md,lists,Владимир,ожидает,1,1,0,lists.field.get
-api-reference/lists/fields/lists-field-type-get.md,lists,Владимир,ожидает,1,1,0,lists.field.type.get
-api-reference/lists/fields/lists-field-update.md,lists,Владимир,ожидает,1,1,0,lists.field.update
-api-reference/lists/lists/lists-add.md,lists,Владимир,ожидает,1,1,0,lists.add
-api-reference/lists/lists/lists-delete.md,lists,Владимир,ожидает,1,1,0,lists.delete
-api-reference/lists/lists/lists-get-iblock-type-id.md,lists,Владимир,ожидает,1,1,0,lists.get.iblock.type.id
-api-reference/lists/lists/lists-get.md,lists,Владимир,ожидает,1,1,0,lists.get
-api-reference/lists/lists/lists-update.md,lists,Владимир,ожидает,1,1,0,lists.update
-api-reference/lists/sections/lists-section-add.md,lists,Владимир,ожидает,1,1,0,lists.section.add
-api-reference/lists/sections/lists-section-delete.md,lists,Владимир,ожидает,1,1,0,lists.section.delete
-api-reference/lists/sections/lists-section-get.md,lists,Владимир,ожидает,1,1,0,lists.section.get
-api-reference/lists/sections/lists-section-update.md,lists,Владимир,ожидает,1,1,0,lists.section.update
-api-reference/log/blogcomment/log-blogcomment-add.md,log,Владимир,ожидает,1,1,0,log.blogcomment.add
-api-reference/log/blogcomment/log-blogcomment-delete.md,log,Владимир,ожидает,1,1,0,log.blogcomment.delete
-api-reference/log/blogcomment/log-blogcomment-user-get.md,log,Владимир,ожидает,1,1,0,log.blogcomment.user.get
-api-reference/log/log-blogpost-add.md,log,Владимир,ожидает,1,1,0,log.blogpost.add
-api-reference/log/log-blogpost-delete.md,log,Владимир,ожидает,1,1,0,log.blogpost.delete
-api-reference/log/log-blogpost-get.md,log,Владимир,ожидает,1,1,0,log.blogpost.get
-api-reference/log/log-blogpost-getusers-important.md,log,Владимир,ожидает,1,1,0,log.blogpost.getusers.important
-api-reference/log/log-blogpost-share.md,log,Владимир,ожидает,1,1,0,log.blogpost.share
-api-reference/log/log-blogpost-update.md,log,Владимир,ожидает,1,1,0,log.blogpost.update
-api-reference/mail/mailbox/mail-mailbox-field-get.md,mail,Владимир,ожидает,1,1,0,mail.mailbox.field.get
-api-reference/mail/mailbox/mail-mailbox-field-list.md,mail,Владимир,ожидает,1,1,0,mail.mailbox.field.list
-api-reference/mail/mailbox/mail-mailbox-get.md,mail,Владимир,ожидает,1,1,0,mail.mailbox.get
-api-reference/mail/mailbox/mail-mailbox-list.md,mail,Владимир,ожидает,1,1,0,mail.mailbox.list
-api-reference/mail/mailbox/mail-mailbox-senders.md,mail,Владимир,ожидает,1,1,0,mail.mailbox.senders
-api-reference/mail/message/mail-message-createcalendarevent.md,mail,Владимир,ожидает,1,1,0,mail.message.createcalendarevent
-api-reference/mail/message/mail-message-createchat.md,mail,Владимир,ожидает,1,1,0,mail.message.createchat
-api-reference/mail/message/mail-message-createcrmactivity.md,mail,Владимир,ожидает,1,1,0,mail.message.createcrmactivity
-api-reference/mail/message/mail-message-createfeedpost.md,mail,Владимир,ожидает,1,1,0,mail.message.createfeedpost
-api-reference/mail/message/mail-message-createtask.md,mail,Владимир,ожидает,1,1,0,mail.message.createtask
-api-reference/mail/message/mail-message-field-get.md,mail,Владимир,ожидает,1,1,0,mail.message.field.get
-api-reference/mail/message/mail-message-field-list.md,mail,Владимир,ожидает,1,1,0,mail.message.field.list
-api-reference/mail/message/mail-message-forward.md,mail,Владимир,ожидает,1,1,0,mail.message.forward
-api-reference/mail/message/mail-message-get.md,mail,Владимир,ожидает,1,1,0,mail.message.get
-api-reference/mail/message/mail-message-list.md,mail,Владимир,ожидает,1,1,0,mail.message.list
-api-reference/mail/message/mail-message-movetofolder.md,mail,Владимир,ожидает,1,1,0,mail.message.movetofolder
-api-reference/mail/message/mail-message-removecrmactivity.md,mail,Владимир,ожидает,1,1,0,mail.message.removecrmactivity
-api-reference/mail/message/mail-message-reply.md,mail,Владимир,ожидает,1,1,0,mail.message.reply
-api-reference/mail/message/mail-message-send.md,mail,Владимир,ожидает,1,1,0,mail.message.send
-api-reference/mail/message/mail-message-thread.md,mail,Владимир,ожидает,1,1,0,mail.message.thread
-api-reference/mail/recipient/mail-recipient-field-get.md,mail,Владимир,ожидает,1,1,0,mail.recipient.field.get
-api-reference/mail/recipient/mail-recipient-field-list.md,mail,Владимир,ожидает,1,1,0,mail.recipient.field.list
-api-reference/mail/recipient/mail-recipient-listcontacts.md,mail,Владимир,ожидает,1,1,0,mail.recipient.listcontacts
-api-reference/mail/recipient/mail-recipient-listemployees.md,mail,Владимир,ожидает,1,1,0,mail.recipient.listemployees
+api-reference/lists/elements/lists-element-add.md,lists,Аня,ожидает,1,1,0,lists.element.add
+api-reference/lists/elements/lists-element-delete.md,lists,Аня,ожидает,1,1,0,lists.element.delete
+api-reference/lists/elements/lists-element-get-file-url.md,lists,Аня,ожидает,1,1,0,lists.element.get.file.url
+api-reference/lists/elements/lists-element-get.md,lists,Аня,ожидает,1,1,0,lists.element.get
+api-reference/lists/elements/lists-element-update.md,lists,Аня,ожидает,1,1,0,lists.element.update
+api-reference/lists/fields/lists-field-add.md,lists,Аня,ожидает,1,1,0,lists.field.add
+api-reference/lists/fields/lists-field-delete.md,lists,Аня,ожидает,1,1,0,lists.field.delete
+api-reference/lists/fields/lists-field-get.md,lists,Аня,ожидает,1,1,0,lists.field.get
+api-reference/lists/fields/lists-field-type-get.md,lists,Аня,ожидает,1,1,0,lists.field.type.get
+api-reference/lists/fields/lists-field-update.md,lists,Аня,ожидает,1,1,0,lists.field.update
+api-reference/lists/lists/lists-add.md,lists,Аня,ожидает,1,1,0,lists.add
+api-reference/lists/lists/lists-delete.md,lists,Аня,ожидает,1,1,0,lists.delete
+api-reference/lists/lists/lists-get-iblock-type-id.md,lists,Аня,ожидает,1,1,0,lists.get.iblock.type.id
+api-reference/lists/lists/lists-get.md,lists,Аня,ожидает,1,1,0,lists.get
+api-reference/lists/lists/lists-update.md,lists,Аня,ожидает,1,1,0,lists.update
+api-reference/lists/sections/lists-section-add.md,lists,Аня,ожидает,1,1,0,lists.section.add
+api-reference/lists/sections/lists-section-delete.md,lists,Аня,ожидает,1,1,0,lists.section.delete
+api-reference/lists/sections/lists-section-get.md,lists,Аня,ожидает,1,1,0,lists.section.get
+api-reference/lists/sections/lists-section-update.md,lists,Аня,ожидает,1,1,0,lists.section.update
+api-reference/log/blogcomment/log-blogcomment-add.md,log,Аня,ожидает,1,1,0,log.blogcomment.add
+api-reference/log/blogcomment/log-blogcomment-delete.md,log,Аня,ожидает,1,1,0,log.blogcomment.delete
+api-reference/log/blogcomment/log-blogcomment-user-get.md,log,Аня,ожидает,1,1,0,log.blogcomment.user.get
+api-reference/log/log-blogpost-add.md,log,Аня,ожидает,1,1,0,log.blogpost.add
+api-reference/log/log-blogpost-delete.md,log,Аня,ожидает,1,1,0,log.blogpost.delete
+api-reference/log/log-blogpost-get.md,log,Аня,ожидает,1,1,0,log.blogpost.get
+api-reference/log/log-blogpost-getusers-important.md,log,Аня,ожидает,1,1,0,log.blogpost.getusers.important
+api-reference/log/log-blogpost-share.md,log,Аня,ожидает,1,1,0,log.blogpost.share
+api-reference/log/log-blogpost-update.md,log,Аня,ожидает,1,1,0,log.blogpost.update
+api-reference/mail/mailbox/mail-mailbox-field-get.md,mail,Аня,ожидает,1,1,0,mail.mailbox.field.get
+api-reference/mail/mailbox/mail-mailbox-field-list.md,mail,Аня,ожидает,1,1,0,mail.mailbox.field.list
+api-reference/mail/mailbox/mail-mailbox-get.md,mail,Аня,ожидает,1,1,0,mail.mailbox.get
+api-reference/mail/mailbox/mail-mailbox-list.md,mail,Аня,ожидает,1,1,0,mail.mailbox.list
+api-reference/mail/mailbox/mail-mailbox-senders.md,mail,Аня,ожидает,1,1,0,mail.mailbox.senders
+api-reference/mail/message/mail-message-createcalendarevent.md,mail,Аня,ожидает,1,1,0,mail.message.createcalendarevent
+api-reference/mail/message/mail-message-createchat.md,mail,Аня,ожидает,1,1,0,mail.message.createchat
+api-reference/mail/message/mail-message-createcrmactivity.md,mail,Аня,ожидает,1,1,0,mail.message.createcrmactivity
+api-reference/mail/message/mail-message-createfeedpost.md,mail,Аня,ожидает,1,1,0,mail.message.createfeedpost
+api-reference/mail/message/mail-message-createtask.md,mail,Аня,ожидает,1,1,0,mail.message.createtask
+api-reference/mail/message/mail-message-field-get.md,mail,Аня,ожидает,1,1,0,mail.message.field.get
+api-reference/mail/message/mail-message-field-list.md,mail,Аня,ожидает,1,1,0,mail.message.field.list
+api-reference/mail/message/mail-message-forward.md,mail,Аня,ожидает,1,1,0,mail.message.forward
+api-reference/mail/message/mail-message-get.md,mail,Аня,ожидает,1,1,0,mail.message.get
+api-reference/mail/message/mail-message-list.md,mail,Аня,ожидает,1,1,0,mail.message.list
+api-reference/mail/message/mail-message-movetofolder.md,mail,Аня,ожидает,1,1,0,mail.message.movetofolder
+api-reference/mail/message/mail-message-removecrmactivity.md,mail,Аня,ожидает,1,1,0,mail.message.removecrmactivity
+api-reference/mail/message/mail-message-reply.md,mail,Аня,ожидает,1,1,0,mail.message.reply
+api-reference/mail/message/mail-message-send.md,mail,Аня,ожидает,1,1,0,mail.message.send
+api-reference/mail/message/mail-message-thread.md,mail,Аня,ожидает,1,1,0,mail.message.thread
+api-reference/mail/recipient/mail-recipient-field-get.md,mail,Аня,ожидает,1,1,0,mail.recipient.field.get
+api-reference/mail/recipient/mail-recipient-field-list.md,mail,Аня,ожидает,1,1,0,mail.recipient.field.list
+api-reference/mail/recipient/mail-recipient-listcontacts.md,mail,Аня,ожидает,1,1,0,mail.recipient.listcontacts
+api-reference/mail/recipient/mail-recipient-listemployees.md,mail,Аня,ожидает,1,1,0,mail.recipient.listemployees
 api-reference/mailservice/mailservice-add.md,mailservice,Аня,ожидает,1,1,0,mailservice.add
 api-reference/mailservice/mailservice-delete.md,mailservice,Аня,ожидает,1,1,0,mailservice.delete
 api-reference/mailservice/mailservice-fields.md,mailservice,Аня,ожидает,1,1,0,mailservice.fields
@@ -1191,25 +1191,25 @@ api-reference/note/file/note-file-add.md,note,Аня,ожидает,1,1,0,note.f
 api-reference/note/file/note-file-field-get.md,note,Аня,ожидает,1,1,0,note.file.field.get
 api-reference/note/file/note-file-field-list.md,note,Аня,ожидает,1,1,0,note.file.field.list
 api-reference/note/file/note-file-get.md,note,Аня,ожидает,1,1,0,note.file.get
-api-reference/outdated/rpa/comment/rpa-comment-add.md,outdated,Владимир,нужен разбор вручную,1,0,0,
-api-reference/outdated/rpa/comment/rpa-comment-update.md,outdated,Владимир,нужен разбор вручную,1,0,0,
-api-reference/outdated/rpa/fields/rpa-fields-set-settings.md,outdated,Владимир,нужен разбор вручную,1,0,0,
-api-reference/outdated/rpa/fields/rpa-fields-set-visibility-settings.md,outdated,Владимир,нужен разбор вручную,1,0,0,
-api-reference/outdated/rpa/type/rpa-type-add.md,outdated,Владимир,нужен разбор вручную,1,0,0,
-api-reference/pay-system/outdated/sale-pay-system-pay-invoice.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.pay.invoice
-api-reference/pay-system/outdated/sale-pay-system-settings-invoice-get.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.settings.invoice.get
-api-reference/pay-system/sale-pay-system-add.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.add
-api-reference/pay-system/sale-pay-system-delete.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.delete
-api-reference/pay-system/sale-pay-system-handler-add.md,pay-system,Владимир,нужен разбор вручную,3,0,0,sale.paysystem.handler.add
-api-reference/pay-system/sale-pay-system-handler-delete.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.handler.delete
-api-reference/pay-system/sale-pay-system-handler-list.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.handler.list
-api-reference/pay-system/sale-pay-system-handler-update.md,pay-system,Владимир,нужен разбор вручную,1,0,0,sale.paysystem.handler.update
-api-reference/pay-system/sale-pay-system-list.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.list
-api-reference/pay-system/sale-pay-system-pay-payment.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.pay.payment
-api-reference/pay-system/sale-pay-system-settings-get.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.settings.get
-api-reference/pay-system/sale-pay-system-settings-payment-get.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.settings.payment.get
-api-reference/pay-system/sale-pay-system-settings-update.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.settings.update
-api-reference/pay-system/sale-pay-system-update.md,pay-system,Владимир,ожидает,1,1,0,sale.paysystem.update
+api-reference/outdated/rpa/comment/rpa-comment-add.md,outdated,Аня,нужен разбор вручную,1,0,0,
+api-reference/outdated/rpa/comment/rpa-comment-update.md,outdated,Аня,нужен разбор вручную,1,0,0,
+api-reference/outdated/rpa/fields/rpa-fields-set-settings.md,outdated,Аня,нужен разбор вручную,1,0,0,
+api-reference/outdated/rpa/fields/rpa-fields-set-visibility-settings.md,outdated,Аня,нужен разбор вручную,1,0,0,
+api-reference/outdated/rpa/type/rpa-type-add.md,outdated,Аня,нужен разбор вручную,1,0,0,
+api-reference/pay-system/outdated/sale-pay-system-pay-invoice.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.pay.invoice
+api-reference/pay-system/outdated/sale-pay-system-settings-invoice-get.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.settings.invoice.get
+api-reference/pay-system/sale-pay-system-add.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.add
+api-reference/pay-system/sale-pay-system-delete.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.delete
+api-reference/pay-system/sale-pay-system-handler-add.md,pay-system,Аня,нужен разбор вручную,3,0,0,sale.paysystem.handler.add
+api-reference/pay-system/sale-pay-system-handler-delete.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.handler.delete
+api-reference/pay-system/sale-pay-system-handler-list.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.handler.list
+api-reference/pay-system/sale-pay-system-handler-update.md,pay-system,Аня,нужен разбор вручную,1,0,0,sale.paysystem.handler.update
+api-reference/pay-system/sale-pay-system-list.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.list
+api-reference/pay-system/sale-pay-system-pay-payment.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.pay.payment
+api-reference/pay-system/sale-pay-system-settings-get.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.settings.get
+api-reference/pay-system/sale-pay-system-settings-payment-get.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.settings.payment.get
+api-reference/pay-system/sale-pay-system-settings-update.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.settings.update
+api-reference/pay-system/sale-pay-system-update.md,pay-system,Аня,ожидает,1,1,0,sale.paysystem.update
 api-reference/sale/basket-item/sale-basket-item-add-catalog-product.md,sale,Аня,ожидает,1,1,0,sale.basketitem.addCatalogProduct
 api-reference/sale/basket-item/sale-basket-item-add.md,sale,Аня,ожидает,1,1,0,sale.basketitem.add
 api-reference/sale/basket-item/sale-basket-item-delete.md,sale,Аня,ожидает,1,1,0,sale.basketitem.delete
@@ -1544,39 +1544,39 @@ api-reference/tasks/user-field/task-item-user-field-get-list.md,tasks,Аня,о�
 api-reference/tasks/user-field/task-item-user-field-get-types.md,tasks,Аня,ожидает,1,1,0,task.item.userfield.gettypes
 api-reference/tasks/user-field/task-item-user-field-get.md,tasks,Аня,ожидает,1,1,0,task.item.userfield.get
 api-reference/tasks/user-field/task-item-user-field-update.md,tasks,Аня,ожидает,1,1,0,task.item.userfield.update
-api-reference/telephony/follow-up/call-followup-field-get.md,telephony,Владимир,ожидает,1,1,0,call.followup.field.get
-api-reference/telephony/follow-up/call-followup-field-list.md,telephony,Владимир,ожидает,1,1,0,call.followup.field.list
-api-reference/telephony/follow-up/call-followup-get.md,telephony,Владимир,ожидает,1,1,0,call.followup.get
-api-reference/telephony/follow-up/call-followup-list.md,telephony,Владимир,ожидает,1,1,0,call.followup.list
-api-reference/telephony/telephony-call-attach-transcription.md,telephony,Владимир,ожидает,1,1,0,telephony.call.attachTranscription
-api-reference/telephony/telephony-external-call-attach-record.md,telephony,Владимир,ожидает,1,1,0,telephony.externalCall.attachRecord
-api-reference/telephony/telephony-external-call-finish.md,telephony,Владимир,ожидает,1,1,0,telephony.externalCall.finish
-api-reference/telephony/telephony-external-call-hide.md,telephony,Владимир,ожидает,1,1,0,telephony.externalCall.hide
-api-reference/telephony/telephony-external-call-register.md,telephony,Владимир,ожидает,1,1,0,telephony.externalCall.register
-api-reference/telephony/telephony-external-call-search-crm-entities.md,telephony,Владимир,ожидает,1,1,0,telephony.externalCall.searchCrmEntities
-api-reference/telephony/telephony-external-call-show.md,telephony,Владимир,ожидает,1,1,0,telephony.externalCall.show
-api-reference/telephony/telephony-external-line-add.md,telephony,Владимир,ожидает,1,1,0,telephony.externalLine.add
-api-reference/telephony/telephony-external-line-delete.md,telephony,Владимир,ожидает,1,1,0,telephony.externalLine.delete
-api-reference/telephony/telephony-external-line-get.md,telephony,Владимир,ожидает,1,1,0,telephony.externalLine.get
-api-reference/telephony/telephony-external-line-update.md,telephony,Владимир,ожидает,1,1,0,telephony.externalLine.update
-api-reference/telephony/voximplant/lines/voximplant-line-get.md,telephony,Владимир,ожидает,1,1,0,voximplant.line.get
-api-reference/telephony/voximplant/lines/voximplant-line-outgoing-get.md,telephony,Владимир,ожидает,1,1,0,voximplant.line.outgoing.get
-api-reference/telephony/voximplant/lines/voximplant-line-outgoing-set.md,telephony,Владимир,ожидает,1,1,0,voximplant.line.outgoing.set
-api-reference/telephony/voximplant/lines/voximplant-line-outgoing-sip-set.md,telephony,Владимир,ожидает,1,1,0,voximplant.line.outgoing.sip.set
-api-reference/telephony/voximplant/sip/voximplant-sip-add.md,telephony,Владимир,ожидает,1,1,0,voximplant.sip.add
-api-reference/telephony/voximplant/sip/voximplant-sip-connector-status.md,telephony,Владимир,ожидает,1,1,0,voximplant.sip.connector.status
-api-reference/telephony/voximplant/sip/voximplant-sip-delete.md,telephony,Владимир,ожидает,1,1,0,voximplant.sip.delete
-api-reference/telephony/voximplant/sip/voximplant-sip-get.md,telephony,Владимир,ожидает,1,1,0,voximplant.sip.get
-api-reference/telephony/voximplant/sip/voximplant-sip-status.md,telephony,Владимир,ожидает,1,1,0,voximplant.sip.status
-api-reference/telephony/voximplant/sip/voximplant-sip-update.md,telephony,Владимир,ожидает,1,1,0,voximplant.sip.update
-api-reference/telephony/voximplant/users/voximplant-user-activate-phone.md,telephony,Владимир,ожидает,1,1,0,voximplant.user.activatePhone
-api-reference/telephony/voximplant/users/voximplant-user-get.md,telephony,Владимир,ожидает,1,1,0,voximplant.user.get
-api-reference/telephony/voximplant/voximplant-callback-start.md,telephony,Владимир,ожидает,1,1,0,voximplant.callback.start
-api-reference/telephony/voximplant/voximplant-infocall-start-with-sound.md,telephony,Владимир,ожидает,1,1,0,voximplant.infocall.startwithsound
-api-reference/telephony/voximplant/voximplant-infocall-start-with-text.md,telephony,Владимир,ожидает,1,1,0,voximplant.infocall.startwithtext
-api-reference/telephony/voximplant/voximplant-statistic-get.md,telephony,Владимир,ожидает,1,1,0,voximplant.statistic.get
-api-reference/telephony/voximplant/voximplant-tts-voices-get.md,telephony,Владимир,ожидает,1,1,0,voximplant.tts.voices.get
-api-reference/telephony/voximplant/voximplant-url-get.md,telephony,Владимир,ожидает,1,1,0,voximplant.url.get
+api-reference/telephony/follow-up/call-followup-field-get.md,telephony,Аня,ожидает,1,1,0,call.followup.field.get
+api-reference/telephony/follow-up/call-followup-field-list.md,telephony,Аня,ожидает,1,1,0,call.followup.field.list
+api-reference/telephony/follow-up/call-followup-get.md,telephony,Аня,ожидает,1,1,0,call.followup.get
+api-reference/telephony/follow-up/call-followup-list.md,telephony,Аня,ожидает,1,1,0,call.followup.list
+api-reference/telephony/telephony-call-attach-transcription.md,telephony,Аня,ожидает,1,1,0,telephony.call.attachTranscription
+api-reference/telephony/telephony-external-call-attach-record.md,telephony,Аня,ожидает,1,1,0,telephony.externalCall.attachRecord
+api-reference/telephony/telephony-external-call-finish.md,telephony,Аня,ожидает,1,1,0,telephony.externalCall.finish
+api-reference/telephony/telephony-external-call-hide.md,telephony,Аня,ожидает,1,1,0,telephony.externalCall.hide
+api-reference/telephony/telephony-external-call-register.md,telephony,Аня,ожидает,1,1,0,telephony.externalCall.register
+api-reference/telephony/telephony-external-call-search-crm-entities.md,telephony,Аня,ожидает,1,1,0,telephony.externalCall.searchCrmEntities
+api-reference/telephony/telephony-external-call-show.md,telephony,Аня,ожидает,1,1,0,telephony.externalCall.show
+api-reference/telephony/telephony-external-line-add.md,telephony,Аня,ожидает,1,1,0,telephony.externalLine.add
+api-reference/telephony/telephony-external-line-delete.md,telephony,Аня,ожидает,1,1,0,telephony.externalLine.delete
+api-reference/telephony/telephony-external-line-get.md,telephony,Аня,ожидает,1,1,0,telephony.externalLine.get
+api-reference/telephony/telephony-external-line-update.md,telephony,Аня,ожидает,1,1,0,telephony.externalLine.update
+api-reference/telephony/voximplant/lines/voximplant-line-get.md,telephony,Аня,ожидает,1,1,0,voximplant.line.get
+api-reference/telephony/voximplant/lines/voximplant-line-outgoing-get.md,telephony,Аня,ожидает,1,1,0,voximplant.line.outgoing.get
+api-reference/telephony/voximplant/lines/voximplant-line-outgoing-set.md,telephony,Аня,ожидает,1,1,0,voximplant.line.outgoing.set
+api-reference/telephony/voximplant/lines/voximplant-line-outgoing-sip-set.md,telephony,Аня,ожидает,1,1,0,voximplant.line.outgoing.sip.set
+api-reference/telephony/voximplant/sip/voximplant-sip-add.md,telephony,Аня,ожидает,1,1,0,voximplant.sip.add
+api-reference/telephony/voximplant/sip/voximplant-sip-connector-status.md,telephony,Аня,ожидает,1,1,0,voximplant.sip.connector.status
+api-reference/telephony/voximplant/sip/voximplant-sip-delete.md,telephony,Аня,ожидает,1,1,0,voximplant.sip.delete
+api-reference/telephony/voximplant/sip/voximplant-sip-get.md,telephony,Аня,ожидает,1,1,0,voximplant.sip.get
+api-reference/telephony/voximplant/sip/voximplant-sip-status.md,telephony,Аня,ожидает,1,1,0,voximplant.sip.status
+api-reference/telephony/voximplant/sip/voximplant-sip-update.md,telephony,Аня,ожидает,1,1,0,voximplant.sip.update
+api-reference/telephony/voximplant/users/voximplant-user-activate-phone.md,telephony,Аня,ожидает,1,1,0,voximplant.user.activatePhone
+api-reference/telephony/voximplant/users/voximplant-user-get.md,telephony,Аня,ожидает,1,1,0,voximplant.user.get
+api-reference/telephony/voximplant/voximplant-callback-start.md,telephony,Аня,ожидает,1,1,0,voximplant.callback.start
+api-reference/telephony/voximplant/voximplant-infocall-start-with-sound.md,telephony,Аня,ожидает,1,1,0,voximplant.infocall.startwithsound
+api-reference/telephony/voximplant/voximplant-infocall-start-with-text.md,telephony,Аня,ожидает,1,1,0,voximplant.infocall.startwithtext
+api-reference/telephony/voximplant/voximplant-statistic-get.md,telephony,Аня,ожидает,1,1,0,voximplant.statistic.get
+api-reference/telephony/voximplant/voximplant-tts-voices-get.md,telephony,Аня,ожидает,1,1,0,voximplant.tts.voices.get
+api-reference/telephony/voximplant/voximplant-url-get.md,telephony,Аня,ожидает,1,1,0,voximplant.url.get
 api-reference/timeman/base/timeman-close.md,timeman,Аня,ожидает,1,1,0,timeman.close
 api-reference/timeman/base/timeman-open.md,timeman,Аня,ожидает,1,1,0,timeman.open
 api-reference/timeman/base/timeman-pause.md,timeman,Аня,ожидает,1,1,0,timeman.pause
@@ -1595,23 +1595,23 @@ api-reference/timeman/timecontrol/timeman-timecontrol-reports-settings-get.md,ti
 api-reference/timeman/timecontrol/timeman-timecontrol-reports-users-get.md,timeman,Аня,ожидает,1,1,0,timeman.timecontrol.reports.users.get
 api-reference/timeman/timecontrol/timeman-timecontrol-settings-get.md,timeman,Аня,ожидает,1,1,0,timeman.timecontrol.settings.get
 api-reference/timeman/timecontrol/timeman-timecontrol-settings-set.md,timeman,Аня,ожидает,1,1,0,timeman.timecontrol.settings.set
-api-reference/user/user-add.md,user,Владимир,ожидает,1,1,0,user.add
-api-reference/user/user-current.md,user,Владимир,ожидает,1,1,0,user.current
-api-reference/user/user-fields.md,user,Владимир,ожидает,1,1,0,user.fields
-api-reference/user/user-get.md,user,Владимир,нужен разбор вручную,4,3,0,user.get
-api-reference/user/user-search.md,user,Владимир,нужен разбор вручную,1,0,0,user.search
-api-reference/user/user-update.md,user,Владимир,ожидает,1,1,0,user.update
-api-reference/user/userfields/user-userfield-add.md,user,Владимир,нужен разбор вручную,2,1,0,user.userfield.add
-api-reference/user/userfields/user-userfield-delete.md,user,Владимир,ожидает,1,1,0,user.userfield.delete
-api-reference/user/userfields/user-userfield-list.md,user,Владимир,ожидает,1,1,0,user.userfield.list
-api-reference/user/userfields/user-userfield-update.md,user,Владимир,нужен разбор вручную,2,1,0,user.userfield.update
+api-reference/user/user-add.md,user,Аня,ожидает,1,1,0,user.add
+api-reference/user/user-current.md,user,Аня,ожидает,1,1,0,user.current
+api-reference/user/user-fields.md,user,Аня,ожидает,1,1,0,user.fields
+api-reference/user/user-get.md,user,Аня,нужен разбор вручную,4,3,0,user.get
+api-reference/user/user-search.md,user,Аня,нужен разбор вручную,1,0,0,user.search
+api-reference/user/user-update.md,user,Аня,ожидает,1,1,0,user.update
+api-reference/user/userfields/user-userfield-add.md,user,Аня,нужен разбор вручную,2,1,0,user.userfield.add
+api-reference/user/userfields/user-userfield-delete.md,user,Аня,ожидает,1,1,0,user.userfield.delete
+api-reference/user/userfields/user-userfield-list.md,user,Аня,ожидает,1,1,0,user.userfield.list
+api-reference/user/userfields/user-userfield-update.md,user,Аня,нужен разбор вручную,2,1,0,user.userfield.update
 api-reference/user-consent/user-consent-agreement-list.md,user-consent,Аня,ожидает,1,1,0,userconsent.agreement.list
 api-reference/user-consent/user-consent-agreement-text.md,user-consent,Аня,ожидает,1,1,0,userconsent.agreement.text
 api-reference/user-consent/user-consent-consent-add.md,user-consent,Аня,ожидает,1,1,0,userconsent.consent.add
-api-reference/vibe/landing-repowidget-debug.md,vibe,Владимир,нужен разбор вручную,1,0,0,
-api-reference/vibe/landing-repowidget-get-list.md,vibe,Владимир,нужен разбор вручную,1,0,0,
-api-reference/vibe/landing-repowidget-register.md,vibe,Владимир,нужен разбор вручную,1,0,0,
-api-reference/vibe/landing-repowidget-unregister.md,vibe,Владимир,нужен разбор вручную,1,0,0,
+api-reference/vibe/landing-repowidget-debug.md,vibe,Аня,нужен разбор вручную,1,0,0,
+api-reference/vibe/landing-repowidget-get-list.md,vibe,Аня,нужен разбор вручную,1,0,0,
+api-reference/vibe/landing-repowidget-register.md,vibe,Аня,нужен разбор вручную,1,0,0,
+api-reference/vibe/landing-repowidget-unregister.md,vibe,Аня,нужен разбор вручную,1,0,0,
 api-reference/vote/vote.attachedvote.download.md,vote,Аня,нужен разбор вручную,1,0,0,vote.AttachedVote.download
 api-reference/vote/vote.attachedvote.get.md,vote,Аня,нужен разбор вручную,2,1,0,vote.AttachedVote.get
 api-reference/vote/vote.attachedvote.getAnswerVoted.md,vote,Аня,нужен разбор вручную,1,0,0,vote.AttachedVote.getAnswerVoted
