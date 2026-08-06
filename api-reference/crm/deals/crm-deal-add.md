@@ -572,7 +572,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.deal.add", b24.Params{
-    	"FIELDS": b24.Params{
+    	"fields": b24.Params{
     		"TITLE":                 "Новая сделка #1",
     		"TYPE_ID":               "COMPLEX",
     		"CATEGORY_ID":           0,
@@ -600,7 +600,7 @@
     		"PARENT_ID_1220":        22,
     		"UF_CRM_1721244482250":  "Привет мир!",
     	},
-    	"PARAMS": b24.Params{
+    	"params": b24.Params{
     		"REGISTER_SONET_EVENT": "N",
     	},
     })

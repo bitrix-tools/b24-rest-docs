@@ -562,8 +562,8 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.deal.list", b24.Params{
-    	"SELECT": []string{"ID", "TITLE", "TYPE_ID", "CATEGORY_ID", "STAGE_ID", "OPPORTUNITY", "IS_MANUAL_OPPORTUNITY", "ASSIGNED_BY_ID", "DATE_CREATE"},
-    	"FILTER": b24.Params{
+    	"select": []string{"ID", "TITLE", "TYPE_ID", "CATEGORY_ID", "STAGE_ID", "OPPORTUNITY", "IS_MANUAL_OPPORTUNITY", "ASSIGNED_BY_ID", "DATE_CREATE"},
+    	"filter": b24.Params{
     		"=%TITLE":               "%а",
     		"CATEGORY_ID":           1,
     		"TYPE_ID":               "COMPLEX",
@@ -574,7 +574,7 @@
     		"@ASSIGNED_BY_ID":       []int{1, 6},
     		">DATE_CREATE":          time.Now().AddDate(0, -6, 0).Format("2006-01-02"),
     	},
-    	"ORDER": b24.Params{
+    	"order": b24.Params{
     		"TITLE":       "ASC",
     		"OPPORTUNITY": "ASC",
     	},

@@ -488,8 +488,8 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.deal.update", b24.Params{
-    	"ID": 123,
-    	"FIELDS": b24.Params{
+    	"id": 123,
+    	"fields": b24.Params{
     		"TITLE":                 "Новое название сделки!",
     		"TYPE_ID":               "GOODS",
     		"STAGE_ID":              "WON",
@@ -501,7 +501,7 @@
     		"UF_CRM_1725365197310":  "Строка",
     		"PARENT_ID_1032":        1,
     	},
-    	"PARAMS": b24.Params{
+    	"params": b24.Params{
     		"REGISTER_SONET_EVENT":   "N",
     		"REGISTER_HISTORY_EVENT": "N",
     	},

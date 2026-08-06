@@ -235,7 +235,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.deal.delete", b24.Params{
-    	"ID": 12,
+    	"id": 12,
     })
     if err != nil {
     	return fmt.Errorf("crm.deal.delete: %w", err)

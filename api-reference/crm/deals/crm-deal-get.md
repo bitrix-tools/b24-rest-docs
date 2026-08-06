@@ -252,7 +252,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.deal.get", b24.Params{
-    	"ID": 410,
+    	"id": 410,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("crm.deal.get: %w", err)
