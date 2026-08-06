@@ -233,6 +233,36 @@
         app.run(port=3000)
     ```
 
+- Go
+
+    ```go
+    // Путь вебхука — это секрет: он приходит из окружения, а не из кода, и на
+    // публичную страницу с формой не попадает никогда. Клиент строится ОДИН раз
+    // на портал и переиспользуется всеми запросами — он держит HTTP-клиент и
+    // состояние авторизации, а http.Server зовёт обработчик из многих горутин.
+    core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    mux := http.NewServeMux()
+    // Страницу с формой отдаём отсюда же: тогда запрос формы уходит на тот
+    // адрес, с которого она открыта, и настраивать статику не требуется.
+    mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    	fmt.Fprint(w, formPage)
+    })
+    mux.HandleFunc("/form", func(w http.ResponseWriter, r *http.Request) {
+    	if r.Method != http.MethodPost {
+    		reply(w, http.StatusMethodNotAllowed, "Нужен POST", 0)
+    		return
+    	}
+    	handleForm(w, r, core)
+    })
+
+    log.Println("форма и обработчик: http://localhost:3000/")
+    if err := http.ListenAndServe(":3000", mux); err != nil {
+    	log.Fatal(err)
+    }
+    ```
+
 {% endlist %}
 
 ### Проверяем данные из формы
@@ -331,6 +361,44 @@
         return jsonify({"message": "Одно из полей слишком длинное"}), 400
     ```
 
+- Go
+
+    ```go
+    // Данные приходят от анонимного посетителя, поэтому до вызова метода
+    // обработчик их проверяет.
+    if err := r.ParseForm(); err != nil {
+    	reply(w, http.StatusBadRequest, "Не удалось разобрать форму", 0)
+    	return
+    }
+    // r.PostFormValue возвращает пустую строку, если ключа нет вовсе, — по
+    // отсутствующему полю падать нечему.
+    name := strings.TrimSpace(r.PostFormValue("NAME"))
+    lastName := strings.TrimSpace(r.PostFormValue("LAST_NAME"))
+    companyTitle := strings.TrimSpace(r.PostFormValue("COMPANY_TITLE"))
+    phone := strings.TrimSpace(r.PostFormValue("PHONE"))
+    email := strings.TrimSpace(r.PostFormValue("EMAIL"))
+
+    if name == "" {
+    	reply(w, http.StatusBadRequest, "Заполните имя", 0)
+    	return
+    }
+    if email != "" && !emailPattern.MatchString(email) {
+    	reply(w, http.StatusBadRequest, "Проверьте адрес электронной почты", 0)
+    	return
+    }
+    for _, value := range []string{name, lastName, companyTitle, phone, email} {
+    	// Длина считается в РУНАХ, а не в байтах: в UTF-8 кириллическая буква
+    	// занимает два байта, и len() отклонил бы вдвое более короткое имя.
+    	if len([]rune(value)) > maxLength {
+    		reply(w, http.StatusBadRequest, "Одно из полей слишком длинное", 0)
+    		return
+    	}
+    }
+    // В REST значения уходят в исходном виде: html.EscapeString и подобное
+    // нужно при выводе на страницу, а в CRM из-за него вместо «Иванов & сын»
+    // попадёт «Иванов &amp; сын».
+    ```
+
 {% endlist %}
 
 ### Собираем телефон и почту в мультиполя
@@ -392,6 +460,21 @@
         ar_fm.append({"typeId": "EMAIL", "valueType": "HOME", "value": s_email})
     ```
 
+- Go
+
+    ```go
+    // Телефон и почта едут в поле fm — массив объектов crm_multifield.
+    // Универсальные методы crm.item.* принимают ключи в camelCase, тогда как
+    // crm.lead.add ждал бы те же ключи в ВЕРХНЕМ регистре.
+    fm := make([]b24.Params, 0, 2)
+    if phone != "" {
+    	fm = append(fm, b24.Params{"typeId": "PHONE", "valueType": "WORK", "value": phone})
+    }
+    if email != "" {
+    	fm = append(fm, b24.Params{"typeId": "EMAIL", "valueType": "HOME", "value": email})
+    }
+    ```
+
 {% endlist %}
 
 ### Формируем название лида
@@ -436,6 +519,17 @@
 
     if s_company_title:
         s_title += " — " + s_company_title
+    ```
+
+- Go
+
+    ```go
+    // Название собираем из имени и фамилии, а название компании добавляем через
+    // тире — так менеджер видит в списке лидов, от кого пришла заявка.
+    title := "С сайта: " + strings.TrimSpace(name+" "+lastName)
+    if companyTitle != "" {
+    	title += " — " + companyTitle
+    }
     ```
 
 {% endlist %}
@@ -530,6 +624,46 @@
         # Подробности ошибки пишем в лог, посетителю их не показываем
         app.logger.error(error)
         return jsonify({"message": "Не удалось создать лид, попробуйте позже"}), 502
+    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(r.Context(), "crm.item.add", b24.Params{
+    	"entityTypeId": entityTypeLead,
+    	"fields": b24.Params{
+    		"title":        title,
+    		"name":         name,
+    		"lastName":     lastName,
+    		"companyTitle": companyTitle,
+    		"fm":           fm,
+    	},
+    }) // без WithIdempotent: повтор создал бы второй лид
+    if err != nil {
+    	// Подробности пишем в лог сервера, посетителю возвращаем общее
+    	// сообщение: техническим деталям на публичной странице не место.
+    	// Адрес вебхука в текст ошибки не попадёт — SDK вырезает его сам.
+    	log.Println("crm.item.add:", err)
+    	reply(w, http.StatusBadGateway, "Не удалось создать лид, попробуйте позже", 0)
+    	return
+    }
+
+    // Метод заворачивает ответ в объект с ключом item.
+    raw, ok := b24.Unwrap(res.Result, "item", "id")
+    if !ok {
+    	log.Println("нет item.id в ответе:", string(res.Result))
+    	reply(w, http.StatusBadGateway, "Не удалось создать лид, попробуйте позже", 0)
+    	return
+    }
+    var leadID b24.ID
+    if err := json.Unmarshal(raw, &leadID); err != nil {
+    	log.Println("разбор идентификатора лида:", err)
+    	reply(w, http.StatusBadGateway, "Не удалось создать лид, попробуйте позже", 0)
+    	return
+    }
+
+    log.Printf("создан лид %d", leadID)
+    reply(w, http.StatusOK, "Лид создан", leadID)
     ```
 
 {% endlist %}
@@ -838,6 +972,236 @@
         app.run(port=3000)
     ```
 
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Отдельный файл form.html не нужен: страницу с формой отдаёт та же программа,
+    // открывайте http://localhost:3000/. Проверка результата — та же программа с
+    // аргументом: go run . check 3465
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"net/http"
+    	"os"
+    	"regexp"
+    	"strconv"
+    	"strings"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // entityTypeLead — идентификатор типа объекта «лид» для универсальных методов
+    // crm.item.*.
+    const entityTypeLead = 1
+
+    // Ограничение длины значений: форма публичная.
+    const maxLength = 100
+
+    // emailPattern — проверка адреса электронной почты.
+    var emailPattern = regexp.MustCompile(`^[^@\s]+@[^@\s]+\.[^@\s]+$`)
+
+    func main() {
+    	// Проверка результата: go run . check 3465
+    	if len(os.Args) > 2 && os.Args[1] == "check" {
+    		id, err := strconv.ParseInt(os.Args[2], 10, 64)
+    		if err != nil {
+    			log.Fatal("нужен числовой идентификатор лида")
+    		}
+    		if err := check(context.Background(), b24.ID(id)); err != nil {
+    			log.Fatal(err)
+    		}
+    		return
+    	}
+    	// Путь вебхука — это секрет: он приходит из окружения, а не из кода, и на
+    	// публичную страницу с формой не попадает никогда. Клиент строится ОДИН раз
+    	// на портал и переиспользуется всеми запросами — он держит HTTP-клиент и
+    	// состояние авторизации, а http.Server зовёт обработчик из многих горутин.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	mux := http.NewServeMux()
+    	// Страницу с формой отдаём отсюда же: тогда запрос формы уходит на тот
+    	// адрес, с которого она открыта, и настраивать статику не требуется.
+    	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    		fmt.Fprint(w, formPage)
+    	})
+    	mux.HandleFunc("/form", func(w http.ResponseWriter, r *http.Request) {
+    		if r.Method != http.MethodPost {
+    			reply(w, http.StatusMethodNotAllowed, "Нужен POST", 0)
+    			return
+    		}
+    		handleForm(w, r, core)
+    	})
+
+    	log.Println("форма и обработчик: http://localhost:3000/")
+    	if err := http.ListenAndServe(":3000", mux); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func handleForm(w http.ResponseWriter, r *http.Request, core *b24.Core) {
+    	// Данные приходят от анонимного посетителя, поэтому до вызова метода
+    	// обработчик их проверяет.
+    	if err := r.ParseForm(); err != nil {
+    		reply(w, http.StatusBadRequest, "Не удалось разобрать форму", 0)
+    		return
+    	}
+    	// r.PostFormValue возвращает пустую строку, если ключа нет вовсе, — по
+    	// отсутствующему полю падать нечему.
+    	name := strings.TrimSpace(r.PostFormValue("NAME"))
+    	lastName := strings.TrimSpace(r.PostFormValue("LAST_NAME"))
+    	companyTitle := strings.TrimSpace(r.PostFormValue("COMPANY_TITLE"))
+    	phone := strings.TrimSpace(r.PostFormValue("PHONE"))
+    	email := strings.TrimSpace(r.PostFormValue("EMAIL"))
+
+    	if name == "" {
+    		reply(w, http.StatusBadRequest, "Заполните имя", 0)
+    		return
+    	}
+    	if email != "" && !emailPattern.MatchString(email) {
+    		reply(w, http.StatusBadRequest, "Проверьте адрес электронной почты", 0)
+    		return
+    	}
+    	for _, value := range []string{name, lastName, companyTitle, phone, email} {
+    		// Длина считается в РУНАХ, а не в байтах: в UTF-8 кириллическая буква
+    		// занимает два байта, и len() отклонил бы вдвое более короткое имя.
+    		if len([]rune(value)) > maxLength {
+    			reply(w, http.StatusBadRequest, "Одно из полей слишком длинное", 0)
+    			return
+    		}
+    	}
+    	// В REST значения уходят в исходном виде: html.EscapeString и подобное
+    	// нужно при выводе на страницу, а в CRM из-за него вместо «Иванов & сын»
+    	// попадёт «Иванов &amp; сын».
+    	// Телефон и почта едут в поле fm — массив объектов crm_multifield.
+    	// Универсальные методы crm.item.* принимают ключи в camelCase, тогда как
+    	// crm.lead.add ждал бы те же ключи в ВЕРХНЕМ регистре.
+    	fm := make([]b24.Params, 0, 2)
+    	if phone != "" {
+    		fm = append(fm, b24.Params{"typeId": "PHONE", "valueType": "WORK", "value": phone})
+    	}
+    	if email != "" {
+    		fm = append(fm, b24.Params{"typeId": "EMAIL", "valueType": "HOME", "value": email})
+    	}
+    	// Название собираем из имени и фамилии, а название компании добавляем через
+    	// тире — так менеджер видит в списке лидов, от кого пришла заявка.
+    	title := "С сайта: " + strings.TrimSpace(name+" "+lastName)
+    	if companyTitle != "" {
+    		title += " — " + companyTitle
+    	}
+    	res, err := core.Call(r.Context(), "crm.item.add", b24.Params{
+    		"entityTypeId": entityTypeLead,
+    		"fields": b24.Params{
+    			"title":        title,
+    			"name":         name,
+    			"lastName":     lastName,
+    			"companyTitle": companyTitle,
+    			"fm":           fm,
+    		},
+    	}) // без WithIdempotent: повтор создал бы второй лид
+    	if err != nil {
+    		// Подробности пишем в лог сервера, посетителю возвращаем общее
+    		// сообщение: техническим деталям на публичной странице не место.
+    		// Адрес вебхука в текст ошибки не попадёт — SDK вырезает его сам.
+    		log.Println("crm.item.add:", err)
+    		reply(w, http.StatusBadGateway, "Не удалось создать лид, попробуйте позже", 0)
+    		return
+    	}
+
+    	// Метод заворачивает ответ в объект с ключом item.
+    	raw, ok := b24.Unwrap(res.Result, "item", "id")
+    	if !ok {
+    		log.Println("нет item.id в ответе:", string(res.Result))
+    		reply(w, http.StatusBadGateway, "Не удалось создать лид, попробуйте позже", 0)
+    		return
+    	}
+    	var leadID b24.ID
+    	if err := json.Unmarshal(raw, &leadID); err != nil {
+    		log.Println("разбор идентификатора лида:", err)
+    		reply(w, http.StatusBadGateway, "Не удалось создать лид, попробуйте позже", 0)
+    		return
+    	}
+
+    	log.Printf("создан лид %d", leadID)
+    	reply(w, http.StatusOK, "Лид создан", leadID)
+    }
+
+    // check показывает данные лида по идентификатору из ответа обработчика. Вызов
+    // только читает — данные в CRM он не меняет.
+    func check(ctx context.Context, leadID b24.ID) error {
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	res, err := core.Call(ctx, "crm.item.get", b24.Params{
+    		"entityTypeId": entityTypeLead,
+    		"id":           leadID,
+    	}, b24.WithIdempotent()) // чтение: неоднозначный сбой сети можно повторить
+    	if err != nil {
+    		return fmt.Errorf("crm.item.get: %w", err)
+    	}
+
+    	var out struct {
+    		Item struct {
+    			ID           b24.ID `json:"id"`
+    			Title        string `json:"title"`
+    			Name         string `json:"name"`
+    			LastName     string `json:"lastName"`
+    			CompanyTitle string `json:"companyTitle"`
+    			FM           []struct {
+    				TypeID string `json:"typeId"`
+    				Value  string `json:"value"`
+    			} `json:"fm"`
+    		} `json:"item"`
+    	}
+    	if err := json.Unmarshal(res.Result, &out); err != nil {
+    		return fmt.Errorf("разбор лида: %w", err)
+    	}
+
+    	fmt.Printf("лид %d: %s\n", out.Item.ID, out.Item.Title)
+    	for _, f := range out.Item.FM {
+    		fmt.Printf("  %s: %s\n", f.TypeID, f.Value)
+    	}
+    	return nil
+    }
+
+    // reply отвечает странице тем же JSON, что и обработчики на других языках:
+    // {"message": "...", "id": 3465}.
+    func reply(w http.ResponseWriter, status int, message string, id b24.ID) {
+    	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+    	w.WriteHeader(status)
+    	body := map[string]any{"message": message}
+    	if id != 0 {
+    		body["id"] = id
+    	}
+    	_ = json.NewEncoder(w).Encode(body)
+    }
+
+    // formPage — та же форма, что в шаге 1, только отдаётся программой, а не
+    // лежит отдельным файлом.
+    const formPage = `<!doctype html>
+    <meta charset="utf-8">
+    <title>Заявка</title>
+    <form method="post" action="/form">
+      <p><label>Имя*<br><input name="NAME" required maxlength="100"></label></p>
+      <p><label>Фамилия<br><input name="LAST_NAME" maxlength="100"></label></p>
+      <p><label>Компания<br><input name="COMPANY_TITLE" maxlength="100"></label></p>
+      <p><label>Телефон<br><input name="PHONE" type="tel" maxlength="100"></label></p>
+      <p><label>Почта<br><input name="EMAIL" type="email" maxlength="100"></label></p>
+      <p><button type="submit">Отправить</button></p>
+    </form>`
+    ```
+
 {% endlist %}
 
 ## Проверим результат
@@ -907,6 +1271,42 @@
     bitrix_response = client.crm.item.get(entity_type_id=1, bitrix_id=lead_id).response
 
     print(bitrix_response.result["item"])
+    ```
+
+- Go
+
+    ```go
+    core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    res, err := core.Call(ctx, "crm.item.get", b24.Params{
+    	"entityTypeId": entityTypeLead,
+    	"id":           leadID,
+    }, b24.WithIdempotent()) // чтение: неоднозначный сбой сети можно повторить
+    if err != nil {
+    	return fmt.Errorf("crm.item.get: %w", err)
+    }
+
+    var out struct {
+    	Item struct {
+    		ID           b24.ID `json:"id"`
+    		Title        string `json:"title"`
+    		Name         string `json:"name"`
+    		LastName     string `json:"lastName"`
+    		CompanyTitle string `json:"companyTitle"`
+    		FM           []struct {
+    			TypeID string `json:"typeId"`
+    			Value  string `json:"value"`
+    		} `json:"fm"`
+    	} `json:"item"`
+    }
+    if err := json.Unmarshal(res.Result, &out); err != nil {
+    	return fmt.Errorf("разбор лида: %w", err)
+    }
+
+    fmt.Printf("лид %d: %s\n", out.Item.ID, out.Item.Title)
+    for _, f := range out.Item.FM {
+    	fmt.Printf("  %s: %s\n", f.TypeID, f.Value)
+    }
     ```
 
 {% endlist %}
