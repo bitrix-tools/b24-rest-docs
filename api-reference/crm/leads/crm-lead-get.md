@@ -248,6 +248,32 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.lead.get", b24.Params{
+    	"id": 123,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.lead.get: %w", err)
+    }
+
+    var item struct {
+    	ID               b24.ID `json:"ID"`
+    	Title            string `json:"TITLE"`
+    	Name             string `json:"NAME"`
+    	IsReturnCustomer string `json:"IS_RETURN_CUSTOMER"`
+    	Birthdate        string `json:"BIRTHDATE"`
+    	SourceID         b24.ID `json:"SOURCE_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

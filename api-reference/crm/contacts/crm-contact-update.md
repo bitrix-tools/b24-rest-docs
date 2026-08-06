@@ -452,6 +452,41 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.update", b24.Params{
+    	"id": 43,
+    	"fields": b24.Params{
+    		"NAME":                 "Сергей",
+    		"BIRTHDATE":            "11.11.1999",
+    		"TYPE_ID":              "RECOMMENDATION",
+    		"SOURCE_ID":            "WEB",
+    		"POST":                 "Администратор компьютерных сетей",
+    		"COMMENTS":             "Новый комментарий",
+    		"OPENED":               "N",
+    		"EXPORT":               "Y",
+    		"ASSIGNED_BY_ID":       1,
+    		"COMPANY_ID":           12,
+    		"COMPANY_IDS":          []int{13, 15},
+    		"UF_CRM_1720697698689": "Пример нового значения пользовательского поля с типом \"Строка\"",
+    		"PARENT_ID_1224":       14,
+    	},
+    	"params": b24.Params{
+    		"REGISTER_SONET_EVENT":   "N",
+    		"REGISTER_HISTORY_EVENT": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Работа с множественными полями

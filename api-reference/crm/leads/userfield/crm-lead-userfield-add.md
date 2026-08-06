@@ -727,6 +727,58 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.lead.userfield.add", b24.Params{
+    	"fields": b24.Params{
+    		"LABEL":        "Поле Привет, мир!",
+    		"USER_TYPE_ID": "string",
+    		"FIELD_NAME":   "HELLO_WORLD",
+    		"MULTIPLE":     "Y",
+    		"MANDATORY":    "Y",
+    		"SHOW_FILTER":  "Y",
+    		"SETTINGS": b24.Params{
+    			"DEFAULT_VALUE": "Привет, мир! Значение по умолчанию",
+    			"ROWS":          3,
+    		},
+    		"SORT":              1000,
+    		"EDIT_IN_LIST":      "Y",
+    		"LIST_FILTER_LABEL": "Привет, мир! Фильтр",
+    		"LIST_COLUMN_LABEL": b24.Params{
+    			"en": "Hello, World! Column",
+    			"ru": "Привет, мир! Колонка",
+    			"de": "Hallo, Welt! Spalte",
+    		},
+    		"EDIT_FORM_LABEL": b24.Params{
+    			"en": "Hello, World! Edit",
+    			"ru": "Привет, мир! Редактировать",
+    			"de": "Hallo, Welt! Bearbeiten",
+    		},
+    		"ERROR_MESSAGE": b24.Params{
+    			"en": "Hello, World! Error",
+    			"ru": "Привет, мир! Ошибка",
+    			"de": "Hallo, Welt! Fehler",
+    		},
+    		"HELP_MESSAGE": b24.Params{
+    			"en": "Hello, World! Help",
+    			"ru": "Привет, мир! Помощь",
+    			"de": "Hallo, Welt! Hilfe",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.lead.userfield.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ### Пример создания пользовательского поля типа Список
@@ -1016,6 +1068,59 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.lead.userfield.add", b24.Params{
+    	"fields": b24.Params{
+    		"LABEL":        "Пользовательское поле (список)",
+    		"USER_TYPE_ID": "enumeration",
+    		"FIELD_NAME":   "ENUMERATION_EXAMPLE",
+    		"MULTIPLE":     "N",
+    		"MANDATORY":    "N",
+    		"SHOW_FILTER":  "Y",
+    		"LIST": []b24.Params{
+    			{
+    				"VALUE":  "Элемент списка #1",
+    				"DEF":    "Y",
+    				"XML_ID": "XML_ID_1",
+    				"SORT":   100,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #2",
+    				"XML_ID": "XML_ID_2",
+    				"SORT":   200,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #3",
+    				"XML_ID": "XML_ID_3",
+    				"SORT":   300,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #4",
+    				"XML_ID": "XML_ID_4",
+    				"SORT":   400,
+    			},
+    		},
+    		"SETTINGS": b24.Params{
+    			"DISPLAY":     "UI",
+    			"LIST_HEIGHT": 2,
+    		},
+    		"SORT": 2000,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.lead.userfield.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

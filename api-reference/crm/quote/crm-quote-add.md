@@ -377,6 +377,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.quote.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE":          "КП на поставку мебели",
+    		"STATUS_ID":      "DRAFT",
+    		"OPENED":         "Y",
+    		"ASSIGNED_BY_ID": 1,
+    		"CURRENCY_ID":    "RUB",
+    		"OPPORTUNITY":    150000,
+    		"COMPANY_ID":     1,
+    		"MYCOMPANY_ID":   3,
+    		"COMMENTS":       "Подготовлено по запросу клиента",
+    		"BEGINDATE":      "2026-03-13T10:00:00+03:00",
+    		"CLOSEDATE":      "2026-03-20T18:00:00+03:00",
+    	},
+    	"params": b24.Params{
+    		"IMPORT": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.quote.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -605,6 +605,93 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.details.configuration.set", b24.Params{
+    	"userId": 1,
+    	"data": []b24.Params{
+    		{
+    			"name":  "section_1",
+    			"title": "Личные данные",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name":        "NAME",
+    					"optionFlags": 1,
+    				},
+    				{
+    					"name":        "LAST_NAME",
+    					"optionFlags": 1,
+    				},
+    				{
+    					"name": "SECOND_NAME",
+    				},
+    				{
+    					"name": "BIRTHDATE",
+    				},
+    				{
+    					"name":        "PHONE",
+    					"optionFlags": 1,
+    					"options": b24.Params{
+    						"defaultCountry": "GB",
+    					},
+    				},
+    				{
+    					"name":        "ADDRESS",
+    					"optionFlags": 1,
+    					"options": b24.Params{
+    						"defaultAddressType": 4,
+    					},
+    				},
+    			},
+    		},
+    		{
+    			"name":  "section_2",
+    			"title": "Основная информация",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "TYPE_ID",
+    				},
+    				{
+    					"name": "SOURCE_ID",
+    				},
+    				{
+    					"name": "POST",
+    				},
+    			},
+    		},
+    		{
+    			"name":  "section_3",
+    			"title": "Дополнительная информация",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "PHOTO",
+    				},
+    				{
+    					"name": "COMMENTS",
+    				},
+    				{
+    					"name": "UF_CRM_1720697698689",
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.details.configuration.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 

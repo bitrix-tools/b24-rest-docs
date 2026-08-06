@@ -273,6 +273,30 @@ fields:
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.lead.contact.add", b24.Params{
+    	"id": 1,
+    	"fields": b24.Params{
+    		"CONTACT_ID": 1010,
+    		"SORT":       10,
+    		"IS_PRIMARY": "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.lead.contact.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -452,6 +452,76 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.details.configuration.set", b24.Params{
+    	"userId": 1,
+    	"data": []b24.Params{
+    		{
+    			"name":  "main",
+    			"title": "О компании",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "TITLE",
+    				},
+    				{
+    					"name": "LOGO",
+    				},
+    				{
+    					"name": "COMPANY_TYPE",
+    				},
+    				{
+    					"name": "POST",
+    				},
+    				{
+    					"name": "PHONE",
+    					"options": b24.Params{
+    						"defaultCountry": "RU",
+    					},
+    				},
+    				{
+    					"name": "EMAIL",
+    				},
+    				{
+    					"name": "CONTACT",
+    				},
+    			},
+    		},
+    		{
+    			"name":  "additional",
+    			"title": "Дополнительно",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "INDUSTRY",
+    				},
+    				{
+    					"name": "OPENED",
+    				},
+    				{
+    					"name": "ASSIGNED_BY_ID",
+    				},
+    				{
+    					"name": "COMMENTS",
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.company.details.configuration.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
