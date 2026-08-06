@@ -261,6 +261,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.section.add", b24.Params{
+    	"type":        "user",
+    	"ownerId":     2,
+    	"name":        "New Section",
+    	"description": "Description for section",
+    	"color":       "#9cbeee",
+    	"text_color":  "#283000",
+    	"export": b24.Params{
+    		"ALLOW": false,
+    		"SET":   "3_9",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.section.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -418,6 +418,46 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paysystem.add", b24.Params{
+    	"NAME":                 "Оплата картой",
+    	"DESCRIPTION":          "Легко оплачивайте покупки картой.",
+    	"XML_ID":               "my_ps_id",
+    	"PERSON_TYPE_ID":       1,
+    	"BX_REST_HANDLER":      "resthandlercode",
+    	"ACTIVE":               "Y",
+    	"ENTITY_REGISTRY_TYPE": "ORDER",
+    	"LOGOTYPE":             "/* base64 image */",
+    	"NEW_WINDOW":           "N",
+    	"SETTINGS": b24.Params{
+    		"REST_SERVICE_ID": b24.Params{
+    			"TYPE":  "VALUE",
+    			"VALUE": "SERVICE ID VALUE",
+    		},
+    		"REST_SERVICE_KEY": b24.Params{
+    			"TYPE":  "VALUE",
+    			"VALUE": "KEY ID VALUE",
+    		},
+    		"PAYMENT_ID": b24.Params{
+    			"TYPE":  "PAYMENT",
+    			"VALUE": "ACCOUNT_NUMBER",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.paysystem.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

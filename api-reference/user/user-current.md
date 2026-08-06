@@ -191,6 +191,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.current", nil)
+    if err != nil {
+    	return fmt.Errorf("user.current: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Active    bool   `json:"ACTIVE"`
+    	Name      string `json:"NAME"`
+    	LastName  string `json:"LAST_NAME"`
+    	Email     string `json:"EMAIL"`
+    	LastLogin string `json:"LAST_LOGIN"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Active)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

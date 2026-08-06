@@ -208,6 +208,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.message.createchat", b24.Params{
+    	"messageId": 15,
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.message.createchat: %w", err)
+    }
+
+    var item struct {
+    	Success   bool   `json:"success"`
+    	ChatID    b24.ID `json:"chatId"`
+    	MessageID b24.ID `json:"messageId"`
+    	Existing  bool   `json:"existing"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success, item.ChatID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

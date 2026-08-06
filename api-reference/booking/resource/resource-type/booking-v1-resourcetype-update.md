@@ -361,6 +361,46 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.resourceType.update", b24.Params{
+    	"id": 10,
+    	"fields": b24.Params{
+    		"name":                            "Новое название",
+    		"code":                            "Обновленный код",
+    		"isInfoNotificationOn":            "Y",
+    		"templateTypeInfo":                "inanimate",
+    		"isConfirmationNotificationOn":    "Y",
+    		"templateTypeConfirmation":        "animate",
+    		"isReminderNotificationOn":        "Y",
+    		"templateTypeReminder":            "base",
+    		"isFeedbackNotificationOn":        "N",
+    		"templateTypeFeedback":            "animate",
+    		"isDelayedNotificationOn":         "N",
+    		"templateTypeDelayed":             "animate",
+    		"infoDelay":                       300,
+    		"reminderDelay":                   -1,
+    		"delayedDelay":                    300,
+    		"delayedCounterDelay":             7200,
+    		"confirmationDelay":               86400,
+    		"confirmationRepetitions":         0,
+    		"confirmationRepetitionsInterval": 0,
+    		"confirmationCounterDelay":        7200,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("booking.v1.resourceType.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

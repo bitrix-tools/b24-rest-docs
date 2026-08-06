@@ -285,6 +285,40 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.waitlist.client.set", b24.Params{
+    	"waitListId": 4,
+    	"clients": []b24.Params{
+    		{
+    			"id": 1,
+    			"type": b24.Params{
+    				"module": "crm",
+    				"code":   "CONTACT",
+    			},
+    		},
+    		{
+    			"id": 2,
+    			"type": b24.Params{
+    				"module": "crm",
+    				"code":   "CONTACT",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("booking.v1.waitlist.client.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -190,6 +190,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paysystem.handler.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.paysystem.handler.list: %w", err)
+    }
+
+    var items []struct {
+    	ID   b24.ID `json:"ID"`
+    	Name string `json:"NAME"`
+    	Code string `json:"CODE"`
+    	Sort string `json:"SORT"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

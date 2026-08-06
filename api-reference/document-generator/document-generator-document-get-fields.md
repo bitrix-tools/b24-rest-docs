@@ -246,6 +246,35 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.document.getfields", b24.Params{
+    	"id": 51,
+    	"values": b24.Params{
+    		"DocumentNumber": "ДГ-2026-001",
+    		"CurrentDate":    "2026-03-18T00:00:00+03:00",
+    		"ClientName":     "ООО Ромашка",
+    		"ClientPhone":    "+7 999 123-45-67",
+    		"Total":          "51000",
+    		"Comment":        "Оплата в течение 5 рабочих дней после подписания",
+    		"UserName":       "Иван Петров",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.document.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documentFields".
+    raw, ok := b24.Unwrap(res.Result, "documentFields")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documentFields")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

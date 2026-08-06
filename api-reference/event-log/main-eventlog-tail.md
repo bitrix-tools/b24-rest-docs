@@ -325,6 +325,45 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "main.eventlog.tail", b24.Params{
+    	"select": []string{"id", "timestampX", "severity", "auditTypeId", "moduleId", "itemId", "userId", "description"},
+    	"filter": []any{},
+    	"cursor": b24.Params{
+    		"field": "id",
+    		"value": 446313,
+    		"order": "ASC",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("main.eventlog.tail: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"id"`
+    	TimestampX  string `json:"timestampX"`
+    	Severity    string `json:"severity"`
+    	AuditTypeID string `json:"auditTypeId"`
+    	ModuleID    string `json:"moduleId"`
+    	ItemID      b24.ID `json:"itemId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

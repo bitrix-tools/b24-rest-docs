@@ -230,6 +230,40 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.mailbox.senders", b24.Params{
+    	"pagination": b24.Params{
+    		"page":   1,
+    		"limit":  20,
+    		"offset": 0,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.mailbox.senders: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	Email  string `json:"email"`
+    	Name   string `json:"name"`
+    	Sender string `json:"sender"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Email)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

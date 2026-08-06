@@ -193,6 +193,32 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.waitlist.get", b24.Params{
+    	"id": 15,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("booking.v1.waitlist.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "waitList".
+    raw, ok := b24.Unwrap(res.Result, "waitList")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа waitList")
+    }
+
+    var item struct {
+    	ID b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

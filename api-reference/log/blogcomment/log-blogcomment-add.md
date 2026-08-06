@@ -234,6 +234,29 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "log.blogcomment.add", b24.Params{
+    	"POST_ID": 403,
+    	"TEXT":    "Комментарий к посту",
+    	"USER_ID": 27,
+    	"FILES": []any{
+    		[]string{"example.txt", "SXQncyBhIHRlc3QgZmlsZSBmb3IgQml0cml4IFJlc3QgQVBJLg=="},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("log.blogcomment.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

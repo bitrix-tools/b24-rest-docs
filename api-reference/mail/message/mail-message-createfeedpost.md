@@ -216,6 +216,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.message.createfeedpost", b24.Params{
+    	"messageId": 15,
+    	"title":     "Обсуждение договора",
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.message.createfeedpost: %w", err)
+    }
+
+    var item struct {
+    	Success   bool   `json:"success"`
+    	PostID    b24.ID `json:"postId"`
+    	MessageID b24.ID `json:"messageId"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success, item.PostID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -338,6 +338,32 @@ UF_BLOG_POST_VOTE: 'n<ID_опроса>',
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "log.blogpost.add", b24.Params{
+    	"POST_TITLE":   "Новый регламент",
+    	"POST_MESSAGE": "С 1 ноября обновляется процесс согласования.",
+    	"DEST":         []string{"UA"},
+    	"TAGS":         "регламент,согласование,обновление",
+    	"IMPORTANT":    "Y",
+    	"FILES": []any{
+    		[]string{"first-image.jpg", "iVBORw0KGgoAAAANSUhEUgAAAAUA..."},
+    		[]string{"second-image.jpg", "iVBORw0KGgoAAAANSUhEUgAAAAUA..."},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("log.blogpost.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

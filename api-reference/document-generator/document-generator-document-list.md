@@ -457,6 +457,31 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.document.list", b24.Params{
+    	"select": []string{"id", "title", "number", "templateId", "provider", "value", "fileId", "imageId", "pdfId", "createTime", "updateTime", "createdBy"},
+    	"order": b24.Params{
+    		"updateTime": "desc",
+    		"id":         "desc",
+    	},
+    	"filter": b24.Params{
+    		">=createTime": "2026-03-18T00:00:00+03:00",
+    		"%title":       "ДГ-2026",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.document.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

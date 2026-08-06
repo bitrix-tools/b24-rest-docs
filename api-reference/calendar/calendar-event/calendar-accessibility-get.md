@@ -219,6 +219,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.accessibility.get", b24.Params{
+    	"from":  "2024-06-20",
+    	"to":    "2024-12-20",
+    	"users": []int{1, 2, 34},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("calendar.accessibility.get: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

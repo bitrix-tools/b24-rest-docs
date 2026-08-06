@@ -174,6 +174,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "voximplant.tts.voices.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("voximplant.tts.voices.get: %w", err)
+    }
+
+    var item struct {
+    	Auenglishfemale    string `json:"auenglishfemale"`
+    	Brportuguesefemale string `json:"brportuguesefemale"`
+    	Caenglishfemale    string `json:"caenglishfemale"`
+    	Cafrenchfemale     string `json:"cafrenchfemale"`
+    	Cafrenchmale       string `json:"cafrenchmale"`
+    	Chchinesefemale    string `json:"chchinesefemale"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Auenglishfemale, item.Brportuguesefemale)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

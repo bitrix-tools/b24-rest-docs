@@ -212,6 +212,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.resourceType.get", b24.Params{
+    	"id": 15,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("booking.v1.resourceType.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "resourceType".
+    raw, ok := b24.Unwrap(res.Result, "resourceType")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа resourceType")
+    }
+
+    var item struct {
+    	Code                                        string `json:"code"`
+    	ConfirmationCounterDelay                    int    `json:"confirmationCounterDelay"`
+    	ConfirmationNotificationDelay               int    `json:"confirmationNotificationDelay"`
+    	ConfirmationNotificationRepetitionsInterval int    `json:"confirmationNotificationRepetitionsInterval"`
+    	DelayedCounterDelay                         int    `json:"delayedCounterDelay"`
+    	DelayedNotificationDelay                    int    `json:"delayedNotificationDelay"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Code, item.ConfirmationCounterDelay)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

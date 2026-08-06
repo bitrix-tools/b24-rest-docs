@@ -393,6 +393,57 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.document.add", b24.Params{
+    	"templateId": 53,
+    	"value":      "SUPPLY_CONTRACT_2026_015",
+    	"values": b24.Params{
+    		"DocumentNumber": "ДГ-2026-001",
+    		"CurrentDate":    "2026-03-18T00:00:00+03:00",
+    		"ClientName":     "ООО Ромашка",
+    		"ClientPhone":    "+7 999 123-45-67",
+    		"Total":          "125000",
+    		"Comment":        "Оплата в течение 5 рабочих дней после подписания",
+    		"UserName":       "Иван Петров",
+    	},
+    	"fields": b24.Params{
+    		"CurrentDate": b24.Params{
+    			"TYPE": "DATE",
+    			"FORMAT": b24.Params{
+    				"format": "d.m.Y",
+    			},
+    			"TITLE": "Дата договора",
+    		},
+    	},
+    	"stampsEnabled": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.document.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "document".
+    raw, ok := b24.Unwrap(res.Result, "document")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа document")
+    }
+
+    var item struct {
+    	DownloadUrl string `json:"downloadUrl"`
+    	Title       string `json:"title"`
+    	Number      string `json:"number"`
+    	ID          b24.ID `json:"id"`
+    	CreateTime  string `json:"createTime"`
+    	CreatedBy   int    `json:"createdBy"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DownloadUrl, item.Title)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

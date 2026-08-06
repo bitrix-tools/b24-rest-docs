@@ -197,6 +197,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.item.property.get", b24.Params{
+    	"ENTITY": "dish",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("entity.item.property.get: %w", err)
+    }
+
+    var items []struct {
+    	Property string `json:"PROPERTY"`
+    	Name     string `json:"NAME"`
+    	Type     string `json:"TYPE"`
+    	Sort     string `json:"SORT"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Property, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

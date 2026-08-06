@@ -573,6 +573,62 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.event.update", b24.Params{
+    	"id":                699,
+    	"type":              "user",
+    	"ownerId":           2,
+    	"name":              "Changed Event Name",
+    	"description":       "New description for event",
+    	"from":              "2024-06-17",
+    	"to":                "2024-06-17",
+    	"skip_time":         "Y",
+    	"section":           5,
+    	"color":             "#9cbe1c",
+    	"text_color":        "#283033",
+    	"accessibility":     "free",
+    	"importance":        "normal",
+    	"is_meeting":        "Y",
+    	"private_event":     "Y",
+    	"recurrence_mode":   "next",
+    	"current_date_from": "2024-12-04",
+    	"remind": []b24.Params{
+    		{
+    			"type":  "min",
+    			"count": 10,
+    		},
+    	},
+    	"location":  "London",
+    	"attendees": []int{1, 2, 3},
+    	"host":      2,
+    	"meeting": b24.Params{
+    		"notify":       true,
+    		"reinvite":     false,
+    		"allow_invite": false,
+    		"hide_guests":  false,
+    	},
+    	"rrule": b24.Params{
+    		"FREQ":     "WEEKLY",
+    		"BYDAY":    []string{"MO", "WE"},
+    		"COUNT":    10,
+    		"INTERVAL": 1,
+    	},
+    	"crm_fields": []string{"C_5", "L_11"},
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.event.update: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

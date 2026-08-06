@@ -366,6 +366,59 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.booking.list", b24.Params{
+    	"FILTER": b24.Params{
+    		"within": b24.Params{
+    			"dateFrom": 0,
+    			"dateTo":   1739262600,
+    		},
+    		"client": b24.Params{
+    			"entities": []b24.Params{
+    				{
+    					"code":   "CONTACT",
+    					"module": "crm",
+    					"id":     "1",
+    				},
+    				{
+    					"code":   "COMPANY",
+    					"module": "crm",
+    					"id":     "1",
+    				},
+    			},
+    		},
+    	},
+    	"ORDER": b24.Params{
+    		"id":       "ASC",
+    		"dateFrom": "DESC",
+    		"dateTo":   "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("booking.v1.booking.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "booking".
+    raw, ok := b24.Unwrap(res.Result, "booking")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа booking")
+    }
+
+    var items []struct {
+    	ID   b24.ID `json:"id"`
+    	Name string `json:"name"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

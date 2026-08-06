@@ -425,6 +425,46 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paysystem.list", b24.Params{
+    	"SELECT": []string{"ID", "PERSON_TYPE_ID", "NAME", "PSA_NAME", "SORT", "DESCRIPTION", "ACTION_FILE", "RESULT_FILE", "NEW_WINDOW", "TARIF", "PS_MODE", "HAVE_PAYMENT", "HAVE_ACTION", "HAVE_RESULT", "HAVE_PREPAY", "HAVE_PRICE", "HAVE_RESULT_RECEIVE", "ENCODING", "ACTIVE", "ALLOW_EDIT_PAYMENT", "IS_CASH", "AUTO_CHANGE_1C", "CAN_PRINT_CHECK", "ENTITY_REGISTRY_TYPE", "XML_ID"},
+    	"FILTER": b24.Params{
+    		"@ID": []int{117, 118},
+    	},
+    	"ORDER": b24.Params{
+    		"SORT": "ASC",
+    		"ID":   "DESC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.paysystem.list: %w", err)
+    }
+
+    var items []struct {
+    	Name        string `json:"NAME"`
+    	PsaName     string `json:"PSA_NAME"`
+    	Description string `json:"DESCRIPTION"`
+    	ActionFile  string `json:"ACTION_FILE"`
+    	NewWindow   string `json:"NEW_WINDOW"`
+    	HavePayment string `json:"HAVE_PAYMENT"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Name, it.PsaName)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

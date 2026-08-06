@@ -248,6 +248,32 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.section.add", b24.Params{
+    	"ENTITY":         "dish",
+    	"NAME":           "Тестовый раздел",
+    	"SECTION":        671,
+    	"ACTIVE":         "Y",
+    	"SORT":           500,
+    	"CODE":           "testovyy-razdel",
+    	"DESCRIPTION":    "Описание тестового раздела",
+    	"PICTURE":        []string{"section.jpg", "**base64_section_image**"},
+    	"DETAIL_PICTURE": []string{"section-detail.jpg", "**base64_section_detail_image**"},
+    })
+    if err != nil {
+    	return fmt.Errorf("entity.section.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
