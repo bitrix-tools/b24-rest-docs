@@ -184,6 +184,36 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.productPropertyFeature.getAvailableFeaturesByProperty", b24.Params{
+    	"propertyId": 901,
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.productPropertyFeature.getAvailableFeaturesByProperty: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "features".
+    raw, ok := b24.Unwrap(res.Result, "features")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа features")
+    }
+
+    var items []struct {
+    	FeatureID   string `json:"featureId"`
+    	FeatureName string `json:"featureName"`
+    	ModuleID    string `json:"moduleId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.FeatureID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

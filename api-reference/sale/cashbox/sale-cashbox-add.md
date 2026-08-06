@@ -358,6 +358,44 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.add", b24.Params{
+    	"NAME":       "Rest-касса",
+    	"REST_CODE":  "restcashbox01",
+    	"EMAIL":      "user@example.com",
+    	"NUMBER_KKM": "123",
+    	"ACTIVE":     "Y",
+    	"SORT":       100,
+    	"OFD":        "bx_ofdruofd",
+    	"OFD_SETTINGS": b24.Params{
+    		"OFD_MODE": b24.Params{
+    			"IS_TEST": "N",
+    		},
+    	},
+    	"SETTINGS": b24.Params{
+    		"AUTH": b24.Params{
+    			"KEYWORD":    "top_secret!",
+    			"PREFERENCE": "SECOND",
+    		},
+    		"INTERACTION": b24.Params{
+    			"MODE": "ACTIVE",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 {% note tip "Частые кейсы и сценарии" %}

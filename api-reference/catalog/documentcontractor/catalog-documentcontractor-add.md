@@ -237,6 +237,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.documentcontractor.add", b24.Params{
+    	"fields": b24.Params{
+    		"documentId":   42,
+    		"entityTypeId": 3,
+    		"entityId":     101,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.documentcontractor.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documentContractor".
+    raw, ok := b24.Unwrap(res.Result, "documentContractor")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documentContractor")
+    }
+
+    var item struct {
+    	DocumentID   b24.ID `json:"documentId"`
+    	EntityID     b24.ID `json:"entityId"`
+    	EntityTypeID b24.ID `json:"entityTypeId"`
+    	ID           b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DocumentID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -179,6 +179,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.tradePlatform.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.tradePlatform.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "tradePlatform".
+    raw, ok := b24.Unwrap(res.Result, "tradePlatform")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа tradePlatform")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

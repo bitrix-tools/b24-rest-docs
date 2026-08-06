@@ -184,6 +184,23 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.delegate", b24.Params{
+    	"TASKID": 13,
+    	"USERID": 3,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.item.delegate: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 

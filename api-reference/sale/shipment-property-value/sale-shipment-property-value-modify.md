@@ -297,6 +297,50 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipmentpropertyvalue.modify", b24.Params{
+    	"fields": b24.Params{
+    		"shipment": b24.Params{
+    			"id": 4120,
+    			"propertyValues": []b24.Params{
+    				{
+    					"shipmentPropsId": 105,
+    					"value":           "Comments value",
+    				},
+    				{
+    					"shipmentPropsId": 106,
+    					"value":           "Description value",
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.shipmentpropertyvalue.modify: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyValues".
+    raw, ok := b24.Unwrap(res.Result, "propertyValues")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyValues")
+    }
+
+    var items []struct {
+    	ID    b24.ID `json:"id"`
+    	Name  string `json:"name"`
+    	Value string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

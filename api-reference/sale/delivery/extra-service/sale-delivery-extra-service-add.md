@@ -269,6 +269,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.extra.service.add", b24.Params{
+    	"DELIVERY_ID": 197,
+    	"ACTIVE":      "Y",
+    	"CODE":        "door_delivery",
+    	"NAME":        "Door Delivery",
+    	"DESCRIPTION": "Door Delivery Description",
+    	"TYPE":        "checkbox",
+    	"SORT":        100,
+    	"PRICE":       99.99,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.extra.service.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 Добавление услуги с типом `Список`:
@@ -511,6 +536,42 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.extra.service.add", b24.Params{
+    	"DELIVERY_ID": 198,
+    	"ACTIVE":      "Y",
+    	"CODE":        "cargo_type",
+    	"NAME":        "Cargo Type",
+    	"DESCRIPTION": "Cargo Type Description",
+    	"TYPE":        "enum",
+    	"SORT":        100,
+    	"ITEMS": []b24.Params{
+    		{
+    			"TITLE": "Small Package(s)",
+    			"CODE":  "small_package",
+    			"PRICE": 129.99,
+    		},
+    		{
+    			"TITLE": "Documents",
+    			"CODE":  "documents",
+    			"PRICE": 69.99,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.extra.service.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

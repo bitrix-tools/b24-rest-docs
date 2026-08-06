@@ -576,6 +576,55 @@ fields: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.payment.update", b24.Params{
+    	"id": 144,
+    	"fields": b24.Params{
+    		"paySystemId":      1,
+    		"paid":             "Y",
+    		"datePaid":         "2024-04-10T10:00:00",
+    		"empPaidId":        1,
+    		"psStatus":         "Y",
+    		"psSum":            100,
+    		"psCurrency":       "RUB",
+    		"psResponseDate":   "2024-04-10T10:00:00",
+    		"sum":              100,
+    		"companyId":        1,
+    		"responsibleId":    1,
+    		"empResponsibleId": 1,
+    		"isReturn":         "N",
+    		"externalPayment":  "N",
+    		"psInvoiceId":      1,
+    		"marked":           "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.payment.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "payment".
+    raw, ok := b24.Unwrap(res.Result, "payment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа payment")
+    }
+
+    var item struct {
+    	AccountNumber string `json:"accountNumber"`
+    	Comments      string `json:"comments"`
+    	CompanyID     b24.ID `json:"companyId"`
+    	Currency      string `json:"currency"`
+    	DateBill      string `json:"dateBill"`
+    	DateMarked    string `json:"dateMarked"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.AccountNumber, item.Comments)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

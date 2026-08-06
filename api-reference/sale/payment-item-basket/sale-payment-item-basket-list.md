@@ -322,6 +322,46 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paymentitembasket.list", b24.Params{
+    	"select": []string{"id", "paymentId", "basketId", "quantity", "xmlId", "dateInsert"},
+    	"filter": b24.Params{
+    		"paymentId": 1025,
+    		">quantity": 2,
+    	},
+    	"order": b24.Params{
+    		"quantity": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.paymentitembasket.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "paymentItemsBasket".
+    raw, ok := b24.Unwrap(res.Result, "paymentItemsBasket")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа paymentItemsBasket")
+    }
+
+    var items []struct {
+    	BasketID   b24.ID `json:"basketId"`
+    	DateInsert string `json:"dateInsert"`
+    	ID         b24.ID `json:"id"`
+    	PaymentID  b24.ID `json:"paymentId"`
+    	Quantity   int    `json:"quantity"`
+    	XmlID      string `json:"xmlId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.BasketID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

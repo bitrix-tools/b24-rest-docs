@@ -179,6 +179,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.statuslang.getfields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.statuslang.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "statusLang".
+    raw, ok := b24.Unwrap(res.Result, "statusLang")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа statusLang")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

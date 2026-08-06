@@ -244,6 +244,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.document.element.update", b24.Params{
+    	"id": 148,
+    	"fields": b24.Params{
+    		"amount":          12,
+    		"purchasingPrice": 1180,
+    		"storeTo":         2,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.document.element.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documentElement".
+    raw, ok := b24.Unwrap(res.Result, "documentElement")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documentElement")
+    }
+
+    var item struct {
+    	Amount          int    `json:"amount"`
+    	DocID           b24.ID `json:"docId"`
+    	ElementID       b24.ID `json:"elementId"`
+    	ID              b24.ID `json:"id"`
+    	PurchasingPrice int    `json:"purchasingPrice"`
+    	StoreTo         int    `json:"storeTo"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Amount, item.DocID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

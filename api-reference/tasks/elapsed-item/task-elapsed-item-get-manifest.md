@@ -170,6 +170,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.elapseditem.getmanifest", nil)
+    if err != nil {
+    	return fmt.Errorf("task.elapseditem.getmanifest: %w", err)
+    }
+
+    var item struct {
+    	ManifestVersion           string `json:"Manifest version"`
+    	ManifestChangeDate        string `json:"Manifest change date"`
+    	Warning                   string `json:"Warning"`
+    	RestShortnameAliasToClass string `json:"REST: shortname alias to class"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ManifestVersion, item.ManifestChangeDate)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

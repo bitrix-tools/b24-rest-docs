@@ -263,6 +263,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.tradePlatform.list", b24.Params{
+    	"select": []string{"id", "code"},
+    	"filter": b24.Params{
+    		"%code": "smart",
+    	},
+    	"order": b24.Params{
+    		"code": "asc",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.tradePlatform.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "tradePlatforms".
+    raw, ok := b24.Unwrap(res.Result, "tradePlatforms")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа tradePlatforms")
+    }
+
+    var items []struct {
+    	Code string `json:"code"`
+    	ID   b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Code)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

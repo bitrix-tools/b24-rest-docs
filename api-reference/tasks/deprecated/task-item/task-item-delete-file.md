@@ -197,6 +197,23 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.deletefile", b24.Params{
+    	"TASK_ID":       3,
+    	"ATTACHMENT_ID": 28,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.item.deletefile: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 

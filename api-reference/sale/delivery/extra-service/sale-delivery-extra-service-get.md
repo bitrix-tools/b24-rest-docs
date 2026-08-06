@@ -200,6 +200,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.extra.service.get", b24.Params{
+    	"DELIVERY_ID": 198,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.extra.service.get: %w", err)
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"ID"`
+    	Code        string `json:"CODE"`
+    	Name        string `json:"NAME"`
+    	Description string `json:"DESCRIPTION"`
+    	Active      string `json:"ACTIVE"`
+    	Sort        string `json:"SORT"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Code)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

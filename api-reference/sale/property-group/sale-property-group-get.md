@@ -193,6 +193,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertygroup.get", b24.Params{
+    	"id": 10,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.propertygroup.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyGroup".
+    raw, ok := b24.Unwrap(res.Result, "propertyGroup")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyGroup")
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	PersonTypeID b24.ID `json:"personTypeId"`
+    	Sort         int    `json:"sort"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

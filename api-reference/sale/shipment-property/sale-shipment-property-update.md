@@ -516,6 +516,64 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipmentproperty.update", b24.Params{
+    	"id": 93,
+    	"fields": b24.Params{
+    		"personTypeId": 3,
+    		"propsGroupId": 6,
+    		"name":         "Телефон (для связи с курьером)",
+    		"type":         "STRING",
+    		"code":         "PHONE",
+    		"active":       "Y",
+    		"util":         "N",
+    		"userProps":    "Y",
+    		"isFiltered":   "N",
+    		"sort":         500,
+    		"description":  "описание свойства",
+    		"required":     "Y",
+    		"multiple":     "N",
+    		"settings": b24.Params{
+    			"multiline": "Y",
+    			"maxlength": 100,
+    		},
+    		"xmlId":         "",
+    		"defaultValue":  "",
+    		"isProfileName": "Y",
+    		"isPayer":       "Y",
+    		"isEmail":       "N",
+    		"isPhone":       "N",
+    		"isZip":         "N",
+    		"isAddress":     "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.shipmentproperty.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "property".
+    raw, ok := b24.Unwrap(res.Result, "property")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа property")
+    }
+
+    var item struct {
+    	Active             string `json:"active"`
+    	Code               string `json:"code"`
+    	DefaultValue       string `json:"defaultValue"`
+    	Description        string `json:"description"`
+    	ID                 b24.ID `json:"id"`
+    	InputFieldLocation string `json:"inputFieldLocation"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

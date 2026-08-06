@@ -175,6 +175,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.enum.getStoreDocumentTypes", nil)
+    if err != nil {
+    	return fmt.Errorf("catalog.enum.getStoreDocumentTypes: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "enum".
+    raw, ok := b24.Unwrap(res.Result, "enum")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа enum")
+    }
+
+    var items []struct {
+    	ID   string `json:"id"`
+    	Name string `json:"name"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

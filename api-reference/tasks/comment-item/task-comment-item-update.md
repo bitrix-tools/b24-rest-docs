@@ -249,6 +249,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.commentitem.update", b24.Params{
+    	"TASKID": 8017,
+    	"ITEMID": 3167,
+    	"FIELDS": b24.Params{
+    		"POST_MESSAGE":         "Комментарий обновлен",
+    		"UF_FORUM_MESSAGE_DOC": []string{"n4755"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.commentitem.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

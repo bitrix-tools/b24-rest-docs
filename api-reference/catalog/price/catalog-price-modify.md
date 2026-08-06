@@ -353,6 +353,61 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.price.modify", b24.Params{
+    	"fields": b24.Params{
+    		"product": b24.Params{
+    			"id": 8,
+    			"prices": []b24.Params{
+    				{
+    					"catalogGroupId": 1,
+    					"currency":       "RUB",
+    					"price":          2001,
+    				},
+    				{
+    					"catalogGroupId": 3,
+    					"currency":       "RUB",
+    					"price":          2001,
+    				},
+    				{
+    					"catalogGroupId": 5,
+    					"currency":       "RUB",
+    					"price":          2001,
+    					"id":             122,
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.price.modify: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "prices".
+    raw, ok := b24.Unwrap(res.Result, "prices")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа prices")
+    }
+
+    var items []struct {
+    	CatalogGroupID b24.ID `json:"catalogGroupId"`
+    	Currency       string `json:"currency"`
+    	ID             b24.ID `json:"id"`
+    	Price          int    `json:"price"`
+    	PriceScale     int    `json:"priceScale"`
+    	ProductID      b24.ID `json:"productId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.CatalogGroupID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -252,6 +252,32 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.template.update", b24.Params{
+    	"templateId": 139,
+    	"fields": b24.Params{
+    		"TITLE":         "Подготовка еженедельного статуса по проекту и согласование",
+    		"DESCRIPTION":   "Обновленный шаблон задачи для подготовки еженедельного статуса по проекту и финального согласования перед отправкой",
+    		"PRIORITY":      1,
+    		"TASK_CONTROL":  "Y",
+    		"ADD_IN_REPORT": "Y",
+    		"UF_CRM_TASK":   []string{"L_1179", "D_1833"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.template.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

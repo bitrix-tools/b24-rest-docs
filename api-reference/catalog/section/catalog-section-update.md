@@ -283,6 +283,43 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.section.update", b24.Params{
+    	"id": 32,
+    	"fields": b24.Params{
+    		"iblockId":        14,
+    		"name":            "Детские игрушки",
+    		"description":     "<H1>Детские игрушки</H1> <p>Товары для детей</p>",
+    		"descriptionType": "html",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.section.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "section".
+    raw, ok := b24.Unwrap(res.Result, "section")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа section")
+    }
+
+    var item struct {
+    	Active          string `json:"active"`
+    	Code            string `json:"code"`
+    	Description     string `json:"description"`
+    	DescriptionType string `json:"descriptionType"`
+    	IblockID        b24.ID `json:"iblockId"`
+    	IblockSectionID b24.ID `json:"iblockSectionId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

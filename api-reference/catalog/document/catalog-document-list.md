@@ -304,6 +304,45 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.document.list", b24.Params{
+    	"select": []string{"id", "docType", "docNumber", "title", "status", "dateDocument", "total"},
+    	"filter": b24.Params{
+    		">=dateCreate": "2025-10-01T00:00:00+03:00",
+    		"<=dateCreate": "2025-10-15T23:59:59+03:00",
+    	},
+    	"order": b24.Params{
+    		"id": "ASC",
+    	},
+    	"start": 50,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.document.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documents".
+    raw, ok := b24.Unwrap(res.Result, "documents")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documents")
+    }
+
+    var items []struct {
+    	DocType string `json:"docType"`
+    	ID      b24.ID `json:"id"`
+    	Status  string `json:"status"`
+    	Title   string `json:"title"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.DocType)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

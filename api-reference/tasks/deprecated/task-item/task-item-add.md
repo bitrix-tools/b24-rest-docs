@@ -379,6 +379,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.update", b24.Params{
+    	"TASKID": 1,
+    	"FIELDS": b24.Params{
+    		"UF_CRM_TASK": []string{"L_4", "C_7", "CO_5", "D_10"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.item.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 Цифры — это `ID` соответствующих значений. Значение `L_4` означает привязку к задаче лида с `ID = 4`. Можно задавать несколько связей одного типа, например, `L_4, L_5`.

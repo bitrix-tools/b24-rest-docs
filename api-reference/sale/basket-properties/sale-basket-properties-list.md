@@ -311,6 +311,45 @@ start = (N-1) * 50, где N – номер нужной страницы
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketproperties.list", b24.Params{
+    	"select": []string{"id", "basketId", "value", "name", "code"},
+    	"filter": b24.Params{
+    		"basketId": 6806,
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.basketproperties.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "basketProperties".
+    raw, ok := b24.Unwrap(res.Result, "basketProperties")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа basketProperties")
+    }
+
+    var items []struct {
+    	BasketID b24.ID `json:"basketId"`
+    	Code     string `json:"code"`
+    	ID       b24.ID `json:"id"`
+    	Name     string `json:"name"`
+    	Value    string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.BasketID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

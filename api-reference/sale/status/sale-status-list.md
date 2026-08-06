@@ -314,6 +314,44 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.status.list", b24.Params{
+    	"select": []string{"id", "type", "notify", "color", "sort", "xmlId"},
+    	"filter": b24.Params{
+    		"id": "N",
+    	},
+    	"order": b24.Params{
+    		"type": "asc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.status.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "statuses".
+    raw, ok := b24.Unwrap(res.Result, "statuses")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа statuses")
+    }
+
+    var items []struct {
+    	Color  string `json:"color"`
+    	ID     string `json:"id"`
+    	Notify string `json:"notify"`
+    	Sort   int    `json:"sort"`
+    	Type   string `json:"type"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Color)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

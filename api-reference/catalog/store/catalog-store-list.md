@@ -406,6 +406,47 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.store.list", b24.Params{
+    	"select": []string{"id", "title", "active", "address", "description", "gpsN", "gpsS", "imageId", "dateModify", "dateCreate", "userId", "modifiedBy", "phone", "schedule", "xmlId", "sort", "email", "issuingCenter", "code"},
+    	"filter": b24.Params{
+    		"@userId":    []int{1, 2},
+    		"<sort":      200,
+    		"modifiedBy": 1,
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.store.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "stores".
+    raw, ok := b24.Unwrap(res.Result, "stores")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа stores")
+    }
+
+    var items []struct {
+    	Active      string `json:"active"`
+    	Address     string `json:"address"`
+    	Code        string `json:"code"`
+    	DateCreate  string `json:"dateCreate"`
+    	DateModify  string `json:"dateModify"`
+    	Description string `json:"description"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Active)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

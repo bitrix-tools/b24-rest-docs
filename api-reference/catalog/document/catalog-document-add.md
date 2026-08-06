@@ -287,6 +287,44 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.document.add", b24.Params{
+    	"fields": b24.Params{
+    		"docType":       "A",
+    		"currency":      "RUB",
+    		"responsibleId": 29,
+    		"docNumber":     "IN-00042",
+    		"title":         "Поступление от Поставщик-1",
+    		"commentary":    "Плановое пополнение склада",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.document.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "document".
+    raw, ok := b24.Unwrap(res.Result, "document")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа document")
+    }
+
+    var item struct {
+    	Commentary string `json:"commentary"`
+    	CreatedBy  int    `json:"createdBy"`
+    	Currency   string `json:"currency"`
+    	DateCreate string `json:"dateCreate"`
+    	DateModify string `json:"dateModify"`
+    	DateStatus string `json:"dateStatus"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Commentary, item.CreatedBy)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -174,6 +174,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.statuslang.getlistlangs", nil)
+    if err != nil {
+    	return fmt.Errorf("sale.statuslang.getlistlangs: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "langs".
+    raw, ok := b24.Unwrap(res.Result, "langs")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа langs")
+    }
+
+    var items []struct {
+    	Active string `json:"active"`
+    	Lid    string `json:"lid"`
+    	Name   string `json:"name"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Active)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

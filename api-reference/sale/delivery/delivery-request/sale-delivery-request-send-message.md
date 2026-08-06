@@ -313,6 +313,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.request.sendmessage", b24.Params{
+    	"DELIVERY_ID": 225,
+    	"REQUEST_ID":  "4757aca4931a4f029f49c0db4374d13d",
+    	"ADDRESSEE":   "MANAGER",
+    	"MESSAGE": b24.Params{
+    		"SUBJECT": "Your order is on its way",
+    		"BODY":    "Estimated delivery price: #MONEY#",
+    		"MONEY_VALUES": b24.Params{
+    			"#MONEY#": 351.2,
+    		},
+    		"STATUS": b24.Params{
+    			"MESSAGE":  "Success",
+    			"SEMANTIC": "success",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.request.sendmessage: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

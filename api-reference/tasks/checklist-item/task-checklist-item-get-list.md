@@ -257,6 +257,36 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.checklistitem.getlist", b24.Params{
+    	"TASKID": 8017,
+    	"ORDER": b24.Params{
+    		"IS_COMPLETE": "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("task.checklistitem.getlist: %w", err)
+    }
+
+    var items []struct {
+    	ID        b24.ID `json:"ID"`
+    	TaskID    b24.ID `json:"TASK_ID"`
+    	ParentID  b24.ID `json:"PARENT_ID"`
+    	CreatedBy string `json:"CREATED_BY"`
+    	Title     string `json:"TITLE"`
+    	SortIndex string `json:"SORT_INDEX"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.TaskID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

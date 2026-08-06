@@ -226,6 +226,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.product.offer.getFieldsByFilter", b24.Params{
+    	"filter": b24.Params{
+    		"iblockId": 24,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.product.offer.getFieldsByFilter: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "offer".
+    raw, ok := b24.Unwrap(res.Result, "offer")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа offer")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

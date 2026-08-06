@@ -498,6 +498,84 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.handler.add", b24.Params{
+    	"CODE":        "uber",
+    	"NAME":        "Uber",
+    	"DESCRIPTION": "Uber Description",
+    	"SORT":        250,
+    	"SETTINGS": b24.Params{
+    		"CALCULATE_URL":                 "http://gateway.bx/calculate.php",
+    		"CREATE_DELIVERY_REQUEST_URL":   "http://gateway.bx/create_delivery_request.php",
+    		"CANCEL_DELIVERY_REQUEST_URL":   "http://gateway.bx/cancel_delivery_request.php",
+    		"HAS_CALLBACK_TRACKING_SUPPORT": "Y",
+    		"CONFIG": []b24.Params{
+    			{
+    				"TYPE": "STRING",
+    				"CODE": "SETTING_1",
+    				"NAME": "String Example",
+    			},
+    			{
+    				"TYPE": "Y/N",
+    				"CODE": "SETTING_2",
+    				"NAME": "Checkbox Example",
+    			},
+    			{
+    				"TYPE": "NUMBER",
+    				"CODE": "SETTING_3",
+    				"NAME": "Number Example",
+    			},
+    			{
+    				"TYPE": "ENUM",
+    				"CODE": "SETTING_4",
+    				"NAME": "Enum Example",
+    				"OPTIONS": b24.Params{
+    					"Option1Code": "Option1Value",
+    					"Option2Code": "Option2Value",
+    					"Option3Code": "Option3Value",
+    					"Option4Code": "Option4Value",
+    					"Option5Code": "Option5Value",
+    				},
+    			},
+    			{
+    				"TYPE": "DATE",
+    				"CODE": "SETTING_5",
+    				"NAME": "Date Example",
+    			},
+    			{
+    				"TYPE": "LOCATION",
+    				"CODE": "SETTING_6",
+    				"NAME": "Location Example",
+    			},
+    		},
+    	},
+    	"PROFILES": []b24.Params{
+    		{
+    			"NAME":        "Taxi",
+    			"CODE":        "TAXI",
+    			"DESCRIPTION": "Taxi Delivery",
+    		},
+    		{
+    			"NAME":        "Cargo",
+    			"CODE":        "CARGO",
+    			"DESCRIPTION": "Cargo Delivery",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.handler.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

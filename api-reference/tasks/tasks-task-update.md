@@ -274,6 +274,42 @@ SE_PARAMETER: [
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.update", b24.Params{
+    	"taskId": 11,
+    	"fields": b24.Params{
+    		"UF_CRM_TASK":          []string{"L_4", "C_7", "CO_5", "D_10"},
+    		"UF_TASK_WEBDAV_FILES": []string{"n12345", "n67890"},
+    		"RESPONSIBLE_ID":       123,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "task".
+    raw, ok := b24.Unwrap(res.Result, "task")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа task")
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	Title       string `json:"title"`
+    	Description string `json:"description"`
+    	Priority    string `json:"priority"`
+    	Multitask   string `json:"multitask"`
+    	NotViewed   string `json:"notViewed"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
