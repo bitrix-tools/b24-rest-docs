@@ -300,6 +300,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sonet_group.create", b24.Params{
+    	"NAME":           "Новый проект",
+    	"PROJECT":        "Y",
+    	"VISIBLE":        "Y",
+    	"OPENED":         "N",
+    	"INITIATE_PERMS": "K",
+    	"IMAGE":          []string{"avatar.png", "iVBORw0KGgoAAAANSUhEUgAA..."},
+    })
+    if err != nil {
+    	return fmt.Errorf("sonet_group.create: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

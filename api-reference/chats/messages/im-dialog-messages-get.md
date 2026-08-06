@@ -254,6 +254,24 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.dialog.messages.get", b24.Params{
+    	"DIALOG_ID": "chat1489",
+    	"FIRST_ID":  84869,
+    	"LIMIT":     10,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.dialog.messages.get: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

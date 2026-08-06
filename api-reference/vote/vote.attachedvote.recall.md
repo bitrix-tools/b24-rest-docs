@@ -244,6 +244,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "vote.AttachedVote.recall", b24.Params{
+    	"attachId": "**put_attach_id**",
+    })
+    if err != nil {
+    	return fmt.Errorf("vote.AttachedVote.recall: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "attach".
+    raw, ok := b24.Unwrap(res.Result, "attach")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа attach")
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	VoteID    b24.ID `json:"VOTE_ID"`
+    	Counter   int    `json:"COUNTER"`
+    	Anonymity int    `json:"ANONYMITY"`
+    	Options   int    `json:"OPTIONS"`
+    	CanEdit   bool   `json:"canEdit"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.VoteID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

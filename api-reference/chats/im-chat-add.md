@@ -303,6 +303,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.chat.add", b24.Params{
+    	"USERS":       []int{103, 547},
+    	"TYPE":        "CHAT",
+    	"TITLE":       "Чат по сделке",
+    	"DESCRIPTION": "Здесь обсуждаем сделку",
+    	"COLOR":       "PINK",
+    	"MESSAGE":     "Добро пожаловать в чат сделки",
+    	"ENTITY_TYPE": "CRM",
+    	"ENTITY_ID":   "DEAL|1663",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.chat.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

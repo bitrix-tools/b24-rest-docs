@@ -225,6 +225,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.chat.get", b24.Params{
+    	"ENTITY_TYPE": "CRM",
+    	"ENTITY_ID":   "DEAL|1663",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.chat.get: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

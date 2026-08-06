@@ -255,6 +255,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.workflow.instances", b24.Params{
+    	"SELECT": []string{"ID", "MODIFIED", "OWNED_UNTIL", "MODULE_ID", "ENTITY", "DOCUMENT_ID", "STARTED", "STARTED_BY", "TEMPLATE_ID"},
+    	"ORDER": b24.Params{
+    		"STARTED": "DESC",
+    	},
+    	"FILTER": b24.Params{
+    		">STARTED_BY": 0,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.workflow.instances: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

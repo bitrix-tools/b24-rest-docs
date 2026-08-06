@@ -272,6 +272,25 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.search.last.get", b24.Params{
+    	"SKIP_OPENLINES": "N",
+    	"SKIP_CHAT":      "N",
+    	"SKIP_DIALOG":    "N",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.search.last.get: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

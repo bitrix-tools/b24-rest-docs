@@ -301,6 +301,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.uploadFile", b24.Params{
+    	"id": 1357,
+    	"data": b24.Params{
+    		"NAME": "picture.png",
+    	},
+    	"fileContent":        []string{"picture.png", "iVBORw0KGgoAAAANSUhEUgAAAD4AAABDCAYAAADEfbZbAAAACXBIWXMAABJ0AAASdAHeZh94...RK5CYII="},
+    	"generateUniqueName": true,
+    	"rights": []b24.Params{
+    		{
+    			"TASK_ID":     79,
+    			"ACCESS_CODE": "U1271",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.storage.uploadFile: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"ID"`
+    	Name        string `json:"NAME"`
+    	StorageID   b24.ID `json:"STORAGE_ID"`
+    	Type        string `json:"TYPE"`
+    	ParentID    b24.ID `json:"PARENT_ID"`
+    	DeletedType int    `json:"DELETED_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

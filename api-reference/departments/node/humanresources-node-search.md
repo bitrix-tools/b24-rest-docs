@@ -257,6 +257,44 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "humanresources.node.search", b24.Params{
+    	"type":     "DEPARTMENT",
+    	"name":     "Продажи",
+    	"parentId": 1,
+    	"pagination": b24.Params{
+    		"limit": 20,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("humanresources.node.search: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"id"`
+    	Name        string `json:"name"`
+    	Type        string `json:"type"`
+    	StructureID b24.ID `json:"structureId"`
+    	ParentID    b24.ID `json:"parentId"`
+    	Description string `json:"description"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

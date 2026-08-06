@@ -233,6 +233,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.department.employees.get", b24.Params{
+    	"ID":        []int{3, 7},
+    	"USER_DATA": "Y",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.department.employees.get: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

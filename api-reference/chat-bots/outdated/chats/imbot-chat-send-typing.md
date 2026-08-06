@@ -152,6 +152,26 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.chat.sendTyping", b24.Params{
+    	"BOT_ID":    39,
+    	"DIALOG_ID": "chat123",
+    	"CLIENT_ID": "**put_your_client_id_here**",
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.chat.sendTyping: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

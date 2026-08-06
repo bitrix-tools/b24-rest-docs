@@ -135,6 +135,27 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.v2.File.download", b24.Params{
+    	"dialogId": "chat5",
+    	"fileId":   138,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.v2.File.download: %w", err)
+    }
+
+    var item struct {
+    	DownloadUrl string `json:"downloadUrl"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DownloadUrl)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

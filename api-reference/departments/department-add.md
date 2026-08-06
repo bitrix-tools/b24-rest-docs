@@ -199,6 +199,28 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "department.add", b24.Params{
+    	"NAME":    "Отдел изучения маглов",
+    	"SORT":    450,
+    	"UF_HEAD": 1,
+    	"PARENT":  15,
+    })
+    if err != nil {
+    	return fmt.Errorf("department.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

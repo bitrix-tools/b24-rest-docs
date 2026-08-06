@@ -326,6 +326,64 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "biconnector.dataset.add", b24.Params{
+    	"fields": b24.Params{
+    		"sourceId":     3,
+    		"name":         "rest_dataset",
+    		"externalName": "extranalName",
+    		"externalCode": "extrnalCode",
+    		"description":  "Описание датасета",
+    		"fields": []b24.Params{
+    			{
+    				"type":         "int",
+    				"name":         "ID",
+    				"externalCode": "ID",
+    			},
+    			{
+    				"type":         "string",
+    				"name":         "NAME",
+    				"externalCode": "NAME",
+    			},
+    			{
+    				"type":         "string",
+    				"name":         "SURNAME",
+    				"externalCode": "SURNAME",
+    			},
+    			{
+    				"type":         "double",
+    				"name":         "SCORE",
+    				"externalCode": "SCORE",
+    			},
+    			{
+    				"type":         "date",
+    				"name":         "DATA",
+    				"externalCode": "DATA",
+    			},
+    			{
+    				"type":         "datetime",
+    				"name":         "TIME",
+    				"externalCode": "TIME",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("biconnector.dataset.add: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

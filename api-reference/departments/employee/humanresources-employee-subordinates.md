@@ -211,6 +211,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "humanresources.employee.subordinates", b24.Params{
+    	"id": 7,
+    })
+    if err != nil {
+    	return fmt.Errorf("humanresources.employee.subordinates: %w", err)
+    }
+
+    var item struct {
+    	UserID b24.ID `json:"userId"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.UserID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

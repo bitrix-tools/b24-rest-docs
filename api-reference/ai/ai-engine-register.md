@@ -410,6 +410,32 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "ai.engine.register", b24.Params{
+    	"name":            "Acme GPT",
+    	"code":            "acme_gpt",
+    	"category":        "text",
+    	"completions_url": "https://api.example.com/bitrix24/ai/completions",
+    	"settings": b24.Params{
+    		"code_alias":          "ChatGPT",
+    		"model_context_type":  "token",
+    		"model_context_limit": 15666,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("ai.engine.register: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

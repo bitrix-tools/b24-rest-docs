@@ -252,6 +252,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "note.document.field.get", b24.Params{
+    	"name":   "title",
+    	"select": []string{"name", "type", "title"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("note.document.field.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	Name  string `json:"name"`
+    	Type  string `json:"type"`
+    	Title string `json:"title"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Name, item.Type)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

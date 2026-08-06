@@ -267,6 +267,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.dialog.users.list", b24.Params{
+    	"DIALOG_ID":     "chat2935",
+    	"SKIP_EXTERNAL": "Y",
+    	"LIMIT":         20,
+    	"OFFSET":        0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.dialog.users.list: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	Active       bool   `json:"active"`
+    	Name         string `json:"name"`
+    	FirstName    string `json:"first_name"`
+    	LastName     string `json:"last_name"`
+    	WorkPosition string `json:"work_position"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -244,6 +244,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.department.colleagues.list", b24.Params{
+    	"USER_DATA": "Y",
+    	"OFFSET":    0,
+    	"LIMIT":     5,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.department.colleagues.list: %w", err)
+    }
+
+    var items []b24.ID
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

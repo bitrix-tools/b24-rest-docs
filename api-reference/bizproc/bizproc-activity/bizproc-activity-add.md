@@ -550,6 +550,68 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.activity.add", b24.Params{
+    	"CODE":             "md5_action",
+    	"HANDLER":          "https://your_domain/ping.php",
+    	"AUTH_USER_ID":     1,
+    	"USE_SUBSCRIPTION": "Y",
+    	"NAME": b24.Params{
+    		"ru": "MD5 генератор",
+    		"en": "MD5 generator",
+    	},
+    	"DESCRIPTION": b24.Params{
+    		"ru": "Действие возвращает MD5 хеш от входящего параметра",
+    		"en": "Activity returns MD5 hash of input parameter",
+    	},
+    	"PROPERTIES": b24.Params{
+    		"inputString": b24.Params{
+    			"Name": b24.Params{
+    				"ru": "Входящая строка",
+    				"en": "Input string",
+    			},
+    			"Description": b24.Params{
+    				"ru": "Введите строку, которую вы хотите хешировать",
+    				"en": "Input string for hashing",
+    			},
+    			"Type":     "string",
+    			"Required": "Y",
+    			"Multiple": "N",
+    			"Default":  "{=Document:NAME}",
+    		},
+    	},
+    	"RETURN_PROPERTIES": b24.Params{
+    		"outputString": b24.Params{
+    			"Name": b24.Params{
+    				"ru": "MD5",
+    				"en": "MD5",
+    			},
+    			"Type":     "string",
+    			"Multiple": "N",
+    			"Default":  nil,
+    		},
+    	},
+    	"DOCUMENT_TYPE": []string{"lists", "BizprocDocument", "iblock_164"},
+    	"FILTER": b24.Params{
+    		"INCLUDE": []any{
+    			[]string{"lists"},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.activity.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

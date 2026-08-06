@@ -163,6 +163,32 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.schema.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.notify.schema.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "tasks".
+    raw, ok := b24.Unwrap(res.Result, "tasks")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа tasks")
+    }
+
+    var item struct {
+    	Name     string `json:"name"`
+    	ModuleID string `json:"module_id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Name, item.ModuleID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -209,6 +209,26 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sign.b2e.document.get", b24.Params{
+    	"uid": "b6f5f1f1-9d20-4b6b-ae0f-2f0a8a0c2b3c",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sign.b2e.document.get: %w", err)
+    }
+
+    var item struct {
+    	Uid string `json:"uid"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Uid)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

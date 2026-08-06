@@ -215,6 +215,38 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.message.add", b24.Params{
+    	"DIALOG_ID": "chat2725",
+    	"MESSAGE":   "Карточка",
+    	"ATTACH": b24.Params{
+    		"ID":          1,
+    		"COLOR_TOKEN": "primary",
+    		"BLOCKS": []b24.Params{
+    			{
+    				"MESSAGE": "[B]Новая заявка[/B]",
+    			},
+    			{
+    				"LINK": b24.Params{
+    					"NAME": "Открыть",
+    					"LINK": "https://example.com",
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("im.message.add: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 {% note warning "" %}

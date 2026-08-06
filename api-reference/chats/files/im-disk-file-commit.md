@@ -275,6 +275,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.disk.file.commit", b24.Params{
+    	"CHAT_ID": 1489,
+    	"FILE_ID": []int{5249, 5250},
+    	"MESSAGE": "Документы по проекту",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.disk.file.commit: %w", err)
+    }
+
+    var item struct {
+    	MessageID b24.ID `json:"MESSAGE_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.MessageID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

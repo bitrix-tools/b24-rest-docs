@@ -225,6 +225,32 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "humanresources.node.move", b24.Params{
+    	"id":       44,
+    	"parentId": 2,
+    })
+    if err != nil {
+    	return fmt.Errorf("humanresources.node.move: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	Name        string `json:"name"`
+    	Type        string `json:"type"`
+    	StructureID b24.ID `json:"structureId"`
+    	ParentID    b24.ID `json:"parentId"`
+    	Description string `json:"description"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

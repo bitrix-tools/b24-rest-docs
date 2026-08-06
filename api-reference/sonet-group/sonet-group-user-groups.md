@@ -188,6 +188,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sonet_group.user.groups", nil)
+    if err != nil {
+    	return fmt.Errorf("sonet_group.user.groups: %w", err)
+    }
+
+    var items []struct {
+    	GroupID    b24.ID `json:"GROUP_ID"`
+    	GroupName  string `json:"GROUP_NAME"`
+    	Role       string `json:"ROLE"`
+    	GroupImage string `json:"GROUP_IMAGE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.GroupID, it.GroupName)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

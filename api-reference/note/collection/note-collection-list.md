@@ -267,6 +267,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "note.collection.list", b24.Params{
+    	"pagination": b24.Params{
+    		"limit": 50,
+    		"afterCursor": b24.Params{
+    			"position": 100,
+    			"id":       42,
+    		},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("note.collection.list: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

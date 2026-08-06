@@ -221,6 +221,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userconsent.consent.add", b24.Params{
+    	"AGREEMENT_ID":  19,
+    	"USER_ID":       123,
+    	"IP":            "192.168.1.100",
+    	"URL":           "https://example.com/contact-form",
+    	"ORIGIN_ID":     "my_contact_form",
+    	"ORIGINATOR_ID": "user@example.com",
+    })
+    if err != nil {
+    	return fmt.Errorf("userconsent.consent.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

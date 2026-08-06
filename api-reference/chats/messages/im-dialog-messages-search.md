@@ -251,6 +251,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.dialog.messages.search", b24.Params{
+    	"CHAT_ID":        3,
+    	"SEARCH_MESSAGE": "test",
+    	"ORDER": b24.Params{
+    		"ID": "DESC",
+    	},
+    	"LIMIT": 20,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.dialog.messages.search: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

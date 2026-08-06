@@ -142,6 +142,28 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.Message.delete", b24.Params{
+    	"botId":     456,
+    	"botToken":  "my_bot_token",
+    	"messageId": 789,
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.Message.delete: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -206,6 +206,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.networkrange.check", b24.Params{
+    	"IP": "10.10.255.255",
+    })
+    if err != nil {
+    	return fmt.Errorf("timeman.networkrange.check: %w", err)
+    }
+
+    var item struct {
+    	IP    string `json:"ip"`
+    	Range string `json:"range"`
+    	Name  string `json:"name"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.IP, item.Range)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

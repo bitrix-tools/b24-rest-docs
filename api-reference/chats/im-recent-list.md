@@ -336,6 +336,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.recent.list", b24.Params{
+    	"LAST_MESSAGE_DATE":            "2026-02-25T18:30:00+03:00",
+    	"SKIP_OPENLINES":               "N",
+    	"SKIP_DIALOG":                  "N",
+    	"SKIP_CHAT":                    "N",
+    	"UNREAD_ONLY":                  "Y",
+    	"PARSE_TEXT":                   "Y",
+    	"GET_ORIGINAL_TEXT":            "N",
+    	"SKIP_UNDISTRIBUTED_OPENLINES": "Y",
+    	"ONLY_COPILOT":                 "N",
+    	"ONLY_CHANNEL":                 "N",
+    	"CAN_MANAGE_MESSAGES":          "Y",
+    	"OFFSET":                       0,
+    	"LIMIT":                        20,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.recent.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

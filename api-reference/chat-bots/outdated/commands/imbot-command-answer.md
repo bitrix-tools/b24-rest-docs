@@ -275,6 +275,59 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.command.answer", b24.Params{
+    	"COMMAND_ID":  99,
+    	"MESSAGE_ID":  33871,
+    	"MESSAGE":     "Принято. Выполняю команду.",
+    	"SYSTEM":      "N",
+    	"URL_PREVIEW": "Y",
+    	"ATTACH": b24.Params{
+    		"BLOCKS": []b24.Params{
+    			{
+    				"MESSAGE": "Детали задачи",
+    			},
+    			{
+    				"DELIMITER": true,
+    			},
+    			{
+    				"LINK": b24.Params{
+    					"NAME": "Открыть",
+    					"LINK": "https://example.com",
+    				},
+    			},
+    		},
+    	},
+    	"KEYBOARD": b24.Params{
+    		"BUTTONS": []b24.Params{
+    			{
+    				"TEXT":    "Повторить",
+    				"COMMAND": "echo repeat",
+    			},
+    		},
+    	},
+    	"MENU": []b24.Params{
+    		{
+    			"TEXT": "bitrix24",
+    			"LINK": "https://bitrix24.ru",
+    		},
+    	},
+    	"CLIENT_ID": "**put_your_client_id_here**",
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.command.answer: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

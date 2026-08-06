@@ -167,6 +167,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "event.bind", b24.Params{
+    	"event":   "ONCRMLEADADD",
+    	"handler": "https://www.my-domain.ru/handler/",
+    })
+    if err != nil {
+    	return fmt.Errorf("event.bind: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

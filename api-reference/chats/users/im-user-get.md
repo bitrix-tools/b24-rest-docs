@@ -227,6 +227,33 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.user.get", b24.Params{
+    	"ID":        5,
+    	"AVATAR_HR": "Y",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.user.get: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	Active       bool   `json:"active"`
+    	Name         string `json:"name"`
+    	FirstName    string `json:"first_name"`
+    	LastName     string `json:"last_name"`
+    	WorkPosition string `json:"work_position"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Active)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

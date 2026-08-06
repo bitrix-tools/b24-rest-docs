@@ -263,6 +263,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.dialog.get", b24.Params{
+    	"DIALOG_ID": "chat1435",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.dialog.get: %w", err)
+    }
+
+    var item struct {
+    	ID              b24.ID `json:"id"`
+    	ParentChatID    int    `json:"parent_chat_id"`
+    	ParentMessageID int    `json:"parent_message_id"`
+    	Name            string `json:"name"`
+    	Description     string `json:"description"`
+    	Owner           int    `json:"owner"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.ParentChatID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

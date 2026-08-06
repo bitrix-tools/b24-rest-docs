@@ -219,6 +219,29 @@
         echo 'Notification ID: ' . $result['result'];
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.personal.add", b24.Params{
+    	"USER_ID":     5,
+    	"MESSAGE":     "Напоминание по задаче",
+    	"MESSAGE_OUT": "Напоминание по задаче (email)",
+    	"TAG":         "TASK_REMINDER_42",
+    	"SUB_TAG":     "TASK_REMINDER|42",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.notify.personal.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

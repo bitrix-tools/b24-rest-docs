@@ -210,6 +210,32 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sign.b2e.personal.tail", b24.Params{
+    	"limit":  2,
+    	"offset": 0,
+    })
+    if err != nil {
+    	return fmt.Errorf("sign.b2e.personal.tail: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"id"`
+    	Title      string `json:"title"`
+    	SignedDate string `json:"signed_date"`
+    	FileURL    string `json:"file_url"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Title)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

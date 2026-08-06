@@ -294,6 +294,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "ai.engine.list", b24.Params{
+    	"filter": b24.Params{
+    		"=CATEGORY": "text",
+    	},
+    	"limit": 2,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("ai.engine.list: %w", err)
+    }
+
+    var items []struct {
+    	ID             b24.ID `json:"id"`
+    	AppCode        string `json:"app_code"`
+    	Name           string `json:"name"`
+    	Code           string `json:"code"`
+    	Category       string `json:"category"`
+    	CompletionsURL string `json:"completions_url"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.AppCode)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

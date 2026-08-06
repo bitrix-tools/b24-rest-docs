@@ -280,6 +280,26 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.search.chat.list", b24.Params{
+    	"FIND":       "Проект",
+    	"FIND_LINES": "Линия",
+    	"OFFSET":     0,
+    	"LIMIT":      10,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.search.chat.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

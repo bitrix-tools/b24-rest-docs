@@ -281,6 +281,31 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mailservice.add", b24.Params{
+    	"NAME":       "Мой почтовый сервис",
+    	"ACTIVE":     "Y",
+    	"SERVER":     "imap.my-mail.ru",
+    	"PORT":       993,
+    	"ENCRYPTION": "Y",
+    	"LINK":       "https://mail.my-mail.ru/",
+    	"SORT":       500,
+    })
+    if err != nil {
+    	return fmt.Errorf("mailservice.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -200,6 +200,28 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.confirm", b24.Params{
+    	"NOTIFY_ID":    288,
+    	"NOTIFY_VALUE": "Y",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.notify.confirm: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "result_message".
+    raw, ok := b24.Unwrap(res.Result, "result_message")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа result_message")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

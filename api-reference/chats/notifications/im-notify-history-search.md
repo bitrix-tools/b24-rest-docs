@@ -292,6 +292,34 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.history.search", b24.Params{
+    	"SEARCH_TEXT":  "счет",
+    	"SEARCH_TYPE":  "tasks|task_update",
+    	"SEARCH_DATE":  "2026-03-03T16:52:29+03:00",
+    	"LAST_ID":      1500,
+    	"LIMIT":        20,
+    	"CONVERT_TEXT": "Y",
+    	"GROUP_TAG":    "TASK|42",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.notify.history.search: %w", err)
+    }
+
+    var item struct {
+    	ChatID       int `json:"chat_id"`
+    	TotalResults int `json:"total_results"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ChatID, item.TotalResults)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

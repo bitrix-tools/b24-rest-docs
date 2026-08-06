@@ -219,6 +219,29 @@
         echo 'Notification ID: ' . $result['result'];
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.system.add", b24.Params{
+    	"USER_ID":     5,
+    	"MESSAGE":     "Системное уведомление",
+    	"MESSAGE_OUT": "Системное уведомление для email",
+    	"TAG":         "SYSTEM_EVENT_42",
+    	"SUB_TAG":     "SYSTEM_EVENT|42",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.notify.system.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
