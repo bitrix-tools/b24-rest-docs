@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`crm`](../../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../../scopes/permissions.md)
 
 Точка `CRM_REQUISITE_AUTOCOMPLETE` подключает обработчик приложения к поиску реквизитов клиента в карточке CRM. Она нужна, когда приложение ищет и подставляет реквизиты компании или контакта из внешнего источника.
 

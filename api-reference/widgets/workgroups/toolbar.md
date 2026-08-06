@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`sonet_group`](../../scopes/permissions.md)
+> Scope: [`placement, sonet_group`](../../scopes/permissions.md)
 
 Виджет добавляет свой пункт в меню расширений рабочей группы или проекта.
 

@@ -79,7 +79,7 @@
 
 ## Обзор точек встраивания {#all-placements}
 
-> Scope: [`telephony`](../../scopes/permissions.md)
+> Scope: [`placement, telephony`](../../scopes/permissions.md)
 
 #|
 || **Точка встраивания** | **Когда использовать** ||

@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 
 Виджет добавляет свою кнопку в шапку раздела CRM-аналитики.
 

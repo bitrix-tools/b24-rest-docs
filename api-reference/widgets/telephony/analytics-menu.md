@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../scopes/permissions.md)
+> Scope: [`placement, telephony`](../../scopes/permissions.md)
 
 Виджет добавляет свой отчет в меню аналитики звонков. Пользователь выбирает пункт в меню, и вместо встроенного отчета открывается интерфейс приложения.
 

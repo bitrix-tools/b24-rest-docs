@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 >
 > Кто может работать со встройкой: пользователь с доступом на изменение элемента
 

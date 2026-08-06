@@ -90,7 +90,7 @@ Array
 
 ## Обзор точек встраивания {#all-placements}
 
-> Scope: [`user`](../../scopes/permissions.md)
+> Scope: [`placement, user`](../../scopes/permissions.md)
 
 #|
 || **Точка встраивания** | **Когда использовать** ||

@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`crm`](../../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../../scopes/permissions.md)
 
 Точка `CRM_BANK_DETAIL_AUTOCOMPLETE` подключает обработчик приложения к поиску банковских реквизитов в карточке CRM. Она нужна, когда приложение ищет и подставляет банковские реквизиты, например по БИК.
 

@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 
 Виджет добавляет свой пункт в контекстное меню элемента в списке объектов CRM: [лидов](../../crm/leads/index.md), [контактов](../../crm/contacts/index.md), [компаний](../../crm/companies/index.md), [сделок](../../crm/deals/index.md), [коммерческих предложений](../../crm/quote/index.md), [новых счетов](../../crm/universal/invoice.md), [дел](../../crm/timeline/activities/index.md) и [пользовательских типов объектов](../../crm/universal/index.md).
 

@@ -73,7 +73,7 @@
 
 ## Обзор точек встраивания {#all-placements}
 
-> Scope: [`sonet_group`](../../scopes/permissions.md)
+> Scope: [`placement, sonet_group`](../../scopes/permissions.md)
 
 #|
 || **Точка встраивания** | **Когда использовать** ||

@@ -93,7 +93,7 @@
 
 ## Обзор точек встраивания {#all-placements}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 
 Исключение — `BI_ANALYTICS_MENU`: точка объявлена в глобальном scope [`placement`](../../scopes/permissions.md), отдельного доступа к CRM для нее не нужно.
 

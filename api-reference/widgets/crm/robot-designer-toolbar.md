@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 
 Виджет добавляет свою кнопку в дизайнер роботов, где настраивают автоматизацию объектов CRM: [лидов](../../crm/leads/index.md), [сделок](../../crm/deals/index.md), [новых счетов](../../crm/universal/invoice.md) и [пользовательских типов объектов](../../crm/universal/index.md).
 

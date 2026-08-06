@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 
 Виджет добавляет свой пункт в левое меню раздела CRM-аналитики. По нажатию на пункт открывается отчет приложения.
 

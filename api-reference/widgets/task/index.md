@@ -85,7 +85,7 @@
 
 ## Обзор точек встраивания {#all-placements}
 
-> Scope: [`task`](../../scopes/permissions.md)
+> Scope: [`placement, task`](../../scopes/permissions.md)
 
 #|
 || **Точка встраивания** | **Когда использовать** ||

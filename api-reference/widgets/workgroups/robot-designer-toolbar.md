@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`sonet_group`](../../scopes/permissions.md)
+> Scope: [`placement, sonet_group`](../../scopes/permissions.md)
 
 Виджет добавляет свою кнопку в дизайнер роботов, где настраивают автоматизацию задач рабочей группы или проекта.
 
