@@ -49,11 +49,11 @@ api-reference/booking/booking/booking-v1-booking-get.md,booking,Владимир
 api-reference/booking/booking/booking-v1-booking-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.list
 api-reference/booking/booking/booking-v1-booking-update.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.update
 api-reference/booking/booking/client/booking-v1-booking-client-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.client.list
-api-reference/booking/booking/client/booking-v1-booking-client-set.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.client.set
-api-reference/booking/booking/client/booking-v1-booking-client-unset.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.client.unset
+api-reference/booking/booking/client/booking-v1-booking-client-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.booking.client.set
+api-reference/booking/booking/client/booking-v1-booking-client-unset.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.booking.client.unset
 api-reference/booking/booking/external-data/booking-v1-booking-externaldata-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.externalData.list
-api-reference/booking/booking/external-data/booking-v1-booking-externaldata-set.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.externalData.set
-api-reference/booking/booking/external-data/booking-v1-booking-externaldata-unset.md,booking,Владимир,ожидает,1,1,0,booking.v1.booking.externalData.unset
+api-reference/booking/booking/external-data/booking-v1-booking-externaldata-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.booking.externalData.set
+api-reference/booking/booking/external-data/booking-v1-booking-externaldata-unset.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.booking.externalData.unset
 api-reference/booking/booking-v1-clienttype-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.clienttype.list
 api-reference/booking/resource/booking-v1-resource-add.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.add
 api-reference/booking/resource/booking-v1-resource-delete.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.delete
@@ -66,7 +66,7 @@ api-reference/booking/resource/resource-type/booking-v1-resourcetype-get.md,book
 api-reference/booking/resource/resource-type/booking-v1-resourcetype-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.resourceType.list
 api-reference/booking/resource/resource-type/booking-v1-resourcetype-update.md,booking,Владимир,ожидает,1,1,0,booking.v1.resourceType.update
 api-reference/booking/resource/slots/booking-v1-resource-slots-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.slots.list
-api-reference/booking/resource/slots/booking-v1-resource-slots-set.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.slots.set
+api-reference/booking/resource/slots/booking-v1-resource-slots-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.resource.slots.set
 api-reference/booking/resource/slots/booking-v1-resource-slots-unset.md,booking,Владимир,ожидает,1,1,0,booking.v1.resource.slots.unset
 api-reference/booking/waitlist/booking-v1-waitlist-add.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.add
 api-reference/booking/waitlist/booking-v1-waitlist-createfrombooking.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.createfrombooking
@@ -75,11 +75,11 @@ api-reference/booking/waitlist/booking-v1-waitlist-get.md,booking,Владими
 api-reference/booking/waitlist/booking-v1-waitlist-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.list
 api-reference/booking/waitlist/booking-v1-waitlist-update.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.update
 api-reference/booking/waitlist/client/booking-v1-waitlist-client-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.client.list
-api-reference/booking/waitlist/client/booking-v1-waitlist-client-set.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.client.set
-api-reference/booking/waitlist/client/booking-v1-waitlist-client-unset.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.client.unset
+api-reference/booking/waitlist/client/booking-v1-waitlist-client-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.waitlist.client.set
+api-reference/booking/waitlist/client/booking-v1-waitlist-client-unset.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.waitlist.client.unset
 api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-list.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.externalData.list
-api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-set.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.externalData.set
-api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-unset.md,booking,Владимир,ожидает,1,1,0,booking.v1.waitlist.externalData.unset
+api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-set.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.waitlist.externalData.set
+api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-unset.md,booking,Владимир,нужен разбор вручную,1,0,0,booking.v1.waitlist.externalData.unset
 api-reference/calendar/calendar-event/calendar-accessibility-get.md,calendar,Владимир,ожидает,1,1,0,calendar.accessibility.get
 api-reference/calendar/calendar-event/calendar-event-add.md,calendar,Владимир,ожидает,2,2,0,calendar.event.add
 api-reference/calendar/calendar-event/calendar-event-delete.md,calendar,Владимир,ожидает,1,1,0,calendar.event.delete
@@ -284,8 +284,8 @@ api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collect
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/links.md,chat-bots,Аня,нужен разбор вручную,1,0,0,
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/text.md,chat-bots,Аня,нужен разбор вручную,1,0,0,
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/user.md,chat-bots,Аня,нужен разбор вручную,1,0,0,
-api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/attachments/constructor.md,chat-bots,Аня,ожидает,2,2,0,imbot.v2.Chat.Message.send
-api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/attachments/index.md,chat-bots,Аня,нужен разбор вручную,4,2,0,imbot.v2.Chat.Message.send
+api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/attachments/constructor.md,chat-bots,Аня,нужен разбор вручную,2,0,0,imbot.v2.Chat.Message.send
+api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/attachments/index.md,chat-bots,Аня,нужен разбор вручную,4,0,0,imbot.v2.Chat.Message.send
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-delete.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.delete
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-get-context.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.getContext
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-get.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.get
@@ -294,8 +294,8 @@ api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-reaction-del
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-read.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.read
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-send.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.send
 api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-update.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.update
-api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-formatting.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.send
-api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-keyboards.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.send
+api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-formatting.md,chat-bots,Аня,нужен разбор вручную,1,0,0,imbot.v2.Chat.Message.send
+api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/message-keyboards.md,chat-bots,Аня,нужен разбор вручную,1,0,0,imbot.v2.Chat.Message.send
 api-reference/chat-bots/chat-bots-v2/imbot.v2/revision-get.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Revision.get
 api-reference/chat-bots/chat-bots-v2/imbot.v2/ui/chat-input-action-notify.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.InputAction.notify
 api-reference/chat-bots/chat-bots-v2/imbot.v2/ui/chat-text-field-enabled.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.TextField.enabled
@@ -324,8 +324,8 @@ api-reference/chat-bots/outdated/messages/imbot-message-add.md,chat-bots,Аня,
 api-reference/chat-bots/outdated/messages/imbot-message-delete.md,chat-bots,Аня,ожидает,1,1,0,imbot.message.delete
 api-reference/chat-bots/outdated/messages/imbot-message-like.md,chat-bots,Аня,ожидает,1,1,0,imbot.message.like
 api-reference/chat-bots/outdated/messages/imbot-message-update.md,chat-bots,Аня,ожидает,1,1,0,imbot.message.update
-api-reference/chat-bots/outdated/send-command.md,chat-bots,Аня,ожидает,1,1,0,imbot.message.add
-api-reference/chat-bots/send-command.md,chat-bots,Аня,ожидает,1,1,0,imbot.v2.Chat.Message.send
+api-reference/chat-bots/outdated/send-command.md,chat-bots,Аня,нужен разбор вручную,1,0,0,imbot.message.add
+api-reference/chat-bots/send-command.md,chat-bots,Аня,нужен разбор вручную,1,0,0,imbot.v2.Chat.Message.send
 api-reference/chats/chat-update/im-chat-set-owner.md,chats,Аня,ожидает,1,1,0,im.chat.setOwner
 api-reference/chats/chat-update/im-chat-update-avatar.md,chats,Аня,ожидает,1,1,0,im.chat.updateAvatar
 api-reference/chats/chat-update/im-chat-update-color.md,chats,Аня,ожидает,1,1,0,im.chat.updateColor
@@ -549,7 +549,7 @@ api-reference/crm/leads/crm-lead-add.md,crm,Владимир,ожидает,1,1,
 api-reference/crm/leads/crm-lead-delete.md,crm,Владимир,ожидает,1,1,0,crm.lead.delete
 api-reference/crm/leads/crm-lead-fields.md,crm,Владимир,ожидает,1,1,0,crm.lead.fields
 api-reference/crm/leads/crm-lead-get.md,crm,Владимир,ожидает,1,1,0,crm.lead.get
-api-reference/crm/leads/crm-lead-list.md,crm,Владимир,ожидает,1,1,0,crm.lead.list
+api-reference/crm/leads/crm-lead-list.md,crm,Владимир,нужен разбор вручную,1,0,0,crm.lead.list
 api-reference/crm/leads/crm-lead-productrows-get.md,crm,Владимир,ожидает,1,1,0,crm.lead.productrows.get
 api-reference/crm/leads/crm-lead-productrows-set.md,crm,Владимир,ожидает,1,1,0,crm.lead.productrows.set
 api-reference/crm/leads/crm-lead-update.md,crm,Владимир,ожидает,1,1,0,crm.lead.update
@@ -586,7 +586,7 @@ api-reference/crm/outdated/invoice/crm-invoice-delete.md,crm,Владимир,о
 api-reference/crm/outdated/invoice/crm-invoice-fields.md,crm,Владимир,ожидает,1,1,0,crm.invoice.fields
 api-reference/crm/outdated/invoice/crm-invoice-get-external-link.md,crm,Владимир,ожидает,1,1,0,crm.invoice.getexternallink
 api-reference/crm/outdated/invoice/crm-invoice-get.md,crm,Владимир,ожидает,1,1,0,crm.invoice.get
-api-reference/crm/outdated/invoice/crm-invoice-list.md,crm,Владимир,ожидает,1,1,0,crm.invoice.list
+api-reference/crm/outdated/invoice/crm-invoice-list.md,crm,Владимир,нужен разбор вручную,1,0,0,crm.invoice.list
 api-reference/crm/outdated/invoice/crm-invoice-recurring-add.md,crm,Владимир,нужен разбор вручную,1,0,0,crm.invoice.recurring.add
 api-reference/crm/outdated/invoice/crm-invoice-recurring-delete.md,crm,Владимир,ожидает,1,1,0,crm.invoice.recurring.delete
 api-reference/crm/outdated/invoice/crm-invoice-recurring-expose.md,crm,Владимир,ожидает,1,1,0,crm.invoice.recurring.expose
@@ -655,7 +655,7 @@ api-reference/crm/quote/user-field/crm-quote-user-field-update.md,crm,Влади
 api-reference/crm/requisites/addresses/crm-address-add.md,crm,Владимир,ожидает,1,1,0,crm.address.add
 api-reference/crm/requisites/addresses/crm-address-delete.md,crm,Владимир,ожидает,1,1,0,crm.address.delete
 api-reference/crm/requisites/addresses/crm-address-fields.md,crm,Владимир,ожидает,1,1,0,crm.address.fields
-api-reference/crm/requisites/addresses/crm-address-list.md,crm,Владимир,ожидает,1,1,0,crm.address.list
+api-reference/crm/requisites/addresses/crm-address-list.md,crm,Владимир,нужен разбор вручную,1,0,0,crm.address.list
 api-reference/crm/requisites/addresses/crm-address-update.md,crm,Владимир,ожидает,1,1,0,crm.address.update
 api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-add.md,crm,Владимир,ожидает,1,1,0,crm.requisite.bankdetail.add
 api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-delete.md,crm,Владимир,ожидает,1,1,0,crm.requisite.bankdetail.delete
@@ -794,7 +794,7 @@ api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-deliver
 api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-delete.md,crm,Владимир,ожидает,1,1,0,crm.item.payment.delivery.delete
 api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-list.md,crm,Владимир,ожидает,1,1,0,crm.item.payment.delivery.list
 api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-set-delivery.md,crm,Владимир,ожидает,1,1,0,crm.item.payment.delivery.setDelivery
-api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-add.md,crm,Владимир,ожидает,1,1,0,crm.item.payment.product.add
+api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-add.md,crm,Владимир,нужен разбор вручную,1,0,0,crm.item.payment.product.add
 api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-delete.md,crm,Владимир,ожидает,1,1,0,crm.item.payment.product.delete
 api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-list.md,crm,Владимир,ожидает,1,1,0,crm.item.payment.product.list
 api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-set-quantity.md,crm,Владимир,ожидает,1,1,0,crm.item.payment.product.setQuantity
@@ -934,7 +934,7 @@ api-reference/entity/items/properties/entity-item-property-update.md,entity,Вл
 api-reference/entity/sections/entity-section-add.md,entity,Владимир,ожидает,1,1,0,entity.section.add
 api-reference/entity/sections/entity-section-delete.md,entity,Владимир,ожидает,1,1,0,entity.section.delete
 api-reference/entity/sections/entity-section-get.md,entity,Владимир,ожидает,1,1,0,entity.section.get
-api-reference/entity/sections/entity-section-update.md,entity,Владимир,ожидает,1,1,0,entity.section.update
+api-reference/entity/sections/entity-section-update.md,entity,Владимир,нужен разбор вручную,1,0,0,entity.section.update
 api-reference/event-log/main-eventlog-field-get.md,event-log,Владимир,ожидает,1,1,0,main.eventlog.field.get
 api-reference/event-log/main-eventlog-field-list.md,event-log,Владимир,ожидает,1,1,0,main.eventlog.field.list
 api-reference/event-log/main-eventlog-get.md,event-log,Владимир,ожидает,1,1,0,main.eventlog.get
@@ -944,7 +944,7 @@ api-reference/events/event-bind.md,events,Аня,ожидает,1,1,0,event.bind
 api-reference/events/event-get.md,events,Аня,ожидает,1,1,0,event.get
 api-reference/events/event-offline-clear.md,events,Аня,ожидает,1,1,0,event.offline.clear
 api-reference/events/event-offline-error.md,events,Аня,ожидает,1,1,0,event.offline.error
-api-reference/events/event-offline-get.md,events,Аня,ожидает,1,1,0,event.offline.get
+api-reference/events/event-offline-get.md,events,Аня,нужен разбор вручную,1,0,0,event.offline.get
 api-reference/events/event-offline-list.md,events,Аня,ожидает,1,1,0,event.offline.list
 api-reference/events/event-unbind.md,events,Аня,нужен разбор вручную,1,0,0,
 api-reference/events/events.md,events,Аня,нужен разбор вручную,1,0,0,
@@ -1025,7 +1025,7 @@ api-reference/landing/demos/landing-demos-get-page-list.md,landing,Владим�
 api-reference/landing/demos/landing-demos-get-site-list.md,landing,Владимир,ожидает,1,1,0,landing.demos.getSiteList
 api-reference/landing/demos/landing-demos-register.md,landing,Владимир,ожидает,1,1,0,landing.demos.register
 api-reference/landing/demos/landing-demos-unregister.md,landing,Владимир,ожидает,1,1,0,landing.demos.unregister
-api-reference/landing/embedding/block.md,landing,Владимир,ожидает,3,3,0,landing.repo.bind;placement.call
+api-reference/landing/embedding/block.md,landing,Владимир,нужен разбор вручную,3,2,0,landing.repo.bind;placement.call
 api-reference/landing/embedding/knowledge-base/landing-site-binding-to-group.md,landing,Владимир,ожидает,1,1,0,landing.site.bindingToGroup
 api-reference/landing/embedding/knowledge-base/landing-site-binding-to-menu.md,landing,Владимир,ожидает,1,1,0,landing.site.bindingToMenu
 api-reference/landing/embedding/knowledge-base/landing-site-get-group-bindings.md,landing,Владимир,ожидает,1,1,0,landing.site.getGroupBindings
@@ -1243,14 +1243,14 @@ api-reference/sale/delivery/delivery/sale-delivery-config-get.md,sale,Аня,о�
 api-reference/sale/delivery/delivery/sale-delivery-config-update.md,sale,Аня,ожидает,1,1,0,sale.delivery.config.update
 api-reference/sale/delivery/delivery/sale-delivery-delete.md,sale,Аня,ожидает,1,1,0,sale.delivery.delete
 api-reference/sale/delivery/delivery/sale-delivery-get-list.md,sale,Аня,ожидает,1,1,0,sale.delivery.getlist
-api-reference/sale/delivery/delivery/sale-delivery-update.md,sale,Аня,ожидает,1,1,0,sale.delivery.update
+api-reference/sale/delivery/delivery/sale-delivery-update.md,sale,Аня,нужен разбор вручную,1,0,0,sale.delivery.update
 api-reference/sale/delivery/delivery-request/sale-delivery-request-delete.md,sale,Аня,ожидает,1,1,0,sale.delivery.request.delete
 api-reference/sale/delivery/delivery-request/sale-delivery-request-send-message.md,sale,Аня,ожидает,1,1,0,sale.delivery.request.sendmessage
 api-reference/sale/delivery/delivery-request/sale-delivery-request-update.md,sale,Аня,ожидает,1,1,0,sale.delivery.request.update
 api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md,sale,Аня,ожидает,2,2,0,sale.delivery.extra.service.add
 api-reference/sale/delivery/extra-service/sale-delivery-extra-service-delete.md,sale,Аня,ожидает,1,1,0,sale.delivery.extra.service.delete
 api-reference/sale/delivery/extra-service/sale-delivery-extra-service-get.md,sale,Аня,ожидает,1,1,0,sale.delivery.extra.service.get
-api-reference/sale/delivery/extra-service/sale-delivery-extra-service-update.md,sale,Аня,ожидает,2,2,0,sale.delivery.extra.service.update
+api-reference/sale/delivery/extra-service/sale-delivery-extra-service-update.md,sale,Аня,нужен разбор вручную,2,1,0,sale.delivery.extra.service.update
 api-reference/sale/delivery/handler/sale-delivery-handler-add.md,sale,Аня,ожидает,1,1,0,sale.delivery.handler.add
 api-reference/sale/delivery/handler/sale-delivery-handler-delete.md,sale,Аня,ожидает,1,1,0,sale.delivery.handler.delete
 api-reference/sale/delivery/handler/sale-delivery-handler-list.md,sale,Аня,ожидает,1,1,0,sale.delivery.handler.list
@@ -1258,7 +1258,7 @@ api-reference/sale/delivery/handler/sale-delivery-handler-update.md,sale,Аня,
 api-reference/sale/order/sale-order-add.md,sale,Аня,ожидает,1,1,0,sale.order.add
 api-reference/sale/order/sale-order-delete.md,sale,Аня,ожидает,1,1,0,sale.order.delete
 api-reference/sale/order/sale-order-get-fields.md,sale,Аня,ожидает,1,1,0,sale.order.getfields
-api-reference/sale/order/sale-order-get.md,sale,Аня,ожидает,1,1,0,sale.order.get
+api-reference/sale/order/sale-order-get.md,sale,Аня,нужен разбор вручную,1,0,0,sale.order.get
 api-reference/sale/order/sale-order-list.md,sale,Аня,ожидает,1,1,0,sale.order.list
 api-reference/sale/order/sale-order-update.md,sale,Аня,ожидает,1,1,0,sale.order.update
 api-reference/sale/payment/sale-payment-add.md,sale,Аня,ожидает,1,1,0,sale.payment.add
@@ -1285,12 +1285,12 @@ api-reference/sale/person-type/sale-person-type-get-fields.md,sale,Аня,ожи
 api-reference/sale/person-type/sale-person-type-get.md,sale,Аня,нужен разбор вручную,1,0,0,sale.persontype.get
 api-reference/sale/person-type/sale-person-type-list.md,sale,Аня,ожидает,1,1,0,sale.persontype.list
 api-reference/sale/person-type/sale-person-type-update.md,sale,Аня,ожидает,1,1,0,sale.persontype.update
-api-reference/sale/property/sale-property-add.md,sale,Аня,ожидает,1,1,0,sale.property.add
+api-reference/sale/property/sale-property-add.md,sale,Аня,нужен разбор вручную,1,0,0,sale.property.add
 api-reference/sale/property/sale-property-delete.md,sale,Аня,ожидает,1,1,0,sale.property.delete
 api-reference/sale/property/sale-property-get-fields-by-type.md,sale,Аня,ожидает,1,1,0,sale.property.getfieldsbytype
 api-reference/sale/property/sale-property-get.md,sale,Аня,ожидает,1,1,0,sale.property.get
 api-reference/sale/property/sale-property-list.md,sale,Аня,ожидает,1,1,0,sale.property.list
-api-reference/sale/property/sale-property-update.md,sale,Аня,ожидает,1,1,0,sale.property.update
+api-reference/sale/property/sale-property-update.md,sale,Аня,нужен разбор вручную,1,0,0,sale.property.update
 api-reference/sale/property-group/sale-property-group-add.md,sale,Аня,ожидает,1,1,0,sale.propertygroup.add
 api-reference/sale/property-group/sale-property-group-delete.md,sale,Аня,ожидает,1,1,0,sale.propertygroup.delete
 api-reference/sale/property-group/sale-property-group-get-fields.md,sale,Аня,ожидает,1,1,0,sale.propertygroup.getFields
@@ -1324,12 +1324,12 @@ api-reference/sale/shipment-item/sale-shipment-item-get-fields.md,sale,Аня,о
 api-reference/sale/shipment-item/sale-shipment-item-get.md,sale,Аня,ожидает,1,1,0,sale.shipmentitem.get
 api-reference/sale/shipment-item/sale-shipment-item-list.md,sale,Аня,ожидает,1,1,0,sale.shipmentitem.list
 api-reference/sale/shipment-item/sale-shipment-item-update.md,sale,Аня,ожидает,1,1,0,sale.shipmentitem.update
-api-reference/sale/shipment-property/sale-shipment-property-add.md,sale,Аня,ожидает,1,1,0,sale.shipmentproperty.add
+api-reference/sale/shipment-property/sale-shipment-property-add.md,sale,Аня,нужен разбор вручную,1,0,0,sale.shipmentproperty.add
 api-reference/sale/shipment-property/sale-shipment-property-delete.md,sale,Аня,ожидает,1,1,0,sale.shipmentproperty.delete
 api-reference/sale/shipment-property/sale-shipment-property-get-fields-by-type.md,sale,Аня,ожидает,1,1,0,sale.shipmentproperty.getfieldsbytype
 api-reference/sale/shipment-property/sale-shipment-property-get.md,sale,Аня,ожидает,1,1,0,sale.shipmentproperty.get
 api-reference/sale/shipment-property/sale-shipment-property-list.md,sale,Аня,ожидает,1,1,0,sale.shipmentproperty.list
-api-reference/sale/shipment-property/sale-shipment-property-update.md,sale,Аня,ожидает,1,1,0,sale.shipmentproperty.update
+api-reference/sale/shipment-property/sale-shipment-property-update.md,sale,Аня,нужен разбор вручную,1,0,0,sale.shipmentproperty.update
 api-reference/sale/shipment-property-value/sale-shipment-property-value-get-fields.md,sale,Аня,ожидает,1,1,0,sale.shipmentpropertyvalue.getfields
 api-reference/sale/shipment-property-value/sale-shipment-property-value-get.md,sale,Аня,ожидает,1,1,0,sale.shipmentpropertyvalue.get
 api-reference/sale/shipment-property-value/sale-shipment-property-value-list.md,sale,Аня,ожидает,1,1,0,sale.shipmentpropertyvalue.list
@@ -1383,7 +1383,7 @@ api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-add.md,sonet-group
 api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-complete.md,sonet-group,Аня,ожидает,1,1,0,tasks.api.scrum.sprint.complete
 api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-delete.md,sonet-group,Аня,ожидает,1,1,0,tasks.api.scrum.sprint.delete
 api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-get-fields.md,sonet-group,Аня,ожидает,1,1,0,tasks.api.scrum.sprint.getFields
-api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-get.md,sonet-group,Аня,ожидает,1,1,0,tasks.api.scrum.sprint.get
+api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-get.md,sonet-group,Аня,нужен разбор вручную,1,0,0,tasks.api.scrum.sprint.get
 api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-list.md,sonet-group,Аня,ожидает,1,1,0,tasks.api.scrum.sprint.list
 api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-start.md,sonet-group,Аня,ожидает,1,1,0,tasks.api.scrum.sprint.start
 api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-update.md,sonet-group,Аня,ожидает,1,1,0,tasks.api.scrum.sprint.update
@@ -1419,10 +1419,10 @@ api-reference/tasks/comment-item/task-comment-item-get-manifest.md,tasks,Аня,
 api-reference/tasks/comment-item/task-comment-item-get.md,tasks,Аня,ожидает,1,1,0,task.commentitem.get
 api-reference/tasks/comment-item/task-comment-item-is-action-allowed.md,tasks,Аня,ожидает,1,1,0,task.commentitem.isactionallowed
 api-reference/tasks/comment-item/task-comment-item-update.md,tasks,Аня,ожидает,1,1,0,task.commentitem.update
-api-reference/tasks/deprecated/task-comment-add.md,tasks,Аня,ожидает,1,1,0,task.comment.add
-api-reference/tasks/deprecated/task-item/task-item-add-file.md,tasks,Аня,ожидает,1,1,0,task.item.addfile
+api-reference/tasks/deprecated/task-comment-add.md,tasks,Аня,нужен разбор вручную,1,0,0,task.comment.add
+api-reference/tasks/deprecated/task-item/task-item-add-file.md,tasks,Аня,нужен разбор вручную,1,0,0,task.item.addfile
 api-reference/tasks/deprecated/task-item/task-item-add-to-favourite.md,tasks,Аня,ожидает,1,1,0,task.item.addtofavorite
-api-reference/tasks/deprecated/task-item/task-item-add.md,tasks,Аня,ожидает,2,2,0,task.item.add;task.item.update
+api-reference/tasks/deprecated/task-item/task-item-add.md,tasks,Аня,нужен разбор вручную,2,1,0,task.item.add;task.item.update
 api-reference/tasks/deprecated/task-item/task-item-approve.md,tasks,Аня,ожидает,1,1,0,task.item.approve
 api-reference/tasks/deprecated/task-item/task-item-complete.md,tasks,Аня,ожидает,1,1,0,task.item.complete
 api-reference/tasks/deprecated/task-item/task-item-defer.md,tasks,Аня,ожидает,1,1,0,task.item.defer
@@ -1435,15 +1435,15 @@ api-reference/tasks/deprecated/task-item/task-item-get-allowed-actions.md,tasks,
 api-reference/tasks/deprecated/task-item/task-item-get-allowed-task-actions-as-strings.md,tasks,Аня,ожидает,1,1,0,task.item.getallowedtaskactionsasstrings
 api-reference/tasks/deprecated/task-item/task-item-get-data.md,tasks,Аня,ожидает,1,1,0,task.item.getdata
 api-reference/tasks/deprecated/task-item/task-item-get-dependson.md,tasks,Аня,ожидает,1,1,0,task.item.getdependson
-api-reference/tasks/deprecated/task-item/task-item-get-description.md,tasks,Аня,ожидает,1,1,0,task.item.getdescription
+api-reference/tasks/deprecated/task-item/task-item-get-description.md,tasks,Аня,нужен разбор вручную,1,0,0,task.item.getdescription
 api-reference/tasks/deprecated/task-item/task-item-get-manifest.md,tasks,Аня,ожидает,1,1,0,task.item.getmanifest
-api-reference/tasks/deprecated/task-item/task-item-is-action-allowed.md,tasks,Аня,ожидает,1,1,0,task.item.isactionallowed
+api-reference/tasks/deprecated/task-item/task-item-is-action-allowed.md,tasks,Аня,нужен разбор вручную,1,0,0,task.item.isactionallowed
 api-reference/tasks/deprecated/task-item/task-item-list.md,tasks,Аня,ожидает,2,2,0,task.item.list
 api-reference/tasks/deprecated/task-item/task-item-renew.md,tasks,Аня,ожидает,1,1,0,task.item.renew
 api-reference/tasks/deprecated/task-item/task-item-start-execution.md,tasks,Аня,ожидает,1,1,0,task.item.startexecution
-api-reference/tasks/deprecated/task-item/task-item-update.md,tasks,Аня,ожидает,2,2,0,task.item.update
-api-reference/tasks/deprecated/task-item/task-log-item-list.md,tasks,Аня,ожидает,1,1,0,task.logitem.list
-api-reference/tasks/deprecated/task-items-get-list.md,tasks,Аня,ожидает,2,2,0,task.items.getlist
+api-reference/tasks/deprecated/task-item/task-item-update.md,tasks,Аня,нужен разбор вручную,2,0,0,task.item.update
+api-reference/tasks/deprecated/task-item/task-log-item-list.md,tasks,Аня,нужен разбор вручную,1,0,0,task.logitem.list
+api-reference/tasks/deprecated/task-items-get-list.md,tasks,Аня,нужен разбор вручную,2,1,0,task.items.getlist
 api-reference/tasks/elapsed-item/task-elapsed-item-add.md,tasks,Аня,ожидает,1,1,0,task.elapseditem.add
 api-reference/tasks/elapsed-item/task-elapsed-item-delete.md,tasks,Аня,ожидает,1,1,0,task.elapseditem.delete
 api-reference/tasks/elapsed-item/task-elapsed-item-get-list.md,tasks,Аня,ожидает,1,1,0,task.elapseditem.getlist
@@ -1598,8 +1598,8 @@ api-reference/timeman/timecontrol/timeman-timecontrol-settings-set.md,timeman,А
 api-reference/user/user-add.md,user,Владимир,ожидает,1,1,0,user.add
 api-reference/user/user-current.md,user,Владимир,ожидает,1,1,0,user.current
 api-reference/user/user-fields.md,user,Владимир,ожидает,1,1,0,user.fields
-api-reference/user/user-get.md,user,Владимир,ожидает,4,4,0,user.get
-api-reference/user/user-search.md,user,Владимир,ожидает,1,1,0,user.search
+api-reference/user/user-get.md,user,Владимир,нужен разбор вручную,4,3,0,user.get
+api-reference/user/user-search.md,user,Владимир,нужен разбор вручную,1,0,0,user.search
 api-reference/user/user-update.md,user,Владимир,ожидает,1,1,0,user.update
 api-reference/user/userfields/user-userfield-add.md,user,Владимир,нужен разбор вручную,2,1,0,user.userfield.add
 api-reference/user/userfields/user-userfield-delete.md,user,Владимир,ожидает,1,1,0,user.userfield.delete
@@ -1615,7 +1615,7 @@ api-reference/vibe/landing-repowidget-unregister.md,vibe,Владимир,нуж
 api-reference/vote/vote.attachedvote.download.md,vote,Аня,нужен разбор вручную,1,0,0,vote.AttachedVote.download
 api-reference/vote/vote.attachedvote.get.md,vote,Аня,нужен разбор вручную,2,1,0,vote.AttachedVote.get
 api-reference/vote/vote.attachedvote.getAnswerVoted.md,vote,Аня,нужен разбор вручную,1,0,0,vote.AttachedVote.getAnswerVoted
-api-reference/vote/vote.attachedvote.getMany.md,vote,Аня,ожидает,1,1,0,vote.AttachedVote.getMany
+api-reference/vote/vote.attachedvote.getMany.md,vote,Аня,нужен разбор вручную,1,0,0,vote.AttachedVote.getMany
 api-reference/vote/vote.attachedvote.getWithVoted.md,vote,Аня,нужен разбор вручную,1,0,0,vote.AttachedVote.getWithVoted
 api-reference/vote/vote.attachedvote.recall.md,vote,Аня,ожидает,1,1,0,vote.AttachedVote.recall
 api-reference/vote/vote.attachedvote.resume.md,vote,Аня,нужен разбор вручную,1,0,0,vote.AttachedVote.resume
