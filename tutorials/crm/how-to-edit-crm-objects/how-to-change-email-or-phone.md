@@ -94,6 +94,31 @@
     ))
     ```
 
+- Go
+
+    ```go
+    // Строка мультиполя БЕЗ ID добавляет значение. MultifieldAdd собирает её за
+    // вас: VALUE и VALUE_TYPE в нужных ключах.
+    res, err := core.Call(ctx, "crm.contact.add", b24.Params{
+    	"fields": b24.Params{
+    		"NAME": "Иван",
+    		"EMAIL": []map[string]any{
+    			b24.MultifieldAdd("work_email@nomail.com", "WORK"),
+    			b24.MultifieldAdd("home_email@nomail.com", "HOME"),
+    		},
+    	},
+    }) // без WithIdempotent: повтор создал бы второй контакт
+    if err != nil {
+    	return fmt.Errorf("crm.contact.add: %w", err)
+    }
+
+    // Обёртки нет: result — сразу идентификатор нового контакта.
+    var contactID b24.ID
+    if err := json.Unmarshal(res.Result, &contactID); err != nil {
+    	return fmt.Errorf("разбор идентификатора контакта: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате получим идентификатор нового контакта, например, `25`.
@@ -134,6 +159,28 @@
     ```python
     # получаем информацию о контакте по ID
     contact_data = client.crm.contact.get(bitrix_id=contact_id).result
+    ```
+
+- Go
+
+    ```go
+    res, err = core.Call(ctx, "crm.contact.get",
+    	b24.Params{"id": contactID}, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.get: %w", err)
+    }
+
+    // Идентификаторы строк мультиполя выдаёт портал, и без них изменить или
+    // удалить значение нельзя.
+    var contact struct {
+    	Email []multifield `json:"EMAIL"`
+    }
+    if err := json.Unmarshal(res.Result, &contact); err != nil {
+    	return fmt.Errorf("разбор контакта: %w", err)
+    }
+    if len(contact.Email) < 2 {
+    	return fmt.Errorf("у контакта %d меньше двух email", contactID)
+    }
     ```
 
 {% endlist %}
@@ -215,6 +262,26 @@
 
     # обновляем контакт
     client.crm.contact.update(bitrix_id=contact_id, fields={"EMAIL": ar_update_email})
+    ```
+
+- Go
+
+    ```go
+    // Строки, которые не упомянуты, остаются как были. Поэтому удаление —
+    // это ОТДЕЛЬНАЯ команда, а не отсутствие строки в списке: пропущенный
+    // адрес просто уцелеет.
+    _, err = core.Call(ctx, "crm.contact.update", b24.Params{
+    	"id": contactID,
+    	"fields": b24.Params{
+    		"EMAIL": []map[string]any{
+    			b24.MultifieldSet(contact.Email[0].ID, "new_work_email@example.com"),
+    			b24.MultifieldDelete(contact.Email[1].ID),
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.update: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -400,6 +467,141 @@
                 print("Не найдены email для обновления.")
     ```
 
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создаёт контакт с двумя email, читает их
+    // идентификаторы, первый адрес меняет, второй удаляет, показывает результат и
+    // убирает за собой. Запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- шаг 1: контакт с двумя email
+    	// Строка мультиполя БЕЗ ID добавляет значение. MultifieldAdd собирает её за
+    	// вас: VALUE и VALUE_TYPE в нужных ключах.
+    	res, err := core.Call(ctx, "crm.contact.add", b24.Params{
+    		"fields": b24.Params{
+    			"NAME": "Иван",
+    			"EMAIL": []map[string]any{
+    				b24.MultifieldAdd("work_email@nomail.com", "WORK"),
+    				b24.MultifieldAdd("home_email@nomail.com", "HOME"),
+    			},
+    		},
+    	}) // без WithIdempotent: повтор создал бы второй контакт
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.add: %w", err)
+    	}
+
+    	// Обёртки нет: result — сразу идентификатор нового контакта.
+    	var contactID b24.ID
+    	if err := json.Unmarshal(res.Result, &contactID); err != nil {
+    		return fmt.Errorf("разбор идентификатора контакта: %w", err)
+    	}
+    	defer del(ctx, core, "crm.contact.delete", b24.Params{"id": contactID})
+    	fmt.Printf("контакт %d создан\n", contactID)
+
+    	// --- шаг 2: читаем контакт, чтобы узнать ID строк мультиполя
+    	res, err = core.Call(ctx, "crm.contact.get",
+    		b24.Params{"id": contactID}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.get: %w", err)
+    	}
+
+    	// Идентификаторы строк мультиполя выдаёт портал, и без них изменить или
+    	// удалить значение нельзя.
+    	var contact struct {
+    		Email []multifield `json:"EMAIL"`
+    	}
+    	if err := json.Unmarshal(res.Result, &contact); err != nil {
+    		return fmt.Errorf("разбор контакта: %w", err)
+    	}
+    	if len(contact.Email) < 2 {
+    		return fmt.Errorf("у контакта %d меньше двух email", contactID)
+    	}
+    	for _, e := range contact.Email {
+    		fmt.Printf("  было: ID=%d %s (%s)\n", e.ID, e.Value, e.ValueType)
+    	}
+
+    	// --- шаг 3: первый адрес меняем, второй удаляем
+    	// Строки, которые не упомянуты, остаются как были. Поэтому удаление —
+    	// это ОТДЕЛЬНАЯ команда, а не отсутствие строки в списке: пропущенный
+    	// адрес просто уцелеет.
+    	_, err = core.Call(ctx, "crm.contact.update", b24.Params{
+    		"id": contactID,
+    		"fields": b24.Params{
+    			"EMAIL": []map[string]any{
+    				b24.MultifieldSet(contact.Email[0].ID, "new_work_email@example.com"),
+    				b24.MultifieldDelete(contact.Email[1].ID),
+    			},
+    		},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.update: %w", err)
+    	}
+    	// --- проверка: что осталось у контакта
+
+    	res, err = core.Call(ctx, "crm.contact.get",
+    		b24.Params{"id": contactID}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.get после обновления: %w", err)
+    	}
+    	var updated struct {
+    		Email []multifield `json:"EMAIL"`
+    	}
+    	if err := json.Unmarshal(res.Result, &updated); err != nil {
+    		return fmt.Errorf("разбор контакта после обновления: %w", err)
+    	}
+    	for _, e := range updated.Email {
+    		fmt.Printf("  стало: ID=%d %s (%s)\n", e.ID, e.Value, e.ValueType)
+    	}
+    	return nil
+    }
+
+    // multifield — одна строка поля типа crm_multifield. Идентификатор приходит
+    // СТРОКОЙ ("1328"), поэтому b24.ID, а не int.
+    type multifield struct {
+    	ID        b24.ID `json:"ID"`
+    	Value     string `json:"VALUE"`
+    	ValueType string `json:"VALUE_TYPE"`
+    	TypeID    string `json:"TYPE_ID"`
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
+    ```
+
 {% endlist %}
 
 ## Пример с телефонными номерами
@@ -458,6 +660,31 @@
     ))
     ```
 
+- Go
+
+    ```go
+    // Строка мультиполя БЕЗ ID добавляет значение. MultifieldAdd собирает её за
+    // вас: VALUE и VALUE_TYPE в нужных ключах.
+    res, err := core.Call(ctx, "crm.contact.add", b24.Params{
+    	"fields": b24.Params{
+    		"NAME": "Иван",
+    		"PHONE": []map[string]any{
+    			b24.MultifieldAdd("+7 900 000-00-00", "WORK"),
+    			b24.MultifieldAdd("+7 900 111-11-11", "MOBILE"),
+    		},
+    	},
+    }) // без WithIdempotent: повтор создал бы второй контакт
+    if err != nil {
+    	return fmt.Errorf("crm.contact.add: %w", err)
+    }
+
+    // Обёртки нет: result — сразу идентификатор нового контакта.
+    var contactID b24.ID
+    if err := json.Unmarshal(res.Result, &contactID); err != nil {
+    	return fmt.Errorf("разбор идентификатора контакта: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате получим идентификатор нового контакта, например, `25`.
@@ -498,6 +725,28 @@
     ```python
     # получаем информацию о контакте по ID
     contact_data = client.crm.contact.get(bitrix_id=contact_id).result
+    ```
+
+- Go
+
+    ```go
+    res, err = core.Call(ctx, "crm.contact.get",
+    	b24.Params{"id": contactID}, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.get: %w", err)
+    }
+
+    // Идентификаторы строк мультиполя выдаёт портал, и без них изменить или
+    // удалить значение нельзя.
+    var contact struct {
+    	Phone []multifield `json:"PHONE"`
+    }
+    if err := json.Unmarshal(res.Result, &contact); err != nil {
+    	return fmt.Errorf("разбор контакта: %w", err)
+    }
+    if len(contact.Phone) < 2 {
+    	return fmt.Errorf("у контакта %d меньше двух телефонов", contactID)
+    }
     ```
 
 {% endlist %}
@@ -579,6 +828,26 @@
 
     # обновляем контакт
     client.crm.contact.update(bitrix_id=contact_id, fields={"PHONE": ar_update_phone})
+    ```
+
+- Go
+
+    ```go
+    // Строки, которые не упомянуты, остаются как были. Поэтому удаление —
+    // это ОТДЕЛЬНАЯ команда, а не отсутствие строки в списке: пропущенный
+    // номер просто уцелеет.
+    _, err = core.Call(ctx, "crm.contact.update", b24.Params{
+    	"id": contactID,
+    	"fields": b24.Params{
+    		"PHONE": []map[string]any{
+    			b24.MultifieldSet(contact.Phone[0].ID, "+7 900 222-22-22"),
+    			b24.MultifieldDelete(contact.Phone[1].ID),
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.update: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -755,6 +1024,141 @@
                         print("Контакт успешно обновлен.")
             else:
                 print("Не найдены телефоны для обновления.")
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создаёт контакт с двумя телефонами, читает их
+    // идентификаторы, первый номер меняет, второй удаляет, показывает результат и
+    // убирает за собой. Запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- шаг 1: контакт с двумя телефонами
+    	// Строка мультиполя БЕЗ ID добавляет значение. MultifieldAdd собирает её за
+    	// вас: VALUE и VALUE_TYPE в нужных ключах.
+    	res, err := core.Call(ctx, "crm.contact.add", b24.Params{
+    		"fields": b24.Params{
+    			"NAME": "Иван",
+    			"PHONE": []map[string]any{
+    				b24.MultifieldAdd("+7 900 000-00-00", "WORK"),
+    				b24.MultifieldAdd("+7 900 111-11-11", "MOBILE"),
+    			},
+    		},
+    	}) // без WithIdempotent: повтор создал бы второй контакт
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.add: %w", err)
+    	}
+
+    	// Обёртки нет: result — сразу идентификатор нового контакта.
+    	var contactID b24.ID
+    	if err := json.Unmarshal(res.Result, &contactID); err != nil {
+    		return fmt.Errorf("разбор идентификатора контакта: %w", err)
+    	}
+    	defer del(ctx, core, "crm.contact.delete", b24.Params{"id": contactID})
+    	fmt.Printf("контакт %d создан\n", contactID)
+
+    	// --- шаг 2: читаем контакт, чтобы узнать ID строк мультиполя
+    	res, err = core.Call(ctx, "crm.contact.get",
+    		b24.Params{"id": contactID}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.get: %w", err)
+    	}
+
+    	// Идентификаторы строк мультиполя выдаёт портал, и без них изменить или
+    	// удалить значение нельзя.
+    	var contact struct {
+    		Phone []multifield `json:"PHONE"`
+    	}
+    	if err := json.Unmarshal(res.Result, &contact); err != nil {
+    		return fmt.Errorf("разбор контакта: %w", err)
+    	}
+    	if len(contact.Phone) < 2 {
+    		return fmt.Errorf("у контакта %d меньше двух телефонов", contactID)
+    	}
+    	for _, e := range contact.Phone {
+    		fmt.Printf("  было: ID=%d %s (%s)\n", e.ID, e.Value, e.ValueType)
+    	}
+
+    	// --- шаг 3: первый адрес меняем, второй удаляем
+    	// Строки, которые не упомянуты, остаются как были. Поэтому удаление —
+    	// это ОТДЕЛЬНАЯ команда, а не отсутствие строки в списке: пропущенный
+    	// номер просто уцелеет.
+    	_, err = core.Call(ctx, "crm.contact.update", b24.Params{
+    		"id": contactID,
+    		"fields": b24.Params{
+    			"PHONE": []map[string]any{
+    				b24.MultifieldSet(contact.Phone[0].ID, "+7 900 222-22-22"),
+    				b24.MultifieldDelete(contact.Phone[1].ID),
+    			},
+    		},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.update: %w", err)
+    	}
+    	// --- проверка: что осталось у контакта
+
+    	res, err = core.Call(ctx, "crm.contact.get",
+    		b24.Params{"id": contactID}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.get после обновления: %w", err)
+    	}
+    	var updated struct {
+    		Phone []multifield `json:"PHONE"`
+    	}
+    	if err := json.Unmarshal(res.Result, &updated); err != nil {
+    		return fmt.Errorf("разбор контакта после обновления: %w", err)
+    	}
+    	for _, e := range updated.Phone {
+    		fmt.Printf("  стало: ID=%d %s (%s)\n", e.ID, e.Value, e.ValueType)
+    	}
+    	return nil
+    }
+
+    // multifield — одна строка поля типа crm_multifield. Идентификатор приходит
+    // СТРОКОЙ ("1328"), поэтому b24.ID, а не int.
+    type multifield struct {
+    	ID        b24.ID `json:"ID"`
+    	Value     string `json:"VALUE"`
+    	ValueType string `json:"VALUE_TYPE"`
+    	TypeID    string `json:"TYPE_ID"`
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}
