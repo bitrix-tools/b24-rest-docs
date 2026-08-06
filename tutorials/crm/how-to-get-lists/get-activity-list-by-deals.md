@@ -80,6 +80,26 @@
     result = client.user.current().response.result
     ```
 
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "user.current", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.current: %w", err)
+    }
+
+    // Идентификатор приходит СТРОКОЙ ("29"): b24.ID разбирает и число, и строку
+    // с числом, обычный int здесь падает.
+    var me struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	LastName string `json:"LAST_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &me); err != nil {
+    	return fmt.Errorf("разбор текущего пользователя: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате получим идентификатор пользователя `"ID": "29"`.
@@ -150,6 +170,47 @@
         select=["id", "title"],
         filter={"assignedById": 29},
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    // Списочный метод отдаёт максимум 50 записей за запрос. Pages идёт по
+    // курсору сам: ОТСУТСТВИЕ next заканчивает список, потому что next: 0 —
+    // это законное первое смещение, а не признак конца.
+    pager, err := core.Pages("crm.item.list", b24.Params{
+    	"entityTypeId": entityTypeDeal,
+    	"select":       []string{"id", "title"},
+    	"filter":       b24.Params{"assignedById": me.ID},
+    }, b24.WithCallOptions(b24.WithIdempotent()))
+    if err != nil {
+    	return fmt.Errorf("crm.item.list: %w", err)
+    }
+
+    var deals []struct {
+    	ID    int    `json:"id"`
+    	Title string `json:"title"`
+    }
+    for pager.Next(ctx) {
+    	for _, row := range pager.Rows() {
+    		var d struct {
+    			ID    int    `json:"id"`
+    			Title string `json:"title"`
+    		}
+    		if err := json.Unmarshal(row, &d); err != nil {
+    			return fmt.Errorf("разбор сделки: %w", err)
+    		}
+    		deals = append(deals, d)
+    	}
+    	if len(deals) >= maxDeals {
+    		break
+    	}
+    }
+    // Ошибка всплывает ЗДЕСЬ, после цикла: Next возвращает false и в конце
+    // списка, и при ошибке.
+    if err := pager.Err(); err != nil {
+    	return fmt.Errorf("обход сделок: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -248,6 +309,39 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    // BINDINGS — массив привязок: по объекту на каждую сделку.
+    bindings := make([]b24.Params, 0, len(deals))
+    for _, d := range deals {
+    	bindings = append(bindings, b24.Params{"OWNER_TYPE_ID": entityTypeDeal, "OWNER_ID": d.ID})
+    }
+
+    pager, err = core.Pages("crm.activity.list", b24.Params{
+    	"filter": b24.Params{"BINDINGS": bindings, "COMPLETED": "N"},
+    	"select": []string{"ID", "OWNER_ID", "SUBJECT", "DEADLINE", "RESPONSIBLE_ID"},
+    }, b24.WithCallOptions(b24.WithIdempotent()))
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    // Поля дел — в ВЕРХНЕМ РЕГИСТРЕ, тогда как crm.item.list отдаёт camelCase.
+    var activities []activity
+    for pager.Next(ctx) {
+    	for _, row := range pager.Rows() {
+    		var a activity
+    		if err := json.Unmarshal(row, &a); err != nil {
+    			return fmt.Errorf("разбор дела: %w", err)
+    		}
+    		activities = append(activities, a)
+    	}
+    }
+    if err := pager.Err(); err != nil {
+    	return fmt.Errorf("обход дел: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате получим список дел с описанием каждого дела.
@@ -313,6 +407,28 @@
             "ID": [29, 47],
         }
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "user.get", b24.Params{
+    	"filter": b24.Params{"ID": ids},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+    var rows []struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	LastName string `json:"LAST_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &rows); err != nil {
+    	return fmt.Errorf("разбор сотрудников: %w", err)
+    }
+    for _, u := range rows {
+    	users[u.ID] = u.Name + " " + u.LastName
+    }
     ```
 
 {% endlist %}
@@ -731,6 +847,279 @@
                         ]
                     )
                 )
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создаёт две свои сделки с делами, собирает по ним
+    // таблицу дел с ответственными и убирает за собой. Запускается на любом
+    // портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+    	"sort"
+    	"time"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // entityTypeDeal — идентификатор типа объекта «сделка» из crm.enum.ownertype.
+    const entityTypeDeal = 2
+
+    // maxDeals ограничивает выборку сделок. BINDINGS — это ФИЛЬТР, а не батч:
+    // массив из тысячи привязок уедет в одном запросе и утяжелит его. На боевом
+    // портале сделки стоит сузить ещё и фильтром по стадии.
+    const maxDeals = 50
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- шаг 1: идентификатор текущего пользователя
+    	res, err := core.Call(ctx, "user.current", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("user.current: %w", err)
+    	}
+
+    	// Идентификатор приходит СТРОКОЙ ("29"): b24.ID разбирает и число, и строку
+    	// с числом, обычный int здесь падает.
+    	var me struct {
+    		ID       b24.ID `json:"ID"`
+    		Name     string `json:"NAME"`
+    		LastName string `json:"LAST_NAME"`
+    	}
+    	if err := json.Unmarshal(res.Result, &me); err != nil {
+    		return fmt.Errorf("разбор текущего пользователя: %w", err)
+    	}
+    	fmt.Printf("текущий пользователь %d: %s %s\n", me.ID, me.Name, me.LastName)
+
+    	// --- подготовка: свои сделки с делами, чтобы таблице было что показать
+
+    	cleanup, err := createDealsWithActivities(ctx, core, me.ID)
+    	defer cleanup()
+    	if err != nil {
+    		return err
+    	}
+
+    	// --- шаг 2: сделки, за которые отвечает сотрудник
+    	// Списочный метод отдаёт максимум 50 записей за запрос. Pages идёт по
+    	// курсору сам: ОТСУТСТВИЕ next заканчивает список, потому что next: 0 —
+    	// это законное первое смещение, а не признак конца.
+    	pager, err := core.Pages("crm.item.list", b24.Params{
+    		"entityTypeId": entityTypeDeal,
+    		"select":       []string{"id", "title"},
+    		"filter":       b24.Params{"assignedById": me.ID},
+    	}, b24.WithCallOptions(b24.WithIdempotent()))
+    	if err != nil {
+    		return fmt.Errorf("crm.item.list: %w", err)
+    	}
+
+    	var deals []struct {
+    		ID    int    `json:"id"`
+    		Title string `json:"title"`
+    	}
+    	for pager.Next(ctx) {
+    		for _, row := range pager.Rows() {
+    			var d struct {
+    				ID    int    `json:"id"`
+    				Title string `json:"title"`
+    			}
+    			if err := json.Unmarshal(row, &d); err != nil {
+    				return fmt.Errorf("разбор сделки: %w", err)
+    			}
+    			deals = append(deals, d)
+    		}
+    		if len(deals) >= maxDeals {
+    			break
+    		}
+    	}
+    	// Ошибка всплывает ЗДЕСЬ, после цикла: Next возвращает false и в конце
+    	// списка, и при ошибке.
+    	if err := pager.Err(); err != nil {
+    		return fmt.Errorf("обход сделок: %w", err)
+    	}
+    	fmt.Printf("сделок сотрудника взято: %d\n", len(deals))
+    	if len(deals) == 0 {
+    		return nil
+    	}
+
+    	// --- шаг 3: дела по этим сделкам
+    	// BINDINGS — массив привязок: по объекту на каждую сделку.
+    	bindings := make([]b24.Params, 0, len(deals))
+    	for _, d := range deals {
+    		bindings = append(bindings, b24.Params{"OWNER_TYPE_ID": entityTypeDeal, "OWNER_ID": d.ID})
+    	}
+
+    	pager, err = core.Pages("crm.activity.list", b24.Params{
+    		"filter": b24.Params{"BINDINGS": bindings, "COMPLETED": "N"},
+    		"select": []string{"ID", "OWNER_ID", "SUBJECT", "DEADLINE", "RESPONSIBLE_ID"},
+    	}, b24.WithCallOptions(b24.WithIdempotent()))
+    	if err != nil {
+    		return fmt.Errorf("crm.activity.list: %w", err)
+    	}
+
+    	// Поля дел — в ВЕРХНЕМ РЕГИСТРЕ, тогда как crm.item.list отдаёт camelCase.
+    	var activities []activity
+    	for pager.Next(ctx) {
+    		for _, row := range pager.Rows() {
+    			var a activity
+    			if err := json.Unmarshal(row, &a); err != nil {
+    				return fmt.Errorf("разбор дела: %w", err)
+    			}
+    			activities = append(activities, a)
+    		}
+    	}
+    	if err := pager.Err(); err != nil {
+    		return fmt.Errorf("обход дел: %w", err)
+    	}
+    	fmt.Printf("активных дел: %d\n", len(activities))
+
+    	// --- шаг 4: ответственные за дела
+
+    	// Ответственным за дело может быть не тот, кто отвечает за сделку, поэтому
+    	// идентификаторы берутся из самих дел.
+    	ids := uniqueIDs(activities)
+    	users := map[b24.ID]string{}
+    	if len(ids) > 0 {
+    		res, err := core.Call(ctx, "user.get", b24.Params{
+    			"filter": b24.Params{"ID": ids},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("user.get: %w", err)
+    		}
+    		var rows []struct {
+    			ID       b24.ID `json:"ID"`
+    			Name     string `json:"NAME"`
+    			LastName string `json:"LAST_NAME"`
+    		}
+    		if err := json.Unmarshal(res.Result, &rows); err != nil {
+    			return fmt.Errorf("разбор сотрудников: %w", err)
+    		}
+    		for _, u := range rows {
+    			users[u.ID] = u.Name + " " + u.LastName
+    		}
+    	}
+
+    	titles := map[int]string{}
+    	for _, d := range deals {
+    		titles[d.ID] = d.Title
+    	}
+    	fmt.Println("Дело\tСделка\tОписание\tСрок\tОтветственный")
+    	for _, a := range activities {
+    		who := users[a.ResponsibleID]
+    		if who == "" {
+    			who = "Неизвестно"
+    		}
+    		fmt.Printf("%d\t%s\t%s\t%s\t%s\n", a.ID, titles[int(a.OwnerID)], a.Subject, a.Deadline, who)
+    	}
+    	return nil
+    }
+
+    // activity — одна строка ответа crm.activity.list.
+    type activity struct {
+    	ID            b24.ID `json:"ID"`
+    	OwnerID       b24.ID `json:"OWNER_ID"`
+    	Subject       string `json:"SUBJECT"`
+    	Deadline      string `json:"DEADLINE"`
+    	ResponsibleID b24.ID `json:"RESPONSIBLE_ID"`
+    }
+
+    func uniqueIDs(activities []activity) []b24.ID {
+    	seen := map[b24.ID]bool{}
+    	out := make([]b24.ID, 0, len(activities))
+    	for _, a := range activities {
+    		if a.ResponsibleID > 0 && !seen[a.ResponsibleID] {
+    			seen[a.ResponsibleID] = true
+    			out = append(out, a.ResponsibleID)
+    		}
+    	}
+    	sort.Slice(out, func(i, j int) bool { return out[i] < out[j] })
+    	return out
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    // createDealsWithActivities создаёт две сделки и по делу в каждой. Возвращает
+    // функцию уборки — она вызывается даже если подготовка оборвалась на середине.
+    func createDealsWithActivities(ctx context.Context, core *b24.Core, userID b24.ID) (func(), error) {
+    	var dealIDs []b24.ID
+    	cleanup := func() {
+    		// Удаление сделки уносит и её дела.
+    		for _, id := range dealIDs {
+    			del(ctx, core, "crm.item.delete", b24.Params{"entityTypeId": entityTypeDeal, "id": id})
+    		}
+    	}
+
+    	for i, spec := range []struct {
+    		title string
+    		task  string
+    		in    time.Duration
+    	}{
+    		{"Закупка печей (пример b24gosdk)", "Позвонить клиенту", 24 * time.Hour},
+    		{"Закупка блендеров (пример b24gosdk)", "Отправить счёт", 48 * time.Hour},
+    	} {
+    		res, err := core.Call(ctx, "crm.item.add", b24.Params{
+    			"entityTypeId": entityTypeDeal,
+    			"fields": b24.Params{
+    				"title":        spec.title,
+    				"assignedById": userID,
+    				"opportunity":  (i + 1) * 100,
+    			},
+    		})
+    		if err != nil {
+    			return cleanup, fmt.Errorf("crm.item.add: %w", err)
+    		}
+    		raw, ok := b24.Unwrap(res.Result, "item", "id")
+    		if !ok {
+    			return cleanup, fmt.Errorf("нет item.id в %s", res.Result)
+    		}
+    		var dealID b24.ID
+    		if err := json.Unmarshal(raw, &dealID); err != nil {
+    			return cleanup, err
+    		}
+    		dealIDs = append(dealIDs, dealID)
+
+    		if _, err := core.Call(ctx, "crm.activity.todo.add", b24.Params{
+    			"ownerTypeId":   entityTypeDeal,
+    			"ownerId":       dealID,
+    			"title":         spec.task,
+    			"description":   "Дело создано примером b24gosdk",
+    			"deadline":      time.Now().Add(spec.in).Format(time.RFC3339),
+    			"responsibleId": userID,
+    		}); err != nil {
+    			return cleanup, fmt.Errorf("crm.activity.todo.add: %w", err)
+    		}
+    	}
+    	return cleanup, nil
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}
