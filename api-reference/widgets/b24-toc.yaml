@@ -1,66 +1,72 @@
 title: Виджеты
 href: index.md
-items: 
-  - name: Механизм встройки виджетов 
+items:
+  - name: Механизм встройки виджетов
     href: index.md
-  - name: UI Kit 
-    include:
-      path: ui-kit/b24-toc.yaml
-      mode: link
-  - name: Места для встройки виджетов
-    href: placements.md
-  - name: Пункт в главном меню
-    href: left-menu.md
-  - name: Виджеты в CRM
-    include:
-      path: crm/b24-toc.yaml
-      mode: link
-  - name: Виджеты в задачах
-    include:
-      path: task/b24-toc.yaml
-      mode: link
-  - name: Виджеты в рабочих группах/проектах
-    include:
-      path: workgroups/b24-toc.yaml
-      mode: link
-  - name: Виджеты в профиле пользователя
-    include:
-      path: user-profile/b24-toc.yaml
-      mode: link
-  - name: Вид отображения в календаре
-    href: calendar.md
-  - name: Виджеты в телефонии
-    include:
-      path: telephony/b24-toc.yaml
-      mode: link
-  - name: Виджеты в мессенджере
-    include:
-      path: im/b24-toc.yaml
-      mode: link
-  - name: Плитка в контакт-центре
-    href: contact-center.md
-  - name: Страница настройки коннектора
-    href: setting-connector.md
-  - name: Универсальные виджеты
-    include:
-      path: universal/b24-toc.yaml
-      mode: link
-  - name: Виджет в чате мобильного приложения
-    href: mobile-app.md
-  - name: Зарегистрировать виджет
-    href: placement-bind.md
-  - name: Получить список зарегистрированных виджетов
-    href: placement-get.md
-  - name: Получить список виджетов
-    href: placement-list.md
-  - name: Отменить регистрацию виджета
-    href: placement-unbind.md
-  - name: Методы BX24 SDK для виджетов
-    href: bx24-widget-methods.md
-  - name: Взаимодействие с UI из виджетов
-    include:
-      path: ui-interaction/b24-toc.yaml
-      mode: link
+  - name: Методы регистрации
+    items:
+      - name: Зарегистрировать обработчик виджета
+        href: placement-bind.md
+      - name: Получить обработчики, зарегистрированные приложением
+        href: placement-get.md
+      - name: Получить точки встраивания, доступные приложению
+        href: placement-list.md
+      - name: Удалить обработчик виджета
+        href: placement-unbind.md
+  - name: Точки встраивания
+    items:
+      - name: Каталог точек встраивания
+        href: placements.md
+      - name: Виджеты в CRM
+        include:
+          path: crm/b24-toc.yaml
+          mode: link
+      - name: Виджеты в задачах
+        include:
+          path: task/b24-toc.yaml
+          mode: link
+      - name: Виджеты в рабочих группах/проектах
+        include:
+          path: workgroups/b24-toc.yaml
+          mode: link
+      - name: Виджеты в мессенджере
+        include:
+          path: im/b24-toc.yaml
+          mode: link
+      - name: Виджет в чате мобильного приложения
+        href: mobile-app.md
+      - name: Виджеты в телефонии
+        include:
+          path: telephony/b24-toc.yaml
+          mode: link
+      - name: Плитка в контакт-центре
+        href: contact-center.md
+      - name: Страница настройки коннектора
+        href: setting-connector.md
+      - name: Виджеты в профиле пользователя
+        include:
+          path: user-profile/b24-toc.yaml
+          mode: link
+      - name: Вид отображения в календаре
+        href: calendar.md
+      - name: Пункт в главном меню
+        href: left-menu.md
+      - name: Универсальные виджеты
+        include:
+          path: universal/b24-toc.yaml
+          mode: link
+  - name: Интерфейс виджета
+    items:
+      - name: Методы BX24 SDK для виджетов
+        href: bx24-widget-methods.md
+      - name: Взаимодействие с UI из виджетов
+        include:
+          path: ui-interaction/b24-toc.yaml
+          mode: link
+      - name: UI Kit
+        include:
+          path: ui-kit/b24-toc.yaml
+          mode: link
   - name: Встраивание в виде пользовательских типов полей
     include:
       path: user-field/b24-toc.yaml
