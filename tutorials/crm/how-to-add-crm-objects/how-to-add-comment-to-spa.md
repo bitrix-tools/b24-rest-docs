@@ -95,6 +95,38 @@
     ).response
     ```
 
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.type.list", b24.Params{
+    	"filter": b24.Params{"title": spaTitle},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.type.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом types. Двум смарт-процессам
+    // никто не запрещает называться одинаково, поэтому ответ — список даже при
+    // точном фильтре.
+    var types struct {
+    	Types []struct {
+    		ID           int    `json:"id"`
+    		EntityTypeID int    `json:"entityTypeId"`
+    		Title        string `json:"title"`
+    	} `json:"types"`
+    }
+    if err := json.Unmarshal(res.Result, &types); err != nil {
+    	return fmt.Errorf("разбор смарт-процессов: %w", err)
+    }
+    if len(types.Types) == 0 {
+    	return fmt.Errorf("смарт-процесс %q не найден", spaTitle)
+    }
+
+    // id — порядковый номер смарт-процесса, entityTypeId — идентификатор его
+    // ТИПА. Дальше нужен именно entityTypeId, это разные числа.
+    entityTypeID := types.Types[0].EntityTypeID
+    ```
+
 {% endlist %}
 
 В результате получили два значения ID:
@@ -184,6 +216,31 @@
             "COMMENT": "Подтвердить закупку по почте!",
         }
     ).response
+    ```
+
+- Go
+
+    ```go
+    // ENTITY_TYPE для смарт-процесса — это строка "DYNAMIC_" + entityTypeId.
+    // Поля таймлайна пишутся В ВЕРХНЕМ РЕГИСТРЕ, тогда как crm.item.* принимает
+    // camelCase: одна сущность, два соглашения в одном сценарии.
+    res, err = core.Call(ctx, "crm.timeline.comment.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_ID":   itemID,
+    		"ENTITY_TYPE": "DYNAMIC_" + strconv.Itoa(entityTypeID),
+    		"COMMENT":     "Подтвердить закупку по почте!",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.comment.add: %w", err)
+    }
+
+    // Обёртки здесь нет вовсе: result — это сразу идентификатор записи
+    // таймлайна, голым числом.
+    var commentID b24.ID
+    if err := json.Unmarshal(res.Result, &commentID); err != nil {
+    	return fmt.Errorf("разбор идентификатора комментария: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -383,6 +440,175 @@
     )
 
     find_spa(client)
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создаёт смарт-процесс и элемент в нём, находит
+    // смарт-процесс по названию, добавляет комментарий в таймлайн элемента и
+    // убирает за собой. Запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"errors"
+    	"fmt"
+    	"log"
+    	"os"
+    	"strconv"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // Название смарт-процесса — то же, что ищет шаг 1.
+    const spaTitle = "Закупка оборудования (пример b24gosdk)"
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- подготовка: свой смарт-процесс и элемент в нём
+
+    	typeID, err := addType(ctx, core, spaTitle)
+    	if err != nil {
+    		return err
+    	}
+    	defer del(ctx, core, "crm.type.delete", b24.Params{"id": typeID})
+
+    	// entityTypeId нужен и для создания элемента, и для комментария, но пока
+    	// известен только id самого типа — за entityTypeId идём на шаге 1.
+
+    	// --- шаг 1: находим смарт-процесс по названию
+    	res, err := core.Call(ctx, "crm.type.list", b24.Params{
+    		"filter": b24.Params{"title": spaTitle},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.type.list: %w", err)
+    	}
+
+    	// Метод заворачивает ответ в объект с ключом types. Двум смарт-процессам
+    	// никто не запрещает называться одинаково, поэтому ответ — список даже при
+    	// точном фильтре.
+    	var types struct {
+    		Types []struct {
+    			ID           int    `json:"id"`
+    			EntityTypeID int    `json:"entityTypeId"`
+    			Title        string `json:"title"`
+    		} `json:"types"`
+    	}
+    	if err := json.Unmarshal(res.Result, &types); err != nil {
+    		return fmt.Errorf("разбор смарт-процессов: %w", err)
+    	}
+    	if len(types.Types) == 0 {
+    		return fmt.Errorf("смарт-процесс %q не найден", spaTitle)
+    	}
+
+    	// id — порядковый номер смарт-процесса, entityTypeId — идентификатор его
+    	// ТИПА. Дальше нужен именно entityTypeId, это разные числа.
+    	entityTypeID := types.Types[0].EntityTypeID
+    	fmt.Printf("смарт-процесс %q: id=%d, entityTypeId=%d\n",
+    		types.Types[0].Title, types.Types[0].ID, entityTypeID)
+
+    	itemID, err := addItem(ctx, core, entityTypeID, "Закупка ноутбуков")
+    	if err != nil {
+    		return err
+    	}
+    	defer del(ctx, core, "crm.item.delete", b24.Params{
+    		"entityTypeId": entityTypeID, "id": itemID,
+    	})
+
+    	// --- шаг 2: добавляем комментарий в таймлайн элемента
+    	// ENTITY_TYPE для смарт-процесса — это строка "DYNAMIC_" + entityTypeId.
+    	// Поля таймлайна пишутся В ВЕРХНЕМ РЕГИСТРЕ, тогда как crm.item.* принимает
+    	// camelCase: одна сущность, два соглашения в одном сценарии.
+    	res, err = core.Call(ctx, "crm.timeline.comment.add", b24.Params{
+    		"fields": b24.Params{
+    			"ENTITY_ID":   itemID,
+    			"ENTITY_TYPE": "DYNAMIC_" + strconv.Itoa(entityTypeID),
+    			"COMMENT":     "Подтвердить закупку по почте!",
+    		},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("crm.timeline.comment.add: %w", err)
+    	}
+
+    	// Обёртки здесь нет вовсе: result — это сразу идентификатор записи
+    	// таймлайна, голым числом.
+    	var commentID b24.ID
+    	if err := json.Unmarshal(res.Result, &commentID); err != nil {
+    		return fmt.Errorf("разбор идентификатора комментария: %w", err)
+    	}
+    	fmt.Printf("комментарий %d добавлен в элемент %d\n", commentID, itemID)
+    	return nil
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    // addType создаёт смарт-процесс. entityTypeId намеренно не передаётся: его
+    // выдаёт портал, и именно за ним идёт шаг 1.
+    func addType(ctx context.Context, core *b24.Core, title string) (b24.ID, error) {
+    	// isRecyclebinEnabled выключаем осознанно: элемент в корзине всё ещё
+    	// считается элементом, а crm.type.delete отказывается удалять тип, у
+    	// которого есть элементы.
+    	res, err := core.Call(ctx, "crm.type.add", b24.Params{
+    		"fields": b24.Params{"title": title, "isRecyclebinEnabled": "N"},
+    	})
+    	if err != nil {
+    		// На тарифах без смарт-процессов метод отвечает отдельным кодом.
+    		// Код сравнивается через errors.Is, а не строкой: опечатка в литерале
+    		// скомпилируется и молча уведёт в другую ветку.
+    		if errors.Is(err, b24.Code("CREATE_DYNAMIC_TYPE_RESTRICTED")) {
+    			return 0, fmt.Errorf("на этом портале нельзя создать смарт-процесс: %w", err)
+    		}
+    		return 0, fmt.Errorf("crm.type.add: %w", err)
+    	}
+    	raw, ok := b24.Unwrap(res.Result, "type", "id")
+    	if !ok {
+    		return 0, fmt.Errorf("нет type.id в %s", res.Result)
+    	}
+    	var id b24.ID
+    	return id, json.Unmarshal(raw, &id)
+    }
+
+    func addItem(ctx context.Context, core *b24.Core, entityTypeID int, title string) (b24.ID, error) {
+    	res, err := core.Call(ctx, "crm.item.add", b24.Params{
+    		"entityTypeId": entityTypeID,
+    		"fields":       b24.Params{"title": title},
+    	})
+    	if err != nil {
+    		return 0, fmt.Errorf("crm.item.add: %w", err)
+    	}
+    	raw, ok := b24.Unwrap(res.Result, "item", "id")
+    	if !ok {
+    		return 0, fmt.Errorf("нет item.id в %s", res.Result)
+    	}
+    	var id b24.ID
+    	return id, json.Unmarshal(raw, &id)
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}
