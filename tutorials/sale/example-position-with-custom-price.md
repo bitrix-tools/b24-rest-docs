@@ -127,6 +127,96 @@
         print(error)
     ```
 
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск (идентификаторы заказа и товара берутся из окружения, чтобы не
+    // править код):
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/'
+    //	export B24_ORDER_ID=5147 B24_PRODUCT_ID=6544
+    //	go run .
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"errors"
+    	"fmt"
+    	"log"
+    	"os"
+    	"strconv"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	client := b24.NewClient(os.Getenv("B24_WEBHOOK_URL"))
+
+    	orderID, err := strconv.Atoi(os.Getenv("B24_ORDER_ID"))
+    	if err != nil {
+    		return fmt.Errorf("B24_ORDER_ID: %w", err)
+    	}
+    	productID, err := strconv.Atoi(os.Getenv("B24_PRODUCT_ID"))
+    	if err != nil {
+    		return fmt.Errorf("B24_PRODUCT_ID: %w", err)
+    	}
+
+    	// Цена позиции задаётся вручную, поэтому customPrice = "Y".
+    	// Наценка выражается ОТРИЦАТЕЛЬНЫМ discountPrice: базовая цена 1030,
+    	// продаём за 1100, разница −70.
+    	res, err := client.Core().Call(ctx, "sale.basketitem.add", b24.Params{
+    		"fields": b24.Params{
+    			"orderId":       orderID,
+    			"productId":     productID,
+    			"quantity":      4,
+    			"currency":      "RUB",
+    			"price":         1100,
+    			"discountPrice": -70,
+    			"customPrice":   "Y",
+    		},
+    	})
+    	if err != nil {
+    		// Код ошибки сравнивается через errors.Is, а не строкой: опечатка в
+    		// литерале скомпилируется и молча уведёт в другую ветку.
+    		if errors.Is(err, b24.ErrAccessDenied) {
+    			return fmt.Errorf("вебхуку не хватает прав на sale: %w", err)
+    		}
+    		return fmt.Errorf("sale.basketitem.add: %w", err)
+    	}
+
+    	// Метод заворачивает ответ в объект с ключом basketItem.
+    	raw, ok := b24.Unwrap(res.Result, "basketItem")
+    	if !ok {
+    		return fmt.Errorf("в ответе нет basketItem: %s", res.Result)
+    	}
+
+    	var item struct {
+    		ID        b24.ID  `json:"id"`
+    		Quantity  float64 `json:"quantity"`
+    		Price     float64 `json:"price"`
+    		BasePrice float64 `json:"basePrice"`
+    	}
+    	if err := json.Unmarshal(raw, &item); err != nil {
+    		return fmt.Errorf("разбор позиции: %w", err)
+    	}
+
+    	fmt.Printf("позиция %d: %.0f x %.2f (базовая цена %.2f)\n",
+    		item.ID, item.Quantity, item.Price, item.BasePrice)
+    	return nil
+    }
+    ```
+
 {% endlist %}
 
 ## Результат
