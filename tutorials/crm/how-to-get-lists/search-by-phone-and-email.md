@@ -107,6 +107,23 @@
    }
    ```
 
+- Go
+
+    ```go
+    // Телефон и почта, по которым ищем. Соседние вкладки спрашивают их у
+    // пользователя; здесь они заданы константами, потому что пример сам создаёт
+    // объекты с этими значениями.
+    const (
+    	phone = "+7 900 555-35-35"
+    	email = "duplicate@example.com"
+    )
+
+    // Идентификаторы найденных объектов и подробные данные по ним. Ключи —
+    // те же, что возвращает crm.duplicate.findbycomm.
+    entityIDs := map[string][]b24.ID{"LEAD": nil, "CONTACT": nil, "COMPANY": nil}
+    rows := make([]row, 0)
+    ```
+
 {% endlist %}
 
 ## 1\. Найдем дубликаты объектов
@@ -207,6 +224,38 @@
                entity_ids[key].extend(result[key])
    ```
 
+- Go
+
+    ```go
+    // Метод ищет по ОДНОМУ типу коммуникации за вызов, поэтому телефон и почту
+    // опрашиваем отдельно, а идентификаторы копим в общей карте.
+    for _, comm := range []struct{ typ, value string }{
+    	{"PHONE", phone},
+    	{"EMAIL", email},
+    } {
+    	if comm.value == "" {
+    		continue
+    	}
+    	res, err := core.Call(ctx, "crm.duplicate.findbycomm", b24.Params{
+    		"type":   comm.typ,
+    		"values": []string{comm.value},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.duplicate.findbycomm %s: %w", comm.typ, err)
+    	}
+
+    	// Ответ — объект с ключами LEAD, CONTACT, COMPANY. Ключа может не быть
+    	// вовсе: если по этому типу ничего не нашлось, его просто не пришлют.
+    	var found map[string][]b24.ID
+    	if err := json.Unmarshal(res.Result, &found); err != nil {
+    		return fmt.Errorf("разбор дубликатов: %w", err)
+    	}
+    	for key := range entityIDs {
+    		entityIDs[key] = appendUnique(entityIDs[key], found[key])
+    	}
+    }
+    ```
+
 {% endlist %}
 
 Метод [crm.duplicate.findbycomm](../../../api-reference/crm/duplicates/crm-duplicate-find-by-comm.md) вернет списки идентификаторов лидов, контактов и компаний, где встречается указанный телефон или адрес электронной почты.
@@ -274,6 +323,25 @@
        if result:
            result_entity["lead"] = result
    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.lead.list", b24.Params{
+    	"filter": b24.Params{"ID": entityIDs["LEAD"]},
+    	"select": []string{"ID", "NAME", "LAST_NAME", "PHONE", "EMAIL", "TITLE"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.lead.list: %w", err)
+    }
+    var leads []entity
+    if err := json.Unmarshal(res.Result, &leads); err != nil {
+    	return fmt.Errorf("разбор лидов: %w", err)
+    }
+    for _, e := range leads {
+    	rows = append(rows, e.row("лид"))
+    }
+    ```
 
 {% endlist %}
 
@@ -361,6 +429,25 @@
            result_entity["contact"] = result
    ```
 
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.contact.list", b24.Params{
+    	"filter": b24.Params{"ID": entityIDs["CONTACT"]},
+    	"select": []string{"ID", "NAME", "LAST_NAME", "PHONE", "EMAIL"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.list: %w", err)
+    }
+    var contacts []entity
+    if err := json.Unmarshal(res.Result, &contacts); err != nil {
+    	return fmt.Errorf("разбор контактов: %w", err)
+    }
+    for _, e := range contacts {
+    	rows = append(rows, e.row("контакт"))
+    }
+    ```
+
 {% endlist %}
 
 Метод [crm.contact.list](../../../api-reference/crm/contacts/crm-contact-list.md) вернет список контактов по фильтру.
@@ -444,6 +531,26 @@
        if result:
            result_entity["company"] = result
    ```
+
+- Go
+
+    ```go
+    // У компании нет имени и фамилии — её название лежит в TITLE.
+    res, err := core.Call(ctx, "crm.company.list", b24.Params{
+    	"filter": b24.Params{"ID": entityIDs["COMPANY"]},
+    	"select": []string{"ID", "TITLE", "PHONE", "EMAIL"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.company.list: %w", err)
+    }
+    var companies []entity
+    if err := json.Unmarshal(res.Result, &companies); err != nil {
+    	return fmt.Errorf("разбор компаний: %w", err)
+    }
+    for _, e := range companies {
+    	rows = append(rows, e.row("компания"))
+    }
+    ```
 
 {% endlist %}
 
@@ -596,6 +703,19 @@
    for row in table:
        print("\t".join(map(str, row)))
    ```
+
+- Go
+
+    ```go
+    if len(rows) == 0 {
+    	fmt.Println("Дубликаты не найдены")
+    	return nil
+    }
+    fmt.Println("ID\tТип\tНазвание\tТелефон\tEmail")
+    for _, r := range rows {
+    	fmt.Printf("%d\t%s\t%s\t%s\t%s\n", r.ID, r.Kind, r.Title, r.Phone, r.Email)
+    }
+    ```
 
 {% endlist %}
 
@@ -1012,6 +1132,269 @@
 
     for row in table:
         print("\t".join(map(str, row)))
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он заводит лид, контакт и компанию с одним и тем же
+    // телефоном и почтой, находит их как дубликаты, выводит таблицу и убирает за
+    // собой. Запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+    	"strings"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+    	// Телефон и почта, по которым ищем. Соседние вкладки спрашивают их у
+    	// пользователя; здесь они заданы константами, потому что пример сам создаёт
+    	// объекты с этими значениями.
+    	const (
+    		phone = "+7 900 555-35-35"
+    		email = "duplicate@example.com"
+    	)
+
+    	// Идентификаторы найденных объектов и подробные данные по ним. Ключи —
+    	// те же, что возвращает crm.duplicate.findbycomm.
+    	entityIDs := map[string][]b24.ID{"LEAD": nil, "CONTACT": nil, "COMPANY": nil}
+    	rows := make([]row, 0)
+    	// --- подготовка: свои дубликаты
+
+    	cleanup, err := createDuplicates(ctx, core, phone, email)
+    	defer cleanup()
+    	if err != nil {
+    		return err
+    	}
+
+    	// --- шаг 1: ищем дубликаты по коммуникациям
+    	// Метод ищет по ОДНОМУ типу коммуникации за вызов, поэтому телефон и почту
+    	// опрашиваем отдельно, а идентификаторы копим в общей карте.
+    	for _, comm := range []struct{ typ, value string }{
+    		{"PHONE", phone},
+    		{"EMAIL", email},
+    	} {
+    		if comm.value == "" {
+    			continue
+    		}
+    		res, err := core.Call(ctx, "crm.duplicate.findbycomm", b24.Params{
+    			"type":   comm.typ,
+    			"values": []string{comm.value},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("crm.duplicate.findbycomm %s: %w", comm.typ, err)
+    		}
+
+    		// Ответ — объект с ключами LEAD, CONTACT, COMPANY. Ключа может не быть
+    		// вовсе: если по этому типу ничего не нашлось, его просто не пришлют.
+    		var found map[string][]b24.ID
+    		if err := json.Unmarshal(res.Result, &found); err != nil {
+    			return fmt.Errorf("разбор дубликатов: %w", err)
+    		}
+    		for key := range entityIDs {
+    			entityIDs[key] = appendUnique(entityIDs[key], found[key])
+    		}
+    	}
+    	fmt.Printf("найдено: лидов %d, контактов %d, компаний %d\n",
+    		len(entityIDs["LEAD"]), len(entityIDs["CONTACT"]), len(entityIDs["COMPANY"]))
+
+    	// --- шаг 2: данные лидов
+
+    	if len(entityIDs["LEAD"]) > 0 {
+    		res, err := core.Call(ctx, "crm.lead.list", b24.Params{
+    			"filter": b24.Params{"ID": entityIDs["LEAD"]},
+    			"select": []string{"ID", "NAME", "LAST_NAME", "PHONE", "EMAIL", "TITLE"},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("crm.lead.list: %w", err)
+    		}
+    		var leads []entity
+    		if err := json.Unmarshal(res.Result, &leads); err != nil {
+    			return fmt.Errorf("разбор лидов: %w", err)
+    		}
+    		for _, e := range leads {
+    			rows = append(rows, e.row("лид"))
+    		}
+    	}
+
+    	// --- шаг 3: данные контактов
+
+    	if len(entityIDs["CONTACT"]) > 0 {
+    		res, err := core.Call(ctx, "crm.contact.list", b24.Params{
+    			"filter": b24.Params{"ID": entityIDs["CONTACT"]},
+    			"select": []string{"ID", "NAME", "LAST_NAME", "PHONE", "EMAIL"},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("crm.contact.list: %w", err)
+    		}
+    		var contacts []entity
+    		if err := json.Unmarshal(res.Result, &contacts); err != nil {
+    			return fmt.Errorf("разбор контактов: %w", err)
+    		}
+    		for _, e := range contacts {
+    			rows = append(rows, e.row("контакт"))
+    		}
+    	}
+
+    	// --- шаг 4: данные компаний
+
+    	if len(entityIDs["COMPANY"]) > 0 {
+    		// У компании нет имени и фамилии — её название лежит в TITLE.
+    		res, err := core.Call(ctx, "crm.company.list", b24.Params{
+    			"filter": b24.Params{"ID": entityIDs["COMPANY"]},
+    			"select": []string{"ID", "TITLE", "PHONE", "EMAIL"},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("crm.company.list: %w", err)
+    		}
+    		var companies []entity
+    		if err := json.Unmarshal(res.Result, &companies); err != nil {
+    			return fmt.Errorf("разбор компаний: %w", err)
+    		}
+    		for _, e := range companies {
+    			rows = append(rows, e.row("компания"))
+    		}
+    	}
+
+    	// --- выводим таблицу
+    	if len(rows) == 0 {
+    		fmt.Println("Дубликаты не найдены")
+    		return nil
+    	}
+    	fmt.Println("ID\tТип\tНазвание\tТелефон\tEmail")
+    	for _, r := range rows {
+    		fmt.Printf("%d\t%s\t%s\t%s\t%s\n", r.ID, r.Kind, r.Title, r.Phone, r.Email)
+    	}
+    	return nil
+    }
+
+    // entity — общий вид строки списков лидов, контактов и компаний: набор полей у
+    // них разный, но нужные нам совпадают.
+    type entity struct {
+    	ID       b24.ID       `json:"ID"`
+    	Title    string       `json:"TITLE"`
+    	Name     string       `json:"NAME"`
+    	LastName string       `json:"LAST_NAME"`
+    	Phone    []multifield `json:"PHONE"`
+    	Email    []multifield `json:"EMAIL"`
+    }
+
+    // multifield — строка поля типа crm_multifield: телефон и почта хранятся
+    // списком объектов, даже когда значение одно.
+    type multifield struct {
+    	Value string `json:"VALUE"`
+    }
+
+    type row struct {
+    	ID                        b24.ID
+    	Kind, Title, Phone, Email string
+    }
+
+    func (e entity) row(kind string) row {
+    	title := strings.TrimSpace(e.Name + " " + e.LastName)
+    	if title == "" {
+    		title = e.Title
+    	}
+    	return row{ID: e.ID, Kind: kind, Title: title,
+    		Phone: first(e.Phone), Email: first(e.Email)}
+    }
+
+    func first(values []multifield) string {
+    	if len(values) == 0 {
+    		return "—"
+    	}
+    	return values[0].Value
+    }
+
+    func appendUnique(dst, src []b24.ID) []b24.ID {
+    	seen := make(map[b24.ID]bool, len(dst))
+    	for _, id := range dst {
+    		seen[id] = true
+    	}
+    	for _, id := range src {
+    		if !seen[id] {
+    			seen[id] = true
+    			dst = append(dst, id)
+    		}
+    	}
+    	return dst
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    // createDuplicates заводит лид, контакт и компанию с одинаковыми телефоном и
+    // почтой — ровно ту ситуацию, которую ищет сценарий. Возвращает функцию
+    // уборки: она вызывается и тогда, когда подготовка оборвалась на середине.
+    func createDuplicates(ctx context.Context, core *b24.Core, phone, email string) (func(), error) {
+    	comm := b24.Params{
+    		"PHONE": []map[string]any{b24.MultifieldAdd(phone, "WORK")},
+    		"EMAIL": []map[string]any{b24.MultifieldAdd(email, "WORK")},
+    	}
+    	created := map[string]b24.ID{}
+    	cleanup := func() {
+    		for method, id := range created {
+    			del(ctx, core, method, b24.Params{"id": id})
+    		}
+    	}
+
+    	for _, spec := range []struct {
+    		add, delete string
+    		fields      b24.Params
+    	}{
+    		{"crm.lead.add", "crm.lead.delete", b24.Params{"TITLE": "Заявка с сайта", "NAME": "Пётр", "LAST_NAME": "Иванов"}},
+    		{"crm.contact.add", "crm.contact.delete", b24.Params{"NAME": "Пётр", "LAST_NAME": "Иванов"}},
+    		{"crm.company.add", "crm.company.delete", b24.Params{"TITLE": "ООО Пётр Иванов"}},
+    	} {
+    		fields := b24.Params{}
+    		for k, v := range spec.fields {
+    			fields[k] = v
+    		}
+    		for k, v := range comm {
+    			fields[k] = v
+    		}
+    		res, err := core.Call(ctx, spec.add, b24.Params{"fields": fields})
+    		if err != nil {
+    			return cleanup, fmt.Errorf("%s: %w", spec.add, err)
+    		}
+    		var id b24.ID
+    		if err := json.Unmarshal(res.Result, &id); err != nil {
+    			return cleanup, fmt.Errorf("разбор идентификатора из %s: %w", spec.add, err)
+    		}
+    		created[spec.delete] = id
+    	}
+    	return cleanup, nil
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}
