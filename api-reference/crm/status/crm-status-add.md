@@ -301,6 +301,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.status.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_ID": "DEAL_STAGE_1",
+    		"STATUS_ID": "DECISION",
+    		"NAME":      "Принятие решения",
+    		"SORT":      70,
+    		"COLOR":     "#FFA900",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.status.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

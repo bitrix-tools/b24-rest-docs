@@ -246,6 +246,25 @@ https://mydomain.bitrix24.com/rest/1/not_var{{PASSWORD}}/crm.automation.trigger/
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.automation.trigger", b24.Params{
+    	"target": "DEAL_57",
+    	"code":   "c5u4m",
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.automation.trigger: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

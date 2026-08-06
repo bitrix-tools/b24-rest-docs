@@ -232,6 +232,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.template.get", b24.Params{
+    	"id": 41,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.template.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "template".
+    raw, ok := b24.Unwrap(res.Result, "template")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа template")
+    }
+
+    var item struct {
+    	ID              b24.ID `json:"id"`
+    	Name            string `json:"name"`
+    	Region          string `json:"region"`
+    	Download        string `json:"download"`
+    	DownloadMachine string `json:"downloadMachine"`
+    	Active          string `json:"active"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

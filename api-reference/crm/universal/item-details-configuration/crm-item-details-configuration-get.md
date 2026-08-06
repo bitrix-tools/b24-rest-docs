@@ -244,6 +244,35 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.item.details.configuration.get", b24.Params{
+        	"entityTypeId": 2,
+        	"userId":       1,
+        	"scope":        "C",
+        	"extras": b24.Params{
+        		"dealCategoryId": 9,
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.item.details.configuration.get: %w", err)
+        }
+
+        var items []struct {
+        	Name  string `json:"name"`
+        	Title string `json:"title"`
+        	Type  string `json:"type"`
+        }
+        if err := json.Unmarshal(res.Result, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.Name, it.Title)
+        }
+        ```
+
     {% endlist %}
 
 2. Получить личную конфигурацию карточки элементов смарт-процесса с `entityTypeId = 1032` в воронке с `id = 5`
@@ -377,6 +406,33 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.item.details.configuration.get", b24.Params{
+        	"entityTypeId": 1032,
+        	"extras": b24.Params{
+        		"categoryId": 5,
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.item.details.configuration.get: %w", err)
+        }
+
+        var items []struct {
+        	Name  string `json:"name"`
+        	Title string `json:"title"`
+        	Type  string `json:"type"`
+        }
+        if err := json.Unmarshal(res.Result, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.Name, it.Title)
+        }
         ```
 
     {% endlist %}

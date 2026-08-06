@@ -253,6 +253,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.document.get", b24.Params{
+    	"id": 61,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.document.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "document".
+    raw, ok := b24.Unwrap(res.Result, "document")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа document")
+    }
+
+    var item struct {
+    	ChangeStampsEnabled        bool   `json:"changeStampsEnabled"`
+    	ChangeStampsDisabledReason string `json:"changeStampsDisabledReason"`
+    	ChangeQrCodeEnabled        bool   `json:"changeQrCodeEnabled"`
+    	QrCodeEnabled              bool   `json:"qrCodeEnabled"`
+    	ChangeQrCodeDisabledReason string `json:"changeQrCodeDisabledReason"`
+    	DownloadUrl                string `json:"downloadUrl"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ChangeStampsEnabled, item.ChangeStampsDisabledReason)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

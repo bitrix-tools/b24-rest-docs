@@ -281,6 +281,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.entity.mergeBatch", b24.Params{
+    	"params": b24.Params{
+    		"entityTypeId": 3,
+    		"entityIds":    []int{100, 101, 102},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.entity.mergeBatch: %w", err)
+    }
+
+    var item struct {
+    	Status string `json:"STATUS"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Status)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

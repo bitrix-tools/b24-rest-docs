@@ -176,6 +176,28 @@ Cмотрите описание [списочных методов](../../../..
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.measure.list", b24.Params{
+    	"order": b24.Params{
+    		"ID": "ASC",
+    	},
+    	"filter": b24.Params{
+    		"IS_DEFAULT": "Y",
+    	},
+    	"select": []string{"ID", "CODE", "STAGE_ID", "SYMBOL_RUS", "SYMBOL_INTL"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.measure.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

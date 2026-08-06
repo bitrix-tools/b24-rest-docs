@@ -432,6 +432,56 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.document.add", b24.Params{
+    	"templateId":   39,
+    	"entityTypeId": 2,
+    	"entityId":     101,
+    	"values": b24.Params{
+    		"DocumentNumber": "2026-001",
+    	},
+    	"fields": b24.Params{
+    		"DocumentTitle": b24.Params{
+    			"title":    "Название документа",
+    			"value":    "Демонстрационная реализация товара 1",
+    			"required": "Y",
+    			"default":  "Демонстрационная реализация товара 1",
+    			"chain": []any{
+    				b24.Params{},
+    				"getTitle",
+    			},
+    			"VALUE": "Тест через fields",
+    		},
+    	},
+    	"stampsEnabled": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.document.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "document".
+    raw, ok := b24.Unwrap(res.Result, "document")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа document")
+    }
+
+    var item struct {
+    	ChangeStampsEnabled        bool   `json:"changeStampsEnabled"`
+    	ChangeStampsDisabledReason string `json:"changeStampsDisabledReason"`
+    	ChangeQrCodeEnabled        bool   `json:"changeQrCodeEnabled"`
+    	QrCodeEnabled              bool   `json:"qrCodeEnabled"`
+    	ChangeQrCodeDisabledReason string `json:"changeQrCodeDisabledReason"`
+    	DownloadUrl                string `json:"downloadUrl"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ChangeStampsEnabled, item.ChangeStampsDisabledReason)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -355,6 +355,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.template.getfields", b24.Params{
+    	"id":           1,
+    	"entityTypeId": 2,
+    	"entityId":     123,
+    	"values": b24.Params{
+    		"DocumentNumber": "2026-001",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.template.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "templateFields".
+    raw, ok := b24.Unwrap(res.Result, "templateFields")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа templateFields")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

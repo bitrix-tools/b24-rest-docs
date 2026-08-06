@@ -184,6 +184,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.vat.update", b24.Params{
+    	"id": 7,
+    	"fields": b24.Params{
+    		"ACTIVE": "N",
+    		"NAME":   "НДС 20% (неактивна)",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.vat.update: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

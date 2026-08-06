@@ -218,6 +218,46 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.stagehistory.list", b24.Params{
+    	"entityTypeId": 2,
+    	"order": b24.Params{
+    		"ID": "ASC",
+    	},
+    	"filter": b24.Params{
+    		"OWNER_ID": 1,
+    	},
+    	"select": []string{"ID", "STAGE_ID", "CREATED_TIME"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.stagehistory.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID              b24.ID `json:"ID"`
+    	TypeID          b24.ID `json:"TYPE_ID"`
+    	OwnerID         b24.ID `json:"OWNER_ID"`
+    	CreatedTime     string `json:"CREATED_TIME"`
+    	CategoryID      b24.ID `json:"CATEGORY_ID"`
+    	StageSemanticID string `json:"STAGE_SEMANTIC_ID"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 Получить историю движения по стадиям для смарт-процесса с `entityTypeId=130` и элементом `OWNER_ID=29`
@@ -365,6 +405,46 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.stagehistory.list", b24.Params{
+    	"entityTypeId": 130,
+    	"order": b24.Params{
+    		"ID": "ASC",
+    	},
+    	"filter": b24.Params{
+    		"OWNER_ID": 29,
+    	},
+    	"select": []string{"ID", "STAGE_ID", "CREATED_TIME"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.stagehistory.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID              b24.ID `json:"ID"`
+    	TypeID          b24.ID `json:"TYPE_ID"`
+    	OwnerID         b24.ID `json:"OWNER_ID"`
+    	CreatedTime     string `json:"CREATED_TIME"`
+    	CategoryID      b24.ID `json:"CATEGORY_ID"`
+    	StageSemanticID string `json:"STAGE_SEMANTIC_ID"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
     ```
 
 {% endlist %}

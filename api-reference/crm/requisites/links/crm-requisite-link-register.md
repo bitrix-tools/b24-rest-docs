@@ -294,6 +294,31 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.link.register", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_TYPE_ID":    31,
+    		"ENTITY_ID":         315,
+    		"REQUISITE_ID":      60,
+    		"BANK_DETAIL_ID":    24,
+    		"MC_REQUISITE_ID":   2,
+    		"MC_BANK_DETAIL_ID": 2,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.link.register: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

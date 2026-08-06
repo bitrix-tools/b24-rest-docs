@@ -176,6 +176,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.product.update", b24.Params{
+    	"id": "your_product_id",
+    	"fields": b24.Params{
+    		"CURRENCY_ID": "RUB",
+    		"PRICE":       5000,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.product.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ### Пример 2

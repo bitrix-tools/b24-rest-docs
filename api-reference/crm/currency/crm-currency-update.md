@@ -270,6 +270,27 @@ fields: {
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.currency.update", b24.Params{
+        	"ID": "CNY",
+        	"fields": b24.Params{
+        		"AMOUNT": 15.3449,
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.currency.update: %w", err)
+        }
+
+        var ok bool
+        if err := json.Unmarshal(res.Result, &ok); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println("выполнено:", ok)
+        ```
+
     {% endlist %}
 
 2. Изменение локализаций валюты (на примере доллара США)
@@ -493,6 +514,44 @@ fields: {
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.currency.update", b24.Params{
+        	"ID": "USD",
+        	"fields": b24.Params{
+        		"LANG": b24.Params{
+        			"en": b24.Params{
+        				"DECIMALS":          2,
+        				"DEC_POINT":         ".",
+        				"FORMAT_STRING":     "$#",
+        				"FULL_NAME":         "доллар США",
+        				"HIDE_ZERO":         "Y",
+        				"THOUSANDS_VARIANT": "S",
+        			},
+        			"de": b24.Params{
+        				"DECIMALS":          2,
+        				"DEC_POINT":         ".",
+        				"FORMAT_STRING":     "# $",
+        				"FULL_NAME":         "US-Dollar",
+        				"HIDE_ZERO":         "Y",
+        				"THOUSANDS_VARIANT": "C",
+        			},
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.currency.update: %w", err)
+        }
+
+        var ok bool
+        if err := json.Unmarshal(res.Result, &ok); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println("выполнено:", ok)
         ```
 
     {% endlist %}

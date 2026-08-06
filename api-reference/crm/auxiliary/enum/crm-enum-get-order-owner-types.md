@@ -208,6 +208,29 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.enum.getorderownertypes", nil)
+    if err != nil {
+    	return fmt.Errorf("crm.enum.getorderownertypes: %w", err)
+    }
+
+    var items []struct {
+    	Attribute string `json:"attribute"`
+    	Code      string `json:"code"`
+    	ID        b24.ID `json:"id"`
+    	Name      string `json:"name"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Attribute, it.Code)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

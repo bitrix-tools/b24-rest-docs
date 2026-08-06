@@ -323,6 +323,34 @@
     echo '</pre>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.tracking.trace.add", b24.Params{
+    	"TRACE": "{\"SOURCE_ID\":\"6\",\"SOURCE_DESC\":\"Direct sale\",\"PAGES\":[{\"URL\":\"https://example.com/\",\"DATE\":\"2024-04-03T10:26:32+03:00\"}]}",
+    	"ENTITIES": []b24.Params{
+    		{
+    			"TYPE": "CONTACT",
+    			"ID":   3215,
+    		},
+    		{
+    			"TYPE": "LEAD",
+    			"ID":   1,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.tracking.trace.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

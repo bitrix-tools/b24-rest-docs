@@ -350,6 +350,48 @@ fields: {
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.currency.add", b24.Params{
+        	"fields": b24.Params{
+        		"CURRENCY":   "CNY",
+        		"BASE":       "N",
+        		"AMOUNT":     12.2251,
+        		"AMOUNT_CNT": 1,
+        		"SORT":       9000,
+        		"LANG": b24.Params{
+        			"ru": b24.Params{
+        				"DECIMALS":          2,
+        				"DEC_POINT":         ".",
+        				"FORMAT_STRING":     "# CNY",
+        				"FULL_NAME":         "юань",
+        				"HIDE_ZERO":         "Y",
+        				"THOUSANDS_VARIANT": "S",
+        			},
+        			"en": b24.Params{
+        				"DECIMALS":      2,
+        				"DEC_POINT":     ",",
+        				"FORMAT_STRING": "# CNY",
+        				"FULL_NAME":     "yuan",
+        				"HIDE_ZERO":     "Y",
+        				"THOUSANDS_SEP": ".",
+        			},
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.currency.add: %w", err)
+        }
+
+        var value string
+        if err := json.Unmarshal(res.Result, &value); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println("результат:", value)
+        ```
+
     {% endlist %}
 
 2. Создание индонезийской рупии
@@ -583,6 +625,47 @@ fields: {
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.currency.add", b24.Params{
+        	"fields": b24.Params{
+        		"CURRENCY":   "IDR",
+        		"AMOUNT":     54.8738,
+        		"AMOUNT_CNT": 10000,
+        		"SORT":       8000,
+        		"LANG": b24.Params{
+        			"ru": b24.Params{
+        				"DECIMALS":          2,
+        				"DEC_POINT":         ".",
+        				"FORMAT_STRING":     "Rp#",
+        				"FULL_NAME":         "рупия",
+        				"HIDE_ZERO":         "Y",
+        				"THOUSANDS_VARIANT": "C",
+        			},
+        			"en": b24.Params{
+        				"DECIMALS":          2,
+        				"DEC_POINT":         ".",
+        				"FORMAT_STRING":     "Rp#",
+        				"FULL_NAME":         "rupee",
+        				"HIDE_ZERO":         "Y",
+        				"THOUSANDS_VARIANT": "C",
+        			},
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.currency.add: %w", err)
+        }
+
+        var value string
+        if err := json.Unmarshal(res.Result, &value); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println("результат:", value)
         ```
 
     {% endlist %}

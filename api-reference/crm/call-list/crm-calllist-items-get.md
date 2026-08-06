@@ -234,6 +234,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.items.get", b24.Params{
+    	"LIST_ID": 13,
+    	"FILTER": b24.Params{
+    		"STATUS": "IN_WORK",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.items.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Status     string `json:"STATUS"`
+    	EntityType int    `json:"ENTITY_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Status)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -406,6 +406,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.template.list", b24.Params{
+    	"select": []string{"id", "name", "region", "entityTypeId", "users"},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    	"filter": b24.Params{
+    		"region": "ru",
+    		"active": "Y",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.template.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "templates".
+    raw, ok := b24.Unwrap(res.Result, "templates")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа templates")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
