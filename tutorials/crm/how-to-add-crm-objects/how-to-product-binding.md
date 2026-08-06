@@ -167,6 +167,37 @@
         return result["products"]
     ```
 
+- Go
+
+    ```go
+    // select обязан содержать id и iblockId — без них метод отвечает ошибкой.
+    // Сортировка по убыванию id ставит только что созданный товар первым: на
+    // боевом портале она не нужна, здесь она делает пример быстрым.
+    res, err := core.Call(ctx, "catalog.product.list", b24.Params{
+    	"select": []string{"id", "iblockId", "name"},
+    	"filter": b24.Params{"iblockId": iblockID},
+    	"order":  b24.Params{"id": "DESC"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.product.list: %w", err)
+    }
+
+    // Метод отдаёт товары постранично, до 50 за раз, и заворачивает их в
+    // объект с ключом products.
+    var catalog struct {
+    	Products []struct {
+    		ID   b24.ID `json:"id"`
+    		Name string `json:"name"`
+    	} `json:"products"`
+    }
+    if err := json.Unmarshal(res.Result, &catalog); err != nil {
+    	return fmt.Errorf("разбор товаров: %w", err)
+    }
+    if len(catalog.Products) == 0 {
+    	return fmt.Errorf("в каталоге %d нет товаров", iblockID)
+    }
+    ```
+
 {% endlist %}
 
 Метод возвращает товары постранично. В примере используется первая страница, до 50 товаров. Если в вашем каталоге больше товаров, переберите страницы через параметр `start`.
@@ -298,6 +329,35 @@
         raise RuntimeError("В каталоге нет активного товара с ценой больше нуля")
     ```
 
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "catalog.price.list", b24.Params{
+    	"select": []string{"id", "productId", "price", "currency"},
+    	"filter": b24.Params{"productId": p.ID},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.price.list: %w", err)
+    }
+    var prices struct {
+    	Prices []struct {
+    		Price    float64 `json:"price"`
+    		Currency string  `json:"currency"`
+    	} `json:"prices"`
+    }
+    if err := json.Unmarshal(res.Result, &prices); err != nil {
+    	return fmt.Errorf("разбор цен: %w", err)
+    }
+    // Берём первую цену больше нуля: у товара может быть несколько типов
+    // цен, и часть из них — нулевые.
+    for _, pr := range prices.Prices {
+    	if pr.Price > 0 {
+    		basePrice, currency = pr.Price, pr.Currency
+    		break
+    	}
+    }
+    ```
+
 {% endlist %}
 
 Сокращенный ответ:
@@ -376,6 +436,32 @@
         })
 
         return int(result["item"]["id"])
+    ```
+
+- Go
+
+    ```go
+    res, err = core.Call(ctx, "crm.item.add", b24.Params{
+    	"entityTypeId": entityTypeID,
+    	"fields": b24.Params{
+    		"title": "Сделка с товарами (пример b24gosdk)",
+    		// Валюта берётся из цены шага 2: позиции считаются в валюте
+    		// объекта, и расхождение здесь испортит суммы.
+    		"currencyId": currency,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.add: %w", err)
+    }
+
+    raw, ok := b24.Unwrap(res.Result, "item", "id")
+    if !ok {
+    	return fmt.Errorf("нет item.id в %s", res.Result)
+    }
+    var itemID b24.ID
+    if err := json.Unmarshal(raw, &itemID); err != nil {
+    	return fmt.Errorf("разбор идентификатора объекта: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -580,6 +666,52 @@
         return result["productRows"]
     ```
 
+- Go
+
+    ```go
+    // Фиксированная скидка — меньшее из 100 единиц валюты и половины цены,
+    // чтобы итоговая цена позиции не ушла в минус.
+    fixedDiscount := math.Min(100, basePrice/2)
+
+    rows := []b24.Params{
+    	// Налог 20%, налог НЕ включён в цену.
+    	{"productId": chosenID, "price": basePrice,
+    		"taxRate": 20, "taxIncluded": "N", "quantity": 1, "sort": 10},
+    	// Налог 20%, налог включён в цену.
+    	{"productId": chosenID, "price": basePrice * 1.2,
+    		"taxRate": 20, "taxIncluded": "Y", "quantity": 1, "sort": 20},
+    	// Фиксированная скидка: discountTypeId = 1.
+    	{"productId": chosenID, "price": basePrice - fixedDiscount,
+    		"discountTypeId": 1, "discountSum": fixedDiscount, "quantity": 1, "sort": 30},
+    	// Процентная скидка: discountTypeId = 2.
+    	{"productId": chosenID, "price": basePrice * 0.9,
+    		"discountTypeId": 2, "discountRate": 10, "quantity": 1, "sort": 40},
+    }
+
+    // Метод ПЕРЕЗАПИСЫВАЕТ весь набор позиций объекта: то, чего нет в
+    // productRows, из объекта пропадёт.
+    res, err = core.Call(ctx, "crm.item.productrow.set", b24.Params{
+    	"ownerType":   ownerType,
+    	"ownerId":     itemID,
+    	"productRows": rows,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.productrow.set: %w", err)
+    }
+
+    var saved struct {
+    	ProductRows []struct {
+    		ID       b24.ID  `json:"id"`
+    		Price    float64 `json:"price"`
+    		TaxRate  float64 `json:"taxRate"`
+    		Quantity float64 `json:"quantity"`
+    	} `json:"productRows"`
+    }
+    if err := json.Unmarshal(res.Result, &saved); err != nil {
+    	return fmt.Errorf("разбор товарных позиций: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 Сокращенный ответ:
@@ -691,6 +823,321 @@
     print("Создан объект CRM #%s" % item_id)
     print("Товар: %s" % product["name"])
     print(saved_rows)
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он заводит в каталоге свой товар с ценой, создаёт
+    // сделку, сохраняет в ней четыре товарные позиции с разными налогами и
+    // скидками, читает их обратно и убирает за собой. Запускается на любом
+    // портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"math"
+    	"os"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // Тип объекта CRM, к которому привязываем товары. Пара значений всегда идёт
+    // вместе: числовой entityTypeId для crm.item.add и краткий ownerType для
+    // crm.item.productrow.set. Лид — 1 и "L", сделка — 2 и "D", счёт — 31 и "SI",
+    // предложение — 7 и "Q".
+    const (
+    	entityTypeID = 2
+    	ownerType    = "D"
+    )
+
+    // maxProducts ограничивает перебор: цена запрашивается отдельным вызовом на
+    // каждый товар, а портал пропускает около двух обращений в секунду.
+    const maxProducts = 10
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- подготовка: свой товар с ценой, чтобы шагам 1 и 2 было что найти
+
+    	iblockID, err := firstCatalog(ctx, core)
+    	if err != nil {
+    		return err
+    	}
+    	productID, err := addProductWithPrice(ctx, core, iblockID, 1000)
+    	if err != nil {
+    		return err
+    	}
+    	defer del(ctx, core, "catalog.product.delete", b24.Params{"id": productID})
+
+    	// --- шаг 1: товары каталога
+    	// select обязан содержать id и iblockId — без них метод отвечает ошибкой.
+    	// Сортировка по убыванию id ставит только что созданный товар первым: на
+    	// боевом портале она не нужна, здесь она делает пример быстрым.
+    	res, err := core.Call(ctx, "catalog.product.list", b24.Params{
+    		"select": []string{"id", "iblockId", "name"},
+    		"filter": b24.Params{"iblockId": iblockID},
+    		"order":  b24.Params{"id": "DESC"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("catalog.product.list: %w", err)
+    	}
+
+    	// Метод отдаёт товары постранично, до 50 за раз, и заворачивает их в
+    	// объект с ключом products.
+    	var catalog struct {
+    		Products []struct {
+    			ID   b24.ID `json:"id"`
+    			Name string `json:"name"`
+    		} `json:"products"`
+    	}
+    	if err := json.Unmarshal(res.Result, &catalog); err != nil {
+    		return fmt.Errorf("разбор товаров: %w", err)
+    	}
+    	if len(catalog.Products) == 0 {
+    		return fmt.Errorf("в каталоге %d нет товаров", iblockID)
+    	}
+    	// --- шаг 2: цена товара
+
+    	// Цена хранится ОТДЕЛЬНО от карточки товара: catalog.product.list её не
+    	// возвращает, поэтому на каждый товар нужен свой вызов.
+    	var (
+    		chosenID   b24.ID
+    		chosenName string
+    		basePrice  float64
+    		currency   string
+    	)
+    	for i, p := range catalog.Products {
+    		if i >= maxProducts {
+    			break
+    		}
+    		res, err := core.Call(ctx, "catalog.price.list", b24.Params{
+    			"select": []string{"id", "productId", "price", "currency"},
+    			"filter": b24.Params{"productId": p.ID},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("catalog.price.list: %w", err)
+    		}
+    		var prices struct {
+    			Prices []struct {
+    				Price    float64 `json:"price"`
+    				Currency string  `json:"currency"`
+    			} `json:"prices"`
+    		}
+    		if err := json.Unmarshal(res.Result, &prices); err != nil {
+    			return fmt.Errorf("разбор цен: %w", err)
+    		}
+    		// Берём первую цену больше нуля: у товара может быть несколько типов
+    		// цен, и часть из них — нулевые.
+    		for _, pr := range prices.Prices {
+    			if pr.Price > 0 {
+    				basePrice, currency = pr.Price, pr.Currency
+    				break
+    			}
+    		}
+    		if basePrice > 0 {
+    			chosenID, chosenName = p.ID, p.Name
+    			break
+    		}
+    	}
+    	if basePrice == 0 {
+    		return fmt.Errorf("в каталоге нет активного товара с ценой больше нуля")
+    	}
+    	fmt.Printf("товар %d %q, цена %.2f %s\n", chosenID, chosenName, basePrice, currency)
+
+    	// --- шаг 3: объект CRM
+    	res, err = core.Call(ctx, "crm.item.add", b24.Params{
+    		"entityTypeId": entityTypeID,
+    		"fields": b24.Params{
+    			"title": "Сделка с товарами (пример b24gosdk)",
+    			// Валюта берётся из цены шага 2: позиции считаются в валюте
+    			// объекта, и расхождение здесь испортит суммы.
+    			"currencyId": currency,
+    		},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("crm.item.add: %w", err)
+    	}
+
+    	raw, ok := b24.Unwrap(res.Result, "item", "id")
+    	if !ok {
+    		return fmt.Errorf("нет item.id в %s", res.Result)
+    	}
+    	var itemID b24.ID
+    	if err := json.Unmarshal(raw, &itemID); err != nil {
+    		return fmt.Errorf("разбор идентификатора объекта: %w", err)
+    	}
+    	defer del(ctx, core, "crm.item.delete", b24.Params{
+    		"entityTypeId": entityTypeID, "id": itemID,
+    	})
+    	fmt.Printf("объект CRM %d создан\n", itemID)
+
+    	// --- шаг 4: товарные позиции
+    	// Фиксированная скидка — меньшее из 100 единиц валюты и половины цены,
+    	// чтобы итоговая цена позиции не ушла в минус.
+    	fixedDiscount := math.Min(100, basePrice/2)
+
+    	rows := []b24.Params{
+    		// Налог 20%, налог НЕ включён в цену.
+    		{"productId": chosenID, "price": basePrice,
+    			"taxRate": 20, "taxIncluded": "N", "quantity": 1, "sort": 10},
+    		// Налог 20%, налог включён в цену.
+    		{"productId": chosenID, "price": basePrice * 1.2,
+    			"taxRate": 20, "taxIncluded": "Y", "quantity": 1, "sort": 20},
+    		// Фиксированная скидка: discountTypeId = 1.
+    		{"productId": chosenID, "price": basePrice - fixedDiscount,
+    			"discountTypeId": 1, "discountSum": fixedDiscount, "quantity": 1, "sort": 30},
+    		// Процентная скидка: discountTypeId = 2.
+    		{"productId": chosenID, "price": basePrice * 0.9,
+    			"discountTypeId": 2, "discountRate": 10, "quantity": 1, "sort": 40},
+    	}
+
+    	// Метод ПЕРЕЗАПИСЫВАЕТ весь набор позиций объекта: то, чего нет в
+    	// productRows, из объекта пропадёт.
+    	res, err = core.Call(ctx, "crm.item.productrow.set", b24.Params{
+    		"ownerType":   ownerType,
+    		"ownerId":     itemID,
+    		"productRows": rows,
+    	})
+    	if err != nil {
+    		return fmt.Errorf("crm.item.productrow.set: %w", err)
+    	}
+
+    	var saved struct {
+    		ProductRows []struct {
+    			ID       b24.ID  `json:"id"`
+    			Price    float64 `json:"price"`
+    			TaxRate  float64 `json:"taxRate"`
+    			Quantity float64 `json:"quantity"`
+    		} `json:"productRows"`
+    	}
+    	if err := json.Unmarshal(res.Result, &saved); err != nil {
+    		return fmt.Errorf("разбор товарных позиций: %w", err)
+    	}
+    	for _, r := range saved.ProductRows {
+    		fmt.Printf("  позиция %d: %.2f x %.0f, налог %.0f%%\n",
+    			r.ID, r.Price, r.Quantity, r.TaxRate)
+    	}
+
+    	// --- проверка: читаем позиции обратно
+
+    	res, err = core.Call(ctx, "crm.item.productrow.list", b24.Params{
+    		// Знак «=» в имени ключа — часть фильтра, а не опечатка: это точное
+    		// сравнение.
+    		"filter": b24.Params{"=ownerType": ownerType, "=ownerId": itemID},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.item.productrow.list: %w", err)
+    	}
+    	rawRows, ok := b24.Unwrap(res.Result, "productRows")
+    	if !ok {
+    		return fmt.Errorf("нет productRows в %s", res.Result)
+    	}
+    	var check []json.RawMessage
+    	if err := json.Unmarshal(rawRows, &check); err != nil {
+    		return fmt.Errorf("разбор проверки: %w", err)
+    	}
+    	fmt.Printf("в объекте %d товарных позиций: %d\n", itemID, len(check))
+    	return nil
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    func firstCatalog(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "catalog.catalog.list", b24.Params{
+    		"filter": b24.Params{"iblockTypeId": "CRM_PRODUCT_CATALOG"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return 0, fmt.Errorf("catalog.catalog.list: %w", err)
+    	}
+    	var out struct {
+    		Catalogs []struct {
+    			IblockID b24.ID `json:"iblockId"`
+    		} `json:"catalogs"`
+    	}
+    	if err := json.Unmarshal(res.Result, &out); err != nil {
+    		return 0, err
+    	}
+    	if len(out.Catalogs) == 0 {
+    		return 0, fmt.Errorf("на портале нет торгового каталога")
+    	}
+    	return out.Catalogs[0].IblockID, nil
+    }
+
+    // addProductWithPrice заводит товар и ставит ему цену: страница берёт готовый
+    // каталог, а пример должен работать и на пустом.
+    func addProductWithPrice(ctx context.Context, core *b24.Core, iblockID b24.ID, price float64) (b24.ID, error) {
+    	res, err := core.Call(ctx, "catalog.product.add", b24.Params{
+    		"fields": b24.Params{
+    			"iblockId": iblockID,
+    			"name":     "Радиатор (пример b24gosdk)",
+    			"active":   "Y",
+    		},
+    	})
+    	if err != nil {
+    		return 0, fmt.Errorf("catalog.product.add: %w", err)
+    	}
+    	// add отвечает ключом element, а get — ключом product для той же сущности.
+    	raw, ok := b24.Unwrap(res.Result, "element", "id")
+    	if !ok {
+    		return 0, fmt.Errorf("нет element.id в %s", res.Result)
+    	}
+    	var productID b24.ID
+    	if err := json.Unmarshal(raw, &productID); err != nil {
+    		return 0, err
+    	}
+
+    	res, err = core.Call(ctx, "catalog.priceType.list", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return productID, fmt.Errorf("catalog.priceType.list: %w", err)
+    	}
+    	var types struct {
+    		PriceTypes []struct {
+    			ID b24.ID `json:"id"`
+    		} `json:"priceTypes"`
+    	}
+    	if err := json.Unmarshal(res.Result, &types); err != nil {
+    		return productID, err
+    	}
+    	if len(types.PriceTypes) == 0 {
+    		return productID, fmt.Errorf("на портале нет типов цен")
+    	}
+    	_, err = core.Call(ctx, "catalog.price.add", b24.Params{
+    		"fields": b24.Params{
+    			"productId":      productID,
+    			"catalogGroupId": types.PriceTypes[0].ID,
+    			"price":          price,
+    			"currency":       "RUB",
+    		},
+    	})
+    	return productID, err
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}
