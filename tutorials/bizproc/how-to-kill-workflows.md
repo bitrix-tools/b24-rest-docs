@@ -105,6 +105,38 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    // ACTIVE: 0 отбирает только уволенных. Без этого параметра поиск идёт по
+    // всем сотрудникам независимо от статуса. Имя и фамилию задают константы
+    // departedName и departedLastName в начале файла; пустые значения в фильтр
+    // не кладём — по пустой строке не найдётся никто.
+    filter := b24.Params{"ACTIVE": 0}
+    if departedName != "" {
+    	filter["NAME"] = departedName
+    }
+    if departedLastName != "" {
+    	filter["LAST_NAME"] = departedLastName
+    }
+
+    res, err := core.Call(ctx, "user.get", b24.Params{"filter": filter}, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+
+    // user.get отвечает в UPPER_SNAKE и присылает идентификатор СТРОКОЙ ("29"):
+    // b24.ID разбирает и число, и строку с числом.
+    var users []struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	LastName string `json:"LAST_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &users); err != nil {
+    	return fmt.Errorf("разбор сотрудников: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате получим `ID` уволенного сотрудника.
@@ -180,6 +212,37 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    // STATUS: 0 — только невыполненные задания.
+    res, err := core.Call(ctx, "bizproc.task.list", b24.Params{
+    	"filter": b24.Params{"USER_ID": userID, "STATUS": 0},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	// bizproc.* доступен только администратору портала и только на
+    	// платных тарифах. Код сравнивается через errors.Is, а не строкой:
+    	// опечатка в литерале скомпилируется и молча уведёт в другую ветку.
+    	if errors.Is(err, b24.ErrMethodNotFound) {
+    		return fmt.Errorf("модуль бизнес-процессов недоступен на этом портале: %w", err)
+    	}
+    	return fmt.Errorf("bizproc.task.list: %w", err)
+    }
+
+    // WORKFLOW_ID — это НЕ число: "67e3db8e581121.72266518". Разбор его в
+    // int уничтожает значение, поэтому поле остаётся строкой от списка до
+    // команды завершения.
+    var tasks []struct {
+    	ID           b24.ID `json:"ID"`
+    	WorkflowID   string `json:"WORKFLOW_ID"`
+    	Name         string `json:"NAME"`
+    	DocumentName string `json:"DOCUMENT_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &tasks); err != nil {
+    	return fmt.Errorf("разбор заданий: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате получим список невыполненных заданий. У каждого задания есть параметр `WORKFLOW_ID` — это `ID` бизнес-процесса, который мы завершим в следующем шаге.
@@ -238,6 +301,25 @@
         "bizproc.workflow.kill",
         {"ID": "67e3db8e581121.72266518"},
     )
+    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "bizproc.workflow.kill", b24.Params{"ID": workflowID})
+    if err != nil {
+    	// Завершить уже завершившийся процесс нельзя — это не отказ
+    	// сценария, остальные процессы завершить всё равно надо.
+    	fmt.Fprintf(os.Stderr, "процесс %s: %v\n", workflowID, err)
+    	continue
+    }
+
+    // Ответ — голое булево, а не объект.
+    var killed bool
+    if err := json.Unmarshal(res.Result, &killed); err != nil {
+    	return fmt.Errorf("разбор ответа bizproc.workflow.kill: %w", err)
+    }
+    fmt.Printf("процесс %s завершён: %v\n", workflowID, killed)
     ```
 
 {% endlist %}
@@ -439,6 +521,253 @@
     last_name = input("Введите фамилию сотрудника: ")
 
     process_employee_tasks(client, token, first_name, last_name)
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный и безопасный: он создаёт СВОЮ сделку, завершает
+    // только те процессы, которые запустились на ней, и удаляет сделку за собой.
+    // Уволенного сотрудника создать и «уволить» нельзя, поэтому шаги 1 и 2 он
+    // выполняет по-настоящему и показывает, что нашёл, а завершает — своё.
+    // Запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"errors"
+    	"fmt"
+    	"log"
+    	"os"
+    	"time"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // Имя и фамилия уволенного сотрудника для шага 1. Пустые значения означают
+    // «все уволенные»: на чужом портале конкретного человека не найти, а пример
+    // должен запускаться везде без правок.
+    const (
+    	departedName     = ""
+    	departedLastName = ""
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- подготовка: своя сделка и запущенные на ней процессы
+
+    	dealID, err := addDeal(ctx, core)
+    	if err != nil {
+    		return err
+    	}
+    	// Удаление сделки уносит и незавершённые процессы по ней.
+    	defer del(ctx, core, "crm.deal.delete", b24.Params{"id": dealID})
+
+    	// Процессы стартуют не мгновенно.
+    	time.Sleep(3 * time.Second)
+
+    	mine, err := workflowsOfDeal(ctx, core, dealID)
+    	if err != nil {
+    		return err
+    	}
+    	fmt.Printf("на сделке %d запущено процессов: %d\n", dealID, len(mine))
+
+    	// --- шаг 1: идентификатор уволенного сотрудника
+    	// ACTIVE: 0 отбирает только уволенных. Без этого параметра поиск идёт по
+    	// всем сотрудникам независимо от статуса. Имя и фамилию задают константы
+    	// departedName и departedLastName в начале файла; пустые значения в фильтр
+    	// не кладём — по пустой строке не найдётся никто.
+    	filter := b24.Params{"ACTIVE": 0}
+    	if departedName != "" {
+    		filter["NAME"] = departedName
+    	}
+    	if departedLastName != "" {
+    		filter["LAST_NAME"] = departedLastName
+    	}
+
+    	res, err := core.Call(ctx, "user.get", b24.Params{"filter": filter}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("user.get: %w", err)
+    	}
+
+    	// user.get отвечает в UPPER_SNAKE и присылает идентификатор СТРОКОЙ ("29"):
+    	// b24.ID разбирает и число, и строку с числом.
+    	var users []struct {
+    		ID       b24.ID `json:"ID"`
+    		Name     string `json:"NAME"`
+    		LastName string `json:"LAST_NAME"`
+    	}
+    	if err := json.Unmarshal(res.Result, &users); err != nil {
+    		return fmt.Errorf("разбор сотрудников: %w", err)
+    	}
+    	fmt.Printf("уволенных сотрудников найдено: %d\n", len(users))
+
+    	// --- шаг 2: задания процессов, за которые отвечает сотрудник
+
+    	// Если уволенных нет, спрашиваем задания текущего пользователя: сам вызов
+    	// от этого не меняется, а сценарий остаётся выполнимым на любом портале.
+    	targets := make([]b24.ID, 0, len(users))
+    	for _, u := range users {
+    		targets = append(targets, u.ID)
+    	}
+    	if len(targets) == 0 {
+    		me, err := currentUser(ctx, core)
+    		if err != nil {
+    			return err
+    		}
+    		targets = append(targets, me)
+    	}
+
+    	for _, userID := range targets {
+    		// STATUS: 0 — только невыполненные задания.
+    		res, err := core.Call(ctx, "bizproc.task.list", b24.Params{
+    			"filter": b24.Params{"USER_ID": userID, "STATUS": 0},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			// bizproc.* доступен только администратору портала и только на
+    			// платных тарифах. Код сравнивается через errors.Is, а не строкой:
+    			// опечатка в литерале скомпилируется и молча уведёт в другую ветку.
+    			if errors.Is(err, b24.ErrMethodNotFound) {
+    				return fmt.Errorf("модуль бизнес-процессов недоступен на этом портале: %w", err)
+    			}
+    			return fmt.Errorf("bizproc.task.list: %w", err)
+    		}
+
+    		// WORKFLOW_ID — это НЕ число: "67e3db8e581121.72266518". Разбор его в
+    		// int уничтожает значение, поэтому поле остаётся строкой от списка до
+    		// команды завершения.
+    		var tasks []struct {
+    			ID           b24.ID `json:"ID"`
+    			WorkflowID   string `json:"WORKFLOW_ID"`
+    			Name         string `json:"NAME"`
+    			DocumentName string `json:"DOCUMENT_NAME"`
+    		}
+    		if err := json.Unmarshal(res.Result, &tasks); err != nil {
+    			return fmt.Errorf("разбор заданий: %w", err)
+    		}
+    		fmt.Printf("сотрудник %d, невыполненных заданий: %d\n", userID, len(tasks))
+    		for _, t := range tasks {
+    			fmt.Printf("  задание %d %q, процесс %s (%s)\n",
+    				t.ID, t.Name, t.WorkflowID, t.DocumentName)
+    		}
+    	}
+
+    	// --- шаг 3: завершаем процессы
+
+    	// На боевом портале сюда подставляют WORKFLOW_ID из шага 2. Пример
+    	// ограничивается процессами СВОЕЙ сделки: он не имеет права завершить
+    	// чужой процесс на вашем портале.
+    	if len(mine) == 0 {
+    		fmt.Println("на сделке примера процессов не запустилось — завершать нечего")
+    		return nil
+    	}
+
+    	for _, workflowID := range mine {
+    		res, err := core.Call(ctx, "bizproc.workflow.kill", b24.Params{"ID": workflowID})
+    		if err != nil {
+    			// Завершить уже завершившийся процесс нельзя — это не отказ
+    			// сценария, остальные процессы завершить всё равно надо.
+    			fmt.Fprintf(os.Stderr, "процесс %s: %v\n", workflowID, err)
+    			continue
+    		}
+
+    		// Ответ — голое булево, а не объект.
+    		var killed bool
+    		if err := json.Unmarshal(res.Result, &killed); err != nil {
+    			return fmt.Errorf("разбор ответа bizproc.workflow.kill: %w", err)
+    		}
+    		fmt.Printf("процесс %s завершён: %v\n", workflowID, killed)
+    	}
+
+    	// bizproc.workflow.terminate останавливает процесс, но СОХРАНЯЕТ запись о
+    	// нём; kill удаляет процесс вместе с данными. Вызываются они одинаково.
+    	return nil
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    func addDeal(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "crm.deal.add", b24.Params{
+    		"fields": b24.Params{"TITLE": "Сделка для примера b24gosdk"},
+    	})
+    	if err != nil {
+    		return 0, fmt.Errorf("crm.deal.add: %w", err)
+    	}
+    	var id b24.ID
+    	return id, json.Unmarshal(res.Result, &id)
+    }
+
+    // workflowsOfDeal возвращает идентификаторы процессов, запущенных на сделке.
+    func workflowsOfDeal(ctx context.Context, core *b24.Core, dealID b24.ID) ([]string, error) {
+    	// bizproc.workflow.instances принимает параметры В ВЕРХНЕМ РЕГИСТРЕ. SELECT
+    	// здесь не украшение: по умолчанию метод отдаёт лишь ID, MODIFIED и
+    	// OWNED_UNTIL, а отсутствующее поле разберётся в нулевое значение молча.
+    	res, err := core.Call(ctx, "bizproc.workflow.instances", b24.Params{
+    		"SELECT": []string{"ID", "TEMPLATE_ID", "DOCUMENT_ID", "STARTED"},
+    		"FILTER": b24.Params{"DOCUMENT_ID": fmt.Sprintf("DEAL_%d", dealID)},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		if errors.Is(err, b24.ErrAccessDenied) {
+    			return nil, fmt.Errorf("bizproc.* доступен только администратору портала: %w", err)
+    		}
+    		if errors.Is(err, b24.ErrMethodNotFound) {
+    			return nil, fmt.Errorf("модуль бизнес-процессов недоступен на этом портале: %w", err)
+    		}
+    		return nil, fmt.Errorf("bizproc.workflow.instances: %w", err)
+    	}
+    	var instances []struct {
+    		ID string `json:"ID"`
+    	}
+    	if err := json.Unmarshal(res.Result, &instances); err != nil {
+    		return nil, fmt.Errorf("разбор процессов: %w", err)
+    	}
+    	ids := make([]string, 0, len(instances))
+    	for _, i := range instances {
+    		if i.ID != "" {
+    			ids = append(ids, i.ID)
+    		}
+    	}
+    	return ids, nil
+    }
+
+    func currentUser(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "user.current", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return 0, fmt.Errorf("user.current: %w", err)
+    	}
+    	var u struct {
+    		ID b24.ID `json:"ID"`
+    	}
+    	if err := json.Unmarshal(res.Result, &u); err != nil {
+    		return 0, err
+    	}
+    	return u.ID, nil
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}
