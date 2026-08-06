@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`im`](../../scopes/permissions.md)
+> Scope: [`placement, im`](../../scopes/permissions.md)
 
 Виджет добавляет свой пункт в сайдбар чата.
 
