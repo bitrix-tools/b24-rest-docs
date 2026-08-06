@@ -23,3 +23,7 @@ items:
     include:
       path: b24pysdk/b24-toc.yaml
       mode: link
+  - name: B24 Go SDK
+    include:
+      path: b24gosdk/b24-toc.yaml
+      mode: link
