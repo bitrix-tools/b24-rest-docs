@@ -78,6 +78,37 @@
    ).response
    ```
 
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.contact.get",
+    	b24.Params{"id": contactID}, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.get: %w", err)
+    }
+
+    // Из ответа нужны телефон и ответственный. PHONE — мультиполе: список
+    // объектов, даже когда номер один, и приходит он только если у контакта
+    // вообще есть телефоны.
+    var contact struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	LastName     string `json:"LAST_NAME"`
+    	AssignedByID b24.ID `json:"ASSIGNED_BY_ID"`
+    	Phone        []struct {
+    		ID        b24.ID `json:"ID"`
+    		Value     string `json:"VALUE"`
+    		ValueType string `json:"VALUE_TYPE"`
+    	} `json:"PHONE"`
+    }
+    if err := json.Unmarshal(res.Result, &contact); err != nil {
+    	return fmt.Errorf("разбор контакта: %w", err)
+    }
+    if len(contact.Phone) == 0 {
+    	return fmt.Errorf("у контакта %d нет телефона", contactID)
+    }
+    ```
+
 {% endlist %}
 
 В результате получим данные клиента, включая телефон `PHONE` и идентификатор ответственного сотрудника `ASSIGNED_BY_ID`.
@@ -264,6 +295,46 @@
     ).response
     ```
 
+- Go
+
+    ```go
+    // Время начала и окончания — в формате ISO 8601. Здесь встреча на час,
+    // завтра в это же время.
+    start := time.Now().Add(24 * time.Hour)
+
+    res, err = core.Call(ctx, "crm.activity.add", b24.Params{
+    	"fields": b24.Params{
+    		"SUBJECT":     "Встреча с клиентом",
+    		"DESCRIPTION": "Обсудить условия поставки",
+    		// 1 — обычный текст, 2 — HTML, 3 — BB-код.
+    		"DESCRIPTION_TYPE": 3,
+    		"OWNER_ID":         contact.ID,
+    		"OWNER_TYPE_ID":    entityTypeContact,
+    		// 1 — встреча; полный список отдаёт crm.enum.activitytype.
+    		"TYPE_ID": 1,
+    		// COMMUNICATIONS связывает событие с контактными данными клиента:
+    		// значение берётся из мультиполя PHONE, полученного на шаге 1.
+    		"COMMUNICATIONS": []b24.Params{{
+    			"VALUE":          contact.Phone[0].Value,
+    			"ENTITY_ID":      contact.ID,
+    			"ENTITY_TYPE_ID": entityTypeContact,
+    		}},
+    		"START_TIME":     start.Format(time.RFC3339),
+    		"END_TIME":       start.Add(time.Hour).Format(time.RFC3339),
+    		"RESPONSIBLE_ID": contact.AssignedByID,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.activity.add: %w", err)
+    }
+
+    // Обёртки нет: result — сразу идентификатор созданного события.
+    var activityID b24.ID
+    if err := json.Unmarshal(res.Result, &activityID); err != nil {
+    	return fmt.Errorf("разбор идентификатора события: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 Если событие создано успешно, метод вернет его идентификатор. Если  вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md).
@@ -447,6 +518,158 @@
             print({"message": "Activity add"})
         else:
             print({"message": "Activity not added"})
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создаёт контакт с телефоном, читает его данные,
+    // заводит событие календаря со ссылкой на этот контакт и убирает за собой.
+    // Запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+    	"time"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // entityTypeContact — идентификатор типа объекта «контакт» из crm.enum.ownertype.
+    const entityTypeContact = 3
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- подготовка: свой контакт с телефоном
+
+    	contactID, err := addContact(ctx, core)
+    	if err != nil {
+    		return err
+    	}
+    	defer del(ctx, core, "crm.contact.delete", b24.Params{"id": contactID})
+
+    	// --- шаг 1: данные клиента
+    	res, err := core.Call(ctx, "crm.contact.get",
+    		b24.Params{"id": contactID}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.get: %w", err)
+    	}
+
+    	// Из ответа нужны телефон и ответственный. PHONE — мультиполе: список
+    	// объектов, даже когда номер один, и приходит он только если у контакта
+    	// вообще есть телефоны.
+    	var contact struct {
+    		ID           b24.ID `json:"ID"`
+    		Name         string `json:"NAME"`
+    		LastName     string `json:"LAST_NAME"`
+    		AssignedByID b24.ID `json:"ASSIGNED_BY_ID"`
+    		Phone        []struct {
+    			ID        b24.ID `json:"ID"`
+    			Value     string `json:"VALUE"`
+    			ValueType string `json:"VALUE_TYPE"`
+    		} `json:"PHONE"`
+    	}
+    	if err := json.Unmarshal(res.Result, &contact); err != nil {
+    		return fmt.Errorf("разбор контакта: %w", err)
+    	}
+    	if len(contact.Phone) == 0 {
+    		return fmt.Errorf("у контакта %d нет телефона", contactID)
+    	}
+    	fmt.Printf("контакт %d %s %s, телефон %s, ответственный %d\n",
+    		contact.ID, contact.Name, contact.LastName, contact.Phone[0].Value, contact.AssignedByID)
+
+    	// --- шаг 2: событие календаря
+    	// Время начала и окончания — в формате ISO 8601. Здесь встреча на час,
+    	// завтра в это же время.
+    	start := time.Now().Add(24 * time.Hour)
+
+    	res, err = core.Call(ctx, "crm.activity.add", b24.Params{
+    		"fields": b24.Params{
+    			"SUBJECT":     "Встреча с клиентом",
+    			"DESCRIPTION": "Обсудить условия поставки",
+    			// 1 — обычный текст, 2 — HTML, 3 — BB-код.
+    			"DESCRIPTION_TYPE": 3,
+    			"OWNER_ID":         contact.ID,
+    			"OWNER_TYPE_ID":    entityTypeContact,
+    			// 1 — встреча; полный список отдаёт crm.enum.activitytype.
+    			"TYPE_ID": 1,
+    			// COMMUNICATIONS связывает событие с контактными данными клиента:
+    			// значение берётся из мультиполя PHONE, полученного на шаге 1.
+    			"COMMUNICATIONS": []b24.Params{{
+    				"VALUE":          contact.Phone[0].Value,
+    				"ENTITY_ID":      contact.ID,
+    				"ENTITY_TYPE_ID": entityTypeContact,
+    			}},
+    			"START_TIME":     start.Format(time.RFC3339),
+    			"END_TIME":       start.Add(time.Hour).Format(time.RFC3339),
+    			"RESPONSIBLE_ID": contact.AssignedByID,
+    		},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("crm.activity.add: %w", err)
+    	}
+
+    	// Обёртки нет: result — сразу идентификатор созданного события.
+    	var activityID b24.ID
+    	if err := json.Unmarshal(res.Result, &activityID); err != nil {
+    		return fmt.Errorf("разбор идентификатора события: %w", err)
+    	}
+    	defer del(ctx, core, "crm.activity.delete", b24.Params{"id": activityID})
+
+    	fmt.Printf("событие %d создано на %s\n", activityID, start.Format("02.01.2006 15:04"))
+    	return nil
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    // addContact создаёт контакт с телефоном: страница берёт готовый контакт с
+    // идентификатором 1, но на чужом портале это другой человек или никого.
+    func addContact(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "crm.contact.add", b24.Params{
+    		"fields": b24.Params{
+    			"NAME":      "Алексей",
+    			"LAST_NAME": "Вронский",
+    			// Мультиполе: строка без ID ДОБАВЛЯЕТ значение. MultifieldAdd
+    			// собирает её за вас, чтобы не путаться в ключах.
+    			"PHONE": []map[string]any{
+    				b24.MultifieldAdd("+7 800 100-10-20", "MOBILE"),
+    			},
+    		},
+    	})
+    	if err != nil {
+    		return 0, fmt.Errorf("crm.contact.add: %w", err)
+    	}
+    	var id b24.ID
+    	return id, json.Unmarshal(res.Result, &id)
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}

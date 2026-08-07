@@ -376,6 +376,44 @@
         })
     ```
 
+- Go
+
+    ```go
+    // Символьный код свойства уникален внутри инфоблока, а xmlId значения —
+    // внутри своего свойства. Свежий суффикс на каждый запуск избавляет от
+    // ошибки дубликата, если прошлый запуск не успел прибрать за собой.
+    suffix := strconv.FormatInt(time.Now().Unix(), 36)
+
+    // Списочному свойству нужно МИНИМУМ ДВА значения. С одним Битрикс24 считает
+    // свойство типом «Да/Нет», и идентификатор значения в него не запишется:
+    // товар вернёт property N равным "N", причём без ошибки.
+    color, err := addListProperty(ctx, core, iblockID, "Цвет", "COLOR_"+suffix, "N",
+    	[]enumValue{{"Синий", "BLUE_" + suffix}, {"Красный", "RED_" + suffix}})
+    if err != nil {
+    	return err
+    }
+    defer deleteProperty(ctx, core, color)
+
+    sizes, err := addListProperty(ctx, core, iblockID, "Размеры", "SIZES_"+suffix, "Y",
+    	[]enumValue{{"M", "M_" + suffix}, {"L", "L_" + suffix}})
+    if err != nil {
+    	return err
+    }
+    defer deleteProperty(ctx, core, sizes)
+
+    certificate, err := addFileProperty(ctx, core, iblockID, "Сертификат", "CERTIFICATE_"+suffix, "N")
+    if err != nil {
+    	return err
+    }
+    defer deleteProperty(ctx, core, certificate)
+
+    gallery, err := addFileProperty(ctx, core, iblockID, "Галерея", "GALLERY_"+suffix, "Y")
+    if err != nil {
+    	return err
+    }
+    defer deleteProperty(ctx, core, gallery)
+    ```
+
 {% endlist %}
 
 После выполнения первого шага сохраните идентификаторы свойств и значений списка. Они понадобятся при создании товара.
@@ -628,6 +666,47 @@
         print(f"Товар добавлен: {element['id']}")
     ```
 
+- Go
+
+    ```go
+    // Имя поля со значением свойства собирается на лету: propertyN, где N —
+    // идентификатор свойства, выданный порталом. Поэтому fields — это карта, в
+    // которую ключи кладут по вычисленному имени, а не структура с тегами.
+    fields := b24.Params{
+    	"iblockId": iblockID,
+    	"name":     "Футболка с принтом",
+    	"active":   "Y",
+    	"sort":     100,
+    }
+    // Одиночное списочное свойство — идентификатор значения скаляром.
+    fields[propertyKey(color.ID)] = color.ValueIDs[0]
+    // Множественное списочное — массив идентификаторов значений.
+    fields[propertyKey(sizes.ID)] = sizes.ValueIDs
+    // Файловое свойство — объект с fileData: [имя файла, base64].
+    fields[propertyKey(certificate.ID)] = fileValue("certificate.pdf",
+    	[]byte("%PDF-1.4\nСертификат соответствия (пример b24gosdk)\n"))
+    // Множественное файловое — массив таких объектов.
+    fields[propertyKey(gallery.ID)] = []any{
+    	fileValue("gallery-1.jpg", []byte("первая картинка галереи")),
+    	fileValue("gallery-2.jpg", []byte("вторая картинка галереи")),
+    }
+
+    res, err := core.Call(ctx, "catalog.product.add", b24.Params{"fields": fields})
+    if err != nil {
+    	return fmt.Errorf("catalog.product.add: %w", err)
+    }
+
+    // add отвечает ключом element, а get — ключом product для той же сущности.
+    raw, ok := b24.Unwrap(res.Result, "element", "id")
+    if !ok {
+    	return fmt.Errorf("нет element.id в %s", res.Result)
+    }
+    var productID b24.ID
+    if err := json.Unmarshal(raw, &productID); err != nil {
+    	return fmt.Errorf("разбор идентификатора товара: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 Если товар добавлен успешно, метод вернет объект `element`. В ответе будут поля товара и значения пользовательских свойств. Файловые свойства возвращаются со ссылкой на загруженный файл, а не с исходной строкой Base64.
@@ -810,6 +889,336 @@
         print(f"Ошибка: {error}")
     else:
         print(f"Цена добавлена: {price['id']}")
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример проходит все три шага страницы: создаёт свойства и значения списков,
+    // добавляет товар со значениями свойств и файлами, добавляет цену, показывает
+    // результат и убирает за собой. Файлы не читаются с диска — пример генерирует
+    // их содержимое сам, поэтому запускается на любом портале, ничего править и
+    // ничего готовить не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/base64"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+    	"strconv"
+    	"time"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	iblockID, err := firstCatalog(ctx, core)
+    	if err != nil {
+    		return err
+    	}
+    	priceTypeID, err := firstPriceType(ctx, core)
+    	if err != nil {
+    		return err
+    	}
+
+    	// --- шаг 1: свойства и значения их списков
+    	// Символьный код свойства уникален внутри инфоблока, а xmlId значения —
+    	// внутри своего свойства. Свежий суффикс на каждый запуск избавляет от
+    	// ошибки дубликата, если прошлый запуск не успел прибрать за собой.
+    	suffix := strconv.FormatInt(time.Now().Unix(), 36)
+
+    	// Списочному свойству нужно МИНИМУМ ДВА значения. С одним Битрикс24 считает
+    	// свойство типом «Да/Нет», и идентификатор значения в него не запишется:
+    	// товар вернёт property N равным "N", причём без ошибки.
+    	color, err := addListProperty(ctx, core, iblockID, "Цвет", "COLOR_"+suffix, "N",
+    		[]enumValue{{"Синий", "BLUE_" + suffix}, {"Красный", "RED_" + suffix}})
+    	if err != nil {
+    		return err
+    	}
+    	defer deleteProperty(ctx, core, color)
+
+    	sizes, err := addListProperty(ctx, core, iblockID, "Размеры", "SIZES_"+suffix, "Y",
+    		[]enumValue{{"M", "M_" + suffix}, {"L", "L_" + suffix}})
+    	if err != nil {
+    		return err
+    	}
+    	defer deleteProperty(ctx, core, sizes)
+
+    	certificate, err := addFileProperty(ctx, core, iblockID, "Сертификат", "CERTIFICATE_"+suffix, "N")
+    	if err != nil {
+    		return err
+    	}
+    	defer deleteProperty(ctx, core, certificate)
+
+    	gallery, err := addFileProperty(ctx, core, iblockID, "Галерея", "GALLERY_"+suffix, "Y")
+    	if err != nil {
+    		return err
+    	}
+    	defer deleteProperty(ctx, core, gallery)
+    	fmt.Printf("свойства: Цвет=%d %v, Размеры=%d %v, Сертификат=%d, Галерея=%d\n",
+    		color.ID, color.ValueIDs, sizes.ID, sizes.ValueIDs, certificate.ID, gallery.ID)
+
+    	// --- шаг 2: товар со значениями свойств
+    	// Имя поля со значением свойства собирается на лету: propertyN, где N —
+    	// идентификатор свойства, выданный порталом. Поэтому fields — это карта, в
+    	// которую ключи кладут по вычисленному имени, а не структура с тегами.
+    	fields := b24.Params{
+    		"iblockId": iblockID,
+    		"name":     "Футболка с принтом",
+    		"active":   "Y",
+    		"sort":     100,
+    	}
+    	// Одиночное списочное свойство — идентификатор значения скаляром.
+    	fields[propertyKey(color.ID)] = color.ValueIDs[0]
+    	// Множественное списочное — массив идентификаторов значений.
+    	fields[propertyKey(sizes.ID)] = sizes.ValueIDs
+    	// Файловое свойство — объект с fileData: [имя файла, base64].
+    	fields[propertyKey(certificate.ID)] = fileValue("certificate.pdf",
+    		[]byte("%PDF-1.4\nСертификат соответствия (пример b24gosdk)\n"))
+    	// Множественное файловое — массив таких объектов.
+    	fields[propertyKey(gallery.ID)] = []any{
+    		fileValue("gallery-1.jpg", []byte("первая картинка галереи")),
+    		fileValue("gallery-2.jpg", []byte("вторая картинка галереи")),
+    	}
+
+    	res, err := core.Call(ctx, "catalog.product.add", b24.Params{"fields": fields})
+    	if err != nil {
+    		return fmt.Errorf("catalog.product.add: %w", err)
+    	}
+
+    	// add отвечает ключом element, а get — ключом product для той же сущности.
+    	raw, ok := b24.Unwrap(res.Result, "element", "id")
+    	if !ok {
+    		return fmt.Errorf("нет element.id в %s", res.Result)
+    	}
+    	var productID b24.ID
+    	if err := json.Unmarshal(raw, &productID); err != nil {
+    		return fmt.Errorf("разбор идентификатора товара: %w", err)
+    	}
+    	defer del(ctx, core, "catalog.product.delete", b24.Params{"id": productID})
+    	fmt.Printf("товар %d создан\n", productID)
+
+    	// --- шаг 3: цена товара
+
+    	// catalog.product.add цену не ставит: карточка товара и его цены — разные
+    	// методы.
+    	res, err = core.Call(ctx, "catalog.price.add", b24.Params{
+    		"fields": b24.Params{
+    			"productId":      productID,
+    			"catalogGroupId": priceTypeID,
+    			"price":          4900,
+    			"currency":       "RUB",
+    		},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("catalog.price.add: %w", err)
+    	}
+    	var price struct {
+    		Price struct {
+    			ID       b24.ID  `json:"id"`
+    			Price    float64 `json:"price"`
+    			Currency string  `json:"currency"`
+    		} `json:"price"`
+    	}
+    	if err := json.Unmarshal(res.Result, &price); err != nil {
+    		return fmt.Errorf("разбор цены: %w", err)
+    	}
+
+    	fmt.Printf("цена %d: %.0f %s\n", price.Price.ID, price.Price.Price, price.Price.Currency)
+    	return showProduct(ctx, core, productID, color.ID, sizes.ID)
+    }
+
+    // --- вспомогательное: свойства, файлы, проверка и уборка
+
+    // propertyKey собирает имя поля со значением свойства: property431.
+    func propertyKey(propertyID b24.ID) string {
+    	return "property" + strconv.FormatInt(int64(propertyID), 10)
+    }
+
+    // fileValue упаковывает файл так, как его принимает файловое свойство товара.
+    // Файлы едут base64 ВНУТРИ JSON — multipart тут не нужен.
+    func fileValue(name string, content []byte) b24.Params {
+    	return b24.Params{
+    		"value": b24.Params{
+    			"fileData": []string{name, base64.StdEncoding.EncodeToString(content)},
+    		},
+    	}
+    }
+
+    type enumValue struct{ Value, XMLID string }
+
+    // property — созданное свойство вместе с идентификаторами значений его списка.
+    type property struct {
+    	ID       b24.ID
+    	Name     string
+    	ValueIDs []b24.ID
+    }
+
+    func addListProperty(ctx context.Context, core *b24.Core, iblockID b24.ID,
+    	name, code, multiple string, values []enumValue) (property, error) {
+    	prop, err := addProperty(ctx, core, b24.Params{
+    		"iblockId":     iblockID,
+    		"name":         name,
+    		"code":         code,
+    		"propertyType": "L", // L — список, значения ему добавляют отдельным методом
+    		"listType":     "L",
+    		"multiple":     multiple,
+    		"active":       "Y",
+    	})
+    	if err != nil {
+    		return prop, err
+    	}
+    	for i, v := range values {
+    		res, err := core.Call(ctx, "catalog.productPropertyEnum.add", b24.Params{
+    			"fields": b24.Params{
+    				"propertyId": prop.ID,
+    				"value":      v.Value,
+    				"xmlId":      v.XMLID,
+    				"sort":       (i + 1) * 100,
+    			},
+    		})
+    		if err != nil {
+    			// Свойство уже создано: возвращаем его вместе с ошибкой, чтобы
+    			// вызывающий смог прибрать за собой.
+    			return prop, fmt.Errorf("catalog.productPropertyEnum.add %s: %w", v.XMLID, err)
+    		}
+    		raw, ok := b24.Unwrap(res.Result, "productPropertyEnum", "id")
+    		if !ok {
+    			return prop, fmt.Errorf("нет productPropertyEnum.id в %s", res.Result)
+    		}
+    		var id b24.ID
+    		if err := json.Unmarshal(raw, &id); err != nil {
+    			return prop, err
+    		}
+    		prop.ValueIDs = append(prop.ValueIDs, id)
+    	}
+    	return prop, nil
+    }
+
+    func addFileProperty(ctx context.Context, core *b24.Core, iblockID b24.ID,
+    	name, code, multiple string) (property, error) {
+    	return addProperty(ctx, core, b24.Params{
+    		"iblockId":     iblockID,
+    		"name":         name,
+    		"code":         code,
+    		"propertyType": "F", // F — файл
+    		"multiple":     multiple,
+    		"active":       "Y",
+    	})
+    }
+
+    func addProperty(ctx context.Context, core *b24.Core, fields b24.Params) (property, error) {
+    	res, err := core.Call(ctx, "catalog.productProperty.add", b24.Params{"fields": fields})
+    	if err != nil {
+    		return property{}, fmt.Errorf("catalog.productProperty.add %v: %w", fields["code"], err)
+    	}
+    	var out struct {
+    		ProductProperty struct {
+    			ID   b24.ID `json:"id"`
+    			Name string `json:"name"`
+    		} `json:"productProperty"`
+    	}
+    	if err := json.Unmarshal(res.Result, &out); err != nil {
+    		return property{}, fmt.Errorf("разбор свойства: %w", err)
+    	}
+    	return property{ID: out.ProductProperty.ID, Name: out.ProductProperty.Name}, nil
+    }
+
+    // showProduct читает товар обратно: файловые свойства возвращаются ссылкой на
+    // загруженный файл, а не исходной строкой base64.
+    func showProduct(ctx context.Context, core *b24.Core, productID, colorID, sizesID b24.ID) error {
+    	res, err := core.Call(ctx, "catalog.product.get",
+    		b24.Params{"id": productID}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("catalog.product.get: %w", err)
+    	}
+    	for _, key := range []string{propertyKey(colorID), propertyKey(sizesID)} {
+    		raw, ok := b24.Unwrap(res.Result, "product", key)
+    		if !ok {
+    			continue
+    		}
+    		// Одно и то же поле приходит ОБЪЕКТОМ у одиночного свойства и МАССИВОМ
+    		// у множественного — спрашиваем форму, прежде чем разбирать.
+    		fmt.Printf("  %s (%s): %s\n", key, b24.Result(raw).Kind(), raw)
+    	}
+    	return nil
+    }
+
+    func firstCatalog(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "catalog.catalog.list", b24.Params{
+    		"filter": b24.Params{"iblockTypeId": "CRM_PRODUCT_CATALOG"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return 0, fmt.Errorf("catalog.catalog.list: %w", err)
+    	}
+    	var out struct {
+    		Catalogs []struct {
+    			IblockID b24.ID `json:"iblockId"`
+    		} `json:"catalogs"`
+    	}
+    	if err := json.Unmarshal(res.Result, &out); err != nil {
+    		return 0, err
+    	}
+    	if len(out.Catalogs) == 0 {
+    		return 0, fmt.Errorf("на портале нет торгового каталога")
+    	}
+    	return out.Catalogs[0].IblockID, nil
+    }
+
+    func firstPriceType(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "catalog.priceType.list", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return 0, fmt.Errorf("catalog.priceType.list: %w", err)
+    	}
+    	var out struct {
+    		PriceTypes []struct {
+    			ID b24.ID `json:"id"`
+    		} `json:"priceTypes"`
+    	}
+    	if err := json.Unmarshal(res.Result, &out); err != nil {
+    		return 0, err
+    	}
+    	if len(out.PriceTypes) == 0 {
+    		return 0, fmt.Errorf("на портале нет типов цен")
+    	}
+    	return out.PriceTypes[0].ID, nil
+    }
+
+    // deleteProperty убирает значения списка вместе со свойством.
+    func deleteProperty(ctx context.Context, core *b24.Core, prop property) {
+    	for _, id := range prop.ValueIDs {
+    		del(ctx, core, "catalog.productPropertyEnum.delete", b24.Params{"id": id})
+    	}
+    	del(ctx, core, "catalog.productProperty.delete", b24.Params{"id": prop.ID})
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}

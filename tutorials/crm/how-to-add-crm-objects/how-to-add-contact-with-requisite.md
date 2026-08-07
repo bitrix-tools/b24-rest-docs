@@ -49,6 +49,37 @@
        ar_address_fields = client.crm.address.fields().result
        ```
 
+   - Go
+
+       ```go
+       res, err := core.Call(ctx, "crm.address.fields", nil, b24.WithIdempotent())
+       if err != nil {
+       	return fmt.Errorf("crm.address.fields: %w", err)
+       }
+
+       // Ответ — не список, а объект «имя поля -> описание», поэтому карта.
+       var addressFields map[string]struct {
+       	Type       string `json:"type"`
+       	Title      string `json:"title"`
+       	IsReadOnly bool   `json:"isReadOnly"`
+       }
+       if err := json.Unmarshal(res.Result, &addressFields); err != nil {
+       	return fmt.Errorf("разбор полей адреса: %w", err)
+       }
+
+       // В форму берём только строковые и доступные на запись поля: TYPE_ID,
+       // ENTITY_ID и ENTITY_TYPE_ID тоже придут в этом ответе, но их обработчик
+       // подставляет сам. Ключи карты в Go неупорядочены — сортируем, иначе поля
+       // формы будут прыгать от запуска к запуску.
+       var addressNames []string
+       for name, f := range addressFields {
+       	if f.Type == "string" && !f.IsReadOnly {
+       		addressNames = append(addressNames, name)
+       	}
+       }
+       sort.Strings(addressNames)
+       ```
+
    {% endlist %}
 
 2. [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md) — запрашиваем список шаблонов реквизитов. С помощью параметра `select` выбираем поля `ID` и `NAME` для каждого шаблона. Результат сохраняем в `arRequisiteType`.
@@ -77,6 +108,30 @@
 
        ```python
        ar_requisite_type = client.crm.requisite.preset.list(select=["ID", "NAME"]).result
+       ```
+
+   - Go
+
+       ```go
+       res, err = core.Call(ctx, "crm.requisite.preset.list", b24.Params{
+       	"select": []string{"ID", "NAME"},
+       }, b24.WithIdempotent())
+       if err != nil {
+       	return fmt.Errorf("crm.requisite.preset.list: %w", err)
+       }
+
+       // Идентификатор здесь приходит СТРОКОЙ ("1"), тогда как crm.enum.* отдаёт
+       // числа. b24.ID разбирает оба написания.
+       var presets []struct {
+       	ID   b24.ID `json:"ID"`
+       	Name string `json:"NAME"`
+       }
+       if err := json.Unmarshal(res.Result, &presets); err != nil {
+       	return fmt.Errorf("разбор шаблонов реквизитов: %w", err)
+       }
+       if len(presets) == 0 {
+       	return fmt.Errorf("на портале нет шаблонов реквизитов")
+       }
        ```
 
    {% endlist %}
@@ -315,6 +370,33 @@
         return PAGE % {"options": options, "address_inputs": address_inputs}
     ```
 
+- Go
+
+    ```go
+    	var form strings.Builder
+    	form.WriteString(`<!doctype html>
+    <meta charset="utf-8">
+    <title>Заявка</title>
+    <form method="post" action="/form">
+    <p><label>Тип реквизитов*<br><select name="REQ_TYPE" required>`)
+    	for _, p := range presets {
+    		fmt.Fprintf(&form, `<option value="%d">%s</option>`, p.ID, html.EscapeString(p.Name))
+    	}
+    	form.WriteString(`</select></label></p>
+    <p><label>Имя*<br><input name="NAME" required></label></p>
+    <p><label>Фамилия<br><input name="LAST_NAME"></label></p>
+    <p><label>Телефон<br><input name="PHONE" type="tel"></label></p>`)
+    	// Поля адреса создаются динамически: их набор задаёт портал, а не код.
+    	// Имена вида ADDRESS[CITY] — обработчик разбирает их обратно.
+    	for _, name := range addressNames {
+    		fmt.Fprintf(&form, "<p><label>%s<br><input name=\"ADDRESS[%s]\"></label></p>\n",
+    			html.EscapeString(addressFields[name].Title), name)
+    	}
+    	form.WriteString(`<p><button type="submit">Отправить</button></p>
+    </form>`)
+    	page := form.String()
+    ```
+
 {% endlist %}
 
 ## 2\. Создаем обработчик формы
@@ -356,6 +438,24 @@
     s_name = request.form.get("NAME", "")
     s_last_name = request.form.get("LAST_NAME", "")
     s_phone = request.form.get("PHONE", "")
+    ```
+
+- Go
+
+    ```go
+    // Тип реквизитов приводим к числу, остальное чистим от HTML-тегов.
+    // Именно ВЫРЕЗАЕМ теги, а не экранируем: экранирование нужно при выводе на
+    // страницу, а в CRM из-за него вместо «Иванов & сын» попадёт
+    // «Иванов &amp; сын».
+    presetID, _ := strconv.Atoi(r.PostFormValue("REQ_TYPE"))
+    name := stripTags(r.PostFormValue("NAME"))
+    lastName := stripTags(r.PostFormValue("LAST_NAME"))
+    phone := stripTags(r.PostFormValue("PHONE"))
+
+    if presetID == 0 || name == "" {
+    	reply(w, http.StatusBadRequest, "Заполните тип реквизитов и имя", 0)
+    	return
+    }
     ```
 
 {% endlist %}
@@ -401,6 +501,21 @@
     ar_address["ENTITY_TYPE_ID"] = 8
     ```
 
+- Go
+
+    ```go
+    // Поля адреса пришли именами вида ADDRESS[CITY] — разбираем их обратно.
+    address := b24.Params{}
+    for key, values := range r.PostForm {
+    	if inner, ok := addressKey(key); ok && len(values) > 0 && values[0] != "" {
+    		address[inner] = stripTags(values[0])
+    	}
+    }
+    // Тип адреса и тип владельца обработчик подставляет сам: в форме их нет.
+    address["TYPE_ID"] = addressTypeActual
+    address["ENTITY_TYPE_ID"] = typeRequisite
+    ```
+
 {% endlist %}
 
 Система хранит телефон как массив объектов [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield), поэтому его нужно привести к формату массива.
@@ -427,6 +542,17 @@
 
     ```python
     ar_phone = [{"VALUE": s_phone, "VALUE_TYPE": "WORK"}] if s_phone else []
+    ```
+
+- Go
+
+    ```go
+    // Телефон хранится мультиполем — списком объектов, даже когда номер один.
+    // Строка БЕЗ ID добавляет значение; MultifieldAdd собирает её за вас.
+    phones := []map[string]any{}
+    if phone != "" {
+    	phones = append(phones, b24.MultifieldAdd(phone, "WORK"))
+    }
     ```
 
 {% endlist %}
@@ -478,6 +604,32 @@
         "LAST_NAME": s_last_name,
         "PHONE": ar_phone,
     }).result
+    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.contact.add", b24.Params{
+    	"fields": b24.Params{
+    		"NAME":      name,
+    		"LAST_NAME": lastName,
+    		"PHONE":     phones,
+    	},
+    }) // без WithIdempotent: повтор создал бы второй контакт
+    if err != nil {
+    	// Подробности пишем в лог сервера, посетителю их не показываем.
+    	log.Println("crm.contact.add:", err)
+    	reply(w, http.StatusBadGateway, "Не удалось создать контакт", 0)
+    	return
+    }
+
+    // Обёртки нет: result — сразу идентификатор нового контакта.
+    var contactID b24.ID
+    if err := json.Unmarshal(res.Result, &contactID); err != nil {
+    	log.Println("разбор идентификатора контакта:", err)
+    	reply(w, http.StatusBadGateway, "Не удалось создать контакт", 0)
+    	return
+    }
     ```
 
 {% endlist %}
@@ -548,6 +700,33 @@
     })
     ```
 
+- Go
+
+    ```go
+    res, err = core.Call(ctx, "crm.requisite.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_TYPE_ID": typeContact,
+    		"ENTITY_ID":      contactID,
+    		"PRESET_ID":      presetID,
+    		"ACTIVE":         "Y",
+    		"NAME":           strings.TrimSpace(name + " " + lastName),
+    	},
+    })
+    if err != nil {
+    	// Контакт уже создан, поэтому это не повод отвечать «ничего не вышло»:
+    	// сообщаем, что реквизиты не добавились, и отдаём идентификатор.
+    	log.Println("crm.requisite.add:", err)
+    	reply(w, http.StatusOK, "Контакт создан, реквизиты добавить не удалось", contactID)
+    	return
+    }
+    var requisiteID b24.ID
+    if err := json.Unmarshal(res.Result, &requisiteID); err != nil {
+    	log.Println("разбор идентификатора реквизита:", err)
+    	reply(w, http.StatusOK, "Контакт создан, реквизиты добавить не удалось", contactID)
+    	return
+    }
+    ```
+
 {% endlist %}
 
 В результате получим идентификатор реквизитов.
@@ -592,6 +771,21 @@
     if requisite_id:
         ar_address["ENTITY_ID"] = requisite_id
         client.crm.address.add(fields=ar_address)
+    ```
+
+- Go
+
+    ```go
+    // Адрес привязывается к РЕКВИЗИТУ, а не к контакту, поэтому ENTITY_ID
+    // заполняется только сейчас — идентификатора реквизита раньше не было.
+    if requisiteID != 0 {
+    	address["ENTITY_ID"] = requisiteID
+    	if _, err := core.Call(ctx, "crm.address.add", b24.Params{"fields": address}); err != nil {
+    		log.Println("crm.address.add:", err)
+    		reply(w, http.StatusOK, "Контакт и реквизиты созданы, адрес добавить не удалось", contactID)
+    		return
+    	}
+    }
     ```
 
 {% endlist %}
@@ -786,6 +980,265 @@
             return jsonify({"message": "Контакт успешно добавлен"})
         except Exception as e:
             return jsonify({"message": f"Ошибка: {e}"})
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Отдельный файл с формой не нужен: страницу собирает и отдаёт та же
+    // программа — поля адреса и список шаблонов реквизитов она берёт с портала.
+    // Открывайте http://localhost:3000/
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"html"
+    	"log"
+    	"net/http"
+    	"os"
+    	"regexp"
+    	"sort"
+    	"strconv"
+    	"strings"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // Идентификаторы типов объектов CRM из crm.enum.ownertype.
+    const (
+    	typeContact   = 3
+    	typeRequisite = 8
+    )
+
+    // addressTypeActual — фактический адрес; полный список типов отдаёт
+    // crm.enum.addresstype.
+    const addressTypeActual = 1
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет: он приходит из окружения, а не из кода, и на
+    	// публичную страницу с формой не попадает никогда. Клиент строится ОДИН раз
+    	// на портал: http.Server зовёт обработчик из многих горутин.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- собираем форму из настроек портала
+    	res, err := core.Call(ctx, "crm.address.fields", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.address.fields: %w", err)
+    	}
+
+    	// Ответ — не список, а объект «имя поля -> описание», поэтому карта.
+    	var addressFields map[string]struct {
+    		Type       string `json:"type"`
+    		Title      string `json:"title"`
+    		IsReadOnly bool   `json:"isReadOnly"`
+    	}
+    	if err := json.Unmarshal(res.Result, &addressFields); err != nil {
+    		return fmt.Errorf("разбор полей адреса: %w", err)
+    	}
+
+    	// В форму берём только строковые и доступные на запись поля: TYPE_ID,
+    	// ENTITY_ID и ENTITY_TYPE_ID тоже придут в этом ответе, но их обработчик
+    	// подставляет сам. Ключи карты в Go неупорядочены — сортируем, иначе поля
+    	// формы будут прыгать от запуска к запуску.
+    	var addressNames []string
+    	for name, f := range addressFields {
+    		if f.Type == "string" && !f.IsReadOnly {
+    			addressNames = append(addressNames, name)
+    		}
+    	}
+    	sort.Strings(addressNames)
+    	res, err = core.Call(ctx, "crm.requisite.preset.list", b24.Params{
+    		"select": []string{"ID", "NAME"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.requisite.preset.list: %w", err)
+    	}
+
+    	// Идентификатор здесь приходит СТРОКОЙ ("1"), тогда как crm.enum.* отдаёт
+    	// числа. b24.ID разбирает оба написания.
+    	var presets []struct {
+    		ID   b24.ID `json:"ID"`
+    		Name string `json:"NAME"`
+    	}
+    	if err := json.Unmarshal(res.Result, &presets); err != nil {
+    		return fmt.Errorf("разбор шаблонов реквизитов: %w", err)
+    	}
+    	if len(presets) == 0 {
+    		return fmt.Errorf("на портале нет шаблонов реквизитов")
+    	}
+    	// --- страница с формой
+    	var form strings.Builder
+    	form.WriteString(`<!doctype html>
+    <meta charset="utf-8">
+    <title>Заявка</title>
+    <form method="post" action="/form">
+    <p><label>Тип реквизитов*<br><select name="REQ_TYPE" required>`)
+    	for _, p := range presets {
+    		fmt.Fprintf(&form, `<option value="%d">%s</option>`, p.ID, html.EscapeString(p.Name))
+    	}
+    	form.WriteString(`</select></label></p>
+    <p><label>Имя*<br><input name="NAME" required></label></p>
+    <p><label>Фамилия<br><input name="LAST_NAME"></label></p>
+    <p><label>Телефон<br><input name="PHONE" type="tel"></label></p>`)
+    	// Поля адреса создаются динамически: их набор задаёт портал, а не код.
+    	// Имена вида ADDRESS[CITY] — обработчик разбирает их обратно.
+    	for _, name := range addressNames {
+    		fmt.Fprintf(&form, "<p><label>%s<br><input name=\"ADDRESS[%s]\"></label></p>\n",
+    			html.EscapeString(addressFields[name].Title), name)
+    	}
+    	form.WriteString(`<p><button type="submit">Отправить</button></p>
+    </form>`)
+    	page := form.String()
+    	mux := http.NewServeMux()
+    	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    		fmt.Fprint(w, page)
+    	})
+    	mux.HandleFunc("/form", func(w http.ResponseWriter, r *http.Request) {
+    		if r.Method != http.MethodPost {
+    			reply(w, http.StatusMethodNotAllowed, "Нужен POST", 0)
+    			return
+    		}
+    		handleForm(w, r, core)
+    	})
+
+    	log.Println("форма и обработчик: http://localhost:3000/")
+    	return http.ListenAndServe(":3000", mux)
+    }
+
+    func handleForm(w http.ResponseWriter, r *http.Request, core *b24.Core) {
+    	ctx := r.Context()
+    	if err := r.ParseForm(); err != nil {
+    		reply(w, http.StatusBadRequest, "Не удалось разобрать форму", 0)
+    		return
+    	}
+    	// Тип реквизитов приводим к числу, остальное чистим от HTML-тегов.
+    	// Именно ВЫРЕЗАЕМ теги, а не экранируем: экранирование нужно при выводе на
+    	// страницу, а в CRM из-за него вместо «Иванов & сын» попадёт
+    	// «Иванов &amp; сын».
+    	presetID, _ := strconv.Atoi(r.PostFormValue("REQ_TYPE"))
+    	name := stripTags(r.PostFormValue("NAME"))
+    	lastName := stripTags(r.PostFormValue("LAST_NAME"))
+    	phone := stripTags(r.PostFormValue("PHONE"))
+
+    	if presetID == 0 || name == "" {
+    		reply(w, http.StatusBadRequest, "Заполните тип реквизитов и имя", 0)
+    		return
+    	}
+    	// Поля адреса пришли именами вида ADDRESS[CITY] — разбираем их обратно.
+    	address := b24.Params{}
+    	for key, values := range r.PostForm {
+    		if inner, ok := addressKey(key); ok && len(values) > 0 && values[0] != "" {
+    			address[inner] = stripTags(values[0])
+    		}
+    	}
+    	// Тип адреса и тип владельца обработчик подставляет сам: в форме их нет.
+    	address["TYPE_ID"] = addressTypeActual
+    	address["ENTITY_TYPE_ID"] = typeRequisite
+    	// Телефон хранится мультиполем — списком объектов, даже когда номер один.
+    	// Строка БЕЗ ID добавляет значение; MultifieldAdd собирает её за вас.
+    	phones := []map[string]any{}
+    	if phone != "" {
+    		phones = append(phones, b24.MultifieldAdd(phone, "WORK"))
+    	}
+    	res, err := core.Call(ctx, "crm.contact.add", b24.Params{
+    		"fields": b24.Params{
+    			"NAME":      name,
+    			"LAST_NAME": lastName,
+    			"PHONE":     phones,
+    		},
+    	}) // без WithIdempotent: повтор создал бы второй контакт
+    	if err != nil {
+    		// Подробности пишем в лог сервера, посетителю их не показываем.
+    		log.Println("crm.contact.add:", err)
+    		reply(w, http.StatusBadGateway, "Не удалось создать контакт", 0)
+    		return
+    	}
+
+    	// Обёртки нет: result — сразу идентификатор нового контакта.
+    	var contactID b24.ID
+    	if err := json.Unmarshal(res.Result, &contactID); err != nil {
+    		log.Println("разбор идентификатора контакта:", err)
+    		reply(w, http.StatusBadGateway, "Не удалось создать контакт", 0)
+    		return
+    	}
+    	res, err = core.Call(ctx, "crm.requisite.add", b24.Params{
+    		"fields": b24.Params{
+    			"ENTITY_TYPE_ID": typeContact,
+    			"ENTITY_ID":      contactID,
+    			"PRESET_ID":      presetID,
+    			"ACTIVE":         "Y",
+    			"NAME":           strings.TrimSpace(name + " " + lastName),
+    		},
+    	})
+    	if err != nil {
+    		// Контакт уже создан, поэтому это не повод отвечать «ничего не вышло»:
+    		// сообщаем, что реквизиты не добавились, и отдаём идентификатор.
+    		log.Println("crm.requisite.add:", err)
+    		reply(w, http.StatusOK, "Контакт создан, реквизиты добавить не удалось", contactID)
+    		return
+    	}
+    	var requisiteID b24.ID
+    	if err := json.Unmarshal(res.Result, &requisiteID); err != nil {
+    		log.Println("разбор идентификатора реквизита:", err)
+    		reply(w, http.StatusOK, "Контакт создан, реквизиты добавить не удалось", contactID)
+    		return
+    	}
+    	// Адрес привязывается к РЕКВИЗИТУ, а не к контакту, поэтому ENTITY_ID
+    	// заполняется только сейчас — идентификатора реквизита раньше не было.
+    	if requisiteID != 0 {
+    		address["ENTITY_ID"] = requisiteID
+    		if _, err := core.Call(ctx, "crm.address.add", b24.Params{"fields": address}); err != nil {
+    			log.Println("crm.address.add:", err)
+    			reply(w, http.StatusOK, "Контакт и реквизиты созданы, адрес добавить не удалось", contactID)
+    			return
+    		}
+    	}
+    	log.Printf("создан контакт %d, реквизит %d", contactID, requisiteID)
+    	reply(w, http.StatusOK, "Контакт с реквизитами создан", contactID)
+    }
+
+    // tagPattern вырезает HTML-теги из значения формы.
+    var tagPattern = regexp.MustCompile(`<[^>]*>`)
+
+    func stripTags(s string) string {
+    	return strings.TrimSpace(tagPattern.ReplaceAllString(s, ""))
+    }
+
+    // addressKey достаёт CITY из имени поля ADDRESS[CITY].
+    func addressKey(key string) (string, bool) {
+    	if strings.HasPrefix(key, "ADDRESS[") && strings.HasSuffix(key, "]") {
+    		return key[len("ADDRESS[") : len(key)-1], true
+    	}
+    	return "", false
+    }
+
+    // reply отвечает странице тем же JSON, что и обработчики на других языках.
+    func reply(w http.ResponseWriter, status int, message string, id b24.ID) {
+    	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+    	w.WriteHeader(status)
+    	body := map[string]any{"message": message}
+    	if id != 0 {
+    		body["id"] = id
+    	}
+    	_ = json.NewEncoder(w).Encode(body)
+    }
     ```
 
 {% endlist %}

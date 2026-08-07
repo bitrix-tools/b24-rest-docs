@@ -87,6 +87,15 @@
     )
     ```
 
+- Go
+
+    ```go
+    // Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    // Клиент строится один раз на портал: он держит HTTP-клиент и состояние
+    // авторизации.
+    core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+    ```
+
 {% endlist %}
 
 ## Учтите разный регистр полей {#case}
@@ -198,6 +207,47 @@
         print(f"Ошибка: {error}")
     else:
         print(created_field["id"], created_field["settings"]["PRECISION"])
+    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "userfieldconfig.add", b24.Params{
+    	"moduleId": "crm",
+    	"field": b24.Params{
+    		"entityId":   "CRM_DEAL",
+    		"fieldName":  fieldName,
+    		"userTypeId": "double",
+    		"editFormLabel": b24.Params{
+    			"ru": fieldLabel,
+    			"en": "PRECISION double",
+    		},
+    		// Параметр необязательный, но для типа «Число» его лучше
+    		// передавать: без него точность будет 0 и значения округлятся
+    		// до целых.
+    		"settings": b24.Params{"PRECISION": 3},
+    	},
+    })
+    if err != nil {
+    	// Код ошибки сравнивается через errors.Is, а не строкой: опечатка в
+    	// литерале скомпилируется и молча уведёт в другую ветку.
+    	if errors.Is(err, b24.ErrAccessDenied) {
+    		return fmt.Errorf("нужно право «Разрешить изменять настройки» в CRM: %w", err)
+    	}
+    	return fmt.Errorf("userfieldconfig.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом field и отвечает в camelCase:
+    // точность лежит в settings.PRECISION, а не в SETTINGS.PRECISION.
+    var added struct {
+    	Field struct {
+    		ID       b24.ID         `json:"id"`
+    		Settings map[string]any `json:"settings"`
+    	} `json:"field"`
+    }
+    if err := json.Unmarshal(res.Result, &added); err != nil {
+    	return fmt.Errorf("разбор созданного поля: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -351,6 +401,42 @@
 
     if target_field is None:
         raise RuntimeError("Поле с указанным названием не найдено")
+    ```
+
+- Go
+
+    ```go
+    // Без фильтра LANG названия не возвращаются вовсе, и найти поле по названию
+    // не получится.
+    res, err = core.Call(ctx, "crm.deal.userfield.list", b24.Params{
+    	"filter": b24.Params{"LANG": "ru", "USER_TYPE_ID": "double"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.deal.userfield.list: %w", err)
+    }
+
+    // А этот метод отвечает в UPPER_SNAKE — те же данные, другой регистр.
+    // Ключи внутри самих настроек в обоих случаях в верхнем регистре.
+    var fields []struct {
+    	ID            b24.ID         `json:"ID"`
+    	FieldName     string         `json:"FIELD_NAME"`
+    	EditFormLabel string         `json:"EDIT_FORM_LABEL"`
+    	Settings      map[string]any `json:"SETTINGS"`
+    }
+    if err := json.Unmarshal(res.Result, &fields); err != nil {
+    	return fmt.Errorf("разбор пользовательских полей: %w", err)
+    }
+
+    target := -1
+    for i, f := range fields {
+    	if f.EditFormLabel == fieldLabel {
+    		target = i
+    		break
+    	}
+    }
+    if target < 0 {
+    	return fmt.Errorf("поле %q не найдено", fieldLabel)
+    }
     ```
 
 {% endlist %}
@@ -508,6 +594,35 @@
     ).response.result["field"]
 
     print(updated_field["id"], updated_field["settings"]["PRECISION"])
+    ```
+
+- Go
+
+    ```go
+    // settings ЗАМЕНЯЮТСЯ целиком, а не дописываются. Если передать один
+    // PRECISION, остальные настройки типа «Число» сбросятся на значения по
+    // умолчанию — поэтому берём настройки из шага 1 и правим в них одну.
+    settings := fields[target].Settings
+    settings["PRECISION"] = 5
+
+    res, err = core.Call(ctx, "userfieldconfig.update", b24.Params{
+    	"moduleId": "crm",
+    	"id":       fields[target].ID,
+    	"field":    b24.Params{"settings": settings},
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.update: %w", err)
+    }
+
+    var updated struct {
+    	Field struct {
+    		ID       b24.ID         `json:"id"`
+    		Settings map[string]any `json:"settings"`
+    	} `json:"field"`
+    }
+    if err := json.Unmarshal(res.Result, &updated); err != nil {
+    	return fmt.Errorf("разбор изменённого поля: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -761,6 +876,166 @@
     )
 
     update_user_field(client, FIELD_LABEL, PRECISION)
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создаёт поле сделки с точностью 2, находит его по
+    // названию, меняет точность на 3 и удаляет поле за собой. Второй сценарий
+    // страницы требует уже существующего поля — пример готовит его первым
+    // сценарием, поэтому запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"errors"
+    	"fmt"
+    	"log"
+    	"os"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    const (
+    	fieldName  = "UF_CRM_DEAL_NEW_DOUBLE_FIELD"
+    	fieldLabel = "Число с округлением"
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	// Клиент строится один раз на портал: он держит HTTP-клиент и состояние
+    	// авторизации.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+    	// --- сценарий 1: создаём поле сразу с точностью
+    	res, err := core.Call(ctx, "userfieldconfig.add", b24.Params{
+    		"moduleId": "crm",
+    		"field": b24.Params{
+    			"entityId":   "CRM_DEAL",
+    			"fieldName":  fieldName,
+    			"userTypeId": "double",
+    			"editFormLabel": b24.Params{
+    				"ru": fieldLabel,
+    				"en": "PRECISION double",
+    			},
+    			// Параметр необязательный, но для типа «Число» его лучше
+    			// передавать: без него точность будет 0 и значения округлятся
+    			// до целых.
+    			"settings": b24.Params{"PRECISION": 3},
+    		},
+    	})
+    	if err != nil {
+    		// Код ошибки сравнивается через errors.Is, а не строкой: опечатка в
+    		// литерале скомпилируется и молча уведёт в другую ветку.
+    		if errors.Is(err, b24.ErrAccessDenied) {
+    			return fmt.Errorf("нужно право «Разрешить изменять настройки» в CRM: %w", err)
+    		}
+    		return fmt.Errorf("userfieldconfig.add: %w", err)
+    	}
+
+    	// Метод заворачивает ответ в объект с ключом field и отвечает в camelCase:
+    	// точность лежит в settings.PRECISION, а не в SETTINGS.PRECISION.
+    	var added struct {
+    		Field struct {
+    			ID       b24.ID         `json:"id"`
+    			Settings map[string]any `json:"settings"`
+    		} `json:"field"`
+    	}
+    	if err := json.Unmarshal(res.Result, &added); err != nil {
+    		return fmt.Errorf("разбор созданного поля: %w", err)
+    	}
+    	defer del(ctx, core, "userfieldconfig.delete", b24.Params{
+    		"moduleId": "crm", "id": added.Field.ID,
+    	})
+    	fmt.Printf("поле %d создано, PRECISION=%v\n", added.Field.ID, added.Field.Settings["PRECISION"])
+
+    	// --- сценарий 2, шаг 1: находим поле по названию
+    	// Без фильтра LANG названия не возвращаются вовсе, и найти поле по названию
+    	// не получится.
+    	res, err = core.Call(ctx, "crm.deal.userfield.list", b24.Params{
+    		"filter": b24.Params{"LANG": "ru", "USER_TYPE_ID": "double"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.deal.userfield.list: %w", err)
+    	}
+
+    	// А этот метод отвечает в UPPER_SNAKE — те же данные, другой регистр.
+    	// Ключи внутри самих настроек в обоих случаях в верхнем регистре.
+    	var fields []struct {
+    		ID            b24.ID         `json:"ID"`
+    		FieldName     string         `json:"FIELD_NAME"`
+    		EditFormLabel string         `json:"EDIT_FORM_LABEL"`
+    		Settings      map[string]any `json:"SETTINGS"`
+    	}
+    	if err := json.Unmarshal(res.Result, &fields); err != nil {
+    		return fmt.Errorf("разбор пользовательских полей: %w", err)
+    	}
+
+    	target := -1
+    	for i, f := range fields {
+    		if f.EditFormLabel == fieldLabel {
+    			target = i
+    			break
+    		}
+    	}
+    	if target < 0 {
+    		return fmt.Errorf("поле %q не найдено", fieldLabel)
+    	}
+    	fmt.Printf("нашли поле %d (%s), сейчас PRECISION=%v\n",
+    		fields[target].ID, fields[target].FieldName, fields[target].Settings["PRECISION"])
+
+    	// --- сценарий 2, шаг 2: меняем точность
+    	// settings ЗАМЕНЯЮТСЯ целиком, а не дописываются. Если передать один
+    	// PRECISION, остальные настройки типа «Число» сбросятся на значения по
+    	// умолчанию — поэтому берём настройки из шага 1 и правим в них одну.
+    	settings := fields[target].Settings
+    	settings["PRECISION"] = 5
+
+    	res, err = core.Call(ctx, "userfieldconfig.update", b24.Params{
+    		"moduleId": "crm",
+    		"id":       fields[target].ID,
+    		"field":    b24.Params{"settings": settings},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("userfieldconfig.update: %w", err)
+    	}
+
+    	var updated struct {
+    		Field struct {
+    			ID       b24.ID         `json:"id"`
+    			Settings map[string]any `json:"settings"`
+    		} `json:"field"`
+    	}
+    	if err := json.Unmarshal(res.Result, &updated); err != nil {
+    		return fmt.Errorf("разбор изменённого поля: %w", err)
+    	}
+    	fmt.Printf("поле %d: PRECISION=%v, остальные настройки сохранены: %v\n",
+    		updated.Field.ID, updated.Field.Settings["PRECISION"], updated.Field.Settings)
+    	return nil
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}

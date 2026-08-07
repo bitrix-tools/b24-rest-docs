@@ -80,6 +80,29 @@
     category_map = {item["id"]: item["name"] for item in categories}
     ```
 
+- Go
+
+    ```go
+    // 1. Список воронок сделок.
+    res, err := client.Core().Call(ctx, "crm.category.list", b24.Params{
+    	"entityTypeId": 2,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.category.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом categories.
+    var categories struct {
+    	Categories []struct {
+    		ID   int    `json:"id"`
+    		Name string `json:"name"`
+    	} `json:"categories"`
+    }
+    if err := json.Unmarshal(res.Result, &categories); err != nil {
+    	return fmt.Errorf("разбор воронок: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В ответе метод возвращает массив `categories` с доступными пользователю воронками сделок, включая основную. У каждой воронки есть `id` — идентификатор воронки, `name` — название, `isDefault` — признак основной воронки.
@@ -200,6 +223,39 @@
                 item.get("NAME", ""),
                 (item.get("EXTRA") or {}).get("SEMANTICS", ""),
             )
+    ```
+
+- Go
+
+    ```go
+    // 2. Стадии каждой воронки.
+    for _, c := range categories.Categories {
+    	// У воронки по умолчанию идентификатор без суффикса, никогда не DEAL_STAGE_0.
+    	entityID := "DEAL_STAGE"
+    	if c.ID > 0 {
+    		entityID = fmt.Sprintf("DEAL_STAGE_%d", c.ID)
+    	}
+
+    	res, err := client.Core().Call(ctx, "crm.status.list", b24.Params{
+    		"order":  b24.Params{"SORT": "ASC"},
+    		"filter": b24.Params{"ENTITY_ID": entityID},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		// Воронку, которую вебхуку читать не разрешено, пропускаем:
+    		// остальные от этого страдать не должны.
+    		fmt.Fprintf(os.Stderr, "воронка %d (%s): %v\n", c.ID, c.Name, err)
+    		continue
+    	}
+
+    	var stages []stage
+    	if err := json.Unmarshal(res.Result, &stages); err != nil {
+    		return fmt.Errorf("разбор стадий воронки %d: %w", c.ID, err)
+    	}
+
+    	for _, s := range stages {
+    		fmt.Println(c.Name, s.StatusID, s.Name, s.Extra.Semantics)
+    	}
+    }
     ```
 
 {% endlist %}
@@ -430,6 +486,99 @@
                 )
     except BitrixAPIError as error:
         print(error)
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //   go mod init example && go get github.com/bitrix24/b24gosdk
+    // Запуск:
+    //   export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    func main() {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	client := b24.NewClient(os.Getenv("B24_WEBHOOK_URL"))
+
+    	// 1. Список воронок сделок.
+    	res, err := client.Core().Call(ctx, "crm.category.list", b24.Params{
+    		"entityTypeId": 2,
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.category.list: %w", err)
+    	}
+
+    	// Метод заворачивает ответ в объект с ключом categories.
+    	var categories struct {
+    		Categories []struct {
+    			ID   int    `json:"id"`
+    			Name string `json:"name"`
+    		} `json:"categories"`
+    	}
+    	if err := json.Unmarshal(res.Result, &categories); err != nil {
+    		return fmt.Errorf("разбор воронок: %w", err)
+    	}
+
+    	// 2. Стадии каждой воронки.
+    	for _, c := range categories.Categories {
+    		// У воронки по умолчанию идентификатор без суффикса, никогда не DEAL_STAGE_0.
+    		entityID := "DEAL_STAGE"
+    		if c.ID > 0 {
+    			entityID = fmt.Sprintf("DEAL_STAGE_%d", c.ID)
+    		}
+
+    		res, err := client.Core().Call(ctx, "crm.status.list", b24.Params{
+    			"order":  b24.Params{"SORT": "ASC"},
+    			"filter": b24.Params{"ENTITY_ID": entityID},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			// Воронку, которую вебхуку читать не разрешено, пропускаем:
+    			// остальные от этого страдать не должны.
+    			fmt.Fprintf(os.Stderr, "воронка %d (%s): %v\n", c.ID, c.Name, err)
+    			continue
+    		}
+
+    		var stages []stage
+    		if err := json.Unmarshal(res.Result, &stages); err != nil {
+    			return fmt.Errorf("разбор стадий воронки %d: %w", c.ID, err)
+    		}
+
+    		for _, s := range stages {
+    			fmt.Println(c.Name, s.StatusID, s.Name, s.Extra.Semantics)
+    		}
+    	}
+    	return nil
+    }
+
+    // stage — одна строка ответа crm.status.list.
+    type stage struct {
+    	StatusID string `json:"STATUS_ID"`
+    	Name     string `json:"NAME"`
+
+    	// У строки есть и ВЕРХНЕУРОВНЕВОЕ поле SEMANTICS, но для стадий сделок оно
+    	// приходит пустым: настоящее значение лежит в EXTRA. Чтение верхнего поля —
+    	// обычный способ решить, что у портала семантики нет вовсе.
+    	Extra struct {
+    		Semantics string `json:"SEMANTICS"`
+    	} `json:"EXTRA"`
+    }
     ```
 
 {% endlist %}

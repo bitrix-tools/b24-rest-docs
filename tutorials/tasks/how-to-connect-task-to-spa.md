@@ -118,6 +118,42 @@
     result = client.crm.enum.ownertype().response.result
     ```
 
+- Go
+
+    ```go
+    // Метод вызывается без параметров и возвращает и предустановленные типы
+    // объектов CRM, и смарт-процессы.
+    res, err := core.Call(ctx, "crm.enum.ownertype", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.enum.ownertype: %w", err)
+    }
+
+    var ownerTypes []struct {
+    	ID              int    `json:"ID"`
+    	Name            string `json:"NAME"`
+    	SymbolCode      string `json:"SYMBOL_CODE"`
+    	SymbolCodeShort string `json:"SYMBOL_CODE_SHORT"`
+    }
+    if err := json.Unmarshal(res.Result, &ownerTypes); err != nil {
+    	return fmt.Errorf("разбор типов объектов: %w", err)
+    }
+
+    // Ищем свой смарт-процесс по названию и запоминаем ДВА значения: ID — это
+    // entityTypeId для поиска элемента, SYMBOL_CODE_SHORT — первая половина
+    // значения привязки.
+    var entityTypeIDFound int
+    var symbolCodeShort string
+    for _, t := range ownerTypes {
+    	if t.Name == spaTitle {
+    		entityTypeIDFound, symbolCodeShort = t.ID, t.SymbolCodeShort
+    		break
+    	}
+    }
+    if symbolCodeShort == "" {
+    	return fmt.Errorf("смарт-процесс %q не найден в crm.enum.ownertype", spaTitle)
+    }
+    ```
+
 {% endlist %}
 
 У каждого типа объекта метод возвращает четыре поля:
@@ -276,6 +312,34 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    res, err = core.Call(ctx, "crm.item.list", b24.Params{
+    	"entityTypeId": entityTypeIDFound,
+    	"select":       []string{"id", "title"},
+    	"filter":       b24.Params{"title": itemTitle},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.item.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом items. Одинаковые названия
+    // никто не запрещает, поэтому ответ — список даже при точном фильтре.
+    var list struct {
+    	Items []struct {
+    		ID    int    `json:"id"`
+    		Title string `json:"title"`
+    	} `json:"items"`
+    }
+    if err := json.Unmarshal(res.Result, &list); err != nil {
+    	return fmt.Errorf("разбор элементов: %w", err)
+    }
+    if len(list.Items) == 0 {
+    	return fmt.Errorf("элемент %q не найден", itemTitle)
+    }
+    ```
+
 {% endlist %}
 
 В результате получили `id`: `29` элемента смарт-процесса — вторую часть значения привязки.
@@ -372,6 +436,38 @@ Tb1 + "_" + 29 = Tb1_29
             ],
         }
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    // Значение привязки собирается из ответов, а не из готовой строки: краткий
+    // код зависит от entityTypeId и на другом портале будет другим.
+    binding := symbolCodeShort + "_" + strconv.Itoa(list.Items[0].ID)
+
+    res, err = core.Call(ctx, "tasks.task.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE":          "Проверить оборудование (b24gosdk)",
+    		"RESPONSIBLE_ID": userID,
+    		// UF_CRM_TASK — всегда массив, даже когда привязка одна.
+    		"UF_CRM_TASK": []string{binding},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.add: %w", err)
+    }
+
+    // tasks.* заворачивает ответ в объект с ключом task, и идентификатор задачи
+    // приходит СТРОКОЙ ("3731"): b24.ID разбирает и число, и строку с числом.
+    var added struct {
+    	Task struct {
+    		ID    b24.ID `json:"id"`
+    		Title string `json:"title"`
+    	} `json:"task"`
+    }
+    if err := json.Unmarshal(res.Result, &added); err != nil {
+    	return fmt.Errorf("разбор созданной задачи: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -659,6 +755,267 @@ Tb1 + "_" + 29 = Tb1_29
     create_task_with_smart_process(client, smart_process_name, item_name, responsible_id, task_title)
     ```
 
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создаёт смарт-процесс, разрешённый для поля задач,
+    // добавляет в него элемент, собирает значение привязки, создаёт задачу,
+    // проверяет привязку и убирает за собой. Запускается на любом портале, ничего
+    // править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"errors"
+    	"fmt"
+    	"log"
+    	"os"
+    	"strconv"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    const (
+    	spaTitle  = "Закупка оборудования (пример b24gosdk)"
+    	itemTitle = "Стиральная машина"
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- подготовка: смарт-процесс, который разрешено класть в поле задачи
+
+    	entityTypeID, typeID, err := addType(ctx, core, spaTitle)
+    	if err != nil {
+    		return err
+    	}
+    	defer del(ctx, core, "crm.type.delete", b24.Params{"id": typeID})
+
+    	itemID, err := addItem(ctx, core, entityTypeID, itemTitle)
+    	if err != nil {
+    		return err
+    	}
+    	defer del(ctx, core, "crm.item.delete", b24.Params{
+    		"entityTypeId": entityTypeID, "id": itemID,
+    	})
+
+    	userID, err := currentUser(ctx, core)
+    	if err != nil {
+    		return err
+    	}
+
+    	// --- шаг 1: идентификаторы смарт-процесса
+    	// Метод вызывается без параметров и возвращает и предустановленные типы
+    	// объектов CRM, и смарт-процессы.
+    	res, err := core.Call(ctx, "crm.enum.ownertype", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.enum.ownertype: %w", err)
+    	}
+
+    	var ownerTypes []struct {
+    		ID              int    `json:"ID"`
+    		Name            string `json:"NAME"`
+    		SymbolCode      string `json:"SYMBOL_CODE"`
+    		SymbolCodeShort string `json:"SYMBOL_CODE_SHORT"`
+    	}
+    	if err := json.Unmarshal(res.Result, &ownerTypes); err != nil {
+    		return fmt.Errorf("разбор типов объектов: %w", err)
+    	}
+
+    	// Ищем свой смарт-процесс по названию и запоминаем ДВА значения: ID — это
+    	// entityTypeId для поиска элемента, SYMBOL_CODE_SHORT — первая половина
+    	// значения привязки.
+    	var entityTypeIDFound int
+    	var symbolCodeShort string
+    	for _, t := range ownerTypes {
+    		if t.Name == spaTitle {
+    			entityTypeIDFound, symbolCodeShort = t.ID, t.SymbolCodeShort
+    			break
+    		}
+    	}
+    	if symbolCodeShort == "" {
+    		return fmt.Errorf("смарт-процесс %q не найден в crm.enum.ownertype", spaTitle)
+    	}
+    	fmt.Printf("смарт-процесс %q: entityTypeId=%d, краткий код %q\n",
+    		spaTitle, entityTypeIDFound, symbolCodeShort)
+
+    	// --- шаг 2: идентификатор элемента
+    	res, err = core.Call(ctx, "crm.item.list", b24.Params{
+    		"entityTypeId": entityTypeIDFound,
+    		"select":       []string{"id", "title"},
+    		"filter":       b24.Params{"title": itemTitle},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.item.list: %w", err)
+    	}
+
+    	// Метод заворачивает ответ в объект с ключом items. Одинаковые названия
+    	// никто не запрещает, поэтому ответ — список даже при точном фильтре.
+    	var list struct {
+    		Items []struct {
+    			ID    int    `json:"id"`
+    			Title string `json:"title"`
+    		} `json:"items"`
+    	}
+    	if err := json.Unmarshal(res.Result, &list); err != nil {
+    		return fmt.Errorf("разбор элементов: %w", err)
+    	}
+    	if len(list.Items) == 0 {
+    		return fmt.Errorf("элемент %q не найден", itemTitle)
+    	}
+    	fmt.Printf("элемент %q: id=%d\n", list.Items[0].Title, list.Items[0].ID)
+
+    	// --- шаг 3: задача с привязкой
+    	// Значение привязки собирается из ответов, а не из готовой строки: краткий
+    	// код зависит от entityTypeId и на другом портале будет другим.
+    	binding := symbolCodeShort + "_" + strconv.Itoa(list.Items[0].ID)
+
+    	res, err = core.Call(ctx, "tasks.task.add", b24.Params{
+    		"fields": b24.Params{
+    			"TITLE":          "Проверить оборудование (b24gosdk)",
+    			"RESPONSIBLE_ID": userID,
+    			// UF_CRM_TASK — всегда массив, даже когда привязка одна.
+    			"UF_CRM_TASK": []string{binding},
+    		},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("tasks.task.add: %w", err)
+    	}
+
+    	// tasks.* заворачивает ответ в объект с ключом task, и идентификатор задачи
+    	// приходит СТРОКОЙ ("3731"): b24.ID разбирает и число, и строку с числом.
+    	var added struct {
+    		Task struct {
+    			ID    b24.ID `json:"id"`
+    			Title string `json:"title"`
+    		} `json:"task"`
+    	}
+    	if err := json.Unmarshal(res.Result, &added); err != nil {
+    		return fmt.Errorf("разбор созданной задачи: %w", err)
+    	}
+    	defer del(ctx, core, "tasks.task.delete", b24.Params{"taskId": added.Task.ID})
+    	fmt.Printf("задача %d создана с привязкой %s\n", added.Task.ID, binding)
+
+    	// --- проверка: привязка действительно сохранилась
+    	// Без UF_CRM_TASK в select привязки в ответе не будет: это системное поле,
+    	// по умолчанию оно не возвращается.
+    	res, err = core.Call(ctx, "tasks.task.get", b24.Params{
+    		"taskId": added.Task.ID,
+    		"select": []string{"ID", "UF_CRM_TASK"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("tasks.task.get: %w", err)
+    	}
+
+    	// Просили UF_CRM_TASK, а в ответе поле называется ufCrmTask. UnwrapFold
+    	// сравнивает имена без учёта регистра и подчёркиваний, поэтому такое
+    	// переименование её не сбивает.
+    	raw, ok := b24.UnwrapFold(res.Result, "task", "UF_CRM_TASK")
+    	if !ok || b24.IsEmpty(raw) {
+    		return fmt.Errorf("привязка не сохранилась у задачи %d", added.Task.ID)
+    	}
+    	var bindings []string
+    	if err := json.Unmarshal(raw, &bindings); err != nil {
+    		return fmt.Errorf("разбор привязок: %w", err)
+    	}
+    	fmt.Printf("в задаче %d поле «Элементы CRM» = %v\n", added.Task.ID, bindings)
+    	return nil
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    // addType создаёт смарт-процесс и возвращает его entityTypeId и id.
+    func addType(ctx context.Context, core *b24.Core, title string) (int, b24.ID, error) {
+    	// Двух настроек мало по отдельности: isUseInUserfieldEnabled разрешает
+    	// смарт-процесс в пользовательских полях вообще, а linkedUserFields кладёт
+    	// его именно в поле задачи UF_CRM_TASK. Без второй привязка не сохранится.
+    	//
+    	// isRecyclebinEnabled выключаем осознанно: элемент в корзине всё ещё
+    	// считается элементом, а crm.type.delete отказывается удалять тип, у
+    	// которого есть элементы.
+    	res, err := core.Call(ctx, "crm.type.add", b24.Params{
+    		"fields": b24.Params{
+    			"title":                   title,
+    			"isUseInUserfieldEnabled": "Y",
+    			"linkedUserFields":        b24.Params{"TASKS_TASK|UF_CRM_TASK": "true"},
+    			"isRecyclebinEnabled":     "N",
+    		},
+    	})
+    	if err != nil {
+    		// Код ошибки сравнивается через errors.Is, а не строкой: опечатка в
+    		// литерале скомпилируется и молча уведёт в другую ветку.
+    		if errors.Is(err, b24.Code("CREATE_DYNAMIC_TYPE_RESTRICTED")) {
+    			return 0, 0, fmt.Errorf("на этом портале нельзя создать смарт-процесс: %w", err)
+    		}
+    		return 0, 0, fmt.Errorf("crm.type.add: %w", err)
+    	}
+    	var out struct {
+    		Type struct {
+    			ID           b24.ID `json:"id"`
+    			EntityTypeID int    `json:"entityTypeId"`
+    		} `json:"type"`
+    	}
+    	if err := json.Unmarshal(res.Result, &out); err != nil {
+    		return 0, 0, fmt.Errorf("разбор смарт-процесса: %w", err)
+    	}
+    	return out.Type.EntityTypeID, out.Type.ID, nil
+    }
+
+    func addItem(ctx context.Context, core *b24.Core, entityTypeID int, title string) (b24.ID, error) {
+    	res, err := core.Call(ctx, "crm.item.add", b24.Params{
+    		"entityTypeId": entityTypeID,
+    		"fields":       b24.Params{"title": title},
+    	})
+    	if err != nil {
+    		return 0, fmt.Errorf("crm.item.add: %w", err)
+    	}
+    	raw, ok := b24.Unwrap(res.Result, "item", "id")
+    	if !ok {
+    		return 0, fmt.Errorf("нет item.id в %s", res.Result)
+    	}
+    	var id b24.ID
+    	return id, json.Unmarshal(raw, &id)
+    }
+
+    func currentUser(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "user.current", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return 0, fmt.Errorf("user.current: %w", err)
+    	}
+    	var u struct {
+    		ID b24.ID `json:"ID"`
+    	}
+    	if err := json.Unmarshal(res.Result, &u); err != nil {
+    		return 0, err
+    	}
+    	return u.ID, nil
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
+    ```
+
 {% endlist %}
 
 ## Проверим результат
@@ -711,6 +1068,32 @@ Tb1 + "_" + 29 = Tb1_29
         bitrix_id=3731,
         select=["ID", "UF_CRM_TASK"],
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    // Без UF_CRM_TASK в select привязки в ответе не будет: это системное поле,
+    // по умолчанию оно не возвращается.
+    res, err = core.Call(ctx, "tasks.task.get", b24.Params{
+    	"taskId": added.Task.ID,
+    	"select": []string{"ID", "UF_CRM_TASK"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.task.get: %w", err)
+    }
+
+    // Просили UF_CRM_TASK, а в ответе поле называется ufCrmTask. UnwrapFold
+    // сравнивает имена без учёта регистра и подчёркиваний, поэтому такое
+    // переименование её не сбивает.
+    raw, ok := b24.UnwrapFold(res.Result, "task", "UF_CRM_TASK")
+    if !ok || b24.IsEmpty(raw) {
+    	return fmt.Errorf("привязка не сохранилась у задачи %d", added.Task.ID)
+    }
+    var bindings []string
+    if err := json.Unmarshal(raw, &bindings); err != nil {
+    	return fmt.Errorf("разбор привязок: %w", err)
+    }
     ```
 
 {% endlist %}

@@ -115,6 +115,39 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    // fileContent — это транспорт файлов в Битрикс24: массив из двух элементов,
+    // [имя файла, содержимое в base64]. Тело запроса и так JSON, поэтому обычный
+    // []string сериализуется ровно так, как ждёт метод: ни multipart, ни ручного
+    // url-кодирования не нужно. Base64 раздувает данные примерно на треть —
+    // этот путь для небольших файлов.
+    res, err := core.Call(ctx, "disk.folder.uploadfile", b24.Params{
+    	"id":          folderID,
+    	"data":        b24.Params{"NAME": "отчёт.txt"},
+    	"fileContent": []string{"отчёт.txt", base64.StdEncoding.EncodeToString(content)},
+    	// Повторный запуск примера не должен падать из-за совпадения имён.
+    	"generateUniqueName": true,
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.folder.uploadfile: %w", err)
+    }
+
+    var file struct {
+    	// ID — идентификатор ОБЪЕКТА ДИСКА, именно его принимают поля типа
+    	// «файл (диск)».
+    	ID b24.ID `json:"ID"`
+    	// FILE_ID — внутренний идентификатор файла. Если подставить в поле
+    	// задачи его, файл либо не прикрепится, либо прикрепится чужой.
+    	FileID b24.ID `json:"FILE_ID"`
+    	Name   string `json:"NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &file); err != nil {
+    	return fmt.Errorf("разбор загруженного файла: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате загрузки файла на диск получили два разных значения ID файла:
@@ -215,6 +248,38 @@
             ],
         }
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    // Префикс "n" перед идентификатором объекта диска означает «прикрепить вот
+    // этот уже существующий объект». Голое число метод не примет. Поле всегда
+    // массив, даже когда файл один.
+    res, err = core.Call(ctx, "tasks.task.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE":                "Задача с файлом (b24gosdk)",
+    		"CREATED_BY":           userID,
+    		"RESPONSIBLE_ID":       userID,
+    		"UF_TASK_WEBDAV_FILES": []string{"n" + strconv.FormatInt(int64(file.ID), 10)},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.add: %w", err)
+    }
+
+    // tasks.* заворачивает ответ в объект с ключом task — в отличие от crm.*.add,
+    // который отвечает голым идентификатором. И идентификатор здесь приходит
+    // СТРОКОЙ ("3711"): b24.ID разбирает оба написания, обычный int — нет.
+    var out struct {
+    	Task struct {
+    		ID    b24.ID `json:"id"`
+    		Title string `json:"title"`
+    	} `json:"task"`
+    }
+    if err := json.Unmarshal(res.Result, &out); err != nil {
+    	return fmt.Errorf("разбор созданной задачи: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -570,6 +635,210 @@
     )
 
     upload_file_to_drive(client)
+    ```
+
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он сам находит папку на Диске, загружает туда файл,
+    // создаёт задачу с этим файлом, проверяет вложение и убирает за собой.
+    // Запускается на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/base64"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+    	"strconv"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- подготовка: чей диск и какая папка
+
+    	userID, err := currentUser(ctx, core)
+    	if err != nil {
+    		return err
+    	}
+    	folderID, err := rootFolder(ctx, core, userID)
+    	if err != nil {
+    		return err
+    	}
+
+    	// --- шаг 1: загружаем файл на Диск
+
+    	content := []byte("Отчёт за квартал.\nСоздан примером b24gosdk.\n")
+    	// fileContent — это транспорт файлов в Битрикс24: массив из двух элементов,
+    	// [имя файла, содержимое в base64]. Тело запроса и так JSON, поэтому обычный
+    	// []string сериализуется ровно так, как ждёт метод: ни multipart, ни ручного
+    	// url-кодирования не нужно. Base64 раздувает данные примерно на треть —
+    	// этот путь для небольших файлов.
+    	res, err := core.Call(ctx, "disk.folder.uploadfile", b24.Params{
+    		"id":          folderID,
+    		"data":        b24.Params{"NAME": "отчёт.txt"},
+    		"fileContent": []string{"отчёт.txt", base64.StdEncoding.EncodeToString(content)},
+    		// Повторный запуск примера не должен падать из-за совпадения имён.
+    		"generateUniqueName": true,
+    	})
+    	if err != nil {
+    		return fmt.Errorf("disk.folder.uploadfile: %w", err)
+    	}
+
+    	var file struct {
+    		// ID — идентификатор ОБЪЕКТА ДИСКА, именно его принимают поля типа
+    		// «файл (диск)».
+    		ID b24.ID `json:"ID"`
+    		// FILE_ID — внутренний идентификатор файла. Если подставить в поле
+    		// задачи его, файл либо не прикрепится, либо прикрепится чужой.
+    		FileID b24.ID `json:"FILE_ID"`
+    		Name   string `json:"NAME"`
+    	}
+    	if err := json.Unmarshal(res.Result, &file); err != nil {
+    		return fmt.Errorf("разбор загруженного файла: %w", err)
+    	}
+    	defer del(ctx, core, "disk.file.delete", b24.Params{"id": file.ID})
+    	fmt.Printf("файл %q загружен: ID=%d, FILE_ID=%d\n", file.Name, file.ID, file.FileID)
+
+    	// --- шаг 2: создаём задачу с этим файлом
+    	// Префикс "n" перед идентификатором объекта диска означает «прикрепить вот
+    	// этот уже существующий объект». Голое число метод не примет. Поле всегда
+    	// массив, даже когда файл один.
+    	res, err = core.Call(ctx, "tasks.task.add", b24.Params{
+    		"fields": b24.Params{
+    			"TITLE":                "Задача с файлом (b24gosdk)",
+    			"CREATED_BY":           userID,
+    			"RESPONSIBLE_ID":       userID,
+    			"UF_TASK_WEBDAV_FILES": []string{"n" + strconv.FormatInt(int64(file.ID), 10)},
+    		},
+    	})
+    	if err != nil {
+    		return fmt.Errorf("tasks.task.add: %w", err)
+    	}
+
+    	// tasks.* заворачивает ответ в объект с ключом task — в отличие от crm.*.add,
+    	// который отвечает голым идентификатором. И идентификатор здесь приходит
+    	// СТРОКОЙ ("3711"): b24.ID разбирает оба написания, обычный int — нет.
+    	var out struct {
+    		Task struct {
+    			ID    b24.ID `json:"id"`
+    			Title string `json:"title"`
+    		} `json:"task"`
+    	}
+    	if err := json.Unmarshal(res.Result, &out); err != nil {
+    		return fmt.Errorf("разбор созданной задачи: %w", err)
+    	}
+    	defer del(ctx, core, "tasks.task.delete", b24.Params{"taskId": out.Task.ID})
+    	fmt.Printf("задача %d %q создана\n", out.Task.ID, out.Task.Title)
+
+    	// --- проверка: файл действительно прикреплён
+
+    	return checkAttachment(ctx, core, out.Task.ID)
+    }
+
+    // --- вспомогательное: подготовка данных, проверка и уборка
+
+    func currentUser(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "user.current", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return 0, fmt.Errorf("user.current: %w", err)
+    	}
+    	var u struct {
+    		ID b24.ID `json:"ID"`
+    	}
+    	if err := json.Unmarshal(res.Result, &u); err != nil {
+    		return 0, err
+    	}
+    	return u.ID, nil
+    }
+
+    // rootFolder возвращает корневую папку личного хранилища пользователя, а если
+    // его нет — общего хранилища портала. Страница подставляет сюда готовый номер
+    // папки; на чужом портале такого номера не существует, поэтому пример его ищет.
+    func rootFolder(ctx context.Context, core *b24.Core, userID b24.ID) (b24.ID, error) {
+    	for _, filter := range []b24.Params{
+    		{"ENTITY_TYPE": "user", "ENTITY_ID": userID},
+    		{"ENTITY_TYPE": "common"},
+    	} {
+    		res, err := core.Call(ctx, "disk.storage.getlist",
+    			b24.Params{"filter": filter}, b24.WithIdempotent())
+    		if err != nil {
+    			return 0, fmt.Errorf("disk.storage.getlist: %w", err)
+    		}
+    		var storages []struct {
+    			Name         string `json:"NAME"`
+    			RootObjectID b24.ID `json:"ROOT_OBJECT_ID"`
+    		}
+    		if err := json.Unmarshal(res.Result, &storages); err != nil {
+    			return 0, err
+    		}
+    		for _, s := range storages {
+    			if s.RootObjectID != 0 {
+    				fmt.Printf("хранилище %q, корневая папка %d\n", s.Name, s.RootObjectID)
+    				return s.RootObjectID, nil
+    			}
+    		}
+    	}
+    	return 0, fmt.Errorf("вебхуку не видно ни одного хранилища на Диске")
+    }
+
+    // checkAttachment показывает то, о чём говорит страница: в ответе tasks.task.add
+    // сведений о файлах нет, их нужно спрашивать отдельно.
+    func checkAttachment(ctx context.Context, core *b24.Core, taskID b24.ID) error {
+    	res, err := core.Call(ctx, "tasks.task.get", b24.Params{
+    		"taskId": taskID,
+    		"select": []string{"ID", "TITLE", "UF_TASK_WEBDAV_FILES"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("tasks.task.get: %w", err)
+    	}
+
+    	// Портал отвечает не тем именем, которое просили: UF_TASK_WEBDAV_FILES
+    	// приходит как ufTaskWebdavFiles. UnwrapFold сравнивает имена без учёта
+    	// регистра и подчёркиваний, поэтому переименование её не сбивает.
+    	raw, ok := b24.UnwrapFold(res.Result, "task", "UF_TASK_WEBDAV_FILES")
+    	if !ok || b24.IsEmpty(raw) {
+    		return fmt.Errorf("файл не прикрепился к задаче %d", taskID)
+    	}
+
+    	// Значение — список идентификаторов СВЯЗИ задачи с файлом диска, а не
+    	// идентификаторов самих файлов.
+    	var attachIDs []b24.ID
+    	if err := json.Unmarshal(raw, &attachIDs); err != nil {
+    		return fmt.Errorf("разбор вложений: %w", err)
+    	}
+    	fmt.Printf("к задаче прикреплено вложений: %d (идентификаторы связей %v)\n",
+    		len(attachIDs), attachIDs)
+    	return nil
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
     ```
 
 {% endlist %}
