@@ -125,11 +125,11 @@ POST https://{адрес_установки}/rest/api/{id_пользовател
 
 - Методы [tasks.task.result.addFromComment](./result/tasks-task-result-add-from-comment.md) и [tasks.task.result.deleteFromComment](./result/tasks-task-result-delete-from-comment.md) не работают в новой карточке.
 
-## Встройки
+## Виджеты
 
-Расположение мест встроек [TASK_VIEW_SIDEBAR](../widgets/task/view-sidebar.md), [TASK_VIEW_TOP_PANEL](../widgets/task/view-top-panel.md), [TASK_VIEW_TAB](../widgets/task/view-tab.md) не актуально в новой карточке задач. В новой карточке все встройки выводятся в едином блоке «Приложения».
+Расположение виджетов [TASK_VIEW_SIDEBAR](../widgets/task/view-sidebar.md), [TASK_VIEW_TOP_PANEL](../widgets/task/view-top-panel.md), [TASK_VIEW_TAB](../widgets/task/view-tab.md) не актуально в новой карточке задач. В новой карточке все виджеты выводятся в едином блоке «Приложения».
 
-Все ранее зарегистрированные встройки продолжают работать. Можно регистрировать новые встройки, они также будут показаны в блоке «Приложения».
+Все ранее зарегистрированные виджеты продолжают работать. Можно регистрировать новые, они также будут показаны в блоке «Приложения».
 
 ![Встроенные приложения](_images/widget.png)
 

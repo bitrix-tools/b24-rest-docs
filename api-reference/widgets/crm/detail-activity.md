@@ -13,20 +13,20 @@
 
 Виджет добавляет свою кнопку в панель над таймлайном карточки объекта CRM: [лида](../../crm/leads/index.md), [контакта](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческого предложения](../../crm/quote/index.md), [нового счета](../../crm/universal/invoice.md), [заказа](../../sale/order/index.md) или [пользовательского типа объектов](../../crm/universal/index.md).
 
-Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
-Дополнительные возможности кнопки над таймлайном описаны в статье [Дополнительные возможности встройки CRM_XXX_DETAIL_ACTIVITY](./detail-activity-area.md)
+Дополнительные возможности кнопки над таймлайном описаны в статье [Дополнительные возможности точки CRM_XXX_DETAIL_ACTIVITY](./detail-activity-area.md)
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код точки встраивания** | **Место** ||
 || `CRM_LEAD_DETAIL_ACTIVITY` | Кнопка над таймлайном [лида](../../crm/leads/index.md) ||
 || `CRM_CONTACT_DETAIL_ACTIVITY` | Кнопка над таймлайном [контакта](../../crm/contacts/index.md) ||
 || `CRM_COMPANY_DETAIL_ACTIVITY` | Кнопка над таймлайном [компании](../../crm/companies/index.md) ||

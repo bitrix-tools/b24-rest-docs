@@ -13,18 +13,18 @@
 
 Виджет добавляет свой пункт в контекстное меню элемента в списке объектов CRM: [лидов](../../crm/leads/index.md), [контактов](../../crm/contacts/index.md), [компаний](../../crm/companies/index.md), [сделок](../../crm/deals/index.md), [коммерческих предложений](../../crm/quote/index.md), [новых счетов](../../crm/universal/invoice.md), [дел](../../crm/timeline/activities/index.md) и [пользовательских типов объектов](../../crm/universal/index.md).
 
-Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код точки встраивания** | **Место** ||
 || `CRM_LEAD_LIST_MENU` | Пункт контекстного меню [лида](../../crm/leads/index.md) ||
 || `CRM_CONTACT_LIST_MENU` | Пункт контекстного меню [контакта](../../crm/contacts/index.md) ||
 || `CRM_COMPANY_LIST_MENU` | Пункт контекстного меню [компании](../../crm/companies/index.md) ||

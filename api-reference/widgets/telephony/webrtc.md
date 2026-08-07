@@ -15,7 +15,7 @@
 
 Чтобы встроить свой WebRTC-клиент:
 
-1. Загрузите свой WebRTC-клиент в [специальное место](../universal/background-worker.md) встройки виджетов `PAGE_BACKGROUND_WORKER`.
+1. Загрузите свой WebRTC-клиент в [специальную точку встраивания](../universal/background-worker.md) `PAGE_BACKGROUND_WORKER`.
 2. При поступлении входящего звонка регистрируйте его обычным методом интеграции телефонии [{#T}](../../telephony/telephony-external-call-register.md), который также покажет пользователю стандартную карточку звонка.
 3. Управляйте состоянием и кнопками карточки звонка с помощью [специальных js-методов](../ui-interaction/page-background-worker/index.md), доступных для обработчика виджета `PAGE_BACKGROUND_WORKER`.
 4. По завершении звонка сообщайте об этом в Битрикс24 с помощью метода [{#T}](../../telephony/telephony-external-call-finish.md).

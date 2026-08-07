@@ -18,7 +18,7 @@
 ## Как начать работу с PAGE_BACKGROUND_WORKER
 
 1. Зарегистрируйте плейсмент `PAGE_BACKGROUND_WORKER` через [placement.bind](../../placement-bind.md).
-2. Проверьте сценарий регистрации и требования к `errorHandlerUrl` на странице [Сценарий встройки WebRTC](./webrtc-scenario.md).
+2. Проверьте сценарий регистрации и требования к `errorHandlerUrl` на странице [Сценарий встраивания WebRTC](./webrtc-scenario.md).
 3. Регистрируйте звонок через [telephony.externalcall.register](../../../telephony/index.md), чтобы открыть карточку звонка.
 4. После события [BackgroundCallCard::initialized](./events/initialized.md) вызывайте команды плейсмента через [BX24.placement.call](../bx24-placement-call.md).
 5. Подписывайтесь на пользовательские действия карточки через [BX24.placement.bindEvent](../bx24-placement-bind-event.md).

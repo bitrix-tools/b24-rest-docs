@@ -92,7 +92,7 @@
 
 -  [Встроить виджет в лид в виде пользовательского поля](../../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page)
 
--  [Механизм встройки виджетов](../../../widgets/index)
+-  [Механизм встраивания виджетов](../../../widgets/index)
 
 {% endnote %}
 

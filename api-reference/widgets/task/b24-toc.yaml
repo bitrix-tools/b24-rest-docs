@@ -9,9 +9,9 @@ items:
     href: list-toolbar.md
   - name: Кнопка в дизайнере роботов задач
     href: robot-designer-toolbar.md
-  - name: Встройка на вкладке карточки задачи
+  - name: Виджет на вкладке карточки задачи
     href: view-tab.md
-  - name: Встройка в правой панели карточки задачи
+  - name: Виджет в правой панели карточки задачи
     href: view-sidebar.md
-  - name: Встройка в верхней части карточки задачи
+  - name: Виджет в верхней части карточки задачи
     href: view-top-panel.md

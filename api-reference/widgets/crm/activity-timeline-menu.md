@@ -13,18 +13,18 @@
 
 Виджет добавляет свой пункт в контекстное меню записи дела в таймлайне карточки объекта CRM: [лида](../../crm/leads/index.md), [сделки](../../crm/deals/index.md), [коммерческого предложения](../../crm/quote/index.md), [нового счета](../../crm/universal/invoice.md) или [пользовательского типа объектов](../../crm/universal/index.md).
 
-Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код точки встраивания** | **Место** ||
 || `CRM_LEAD_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [лиде](../../crm/leads/index.md) ||
 || `CRM_DEAL_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [сделке](../../crm/deals/index.md) ||
 || `CRM_QUOTE_ACTIVITY_TIMELINE_MENU` | Пункт контекстного меню дела в [коммерческом предложении](../../crm/quote/index.md) ||

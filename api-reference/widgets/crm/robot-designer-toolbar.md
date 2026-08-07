@@ -13,18 +13,18 @@
 
 Виджет добавляет свою кнопку в дизайнер роботов, где настраивают автоматизацию объектов CRM: [лидов](../../crm/leads/index.md), [сделок](../../crm/deals/index.md), [новых счетов](../../crm/universal/invoice.md) и [пользовательских типов объектов](../../crm/universal/index.md).
 
-Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код точки встраивания** | **Место** ||
 || `CRM_LEAD_ROBOT_DESIGNER_TOOLBAR` | Кнопка в дизайнере роботов [лида](../../crm/leads/index.md) ||
 || `CRM_DEAL_ROBOT_DESIGNER_TOOLBAR` | Кнопка в дизайнере роботов [сделки](../../crm/deals/index.md) ||
 || `CRM_SMART_INVOICE_ROBOT_DESIGNER_TOOLBAR` | Кнопка в дизайнере роботов [нового счета](../../crm/universal/invoice.md) ||

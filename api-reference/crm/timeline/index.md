@@ -45,7 +45,7 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Механизм встройки виджетов](../../widgets/index.md)
+- [Механизм встраивания виджетов](../../widgets/index.md)
 - [Создать дела из приложений](./activities/app-embedding/activity-app.md)
 
 {% endnote %}

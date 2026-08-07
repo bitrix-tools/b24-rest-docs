@@ -169,9 +169,9 @@
 
 В карточку задачи можно встроить приложение. Благодаря встраиванию можно будет использовать приложение и не покидать карточку. 
 
-- [Встройка приложения на вкладке карточки задачи](../widgets/task/view-tab.md) `TASK_VIEW_TAB`
-- [Встройка приложения в правой панели карточки задачи](../widgets/task/view-sidebar.md) `TASK_VIEW_SIDEBAR`
-- [Встройка приложения в верхней части карточки задачи](../widgets/task/view-top-panel.md) `TASK_VIEW_TOP_PANEL`
+- [Виджет на вкладке карточки задачи](../widgets/task/view-tab.md) `TASK_VIEW_TAB`
+- [Виджет в правой панели карточки задачи](../widgets/task/view-sidebar.md) `TASK_VIEW_SIDEBAR`
+- [Виджет в верхней части карточки задачи](../widgets/task/view-top-panel.md) `TASK_VIEW_TOP_PANEL`
 
 Приложение можно встроить в списке задач:
 

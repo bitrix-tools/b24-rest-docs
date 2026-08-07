@@ -111,7 +111,7 @@ BX24.callMethod(
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Механизм встройки виджетов](../../widgets/index.md)
+- [Механизм встраивания виджетов](../../widgets/index.md)
 - [Встроить виджет в карточку CRM](../../../tutorials/crm/crm-widgets/widget-as-detail-tab.md)
 
 {% endnote %}
