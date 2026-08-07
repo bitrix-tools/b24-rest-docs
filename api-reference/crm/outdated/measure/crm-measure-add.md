@@ -194,6 +194,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.measure.add", b24.Params{
+    	"fields": b24.Params{
+    		"CODE":               "212",
+    		"MEASURE_TITLE":      "Ватт",
+    		"SYMBOL_RUS":         "Вт",
+    		"SYMBOL_INTL":        "W",
+    		"SYMBOL_LETTER_INTL": "WTT",
+    		"IS_DEFAULT":         "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.measure.add: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

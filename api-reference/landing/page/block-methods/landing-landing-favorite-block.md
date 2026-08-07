@@ -284,6 +284,31 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.favoriteBlock", b24.Params{
+    	"lid":   351,
+    	"block": 6428,
+    	"meta": b24.Params{
+    		"name":     "Блок с преимуществами",
+    		"section":  []string{"text", "features"},
+    		"preview":  918273,
+    		"tpl_code": "bitrix24",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.favoriteBlock: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -331,6 +331,46 @@
         ]
     );
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.register", b24.Params{
+    	"ID":   "myconnector",
+    	"NAME": "Мой коннектор",
+    	"ICON": b24.Params{
+    		"DATA_IMAGE": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E",
+    		"COLOR":      "#69acc0",
+    		"SIZE":       "90%",
+    		"POSITION":   "center",
+    	},
+    	"PLACEMENT_HANDLER": "https://example.com/connector/settings",
+    	"ICON_DISABLED": b24.Params{
+    		"DATA_IMAGE": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E",
+    		"COLOR":      "#99adb3",
+    	},
+    	"DEL_EXTERNAL_MESSAGES":  true,
+    	"EDIT_INTERNAL_MESSAGES": true,
+    	"DEL_INTERNAL_MESSAGES":  true,
+    	"NEWSLETTER":             true,
+    	"NEED_SYSTEM_MESSAGES":   true,
+    	"NEED_SIGNATURE":         true,
+    	"CHAT_GROUP":             false,
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.register: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

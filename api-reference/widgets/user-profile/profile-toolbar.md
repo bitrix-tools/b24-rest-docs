@@ -292,6 +292,32 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "USER_PROFILE_TOOLBAR",
+    	"HANDLER":   "https://your-domain.com/widgets/profile-toolbar-handler.php",
+    	"TITLE":     "Данные из кадровой системы",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Данные из кадровой системы",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "HR system data",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

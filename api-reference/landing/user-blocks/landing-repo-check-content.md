@@ -215,6 +215,28 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.repo.checkContent", b24.Params{
+    	"content":  "<div style=\"color:red\" onclick=\"alert(1)\"><iframe src=\"//evil.com\"></iframe></div>",
+    	"splitter": "#AAA#",
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.repo.checkContent: %w", err)
+    }
+
+    var item struct {
+    	IsBad   bool   `json:"is_bad"`
+    	Content string `json:"content"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.IsBad, item.Content)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

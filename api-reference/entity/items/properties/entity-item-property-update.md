@@ -223,6 +223,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.item.property.update", b24.Params{
+    	"ENTITY":       "dish",
+    	"PROPERTY":     "new_prop",
+    	"PROPERTY_NEW": "updated_prop",
+    	"NAME":         "Обновленное свойство",
+    	"SORT":         200,
+    })
+    if err != nil {
+    	return fmt.Errorf("entity.item.property.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

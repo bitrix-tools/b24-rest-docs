@@ -214,6 +214,27 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.crm.chat.user.add", b24.Params{
+    	"CRM_ENTITY_TYPE": "lead",
+    	"CRM_ENTITY":      1205,
+    	"USER_ID":         503,
+    	"CHAT_ID":         1763,
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.crm.chat.user.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

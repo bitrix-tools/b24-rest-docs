@@ -328,6 +328,40 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.contact.items.set", b24.Params{
+    	"id": 1875,
+    	"items": []b24.Params{
+    		{
+    			"CONTACT_ID": 55,
+    			"IS_PRIMARY": "Y",
+    			"SORT":       100,
+    		},
+    		{
+    			"CONTACT_ID": 54,
+    			"SORT":       200,
+    		},
+    		{
+    			"CONTACT_ID": 56,
+    			"SORT":       400,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.contact.items.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

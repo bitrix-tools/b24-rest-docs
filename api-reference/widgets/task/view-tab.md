@@ -320,6 +320,32 @@ curl -X POST \
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "TASK_VIEW_TAB",
+    	"HANDLER":   "https://your-domain.com/widgets/task-view-tab-handler.php",
+    	"TITLE":     "Моя встройка в задаче",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Моя встройка в задаче",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My task widget",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

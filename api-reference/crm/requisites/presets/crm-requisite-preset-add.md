@@ -283,6 +283,31 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.preset.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_TYPE_ID": 8,
+    		"COUNTRY_ID":     1,
+    		"NAME":           "ИП",
+    		"XML_ID":         "EXAMPLE_COMPANY__VALUE_1",
+    		"ACTIVE":         "Y",
+    		"SORT":           520,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -829,6 +829,59 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.userfield.add", b24.Params{
+    	"fields": b24.Params{
+    		"LABEL":        "Пользовательское поле (список)",
+    		"USER_TYPE_ID": "enumeration",
+    		"FIELD_NAME":   "ENUMERATION_EXAMPLE",
+    		"MULTIPLE":     "N",
+    		"MANDATORY":    "N",
+    		"SHOW_FILTER":  "Y",
+    		"LIST": []b24.Params{
+    			{
+    				"VALUE":  "Элемент списка #1",
+    				"DEF":    "Y",
+    				"XML_ID": "XML_ID_1",
+    				"SORT":   100,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #2",
+    				"XML_ID": "XML_ID_2",
+    				"SORT":   200,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #3",
+    				"XML_ID": "XML_ID_3",
+    				"SORT":   300,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #4",
+    				"XML_ID": "XML_ID_4",
+    				"SORT":   400,
+    			},
+    		},
+    		"SETTINGS": b24.Params{
+    			"DISPLAY":     "UI",
+    			"LIST_HEIGHT": 2,
+    		},
+    		"SORT": 2000,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.userfield.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

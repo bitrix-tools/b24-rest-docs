@@ -194,6 +194,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.clienttype.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("booking.v1.clienttype.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "clientType".
+    raw, ok := b24.Unwrap(res.Result, "clientType")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа clientType")
+    }
+
+    var items []struct {
+    	Code   string `json:"code"`
+    	Module string `json:"module"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Code)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

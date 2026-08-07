@@ -329,6 +329,36 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.address.add", b24.Params{
+    	"fields": b24.Params{
+    		"TYPE_ID":        1,
+    		"ENTITY_TYPE_ID": 8,
+    		"ENTITY_ID":      1,
+    		"ADDRESS_1":      "проспект Мира, 4",
+    		"ADDRESS_2":      "Калининградский областной драматический театр",
+    		"CITY":           "Калининград",
+    		"POSTAL_CODE":    "236036",
+    		"REGION":         "городской округ Калининград",
+    		"PROVINCE":       "Калининградская область",
+    		"COUNTRY":        "Россия",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.address.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

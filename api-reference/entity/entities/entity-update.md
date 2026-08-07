@@ -246,6 +246,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.update", b24.Params{
+    	"ENTITY":     "dish",
+    	"NAME":       "Dishes v2",
+    	"ENTITY_NEW": "dish_v2",
+    	"ACCESS": b24.Params{
+    		"U1": "W",
+    		"AU": "R",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("entity.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

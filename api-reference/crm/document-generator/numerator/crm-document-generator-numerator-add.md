@@ -382,6 +382,48 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.numerator.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":     "Нумератор из REST",
+    		"template": "{NUMBER}",
+    		"settings": b24.Params{
+    			"Bitrix_Main_Numerator_Generator_SequentNumberGenerator": b24.Params{
+    				"start":              1,
+    				"step":               1,
+    				"length":             6,
+    				"padString":          "0",
+    				"periodicBy":         "",
+    				"timezone":           "",
+    				"isDirectNumeration": false,
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.numerator.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "numerator".
+    raw, ok := b24.Unwrap(res.Result, "numerator")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа numerator")
+    }
+
+    var item struct {
+    	Name     string `json:"name"`
+    	Template string `json:"template"`
+    	ID       b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Name, item.Template)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

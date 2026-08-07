@@ -215,6 +215,25 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.unbindingFromGroup", b24.Params{
+    	"id":      32,
+    	"groupId": 174,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.unbindingFromGroup: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

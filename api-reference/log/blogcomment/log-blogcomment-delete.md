@@ -197,6 +197,25 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "log.blogcomment.delete", b24.Params{
+    	"COMMENT_ID": 197,
+    	"USER_ID":    503,
+    })
+    if err != nil {
+    	return fmt.Errorf("log.blogcomment.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -177,6 +177,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.resource.delete", b24.Params{
+    	"resourceId": 521,
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.resource.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}

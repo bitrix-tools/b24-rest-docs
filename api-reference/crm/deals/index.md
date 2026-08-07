@@ -287,6 +287,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.update", b24.Params{
+    	"entityTypeId": 2,
+    	"id":           233,
+    	"fields": b24.Params{
+    		"STAGE_ID":   "EXECUTING",
+    		"categoryId": 0,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Карточка сделки

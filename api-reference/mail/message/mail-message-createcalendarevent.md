@@ -232,6 +232,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.message.createcalendarevent", b24.Params{
+    	"messageId": 15,
+    	"dateFrom":  "2026-04-15 10:00:00",
+    	"dateTo":    "2026-04-15 11:00:00",
+    	"name":      "Встреча по договору",
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.message.createcalendarevent: %w", err)
+    }
+
+    var item struct {
+    	Success   bool   `json:"success"`
+    	EventID   b24.ID `json:"eventId"`
+    	MessageID b24.ID `json:"messageId"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success, item.EventID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

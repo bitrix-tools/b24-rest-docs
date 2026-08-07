@@ -168,6 +168,22 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.session.mode.pinAll", nil)
+    if err != nil {
+    	return fmt.Errorf("imopenlines.session.mode.pinAll: %w", err)
+    }
+
+    var items []b24.ID
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

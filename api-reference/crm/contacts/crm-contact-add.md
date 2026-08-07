@@ -729,6 +729,70 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.add", b24.Params{
+    	"fields": b24.Params{
+    		"HONORIFIC":   "HNR_RU_1",
+    		"NAME":        "Иван",
+    		"SECOND_NAME": "Иванович",
+    		"LAST_NAME":   "Иванов",
+    		"PHOTO": b24.Params{
+    			"fileData": "**put_photo_data_here**",
+    		},
+    		"BIRTHDATE":          "11.11.2001",
+    		"TYPE_ID":            "PARTNER",
+    		"SOURCE_ID":          "WEB",
+    		"SOURCE_DESCRIPTION": "*Дополнительно об источнике*",
+    		"POST":               "Администратор",
+    		"COMMENTS":           "**put_comment_here**",
+    		"OPENED":             "Y",
+    		"EXPORT":             "N",
+    		"ASSIGNED_BY_ID":     6,
+    		"COMPANY_ID":         12,
+    		"COMPANY_IDS":        []int{12, 13, 15},
+    		"UTM_SOURCE":         "yandex",
+    		"UTM_MEDIUM":         "CPC",
+    		"UTM_CAMPAIGN":       "summer_sale",
+    		"UTM_CONTENT":        "header_banner",
+    		"UTM_TERM":           "discount",
+    		"PHONE": []b24.Params{
+    			{
+    				"VALUE":      "+7333333555",
+    				"VALUE_TYPE": "WORK",
+    			},
+    			{
+    				"VALUE":      "+35599888666",
+    				"VALUE_TYPE": "HOME",
+    			},
+    		},
+    		"EMAIL": []b24.Params{
+    			{
+    				"VALUE":      "ivanov@example.mailing",
+    				"VALUE_TYPE": "MAILING",
+    			},
+    			{
+    				"VALUE":      "ivanov@example.work",
+    				"VALUE_TYPE": "WORK",
+    			},
+    		},
+    		"UF_CRM_1720697698689": "Пример значения пользовательского поля с типом \"Строка\"",
+    		"PARENT_ID_1224":       12,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

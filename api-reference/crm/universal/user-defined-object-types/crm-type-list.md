@@ -452,6 +452,44 @@
         echo '</PRE>';
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.type.list", b24.Params{
+        	"filter": b24.Params{
+        		"isAutomationEnabled": "Y",
+        		"isBizProcEnabled":    "Y",
+        		"isCategoriesEnabled": "Y",
+        		"isClientEnabled":     "Y",
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.type.list: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "types".
+        raw, ok := b24.Unwrap(res.Result, "types")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа types")
+        }
+
+        var items []struct {
+        	ID                  b24.ID `json:"id"`
+        	Title               string `json:"title"`
+        	Code                string `json:"code"`
+        	CreatedBy           int    `json:"createdBy"`
+        	EntityTypeID        b24.ID `json:"entityTypeId"`
+        	IsCategoriesEnabled string `json:"isCategoriesEnabled"`
+        }
+        if err := json.Unmarshal(raw, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.ID)
+        }
+        ```
+
     {% endlist %}
 
 ## Обработка ответа

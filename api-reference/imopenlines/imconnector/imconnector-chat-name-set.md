@@ -220,6 +220,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.chat.name.set", b24.Params{
+    	"CONNECTOR": "connector",
+    	"LINE":      105,
+    	"CHAT_ID":   "47e007b1-ee15-43db-bcba-1c26e5884d3f",
+    	"NAME":      "Новое имя диалога",
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.chat.name.set: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 

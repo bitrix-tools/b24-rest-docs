@@ -261,6 +261,27 @@
     echo '</pre>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.demos.getPageList", b24.Params{
+    	"type": "page",
+    	"filter": b24.Params{
+    		"TYPE": "PAGE",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.demos.getPageList: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

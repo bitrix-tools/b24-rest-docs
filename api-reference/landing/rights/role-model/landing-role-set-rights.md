@@ -297,6 +297,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.role.setRights", b24.Params{
+    	"id": 11,
+    	"rights": b24.Params{
+    		"0":  []string{"read"},
+    		"66": []string{"read", "edit", "sett"},
+    		"71": []string{"denied"},
+    	},
+    	"additional": []string{"menu24", "create"},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.role.setRights: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

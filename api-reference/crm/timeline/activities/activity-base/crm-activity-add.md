@@ -459,6 +459,50 @@ fields:
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.add", b24.Params{
+    	"fields": b24.Params{
+    		"OWNER_TYPE_ID": 2,
+    		"OWNER_ID":      102,
+    		"TYPE_ID":       2,
+    		"COMMUNICATIONS": []b24.Params{
+    			{
+    				"VALUE":          "+79832322323",
+    				"ENTITY_ID":      134,
+    				"ENTITY_TYPE_ID": 3,
+    			},
+    		},
+    		"SUBJECT":          "Новый звонок",
+    		"START_TIME":       "2023-12-31T12:00:00+00:00",
+    		"END_TIME":         "2023-12-31T12:30:00+00:00",
+    		"COMPLETED":        "N",
+    		"PRIORITY":         3,
+    		"RESPONSIBLE_ID":   1,
+    		"DESCRIPTION":      "Важный звонок",
+    		"DESCRIPTION_TYPE": 3,
+    		"DIRECTION":        2,
+    		"FILES": []b24.Params{
+    			{
+    				"fileData": []string{"example.jpg", "base64_encoded_content_here"},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.activity.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}    
 
 ## Обработка ответа

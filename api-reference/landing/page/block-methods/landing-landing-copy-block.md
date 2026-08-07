@@ -279,6 +279,29 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.copyblock", b24.Params{
+    	"lid":   351,
+    	"block": 6428,
+    	"params": b24.Params{
+    		"AFTER_ID":       6429,
+    		"RETURN_CONTENT": "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.copyblock: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

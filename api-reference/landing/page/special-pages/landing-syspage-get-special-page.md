@@ -271,6 +271,28 @@ https://b24-test.bitrix24.shop/personalnyyrazdel/?SECTION=private&utm_source=new
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.syspage.getSpecialPage", b24.Params{
+    	"siteId": 1390,
+    	"type":   "personal",
+    	"additional": b24.Params{
+    		"SECTION": "private",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.syspage.getSpecialPage: %w", err)
+    }
+
+    var value string
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

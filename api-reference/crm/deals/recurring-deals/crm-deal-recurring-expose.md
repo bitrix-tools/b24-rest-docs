@@ -220,6 +220,27 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.recurring.expose", b24.Params{
+    	"id": 15,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.recurring.expose: %w", err)
+    }
+
+    var item struct {
+    	DealID b24.ID `json:"DEAL_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DealID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

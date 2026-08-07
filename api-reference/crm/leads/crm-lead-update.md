@@ -514,6 +514,51 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.lead.update", b24.Params{
+    	"id": 1608,
+    	"fields": b24.Params{
+    		"TITLE":          "ИП Титов",
+    		"NAME":           "Глеб",
+    		"SECOND_NAME":    "Егорович",
+    		"LAST_NAME":      "Титов",
+    		"STATUS_ID":      "NEW",
+    		"OPENED":         "Y",
+    		"ASSIGNED_BY_ID": 1,
+    		"CURRENCY_ID":    "USD",
+    		"OPPORTUNITY":    12500,
+    		"PHONE": []b24.Params{
+    			{
+    				"VALUE":      "555888",
+    				"VALUE_TYPE": "WORK",
+    			},
+    		},
+    		"WEB": []b24.Params{
+    			{
+    				"VALUE":      "www.mysite.com",
+    				"VALUE_TYPE": "WORK",
+    			},
+    		},
+    	},
+    	"params": b24.Params{
+    		"REGISTER_SONET_EVENT": "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.lead.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -401,6 +401,40 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.recurring.add", b24.Params{
+    	"fields": b24.Params{
+    		"DEAL_ID":     45,
+    		"CATEGORY_ID": "1",
+    		"IS_LIMIT":    "D",
+    		"LIMIT_DATE":  "2027-03-04",
+    		"START_DATE":  "2026-04-04",
+    		"PARAMS": b24.Params{
+    			"MODE":                   "multiple",
+    			"MULTIPLE_TYPE":          "month",
+    			"MULTIPLE_INTERVAL":      1,
+    			"OFFSET_BEGINDATE_TYPE":  "day",
+    			"OFFSET_BEGINDATE_VALUE": 1,
+    			"OFFSET_CLOSEDATE_TYPE":  "month",
+    			"OFFSET_CLOSEDATE_VALUE": 2,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.recurring.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

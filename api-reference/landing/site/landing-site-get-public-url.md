@@ -205,6 +205,27 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.getPublicUrl", b24.Params{
+    	"id": []int{3, 135},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.getPublicUrl: %w", err)
+    }
+
+    var item struct {
+    	F3   string `json:"3"`
+    	F135 string `json:"135"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.F3, item.F135)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

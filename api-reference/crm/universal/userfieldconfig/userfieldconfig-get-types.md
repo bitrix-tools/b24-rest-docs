@@ -189,6 +189,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldconfig.getTypes", b24.Params{
+    	"moduleId": "crm",
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.getTypes: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "types".
+    raw, ok := b24.Unwrap(res.Result, "types")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа types")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

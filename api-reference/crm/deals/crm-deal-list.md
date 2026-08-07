@@ -556,6 +556,55 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.list", b24.Params{
+    	"select": []string{"ID", "TITLE", "TYPE_ID", "CATEGORY_ID", "STAGE_ID", "OPPORTUNITY", "IS_MANUAL_OPPORTUNITY", "ASSIGNED_BY_ID", "DATE_CREATE"},
+    	"filter": b24.Params{
+    		"=%TITLE":               "%а",
+    		"CATEGORY_ID":           1,
+    		"TYPE_ID":               "COMPLEX",
+    		"STAGE_ID":              "C1:NEW",
+    		">OPPORTUNITY":          10000,
+    		"<=OPPORTUNITY":         20000,
+    		"IS_MANUAL_OPPORTUNITY": "Y",
+    		"@ASSIGNED_BY_ID":       []int{1, 6},
+    		">DATE_CREATE":          time.Now().AddDate(0, -6, 0).Format("2006-01-02"),
+    	},
+    	"order": b24.Params{
+    		"TITLE":       "ASC",
+    		"OPPORTUNITY": "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.deal.list: %w", err)
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"ID"`
+    	Title       string `json:"TITLE"`
+    	TypeID      string `json:"TYPE_ID"`
+    	CategoryID  b24.ID `json:"CATEGORY_ID"`
+    	StageID     string `json:"STAGE_ID"`
+    	Opportunity string `json:"OPPORTUNITY"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Title)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

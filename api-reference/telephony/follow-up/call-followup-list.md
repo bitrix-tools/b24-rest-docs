@@ -348,6 +348,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "call.followup.list", b24.Params{
+    	"filter": b24.Params{
+    		"startDate": b24.Params{
+    			"from": "2026-01-01T00:00:00Z",
+    			"to":   "2026-01-31T23:59:59Z",
+    		},
+    	},
+    	"select": []string{"callId", "startDate", "participants", "overview.topic", "overview.actionItems"},
+    	"order": b24.Params{
+    		"startDate": "desc",
+    	},
+    	"pagination": b24.Params{
+    		"limit": 20,
+    	},
+    	"mentionFormat": "html",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("call.followup.list: %w", err)
+    }
+
+    var item struct {
+    	HasMore bool `json:"hasMore"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.HasMore)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

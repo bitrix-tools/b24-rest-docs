@@ -228,6 +228,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.numerator.get", b24.Params{
+    	"id": 45,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.numerator.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "numerator".
+    raw, ok := b24.Unwrap(res.Result, "numerator")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа numerator")
+    }
+
+    var item struct {
+    	ID       b24.ID `json:"id"`
+    	Name     string `json:"name"`
+    	Template string `json:"template"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

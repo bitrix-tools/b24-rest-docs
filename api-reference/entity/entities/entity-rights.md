@@ -230,6 +230,32 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.rights", b24.Params{
+    	"ENTITY": "dish",
+    	"ACCESS": b24.Params{
+    		"U1": "W",
+    		"AU": "R",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("entity.rights: %w", err)
+    }
+
+    var item struct {
+    	U1   string `json:"U1"`
+    	Au   string `json:"AU"`
+    	U577 string `json:"U577"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.U1, item.Au)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

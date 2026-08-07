@@ -261,6 +261,26 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.repo.bind", b24.Params{
+    	"fields": b24.Params{
+    		"PLACEMENT":         "LANDING_BLOCK_04.1.one_col_fix_with_title",
+    		"PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-block-handler.php",
+    		"TITLE":             "Мой виджет для блока",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.repo.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ### Зарегистрировать виджет для всех блоков
@@ -434,6 +454,26 @@ Array
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.repo.bind", b24.Params{
+    	"fields": b24.Params{
+    		"PLACEMENT":         "LANDING_BLOCK_*",
+    		"PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-block-handler.php",
+    		"TITLE":             "Мой виджет для блока",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.repo.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

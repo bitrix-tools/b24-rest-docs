@@ -257,6 +257,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "voximplant.sip.add", b24.Params{
+    	"TYPE":     "cloud",
+    	"TITLE":    "SIP line 1",
+    	"SERVER":   "sip.provider.com",
+    	"LOGIN":    "sip_user",
+    	"PASSWORD": "secret",
+    })
+    if err != nil {
+    	return fmt.Errorf("voximplant.sip.add: %w", err)
+    }
+
+    var item struct {
+    	ID       b24.ID `json:"ID"`
+    	Type     string `json:"TYPE"`
+    	ConfigID b24.ID `json:"CONFIG_ID"`
+    	RegID    b24.ID `json:"REG_ID"`
+    	Title    string `json:"TITLE"`
+    	Server   string `json:"SERVER"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Type)
+    ```
+
 {% endlist %}
 
 

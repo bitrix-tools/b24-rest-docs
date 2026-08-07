@@ -194,6 +194,21 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.type.delete", b24.Params{
+    	"id": 16,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.type.delete: %w", err)
+    }
+
+    // Ответ — список; разберите его в структуру под форму ответа ниже.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

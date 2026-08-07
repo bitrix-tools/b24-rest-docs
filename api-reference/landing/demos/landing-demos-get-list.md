@@ -358,6 +358,42 @@
     echo '</pre>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.demos.getList", b24.Params{
+    	"params": b24.Params{
+    		"select": []string{"ID", "XML_ID", "TITLE", "TYPE", "DATE_MODIFY"},
+    		"filter": b24.Params{
+    			"ACTIVE": "Y",
+    		},
+    		"order": b24.Params{
+    			"ID": "DESC",
+    		},
+    		"group": []string{"TYPE"},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("landing.demos.getList: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	XMLID      string `json:"XML_ID"`
+    	Title      string `json:"TITLE"`
+    	Type       string `json:"TYPE"`
+    	DateModify string `json:"DATE_MODIFY"`
+    	Manifest   bool   `json:"MANIFEST"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.XMLID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

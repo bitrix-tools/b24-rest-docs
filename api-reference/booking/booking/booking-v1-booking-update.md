@@ -292,6 +292,39 @@ ID ресурсов можно получить методом [booking.v1.resou
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.booking.update", b24.Params{
+    	"id": 10,
+    	"fields": b24.Params{
+    		"name":        "Название",
+    		"description": "Описание",
+    		"resourceIds": []int{1, 2, 3},
+    		"datePeriod": b24.Params{
+    			"from": b24.Params{
+    				"timestamp": 1723446900,
+    				"timezone":  "Europe/Moscow",
+    			},
+    			"to": b24.Params{
+    				"timestamp": 1723447800,
+    				"timezone":  "Europe/Moscow",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("booking.v1.booking.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -399,6 +399,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE":          "ИП Титов",
+    		"COMPANY_TYPE":   "CUSTOMER",
+    		"INDUSTRY":       "MANUFACTURING",
+    		"EMPLOYEES":      "EMPLOYEES_2",
+    		"CURRENCY_ID":    "RUB",
+    		"REVENUE":        3000000,
+    		"OPENED":         "Y",
+    		"ASSIGNED_BY_ID": 1,
+    		"PHONE": []b24.Params{
+    			{
+    				"VALUE":      "555888",
+    				"VALUE_TYPE": "WORK",
+    			},
+    		},
+    	},
+    	"params": b24.Params{
+    		"REGISTER_SONET_EVENT": "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.company.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -208,6 +208,26 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.session.head.vote", b24.Params{
+    	"SESSION_ID": 1743,
+    	"RATING":     5,
+    	"COMMENT":    "Отличная обработка",
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.session.head.vote: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -282,6 +282,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.add", b24.Params{
+    	"scope": "KNOWLEDGE",
+    	"fields": b24.Params{
+    		"TITLE":       "База знаний компании",
+    		"CODE":        "",
+    		"TYPE":        "KNOWLEDGE",
+    		"DESCRIPTION": "Сайт базы знаний",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

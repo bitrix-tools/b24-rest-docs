@@ -274,6 +274,33 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.getmanifest", b24.Params{
+    	"lid":   4858,
+    	"block": 39556,
+    	"params": b24.Params{
+    		"edit_mode": true,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.getmanifest: %w", err)
+    }
+
+    var item struct {
+    	Timestamp int    `json:"timestamp"`
+    	Namespace string `json:"namespace"`
+    	Code      string `json:"code"`
+    	Preview   string `json:"preview"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Timestamp, item.Namespace)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

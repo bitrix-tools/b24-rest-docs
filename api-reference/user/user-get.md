@@ -506,6 +506,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.get", b24.Params{
+    	"FILTER": b24.Params{
+    		"NAME": "Ива%",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Active     bool   `json:"ACTIVE"`
+    	Name       string `json:"NAME"`
+    	LastName   string `json:"LAST_NAME"`
+    	SecondName string `json:"SECOND_NAME"`
+    	Email      string `json:"EMAIL"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
+    ```
+
 {% endlist %}
 
 ### Фильтрация по фамилии, не содержащей «ов»
@@ -693,6 +722,35 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.get", b24.Params{
+    	"FILTER": b24.Params{
+    		"!%LAST_NAME": "ов",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Active     bool   `json:"ACTIVE"`
+    	Name       string `json:"NAME"`
+    	LastName   string `json:"LAST_NAME"`
+    	SecondName string `json:"SECOND_NAME"`
+    	Email      string `json:"EMAIL"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
     ```
 
 {% endlist %}
@@ -883,6 +941,35 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.get", b24.Params{
+    	"FILTER": b24.Params{
+    		"@PERSONAL_CITY": []string{"Москва", "Санкт-Петербург"},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Active     bool   `json:"ACTIVE"`
+    	Name       string `json:"NAME"`
+    	LastName   string `json:"LAST_NAME"`
+    	SecondName string `json:"SECOND_NAME"`
+    	Email      string `json:"EMAIL"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
     ```
 
 {% endlist %}

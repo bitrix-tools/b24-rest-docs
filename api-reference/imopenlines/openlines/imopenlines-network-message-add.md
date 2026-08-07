@@ -503,6 +503,66 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.network.message.add", b24.Params{
+    	"CODE":    "ab515f5d85a8b844d484f6ea75a2e494",
+    	"USER_ID": 2,
+    	"MESSAGE": "Подготовили материалы по подключению открытых линий",
+    	"ATTACH": b24.Params{
+    		"ID":          1,
+    		"COLOR_TOKEN": "primary",
+    		"BLOCKS": []b24.Params{
+    			{
+    				"MESSAGE": "Во вложении отправили чек-лист и схему подключения",
+    			},
+    			{
+    				"FILE": []b24.Params{
+    					{
+    						"NAME": "checklist-openlines.pdf",
+    						"LINK": "https://cdn.example.com/docs/checklist-openlines.pdf",
+    						"SIZE": 428736,
+    					},
+    				},
+    			},
+    			{
+    				"IMAGE": []b24.Params{
+    					{
+    						"NAME":    "Схема подключения",
+    						"LINK":    "https://cdn.example.com/images/openlines-setup.png",
+    						"PREVIEW": "https://cdn.example.com/images/openlines-setup-preview.png",
+    						"WIDTH":   1280,
+    						"HEIGHT":  720,
+    					},
+    				},
+    			},
+    		},
+    	},
+    	"KEYBOARD": b24.Params{
+    		"BUTTONS": []b24.Params{
+    			{
+    				"TEXT":           "Открыть инструкцию",
+    				"LINK":           "https://help.example.com/openlines/setup",
+    				"DISPLAY":        "LINE",
+    				"BG_COLOR_TOKEN": "primary",
+    			},
+    		},
+    	},
+    	"URL_PREVIEW": "N",
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.network.message.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

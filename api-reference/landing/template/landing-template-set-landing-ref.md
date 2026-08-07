@@ -258,6 +258,29 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.template.setLandingRef", b24.Params{
+    	"id": 557,
+    	"data": b24.Params{
+    		"1": 614,
+    		"2": 615,
+    		"3": 616,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.template.setLandingRef: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

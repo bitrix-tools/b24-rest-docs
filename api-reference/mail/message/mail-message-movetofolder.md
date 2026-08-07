@@ -223,6 +223,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.message.movetofolder", b24.Params{
+    	"messageIds": []int{15, 16},
+    	"action":     "spam",
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.message.movetofolder: %w", err)
+    }
+
+    var item struct {
+    	Success    bool   `json:"success"`
+    	MovedCount int    `json:"movedCount"`
+    	Action     string `json:"action"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success, item.MovedCount)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

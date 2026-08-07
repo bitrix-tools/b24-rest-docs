@@ -400,6 +400,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "voximplant.statistic.get", b24.Params{
+    	"FILTER": b24.Params{
+    		"ID":                []int{1, 7},
+    		">=CALL_START_DATE": "2025-01-01T00:00:00+03:00",
+    	},
+    	"SORT":  "ID",
+    	"ORDER": "ASC",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("voximplant.statistic.get: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	PortalUserID b24.ID `json:"PORTAL_USER_ID"`
+    	PortalNumber string `json:"PORTAL_NUMBER"`
+    	PhoneNumber  string `json:"PHONE_NUMBER"`
+    	CallID       string `json:"CALL_ID"`
+    	CallCategory string `json:"CALL_CATEGORY"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.PortalUserID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

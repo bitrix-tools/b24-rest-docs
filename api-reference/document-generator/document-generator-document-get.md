@@ -209,6 +209,37 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.document.get", b24.Params{
+    	"id": 51,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.document.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "document".
+    raw, ok := b24.Unwrap(res.Result, "document")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа document")
+    }
+
+    var item struct {
+    	DownloadUrl string `json:"downloadUrl"`
+    	PublicUrl   string `json:"publicUrl"`
+    	Title       string `json:"title"`
+    	Number      string `json:"number"`
+    	ID          b24.ID `json:"id"`
+    	CreateTime  string `json:"createTime"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DownloadUrl, item.PublicUrl)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

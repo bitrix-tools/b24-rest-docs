@@ -196,6 +196,24 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.network.join", b24.Params{
+    	"CODE": "ab515f5d85a8b844d484f6ea75a2e494",
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.network.join: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

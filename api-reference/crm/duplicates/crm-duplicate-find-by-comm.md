@@ -248,6 +248,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.duplicate.findbycomm", b24.Params{
+    	"entity_type": "CONTACT",
+    	"type":        "PHONE",
+    	"values":      []string{"8976543", "11223355"},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.duplicate.findbycomm: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "CONTACT".
+    raw, ok := b24.Unwrap(res.Result, "CONTACT")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа CONTACT")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

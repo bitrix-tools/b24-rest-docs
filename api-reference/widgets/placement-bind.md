@@ -317,6 +317,43 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "PLACEMENT_CODE",
+    	"HANDLER":   "http://myapp.com/handler/?type=1",
+    	"OPTIONS": b24.Params{
+    		"errorHandlerUrl": "http://myapp.com/error/",
+    	},
+    	"TITLE":       "title",
+    	"DESCRIPTION": "description",
+    	"GROUP_NAME":  "group",
+    	"LANG_ALL": b24.Params{
+    		"en": b24.Params{
+    			"TITLE":       "title",
+    			"DESCRIPTION": "description",
+    			"GROUP_NAME":  "group",
+    		},
+    		"ru": b24.Params{
+    			"TITLE":       "заголовок",
+    			"DESCRIPTION": "описание",
+    			"GROUP_NAME":  "группа",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 {% note tip "Частые кейсы и сценарии" %}

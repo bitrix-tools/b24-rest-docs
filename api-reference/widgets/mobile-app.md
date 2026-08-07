@@ -366,6 +366,37 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "IMMOBILE_CONTEXT_MENU",
+    	"HANDLER":   "https://your-domain.com/widgets/immobile-context-menu-handler.php",
+    	"TITLE":     "Шаблоны ответов",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Шаблоны ответов",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "Reply templates",
+    		},
+    	},
+    	"OPTIONS": b24.Params{
+    		"context":  "CHAT;LINES",
+    		"role":     "USER",
+    		"extranet": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Связь с другими объектами

@@ -272,6 +272,34 @@
         echo '</PRE>';
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.type.update", b24.Params{
+        	"id": 20,
+        	"fields": b24.Params{
+        		"isAutomationEnabled":      "N",
+        		"isBeginCloseDatesEnabled": "N",
+        		"isClientEnabled":          "N",
+        		"isObserversEnabled":       "N",
+        		"isSourceEnabled":          "Y",
+        		"isStagesEnabled":          "Y",
+        		"isUseInUserfieldEnabled":  "Y",
+        		"linkedUserFields": b24.Params{
+        			"TASKS_TASK|UF_CRM_TASK": "true",
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.type.update: %w", err)
+        }
+
+        // Ответ приходит как json.RawMessage — разберите его
+        // в структуру под форму ответа, показанную ниже на этой странице.
+        fmt.Printf("%s\n", res.Result)
+        ```
+
     {% endlist %}
 
 2. Допустим, у смарт-процесса с `id = 20` необходимо
@@ -470,6 +498,52 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.type.update", b24.Params{
+        	"id": 20,
+        	"fields": b24.Params{
+        		"relations": b24.Params{
+        			"parent": []any{},
+        			"child": []b24.Params{
+        				{
+        					"entityTypeId":          1,
+        					"isChildrenListEnabled": "true",
+        				},
+        				{
+        					"entityTypeId":          2,
+        					"isChildrenListEnabled": "false",
+        				},
+        			},
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.type.update: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "type".
+        raw, ok := b24.Unwrap(res.Result, "type")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа type")
+        }
+
+        var item struct {
+        	ID                  b24.ID `json:"id"`
+        	Title               string `json:"title"`
+        	Code                string `json:"code"`
+        	CreatedBy           int    `json:"createdBy"`
+        	EntityTypeID        b24.ID `json:"entityTypeId"`
+        	IsCategoriesEnabled string `json:"isCategoriesEnabled"`
+        }
+        if err := json.Unmarshal(raw, &item); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println(item.ID, item.Title)
         ```
 
     {% endlist %}

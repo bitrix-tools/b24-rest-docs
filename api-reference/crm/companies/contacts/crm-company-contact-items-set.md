@@ -339,6 +339,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.contact.items.set", b24.Params{
+    	"id": 32,
+    	"items": []b24.Params{
+    		{
+    			"CONTACT_ID": 8,
+    			"IS_PRIMARY": "Y",
+    			"SORT":       100,
+    		},
+    		{
+    			"CONTACT_ID": 9,
+    			"SORT":       200,
+    		},
+    		{
+    			"CONTACT_ID": 10,
+    			"SORT":       400,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.company.contact.items.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

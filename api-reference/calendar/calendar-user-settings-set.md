@@ -430,6 +430,57 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.user.settings.set", b24.Params{
+    	"settings": b24.Params{
+    		"view":               "month",
+    		"meetSection":        "4",
+    		"crmSection":         "4",
+    		"showDeclined":       true,
+    		"denyBusyInvitation": false,
+    		"collapseOffHours":   "N",
+    		"showWeekNumbers":    "N",
+    		"showTasks":          "Y",
+    		"syncTasks":          "N",
+    		"showCompletedTasks": "N",
+    		"lastUsedSection":    "false",
+    		"sendFromEmail":      "",
+    		"defaultSections": b24.Params{
+    			"user1":  "4",
+    			"group6": "49",
+    		},
+    		"syncPeriodPast":   "3",
+    		"syncPeriodFuture": "12",
+    		"defaultReminders": b24.Params{
+    			"fullDay": []b24.Params{
+    				{
+    					"type":  "min",
+    					"count": 15,
+    				},
+    			},
+    			"withTime": []b24.Params{
+    				{
+    					"type":  "min",
+    					"count": 50,
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.user.settings.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

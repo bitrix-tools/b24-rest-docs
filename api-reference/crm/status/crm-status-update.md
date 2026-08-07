@@ -254,6 +254,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.status.update", b24.Params{
+    	"id": 123,
+    	"fields": b24.Params{
+    		"NAME":  "Новое название",
+    		"COLOR": "#00A9F4",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.status.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

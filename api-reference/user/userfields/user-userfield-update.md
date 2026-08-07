@@ -540,6 +540,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.userfield.update", b24.Params{
+    	"id": 42,
+    	"fields": b24.Params{
+    		"SORT":              150,
+    		"LIST_FILTER_LABEL": "New Title",
+    		"LIST_COLUMN_LABEL": "New List Title",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("user.userfield.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

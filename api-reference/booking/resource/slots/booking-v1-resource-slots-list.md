@@ -210,6 +210,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.resource.slots.list", b24.Params{
+    	"resourceId": 257,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("booking.v1.resource.slots.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "slots".
+    raw, ok := b24.Unwrap(res.Result, "slots")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа slots")
+    }
+
+    var items []struct {
+    	From     int    `json:"from"`
+    	ID       b24.ID `json:"id"`
+    	SlotSize int    `json:"slotSize"`
+    	Timezone string `json:"timezone"`
+    	To       int    `json:"to"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.From)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -231,6 +231,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.add", b24.Params{
+    	"ENTITY_TYPE": "CONTACT",
+    	"ENTITIES":    []int{1, 2, 3},
+    	"WEBFORM_ID":  5,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

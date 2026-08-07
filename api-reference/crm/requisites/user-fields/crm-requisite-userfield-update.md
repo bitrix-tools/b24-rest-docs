@@ -315,6 +315,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.userfield.update", b24.Params{
+    	"id": 235,
+    	"fields": b24.Params{
+    		"EDIT_FORM_LABEL":   "Категория",
+    		"LIST_COLUMN_LABEL": "Категория",
+    		"LIST_FILTER_LABEL": "Категория",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.userfield.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

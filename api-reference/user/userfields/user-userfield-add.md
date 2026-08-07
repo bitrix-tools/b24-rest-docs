@@ -652,6 +652,41 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.userfield.add", b24.Params{
+    	"fields": b24.Params{
+    		"FIELD_NAME":   "UF_USER_DEALS",
+    		"USER_TYPE_ID": "crm",
+    		"XML_ID":       "UF_CRM_DEALS",
+    		"SORT":         100,
+    		"MULTIPLE":     "Y",
+    		"MANDATORY":    "N",
+    		"SHOW_FILTER":  "N",
+    		"SHOW_IN_LIST": "Y",
+    		"EDIT_IN_LIST": "Y",
+    		"SETTINGS": b24.Params{
+    			"DEAL": "Y",
+    		},
+    		"LABEL": "Привязка к сделкам CRM",
+    		"EDIT_FORM_LABEL": b24.Params{
+    			"ru": "Привязка к сделкам CRM",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("user.userfield.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

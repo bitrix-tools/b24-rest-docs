@@ -196,6 +196,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paysystem.settings.get", b24.Params{
+    	"ID":             11,
+    	"PERSON_TYPE_ID": 1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.paysystem.settings.get: %w", err)
+    }
+
+    var item struct {
+    	RestServiceIDIframe  string `json:"REST_SERVICE_ID_IFRAME"`
+    	RestServiceKeyIframe string `json:"REST_SERVICE_KEY_IFRAME"`
+    	PsWorkModeIframe     string `json:"PS_WORK_MODE_IFRAME"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.RestServiceIDIframe, item.RestServiceKeyIframe)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

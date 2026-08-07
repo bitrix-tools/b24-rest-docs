@@ -240,6 +240,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.message.forward", b24.Params{
+    	"forwardMessageId": 15,
+    	"from":             "user@example.com",
+    	"to":               []string{"manager@example.com"},
+    	"subject":          "Fwd: Договор",
+    	"body":             "Пересылаю письмо.",
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.message.forward: %w", err)
+    }
+
+    var item struct {
+    	Success bool `json:"success"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

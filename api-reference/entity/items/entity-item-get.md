@@ -326,6 +326,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.item.get", b24.Params{
+    	"ENTITY": "dish_v2",
+    	"SORT": b24.Params{
+    		"DATE_ACTIVE_FROM": "ASC",
+    		"ID":               "ASC",
+    	},
+    	"FILTER": b24.Params{
+    		">=DATE_ACTIVE_FROM": "2026-03-01T00:00:00+03:00",
+    		"<DATE_ACTIVE_FROM":  "2026-04-01T00:00:00+03:00",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("entity.item.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	TimestampX string `json:"TIMESTAMP_X"`
+    	ModifiedBy string `json:"MODIFIED_BY"`
+    	DateCreate string `json:"DATE_CREATE"`
+    	CreatedBy  string `json:"CREATED_BY"`
+    	Active     string `json:"ACTIVE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.TimestampX)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

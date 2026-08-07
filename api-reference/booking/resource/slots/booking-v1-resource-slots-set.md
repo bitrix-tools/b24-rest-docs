@@ -261,6 +261,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.resource.slots.set", b24.Params{
+    	"resourceId": 10,
+    	"slots": []b24.Params{
+    		{
+    			"from":     540,
+    			"to":       1080,
+    			"timezone": "Europe/Kaliningrad",
+    			"weekDays": []string{"Mon", "Tue", "Wed", "Thu", "Fri"},
+    			"slotSize": 30,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("booking.v1.resource.slots.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

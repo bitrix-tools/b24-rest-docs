@@ -314,6 +314,28 @@ UF_BLOG_POST_VOTE: 'n<ID_опроса>',
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "log.blogpost.update", b24.Params{
+    	"POST_ID":    217,
+    	"POST_TITLE": "Новый заголовок сообщения",
+    	"FILES": b24.Params{
+    		"505": "del",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("log.blogpost.update: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

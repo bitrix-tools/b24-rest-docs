@@ -315,6 +315,31 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.updateattrs", b24.Params{
+    	"lid":   313,
+    	"block": 6134,
+    	"data": b24.Params{
+    		".bitrix24forms": b24.Params{
+    			"data-b24form":           "#crmFormInline45",
+    			"data-b24form-use-style": "N",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.updateattrs: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

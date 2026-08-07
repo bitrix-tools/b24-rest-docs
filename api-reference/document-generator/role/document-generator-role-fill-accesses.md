@@ -305,6 +305,35 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.role.fillaccesses", b24.Params{
+    	"accesses": []b24.Params{
+    		{
+    			"roleId":     9,
+    			"accessCode": "U1",
+    		},
+    		{
+    			"roleId":     9,
+    			"accessCode": "D1",
+    		},
+    		{
+    			"roleId":     9,
+    			"accessCode": "UA",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.role.fillaccesses: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

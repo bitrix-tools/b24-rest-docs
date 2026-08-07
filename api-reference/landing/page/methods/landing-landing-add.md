@@ -299,6 +299,32 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE":       "Весенняя акция",
+    		"SITE_ID":     292,
+    		"CODE":        "spring-sale",
+    		"DESCRIPTION": "Страница для сезонной акции",
+    		"ADDITIONAL_FIELDS": b24.Params{
+    			"THEME_CODE": "wedding",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 {% note warning %}

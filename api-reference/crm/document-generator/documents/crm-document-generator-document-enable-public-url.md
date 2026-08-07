@@ -229,6 +229,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.document.enablepublicurl", b24.Params{
+    	"id":     61,
+    	"status": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.document.enablepublicurl: %w", err)
+    }
+
+    var item struct {
+    	PublicUrl string `json:"publicUrl"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.PublicUrl)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

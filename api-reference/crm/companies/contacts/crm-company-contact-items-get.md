@@ -224,6 +224,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.contact.items.get", b24.Params{
+    	"id": 32,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.company.contact.items.get: %w", err)
+    }
+
+    var items []struct {
+    	ContactID b24.ID `json:"CONTACT_ID"`
+    	Sort      int    `json:"SORT"`
+    	RoleID    b24.ID `json:"ROLE_ID"`
+    	IsPrimary string `json:"IS_PRIMARY"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ContactID, it.Sort)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

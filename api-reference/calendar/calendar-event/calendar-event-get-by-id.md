@@ -203,6 +203,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.event.getbyid", b24.Params{
+    	"id": 324,
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.event.getbyid: %w", err)
+    }
+
+    var item struct {
+    	ID       b24.ID `json:"ID"`
+    	ParentID b24.ID `json:"PARENT_ID"`
+    	Deleted  string `json:"DELETED"`
+    	CalType  string `json:"CAL_TYPE"`
+    	OwnerID  b24.ID `json:"OWNER_ID"`
+    	Name     string `json:"NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.ParentID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

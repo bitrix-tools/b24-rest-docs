@@ -210,6 +210,35 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.template.add", b24.Params{
+    	"fields": b24.Params{
+    		"name": "Пример шаблона",
+    		"file": "base64_encoded_content_here",
+    		"code": "example_template_code",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.template.add: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Type      string `json:"TYPE"`
+    	StorageID b24.ID `json:"STORAGE_ID"`
+    	FileID    b24.ID `json:"FILE_ID"`
+    	Size      string `json:"SIZE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ### Массив «имя файла — Base64» {#array}
@@ -329,6 +358,33 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.workflow.template.add", b24.Params{
+    	"DOCUMENT_TYPE": []string{"lists", "BizprocDocument", "iblock_164"},
+    	"NAME":          "App template",
+    	"TEMPLATE_DATA": []string{"bp-379.bpt", "base64_encoded_content_here"},
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.workflow.template.add: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Type      string `json:"TYPE"`
+    	StorageID b24.ID `json:"STORAGE_ID"`
+    	FileID    b24.ID `json:"FILE_ID"`
+    	Size      string `json:"SIZE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}
@@ -468,6 +524,37 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.product.add", b24.Params{
+    	"fields": b24.Params{
+    		"iblockId": "24",
+    		"name":     "Пример товара",
+    		"previewPicture": b24.Params{
+    			"fileData": []string{"example.jpg", "base64_encoded_content_here"},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.product.add: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Type      string `json:"TYPE"`
+    	StorageID b24.ID `json:"STORAGE_ID"`
+    	FileID    b24.ID `json:"FILE_ID"`
+    	Size      string `json:"SIZE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ### Параметр fileContent {#filecontent}
@@ -585,6 +672,32 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.file.uploadversion", b24.Params{
+    	"id":          4,
+    	"fileContent": []string{"1.gif", "base64_encoded_content_here"},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.file.uploadversion: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Type      string `json:"TYPE"`
+    	StorageID b24.ID `json:"STORAGE_ID"`
+    	FileID    b24.ID `json:"FILE_ID"`
+    	Size      string `json:"SIZE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ### Параметры FILENAME и FILE_CONTENT {#filename}
@@ -694,6 +807,33 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "telephony.externalCall.attachRecord", b24.Params{
+    	"CALL_ID":      "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+    	"FILENAME":     "call-001.mp3",
+    	"FILE_CONTENT": "base64_encoded_content_here",
+    })
+    if err != nil {
+    	return fmt.Errorf("telephony.externalCall.attachRecord: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Type      string `json:"TYPE"`
+    	StorageID b24.ID `json:"STORAGE_ID"`
+    	FileID    b24.ID `json:"FILE_ID"`
+    	Size      string `json:"SIZE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}
@@ -869,6 +1009,39 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.add", b24.Params{
+    	"entityTypeId": 2,
+    	"fields": b24.Params{
+    		"title": "Новая сделка (специально для примера REST методов)",
+    		"ufCrm_123456": []any{
+    			[]string{"green_pixel.png", "base64_encoded_content_here"},
+    			[]string{"blue_pixel.png", "base64_encoded_content_here"},
+    			[]string{"red_pixel.png", "base64_encoded_content_here"},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.add: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Type      string `json:"TYPE"`
+    	StorageID b24.ID `json:"STORAGE_ID"`
+    	FileID    b24.ID `json:"FILE_ID"`
+    	Size      string `json:"SIZE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}
@@ -1056,6 +1229,46 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.product.add", b24.Params{
+    	"fields": b24.Params{
+    		"iblockId": 1,
+    		"name":     "Пример товара",
+    		"PROPERTY_1077": []b24.Params{
+    			{
+    				"value": b24.Params{
+    					"fileData": []string{"blue_pixel.txt", "YmFzZSDRgtC10YHRgg=="},
+    				},
+    			},
+    			{
+    				"value": b24.Params{
+    					"fileData": []string{"red_pixel.txt", "YmFzZSDRgtC10YHRgg=="},
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.product.add: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Type      string `json:"TYPE"`
+    	StorageID b24.ID `json:"STORAGE_ID"`
+    	FileID    b24.ID `json:"FILE_ID"`
+    	Size      string `json:"SIZE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ### Массив объектов fileData {#multiple-filedata}
@@ -1219,6 +1432,41 @@ $base64 = base64_encode($fileData); // Кодируем в base64
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.lead.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE": "Пример лида",
+    		"UF_CRM_1711610801": []b24.Params{
+    			{
+    				"fileData": []string{"file1.png", "base64_encoded_content_here"},
+    			},
+    			{
+    				"fileData": []string{"file2.png", "base64_encoded_content_here"},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.lead.add: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Type      string `json:"TYPE"`
+    	StorageID b24.ID `json:"STORAGE_ID"`
+    	FileID    b24.ID `json:"FILE_ID"`
+    	Size      string `json:"SIZE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

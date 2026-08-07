@@ -374,6 +374,46 @@ RIGHTS: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.add", b24.Params{
+    	"IBLOCK_TYPE_ID": "lists",
+    	"IBLOCK_CODE":    "my_custom_list",
+    	"FIELDS": b24.Params{
+    		"NAME":        "Мой новый список",
+    		"DESCRIPTION": "Список для отслеживания задач в проекте",
+    		"SORT":        500,
+    		"BIZPROC":     "Y",
+    	},
+    	"MESSAGES": b24.Params{
+    		"ELEMENTS_NAME":  "Задачи",
+    		"ELEMENT_NAME":   "Задача",
+    		"ELEMENT_ADD":    "Добавить задачу",
+    		"ELEMENT_EDIT":   "Изменить задачу",
+    		"ELEMENT_DELETE": "Удалить задачу",
+    		"SECTIONS_NAME":  "Разделы",
+    		"SECTION_NAME":   "Раздел",
+    		"SECTION_ADD":    "Добавить раздел",
+    		"SECTION_EDIT":   "Изменить раздел",
+    		"SECTION_DELETE": "Удалить раздел",
+    	},
+    	"RIGHTS": b24.Params{
+    		"U1271": "X",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("lists.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

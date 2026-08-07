@@ -1618,6 +1618,52 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.item.add", b24.Params{
+        	"entityTypeId": 2,
+        	"fields": b24.Params{
+        		"title":               "Новая сделка (специально для примера REST методов)",
+        		"typeId":              "SERVICE",
+        		"categoryId":          9,
+        		"stageId":             "C9:UC_KN8KFI",
+        		"isReccurring":        "Y",
+        		"probability":         50,
+        		"currencyId":          "RUB",
+        		"isManualOpportunity": "Y",
+        		"opportunity":         999.99,
+        		"taxValue":            99.9,
+        		"companyId":           5,
+        		"contactId":           4,
+        		"contactIds":          []int{4, 5},
+        		"quoteId":             7,
+        		"begindate":           "formatDate(monthAgo)",
+        		"closedate":           "formatDate(twelveDaysInAdvance)",
+        		"opened":              "N",
+        		"comments":            "commentsExample",
+        		"assignedById":        6,
+        		"sourceId":            "WEB",
+        		"sourceDescription":   "Тут должно быть дополнительное описание об источнике",
+        		"leadId":              102,
+        		"additionalInfo":      "Тут должна быть дополнительная информация",
+        		"observers":           []int{2, 3},
+        		"utmSource":           "google",
+        		"utmMedium":           "CPC",
+        		"ufCrm_1721244707107": 1111.1,
+        		"parentId1220":        2,
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.item.add: %w", err)
+        }
+
+        // Ответ приходит как json.RawMessage — разберите его
+        // в структуру под форму ответа, показанную ниже на этой странице.
+        fmt.Printf("%s\n", res.Result)
+        ```
+
     {% endlist %}
 
 
@@ -2032,6 +2078,47 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.item.add", b24.Params{
+        	"entityTypeId": 1302,
+        	"fields": b24.Params{
+        		"ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
+        		"ufCrm44_1721812814433": 81,
+        		"ufCrm44_1721812853419": time.Now().Format(time.RFC3339),
+        		"ufCrm44_1721812885588": []string{"example.com", "second-example.com"},
+        		"ufCrm44_1721812898903": []string{"green_pixel.png", "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="},
+        		"ufCrm44_1721812915476": "300|RUB",
+        		"ufCrm44_1721812935209": "Y",
+        		"ufCrm44_1721812948498": 9999.9,
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.item.add: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "item".
+        raw, ok := b24.Unwrap(res.Result, "item")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа item")
+        }
+
+        var item struct {
+        	ID           b24.ID `json:"id"`
+        	CreatedTime  string `json:"createdTime"`
+        	UpdatedTime  string `json:"updatedTime"`
+        	CreatedBy    int    `json:"createdBy"`
+        	UpdatedBy    int    `json:"updatedBy"`
+        	AssignedByID b24.ID `json:"assignedById"`
+        }
+        if err := json.Unmarshal(raw, &item); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println(item.ID, item.CreatedTime)
         ```
 
     {% endlist %}

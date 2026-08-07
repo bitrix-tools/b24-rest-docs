@@ -219,6 +219,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.get", b24.Params{
+    	"ID": 123,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.get: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	DateCreate   string `json:"DATE_CREATE"`
+    	CreatedByID  b24.ID `json:"CREATED_BY_ID"`
+    	WebformID    b24.ID `json:"WEBFORM_ID"`
+    	EntityTypeID b24.ID `json:"ENTITY_TYPE_ID"`
+    	EntityType   string `json:"ENTITY_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.DateCreate)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

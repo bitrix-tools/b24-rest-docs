@@ -204,6 +204,28 @@
     echo '';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.layout.blocks.delete", b24.Params{
+    	"entityTypeId": 2,
+    	"entityId":     4,
+    	"timelineId":   8,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.layout.blocks.delete: %w", err)
+    }
+
+    var item struct {
+    	Success bool `json:"success"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success)
+    ```
+
 {% endlist %}
 
 

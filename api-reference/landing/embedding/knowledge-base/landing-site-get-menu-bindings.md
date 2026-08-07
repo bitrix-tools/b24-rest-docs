@@ -212,6 +212,32 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.getMenuBindings", b24.Params{
+    	"menuCode": "crm_switcher:deal",
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.getMenuBindings: %w", err)
+    }
+
+    var items []struct {
+    	EntityID   b24.ID `json:"ENTITY_ID"`
+    	EntityType string `json:"ENTITY_TYPE"`
+    	BindingID  string `json:"BINDING_ID"`
+    	Title      string `json:"TITLE"`
+    	PublicURL  string `json:"PUBLIC_URL"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.EntityID, it.EntityType)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -283,6 +283,37 @@ ID ресурсов можно получить методом [booking.v1.resou
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.booking.createfromwaitlist", b24.Params{
+    	"waitListId": 10,
+    	"fields": b24.Params{
+    		"resourceIds": []int{1, 2, 3},
+    		"datePeriod": b24.Params{
+    			"from": b24.Params{
+    				"timestamp": 1723446900,
+    				"timezone":  "Europe/Moscow",
+    			},
+    			"to": b24.Params{
+    				"timestamp": 1723447800,
+    				"timezone":  "Europe/Moscow",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("booking.v1.booking.createfromwaitlist: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

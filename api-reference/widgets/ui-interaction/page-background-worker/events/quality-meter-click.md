@@ -210,6 +210,23 @@ callback("5");
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bindEvent", b24.Params{
+    	"PLACEMENT": "BackgroundCallCard::qualityMeterClick",
+    	"HANDLER":   "**your_handler_url_here**",
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bindEvent: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

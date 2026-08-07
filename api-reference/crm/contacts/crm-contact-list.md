@@ -455,6 +455,54 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.list", b24.Params{
+    	"filter": b24.Params{
+    		"SOURCE_ID":       "CRM_FORM",
+    		"!=NAME":          "",
+    		"!=LAST_NAME":     "",
+    		"=%NAME":          "И%",
+    		"=%LAST_NAME":     "И%",
+    		"EMAIL":           "special-for@example.com",
+    		"@ASSIGNED_BY_ID": []int{1, 6},
+    		"IMPORT":          "Y",
+    		">=DATE_CREATE":   "**put_six_month_ago_date_here**",
+    	},
+    	"order": b24.Params{
+    		"LAST_NAME": "ASC",
+    		"NAME":      "ASC",
+    	},
+    	"select": []string{"ID", "NAME", "LAST_NAME", "EMAIL", "EXPORT", "ASSIGNED_BY_ID", "DATE_CREATE"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.list: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	LastName     string `json:"LAST_NAME"`
+    	Export       string `json:"EXPORT"`
+    	AssignedByID b24.ID `json:"ASSIGNED_BY_ID"`
+    	DateCreate   string `json:"DATE_CREATE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
