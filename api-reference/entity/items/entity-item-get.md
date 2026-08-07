@@ -233,6 +233,39 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.entity.item.get(
+            entity="dish_v2",
+            sort={
+                "DATE_ACTIVE_FROM": "ASC",
+                "ID": "ASC",
+            },
+            filter={
+                ">=DATE_ACTIVE_FROM": "2026-03-01T00:00:00+03:00",
+                "<DATE_ACTIVE_FROM": "2026-04-01T00:00:00+03:00",
+            },
+            start=0,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

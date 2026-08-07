@@ -268,15 +268,20 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.documentgenerator.document.list(
-            select=["id", "title", "number", "entityId", "createTime"],
-            order={"id": "desc"},
+            select=[
+                "id",
+                "title",
+                "number",
+                "entityId",
+                "createTime",
+            ],
+            order={
+                "id": "desc",
+            },
             filter={
                 "entityTypeId": 2,
                 "entityId": 101,
@@ -301,15 +306,20 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.documentgenerator.document.list(
-            select=["id", "title", "number", "entityId", "createTime"],
-            order={"id": "desc"},
+            select=[
+                "id",
+                "title",
+                "number",
+                "entityId",
+                "createTime",
+            ],
+            order={
+                "id": "desc",
+            },
             filter={
                 "entityTypeId": 2,
                 "entityId": 101,
@@ -334,15 +344,20 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.documentgenerator.document.list(
-            select=["id", "title", "number", "entityId", "createTime"],
-            order={"id": "desc"},
+            select=[
+                "id",
+                "title",
+                "number",
+                "entityId",
+                "createTime",
+            ],
+            order={
+                "id": "desc",
+            },
             filter={
                 "entityTypeId": 2,
                 "entityId": 101,

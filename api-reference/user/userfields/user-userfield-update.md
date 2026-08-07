@@ -286,7 +286,6 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     bitrix_id = 176
@@ -540,6 +539,35 @@
     echo '</PRE>';
     ```
 
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.user.userfield.update(
+            bitrix_id=42,
+            fields={
+                "SORT": 150,
+                "LIST_FILTER_LABEL": "New Title",
+                "LIST_COLUMN_LABEL": "New List Title",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 {% endlist %}
 
 ## Обработка ответа

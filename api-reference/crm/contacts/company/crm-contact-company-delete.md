@@ -183,15 +183,14 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.contact.company.delete(
             bitrix_id=54,
-            fields={"COMPANY_ID": 32},
+            fields={
+                "COMPANY_ID": 32,
+            },
         ).response
         result = bitrix_response.result
         print(result)

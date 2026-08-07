@@ -275,6 +275,63 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.calendar.user.settings.set(
+            settings={
+                "view": "month",
+                "meetSection": "4",
+                "crmSection": "4",
+                "showDeclined": True,
+                "denyBusyInvitation": False,
+                "collapseOffHours": "N",
+                "showWeekNumbers": "N",
+                "showTasks": "Y",
+                "syncTasks": "N",
+                "showCompletedTasks": "N",
+                "lastUsedSection": "false",
+                "sendFromEmail": "",
+                "defaultSections": {
+                    "user1": "4",
+                    "group6": "49",
+                },
+                "syncPeriodPast": "3",
+                "syncPeriodFuture": "12",
+                "defaultReminders": {
+                    "fullDay": [
+                        {
+                            "type": "min",
+                            "count": 15,
+                        },
+                    ],
+                    "withTime": [
+                        {
+                            "type": "min",
+                            "count": 50,
+                        },
+                    ],
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

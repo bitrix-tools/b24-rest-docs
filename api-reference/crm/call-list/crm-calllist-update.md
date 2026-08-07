@@ -188,16 +188,17 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.calllist.update(
             list_id=123,
             entity_type="CONTACT",
-            entities=[1, 2, 3],
+            entities=[
+                1,
+                2,
+                3,
+            ],
             webform_id=5,
         ).response
         result = bitrix_response.result

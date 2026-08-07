@@ -220,6 +220,44 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imconnector.delete.messages(
+            connector="myconnector",
+            line=107,
+            messages=[
+                {
+                    "user": {
+                        "id": "ext-user-42",
+                    },
+                    "message": {
+                        "id": "ext-msg-1001",
+                    },
+                    "chat": {
+                        "id": "channel-123",
+                    },
+                },
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

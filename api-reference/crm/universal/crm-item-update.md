@@ -1199,10 +1199,7 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.item.update(
@@ -1212,7 +1209,11 @@
                 "title": "REST Сделка #1",
                 "stageId": "C9:UC_NYL06U",
                 "assignedById": 6,
-                "observers": [1, 2, 3],
+                "observers": [
+                    1,
+                    2,
+                    3,
+                ],
                 "opened": "N",
                 "typeId": "SERVICE",
                 "opportunity": 10000,

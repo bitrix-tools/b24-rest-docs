@@ -68,6 +68,22 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = {
+        "IMAGE": [
+            {
+                "NAME": "Это Mantis",
+                "LINK": "https://files.shelenkov.com/bitrix/images/mantis.jpg",
+                "PREVIEW": "https://files.shelenkov.com/bitrix/images/mantis.jpg",
+                "WIDTH": 1000,
+                "HEIGHT": 638,
+            },
+        ],
+    }
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

@@ -235,6 +235,74 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "order": {
+            "id": 2066,
+            "propertyValues": [
+                {
+                    "orderPropsId": 20,
+                    "value": "John Smith",
+                },
+                {
+                    "orderPropsId": 21,
+                    "value": "johnsmith@example.com",
+                },
+                {
+                    "orderPropsId": 22,
+                    "value": "+10907996161",
+                },
+                {
+                    "orderPropsId": 25,
+                    "value": "0000073738",
+                },
+                {
+                    "orderPropsId": 26,
+                    "value": "900 S Holland Ave, Springfield, MO 65806, United States",
+                },
+                {
+                    "orderPropsId": 51,
+                    "value": "17.04.2024",
+                },
+                {
+                    "orderPropsId": 52,
+                    "value": "Y",
+                },
+                {
+                    "orderPropsId": 53,
+                    "value": "948",
+                },
+                {
+                    "orderPropsId": 54,
+                    "value": "10",
+                },
+            ],
+        },
+    }
+
+    try:
+        bitrix_response = client.sale.propertyvalue.modify(
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

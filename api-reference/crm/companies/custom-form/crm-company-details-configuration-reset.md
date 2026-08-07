@@ -335,16 +335,48 @@
             echo 'Error resetting company details configuration: ' . $e->getMessage();
         }
         ```
+    - BX24.js
+
+        ```js
+        BX24.callMethod(
+            "crm.company.details.configuration.reset",
+            {
+                scope: "C"
+            },
+            function(result)
+            {
+                if(result.error())
+                    console.error(result.error());
+                else
+                    console.dir(result.data());
+            }
+        );
+        ```
+
+    - PHP CRest
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.company.details.configuration.reset',
+            [
+                'scope' => 'C'
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+        ```
+
 
     - Python
 
         Пример
 
         ```python
-        from b24pysdk.client import BaseClient
         from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-        client: BaseClient
 
         try:
             bitrix_response = client.crm.company.details.configuration.reset(

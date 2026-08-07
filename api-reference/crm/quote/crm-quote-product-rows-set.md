@@ -295,7 +295,6 @@
         echo 'Error setting quote product rows: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

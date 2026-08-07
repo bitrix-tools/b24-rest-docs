@@ -302,6 +302,62 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "company": {
+            "crmId": 12,
+        },
+        "members": [
+            {
+                "userId": 25,
+                "role": "signer",
+            },
+            {
+                "userId": 42,
+                "role": "assignee",
+            },
+        ],
+        "responsible": {
+            "userId": 7,
+        },
+        "companyProviderUid": "d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b",
+        "files": [
+            {
+                "fileName": "contract.pdf",
+                "fileType": "application/pdf",
+                "fileContent": "JVBERi0xLjQKJ...",
+            },
+        ],
+        "regionDocumentType": "12.999",
+        "externalSettings": {
+            "externalId": "EXT-123",
+            "externalDateCreate": "2025-02-18T09:19:34+03:00",
+        },
+    }
+
+    try:
+        bitrix_response = client.sign.b2e.document.send(
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

@@ -357,6 +357,80 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.bizproc.activity.add(
+            code="md5_action",
+            handler="https://example.com/ping.php",
+            name={
+                "ru": "MD5 генератор",
+                "en": "MD5 generator",
+            },
+            auth_user_id=1,
+            use_subscription=True,
+            description={
+                "ru": "Действие возвращает MD5 хеш от входящего параметра",
+                "en": "Activity returns MD5 hash of input parameter",
+            },
+            properties={
+                "inputString": {
+                    "Name": {
+                        "ru": "Входящая строка",
+                        "en": "Input string",
+                    },
+                    "Description": {
+                        "ru": "Введите строку, которую вы хотите хешировать",
+                        "en": "Input string for hashing",
+                    },
+                    "Type": "string",
+                    "Required": "Y",
+                    "Multiple": "N",
+                    "Default": "{=Document:NAME}",
+                },
+            },
+            return_properties={
+                "outputString": {
+                    "Name": {
+                        "ru": "MD5",
+                        "en": "MD5",
+                    },
+                    "Type": "string",
+                    "Multiple": "N",
+                    "Default": None,
+                },
+            },
+            document_type=(
+                "lists",
+                "BizprocDocument",
+                "iblock_164",
+            ),
+            filter={
+                "INCLUDE": [
+                    [
+                        "lists",
+                    ],
+                ],
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

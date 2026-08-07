@@ -349,7 +349,6 @@
         echo 'Error setting company details configuration: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

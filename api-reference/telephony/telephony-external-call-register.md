@@ -256,6 +256,37 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.telephony.external_call.register(
+            user_id=1269,
+            phone_number="79062195047",
+            call_type=2,
+            crm_entity_type="CONTACT",
+            crm_entity_id=797,
+            show=1,
+            line_number="3",
+            external_call_id="asterisk-1710140185.18441",
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

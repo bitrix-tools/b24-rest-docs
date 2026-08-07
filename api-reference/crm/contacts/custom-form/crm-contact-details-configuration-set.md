@@ -456,7 +456,6 @@
         echo 'Error setting contact details configuration: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

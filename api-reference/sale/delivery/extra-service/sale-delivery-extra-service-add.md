@@ -186,6 +186,38 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.sale.delivery.extra.service.add(
+            delivery_id=197,
+            type='checkbox',
+            name='Door Delivery',
+            active=True,
+            code='door_delivery',
+            sort=100,
+            description='Door Delivery Description',
+            price=99.99,
+            items='[{',
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -513,6 +545,48 @@
     echo '</PRE>';
     ```
 
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.sale.delivery.extra.service.add(
+            delivery_id=198,
+            type="enum",
+            name="Cargo Type",
+            active="Y",
+            code="cargo_type",
+            sort=100,
+            description="Cargo Type Description",
+            items=[
+                {
+                    "TITLE": "Small Package(s)",
+                    "CODE": "small_package",
+                    "PRICE": 129.99,
+                },
+                {
+                    "TITLE": "Documents",
+                    "CODE": "documents",
+                    "PRICE": 69.99,
+                },
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 {% endlist %}
 
 ## Обработка ответа

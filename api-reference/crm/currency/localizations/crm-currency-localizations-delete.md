@@ -163,10 +163,7 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.currency.localizations.delete(

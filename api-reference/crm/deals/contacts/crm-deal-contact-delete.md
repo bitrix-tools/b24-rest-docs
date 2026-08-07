@@ -232,15 +232,14 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.deal.contact.delete(
             bitrix_id=123,
-            fields={"CONTACT_ID": 456},
+            fields={
+                "CONTACT_ID": 456,
+            },
         ).response
         result = bitrix_response.result
         print(result)

@@ -181,6 +181,37 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "TITLE": "Название стадии",
+        "COLOR": "#FFAAEE",
+        "AFTER_ID": 1,
+        "ENTITY_ID": 1,
+    }
+
+    try:
+        bitrix_response = client.task.stages.add(
+            fields=fields,
+            is_admin=False,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
 

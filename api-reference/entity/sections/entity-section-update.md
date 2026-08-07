@@ -167,6 +167,46 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.entity.section.update(
+            entity="dish",
+            bitrix_id=673,
+            name="Test section (updated)",
+            section=671,
+            active=True,
+            description="Updated description",
+            code="testovyy-razdel-updated",
+            sort=550,
+            picture=(
+                "section.jpg",
+                "**base64_section_image**",
+            ),
+            detail_picture=(
+                "section-detail.jpg",
+                "**base64_section_detail_image**",
+            ),
+            UF_COLOR="#ff6600",
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

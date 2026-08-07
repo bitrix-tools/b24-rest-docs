@@ -181,6 +181,40 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.userconsent.agreement.text(
+            bitrix_id=19,
+            replace={
+                "button_caption": "I agree",
+                "fields": {
+                    "COMPANY_NAME": "Example LLC",
+                    "COMPANY_ADDRESS": "1 Example St, New York, NY",
+                    "PURPOSES": "Processing personal data to improve service",
+                    "THIRD_PARTIES": "Company partners for analytics",
+                    "EMAIL": "info@example.com",
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

@@ -220,6 +220,116 @@ crm:
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.bizproc.workflow.template.list(
+            select=[
+                "ID",
+                "NAME",
+                "USER_ID",
+                "SYSTEM_CODE",
+            ],
+            filter={
+                "MODULE_ID": "lists",
+                "AUTO_EXECUTE": 0,
+            },
+            order={
+                "ID": "DESC",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+    Пример `as_list`
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.bizproc.workflow.template.list(
+            select=[
+                "ID",
+                "NAME",
+                "USER_ID",
+                "SYSTEM_CODE",
+            ],
+            filter={
+                "MODULE_ID": "lists",
+                "AUTO_EXECUTE": 0,
+            },
+            order={
+                "ID": "DESC",
+            },
+        ).as_list().response
+        result = bitrix_response.result
+        for item in result:
+            print(item)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+    Пример `as_list_fast`
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.bizproc.workflow.template.list(
+            select=[
+                "ID",
+                "NAME",
+                "USER_ID",
+                "SYSTEM_CODE",
+            ],
+            filter={
+                "MODULE_ID": "lists",
+                "AUTO_EXECUTE": 0,
+            },
+            order={
+                "ID": "DESC",
+            },
+        ).as_list_fast(descending=True).response
+        result = bitrix_response.result
+        for item in result:
+            print(item)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 	```php

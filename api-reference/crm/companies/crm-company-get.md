@@ -170,7 +170,6 @@
         echo 'Error getting company: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

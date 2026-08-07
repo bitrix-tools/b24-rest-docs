@@ -77,6 +77,20 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = {
+        "ID": 1,
+        "COLOR_TOKEN": "secondary",
+        "COLOR": "#29619b",
+        "BLOCKS": [
+            Ellipsis,
+            Ellipsis,
+        ],
+    }
+    ```
+
 {% endlist %}
 
 ### Поля полной формы
@@ -186,6 +200,44 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imbot.v2.chat.message.send(
+            bot_id=456,
+            dialog_id="chat20921",
+            fields={
+                "message": "Вложение с цветом primary",
+                "attach": {
+                    "ID": 1,
+                    "COLOR_TOKEN": "primary",
+                    "COLOR": "#29619b",
+                    "BLOCKS": [
+                        {
+                            "MESSAGE": "API будет доступно в обновлении [B]im 24.0.0[/B]",
+                        },
+                    ],
+                },
+            },
+        ).response
+        result = bitrix_response.result["id"]
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - BX24.js
 
     ```js
@@ -277,6 +329,15 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = [
+        Ellipsis,
+        Ellipsis,
+    ]
+    ```
+
 {% endlist %}
 
 ![Краткая версия ATTACH](./_images/short_attach.png){width=520}
@@ -359,6 +420,39 @@
         error_log($e->getMessage());
         echo 'Error: ' . $e->getMessage();
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imbot.v2.chat.message.send(
+            bot_id=456,
+            dialog_id="chat20921",
+            fields={
+                "message": "Блок текста",
+                "attach": [
+                    {
+                        "MESSAGE": "API будет доступно в обновлении [B]im 24.0.0[/B]",
+                    },
+                ],
+            },
+        ).response
+        result = bitrix_response.result["id"]
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - BX24.js

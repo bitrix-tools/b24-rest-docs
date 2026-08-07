@@ -579,10 +579,7 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.contact.userfield.add(
@@ -596,6 +593,8 @@
                 "SETTINGS": {
                     "DEFAULT_VALUE": "Привет, мир! Значение по умолчанию",
                     "ROWS": 3,
+                    "DISPLAY": "UI",
+                    "LIST_HEIGHT": 2,
                 },
                 "SORT": 1000,
                 "EDIT_IN_LIST": "Y",
@@ -620,6 +619,29 @@
                     "ru": "Привет, мир! Помощь",
                     "de": "Hallo, Welt! Hilfe",
                 },
+                "LIST": [
+                    {
+                        "VALUE": "Элемент списка #1",
+                        "DEF": "Y",
+                        "XML_ID": "XML_ID_1",
+                        "SORT": 100,
+                    },
+                    {
+                        "VALUE": "Элемент списка #2",
+                        "XML_ID": "XML_ID_2",
+                        "SORT": 200,
+                    },
+                    {
+                        "VALUE": "Элемент списка #3",
+                        "XML_ID": "XML_ID_3",
+                        "SORT": 300,
+                    },
+                    {
+                        "VALUE": "Элемент списка #4",
+                        "XML_ID": "XML_ID_4",
+                        "SORT": 400,
+                    },
+                ],
             },
         ).response
         result = bitrix_response.result
@@ -770,10 +792,7 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.contact.userfield.add(

@@ -314,6 +314,70 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from datetime import date
+
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    order = {
+        "DEADLINE": "asc",
+        "PRIORITY": "desc",
+    }
+    filter = {
+        "!STATUS": 6,
+        ">=DEADLINE": date.today().isoformat(),
+        "RESPONSIBLE_ID": 547,
+        "::SUBFILTER-PARAMS": {
+            "FAVORITE": "Y",
+        },
+    }
+    select = [
+        "ID",
+        "TITLE",
+        "DESCRIPTION",
+        "STATUS",
+        "subStatus",
+        "DEADLINE",
+        "CREATED_DATE",
+        "RESPONSIBLE_ID",
+        "ACCOMPLICES",
+        "AUDITORS",
+        "TAGS",
+        "COUNTERS",
+        "PRIORITY",
+        "MARK",
+    ]
+    params = {
+        "WITH_TIMER_INFO": True,
+        "WITH_RESULT_INFO": True,
+        "WITH_PARSED_DESCRIPTION": True,
+    }
+
+    try:
+        bitrix_response = client.tasks.task.list(
+            order=order,
+            filter=filter,
+            select=select,
+            params=params,
+            start=0,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

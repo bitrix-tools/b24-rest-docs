@@ -387,6 +387,85 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.catalog.product.sku.update(
+            bitrix_id=1291,
+            fields={
+                "name": "Головной товар",
+                "active": "Y",
+                "canBuyZero": "Y",
+                "code": "product_sku",
+                "createdBy": 1,
+                "dateActiveFrom": "2024-05-28T10:00:00",
+                "dateActiveTo": "2024-05-29T10:00:00",
+                "dateCreate": "2024-05-27T10:00:00",
+                "detailPicture": {
+                    "fileData": [
+                        "detailPicture.png",
+                        "put_base64_file_content_here",
+                    ],
+                },
+                "detailText": "",
+                "detailTextType": "text",
+                "height": 100,
+                "iblockSectionId": 47,
+                "length": 100,
+                "measure": 5,
+                "modifiedBy": 1,
+                "previewPicture": {
+                    "fileData": [
+                        "previewPicture.png",
+                        "put_base64_file_content_here",
+                    ],
+                },
+                "previewText": "",
+                "previewTextType": "text",
+                "purchasingCurrency": "RUB",
+                "purchasingPrice": 1000,
+                "quantity": 10,
+                "sort": 100,
+                "subscribe": "Y",
+                "vatId": 1,
+                "vatIncluded": "Y",
+                "weight": 100,
+                "width": 100,
+                "xmlId": "1291",
+                "property258": {
+                    "value": "test",
+                    "valueId": 9883,
+                },
+                "property259": [
+                    {
+                        "value": "test1",
+                        "valueId": 9884,
+                    },
+                    {
+                        "value": "test2",
+                        "valueId": 9885,
+                    },
+                ],
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

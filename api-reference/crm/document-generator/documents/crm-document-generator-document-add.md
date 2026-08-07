@@ -323,10 +323,7 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.documentgenerator.document.add(
@@ -342,7 +339,10 @@
                     "value": "Демонстрационная реализация товара 1",
                     "required": "Y",
                     "default": "Демонстрационная реализация товара 1",
-                    "chain": [{}, "getTitle"],
+                    "chain": [
+                        {},
+                        "getTitle",
+                    ],
                     "VALUE": "Тест через fields",
                 },
             },

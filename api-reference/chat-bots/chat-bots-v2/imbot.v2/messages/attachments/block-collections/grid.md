@@ -173,6 +173,27 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = {
+        "GRID": [
+            {
+                "NAME": "Описание",
+                "VALUE": "Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.",
+                "DISPLAY": "BLOCK",
+                "WIDTH": 250,
+            },
+            {
+                "NAME": "Категория",
+                "VALUE": "Пожелания",
+                "DISPLAY": "BLOCK",
+                "WIDTH": 100,
+            },
+        ],
+    }
+    ```
+
 {% endlist %}
 
 ### Строчное представление
@@ -233,6 +254,28 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = {
+        "GRID": [
+            {
+                "NAME": "Приоритет",
+                "VALUE": "Высокий",
+                "COLOR_TOKEN": "alert",
+                "COLOR": "#ff0000",
+                "DISPLAY": "LINE",
+                "WIDTH": 250,
+            },
+            {
+                "NAME": "Категория",
+                "VALUE": "Пожелания",
+                "DISPLAY": "LINE",
+            },
+        ],
+    }
+    ```
+
 {% endlist %}
 
 ### Представление в виде двух колонок
@@ -282,6 +325,26 @@
             ]
         ]
     ]
+    ```
+
+- Python
+
+    ```python
+    attach = {
+        "GRID": [
+            {
+                "NAME": "Приоритет",
+                "VALUE": "Высокий",
+                "DISPLAY": "ROW",
+                "WIDTH": 250,
+            },
+            {
+                "NAME": "Категория",
+                "VALUE": "Пожелания",
+                "DISPLAY": "ROW",
+            },
+        ],
+    }
     ```
 
 {% endlist %}
@@ -340,6 +403,30 @@
             ]
         ]
     ]
+    ```
+
+- Python
+
+    ```python
+    attach = {
+        "GRID": [
+            {
+                "NAME": "Проект",
+                "VALUE": "BUGS",
+                "DISPLAY": "TABLE",
+            },
+            {
+                "NAME": "Категория",
+                "VALUE": "im",
+                "DISPLAY": "TABLE",
+            },
+            {
+                "NAME": "Дедлайн",
+                "VALUE": "24.06.2026 17:50:43",
+                "DISPLAY": "TABLE",
+            },
+        ],
+    }
     ```
 
 {% endlist %}

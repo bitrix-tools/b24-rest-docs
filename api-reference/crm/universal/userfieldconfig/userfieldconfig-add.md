@@ -490,6 +490,64 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.userfieldconfig.add(
+            module_id="crm",
+            field={
+                "entityId": "CRM_7",
+                "fieldName": "UF_CRM_7_NEW_REST_LIST_2026",
+                "userTypeId": "enumeration",
+                "multiple": "Y",
+                "editFormLabel": {
+                    "ru": "Список характеристик",
+                    "en": "List of characteristics",
+                },
+                "listColumnLabel": {
+                    "ru": "Характеристики",
+                    "en": "Characteristics",
+                },
+                "listFilterLabel": {
+                    "ru": "Характеристики",
+                    "en": "Characteristics",
+                },
+                "settings": {
+                    "DISPLAY": "LIST",
+                    "LIST_HEIGHT": 1,
+                },
+                "enum": [
+                    {
+                        "value": "Характеристика 1",
+                        "def": "N",
+                        "sort": 100,
+                    },
+                    {
+                        "value": "Характеристика 2",
+                        "def": "Y",
+                        "sort": 200,
+                    },
+                ],
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

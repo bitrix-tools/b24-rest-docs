@@ -242,17 +242,16 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.activity.list(
             filter={
                 "SUBJECT": "Обзвон #13",
             },
-            select=["ID"],
+            select=[
+                "ID",
+            ],
         ).response
         result = bitrix_response.result
 
@@ -389,4 +388,4 @@
 || [crm.calllist.list](./crm-calllist-list.md) | Возвращает список всех обзвонов ||
 || [crm.calllist.statuslist](./crm-calllist-statuslist.md) | Возвращает список статусов обзвона ||
 || [crm.calllist.update](./crm-calllist-update.md) | Обновляет состав списка обзвона ||
-|# 
+|#

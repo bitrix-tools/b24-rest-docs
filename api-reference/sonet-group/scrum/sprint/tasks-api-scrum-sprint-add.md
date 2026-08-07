@@ -194,9 +194,38 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.tasks.api.scrum.sprint.add(
+            fields={
+                "name": "Sprint 1",
+                "groupId": 1,
+                "createdBy": 1,
+                "sort": 1,
+                "status": "planned",
+                "dateStart": "2021-11-22T00:00:00+02:00",
+                "dateEnd": "2021-11-29T00:00:00+02:00",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
-
-
     ```php
     try {
         $response = $b24Service

@@ -275,7 +275,6 @@
         echo 'Error fetching quote list: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

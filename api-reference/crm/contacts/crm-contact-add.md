@@ -562,7 +562,6 @@
         echo 'Error adding contact: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

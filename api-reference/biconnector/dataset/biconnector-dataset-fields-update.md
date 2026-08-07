@@ -252,6 +252,56 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.biconnector.dataset.fields.update(
+            bitrix_id=10,
+            add=[
+                {
+                    "type": "int",
+                    "name": "NAME",
+                    "externalCode": "NAME",
+                },
+                {
+                    "type": "int",
+                    "name": "ID",
+                    "externalCode": "ID",
+                },
+            ],
+            update=[
+                {
+                    "id": 12,
+                    "visible": False,
+                },
+                {
+                    "id": 13,
+                    "visible": True,
+                },
+            ],
+            delete=[
+                14,
+                15,
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

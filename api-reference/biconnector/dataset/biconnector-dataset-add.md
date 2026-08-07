@@ -220,6 +220,68 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.biconnector.dataset.add(
+            fields={
+                "sourceId": 3,
+                "name": "rest_dataset",
+                "externalName": "extranalName",
+                "externalCode": "extrnalCode",
+                "description": "Dataset description",
+                "fields": [
+                    {
+                        "type": "int",
+                        "name": "ID",
+                        "externalCode": "ID",
+                    },
+                    {
+                        "type": "string",
+                        "name": "NAME",
+                        "externalCode": "NAME",
+                    },
+                    {
+                        "type": "string",
+                        "name": "SURNAME",
+                        "externalCode": "SURNAME",
+                    },
+                    {
+                        "type": "double",
+                        "name": "SCORE",
+                        "externalCode": "SCORE",
+                    },
+                    {
+                        "type": "date",
+                        "name": "DATA",
+                        "externalCode": "DATA",
+                    },
+                    {
+                        "type": "datetime",
+                        "name": "TIME",
+                        "externalCode": "TIME",
+                    },
+                ],
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

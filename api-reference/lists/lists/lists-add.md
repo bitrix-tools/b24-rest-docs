@@ -248,6 +248,55 @@ RIGHTS: {
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "NAME": "Мой новый список",
+        "DESCRIPTION": "Список для отслеживания задач в проекте",
+        "SORT": 500,
+        "BIZPROC": "Y",
+    }
+    messages = {
+        "ELEMENTS_NAME": "Задачи",
+        "ELEMENT_NAME": "Задача",
+        "ELEMENT_ADD": "Добавить задачу",
+        "ELEMENT_EDIT": "Изменить задачу",
+        "ELEMENT_DELETE": "Удалить задачу",
+        "SECTIONS_NAME": "Разделы",
+        "SECTION_NAME": "Раздел",
+        "SECTION_ADD": "Добавить раздел",
+        "SECTION_EDIT": "Изменить раздел",
+        "SECTION_DELETE": "Удалить раздел",
+    }
+    rights = {
+        "U1271": "X",
+    }
+
+    try:
+        bitrix_response = client.lists.add(
+            iblock_type_id="lists",
+            iblock_code="my_custom_list",
+            fields=fields,
+            messages=messages,
+            rights=rights,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     ```php
