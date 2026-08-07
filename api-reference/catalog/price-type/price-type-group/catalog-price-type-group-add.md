@@ -238,6 +238,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.priceTypeGroup.add", b24.Params{
+    	"fields": b24.Params{
+    		"catalogGroupId": 9,
+    		"groupId":        23,
+    		"access":         "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.priceTypeGroup.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "priceTypeGroup".
+    raw, ok := b24.Unwrap(res.Result, "priceTypeGroup")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа priceTypeGroup")
+    }
+
+    var item struct {
+    	Access         string `json:"access"`
+    	CatalogGroupID b24.ID `json:"catalogGroupId"`
+    	GroupID        b24.ID `json:"groupId"`
+    	ID             b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Access, item.CatalogGroupID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

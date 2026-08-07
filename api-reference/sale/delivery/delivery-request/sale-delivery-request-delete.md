@@ -196,6 +196,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.request.delete", b24.Params{
+    	"DELIVERY_ID": 225,
+    	"REQUEST_ID":  "4757aca4931a4f029f49c0db4374d13d",
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.request.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

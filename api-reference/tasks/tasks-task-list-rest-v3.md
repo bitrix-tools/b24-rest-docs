@@ -333,6 +333,49 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.list", b24.Params{
+    	"select": []string{"id", "title", "responsibleId", "deadline", "status"},
+    	"filter": []any{
+    		[]any{"id", ">", 1000},
+    	},
+    	"order": b24.Params{
+    		"id": "ASC",
+    	},
+    	"pagination": b24.Params{
+    		"page":   1,
+    		"limit":  20,
+    		"offset": 0,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.task.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID            b24.ID `json:"id"`
+    	Title         string `json:"title"`
+    	ResponsibleID b24.ID `json:"responsibleId"`
+    	Deadline      string `json:"deadline"`
+    	Status        string `json:"status"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

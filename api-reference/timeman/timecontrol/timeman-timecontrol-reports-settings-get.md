@@ -189,6 +189,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.timecontrol.reports.settings.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("timeman.timecontrol.reports.settings.get: %w", err)
+    }
+
+    var item struct {
+    	Active               bool   `json:"active"`
+    	UserID               int    `json:"user_id"`
+    	UserAdmin            bool   `json:"user_admin"`
+    	UserHead             bool   `json:"user_head"`
+    	MinimumIdleForReport int    `json:"minimum_idle_for_report"`
+    	ReportViewType       string `json:"report_view_type"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.UserID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

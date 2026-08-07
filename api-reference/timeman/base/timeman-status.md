@@ -205,6 +205,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.status", b24.Params{
+    	"USER_ID": 503,
+    })
+    if err != nil {
+    	return fmt.Errorf("timeman.status: %w", err)
+    }
+
+    var item struct {
+    	Status    string `json:"STATUS"`
+    	TimeStart string `json:"TIME_START"`
+    	Duration  string `json:"DURATION"`
+    	TimeLeaks string `json:"TIME_LEAKS"`
+    	Active    bool   `json:"ACTIVE"`
+    	IPOpen    string `json:"IP_OPEN"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Status, item.TimeStart)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

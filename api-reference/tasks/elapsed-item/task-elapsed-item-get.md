@@ -217,6 +217,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.elapseditem.get", b24.Params{
+    	"TASKID": 691,
+    	"ITEMID": 1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("task.elapseditem.get: %w", err)
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"ID"`
+    	TaskID      b24.ID `json:"TASK_ID"`
+    	UserID      b24.ID `json:"USER_ID"`
+    	CommentText string `json:"COMMENT_TEXT"`
+    	Seconds     string `json:"SECONDS"`
+    	Minutes     string `json:"MINUTES"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.TaskID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

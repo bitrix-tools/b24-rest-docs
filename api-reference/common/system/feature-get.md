@@ -198,6 +198,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "feature.get", b24.Params{
+    	"CODE": "rest_offline_extended",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("feature.get: %w", err)
+    }
+
+    var item struct {
+    	Value string `json:"value"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

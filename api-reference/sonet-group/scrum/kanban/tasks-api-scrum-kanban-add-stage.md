@@ -237,6 +237,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.kanban.addStage", b24.Params{
+    	"fields": b24.Params{
+    		"sprintId": 1,
+    		"name":     "Первая стадия",
+    		"type":     "NEW",
+    		"color":    "00C4FB",
+    		"sort":     100,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.kanban.addStage: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

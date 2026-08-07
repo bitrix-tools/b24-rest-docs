@@ -244,6 +244,43 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.productPropertySection.set", b24.Params{
+    	"propertyId": 901,
+    	"fields": b24.Params{
+    		"smartFilter":     "Y",
+    		"displayType":     "F",
+    		"displayExpanded": "N",
+    		"filterHint":      "Подсказка для фильтра",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.productPropertySection.set: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "productPropertySection".
+    raw, ok := b24.Unwrap(res.Result, "productPropertySection")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа productPropertySection")
+    }
+
+    var item struct {
+    	DisplayExpanded string `json:"displayExpanded"`
+    	DisplayType     string `json:"displayType"`
+    	FilterHint      string `json:"filterHint"`
+    	IblockID        b24.ID `json:"iblockId"`
+    	PropertyID      b24.ID `json:"propertyId"`
+    	SectionID       b24.ID `json:"sectionId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DisplayExpanded, item.DisplayType)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

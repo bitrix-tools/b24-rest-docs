@@ -266,6 +266,20 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("task.item.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 Получить список задач с идентификаторами 1, 2, 3, 4, 5, 6, причем выбрать только поля `ID` и `TITLE`. Режим постраничной навигации — по 2 элемента на странице, 2-ая страница. Сортировка по ID — по убыванию.
@@ -468,6 +482,33 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.list", b24.Params{
+    	"ORDER": b24.Params{
+    		"ID": "desc",
+    	},
+    	"FILTER": b24.Params{
+    		"ID": []int{1, 2, 3, 4, 5, 6},
+    	},
+    	"PARAMS": b24.Params{
+    		"NAV_PARAMS": b24.Params{
+    			"nPageSize": 2,
+    			"iNumPage":  2,
+    		},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("task.item.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

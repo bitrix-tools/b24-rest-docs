@@ -254,6 +254,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.measure.update", b24.Params{
+    	"Id": 8,
+    	"fields": b24.Params{
+    		"symbol":           "пар",
+    		"symbolLetterIntl": "nrp",
+    		"symbolIntl":       "pr. 2",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.measure.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "measure".
+    raw, ok := b24.Unwrap(res.Result, "measure")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа measure")
+    }
+
+    var item struct {
+    	Code         int    `json:"code"`
+    	ID           b24.ID `json:"id"`
+    	IsDefault    string `json:"isDefault"`
+    	MeasureTitle string `json:"measureTitle"`
+    	Symbol       string `json:"symbol"`
+    	SymbolIntl   string `json:"symbolIntl"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Code, item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

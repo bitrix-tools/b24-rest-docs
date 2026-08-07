@@ -240,6 +240,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.backlog.update", b24.Params{
+    	"id": 1,
+    	"fields": b24.Params{
+    		"groupId":   125,
+    		"createdBy": 6,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.backlog.update: %w", err)
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	GroupID    b24.ID `json:"groupId"`
+    	CreatedBy  int    `json:"createdBy"`
+    	ModifiedBy int    `json:"modifiedBy"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.GroupID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

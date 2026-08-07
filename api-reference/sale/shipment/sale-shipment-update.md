@@ -336,6 +336,50 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipment.update", b24.Params{
+    	"id": 2452,
+    	"fields": b24.Params{
+    		"allowDelivery":     "N",
+    		"deducted":          "N",
+    		"deliveryId":        3,
+    		"statusId":          "DD",
+    		"deliveryDocDate":   "2024-02-13T15:05:49",
+    		"deliveryDocNum":    "MyDocumentNumber",
+    		"trackingNumber":    "MyTrackingNumber",
+    		"basePriceDelivery": 1999.99,
+    		"comments":          "My new comment for manager",
+    		"responsibleId":     1,
+    		"xmlId":             "myNewXmlId",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.shipment.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "shipment".
+    raw, ok := b24.Unwrap(res.Result, "shipment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа shipment")
+    }
+
+    var item struct {
+    	AccountNumber     string  `json:"accountNumber"`
+    	AllowDelivery     string  `json:"allowDelivery"`
+    	BasePriceDelivery float64 `json:"basePriceDelivery"`
+    	Canceled          string  `json:"canceled"`
+    	Comments          string  `json:"comments"`
+    	Currency          string  `json:"currency"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.AccountNumber, item.AllowDelivery)
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

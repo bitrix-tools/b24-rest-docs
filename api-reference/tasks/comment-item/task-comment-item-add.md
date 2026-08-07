@@ -253,6 +253,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.commentitem.add", b24.Params{
+    	"TASKID": 8017,
+    	"FIELDS": b24.Params{
+    		"POST_MESSAGE":         "Текст нового комментария к задаче",
+    		"AUTHOR_ID":            503,
+    		"POST_DATE":            "2025-07-15T14:30:00+03:00",
+    		"UF_FORUM_MESSAGE_DOC": []string{"n4755", "n4753"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.commentitem.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

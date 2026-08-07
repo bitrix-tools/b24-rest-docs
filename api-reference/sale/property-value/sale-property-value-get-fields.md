@@ -180,6 +180,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertyvalue.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.propertyvalue.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyValue".
+    raw, ok := b24.Unwrap(res.Result, "propertyValue")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyValue")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

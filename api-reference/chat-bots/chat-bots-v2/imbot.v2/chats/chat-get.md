@@ -138,6 +138,39 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.get", b24.Params{
+    	"botId":    456,
+    	"botToken": "my_bot_token",
+    	"dialogId": "chat5",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "chat".
+    raw, ok := b24.Unwrap(res.Result, "chat")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа chat")
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	DialogID    string `json:"dialogId"`
+    	Name        string `json:"name"`
+    	Description string `json:"description"`
+    	Type        string `json:"type"`
+    	MessageType string `json:"messageType"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.DialogID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

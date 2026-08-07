@@ -235,6 +235,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.result.addfromchatmessage", b24.Params{
+    	"fields": b24.Params{
+    		"messageId": 335,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.result.addfromchatmessage: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"id"`
+    	TaskID    b24.ID `json:"taskId"`
+    	Text      string `json:"text"`
+    	AuthorID  b24.ID `json:"authorId"`
+    	CreatedAt string `json:"createdAt"`
+    	Status    string `json:"status"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.TaskID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -514,6 +514,66 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.handler.add", b24.Params{
+    	"CODE":            "restcashbox01",
+    	"NAME":            "REST-касса 01",
+    	"SORT":            100,
+    	"SUPPORTS_FFD105": "Y",
+    	"SETTINGS": b24.Params{
+    		"PRINT_URL":    "http://example.com/rest_print.php",
+    		"CHECK_URL":    "http://example.com/rest_check.php",
+    		"HTTP_VERSION": "1.1",
+    		"CONFIG": b24.Params{
+    			"AUTH": b24.Params{
+    				"LABEL": "Авторизация",
+    				"ITEMS": b24.Params{
+    					"KEYWORD": b24.Params{
+    						"TYPE":  "STRING",
+    						"LABEL": "Кодовое слово",
+    					},
+    					"PREFERENCE": b24.Params{
+    						"TYPE":     "ENUM",
+    						"LABEL":    "Множественный выбор",
+    						"REQUIRED": "Y",
+    						"OPTIONS": b24.Params{
+    							"FIRST":  "Первый",
+    							"SECOND": "Второй",
+    							"THIRD":  "Третий",
+    						},
+    					},
+    				},
+    			},
+    			"INTERACTION": b24.Params{
+    				"LABEL": "Настройки взаимодействия с кассой",
+    				"ITEMS": b24.Params{
+    					"MODE": b24.Params{
+    						"TYPE":  "ENUM",
+    						"LABEL": "Режим работы с кассой",
+    						"OPTIONS": b24.Params{
+    							"ACTIVE": "боевой",
+    							"TEST":   "тестовый",
+    						},
+    					},
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.handler.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 {% note tip "Частые кейсы и сценарии" %}

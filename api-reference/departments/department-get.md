@@ -275,6 +275,34 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "department.get", b24.Params{
+    	"sort":   "NAME",
+    	"order":  "DESC",
+    	"PARENT": 1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("department.get: %w", err)
+    }
+
+    var items []struct {
+    	ID     b24.ID `json:"ID"`
+    	Name   string `json:"NAME"`
+    	Sort   int    `json:"SORT"`
+    	Parent string `json:"PARENT"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

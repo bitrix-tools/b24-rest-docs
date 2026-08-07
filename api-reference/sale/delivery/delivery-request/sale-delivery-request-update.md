@@ -375,6 +375,48 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.request.update", b24.Params{
+    	"DELIVERY_ID": 225,
+    	"REQUEST_ID":  "4757aca4931a4f029f49c0db4374d13d",
+    	"STATUS": b24.Params{
+    		"TEXT":     "Performer found",
+    		"SEMANTIC": "process",
+    	},
+    	"PROPERTIES": []b24.Params{
+    		{
+    			"NAME":  "Car",
+    			"VALUE": "Gray Skoda Octavia, a777zn",
+    		},
+    		{
+    			"NAME":  "Driver",
+    			"VALUE": "John Smith",
+    		},
+    		{
+    			"NAME":  "Phone Number",
+    			"VALUE": "+11111111111",
+    			"TAGS":  []string{"phone"},
+    		},
+    		{
+    			"NAME":  "Something else",
+    			"VALUE": "Some value",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.request.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -150,6 +150,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.chat.user.list", b24.Params{
+    	"CHAT_ID":   2725,
+    	"CLIENT_ID": "**put_your_client_id_here**",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.chat.user.list: %w", err)
+    }
+
+    var items []b24.ID
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

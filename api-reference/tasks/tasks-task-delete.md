@@ -189,6 +189,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.delete", b24.Params{
+    	"taskId": 8131,
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.delete: %w", err)
+    }
+
+    var item struct {
+    	Task bool `json:"task"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Task)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

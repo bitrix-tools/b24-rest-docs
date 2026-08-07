@@ -270,6 +270,40 @@ fields: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.statuslang.add", b24.Params{
+    	"fields": b24.Params{
+    		"statusId":    "RD",
+    		"lid":         "ru",
+    		"name":        "Возвращен покупателем",
+    		"description": "Покупатель вернул товар по причине наличия дефекта",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.statuslang.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "statusLang".
+    raw, ok := b24.Unwrap(res.Result, "statusLang")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа statusLang")
+    }
+
+    var item struct {
+    	Description string `json:"description"`
+    	Lid         string `json:"lid"`
+    	Name        string `json:"name"`
+    	StatusID    string `json:"statusId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Description, item.Lid)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

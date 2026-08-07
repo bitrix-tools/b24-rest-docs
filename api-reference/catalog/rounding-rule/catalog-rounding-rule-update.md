@@ -254,6 +254,43 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.roundingRule.update", b24.Params{
+    	"Id": 1,
+    	"fields": b24.Params{
+    		"catalogGroupId": 14,
+    		"price":          1500,
+    		"roundType":      2,
+    		"roundPrecision": 10,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.roundingRule.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "roundingRule".
+    raw, ok := b24.Unwrap(res.Result, "roundingRule")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа roundingRule")
+    }
+
+    var item struct {
+    	CatalogGroupID b24.ID `json:"catalogGroupId"`
+    	CreatedBy      int    `json:"createdBy"`
+    	DateCreate     string `json:"dateCreate"`
+    	DateModify     string `json:"dateModify"`
+    	ID             b24.ID `json:"id"`
+    	ModifiedBy     int    `json:"modifiedBy"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.CatalogGroupID, item.CreatedBy)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

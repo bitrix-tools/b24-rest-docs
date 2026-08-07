@@ -248,6 +248,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "note.document.search.list", b24.Params{
+    	"query": "рецепт борща",
+    	"pagination": b24.Params{
+    		"limit": 50,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("note.document.search.list: %w", err)
+    }
+
+    var item struct {
+    	HasMore bool `json:"hasMore"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.HasMore)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

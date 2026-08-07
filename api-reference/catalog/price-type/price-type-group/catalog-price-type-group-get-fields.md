@@ -179,6 +179,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.priceTypeGroup.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.priceTypeGroup.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "priceTypeGroup".
+    raw, ok := b24.Unwrap(res.Result, "priceTypeGroup")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа priceTypeGroup")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -208,6 +208,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "biconnector.connector.get", b24.Params{
+    	"id": 4,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("biconnector.connector.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	Title       string `json:"title"`
+    	DateCreate  string `json:"dateCreate"`
+    	Logo        string `json:"logo"`
+    	Description string `json:"description"`
+    	Sort        int    `json:"sort"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
+    ```
+
 {% endlist %}
 
 

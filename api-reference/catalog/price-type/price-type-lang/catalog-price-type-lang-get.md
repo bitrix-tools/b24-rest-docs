@@ -196,6 +196,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.priceTypeLang.get", b24.Params{
+    	"id": 2,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.priceTypeLang.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "priceTypeLang".
+    raw, ok := b24.Unwrap(res.Result, "priceTypeLang")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа priceTypeLang")
+    }
+
+    var item struct {
+    	CatalogGroupID b24.ID `json:"catalogGroupId"`
+    	ID             b24.ID `json:"id"`
+    	Lang           string `json:"lang"`
+    	Name           string `json:"name"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.CatalogGroupID, item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

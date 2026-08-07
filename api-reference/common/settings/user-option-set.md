@@ -215,6 +215,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.option.set", b24.Params{
+    	"options": b24.Params{
+    		"data":  "value",
+    		"data2": "value2",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("user.option.set: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ошибок

@@ -359,6 +359,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.message.add", b24.Params{
+    	"DIALOG_ID":   "chat2725",
+    	"MESSAGE":     "Выберите действие в меню",
+    	"URL_PREVIEW": "Y",
+    	"MENU": b24.Params{
+    		"ITEMS": []b24.Params{
+    			{
+    				"TEXT": "Открыть сайт",
+    				"LINK": "https://www.example.ru/",
+    			},
+    			{
+    				"TEXT":         "Отправить текст",
+    				"ACTION":       "SEND",
+    				"ACTION_VALUE": "Готово",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("im.message.add: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Как обновить или удалить контекстное меню

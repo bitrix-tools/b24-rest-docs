@@ -198,6 +198,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.disk.file.save", b24.Params{
+    	"FILE_ID": 5155,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.disk.file.save: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

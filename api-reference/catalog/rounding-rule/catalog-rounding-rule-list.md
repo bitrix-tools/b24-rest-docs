@@ -290,6 +290,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.roundingrule.list", b24.Params{
+    	"select": []string{"id", "price", "roundType"},
+    	"filter": b24.Params{
+    		"modifiedBy": 1,
+    	},
+    	"order": b24.Params{
+    		"id": "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.roundingrule.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

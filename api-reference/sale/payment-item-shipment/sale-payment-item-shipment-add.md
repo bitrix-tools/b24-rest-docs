@@ -239,6 +239,40 @@ fields: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paymentitemshipment.add", b24.Params{
+    	"fields": b24.Params{
+    		"shipmentId": 2471,
+    		"paymentId":  1025,
+    		"xmlId":      "myXmlId",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.paymentitemshipment.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "paymentItemShipment".
+    raw, ok := b24.Unwrap(res.Result, "paymentItemShipment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа paymentItemShipment")
+    }
+
+    var item struct {
+    	DateInsert string `json:"dateInsert"`
+    	ID         b24.ID `json:"id"`
+    	PaymentID  b24.ID `json:"paymentId"`
+    	ShipmentID b24.ID `json:"shipmentId"`
+    	XmlID      string `json:"xmlId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DateInsert, item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

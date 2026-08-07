@@ -275,6 +275,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.field.get", b24.Params{
+    	"name":   "id",
+    	"select": []string{"name", "type", "title", "description", "filterable", "sortable", "multiple"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.task.field.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	Name        string `json:"name"`
+    	Type        string `json:"type"`
+    	Title       string `json:"title"`
+    	Description string `json:"description"`
+    	Filterable  bool   `json:"filterable"`
+    	Sortable    bool   `json:"sortable"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Name, item.Type)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

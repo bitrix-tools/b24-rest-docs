@@ -227,6 +227,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.product.sku.get", b24.Params{
+    	"id": 1289,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.product.sku.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "sku".
+    raw, ok := b24.Unwrap(res.Result, "sku")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа sku")
+    }
+
+    var item struct {
+    	Active     string `json:"active"`
+    	Available  string `json:"available"`
+    	Bundle     string `json:"bundle"`
+    	CanBuyZero string `json:"canBuyZero"`
+    	Code       string `json:"code"`
+    	CreatedBy  int    `json:"createdBy"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Available)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

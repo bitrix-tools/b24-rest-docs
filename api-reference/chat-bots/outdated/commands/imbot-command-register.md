@@ -222,6 +222,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.command.register", b24.Params{
+    	"BOT_ID":            1291,
+    	"COMMAND":           "echo",
+    	"EVENT_COMMAND_ADD": "https://example.com/bot/command.php",
+    	"LANG": []b24.Params{
+    		{
+    			"LANGUAGE_ID": "ru",
+    			"TITLE":       "Эхо",
+    			"PARAMS":      "текст",
+    		},
+    		{
+    			"LANGUAGE_ID": "en",
+    			"TITLE":       "Echo",
+    			"PARAMS":      "text",
+    		},
+    	},
+    	"COMMON":           "Y",
+    	"HIDDEN":           "N",
+    	"EXTRANET_SUPPORT": "N",
+    	"CLIENT_ID":        "**put_your_client_id_here**",
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.command.register: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

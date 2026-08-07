@@ -189,6 +189,19 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.counters.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.counters.get: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

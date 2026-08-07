@@ -211,6 +211,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.checklistitem.moveafteritem", b24.Params{
+    	"TASKID":      13,
+    	"ITEMID":      475,
+    	"AFTERITEMID": 447,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.checklistitem.moveafteritem: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

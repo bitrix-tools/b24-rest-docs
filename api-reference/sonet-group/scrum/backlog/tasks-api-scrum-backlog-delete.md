@@ -193,6 +193,21 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.backlog.delete", b24.Params{
+    	"id": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.backlog.delete: %w", err)
+    }
+
+    // Ответ — список; разберите его в структуру под форму ответа ниже.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

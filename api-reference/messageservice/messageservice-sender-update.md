@@ -227,6 +227,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "messageservice.sender.update", b24.Params{
+    	"CODE":        "provider1",
+    	"HANDLER":     "https://provider.example/api/new-handler",
+    	"NAME":        "Provider 1 Updated",
+    	"DESCRIPTION": "Обновленное описание",
+    })
+    if err != nil {
+    	return fmt.Errorf("messageservice.sender.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

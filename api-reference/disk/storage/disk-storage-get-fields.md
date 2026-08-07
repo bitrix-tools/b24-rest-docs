@@ -176,6 +176,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("disk.storage.getFields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

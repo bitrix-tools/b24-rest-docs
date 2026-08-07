@@ -186,6 +186,31 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Event.get", b24.Params{
+    	"botId":          456,
+    	"botToken":       "my_bot_token",
+    	"offset":         1000,
+    	"limit":          50,
+    	"withUserEvents": true,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Event.get: %w", err)
+    }
+
+    var item struct {
+    	NextOffset int  `json:"nextOffset"`
+    	HasMore    bool `json:"hasMore"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.NextOffset, item.HasMore)
+    ```
+
 {% endlist %}
 
 ## Примеры кода
@@ -298,6 +323,30 @@
             echo $event['type'] . ': ' . $event['eventId'] . "\n";
         }
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Event.get", b24.Params{
+    	"botId":    456,
+    	"botToken": "my_bot_token",
+    	"offset":   1000,
+    	"limit":    50,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Event.get: %w", err)
+    }
+
+    var item struct {
+    	NextOffset int  `json:"nextOffset"`
+    	HasMore    bool `json:"hasMore"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.NextOffset, item.HasMore)
     ```
 
 {% endlist %}

@@ -299,6 +299,40 @@
     );
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.getlist", b24.Params{
+    	"SELECT": []string{"ID", "PARENT_ID", "NAME", "ACTIVE", "DESCRIPTION", "SORT", "CURRENCY"},
+    	"FILTER": b24.Params{
+    		"@ID": []int{196, 197, 198},
+    	},
+    	"ORDER": b24.Params{
+    		"SORT": "ASC",
+    		"ID":   "DESC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.getlist: %w", err)
+    }
+
+    var items []struct {
+    	Name        string `json:"NAME"`
+    	Active      string `json:"ACTIVE"`
+    	Description string `json:"DESCRIPTION"`
+    	Currency    string `json:"CURRENCY"`
+    	ID          b24.ID `json:"ID"`
+    	ParentID    b24.ID `json:"PARENT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Name, it.Active)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

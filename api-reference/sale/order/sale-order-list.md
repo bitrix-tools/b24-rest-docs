@@ -556,6 +556,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.order.list", b24.Params{
+    	"select": []string{"id", "lid", "dateInsert", "dateUpdate", "personTypeId", "personTypeXmlId", "statusId", "dateStatus", "empStatusId", "marked", "dateMarked", "empMarkedId", "reasonMarked", "price", "discountValue", "taxValue", "userDescription", "additionalInfo", "comments", "companyId", "responsibleId", "recurringId", "lockedBy", "dateLock", "recountFlag", "affiliateId", "updated1c", "orderTopic", "xmlId", "statusXmlId", "id1c", "version", "version1c", "externalOrder", "canceled", "dateCanceled", "empCanceledId", "reasonCanceled", "userId", "currency", "accountNumber", "payed", "deducted"},
+    	"filter": b24.Params{
+    		"<id":           10,
+    		"@personTypeId": []int{3, 4},
+    		"payed":         "N",
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.order.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

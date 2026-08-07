@@ -183,6 +183,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.payment.getfields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.payment.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "payment".
+    raw, ok := b24.Unwrap(res.Result, "payment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа payment")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

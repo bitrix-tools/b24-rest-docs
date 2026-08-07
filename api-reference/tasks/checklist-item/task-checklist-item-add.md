@@ -290,6 +290,36 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.checklistitem.add", b24.Params{
+    	"TASKID": 13,
+    	"FIELDS": b24.Params{
+    		"TITLE":        "Подготовить отчет",
+    		"PARENT_ID":    457,
+    		"SORT_INDEX":   200,
+    		"IS_COMPLETE":  "N",
+    		"IS_IMPORTANT": "Y",
+    		"MEMBERS": b24.Params{
+    			"547": b24.Params{
+    				"TYPE": "A",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.checklistitem.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

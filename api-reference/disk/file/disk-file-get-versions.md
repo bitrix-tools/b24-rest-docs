@@ -277,6 +277,36 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.file.getVersions", b24.Params{
+    	"id": 9043,
+    	"filter": b24.Params{
+    		"NAME": "%тест%",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.file.getVersions: %w", err)
+    }
+
+    var items []struct {
+    	ID                   b24.ID `json:"ID"`
+    	ObjectID             b24.ID `json:"OBJECT_ID"`
+    	Size                 string `json:"SIZE"`
+    	Name                 string `json:"NAME"`
+    	GlobalContentVersion string `json:"GLOBAL_CONTENT_VERSION"`
+    	CreateTime           string `json:"CREATE_TIME"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.ObjectID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -260,6 +260,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Bot.register", b24.Params{
+    	"fields": b24.Params{
+    		"code":     "support_bot",
+    		"botToken": "my_bot_token",
+    		"properties": b24.Params{
+    			"name":         "Support Bot",
+    			"workPosition": "AI Assistant",
+    		},
+    		"type":      "bot",
+    		"eventMode": "fetch",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Bot.register: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

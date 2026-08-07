@@ -179,6 +179,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.roundingRule.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.roundingRule.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "roundingRule".
+    raw, ok := b24.Unwrap(res.Result, "roundingRule")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа roundingRule")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

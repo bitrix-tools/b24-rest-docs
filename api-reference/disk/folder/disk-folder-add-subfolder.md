@@ -226,6 +226,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.addSubFolder", b24.Params{
+    	"id": 8907,
+    	"data": b24.Params{
+    		"NAME": "Папка в папке",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.folder.addSubFolder: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	StorageID    b24.ID `json:"STORAGE_ID"`
+    	Type         string `json:"TYPE"`
+    	RealObjectID b24.ID `json:"REAL_OBJECT_ID"`
+    	ParentID     b24.ID `json:"PARENT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

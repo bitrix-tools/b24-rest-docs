@@ -446,6 +446,56 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.list", b24.Params{
+    	"order": b24.Params{
+    		"DEADLINE": "asc",
+    		"PRIORITY": "desc",
+    	},
+    	"filter": b24.Params{
+    		"!STATUS":        6,
+    		">=DEADLINE":     time.Now().Format("2006-01-02"),
+    		"RESPONSIBLE_ID": 547,
+    		"::SUBFILTER-PARAMS": b24.Params{
+    			"FAVORITE": "Y",
+    		},
+    	},
+    	"select": []string{"ID", "TITLE", "DESCRIPTION", "STATUS", "subStatus", "DEADLINE", "CREATED_DATE", "RESPONSIBLE_ID", "ACCOMPLICES", "AUDITORS", "TAGS", "COUNTERS", "PRIORITY", "MARK"},
+    	"params": b24.Params{
+    		"WITH_TIMER_INFO":         true,
+    		"WITH_RESULT_INFO":        true,
+    		"WITH_PARSED_DESCRIPTION": true,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.task.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "tasks".
+    raw, ok := b24.Unwrap(res.Result, "tasks")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа tasks")
+    }
+
+    var items []struct {
+    	ID            b24.ID `json:"id"`
+    	Title         string `json:"title"`
+    	Description   string `json:"description"`
+    	Deadline      string `json:"deadline"`
+    	CreatedDate   string `json:"createdDate"`
+    	ResponsibleID b24.ID `json:"responsibleId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

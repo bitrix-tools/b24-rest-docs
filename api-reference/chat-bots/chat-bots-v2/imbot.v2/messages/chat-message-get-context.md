@@ -152,6 +152,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.Message.getContext", b24.Params{
+    	"botId":     456,
+    	"botToken":  "my_bot_token",
+    	"messageId": 789,
+    	"range":     20,
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.Message.getContext: %w", err)
+    }
+
+    var item struct {
+    	HasPrevPage bool `json:"hasPrevPage"`
+    	HasNextPage bool `json:"hasNextPage"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.HasPrevPage, item.HasNextPage)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

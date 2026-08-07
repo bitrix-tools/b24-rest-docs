@@ -162,6 +162,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.task.delegate", b24.Params{
+    	"TASK_IDS":     []int{1128, 1129, 1130},
+    	"FROM_USER_ID": 15,
+    	"TO_USER_ID":   37,
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.task.delegate: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -262,6 +262,42 @@ fields: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketproperties.update", b24.Params{
+    	"id": 17,
+    	"fields": b24.Params{
+    		"name":  "Артикул",
+    		"value": "123-456-789",
+    		"code":  "ARTICUL",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.basketproperties.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "basketProperty".
+    raw, ok := b24.Unwrap(res.Result, "basketProperty")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа basketProperty")
+    }
+
+    var item struct {
+    	BasketID b24.ID `json:"basketId"`
+    	Code     string `json:"code"`
+    	ID       b24.ID `json:"id"`
+    	Name     string `json:"name"`
+    	Sort     int    `json:"sort"`
+    	Value    string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.BasketID, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

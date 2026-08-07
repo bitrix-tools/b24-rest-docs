@@ -181,6 +181,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertyRelation.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.propertyRelation.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyRelation".
+    raw, ok := b24.Unwrap(res.Result, "propertyRelation")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyRelation")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

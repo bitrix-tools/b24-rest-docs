@@ -208,6 +208,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.chat.mute", b24.Params{
+    	"CHAT_ID": 1489,
+    	"MUTE":    "Y",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.chat.mute: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -215,6 +215,32 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.file.rename", b24.Params{
+    	"id":      8964,
+    	"newName": "Новое имя файла.png",
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.file.rename: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"ID"`
+    	Name        string `json:"NAME"`
+    	StorageID   b24.ID `json:"STORAGE_ID"`
+    	Type        string `json:"TYPE"`
+    	ParentID    b24.ID `json:"PARENT_ID"`
+    	DeletedType string `json:"DELETED_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

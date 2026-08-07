@@ -201,6 +201,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.timecontrol.reports.users.get", b24.Params{
+    	"DEPARTMENT_ID": 15,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("timeman.timecontrol.reports.users.get: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	FirstName    string `json:"first_name"`
+    	LastName     string `json:"last_name"`
+    	WorkPosition string `json:"work_position"`
+    	Avatar       string `json:"avatar"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

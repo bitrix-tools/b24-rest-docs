@@ -292,6 +292,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.getList", b24.Params{
+    	"filter": b24.Params{
+    		"NAME": "%Битрикс24%",
+    	},
+    	"order": b24.Params{
+    		"NAME": "DESC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("disk.storage.getList: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	ModuleID     string `json:"MODULE_ID"`
+    	EntityType   string `json:"ENTITY_TYPE"`
+    	EntityID     b24.ID `json:"ENTITY_ID"`
+    	RootObjectID b24.ID `json:"ROOT_OBJECT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

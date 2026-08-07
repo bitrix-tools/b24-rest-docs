@@ -178,6 +178,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipment.getfields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.shipment.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "shipment".
+    raw, ok := b24.Unwrap(res.Result, "shipment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа shipment")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

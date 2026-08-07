@@ -135,6 +135,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.activity.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("bizproc.activity.list: %w", err)
+    }
+
+    var items []string
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

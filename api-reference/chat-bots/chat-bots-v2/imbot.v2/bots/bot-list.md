@@ -145,6 +145,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Bot.list", b24.Params{
+    	"botToken": "my_bot_token",
+    	"filter": b24.Params{
+    		"type": "bot",
+    	},
+    	"limit": 10,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Bot.list: %w", err)
+    }
+
+    var item struct {
+    	HasNextPage bool `json:"hasNextPage"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.HasNextPage)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

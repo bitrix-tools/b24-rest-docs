@@ -175,6 +175,33 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.v2.File.upload", b24.Params{
+    	"dialogId": "chat5",
+    	"fields": b24.Params{
+    		"name":    "report.pdf",
+    		"content": "SGVsbG8gV29ybGQh",
+    		"message": "Here is the report",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("im.v2.File.upload: %w", err)
+    }
+
+    var item struct {
+    	DialogID  string `json:"dialogId"`
+    	ChatID    b24.ID `json:"chatId"`
+    	MessageID b24.ID `json:"messageId"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DialogID, item.ChatID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -291,6 +291,40 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.commentitem.getlist", b24.Params{
+    	"TASKID": 8017,
+    	"ORDER": b24.Params{
+    		"POST_DATE": "asc",
+    	},
+    	"FILTER": b24.Params{
+    		"AUTHOR_ID":   503,
+    		">=POST_DATE": "2025-01-01",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("task.commentitem.getlist: %w", err)
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"ID"`
+    	AuthorID    b24.ID `json:"AUTHOR_ID"`
+    	AuthorName  string `json:"AUTHOR_NAME"`
+    	AuthorEmail string `json:"AUTHOR_EMAIL"`
+    	PostDate    string `json:"POST_DATE"`
+    	PostMessage string `json:"POST_MESSAGE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.AuthorID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

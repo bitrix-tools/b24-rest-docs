@@ -315,6 +315,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.getChildren", b24.Params{
+    	"id": 1357,
+    	"filter": b24.Params{
+    		"NAME": "%Папка%",
+    	},
+    	"order": b24.Params{
+    		"NAME": "DESC",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.storage.getChildren: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	StorageID    b24.ID `json:"STORAGE_ID"`
+    	Type         string `json:"TYPE"`
+    	RealObjectID b24.ID `json:"REAL_OBJECT_ID"`
+    	ParentID     b24.ID `json:"PARENT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

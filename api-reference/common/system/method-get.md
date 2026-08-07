@@ -197,6 +197,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "method.get", b24.Params{
+    	"name": "user.get",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("method.get: %w", err)
+    }
+
+    var item struct {
+    	IsExisting  bool `json:"isExisting"`
+    	IsAvailable bool `json:"isAvailable"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.IsExisting, item.IsAvailable)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
