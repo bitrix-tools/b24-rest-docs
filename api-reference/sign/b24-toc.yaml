@@ -1,4 +1,4 @@
-title: Подпись
+title: КЭДО
 href: index.md
 items:
   - name: Обзор методов
@@ -16,4 +16,8 @@ items:
   - name: События
     include:
       path: events/b24-toc.yaml
+      mode: link
+  - name: Интеграция КЭДО с системами кадрового учета
+    include:
+      path: hcm-link/b24-toc.yaml
       mode: link

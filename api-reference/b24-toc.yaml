@@ -75,6 +75,10 @@ items:
     include:
       path: calendar/b24-toc.yaml
       mode: link
+  - name: КЭДО
+    include:
+      path: sign/b24-toc.yaml
+      mode: link
   - name: Лента новостей
     include:
       path: log/b24-toc.yaml
@@ -94,10 +98,6 @@ items:
   - name: Платежные системы
     include:
       path: pay-system/b24-toc.yaml
-      mode: link
-  - name: Подпись
-    include:
-      path: sign/b24-toc.yaml
       mode: link
   - name: Пользователи
     include:

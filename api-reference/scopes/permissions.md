@@ -27,7 +27,7 @@
 || **disk** | [Диск](../disk/index.md) | Битрикс24.Диск ||
 || **entity** | [Хранилище данных](../entity/index.md) | Хранилище данных ||
 || **humanresources** | [Структура компании REST 3.0](../departments/index.md) | Структура компании ||
-|| **humanresources.hcmlink** | [HCM Link](../sign/index.md#osobennosti-scope) | КЭДО, Подпись ||
+|| **humanresources.hcmlink** | [Интеграция КЭДО с системами кадрового учета](../sign/hcm-link/index.md) | КЭДО ||
 || **im** | [Чат и уведомления](../chats/index.md) | Чат и уведомления ||
 || **imbot** | [Создание и управление Чат-ботами](../chat-bots/index.md) | Боты для чата ||
 || **imconnector** | [Коннекторы для внешних мессенджеров](../imopenlines/imconnector/index.md) | Открытые линии ||
@@ -46,7 +46,7 @@
 || **rpa** | [Роботизация бизнеса](../outdated/rpa/index.md) | Роботизация бизнеса ||
 || **sale** | [Интернет-магазин](../sale/index.md) | Интернет-магазин ||
 || **salescenter** | [CRM. Оплата](../crm/universal/payment/index.md) | Продажи в чате ||
-|| **sign.b2e** | [КЭДО + Госключ](../sign/index.md) | КЭДО, Подпись ||
+|| **sign.b2e** | [КЭДО + Госключ](../sign/index.md) | КЭДО ||
 || **sonet_group, socialnetwork** | [Рабочие группы соцсети](../sonet-group/sonet-group-create.md) | Рабочие группы соцсети ||
 || **task** | [Задачи](../tasks/index.md) | Задачи ||
 || **telephony** | [Телефония](../telephony/index.md) | Телефония ||

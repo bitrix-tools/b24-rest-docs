@@ -1,4 +1,4 @@
-# Подпись: обзор методов
+# КЭДО: обзор методов
 
 {% note tip "" %}
 
@@ -9,34 +9,46 @@
 
 {% endnote %}
 
-Сервис для подписания Битрикс24 КЭДО позволяет подписывать кадровые документы с сотрудниками с помощью электронной подписи ПЭП. Она равна собственноручной и соответствует требованиям закона.
+Битрикс24 КЭДО позволяет подписывать кадровые документы с сотрудниками с помощью электронной подписи ПЭП. Подпись равна собственноручной и соответствует требованиям закона.
 
-> Быстрый переход: [все методы и события](#all-methods) 
+> Быстрый переход: [все методы и события](#all-methods)
 >
-> Пользовательская документация: [Битрикс24 КЭДО](https://helpdesk.bitrix24.ru/open/19740668/), [Как настроить права доступа в Битрикс24 КЭДО](https://helpdesk.bitrix24.ru/open/20881134/)
+> Пользовательская документация:
+> - [Битрикс24 КЭДО](https://helpdesk.bitrix24.ru/open/19740668/)
+> - [Как настроить права доступа в Битрикс24 КЭДО](https://helpdesk.bitrix24.ru/open/20881134/)
 
-Методы работают с документами раздела КЭДО — Подписание с сотрудниками.
+Методы `sign.b2e.*` работают с документами раздела КЭДО — Подписание с сотрудниками. С их помощью можно отправить документ на подписание, получить данные документа, список провайдеров подписи и списки подписанных документов.
+
+Методы `humanresources.hcmlink.*` управляют данными интеграции КЭДО с системами кадрового учета через HCM Link: компаниями, сотрудниками, сопоставлениями и значениями полей.
 
 Методы выполняются только в контексте авторизации [приложения](../../settings/app-installation/index.md).
 
+## Как выбрать группу методов
+
+#|
+|| **Если нужно** | **Используйте** ||
+|| Отправлять документы на подписание и получать информацию о подписании | Методы `sign.b2e.*` ||
+|| Отслеживать изменение статусов документа и участников подписания | События `OnSignB2e*` ||
+|| Передавать данные из системы кадрового учета для заполнения документов КЭДО | Методы [humanresources.hcmlink.*](./hcm-link/index.md) ||
+|#
+
 ## Особенности scope
 
-**sign.b2e** — используется во всех методах раздела.
+**sign.b2e** — используется в методах работы с документами КЭДО и событиях подписания.
 
 **crm** — используется в методах:
 - [sign.b2e.document.send](./sign-b2e-document-send.md)
 - [sign.b2e.document.get](./sign-b2e-document-get.md)
 - [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md)
 
-**humanresources.hcmlink** — используется в части методов и только при передаче определенных полей:
+**humanresources.hcmlink** — используется:
 
-- [sign.b2e.document.send](./sign-b2e-document-send.md):
-`company.uuid`, `members.employeeCode`, `members.employeeId`, `responsible.employeeCode`, `responsible.employeeId`.
+- в методах [sign.b2e.document.send](./sign-b2e-document-send.md) и [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md), если приложение передает данные HCM Link: `company.uuid`, `members.employeeCode`, `members.employeeId`, `responsible.employeeCode`, `responsible.employeeId`, `companyUuid`
+- в методах интеграции КЭДО с системами кадрового учета. Подробный сценарий описан в разделе [Интеграция КЭДО с системами кадрового учета](./hcm-link/index.md)
 
-- [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md):
-`companyUuid`.
+## Обзор методов и событий {#all-methods}
 
-## Обзор методов и событий {#all-methods} 
+### Документы КЭДО
 
 > Scope: [`sign.b2e`](../scopes/permissions.md)
 >
@@ -64,4 +76,24 @@
     |#
 
 {% endlist %}
+
+### Интеграция с системами кадрового учета
+
+> Scope: [`humanresources.hcmlink`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: зависит от метода
+
+#|
+|| **Метод** | **Описание** ||
+|| [humanresources.hcmlink.company.add](./hcm-link/humanresources-hcmlink-company-add.md) | Добавляет компанию из системы кадрового учета ||
+|| [humanresources.hcmlink.company.update](./hcm-link/humanresources-hcmlink-company-update.md) | Обновляет компанию из системы кадрового учета и список ее полей ||
+|| [humanresources.hcmlink.company.list](./hcm-link/humanresources-hcmlink-company-list.md) | Возвращает список компаний из системы кадрового учета ||
+|| [humanresources.hcmlink.company.user.list](./hcm-link/humanresources-hcmlink-company-user-list.md) | Возвращает компании из системы кадрового учета, связанные с текущим пользователем ||
+|| [humanresources.hcmlink.company.delete](./hcm-link/humanresources-hcmlink-company-delete.md) | Удаляет компанию из интеграции HCM Link ||
+|| [humanresources.hcmlink.employee.set](./hcm-link/humanresources-hcmlink-employee-set.md) | Передает список сотрудников из системы кадрового учета ||
+|| [humanresources.hcmlink.employee.list](./hcm-link/humanresources-hcmlink-employee-list.md) | Возвращает список сопоставленных сотрудников системы кадрового учета и Битрикс24 ||
+|| [humanresources.hcmlink.field.value.set](./hcm-link/humanresources-hcmlink-field-value-set.md) | Передает значения полей системы кадрового учета для сотрудников ||
+|| [humanresources.hcmlink.job.update](./hcm-link/humanresources-hcmlink-job-update.md) | Обновляет задание синхронизации ||
+|| [humanresources.hcmlink.job.status.get](./hcm-link/humanresources-hcmlink-job-status-get.md) | Проверяет, активно ли задание синхронизации ||
+|#
 

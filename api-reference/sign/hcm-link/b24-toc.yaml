@@ -1,0 +1,25 @@
+title: Интеграция КЭДО с системами кадрового учета
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить компанию
+    href: humanresources-hcmlink-company-add.md
+  - name: Обновить компанию
+    href: humanresources-hcmlink-company-update.md
+  - name: Получить список компаний
+    href: humanresources-hcmlink-company-list.md
+  - name: Получить список компаний текущего пользователя
+    href: humanresources-hcmlink-company-user-list.md
+  - name: Удалить компанию
+    href: humanresources-hcmlink-company-delete.md
+  - name: Передать список сотрудников
+    href: humanresources-hcmlink-employee-set.md
+  - name: Получить список сопоставленных сотрудников
+    href: humanresources-hcmlink-employee-list.md
+  - name: Передать значения полей
+    href: humanresources-hcmlink-field-value-set.md
+  - name: Обновить задание синхронизации
+    href: humanresources-hcmlink-job-update.md
+  - name: Получить статус задания синхронизации
+    href: humanresources-hcmlink-job-status-get.md
