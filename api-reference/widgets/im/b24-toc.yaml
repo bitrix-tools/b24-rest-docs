@@ -1,9 +1,9 @@
 title: Виджеты в мессенджере
 href: index.md
-items: 
-  - name: Обзор виджетов 
+items:
+  - name: Обзор точек встраивания
     href: index.md
-  - name: Виджет над сообщением 
+  - name: Виджет над полем ввода
     href: textarea.md
   - name: Виджет для сайдбара
     href: sidebar.md

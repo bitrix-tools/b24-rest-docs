@@ -36,7 +36,7 @@
 
 {% note info "" %}
 
-В том же меню выводится точка [SONET_GROUP_ROBOT_DESIGNER_TOOLBAR](../workgroups/robot-designer-toolbar.md). Это отдельная точка встраивания со своим scope `sonet_group` и своим контекстом вызова.
+В том же меню выводится точка [SONET_GROUP_ROBOT_DESIGNER_TOOLBAR](../workgroups/robot-designer-toolbar.md). Это отдельная точка встраивания со своим скоупом `sonet_group` и своим контекстом вызова.
 
 {% endnote %}
 
@@ -321,8 +321,8 @@ Array
     	return fmt.Errorf("placement.bind: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // Ответ приходит как json.RawMessage — разберите его по форме ответа
+    // метода placement.bind, см. раздел «Обработка ответа» на его странице.
     fmt.Printf("%s\n", res.Result)
     ```
 

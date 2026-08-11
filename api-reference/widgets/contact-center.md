@@ -311,8 +311,8 @@ Array
     	return fmt.Errorf("placement.bind: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // Ответ приходит как json.RawMessage — разберите его по форме ответа
+    // метода placement.bind, см. раздел «Обработка ответа» на его странице.
     fmt.Printf("%s\n", res.Result)
     ```
 

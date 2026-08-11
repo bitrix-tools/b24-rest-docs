@@ -40,7 +40,7 @@
 
 #|
 || **Шаблон кода** | **Что подставить** ||
-|| `CRM_XXX_...` | `LEAD`, `DEAL`, `CONTACT`, `COMPANY`, `QUOTE`, `SMART_INVOICE`, `ORDER`. Для [пользовательского типа объектов](../crm/universal/index.md) — `DYNAMIC_` и числовой идентификатор типа: `CRM_DYNAMIC_183_DETAIL_TAB` ||
+|| `CRM_XXX_...` | `LEAD`, `DEAL`, `CONTACT`, `COMPANY`, `QUOTE`, `SMART_INVOICE`, `ORDER`, `ACTIVITY`. Для [пользовательского типа объектов](../crm/universal/index.md) — `DYNAMIC_` и числовой идентификатор типа: `CRM_DYNAMIC_183_DETAIL_TAB` ||
 || `TASK_XXX_LIST_TOOLBAR` | `USER` для списка задач пользователя, `GROUP` для списка задач проекта ||
 |#
 
@@ -67,7 +67,7 @@
 Исключение — `SETTING_CONNECTOR`: он подключается методом `imconnector.register` и требует только скоуп `imopenlines`. У точек мессенджера скоуп `im` нужен не для регистрации, а обработчику — чтобы работать с чатом по полученному `dialogId`.
 
 #|
-|| **Код** | **Где появляется в интерфейсе** | **Дополнительный scope** ||
+|| **Код** | **Где появляется в интерфейсе** | **Дополнительный скоуп** ||
 || [BI_ANALYTICS_MENU](./crm/bi-analytics-menu.md) | Пункт в меню BI-аналитики. Единственная точка, обработчик которой открывается GET-запросом без данных вызова | не требуется ||
 || [CALENDAR_GRIDVIEW](./calendar.md) | Свой вид отображения в календаре | `calendar` ||
 || [CALL_CARD](./telephony/call-card.md) | Вкладка в карточке звонка | `telephony` ||

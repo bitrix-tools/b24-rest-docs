@@ -258,7 +258,7 @@ HTTP-статус: **200**
                     "GROUP_NAME": ""
                 }
             }
-        },
+        }
     ],
     "time": {
         "start": 1712132792.910734,
@@ -293,7 +293,7 @@ HTTP-статус: **400**, **403**, **200**
 ```json
 {
     "error": "INVALID_REQUEST",
-    "error_description": "Https required",
+    "error_description": "Https required"
 }
 ```
 

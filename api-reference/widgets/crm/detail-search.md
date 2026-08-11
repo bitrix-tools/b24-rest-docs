@@ -64,6 +64,16 @@ Array
 
 ```
 
+Строка `PLACEMENT_OPTIONS` из этого примера после разбора выглядит так:
+
+```json
+{
+    "entityTypeName": "CONTACT",
+    "searchQuery": "Ромаш",
+    "URI": "/crm/deal/details/8061/?any=details%2F8061%2F&IFRAME=Y&IFRAME_TYPE=SIDE_SLIDER"
+}
+```
+
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 {% include notitle [описание стандартных данных](../_includes/widget_data.md) %}
@@ -403,12 +413,24 @@ BX24.placement.bindEvent('onCrmEntityIsNeedToCreate', function (eventData) {
     	return fmt.Errorf("placement.bind: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // Ответ приходит как json.RawMessage — разберите его по форме ответа
+    // метода placement.bind, см. раздел «Обработка ответа» на его странице.
     fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}
+
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
+|| `placement.bind` возвращает `ERROR_PLACEMENT_NOT_FOUND` | Код указан неверно или приложению не выдан скоуп `crm`. Точка регистрируется только по коду `CRM_DETAIL_SEARCH` ||
+|| Виджет зарегистрирован, но в интерфейсе не появляется | Завершите [установку приложения](../../../settings/app-installation/installation-finish.md) и перезагрузите страницу ||
+|| Пункт не появляется в поиске клиента | Введите в поле *Контакт* или *Компания* не меньше трех символов — до этого пункт приложения не выводится ||
+|#
+
+Другие коды ошибок регистрации перечислены в разделе «Возможные коды ошибок» страницы [placement.bind](../placement-bind.md).
 
 ## Продолжите изучение
 
