@@ -9,21 +9,28 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../../scopes/permissions.md)
+> Scope: [`placement`](../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../scopes/permissions.md) — доступ к точке встраивания карточки звонка
 >
 > Кто может подписаться: любой пользователь
 
-Событие `CallCard::EntityChanged` возникает при смене текущего клиента в карточке звонка.
+Событие `CallCard::EntityChanged` возникает, когда меняется клиент, привязанный к звонку.
+
+Событие приходит в четырех случаях:
+
+- карточка звонка открылась и подтянула данные CRM
+- карточка обновила данные клиента
+- из карточки создали или привязали элемент CRM — лид, контакт или компанию
+- в режиме обзвона оператор перешел к следующему клиенту
 
 {% note info "" %}
 
-Событие работает в контексте приложения в плейсменте `CALL_CARD`.
+Событие работает в контексте приложения, открытого в точке встраивания `CALL_CARD`. Это событие js-интерфейса, а не событие REST: подписаться на него запросом к `/rest/` нельзя.
 
 {% endnote %}
 
 ## Что получает обработчик
 
-Данные передаются в callback `BX24.placement.bindEvent` {.b24-info}
+Данные передаются в функцию обратного вызова метода `BX24.placement.bindEvent` {.b24-info}
 
 ```js
 callback({
@@ -41,26 +48,30 @@ callback({
 || **Параметр**
 `тип` | **Описание** ||
 || **PHONE_NUMBER***
-[`string`](../../../data-types.md) | Номер телефона клиента ||
+[`string`](../../../data-types.md) | Номер телефона клиента.
+
+Если у клиента нет ни одного телефона, приходит строка `unknown` ||
 || **CRM_ENTITY_TYPE***
 [`string`](../../../data-types.md) | Тип связанного со звонком объекта CRM ||
 || **CRM_ENTITY_ID***
 [`integer`](../../../data-types.md) | Идентификатор связанного со звонком объекта CRM ||
 |#
 
-## Параметры подписки на событие
+## Параметры подписки
+
+Обработчик регистрируют из виджета методом [BX24.placement.bindEvent](../bx24-placement-bind-event.md).
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **PLACEMENT***
+|| **event***
 [`string`](../../../data-types.md) | Имя события интерфейса.
 
 Для данного события — `CallCard::EntityChanged` ||
-|| **HANDLER***
-[`string`](../../../data-types.md) | URL обработчика события для вызова `placement.bindEvent` ||
+|| **callback***
+[`callable`](../../../data-types.md) | Функция, которую Битрикс24 вызывает при наступлении события. Аргументы обработчика описаны выше ||
 |#
 
 ## Примеры кода
@@ -69,173 +80,55 @@ callback({
 
 {% list tabs %}
 
-- cURL (OAuth)
+- BX24.js
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"CallCard::EntityChanged","HANDLER":"**your_handler_url_here**"}' \
-    "https://**put_your_bitrix24_address**/rest/placement.bindEvent?auth=**put_access_token_here**"
+    ```js
+    BX24.ready(function () {
+        BX24.init(function () {
+            BX24.placement.bindEvent('CallCard::EntityChanged', function (eventData) {
+                console.log(eventData);
+            });
+        });
+    });
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
+    // $b24 — инициализированный экземпляр SDK, см. руководство по началу работы
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    try {
-      const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'placement.bindEvent',
-        params: {
-          PLACEMENT: 'CallCard::EntityChanged',
-          HANDLER: '**your_handler_url_here**',
-        },
-        requestId: Text.getUuidRfc4122()
-      })
-
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('Event handler bound:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
+    await $b24.placement.bindEvent('CallCard::EntityChanged', (eventData: { PHONE_NUMBER: string; CRM_ENTITY_TYPE: string; CRM_ENTITY_ID: number }) => {
+      console.log(eventData.CRM_ENTITY_ID)
+    })
     ```
 
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Загрузка SDK в UMD-сборке, глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function bindEntityChangedEvent() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v2.call.make({
-            method: 'placement.bindEvent',
-            params: {
-              PLACEMENT: 'CallCard::EntityChanged',
-              HANDLER: '**your_handler_url_here**',
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
-
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('Event handler bound:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', bindEntityChangedEvent)
+        await $b24.placement.bindEvent('CallCard::EntityChanged', (eventData) => {
+          console.log(eventData)
+        })
+      })
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'placement.bindEvent',
-                [
-                    'PLACEMENT' => 'CallCard::EntityChanged',
-                    'HANDLER' => '**your_handler_url_here**'
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        echo 'Success: ' . print_r($result, true);
-        processData($result);
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'placement.bindEvent',
-        {
-            PLACEMENT: 'CallCard::EntityChanged',
-            HANDLER: '**your_handler_url_here**'
-        },
-        function(result)
-        {
-            if (result.error())
-            {
-                console.error(result.error(), result.error_description());
-            }
-            else
-            {
-                console.log(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'placement.bindEvent',
-        [
-            'PLACEMENT' => 'CallCard::EntityChanged',
-            'HANDLER' => '**your_handler_url_here**'
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- Go
-
-    ```go
-    // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "placement.bindEvent", b24.Params{
-    	"PLACEMENT": "CallCard::EntityChanged",
-    	"HANDLER":   "**your_handler_url_here**",
-    })
-    if err != nil {
-    	return fmt.Errorf("placement.bindEvent: %w", err)
-    }
-
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
-    ```
-
 {% endlist %}
+
+## Ошибки
+
+Проверьте условия.
+
+- Виджет открыт в точке встраивания `CALL_CARD`. В других точках встраивания события `CallCard::*` не зарегистрированы, и подписка молча не сработает
+- Имя события передано без опечаток и с учетом регистра. Список событий, доступных в текущей точке встраивания, возвращает [BX24.placement.getInterface](../bx24-placement-get-interface.md)
 
 ## Продолжите изучение
 
@@ -244,3 +137,5 @@ callback({
 - [{#T}](./enable-auto-close.md)
 - [{#T}](./call-card-before-close.md)
 - [{#T}](./call-card-call-state-changed.md)
+- [{#T}](./index.md)
+- [{#T}](../../telephony/call-card.md)

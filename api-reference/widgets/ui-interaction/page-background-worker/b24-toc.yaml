@@ -1,7 +1,7 @@
-title: Интеграция собственного WebRTC клиента
+title: Управление карточкой звонка WebRTC-клиента
 href: index.md
 items: 
-  - name: Обзор методов
+  - name: Обзор команд и событий
     href: index.md
   - name: Сценарий встраивания WebRTC
     href: webrtc-scenario.md
@@ -19,6 +19,10 @@ items:
     href: call-card-set-card-title.md
   - name: Изменить текст в центре карточки звонка со стороны приложения
     href: call-card-set-status-text.md
+  - name: Запустить таймер звонка со стороны приложения
+    href: call-card-start-timer.md
+  - name: Остановить таймер звонка со стороны приложения
+    href: call-card-stop-timer.md
   - name: Закрыть карточку звонка со стороны приложения
     href: call-card-close.md
   - name: События

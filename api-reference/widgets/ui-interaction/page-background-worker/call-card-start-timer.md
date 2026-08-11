@@ -1,4 +1,4 @@
-# Закрыть карточку звонка со стороны приложения CallCardClose
+# Запустить таймер звонка со стороны приложения CallCardStartTimer
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять команду: любой пользователь
 
-Команда `CallCardClose` закрывает карточку звонка.
+Команда `CallCardStartTimer` показывает таймер в карточке звонка и запускает отсчет времени разговора.
 
 {% note info "" %}
 
@@ -21,12 +21,15 @@
 
 {% endnote %}
 
+Команда нужна, когда приложение ведет отсчет разговора само. При переходе карточки в состояние `connected` таймер запускается автоматически — отключить автозапуск можно параметром `disableAutoStartTimer` команды [CallCardSetUiState](./call-card-set-ui-state.md).
+
 ## Как вызвать команду
 
 Команду вызывают из виджета методом [BX24.placement.call](../bx24-placement-call.md). Третий аргумент — функция обратного вызова, в нее приходит результат команды.
 
 ```js
-BX24.placement.call('CallCardClose', {}, function (result) {
+BX24.placement.call('CallCardStartTimer', {}, function (result) {
+    // в браузере при успехе функция обратного вызова не срабатывает
     console.log(result);
 });
 ```
@@ -34,12 +37,6 @@ BX24.placement.call('CallCardClose', {}, function (result) {
 ## Параметры команды
 
 Команда не принимает параметров. Вторым аргументом передайте пустой объект `{}`.
-
-{% note warning %}
-
-После вызова `CallCardClose` дальнейшее управление карточкой невозможно.
-
-{% endnote %}
 
 ## Примеры кода
 
@@ -58,7 +55,7 @@ BX24.placement.call('CallCardClose', {}, function (result) {
     ```js
     BX24.ready(function () {
         BX24.init(function () {
-            BX24.placement.call('CallCardClose', {}, function (result) {
+            BX24.placement.call('CallCardStartTimer', {}, function (result) {
                 console.log(result);
             });
         });
@@ -73,7 +70,8 @@ BX24.placement.call('CallCardClose', {}, function (result) {
 
     declare const $b24: B24Frame
 
-    await $b24.placement.call('CallCardClose')
+    // в браузере промис не резолвится при успехе — не ожидайте результат
+    $b24.placement.call('CallCardStartTimer')
     ```
 
 - JS (UMD)
@@ -85,9 +83,8 @@ BX24.placement.call('CallCardClose', {}, function (result) {
       document.addEventListener('DOMContentLoaded', async () => {
         const $b24 = await B24Js.initializeB24Frame()
 
-        const result = await $b24.placement.call('CallCardClose')
-
-        console.log(result)
+        // в браузере промис не резолвится при успехе — не ожидайте результат
+        $b24.placement.call('CallCardStartTimer')
       })
     </script>
     ```
@@ -96,13 +93,13 @@ BX24.placement.call('CallCardClose', {}, function (result) {
 
 ## Результат команды
 
+В браузере успешный вызов ничего не возвращает: функция обратного вызова не срабатывает, таймер появляется в карточке.
+
+В десктоп-приложении Битрикс24 после успешного вызова приходит пустой массив.
+
 ```json
 []
 ```
-
-### Возвращаемые данные
-
-Пустой массив при успешном вызове.
 
 ## Ошибки
 
@@ -121,18 +118,15 @@ BX24.placement.call('CallCardClose', {}, function (result) {
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `Call card is undefined` | Карточка звонка недоступна | Нет активной карточки звонка для закрытия ||
+|| `Call card is undefined` | Карточка звонка недоступна | Нет активной карточки звонка, которой можно управлять. Карточку поднимает метод [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md) ||
 |#
 
-Если команда вызвана в другой точке встраивания, функция обратного вызова не будет вызвана вовсе: неизвестную команду интерфейс точки встраивания игнорирует. Проверить, что команда `CallCardClose` доступна, можно методом [BX24.placement.getInterface](../bx24-placement-get-interface.md).
+Если команда вызвана в другой точке встраивания, функция обратного вызова не будет вызвана вовсе: неизвестную команду интерфейс точки встраивания игнорирует. Проверить, что команда `CallCardStartTimer` доступна, можно методом [BX24.placement.getInterface](../bx24-placement-get-interface.md).
 
 ## Продолжите изучение
 
-- [{#T}](./call-card-set-mute.md)
-- [{#T}](./call-card-set-hold.md)
+- [{#T}](./call-card-stop-timer.md)
 - [{#T}](./call-card-set-ui-state.md)
-- [{#T}](./call-card-get-list-ui-states.md)
-- [{#T}](./call-card-set-card-title.md)
-- [{#T}](./call-card-set-status-text.md)
+- [{#T}](./card.md)
 - [{#T}](./events/index.md)
 - [{#T}](./index.md)

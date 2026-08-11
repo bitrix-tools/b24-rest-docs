@@ -1,4 +1,4 @@
-# Получить иформацию о js-интерфейсе текущего места встраивания BX24.placement.getInterface
+# Получить информацию о js-интерфейсе текущей точки встраивания BX24.placement.getInterface
 
 {% note tip "" %}
 
@@ -10,8 +10,18 @@
 {% endnote %}
 
 > Scope: [`placement`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: любой пользователь
 
-Метод `BX24.placement.getInterface` позволяет получить информацию о js-интерфейсе текущего места встраивания: список возможных команд и событий.
+Метод `BX24.placement.getInterface` получает информацию о js-интерфейсе текущей точки встраивания: список доступных команд и событий.
+
+```js
+BX24.placement.getInterface(callback);
+```
+
+Набор команд и событий у каждой точки встраивания свой. Проверяйте его этим методом перед вызовом [BX24.placement.call](bx24-placement-call.md) и перед подпиской через [BX24.placement.bindEvent](bx24-placement-bind-event.md).
+
+Незнакомую команду и подписку на незарегистрированное событие Битрикс24 игнорирует молча, без ошибки.
 
 ## Параметры
 
@@ -21,38 +31,94 @@
 || **Название**
 `тип` | **Описание** ||
 || **callback***
-[`callable`](../../data-types.md) | Функция обратного вызова. 
-
-Обработчик `callback` получит объект вида `{command: array, event: array}`, где: 
-- `command` — список доступных команд
-- `event` — список доступных событий
-
-Пример: плейсмент `CALL_CARD` предназначен для работы с карточкой звонка в CRM
- ||
+[`callable`](../../data-types.md) | Функция обратного вызова. В нее приходит объект с полями `command` и `event` ||
 |#
 
-## Пример кода
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-```js
-BX24.ready(function () {
-    BX24.init(function () {
-        BX24.placement.getInterface((result) => {
-            console.info(result);
+{% list tabs %}
+
+- BX24.js
+
+    ```js
+    BX24.ready(function () {
+        BX24.init(function () {
+            BX24.placement.getInterface(function (result) {
+                console.info(result.command, result.event);
+            });
         });
     });
-});
-```
+    ```
+
+- JS (TS)
+
+    ```ts
+    // $b24 — инициализированный экземпляр SDK, см. руководство по началу работы
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    type PlacementInterface = {
+      command: string[]
+      event: string[]
+    }
+
+    const result = await $b24.placement.getInterface() as PlacementInterface
+
+    console.info(result.command, result.event)
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Загрузка SDK в UMD-сборке, глобальный объект B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
+
+        const result = await $b24.placement.getInterface()
+
+        console.info(result.command, result.event)
+      })
+    </script>
+    ```
+
+{% endlist %}
 
 ## Результат
 
+Пример для виджета, открытого в точке встраивания `CALL_CARD`.
+
 ```json
-{"command":["getStatus", "disableAutoClose", "enableAutoClose" …],"event":[{"CallCard::EntityChanged", "CallCard::CallStateChanged", "CallCard::BeforeClose" …}]}
+{
+    "command": ["getStatus", "disableAutoClose", "enableAutoClose"],
+    "event": ["CallCard::EntityChanged", "CallCard::BeforeClose", "CallCard::CallStateChanged"]
+}
 ```
 
-## Продолжите изучение 
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **command**
+[`string[]`](../../data-types.md) | Имена команд, зарегистрированных текущей точкой встраивания.
+
+Общие методы виджета — например [resizeWindow](../../../sdk/bx24-js-sdk/additional-functions/bx24-resize-window.md) — в этот список не попадают, хотя вызывать их можно ||
+|| **event**
+[`string[]`](../../data-types.md) | Имена событий, на которые можно подписаться в текущей точке встраивания. Если у точки своих событий нет, массив пустой ||
+|#
+
+## Ошибки
+
+Метод ошибок не возвращает. Пустые массивы `command` и `event` означают, что у текущей точки встраивания собственных команд и событий нет — например, виджет открыт основной ссылкой приложения.
+
+## Продолжите изучение
 
 - [{#T}](bx24-placement-info.md)
 - [{#T}](bx24-placement-call.md)
 - [{#T}](bx24-placement-bind-event.md)
+- [{#T}](index.md)

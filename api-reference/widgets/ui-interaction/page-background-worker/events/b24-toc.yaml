@@ -1,5 +1,5 @@
 title: События
-href: initialized.md
+href: index.md
 items: 
   - name: Обзор событий
     href: index.md
@@ -27,7 +27,7 @@ items:
     href: skip-button-click.md
   - name: При нажатии на кнопку «ответить»
     href: answer-button-click.md
-  - name: В карточке обзвона при смене текущего обзваниваемого
+  - name: При загрузке или смене объекта CRM
     href: entity-changed.md
   - name: При нажатии на кнопку «позвонить» или «перезвонить»
     href: make-call-button-click.md

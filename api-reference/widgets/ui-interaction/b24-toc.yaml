@@ -7,15 +7,15 @@ items:
     href: bx24-placement-info.md
   - name: Получить список методов и событий
     href: bx24-placement-get-interface.md
-  - name: Вызвать метод виджета
+  - name: Вызвать команду интерфейса
     href: bx24-placement-call.md
   - name: Зарегистрировать обработчик события
     href: bx24-placement-bind-event.md
-  - name: Взаимодействие c карточкой звонка
+  - name: Взаимодействие с карточкой звонка
     include:
       path: call-card/b24-toc.yaml
       mode: link
-  - name: WebRTC — управление карточкой звонка
+  - name: Управление карточкой звонка WebRTC-клиента
     include:
       path: page-background-worker/b24-toc.yaml
       mode: link

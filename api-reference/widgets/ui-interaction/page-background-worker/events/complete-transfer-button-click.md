@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../../../scopes/permissions.md)
+> Scope: [`placement`](../../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../../scopes/permissions.md) — регистрация звонка, поднимающего карточку
 >
 > Кто может подписаться: любой пользователь
 
@@ -17,7 +17,7 @@
 
 {% note info "" %}
 
-Событие работает в контексте приложения в плейсменте `PAGE_BACKGROUND_WORKER`.
+Событие работает в контексте приложения, открытого в точке встраивания `PAGE_BACKGROUND_WORKER`. Это событие js-интерфейса, а не событие REST: подписаться на него запросом к `/rest/` нельзя.
 
 {% endnote %}
 
@@ -25,19 +25,21 @@
 
 В обработчик события данные не передаются.
 
-## Параметры подписки на событие
+## Параметры подписки
+
+Обработчик регистрируют из виджета методом [BX24.placement.bindEvent](../../bx24-placement-bind-event.md).
 
 {% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **PLACEMENT***
+|| **event***
 [`string`](../../../../data-types.md) | Имя события интерфейса.
 
 Для данного события — `BackgroundCallCard::completeTransferButtonClick` ||
-|| **HANDLER***
-[`string`](../../../../data-types.md) | URL обработчика события для вызова `placement.bindEvent` ||
+|| **callback***
+[`callable`](../../../../data-types.md) | Функция, которую Битрикс24 вызывает при наступлении события. Аргументы в обработчик не передаются ||
 |#
 
 ## Примеры кода
@@ -46,175 +48,59 @@
 
 {% list tabs %}
 
-- cURL (OAuth)
+- BX24.js
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"BackgroundCallCard::completeTransferButtonClick","HANDLER":"**your_handler_url_here**"}' \
-    "https://**put_your_bitrix24_address**/rest/placement.bindEvent?auth=**put_access_token_here**"
+    ```js
+    BX24.ready(function () {
+        BX24.init(function () {
+            BX24.placement.bindEvent('BackgroundCallCard::completeTransferButtonClick', function () {
+                // код обработчика
+            });
+        });
+    });
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
+    // $b24 — инициализированный экземпляр SDK, см. руководство по началу работы
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    try {
-      const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'placement.bindEvent',
-        params: {
-          PLACEMENT: 'BackgroundCallCard::completeTransferButtonClick',
-          HANDLER: '**your_handler_url_here**',
-        },
-        requestId: Text.getUuidRfc4122()
-      })
-
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('Event handler bound successfully:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
+    await $b24.placement.bindEvent('BackgroundCallCard::completeTransferButtonClick', () => {
+      // код обработчика
+    })
     ```
 
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Загрузка SDK в UMD-сборке, глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function bindCompleteTransferButtonClick() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v2.call.make({
-            method: 'placement.bindEvent',
-            params: {
-              PLACEMENT: 'BackgroundCallCard::completeTransferButtonClick',
-              HANDLER: '**your_handler_url_here**',
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
-
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('Event handler bound successfully:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', bindCompleteTransferButtonClick)
+        await $b24.placement.bindEvent('BackgroundCallCard::completeTransferButtonClick', () => {
+          // код обработчика
+        })
+      })
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'placement.bindEvent',
-                [
-                    'PLACEMENT' => 'BackgroundCallCard::completeTransferButtonClick',
-                    'HANDLER' => '**your_handler_url_here**'
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        echo 'Success: ' . print_r($result, true);
-        processData($result);
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'placement.bindEvent',
-        {
-            PLACEMENT: 'BackgroundCallCard::completeTransferButtonClick',
-            HANDLER: '**your_handler_url_here**'
-        },
-        function(result)
-        {
-            if (result.error())
-            {
-                console.error(result.error(), result.error_description());
-            }
-            else
-            {
-                console.log(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'placement.bindEvent',
-        [
-            'PLACEMENT' => 'BackgroundCallCard::completeTransferButtonClick',
-            'HANDLER' => '**your_handler_url_here**'
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- Go
-
-    ```go
-    // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "placement.bindEvent", b24.Params{
-    	"PLACEMENT": "BackgroundCallCard::completeTransferButtonClick",
-    	"HANDLER":   "**your_handler_url_here**",
-    })
-    if err != nil {
-    	return fmt.Errorf("placement.bindEvent: %w", err)
-    }
-
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
-    ```
-
 {% endlist %}
+
+## Ошибки
+
+Проверьте условия.
+
+- Виджет открыт в точке встраивания `PAGE_BACKGROUND_WORKER`. В других точках встраивания события `BackgroundCallCard::*` не зарегистрированы, и подписка молча не сработает
+- Имя события передано без опечаток и с учетом регистра. Список событий, доступных в текущей точке встраивания, возвращает [BX24.placement.getInterface](../../bx24-placement-get-interface.md)
+- Звонок поднят приложением методом [telephony.externalCall.register](../../../../telephony/telephony-external-call-register.md). Для звонков самого Битрикс24 события `BackgroundCallCard::*` не эмитятся вовсе
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](../card.md)
+- [{#T}](../index.md)
