@@ -19,15 +19,15 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **FIND**
-[`string`](../../data-types.md) | Поисковая фраза для поиска по индексируемым данным чата. Минимальное количество символов для поиска — `3` ||
+[`string`](../../data-types.md) | Поисковая фраза для поиска по индексируемым данным чата. Минимальное количество символов для поиска — `2` ||
 || **FIND_LINES**
-[`string`](../../data-types.md) | Поисковая фраза для поиска чатов среди Открытых линий. Минимальное количество символов для поиска — `3` ||
+[`string`](../../data-types.md) | Поисковая фраза для поиска чатов среди Открытых линий. Минимальное количество символов для поиска — `2` ||
 || **OFFSET**
 [`integer`](../../data-types.md) | Смещение выборки чатов. По умолчанию `0` ||
 || **LIMIT**
@@ -36,7 +36,7 @@
 
 {% note info "" %}
 
-Нужно передать хотя бы один параметр: `FIND` или `FIND_LINES`.
+Нужно передать хотя бы один параметр: `FIND` или `FIND_LINES`. Если передать оба, приоритет у `FIND`, а поиск по Открытым линиям не выполняется.
 
 {% endnote %}
 
@@ -52,7 +52,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"FIND":"Проект","FIND_LINES":"Линия","OFFSET":0,"LIMIT":10}' \
+      -d '{"FIND":"Проект","OFFSET":0,"LIMIT":10}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.search.chat.list
     ```
 
@@ -62,7 +62,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"FIND":"Проект","FIND_LINES":"Линия","OFFSET":0,"LIMIT":10,"auth":"**put_access_token_here**"}' \
+      -d '{"FIND":"Проект","OFFSET":0,"LIMIT":10,"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/im.search.chat.list
     ```
 
@@ -147,7 +147,6 @@
         method: 'im.search.chat.list',
         params: {
           FIND: 'Project',
-          FIND_LINES: 'Line',
           OFFSET: 0,
           LIMIT: 10,
         },
@@ -187,7 +186,6 @@
             method: 'im.search.chat.list',
             params: {
               FIND: 'Project',
-              FIND_LINES: 'Line',
               OFFSET: 0,
               LIMIT: 10,
             },
@@ -220,7 +218,6 @@
             'im.search.chat.list',
             [
                 'FIND' => 'Проект',
-                'FIND_LINES' => 'Линия',
                 'OFFSET' => 0,
                 'LIMIT' => 10,
             ]
@@ -245,7 +242,6 @@
         'im.search.chat.list',
         {
             FIND: 'Проект',
-            FIND_LINES: 'Линия',
             OFFSET: 0,
             LIMIT: 10,
         },
@@ -268,7 +264,6 @@
         'im.search.chat.list',
         [
             'FIND' => 'Проект',
-            'FIND_LINES' => 'Линия',
             'OFFSET' => 0,
             'LIMIT' => 10,
         ]
@@ -287,7 +282,6 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "im.search.chat.list", b24.Params{
     	"FIND":       "Проект",
-    	"FIND_LINES": "Линия",
     	"OFFSET":     0,
     	"LIMIT":      10,
     }, b24.WithIdempotent())
@@ -304,7 +298,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -367,8 +361,7 @@ HTTP-код: **200**
                 "can_post": "member"
             },
             "is_new": false
-        },
-        ... // описание для каждого чата
+        }
     ],
     "total": 2,
     "time": {
@@ -384,11 +377,11 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`array`](../../data-types.md) | Список найденных чатов.
 
@@ -401,11 +394,11 @@ HTTP-код: **200**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект чата {#chat-object}
+#### Объект чата {#chat-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор чата ||
 || **parent_chat_id**
@@ -489,11 +482,11 @@ HTTP-код: **200**
 [`boolean`](../../data-types.md) | Признак нового чата ||
 |#
 
-### Объект restrictions {#restrictions-object}
+#### Объект restrictions {#restrictions-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **avatar**
 [`boolean`](../../data-types.md) | Разрешено менять аватар чата ||
 || **rename**
@@ -518,22 +511,22 @@ HTTP-код: **200**
 [`string`](../../data-types.md) | Текст ссылки для перехода по `path`. Поле доступно вместе с `path` ||
 |#
 
-### Объект public {#public-object}
+#### Объект public {#public-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **code**
 [`string`](../../data-types.md) | Публичный код чата ||
 || **link**
 [`string`](../../data-types.md) | Публичная ссылка на чат ||
 |#
 
-### Объект entity_link {#entity-link-object}
+#### Объект entity_link {#entity-link-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **type**
 [`string`](../../data-types.md) | Тип связанного объекта ||
 || **url**
@@ -543,11 +536,11 @@ HTTP-код: **200**
 [`integer`](../../data-types.md) | Идентификатор связанного объекта ||
 |#
 
-### Объект permissions {#permissions-object}
+#### Объект permissions {#permissions-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **manage_users_add**
 [`string`](../../data-types.md) | Право добавлять пользователей ||
 || **manage_users_delete**
@@ -573,13 +566,13 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `FIND_SHORT` | Too short a search phrase | Не передан ни один поисковый параметр или фраза меньше трех символов ||
+|| `FIND_SHORT` | Too short a search phrase | Не передан ни один поисковый параметр или фраза меньше двух символов ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
@@ -591,3 +584,4 @@ HTTP-статус: **400**
 - [{#T}](./im-search-last-add.md)
 - [{#T}](./im-search-last-get.md)
 - [{#T}](./im-search-last-delete.md)
+- [{#T}](./index.md)

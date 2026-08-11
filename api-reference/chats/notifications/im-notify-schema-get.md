@@ -193,18 +193,18 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
     "result": {
         "tasks": {
-            "name": "Задачи",
-            "module_id": "tasks",
-            "list": [
+            "NAME": "Задачи",
+            "MODULE_ID": "tasks",
+            "LIST": [
                 {
-                    "id": "tasks|task_update",
-                    "name": "Изменения задач"
+                    "ID": "tasks|task_update",
+                    "NAME": "Изменения задач"
                 }
             ]
         }
@@ -222,39 +222,39 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект схемы уведомлений, ключ верхнего уровня — `MODULE_ID`. 
+[`object`](../../data-types.md) | Объект схемы уведомлений, ключ верхнего уровня — `MODULE_ID`.
 
 Структура объекта модуля подробно описана [ниже](#module-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект \{MODULE_ID\} {#module-object}
+#### Объект \{MODULE_ID\} {#module-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **NAME**
 [`string`](../../data-types.md) | Название модуля ||
 || **MODULE_ID**
 [`string`](../../data-types.md) | Идентификатор модуля ||
 || **LIST**
-[`array`](../../data-types.md) | Список типов уведомлений модуля. 
+[`array`](../../data-types.md) | Список типов уведомлений модуля.
 
 Структура элемента подробно описана [ниже](#list-item-object) ||
 |#
 
-### Элемент LIST {#list-item-object}
+#### Элемент LIST {#list-item-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **ID**
 [`string`](../../data-types.md) | Идентификатор типа уведомления в формате ```MODULE|EVENT``` ||
 || **NAME**
@@ -263,7 +263,18 @@ HTTP-код: **200**
 
 ## Обработка ошибок
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+У метода нет собственных кодов ошибок — возможны только системные ошибки REST API.
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
 

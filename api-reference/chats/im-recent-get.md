@@ -720,6 +720,17 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+У метода нет собственных кодов ошибок — возможны только системные ошибки REST API.
+
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

@@ -23,11 +23,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../data-types.md) | Идентификатор чата.
+[`integer`](../../data-types.md) | Идентификатор чата. Передайте число без префикса `chat`. Обязателен, если не передан `DIALOG_ID`.
 
 Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md) ||
+|| **DIALOG_ID**
+[`string`](../../data-types.md) | Идентификатор диалога в формате `chatXXX`, где `XXX` — идентификатор чата. Можно передать вместо `CHAT_ID`.
+
+Метод работает только с групповыми чатами: для личного диалога он вернет ошибку `DIALOG_ID_EMPTY` ||
 || **COLOR***
-[`string`](../../data-types.md) | Цвет чата для мобильного приложения. Возможные значения:
+[`string`](../../data-types.md) | Цвет чата. Отображается в мобильном приложении и там, где у чата нет аватара. Возможные значения:
 - `RED` — красный
 - `GREEN` — зеленый
 - `MINT` — мятный
@@ -280,7 +284,8 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` ||
+|| `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или значение содержит префикс `chat` ||
+|| `DIALOG_ID_EMPTY` | Dialog ID can't be empty | В `DIALOG_ID` передан личный диалог или неверный формат ||
 || `ACCESS_ERROR` | Action unavailable | Операция недоступна для этого чата ||
 || `WRONG_COLOR` | This color currently unavailable | Передан недопустимый цвет ||
 || `WRONG_REQUEST` | This color currently set or chat isn't exists | Цвет уже установлен или чат не существует ||

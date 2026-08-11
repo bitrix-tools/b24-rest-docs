@@ -1,6 +1,6 @@
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор пользователя ||
 || **active**
@@ -16,10 +16,10 @@
 || **color**
 [`string`](../../data-types.md) | Цвет пользователя в формате HEX ||
 || **avatar**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`null`](../../data-types.md) | Ссылка на аватар пользователя ||
 || **avatar_hr**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`null`](../../data-types.md) | Ссылка на аватар высокого разрешения. На текущий момент поле возвращается всегда, независимо от значения `AVATAR_HR` ||
 || **gender**
 [`string`](../../data-types.md) | Пол пользователя: `M`, `F` или пустое значение, если не указан ||
@@ -40,24 +40,24 @@
 
 В новом мессенджере поле всегда содержит `online` независимо от фактически установленного статуса. Проверить установленный статус можно методом [im.user.status.get](../users/im-user-status-get.md), изменить — методом [im.user.status.set](../users/im-user-status-set.md) ||
 || **idle**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Время перехода в статус «Отошел» в формате ISO 8601 (RFC3339) или `false` ||
 || **last_activity_date**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Время последней активности в формате ISO 8601 (RFC3339) или `false` ||
 || **mobile_last_date**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Время последней активности в мобильном приложении в формате ISO 8601 (RFC3339) или `false` ||
 || **desktop_last_date**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Время последней активности в десктопном приложении в формате ISO 8601 (RFC3339) или `false` ||
 || **absent**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Дата окончания отсутствия в формате ISO 8601 (RFC3339) или `false` ||
 || **departments**
 [`array`](../../data-types.md) | Массив идентификаторов подразделений ||
 || **phones**
-[`object`](../../data-types.md) 
+[`object`](../../data-types.md)
 [`boolean`](../../data-types.md) | Телефоны пользователя или `false`.
 
 Структура объекта подробно описана [ниже](#phones-object) ||
@@ -66,7 +66,7 @@
 || **email**
 [`string`](../../data-types.md) | Email пользователя или пустая строка ||
 || **bot_data**
-[`object`](../../data-types.md) 
+[`object`](../../data-types.md)
 [`null`](../../data-types.md) | Данные бота для пользователей-ботов ||
 || **type**
 [`string`](../../data-types.md) | Тип пользователя ||
@@ -76,7 +76,7 @@
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **personal_mobile**
 [`string`](../../data-types.md) | Мобильный телефон ||
 || **work_phone**

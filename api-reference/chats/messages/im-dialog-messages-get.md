@@ -309,7 +309,6 @@ HTTP-статус: **200**
                 "params": [],
                 "disappearing_date": null
             },
-            ...,
             {
                 "id": 84869,
                 "chat_id": 1489,
@@ -324,8 +323,7 @@ HTTP-статус: **200**
                     "NOTIFY": "N"
                 },
                 "disappearing_date": null
-            },
-            ...
+            }
         ],
         "users": [
             {
@@ -364,7 +362,29 @@ HTTP-статус: **200**
                 "name": "Анна Петрова",
                 "first_name": "Анна",
                 "last_name": "Петрова",
-                ...
+                "work_position": "Менеджер",
+                "color": "#df532d",
+                "avatar": "",
+                "avatar_hr": "",
+                "gender": "F",
+                "birthday": "",
+                "extranet": false,
+                "network": false,
+                "bot": false,
+                "connector": false,
+                "external_auth_id": "default",
+                "status": "online",
+                "idle": false,
+                "last_activity_date": "2026-03-04T10:11:02+03:00",
+                "mobile_last_date": false,
+                "desktop_last_date": false,
+                "absent": false,
+                "departments": [667],
+                "phones": false,
+                "bot_data": null,
+                "type": "user",
+                "website": "",
+                "email": "petrova@mysite.ru"
             }
         ],
         "files": [
@@ -478,7 +498,7 @@ HTTP-статус: **200**
 || **params**
 [`object`](../../data-types.md) | Дополнительные параметры сообщения [(подробное описание)](#params).
 
-Набор полей объекта зависит от типа сообщени: обычное или системное ||
+Набор полей объекта зависит от типа сообщения: обычное или системное ||
 || **disappearing_date**
 [`datetime`](../../data-types.md) | Дата исчезновения сообщения, `null` если не задана ||
 |#

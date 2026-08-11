@@ -17,22 +17,21 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **FIND***
-[`string`](../../data-types.md) | Поисковая фраза. Минимальное количество символов для поиска — `3` ||
+[`string`](../../data-types.md) | Поисковая фраза. Минимальное количество символов для поиска — `2` ||
 || **BUSINESS**
-[`string`](../../data-types.md) | Искать только среди бизнес-пользователей. 
+[`string`](../../data-types.md) | Искать только среди бизнес-пользователей.
 
 Допустимые значения:
 - `Y` — да
 - `N` — нет
 
 Значение по умолчанию — `N` ||
-
 || **OFFSET**
 [`integer`](../../data-types.md) | Смещение выборки пользователей. По умолчанию `0` ||
 || **LIMIT**
@@ -105,11 +104,8 @@
     }
 
     try {
-      // im.search.user.list returns a single page (max 50 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<UserResult[]>({
         method: 'im.search.user.list',
         params: {
@@ -117,7 +113,6 @@
           BUSINESS: 'N',
           OFFSET: 0,
           LIMIT: 10,
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -146,11 +141,8 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // im.search.user.list returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'im.search.user.list',
             params: {
@@ -158,7 +150,6 @@
               BUSINESS: 'N',
               OFFSET: 0,
               LIMIT: 10,
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -273,12 +264,12 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
-    "result": [
-        {
+    "result": {
+        "103": {
             "id": 103,
             "name": "Светлана Иванова",
             "first_name": "Светлана",
@@ -304,9 +295,8 @@ HTTP-код: **200**
                 "personal_mobile": "81234567890",
                 "inner_phone": "78"
             }
-        },
-        ... // описание для каждого пользователя
-    ],
+        }
+    },
     "total": 2,
     "time": {
         "start": 1772628089,
@@ -321,13 +311,13 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Список найденных пользователей.
+[`object`](../../data-types.md) | Найденные пользователи. Ключ каждого элемента равен идентификатору пользователя. Если ничего не найдено, метод возвращает пустой массив.
 
 Структура объекта пользователя подробно описана [ниже](#user-object) ||
 || **total**
@@ -338,11 +328,11 @@ HTTP-код: **200**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект пользователя {#user-object}
+#### Объект user {#user-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор пользователя ||
 || **name**
@@ -356,12 +346,12 @@ HTTP-код: **200**
 || **color**
 [`string`](../../data-types.md) | Цвет пользователя в формате HEX ||
 || **avatar**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`null`](../../data-types.md) | Ссылка на аватар пользователя ||
 || **gender**
 [`string`](../../data-types.md) | Пол пользователя: `M` или `F` ||
 || **birthday**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | День рождения в формате `DD-MM` или `false` ||
 || **extranet**
 [`boolean`](../../data-types.md) | Признак экстранет-пользователя ||
@@ -376,30 +366,30 @@ HTTP-код: **200**
 || **status**
 [`string`](../../data-types.md) | Текущий статус пользователя ||
 || **idle**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Время перехода в статус «Отошел» в формате ISO 8601 (RFC3339) или `false` ||
 || **last_activity_date**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Время последней активности в формате ISO 8601 (RFC3339) или `false` ||
 || **mobile_last_date**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Время последней мобильной активности в формате ISO 8601 (RFC3339) или `false` ||
 || **departments**
 [`array`](../../data-types.md) | Массив идентификаторов подразделений ||
 || **absent**
-[`string`](../../data-types.md) 
+[`string`](../../data-types.md)
 [`boolean`](../../data-types.md) | Дата окончания отсутствия в формате ISO 8601 (RFC3339) или `false` ||
 || **phones**
 [`object`](../../data-types.md) | Телефоны пользователя или `false`.
 
-Структура объекта подробно описана [ниже](#phones-object) ||
+Структура объекта подробно описана [ниже](#phones) ||
 |#
 
-### Объект phones {#phones-object}
+#### Объект phones {#phones}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **work_phone**
 [`string`](../../data-types.md) | Рабочий телефон ||
 || **personal_mobile**
@@ -419,7 +409,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -437,3 +427,4 @@ HTTP-статус: **400**
 - [{#T}](./im-search-last-add.md)
 - [{#T}](./im-search-last-get.md)
 - [{#T}](./im-search-last-delete.md)
+- [{#T}](./index.md)

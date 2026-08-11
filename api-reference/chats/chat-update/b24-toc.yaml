@@ -1,4 +1,4 @@
-title: Изменить чат
+title: Обновление чата
 href: index.md
 items:
   - name: Обзор методов
@@ -11,5 +11,3 @@ items:
     href: im-chat-update-avatar.md
   - name: Изменить цвет чата
     href: im-chat-update-color.md
-
-

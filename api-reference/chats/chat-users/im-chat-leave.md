@@ -259,7 +259,7 @@ HTTP-статус: **400**, **403**
 || `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` ||
 || `ACCESS_ERROR` | Action unavailable | Операция недоступна для этого чата ||
 || `ACCESS_ERROR` | It is forbidden to delete users of this chat | Нельзя выйти из этого чата этим методом ||
-|| `ACCESS_DENIED_KICK` | Недостаточно прав на исключение участников из чата | Пользователь не является участником чата ||
+|| `ACCESS_DENIED_KICK` | Access denied to kick user from chat | Пользователь не является участником чата или не может выйти из этого чата ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

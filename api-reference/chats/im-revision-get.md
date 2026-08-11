@@ -224,11 +224,11 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`object`](../data-types.md) | Корневой объект с ревизиями API ||
 || **result.rest**
@@ -247,9 +247,20 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+У метода нет собственных кодов ошибок — возможны только системные ошибки REST API.
+
 Специальных бизнес-ошибок у метода нет.
 
-{% include notitle [Обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}
 
