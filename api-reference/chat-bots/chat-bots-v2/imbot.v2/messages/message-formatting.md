@@ -38,12 +38,6 @@
 - [im.notify.personal.add](../../../../chats/notifications/im-notify-personal-add.md) — отправить персональное уведомление
 - [im.notify.system.add](../../../../chats/notifications/im-notify-system-add.md) — отправить системное уведомление
 
-**Устаревшие чат-боты (`imbot`)**
-
-- [imbot.message.add](../../../outdated/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
-- [imbot.message.update](../../../outdated/messages/imbot-message-update.md) — обновить отправленное сообщение чат-бота
-- [imbot.command.answer](../../../outdated/commands/imbot-command-answer.md) — отправить ответ на команду чат-бота
-
 ## Поддерживаемые BB-коды
 
 ### Форматирование текста

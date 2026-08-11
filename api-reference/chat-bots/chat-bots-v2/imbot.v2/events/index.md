@@ -11,9 +11,9 @@
 
 Бот может работать в режиме `fetch`, когда он сам забирает события polling-запросом, или в режиме `webhook`, когда Битрикс24 отправляет события на URL бота.
 
-> Быстрый переход: [все методы](#all-methods)
+> Быстрый переход: [все методы и события](#all-methods)
 
-## Режимы доставки событий
+## Режимы доставки событий {#event-modes}
 
 #|
 || **Режим** | **Описание** | **Когда использовать** ||
@@ -23,11 +23,52 @@
 
 Режим задается при регистрации бота параметром `eventMode` метода [imbot.v2.Bot.register](../bots/bot-register.md).
 
-## Обзор методов {#all-methods}
+Формат данных зависит от режима. В `fetch`-режиме приходит полный объект бота, в `webhook`-режиме — упрощенный объект `{id, code, auth}`. В webhook-режиме все скалярные значения приходят строками, поэтому типы нужно приводить явно. Подробнее — [Формат объекта bot](./events.md#bot-format).
+
+## Подписка на события {#subscription}
+
+Подписками на события `ONIMBOTV2*` управляет сама платформа:
+
+- создает подписку при [imbot.v2.Bot.register](../bots/bot-register.md) с `eventMode: "webhook"`
+- пересобирает ее при [imbot.v2.Bot.update](../bots/bot-update.md), если меняется `webhookUrl` или `eventMode`
+- удаляет при [imbot.v2.Bot.unregister](../bots/bot-unregister.md) или переходе бота в режим `fetch`
+
+{% note warning "" %}
+
+Вызывать `event.bind` и `event.unbind` вручную не нужно — это может привести к расхождению с внутренним учетом подписок.
+
+{% endnote %}
+
+## Лимиты {#limits}
+
+#|
+|| **Ограничение** | **Значение** ||
+|| Событий за один вызов [imbot.v2.Event.get](./event-get.md) | 1–1000, по умолчанию 100 ||
+|| Рекомендуемый интервал опроса в `fetch`-режиме | 5–30 секунд при отсутствии новых событий ||
+|| Доставка в `webhook`-режиме | Платформа ожидает HTTP 200. Повторные попытки при сбое не гарантируются ||
+|#
+
+Пример polling-цикла и обработчика webhook — [Чат-боты 2.0: обзор методов](../../index.md#polling).
+
+## Связь с другими объектами {#relations}
+
+**Бот.** События приходят конкретному боту, поэтому в [imbot.v2.Event.get](./event-get.md) передается `botId`, а при авторизации через вебхук — еще и `botToken` — [Боты](../bots/index.md).
+
+**Сообщения.** События `ONIMBOTV2MESSAGE*` и `ONIMBOTV2REACTIONCHANGE` — основной входной поток для бота. Ответ на них отправляется методами группы [Сообщения](../messages/index.md).
+
+**Команды.** Вызов слэш-команды приходит событием `ONIMBOTV2COMMANDADD`, ответ отправляется методом [imbot.v2.Command.answer](../commands/command-answer.md) — [Команды](../commands/index.md).
+
+**Контекст бота.** Событие `ONIMBOTV2CONTEXTGET` доставляет боту произвольные данные, переданные при открытии чата — [Передача контекста боту](../bot-context.md).
+
+**Пользовательские события.** Если нужно читать поток событий мессенджера от имени пользователя, а не бота, используйте методы [im.v2.Event.*](../../im.v2/events/index.md).
+
+## Обзор методов и событий {#all-methods}
 
 > Scope: [`imbot`](../../../../scopes/permissions.md)
 >
 > Кто может выполнять методы: владелец зарегистрированного бота
+
+### Методы
 
 #|
 || **Метод** | **Описание** ||
@@ -35,8 +76,28 @@
 || [Форматы событий](./events.md) | Описание событий и структуры данных ||
 |#
 
+### События
+
+Минимальный набор для рабочего бота — `ONIMBOTV2MESSAGEADD`, `ONIMBOTV2COMMANDADD`, `ONIMBOTV2JOINCHAT` и `ONIMBOTV2DELETE`. Остальные события подключайте по сценарию.
+
+#|
+|| **Событие** | **Вызывается** ||
+|| [ONIMBOTV2MESSAGEADD](./events.md#onimbotv2messageadd) | При отправке пользователем сообщения в чат, в котором состоит бот ||
+|| [ONIMBOTV2MESSAGEUPDATE](./events.md#onimbotv2messageupdate) | При редактировании сообщения в чате бота ||
+|| [ONIMBOTV2MESSAGEDELETE](./events.md#onimbotv2messagedelete) | При удалении сообщения в чате бота ||
+|| [ONIMBOTV2REACTIONCHANGE](./events.md#onimbotv2reactionchange) | При добавлении или удалении реакции на сообщение бота ||
+|| [ONIMBOTV2COMMANDADD](./events.md#onimbotv2commandadd) | При вызове пользователем слэш-команды бота ||
+|| [ONIMBOTV2JOINCHAT](./events.md#onimbotv2joinchat) | При добавлении бота в чат или приглашении его в чат ||
+|| [ONIMBOTV2CONTEXTGET](./events.md#onimbotv2contextget) | При открытии диалога с ботом, если передаются контекстные данные ||
+|| [ONIMBOTV2DELETE](./events.md#onimbotv2delete) | При удалении бота из системы. Последнее событие, которое получит бот ||
+|#
+
 ## Продолжите изучение
 
 - [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](../../index.md)
+- [{#T}](../../entities.md)
+- [{#T}](../../migration.md)
 - [Боты imbot.v2](../bots/index.md)
+- [Команды imbot.v2](../commands/index.md)
+- [{#T}](../bot-context.md)

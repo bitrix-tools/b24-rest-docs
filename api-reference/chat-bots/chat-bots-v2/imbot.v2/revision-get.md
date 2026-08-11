@@ -29,30 +29,7 @@
 
 ## Параметры метода
 
-Метод не требует `botId` и `botToken`. Параметров нет.
-
-## Как использовать
-
-Типичный сценарий — проверка перед использованием метода или поля, которое появилось в определенной ревизии:
-
-```js
-const revision = await BX.rest.callMethod('imbot.v2.Revision.get', {});
-const restRevision = revision.data().rest;
-
-if (restRevision >= 33)
-{
-    await BX.rest.callMethod('imbot.v2.Chat.Message.send', {
-        botId: 456,
-        botToken: '...',
-        dialogId: 'chat5',
-        fields: { message: 'Hello', system: true }
-    });
-}
-else
-{
-    // system может не работать корректно в более ранней ревизии
-}
-```
+Без параметров. Метод не требует `botId` и `botToken`.
 
 ## Примеры кода
 
@@ -62,55 +39,84 @@ else
 
 - cURL (Webhook)
 
-  ```bash
-  curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Revision.get
-  ```
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Revision.get
+    ```
 
 - cURL (OAuth)
 
-  ```bash
-  curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/imbot.v2.Revision.get
-  ```
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imbot.v2.Revision.get
+    ```
 
 - JS
 
-  ```js
-  BX.rest.callMethod('imbot.v2.Revision.get', {})
-      .then(result => console.log(result.data()));
-  ```
+    ```js
+    try {
+      const response = await $b24.callMethod('imbot.v2.Revision.get', {});
+
+      const { result } = response.getData();
+      console.log('result:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    ```
 
 - PHP
 
-  ```php
-  $result = $b24Service->core->call('imbot.v2.Revision.get');
-  print_r($result->getResponseData()->getResult());
-  ```
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call('imbot.v2.Revision.get');
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'result: ' . print_r($result, true);
+    } catch (Throwable $exception) {
+        error_log($exception->getMessage());
+        echo 'Error: ' . $exception->getMessage();
+    }
+    ```
 
 - BX24.js
 
-  ```js
-  BX24.callMethod('imbot.v2.Revision.get', {}, function(result) {
-      if (result.error()) {
-          console.error(result.error().ex);
-      } else {
-          console.log(result.data());
-      }
-  });
-  ```
+    ```js
+    BX24.callMethod(
+        'imbot.v2.Revision.get',
+        {},
+        function(result) {
+            if (result.error()) {
+                console.error(result.error().ex);
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
 
 - PHP CRest
 
-  ```php
-  $result = CRest::call('imbot.v2.Revision.get');
-  print_r($result['result']);
-  ```
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call('imbot.v2.Revision.get');
+
+    if (!empty($result['error'])) {
+        echo 'Error: ' . $result['error_description'];
+    } else {
+        echo 'REST revision: ' . $result['result']['rest'];
+    }
+    ```
 
 - Go
 
@@ -164,9 +170,9 @@ HTTP-статус: **200**
 || **Название**
 `Тип` | **Описание** ||
 || **result**
-[object](../../../data-types.md) | Номера ревизий API и клиентских протоколов [(подробное описание)](#revision-object) ||
+[`object`](../../../data-types.md) | Номера ревизий API и клиентских протоколов [(подробное описание)](#revision-object) ||
 || **time**
-[time](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ### Поля объекта Revision {#revision-object}
@@ -183,6 +189,28 @@ HTTP-статус: **200**
 || **desktop**
 [`integer`](../../../data-types.md) | Ревизия протокола десктоп-приложения ||
 |#
+
+## Проверка совместимости перед вызовом
+
+Типичный сценарий — сверить ревизию перед использованием метода или поля, которое появилось не сразу:
+
+```js
+const response = await $b24.callMethod('imbot.v2.Revision.get', {});
+const restRevision = response.getData().result.rest;
+
+if (restRevision >= 33) {
+    // поле fields.system поддерживается — отправляем системное сообщение
+    await $b24.callMethod('imbot.v2.Chat.Message.send', {
+        botId: 456,
+        dialogId: 'chat5',
+        fields: { message: 'Hello', system: true }
+    });
+} else {
+    // в более ранней ревизии поле fields.system может обрабатываться некорректно
+}
+```
+
+Номер ревизии, начиная с которой доступно конкретное изменение, указан в [Журнале изменений API imbot.v2](../change-log.md).
 
 ## Обработка ошибок
 

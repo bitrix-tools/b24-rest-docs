@@ -48,9 +48,9 @@
 || **message**
 [`string`](../../../../data-types.md) | Текст ответа. Максимальная длина — 20 000 символов ||
 || **attach**
-[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](../../../../chats/messages/attachments.md) ||
+[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](../messages/attachments/index.md) ||
 || **keyboard**
-[`array`](../../../../data-types.md) | Клавиатура. Подробнее: [Работа с клавиатурами](../../../../chats/messages/keyboards.md) ||
+[`array`](../../../../data-types.md) | Клавиатура. Подробнее: [Работа с клавиатурами](../messages/message-keyboards.md) ||
 || **system**
 [`boolean`](../../../../data-types.md) | Системное сообщение. Допустимые значения: `true`, `false`. По умолчанию `false` ||
 || **urlPreview**
