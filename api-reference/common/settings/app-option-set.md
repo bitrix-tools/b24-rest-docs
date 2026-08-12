@@ -267,6 +267,36 @@
 
 {% endlist %}
 
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1722001311.94644,
+        "finish": 1722001311.98622,
+        "duration": 0.0397801399230957,
+        "processing": 0.000041961669921875,
+        "date_start": "2024-07-26T13:41:51+00:00",
+        "date_finish": "2024-07-26T13:41:51+00:00",
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращается `true`, если настройки сохранены ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
 ## Обработка ошибок
 
 HTTP-статус: **400**
@@ -285,7 +315,8 @@ HTTP-статус: **400**
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
 || `ArgumentNullException` | options is empty | Пустой массив `options`  ||
-|| `AccessException` | Application context required / Administrator authorization required | Доступ запрещен ||
+|| `AccessException` | Application context required | Метод вызван вне контекста приложения ||
+|| `AccessException` | Administrator authorization required | У текущего пользователя нет прав администратора ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

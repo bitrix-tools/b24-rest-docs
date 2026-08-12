@@ -15,13 +15,17 @@
 
 Метод `user.option.get` получает пользовательские данные, привязанные к приложению. Если ничего не подать на вход, то вернет все записанные через [user.option.set](./user-option-set.md) свойства.
 
-## Параметры
+## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **option**
-[`string`](../../data-types.md) | Строка, один из ключей из свойства [user.option.set](./user-option-set.md). ||
+[`string`](../../data-types.md) | Один из ключей, сохраненных методом [user.option.set](./user-option-set.md).
+
+Если параметр не передан, метод вернет все сохраненные настройки текущего пользователя ||
 |#
 
 ## Примеры кода
@@ -246,15 +250,57 @@
 
 HTTP-статус: **200**
 
+Вызов без параметра `option` — метод возвращает все сохраненные настройки текущего пользователя:
+
 ```json
 {
-    "data": "value",
-    "data2": "value2"
+    "result": {
+        "data": "value",
+        "data2": "value2"
+    },
+    "time": {
+        "start": 1722001311.94644,
+        "finish": 1722001311.98622,
+        "duration": 0.0397801399230957,
+        "processing": 0.000041961669921875,
+        "date_start": "2024-07-26T13:41:51+00:00",
+        "date_finish": "2024-07-26T13:41:51+00:00",
+        "operating": 0
+    }
 }
 ```
 
-Метод возвращает пользовательские данные, привязанные к приложению.
+Вызов с параметром `option` — метод возвращает значение одного ключа:
 
+```json
+{
+    "result": "value",
+    "time": {
+        "start": 1722001311.94644,
+        "finish": 1722001311.98622,
+        "duration": 0.0397801399230957,
+        "processing": 0.000041961669921875,
+        "date_start": "2024-07-26T13:41:51+00:00",
+        "date_finish": "2024-07-26T13:41:51+00:00",
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md)\|[`string`](../../data-types.md)\|[`null`](../../data-types.md) | Зависит от параметра `option`:
+
+- параметр не передан — объект, где ключ это название настройки, а значение это сохраненное значение. Если настроек нет, объект пустой
+- параметр передан — сохраненное значение ключа
+- параметр передан, но такого ключа нет — `null` ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
 
 ## Обработка ошибок
 
@@ -263,7 +309,7 @@ HTTP-статус: **400**
 ```json
 {
     "error":"AccessException",
-    "error_description":"Application context required / User authorization required"
+    "error_description":"Application context required"
 }
 ```
 
@@ -273,7 +319,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `AccessException` | Application context required / Administrator authorization required | Доступ запрещен ||
+|| `AccessException` | Application context required | Метод вызван вне контекста приложения ||
+|| `AccessException` | User authorization required | Пользователь не авторизован ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
