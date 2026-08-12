@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор Битрикс24 или администратор CRM
 
 Метод `crm.duplicate.volatileType.fields` возвращает список стандартных и пользовательcких полей, которые можно использовать для поиска дубликатов в лидах, контактах и компаниях.
 
@@ -295,12 +295,28 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Специфичные ошибки метода не выделены.
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
+|#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md)
-- [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md)
-- [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md) 
+- [{#T}](./crm-duplicate-volatile-type-list.md)
+- [{#T}](./crm-duplicate-volatile-type-register.md)
+- [{#T}](./crm-duplicate-volatile-type-unregister.md)

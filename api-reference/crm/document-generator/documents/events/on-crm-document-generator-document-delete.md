@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`documentgenerator, crm`](../../../../scopes/permissions.md)
+> Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
