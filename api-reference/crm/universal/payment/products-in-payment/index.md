@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Методы раздела управляют товарными позициями внутри оплаты CRM. Например, можно добавить конкретный товар в оплату, изменить его количество или удалить из состава оплаты.
+Методы `crm.item.payment.product.*` управляют товарными позициями внутри оплаты CRM. Например, можно добавить конкретный товар в оплату, изменить его количество или удалить из состава оплаты.
 
 Это нужно, чтобы детализировать состав заказа в финансовых документах. Битрикс24 связывает товары из каталога с оплатой, позволяя точно учитывать номенклатуру при расчетах.
 
@@ -17,18 +17,21 @@
 
 ## Связь товарных позиций в оплате с другими объектами
 
-**Оплата CRM.** Все методы раздела выполняются в контексте оплаты по `paymentId`.
+**Оплата CRM.** Все методы группы выполняются в контексте оплаты по `paymentId`.
 
 **Каталог товаров.** Служит источником информации о товаре. Данные из каталога попадают в товарную строку CRM, а затем используются при формировании позиции в оплате.
 
-**Товарная строка CRM.** Методы раздела работают с товарной строкой через `rowId`. Товарная строка содержит данные о товаре: идентификатор, наименование, количество, цену, единицу измерения и другие параметры. Получить `rowId` можно методом [crm.item.productrow.list](../../../../crm/universal/product-rows/crm-item-productrow-list.md). В рамках оплаты можно управлять только количеством товара.
+**Товарная строка CRM.** Методы группы работают с товарной строкой через `rowId`. Товарная строка содержит данные о товаре: идентификатор, наименование, количество, цену, единицу измерения и другие параметры. Получить `rowId` можно методом [crm.item.productrow.list](../../product-rows/crm-item-productrow-list.md). В рамках оплаты можно управлять только количеством товара.
+
+**Объект CRM.** Оплата всегда принадлежит сделке или счету — только эти объекты поддерживают оплаты. Значит, и товарные позиции в оплате есть только у них.
 
 ## Как работать с товарными позициями в оплате
 
-1. Подготовьте `paymentId` нужной оплаты с помощью основных методов раздела [crm.item.payment.*](../index.md).
-2. Добавьте товарную позицию методом [crm.item.payment.product.add](./crm-item-payment-product-add.md).
-3. Проверьте состав позиций методом [crm.item.payment.product.list](./crm-item-payment-product-list.md).
-4. При необходимости скорректируйте количество методом [crm.item.payment.product.setQuantity](./crm-item-payment-product-set-quantity.md) или удалите позицию методом [crm.item.payment.product.delete](./crm-item-payment-product-delete.md).
+1. Подготовьте `paymentId` нужной оплаты основными методами [crm.item.payment.*](../index.md).
+2. Получите `rowId` нужного товара методом [crm.item.productrow.list](../../product-rows/crm-item-productrow-list.md) или список еще не оплаченных товаров методом [crm.item.productrow.getAvailableForPayment](../../product-rows/crm-item-productrow-get-available-for-payment.md).
+3. Добавьте товарную позицию методом [crm.item.payment.product.add](./crm-item-payment-product-add.md).
+4. Проверьте состав позиций методом [crm.item.payment.product.list](./crm-item-payment-product-list.md).
+5. При необходимости скорректируйте количество методом [crm.item.payment.product.setQuantity](./crm-item-payment-product-set-quantity.md) или удалите позицию методом [crm.item.payment.product.delete](./crm-item-payment-product-delete.md).
 
 ## Обзор методов {#all-methods}
 
@@ -43,3 +46,9 @@
 || [crm.item.payment.product.delete](./crm-item-payment-product-delete.md) | Удаляет товарную позицию из оплаты ||
 || [crm.item.payment.product.setQuantity](./crm-item-payment-product-set-quantity.md) | Изменяет количество товара в товарной позиции оплаты ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](../index.md)
+- [{#T}](../../product-rows/index.md)
+- [{#T}](../delivery-in-payment/index.md)

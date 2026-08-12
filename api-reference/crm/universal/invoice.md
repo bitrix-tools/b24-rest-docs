@@ -1,4 +1,4 @@
-# Счета: обзор методов
+# Счета: обзор методов и событий
 
 {% note tip "" %}
 
@@ -13,13 +13,29 @@
 
 Счет можно сформировать по шаблону и отправить клиенту в виде документа. В карточке счета вы можете:
 
-- Управлять процессом продажи товара или услуги
-- Отслеживать этапы работы со счетом
-- Принимать онлайн-платежи
+- управлять процессом продажи товара или услуги
+- отслеживать этапы работы со счетом
+- принимать онлайн-платежи
 
-> Быстрый переход: [все методы и события](#all-methods) 
+Счета — это отдельный тип объекта CRM с идентификатором `entityTypeId = 31`. Работайте с ними универсальными методами `crm.item.*` и передавайте `entityTypeId = 31` в каждом вызове.
+
+{% note warning "" %}
+
+Методы `crm.item.*` работают только со счетами нового типа `entityTypeId = 31`. Для счетов старого типа `entityTypeId = 5` они вернут ошибку `ENTITY_TYPE_NOT_SUPPORTED`.
+
+{% endnote %}
+
+> Быстрый переход: [все методы и события](#all-methods)
 >
 > Пользовательская документация: [Новые счета в CRM](https://helpdesk.bitrix24.ru/open/14795982/)
+
+## Как начать работу
+
+1. Получите список доступных полей счета методом [crm.item.fields](./crm-item-fields.md) с `entityTypeId = 31`.
+2. Создайте счет методом [crm.item.add](./crm-item-add.md). Свяжите его со сделкой через `parentId2` и укажите клиента в полях `companyId` и `contactIds`.
+3. Добавьте товарные позиции методами [crm.item.productrow.*](./product-rows/index.md) с `ownerType = SI`.
+4. Создайте оплату методом [crm.item.payment.add](./payment/crm-item-payment-add.md) и получите ссылку для клиента методом [salescenter.payment.getPublicUrl](./payment/salescenter-payment-get-public-url.md).
+5. Отслеживайте статус счета методами [crm.item.get](./crm-item-get.md) и [crm.item.list](./crm-item-list.md), меняйте его методом [crm.item.update](./crm-item-update.md).
 
 ## Связь счетов с другими объектами CRM
 
@@ -33,27 +49,9 @@
 
 **Оплаты.** Добавление, изменение, удаление документов оплаты в счетах возможно через группу методов [crm.item.payment.*](./payment/index.md).
 
-**Реквизиты вашей компании.** Укажите ID вашей компании в поле `mycompanyId`, чтобы ее реквизиты автоматически использовались в документах. Получить ID вашей компании можно методом [crm.item.list](./crm-item-list.md) для объекта компаний с фильтром по полю `isMyCompany`.
+**Реквизиты вашей компании.** Укажите ID вашей компании в поле `mycompanyId`, чтобы ее реквизиты автоматически использовались в документах. Получить ID вашей компании можно методом [crm.item.list](./crm-item-list.md): передайте `entityTypeId = 4` и фильтр `isMyCompany = Y`.
 
-```JavaScript
-BX24.callMethod(
-        'crm.item.list',
-        {
-            entityTypeId: 4,
-            filter: {
-                "isMyCompany": "Y",
-            },
-        },
-        (result) => {
-            if (result.error())
-            {
-                console.error(result.error());
-                return;
-            }
-            console.info(result.data());
-        },
-    );
-```
+**Заказы интернет-магазина.** Заказ можно привязать к счету методами [crm.orderentity.*](./order-entity/index.md), передав `ownerTypeId = 31` и `ownerId` счета.
 
 {% note tip "Пользовательская документация" %}
 
@@ -65,11 +63,11 @@ BX24.callMethod(
 
 ## Карточка счета
 
-Основное рабочее пространство в счетах — это вкладка Общее карточки. Она состоит из двух частей:
+Основное рабочее пространство в счетах — это вкладка «Общее» карточки. Она состоит из двух частей:
 
-- левая, в ней располагаются поля с информацией. Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей счетов используйте группу методов [userfieldconfig.*](./userfieldconfig/userfieldconfig-add.md)
+- левая, в ней располагаются поля с информацией. Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей счетов используйте группу методов [userfieldconfig.*](./userfieldconfig/index.md) с `entityId = CRM_SMART_INVOICE`.
 
-- правая, в ней располагается таймлайн счета. В нем можно создавать, редактировать, фильтровать, удалять дела CRM — группа методов [crm.activity.*](../timeline/activities/index.md), и записи таймлайна — группа методов [crm.timeline.*](../timeline/index.md)
+- правая, в ней располагается таймлайн счета. В нем можно создавать, редактировать, фильтровать, удалять дела CRM — группа методов [crm.activity.*](../timeline/activities/index.md), и записи таймлайна — группа методов [crm.timeline.*](../timeline/index.md).
 
 Параметрами карточки счета можно управлять через группу методов [crm.item.details.configuration.*](./item-details-configuration/index.md).
 
@@ -105,7 +103,7 @@ BX24.callMethod(
 
 - [`CRM_SMART_INVOICE_LIST_TOOLBAR`](../../widgets/crm/list-toolbar.md) — пункт выпадающего меню над списком элементов
 
-- [`CRM_SMART_INVOICE_TIMELINE_MENU`](../../widgets/crm/activity-timeline-menu.md) — пункт контекстного меню дела в карточке элемента
+- [`CRM_SMART_INVOICE_ACTIVITY_TIMELINE_MENU`](../../widgets/crm/activity-timeline-menu.md) — пункт контекстного меню дела в карточке элемента
 
 - [`CRM_SMART_INVOICE_ROBOT_DESIGNER_TOOLBAR`](../../widgets/crm/robot-designer-toolbar.md) — пункт выпадающего меню верхней кнопки дизайнера роботов
 
@@ -118,8 +116,8 @@ BX24.callMethod(
 
 ## Обзор методов и событий {#all-methods}
 
-> Scope: [`crm`](../../scopes/permissions.md)
-> 
+> Scope: [`crm`](../../scopes/permissions.md), [`salescenter`](../../scopes/permissions.md)
+>
 > Кто может выполнять метод: в зависимости от метода
 
 ### Основные
@@ -131,6 +129,7 @@ BX24.callMethod(
 - Методы
 
     #|
+    || **Метод** | **Описание** ||
     || [crm.item.add](./crm-item-add.md) | Создает новый элемент CRM ||
     || [crm.item.update](./crm-item-update.md) | Обновляет элемент ||
     || [crm.item.get](./crm-item-get.md) | Возвращает элемент по Id ||
@@ -142,10 +141,13 @@ BX24.callMethod(
 - События
 
     #|
-    || [onCrmDynamicItemAdd](./events/on-crm-dynamic-item-add.md) | При создании объекта CRM пользовательского типа ||
-    || [onCrmDynamicItemDelete](./events/on-crm-dynamic-item-delete.md) | При удалении объекта CRM пользовательского типа ||
-    || [onCrmDynamicItemUpdate](./events/on-crm-dynamic-item-update.md) | При изменении объекта CRM пользовательского типа ||
+    || **Событие** | **Вызывается** ||
+    || [onCrmDynamicItemAdd](./events/on-crm-dynamic-item-add.md) | При создании счета вручную или методом [crm.item.add](./crm-item-add.md) ||
+    || [onCrmDynamicItemUpdate](./events/on-crm-dynamic-item-update.md) | При изменении счета вручную или методом [crm.item.update](./crm-item-update.md) ||
+    || [onCrmDynamicItemDelete](./events/on-crm-dynamic-item-delete.md) | При удалении счета вручную или методом [crm.item.delete](./crm-item-delete.md) ||
     |#
+
+    Эти события приходят по элементам всех смарт-процессов и счетов. Чтобы отобрать события счетов, проверяйте в обработчике `data.FIELDS.ENTITY_TYPE_ID = 31`. Подробнее — в разделе [События элементов смарт-процессов](./events/index.md).
 
 {% endlist %}
 
@@ -175,7 +177,7 @@ BX24.callMethod(
 || [crm.item.productrow.set](./product-rows/crm-item-productrow-set.md) | Привязывает товарную позицию к объекту CRM ||
 || [crm.item.productrow.list](./product-rows/crm-item-productrow-list.md) | Получает список товарных позиций ||
 || [crm.item.productrow.getAvailableForPayment](./product-rows/crm-item-productrow-get-available-for-payment.md) | Получает список неоплаченных товаров ||
-|| [crm.item.productrow.delete](./product-rows/crm-item-productrow-update.md) | Удаляет товарную позицию ||
+|| [crm.item.productrow.delete](./product-rows/crm-item-productrow-delete.md) | Удаляет товарную позицию ||
 || [crm.item.productrow.fields](./product-rows/crm-item-productrow-fields.md) | Получает список полей товарных позиций ||
 |#
 
@@ -192,6 +194,7 @@ BX24.callMethod(
 || [crm.item.payment.delete](./payment/crm-item-payment-delete.md) | Удаляет оплату   ||
 || [crm.item.payment.pay](./payment/crm-item-payment-pay.md) | Изменяет статус оплаты на «Оплачено» ||
 || [crm.item.payment.unpay](./payment/crm-item-payment-unpay.md) | Изменяет статус оплаты на «Не оплачено» ||
+|| [salescenter.payment.getPublicUrl](./payment/salescenter-payment-get-public-url.md) | Генерирует публичную ссылку на оплату ||
 |#
 
 #### Товарные позиции в оплате
@@ -219,8 +222,15 @@ BX24.callMethod(
 Идентификатор объекта CRM **entityTypeId** — `31`
 
 #|
-|| [crm.item.details.configuration.forceCommonScopeForAll](./item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md) | Устанавливает общую карточку для всех пользователей ||
+|| **Метод** | **Описание** ||
 || [crm.item.details.configuration.get](./item-details-configuration/crm-item-details-configuration-get.md) | Получает параметры карточки элементов ||
-|| [crm.item.details.configuration.reset](./item-details-configuration/crm-item-details-configuration-reset.md) | Сбрасывает параметры карточки элементов ||
 || [crm.item.details.configuration.set](./item-details-configuration/crm-item-details-configuration-set.md) | Устанавливает параметры карточки элементов ||
+|| [crm.item.details.configuration.reset](./item-details-configuration/crm-item-details-configuration-reset.md) | Сбрасывает параметры карточки элементов ||
+|| [crm.item.details.configuration.forceCommonScopeForAll](./item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md) | Устанавливает общую карточку для всех пользователей ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./payment/index.md)
+- [{#T}](./product-rows/index.md)
