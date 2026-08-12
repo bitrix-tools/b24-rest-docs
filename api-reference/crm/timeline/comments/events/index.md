@@ -24,6 +24,12 @@
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../../events/test-handler.md).
 
+## Что приходит в обработчик
+
+События комментариев передают только идентификатор комментария в поле `data.ID`. Чтобы получить остальные данные, вызовите метод [crm.timeline.comment.get](../crm-timeline-comment-get.md).
+
+События срабатывают и на комментарии, добавленные вручную в карточке элемента CRM, и на комментарии, созданные методами [crm.timeline.comment.*](../index.md).
+
 ## Доступность серверов для отправки и получения событий
 
 {% include notitle [Доступность серверов для отправки и получения событий](../../../../../_includes/events-index.md) %}
@@ -32,13 +38,11 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может подписаться: `любой пользователь`
-
-## События
+> Кто может подписаться: любой пользователь
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmTimelineCommentAdd](./on-Crm-Timeline-Comment-Add.md) | При созданиии нового комментария в таймлайне вручную или методом [crm.timeline.comment.add](../crm-timeline-comment-add.md) ||
-|| [onCrmTimelineCommentUpdate](./on-Crm-Timeline-Comment-Update.md) | При обновление комментария в таймлайне вручную или методом [crm.timeline.comment.update](../crm-timeline-comment-update.md) ||
+|| [onCrmTimelineCommentAdd](./on-Crm-Timeline-Comment-Add.md) | При создании комментария в таймлайне вручную или методом [crm.timeline.comment.add](../crm-timeline-comment-add.md) ||
+|| [onCrmTimelineCommentUpdate](./on-Crm-Timeline-Comment-Update.md) | При обновлении комментария в таймлайне вручную или методом [crm.timeline.comment.update](../crm-timeline-comment-update.md) ||
 || [onCrmTimelineCommentDelete](./on-Crm-Timeline-Comment-Delete.md) | При удалении комментария в таймлайне вручную или методом [crm.timeline.comment.delete](../crm-timeline-comment-delete.md) ||
 |#

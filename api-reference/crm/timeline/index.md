@@ -11,12 +11,27 @@
 
 Таймлайн — это основное рабочее пространство в карточке элемента CRM. В нем фиксируется:
 
-* системная информация о работе с элементом: смена стадии,  оплата, создание элементов на основании текущего
+* системная информация о работе с элементом: смена стадии, оплата, создание элементов на основании текущего
 * пользовательская информация: дела CRM (задачи, письма, звонки) и записи таймлайна (комментарии, сгенерированные по шаблону документы, лог-записи приложений)
 
-> Быстрый переход: [все методы и события](#all-methods) 
-> 
+> Быстрый переход: [все методы и события](#all-methods)
+>
 > Пользовательская документация: [таймлайн в Битрикс24](https://helpdesk.bitrix24.ru/open/23960160/), [универсальное дело в Битрикс24](https://helpdesk.bitrix24.ru/open/21064046/)
+
+## Как выбрать раздел
+
+В таймлайне два вида объектов: дела и записи таймлайна. У каждого своя группа методов.
+
+#|
+|| **Если вам нужно** | **Открывайте раздел** ||
+|| Создать звонок, встречу, письмо или другое дело в карточке элемента | [Дела в CRM](./activities/index.md) ||
+|| Оставить в карточке текстовый комментарий с файлами | [Комментарии таймлайна](./comments/index.md) ||
+|| Записать в таймлайн служебное сообщение приложения | [Журнал лог-записей](./logmessage/index.md) ||
+|| Привязать существующую запись таймлайна к другому элементу CRM | [Связи записей таймлайна](./bindings/index.md) ||
+|| Добавить к делу или комментарию короткую заметку | [Заметки к записям таймлайна](./note/index.md) ||
+|| Показать в записи таймлайна собственный интерфейс приложения | [Дополнительные контентные блоки](./layout-blocks/index.md) ||
+|| Закрепить запись вверху таймлайна | [Действия с записями](./actions/index.md) ||
+|#
 
 ## Дела
 
@@ -24,17 +39,25 @@
 
 * Входящие — дела, поступившие от клиента, например письмо или звонок. Для таких дел важно верно указать параметр `DIRECTION` = `1`, чтобы сработал счетчик входящих дел CRM
 * Запланированные — дела, которые создают сотрудники, например задачи или универсальные дела
-  
+
 Подробнее о делах и методах управления ими — в статье [Дела в CRM: обзор методов](./activities/index.md).
 
-## Таймлайн
+## Записи таймлайна
 
-Записи таймлайна делятся на два типа: 
+Записи таймлайна делятся на два типа:
 
 * Комментарии. Добавлять, удалять, изменять, получать комментарии можно через группу методов [crm.timeline.comment.*](./comments/index.md)
 * Лог-записи. Добавлять, удалять, изменять, получать лог-записи можно через группу методов [crm.timeline.logmessage.*](./logmessage/index.md)
-  
-Управлять связями записей таймлайна с элементами CRM можно методами группы [crm.timeline.bindings.*.](./bindings/index.md) 
+
+Управлять связями записей таймлайна с элементами CRM можно методами группы [crm.timeline.bindings.*](./bindings/index.md).
+
+## Как начать работу
+
+1. Определите элемент CRM, в таймлайне которого будете работать: его тип `entityTypeId` смотрите в справочнике [Тип объекта CRM](../data-types.md#object_type), идентификатор `entityId` возвращают методы [crm.item.list](../universal/crm-item-list.md) и [crm.item.add](../universal/crm-item-add.md).
+2. Выберите объект: дело — методами [crm.activity.*](./activities/index.md), комментарий — методами [crm.timeline.comment.*](./comments/index.md), лог-запись — методами [crm.timeline.logmessage.*](./logmessage/index.md).
+3. Создайте объект и сохраните его идентификатор из ответа.
+4. При необходимости дополните запись: заметкой [crm.timeline.note.save](./note/crm-timeline-note-save.md), контентными блоками [crm.timeline.layout.blocks.set](./layout-blocks/crm-timeline-layout-blocks-set.md), закреплением [crm.timeline.item.pin](./actions/crm-timeline-item-pin.md).
+5. Подпишитесь на события дел и комментариев, чтобы отслеживать изменения в реальном времени.
 
 ## Виджеты
 
@@ -50,20 +73,49 @@
 
 {% endnote %}
 
-## Дополнительные возможности 
+## Дополнительные возможности
 
-**Текстовые заметки** можно добавлять к делам и комментариям таймлайна и  удалять их. Используйте группу методов [crm.timeline.note.*](./note/index.md).
+**Текстовые заметки** можно добавлять к делам и комментариям таймлайна и удалять их. Используйте группу методов [crm.timeline.note.*](./note/index.md).
 
 **Контентные блоки** можно добавлять к комментариям таймлайна и удалять их. Используйте группу методов [crm.timeline.layout.blocks.*](./layout-blocks/index.md).
 
 * [Доступные контентные блоки](./activities/configurable/structure/content-block.md)
-
 
 ## Обзор методов и событий {#all-methods}
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
 > Кто может выполнять методы: в зависимости от метода
+
+### Дела CRM
+
+Методы дел раскрыты в разделе [Дела в CRM](./activities/index.md).
+
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [crm.activity.*](./activities/activity-base/index.md) | Создают, изменяют, получают и удаляют дела всех типов ||
+    || [crm.activity.binding.*](./activities/binding/index.md) | Управляют связями дела с элементами CRM ||
+    || [crm.activity.type.*](./activities/types/index.md) | Управляют пользовательскими типами дел ||
+    || [crm.activity.todo.*](./activities/todo/index.md) | Управляют универсальными делами ||
+    || [crm.activity.configurable.*](./activities/configurable/index.md) | Управляют конфигурируемыми делами ||
+    || [crm.activity.badge.*](./activities/configurable/badges/index.md) | Управляют бейджами конфигурируемых дел ||
+    || [crm.activity.layout.blocks.*](./activities/layout-blocks/index.md) | Управляют контентными блоками в деле ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [onCrmActivityAdd](./activities/events/on-crm-activity-add.md) | При создании дела вручную или методом [crm.activity.add](./activities/activity-base/crm-activity-add.md) ||
+    || [onCrmActivityUpdate](./activities/events/on-crm-activity-update.md) | При обновлении дела вручную или методом [crm.activity.update](./activities/activity-base/crm-activity-update.md) ||
+    || [onCrmActivityDelete](./activities/events/on-crm-activity-delete.md) | При удалении дела вручную или методом [crm.activity.delete](./activities/activity-base/crm-activity-delete.md) ||
+    |#
+
+{% endlist %}
 
 ### Комментарии таймлайна
 
@@ -73,21 +125,21 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [crm.timeline.comment.add](./comments/crm-timeline-comment-add.md)   | Добавляет новый комментарий в таймлайн ||
-    || [crm.timeline.comment.update](./comments/crm-timeline-comment-update.md)  |  Обновляет комментарий ||
-    || [crm.timeline.comment.get](./comments/crm-timeline-comment-get.md)   |  Получает информацию о комментарии ||
-    || [crm.timeline.comment.list](./comments/crm-timeline-comment-list.md) |  Получает список всех комментариев для элемента CRM ||
-    || [crm.timeline.comment.delete](./comments/crm-timeline-comment-delete.md)  |  Удаляет комментарий ||
-    || [crm.timeline.comment.fields](./comments/crm-timeline-comment-fields.md)  | Получает список полей комментария таймлайна ||
+    || [crm.timeline.comment.add](./comments/crm-timeline-comment-add.md) | Добавляет новый комментарий в таймлайн ||
+    || [crm.timeline.comment.update](./comments/crm-timeline-comment-update.md) | Обновляет комментарий ||
+    || [crm.timeline.comment.get](./comments/crm-timeline-comment-get.md) | Получает информацию о комментарии ||
+    || [crm.timeline.comment.list](./comments/crm-timeline-comment-list.md) | Получает список всех комментариев для элемента CRM ||
+    || [crm.timeline.comment.delete](./comments/crm-timeline-comment-delete.md) | Удаляет комментарий ||
+    || [crm.timeline.comment.fields](./comments/crm-timeline-comment-fields.md) | Получает список полей комментария таймлайна ||
     |#
 
 - События
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmTimelineCommentAdd](./comments/events/on-Crm-Timeline-Comment-Add.md) | При созданиии нового комментария в таймлайн ||
-    || [onCrmTimelineCommentUpdate](./comments/events/on-Crm-Timeline-Comment-Update.md) | При обновление комментария в таймлайн  ||
-    || [onCrmTimelineCommentDelete](./comments/events/on-Crm-Timeline-Comment-Delete.md) | При удалении комментария в таймлайн  ||
+    || [onCrmTimelineCommentAdd](./comments/events/on-Crm-Timeline-Comment-Add.md) | При создании комментария вручную или методом [crm.timeline.comment.add](./comments/crm-timeline-comment-add.md) ||
+    || [onCrmTimelineCommentUpdate](./comments/events/on-Crm-Timeline-Comment-Update.md) | При обновлении комментария вручную или методом [crm.timeline.comment.update](./comments/crm-timeline-comment-update.md) ||
+    || [onCrmTimelineCommentDelete](./comments/events/on-Crm-Timeline-Comment-Delete.md) | При удалении комментария вручную или методом [crm.timeline.comment.delete](./comments/crm-timeline-comment-delete.md) ||
     |#
 
 {% endlist %}
@@ -101,7 +153,6 @@
 || [crm.timeline.note.delete](./note/crm-timeline-note-delete.md) | Удаляет заметку ||
 |#
 
-
 ### Управление связями записи таймлайна
 
 #|
@@ -109,7 +160,7 @@
 || [crm.timeline.bindings.bind](./bindings/crm-timeline-bindings-bind.md) | Добавляет связь записи таймлайна с элементом CRM ||
 || [crm.timeline.bindings.list](./bindings/crm-timeline-bindings-list.md) | Получает список связей для записи в таймлайне ||
 || [crm.timeline.bindings.unbind](./bindings/crm-timeline-bindings-unbind.md) | Удаляет связь записи таймлайна с элементом CRM ||
-|| [crm.timeline.bindings.fields](./bindings/crm-timeline-bindings-fields.md) | Получает поля связи элементов CRM и записи в таймлайне таймлайна ||
+|| [crm.timeline.bindings.fields](./bindings/crm-timeline-bindings-fields.md) | Получает поля связи элемента CRM и записи в таймлайне ||
 |#
 
 ### Дополнительные контентные блоки

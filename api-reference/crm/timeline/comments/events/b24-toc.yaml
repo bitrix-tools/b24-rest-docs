@@ -3,9 +3,9 @@ href: index.md
 items:
   - name: Обзор событий
     href: index.md
-  - name: При создании нового дела типа «Комментарий»
+  - name: При создании комментария
     href: on-Crm-Timeline-Comment-Add.md
-  - name: При обновлении дела типа «Комментарий»
+  - name: При обновлении комментария
     href: on-Crm-Timeline-Comment-Update.md
-  - name: При удалении дела типа «Комментарий»
+  - name: При удалении комментария
     href: on-Crm-Timeline-Comment-Delete.md
