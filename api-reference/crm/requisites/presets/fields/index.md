@@ -67,15 +67,17 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: любой пользователь
+> Кто может выполнять методы: пользователь с правами на контакты и компании
+
+Права на поля шаблона проверяются так же, как права на сам [шаблон](../index.md): чтение доступно при праве на чтение и контактов, и компаний, а изменение состава полей — при праве на добавление, изменение или удаление обоих объектов.
 
 #|
 || **Метод** | **Описание** ||
 || [crm.requisite.preset.field.add](./crm-requisite-preset-field-add.md) | Добавляет настраиваемое поле в шаблон реквизитов ||
 || [crm.requisite.preset.field.update](./crm-requisite-preset-field-update.md) | Изменяет настраиваемое поле в шаблоне реквизитов ||
-|| [crm.requisite.preset.field.availabletoadd](./crm-requisite-preset-field-available-to-add.md) | Возвращает поля, доступные для добавления в указанный шаблон реквизитов ||
 || [crm.requisite.preset.field.get](./crm-requisite-preset-field-get.md) | Возвращает описание настраиваемого поля шаблона реквизитов по идентификатору ||
 || [crm.requisite.preset.field.list](./crm-requisite-preset-field-list.md) | Возвращает список всех настраиваемых полей для определенного шаблона реквизитов ||
 || [crm.requisite.preset.field.delete](./crm-requisite-preset-field-delete.md) | Удаляет настраиваемое поле из шаблона реквизитов ||
+|| [crm.requisite.preset.field.availabletoadd](./crm-requisite-preset-field-available-to-add.md) | Возвращает поля, доступные для добавления в указанный шаблон реквизитов ||
 || [crm.requisite.preset.field.fields](./crm-requisite-preset-field-fields.md) | Возвращает формальное описание настраиваемого поля шаблона реквизитов ||
 |#
