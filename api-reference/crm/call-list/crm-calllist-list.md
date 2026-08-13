@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -403,8 +403,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Invalid parameters.",
-    "error_description": "Переданы некорректные параметры."
+    "error": "100",
+    "error_description": "Unknown field definition `TITLE` (TITLE) for \\Bitrix\\Crm\\CallList\\Internals\\CallList Entity."
 }
 ```
 
@@ -413,9 +413,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | `Invalid parameters` | Переданы некорректные параметры ||
-|| `100` | `Unknown field definition "TITLE"` | Неизвестный параметр «Название параметра» ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | ``Unknown field definition `FIELD` (FIELD) for \Bitrix\Crm\CallList\Internals\CallList Entity.`` | В `select`, `filter` или `order` передано поле, которого нет у обзвона ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

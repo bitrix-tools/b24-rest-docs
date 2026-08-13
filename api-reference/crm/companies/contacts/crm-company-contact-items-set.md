@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -33,7 +33,7 @@
 
 ### Структура объекта привязки {#company_contact_binding}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -421,10 +421,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `The parameter ownerEntityID is invalid or not defined` | Передан `id` меньше или равен 0 или не передан вовсе ||
-|| `-`     | `The parameter items must be array` | В `items` передан не массив ||
+|| Пустое значение | `The parameter ownerEntityID is invalid or not defined` | Передан `id` меньше или равен 0 или не передан вовсе ||
+|| Пустое значение | `The parameter items must be array` | В `items` передан не массив ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменения компаний ||
-|| `-`     | `Not found` | Компания с переданным `id` не найдена ||
+|| Пустое значение | `Not found` | Компания с переданным `id` не найдена ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

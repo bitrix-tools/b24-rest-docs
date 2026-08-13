@@ -641,10 +641,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `Access denied` | У пользователя нет прав на «Чтение» контактов ||
-|| `-`     | `Parameter 'order' must be array` | В параметр `order` передан не массив ||
-|| `-`     | `Parameter 'filter' must be array` | В параметр `filter` передан не массив ||
-|| `-`     | `Failed to get list. General error` | Произошла неизвестная ошибка ||
+|| Пустое значение | `Access denied` | У пользователя нет прав на «Чтение» контактов ||
+|| Пустое значение | `Parameter 'order' must be array` | В параметр `order` передан не массив ||
+|| Пустое значение | `Parameter 'filter' must be array` | В параметр `filter` передан не массив ||
+|| Пустое значение | `Failed to get list. General error` | Произошла неизвестная ошибка ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

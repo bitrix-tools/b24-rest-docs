@@ -25,7 +25,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -442,10 +442,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `Parameter 'order' must be array.` | В `order` передан не объект ||
-|| `-` | `Parameter 'filter' must be array.` | В `filter` передан не объект ||
-|| `-` | `Access denied.` | У пользователя нет прав на чтение коммерческих предложений ||
-|| `-` | `Failed to get list. General error.` | Общая ошибка выполнения запроса ||
+|| Пустое значение | `Parameter 'order' must be array.` | В `order` передан не объект ||
+|| Пустое значение | `Parameter 'filter' must be array.` | В `filter` передан не объект ||
+|| Пустое значение | `Access denied.` | У пользователя нет прав на чтение коммерческих предложений ||
+|| Пустое значение | `Failed to get list. General error.` | Общая ошибка выполнения запроса ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

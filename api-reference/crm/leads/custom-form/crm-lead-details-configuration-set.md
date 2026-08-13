@@ -530,14 +530,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Access denied | Недостаточно прав ||
-|| `-` | Parameter 'data' must be array | В `data` передан не массив ||
-|| `-` | The data must be indexed array | В `data` передан не индексированный массив ||
-|| `-` | There are no data to write | В `data` передан пустой массив ||
-|| `-` | Section at index `i` have type `data[i].type`. The expected type is 'section' | В `data[i].type` передано значение отличное от `'section'` ||
-|| `-` | Section at index `i` does not have name | В `data[i].name` передано пустое значение ||
-|| `-` | Section at index `i` does not have title | В `data[i].title` передано пустое значение ||
-|| `-` | Element at index `j` in section at index `i` does not have name | В `data[i].elements[j].name` передано пустое значение ||
+|| Пустое значение | Access denied | Недостаточно прав ||
+|| Пустое значение | Parameter 'data' must be array | В `data` передан не массив ||
+|| Пустое значение | The data must be indexed array | В `data` передан не индексированный массив ||
+|| Пустое значение | There are no data to write | В `data` передан пустой массив ||
+|| Пустое значение | Section at index `i` have type `data[i].type`. The expected type is 'section' | В `data[i].type` передано значение отличное от `'section'` ||
+|| Пустое значение | Section at index `i` does not have name | В `data[i].name` передано пустое значение ||
+|| Пустое значение | Section at index `i` does not have title | В `data[i].title` передано пустое значение ||
+|| Пустое значение | Element at index `j` in section at index `i` does not have name | В `data[i].elements[j].name` передано пустое значение ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
