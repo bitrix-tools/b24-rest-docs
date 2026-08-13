@@ -32,6 +32,18 @@
 || Передавать данные из системы кадрового учета для заполнения документов КЭДО | Методы [humanresources.hcmlink.*](./hcm-link/index.md) ||
 |#
 
+## Связь с другими объектами
+
+**Компания CRM.** Документ КЭДО отправляется от имени компании. В методах `sign.b2e.document.send` и `sign.b2e.company.provider.list` компанию можно указать через `company.crmId` или `companyCrmId`. Это идентификатор компании CRM, подключенной как «моя компания». Получить его можно методом [crm.item.list](../crm/universal/crm-item-list.md) с параметром `entityTypeId = 4` и фильтром `isMyCompany = Y`.
+
+**Сотрудник и пользователь.** Участники подписания и ответственный связаны с пользователями Битрикс24 через `userId`. Если компания подключена к HCM Link, вместо `userId` можно передать `employeeId` или `employeeCode` сотрудника из системы кадрового учета.
+
+**HCM Link.** Интеграция с системами кадрового учета передает компании, сотрудников и значения полей для документов КЭДО. Если документ отправляется по данным HCM Link, методы `sign.b2e.*` связываются с методами [humanresources.hcmlink.*](./hcm-link/index.md).
+
+**Файл документа.** Метод `sign.b2e.document.send` принимает PDF-файл в параметре `files[].fileContent`, закодированный в Base64. После подписания файл можно получить из списков подписанных документов пользователя или сейфа компании.
+
+**Статусы подписания.** События `OnSignB2eDocumentStatusChanged` и `OnSignB2eMemberStatusChanged` сообщают об изменениях статусов документа и участников. Детали документа можно получить методом [sign.b2e.document.get](./sign-b2e-document-get.md) по `uid`.
+
 ## Особенности scope
 
 **sign.b2e** — используется в методах работы с документами КЭДО и событиях подписания.
@@ -96,4 +108,3 @@
 || [humanresources.hcmlink.job.update](./hcm-link/humanresources-hcmlink-job-update.md) | Обновляет задание синхронизации ||
 || [humanresources.hcmlink.job.status.get](./hcm-link/humanresources-hcmlink-job-status-get.md) | Проверяет, активно ли задание синхронизации ||
 |#
-
