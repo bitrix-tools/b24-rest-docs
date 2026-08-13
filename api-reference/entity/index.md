@@ -13,65 +13,114 @@
 
 Каждое хранилище представляет собой [информационный блок](*iblock) и доступно после регистрации приложения в Битрикс24. Визуального интерфейса хранилища не имеют.
 
-Хранилищами приложений можно управлять с помощью группы методов [entity.*](./entities/index.md).
+> Быстрый переход: [все методы](#all-methods)
 
-> Быстрый переход: [все методы](#all-methods) 
+{% note info "" %}
 
-## Структура хранилищ
+Методы раздела работают только в контексте [приложения](../../settings/app-installation/index.md). Приложение работает только со своими хранилищами и не видит хранилища других приложений.
+
+{% endnote %}
+
+## Структура данных
+
+**Хранилища**. Контейнеры данных приложения. У каждого хранилища есть символьный идентификатор, название и права доступа. Хранилищами можно управлять с помощью методов [entity.*](./entities/index.md).
 
 **Разделы**. Предназначены для группировки данных и построения удобной иерархии. Разделами можно управлять с помощью методов [entity.section.*](./sections/index.md).
 
-**Элементы**. Хранят данные приложений. Создавать, изменять и удалять элементы можно с помощью методов [entity.item.*](./items/index.md). 
+**Элементы**. Хранят данные приложений. Создавать, изменять и удалять элементы можно с помощью методов [entity.item.*](./items/index.md).
 
-## Дополнительные свойства
+**Свойства элементов**. Задают дополнительные поля элементов. Любое хранилище позволяет настроить такие свойства с помощью методов [entity.item.property.*](./items/properties/index.md).
 
-Любое хранилище позволяет настроить дополнительные свойства элементов. Чтобы управлять ими, используйте методы [entity.item.property.*](./items/properties/index.md).
+## Как начать работу
+
+1. Создайте хранилище методом [entity.add](./entities/entity-add.md) — задайте идентификатор `ENTITY`, название и права доступа
+
+2. Опишите дополнительные поля элементов методом [entity.item.property.add](./items/properties/entity-item-property-add.md)
+
+3. Если данные нужно группировать, создайте разделы методом [entity.section.add](./sections/entity-section-add.md)
+
+4. Добавьте элементы методом [entity.item.add](./items/entity-item-add.md)
+
+5. Получайте данные методами [entity.item.get](./items/entity-item-get.md) и [entity.section.get](./sections/entity-section-get.md)
+
+## Идентификатор хранилища {#entity-id}
+
+`ENTITY` — символьный идентификатор хранилища. Его задают при создании и передают во все методы раздела.
+
+Требования к идентификатору:
+
+- разрешены символы `a-z`, `A-Z`, `0-9`, `_`, например `dish`
+- максимальная длина рассчитывается динамически по формуле `50 - strlen("APP_<clientId>_")` — в большинстве случаев для Битрикс24 это 13 символов
+- идентификатор уникален в пределах приложения
+
+Получить список хранилищ приложения и их идентификаторы можно методом [entity.get](./entities/entity-get.md), а переименовать хранилище — параметром `ENTITY_NEW` метода [entity.update](./entities/entity-update.md).
+
+## Уровни прав доступа {#access-levels}
+
+Права доступа задают в формате `{"код_доступа":"уровень_права"}`, например `{"U1":"W","AU":"R"}`. Используются стандартные коды доступа Битрикс24:
+
+- `U<id>` — пользователь, например `U1`
+- `G<id>` — группа пользователей, например `G2`
+- `AU` — все авторизованные пользователи
+
+Проверить название кода можно методом [access.name](../common/system/access-name.md).
+
+#|
+|| **Уровень** | **Что разрешает** ||
+|| `R` | Читать разделы и элементы хранилища ||
+|| `W` | Читать данные, а также создавать, изменять и удалять разделы и элементы ||
+|| `X` | Все действия уровня `W`, а также изменять и удалять само хранилище, управлять его правами доступа и свойствами элементов ||
+|#
+
+Другие уровни методы не принимают — такие записи прав не добавляются. Пользователю, который создает хранилище или меняет его права, всегда добавляется уровень `X`.
+
+Управлять правами можно параметром `ACCESS` методов [entity.add](./entities/entity-add.md) и [entity.update](./entities/entity-update.md) или отдельным методом [entity.rights](./entities/entity-rights.md).
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`entity`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: в зависимости от метода
 
 ### Хранилища
 
 #|
 || **Метод** | **Описание** ||
-|| [entity.add](./entities/entity-add.md) | Создает хранилище данных ||
-|| [entity.update](./entities/entity-update.md) | Изменяет параметры хранилища данных ||
-|| [entity.rights](./entities/entity-rights.md) | Получает или изменяет прав доступа к хранилищу ||
-|| [entity.get](./entities/entity-get.md) | Получает параметры хранилища или список всех хранилищ приложения ||
-|| [entity.delete](./entities/entity-delete.md) | Удаляет хранилище ||
+|| [entity.add](./entities/entity-add.md) | Добавляет хранилище данных ||
+|| [entity.update](./entities/entity-update.md) | Обновляет параметры хранилища данных ||
+|| [entity.get](./entities/entity-get.md) | Получает параметры хранилища данных или список хранилищ приложения ||
+|| [entity.delete](./entities/entity-delete.md) | Удаляет хранилище данных ||
+|| [entity.rights](./entities/entity-rights.md) | Получает или изменяет права доступа к хранилищу данных ||
 |#
 
 ### Разделы
 
 #|
 || **Метод** | **Описание** ||
-|| [entity.section.get](./sections/entity-section-get.md) | Получает список разделов хранилища ||
-|| [entity.section.add](./sections/entity-section-add.md) | Добавляет раздел хранилища ||
-|| [entity.section.update](./sections/entity-section-update.md) | Изменяет раздел хранилища ||
-|| [entity.section.delete](./sections/entity-section-delete.md) | Удаляет раздел хранилища ||
+|| [entity.section.add](./sections/entity-section-add.md) | Добавляет раздел хранилища данных ||
+|| [entity.section.update](./sections/entity-section-update.md) | Обновляет раздел хранилища данных ||
+|| [entity.section.get](./sections/entity-section-get.md) | Получает список разделов хранилища данных ||
+|| [entity.section.delete](./sections/entity-section-delete.md) | Удаляет раздел хранилища данных ||
 |#
 
 ### Элементы
 
 #|
 || **Метод** | **Описание** ||
-|| [entity.item.get](./items/entity-item-get.md) | Получает список элементов хранилища ||
-|| [entity.item.add](./items/entity-item-add.md) | Добавляет элемент хранилища ||
-|| [entity.item.update](./items/entity-item-update.md) | Изменяет элемент хранилища ||
-|| [entity.item.delete](./items/entity-item-delete.md) | Удаляет элемент хранилища ||
+|| [entity.item.add](./items/entity-item-add.md) | Добавляет элемент хранилища данных ||
+|| [entity.item.update](./items/entity-item-update.md) | Обновляет элемент хранилища данных ||
+|| [entity.item.get](./items/entity-item-get.md) | Получает список элементов хранилища данных ||
+|| [entity.item.delete](./items/entity-item-delete.md) | Удаляет элемент хранилища данных ||
 |#
 
 ### Свойства элементов
 
 #|
 || **Метод** | **Описание** ||
-|| [entity.item.property.get](./items/properties/entity-item-property-get.md) | Получает список дополнительных свойств элементов хранилища ||
-|| [entity.item.property.add](./items/properties/entity-item-property-add.md) | Добавляет дополнительное свойство элементов хранилища ||
-|| [entity.item.property.update](./items/properties/entity-item-property-update.md) | Изменяет дополнительное свойство элементов хранилища ||
-|| [entity.item.property.delete](./items/properties/entity-item-property-delete.md) | Удаляет дополнительное свойство элементов хранилища ||
+|| [entity.item.property.add](./items/properties/entity-item-property-add.md) | Добавляет свойство элементов хранилища данных ||
+|| [entity.item.property.update](./items/properties/entity-item-property-update.md) | Обновляет свойство элементов хранилища данных ||
+|| [entity.item.property.get](./items/properties/entity-item-property-get.md) | Получает список свойств элементов хранилища данных ||
+|| [entity.item.property.delete](./items/properties/entity-item-property-delete.md) | Удаляет свойство элементов хранилища данных ||
 |#
 
 [*iblock]: Информационный блок — это специальный объект для хранения новостей, услуг, статей, каталогов товаров и других данных, имеющих четкую структуру.
