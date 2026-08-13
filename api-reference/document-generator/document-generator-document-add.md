@@ -29,7 +29,7 @@
 || **providerClassName**
 [`string`](../data-types.md) | Класс провайдера данных.
 
-По умолчанию имеет значение `Bitrix\DocumentGenerator\DataProvider\Rest` ||
+При вызове через REST всегда используется `Bitrix\DocumentGenerator\DataProvider\Rest`: переданное значение игнорируется, поэтому параметр можно не указывать ||
 || **value***
 [`string`](../data-types.md) | Внешний идентификатор объекта, для которого формируется документ.
 
@@ -576,7 +576,7 @@ HTTP-статус: **200**
 
 {% note info "" %}
 
-Конвертация файла в PDF выполняется асинхронно. Если поле `pdfUrl` не заполнено сразу после создания, повторно вызовите [documentgenerator.document.get](./document-generator-document-get.md), чтобы проверить результат конвертации.
+Конвертация файла в PDF выполняется асинхронно. Поле `pdfUrl` приходит в ответе, только когда PDF уже сформирован, поэтому сразу после создания документа его обычно нет. Чтобы проверить результат конвертации, повторно вызовите [documentgenerator.document.get](./document-generator-document-get.md).
 
 {% endnote %}
 
