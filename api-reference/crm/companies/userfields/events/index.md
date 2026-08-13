@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении пользоватедьльских полей компании.
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении пользовательских полей компании.
 
-Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md). Методы, которыми управляют самими полями, собраны в разделе [Пользовательские поля компаний](../index.md).
 
-> Быстрый переход: [все события](#all-events) 
+> Быстрый переход: [все события](#all-events)
 
 ## Как получать события
 
@@ -39,5 +39,5 @@
 || [onCrmCompanyUserFieldAdd](./on-crm-company-user-field-add.md) | При добавлении пользовательского поля вручную или методом [crm.company.userfield.add](../crm-company-userfield-add.md) ||
 || [onCrmCompanyUserFieldUpdate](./on-crm-company-user-field-update.md) | При изменении пользовательского поля вручную или методом [crm.company.userfield.update](../crm-company-userfield-update.md) ||
 || [onCrmCompanyUserFieldDelete](./on-crm-company-user-field-delete.md) | При удалении пользовательского поля вручную или методом [crm.company.userfield.delete](../crm-company-userfield-delete.md) ||
-|| [onCrmCompanyUserFieldSetEnumValues](./on-crm-company-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа вручную или методом [crm.company.userfield.updates](../crm-company-userfield-update.md) ||
+|| [onCrmCompanyUserFieldSetEnumValues](./on-crm-company-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа вручную или методами [crm.company.userfield.add](../crm-company-userfield-add.md) и [crm.company.userfield.update](../crm-company-userfield-update.md) ||
 |#

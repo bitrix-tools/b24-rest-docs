@@ -9,79 +9,95 @@
 
 {% endnote %}
 
-Пользовательские поля хранят информацию о компании в различных форматах данных: строка, число, ссылка, адрес и другие. 
+Пользовательские поля хранят информацию о компании в различных форматах данных: строка, число, ссылка, адрес и другие. Группа методов `crm.company.userfield.*` создает, изменяет, получает и удаляет такие поля, а [события подраздела](./events/index.md) сообщают приложению об изменениях в них.
 
-> Быстрый переход: [все методы](#all-methods) 
-> 
+Общие сведения о компаниях и остальные группы методов — в разделе [Компании в CRM](../index.md).
+
+> Быстрый переход: [все методы и события](#all-methods)
+>
 > Пользовательская документация: [Пользовательские поля в CRM](https://helpdesk.bitrix24.ru/open/22048980/)
 
 ## Типы пользовательских полей
 
-Используйте метод [crm.userfield.types](../../universal/user-defined-fields/crm-userfield-types.md) для получения доступных типов пользовательских полей. Метод вернет ID и название типов полей.
+Используйте метод [crm.userfield.types](../../universal/user-defined-fields/crm-userfield-types.md) для получения доступных типов пользовательских полей. Метод вернет идентификатор и название каждого типа. Идентификатор передается в поле `USER_TYPE_ID` при создании поля.
 
-````
-    (
-        [ID] => double    
-        [title] => Число
-    )
-````
+```json
+{
+    "ID": "double",
+    "title": "Число"
+}
+```
 
 Используйте метод [crm.userfield.fields](../../universal/user-defined-fields/crm-userfield-fields.md) для получения списка характеристик пользовательских полей. Метод вернет коды характеристик с их типом и названием.
 
-````
-    [MANDATORY] => Array
-                (
-                    [type] => char
-                    [title] => Обязательное
-                )
-````
+```json
+"MANDATORY": {
+    "type": "char",
+    "title": "Обязательное"
+}
+```
 
 ## Настройки пользовательских полей
 
-Используйте метод [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md), чтобы получить список доступных настроек. Метод вернет поддерживаемые настройки для запрошенного типа поля. 
+Используйте метод [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md), чтобы получить список доступных настроек. Метод вернет поддерживаемые настройки для запрошенного типа поля.
 
-````
-    [DEFAULT_VALUE] => Array
-            (
-                [type] => double
-                [title] => Значение по умолчанию
-            )
-    [PRECISION] => Array
-            (
-                [type] => int
-                [title] => Точность
-            )
-````
+```json
+"DEFAULT_VALUE": {
+    "type": "double",
+    "title": "Значение по умолчанию"
+},
+"PRECISION": {
+    "type": "int",
+    "title": "Точность"
+}
+```
 
 ## Ошибки при работе с пользовательскими полями
 
-При создании или удалении пользовательских полей запрос может прерваться с ошибкой [INTERNAL_SERVER_ERROR](../../../../error-codes.md). Это внутренняя ошибка сервера. Причину ошибки можно найти в логах сервера на момент выполнения запроса: 
-* В облачном Битрикс24 напишите обращение в [техническую поддержку](../../../../bitrix-support.md) чтобы получить детали ошибки. 
-* В коробочном Битрикс24 запросите лог ошибок сервера у администратора сервера или администратора хостинга. После напишите в [техническую поддержку](../../../../bitrix-support.md) и приложите лог для анализа. 
+При создании или удалении пользовательских полей запрос может прерваться с ошибкой [INTERNAL_SERVER_ERROR](../../../../error-codes.md). Это внутренняя ошибка сервера. Причину ошибки можно найти в логах сервера на момент выполнения запроса:
+
+- в облачном Битрикс24 напишите обращение в [техническую поддержку](../../../../bitrix-support.md), чтобы получить детали ошибки
+- в коробочном Битрикс24 запросите лог ошибок сервера у администратора сервера или администратора хостинга. После этого напишите в [техническую поддержку](../../../../bitrix-support.md) и приложите лог для анализа
 
 ### Частые причины серверных ошибок
 
-1. Для компаний можно создать 1016 пользовательских полей — это ограничение архитектуры базы данных. Если в Битрикс24 уже есть 1016 полей для компаний, при попытке создать новое поле метод [crm.company.userfield.add](./crm-company-userfield-add.md) вернет ошибку [INTERNAL_SERVER_ERROR](../../../../error-codes.md). 
+1. Для компаний можно создать 1016 пользовательских полей — это ограничение архитектуры базы данных. Если в Битрикс24 уже есть 1016 полей для компаний, при попытке создать новое поле метод [crm.company.userfield.add](./crm-company-userfield-add.md) вернет ошибку [INTERNAL_SERVER_ERROR](../../../../error-codes.md).
 
-    Проверить количество пользовательских полей компаний можно методом [crm.company.userfield.list](./crm-company-userfield-list.md). 
+    Проверить количество пользовательских полей компаний можно методом [crm.company.userfield.list](./crm-company-userfield-list.md).
 
-2. На серверах есть ограничение для времени выполнения одного запроса — `max_execution_time`. Стандартное время — 60 секунд. Если запрос выполняется дольше, он прерывается с ошибкой [INTERNAL_SERVER_ERROR](../../../../error-codes.md). 
+2. На серверах есть ограничение для времени выполнения одного запроса — `max_execution_time`. Стандартное время — 60 секунд. Если запрос выполняется дольше, он прерывается с ошибкой [INTERNAL_SERVER_ERROR](../../../../error-codes.md).
 
    Время создания или удаления пользовательского поля компании зависит от количества компаний. Когда поле создается, оно добавляется во все карточки компаний. Когда поле удаляется, оно удаляется из всех карточек. Чем меньше компаний в вашем Битрикс24, тем быстрее создаются и удаляются поля.
-   
-   Чтобы проверить количество компаний в Битрикс24 используйте метод [crm.company.list](../crm-company-list.md).
 
-## Обзор методов {#all-methods}
+   Чтобы проверить количество компаний в Битрикс24, используйте метод [crm.company.list](../crm-company-list.md).
+
+## Обзор методов и событий {#all-methods}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять методы: в зависимости от метода
 
-#|
-|| **Метод** | **Описание** ||
-|| [crm.company.userfield.add](./crm-company-userfield-add.md) | Создает новое пользовательское поле для компаний ||
-|| [crm.company.userfield.get](./crm-company-userfield-get.md) | Возвращает пользовательское поле компаний по идентификатору ||
-|| [crm.company.userfield.list](./crm-company-userfield-list.md) | Возвращает список пользовательских полей компаний по фильтру ||
-|| [crm.company.userfield.update](./crm-company-userfield-update.md) | Обновляет существующее пользовательское поле компаний ||
-|| [crm.company.userfield.delete](./crm-company-userfield-delete.md) | Удаляет пользовательское поле компаний ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [crm.company.userfield.add](./crm-company-userfield-add.md) | Создает новое пользовательское поле для компаний ||
+    || [crm.company.userfield.update](./crm-company-userfield-update.md) | Обновляет существующее пользовательское поле компаний ||
+    || [crm.company.userfield.get](./crm-company-userfield-get.md) | Возвращает пользовательское поле компаний по идентификатору ||
+    || [crm.company.userfield.list](./crm-company-userfield-list.md) | Возвращает список пользовательских полей компаний по фильтру ||
+    || [crm.company.userfield.delete](./crm-company-userfield-delete.md) | Удаляет пользовательское поле компаний ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [onCrmCompanyUserFieldAdd](./events/on-crm-company-user-field-add.md) | При добавлении пользовательского поля вручную или методом [crm.company.userfield.add](./crm-company-userfield-add.md) ||
+    || [onCrmCompanyUserFieldUpdate](./events/on-crm-company-user-field-update.md) | При изменении пользовательского поля вручную или методом [crm.company.userfield.update](./crm-company-userfield-update.md) ||
+    || [onCrmCompanyUserFieldDelete](./events/on-crm-company-user-field-delete.md) | При удалении пользовательского поля вручную или методом [crm.company.userfield.delete](./crm-company-userfield-delete.md) ||
+    || [onCrmCompanyUserFieldSetEnumValues](./events/on-crm-company-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа вручную или методами [crm.company.userfield.add](./crm-company-userfield-add.md) и [crm.company.userfield.update](./crm-company-userfield-update.md) ||
+    |#
+
+{% endlist %}

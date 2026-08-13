@@ -9,21 +9,57 @@
 
 {% endnote %}
 
-Компания — объект CRM, в котором хранятся данные клиентов  — юридических лиц. В карточке компании находятся: 
-* телефоны, электронные адреса, идентификаторы мессенджеров  в специальном формате. Они позволяют связываться с клиентом напрямую из Битрикс. 
-* данные реквизитов, с которыми формируются счета, договоры и любые другие виды печатных документов по шаблонам. 
+Компания — объект CRM, в котором хранятся данные клиентов — юридических лиц. В карточке компании находятся:
 
-> Быстрый переход: [все методы и события](#all-methods) 
-> 
-> Пользовательская документация: [компании в Битрикс24](https://helpdesk.bitrix24.ru/open/5493389/) 
+- телефоны, электронные адреса, идентификаторы мессенджеров в специальном формате. Они позволяют связываться с клиентом напрямую из Битрикс24
+- данные реквизитов, с которыми формируются счета, договоры и любые другие виды печатных документов по шаблонам
+
+{% note warning "Развитие методов остановлено" %}
+
+Развитие методов `crm.company.*` и `crm.company.details.configuration.*` остановлено. Для новой разработки используйте универсальные методы `crm.item.*` — таблица замен в разделе [Актуальная версия API](#actual-version).
+
+Методы `crm.company.contact.*` и `crm.company.userfield.*` остаются актуальными.
+
+{% endnote %}
+
+> Быстрый переход: [все методы и события](#all-methods)
+>
+> Пользовательская документация: [компании в Битрикс24](https://helpdesk.bitrix24.ru/open/5493389/)
+
+## Актуальная версия API {#actual-version}
+
+Базовые методы компании и методы настроек ее карточки заменены универсальными методами CRM. Универсальный метод работает с любым объектом CRM и получает тип объекта в параметре `entityTypeId`. Для компании `entityTypeId` равен `4`.
+
+#|
+|| **Устаревший метод** | **Актуальная замена** ||
+|| `crm.company.add` | [crm.item.add](../universal/crm-item-add.md) ||
+|| `crm.company.update` | [crm.item.update](../universal/crm-item-update.md) ||
+|| `crm.company.get` | [crm.item.get](../universal/crm-item-get.md) ||
+|| `crm.company.list` | [crm.item.list](../universal/crm-item-list.md) ||
+|| `crm.company.delete` | [crm.item.delete](../universal/crm-item-delete.md) ||
+|| `crm.company.fields` | [crm.item.fields](../universal/crm-item-fields.md) ||
+|| `crm.company.details.configuration.get` | [crm.item.details.configuration.get](../universal/item-details-configuration/crm-item-details-configuration-get.md) ||
+|| `crm.company.details.configuration.set` | [crm.item.details.configuration.set](../universal/item-details-configuration/crm-item-details-configuration-set.md) ||
+|| `crm.company.details.configuration.reset` | [crm.item.details.configuration.reset](../universal/item-details-configuration/crm-item-details-configuration-reset.md) ||
+|| `crm.company.details.configuration.forceCommonScopeForAll` | [crm.item.details.configuration.forceCommonScopeForAll](../universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md) ||
+|#
+
+Устаревшие методы продолжают работать — переписывать существующие интеграции не обязательно.
+
+## Как начать работу
+
+1. Получите описание полей компании методом [crm.company.fields](./crm-company-fields.md). Он вернет системные и пользовательские поля, их типы и обязательность
+2. Создайте компанию методом [crm.company.add](./crm-company-add.md) или найдите нужную методом [crm.company.list](./crm-company-list.md)
+3. Свяжите компанию с контактами группой методов [crm.company.contact.*](./contacts/index.md), а с реквизитами — методами [crm.requisite.*](../requisites/index.md)
+4. Подпишитесь на [события компании](./events/index.md), если приложение должно реагировать на изменения
 
 ## Связь компании с другими объектами CRM
 
-**Сделка, лид, смарт-процесс.** У любого объекта CRM, в котором доступно стандартное поле `Клиент`,  есть связь с компанией. Изменение связи регулируется через группы методов [сделок](../deals/index.md), [лидов](../leads/index.md), [смарт-процессов](../universal/index.md), поле `COMPANY_ID`.
+**Сделка, лид, смарт-процесс.** У любого объекта CRM, в котором доступно стандартное поле `Клиент`, есть связь с компанией. Связь хранится в поле `COMPANY_ID`. Изменяйте ее группами методов [сделок](../deals/index.md), [лидов](../leads/index.md) и [смарт-процессов](../universal/index.md).
 
-**Контакт.** К одной компании может быть привязано несколько контактов. Для управления этой связью используется группа методов [crm.company.contact.*](./contacts/index.md). Когда вы выбираете компанию в поле `Клиент` сделок, смарт-процессов, все связанные с ней контакты подтягиваются в поле автоматически. 
+**Контакт.** К одной компании может быть привязано несколько контактов. Этой связью управляет группа методов [crm.company.contact.*](./contacts/index.md). Когда вы выбираете компанию в поле `Клиент` сделки или смарт-процесса, все связанные с ней контакты подтягиваются в поле автоматически.
 
-**Реквизиты.** Сами реквизиты это отдельный объект, для их создания или изменения используются методы группы [crm.requisite.*](../requisites/index.md) и [crm.address.*](../requisites/addresses/index.md). В карточке компании они выводятся в поле `Реквизиты`. 
+**Реквизиты.** Реквизиты — отдельный объект CRM. Создавайте и изменяйте их методами групп [crm.requisite.*](../requisites/index.md) и [crm.address.*](../requisites/addresses/index.md). В карточке компании реквизиты выводятся в поле `Реквизиты`.
 
 {% note tip "Пользовательская документация" %}
 
@@ -35,13 +71,13 @@
 
 ## Карточка компании
 
-Основное рабочее пространство в компании — это вкладка Общее ее карточки. Она состоит из двух частей: 
+Основное рабочее пространство в компании — это вкладка «Общее» ее карточки. Она состоит из двух частей:
 
-* левая, в ней располагаются поля с информацией. Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей компаний используется группа методов [crm.company.userfield.*](./userfields/index.md)
+- левая, в ней располагаются поля с информацией. Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей компаний используется группа методов [crm.company.userfield.*](./userfields/index.md)
 
-* правая, в ней располагается таймлайн контакта.  В нем можно создавать, редактировать, фильтровать, удалять дела CRM — группа методов [crm.activity.*](../timeline/activities/index.md), и записи таймлайна — группа методов [crm.timeline.*](../timeline/index.md)
+- правая, в ней располагается таймлайн компании. Делами CRM в таймлайне управляет группа методов [crm.activity.*](../timeline/activities/index.md), записями таймлайна — группа методов [crm.timeline.*](../timeline/index.md). Оба набора методов создают, изменяют, фильтруют и удаляют свои объекты
 
-Параметрами карточки компании можно управлять через группу методов [crm.company.details.configuration.*](./custom-form/index.md). 
+Параметрами карточки компании можно управлять через группу методов [crm.company.details.configuration.*](./custom-form/index.md).
 
 {% note tip "Пользовательская документация" %}
 
@@ -54,12 +90,12 @@
 
 ## Виджеты
 
-В карточку компании можно встроить приложение. Благодаря встраиванию можно будет использовать приложение и не покидать карточку компании.
+В карточку компании можно встроить приложение. Тогда сотрудник работает с приложением, не покидая карточку.
 
 Есть два сценария встройки:
 
-* Использовать специальные [места встраивания](../../widgets/crm/index.md). Например, через создание своей вкладки
-* Создать [пользовательское поле](../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md), в которое будет загружается интерфейс вашего приложения
+- использовать специальные [места встраивания](../../widgets/crm/index.md). Например, создать свою вкладку
+- создать [пользовательское поле](../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md), в которое будет загружаться интерфейс вашего приложения
 
 {% note tip "Частые кейсы и сценарии" %}
 
@@ -67,6 +103,15 @@
 - [Встроить виджет в карточку CRM](../../../tutorials/crm/crm-widgets/widget-as-detail-tab.md)
 
 {% endnote %}
+
+## События компании
+
+Приложение может реагировать на изменения компаний практически в реальном времени. События раздела разбиты на две группы:
+
+- [события компаний](./events/index.md) — создание, обновление и удаление компании
+- [события пользовательских полей компаний](./userfields/events/index.md) — создание, обновление и удаление поля, а также изменение набора значений списочного поля
+
+Подписаться на события можно через исходящий вебхук или приложение и метод [event.bind](../../events/event-bind.md).
 
 ## Обзор методов и событий {#all-methods}
 
@@ -94,9 +139,9 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmCompanyAdd](./events/on-crm-company-add.md) | при создании компании ||
-    || [onCrmCompanyUpdate](./events/on-crm-company-update.md) | при обновлении компании ||
-    || [onCrmCompanyDelete](./events/on-crm-company-delete.md) | при удалении компании ||
+    || [onCrmCompanyAdd](./events/on-crm-company-add.md) | При создании компании вручную или методом [crm.company.add](./crm-company-add.md) ||
+    || [onCrmCompanyUpdate](./events/on-crm-company-update.md) | При обновлении компании вручную или методом [crm.company.update](./crm-company-update.md) ||
+    || [onCrmCompanyDelete](./events/on-crm-company-delete.md) | При удалении компании вручную или методом [crm.company.delete](./crm-company-delete.md) ||
     |#
 
 {% endlist %}
@@ -109,7 +154,7 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [crm.company.userfield.add](./userfields/crm-company-userfield-add.md) | Создаёт новое пользовательское поле для компаний ||
+    || [crm.company.userfield.add](./userfields/crm-company-userfield-add.md) | Создает новое пользовательское поле для компаний ||
     || [crm.company.userfield.update](./userfields/crm-company-userfield-update.md) | Обновляет существующее пользовательское поле компаний ||
     || [crm.company.userfield.get](./userfields/crm-company-userfield-get.md) | Возвращает пользовательское поле компаний по идентификатору ||
     || [crm.company.userfield.list](./userfields/crm-company-userfield-list.md) | Возвращает список пользовательских полей компаний по фильтру ||
@@ -120,10 +165,10 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmCompanyUserFieldAdd](./userfields/events/on-crm-company-user-field-add.md) | при добавлении пользовательского поля ||
-    || [onCrmCompanyUserFieldUpdate](./userfields/events/on-crm-company-user-field-update.md) | при изменении пользовательского поля ||
-    || [onCrmCompanyUserFieldDelete](./userfields/events/on-crm-company-user-field-delete.md) | при удалении пользовательского поля ||
-    || [onCrmCompanyUserFieldSetEnumValues](./userfields/events/on-crm-company-user-field-set-enum-values.md) | при изменении набора значений для пользовательского поля списочного типа ||
+    || [onCrmCompanyUserFieldAdd](./userfields/events/on-crm-company-user-field-add.md) | При добавлении пользовательского поля вручную или методом [crm.company.userfield.add](./userfields/crm-company-userfield-add.md) ||
+    || [onCrmCompanyUserFieldUpdate](./userfields/events/on-crm-company-user-field-update.md) | При изменении пользовательского поля вручную или методом [crm.company.userfield.update](./userfields/crm-company-userfield-update.md) ||
+    || [onCrmCompanyUserFieldDelete](./userfields/events/on-crm-company-user-field-delete.md) | При удалении пользовательского поля вручную или методом [crm.company.userfield.delete](./userfields/crm-company-userfield-delete.md) ||
+    || [onCrmCompanyUserFieldSetEnumValues](./userfields/events/on-crm-company-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа вручную или методами [crm.company.userfield.add](./userfields/crm-company-userfield-add.md) и [crm.company.userfield.update](./userfields/crm-company-userfield-update.md) ||
     |#
 
 {% endlist %}
