@@ -27,7 +27,7 @@
 || **id***
 [`integer`](../../../data-types.md) | Идентификатор группы.
 
-Можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork-api-workgroup-list.md](../../socialnetwork-api-workgroup-list.md) ||
+Можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md) ||
 |#
 
 ## Примеры кода
@@ -278,7 +278,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `0` | Backlog not found | Передан невалидный идентификатор бэклога ||
+|| `0` | Group id not found | Не передан идентификатор группы `id` ||
+|| `0` | Backlog not found | Для переданной группы не найден бэклог ||
 || `0` | Access denied | Отсутствуют соответствующие права доступа ||
 || `0` | Unknown error | Другая ошибка ||
 |#

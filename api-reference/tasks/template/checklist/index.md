@@ -11,17 +11,19 @@
 
 Чек-листы шаблонов задач позволяют заранее подготовить список действий для задач, которые будут создаваться по шаблону.
 
-Методы раздела работают с чек-листом шаблона задачи. Они позволяют добавлять пункты, изменять их, переставлять, отмечать выполненными или возвращать в работу, а также добавлять и удалять вложения.
+Методы `tasks.template.checklist.*` работают с чек-листом шаблона задачи. Они позволяют добавлять пункты, изменять их, переставлять, отмечать выполненными или возвращать в работу, а также добавлять и удалять вложения.
 
-Для чек-листов существующих задач используйте методы раздела [Чек-листы задач](../../checklist-item/index.md).
+Для чек-листов существующих задач используйте группу методов [task.checklistitem.*](../../checklist-item/index.md).
 
 > Быстрый переход: [все методы и события](#all-methods) 
 > 
-> Пользовательская документация: [чек-листы в задачах](https://helpdesk.bitrix24.ru/open/17657420/)
+> Пользовательская документация:
+> - [Как работать с шаблонами задач](https://helpdesk.bitrix24.ru/open/27889912/)
+> - [Чек-листы в задачах: как создать и работать с ними](https://helpdesk.bitrix24.ru/open/27333140/)
 
 ## Как начать работу
 
-1. Создайте шаблон задачи методом [tasks.template.add](../tasks-template-add.md). Идентификатор нового шаблона можно получить в ответе метода. Он используется во всех методах раздела в параметре `templateId`
+1. Создайте шаблон задачи методом [tasks.template.add](../tasks-template-add.md). Идентификатор нового шаблона можно получить в ответе метода. Он используется во всех методах `tasks.template.checklist.*` в параметре `templateId`
 2. Создайте структуру чек-листа методом [tasks.template.checklist.add](./tasks-template-checklist-add.md). Если нужно создать вложенный пункт, передайте идентификатор родительского пункта в поле `PARENT_ID`
 3. Получите информацию о пункте чек-листа методом [tasks.template.checklist.get](./tasks-template-checklist-get.md), если нужно проверить его параметры. Используйте, когда нужно получить один пункт по известному `checkListItemId`
 4. Получите список пунктов методом [tasks.template.checklist.list](./tasks-template-checklist-list.md), если нужно проверить структуру чек-листа и получить идентификаторы пунктов
@@ -34,17 +36,19 @@
 
 ## Связь с другими объектами
 
-**Шаблон задачи.** Все методы раздела работают с чек-листом конкретного шаблона задачи. Идентификатор шаблона передается в параметре `templateId`. Получить идентификатор нового шаблона можно при создании методом [tasks.template.add](../tasks-template-add.md). Для чтения данных шаблона по идентификатору используйте [tasks.template.get](../tasks-template-get.md).
+**Шаблон задачи.** Все методы `tasks.template.checklist.*` работают с чек-листом конкретного шаблона задачи. Идентификатор шаблона передается в параметре `templateId`. Получить идентификатор нового шаблона можно при создании методом [tasks.template.add](../tasks-template-add.md). Для чтения данных шаблона по идентификатору используйте [tasks.template.get](../tasks-template-get.md).
 
 **Файлы.** К пункту чек-листа шаблона задачи можно прикрепить файлы Диска методом [tasks.template.checklist.addAttachmentsFromDisk](./tasks-template-checklist-add-attachments-from-disk.md). В параметре `filesIds` передайте массив с идентификаторами файлов Диска. Перед каждым идентификатором укажите префикс `n`, например: `["n428", "n345"]`. Получить идентификаторы файлов можно двумя способами.
 
 Использовать один из методов загрузки файла:
-  - [disk.storage.uploadfile](../../../disk/storage/disk-storage-upload-file.md)
-  - [disk.folder.uploadfile](../../../disk/folder/disk-folder-upload-file.md)
+
+- [disk.storage.uploadfile](../../../disk/storage/disk-storage-upload-file.md)
+- [disk.folder.uploadfile](../../../disk/folder/disk-folder-upload-file.md)
 
 Использовать один из методов получения списка файлов:
-  - [disk.storage.getchildren](../../../disk/storage/disk-storage-get-children.md)
-  - [disk.folder.getchildren](../../../disk/folder/disk-folder-get-children.md)
+
+- [disk.storage.getchildren](../../../disk/storage/disk-storage-get-children.md)
+- [disk.folder.getchildren](../../../disk/folder/disk-folder-get-children.md)
 
 {% note tip "Пользовательская документация" %}
 

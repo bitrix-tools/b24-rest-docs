@@ -13,7 +13,7 @@
 
 > Быстрый переход: [все методы и события](#all-methods) 
 > 
-> Пользовательская документация: [задачи Битрикс24](https://helpdesk.bitrix24.ru/open/17962166/) 
+> Пользовательская документация: [Задачи в Битрикс24: как создать и настроить](https://helpdesk.bitrix24.ru/open/27359038/)
 
 ## Особенности методов задач
 
@@ -62,8 +62,8 @@
 
 {% note tip "Пользовательская документация" %}
 
-  - [Как создать задачу](https://helpdesk.bitrix24.ru/open/17958164/)
-  - [Чек-листы в задачах](https://helpdesk.bitrix24.ru/open/17657420/)
+  - [Как создать задачу](https://helpdesk.bitrix24.ru/open/27359038/)
+  - [Чек-листы в задачах](https://helpdesk.bitrix24.ru/open/27333140/)
   - [Учет времени в задачах](https://helpdesk.bitrix24.ru/open/17980006/)
   - [Дополнительные возможности задач](https://helpdesk.bitrix24.ru/open/17821400/)
 
@@ -76,13 +76,14 @@
 **Группа или проект.** Задача привязывается по идентификатору группы `GROUP_ID`. Получить идентификатор можно методом [создания новой группы](../sonet-group/sonet-group-create.md) или методом [получения списка групп](../sonet-group/socialnetwork-api-workgroup-list.md).
 
 **Пользователь.** Задача имеет привязку к пользователям по числовым идентификаторам в полях:
-  - `CREATED_BY` — постановщик
-  - `RESPONSIBLE_ID` — исполнитель
-  - `ACCOMPLICES` — соисполнители
-  - `AUDITORS` — наблюдатели
-  - `CHANGED_BY`  — последний пользователь, который изменил задачу
-  - `STATUS_CHANGED_BY` — последний пользователь, который изменил статус задачи 
-  - `CLOSED_BY` — пользователь, который завершил задачу
+
+- `CREATED_BY` — постановщик
+- `RESPONSIBLE_ID` — исполнитель
+- `ACCOMPLICES` — соисполнители
+- `AUDITORS` — наблюдатели
+- `CHANGED_BY` — последний пользователь, который изменил задачу
+- `STATUS_CHANGED_BY` — последний пользователь, который изменил статус задачи
+- `CLOSED_BY` — пользователь, который завершил задачу
 
 Получить идентификатор пользователя можно с помощью метода [user.get](../user/user-get.md).
 
@@ -106,12 +107,14 @@
 К описанию задачи можно прикрепить файлы Диска. В параметре `UF_TASK_WEBDAV_FILES` передайте массив с идентификаторами файлов Диска. Перед каждым идентификатором укажите префикс `n`, например: `"UF_TASK_WEBDAV_FILES": ["n428", "n345"]`. Получить идентификаторы файлов можно двумя способами.
 
 Использовать один из методов загрузки файла:
-  - [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md)
-  - [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md)
+
+- [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md)
+- [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md)
 
 Использовать один из методов получения списка файлов:
-  - [disk.storage.getchildren](../disk/storage/disk-storage-get-children.md)
-  - [disk.folder.getchildren ](../disk/folder/disk-folder-get-children.md)
+
+- [disk.storage.getchildren](../disk/storage/disk-storage-get-children.md)
+- [disk.folder.getchildren](../disk/folder/disk-folder-get-children.md)
 
 Прикрепляйте файлы к задаче методом [tasks.task.files.attach](./tasks-task-files-attach.md), если задача уже создана.
 
@@ -128,7 +131,7 @@
 
 Потоки — это инструмент, который автоматизирует распределение и выполнение задач. Сотрудникам не нужно искать, кто будет делать задачу. Они ставят задачи в поток отдела, и он автоматически назначает исполнителя.
 
-Управлять Потоками можно группой методов [tasks.flow.Flow.*](./flow/index.md). 
+Управлять Потоками можно группой методов [tasks.flow.Flow.*](./flow/index.md).
 
 {% note tip "Пользовательская документация" %}
 
