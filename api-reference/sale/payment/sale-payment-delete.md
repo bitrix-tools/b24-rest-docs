@@ -24,7 +24,7 @@
 [`sale_order_payment.id`](../data-types.md) | Идентификатор оплаты ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 ## Примеры кода
 

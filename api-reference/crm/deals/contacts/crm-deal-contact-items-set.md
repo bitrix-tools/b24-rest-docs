@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -33,7 +33,7 @@
 
 ### Структура объекта привязки {#deal_contact_binding}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -412,11 +412,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `The parameter ownerEntityID is invalid or not defined.` | Передан `id` меньше 1 или не передан вовсе ||
-|| `-` | `The parameter items must be array.` | В `items` передан не массив ||
-|| `-` | `Access denied.` | У пользователя нет прав на изменение сделок ||
+|| Пустое значение | `The parameter ownerEntityID is invalid or not defined.` | Передан `id` меньше 1 или не передан вовсе ||
+|| Пустое значение | `The parameter items must be array.` | В `items` передан не массив ||
+|| Пустое значение | `Access denied.` | У пользователя нет прав на изменение сделок ||
 || `ACCESS_DENIED` | `Access denied!` | Нет прав на изменение сделки ||
-|| `-` | `Not found.` | Сделка с переданным `id` не найдена ||
+|| Пустое значение | `Not found.` | Сделка с переданным `id` не найдена ||
 || `ERROR_CORE` | `-` | Внутренняя ошибка при нормализации привязок ||
 |#
 

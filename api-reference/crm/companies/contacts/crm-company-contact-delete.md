@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -315,11 +315,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `The parameter 'ownerEntityID' is invalid or not defined.` | Передан `id` меньше или равен 0 или не передан вовсе ||
-|| `-`     | `The parameter 'item' must be array.` | В `fields` передан не объект ||
+|| Пустое значение | `The parameter 'ownerEntityID' is invalid or not defined.` | Передан `id` меньше или равен 0 или не передан вовсе ||
+|| Пустое значение | `The parameter 'item' must be array.` | В `fields` передан не объект ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение компании ||
-|| `-`     | `Not found.` | Компания с переданным `id` не найдена ||
-|| `-`     | `The parameter 'fields' is not valid.` | Может возникать в нескольких случаях:
+|| Пустое значение | `Not found.` | Компания с переданным `id` не найдена ||
+|| Пустое значение | `The parameter 'fields' is not valid.` | Может возникать в нескольких случаях:
 - если не передан обязательный параметр `fields.CONTACT_ID`
 - если переданный параметр `fields.CONTACT_ID` меньше или равен 0 ||
 |#

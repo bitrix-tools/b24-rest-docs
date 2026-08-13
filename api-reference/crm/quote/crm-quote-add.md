@@ -25,7 +25,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -55,7 +55,7 @@
 
 ### Параметр fields {#parameter-fields}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -460,9 +460,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `Parameter 'fields' must be array.` | В `fields` передан не объект ||
-|| `-` | `Parameter 'params' must be array.` | В `params` передан не объект ||
-|| `-` | `Access denied.` | У пользователя нет прав на добавление коммерческих предложений ||
+|| Пустое значение | `Parameter 'fields' must be array.` | В `fields` передан не объект ||
+|| Пустое значение | `Parameter 'params' must be array.` | В `params` передан не объект ||
+|| Пустое значение | `Access denied.` | У пользователя нет прав на добавление коммерческих предложений ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

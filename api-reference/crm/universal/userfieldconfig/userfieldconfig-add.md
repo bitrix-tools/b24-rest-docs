@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -814,13 +814,13 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Access denied | Недостаточно прав для создания пользовательского поля ||
-|| `-` | Вы не можете создавать пользовательские поля | Ошибка может возвращаться, если `field.fieldName` не начинается с `UF_{entityId}_` ||
-|| `-` | The 'USER_TYPE_ID' field is not found | Не передан обязательный `field.userTypeId` ||
-|| `-` | The 'FIELD_NAME' field is not found | Не передан обязательный `field.fieldName` ||
-|| `-` | Поле ... уже существует | Переданный `field.fieldName` уже используется для этого объекта ||
-|| `-` | Fail to create new user field | Ошибка создания поля на стороне сервера ||
-|| `-` | Fail to save enumeration field values | Ошибка сохранения значений списка для типа `enumeration` ||
+|| Пустое значение | Access denied | Недостаточно прав для создания пользовательского поля ||
+|| Пустое значение | Вы не можете создавать пользовательские поля | Ошибка может возвращаться, если `field.fieldName` не начинается с `UF_{entityId}_` ||
+|| Пустое значение | The 'USER_TYPE_ID' field is not found | Не передан обязательный `field.userTypeId` ||
+|| Пустое значение | The 'FIELD_NAME' field is not found | Не передан обязательный `field.fieldName` ||
+|| Пустое значение | Поле ... уже существует | Переданный `field.fieldName` уже используется для этого объекта ||
+|| Пустое значение | Fail to create new user field | Ошибка создания поля на стороне сервера ||
+|| Пустое значение | Fail to save enumeration field values | Ошибка сохранения значений списка для типа `enumeration` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -339,8 +339,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
-|| `-` | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
+|| Пустое значение | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
+|| Пустое значение | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

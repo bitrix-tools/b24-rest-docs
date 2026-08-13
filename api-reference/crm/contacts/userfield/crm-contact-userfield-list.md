@@ -720,9 +720,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `Parameter 'order' must be array` | Переданный `order` не является объектом ||
-|| `-`     | `Parameter 'filter' must be array` | Переданный `filter` не является объектом ||
-|| `-`     | `Access denied` | У пользователя нет административных прав ||
+|| Пустое значение | `Parameter 'order' must be array` | Переданный `order` не является объектом ||
+|| Пустое значение | `Parameter 'filter' must be array` | Переданный `filter` не является объектом ||
+|| Пустое значение | `Access denied` | У пользователя нет административных прав ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
