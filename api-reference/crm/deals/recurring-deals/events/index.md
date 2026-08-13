@@ -9,7 +9,11 @@
 
 {% endnote %}
 
-События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении регулярных сделок, а также при автоматическом создании новых сделок по шаблону регулярных.
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, изменении и удалении [шаблона регулярной сделки](../index.md), а также о создании новой сделки по шаблону.
+
+Сделка, созданная по шаблону, — обычная сделка, поэтому вместе с событием [onCrmDealRecurringExpose](./on-crm-deal-recurring-expose.md) вызывается событие [onCrmDealAdd](../../events/on-crm-deal-add.md). Чтобы не обработать одну и ту же сделку дважды, сравнивайте идентификатор из поля `DEAL_ID`.
+
+События не вызываются при изменении полей сделки-шаблона. Изменение этих полей отслеживает событие [onCrmDealUpdate](../../events/on-crm-deal-update.md).
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
 
@@ -36,8 +40,8 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmDealRecurringAdd](./on-crm-deal-recurring-add.md) | При создании новой регулярной сделки вручную или методом [crm.deal.recurring.add](../crm-deal-recurring-add.md) ||
-|| [onCrmDealRecurringUpdate](./on-crm-deal-recurring-update.md) | При изменении регулярной сделки вручную или методом [crm.deal.recurring.update](../crm-deal-recurring-update.md) ||
-|| [onCrmDealRecurringDelete](./on-crm-deal-recurring-delete.md) | При удалении регулярной сделки вручную или методом [crm.deal.recurring.delete](../crm-deal-recurring-delete.md) ||
-|| [onCrmDealRecurringExpose](./on-crm-deal-recurring-expose.md) | При автоматическом создании новой сделки по шаблону регулярной сделки или методом [crm.deal.recurring.expose](../crm-deal-recurring-expose.md) ||
+|| [onCrmDealRecurringAdd](./on-crm-deal-recurring-add.md) | При создании шаблона регулярной сделки вручную или методом [crm.deal.recurring.add](../crm-deal-recurring-add.md) ||
+|| [onCrmDealRecurringUpdate](./on-crm-deal-recurring-update.md) | При изменении настроек шаблона вручную или методом [crm.deal.recurring.update](../crm-deal-recurring-update.md) ||
+|| [onCrmDealRecurringDelete](./on-crm-deal-recurring-delete.md) | При удалении шаблона вручную или методом [crm.deal.recurring.delete](../crm-deal-recurring-delete.md) ||
+|| [onCrmDealRecurringExpose](./on-crm-deal-recurring-expose.md) | При создании сделки по шаблону по расписанию или методом [crm.deal.recurring.expose](../crm-deal-recurring-expose.md) ||
 |#
