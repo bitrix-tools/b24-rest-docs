@@ -10,7 +10,7 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
-> 
+>
 > Кто может выполнять метод: любой пользователь
 
 Метод `crm.multifield.fields` возвращает описание множественных полей, используемых для хранения телефонов, email-адресов и другой контактной информации в лидах, контактах и компаниях.
@@ -125,7 +125,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -134,18 +133,18 @@
                 'crm.multifield.fields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching multifield fields: ' . $e->getMessage();
@@ -180,6 +179,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.multifield.fields().response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - Go
@@ -257,7 +281,6 @@ HTTP-статус: **200**
 }
 ```
 
-
 ### Возвращаемые данные
 
 #|
@@ -275,21 +298,43 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор ||
+[`object`](../../../data-types.md) | Идентификатор значения множественного поля ||
 || **TYPE_ID**
-[`string`](../../../data-types.md) | Тип поля ||
+[`object`](../../../data-types.md) | Тип множественного поля: `PHONE`, `EMAIL`, `WEB`, `IM` ||
 || **VALUE**
-[`string`](../../../data-types.md) | Значение ||
+[`object`](../../../data-types.md) | Значение множественного поля ||
 || **VALUE_TYPE**
-[`string`](../../../data-types.md) | Тип значения ||
+[`object`](../../../data-types.md) | Тип значения множественного поля ||
+|#
+
+#### Описание характеристик полей
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../../data-types.md) | Тип данных поля ||
+|| **isRequired**
+[`boolean`](../../../data-types.md) | Обязательное ||
+|| **isReadOnly**
+[`boolean`](../../../data-types.md) | Доступно только для чтения ||
+|| **isImmutable**
+[`boolean`](../../../data-types.md) | Неизменяемое ||
+|| **isMultiple**
+[`boolean`](../../../data-types.md) | Множественное ||
+|| **isDynamic**
+[`boolean`](../../../data-types.md) | Динамичное ||
+|| **title**
+[`string`](../../../data-types.md) | Название поля ||
 |#
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-{% include [системные ошибки](./../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../index.md)

@@ -1,4 +1,4 @@
-# Обзор вспомогательных методов
+# Вспомогательные объекты: обзор методов
 
 {% note tip "" %}
 
@@ -9,34 +9,30 @@
 
 {% endnote %}
 
-К вспомогательным группам методов относятся множественные поля, перечисления и ставки НДС. 
+Вспомогательные методы возвращают справочные данные, которые нужны для работы с основными объектами CRM: структуру множественных полей и значения перечислений — идентификаторы типов объектов, адресов и дел. Собственных данных эти методы не изменяют.
 
-> Быстрый переход: [все методы и события](#all-methods) 
+Вспомогательные методы разделены на две группы: [множественные поля](./multifield/index.md) и [перечисления](./enum/index.md).
+
+> Быстрый переход: [все методы](#all-methods)
 
 ## Множественные поля
 
-Метод [crm.multifield.fields](./multifield/crm-multifield-fields.md) возвращает информацию о структуре множественных полей, таких как номер телефона или e-mail. Чтобы заполнить поле значением [с типом](../data-types.md#crm_multifield), передавайте данные по той структуре, которую вернул метод. 
-Пример передачи данных для заполнения номера телефона с типом мобильный:
+Множественные поля хранят контактные данные лидов, контактов и компаний: телефоны, e-mail, мессенджеры. Значение такого поля — массив объектов [crm_multifield](../data-types.md#crm_multifield). Метод [crm.multifield.fields](./multifield/crm-multifield-fields.md) возвращает состав и характеристики полей этого объекта.
 
-```js
-PHONE: [
-            { 
-                VALUE: "555888",
-                VALUE_TYPE: "MOBILE",
-            },
-        ] ,
-```
+В каких методах передавать значение и какие типы значений допустимы — в подразделе [Множественные поля](./multifield/index.md).
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Как изменить номера телефонов и e-mail на примере контакта](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
+- [Как изменить или удалить номера телефонов и email](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
 - [Создать новый лид crm.lead.add](../leads/crm-lead-add.md)
 
 {% endnote %}
 
 ## Перечисления
 
-Группа методов перечислений [crm.enum.*](./enum/index.md) возвращает информацию о названии и идентификаторе объектов CRM. Например метод [crm.enum.ownertype](./enum/crm-enum-owner-type.md) возвращает идентификаторы смарт-процессов, а метод [crm.enum.addresstype](./enum/crm-enum-address-type.md) — идентификаторы типов адресов: юридический, физический, адрес доставки. 
+Перечисления — это справочники идентификаторов, которые CRM использует в параметрах других методов. Группа методов [crm.enum.*](./enum/index.md) возвращает пары «идентификатор — название». Например, метод [crm.enum.ownertype](./enum/crm-enum-owner-type.md) возвращает идентификаторы типов объектов CRM и смарт-процессов для параметра `entityTypeId`, а метод [crm.enum.addresstype](./enum/crm-enum-address-type.md) — идентификаторы типов адресов: юридический, фактический, адрес доставки.
+
+Какой идентификатор в каком параметре использовать — в подразделе [Перечисления](./enum/index.md).
 
 {% note tip "Частые кейсы и сценарии" %}
 
@@ -45,19 +41,20 @@ PHONE: [
 
 {% endnote %}
 
-## Ставки НДС 
+## Где взять ставки НДС
 
-Группа методов [catalog.vat.*](../../catalog/vat/index.md) управляет ставками НДС. Методы позволяют [создавать](../../catalog/vat/catalog-vat-add.md), [удалять](../../catalog/vat/catalog-vat-delete.md), [изменять](../../catalog/vat/catalog-vat-update.md) и [получать](../../catalog/vat/catalog-vat-list.md) значения ставок. 
+Ставками НДС управляет группа методов [catalog.vat.*](../../catalog/vat/index.md) Торгового каталога. У этой группы свой scope `catalog`, поэтому в таблицы методов ниже она не входит.
 
-Чтобы задать НДС товара в сделке или другом объекте CRM, используйте параметр `taxRate` группы методов  [crm.item.productrow.*](../universal/product-rows/index.md). 
+Идентификатор ставки, который вернули методы `catalog.vat.*`, передавайте:
 
-Чтобы задать НДС товара или услуги в торговом каталоге, используйте параметр `vatId` групп методов [catalog.product.*](../../catalog/product/index.md). 
+- в параметре `taxRate` группы методов [crm.item.productrow.*](../universal/product-rows/index.md) — чтобы задать НДС товара в сделке или другом объекте CRM
+- в параметре `vatId` группы методов [catalog.product.*](../../catalog/product/index.md) — чтобы задать НДС товара или услуги в торговом каталоге
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода
+> Кто может выполнять методы: любой пользователь
 
 ### Множественные поля
 
@@ -70,15 +67,23 @@ PHONE: [
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.enum.fields](./enum/crm-enum-fields.md) | Возвращает описание полей перечисления ||
-|| [crm.enum.ownertype](./enum/crm-enum-owner-type.md) | Возвращает типы объектов в CRM ||
+|| [crm.enum.fields](./enum/crm-enum-fields.md) | Возвращает описание полей элементов перечислений ||
 || [crm.enum.getorderownertypes](./enum/crm-enum-get-order-owner-types.md) | Возвращает идентификаторы типов объектов, к которым доступна привязка заказа ||
+|| [crm.enum.ownertype](./enum/crm-enum-owner-type.md) | Возвращает типы объектов в CRM ||
 || [crm.enum.addresstype](./enum/crm-enum-address-type.md) | Возвращает типы адресов ||
 || [crm.enum.settings.mode](./enum/crm-enum-settings-mode.md) | Возвращает описание режимов работы CRM ||
+|#
+
+### Устаревшие перечисления
+
+Методы ниже не развиваются. Перечисления дел получайте в разделе [Дела CRM](../timeline/activities/index.md).
+
+#|
+|| **Метод** | **Описание** ||
 || [crm.enum.activitytype](./enum/outdated/crm-enum-activity-type.md) | Возвращает элементы перечисления «Типы дел» ||
 || [crm.enum.activitypriority](./enum/outdated/crm-enum-activity-priority.md) | Возвращает элементы перечисления «Приоритеты дел» ||
-|| [crm.enum.activitydirection](./enum/outdated/crm-enum-activity-direction.md) | Возвращает элементы перечисления «Направление активности», для писем и звонков||
-|| [crm.enum.activitynotifytype](./enum/outdated/crm-enum-activity-notify-type.md) | Возвращает элементы перечисления «Тип уведомления о начале активности», для встреч и звонков ||
+|| [crm.enum.activitydirection](./enum/outdated/crm-enum-activity-direction.md) | Возвращает элементы перечисления «Направление активности» для писем и звонков ||
+|| [crm.enum.activitynotifytype](./enum/outdated/crm-enum-activity-notify-type.md) | Возвращает элементы перечисления «Тип уведомления о начале активности» для встреч и звонков ||
 || [crm.enum.activitystatus](./enum/outdated/crm-enum-activity-status.md) | Возвращает элементы перечисления «Статус» ||
-|| [crm.enum.contenttype](./enum/outdated/crm-enum-content-type.md) Возвращает элементы перечисления «Тип описания» ||
+|| [crm.enum.contenttype](./enum/outdated/crm-enum-content-type.md) | Возвращает элементы перечисления «Тип описания» ||
 |#

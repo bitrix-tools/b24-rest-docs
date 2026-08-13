@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.enum.getorderownertypes` возвращает список типов объектов, к которым можно привязать заказ.  `id` типа объекта используйте в значении параметра `ownerTypeId` методов [crm.orderentity.*](../../universal/order-entity/crm-order-entity-add.md).
+Метод `crm.enum.getorderownertypes` возвращает список типов объектов, к которым можно привязать заказ. `id` типа объекта используйте в значении параметра `ownerTypeId` методов [crm.orderentity.*](../../universal/order-entity/crm-order-entity-add.md).
 
 {% note info " " %}
 
@@ -126,7 +126,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -135,18 +134,18 @@
                 'crm.enum.getorderownertypes',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
             echo 'Error: ' . $result->error();
         } else {
             echo 'Data: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching order owner types: ' . $e->getMessage();
@@ -288,7 +287,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

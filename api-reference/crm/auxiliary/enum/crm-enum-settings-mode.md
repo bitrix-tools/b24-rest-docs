@@ -118,7 +118,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -126,18 +125,18 @@
             ->call(
                 'crm.enum.settings.mode'
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.settings.mode: ' . $e->getMessage();
@@ -279,7 +278,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
