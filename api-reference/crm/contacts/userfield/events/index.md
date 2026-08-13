@@ -9,11 +9,13 @@
 
 {% endnote %}
 
-События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении пользоватедьльских полей контактов.
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении [пользовательских полей контактов](../index.md).
+
+События сообщают об изменении структуры полей, а не значений в карточках контактов. Во всех четырех событиях обработчик получает одинаковый набор данных в `data.FIELDS`: идентификатор поля `ID`, тип объекта `ENTITY_ID` со значением `CRM_CONTACT` и код поля `FIELD_NAME`. Настройки самого поля запрашивайте методом [crm.contact.userfield.get](../crm-contact-userfield-get.md) — после события удаления поле уже недоступно.
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
 
-> Быстрый переход: [все события](#all-events) 
+> Быстрый переход: [все события](#all-events)
 
 ## Как получать события
 
@@ -39,5 +41,5 @@
 || [onCrmContactUserFieldAdd](./on-crm-contact-user-field-add.md) | При добавлении пользовательского поля вручную или методом [crm.contact.userfield.add](../crm-contact-userfield-add.md) ||
 || [onCrmContactUserFieldUpdate](./on-crm-contact-user-field-update.md) | При изменении пользовательского поля вручную или методом [crm.contact.userfield.update](../crm-contact-userfield-update.md) ||
 || [onCrmContactUserFieldDelete](./on-crm-contact-user-field-delete.md) | При удалении пользовательского поля вручную или методом [crm.contact.userfield.delete](../crm-contact-userfield-delete.md) ||
-|| [onCrmContactUserFieldSetEnumValues](./on-crm-contact-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа вручную или методом [crm.contact.userfield.update](../crm-contact-userfield-update.md) ||
+|| [onCrmContactUserFieldSetEnumValues](./on-crm-contact-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа вручную или методами [crm.contact.userfield.add](../crm-contact-userfield-add.md) и [crm.contact.userfield.update](../crm-contact-userfield-update.md) ||
 |#

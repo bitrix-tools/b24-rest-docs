@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор CRM
 
 Метод `crm.contact.userfield.delete` удаляет пользовательское поле контактов.
 
@@ -127,7 +127,7 @@
 
 - PHP
 
-    ```php       
+    ```php
     try {
         $userfieldId = 123; // Replace with the actual userfield ID you want to delete
         $result = $serviceBuilder

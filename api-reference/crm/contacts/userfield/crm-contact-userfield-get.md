@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: любой пользователь с правом «чтения» контактов
 
 Метод `crm.contact.userfield.get` возвращает пользовательское поле контактов по идентификатору.
 
@@ -150,17 +150,17 @@
                     'id' => 399,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
             echo 'Data: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting contact user field: ' . $e->getMessage();
@@ -402,7 +402,7 @@ HTTP-статус: **200**
 || **ID**
 [`integer`][1] | Идентификатор пользовательского поля ||
 || **ENTITY_ID**
-[`string`][1] | Строковый идентификатор привязки пользовательского поля к сущности. 
+[`string`][1] | Строковый идентификатор привязки пользовательского поля к объекту.
 
 В случае методов `crm.contact.userfield.*` автоматически проставляется значение `CRM_CONTACT` ||
 || **FIELD_NAME**
@@ -633,7 +633,7 @@ HTTP-статус: **200**
     - `LIST` — список
     - `CHECKBOX` — флажки
     - `UI` — набираемый список
-    - `DIALOG` — диалог выбора сущностей ||
+    - `DIALOG` — диалог выбора объектов ||
     || **LIST_HEIGHT**
     [`integer`][1] | Высота списка ||
     || **CAPTION_NO_VALUE**
@@ -654,7 +654,7 @@ HTTP-статус: **200**
     - `LIST` — список
     - `CHECKBOX` — флажки
     - `UI` — набираемый список
-    - `DIALOG` — диалог выбора сущностей ||
+    - `DIALOG` — диалог выбора объектов ||
     || **LIST_HEIGHT**
     [`integer`][1] | Высота списка ||
     || **IBLOCK_ID**

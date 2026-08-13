@@ -10,8 +10,8 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
-> 
-> Кто может выполнять метод: Администратор
+>
+> Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
 {% note warning "DEPRECATED" %}
 
@@ -125,17 +125,17 @@
                 'crm.contact.details.configuration.forceCommonScopeForAll',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
             echo 'Data: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.contact.details.configuration.forceCommonScopeForAll: ' . $e->getMessage();
@@ -246,7 +246,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./crm-contact-details-configuration-get.md)

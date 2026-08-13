@@ -10,10 +10,10 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
-> 
+>
 > Кто может выполнять метод:
->  - Любой пользователь имеет право получать свои и общие настройки
->  - Только администратор имеет право получать чужие настройки
+>  - любой пользователь может установить свои личные настройки
+>  - пользователь с правом «Разрешить изменять настройки» в CRM может установить общие и чужие личные настройки
 
 {% note warning "DEPRECATED" %}
 
@@ -31,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Область применения настроек. 
+[`string`](../../../data-types.md) | Область применения настроек.
 
 Возможные значения:
 - **P** — личные настройки
@@ -106,7 +106,7 @@
 || **defaultAddressType**
 [`integer`](../../../data-types.md) | `ADDRESS` | Идентификатор типа адреса по умолчанию. Чтобы узнать возможные типы адресов, используйте [`crm.enum.addresstype`](../../auxiliary/enum/crm-enum-address-type.md) ||
 || **defaultCountry**
-[`string`](../../../data-types.md) | 
+[`string`](../../../data-types.md) |
 `PHONE`
 `CLIENT`
 `COMPANY`
@@ -438,11 +438,11 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($response->getError()) {
             echo 'Error: ' . $response->getError();
         } else {
@@ -450,7 +450,7 @@
             // Нужная вам логика обработки данных
             processData($result);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error setting contact details configuration: ' . $e->getMessage();
@@ -756,7 +756,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./crm-contact-details-configuration-get.md)
